@@ -32,6 +32,40 @@
       "classification": "missing module from another lane's in-flight work",
       "whyItIsNotFixedHere": "The module belongs to a consumer-launch lane that is explicitly out of scope for the packet blitz; writing a stub would fake a guard rather than restore one.",
       "blocksNoFamily": true
+    },
+    {
+      "id": "DF-003",
+      "title": "Seven California families are silently excluded from the visual gate because their fixtures are named per variant",
+      "surfacedBy": "FABLE-VT10 while verifying ca-prop64-set on VF05; confirmed by Captain against RASTER_QUEUE.json and the overlay directories",
+      "whatIsWrong": "generate-raster-queue.mjs enrols a family by looking for fixtures/canonical.pdf and fixtures/boundary.pdf. These seven ship their fixtures in per-variant SUBDIRECTORIES instead — ca-prop64-set has fixtures/hs-11361-8-completed-sentence-application-canonical/cr-400-filled.pdf and three siblings — so the check finds neither file and records the family as not eligible for the reason 'no canonical PDF, no boundary PDF'. That reason is literally true and completely misleading: the PDFs exist.",
+      "measured": {
+        "families": [
+          "ca-1203-41-set",
+          "ca-1203-42-set",
+          "ca-1203-43-set",
+          "ca-1203-4a-set",
+          "ca-17b-reduction-set",
+          "ca-851-91-set",
+          "ca-prop64-set"
+        ],
+        "pdfsPresentButNeverExamined": {
+          "ca-1203-41-set": 9,
+          "ca-1203-42-set": 9,
+          "ca-1203-43-set": 2,
+          "ca-1203-4a-set": 9,
+          "ca-17b-reduction-set": 4,
+          "ca-851-91-set": 17,
+          "ca-prop64-set": 13
+        },
+        "totalPdfs": 63
+      },
+      "whichDirectionItFails": "SAFE. No family is falsely passed: COMPLETE_PACKET_PROVEN requires a hash-bound RASTER_PASS, and a family that never enters the queue never earns one. The effect is that these seven are capped below terminal with no visible reason — not that anything slips through.",
+      "whatItCostsToLeave": "Seven families cannot terminalize at all, and the queue reads as complete while saying nothing about what it declined to enrol. '115 of 115 RASTER_PASS' is a true statement about the queue's own denominator and not about the families that exist.",
+      "whyItIsNotFixedInTheRunThatFoundIt": "The batch renderer already supports several documents per family through row.documents[], so the fix is to have the generator populate that for a per-variant family rather than to invent a second naming convention. That is a change to the queue generator, made while eight lanes were mid-flight against the queue it writes, and the safe direction of the failure means it costs nothing to do it deliberately instead of at speed.",
+      "relatedFinding": "VT10 also measured real footer damage in ca-prop64-set's filled CR-400: the official and derived-unlocked render it intact over two lines from x=36.00, while the filled artifact reflows it to one line, drops 'For' and 'your', truncates 'protection' to 'otection', and places it at x0 = -3.485, off the left page edge. The cause is in the family's own report — XFA form data stripped because pdf-lib cannot read or write it. source-fidelity.json cannot see it because it compares official to derived and stops there, and visualDefects reports 0. That damage is exactly what a visual gate exists to catch, and this family has never been through one.",
+      "owner": "Captain (scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs)",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
