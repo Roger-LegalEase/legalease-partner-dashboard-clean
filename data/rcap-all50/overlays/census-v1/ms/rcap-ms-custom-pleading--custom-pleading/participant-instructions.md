@@ -92,23 +92,21 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
-| Item C1 - full name | What is your full legal name, and any other name the case is under? |
-| Item C2 - date of birth | What is your date of birth? |
-| Item C3 - mailing address | What is your current address, phone number and email? |
-| Item C4 - county of residence | Which Mississippi county and city do you live in? |
-| Item C5 - court level | Which court handled the case — justice court, county court, circuit court, or municipal court? Mississippi has four trial court levels that all handle expungements and people routinely misidentify which one heard their case. |
-| Item C6 - court county | Which county was that court in? For a municipal court, which city? |
-| Item C7 - cause number | What is the cause or case number? |
-| Item C8 - charge name | What were you charged with, and under which Mississippi Code section if you know it? |
-| Item C9 - offense date | On what date did the offence happen? |
-| Item C10 - arrest date | On what date were you arrested or cited? |
-| Item C11 - arresting agency | Which agency arrested or cited you, and what is their case number if you have it? |
-| Item C12 - prosecuting authority | Which prosecuting authority handled the case — the district attorney for the circuit district, or a county or municipal prosecuting attorney? |
-| Item C13 - charge type | What was the drug charge — simple possession, possession of paraphernalia, or something else? Trafficking, distribution and sale are outside this route. |
-| Item C14 - conditional discharge | Did the court place you on probation WITHOUT entering a judgment of guilt, under the conditional discharge provision? |
-| Item C15 - discharge date | On what date did the court discharge you and dismiss the proceedings? |
-| Item C16 - probation completed | Did you successfully complete the probation and every condition attached to it? |
-| Item C17 - prior drug disposition | Have you ever had any prior drug charge, conviction, conditional discharge or dismissal? This benefit is once-only and a nonpublic record is kept for exactly that check. |
+| Item C1 - other name on the case | Any other name this case is under — a former name, a maiden name, an alias, or a misspelling in the court record. The committed record states this item as "What is your full legal name, and any other name the case is under?"; the packet prints your full legal name, so only the other-name limb is asked. |
+| Item C2 - county of residence | Which Mississippi county and city do you live in? |
+| Item C3 - court level | Which court handled the case — justice court, county court, circuit court, or municipal court? Mississippi has four trial court levels that all handle expungements and people routinely misidentify which one heard their case. |
+| Item C4 - court county | Which county was that court in? For a municipal court, which city? |
+| Item C5 - cause number | What is the cause or case number? |
+| Item C6 - charge name | What were you charged with, and under which Mississippi Code section if you know it? |
+| Item C7 - offense date | On what date did the offence happen? |
+| Item C8 - arrest date | On what date were you arrested or cited? |
+| Item C9 - arresting agency | Which agency arrested or cited you, and what is their case number if you have it? |
+| Item C10 - prosecuting authority | Which prosecuting authority handled the case — the district attorney for the circuit district, or a county or municipal prosecuting attorney? |
+| Item C11 - charge type | What was the drug charge — simple possession, possession of paraphernalia, or something else? Trafficking, distribution and sale are outside this route. |
+| Item C12 - conditional discharge | Did the court place you on probation WITHOUT entering a judgment of guilt, under the conditional discharge provision? |
+| Item C13 - discharge date | On what date did the court discharge you and dismiss the proceedings? |
+| Item C14 - probation completed | Did you successfully complete the probation and every condition attached to it? |
+| Item C15 - prior drug disposition | Have you ever had any prior drug charge, conviction, conditional discharge or dismissal? This benefit is once-only and a nonpublic record is kept for exactly that check. |
 
 ### ms-drug-cd-certificate-of-service-3 — Certificate of Service - First-time drug possession cases
 
@@ -122,27 +120,25 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
-| Item C1 - full name | What is your full legal name, and any other name the case is under? |
-| Item C2 - date of birth | What is your date of birth? |
-| Item C3 - mailing address | What is your current address, phone number and email? |
-| Item C4 - county of residence | Which Mississippi county and city do you live in? |
-| Item C5 - court level | Which court handled the case — justice court, county court, circuit court, or municipal court? Mississippi has four trial court levels that all handle expungements and people routinely misidentify which one heard their case. |
-| Item C6 - court county | Which county was that court in? For a municipal court, which city? |
-| Item C7 - cause number | What is the cause or case number? |
-| Item C8 - charge name | What were you charged with, and under which Mississippi Code section if you know it? |
-| Item C9 - offense date | On what date did the offence happen? |
-| Item C10 - arrest date | On what date were you arrested or cited? |
-| Item C11 - arresting agency | Which agency arrested or cited you, and what is their case number if you have it? |
-| Item C12 - prosecuting authority | Which prosecuting authority handled the case — the district attorney for the circuit district, or a county or municipal prosecuting attorney? |
-| Item C13 - dui conviction date | On what date were you convicted of the DUI? |
-| Item C14 - dui conviction court | Which court entered the DUI conviction? Note that the expungement petition itself goes to the circuit court of that county, not back to the convicting court. |
-| Item C15 - sentence completion date | On what date did you successfully complete all terms and conditions of the sentence? |
-| Item C16 - commercial licence | Did you hold a commercial driver's licence or a commercial learner's permit at the time of the offence? |
-| Item C17 - refused test | Did you refuse the blood or breath test? |
-| Item C18 - bac result | If a test was taken, what was the blood alcohol concentration result? |
-| Item C19 - other dui | Do you have any other DUI conviction, or any DUI charge pending now? |
-| Item C20 - prior dui relief | Have you ever had a DUI nonadjudication or a DUI expungement before? |
-| Item C21 - justification | In your own words, why should the court grant this expungement? The statute requires you to justify it, and this is your statement. |
+| Item C1 - other name on the case | Any other name this case is under — a former name, a maiden name, an alias, or a misspelling in the court record. The committed record states this item as "What is your full legal name, and any other name the case is under?"; the packet prints your full legal name, so only the other-name limb is asked. |
+| Item C2 - county of residence | Which Mississippi county and city do you live in? |
+| Item C3 - court level | Which court handled the case — justice court, county court, circuit court, or municipal court? Mississippi has four trial court levels that all handle expungements and people routinely misidentify which one heard their case. |
+| Item C4 - court county | Which county was that court in? For a municipal court, which city? |
+| Item C5 - cause number | What is the cause or case number? |
+| Item C6 - charge name | What were you charged with, and under which Mississippi Code section if you know it? |
+| Item C7 - offense date | On what date did the offence happen? |
+| Item C8 - arrest date | On what date were you arrested or cited? |
+| Item C9 - arresting agency | Which agency arrested or cited you, and what is their case number if you have it? |
+| Item C10 - prosecuting authority | Which prosecuting authority handled the case — the district attorney for the circuit district, or a county or municipal prosecuting attorney? |
+| Item C11 - dui conviction date | On what date were you convicted of the DUI? |
+| Item C12 - dui conviction court | Which court entered the DUI conviction? Note that the expungement petition itself goes to the circuit court of that county, not back to the convicting court. |
+| Item C13 - sentence completion date | On what date did you successfully complete all terms and conditions of the sentence? |
+| Item C14 - commercial licence | Did you hold a commercial driver's licence or a commercial learner's permit at the time of the offence? |
+| Item C15 - refused test | Did you refuse the blood or breath test? |
+| Item C16 - bac result | If a test was taken, what was the blood alcohol concentration result? |
+| Item C17 - other dui | Do you have any other DUI conviction, or any DUI charge pending now? |
+| Item C18 - prior dui relief | Have you ever had a DUI nonadjudication or a DUI expungement before? |
+| Item C19 - justification | In your own words, why should the court grant this expungement? The statute requires you to justify it, and this is your statement. |
 
 ### ms-dui-certificate-of-service-3 — Certificate of Service - Clearing a first DUI
 
@@ -156,24 +152,22 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
-| Item C1 - full name | What is your full legal name, and any other name the case is under? |
-| Item C2 - date of birth | What is your date of birth? |
-| Item C3 - mailing address | What is your current address, phone number and email? |
-| Item C4 - county of residence | Which Mississippi county and city do you live in? |
-| Item C5 - court level | Which court handled the case — justice court, county court, circuit court, or municipal court? Mississippi has four trial court levels that all handle expungements and people routinely misidentify which one heard their case. |
-| Item C6 - court county | Which county was that court in? For a municipal court, which city? |
-| Item C7 - cause number | What is the cause or case number? |
-| Item C8 - charge name | What were you charged with, and under which Mississippi Code section if you know it? |
-| Item C9 - offense date | On what date did the offence happen? |
-| Item C10 - arrest date | On what date were you arrested or cited? |
-| Item C11 - arresting agency | Which agency arrested or cited you, and what is their case number if you have it? |
-| Item C12 - prosecuting authority | Which prosecuting authority handled the case — the district attorney for the circuit district, or a county or municipal prosecuting attorney? |
-| Item C13 - alcohol offense | What exactly were you charged with — underage purchase or possession of beer, light wine or a light spirit product? |
-| Item C14 - disposition type | How did the case end? |
-| Item C15 - disposition date | On what date did it end that way? |
-| Item C16 - sentence completion date | If you were sentenced, on what date did you complete everything the court ordered, including any fine? |
-| Item C17 - age at offense | How old were you at the time of the offence? |
-| Item C18 - court office confirmation of the waiting period | Have you asked the clerk of that court what the current waiting period is for this kind of expungement, and whether that court charges a fee? |
+| Item C1 - other name on the case | Any other name this case is under — a former name, a maiden name, an alias, or a misspelling in the court record. The committed record states this item as "What is your full legal name, and any other name the case is under?"; the packet prints your full legal name, so only the other-name limb is asked. |
+| Item C2 - county of residence | Which Mississippi county and city do you live in? |
+| Item C3 - court level | Which court handled the case — justice court, county court, circuit court, or municipal court? Mississippi has four trial court levels that all handle expungements and people routinely misidentify which one heard their case. |
+| Item C4 - court county | Which county was that court in? For a municipal court, which city? |
+| Item C5 - cause number | What is the cause or case number? |
+| Item C6 - charge name | What were you charged with, and under which Mississippi Code section if you know it? |
+| Item C7 - offense date | On what date did the offence happen? |
+| Item C8 - arrest date | On what date were you arrested or cited? |
+| Item C9 - arresting agency | Which agency arrested or cited you, and what is their case number if you have it? |
+| Item C10 - prosecuting authority | Which prosecuting authority handled the case — the district attorney for the circuit district, or a county or municipal prosecuting attorney? |
+| Item C11 - alcohol offense | What exactly were you charged with — underage purchase or possession of beer, light wine or a light spirit product? |
+| Item C12 - disposition type | How did the case end? |
+| Item C13 - disposition date | On what date did it end that way? |
+| Item C14 - sentence completion date | If you were sentenced, on what date did you complete everything the court ordered, including any fine? |
+| Item C15 - age at offense | How old were you at the time of the offence? |
+| Item C16 - court office confirmation of the waiting period | Have you asked the clerk of that court what the current waiting period is for this kind of expungement, and whether that court charges a fee? |
 
 ### ms-mip-certificate-of-service-3 — Certificate of Service - Underage drinking charges
 
