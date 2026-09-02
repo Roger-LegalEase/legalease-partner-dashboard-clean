@@ -33,6 +33,100 @@
     "the service recipient and method"
    ],
    "whatThisDoesNotChange": "Eleven of the fifteen obligations pass on measurement made in this lane, including every source digest recomputed from the Master Library bytes and both artifact hashes recomputed from the PDF bytes. The packet's fill is sound; its participant-facing instructions and two blank dispositions are not."
+  },
+  {
+   "itemId": "ca-prop64-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "assignedBy": "FABLE-VA8",
+   "verifiedAtBase": "8b8699c2a",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill",
+   "decisiveDefect": "Two participant-facing statements that the packet's own bytes contradict, plus the CR-400 flattening defect FABLE-FIX06 root-caused on the sibling CR-409. participant-instructions.md tells the participant \"The platform never marks a box on a sworn filing\" while the delivered CR-400 content stream draws two diagonal X marks into two checkboxes in every one of the four fixtures; and production-field-map.json refuses fifteen controls on the recorded ground that \"the participant instructions name it\" while the instructions name none of the fifteen, including two waivers of rights and the five offence-section boxes that decide what the petition is about. Separately the delivered CR-400 footer caption is laid out on one line wider than the page: one word off the left edge and four unexplained same-baseline collisions, none present in the official baseline.",
+   "failedProofObligations": [
+    {
+     "obligation": "CLIPPING_AND_OVERLAP",
+     "finding": "On all four delivered cr-400-filled.pdf, pdftotext -bbox returns the word \"otection\" at [-3.485, 765.9785, 24.531, 773.3785] on a 612 x 792 page — the leading \"For your pr\" is off the paper. Four same-baseline overlap pairs follow and every one classifies as a genuine collision, none as a value on its underscore rule and none as an X in its bracket: Print/printed 95.06 sq pt at [269.97, 768.35], form/form. 91.71 at [310.0, 768.35], this/the 53.09 at [296.65, 768.35], printed/this 14.03 at [291.64, 768.35]. derived-sources/cr-400-pikepdf-unlocked.pdf measures 0 outside and 0 overlaps, so all five are introduced by the build. The delivered layout text reads \"otection and privacy, please press the Clear This Form button after you have Print / printedthis / the form / form.\" where the baseline reads, correctly wrapped, \"For your protection and privacy, please press the Clear / This Form button after you have printed the form.\" I also looked at the family's own committed raster raster/hs-11361-8-completed-sentence-application-canonical/cr-400/page-01.png (sha256 048c6de02bdcd46939f351662838f1fc452e912b2c0e102472230d05a2b08910, 72 dpi): the sentence is cut at both ends and three coloured viewer buttons — green Print this form, yellow Save this form, red Clear this form — are stamped into a document meant to be filed with a Superior Court. flattenedAppearanceCount is 39 against 3 participant values and acroFormPresent is false, so that chrome is permanent ink where the source held it as a removable widget."
+    },
+    {
+     "obligation": "ROUTE_OPTIONS",
+     "finding": "The packet marks two boxes on a sworn petition and tells the participant in numbered step 2 that it never marks any. Proven from the inflated page content stream of fixtures/hs-11361-8-completed-sentence-application-canonical/cr-400-filled.pdf, not from the report: the operators \"213.28 509.06 m ... 213.28 514.06 m\" and \"72.64 277.86 m ... 72.64 282.86 m\" are the exact diagonal segments statutorySelectionProof records for CR-400[0].Page1[0].P1Caption[0].FormTitle[0].#area[1].Checkbox[1] (the § 11361.8(f) election) and CR-400[0].Page1[0].LI2[0].li2b[0].Checkbox[0] (\"completed the sentence\"). The currently-serving variant marks the mirror pair, § 11361.8(b) and \"currently serving a sentence\". Marking the statutory election may well be right; saying it is never done is not."
+    },
+    {
+     "obligation": "REQUIRED_BEFORE_FILING",
+     "finding": "Fifteen refusals in production-field-map.json carry the reason \"A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.\" participant-instructions.md names none of them: zero occurrences of 11357, 11358, 11359, 11360, 11362.1, \"waives the right\", \"gives up that right\", \"sentencing judge\", \"Personal service\", \"Mail:\" and \"A.M.\". Its blanks table lists only the 25 CR-401 proof-of-service fields and not one CR-400 control. Two of the fifteen are waivers: CR-400 LI3, waiving the right to have the matter heard by the original sentencing judge, and LI4, giving up the right to attend the hearing. Five more are the offence-section boxes. The refusal reason is the disclosure the packet claims to make and it does not make it."
+    },
+    {
+     "obligation": "SELF_HELP_STOP",
+     "finding": "The committed track registry gives ca-prop64 three selfHelpStopConditions. The string CR-402 appears nowhere in participant-instructions.md although the registry names it three times for this route — in selfHelpStopConditions, in destination.detail (\"a prosecuting-agency response mechanism at CR-402\") and in rules.notice (\"The prosecuting agency responds at CR-402\") — and the packet reduces a named form and mechanism to \"if anyone opposes the petition\". The word \"hearing\" does not appear at all, so \"The court sets a contested hearing\" is absent entirely; it is the one condition that does not require anyone to oppose anything. The registry's fourth boundary, \"A routine hearing does not block the initial packet. A prosecuting-agency response at CR-402 or a contested hearing triggers handoff\", is the distinction the packet loses. The same paragraph opens \"This packet states what the repository holds for this route and nothing beyond it\", which is untrue as to both."
+    }
+   ],
+   "whatIsAlreadyKnownAboutTheFix": "The clipping half is a solved problem on the sibling. FABLE-FIX06 root-caused the identical shape on CR-409 (ISO 32000-1 8.6.1 nested field trees; detachFromAcroForm scanned only the AcroForm's flat /Fields array, removed nothing, and updateFieldAppearances regenerated the pushbutton caption from /MK /CA before flatten stamped it), added the opt-in walkFieldTree path, and enabled it on ca-851-91-set alone via detachNestedControlFields: true in scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs. The ca-prop64-set CONFIGS entry at line 211 of that same host carries neither that flag nor an appearanceSemanticsKey. FIX06 deliberately did not set it because it held no grant on this family. Whoever repairs this must also decide, as FIX06 had to for CR-409's MC-031 caption, whether any CR-400 pushbutton caption is the court's own content rather than chrome, and if so classify it in data/rcap-all50/shared/field-appearance-semantics.json under a new key for this family only. Note that measuring the after-state is easy here: the official baseline is 0 words outside the page box and 0 overlap pairs, so the target is exactly that.",
+   "whatIsNotAlreadyKnown": "The other three obligations are not FIX06's defect and no existing repair addresses them. They are text and disclosure work in participant-instructions.md and in the field map's refusal reason, not a flattener change.",
+   "scopeOfTheRepairGrantThisImplies": "The whole family, because the four defects touch the build host CONFIGS entry, the appearance-semantics registry, participant-instructions.md and production-field-map.json. It does not extend to the five sibling California families on the same host, which carry the same nesting and, per FIX06's own measurement, the same clipping shape; each of those is a separate grant.",
+   "grantsNothing": "This assignment authorizes a repair. It approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "nc_146_dismissal_petition-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "assignedBy": "FABLE-VA8",
+   "verifiedAtBase": "8b8699c2a",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+   "decisiveDefect": "Two of the six self-help stop conditions the committed track registry records for nc_146_dismissal_petition are absent from the packet, with none of their distinguishing terms anywhere in participant-instructions.md. One of the two is the sequencing warning that protects a participant from spending relief they will later need.",
+   "failedProofObligations": [
+    {
+     "obligation": "SELF_HELP_STOP",
+     "finding": "Measured condition by condition against data/record-clearing/legal-design-track-registry.json trackId nc_146_dismissal_petition, selfHelpStopConditions, six entries. Four are carried, well: the G.S. 15A-1008 incapable-to-proceed dismissal with its statute, the DNA expunction under G.S. 15A-146(b1) with its 20-day service requirement, any immigration matter twice, and the deferred-prosecution or conditional-discharge dismissal in substance in the fee section. Two are absent. (1) \"A felony charge dismissed pursuant to a plea agreement.\" participant-instructions.md contains zero occurrences of \"plea agreement\" and zero of \"felony\". (2) \"Anyone who may later need G.S. 15A-145.4 or 15A-145.6 relief, because sequencing matters.\" Zero occurrences of 15A-145.4, of 15A-145.6, and of any form of the word sequence. The second is the one with an irreversible cost attached: filing this petition first can spend relief a later 15A-145.4 or 15A-145.6 petition would have needed, and the registry says so in terms. The registry also records \"Incapable-to-proceed and plea-agreement certifications — AOC-CR-287, findings and certification entries\" as a required-before-filing manual completion item, which the packet does not name either; the packet's own treatment of the certification entries as Side Two court property is defensible against the form's face and may well be the better reading, but the divergence should be recorded rather than left silent."
+    }
+   ],
+   "whatTheRepairIs": "Text only. Add the two missing stop conditions to the \"When to stop and get help\" section of participant-instructions.md in the registry's own terms, the sequencing one first, naming G.S. 15A-145.4 and 15A-145.6 by number so the term is greppable. No packet PDF changes, no fixture rehashes, no rebuild is required, and the family's nine counters and RASTER_PASS are unaffected.",
+   "whatIsExplicitlyNotBroken": "Do not touch the fee-and-waiver section. It is the strongest of the six families this lane read: it quotes the committed manifest for the $175.00 trigger, carries the NOTE TO CLERK that the fee is not assessed when the box is checked, and reproduces the waiver clause including SNAP, TANF, SSI and representation by a legal services organization. I re-read all four quoted statements from the current manifest bytes and each is verbatim. Do not touch the Side One / Side Two protection either; protectedWrites is 0 and the delivered pages carry no ink on the ORDER or the CERTIFICATION BY CLERK.",
+   "grantsNothing": "This assignment authorizes a repair. It approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "pa_pardon_expungement-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "assignedBy": "FABLE-VA8",
+   "verifiedAtBase": "8b8699c2a",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+   "decisiveDefect": "A DET-FEE-AND-WAIVER-001 A4 violation on the delivered bytes: the guidance page, packet pages 4-5 of both fixtures, tells the participant \"This page states no timetable and no criterion for that, because neither is established by the two forms this packet is built from\" — on a route whose timetable the repository states in four places, one of which is this same packet's other page. Separately, two held participant identity facts are refused out of the boundary petition with no recorded refusal and no disclosure, so the delivered filing carries a petitioner address with no state and no ZIP and the participant is never told to complete it.",
+   "failedProofObligations": [
+    {
+     "obligation": "SELF_HELP_STOP",
+     "finding": "The A4 sentence quoted above is on the delivered guidance page of both fixtures. The timetable it denies is established for this exact route in data/record-clearing/legal-design-track-registry.json trackId pa_pardon_expungement three times over — packetInstructions: \"Tell the participant a pardon does not by itself erase the record, and that the Board transmits eligible records to the AOPC quarterly\"; manualCompletionItems: \"Quarterly verification date — Guidance, verification schedule — The participant records when they checked whether the automatic route cleared the record\", marked required before filing; and the petition component's own condition, \"Generated only where the automatic route has not cleared the record after the quarterly cycle\" — and a fourth time in src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json: \"the Board of Pardons transmits eligible records to AOPC quarterly, AOPC sends the record to the court of common pleas, and the court orders expungement after confirming the criteria.\" The packet's own participant-instructions.md paragraph 4 states the quarterly cycle in bold. So the page that goes in the envelope denies what the page that does not goes on to state. The guidance page compounds it by narrowing its source universe to \"the two forms this packet is built from\", which is the narrowing A2 forbids: the repository's committed records are held sources. In consequence the registry's named verification schedule appears nowhere on the guidance page. Structurally, the family also carries no \"when to stop and get help\" section on any page, and none of the registry's three selfHelpStopConditions is carried as a stop: the participant has not yet obtained a pardon and the pardon application is out of scope and a referral; whether the pardon is conditional or unconditional cannot be determined from the document; and the record still appears after the quarterly cycle with the fallback route's availability unclear."
+    },
+    {
+     "obligation": "KNOWN_PREFILLS",
+     "finding": "The canonical Rule 790 petition receives nine writes and the boundary petition seven. The two that vanish are the petitioner's own state and ZIP. scripts/build-census-v1-pa_pardon_expungement-set.mjs holds them for the boundary persona at lines 271-272 — participant.state \"Pennsylvania\", participant.zip \"18702-2214\" — and maps both as WRITE at lines 108-109. Neither is in the bytes: pdftotext finds no 18702 in fixtures/boundary--PA-RCRIM-P-790-PETITION.pdf or in the assembled boundary.pdf, and the delivered address block reads \"Address: 1188 Upper Notch Crossing Road, Apartment 14B\" then \"Wilkes-Barre Township\" with nothing after it. The cause is a width refusal and both refusals are substantively correct: measured with pdf-lib Helvetica metrics against the widget rectangles in production-field-map.json, at the 6 pt readable floor \"Pennsylvania\" is 35.23 pt against an 18.21 pt AddrState widget and \"18702-2214\" is 32.02 pt against a 31.85 pt AddrZip widget, 0.17 pt too wide. Under docs/RCAP_OREGON_OFFICIAL_PDF_GRADE_A_LANE_C.md refusing at the floor is correct; the failure is the other half of that rule. Nothing records either refusal — reports/actual-writes.json has no refusal entry for the boundary petition, reports/builder-completeness-counters.json reports invisibleWrites 0 and findings empty — and neither field is among the field map's 78 requiredBeforeFiling entries or anywhere in participant-instructions.md."
+    },
+    {
+     "obligation": "REQUIRED_BEFORE_FILING",
+     "finding": "All 78 declared required-before-filing blanks are disclosed and I checked every label myself: zero missing. The failure is what the list omits. AddrState and AddrZip become blanks the participant must fill the moment the finalizer refuses them, and they are not on the list, not on the page and not classified anywhere. The disclosure is complete against the builder's declaration and incomplete against the artifact it delivers."
+    },
+    {
+     "obligation": "ARTIFACTS",
+     "finding": "All six delivered PDFs rehash byte-exact and every page count agrees. What fails is the completeness of the artifact record: the boundary artifact carries two fewer writes than the canonical artifact of the same document and no record in the family explains the difference — no refusedWrites, no unfittable list, no note, invisibleWrites 0, findings empty. A reader of the record cannot tell that two values were refused."
+    }
+   ],
+   "whatTheRepairIs": "Three things, none of which changes an official form's layout. (1) Rewrite the guidance page's timetable paragraph to state the quarterly cycle from the registry's packetInstructions and the compiled PA profile, and to carry the verification schedule the registry names as a required-before-filing manual completion item; delete the sentence that says neither is established, and delete the clause that limits the packet's sources to its two PDFs. (2) Add a stop section carrying the registry's three selfHelpStopConditions. (3) Make the boundary refusals visible: record them in reports/actual-writes.json, count them, and disclose AddrState and AddrZip as required-before-filing blanks. While doing (3), consider whether AddrZip should be fitted rather than refused — it misses the widget by 0.17 pt at the readable floor, and a ZIP is not an optional part of an address on a court filing.",
+   "whatIsExplicitlyNotBroken": "The fee-and-waiver work is correct and should not be disturbed: the $132 to $215 range traces to data/record-clearing/legal-design-intake/PA.memo.json, the statement that no held source gives the participant's own county figure is accurate against that record, and in forma pauperis is named. The service and notice work is correct too — 60 days for the Commonwealth to respond and the 30-day stay are both carried. The order's caption-only protection is enforced by the shared field semantics and holds in the bytes. A separate, smaller point for the same repair: source-receipt.json has an empty committedRecords array although the packet relies on PA.memo.json for a participant-facing figure; that record should be bound by SHA-256 like any other authority.",
+   "grantsNothing": "This assignment authorizes a repair. It approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "rcap-wv-custom-pleading",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "assignedBy": "FABLE-VA8",
+   "verifiedAtBase": "8b8699c2a",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading",
+   "decisiveDefect": "The committed track registry declares five required components for wv_drug_conditional_discharge and the packet ships four. The missing one is wv_drug_conditional_discharge-records-checklist-4, role records_checklist, requirement required, outputStrategy process_guidance, order 4. Its absence is concealed rather than merely unnoticed: the shipped filing-instructions component carries the id ...-filing-instructions-4 instead of the registry's ...-filing-instructions-5, so the four shipped ids form an unbroken 1-2-3-4 run and no gap is visible in any of the family's own records.",
+   "failedProofObligations": [
+    {
+     "obligation": "COMPONENT_SET",
+     "finding": "data/record-clearing/legal-design-track-registry.json trackId wv_drug_conditional_discharge packetSet.components lists five entries, every one requirement \"required\": primary-filing-1, supporting-affidavit-2, certificate-of-service-3, records-checklist-4 and filing-instructions-5. reports/rendered-artifacts.json componentSet, production-field-map.json componentSet and the 10-entry pageManifest each list the same four and the records checklist is not among them; it is not a page of either 10-page fixture. The renumbering is the decisive fact: shipped ...-filing-instructions-4 against registry ...-filing-instructions-5. I searched build-findings.json, approval-request.json and product-wiring.json for any mention of a records checklist and found none, so neither the omission nor the renumbering is explained anywhere in the family. The consequence on the delivered pages is real: the filing-instructions page's own \"THE PAGES IN THIS SET\" list names three components, and the only records guidance a participant reading the delivered PDF gets is a bullet phrased to the builder rather than to the reader — \"Tell the participant to obtain the conditional discharge order, the order of discharge and dismissal, and the probation office's written confirmation of the probation expiry date, and to attach them.\" The three documents are set out properly, with where to get each and why both dates matter, in participant-instructions.md, which is a repository review artifact and not a page of the packet."
+    }
+   ],
+   "whatTheRepairIs": "Compose the records_checklist component the registry requires and render it into the packet at order 4, and restore the filing-instructions component to its registry ordinal 5. The content already exists: participant-instructions.md's \"Documents you must obtain before filing\" table has all three documents with their sources and the warning that the conditional discharge order date and the discharge-and-dismissal order date are usually different. While the component is being added, rephrase the delivered filing-instructions bullet from \"Tell the participant to obtain...\" into second person; instruction text addressed to the builder should not reach the participant. The packet will rehash, so the raster receipt for this family must be re-run against the new hashes; the current RASTER_PASS is bound to canonical 3f111978bb89b9d1bb6e000b8c100e250f1617194a710ade3c7db0526fc7e15f and boundary 58ccfe05e717ed4f5713db39cac40d07c30ace1ff12b882ccd61e642eabd9e9e and will not describe the repaired bytes.",
+   "whatIsExplicitlyNotBroken": "Do not touch the self-help stop work. It is the best of the six families this lane read: all seven registry stop conditions carried verbatim plus two more from the record's own scope limits, appearing identically in three places including the delivered packet pages 8-10. Do not touch the fee, service or destination text either; each carries the registry's own words and I verified each verbatim. Geometry is the cleanest of the six — 2674 and 2691 words across twenty pages, zero outside the page box, zero overlap pairs of any classification — so the repair must not regress it.",
+   "factoryWideNoteThatIsNotThisFamilysFault": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs raises requiredComponentsMissing only when a document the family's own field map or source receipt names is absent from a rendered artifact. It never opens the track registry. A component the committed registry requires and the family never declares is invisible to the counter by construction, so no family's zero on requiredComponentsMissing is evidence about registry conformance. That is worth a separate assignment against the verifier, not against this family.",
+   "grantsNothing": "This assignment authorizes a repair. It approves no output and opens no commercial route."
   }
  ],
  "fableVcAppend": {
@@ -81,5 +175,24 @@
     }
    }
   ]
+ },
+ "fableVa8Append": {
+  "worker": "FABLE-VA8",
+  "lane": "VF07",
+  "appendedAtBase": "8b8699c2a",
+  "appended": [
+   "ca-prop64-set",
+   "nc_146_dismissal_petition-set",
+   "pa_pardon_expungement-set",
+   "rcap-wv-custom-pleading"
+  ],
+  "note": "This file already held FABLE-VT3s assignment for ut_pet_dismissed_without_prejudice-set and FABLE-VCs note, both from a DIFFERENT VF07 roster — assignment ids are reused across shifts while return paths are keyed to the id. That assignment and every pre-existing top-level key are preserved byte-for-byte and these four are appended beside them, not through them. Proven with git diff against HEAD before commit: the diff is insertions only.",
+  "passedWithNoAssignment": [
+   "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+   "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement"
+  ],
+  "eachAssignmentNamesTheDecisiveDefectAndTheExactFailedObligations": true,
+  "noneOfTheseIsAnEdit": "FABLE-VA8 built none of these families and holds no repair grant on any of them. Every finding here is a verdict and a repair assignment. No overlay directory, packet PDF, fixture, build script, queue, route or price was modified by this lane.",
+  "grantsNothing": "These assignments authorize repairs. They approve no output and open no commercial route."
  }
 }
