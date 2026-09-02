@@ -886,27 +886,47 @@ function participantInstructions(maps, rbf, census) {
    * free, or a statement that no held source establishes the fee plus a specific
    * checkable authority the participant can actually reach.
    *
-   * The third branch is the only honest one here. No held source in this
-   * repository states a fee, a no-fee rule or a waiver route for a DJ-LE-250B
-   * request, and the form's own two pages say nothing about cost. So this states
-   * the open question and names the office that answers it -- which is the same
-   * office the request is sent to, whose mailing address the form prints in
-   * instruction 1 on page 1. No amount is stated, and it is NOT claimed that the
-   * request is free: neither is established.
+   * That third branch is NOT the right one here, and the first draft of this
+   * section wrongly took it. It said no held source states a fee for a
+   * DJ-LE-250B request, states there is none, or describes a waiver. The first
+   * half of that is true of the FORM -- both pages are silent, confirmed by
+   * decoding the page-1 font -- and false of the REPOSITORY.
+   *
+   * Amendment A2 of the determination settles what "the repository" means: every
+   * record the route obligation census names as a requiredSourceId for this
+   * route, not merely the family's own bound PDFs. The census entry for
+   * obligation:track-pathway:WI:wi_nc_doj_fingerprint_removal:adult-non-conviction-arrest-only-record-correction-or-removal
+   * names src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json, and that
+   * profile answers it in packetGenerator.feeRules[1] -- "DOJ-CIB fingerprint
+   * arrest removal Wisconsin DOJ says no fee is required" -- and draws the
+   * distinction this section now carries across in feeRules[2], that the
+   * WORCS background check is fee-based. The census row's own destination
+   * detail says the same thing. So this states the no-fee answer the repository
+   * holds, keeps the Bureau named for the participant who wants to confirm it,
+   * and keeps the two costs separate so a participant does not read "free" and
+   * then be surprised by the check that precedes it.
    */
   out.push("## What this costs", "");
   out.push(
-    "**This packet does not know, and it will not guess.** Neither page of DJ-LE-250B says anything about a fee, a "
-    + "cost or a payment — not the Bureau's instruction page and not the request page — and no source held in this "
-    + "repository states a fee for a fingerprint record removal request, states that there is none, or describes a "
-    + "waiver. Silence on the form is not the same as a rule that the request is free, and writing an unsourced figure "
-    + "into a filing instruction would be worse than leaving it out.", ""
+    "**There is no fee for this request.** The compiled Wisconsin profile this route is built from — "
+    + "`src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json`, named as a required source for an adult "
+    + "non-conviction arrest record correction or removal — records it directly: for a **DOJ-CIB fingerprint arrest "
+    + "removal**, the *Wisconsin DOJ says no fee is required*. Neither page of DJ-LE-250B says anything about a fee, "
+    + "a cost or a payment — not the Bureau's instruction page and not the request page — and that silence is "
+    + "consistent with the rule rather than a gap in it.", ""
   );
   out.push(
-    "**Ask the office you are sending this to, before you send it.** That is the **Crime Information Bureau of the "
-    + "Wisconsin Department of Justice, Criminal History Unit** — the same office named above, whose mailing address "
-    + "the form prints for you in instruction 1 on page 1. Ask whether any fee applies to this request and, if one "
-    + "does, whether it can be waived. Instruction 1 also says this form may not be submitted by fax.", "",
+    "**The background check that comes before it is a different matter, and it is not free.** The same profile "
+    + "records a **DOJ-CIB criminal background check** as *fee-based through WORCS*, the Wisconsin Online Record "
+    + "Check System. If you are ordering a copy of your own criminal history to see what the Bureau holds before you "
+    + "ask it to remove something, that record check carries a fee even though this removal request does not. Do not "
+    + "read \"no fee\" for the removal as \"no cost\" for the whole errand.", ""
+  );
+  out.push(
+    "**If you want to confirm it, ask the office you are sending this to.** That is the **Crime Information Bureau of "
+    + "the Wisconsin Department of Justice, Criminal History Unit** — the same office named above, whose mailing "
+    + "address the form prints for you in instruction 1 on page 1. Instruction 1 also says this form may not be "
+    + "submitted by fax.", "",
     "The address and the fax sentence are on the paper in front of you rather than quoted here, because instruction 1 "
     + "is set in the font this file cannot extract readably (see `reports/caption-evidence.json`) and this packet does "
     + "not retype what it cannot quote. Read them off page 1.", ""

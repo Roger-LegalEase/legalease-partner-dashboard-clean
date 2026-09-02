@@ -1651,10 +1651,27 @@ function westParticipantInstructions(familyId, fieldMap) {
 
 /*
  * Per-family participant guidance, modeled on the reviewed FIX-A instructions
- * verified by vf17 on ca-851-91-set and ca-1203-42-set. The filing-guidance
- * house standard is delegation to a NAMED CHECKABLE AUTHORITY: the clerk of
- * the Superior Court in the named county. No fee figure, address, or service
- * recipe is invented here.
+ * verified by vf17 on ca-851-91-set and ca-1203-42-set. Nothing here is
+ * invented: no fee figure, address, or service recipe originates in this file.
+ *
+ * The house standard USED to be blanket delegation to a named checkable
+ * authority -- the clerk of the Superior Court in the named county -- for the
+ * fee, the waiver, service and the filing address alike. Amendment A2 of
+ * DETERMINATION_FEE_AND_WAIVER_STANDARD.json ends that for any family whose
+ * committed packet-set manifest answers those questions, and answers VT8's
+ * question C4 by holding that a manifest's participantActionRequired entries
+ * are a held source exactly as the track registry is. Delegating a question
+ * the repository has already answered substitutes a question for an answer we
+ * have.
+ *
+ * `statesHeldParticipantActions` opts a family into reading its own manifest
+ * entries instead. It is a per-family flag rather than a host-wide switch for
+ * one reason only: every other California family on this host carries the same
+ * defect and the same fix, but this worker holds a repair claim on
+ * ca-851-91-set alone, and rewriting seven unclaimed families' participant
+ * instructions as a side effect of one repair is not this lane's to do. The
+ * mechanism is general and the remaining families need only the flag once
+ * their repairs are claimed -- recorded for the Captain in the lane return.
  */
 const CA_PARTICIPANT_GUIDANCE = Object.freeze({
   "ca-1203-41-set": Object.freeze({
@@ -1686,6 +1703,9 @@ const CA_PARTICIPANT_GUIDANCE = Object.freeze({
     title: "Penal Code section 851.91 petition to seal an arrest record",
     countyOf: "arrest", orderForm: "CR-410", orderName: "order to seal",
     primaryName: "CR-409 (Petition to Seal Arrest and Related Records)",
+    // See statesHeldParticipantActions below. Opted in for this family only,
+    // because this family is the only one on this host whose repair is claimed.
+    statesHeldParticipantActions: true,
   }),
   "ca-prop64-set": Object.freeze({
     title: "Health and Safety Code section 11361.8 (Proposition 64) relief",
@@ -1693,6 +1713,78 @@ const CA_PARTICIPANT_GUIDANCE = Object.freeze({
     primaryName: "CR-400 (Petition/Application under Health and Safety Code section 11361.8)",
   }),
 });
+
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+
+/*
+ * The held filing, service and fee-waiver answers for one packet set, read from
+ * the committed manifest rather than restated here. Every sentence this returns
+ * quotes or paraphrases a participantActionRequired entry for this exact
+ * packetSetId; if the manifest stops holding one, the corresponding sentence
+ * disappears rather than being invented, and if it holds none the caller falls
+ * back to the delegating paragraph.
+ *
+ * The fee AMOUNT is deliberately not stated. The manifest's pay_fee entry for
+ * ca-851-91-set says "Unresolved and county-specific. Do not publish a figure."
+ * -- the repository genuinely does not hold it, so under the determination's
+ * third met limb the named clerk stands in for that one question, and only for
+ * that one.
+ */
+function caHeldParticipantActions(familyId) {
+  const manifest = readJson(PACKET_SET_MANIFESTS);
+  const set = (manifest.packetSets ?? []).find((row) => row.packetSetId === familyId);
+  assert.ok(set, `${familyId}: no packet-set manifest entry to read held participant actions from`);
+  const actions = set.participantActionRequired ?? [];
+  const first = (kind) => {
+    const row = actions.find((candidate) => candidate.kind === kind);
+    const text = String(row?.description ?? "").trim();
+    return text.length ? text : null;
+  };
+  return {
+    file: first("file"),
+    serveParty: first("serve_party"),
+    payFee: first("pay_fee"),
+    applyFeeWaiver: first("apply_fee_waiver"),
+  };
+}
+
+function caHeldGuidanceSections(familyId, guidance) {
+  const held = caHeldParticipantActions(familyId);
+  const stated = [held.file, held.serveParty, held.applyFeeWaiver].filter(Boolean);
+  assert.ok(stated.length,
+    `${familyId}: statesHeldParticipantActions is set but its manifest holds no file, serve_party or apply_fee_waiver entry`);
+
+  const clerk = `the clerk of the Superior Court in the county of the ${guidance.countyOf}`;
+  const out = [];
+
+  if (held.file) {
+    out.push(`## Where you file this, and by when\n\n${held.file}\n\nThat rule is the committed packet-set manifest for this packet, not a guess at local practice. Read it against your own case before you rely on it: it tells you which court, what goes in together, and the deadline that governs both.\n`);
+  }
+  if (held.serveParty) {
+    out.push(`## Who you must serve, and by when\n\n${held.serveParty}\n\nThis is why ${CA_FORMS["CR-106"]?.officialTitle ?? "CR-106"} ships with this packet: it is the proof that you served those parties. Serve first, then complete the proof of service — never the other way round. The deadline runs backwards from the hearing, so count from the hearing date, not from the day you file.\n`);
+  }
+
+  const money = [];
+  money.push(held.payFee
+    ? `**The filing fee itself is the one question this packet cannot answer.** The committed packet-set manifest records the fee for this route as "${held.payFee.replace(/\s*$/, "")}" — it varies from county to county and the repository does not hold the figure for yours, so none is printed here. Publishing an amount this packet does not hold would be worse than publishing none. **Ask ${clerk} what the filing fee is for this petition**, and ask at the same time what payment methods that court accepts.`
+    : `**Ask ${clerk} what the filing fee is for this petition**, and what payment methods that court accepts.`);
+  if (held.applyFeeWaiver) {
+    // Only what the manifest says, and no more. The wave-2 verification ledger
+    // records the precise limit of this fact: FW-001 is California's general
+    // fee-waiver form, and that "does not determine whether either filing has a
+    // fee or when a waiver is required". So the form is NAMED -- which is what
+    // the packet was failing to do -- while whether a waiver is available on
+    // this petition stays with the clerk. FW-001's official title is not held
+    // in this repository and is therefore not printed here.
+    money.push(`**If you cannot pay it, ask about a fee waiver by name.** ${held.applyFeeWaiver.replace(/\s*$/, "")} It is a separate form: it is not part of this packet, is not filled in for you, and is available from the California Courts self-help forms site along with the forms in this packet. Naming it is as far as the repository goes — whether a waiver is available on this particular petition, and what it requires of you, is decided on your own financial circumstances and on that court's practice, so **ask ${clerk} for form FW-001 and whether a waiver applies to this filing**.`);
+  }
+  out.push(`## What this costs\n\n${money.join("\n\n")}\n`);
+
+  out.push(`## Where this packet's self-help ends\n\n`
+    + `This packet states what the repository holds for this route and nothing beyond it. The filing fee, the payment methods that court accepts, and any local intake rule — a cover sheet, a filing window, an e-filing requirement — come from ${clerk}, not from this packet. It does not decide whether your arrest qualifies to be sealed, it does not appear for you, and it is not legal advice. If your case does not match the route named at the top of this page, or if anyone opposes the petition, that is the point to get a lawyer or a legal-aid office rather than to press on with these papers.\n`);
+
+  return out.join("\n");
+}
 
 function caParticipantInstructions(familyId, config, fieldMap) {
   const guidance = CA_PARTICIPANT_GUIDANCE[familyId];
@@ -1737,8 +1829,10 @@ function caParticipantInstructions(familyId, config, fieldMap) {
     + `3. **Sign and date each form yourself**, and complete the proof of service only after service has actually occurred.\n`
     + `4. **Leave ${guidance.orderForm} entirely blank**${required.some((row) => row.documentRole === "proposed_order")
       ? " except the report numbers listed below" : ""}. The ${guidance.orderName} is the court's form.\n\n`
-    + `## What this packet does not tell you\n\n`
-    + `The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the ${guidance.countyOf}. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.\n\n`
+    + (guidance.statesHeldParticipantActions
+      ? caHeldGuidanceSections(familyId, guidance) + `\n`
+      : `## What this packet does not tell you\n\n`
+        + `The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the ${guidance.countyOf}. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.\n\n`)
     + `## The blanks you must fill in\n\n`
     + `The platform holds no value for any of these, and this packet never guesses at one.\n\n`
     + tables
