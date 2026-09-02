@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `7c3b33d51bda93f3c0d34792ae3d88621891e055` (or the newer dispatch base)
+**Minimum required ancestor:** `fe3ee78bfd56af1d5ab42cdab3017200d10db99f` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ca-1203-41-set \
+  --family ar-arrest-seal-set \
   --codex-cloud \
-  --minimum-captain-sha 7c3b33d51bda93f3c0d34792ae3d88621891e055
+  --minimum-captain-sha fe3ee78bfd56af1d5ab42cdab3017200d10db99f
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,11 +56,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 4 families
+## The 5 families
 
-- `ca-1203-41-set` — failing: requiredOptionsMissing
-- `ct-cleanslate-petition-set`
-- `ut_pet_conviction-set`
+- `ar-arrest-seal-set`
+- `ca-851-91-set`
+- `ne-setaside-custodial-set`
+- `ut_pet_dismissed_with_prejudice-set`
 - `wv_conv_single_misdemeanor-set`
 
 ## What you receive
@@ -74,13 +75,14 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ca-1203-41-set.mjs`
-- `scripts/build-census-v1-ct-cleanslate-petition-set.mjs`
-- `scripts/build-census-v1-ut_pet_conviction-set.mjs`
+- `scripts/build-census-v1-ar-arrest-seal-set.mjs`
+- `scripts/build-census-v1-ca-851-91-set.mjs`
+- `scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs`
 - `scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs`
 
 ## Never write here

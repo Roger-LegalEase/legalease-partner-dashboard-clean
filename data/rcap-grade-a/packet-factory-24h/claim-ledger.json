@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "7c3b33d51bda93f3c0d34792ae3d88621891e055",
+  "generatedAtCommit": "fe3ee78bfd56af1d5ab42cdab3017200d10db99f",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -243,8 +243,8 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T15:59:39.936Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -256,7 +256,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T02:02:28.892Z"
@@ -346,7 +346,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-01T23:56:32.720Z"
@@ -376,7 +376,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-01T23:57:38.089Z"
@@ -391,7 +391,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-01T23:58:22.837Z"
@@ -423,8 +423,8 @@
       "operation": "rapid-repair",
       "lane": "FIX06",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T23:59:13.647Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -436,7 +436,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T01:57:44.519Z"
@@ -556,7 +556,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T01:57:55.290Z"
@@ -586,7 +586,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T01:52:50.888Z"
@@ -661,7 +661,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T01:53:02.245Z"
@@ -1846,7 +1846,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:57:42.427Z"
@@ -1891,7 +1891,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:57:48.778Z"
@@ -2658,8 +2658,8 @@
       "operation": "rapid-repair",
       "lane": "FIX05",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T16:02:54.362Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -2671,7 +2671,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T01:57:49.515Z"
@@ -2701,7 +2701,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF12",
+      "lane": "VF09",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T01:55:33.834Z"
@@ -2881,7 +2881,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF10",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:59:37.731Z"
@@ -3031,7 +3031,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF11",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T02:02:39.848Z"
@@ -3196,7 +3196,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF12",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T00:06:52.576Z"
@@ -4308,8 +4308,8 @@
       "operation": "rapid-repair",
       "lane": "FIX04",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T00:48:45.457Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -9976,7 +9976,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d643e20f82ad86d9ad97e57ca8ca0adcb9a48e7cd25d865ef1b1c14f22861a59",
+  "claimsDigest": "60312a6e8b0d0c826bfc7e353afcd34460273283cec9c9f02c0053beab28b873",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -15781,6 +15781,46 @@
       "previouslyReleasedAt": "2026-09-01T07:37:22.764Z",
       "reissuedAt": "2026-09-02T01:04:52.182Z",
       "reason": "FABLE-R11 dispatch: the FIX06 grant released 2026-09-01T07:37Z and the vf06 fresh read afterwards found the FEE_AND_WAIVER defect standing verbatim and unrepaired; FIX06 is the dispatched repair lane for it, which is the case --reissue exists for"
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "ar-arrest-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T15:59:39.936Z",
+      "reissuedAt": "2026-09-02T02:12:29.778Z",
+      "reason": "amendment A2 corrected the scope of A1's test: the compiled state profile and the route census answer this family's fee, so the packet must state it rather than name an authority to ask"
+    },
+    {
+      "lane": "FIX04",
+      "subjectType": "packet-family",
+      "subjectId": "wi_nc_doj_fingerprint_removal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T00:48:45.457Z",
+      "reissuedAt": "2026-09-02T02:12:29.858Z",
+      "reason": "amendment A2 corrected the scope of A1's test: the compiled state profile and the route census answer this family's fee, so the packet must state it rather than name an authority to ask"
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "ny_160_59_petition-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T16:02:54.362Z",
+      "reissuedAt": "2026-09-02T02:12:29.929Z",
+      "reason": "amendment A2 corrected the scope of A1's test: the compiled state profile and the route census answer this family's fee, so the packet must state it rather than name an authority to ask"
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "ca-851-91-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T23:59:13.647Z",
+      "reissuedAt": "2026-09-02T02:12:30.005Z",
+      "reason": "amendment A2 settled that a committed packet-set manifest counts as a held source, so the filing destination, fee and service the manifest records must be stated"
     }
   ],
   "transfers": [
