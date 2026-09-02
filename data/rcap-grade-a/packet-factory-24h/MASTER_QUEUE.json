@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "db77c5e8317c6c0eebc886981f8fe92dfc8b520f",
+  "minimumCaptainSha": "a4cd6d1126454342173735988e8ae2fa7dfdf232",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "7fd29c1626353308969192a9852643e5e8e9b9bee0470bdf485dce000c697aea",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "228bb40e55c81522f72e1a2606bece706e88810e16cee83434881751ee4d8709",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -57,18 +57,18 @@
     "activeFamiliesExcluded": 14,
     "guidanceOnly": 0,
     "remaining": 332,
-    "sourceReady": 59,
+    "sourceReady": 45,
     "sourceBlocked": 162,
     "legalBlocked": 24,
-    "verifyPending": 80,
+    "verifyPending": 92,
     "repairRequired": 5,
     "sumsToDenominator": true
   },
   "byState": {
-    "SOURCE_READY": 59,
+    "SOURCE_READY": 45,
     "SOURCE_BLOCKED": 162,
-    "COMPLETE_PACKET_PROVEN": 13,
-    "VERIFY_PENDING": 90,
+    "COMPLETE_PACKET_PROVEN": 15,
+    "VERIFY_PENDING": 102,
     "BUILD_IN_PROGRESS": 4,
     "LEGAL_BLOCKED": 13,
     "FAIL_REPAIR_REQUIRED": 5
@@ -127,10 +127,10 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 16,
-    "sourceReadyFamilies": 59,
-    "familiesPerBuilder": 3.7,
+    "sourceReadyFamilies": 45,
+    "familiesPerBuilder": 2.8,
     "targetPerBuilder": "15 to 25",
-    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 59 do, so a full roster of 16 builders averages 3.7 families each rather than 15 to 25.",
+    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 45 do, so a full roster of 16 builders averages 2.8 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 341 source obligations across 186 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
@@ -3543,25 +3543,21 @@
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
+      "completenessStatus": "FAIL_ROUTE_SELECTION",
       "allNineCountersZero": false,
       "counters": {
-        "knownRequiredFieldsMissing": 56,
+        "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 89,
-        "incompleteRows": 1,
-        "requiredOptionsMissing": 15,
-        "requiredComponentsMissing": 4,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 10,
+        "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
       "failingCounters": [
-        "knownRequiredFieldsMissing",
-        "unclassifiedBlanks",
-        "incompleteRows",
-        "requiredOptionsMissing",
-        "requiredComponentsMissing"
+        "requiredOptionsMissing"
       ],
       "failedObligationNames": [],
       "failedObligations": [],
@@ -3687,13 +3683,13 @@
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
+      "completenessStatus": "FAIL_ROUTE_SELECTION",
       "allNineCountersZero": false,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
-        "incompleteRows": 1,
+        "incompleteRows": 0,
         "requiredOptionsMissing": 10,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
@@ -3701,7 +3697,6 @@
         "visualDefects": 0
       },
       "failingCounters": [
-        "incompleteRows",
         "requiredOptionsMissing"
       ],
       "failedObligationNames": [
@@ -3831,7 +3826,7 @@
         "knownRequiredFieldsMissing": 56,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 71,
-        "incompleteRows": 1,
+        "incompleteRows": 0,
         "requiredOptionsMissing": 15,
         "requiredComponentsMissing": 3,
         "invisibleWrites": 0,
@@ -3841,7 +3836,6 @@
       "failingCounters": [
         "knownRequiredFieldsMissing",
         "unclassifiedBlanks",
-        "incompleteRows",
         "requiredOptionsMissing",
         "requiredComponentsMissing"
       ],
@@ -3969,25 +3963,21 @@
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
+      "completenessStatus": "FAIL_ROUTE_SELECTION",
       "allNineCountersZero": false,
       "counters": {
-        "knownRequiredFieldsMissing": 56,
+        "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 89,
-        "incompleteRows": 1,
-        "requiredOptionsMissing": 15,
-        "requiredComponentsMissing": 4,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 10,
+        "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
       "failingCounters": [
-        "knownRequiredFieldsMissing",
-        "unclassifiedBlanks",
-        "incompleteRows",
-        "requiredOptionsMissing",
-        "requiredComponentsMissing"
+        "requiredOptionsMissing"
       ],
       "failedObligationNames": [],
       "failedObligations": [],
@@ -4102,7 +4092,7 @@
         "knownRequiredFieldsMissing": 54,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 71,
-        "incompleteRows": 1,
+        "incompleteRows": 0,
         "requiredOptionsMissing": 16,
         "requiredComponentsMissing": 3,
         "invisibleWrites": 0,
@@ -4112,7 +4102,6 @@
       "failingCounters": [
         "knownRequiredFieldsMissing",
         "unclassifiedBlanks",
-        "incompleteRows",
         "requiredOptionsMissing",
         "requiredComponentsMissing"
       ],
@@ -4240,23 +4229,20 @@
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
-      "allNineCountersZero": false,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
       "counters": {
-        "knownRequiredFieldsMissing": 6,
+        "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
-        "incompleteRows": 1,
+        "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failingCounters": [
-        "knownRequiredFieldsMissing",
-        "incompleteRows"
-      ],
+      "failingCounters": [],
       "failedObligationNames": [
         "KNOWN_PREFILLS",
         "REPEATING_ROWS"
@@ -4275,7 +4261,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-851-91-set.mjs",
@@ -4446,31 +4432,25 @@
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
-      "allNineCountersZero": false,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
       "counters": {
-        "knownRequiredFieldsMissing": 35,
+        "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 62,
-        "incompleteRows": 1,
-        "requiredOptionsMissing": 6,
-        "requiredComponentsMissing": 3,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failingCounters": [
-        "knownRequiredFieldsMissing",
-        "unclassifiedBlanks",
-        "incompleteRows",
-        "requiredOptionsMissing",
-        "requiredComponentsMissing"
-      ],
+      "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-prop64-set.mjs",
@@ -5487,20 +5467,30 @@
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading",
       "ownedPaths": [
@@ -5541,20 +5531,30 @@
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/co/composed-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-court-petition-after-90-days--custom-pleading",
       "ownedPaths": [
@@ -5757,20 +5757,30 @@
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading",
       "ownedPaths": [
@@ -6081,20 +6091,30 @@
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading",
       "ownedPaths": [
@@ -6514,20 +6534,30 @@
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:sc_17_22_950_summary.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/sc/composed-treatment:sc-17-22-950-summary--custom-pleading",
       "ownedPaths": [
@@ -6569,20 +6599,30 @@
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading",
       "ownedPaths": [
@@ -6905,20 +6945,30 @@
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ct-nolle-auto-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/ct/ct-nolle-auto-set--custom-pleading",
       "ownedPaths": [
@@ -7315,7 +7365,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-dc_seal_fugitive-set.mjs",
@@ -7381,7 +7431,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-dc_seal_nonconviction-set.mjs",
@@ -8765,7 +8815,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ga-misd-j4-set.mjs",
@@ -8814,20 +8864,30 @@
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ga-nonconv-post2013-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading",
       "ownedPaths": [
@@ -8955,7 +9015,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ga-pardon-j7-set.mjs",
@@ -9025,7 +9085,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ga-seal-m-set.mjs",
@@ -12893,11 +12953,35 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "routeIdentity"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "routeIdentity",
+          "finding": "The family's own artifacts disagree on the route key, and the key the participant-facing pages print does not exist. production-field-map.json, participant-instructions.md and the Route: line printed on the pages of both fixtures carry \"obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal\", while product-wiring.json and the MASTER_QUEUE row carry \"obligation:track-only:KY:ky_void_seal_controlled_substance\". The canonical route universe (data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json) contains only the track-only key; the track-pathway:...:void-and-seal key occurs zero times there. The statute, jurisdiction and track id all agree, so this is a keying defect, not a wrong-route packet - but a Grade-A record must be keyed to an exact route, and the face and field map are keyed to a route that does not exist. Repair: re-key production-field-map.json and participant-instructions.md to the canonical track-only key and rerender so the printed Route: line matches; every other one of this verifier's obligations passes on the current bytes.",
+          "evidence": {
+            "fieldMapRouteKeys": [
+              "obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal"
+            ],
+            "wiringRouteKeys": [
+              "obligation:track-only:KY:ky_void_seal_controlled_substance"
+            ],
+            "masterQueueRouteKeys": [
+              "obligation:track-only:KY:ky_void_seal_controlled_substance"
+            ],
+            "canonicalUniverseOccurrences": {
+              "trackOnlyKey": "present",
+              "trackPathwayVoidAndSealKey": 0
+            },
+            "routeLinePrintedOnFace": "obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal",
+            "comparison": "the other ten families in this verifier two lanes all agree fieldMap = wiring = MASTER_QUEUE; only these two Kentucky families disagree"
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ky_void_seal_controlled_substance-set.mjs",
@@ -12975,11 +13059,35 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "routeIdentity"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "routeIdentity",
+          "finding": "The family's own artifacts disagree on the route key, and the key the participant-facing pages print does not exist. production-field-map.json, participant-instructions.md and the Route: line printed on the pages of both fixtures carry \"obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal\", while product-wiring.json and the MASTER_QUEUE row carry \"obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia\". The canonical route universe (data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json) contains only the track-only key; the track-pathway:...:void-and-seal key occurs zero times there. The statute, jurisdiction and track id all agree, so this is a keying defect, not a wrong-route packet - but a Grade-A record must be keyed to an exact route, and the face and field map are keyed to a route that does not exist. Repair: re-key production-field-map.json and participant-instructions.md to the canonical track-only key and rerender so the printed Route: line matches; every other one of this verifier's obligations passes on the current bytes.",
+          "evidence": {
+            "fieldMapRouteKeys": [
+              "obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal"
+            ],
+            "wiringRouteKeys": [
+              "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia"
+            ],
+            "masterQueueRouteKeys": [
+              "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia"
+            ],
+            "canonicalUniverseOccurrences": {
+              "trackOnlyKey": "present",
+              "trackPathwayVoidAndSealKey": 0
+            },
+            "routeLinePrintedOnFace": "obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal",
+            "comparison": "the other ten families in this verifier two lanes all agree fieldMap = wiring = MASTER_QUEUE; only these two Kentucky families disagree"
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ky_void_seal_marijuana_synthetic_salvia-set.mjs",
@@ -13764,20 +13872,30 @@
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-bmc-multi-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading",
       "ownedPaths": [
@@ -13924,7 +14042,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-expunge-mj-set.mjs",
@@ -15263,16 +15381,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ROUTE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -15689,20 +15799,30 @@
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mn_prosecutor_agreed-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/mn/mn-prosecutor-agreed-set--custom-pleading",
       "ownedPaths": [
@@ -16347,7 +16467,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-misd-1st-set.mjs",
@@ -16541,7 +16661,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-nonconv-set.mjs",
@@ -18381,7 +18501,7 @@
       "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
@@ -20058,20 +20178,30 @@
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nv_repository_removal-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/nv/nv-repository-removal-set--custom-pleading",
       "ownedPaths": [
@@ -20121,20 +20251,30 @@
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nv_seal_probation_family-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading",
       "ownedPaths": [
@@ -20600,13 +20740,24 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "ARTIFACTS"
+        "completenessAudit"
       ],
       "failedObligations": [
         {
-          "obligation": "ARTIFACTS",
-          "finding": null,
-          "evidence": null
+          "obligation": "completenessAudit",
+          "finding": "The registered completeness verifier returns FAIL_COMPONENT_SET (0/0 written): the family publishes no production-field-map.json at the family root, so nothing in the schema the completeness contract reads states what the packet was supposed to write, and the verifier refuses rather than reading it as empty. The family also carries no reports/actual-writes.json, reports/completeness-counters.json or reports/blanks-left-for-the-participant.json. Every other custom-pleading family in this lane (CT x2, GA, KY, NE, VA-identity) publishes that contract and passes; this family's tracks/ layout predates it. MASTER_QUEUE's own completenessStatus for the family is FAIL_COMPONENT_SET.",
+          "evidence": {
+            "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family oh_marijuana_expungement-set",
+            "result": "FAIL_COMPONENT_SET",
+            "verifierReason": "the family has no production-field-map.json, so nothing states what it was supposed to write",
+            "missingContractFiles": [
+              "production-field-map.json",
+              "reports/actual-writes.json",
+              "reports/completeness-counters.json",
+              "reports/blanks-left-for-the-participant.json"
+            ],
+            "queueCompletenessStatus": "FAIL_COMPONENT_SET"
+          }
         }
       ],
       "continuationResult": null,
@@ -24734,7 +24885,7 @@
       "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
@@ -25088,7 +25239,7 @@
       "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_conviction-set.mjs",
@@ -25305,7 +25456,7 @@
       "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
@@ -25518,120 +25669,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "feeAndWaiver",
-        "filingDestination",
-        "requiredBeforeFiling",
-        "service"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "requiredBeforeFiling",
-          "finding": "Of the 13 blanks the map declares REQUIRED_BEFORE_FILING, every one is named in participant-instructions.md except UT-BCI-EXP-APPLICATION p2 \"SID#R&F\" (blankId p2-y37.35-x188.34). No instruction line asks the participant to write a SID number or an R&F number. It is not merely unnamed: reading the source bytes at that position shows the blank sits inside the form's printed \"BUREAU USE ONLY\" box (heading read at page 2 y=51, x=26.93), and the family's own field census marks the same blank protectCategory \"government_identifier\". A blank the bureau completes cannot be an item the participant must supply before filing.",
-          "evidence": {
-            "declaredBlankDispositions": {
-              "NOT_APPLICABLE_ON_THIS_ROUTE": 109,
-              "REQUIRED_BEFORE_FILING": 13,
-              "PROTECTED_FIELD": 45,
-              "OPTIONAL_PARTICIPANT_CONTENT": 203,
-              "LATER_COMPLETION": 4,
-              "PARTICIPANT_ELECTION_GENUINE": 31
-            },
-            "requiredBeforeFilingCount": 13,
-            "itemsNotNamedInInstructions": [
-              {
-                "formNumber": "UT-BCI-EXP-APPLICATION",
-                "blankId": "p2-y37.35-x188.34",
-                "capturedCaption": "SID#R&F",
-                "printedRegionReadFromSourceBytes": "BUREAU USE ONLY",
-                "censusProtectCategory": "government_identifier",
-                "mapDisposition": "REQUIRED_BEFORE_FILING"
-              }
-            ],
-            "itemsNamedAndHowTheyWereMatched": [
-              {
-                "blanks": "1000EX Judicial District; 1000EX Court Address x3; 1020EX Court Address x2",
-                "namedBy": "- Judicial district and court street address for the filing venue"
-              },
-              {
-                "blanks": "1000EX \"certificate of eligibility is\"",
-                "namedBy": "- BCI certificate-of-eligibility identification number (non-traffic packets)"
-              },
-              {
-                "blanks": "1000EX \"2. Expunging my records will not harm the interests of the public because\"",
-                "namedBy": "- Participant's public-interest explanation on the petition"
-              },
-              {
-                "blanks": "UT-BCI-EXP-APPLICATION PREVIOUSLY USED NAME(S)",
-                "namedBy": "- Every previously used name, or an express statement that there are none"
-              },
-              {
-                "blanks": "UT-BCI-EXP-APPLICATION p2-y622.60-x445.83 (captured as \"MAILING ADDRESS\"; the census regionHeading and the source bytes both read \"DATE OF BIRTH ____ GENDER ____\", so this is the GENDER blank)",
-                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
-              },
-              {
-                "blanks": "UT-BCI-EXP-APPLICATION SOCIAL SECURITY",
-                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
-              },
-              {
-                "blanks": "UT-BCI-EXP-APPLICATION p2-y567.70-x424.55 (captured as \"ATE\"; the source row reads \"DRIVER LICENSE # AND STATE : ____\")",
-                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
-              }
-            ],
-            "captionCaptureObservation": "Three of the thirteen captured captions do not match the printed label at the measured position (\"MAILING ADDRESS\" for the GENDER blank, \"ATE\" for the DRIVER LICENSE # AND STATE blank, \"SID#R&F\" for a BUREAU USE ONLY box). The first two resolve to items the instructions do name; the third does not."
-          }
-        },
-        {
-          "obligation": "filingDestination",
-          "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court.",
-          "evidence": {
-            "instructionsHeadings": [
-              "# Required before filing"
-            ],
-            "courtOrAgencyNamedInInstructions": null,
-            "routeDestinations": "the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition",
-            "captionEvidenceOnTheBytes": {
-              "election": "In the [ ] District [ ] Justice Court of Utah",
-              "marked": "District",
-              "countyWritten": "Example County"
-            },
-            "instructionLineTreatingTheVenueAsAParticipantBlank": "- Judicial district and court street address for the filing venue"
-          }
-        },
-        {
-          "obligation": "feeAndWaiver",
-          "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced. The BCI certificate step carries its own fee, and the instructions name it only as a blank ('BCI payment or fee-waiver election and any payment details') without stating an amount or a waiver route.",
-          "evidence": {
-            "courtFeeStated": true,
-            "courtFeeEvidence": {
-              "form": "1044XX",
-              "sourcePage": 2,
-              "row": "$150  [ ] Expungement Petition - Criminal (E)",
-              "markReadFromOutputBytes": {
-                "x": 357.48,
-                "y": 359.1,
-                "glyph": "X"
-              }
-            },
-            "waiverRouteStated": false,
-            "waiverFormIncluded": false,
-            "bciFeeStated": false,
-            "bciInstructionLine": "- BCI payment or fee-waiver election and any payment details"
-          }
-        },
-        {
-          "obligation": "service",
-          "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method.",
-          "evidence": {
-            "recipientStated": false,
-            "methodStated": false,
-            "instructionLines": [
-              "- Service method, address, date, and certification only after service occurs",
-              "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected."
-            ]
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -25847,120 +25886,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "feeAndWaiver",
-        "filingDestination",
-        "requiredBeforeFiling",
-        "service"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "requiredBeforeFiling",
-          "finding": "Of the 13 blanks the map declares REQUIRED_BEFORE_FILING, every one is named in participant-instructions.md except UT-BCI-EXP-APPLICATION p2 \"SID#R&F\" (blankId p2-y37.35-x188.34). No instruction line asks the participant to write a SID number or an R&F number. It is not merely unnamed: reading the source bytes at that position shows the blank sits inside the form's printed \"BUREAU USE ONLY\" box (heading read at page 2 y=51, x=26.93), and the family's own field census marks the same blank protectCategory \"government_identifier\". A blank the bureau completes cannot be an item the participant must supply before filing.",
-          "evidence": {
-            "declaredBlankDispositions": {
-              "NOT_APPLICABLE_ON_THIS_ROUTE": 110,
-              "REQUIRED_BEFORE_FILING": 13,
-              "PROTECTED_FIELD": 45,
-              "OPTIONAL_PARTICIPANT_CONTENT": 203,
-              "LATER_COMPLETION": 4,
-              "PARTICIPANT_ELECTION_GENUINE": 31
-            },
-            "requiredBeforeFilingCount": 13,
-            "itemsNotNamedInInstructions": [
-              {
-                "formNumber": "UT-BCI-EXP-APPLICATION",
-                "blankId": "p2-y37.35-x188.34",
-                "capturedCaption": "SID#R&F",
-                "printedRegionReadFromSourceBytes": "BUREAU USE ONLY",
-                "censusProtectCategory": "government_identifier",
-                "mapDisposition": "REQUIRED_BEFORE_FILING"
-              }
-            ],
-            "itemsNamedAndHowTheyWereMatched": [
-              {
-                "blanks": "1000EX Judicial District; 1000EX Court Address x3; 1020EX Court Address x2",
-                "namedBy": "- Judicial district and court street address for the filing venue"
-              },
-              {
-                "blanks": "1000EX \"certificate of eligibility is\"",
-                "namedBy": "- BCI certificate-of-eligibility identification number (non-traffic packets)"
-              },
-              {
-                "blanks": "1000EX \"2. Expunging my records will not harm the interests of the public because\"",
-                "namedBy": "- Participant's public-interest explanation on the petition"
-              },
-              {
-                "blanks": "UT-BCI-EXP-APPLICATION PREVIOUSLY USED NAME(S)",
-                "namedBy": "- Every previously used name, or an express statement that there are none"
-              },
-              {
-                "blanks": "UT-BCI-EXP-APPLICATION p2-y622.60-x445.83 (captured as \"MAILING ADDRESS\"; the census regionHeading and the source bytes both read \"DATE OF BIRTH ____ GENDER ____\", so this is the GENDER blank)",
-                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
-              },
-              {
-                "blanks": "UT-BCI-EXP-APPLICATION SOCIAL SECURITY",
-                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
-              },
-              {
-                "blanks": "UT-BCI-EXP-APPLICATION p2-y567.70-x424.55 (captured as \"ATE\"; the source row reads \"DRIVER LICENSE # AND STATE : ____\")",
-                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
-              }
-            ],
-            "captionCaptureObservation": "Three of the thirteen captured captions do not match the printed label at the measured position (\"MAILING ADDRESS\" for the GENDER blank, \"ATE\" for the DRIVER LICENSE # AND STATE blank, \"SID#R&F\" for a BUREAU USE ONLY box). The first two resolve to items the instructions do name; the third does not."
-          }
-        },
-        {
-          "obligation": "filingDestination",
-          "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court.",
-          "evidence": {
-            "instructionsHeadings": [
-              "# Required before filing"
-            ],
-            "courtOrAgencyNamedInInstructions": null,
-            "routeDestinations": "the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition",
-            "captionEvidenceOnTheBytes": {
-              "election": "In the [ ] District [ ] Justice Court of Utah",
-              "marked": "District",
-              "countyWritten": "Example County"
-            },
-            "instructionLineTreatingTheVenueAsAParticipantBlank": "- Judicial district and court street address for the filing venue"
-          }
-        },
-        {
-          "obligation": "feeAndWaiver",
-          "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced. The BCI certificate step carries its own fee, and the instructions name it only as a blank ('BCI payment or fee-waiver election and any payment details') without stating an amount or a waiver route.",
-          "evidence": {
-            "courtFeeStated": true,
-            "courtFeeEvidence": {
-              "form": "1044XX",
-              "sourcePage": 2,
-              "row": "$150  [ ] Expungement Petition - Criminal (E)",
-              "markReadFromOutputBytes": {
-                "x": 357.48,
-                "y": 359.1,
-                "glyph": "X"
-              }
-            },
-            "waiverRouteStated": false,
-            "waiverFormIncluded": false,
-            "bciFeeStated": false,
-            "bciInstructionLine": "- BCI payment or fee-waiver election and any payment details"
-          }
-        },
-        {
-          "obligation": "service",
-          "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method.",
-          "evidence": {
-            "recipientStated": false,
-            "methodStated": false,
-            "instructionLines": [
-              "- Service method, address, date, and certification only after service occurs",
-              "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected."
-            ]
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -26176,124 +26103,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "feeAndWaiver",
-        "filingDestination",
-        "requiredBeforeFiling",
-        "service"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "requiredBeforeFiling",
-          "finding": "Of the 17 blanks the map declares REQUIRED_BEFORE_FILING, every one is named in participant-instructions.md except UT-BCI-EXP-APPLICATION p2 \"SID#R&F\" (blankId p2-y37.35-x188.34). No instruction line asks the participant to write a SID number or an R&F number. It is not merely unnamed: reading the source bytes at that position shows the blank sits inside the form's printed \"BUREAU USE ONLY\" box (heading read at page 2 y=51, x=26.93), and the family's own field census marks the same blank protectCategory \"government_identifier\". A blank the bureau completes cannot be an item the participant must supply before filing.",
-          "evidence": {
-            "declaredBlankDispositions": {
-              "NOT_APPLICABLE_ON_THIS_ROUTE": 110,
-              "REQUIRED_BEFORE_FILING": 17,
-              "PROTECTED_FIELD": 45,
-              "OPTIONAL_PARTICIPANT_CONTENT": 199,
-              "LATER_COMPLETION": 4,
-              "PARTICIPANT_ELECTION_GENUINE": 31
-            },
-            "requiredBeforeFilingCount": 17,
-            "itemsNotNamedInInstructions": [
-              {
-                "formNumber": "UT-BCI-EXP-APPLICATION",
-                "blankId": "p2-y37.35-x188.34",
-                "capturedCaption": "SID#R&F",
-                "printedRegionReadFromSourceBytes": "BUREAU USE ONLY",
-                "censusProtectCategory": "government_identifier",
-                "mapDisposition": "REQUIRED_BEFORE_FILING"
-              }
-            ],
-            "itemsNamedAndHowTheyWereMatched": [
-              {
-                "blanks": "1000EX Judicial District; 1000EX Court Address x3; 1020EX Court Address x2",
-                "namedBy": "- Judicial district and court street address for the filing venue"
-              },
-              {
-                "blanks": "1000EX \"certificate of eligibility is\"",
-                "namedBy": "- BCI certificate-of-eligibility identification number (non-traffic packets)"
-              },
-              {
-                "blanks": "1000EX \"2. Expunging my records will not harm the interests of the public because\"",
-                "namedBy": "- Participant's public-interest explanation on the petition"
-              },
-              {
-                "blanks": "UT-BCI-EXP-APPLICATION PREVIOUSLY USED NAME(S)",
-                "namedBy": "- Every previously used name, or an express statement that there are none"
-              },
-              {
-                "blanks": "UT-BCI-EXP-APPLICATION p2-y622.60-x445.83 (captured as \"MAILING ADDRESS\"; the census regionHeading and the source bytes both read \"DATE OF BIRTH ____ GENDER ____\", so this is the GENDER blank)",
-                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
-              },
-              {
-                "blanks": "UT-BCI-EXP-APPLICATION SOCIAL SECURITY",
-                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
-              },
-              {
-                "blanks": "UT-BCI-EXP-APPLICATION p2-y567.70-x424.55 (captured as \"ATE\"; the source row reads \"DRIVER LICENSE # AND STATE : ____\")",
-                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
-              },
-              {
-                "blanks": "1020EX \"[ ] the following incidents\" x2 and \"number) of\" x2",
-                "namedBy": "- Law-enforcement incident file number and agency name for a no-charges order"
-              }
-            ],
-            "captionCaptureObservation": "Three of the thirteen captured captions do not match the printed label at the measured position (\"MAILING ADDRESS\" for the GENDER blank, \"ATE\" for the DRIVER LICENSE # AND STATE blank, \"SID#R&F\" for a BUREAU USE ONLY box). The first two resolve to items the instructions do name; the third does not."
-          }
-        },
-        {
-          "obligation": "filingDestination",
-          "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court.",
-          "evidence": {
-            "instructionsHeadings": [
-              "# Required before filing"
-            ],
-            "courtOrAgencyNamedInInstructions": null,
-            "routeDestinations": "the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition",
-            "captionEvidenceOnTheBytes": {
-              "election": "In the [ ] District [ ] Justice Court of Utah",
-              "marked": "District",
-              "countyWritten": "Example County"
-            },
-            "instructionLineTreatingTheVenueAsAParticipantBlank": "- Judicial district and court street address for the filing venue"
-          }
-        },
-        {
-          "obligation": "feeAndWaiver",
-          "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced. The BCI certificate step carries its own fee, and the instructions name it only as a blank ('BCI payment or fee-waiver election and any payment details') without stating an amount or a waiver route.",
-          "evidence": {
-            "courtFeeStated": true,
-            "courtFeeEvidence": {
-              "form": "1044XX",
-              "sourcePage": 2,
-              "row": "$150  [ ] Expungement Petition - Criminal (E)",
-              "markReadFromOutputBytes": {
-                "x": 357.48,
-                "y": 359.1,
-                "glyph": "X"
-              }
-            },
-            "waiverRouteStated": false,
-            "waiverFormIncluded": false,
-            "bciFeeStated": false,
-            "bciInstructionLine": "- BCI payment or fee-waiver election and any payment details"
-          }
-        },
-        {
-          "obligation": "service",
-          "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method.",
-          "evidence": {
-            "recipientStated": false,
-            "methodStated": false,
-            "instructionLines": [
-              "- Service method, address, date, and certification only after service occurs",
-              "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected."
-            ]
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -26712,97 +26523,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "feeAndWaiver",
-        "filingDestination",
-        "requiredBeforeFiling",
-        "service"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "requiredBeforeFiling",
-          "finding": "Of the 5 blanks the map declares REQUIRED_BEFORE_FILING, the four \"Court Address\" blanks on 1002EX and 1022EX are named by \"- Judicial district and court street address for the filing venue\". The fifth, 1002EX blankId p1-y296.76-x65.88 captured as \"1. Certificate of eligibility is not required\", is named by no instruction line. Reading the source bytes at that position shows why: the caption was taken from the numbered paragraph below it (printed at page 1 y=273.5), while the measured rule at y=296.76 spanning x65.88-x324.12 is the bottom border of the caption table's left cell. It is a table rule, not a blank, and on this route no certificate of eligibility is required at all, so there is nothing for the participant to supply.",
-          "evidence": {
-            "declaredBlankDispositions": {
-              "REQUIRED_BEFORE_FILING": 5,
-              "PROTECTED_FIELD": 35,
-              "NOT_APPLICABLE_ON_THIS_ROUTE": 103,
-              "OPTIONAL_PARTICIPANT_CONTENT": 37,
-              "LATER_COMPLETION": 3
-            },
-            "requiredBeforeFilingCount": 5,
-            "itemsNotNamedInInstructions": [
-              {
-                "formNumber": "1002EX",
-                "blankId": "p1-y296.76-x65.88",
-                "capturedCaption": "1. Certificate of eligibility is not required",
-                "construction": "content_stream_rule",
-                "measured": {
-                  "x0": 65.88,
-                  "x1": 324.12,
-                  "baselineY": 296.76
-                },
-                "printedTextAtThatPositionReadFromBytes": "nothing; the nearest printed lines are \"Judge\" at y=305.4 (right column, x=329.76) and the numbered paragraph \"1. Certificate of eligibility is not required\" at y=273.5",
-                "routeNote": "routeSelectionId ut-traffic-direct-court-no-bci requires no certificate of eligibility"
-              }
-            ],
-            "itemsNamedAndHowTheyWereMatched": [
-              {
-                "blanks": "1002EX Court Address x2; 1022EX Court Address x2",
-                "namedBy": "- Judicial district and court street address for the filing venue"
-              }
-            ]
-          }
-        },
-        {
-          "obligation": "filingDestination",
-          "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the district court that receives the traffic expungement or deletion petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court.",
-          "evidence": {
-            "instructionsHeadings": [
-              "# Required before filing"
-            ],
-            "courtOrAgencyNamedInInstructions": null,
-            "routeDestinations": "the district court that receives the traffic expungement or deletion petition",
-            "captionEvidenceOnTheBytes": {
-              "election": "In the [ ] District [ ] Justice Court of Utah",
-              "marked": "District",
-              "countyWritten": "Example County"
-            },
-            "instructionLineTreatingTheVenueAsAParticipantBlank": "- Judicial district and court street address for the filing venue"
-          }
-        },
-        {
-          "obligation": "feeAndWaiver",
-          "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced.",
-          "evidence": {
-            "courtFeeStated": true,
-            "courtFeeEvidence": {
-              "form": "1044XX",
-              "sourcePage": 2,
-              "row": "$150  [ ] Expungement Petition - Criminal (E)",
-              "markReadFromOutputBytes": {
-                "x": 357.48,
-                "y": 359.1,
-                "glyph": "X"
-              }
-            },
-            "waiverRouteStated": false,
-            "waiverFormIncluded": false
-          }
-        },
-        {
-          "obligation": "service",
-          "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method.",
-          "evidence": {
-            "recipientStated": false,
-            "methodStated": false,
-            "instructionLines": [
-              "- Service method, address, date, and certification only after service occurs",
-              "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected."
-            ]
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -26854,20 +26576,30 @@
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_exp_absolute_pardon-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading",
       "ownedPaths": [
@@ -28591,20 +28323,30 @@
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_crop_certificate_of_restoration-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/wa/wa-crop-certificate-of-restoration-set--custom-pleading",
       "ownedPaths": [
@@ -30112,7 +29854,7 @@
       "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs",
@@ -30304,7 +30046,7 @@
       "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs",
@@ -30603,9 +30345,9 @@
     "verifiers": 12,
     "sourceLanes": 16,
     "repairLanes": 4,
-    "familiesAssignedToBuilders": 59,
+    "familiesAssignedToBuilders": 45,
     "sourceObligationsAssigned": 341,
-    "actualPromotedAndReleased": 59,
+    "actualPromotedAndReleased": 45,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",

@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `db77c5e8317c6c0eebc886981f8fe92dfc8b520f` (or the newer dispatch base)
+**Minimum required ancestor:** `a4cd6d1126454342173735988e8ae2fa7dfdf232` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family ca-1203-41-set \
   --codex-cloud \
-  --minimum-captain-sha db77c5e8317c6c0eebc886981f8fe92dfc8b520f
+  --minimum-captain-sha a4cd6d1126454342173735988e8ae2fa7dfdf232
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -58,8 +58,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 ## The 2 families
 
-- `ca-1203-41-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing
-- `ca-prop64-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing
+- `ca-1203-41-set` — failing: requiredOptionsMissing
+- `ky_void_seal_marijuana_synthetic_salvia-set`
 
 ## What you receive
 
@@ -73,9 +73,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
 - `data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/**`
 - `scripts/build-census-v1-ca-1203-41-set.mjs`
-- `scripts/build-census-v1-ca-prop64-set.mjs`
+- `scripts/build-census-v1-ky_void_seal_marijuana_synthetic_salvia-set.mjs`
 
 ## Never write here
 

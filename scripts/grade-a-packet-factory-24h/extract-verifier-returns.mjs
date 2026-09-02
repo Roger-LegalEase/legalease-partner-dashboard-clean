@@ -24,6 +24,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
@@ -52,6 +53,16 @@ const PASSING = new Set(["PASS_COMPLETE_INDEPENDENT", "PASS"]);
 // in their environment: it is not a packet defect, and it is not a pass — a
 // row claiming PASS_COMPLETE_INDEPENDENT while carrying one is refused below.
 const UNMEASURED = new Set(["NOT_MEASURABLE_HERE", "BLOCKED_LEGAL_INPUT"]);
+
+/* The factory's canonical proof obligations, kept identical to the list lane
+ * contract L9 enforces in verify-lane-contracts.mjs. The strongest verdict is
+ * a claim about all fifteen; a lane that scored fewer is downgraded below. */
+const PROOF_OBLIGATIONS = [
+  "ROUTE_IDENTITY", "SOURCE_IDENTITY", "COMPONENT_SET", "KNOWN_PREFILLS",
+  "REQUIRED_BEFORE_FILING", "ROUTE_OPTIONS", "REPEATING_ROWS", "PROTECTED_FIELDS",
+  "ARTIFACTS", "PAGE_ORDER", "CLIPPING_AND_OVERLAP", "FILING_DESTINATION",
+  "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP",
+];
 const obligationFailed = (r) => {
   if (r === "PASS" || r === true || UNMEASURED.has(r)) return false;
   if (r === "FAIL" || r === false) return true;
@@ -84,6 +95,25 @@ for (const { base, name: d } of sweep) {
   const isVerification = base === FACTORY_RETURNS
     ? (doc.laneKind ?? "") === "independent-verification" || /^vf\d+$/.test(d)
     : /verif/i.test(d);
+  /*
+   * Which obligations this lane actually scored. Lane contract L9 already
+   * refuses a PASS_COMPLETE_INDEPENDENT awarded over a subset of them, and it
+   * caught twenty such rows the moment three verification teams were briefed
+   * with a shorter checklist than the factory's own. L9 refusing is the right
+   * outcome, but it leaves the queue promoting those families until someone
+   * re-reads them, which is the window where a narrow verdict becomes a
+   * terminal state nobody measured.
+   *
+   * So the downgrade happens here, at the point the verdicts are read, and by
+   * the contract's own sentence: a verifier may always score less and say so,
+   * but it may not call that result PASS_COMPLETE_INDEPENDENT. Such a row is
+   * carried as PASS -- a true statement of what was measured, and one the
+   * terminal transition does not act on -- with the unscored obligations
+   * named. Nothing is discarded and no finding is rewritten; only the label
+   * the contract does not allow.
+   */
+  const scoredTokens = new Set(JSON.stringify(doc).match(/[A-Z][A-Z_]{4,}/g) ?? []);
+  const unscoredObligations = PROOF_OBLIGATIONS.filter((o) => !scoredTokens.has(o));
   for (const r of list) {
     const familyId = r.itemId ?? r.familyId ?? r.family ?? null;
     if (!familyId) { problems.push(`${d}: a row names no family`); continue; }
@@ -91,7 +121,9 @@ for (const { base, name: d } of sweep) {
     // (the prompt contract says so in as many words). It zeroes nothing and
     // waives nothing; reading it as a verdict would refuse the whole sweep.
     const rawVerdict = r.verdict ?? null;
-    const verdict = rawVerdict === "BUILT_RASTER_PENDING" ? null : rawVerdict;
+    const declaredVerdict = rawVerdict === "BUILT_RASTER_PENDING" ? null : rawVerdict;
+    const narrowlyScored = declaredVerdict === "PASS_COMPLETE_INDEPENDENT" && unscoredObligations.length > 0;
+    const verdict = narrowlyScored ? "PASS" : declaredVerdict;
     if (verdict && !VERDICTS.includes(verdict)) { problems.push(`${d}/${familyId}: undeclared verdict ${verdict}`); continue; }
     let failedObligations = [];
     let unmeasuredObligations = [];
@@ -108,6 +140,15 @@ for (const { base, name: d } of sweep) {
       { problems.push(`${d}/${familyId}: claims PASS_COMPLETE_INDEPENDENT with ${unmeasuredObligations.length} unmeasured obligation(s): ${unmeasuredObligations.join(", ")}`); continue; }
     rows.push({
       familyId, verdict, lane: d, isIndependentVerification: isVerification,
+      /* The commit the read was actually made against. A row states its own
+       * base when the lane records one per row; otherwise the document's. This
+       * is what makes "which read is later" answerable from evidence. */
+      verifiedAtBase: r.verifiedAtBase ?? r.baseSha ?? doc.baseSha ?? doc.generatedAtBase ?? null,
+      ...(narrowlyScored ? {
+        downgradedFrom: "PASS_COMPLETE_INDEPENDENT",
+        downgradedBecause: `the lane scored ${PROOF_OBLIGATIONS.length - unscoredObligations.length} of ${PROOF_OBLIGATIONS.length} proof obligations; the strongest verdict is a claim about all of them`,
+        obligationsNotScored: unscoredObligations,
+      } : {}),
       failedObligations, failedObligationNames: failedObligations.map((x) => x.obligation).sort(),
       unmeasuredObligations,
       evidencePath: `${base}/${d}/rows.json`,
@@ -130,10 +171,46 @@ const lanePrecedence = (r) => {
   const factory = r.evidencePath.startsWith(FACTORY_RETURNS) ? 1000 : 0;
   return factory + n;
 };
+
+/*
+ * Lane number is a proxy for recency, and it is wrong exactly when a
+ * lower-numbered lane does the LATER read. VF25 failed mi_setaside_marihuana
+ * before its repair; VF09 passed the repaired family afterwards; ranking by
+ * lane number kept the stale FAIL current and held a finished family out of
+ * the queue. The lanes were both right about what they saw, so this is an
+ * ordering defect, not a disagreement.
+ *
+ * The rows say when they were read: each carries the commit it was verified
+ * against. Commit ancestry is a real ordering, so a read made at a descendant
+ * of another read's base is later, full stop. Lane precedence stays as the
+ * tie-break for rows whose bases are equal, unrelated, missing, or not
+ * commit-shaped (xvf-a records prose where a SHA belongs).
+ */
+const isCommit = (s) => typeof s === "string" && /^[0-9a-f]{7,40}$/.test(s);
+const ancestry = new Map();
+const isAncestorOf = (a, b) => {
+  if (!isCommit(a) || !isCommit(b) || a === b) return false;
+  const key = `${a}\0${b}`;
+  if (ancestry.has(key)) return ancestry.get(key);
+  let answer = false;
+  try {
+    execFileSync("git", ["merge-base", "--is-ancestor", a, b], { cwd: ROOT, stdio: "ignore" });
+    answer = true;
+  } catch { answer = false; }
+  ancestry.set(key, answer);
+  return answer;
+};
+/** True when `r` is the later read of the two. */
+const supersedes = (r, prior) => {
+  if (isAncestorOf(prior.verifiedAtBase, r.verifiedAtBase)) return true;
+  if (isAncestorOf(r.verifiedAtBase, prior.verifiedAtBase)) return false;
+  return lanePrecedence(r) > lanePrecedence(prior);
+};
+
 const current = new Map();
 for (const r of rows.filter((x) => x.isIndependentVerification && x.verdict)) {
   const prior = current.get(r.familyId);
-  if (!prior || lanePrecedence(r) > lanePrecedence(prior)) current.set(r.familyId, r);
+  if (!prior || supersedes(r, prior)) current.set(r.familyId, r);
 }
 for (const r of rows) r.superseded = r.isIndependentVerification && !!r.verdict && current.get(r.familyId) !== r;
 

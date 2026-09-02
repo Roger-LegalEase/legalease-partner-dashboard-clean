@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "db77c5e8317c6c0eebc886981f8fe92dfc8b520f",
+  "generatedAtCommit": "a4cd6d1126454342173735988e8ae2fa7dfdf232",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -346,7 +346,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-01T23:56:32.720Z"
@@ -376,7 +376,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-01T23:57:38.089Z"
@@ -391,7 +391,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-01T23:58:22.837Z"
@@ -406,7 +406,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF17",
+      "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T09:38:20.305Z"
@@ -425,6 +425,21 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-01T23:59:13.647Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ca-prop64-set",
+      "familyId": "ca-prop64-set",
+      "itemId": null,
+      "familyIds": [
+        "ca-prop64-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF05",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -540,11 +555,41 @@
         "composed-treatment:nd-nonconviction-auto-close-verify"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "itemId": null,
+      "familyIds": [
+        "composed-treatment:nd-nonconviction-auto-close-verify"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T23:43:50.883Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "familyId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "itemId": null,
+      "familyIds": [
+        "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF07",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -603,6 +648,21 @@
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "itemId": null,
+      "familyIds": [
+        "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF08",
+      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -693,6 +753,21 @@
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "itemId": null,
+      "familyIds": [
+        "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF09",
+      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -825,11 +900,41 @@
         "composed-treatment:sc_17_22_950_summary"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF10",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:sc_17_22_950_summary",
+      "familyId": "composed-treatment:sc_17_22_950_summary",
+      "itemId": null,
+      "familyIds": [
+        "composed-treatment:sc_17_22_950_summary"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T23:49:25.687Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:sd_sis_sealing",
+      "familyId": "composed-treatment:sd_sis_sealing",
+      "itemId": null,
+      "familyIds": [
+        "composed-treatment:sd_sis_sealing"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF11",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -960,6 +1065,21 @@
         "ct-nolle-auto-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ct-nolle-auto-set",
+      "familyId": "ct-nolle-auto-set",
+      "itemId": null,
+      "familyIds": [
+        "ct-nolle-auto-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF14",
       "laneKind": "packet-build",
@@ -976,7 +1096,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:58:15.811Z"
@@ -1036,7 +1156,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF10",
+      "lane": "VF09",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:57:42.285Z"
@@ -1066,7 +1186,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF10",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:57:48.561Z"
@@ -1201,7 +1321,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF12",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:58:15.947Z"
@@ -1231,7 +1351,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T00:01:25.247Z"
@@ -1261,7 +1381,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF10",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:57:42.358Z"
@@ -1291,7 +1411,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:57:48.642Z"
@@ -1400,6 +1520,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T18:55:32.937Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ga-nonconv-post2013-set",
+      "familyId": "ga-nonconv-post2013-set",
+      "itemId": null,
+      "familyIds": [
+        "ga-nonconv-post2013-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1576,7 +1711,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF09",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T00:01:24.983Z"
@@ -1606,7 +1741,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF10",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:58:16.018Z"
@@ -1688,6 +1823,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "ky_void_seal_controlled_substance-set",
+      "familyId": "ky_void_seal_controlled_substance-set",
+      "itemId": null,
+      "familyIds": [
+        "ky_void_seal_controlled_substance-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX04",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "ky_void_seal_marijuana_synthetic_salvia-set",
       "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
       "itemId": null,
@@ -1715,6 +1865,36 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T08:29:33.094Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ky_void_seal_marijuana_synthetic_salvia-set",
+      "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
+      "itemId": null,
+      "familyIds": [
+        "ky_void_seal_marijuana_synthetic_salvia-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ma-bmc-multi-set",
+      "familyId": "ma-bmc-multi-set",
+      "itemId": null,
+      "familyIds": [
+        "ma-bmc-multi-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF09",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1816,7 +1996,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:57:48.846Z"
@@ -1906,7 +2086,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T00:01:25.315Z"
@@ -1940,6 +2120,21 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-01T16:18:06.215Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_prosecutor_agreed-set",
+      "familyId": "mn_prosecutor_agreed-set",
+      "itemId": null,
+      "familyIds": [
+        "mn_prosecutor_agreed-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -2131,7 +2326,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF09",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:58:16.089Z"
@@ -2191,7 +2386,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF11",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:31:07.936Z"
@@ -2325,11 +2520,41 @@
         "nv_repository_removal-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF09",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nv_repository_removal-set",
+      "familyId": "nv_repository_removal-set",
+      "itemId": null,
+      "familyIds": [
+        "nv_repository_removal-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF11",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T19:13:52.164Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nv_seal_probation_family-set",
+      "familyId": "nv_seal_probation_family-set",
+      "itemId": null,
+      "familyIds": [
+        "nv_seal_probation_family-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF10",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -2386,7 +2611,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:58:16.160Z"
@@ -2446,7 +2671,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF09",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T00:01:25.050Z"
@@ -2956,7 +3181,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:31:08.530Z"
@@ -2971,7 +3196,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF09",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:31:08.711Z"
@@ -2986,7 +3211,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF10",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:31:08.910Z"
@@ -3001,7 +3226,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF11",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:58:16.305Z"
@@ -3031,7 +3256,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF12",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T00:01:25.392Z"
@@ -3061,7 +3286,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF10",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:57:42.498Z"
@@ -3091,7 +3316,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:57:48.916Z"
@@ -3120,6 +3345,21 @@
         "va_exp_absolute_pardon-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF12",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_absolute_pardon-set",
+      "familyId": "va_exp_absolute_pardon-set",
+      "itemId": null,
+      "familyIds": [
+        "va_exp_absolute_pardon-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF15",
       "laneKind": "packet-build",
@@ -3136,7 +3376,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:58:16.377Z"
@@ -3166,7 +3406,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:58:16.453Z"
@@ -3316,7 +3556,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T00:01:25.112Z"
@@ -3346,7 +3586,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF10",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:57:42.570Z"
@@ -3451,7 +3691,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF11",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T00:01:25.179Z"
@@ -3496,7 +3736,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T00:01:25.467Z"
@@ -3511,7 +3751,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:57:48.984Z"
@@ -3530,6 +3770,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T18:57:39.447Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_crop_certificate_of_restoration-set",
+      "familyId": "wa_crop_certificate_of_restoration-set",
+      "itemId": null,
+      "familyIds": [
+        "wa_crop_certificate_of_restoration-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3721,7 +3976,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T23:58:16.525Z"
@@ -3751,7 +4006,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T00:01:25.539Z"
@@ -3781,7 +4036,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF10",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:31:08.620Z"
@@ -3796,7 +4051,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:31:08.802Z"
@@ -9406,7 +9661,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "1452eb5c38afdd8336a37c1c236e9aad1fbb221b06f06ee54733cce90e419ae5",
+  "claimsDigest": "24167793b14b3d563987024086fec47ed6d19526dcfa07555be2ab511f989832",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
