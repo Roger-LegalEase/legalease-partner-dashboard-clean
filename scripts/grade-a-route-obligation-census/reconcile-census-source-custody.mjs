@@ -88,12 +88,37 @@ const tokens = (value) => String(value ?? "").toLowerCase().split(/[^a-z0-9]+/).
  * binds, for any family, and the tier travels on the row so a reader can always
  * see that this identity came from a person reading a page.
  */
-const identityFindings = (() => {
+const { global: identityFindings, byFamily: familyScopedFindings } = (() => {
   const abs = path.join(rootDir, IDENTITY_FINDINGS);
-  if (!fs.existsSync(abs)) return new Map();
+  if (!fs.existsSync(abs)) return { global: new Map(), byFamily: new Map() };
   let doc;
-  try { doc = JSON.parse(fs.readFileSync(abs, "utf8")); } catch { return new Map(); }
+  try { doc = JSON.parse(fs.readFileSync(abs, "utf8")); } catch { return { global: new Map(), byFamily: new Map() }; }
   const byLabel = new Map();
+  /*
+   * A LABEL THAT NAMES A DIFFERENT DOCUMENT IN EACH FAMILY.
+   *
+   * The map below is global, and for almost every label that is right: one
+   * `official-form:` string names one document, and the Indiana CCA forms and
+   * the Texas statement of inability really are the same statewide document in
+   * every family that names them. `servesFamilies` records which families a
+   * reading lane looked at, not an exclusive licence, so scoping every finding
+   * to it would falsely unbind fourteen of those.
+   *
+   * A few labels are not like that. `ACIC-UNIFORM-ORDER-TO-SEAL` is named by
+   * ar-felony-seal-set and ar-misdemeanor-seal-set, and Arkansas publishes a
+   * separate order for each; "Certification of Service by Mailing or Delivery"
+   * is named by two Iowa families and is not published at all -- it is printed
+   * inside each family's own application form. Globally, the first shape hands
+   * one family the other's document whenever only one half is held, and the
+   * second poisons the label so neither family binds.
+   *
+   * So the scope is opt-in and per artifact: a finding that sets
+   * `labelIsFamilySpecific` is admitted only for the families it names, and
+   * its label is withheld from the global map entirely -- because the whole
+   * content of that flag is that the label does not identify one document.
+   */
+  const familyScoped = new Map();
+  const scopedLabels = new Set();
   for (const entry of doc.entries ?? []) {
     for (const artifact of entry.artifacts ?? []) {
       const held = artifact.held ?? {};
@@ -121,6 +146,33 @@ const identityFindings = (() => {
        */
       if (!/^confirmed_from_document_text(_|$)/.test(String(artifact.identityConfidence ?? ""))) continue;
       if (!held.pathInArchive || !/^[0-9a-f]{64}$/.test(String(held.sha256 ?? ""))) continue;
+      const record = {
+        path: held.pathInArchive,
+        sha256: held.sha256,
+        officialTitle: artifact.officialTitle ?? null,
+        identityEvidence: artifact.identityEvidence ?? null
+      };
+      if (artifact.labelIsFamilySpecific === true) {
+        const families = artifact.servesFamilies ?? [];
+        /* A family-specific finding that names no family scopes to nothing and
+         * would silently disappear; refusing the flag is safer than a bind
+         * nobody asked for. */
+        if (families.length === 0) continue;
+        for (const label of artifact.namedInFamiliesAs ?? []) {
+          const key = normalise(label);
+          scopedLabels.add(key);
+          for (const familyId of families) {
+            const scopedKey = `${familyId}\u0000${key}`;
+            const prior = familyScoped.get(scopedKey);
+            /* The same poisoning rule, inside the family scope: two readings
+             * disagreeing about what this family's label names is unresolved. */
+            if (prior && prior.sha256 !== held.sha256) { familyScoped.set(scopedKey, null); continue; }
+            if (prior === null) continue;
+            familyScoped.set(scopedKey, record);
+          }
+        }
+        continue;
+      }
       for (const label of artifact.namedInFamiliesAs ?? []) {
         const key = normalise(label);
         const prior = byLabel.get(key);
@@ -129,16 +181,12 @@ const identityFindings = (() => {
          * poisoned rather than decided by whichever was read first. */
         if (prior && prior.sha256 !== held.sha256) { byLabel.set(key, null); continue; }
         if (prior === null) continue;
-        byLabel.set(key, {
-          path: held.pathInArchive,
-          sha256: held.sha256,
-          officialTitle: artifact.officialTitle ?? null,
-          identityEvidence: artifact.identityEvidence ?? null
-        });
+        byLabel.set(key, record);
       }
     }
   }
-  return byLabel;
+  for (const key of scopedLabels) byLabel.delete(key);
+  return { global: byLabel, byFamily: familyScoped };
 })();
 
 const byHash = new Map(corpus.entries.map((e) => [e.sha256, e]));
@@ -206,8 +254,16 @@ for (const entry of corpus.entries) {
  * Uniqueness is required because an ambiguous match is not a match: two corpus
  * entries that both satisfy the label mean the label does not identify either.
  */
-function resolveFormLabel(label, jurisdictions) {
+function resolveFormLabel(label, jurisdictions, familyId) {
   const key = normalise(label);
+  /* The family scope is consulted first and, where it applies, exclusively:
+   * its label was removed from the global map, so there is nothing to fall
+   * back to and nothing to fall back to it. */
+  const scoped = familyId ? familyScopedFindings.get(`${familyId}\u0000${key}`) : undefined;
+  if (scoped) {
+    const entry = corpus.entries.find((e) => e.path === scoped.path && e.sha256 === scoped.sha256);
+    if (entry) return { entry, tier: "exact_identity_confirmed_from_document_text", identityEvidence: scoped.identityEvidence, identityScope: familyId };
+  }
   if (byFormNumber.has(key)) return { entry: byFormNumber.get(key), tier: "exact_form_number" };
   /*
    * TIER 3 IS CONSULTED BEFORE THE TOKEN FLOOR, not after it.
@@ -326,10 +382,11 @@ for (const family of worklist.packetFamilies) {
     }
     if (id.startsWith("official-form:")) {
       const label = id.slice("official-form:".length);
-      const match = resolveFormLabel(label, jurisdictions);
+      const match = resolveFormLabel(label, jurisdictions, family.worklistGroupId);
       documentSources.push({
         sourceId: id, kind: "form_label", resolved: Boolean(match), tier: match?.tier ?? null,
         ...(match?.identityEvidence ? { identityEvidence: match.identityEvidence } : {}),
+        ...(match?.identityScope ? { identityScope: match.identityScope } : {}),
         heldAs: match ? { path: match.entry.path, formNumber: match.entry.formNumber, revision: match.entry.revision, sha256: match.entry.sha256 } : null
       });
     }

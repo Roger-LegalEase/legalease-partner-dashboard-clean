@@ -3,11 +3,11 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "2a820c8f790ed993f7d130cae5bc5e317fe6aa67",
+  "minimumCaptainSha": "c80e9a050a6a6a4f09e6f2e1097c5385c8198648",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
-    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "9eef565c1f80475ca188a159414253c174f1785b1490d037bb91478cbcdac4ce",
+    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "0643540610efae6df87676a64bc58c3773136a18f35d2570ff64634b3bd3cec6",
     "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "53f5d176a93a97d0421e045576429d646b08079a1db4468e70c6651280f1c0e0",
     "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json": "fbb02da468ece257271b0004773f8ad86fe8f7698cf1e2314f0611437cb3bbbf",
     "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json": "cf15ce284dde2fbd2ce4525e1a797a9cbced9829a612bbc14ccc0cdf113748ea",
@@ -57,27 +57,27 @@
     "activeFamiliesExcluded": 7,
     "guidanceOnly": 0,
     "remaining": 339,
-    "sourceReady": 34,
-    "sourceBlocked": 119,
+    "sourceReady": 38,
+    "sourceBlocked": 115,
     "legalBlocked": 26,
     "verifyPending": 75,
     "repairRequired": 11,
     "sumsToDenominator": true
   },
   "byState": {
-    "SOURCE_READY": 34,
+    "SOURCE_READY": 38,
     "VERIFY_PENDING": 80,
     "COMPLETE_PACKET_PROVEN": 84,
-    "SOURCE_BLOCKED": 119,
+    "SOURCE_BLOCKED": 115,
     "VERIFIED_PASS": 5,
     "FAIL_REPAIR_REQUIRED": 11,
     "LEGAL_BLOCKED": 13
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
-    "SOURCE_BOUND_BY_HELD_BYTES": 136,
+    "SOURCE_BOUND_BY_HELD_BYTES": 140,
     "SOURCE_GENUINELY_MISSING": 48,
-    "SOURCE_IDENTITY_UNRESOLVED": 54,
+    "SOURCE_IDENTITY_UNRESOLVED": 50,
     "SOURCE_IDENTITY_NOT_EXACT": 2,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 5,
@@ -129,11 +129,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 16,
-    "sourceReadyFamilies": 34,
-    "familiesPerBuilder": 2.1,
+    "sourceReadyFamilies": 38,
+    "familiesPerBuilder": 2.4,
     "targetPerBuilder": "15 to 25",
-    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 34 do, so a full roster of 16 builders averages 2.1 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 240 source obligations across 145 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 38 do, so a full roster of 16 builders averages 2.4 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 234 source obligations across 141 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -2294,24 +2294,48 @@
         "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
         "official-form:ACIC-UNIFORM-PETITION-TO-SEAL"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
+          "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460__order-to-seal-felony-under-act-1460-of-2013__REV-2021-08-16__EN.pdf",
+          "sha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+          "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
+          "sha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:ACIC-UNIFORM-ORDER-TO-SEAL: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:ACIC-UNIFORM-PETITION-TO-SEAL: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460__order-to-seal-felony-under-act-1460-of-2013__REV-2021-08-16__EN.pdf",
+            "sha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
+            "sha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 2,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -2327,7 +2351,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-felony-seal-set.mjs",
@@ -2486,18 +2510,32 @@
         "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
         "official-form:ACIC-UNIFORM-PETITION-TO-SEAL"
       ],
-      "sourceHashes": [],
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
+          "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
+          "sha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
       "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
       "sourceBound": false,
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "official-form:ACIC-UNIFORM-ORDER-TO-SEAL: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
           "official-form:ACIC-UNIFORM-PETITION-TO-SEAL: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
-        "boundSources": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
+            "sha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
+        ],
         "namedOfficialForms": 2,
-        "boundCount": 0,
+        "boundCount": 1,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "directAttachment": true
       },
@@ -10254,36 +10292,46 @@
       ],
       "sourceHashes": [
         {
-          "sourceId": "official-form:Rule 2.86 Form 4",
-          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+          "sourceId": "official-form:Certification of Service by Mailing or Delivery",
+          "path": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
           "sha256": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
-          "tier": "exact_form_number"
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:Rule 2.86 Form 4",
+          "path": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+          "sha256": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:Certification of Service by Mailing or Delivery: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
-            "sourceId": "official-form:Rule 2.86 Form 4",
-            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+            "sourceId": "official-form:Certification of Service by Mailing or Delivery",
+            "path": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
             "sha256": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
-            "tier": "exact_form_number",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:Rule 2.86 Form 4",
+            "path": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+            "sha256": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
+            "tier": "exact_identity_confirmed_from_document_text",
             "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -10299,7 +10347,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ia-12347-set.mjs",
@@ -10342,36 +10390,46 @@
       ],
       "sourceHashes": [
         {
-          "sourceId": "official-form:Rule 2.86 Form 5",
-          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
+          "sourceId": "official-form:Certification of Service by Mailing or Delivery",
+          "path": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
           "sha256": "ed46614b0b182dca05020009f1add549e07ac7d0bbd7328bbd9cc7ae26934cef",
-          "tier": "exact_form_number"
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:Rule 2.86 Form 5",
+          "path": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
+          "sha256": "ed46614b0b182dca05020009f1add549e07ac7d0bbd7328bbd9cc7ae26934cef",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:Certification of Service by Mailing or Delivery: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
-            "sourceId": "official-form:Rule 2.86 Form 5",
-            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
+            "sourceId": "official-form:Certification of Service by Mailing or Delivery",
+            "path": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
             "sha256": "ed46614b0b182dca05020009f1add549e07ac7d0bbd7328bbd9cc7ae26934cef",
-            "tier": "exact_form_number",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:Rule 2.86 Form 5",
+            "path": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
+            "sha256": "ed46614b0b182dca05020009f1add549e07ac7d0bbd7328bbd9cc7ae26934cef",
+            "tier": "exact_identity_confirmed_from_document_text",
             "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -10387,7 +10445,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ia-7251-set.mjs",
@@ -16800,15 +16858,19 @@
           "path": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
           "sha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:Proof of Service",
+          "path": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
+          "sha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:Proof of Service: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:MC 227b",
@@ -16816,16 +16878,22 @@
             "sha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
             "tier": "exact_form_number",
             "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:Proof of Service",
+            "path": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
+            "sha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -16841,7 +16909,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
@@ -33310,13 +33378,13 @@
     "verifiers": 12,
     "sourceLanes": 16,
     "repairLanes": 4,
-    "familiesAssignedToBuilders": 34,
-    "sourceObligationsAssigned": 240,
-    "actualPromotedAndReleased": 34,
+    "familiesAssignedToBuilders": 38,
+    "sourceObligationsAssigned": 234,
+    "actualPromotedAndReleased": 38,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 119,
+    "prospectiveReleasesAcrossSourceLanes": 115,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false

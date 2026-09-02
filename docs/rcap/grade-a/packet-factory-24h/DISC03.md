@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `2a820c8f790ed993f7d130cae5bc5e317fe6aa67` (or the newer dispatch base)
+**Minimum required ancestor:** `c80e9a050a6a6a4f09e6f2e1097c5385c8198648` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC03 \
   --source-obligation 'ia-12346-set::official-form:Certification of Service by Mailing or Delivery' \
   --codex-cloud \
-  --minimum-captain-sha 2a820c8f790ed993f7d130cae5bc5e317fe6aa67
+  --minimum-captain-sha c80e9a050a6a6a4f09e6f2e1097c5385c8198648
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC03 <itemId>`
-- The committed assignment contains exactly 11 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 9 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC03 <itemId>`.
 
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**11 obligations · 6 families this lane WOULD release if every one of them resolves · hosts: IA**
+**9 obligations · 4 families this lane WOULD release if every one of them resolves · hosts: IA**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -107,8 +107,6 @@ the issuing court or agency that publishes the document
 | --- | --- | --- | --- | --- | --- | --- |
 | `ia-12346-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-12346-set` | unresolved exact identity or URL | `ACQ` |
 | `ia-12346-set::official-form:Rule 2.86 Form 3` | `official-form:Rule 2.86 Form 3` | IA | `exact-source-identity` | `ia-12346-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-12347-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-12347-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-7251-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-7251-set` | unresolved exact identity or URL | `ACQ` |
 | `ia-901c2-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-901c2-set` | unresolved exact identity or URL | `ACQ` |
 | `ia-901c2-set::official-form:Rule 2.86 Form 1` | `official-form:Rule 2.86 Form 1` | IA | `exact-source-identity` | `ia-901c2-set` | unresolved exact identity or URL | `ACQ` |
 | `ia-901c3-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-901c3-set` | unresolved exact identity or URL | `ACQ` |
@@ -117,13 +115,13 @@ the issuing court or agency that publishes the document
 | `ia-dci77-set::official-form:DCI-76 Criminal History Record Check Billing Form` | `official-form:DCI-76 Criminal History Record Check Billing Form` | IA | `exact-source-identity` | `ia-dci77-set` | unresolved exact identity or URL | `ACQ` |
 | `ia-dci77-set::official-form:DCI-77 Criminal History Record Check Request Form` | `official-form:DCI-77 Criminal History Record Check Request Form` | IA | `exact-source-identity` | `ia-dci77-set` | unresolved exact identity or URL | `ACQ` |
 
-Deterministically assert exactly the 11 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 9 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='DISC03');
-if (!a || a.items.length !== 11) throw new Error('DISC03 committed item count changed');
+if (!a || a.items.length !== 9) throw new Error('DISC03 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','DISC03',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -135,7 +133,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source-obligation 'ia-12346-set::official-form:Certification of Service by Mailing or Delivery' --codex-cloud --minimum-captain-sha 2a820c8f790ed993f7d130cae5bc5e317fe6aa67
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source-obligation 'ia-12346-set::official-form:Certification of Service by Mailing or Delivery' --codex-cloud --minimum-captain-sha c80e9a050a6a6a4f09e6f2e1097c5385c8198648
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -144,7 +142,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source
 
 ### Families this lane would release
 
-`ia-12346-set`, `ia-12347-set`, `ia-7251-set`, `ia-901c2-set`, `ia-901c3-set`, `ia-dci77-set`
+`ia-12346-set`, `ia-901c2-set`, `ia-901c3-set`, `ia-dci77-set`
 
 
 ### Settle these first
@@ -153,7 +151,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source
 
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
-| Certification of Service by Mailing or Delivery | IA | 5 |
+| Certification of Service by Mailing or Delivery | IA | 3 |
 | DCI-76 Criminal History Record Check Billing Form | IA | 1 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.

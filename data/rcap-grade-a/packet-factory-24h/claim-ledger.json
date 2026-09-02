@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "2a820c8f790ed993f7d130cae5bc5e317fe6aa67",
+  "generatedAtCommit": "c80e9a050a6a6a4f09e6f2e1097c5385c8198648",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -48,8 +48,7 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T08:46:29.597Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -78,8 +77,7 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T08:50:03.415Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -394,6 +392,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-02T07:39:43.822Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-felony-seal-set",
+      "familyId": "ar-felony-seal-set",
+      "itemId": null,
+      "familyIds": [
+        "ar-felony-seal-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF13",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -2253,6 +2266,36 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "ia-12347-set",
+      "familyId": "ia-12347-set",
+      "itemId": null,
+      "familyIds": [
+        "ia-12347-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF14",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ia-7251-set",
+      "familyId": "ia-7251-set",
+      "itemId": null,
+      "familyIds": [
+        "ia-7251-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF04",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "id_clean_slate_shield-set",
       "familyId": "id_clean_slate_shield-set",
       "itemId": null,
@@ -2895,6 +2938,21 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-01T16:18:06.215Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_trafficking-set",
+      "familyId": "mi_setaside_trafficking-set",
+      "itemId": null,
+      "familyIds": [
+        "mi_setaside_trafficking-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF06",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6079,7 +6137,7 @@
       ],
       "sourceId": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:11.934Z"
@@ -6149,7 +6207,7 @@
       ],
       "sourceId": "official-form:ACIC-ORDER-DRUG-COURT",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.205Z"
@@ -6163,7 +6221,7 @@
       ],
       "sourceId": "official-form:ACIC-PETITION-DRUG-COURT",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.297Z"
@@ -6219,7 +6277,7 @@
       ],
       "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.668Z"
@@ -6289,7 +6347,7 @@
       ],
       "sourceId": "official-form:ACIC-ORDER-VETERANS-COURT",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.944Z"
@@ -9537,7 +9595,7 @@
       ],
       "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:38:22.515Z"
@@ -9551,7 +9609,7 @@
       ],
       "sourceId": "official-form:MT-FORM-B",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.627Z"
@@ -9565,7 +9623,7 @@
       ],
       "sourceId": "official-form:MT-OCA-MMRTA",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.694Z"
@@ -9635,7 +9693,7 @@
       ],
       "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:38:22.592Z"
@@ -9649,7 +9707,7 @@
       ],
       "sourceId": "official-form:MT-FORM-A",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.554Z"
@@ -9663,7 +9721,7 @@
       ],
       "sourceId": "official-form:MT-OCA-MMRTA",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.760Z"
@@ -10699,7 +10757,7 @@
       ],
       "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0736",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:36:24.607Z"
@@ -11195,7 +11253,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "167eff35110d56329215d4750f6f9303e5ba09e7974eea6584503a330bb546bf",
+  "claimsDigest": "394b7ae090902c788bcfeeea5c96fd9effeb0e6d7ce2ded5878a8a02bd8fae4e",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -19109,6 +19167,26 @@
       "familyState": "SOURCE_READY",
       "reissuedAt": "2026-09-02T08:21:10Z",
       "reason": "the current dispatch names PF05 for this family, the family is SOURCE_READY and owes packet-build, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-02T09:02:18Z",
+      "reason": "the current dispatch names VF01 for this family, the family is VERIFY_PENDING and owes independent-verification, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "dispatchNames": "VF02",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-02T09:02:18Z",
+      "reason": "the current dispatch names VF02 for this family, the family is VERIFY_PENDING and owes independent-verification, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [

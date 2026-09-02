@@ -8,8 +8,8 @@
   "liveFamilyDenominator": 346,
   "completePacketProven": 84,
   "states": {
-    "SOURCE_BLOCKED": 119,
-    "SOURCE_READY": 34,
+    "SOURCE_BLOCKED": 115,
+    "SOURCE_READY": 38,
     "LEGAL_BLOCKED": 13,
     "ASSIGNED_TO_BUILD": 0,
     "BUILD_IN_PROGRESS": 0,
@@ -25,17 +25,17 @@
     "COMPLETE_PACKET_PROVEN": 84,
     "LEGITIMATE_GUIDANCE_ONLY": 0
   },
-  "sourceReady": 34,
-  "sourceBlocked": 119,
-  "assigned": 34,
+  "sourceReady": 38,
+  "sourceBlocked": 115,
+  "assigned": 38,
   "completedSinceLastCheckpoint": 0,
   "newlySourceReady": 0,
   "returnedForRepair": 0,
   "codex": {
     "activeTasks": 0,
     "queuedTasks": 48,
-    "lanesWithWorkAtDispatch": 39,
-    "lanesProvisionedEmpty": 9,
+    "lanesWithWorkAtDispatch": 41,
+    "lanesProvisionedEmpty": 7,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
@@ -96,31 +96,25 @@
     {
       "family": "ar-act346-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS, official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
-      "owner": "DISC04",
+      "owner": "DISC05",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "ar-drug-court-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:ACIC-ORDER-DRUG-COURT, official-form:ACIC-PETITION-DRUG-COURT",
-      "owner": "DISC04",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "ar-felony-seal-set",
-      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:ACIC-UNIFORM-ORDER-TO-SEAL, official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
-      "owner": "DISC04",
+      "owner": "DISC05",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "ar-misdemeanor-seal-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:ACIC-UNIFORM-ORDER-TO-SEAL, official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
-      "owner": "DISC04",
+      "owner": "DISC05",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "ar-veterans-court-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:ACIC-ORDER-VETERANS-COURT, official-form:ACIC-PETITION-VETERANS-COURT",
-      "owner": "DISC04",
+      "owner": "DISC05",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -276,18 +270,6 @@
     {
       "family": "ia-12346-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:Certification of Service by Mailing or Delivery, official-form:Rule 2.86 Form 3",
-      "owner": "DISC03",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "ia-12347-set",
-      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:Certification of Service by Mailing or Delivery, official-form:Rule 2.86 Form 4",
-      "owner": "DISC03",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "ia-7251-set",
-      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:Certification of Service by Mailing or Delivery, official-form:Rule 2.86 Form 5",
       "owner": "DISC03",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
@@ -562,12 +544,6 @@
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
-      "family": "mi_setaside_trafficking-set",
-      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:MC 227b, official-form:Proof of Service",
-      "owner": "DISC06",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
       "family": "mn_petition_15218-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:EXP102, official-form:EXP104, official-form:EXP106, official-form:FEE102",
       "owner": "SRC02",
@@ -636,13 +612,13 @@
     {
       "family": "mt_mmrta_completed-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX, official-form:MT-FORM-B, official-form:MT-OCA-MMRTA, source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e, source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7, source-sha256:cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207, source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
-      "owner": "DISC05",
+      "owner": "DISC04",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "mt_mmrta_serving-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX, official-form:MT-FORM-A, official-form:MT-OCA-MMRTA, source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e, source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7, source-sha256:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d, source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
-      "owner": "DISC05",
+      "owner": "DISC04",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -720,7 +696,7 @@
     {
       "family": "tx_nd_dwi_conviction-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:OCA Model Order of Nondisclosure under Section 411.0736, official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736, official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-      "owner": "DISC05",
+      "owner": "DISC04",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
