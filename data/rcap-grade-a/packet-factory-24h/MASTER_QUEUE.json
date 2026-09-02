@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "74ebc7b997643120ea326dcbe50fdefa61fb1f1a",
+  "minimumCaptainSha": "a16b361a84ba4cf8e6023f91b15e0e9b12832c86",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -69,17 +69,17 @@
     "sourceReady": 79,
     "sourceBlocked": 74,
     "legalBlocked": 32,
-    "verifyPending": 45,
-    "repairRequired": 18,
+    "verifyPending": 39,
+    "repairRequired": 24,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 79,
     "COMPLETE_PACKET_PROVEN": 90,
-    "VERIFY_PENDING": 44,
+    "VERIFY_PENDING": 38,
     "OUT_OF_SCOPE": 5,
     "SOURCE_BLOCKED": 74,
-    "FAIL_REPAIR_REQUIRED": 18,
+    "FAIL_REPAIR_REQUIRED": 24,
     "LEGAL_BLOCKED": 22,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -7075,11 +7075,25 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The PDF geometry is clean—130 canonical and 131 boundary text draws produced zero off-page runs and zero overlapping run pairs—but no current raster exists to measure non-text clipping or visual overlap. reports/rendered-artifacts.json says everyPageRastered=false, rasterSkipped=true, rasterEngine=null, rasterPages=[], the family has no raster directory, and RASTER_QUEUE.json says RASTER_PENDING with no receipt. A visual pass is not inferred from text geometry.",
+          "evidence": {
+            "currentRasterState": "RASTER_PENDING",
+            "nextOwner": "RAS02",
+            "rasterDirectoryExists": false,
+            "rasterPageRecords": 0,
+            "rasterReceipt": null
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4.mjs",
@@ -7145,11 +7159,25 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Decoded PDF geometry found zero off-page or overlapping text runs across 129 canonical and 130 boundary draws. That cannot prove the pixels: there is no raster directory, the rendered-artifacts report records rasterSkipped=true and zero raster pages, and the queue is RASTER_PENDING with no receipt. Visual approval is therefore refused.",
+          "evidence": {
+            "currentRasterState": "RASTER_PENDING",
+            "nextOwner": "RAS03",
+            "rasterDirectoryExists": false,
+            "rasterPageRecords": 0,
+            "rasterReceipt": null
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26.mjs",
@@ -7215,11 +7243,25 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The decoded geometry of 112 canonical and 113 boundary text draws has no off-page or overlapping run, but no current raster exists. The report explicitly says rasterSkipped=true with no raster engine or page records, the directory is absent, and the central queue is RASTER_PENDING without a receipt. Text geometry is not substituted for pixel review.",
+          "evidence": {
+            "currentRasterState": "RASTER_PENDING",
+            "nextOwner": "RAS04",
+            "rasterDirectoryExists": false,
+            "rasterPageRecords": 0,
+            "rasterReceipt": null
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59.mjs",
@@ -7263,7 +7305,10 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "RASTER_NOT_ENROLLED",
+        "meaning": "The verdict stands but the visual gate could not enrol the family, so there is no raster receipt for L4 to read."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -27338,10 +27383,7 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "RASTER_NOT_ENROLLED",
-        "meaning": "The verdict stands but the visual gate could not enrol the family, so there is no raster receipt for L4 to read."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -27363,11 +27405,25 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Decoded content-stream geometry found zero off-page or overlapping text runs across 689 canonical and 698 boundary draws, including every long boundary value. No current raster exists: everyPageRastered=false, rasterSkipped=true, rasterPages=[], no raster directory, and central state RASTER_PENDING without a receipt. Pixel-level approval is not inferred.",
+          "evidence": {
+            "currentRasterState": "RASTER_PENDING",
+            "nextOwner": "RAS04",
+            "rasterDirectoryExists": false,
+            "rasterPageRecords": 0,
+            "rasterReceipt": null
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-ms-custom-pleading.mjs",
@@ -27493,10 +27549,7 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "RASTER_NOT_ENROLLED",
-        "meaning": "The verdict stands but the visual gate could not enrol the family, so there is no raster receipt for L4 to read."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -27518,11 +27571,25 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Content-stream geometry found no off-page or overlapping text runs among 1,405 canonical and 1,418 boundary draws. There are nevertheless no current rasters: the report records rasterSkipped=true and zero raster pages, no raster directory exists, and the queue is RASTER_PENDING with no receipt. The geometry result is not promoted to a visual approval.",
+          "evidence": {
+            "currentRasterState": "RASTER_PENDING",
+            "nextOwner": "RAS02",
+            "rasterDirectoryExists": false,
+            "rasterPageRecords": 0,
+            "rasterReceipt": null
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-nv-custom-pleading.mjs",
@@ -27852,11 +27919,25 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Decoded geometry found no off-page or overlapping text run among 2,056 canonical and 2,064 boundary draws. Actual pixel evidence is absent: rendered-artifacts says rasterSkipped=true with no raster page records, no raster directory exists, and RASTER_QUEUE says RASTER_PENDING with no receipt. The clean text geometry is not treated as a raster review.",
+          "evidence": {
+            "currentRasterState": "RASTER_PENDING",
+            "nextOwner": "RAS04",
+            "rasterDirectoryExists": false,
+            "rasterPageRecords": 0,
+            "rasterReceipt": null
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-ok-custom-pleading.mjs",
@@ -36790,11 +36871,11 @@
     }
   ],
   "totals": {
-    "lanes": 48,
+    "lanes": 52,
     "builders": 16,
     "verifiers": 12,
     "sourceLanes": 16,
-    "repairLanes": 4,
+    "repairLanes": 8,
     "familiesAssignedToBuilders": 79,
     "sourceObligationsAssigned": 144,
     "actualPromotedAndReleased": 79,

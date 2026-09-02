@@ -21,11 +21,11 @@
   "obligationVocabularyNote": "The P2V rows record thirteen obligations as strings and two as booleans. Both are read; a third spelling refuses, because reading only the strings turned two passing obligations into failures and doubled the defect count.",
   "supersessionRule": "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. Recency is never inferred from file modification or merge time. Superseded rows remain as history with superseded: true",
   "counts": {
-    "returnDirectories": 33,
-    "rows": 459,
+    "returnDirectories": 34,
+    "rows": 466,
     "independentVerdicts": 179,
-    "failRepairRequired": 35,
-    "passIndependent": 138
+    "failRepairRequired": 40,
+    "passIndependent": 136
   },
   "failRepairRequiredFamilies": [
     "ar-cs-possession-seal-set",
@@ -38,7 +38,9 @@
     "ca-851-91-set",
     "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
     "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
-    "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+    "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+    "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+    "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
     "dc_yra_set_aside-set",
     "in_arrest_no_charges-set",
     "in_section1_petition-set",
@@ -49,7 +51,10 @@
     "ny_mrta_marijuana-set",
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
+    "rcap-ms-custom-pleading",
+    "rcap-nv-custom-pleading",
     "rcap-oh-custom-pleading-clean-tracks",
+    "rcap-ok-custom-pleading",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
     "tx_nd_conviction_no_supervision-set",
@@ -2260,7 +2265,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
@@ -2322,6 +2327,34 @@
       "superseded": true
     },
     {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf29",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The PDF geometry is clean—130 canonical and 131 boundary text draws produced zero off-page runs and zero overlapping run pairs—but no current raster exists to measure non-text clipping or visual overlap. reports/rendered-artifacts.json says everyPageRastered=false, rasterSkipped=true, rasterEngine=null, rasterPages=[], the family has no raster directory, and RASTER_QUEUE.json says RASTER_PENDING with no receipt. A visual pass is not inferred from text geometry.",
+          "evidence": {
+            "currentRasterState": "RASTER_PENDING",
+            "nextOwner": "RAS02",
+            "rasterDirectoryExists": false,
+            "rasterPageRecords": 0,
+            "rasterReceipt": null
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "superseded": false
+    },
+    {
       "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
@@ -2357,6 +2390,34 @@
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf29",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Decoded PDF geometry found zero off-page or overlapping text runs across 129 canonical and 130 boundary draws. That cannot prove the pixels: there is no raster directory, the rendered-artifacts report records rasterSkipped=true and zero raster pages, and the queue is RASTER_PENDING with no receipt. Visual approval is therefore refused.",
+          "evidence": {
+            "currentRasterState": "RASTER_PENDING",
+            "nextOwner": "RAS03",
+            "rasterDirectoryExists": false,
+            "rasterPageRecords": 0,
+            "rasterReceipt": null
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
       "superseded": false
     },
@@ -2410,6 +2471,34 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf29",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The decoded geometry of 112 canonical and 113 boundary text draws has no off-page or overlapping run, but no current raster exists. The report explicitly says rasterSkipped=true with no raster engine or page records, the directory is absent, and the central queue is RASTER_PENDING without a receipt. Text geometry is not substituted for pixel review.",
+          "evidence": {
+            "currentRasterState": "RASTER_PENDING",
+            "nextOwner": "RAS04",
+            "rasterDirectoryExists": false,
+            "rasterPageRecords": 0,
+            "rasterReceipt": null
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
       "superseded": false
     },
     {
@@ -2432,7 +2521,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
@@ -2501,6 +2590,20 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
       "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf29",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "superseded": false
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
@@ -6969,7 +7072,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ms-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-ms-custom-pleading",
@@ -7024,6 +7127,34 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ms-custom-pleading",
       "superseded": true
+    },
+    {
+      "familyId": "rcap-ms-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf29",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Decoded content-stream geometry found zero off-page or overlapping text runs across 689 canonical and 698 boundary draws, including every long boundary value. No current raster exists: everyPageRastered=false, rasterSkipped=true, rasterPages=[], no raster directory, and central state RASTER_PENDING without a receipt. Pixel-level approval is not inferred.",
+          "evidence": {
+            "currentRasterState": "RASTER_PENDING",
+            "nextOwner": "RAS04",
+            "rasterDirectoryExists": false,
+            "rasterPageRecords": 0,
+            "rasterReceipt": null
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ms-custom-pleading",
+      "superseded": false
     },
     {
       "familyId": "rcap-nd-custom-pleading",
@@ -7097,7 +7228,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-nv-custom-pleading",
@@ -7190,6 +7321,34 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading",
       "superseded": true
+    },
+    {
+      "familyId": "rcap-nv-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf29",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Content-stream geometry found no off-page or overlapping text runs among 1,405 canonical and 1,418 boundary draws. There are nevertheless no current rasters: the report records rasterSkipped=true and zero raster pages, no raster directory exists, and the queue is RASTER_PENDING with no receipt. The geometry result is not promoted to a visual approval.",
+          "evidence": {
+            "currentRasterState": "RASTER_PENDING",
+            "nextOwner": "RAS02",
+            "rasterDirectoryExists": false,
+            "rasterPageRecords": 0,
+            "rasterReceipt": null
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading",
+      "superseded": false
     },
     {
       "familyId": "rcap-oh-custom-pleading-clean-tracks",
@@ -7521,7 +7680,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-ok-custom-pleading",
@@ -7536,6 +7695,34 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading",
       "superseded": true
+    },
+    {
+      "familyId": "rcap-ok-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf29",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Decoded geometry found no off-page or overlapping text run among 2,056 canonical and 2,064 boundary draws. Actual pixel evidence is absent: rendered-artifacts says rasterSkipped=true with no raster page records, no raster directory exists, and RASTER_QUEUE says RASTER_PENDING with no receipt. The clean text geometry is not treated as a raster review.",
+          "evidence": {
+            "currentRasterState": "RASTER_PENDING",
+            "nextOwner": "RAS04",
+            "rasterDirectoryExists": false,
+            "rasterPageRecords": 0,
+            "rasterReceipt": null
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading",
+      "superseded": false
     },
     {
       "familyId": "rcap-sc-custom-pleading",
