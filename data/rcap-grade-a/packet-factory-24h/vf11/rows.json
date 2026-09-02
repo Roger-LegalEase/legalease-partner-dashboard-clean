@@ -2984,6 +2984,294 @@
         "wv_conv_multiple_misdemeanors-set"
       ],
       "supersedes": "the codex-cloud s2-continuation-verify-03 row for this family, which recorded PASS_COMPLETE_INDEPENDENT over a narrower obligation set at base 40ccc028a2af8eac94743cdb32237e3af56a6642, an ancestor of the base read here"
+    },
+    {
+      "itemId": "composed-treatment:sd_sis_sealing",
+      "lane": "VF11",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading",
+      "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+      "verifier": "FABLE-VT13 (independent; built, repaired and rastered none of these families)",
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PASS",
+      "obligationsScored": 15,
+      "failedObligationNames": [],
+      "notMeasurableHere": [],
+      "corpusMounted": true,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "standardApplied": "Measured in this container at the base sha on the row. Every artifact hash was recomputed from the committed bytes, page counts were read from the PDF bytes with pdfinfo, word geometry was extracted with pdftotext -bbox and checked against the page box and against every same-band word pair, the nine counters come from a fresh run of scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> in this container, and the Master Library was mounted with scripts/rcap-corpus/bootstrap-private-corpus.sh (governance checksums verified; 51 jurisdictions, 499 files, 329 PDFs) so SOURCE_IDENTITY is measured rather than assumed. FEE_AND_WAIVER and SERVICE are scored under DET-FEE-AND-WAIVER-001 and its amendment A1: ask first whether the repository establishes the answer; if it does the packet must state it; only where no held source establishes it may a NAMED checkable authority stand in; true silence and unnamed gestures fail.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Both decision-branch keys agree across production-field-map.json, product-wiring.json, source-receipt.json and the MASTER_QUEUE row - obligation:decision-branch:SD:sd_sis_sealing:written_implementation_request and :original_case_enforcement_motion - and both are present in canonical-route-universe.json. familyId composed-treatment:sd_sis_sealing agrees across the field map, receipt and rendered-artifacts report. Each instrument prints its own key in its Route: footer and the two footers differ correctly. The statute on the face, SDCL Sec. 23A-27-17 with 23A-27-13 and -14, is the statute the registry names."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Zero source binaries bound (sourceBinaryCommitted false, boundReferenceForm null, MASTER_QUEUE sourceHashes empty), and two committed repository records bound by exact SHA-256, both rehashed here from their bytes: data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json to 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef at 184365 bytes (6 anchor statements, the Q-044 decision) and data/record-clearing/legal-design-intake/SD.memo.json to 8d088d48642f0980... at 128351 bytes (3 anchors). The Master Library is mounted in this container, so nothing is being deferred."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "requiredComponentsMissing 0. Declared componentSet (implementation_request, enforcement_motion, filing_instructions) is exactly the set the rendered pageManifest carries in both fixtures, six pages divided 2/2/2."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "knownRequiredFieldsMissing 0 and unclassifiedBlanks 0. 9 of 21 terminal fields written per fixture; reports/actual-writes.json is derivedFromArtifactBytes true with 9 writes and zero blocking findings, and every recorded value was found in text extracted from the fixture bytes. Written: participant name, address, telephone, email. Not written: the court, the county, the SIS order date, the discharge and dismissal date - all of which come from the court file."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "requiredFactsNotCollected 0. requiredBeforeFilingCount 8, committed dispositions REQUIRED_BEFORE_FILING 8 and PROTECTED_FIELD 4, no unlabelled blank. STEP TWO names where each document comes from: the SIS order and the order of discharge and dismissal from the office of the court in the original criminal case, plus dated evidence of the public record entry that still shows the matter, which is the fact the whole escalation turns on."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "requiredOptionsMissing 0. Two routes, no election control, and the field map's routeSelectionNote states the reason: this is a recorded escalation rather than a choice, the written request serving one route and the motion the other, with each instrument naming its own statutory ground. The motion carries 'USE THIS PAGE ONLY AFTER THE WRITTEN REQUEST' and names the recorded next step after a refusal - attorney handoff for refusal or mandamus, not another filing from this packet."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "incompleteRows 0. No repeating row structure in either fixture across all six pages, so no row can be part-filled. Measured over the extracted text of both fixtures rather than read off the counter."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "protectedWrites 0 and invisibleWrites 0. reports/actual-writes.json is derivedFromArtifactBytes true with no blocking findings; four blanks are dispositioned PROTECTED_FIELD; both instruments leave the signature and date lines blank and say the participant signs and dates each page personally."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Both fixtures rehash from their committed bytes to reports/rendered-artifacts.json and to the RASTER_QUEUE pins: canonical.pdf to d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32 and boundary.pdf to 0d845a2cc829dc75140b01bda7ae31ab1e5b8ab79b8b9d5f32cca607897f53f3, both at the recorded byte lengths and both at the recorded page count of 6."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Declared pageCount 6 = pageManifest length 6 = the pages pdfinfo reads, for both fixtures, packetPage 1..6 monotonic. Order: implementation_request, implementation_request, enforcement_motion, enforcement_motion, filing_instructions, filing_instructions - the request before the motion, which is the escalation order the instructions require."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "visualDefects 0 on my own run, and measured independently: pdftotext -bbox over 1127 words canonical and 1138 boundary found 0 words outside the 612x792 box and 0 same-band overlaps above 0.75pt, worst 0.00pt."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "The repository establishes it and the packet states it. The track registry's destination is 'The court that entered the discharge and dismissal', with venue 'The court that granted the suspended imposition of sentence and entered the discharge and dismissal.' Both instruments are captioned 'IN THE ____ COURT (THE COURT IN THE ORIGINAL CRIMINAL CASE, AND ITS COUNTY - that court's own office can confirm both)', and STEP THREE files in the original case. Amendment A1's test is satisfied."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Met on the third branch. The packet states that no held source establishes the answer and names the authority in the same sentence: 'Ask the office of that court how it accepts delivery and whether any fee applies - no committed record this packet is built from states either.' The authority is specific and reachable - the office of the court in the original criminal case, which STEP TWO has already sent the participant to for the SIS order and the discharge and dismissal order. I checked the repository first, as A1 requires: the track registry's mechanism for sd_sis_sealing states the sealing duty and the venue and is silent on any fee, and records that the participant files nothing, so there is no held figure the packet is withholding."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Met. The registry establishes the mechanism that replaces service - 'Section 23A-27-17 directs that upon the discharge and dismissal the court shall order the records sealed. The participant files nothing.' - and the packet carries it on the face of both instruments: sealing is the COURT'S duty, 'You apply for nothing to obtain it', and the packet exists only for the case where the duty was triggered and not performed. No adverse party is named by the statute, none is left unaddressed, and the one delivery question the participant does face is answered by a named authority: 'Ask the office of that court how it accepts delivery.'"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "'WHEN TO STOP AND GET HELP INSTEAD OF FILING' gives five triggers, 'WHAT THIS PACKET MUST NEVER BE USED FOR' forbids two misuses including the arrest-expungement-form fallback the Q-044 decision prohibits, and the closing states it is not legal advice, is not filed for you and does not decide whether the court will act. The packet also states the limit of the remedy rather than overselling it: the DCI's nonpublic records are expressly outside the sealing order, sealing is not expungement, and a teaching-licence caveat under SDCL Sec. 22-22-1 or -7 is called out by name."
+        }
+      },
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33579500812",
+        "jobId": "100091041690",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32",
+        "boundToBoundarySha256": "0d845a2cc829dc75140b01bda7ae31ab1e5b8ab79b8b9d5f32cca607897f53f3",
+        "bindingRecomputedHere": true,
+        "coversTheWholeFamily": true,
+        "provenance": "READ WITH CARE. This lane was briefed that the central raster for this family was PENDING. It has since landed: RASTER_QUEUE.json in the working tree now records RASTER_PASS from workflow run 33579500812 at renderedCommitSha 58290e76623ff0b351d0b15fbf97af3665fee6b3, an ancestor of this row's base. I recomputed both pinned hashes from the bytes on disk and they match, so the receipt binds to the exact artifacts I scored. The queue file carrying that receipt was UNCOMMITTED in the shared working tree when I read it. If the Captain does not land that queue update, this row falls back to verdict PASS under the BUILT_RASTER_PENDING ceiling with no obligation changing."
+      },
+      "whyTheStrongestVerdict": "Fifteen of fifteen measured, fifteen PASS, none unmeasured, nine counters zero on my own run, both fixtures rehashing to their receipts, geometry clean over 2265 words, hash-bound RASTER_PASS recomputed here, and two committed authority records rehashed exactly with the corpus mounted.",
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/build-status.json",
+        "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/fixtures/boundary.pdf",
+        "data/record-clearing/legal-design-track-registry.json",
+        "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+        "data/record-clearing/legal-design-intake/SD.memo.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json"
+      ]
+    },
+    {
+      "itemId": "oh_marijuana_expungement-set",
+      "lane": "VF11",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+      "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+      "verifier": "FABLE-VT13 (independent; built, repaired and rastered none of these families)",
+      "buildStatus": "no build-status.json is published for this family; the MASTER_QUEUE row records state VERIFY_PENDING with completenessStatus FAIL_COMPONENT_SET",
+      "rasterState": "NOT_IN_RASTER_QUEUE",
+      "obligationsScored": 15,
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "notMeasurableHere": [],
+      "corpusMounted": true,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": false,
+        "measuredHere": true,
+        "countersAreNotAMeasurement": "The nine zeros above are what the verifier printed, and they are NOT evidence of completeness for this family. The run returned FAIL_COMPONENT_SET with auditable false and 0/0 fields written: it refused the family before counting anything, because there is no production-field-map.json to count against. A zero here means nothing was measured, not that nothing was missing. Recording them as a clean sweep would be the single most misleading thing this row could do."
+      },
+      "standardApplied": "Measured in this container at the base sha on the row. Every artifact hash was recomputed from the committed bytes, page counts were read from the PDF bytes with pdfinfo, word geometry was extracted with pdftotext -bbox and checked against the page box and against every same-band word pair, the nine counters come from a fresh run of scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> in this container, and the Master Library was mounted with scripts/rcap-corpus/bootstrap-private-corpus.sh (governance checksums verified; 51 jurisdictions, 499 files, 329 PDFs) so SOURCE_IDENTITY is measured rather than assumed. FEE_AND_WAIVER and SERVICE are scored under DET-FEE-AND-WAIVER-001 and its amendment A1: ask first whether the repository establishes the answer; if it does the packet must state it; only where no held source establishes it may a NAMED checkable authority stand in; true silence and unnamed gestures fail.",
+      "secondReadNote": "This family was owed a genuine second read because it was repaired in an earlier wave, and it got one: I read what is in the tree now rather than what the earlier verdicts said. The earlier repair is real and I confirmed it independently - commit da596ed81 fixed the render-report text hashes that VF02 failed, and both .txt files and both .pdf files now rehash to exactly what their render-reports record. ARTIFACTS therefore passes here on my own measurement, and VF02's failure is closed on evidence rather than on assertion. What that repair did not touch is the completeness contract, and the defect VF08 found is still present, so the family fails again for different reasons than VF02 gave.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "obligation:track-pathway:OH:oh_marijuana_expungement:marijuana-hashish-possession-expungement-under-2953-321 agrees across product-wiring.json, source-receipt.json and the MASTER_QUEUE row, and is present in canonical-route-universe.json. familyId oh_marijuana_expungement-set agrees across the wiring, the receipt, reports/rendered-artifacts.json and both render-reports. The statutes printed on the pleading face, Ohio Rev. Code Sec. 2953.321 and Sec. 2953.61, are the statutes the route key and the track registry name. Note that the agreement is across three records rather than four, because there is no production-field-map.json to agree with - that absence is scored under COMPONENT_SET, not here."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Measured against the mounted Master Library, which is the thing earlier lanes could not do. The single bound source, official-form:OH-BCI-SEALING-EXPUNGEMENT-REQUEST at STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf, rehashes from the library bytes to 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb at exactly 235789 bytes, matching source-receipt.json, reports/rendered-artifacts.json, companion/companion-guidance.md and the MASTER_QUEUE sourceHashes entry. The committed copy under companion/ is absent from the tree under the recorded corpus-binary exclusion (commit c01b87d15), which is why rehashing from the library rather than from the packet is the correct measurement and not a workaround."
+        },
+        "COMPONENT_SET": {
+          "result": "FAIL",
+          "measured": true,
+          "detail": "FAIL, and it is the defect that makes the family unauditable. There is no production-field-map.json at the family root; product-wiring.json says so itself with fieldMap null. scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family oh_marijuana_expungement-set returns FAIL_COMPONENT_SET with auditable false and the reason 'the family has no production-field-map.json, so nothing states what it was supposed to write', and it refuses the family rather than reading it as empty. Three further contract files are also absent: reports/actual-writes.json, reports/completeness-counters.json and reports/blanks-left-for-the-participant.json. Separately, reports/rendered-artifacts.json declares three PDFs and only two are in the tree - the third, companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf, is the excluded corpus binary, so the declared component set names a document the family directory does not contain even though its bytes are provably the right ones. The family's layout is tracks/<trackId>/ with per-track fixtures and predates the contract every other family in these three lanes publishes; the six field-map families I scored alongside it all pass the same verifier."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "measured": true,
+          "detail": "FAIL. With no field map there is no record of what the build intended to write, so knownRequiredFieldsMissing cannot be earned - the verifier's 0 is a refusal, not a count. Reading the delivered bytes directly makes it worse rather than better: the canonical fixture writes the participant identity (Jordan Avery Reyes, 118 Maple Street, Columbus, Ohio 43215, docket 24-CR-001234) and then prints builder instructions in the body of the pleading where facts belong. Paragraph 5 reads 'Applicant was charged with Possession offense shown on the certified disposition by [ARRESTING AGENCY MUST BE CONFIRMED]. [ARREST DATE TO BE CONFIRMED]' and paragraph 7 reads 'The matter was resolved with the following disposition: Disposition shown on the certified disposition. [DISPOSITION DATE TO BE CONFIRMED]'. Those are bracketed placeholders on the face of a document captioned to a court, not labelled dotted blanks a participant is asked to fill. Every other family in these three lanes renders a labelled dotted rule with the source of the value printed above it. A participant handed this artifact would be filing prose that reads as an unfinished template."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "measured": true,
+          "detail": "FAIL. requiredFactsNotCollected cannot be measured against a contract that does not exist, and the delivered pages do not supply one in its place: there is no blanks-left-for-the-participant record, no disposition label on any gap, and no per-field statement of where a value comes from. Two required facts have no collection point at all. Ohio Rev. Code Sec. 2953.61 requires every charge arising from the same act to be screened, and paragraph 9 promises 'Applicant will attach the certified disposition and list every charge arising from the same act' - with nowhere on the document to list them. Paragraph 10 promises attached evidence of the qualifying statutory subsection, the amount where relevant and the pre-20-March-2026 timing, again with no field. The ATTACHMENTS block names four documents the participant must obtain but records nothing about any of them. The honesty of participant-instructions.md ('not filing-ready', an explicit release blocker) is real and counts in the family's favour, but it is a disclosure about the gap rather than the closing of it."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "PASS on measurement of the face. The route has a single pathway and no election exists for the participant to make, so no option can be missing. The one screening fork the statute does impose - the Sec. 2953.61 same-act limitation - is printed on the pleading face as statutory authority and stated as a hard stop in participant-instructions.md, and the packet refuses to certify eligibility rather than presenting a false choice: 'Eligibility is not certified by this artifact; source review and local-court confirmation are required.' Scored from the rendered bytes and the route record rather than from the absent field map, which cannot bear on an obligation with nothing to elect."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "PASS. Neither fixture renders a repeating row structure across its three pages - there is no charge table and no grid - so incompleteRows cannot fire and no row is left half-filled. Measured over the extracted text of both fixtures. The related gap, that the Sec. 2953.61 same-act charge list is promised with no rows to carry it, is a missing collection point rather than a broken row and is recorded under REQUIRED_BEFORE_FILING so it is not double-counted."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "PASS, measured from the delivered bytes rather than from the builder's assertion. The verification block leaves the applicant signature rule blank and the date blank; the proposed order leaves the judicial date blank ('AND NOW, this ______ day of ____________________, 20____'), the judicial signature blank ('BY THE COURT: ________ J.') and the outcome to the court; no certificate of service is generated at all; and the order carries its own inoperability on its face - 'No agency shall treat this unsigned proposed order as effective; relief begins only upon entry of a signed judicial order.' participant-instructions.md states the matching participant-owned-acts rule, including 'Do not complete a service certificate before service; this artifact generates none' and 'Do not complete judge, clerk, prosecutor, agency, hearing, or order fields'. The bound BCI companion is not prefilled and companion-guidance.md says it must not be before a signed order exists."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "PASS, and this is the earlier repair confirmed independently. Every artifact present in the tree rehashes to what the reports record: canonical.pdf to f46c9e873fb90524b0207f8007086aa3763082394ae52effed9703fba24f2a5a at 8088 bytes, boundary.pdf to 44f8a1befb19e29b22506ed4a9f30364458ea948b0a67b16fba3708ff9da8422 at 8907 bytes, canonical.txt to 13a210a2aac2f8a80a8319f0fbb6516bd57ffadd7c57ae663d206fa10bc64073 at 4063 bytes and boundary.txt to 025dee088bf52e1fc4543eb63b17c8db91f7b70d8cb66792cf88a78434b57345 at 4717 bytes - the exact values the render-reports now carry, which is the defect VF02 failed and commit da596ed81 repaired. The three committed raster page images and the three contact sheets also rehash to their recorded values. The one declared PDF absent from the tree is the excluded corpus binary, and its bytes rehash from the mounted library to the recorded hash, so no artifact in this family is unaccounted for. The absence is recorded under COMPONENT_SET as a component-set problem, not as an artifact-integrity one."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "PASS. Both fixtures declare pageCount 3 and pdfinfo reads 3 from the delivered bytes. Each render-report's pageRuns lists three pages with everyPageHasText true and 31/31/12 text runs, and the participant name is observed in the PDF bytes on pages 1 and 2 and correctly absent from page 3. The order read from the text is application, proposed order, attachments - the pleading before the order it asks for. There is no pageManifest to compare against, because rendered-artifacts.json records no manifest for this family's PDFs; PAGE_ORDER is therefore measured as declared-versus-observed page count plus the component order read from the bytes, and both are correct."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "PASS, measured here rather than assumed. pdftotext -bbox over 588 words in the canonical fixture and 639 in the boundary found 0 words outside the page box and 0 same-band word pairs overlapping by more than 0.75pt, worst overlap 0.00pt, across all three pages of each fixture. The family is not in RASTER_QUEUE.json and has no central raster receipt, so this is a text-geometry measurement over the delivered bytes and is not a substitute for the visual gate."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "PASS under Amendment A1's test. The repository establishes the destination - the track registry gives venue as 'The sentencing court' and destination 'The Ohio sentencing court ... Filed with the clerk of the sentencing court' - and the packet states it rather than deferring it: the caption reads 'IN THE OHIO COURT THAT HANDLED THE CASE' and participant-instructions.md sends the participant to 'the Ohio court that handled the case' for the application, caption and filing instructions. The caption's own 'LOCAL CAPTION MUST BE CONFIRMED' is a disclosure about styling, not a refusal to name the court. Note for the Captain: this is the same shape as the Kentucky pair A1 addressed, and it lands the other way - Kentucky was silent about a destination the registry held; Ohio names the destination the registry holds."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "PASS on the first branch of the standard, with a packaging caveat. The repository establishes the figure and the packet states it: participant-instructions.md records 'The recorded $50 filing fee or an indigency exception ... must be confirmed against current court practice' and 'Confirm the current filing fee and waiver practice. The frozen design records $50, subject to a confirmed indigency exception and current local practice.' That is an amount, a waiver mechanism, and a named authority to confirm with - the court that handled the case - which is more than the standard's first branch requires. The caveat a repairer should know: the $50 and the indigency exception appear only in participant-instructions.md and are not printed anywhere on the three rendered pages, so a participant who receives only the PDF does not see them. I score the obligation on the family's participant-facing instructions record, which is where every family in these lanes carries its fee statement; whether this family's instructions reach the participant at all is a packaging question that belongs with the COMPONENT_SET repair."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "PASS on the named-authority branch, marginally, and the margin is recorded rather than smoothed over. No held source establishes who serves the prosecutor: the track registry is silent on service, and the packet says the prosecutor-notice question 'must be confirmed against current court practice' alongside the 45-to-90-day hearing window and any required probation inquiry. It names a specific reachable authority for that confirmation and does so repeatedly - the Ohio court that handled the case, whose current application and filing instructions the participant must obtain before doing anything. It also states affirmatively what the artifact will not do: 'Do not complete a service certificate before service; this artifact generates none.' That is a named authority plus a stated mechanism, not the gesture the determination refuses. It is weaker than the Nevada family's SERVICE paragraph, which names the sections that prescribe no service and then names the clerk; a repairer working on this family should consider stating the Sec. 2953.32 notice mechanism explicitly."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "PASS. participant-instructions.md opens by refusing to overstate what the artifact is - 'This is a statutory-content draft and review artifact. It is not a statewide Ohio court form and is not filing-ready' - and carries five named hard stops, including that any broader drug or trafficking issue stops self-help and that every same-act charge must be reviewed under Sec. 2953.61. A 'Participant-owned acts' block states which fields the platform will not touch, and the pleading face carries 'IMPORTANT: Applicant may be eligible; this document does not guarantee eligibility or a court outcome' and a footer disclaiming any official-form status. The render-report records the same five hard stops as counselFlags, led by 'ARTIFACT ONLY - NOT FILING READY'."
+        }
+      },
+      "whyNotAPass": "Three of fifteen obligations fail, and they fail together on one root cause: the family publishes no production-field-map.json, so the repository's own completeness contract cannot read it and the packet has no record of what it wrote, what it left blank, or why. Everything downstream of that contract - the nine counters, the blank dispositions, the write proof - is absent rather than zero. The bracketed placeholders on the pleading face are the visible consequence of the same gap.",
+      "smallestExactRepair": {
+        "owner": "a repair lane holding this family; NOT this verification lane, which edited nothing",
+        "theOneChange": "Publish the completeness contract this family is missing, in the same shape every other custom-pleading family in these lanes publishes: production-field-map.json at the family root declaring componentSet, routeKeys, requiredBeforeFiling and the maps with canonical and boundary write rows; and the three reports it implies - reports/actual-writes.json derived from the artifact bytes, reports/completeness-counters.json, reports/blanks-left-for-the-participant.json.",
+        "theSecondChange": "Replace the bracketed builder placeholders on the pleading face - [ARRESTING AGENCY MUST BE CONFIRMED], [ARREST DATE TO BE CONFIRMED], [DISPOSITION DATE TO BE CONFIRMED], 'Possession offense shown on the certified disposition', 'Disposition shown on the certified disposition' - with labelled dotted blanks carrying the source of each value above them, and add a collection point for the Sec. 2953.61 same-act charge list that paragraph 9 promises.",
+        "theThirdChange": "Decide how the fee, waiver and hard-stop content in participant-instructions.md reaches a participant who receives only the rendered PDF; today it does not appear on any of the three pages.",
+        "doNotDo": "Do not delete the tracks/<trackId>/ layout or the BCI companion binding to make the verifier happy. The layout carries real artifacts that rehash correctly, the source binds exactly to the mounted library, and the earlier ARTIFACTS repair is sound. The contract is missing, not wrong.",
+        "afterRepair": "Re-run scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family oh_marijuana_expungement-set until it returns PASS_COMPLETE with a real field count rather than 0/0, then return the family for an independent re-read. The family is also absent from RASTER_QUEUE.json and has no central raster receipt, so it cannot reach the strongest verdict until it is queued and rendered."
+      },
+      "supersedes": [
+        {
+          "lane": "VF02",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "failedObligations": [
+            "ARTIFACTS"
+          ],
+          "why": "the ARTIFACTS defect VF02 named is genuinely repaired and I confirmed it by rehashing all four render-report-bound files here; that failure is closed on evidence"
+        },
+        {
+          "lane": "VF08",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "declaredBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+          "why": "same conclusion and same root cause, but VF08 scored a five-item bespoke subset (priorDefectRepaired, completenessAudit, sourceIdentity, routeAndStatuteOnTheFace, filingInstructions) rather than the canonical fifteen, and left SOURCE_IDENTITY resting on a library it could reach and FILING_DESTINATION at NOT_MEASURABLE_HERE. This row scores all fifteen by name, measures SOURCE_IDENTITY against the mounted corpus, and resolves FILING_DESTINATION under Amendment A1"
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/companion/companion-guidance.md",
+        "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/canonical/render-report.json",
+        "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/canonical/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/canonical/canonical.txt",
+        "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/boundary/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/boundary/boundary.txt",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
+        "data/record-clearing/legal-design-track-registry.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json"
+      ]
     }
   ],
   "determination": {
@@ -3035,5 +3323,17 @@
     "rowsReplacedInThisFile": [
       "ky_felony_vacatur_expungement-set"
     ]
+  },
+  "vt13Read": {
+    "verifier": "FABLE-VT13 (independent; built, repaired and rastered none of these families)",
+    "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+    "claimDiscipline": "Every family below was asserted with `node scripts/grade-a-packet-factory-24h/claim.mjs --assert <LANE> <familyId>` before any artifact of that family was opened, and every assertion returned CLAIM_OK. No --reissue and no --transfer was used. Each grant is released after this write.",
+    "corpus": "scripts/rcap-corpus/bootstrap-private-corpus.sh mounted the Master Library in this container and its governance checksums verified (51 jurisdictions, 499 files, 329 PDFs), so SOURCE_IDENTITY is measured on every row rather than deferred. No row in this block is scored NOT_MEASURABLE_HERE.",
+    "obligationsScored": "All fifteen canonical obligations by name on every family, per lane contract L9.",
+    "wroteNothingIntoAPacket": "This lane opened no packet, overlay, build script, fixture or field map for writing. Defects are recorded as verdicts and repair assignments.",
+    "overlayDirectoriesModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "A PASS_COMPLETE_INDEPENDENT here proves a packet is complete and independently measured. It approves no output, promotes no family and opens no commercial route."
   }
 }
