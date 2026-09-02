@@ -11,9 +11,19 @@ The platform filled in only identity and record facts it verifiably holds — na
 ## What you must do before you file
 
 1. **Fill in every blank listed below.** Each row names the page, the form field as the source PDF names it, and the words printed beside the blank.
-2. **Mark every election yourself.** The platform never marks a box on a sworn filing.
+2. **Mark every other election yourself.** This packet is not silent on the boxes: it marks 2 on each delivered filing, and they are the only controls the route itself decides — the ones that say which of this family's two routes these papers are. On **hs-11361-8-completed-sentence-application**, `Page1[0].P1Caption[0].FormTitle[0].#area[1].Checkbox[1]` (REDESIGNATION OR DISMISSAL/SEALING (Health & Safety Code section 11361.8(f))) and `Page1[0].LI2[0].li2b[0].Checkbox[0]` (APPLICATION: Applicant has completed the sentence in the above-captioned case and now requests that the court redesignate or dismiss and seal the conviction.); and on **hs-11361-8-currently-serving-petition**, `Page1[0].P1Caption[0].FormTitle[0].#area[0].Checkbox[0]` (RESENTENCING OR DISMISSAL (Health & Safety Code section 11361.8(b))) and `Page1[0].LI2[0].li2a[0].Checkbox[0]` (PETITION: Petitioner is currently serving a sentence in the above-captioned case and now requests that the court recall and resentence or dismiss the conviction.). Read those printed lines on the page and check that the marks match your own case before you sign, because you swear to this filing. Every other box on every form in this packet is printed unmarked and is yours to mark.
 3. **Sign and date each form yourself**, and complete the proof of service only after service has actually occurred.
 4. **Leave CR-403 entirely blank**. The order after petition is the court's form.
+
+## When to stop and take this to a lawyer
+
+The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take the papers to a lawyer or a legal-aid office rather than filing them:
+
+- The prosecuting agency files a response at CR-402 contesting the petition.
+- The court sets a contested hearing.
+- Whether the offense qualifies under § 11361.8 is unclear.
+
+The registry draws one more line, and it is the one this list is easiest to misread. In its own words: A routine hearing does not block the initial packet. A prosecuting-agency response at CR-402 or a contested hearing triggers handoff.
 
 ## Where you file this, and by when
 
@@ -36,6 +46,35 @@ This is why CR-401 ships with this packet: it is the proof that you served those
 ## Where this packet's self-help ends
 
 This packet states what the repository holds for this route and nothing beyond it. The payment methods that court accepts, and any local intake rule — a cover sheet, a filing window, an e-filing requirement — come from the clerk of the Superior Court in the county of the conviction, not from this packet. It does not decide whether your conviction qualifies for Proposition 64 relief, it does not appear for you, and it is not legal advice. If your case does not match the route named at the top of this page, or if anyone opposes the petition, that is the point to get a lawyer or a legal-aid office rather than to press on with these papers.
+
+## The boxes you must mark yourself
+
+The platform marks no box on this packet except the route election named in step 2. Every control below is printed unmarked, and none of them is optional in the sense of being safe to skip: the offence-section boxes decide what the petition is about, and the items at 3 and 4 give up rights. Read each printed line on the page and mark it only if it is true of your case.
+
+### CA-CR-400-PROP-64-PETITION-APPLICATION
+
+| Page | Form control | What the form prints beside it |
+| --- | --- | --- |
+| 1 | `Page1[0].LI1[0].li1a[0].Checkbox[0]` | 11357 - Possession of Marijuana |
+| 1 | `Page1[0].LI1[0].li1b[0].Checkbox[0]` | 11358 - Cultivation of Marijuana |
+| 1 | `Page1[0].LI1[0].li1c[0].Checkbox[0]` | 11359 - Possession of Marijuana for Sale |
+| 1 | `Page1[0].LI1[0].li1d[0].Checkbox[0]` | 11360 - Transportation, Distribution, or Importation of Marijuana |
+| 1 | `Page1[0].LI1[0].li1e[0].Checkbox[0]` | 11362.1 - Personal Use of Marijuana |
+| 1 | `Page1[0].LI3[0].li3[0].Checkbox[0]` | Petitioner/applicant waives the right to have this matter heard by the original sentencing judge. The presiding judge of the court may designate any judge to rule on this matter. |
+| 1 | `Page1[0].LI4[0].li4[0].Checkbox[0]` | Petitioner/applicant understands there is a right to personally attend any hearing held in this matter. Petitioner/applicant gives up that right; the matter may be heard without petitioner/applicant's appearance. |
+
+### CA-CR-401-PROP-64-PROOF-OF-SERVICE
+
+| Page | Form control | What the form prints beside it |
+| --- | --- | --- |
+| 1 | `Page1[0].Caption[0].FormTitle[0].#area[0].Checkbox[0]` | Personal service: |
+| 1 | `Page1[0].Caption[0].FormTitle[0].Checkbox[1]` | Mail: |
+| 1 | `Page1[0].LI2[0].li2d[0].Checkbox[0]` | A.M. |
+| 1 | `Page1[0].LI2[0].li2d[0].Checkbox[1]` | P.M. |
+| 1 | `Page1[0].LI3[0].li3a[0].Checkbox[0]` | By personal service. I personally delivered the documents to the persons at the addresses listed in item 2. Delivery was made (a) to the attorney personally; or (b) by leaving the documents at the attorney's office, in an envelope or package clearly labeled to identify the attorney being served, with a receptionist or an individual in charge of the office; or (c) if there was no person in the office with whom the notice or papers could be left, by leaving them in a conspicuous place in the office between the hours of nine in the morning and five in the evening. |
+| 1 | `Page1[0].LI3[0].li3b[0].Checkbox[0]` | By United States mail. I enclosed the documents in a sealed envelope or package addressed to the persons at the addresses in item 2 and (specify one) |
+| 1 | `Page1[0].LI3[0].li3b[0].LI3b[0].li3b1[0].USMail[0]` | deposited the sealed envelope with the United States Postal Service, with the postage fully prepaid. |
+| 1 | `Page1[0].LI3[0].li3b[0].LI3b[0].li3b2[0].USMail[0]` | placed the envelope for collection and mailing, following our ordinary business practices. I am readily familiar with this business's practice for collecting and processing correspondence for mailing. On the same day that correspondence is placed for collection and mailing, it is deposited in the ordinary course of business with the United States Postal Service, in a sealed envelope with postage fully prepaid. |
 
 ## The blanks you must fill in
 

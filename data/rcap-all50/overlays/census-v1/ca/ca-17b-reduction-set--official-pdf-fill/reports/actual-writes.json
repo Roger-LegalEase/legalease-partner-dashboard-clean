@@ -12,8 +12,8 @@
       "routeKey": "obligation:track-only:CA:ca-17b-reduction",
       "formNumber": "CR-180",
       "outputFile": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-felony-to-misdemeanor-canonical/cr-180-filled.pdf",
-      "sha256": "0d472a2e628a07145caaed0dbc41b5cf8311135e4dcee251650a61d658f6b68d",
-      "byteLength": 60229,
+      "sha256": "bfea87d6fca45c64ba6a54aea353e731c7b3bdc75c56736fec7ec9b49014db36",
+      "byteLength": 61030,
       "pageCount": 3,
       "formState": {
         "acroFormPresent": false,
@@ -23,6 +23,14 @@
         "Removing XFA form data as pdf-lib does not support reading or writing XFA"
       ],
       "finalizerWritten": [
+        {
+          "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
+          "factId": "matter.county",
+          "kind": "text",
+          "fontSize": 7,
+          "outcome": "fit",
+          "lines": 1
+        },
         {
           "field": "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].Stmp[0].CaseNumber[0].CaseNumber1[0]",
           "factId": "matter.case_number",
@@ -70,6 +78,28 @@
           "fontSize": 9,
           "outcome": "fit",
           "lines": 1
+        },
+        {
+          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
+          "factId": "matter.conviction_date",
+          "value": "2019-11-02",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 93.71,
+                "y": 435.29,
+                "width": 69.96,
+                "height": 9
+              },
+              "fontSize": 7,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-7098480789"
+            }
+          ]
         }
       ],
       "finalizerRefused": [
@@ -129,11 +159,6 @@
           "category": "role"
         },
         {
-          "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
           "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtStreet[0]",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -160,11 +185,6 @@
         },
         {
           "field": "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].CrtUse[0].TextField[1]",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -453,8 +473,31 @@
         "selections": [],
         "selectionsRefused": []
       },
-      "flattenedAppearanceCount": 82,
+      "flattenedAppearanceCount": 83,
       "writtenProof": [
+        {
+          "fieldName": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
+          "page": 1,
+          "rect": {
+            "x": 227.78,
+            "y": 637.69,
+            "width": 166.28,
+            "height": 9
+          },
+          "disposition": "WRITE",
+          "factId": "matter.county",
+          "textReadFromOutputBytes": "Example County",
+          "flattenedAppearancesReadFromOutputBytes": [
+            {
+              "page": 1,
+              "x": 227.78,
+              "y": 637.69,
+              "appearance": "FlatWidget-5563853605",
+              "text": "Example County"
+            }
+          ],
+          "protectFromAddedInk": true
+        },
         {
           "fieldName": "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].Stmp[0].CaseNumber[0].CaseNumber1[0]",
           "page": 1,
@@ -497,6 +540,36 @@
               "y": 559.17,
               "appearance": "FlatWidget-4824990222",
               "text": "Jordan Avery Reyes"
+            }
+          ],
+          "protectFromAddedInk": true
+        },
+        {
+          "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
+          "page": 1,
+          "rect": {
+            "x": 93.71,
+            "y": 435.29,
+            "width": 69.96,
+            "height": 9
+          },
+          "disposition": "WRITE",
+          "factId": "matter.conviction_date",
+          "textReadFromOutputBytes": "2019-11-02",
+          "flattenedAppearancesReadFromOutputBytes": [
+            {
+              "page": 1,
+              "x": 93.71,
+              "y": 435.29,
+              "appearance": "FlatWidget-5845047960",
+              "text": ""
+            },
+            {
+              "page": 1,
+              "x": 93.71,
+              "y": 435.29,
+              "appearance": "ExactFactOverlay-7098480789",
+              "text": "2019-11-02"
             }
           ],
           "protectFromAddedInk": true
@@ -604,7 +677,7 @@
       },
       "routeTextReport": {
         "variantId": "pc-17b-felony-to-misdemeanor",
-        "sourceSha256": "57740d66e36f2f6218eff2b3182f7e84e9f292c5494e85828250c25895d71400",
+        "sourceSha256": "b06cb00e40152c325fef1e5b2b9e9cb3203e5760019da0e3d36a5f5f0ba7556f",
         "written": [
           {
             "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
@@ -651,8 +724,8 @@
           "inspectable": true,
           "compressed": false
         },
-        "outputSha256": "0d472a2e628a07145caaed0dbc41b5cf8311135e4dcee251650a61d658f6b68d",
-        "outputBytes": 60229
+        "outputSha256": "bfea87d6fca45c64ba6a54aea353e731c7b3bdc75c56736fec7ec9b49014db36",
+        "outputBytes": 61030
       },
       "statutoryTextControlProof": {
         "controls": [
@@ -954,16 +1027,16 @@
             "width": 166.28,
             "height": 9
           },
-          "disposition": "REFUSE",
-          "factId": null,
-          "textReadFromOutputBytes": null,
+          "disposition": "WRITE",
+          "factId": "matter.county",
+          "textReadFromOutputBytes": "Example County",
           "flattenedAppearancesReadFromOutputBytes": [
             {
               "page": 1,
               "x": 227.78,
               "y": 637.69,
               "appearance": "FlatWidget-5563853605",
-              "text": ""
+              "text": "Example County"
             }
           ],
           "protectFromAddedInk": true
@@ -1161,9 +1234,9 @@
             "width": 69.96,
             "height": 9
           },
-          "disposition": "REFUSE",
-          "factId": null,
-          "textReadFromOutputBytes": null,
+          "disposition": "WRITE",
+          "factId": "matter.conviction_date",
+          "textReadFromOutputBytes": "2019-11-02",
           "flattenedAppearancesReadFromOutputBytes": [
             {
               "page": 1,
@@ -1171,6 +1244,13 @@
               "y": 435.29,
               "appearance": "FlatWidget-5845047960",
               "text": ""
+            },
+            {
+              "page": 1,
+              "x": 93.71,
+              "y": 435.29,
+              "appearance": "ExactFactOverlay-7098480789",
+              "text": "2019-11-02"
             }
           ],
           "protectFromAddedInk": true
@@ -2605,8 +2685,8 @@
       "routeKey": "obligation:track-only:CA:ca-17b-reduction",
       "formNumber": "CR-180",
       "outputFile": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-felony-to-misdemeanor-boundary/cr-180-filled.pdf",
-      "sha256": "e044560742f412b9f7a36c16c155cff45915ed55d404fe33e33b3130446ff12a",
-      "byteLength": 60460,
+      "sha256": "1901cba4ac7afd2b458dad315a2eaf08851a6e69fea555a0e1edfd7ccd356d9c",
+      "byteLength": 61301,
       "pageCount": 3,
       "formState": {
         "acroFormPresent": false,
@@ -2616,6 +2696,14 @@
         "Removing XFA form data as pdf-lib does not support reading or writing XFA"
       ],
       "finalizerWritten": [
+        {
+          "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
+          "factId": "matter.county",
+          "kind": "text",
+          "fontSize": 6.5,
+          "outcome": "shrunk",
+          "lines": 1
+        },
         {
           "field": "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].Stmp[0].CaseNumber[0].CaseNumber1[0]",
           "factId": "matter.case_number",
@@ -2663,6 +2751,28 @@
           "fontSize": 8.5,
           "outcome": "shrunk",
           "lines": 1
+        },
+        {
+          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
+          "factId": "matter.conviction_date",
+          "value": "2019-11-02",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 93.71,
+                "y": 435.29,
+                "width": 69.96,
+                "height": 9
+              },
+              "fontSize": 7,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-7098480789"
+            }
+          ]
         }
       ],
       "finalizerRefused": [
@@ -2722,11 +2832,6 @@
           "category": "role"
         },
         {
-          "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
           "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtStreet[0]",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -2753,11 +2858,6 @@
         },
         {
           "field": "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].CrtUse[0].TextField[1]",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -3046,8 +3146,31 @@
         "selections": [],
         "selectionsRefused": []
       },
-      "flattenedAppearanceCount": 82,
+      "flattenedAppearanceCount": 83,
       "writtenProof": [
+        {
+          "fieldName": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
+          "page": 1,
+          "rect": {
+            "x": 227.78,
+            "y": 637.69,
+            "width": 166.28,
+            "height": 9
+          },
+          "disposition": "WRITE",
+          "factId": "matter.county",
+          "textReadFromOutputBytes": "Saint Bartholomew and the Northern Reaches County",
+          "flattenedAppearancesReadFromOutputBytes": [
+            {
+              "page": 1,
+              "x": 227.78,
+              "y": 637.69,
+              "appearance": "FlatWidget-5563853605",
+              "text": "Saint Bartholomew and the Northern Reaches County"
+            }
+          ],
+          "protectFromAddedInk": true
+        },
         {
           "fieldName": "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].Stmp[0].CaseNumber[0].CaseNumber1[0]",
           "page": 1,
@@ -3090,6 +3213,36 @@
               "y": 559.17,
               "appearance": "FlatWidget-4824990222",
               "text": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III"
+            }
+          ],
+          "protectFromAddedInk": true
+        },
+        {
+          "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
+          "page": 1,
+          "rect": {
+            "x": 93.71,
+            "y": 435.29,
+            "width": 69.96,
+            "height": 9
+          },
+          "disposition": "WRITE",
+          "factId": "matter.conviction_date",
+          "textReadFromOutputBytes": "2019-11-02",
+          "flattenedAppearancesReadFromOutputBytes": [
+            {
+              "page": 1,
+              "x": 93.71,
+              "y": 435.29,
+              "appearance": "FlatWidget-5845047960",
+              "text": ""
+            },
+            {
+              "page": 1,
+              "x": 93.71,
+              "y": 435.29,
+              "appearance": "ExactFactOverlay-7098480789",
+              "text": "2019-11-02"
             }
           ],
           "protectFromAddedInk": true
@@ -3197,7 +3350,7 @@
       },
       "routeTextReport": {
         "variantId": "pc-17b-felony-to-misdemeanor",
-        "sourceSha256": "c6e9751dbe608a309851776e350e99197d4ef11ca76bb2e3c3e736995810d8ed",
+        "sourceSha256": "4bc40d3986c752d5b9b51fc1126873ce415f86127ac4133a7bb90eda8836be91",
         "written": [
           {
             "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
@@ -3244,8 +3397,8 @@
           "inspectable": true,
           "compressed": false
         },
-        "outputSha256": "e044560742f412b9f7a36c16c155cff45915ed55d404fe33e33b3130446ff12a",
-        "outputBytes": 60460
+        "outputSha256": "1901cba4ac7afd2b458dad315a2eaf08851a6e69fea555a0e1edfd7ccd356d9c",
+        "outputBytes": 61301
       },
       "statutoryTextControlProof": {
         "controls": [
@@ -3547,16 +3700,16 @@
             "width": 166.28,
             "height": 9
           },
-          "disposition": "REFUSE",
-          "factId": null,
-          "textReadFromOutputBytes": null,
+          "disposition": "WRITE",
+          "factId": "matter.county",
+          "textReadFromOutputBytes": "Saint Bartholomew and the Northern Reaches County",
           "flattenedAppearancesReadFromOutputBytes": [
             {
               "page": 1,
               "x": 227.78,
               "y": 637.69,
               "appearance": "FlatWidget-5563853605",
-              "text": ""
+              "text": "Saint Bartholomew and the Northern Reaches County"
             }
           ],
           "protectFromAddedInk": true
@@ -3754,9 +3907,9 @@
             "width": 69.96,
             "height": 9
           },
-          "disposition": "REFUSE",
-          "factId": null,
-          "textReadFromOutputBytes": null,
+          "disposition": "WRITE",
+          "factId": "matter.conviction_date",
+          "textReadFromOutputBytes": "2019-11-02",
           "flattenedAppearancesReadFromOutputBytes": [
             {
               "page": 1,
@@ -3764,6 +3917,13 @@
               "y": 435.29,
               "appearance": "FlatWidget-5845047960",
               "text": ""
+            },
+            {
+              "page": 1,
+              "x": 93.71,
+              "y": 435.29,
+              "appearance": "ExactFactOverlay-7098480789",
+              "text": "2019-11-02"
             }
           ],
           "protectFromAddedInk": true
@@ -5198,8 +5358,8 @@
       "routeKey": "obligation:track-only:CA:ca-17b-reduction",
       "formNumber": "CR-180",
       "outputFile": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17d2-misdemeanor-to-infraction-canonical/cr-180-filled.pdf",
-      "sha256": "5631fd1ec2368b366aa5943711d1e483a6ea3dfc6b219d8b6f705106a9fb6365",
-      "byteLength": 60230,
+      "sha256": "6e637c051b7fb7e8ca07ba93a4d8b41538336df0d3f447bb9ee7fbe047c3cda4",
+      "byteLength": 61031,
       "pageCount": 3,
       "formState": {
         "acroFormPresent": false,
@@ -5209,6 +5369,14 @@
         "Removing XFA form data as pdf-lib does not support reading or writing XFA"
       ],
       "finalizerWritten": [
+        {
+          "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
+          "factId": "matter.county",
+          "kind": "text",
+          "fontSize": 7,
+          "outcome": "fit",
+          "lines": 1
+        },
         {
           "field": "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].Stmp[0].CaseNumber[0].CaseNumber1[0]",
           "factId": "matter.case_number",
@@ -5256,6 +5424,28 @@
           "fontSize": 9,
           "outcome": "fit",
           "lines": 1
+        },
+        {
+          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
+          "factId": "matter.conviction_date",
+          "value": "2019-11-02",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 93.71,
+                "y": 435.29,
+                "width": 69.96,
+                "height": 9
+              },
+              "fontSize": 7,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-7098480789"
+            }
+          ]
         }
       ],
       "finalizerRefused": [
@@ -5315,11 +5505,6 @@
           "category": "role"
         },
         {
-          "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
           "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtStreet[0]",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -5346,11 +5531,6 @@
         },
         {
           "field": "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].CrtUse[0].TextField[1]",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -5639,8 +5819,31 @@
         "selections": [],
         "selectionsRefused": []
       },
-      "flattenedAppearanceCount": 82,
+      "flattenedAppearanceCount": 83,
       "writtenProof": [
+        {
+          "fieldName": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
+          "page": 1,
+          "rect": {
+            "x": 227.78,
+            "y": 637.69,
+            "width": 166.28,
+            "height": 9
+          },
+          "disposition": "WRITE",
+          "factId": "matter.county",
+          "textReadFromOutputBytes": "Example County",
+          "flattenedAppearancesReadFromOutputBytes": [
+            {
+              "page": 1,
+              "x": 227.78,
+              "y": 637.69,
+              "appearance": "FlatWidget-5563853605",
+              "text": "Example County"
+            }
+          ],
+          "protectFromAddedInk": true
+        },
         {
           "fieldName": "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].Stmp[0].CaseNumber[0].CaseNumber1[0]",
           "page": 1,
@@ -5683,6 +5886,36 @@
               "y": 559.17,
               "appearance": "FlatWidget-4824990222",
               "text": "Jordan Avery Reyes"
+            }
+          ],
+          "protectFromAddedInk": true
+        },
+        {
+          "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
+          "page": 1,
+          "rect": {
+            "x": 93.71,
+            "y": 435.29,
+            "width": 69.96,
+            "height": 9
+          },
+          "disposition": "WRITE",
+          "factId": "matter.conviction_date",
+          "textReadFromOutputBytes": "2019-11-02",
+          "flattenedAppearancesReadFromOutputBytes": [
+            {
+              "page": 1,
+              "x": 93.71,
+              "y": 435.29,
+              "appearance": "FlatWidget-5845047960",
+              "text": ""
+            },
+            {
+              "page": 1,
+              "x": 93.71,
+              "y": 435.29,
+              "appearance": "ExactFactOverlay-7098480789",
+              "text": "2019-11-02"
             }
           ],
           "protectFromAddedInk": true
@@ -5790,7 +6023,7 @@
       },
       "routeTextReport": {
         "variantId": "pc-17d2-misdemeanor-to-infraction",
-        "sourceSha256": "57740d66e36f2f6218eff2b3182f7e84e9f292c5494e85828250c25895d71400",
+        "sourceSha256": "b06cb00e40152c325fef1e5b2b9e9cb3203e5760019da0e3d36a5f5f0ba7556f",
         "written": [
           {
             "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
@@ -5837,8 +6070,8 @@
           "inspectable": true,
           "compressed": false
         },
-        "outputSha256": "5631fd1ec2368b366aa5943711d1e483a6ea3dfc6b219d8b6f705106a9fb6365",
-        "outputBytes": 60230
+        "outputSha256": "6e637c051b7fb7e8ca07ba93a4d8b41538336df0d3f447bb9ee7fbe047c3cda4",
+        "outputBytes": 61031
       },
       "statutoryTextControlProof": {
         "controls": [
@@ -6140,16 +6373,16 @@
             "width": 166.28,
             "height": 9
           },
-          "disposition": "REFUSE",
-          "factId": null,
-          "textReadFromOutputBytes": null,
+          "disposition": "WRITE",
+          "factId": "matter.county",
+          "textReadFromOutputBytes": "Example County",
           "flattenedAppearancesReadFromOutputBytes": [
             {
               "page": 1,
               "x": 227.78,
               "y": 637.69,
               "appearance": "FlatWidget-5563853605",
-              "text": ""
+              "text": "Example County"
             }
           ],
           "protectFromAddedInk": true
@@ -6347,9 +6580,9 @@
             "width": 69.96,
             "height": 9
           },
-          "disposition": "REFUSE",
-          "factId": null,
-          "textReadFromOutputBytes": null,
+          "disposition": "WRITE",
+          "factId": "matter.conviction_date",
+          "textReadFromOutputBytes": "2019-11-02",
           "flattenedAppearancesReadFromOutputBytes": [
             {
               "page": 1,
@@ -6357,6 +6590,13 @@
               "y": 435.29,
               "appearance": "FlatWidget-5845047960",
               "text": ""
+            },
+            {
+              "page": 1,
+              "x": 93.71,
+              "y": 435.29,
+              "appearance": "ExactFactOverlay-7098480789",
+              "text": "2019-11-02"
             }
           ],
           "protectFromAddedInk": true
@@ -7791,8 +8031,8 @@
       "routeKey": "obligation:track-only:CA:ca-17b-reduction",
       "formNumber": "CR-180",
       "outputFile": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17d2-misdemeanor-to-infraction-boundary/cr-180-filled.pdf",
-      "sha256": "38bb5f438b41aef0029f3f5a70b8c37eb6c1fb8e3a5b809a8558f29f0de389fe",
-      "byteLength": 60461,
+      "sha256": "926471af4b180c5f3a5457dca3444661aeca0e5fedd41ec61c371b235923d17c",
+      "byteLength": 61302,
       "pageCount": 3,
       "formState": {
         "acroFormPresent": false,
@@ -7802,6 +8042,14 @@
         "Removing XFA form data as pdf-lib does not support reading or writing XFA"
       ],
       "finalizerWritten": [
+        {
+          "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
+          "factId": "matter.county",
+          "kind": "text",
+          "fontSize": 6.5,
+          "outcome": "shrunk",
+          "lines": 1
+        },
         {
           "field": "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].Stmp[0].CaseNumber[0].CaseNumber1[0]",
           "factId": "matter.case_number",
@@ -7849,6 +8097,28 @@
           "fontSize": 8.5,
           "outcome": "shrunk",
           "lines": 1
+        },
+        {
+          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
+          "factId": "matter.conviction_date",
+          "value": "2019-11-02",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 93.71,
+                "y": 435.29,
+                "width": 69.96,
+                "height": 9
+              },
+              "fontSize": 7,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-7098480789"
+            }
+          ]
         }
       ],
       "finalizerRefused": [
@@ -7908,11 +8178,6 @@
           "category": "role"
         },
         {
-          "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
           "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtStreet[0]",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -7939,11 +8204,6 @@
         },
         {
           "field": "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].CrtUse[0].TextField[1]",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -8232,8 +8492,31 @@
         "selections": [],
         "selectionsRefused": []
       },
-      "flattenedAppearanceCount": 82,
+      "flattenedAppearanceCount": 83,
       "writtenProof": [
+        {
+          "fieldName": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
+          "page": 1,
+          "rect": {
+            "x": 227.78,
+            "y": 637.69,
+            "width": 166.28,
+            "height": 9
+          },
+          "disposition": "WRITE",
+          "factId": "matter.county",
+          "textReadFromOutputBytes": "Saint Bartholomew and the Northern Reaches County",
+          "flattenedAppearancesReadFromOutputBytes": [
+            {
+              "page": 1,
+              "x": 227.78,
+              "y": 637.69,
+              "appearance": "FlatWidget-5563853605",
+              "text": "Saint Bartholomew and the Northern Reaches County"
+            }
+          ],
+          "protectFromAddedInk": true
+        },
         {
           "fieldName": "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].Stmp[0].CaseNumber[0].CaseNumber1[0]",
           "page": 1,
@@ -8276,6 +8559,36 @@
               "y": 559.17,
               "appearance": "FlatWidget-4824990222",
               "text": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III"
+            }
+          ],
+          "protectFromAddedInk": true
+        },
+        {
+          "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
+          "page": 1,
+          "rect": {
+            "x": 93.71,
+            "y": 435.29,
+            "width": 69.96,
+            "height": 9
+          },
+          "disposition": "WRITE",
+          "factId": "matter.conviction_date",
+          "textReadFromOutputBytes": "2019-11-02",
+          "flattenedAppearancesReadFromOutputBytes": [
+            {
+              "page": 1,
+              "x": 93.71,
+              "y": 435.29,
+              "appearance": "FlatWidget-5845047960",
+              "text": ""
+            },
+            {
+              "page": 1,
+              "x": 93.71,
+              "y": 435.29,
+              "appearance": "ExactFactOverlay-7098480789",
+              "text": "2019-11-02"
             }
           ],
           "protectFromAddedInk": true
@@ -8383,7 +8696,7 @@
       },
       "routeTextReport": {
         "variantId": "pc-17d2-misdemeanor-to-infraction",
-        "sourceSha256": "c6e9751dbe608a309851776e350e99197d4ef11ca76bb2e3c3e736995810d8ed",
+        "sourceSha256": "4bc40d3986c752d5b9b51fc1126873ce415f86127ac4133a7bb90eda8836be91",
         "written": [
           {
             "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
@@ -8430,8 +8743,8 @@
           "inspectable": true,
           "compressed": false
         },
-        "outputSha256": "38bb5f438b41aef0029f3f5a70b8c37eb6c1fb8e3a5b809a8558f29f0de389fe",
-        "outputBytes": 60461
+        "outputSha256": "926471af4b180c5f3a5457dca3444661aeca0e5fedd41ec61c371b235923d17c",
+        "outputBytes": 61302
       },
       "statutoryTextControlProof": {
         "controls": [
@@ -8733,16 +9046,16 @@
             "width": 166.28,
             "height": 9
           },
-          "disposition": "REFUSE",
-          "factId": null,
-          "textReadFromOutputBytes": null,
+          "disposition": "WRITE",
+          "factId": "matter.county",
+          "textReadFromOutputBytes": "Saint Bartholomew and the Northern Reaches County",
           "flattenedAppearancesReadFromOutputBytes": [
             {
               "page": 1,
               "x": 227.78,
               "y": 637.69,
               "appearance": "FlatWidget-5563853605",
-              "text": ""
+              "text": "Saint Bartholomew and the Northern Reaches County"
             }
           ],
           "protectFromAddedInk": true
@@ -8940,9 +9253,9 @@
             "width": 69.96,
             "height": 9
           },
-          "disposition": "REFUSE",
-          "factId": null,
-          "textReadFromOutputBytes": null,
+          "disposition": "WRITE",
+          "factId": "matter.conviction_date",
+          "textReadFromOutputBytes": "2019-11-02",
           "flattenedAppearancesReadFromOutputBytes": [
             {
               "page": 1,
@@ -8950,6 +9263,13 @@
               "y": 435.29,
               "appearance": "FlatWidget-5845047960",
               "text": ""
+            },
+            {
+              "page": 1,
+              "x": 93.71,
+              "y": 435.29,
+              "appearance": "ExactFactOverlay-7098480789",
+              "text": "2019-11-02"
             }
           ],
           "protectFromAddedInk": true
