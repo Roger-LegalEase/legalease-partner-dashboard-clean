@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `5ce602849a8af58e42f511e70038f42d1589109a` (or the newer dispatch base)
+**Minimum required ancestor:** `a6bc2c9ae4dc6fc5418fb18400a6ca0c6a7fad78` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family official-form-treatment:obligation:research-decision-route:AL:al-olr \
   --codex-cloud \
-  --minimum-captain-sha 5ce602849a8af58e42f511e70038f42d1589109a
+  --minimum-captain-sha a6bc2c9ae4dc6fc5418fb18400a6ca0c6a7fad78
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -60,7 +60,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 - `official-form-treatment:obligation:research-decision-route:AL:al-olr`
 - `rcap-ms-custom-pleading`
-- `ca-1203-4a-set` — failing: requiredOptionsMissing
+- `wv_conv_multiple_misdemeanors-set`
 
 ## What you receive
 
@@ -75,10 +75,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix05/**`
 - `data/rcap-all50/overlays/census-v1/al/official-form-treatment:obligation:research-decision-route:al:al-olr--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
 - `scripts/build-census-v1-official-form-treatment:obligation:research-decision-route:AL:al-olr.mjs`
 - `scripts/build-census-v1-rcap-ms-custom-pleading.mjs`
-- `scripts/build-census-v1-ca-1203-4a-set.mjs`
 
 ## Never write here
 

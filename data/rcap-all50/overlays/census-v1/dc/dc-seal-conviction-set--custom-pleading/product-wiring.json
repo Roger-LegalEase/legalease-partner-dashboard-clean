@@ -1,0 +1,169 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "dc_seal_conviction-set",
+  "routeKey": "obligation:track-pathway:DC:dc_seal_conviction:dc_motion_seal_felony_conviction_8yr_16_806",
+  "routeKeys": [
+    "obligation:track-pathway:DC:dc_seal_conviction:dc_motion_seal_felony_conviction_8yr_16_806",
+    "obligation:track-pathway:DC:dc_seal_conviction:dc_motion_seal_misdemeanor_conviction_5yr_16_806"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "dc_seal_conviction-set",
+    "jurisdiction": "DC",
+    "routeKeys": [
+      "obligation:track-pathway:DC:dc_seal_conviction:dc_motion_seal_felony_conviction_8yr_16_806",
+      "obligation:track-pathway:DC:dc_seal_conviction:dc_motion_seal_misdemeanor_conviction_5yr_16_806"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "primary_filing"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33571399568",
+      "jobId": "100066490894",
+      "artifactId": "9825239045",
+      "boundToCanonicalSha256": "069a85420cd083de902918e7ee98bd475336a23273e6dea0dde23eb3fbb8f088",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-dc_seal_conviction-set.mjs",
+      "sharedBuildHost": "build-census-v1-dc_seal_nonconviction-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "dc_seal_conviction-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "dc_seal_conviction-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "primary_filing",
+        "file": null,
+        "sha256": null,
+        "requirement": "required",
+        "carriedByAssembledPacketPerRoute": [
+          {
+            "routeKey": "obligation:track-pathway:DC:dc_seal_conviction:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+            "fixture": "canonical-misdemeanor_5yr",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/fixtures/canonical-misdemeanor_5yr.pdf",
+            "sha256": "069a85420cd083de902918e7ee98bd475336a23273e6dea0dde23eb3fbb8f088",
+            "pagesInThatPacket": [
+              1,
+              2
+            ]
+          },
+          {
+            "routeKey": "obligation:track-pathway:DC:dc_seal_conviction:dc_motion_seal_felony_conviction_8yr_16_806",
+            "fixture": "canonical-felony_8yr",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/fixtures/canonical-felony_8yr.pdf",
+            "sha256": "57ad41269dcfe9d6933fbc12d629210ed0b15f89769fa82e693e5eb094a729dc",
+            "pagesInThatPacket": [
+              1,
+              2
+            ]
+          }
+        ],
+        "whyThereIsNoSingleDigest": "This family assembles its whole packet into one fixture and renders that fixture once per route, so this component has no bytes of its own to pin. A route installs the assembled packet whose routeKey it matches; the digests are on those packets, and the pages above say where this component sits inside each."
+      },
+      {
+        "componentId": "dc_seal_conviction-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "prosecutor_service",
+        "file": null,
+        "sha256": null,
+        "requirement": "required",
+        "carriedByAssembledPacketPerRoute": [
+          {
+            "routeKey": "obligation:track-pathway:DC:dc_seal_conviction:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+            "fixture": "canonical-misdemeanor_5yr",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/fixtures/canonical-misdemeanor_5yr.pdf",
+            "sha256": "069a85420cd083de902918e7ee98bd475336a23273e6dea0dde23eb3fbb8f088",
+            "pagesInThatPacket": [
+              3
+            ]
+          },
+          {
+            "routeKey": "obligation:track-pathway:DC:dc_seal_conviction:dc_motion_seal_felony_conviction_8yr_16_806",
+            "fixture": "canonical-felony_8yr",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/fixtures/canonical-felony_8yr.pdf",
+            "sha256": "57ad41269dcfe9d6933fbc12d629210ed0b15f89769fa82e693e5eb094a729dc",
+            "pagesInThatPacket": [
+              3
+            ]
+          }
+        ],
+        "whyThereIsNoSingleDigest": "This family assembles its whole packet into one fixture and renders that fixture once per route, so this component has no bytes of its own to pin. A route installs the assembled packet whose routeKey it matches; the digests are on those packets, and the pages above say where this component sits inside each."
+      },
+      {
+        "componentId": "dc_seal_conviction-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "filing_instructions",
+        "file": null,
+        "sha256": null,
+        "requirement": "required",
+        "carriedByAssembledPacketPerRoute": [
+          {
+            "routeKey": "obligation:track-pathway:DC:dc_seal_conviction:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+            "fixture": "canonical-misdemeanor_5yr",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/fixtures/canonical-misdemeanor_5yr.pdf",
+            "sha256": "069a85420cd083de902918e7ee98bd475336a23273e6dea0dde23eb3fbb8f088",
+            "pagesInThatPacket": [
+              4,
+              5
+            ]
+          },
+          {
+            "routeKey": "obligation:track-pathway:DC:dc_seal_conviction:dc_motion_seal_felony_conviction_8yr_16_806",
+            "fixture": "canonical-felony_8yr",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/fixtures/canonical-felony_8yr.pdf",
+            "sha256": "57ad41269dcfe9d6933fbc12d629210ed0b15f89769fa82e693e5eb094a729dc",
+            "pagesInThatPacket": [
+              4,
+              5
+            ]
+          }
+        ],
+        "whyThereIsNoSingleDigest": "This family assembles its whole packet into one fixture and renders that fixture once per route, so this component has no bytes of its own to pin. A route installs the assembled packet whose routeKey it matches; the digests are on those packets, and the pages above say where this component sits inside each."
+      }
+    ]
+  }
+}

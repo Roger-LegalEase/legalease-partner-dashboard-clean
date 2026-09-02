@@ -161,27 +161,44 @@ for (const f of master.families) {
   const docs = (art.artifacts ?? art.pdfs ?? []).filter((a) => /(^|-)canonical(-|$)/.test(String(a.fixture ?? "")));
   if (docs.length === 0) continue;
   /*
-   * A component is a document a participant files. It is NOT a rendering.
+   * A component is a document a participant files. It is NOT a rendering, and
+   * on DC the two are not even the same shape.
    *
-   * DC renders the same `assembled_packet` twice, once per route -- the
-   * misdemeanor five-year track and the felony eight-year track -- and listing
-   * those two renderings as `component-1` (primary_filing) and `component-2`
-   * (companion_document) would tell a route installer that one participant
-   * files a misdemeanor motion AND a felony motion. That is not what the
-   * family builds and not what anyone would file.
+   * Almost every family renders one canonical fixture per document, so the
+   * fixture list and the component list coincide and the ordinary branch below
+   * is right. DC does something else: it assembles its whole packet into ONE
+   * fixture and renders that fixture once per route -- the misdemeanor
+   * five-year track and the felony eight-year track. Each of those fixtures
+   * declares the same three documents inside it: primary_filing,
+   * prosecutor_service, filing_instructions.
    *
-   * So canonical renderings are grouped by the document they render. A group
-   * with one rendering is the ordinary case and is unchanged. A group with
-   * several is one component rendered per route, and it says so: its own file
-   * and digest are null, because there is no single set of bytes to pin, and
-   * the per-route renderings carry the bytes instead.
+   * Reading the fixtures as components would have said this family files two
+   * documents named canonical-misdemeanor_5yr and canonical-felony_8yr, one of
+   * them a "companion_document" -- so a route installer would represent a
+   * participant filing a misdemeanor motion AND a felony motion. The family
+   * files three documents, and which assembled bytes carry them depends on
+   * which route the participant is on.
+   *
+   * So where a canonical fixture declares the documents inside it, those are
+   * the components, and the per-route assembled renderings are recorded beside
+   * them as what actually carries the bytes.
    */
+  const assembled = docs.filter((d) => Array.isArray(d.documents ?? d.components) && (d.documents ?? d.components).length > 0);
+  const isAssembledPacket = assembled.length === docs.length && docs.length > 0
+    && new Set(docs.map((d) => d.routeKey ?? "")).size === docs.length;
   const componentGroups = [];
   const groupIndex = new Map();
-  for (const d of docs) {
-    const key = d.documentId ?? d.document ?? path.basename(d.file ?? "", ".pdf");
-    if (!groupIndex.has(key)) { groupIndex.set(key, componentGroups.length); componentGroups.push({ key, renderings: [] }); }
-    componentGroups[groupIndex.get(key)].renderings.push(d);
+  if (isAssembledPacket) {
+    for (const d of docs) for (const documentId of (d.documents ?? d.components)) {
+      if (!groupIndex.has(documentId)) { groupIndex.set(documentId, componentGroups.length); componentGroups.push({ key: documentId, renderings: [] }); }
+      componentGroups[groupIndex.get(documentId)].renderings.push(d);
+    }
+  } else {
+    for (const d of docs) {
+      const key = d.documentId ?? d.document ?? path.basename(d.file ?? "", ".pdf");
+      if (!groupIndex.has(key)) { groupIndex.set(key, componentGroups.length); componentGroups.push({ key, renderings: [] }); }
+      componentGroups[groupIndex.get(key)].renderings.push(d);
+    }
   }
   const wiring = {
     schemaVersion: "rcap-census-v1-product-wiring/v1",
@@ -217,20 +234,21 @@ for (const f of master.families) {
           sha256: perRoute ? null : (only.sha256 ?? null),
           requirement: "required",
           ...(perRoute ? {
-            renderedPerRoute: g.renderings.map((d) => ({
+            carriedByAssembledPacketPerRoute: g.renderings.map((d) => ({
               routeKey: d.routeKey ?? null,
               fixture: d.fixture ?? null,
               file: d.file ?? null,
-              sha256: d.sha256 ?? null
+              sha256: d.sha256 ?? null,
+              pagesInThatPacket: (d.pageManifest ?? []).filter((p) => (p.documentId ?? p.component) === g.key).map((p) => p.packetPage)
             })),
-            whyThereIsNoSingleDigest: "This component is rendered once per route the family serves, so there is no one set of bytes to pin here. A route installs the rendering whose routeKey it matches; the digests are on those renderings."
+            whyThereIsNoSingleDigest: "This family assembles its whole packet into one fixture and renders that fixture once per route, so this component has no bytes of its own to pin. A route installs the assembled packet whose routeKey it matches; the digests are on those packets, and the pages above say where this component sits inside each."
           } : {})
         };
       })
     }
   };
   fs.writeFileSync(wiringPath, `${JSON.stringify(wiring, null, 2)}\n`);
-  console.log(`wrote ${f.directory}/product-wiring.json (${docs.length} component(s))`);
+  console.log(`wrote ${f.directory}/product-wiring.json (${componentGroups.length} component(s) across ${docs.length} canonical rendering(s))`);
   written++;
 }
 console.log(`${written} wiring record(s) written, ${refreshed} record(s) refreshed, ${skipped} unchanged`);

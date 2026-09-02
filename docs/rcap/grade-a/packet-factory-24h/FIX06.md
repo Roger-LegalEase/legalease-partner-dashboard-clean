@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `5ce602849a8af58e42f511e70038f42d1589109a` (or the newer dispatch base)
+**Minimum required ancestor:** `a6bc2c9ae4dc6fc5418fb18400a6ca0c6a7fad78` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement \
+  --family composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4 \
   --codex-cloud \
-  --minimum-captain-sha 5ce602849a8af58e42f511e70038f42d1589109a
+  --minimum-captain-sha a6bc2c9ae4dc6fc5418fb18400a6ca0c6a7fad78
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -58,10 +58,10 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 ## The 4 families
 
+- `composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4`
 - `composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement`
 - `rcap-ok-custom-pleading`
 - `rcap-wv-custom-pleading`
-- `ca-prop64-set`
 
 ## What you receive
 
@@ -74,14 +74,14 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix06/**`
+- `data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/**`
+- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4.mjs`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement.mjs`
 - `scripts/build-census-v1-rcap-ok-custom-pleading.mjs`
 - `scripts/build-census-v1-rcap-wv-custom-pleading.mjs`
-- `scripts/build-census-v1-ca-prop64-set.mjs`
 
 ## Never write here
 
