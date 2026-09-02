@@ -52,6 +52,50 @@ const bundleIndex = (() => {
   try { return JSON.parse(fs.readFileSync("/tmp/vrb-html/INDEX.json", "utf8")); } catch { return null; }
 })();
 
+/*
+ * A ROUTE KEY IS NOT A REACHABLE ROUTE.
+ *
+ * The eight conditions are measured per FAMILY, so the cohort's route figure
+ * was simply the sum of the members' route keys: thirteen. Only five of those
+ * thirteen can be reached by the runtime. Kansas contributes two municipal
+ * pathways compiled under the owner's standing authorisation; Tennessee
+ * contributes three of its eleven, and its remaining eight are track-only --
+ * they carry no compiled pathway, so packet-route-resolver.ts can form no
+ * `${jurisdiction}:${pathwayId}` for them and screening cannot address them at
+ * all. Reporting thirteen invites the reading that thirteen routes are one
+ * visual review away from sellable, and eight of them are not.
+ *
+ * Two independent records must agree before a route is counted addressable:
+ * the key itself must be a track-pathway key, and FIRST_COHORT_RUNTIME_IDENTITY
+ * must name its runtime route id. Either one alone is a single record vouching
+ * for itself. A disagreement is reported rather than resolved -- silently
+ * preferring one would hide exactly the drift this cross-check exists to find.
+ */
+const runtimeIdentity = (() => {
+  try { return read("data/rcap-grade-a/FIRST_COHORT_RUNTIME_IDENTITY.json"); } catch { return null; }
+})();
+const runtimeRouteIds = new Set([
+  ...(runtimeIdentity?.tennessee?.runtimeRouteIds ?? []).map((r) => r.obligationKey),
+  ...(runtimeIdentity?.kansas?.runtimeRouteIds ?? []).map((r) => r.obligationKey)
+].filter(Boolean));
+/* Kansas records its two pathways as compiled profile ids rather than
+ * obligation keys, so its keys are matched on the pathway segment they end
+ * with -- the same segment the profile compiles. */
+const kansasCompiled = new Set(runtimeIdentity?.kansas?.compiledPathwaysInTheKansasProfile ?? []);
+const routeAddressability = (routeKey) => {
+  const isTrackPathway = routeKey.startsWith("obligation:track-pathway:");
+  const pathwaySegment = routeKey.split(":").slice(4).join(":");
+  const namedByTheRuntimeRecord = runtimeRouteIds.has(routeKey)
+    || (isTrackPathway && kansasCompiled.has(pathwaySegment));
+  return {
+    routeKey,
+    isTrackPathway,
+    namedByTheRuntimeRecord,
+    addressable: isTrackPathway && namedByTheRuntimeRecord,
+    recordsDisagree: isTrackPathway !== namedByTheRuntimeRecord
+  };
+};
+
 const decision = counsel.ownerLegalDecision.records[0];
 const approvedFamilies = new Set(counsel.families.map((r) => r.familyId));
 const verdictOf = new Map();
@@ -149,6 +193,19 @@ const doc = {
   whyTheCohortIsSmall: `The decision owner's completed-output approval covers ${approvedFamilies.size} families and ${proven.length} families are packet-proven, but they are largely different populations: the approval covers the earlier guidance-implementation wave and the proof covers the later census-v1 packet wave, so only the ${rows.filter((r) => r.checks.coveredByAnExistingOwnerApproval).length} in both can enter a first cohort without a new legal decision. The proven figure is also lower than it was: the owner's batch adoption refused sixteen families as the wrong delivery type and withheld nine more pending named corrections, and those families are correctly not proven.`,
   cohort: cohort.map((r) => ({ ...r, checks: undefined, unmetConditions: undefined })),
   cohortRouteIds: cohort.flatMap((r) => r.routeKeys),
+  routeReachability: (() => {
+    const all = cohort.flatMap((r) => r.routeKeys).map(routeAddressability);
+    return {
+      whatThisSeparates: "A route key names work this factory did. A runtime route id is what screening and the Briefcase resolve. Only a route with both can be sold once a visual review returns; a track-only route cannot be addressed at all, however complete its packet.",
+      routeKeysInTheCohort: all.length,
+      addressableByTheRuntime: all.filter((r) => r.addressable).length,
+      notAddressableByTheRuntime: all.filter((r) => !r.addressable).length,
+      addressable: all.filter((r) => r.addressable).map((r) => r.routeKey),
+      notAddressable: all.filter((r) => !r.addressable).map((r) => r.routeKey),
+      recordsDisagreeOn: all.filter((r) => r.recordsDisagree).map((r) => r.routeKey),
+      whenTheRecordsDisagree: "The route key's own shape and FIRST_COHORT_RUNTIME_IDENTITY.json are read independently. A route listed here is counted NOT addressable and the disagreement is the finding: one of the two records is stale."
+    };
+  })(),
   provenFamiliesNeedingANewLegalReview: outsideApproval.map((r) => ({
     familyId: r.familyId, jurisdiction: r.jurisdiction, routeCount: r.routeCount,
     whyNotInCohort: "packet-proven but not named in any existing decision-owner approval scope"
@@ -165,6 +222,6 @@ const doc = {
 
 fs.writeFileSync(path.join(ROOT, OUT), `${JSON.stringify(doc, null, 2)}\n`);
 console.log(`wrote ${OUT}`);
-console.log(`  proven ${doc.counts.completePacketProven} · approved ${doc.counts.familiesInsideTheOwnerApproval} · both ${doc.counts.provenAndApproved} · cohort ${doc.counts.inCohort} famil(ies) / ${doc.counts.cohortRoutes} route(s)`);
+console.log(`  proven ${doc.counts.completePacketProven} · approved ${doc.counts.familiesInsideTheOwnerApproval} · both ${doc.counts.provenAndApproved} · cohort ${doc.counts.inCohort} famil(ies) / ${doc.counts.cohortRoutes} route key(s), ${doc.routeReachability.addressableByTheRuntime} addressable by the runtime`);
 for (const r of cohort) console.log(`    ${r.familyId.padEnd(28)} ${String(r.routeCount).padStart(2)} route(s)  verifier ${r.independentVerification.verifierId}`);
 console.log(`  proven but outside any existing approval: ${doc.counts.provenButOutsideAnyExistingApproval}`);

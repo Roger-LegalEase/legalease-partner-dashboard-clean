@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "8f8a68562d24e330da958edabca71da0a090e8bd",
+  "atCommit": "60931f91e94cfb8cfb2c6cedd679d9085b09e284",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -127,6 +127,31 @@
     "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
     "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k"
   ],
+  "routeReachability": {
+    "whatThisSeparates": "A route key names work this factory did. A runtime route id is what screening and the Briefcase resolve. Only a route with both can be sold once a visual review returns; a track-only route cannot be addressed at all, however complete its packet.",
+    "routeKeysInTheCohort": 13,
+    "addressableByTheRuntime": 5,
+    "notAddressableByTheRuntime": 8,
+    "addressable": [
+      "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+      "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
+      "obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+      "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+      "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k"
+    ],
+    "notAddressable": [
+      "obligation:track-only:TN:tn_arrest_no_court_record",
+      "obligation:track-only:TN:tn_illegal_voting",
+      "obligation:track-only:TN:tn_mistaken_identity",
+      "obligation:track-only:TN:tn_nonconviction_petition",
+      "obligation:track-only:TN:tn_post_pardon",
+      "obligation:track-only:TN:tn_pretrial_diversion",
+      "obligation:track-only:TN:tn_recovery_court",
+      "obligation:track-only:TN:tn_redaction"
+    ],
+    "recordsDisagreeOn": [],
+    "whenTheRecordsDisagree": "The route key's own shape and FIRST_COHORT_RUNTIME_IDENTITY.json are read independently. A route listed here is counted NOT addressable and the disagreement is the finding: one of the two records is stale."
+  },
   "provenFamiliesNeedingANewLegalReview": [
     {
       "familyId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
