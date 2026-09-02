@@ -566,6 +566,41 @@
         "notBlocked": "Not BLOCKED_SOURCE (sourceStatus SOURCE_BOUND_BY_HELD_BYTES, sourceBound true, both hashes recomputed exact here) and not BLOCKED_LEGAL_INPUT (legalInputStatus SETTLED, and the missing condition is already recorded in settled words).",
         "grantsNothing": "This assignment promotes nothing, opens no route and grants no approval."
       }
+    ,
+      {
+        "wave": "packet-factory-24h/VF04/wave-6 (2026-09-02)",
+        "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "assignedBy": "VF04 independent verification at base 247b790b6decf4ab14924914b10ad16a6ab57400",
+        "failedProofObligations": [
+          "FEE_AND_WAIVER"
+        ],
+        "everyOtherObligationPassed": true,
+        "nineCountersAllZero": true,
+        "decisiveDefect": "The packet states the fee position and says nothing at all about a waiver route. The word 'waiver' does not appear in participant-instructions.md or on any of the five rendered pages.",
+        "whyItMatters": "A participant who cannot pay is told neither that a waiver route may exist, nor that no committed record establishes one, nor which office would answer it. The packet already establishes for the fee that the committed records do not settle it and names the office of the court with jurisdiction as the authority; the waiver simply was not carried through the same way. The sibling family's own words for this are 'a filing you cannot pay for is a filing you cannot make.'",
+        "whatWasMeasured": {
+          "feeStated": "Yes. participant-instructions.md: 'Whether a filing fee applies, and how the petition must be delivered. Neither is established by the committed records this packet is built from. The office of the court with jurisdiction over the matter is the authority that can answer both — ask before you file.' The rendered instructions page carries the same in its filing step.",
+          "waiverStated": "No. Zero occurrences of 'waiver' in participant-instructions.md and zero in the extracted text of canonical.pdf. participant-instructions.md has no FEE_AND_WAIVER line, and neither its 'What this packet does not tell you' section nor any other section raises a waiver.",
+          "siblingsInTheSameJurisdictionThatDoStateIt": [
+            "composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59 — the other branch of this same statute — 'No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the clerk's office of the Mississippi court with jurisdiction over the matter, which is the court that handled the dismissed charge. Ask before you go, because a filing you cannot pay for is a filing you cannot make.'",
+            "composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26 — a longer FEE_AND_WAIVER line ending 'No record this packet binds states a fee waiver for this route, and the office that answers that is the same clerk's office.'"
+          ]
+        },
+        "theRepair": "State the waiver position alongside the fee, in the form the sibling branch already uses. The committed records this family binds — src/lib/legal-authority/routes/mississippi.json and src/lib/rcap-engine/compiled/profiles/MS-mississippi.json — carry no fee term and no waiver term for this route, so the correct statement is that no committed record this packet binds states a filing fee or a fee waiver for this route, and that the office that answers both is the office of the court with jurisdiction over the matter. Carry it onto the rendered filing-instructions page as well as into participant-instructions.md, since the two must agree. Adding a FEE_AND_WAIVER line to the instructions table would also bring this family into line with both its siblings.",
+        "sourceOfTruthForTheRepair": "The absence is already established and needs no new research: the route contract carries no fee or waiver term, which is why the packet can already say the fee is not established. The repair states the same absence for the waiver.",
+        "whatTheRepairMustNotDo": [
+          "Do not state or imply that no fee waiver is available. The record is silent, and silence is not a finding — the packet's own handling of service is the model: 'THAT IS NOT A FINDING THAT NO SERVICE IS REQUIRED - it is the absence of a record, and this packet does not turn one into the other.'",
+          "Do not import a fee or waiver rule from § 99-19-71 or § 99-19-72. This petition is brought under § 99-15-59 and the packet is already correctly careful not to read § 99-19-71 rules across to this branch.",
+          "Do not touch the fourteen obligations that pass.",
+          "If any fixture byte moves the family needs a fresh raster acceptance, and a repaired family owes a second independent read by a lane that neither built nor repaired it."
+        ],
+        "alsoWorthKnowing": "vf06's earlier row on this family was refused at integration for claiming PASS_COMPLETE_INDEPENDENT with SELF_HELP_STOP unmeasured. That obligation is measurable and passes: the packet states six stop conditions, three of which are the route contract's own recorded exclusions. The refusal should not be carried forward as if SELF_HELP_STOP were the problem here.",
+        "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59 returns PASS_COMPLETE with all nine counters zero. No counter measures whether a waiver route is stated, so this defect is invisible to the counters and has to be read. The direct check is: grep -i waiver over participant-instructions.md and over the extracted text of fixtures/canonical.pdf, both of which return nothing.",
+        "notBlocked": "Not BLOCKED_SOURCE (both committed records recompute exactly here) and not BLOCKED_LEGAL_INPUT (legalInputStatus SETTLED, and the repair requires no legal input).",
+        "grantsNothing": "This assignment promotes nothing, opens no route and grants no approval."
+      }
     ]
   }
 }

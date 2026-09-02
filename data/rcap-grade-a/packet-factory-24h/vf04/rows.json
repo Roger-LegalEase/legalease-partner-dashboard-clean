@@ -5796,6 +5796,92 @@
       "repairedNothing": true,
       "grantsNothing": "This row is a verification reading. It promotes nothing, opens no route and grants no approval."
     }
+  ,
+    {
+      "lane": "VF04",
+      "worker": "VF04 wave-6 (independent; built, repaired and rendered none of these packets)",
+      "wave": "packet-factory-24h/VF04/wave-6 (2026-09-02)",
+      "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+      "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading",
+      "claim": {
+        "assert": "CLAIM_OK VF04 composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59 (independent-verification, grant set e196a7dfab58cdd2)",
+        "exitCode": 0
+      },
+      "whyThisFamilyWasRead": "VERIFIER_RETURNS.json refused vf06's row on this family: it claimed PASS_COMPLETE_INDEPENDENT while leaving SELF_HELP_STOP unmeasured, and a pass resting on an unmeasured obligation is refused at integration. This reading measures all fifteen. SELF_HELP_STOP is measurable here and passes; a different obligation does not.",
+      "decisiveDefect": "The packet states the fee position and never states a waiver route, in either direction. participant-instructions.md says whether a filing fee applies is not established by the committed records and names the office of the court with jurisdiction as the authority that can answer it, but the word waiver does not appear anywhere in the packet or its instructions. The obligation is that the fee AND any waiver route are stated, and an absent waiver has to be stated as absent rather than left silent.",
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59, run in this worktree at this base without --write. Result PASS_COMPLETE, 7/20 written. As with pa_pardon_expungement-set, the nine counters are all zero and the failure is not one of them: no counter measures whether a waiver route is stated.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": "PASS",
+        "SOURCE_IDENTITY": "PASS",
+        "COMPONENT_SET": "PASS",
+        "KNOWN_PREFILLS": "PASS",
+        "REQUIRED_BEFORE_FILING": "PASS",
+        "ROUTE_OPTIONS": "PASS",
+        "REPEATING_ROWS": "PASS",
+        "PROTECTED_FIELDS": "PASS",
+        "ARTIFACTS": "PASS",
+        "PAGE_ORDER": "PASS",
+        "CLIPPING_AND_OVERLAP": "PASS",
+        "FILING_DESTINATION": "PASS",
+        "FEE_AND_WAIVER": "FAIL",
+        "SERVICE": "PASS",
+        "SELF_HELP_STOP": "PASS"
+      },
+      "evidence": {
+        "ROUTE_IDENTITY": "One route key, obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59, identical in production-field-map.json, product-wiring.json and source-receipt.json, and printed in the footer of all five rendered pages. The packet is built for the no-charge branch and says so where it matters: the committed route contract records 'The twelve-month clock applies to the no-charge branch only', and the packet prints that rule and adds 'If your charge was filed and then dismissed, stop - that is the dismissal branch of Sec. 99-15-59, and its instrument is not in this packet.' The two branches of one statute are correctly kept apart.",
+        "SOURCE_IDENTITY": "Two committed records bound, both SHA-256 recomputed here from the bytes: src/lib/legal-authority/routes/mississippi.json 1d533e72b993ce40bda1b7aa565a62d0585259280483ffccd9192395eeb00026 at 37570 bytes, and src/lib/rcap-engine/compiled/profiles/MS-mississippi.json d30c78bcdbcd4378d1d6e656dd65f8ebde3b6d231e7020add220e55d865ea689 at 416327 bytes. Both match the receipt exactly on hash and byte length.",
+        "COMPONENT_SET": "The committed route contract names three packet components: 'Petition under § 99-15-59', 'Arrest record' and 'Proposed order'. All three are accounted for. The petition and the proposed order are rendered, as componentSet primary_filing and proposed_order, and the third is the participant's own arrest record, which no build can render: the packet names it as a route-contract component under 'Documents you must obtain before filing', says where to get it (the arresting or citing agency, or the court with jurisdiction), prints on the petition itself that it is filed with the petition, and lists it in the filing step. A composed filing_instructions component carries that. Nothing the route names is missing or silently dropped.",
+        "KNOWN_PREFILLS": "Seven writes, all against participant facts, and every one read back out of the rendered canonical text: full legal name in the caption, in paragraph 1, in the PRINTED NAME line, on the proposed order caption and on the instructions page; date of birth 1991-04-17; mailing address 42 Magnolia Street, Jackson, MS 39201; telephone 601-555-0142; email jordan.reyes@example.org. Nothing about the arrest is written, which is right: every one of those facts is copied from an arrest record the platform does not hold.",
+        "REQUIRED_BEFORE_FILING": "Six items declared required before filing and all six named in participant-instructions.md, checked against the file: the court in the caption and its county or city, the offense wording, the arrest or citation date, the arresting or citing agency, the arrest or citation or booking number, and the court name on the proposed order. Five of the six correspond to the route contract's own requiredFacts, and the instructions say for each where it comes from and that it must be copied exactly rather than guessed.",
+        "ROUTE_OPTIONS": "No route-determined election exists on this packet and none is left unmade. routeSelectionsMade is an empty list and the composed pages carry no selection control of any kind: the single statutory ground is stated in the title, the body and the footer rather than elected from a set. requiredOptionsMissing measured 0.",
+        "REPEATING_ROWS": "The packet contains no repeating row structure. Both composed pleadings are prose and single-value dotted blanks, no field carries a row key, and no table appears in either document, so there is no row carrying written cells beside required cells left blank.",
+        "PROTECTED_FIELDS": "Seven protected fields, all confirmed blank in the rendered canonical text. On the petition: the case number, above an empty dotted rule under 'Case number, if the court assigns one at filing'; and the signature and its date, printed as 'DATE .............. SIGNATURE OF PETITIONER ..................' with no ink and the page stating in its own words that nothing on it is signed or dated for the petitioner. On the proposed order: the case number, the ORDERS decision line, the DATED line and the signature line, all empty, with the page carrying 'EVERY DECISION ON THIS PAGE IS THE COURT'S' and 'The court signs here if, and only if, it grants the petition.' No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink.",
+        "ARTIFACTS": "Both fixtures recomputed from the bytes here. canonical.pdf 90c4f8a029287843... 12023 bytes, 5 pages by pdfinfo; boundary.pdf a6bcbd2ab9f34da7... 12215 bytes, 5 pages. Both match reports/rendered-artifacts.json on hash, byte length and page count, and the product-wiring proposedRepresentation component binds the canonical hash recomputed here.",
+        "PAGE_ORDER": "The rendered page order matches the packet manifest in both fixtures: the two-page petition, then the proposed order, then the two-page filing instructions, which is the declared componentSet order primary_filing, proposed_order, filing_instructions. pdfinfo agrees with the manifest at five pages.",
+        "CLIPPING_AND_OVERLAP": "Measured here from word bounding boxes. Canonical carries 1016 words across five pages and boundary 1018, and on both fixtures zero words fall outside an 18pt printable margin and zero word pairs overlap by more than 1pt on both axes off the same text line. Every page is composed by this build, so there is no source typography to separate out and the measurement is of the build's own output throughout. No ink lies outside a measured write box.",
+        "FILING_DESTINATION": "Stated as far as the record allows and honest about the rest. The route contract records no named court -- its requiredFacts include 'What venue or agency?', making venue a participant fact -- so the packet does not invent one. It names the destination as 'the court with jurisdiction over the matter', prints that on the caption rule with the parenthetical 'that court's own office can confirm both' for the court and its county or city, makes the court name a required-before-filing blank on both the petition and the proposed order, and tells the participant in the filing step to file there and to have that court's office confirm it is the right court.",
+        "FEE_AND_WAIVER": "FAIL. The fee is stated: the packet says whether a filing fee applies is not established by the committed records it is built from, and names the office of the court with jurisdiction over the matter as the authority that can answer it. The waiver is not stated at all. The word 'waiver' does not occur anywhere in participant-instructions.md or in any of the five rendered pages, so a participant who cannot pay is told neither that a waiver route may exist, nor that no committed record establishes one, nor which office would answer it. Its two siblings do state it, and one of them is the other branch of this same statute. composed-treatment:...:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59 carries a FEE_AND_WAIVER line reading 'No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the clerk's office of the Mississippi court with jurisdiction over the matter, which is the court that handled the dismissed charge. Ask before you go, because a filing you cannot pay for is a filing you cannot make.' composed-treatment:...:MS:nonadjudication-under-99-15-26 carries a longer one that ends 'No record this packet binds states a fee waiver for this route, and the office that answers that is the same clerk's office.' This family carries no FEE_AND_WAIVER line at all, and the omission is the build's rather than the record's.",
+        "SERVICE": "PASS, and unusually careful. The packet says no committed record it is built from establishes a service rule for this branch, that the route contract carries no service term and no packet-set manifest exists for the family, and then states in terms that this 'IS NOT A FINDING THAT NO SERVICE IS REQUIRED - it is the absence of a record, and this packet does not turn one into the other.' It then declines an available but wrong inference: the one notice rule the compiled Mississippi profile carries, ten days' written notice to the district attorney before any hearing, is recorded against § 99-19-71 rather than § 99-15-59, and the packet says it does not read it across to this branch and that the participant should not assume it applies. It names the office of the court with jurisdiction as the authority on whether a copy must go to anyone, and says to ask before filing.",
+        "SELF_HELP_STOP": "PASS, and this is the obligation vf06 left unmeasured. The packet states where self-help ends under 'WHEN TO STOP AND GET HELP INSTEAD OF FILING' on the rendered instructions page and again in participant-instructions.md, with six conditions: the matter was anything other than a misdemeanor; a formal charge was filed or any prosecution activity happened during the twelve months; the charge was filed and then dismissed, which is the dismissal branch and a different instrument; anything arising from the matter is pending; there are related counts and the participant is unsure how they are treated; and any immigration question. The first, second and fourth are the route contract's three recorded exclusions -- 'Misdemeanor only', 'No charge or prosecution during the twelve months', 'Nothing pending' -- turned into stop conditions, and the fifth is its requiredFact 'Are there related counts?'. It is measurable, it is grounded in the bound record, and it passes."
+      },
+      "whyThisIsNotBlocked": "Not BLOCKED_SOURCE: both committed records recompute exactly here and MASTER_QUEUE.json reads sourceBound true. Not BLOCKED_LEGAL_INPUT: legalInputStatus is SETTLED, and the repair needs no legal input at all -- it is the statement of an absence the packet has already established for the fee, in the form its own sibling already uses.",
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading/fixtures/boundary.pdf",
+        "src/lib/legal-authority/routes/mississippi.json (route MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59)",
+        "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+        "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/participant-instructions.md (comparison only)",
+        "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/participant-instructions.md (comparison only)"
+      ],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+      "commercialRoutesOpened": 0,
+      "overlayDirectoriesModified": 0,
+      "packetsModified": 0,
+      "productionTouched": false,
+      "repairedNothing": true,
+      "grantsNothing": "This row is a verification reading. It promotes nothing, opens no route and grants no approval."
+    }
   ],
   "supersededLaneMembership": {
     "note": "the earlier reading, when this lane covered other families",
