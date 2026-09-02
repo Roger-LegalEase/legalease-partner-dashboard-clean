@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "a5471ad9da4d3a9b3ab92ba98c385edd96d1fcce",
+  "generatedAtCommit": "a15c3a08683fc57ebea3f75be64c425e85893706",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3473,21 +3473,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "ut_pet_dismissed_without_prejudice-set",
-      "familyId": "ut_pet_dismissed_without_prejudice-set",
-      "itemId": null,
-      "familyIds": [
-        "ut_pet_dismissed_without_prejudice-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX07",
-      "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T16:34:29.558Z"
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "ut_pet_limitations-set",
       "familyId": "ut_pet_limitations-set",
       "itemId": null,
@@ -3503,21 +3488,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "ut_pet_limitations-set",
-      "familyId": "ut_pet_limitations-set",
-      "itemId": null,
-      "familyIds": [
-        "ut_pet_limitations-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX08",
-      "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T16:34:35.212Z"
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "ut_pet_no_charges-set",
       "familyId": "ut_pet_no_charges-set",
       "itemId": null,
@@ -3530,21 +3500,6 @@
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T01:00:19.765Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ut_pet_no_charges-set",
-      "familyId": "ut_pet_no_charges-set",
-      "itemId": null,
-      "familyIds": [
-        "ut_pet_no_charges-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX01",
-      "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T16:34:18.713Z"
     },
     {
       "subjectType": "packet-family",
@@ -10038,7 +9993,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "455695721e7990a42b28639165055769e172c73b3a84088566f96917be32f4e8",
+  "claimsDigest": "4aa17c1ea5ca116a1441e19fc41850a25972119e8ba16f7608803ef7b0e37124",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -17651,6 +17606,39 @@
       "previouslyReleasedAt": "2026-09-02T00:06:52.576Z",
       "transferredAt": "2026-09-02T04:23:19.545Z",
       "reason": "re-verification after repair: VF12 produced the verdict being re-read, so the second independent read moves to a lane that has not written this family; score the canonical fifteen at a stated verifiedAtBase"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_limitations-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX09",
+      "previouslyReleasedAt": "2026-09-01T16:34:35.212Z",
+      "transferredAt": "2026-09-02T05:42:21.220Z",
+      "reason": "the packet denies stating a fee amount its own delivered PDF prints as $65.00 three times, which DET-FEE-AND-WAIVER-001-A4 forbids in as many words; FABLE-R17 repaired the identical sentence on three siblings on this host and gated the fix on per-family flags rather than rewrite families it held no claim on"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_dismissed_without_prejudice-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX07",
+      "toLane": "FIX09",
+      "previouslyReleasedAt": "2026-09-01T16:34:29.558Z",
+      "transferredAt": "2026-09-02T05:42:21.300Z",
+      "reason": "the packet denies stating a fee amount its own delivered PDF prints as $65.00 three times, which DET-FEE-AND-WAIVER-001-A4 forbids in as many words; FABLE-R17 repaired the identical sentence on three siblings on this host and gated the fix on per-family flags rather than rewrite families it held no claim on"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_no_charges-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX09",
+      "previouslyReleasedAt": "2026-09-01T16:34:18.713Z",
+      "transferredAt": "2026-09-02T05:42:21.382Z",
+      "reason": "the packet denies stating a fee amount its own delivered PDF prints as $65.00 three times, which DET-FEE-AND-WAIVER-001-A4 forbids in as many words; FABLE-R17 repaired the identical sentence on three siblings on this host and gated the fix on per-family flags rather than rewrite families it held no claim on"
     }
   ],
   "withdrawals": [
@@ -18404,6 +18392,30 @@
       "operation": "exact-source-identity",
       "lane": "DISC01",
       "withdrawnAt": "2026-09-02T05:17:36Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_dismissed_without_prejudice-set",
+      "operation": "rapid-repair",
+      "lane": "FIX09",
+      "withdrawnAt": "2026-09-02T05:43:41Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_limitations-set",
+      "operation": "rapid-repair",
+      "lane": "FIX09",
+      "withdrawnAt": "2026-09-02T05:43:41Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_no_charges-set",
+      "operation": "rapid-repair",
+      "lane": "FIX09",
+      "withdrawnAt": "2026-09-02T05:43:41Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
