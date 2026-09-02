@@ -17,8 +17,8 @@
   ],
   "familiesAudited": 126,
   "byResult": {
-    "PASS_COMPLETE": 116,
-    "FAIL_COMPONENT_SET": 3,
+    "PASS_COMPLETE": 117,
+    "FAIL_COMPONENT_SET": 2,
     "FAIL_MISSING_REQUIRED_FACTS": 4,
     "FAIL_ROUTE_SELECTION": 3
   },
@@ -139,7 +139,8 @@
     {
       "familyId": "ar-arrest-seal-set",
       "directory": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill",
-      "result": "FAIL_COMPONENT_SET",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -151,20 +152,24 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
+      "failedCounters": [],
       "totals": {
-        "terminalFields": 0,
-        "written": 0,
-        "blank": 0,
-        "blanksByDisposition": {},
-        "rowsInspected": 0
+        "terminalFields": 66,
+        "written": 15,
+        "blank": 51,
+        "blanksByDisposition": {
+          "OPTIONAL_PARTICIPANT_CONTENT": 7,
+          "REQUIRED_BEFORE_FILING": 10,
+          "PROTECTED_FIELD": 27,
+          "PARTICIPANT_ELECTION_GENUINE": 7
+        },
+        "rowsInspected": 1,
+        "fieldMapSchema": "documents-and-decisions"
       },
-      "findings": [
-        {
-          "counter": "requiredComponentsMissing",
-          "why": "the field map uses a schema this verifier does not read (schemaVersion, familyId, routeKeys, renderStrategy, generationAllowed, runtimeSelectable, documents); it is refused rather than read as empty"
-        }
-      ],
-      "auditable": false
+      "outputApprovalStatus": "REQUESTED",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
     },
     {
       "familyId": "ar-misdemeanor-dwi-seal-set",
