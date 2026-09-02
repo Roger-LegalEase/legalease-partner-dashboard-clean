@@ -1058,6 +1058,30 @@ for (const f of IN.scoreboard.familiesDetail) {
    */
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
     && rasterNotEligible.has(familyId)) state = "VERIFY_PENDING";
+  /*
+   * A PASS IS ABOUT BYTES, AND BYTES MOVE.
+   *
+   * The ordering rule below was built for the failing direction: a repair that
+   * postdates a FAIL may answer it, and one that predates it cannot. The
+   * passing direction has the same dependence on ordering and never had the
+   * rule, so a PASS survived any later rebuild of the very packet it was about.
+   *
+   * wv_conv_single_misdemeanor-set is the case that proved it costly. It passed
+   * all fifteen obligations in the morning; the AcroForm containment lane later
+   * measured thirteen checkbox appearances landing at twice their true
+   * coordinates in the artifact that verdict had read -- one of them off the
+   * page -- and rebuilt it. The packet the verifier passed no longer exists,
+   * and without this the family sat at VERIFIED_PASS on the strength of a read
+   * of superseded bytes, with no raster receipt for the new ones. L4 and F30
+   * caught it, which is the gate working; this is the state machine no longer
+   * needing to be caught.
+   *
+   * Measured the same way as the failing direction, against the only thing that
+   * decides it: whether the family's own artefacts moved between the base the
+   * verdict declares and this head.
+   */
+  else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
+    && familyMovedSinceVerdict(independentReturn, directory, buildScript)) state = "VERIFY_PENDING";
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT") state = "VERIFIED_PASS";
   /*
    * AND THE REPAIR HAS TO POSTDATE THE VERDICT.

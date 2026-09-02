@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "c4d772c59645b42635648e9f87ae6e48eff7d8eb",
+  "atCommit": "4219e36966192174cc6ecbf3eff36b85d4a909c8",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -35,12 +35,12 @@
     }
   ],
   "counts": {
-    "completePacketProven": 111,
+    "completePacketProven": 110,
     "familiesInsideTheOwnerApproval": 57,
     "provenAndApproved": 2,
     "inCohort": 2,
     "cohortRoutes": 13,
-    "provenButOutsideAnyExistingApproval": 109
+    "provenButOutsideAnyExistingApproval": 108
   },
   "whyTheCohortIsSmall": "The decision owner's completed-output approval covers 57 families, and 112 families are packet-proven, but they are largely different populations: the approval covers the earlier guidance-implementation wave, and the proof covers the later census-v1 packet wave. Only the overlap can enter a first cohort without a new legal decision.",
   "cohort": [
@@ -761,12 +761,6 @@
     {
       "familyId": "wi_nc_doj_fingerprint_removal-set",
       "jurisdiction": "WI",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "wv_conv_single_misdemeanor-set",
-      "jurisdiction": "WV",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
@@ -4148,36 +4142,6 @@
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf01",
         "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757"
-      },
-      "legalApproval": null
-    },
-    {
-      "familyId": "wv_conv_single_misdemeanor-set",
-      "jurisdiction": "WV",
-      "routeKeys": [
-        "obligation:track-pathway:WV:wv_conv_single_misdemeanor:eligible-conviction-expungement-under-w-va-code-61-11-26"
-      ],
-      "routeCount": 1,
-      "deliveryType": "official_pdf_fill",
-      "checks": {
-        "packetProven": true,
-        "verdictCurrentAndDeclaresItsBase": true,
-        "rasterReceiptStillBindsTheBytes": true,
-        "routeToFamilyBindingExact": true,
-        "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
-        "noSubstantiveLegalChangeSinceThatApproval": false,
-        "noHoldApplies": true
-      },
-      "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
-        "noSubstantiveLegalChangeSinceThatApproval"
-      ],
-      "inCohort": false,
-      "independentVerification": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf07",
-        "verifiedAtBase": "7314d48f70865e60531332f253b3c396d244540d"
       },
       "legalApproval": null
     },
