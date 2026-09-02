@@ -26,11 +26,17 @@
     "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
   },
   "summary": {
-    "families": 5,
-    "PASS_COMPLETE_INDEPENDENT": 3,
-    "FAIL_REPAIR_REQUIRED": 2,
+    "families": 11,
+    "PASS_COMPLETE_INDEPENDENT": 6,
+    "PASS": 1,
+    "FAIL_REPAIR_REQUIRED": 4,
     "BLOCKED_SOURCE": 0,
-    "BLOCKED_LEGAL_INPUT": 0
+    "BLOCKED_LEGAL_INPUT": 0,
+    "STOPPED": 0,
+    "tallyRecomputedOverEveryRowInThisFile": true,
+    "onlyFableVaRowsAreFableVaDeterminations": [
+      "pa_pardon_expungement-set"
+    ]
   },
   "rows": [
     {
@@ -1870,6 +1876,342 @@
       "packetsModified": 0,
       "grantsNothing": "This row is a verification reading. It promotes nothing, opens no route and grants no approval.",
       "feeStandardAmendmentsApplied": "A1, A2 and A3. A3 was published after this base and I read it from commit 1df1b7a5a. It does not move this row, and this family is a clean worked example of A3 rather than a casualty of it. The compiled Wisconsin profile's fee table is exactly the shared multi-route shape A3 warns about: it carries a CR-266 adult court petition line, a juvenile JD-1780 line, a certified-dispositions line, a fee-based DOJ-CIB criminal background check line, and the line for this route — 'DOJ-CIB fingerprint arrest removal Wisconsin DOJ says no fee is required'. The packet took the line that names this route's own filing and no other. It then carried the background-check line separately and labelled it as a different transaction, telling the participant not to read no fee for the removal as no cost for the whole errand. That is naming the fact, finding the record that establishes it for this route, and declining to let an adjacent line speak for it — A3's three steps, done before A3 was written."
+    },
+    {
+      "itemId": "pa_pardon_expungement-set",
+      "lane": "VF01",
+      "assignmentId": "VF01",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "verifiedAtBase": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+      "verifier": "FABLE-VA (independent: built, repaired and rendered none of this family; asserted the VF01 grant before reading anything)",
+      "whyThisReaderIsIndependent": "The VF01 grant on this family was asserted at the ledger before any artifact was opened and returned CLAIM_OK. FABLE-VA holds no packet-build or repair claim on pa_pardon_expungement-set, wrote no byte inside its overlay directory, and produced none of the reports it reads. The two known-open items were re-derived rather than inherited: the route-key correction was re-tested against the census and against the delivered bytes, and every digest was recomputed. The two failures recorded below were found by reading the delivered packet against its own instructions and against the committed manifest, and neither was named by the lane that returned this family.",
+      "obligationsScored": 15,
+      "corpusMounted": true,
+      "corpusIdentity": "archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, governance checksums verified, jurisdictions=51 files=499 pdfs=329",
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PENDING",
+      "rasterWorkflowRunId": null,
+      "rasterStateExplained": "RASTER_QUEUE.json carries a row for this family in state RASTER_PENDING with no rasterReceipt, and the family is one of the three named as mid-render. Both pinned hashes still equal the bytes on disk and coverage.complete is true, so the pin is sound and the receipt is simply not back yet. That is recorded as a residual limit, not as a failure, and it does not cause either failure below.",
+      "verdictCeilingApplied": null,
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "PAGE_ORDER"
+      ],
+      "unmeasuredObligations": [],
+      "feeStandardAmendmentsApplied": "A1, A2, A3 and A4, read at this base before FEE_AND_WAIVER, SERVICE, FILING_DESTINATION or SELF_HELP_STOP was scored. A2 widened the repository beyond the family's own bound forms, and that matters twice here: it is what makes the fee statement pass, and it is what makes the guidance page's stated reason wrong. A4's narrow rule, that a packet may never tell a participant it does not state something it does state, is what decides REQUIRED_BEFORE_FILING below, and it needed no source hunt at all: the delivered page contradicts the packet's own instructions.",
+      "repairedFamilyReRead": {
+        "whatWasClaimedRepaired": "A route key printed on the packet face that occurred zero times in the census was corrected to the two canonical keys, and product-wiring.json was reported stale on its digests.",
+        "whatIVerified": "The route-key repair holds, in the bytes and not only in the sources. The dead key obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement occurs zero times in the canonical route universe, zero times in the route obligation candidate, and zero times in any delivered PDF of this family. Both assembled packets print exactly the two canonical keys, and each of those occurs 5 times in the canonical route universe. MASTER_QUEUE.json still lists ROUTE_IDENTITY under this family's failedObligations; against these bytes that entry is stale.",
+        "whatIFoundThatNobodyHadNamed": "The two failures below. Neither is the route key and neither is the digest; both are about what the delivered packet tells a participant to do, and both are visible only by reading the delivered pages against the packet's own instructions and against the committed manifest."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set, run in this container at this base: PASS_COMPLETE, 17/109 written, all nine zero. Non-vacuous: 109 terminal dispositions were audited and 17 came back written.",
+        "andTheCounterCaveat": "all nine counters are zero and this family fails two obligations. Neither failure is a counter's question: one is a sentence in the delivered packet that contradicts the packet's own instructions, and the other is the order the components are bound in. A counter that reads fields cannot see either."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "Both canonical route keys resolve in the census and both are printed on the delivered packet face. The dead key is gone from every artifact and from every delivered byte.",
+          "evidence": {
+            "routeKeys": [
+              "obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route",
+              "obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition"
+            ],
+            "occurrencesOfEachInCanonicalRouteUniverse": 5,
+            "priorDeadKey": "obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement",
+            "deadKeyOccurrencesInCanonicalRouteUniverse": 0,
+            "deadKeyOccurrencesInRouteObligationCandidate": 0,
+            "deadKeyOccurrencesInDeliveredPdfs": 0,
+            "keysPrintedInCanonicalPdf": 2,
+            "keysPrintedInBoundaryPdf": 2,
+            "carriedBy": [
+              "participant-instructions.md",
+              "production-field-map.json",
+              "product-wiring.json",
+              "the process-guidance page in both assembled packets"
+            ],
+            "agreesWithMasterQueueRouteKeys": true,
+            "masterQueueFailedObligationsIsStaleAgainstTheseBytes": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "Both bound official binaries rehash exactly from the mounted corpus. Measured, not deferred.",
+          "evidence": {
+            "sourcesRehashedHere": 2,
+            "exactMatches": 2,
+            "mismatches": 0,
+            "PA-RCRIM-P-790-PETITION": "fc06486e75773d4f... 87647 bytes, REV-2009-03, exact",
+            "PA-RCRIM-P-790-ORDER": "4d312ebde4aed7c1... 151853 bytes, REV-2021-07, exact",
+            "agreesWithSourceReceipt": true,
+            "sourceReceiptAllSourcesExact": true,
+            "observationNotAFailure": "the committed packet-set manifest gives the SAME officialSourceUrl for both components, and that URL names the blank expungement ORDER pdf. The bound bytes are two distinct exact forms and the binding is by hash rather than by URL, so nothing in the delivered packet is wrong; the manifest's petition URL is a source-registry defect worth a separate look and is not scored here."
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "All three declared components are present in both assembled packets, and the builder's page manifest matches the delivered bytes page for page.",
+          "evidence": {
+            "componentsDeclaredInManifest": 3,
+            "componentsDeliveredPerFixture": 3,
+            "assembledPacketPages": 5,
+            "pageManifestVerifiedAgainstBytes": "packetPage 1 primary_filing, 2 and 3 proposed_order, 4 and 5 process_guidance; I read the first lines of all five pages and they match",
+            "perComponentPdfsAlsoShipped": 4,
+            "componentPageCounts": "petition 1p, order 2p, guidance 2p",
+            "conditionalityObservation": "the manifest marks primary_filing and proposed_order conditional, generated only where the automatic route has not cleared the record after the quarterly cycle. Both ship unconditionally. That is not a missing component and is not scored here, but it is the same defect cluster as the two failures below: the packet ships the conditional documents and withholds the criterion for the condition."
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "Twenty-eight writes across the four delivered documents, every one read back out of the output bytes at its measured rectangle, and nothing written outside a measured write box.",
+          "evidence": {
+            "writeRecordsChecked": 28,
+            "valueMismatches": 0,
+            "canonicalPetitionWrites": 9,
+            "canonicalOrderWrites": 6,
+            "boundaryPetitionWrites": 7,
+            "boundaryOrderWrites": 6,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "distinctCanonicalValuesAbsentFromTheAssembledText": 0,
+            "factsWritten": "full legal name, date of birth, address lines, county, docket number and the case style only",
+            "boundaryStressCase": "Maria-Alejandra O'Shaughnessy-Whitfield and Luzerne County render whole; the boundary petition writes 7 rather than 9 because two values do not fit and are refused rather than truncated"
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "finding": "The delivered process-guidance page tells the participant, in terms, that the packet states no timetable and no criterion for telling which of the two routes they are in. The packet's own participant instructions state both: a quarterly Board of Pardons to AOPC transmission cycle, and the unconditional-pardon criterion. The committed manifest goes further and makes a quarterly verification date a required-before-filing participant action, and that date appears nowhere in any delivered byte. A reader is told to go and find out something the packet has already told them, and is given no schedule for the cycle that decides whether they need to file at all. Separately, seven of the seventy-eight required-item rows tell the participant nothing they can act on.",
+          "evidence": {
+            "sentenceInTheDeliveredBytes": "This page states no timetable and no criterion for that, because neither is established by the two forms this packet is built from, and an unsourced criterion in a filing instruction is worse than none.",
+            "occurrencesOfThatSentence": "1 in canonical.pdf and 1 in boundary.pdf, on the process-guidance page",
+            "whatThePacketActuallyStates": "the Board of Pardons transmits eligible records to the Administrative Office of Pennsylvania Courts quarterly, AOPC sends the record on to the court of common pleas, and that court orders expungement once it confirms the criteria",
+            "whereItStatesIt": "participant-instructions.md, What you must do, item 4",
+            "criterionAlsoStatedThere": "the pardon must be unconditional; a conditional pardon may lead to Clean Slate limited access rather than to full expungement",
+            "a4RuleApplied": "a packet may never tell a participant that it does not state something it does state; this is internal consistency and does not depend on A1, A2 or A3",
+            "theStatedReasonIsAlsoWrongUnderA2": "the guidance page grounds its refusal in 'the two forms this packet is built from'. A2 settled that the repository is every committed record the family binds plus every record the census names for the route, which includes the compiled state profile and the committed packet-set manifest. The manifest answers this.",
+            "manifestRequiredBeforeFilingItem": "complete_field, 'Quarterly verification date - Guidance, verification schedule', requirement required, requiredBeforeFiling true",
+            "occurrencesOfQuarterlyInDeliveredPdfs": 0,
+            "occurrencesOfQuarterlyInParticipantInstructions": 1,
+            "occurrencesOfVerificationScheduleAnywhereInTheFamily": 0,
+            "soTheRequiredActionHasNoPlaceToBeRecorded": "no delivered component carries a quarterly verification date field, and no instruction row asks for one",
+            "secondLimbUninformativeRows": {
+              "rowsTotal": 78,
+              "rowsWhoseGuidanceIsSelfReferential": 7,
+              "text": "what the form asks for beside \"<the caption again>\"",
+              "worstCase": "four consecutive rows are all labelled 'Docket No: CP- ---20' with identical guidance, so a participant cannot tell the four caption docket segments apart",
+              "others": [
+                "Address: Alias(es):",
+                "CASE INFORMATION",
+                "CASE INFORMATION"
+              ],
+              "whyThisIsTheSameObligation": "the obligation is that the participant can complete the packet before filing; a row that repeats the caption back is not an instruction"
+            },
+            "whatIsNotWrongHere": "the field-level arithmetic is sound and I checked it: requiredBeforeFilingCount 78 equals the field map's requiredBeforeFiling list length and equals the instruction table row count. This failure is not a counting failure.",
+            "whatWouldClearIt": "state the quarterly cycle on the guidance page or delete the sentence that denies it, give the quarterly verification date the manifest requires somewhere a participant can record it, and replace the seven self-referential rows with guidance that names what to write"
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "Both routes are carried, named on the packet face and told apart, no box is marked on either form, and the participant is given a named authority for establishing which route they are in.",
+          "evidence": {
+            "routesCarried": 2,
+            "routesPrintedOnTheDeliveredPage": 2,
+            "routeSelectionsMade": 0,
+            "routeSelectionMarksInDeliveredBytes": 0,
+            "strayRouteSelectionStrokes": 0,
+            "statedReasonForMarkingNothing": "every checkbox on the petition is a statement about the participant's own record, so the packet marks none and says so",
+            "howTheParticipantChooses": "ask the Clerk of Courts for the county in the caption what the docket now shows, and read the Pennsylvania State Police criminal history that the petition already requires",
+            "whyThisIsNotTheFailure": "the options are present and discriminated, and a named checkable authority answers which one applies. What fails is narrower and is recorded under REQUIRED_BEFORE_FILING: the packet denies stating a timetable it states."
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "Both repeating structures are enumerated completely and symmetrically, with no partial row on either.",
+          "evidence": {
+            "chargeRows": 5,
+            "columnsPerChargeRow": 7,
+            "columns": [
+              "PA Statute Title",
+              "Section",
+              "Subsection",
+              "Statute Description",
+              "Counts",
+              "Grade",
+              "Disposition"
+            ],
+            "rowsWithAllSevenColumnsListed": 5,
+            "partialChargeRows": 0,
+            "aliasGroupOnThePetition": 2,
+            "aliasGroupOnTheOrder": 3,
+            "totalChargeRowInstructionRows": 35,
+            "incompleteRowsCounterMeasuredHere": 0,
+            "overflowHandled": "the form's own 'attach additional sheets if necessary' text is preserved on the delivered page for cases with more than five charges"
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "No signature, no signature date and no checkbox is written on either form, and nothing is drawn outside a measured write box.",
+          "evidence": {
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "routeSelectionMarks": 0,
+            "strayStrokes": 0,
+            "signatureBlockOnTheDeliveredPetition": "Signature of Petitioner and Date present and blank",
+            "orderSignatureBlock": "BY THE COURT present and blank",
+            "orderNotSigned": true,
+            "instructionsSayWhy": "a signature is the participant's alone, and a date written before signing would be false",
+            "observationNotAFailure": "the instructions describe the order as carrying 'only the style of the case', and the platform also writes the date of birth into Rule 790 information item 4 and the docket number into item 8. Those are caption-identity facts, they are visibly on the page, and no instruction row asks the participant to supply them, so no participant is told a blank is theirs when it is filled. The phrase is imprecise rather than false and does not engage A4."
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Every digest in the render report recomputes, and both hashes the raster queue pins still equal the bytes on disk. Scored on the bytes. One generated wiring file disagrees, and the pin does not.",
+          "evidence": {
+            "renderedArtifactsDigestsRecomputed": 12,
+            "matched": 12,
+            "mismatched": 0,
+            "coverage": "2 fixture PDFs and 10 raster PNGs, 5 pages per fixture",
+            "rasterQueueCanonicalPin": "888d476669d2dcfa... equals the bytes on disk",
+            "rasterQueueBoundaryPin": "bdc27af98952ba01... equals the bytes on disk",
+            "coverageComplete": true,
+            "expectedPages": 5,
+            "actualPagesCanonical": 5,
+            "actualPagesBoundary": 5,
+            "theWiringDisagreesAndThePinDoesNot": "product-wiring.json proposedRepresentation.components[0].sha256 declares 4a7113112f29b05f... where canonical.pdf actually hashes 888d476669d2dcfa... It is one stale digest in a generated file, the raster queue's pin of the same bytes is correct, and the render report's own digest of the same bytes is correct. Two of the three records agree with the bytes and the third is stale, so the bytes are not in doubt and this is a regeneration task rather than a packet defect.",
+            "undeclaredFilesOnDisk": "4 per-component PDFs are in fixtures/ and are not enumerated in reports/rendered-artifacts.json. Their page counts sum to the assembled packets and their content matches, so they are undeclared rather than inconsistent.",
+            "residualLimitNotAFailure": "no raster receipt yet. currentRasterState is RASTER_PENDING with rasterReceipt null and this family is one of the three named as mid-render, so a missing receipt is recorded here as a residual limit rather than scored as a defect. The family's committed PNGs come from scripts/raster/pdf-page-raster.mjs with the calibrated Chromium engine at 3.3333 px/pt and calibrationResidualPx 0, which is the right engine, but they are the build's own render and not the central gate's verdict.",
+            "consequence": "this family cannot reach PASS_COMPLETE while it holds no hash-bound RASTER_PASS, independently of the failures above and below"
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "FAIL",
+          "finding": "The assembled packet binds its components in the reverse of the order the committed manifest declares. The manifest puts the process-guidance page first and marks the petition and the order conditional on it; the delivered packet puts the petition first, the order second, and the guidance page last, on pages 4 and 5. The guidance page's own opening line is READ THIS BEFORE YOU FILE ANYTHING, and the packet's instructions tell the participant to find out first whether they need to file at all. A participant reading the packet in the order it is bound reaches that instruction after the two documents it is meant to gate.",
+          "evidence": {
+            "manifestComponentOrder": "order 1 process_guidance (requirement required), order 2 primary_filing (requirement conditional), order 3 proposed_order (requirement conditional)",
+            "manifestConditionOnThePetition": "Generated only where the automatic route has not cleared the record after the quarterly cycle.",
+            "deliveredPageOrder": "page 1 primary_filing, pages 2 and 3 proposed_order, pages 4 and 5 process_guidance",
+            "verifiedFromTheBytes": "I read the first lines of all five pages of canonical.pdf: page 1 'In the Court of Common Pleas', page 2 'Commonwealth of Pennsylvania IN THE COURT OF COMMON PLEAS OF', page 3 'Pursuant to Pa.R.Crim.P. 790, the following information is provided', page 4 'PROCESS GUIDANCE: WHICH OF THE TWO ROUTES YOU ARE IN', page 5 the route-key footer",
+            "sameInBothFixtures": true,
+            "theGuidancePagesOwnWords": "READ THIS BEFORE YOU FILE ANYTHING, and: if the automatic route has already cleared the record, there is nothing here to file. A packet that only ever told you to file would be telling you to do work you may not need to do, and to pay for it.",
+            "theInstructionsAgreeWithTheManifestAndNotWithTheBinding": "participant-instructions.md item 4 reads 'Find out first whether you still need to file at all'",
+            "whatCouldRebutThis": "the builder's own reports/rendered-artifacts.json declares componentSet in the delivered order and its pageManifest matches the bytes exactly, so the build is self-consistent. The disagreement is with the committed packet-set manifest, which under A2 is a held source and which is the record that states an order. I record the rebuttal so the repair lane can weigh it rather than discover it.",
+            "whatWouldClearIt": "bind the process-guidance component first, as the manifest orders it, or amend the manifest's order and say why; either way the packet and the manifest must stop disagreeing about which page a participant reads first"
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "No word falls outside the page box on any delivered page, and every word-box overlap the delivered packet adds beyond the official forms is a written value sitting on the rule line of its own blank, which is what filling a ruled blank looks like. Confirmed in pixels on both the canonical and the boundary render.",
+          "evidence": {
+            "deliveredPdfsMeasured": 6,
+            "wordsOutsideThePageBox": 0,
+            "officialPetitionOverlapPairs": 0,
+            "officialOrderOverlapPairs": 133,
+            "deliveredCanonicalOverlapPairs": 143,
+            "deliveredBoundaryOverlapPairs": 141,
+            "netNewOverlapPairs": 10,
+            "everyNewPairIsOfOneClass": "a written value intersecting the underscore rule that marks the blank it is written into, for example 'Jordan Avery Reyes' with the rule on Rule 790 information item 1",
+            "theOfficialOrdersOwn133PairsAreInherent": "they are in the unmodified corpus source and are reproduced unchanged",
+            "confirmedInPixels": "raster/canonical/page-03/page.png and raster/boundary/page-03/page.png read at this base: 'Jordan Avery Reyes' and the 39-character boundary name 'Maria-Alejandra O'Shaughnessy-Whitfield' both render whole and legible on the rule, with no truncation and no collision; raster/boundary/page-01/page.png shows the caption block, the county and the defendant name all rendering inside their rules",
+            "rasterEngine": "scripts/raster/pdf-page-raster.mjs, calibrated Chromium, 3.3333 px/pt, calibrationResidualPx 0",
+            "boundaryOverflowHandling": "where a value will not fit, the finalizer refuses it rather than drawing it: the boundary petition writes 7 values where the canonical writes 9"
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The packet states the destination the repository holds and then does more than the record requires: it names the court that decides, and tells a participant who does not know their judicial district how to find it.",
+          "evidence": {
+            "heldSource": "the committed packet-set manifest, participantActionRequired kind 'file'",
+            "manifestText": "Nothing is filed on the automatic route. On the fallback route, file the verified Rule 790 petition and blank order with the clerk of courts.",
+            "packetText": "File the completed packet with the Clerk of Courts of the judicial district where the charges were disposed - the county named in the caption. A Rule 790 petition is decided by a judge of the Court of Common Pleas of that district, and it is decided there even if a magisterial district judge or a Philadelphia Municipal Court judge disposed of the case.",
+            "a1TestApplied": "the repository establishes it, so the packet states it rather than naming an authority to ask",
+            "howToIdentifyTheDistrict": "the docket number identifies it and the Clerk of Courts can tell the participant from the docket number",
+            "bothRoutesCovered": "the packet says plainly that nothing is filed where the automatic route has already cleared the record"
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "The packet states everything the repository holds about cost, refuses to present a statewide range as the participant's county figure, names the office that answers it, and names the waiver route. It states no amount it cannot point at.",
+          "evidence": {
+            "standardLimbMet": "the packet states that no held source establishes the county fee AND names a specific checkable authority",
+            "namedAuthority": "the Clerk of Courts of the judicial district where the charges were disposed",
+            "authorityNamedTwiceInTheMoneyParagraph": true,
+            "rangeStated": "roughly $132 to $215",
+            "rangeTracesTo": "src/lib/rcap/state-packs/pennsylvania/fee-notes.ts, 'Petition filing fees vary by county and are often about $132-$215.'",
+            "soItIsNotInvented": "A2's whatDoesNotCount forbids a figure a lane believes but cannot point at in a committed record. This one is in a committed record and I found it by search rather than taking the builder's word.",
+            "compiledProfileCheck": "PA-pennsylvania.json packetGenerator.feeRules is an empty array and the profile states no filing-fee amount for a Rule 790 petition, so nothing more specific is held",
+            "manifestPayFee": "No fee on the automatic route. County filing fees apply to the fallback petition and vary.",
+            "a3Check": "the fee-notes line is generic to Pennsylvania petitions and is not keyed to a different statutory section, so reading it here is not a sibling-route inference. The packet nonetheless declines to present it as the county figure, which is the honest treatment.",
+            "waiver": "in forma pauperis is named, the packet says plainly that it does not include the form, and it names the same Clerk of Courts as the office that explains how to file that way",
+            "manifestWaiverEntry": "In forma pauperis relief is available for the fallback petition.",
+            "a4Check": "the packet does not say it states no amount; it states the range explicitly and labels what the range is and is not. No sentence denies what the packet states."
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "The packet states the service rule the repository holds, names the recipient, and adds the two deadlines that follow from it. The delivered petition carries the same rule in the court's own words.",
+          "evidence": {
+            "heldSource": "the committed packet-set manifest, participantActionRequired kind 'serve_party'",
+            "manifestText": "None on the automatic route; service on the attorney for the Commonwealth on the fallback route.",
+            "packetText": "After you file, the petition is served on the Commonwealth - the District Attorney, as the attorney for the Commonwealth - and the Commonwealth then has 60 days from service to consent, object, or do nothing.",
+            "onTheDeliveredPageItself": "When this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth.",
+            "furtherDeadlinesStated": "after the 60-day window the judge grants, denies or schedules a hearing; an order granted without the Commonwealth's consent is stayed for 30 days while an appeal may be taken",
+            "recordKeepingStated": "keep your proof of service with your copy of the packet",
+            "bothRoutesCovered": "the packet is explicit that nothing is served on the automatic route, matching the manifest"
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "Both the instructions and the delivered guidance page say where the packet's help ends, and both say it in the same terms.",
+          "evidence": {
+            "sectionInTheInstructions": "What this packet is not",
+            "sectionInTheDeliveredBytes": "WHAT THIS PACKET IS NOT, on the process-guidance page of both assembled packets",
+            "whatItDisclaims": "it is not legal advice, it is not filed for the participant, and it does not decide whether the court will order expungement",
+            "whatItAlsoRefuses": "the guidance page declines to invent a criterion it cannot source, and says so",
+            "observationNotAFailure": "the packet names no lawyer or legal-aid office as the next step, where some families in this factory do. No standard in this repository requires one, so this is recorded rather than scored.",
+            "andTheCaveat": "the guidance page's refusal is correctly motivated and wrongly scoped, and that is scored under REQUIRED_BEFORE_FILING rather than twice"
+          }
+        }
+      },
+      "whatIMeasuredVersusResidualLimits": {
+        "measuredHere": [
+          "two bound source binaries rehashed from the mounted corpus",
+          "six delivered PDFs parsed for word geometry against the page box and differenced for overlap against both official baselines",
+          "12 declared render digests recomputed and both raster-queue pins re-hashed against the bytes",
+          "the five-page assembly order read page by page out of the delivered canonical packet",
+          "28 write records checked back against the output bytes",
+          "the nine completeness counters produced by running the verifier in this container",
+          "the committed packet-set manifest, the compiled Pennsylvania profile and the Pennsylvania state pack fee notes read for the fee, venue, service and required-action facts",
+          "three delivered raster pages read as pixels"
+        ],
+        "residualLimits": [
+          "no raster receipt exists for this family at this base: the queue row is RASTER_PENDING with rasterReceipt null and the render is in flight, so no central gate verdict is bound to these bytes. Recorded as a limit, not a failure, per the brief",
+          "workflow artifact blobs are not downloadable in this container, so no gate-produced pixels were read for this family at all; the pixels I did read are the build's own committed PNGs",
+          "whether the manifest's component order field is intended as a binding order is the question PAGE_ORDER turns on. I state the two records that disagree and the rebuttal, and leave the resolution to the owner of the manifest"
+        ]
+      },
+      "determinationsThatAreNotMine": [
+        "DET-FEE-AND-WAIVER-001 and amendments A1 through A4, applied here and not decided here; A4's internal-consistency rule is what carries the REQUIRED_BEFORE_FILING failure",
+        "A2's ruling that the committed packet-set manifest is a held source, which is what makes the guidance page's stated reason wrong and what makes FILING_DESTINATION, FEE_AND_WAIVER and SERVICE pass",
+        "the correction of this family's route key, which a prior lane made and which I confirmed rather than authored",
+        "whether the compiled profile or the state pack fee notes should be the controlling record for a Pennsylvania filing fee",
+        "the legal content of the two routes, which is counsel's"
+      ],
+      "commercialRoutesOpened": 0,
+      "familyPromoted": false,
+      "productionTouched": false,
+      "packetBytesModified": 0,
+      "overlayDirectoriesModified": 0
     }
   ],
   "supersededLaneMembership": {
@@ -2153,5 +2495,63 @@
     "packetsModified": 0,
     "commercialRoutesOpened": 0,
     "productionTouched": false
+  },
+  "arrayKey": "rows",
+  "itemKeyField": "itemId",
+  "assignmentId": "VF01",
+  "whyThisReaderIsIndependent": "FABLE-VA asserted each grant at data/rcap-grade-a/packet-factory-24h/claim-ledger.json before opening any artifact of the family it names, and read nothing for the six items whose asserts refused. It holds no packet-build, repair or shared-host-repair claim on either family it read, wrote no byte inside either overlay directory, and produced none of the reports it reads. Every counter, digest, hash, geometry measurement and page read below was recomputed in this container at the stated base; where a prior lane's claim is confirmed it is confirmed by re-measurement, and where a prior lane's claim is overturned the measurement that overturns it is given.",
+  "fableVaRead": {
+    "worker": "FABLE-VA",
+    "readAtBase": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+    "branch": "fable/va",
+    "assignmentsHeldPerActiveAssignments": {
+      "VF01": [
+        "ar-arrest-seal-set",
+        "pa_pardon_expungement-set"
+      ],
+      "VF02": [
+        "ar-misdemeanor-dwi-seal-set",
+        "rcap-oh-custom-pleading-clean-tracks"
+      ],
+      "VF03": [
+        "ca-851-91-set",
+        "ut_pet_acquittal-set"
+      ],
+      "VF04": [
+        "ca-prop64-set",
+        "ut_pet_conviction-set"
+      ]
+    },
+    "assertsGranted": [
+      "VF01 pa_pardon_expungement-set",
+      "VF03 ca-851-91-set"
+    ],
+    "assertsRefused": {
+      "VF01 ar-arrest-seal-set": "GRANTED_ELSEWHERE: granted to VF10",
+      "VF02 ar-misdemeanor-dwi-seal-set": "GRANTED_ELSEWHERE: granted to VF10",
+      "VF02 rcap-oh-custom-pleading-clean-tracks": "GRANTED_ELSEWHERE: granted to VF10",
+      "VF03 ut_pet_acquittal-set": "ALREADY_RELEASED at 2026-09-02T06:07:31.306Z",
+      "VF04 ca-prop64-set": "GRANTED_ELSEWHERE: granted to VF12",
+      "VF04 ut_pet_conviction-set": "GRANTED_ELSEWHERE: granted to VF10"
+    },
+    "whatARefusalMeant": "The ledger is the authority and ACTIVE_ASSIGNMENTS.json is a snapshot that the ledger has moved past. Six of the eight items this lane was briefed on are held by other lanes or already released. No grant was transferred and no artifact of those six families was opened, so this return carries no verdict about any of them and no lane should read one into its silence.",
+    "corpusMounted": true,
+    "corpusIdentity": "archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, governance checksums verified, jurisdictions=51 files=499 pdfs=329",
+    "measuredBy": "the fifteen proof obligations, each scored by name; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container rather than read from a builder report; source binaries rehashed from the mounted corpus; declared artifact digests recomputed from the bytes on disk; word geometry and word-box overlap extracted from the delivered PDFs and differenced against the official corpus originals; content streams decoded with pikepdf; and committed raster pages read as pixels.",
+    "whyThisReaderIsIndependent": "FABLE-VA asserted each grant at data/rcap-grade-a/packet-factory-24h/claim-ledger.json before opening any artifact of the family it names, and read nothing for the six items whose asserts refused. It holds no packet-build, repair or shared-host-repair claim on either family it read, wrote no byte inside either overlay directory, and produced none of the reports it reads. Every counter, digest, hash, geometry measurement and page read below was recomputed in this container at the stated base; where a prior lane's claim is confirmed it is confirmed by re-measurement, and where a prior lane's claim is overturned the measurement that overturns it is given.",
+    "commercialRoutesOpened": 0,
+    "familiesPromoted": 0,
+    "productionTouched": false,
+    "packetBytesModified": 0,
+    "overlayDirectoriesModified": 0,
+    "assignmentId": "VF01",
+    "subjectsReadOnThisLane": [
+      "pa_pardon_expungement-set"
+    ],
+    "verdictsOnThisLane": {
+      "pa_pardon_expungement-set": "FAIL_REPAIR_REQUIRED"
+    },
+    "priorRowsPreserved": true,
+    "priorRowsAreNotMine": "Every other row in this file was written by an earlier worker on this lane. FABLE-VA neither confirms nor disturbs them."
   }
 }

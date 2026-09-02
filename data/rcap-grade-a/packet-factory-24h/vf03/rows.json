@@ -25,11 +25,17 @@
     "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
   },
   "summary": {
-    "families": 4,
-    "PASS_COMPLETE_INDEPENDENT": 2,
-    "FAIL_REPAIR_REQUIRED": 1,
+    "families": 11,
+    "PASS_COMPLETE_INDEPENDENT": 4,
+    "PASS": 0,
+    "FAIL_REPAIR_REQUIRED": 6,
     "BLOCKED_SOURCE": 1,
-    "BLOCKED_LEGAL_INPUT": 0
+    "BLOCKED_LEGAL_INPUT": 0,
+    "STOPPED": 0,
+    "tallyRecomputedOverEveryRowInThisFile": true,
+    "onlyFableVaRowsAreFableVaDeterminations": [
+      "ca-851-91-set"
+    ]
   },
   "rows": [
     {
@@ -2378,6 +2384,307 @@
       "packetsModified": 0,
       "grantsNothing": "This row is a verification reading. It promotes nothing, opens no route and grants no approval.",
       "feeStandardAmendmentsApplied": "A1, A2 and A3. A3 was published after this base and I read it from commit 1df1b7a5a. It does not move this row's FEE_AND_WAIVER pass, and I re-checked each source against A3's per-fact test rather than assuming. The compiled Pennsylvania profile's packetGenerator.feeRules is an empty array, so there is no sibling line to misread. The statewide range is keyed to this route and not to a neighbour: data/rcap-ledger/authority-ledger.json records it as the county filing fee schedule for a Rule 790 expungement petition, which is this family's own filing. The waiver answer and the destination come from the registry entry for track pa_pardon_expungement itself. Nothing was inferred from a sibling remedy."
+    },
+    {
+      "itemId": "ca-851-91-set",
+      "lane": "VF03",
+      "assignmentId": "VF03",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill",
+      "verifiedAtBase": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+      "verifier": "FABLE-VA (independent: built, repaired and rendered none of this family; asserted the VF03 grant before reading anything)",
+      "whyThisReaderIsIndependent": "The VF03 grant on this family was asserted at the ledger before any artifact was opened and returned CLAIM_OK. FABLE-VA holds no packet-build, repair or shared-host-repair claim on ca-851-91-set or on its shared build host, wrote no byte inside its overlay directory, and produced none of the reports it reads. Every number below was recomputed in this container from the delivered bytes and the mounted corpus; no counter, digest or conclusion was carried over from a prior lane's row, and where a prior lane's claim is confirmed it is confirmed by re-measurement rather than by agreement.",
+      "obligationsScored": 15,
+      "corpusMounted": true,
+      "corpusIdentity": "archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, governance checksums verified, jurisdictions=51 files=499 pdfs=329",
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_NOT_ELIGIBLE_CENTRALLY",
+      "rasterWorkflowRunId": null,
+      "rasterStateExplained": "RASTER_QUEUE.json lists this family under notEligible, not under rows: 12 of its 16 queued documents will not open in the parser that counts their pages. I confirmed the underlying cause rather than repeating the queue's wording: source-receipt.json records structuralClassObserved 'unreadable' with indexLoadError 'Expected instance of PDFDict, but got instance of undefined' for all four California Judicial Council sources, which are encrypted XFA forms. The build works around it for CR-409 through a disclosed pikepdf unlock; the queue's page counter does not. Consequently there is no central receipt to bind, no pinned canonical or boundary pair to re-hash, and CLIPPING_AND_OVERLAP has no gate behind it. I measured it myself, which is how the defect below was found.",
+      "verdictCeilingApplied": null,
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "feeStandardAmendmentsApplied": "A1, A2, A3 and A4, all read at this base before FEE_AND_WAIVER, SERVICE, FILING_DESTINATION or SELF_HELP_STOP was scored. A3 was written about this family's jurisdiction and its three steps were applied explicitly. Step 1, name the fact and the route: the filing fee for a Penal Code section 851.91 petition to seal an arrest record, on route obligation:track-only:CA:ca-851-91. Step 2, find the record that establishes that fact for that route: src/lib/rcap-engine/compiled/profiles/CA-california.json carries 'Arrest sealing (851.91) Filing fee varies County Superior Court', and the committed packet-set manifest's pay_fee entry for ca-851-91-set reads 'Unresolved and county-specific. Do not publish a figure.' Both address 851.91 and both establish the same thing: no amount is held and the county Superior Court sets it. Step 3, refuse the sibling: the same profile table prints '1203.4 dismissal petition ~$60-$150 per case' three lines above the 851.91 line, and section 1203.4 is a different statute. I searched this family's entire output for that figure and for the string 1203.4 and found neither, in any text artifact or in any of the 16 delivered PDFs. So the third limb of the standard applies and a named checkable authority stands in, which is what the packet does. A4 was applied as internal consistency: the packet states no amount and says so, and states no other amount anywhere, so there is no sentence denying what it states.",
+      "repairedFamilyReRead": {
+        "whatWasClaimedRepaired": "The repair lane reported that its earlier FEE_AND_WAIVER, FILING_DESTINATION and SERVICE repairs still hold, and STOPPED with CLIPPING_AND_OVERLAP as its only open obligation.",
+        "whatIVerified": "All three repairs hold, and I verified them against the manifest bytes rather than against the repairer's description. FILING_DESTINATION: the manifest's file entry and the packet's filing paragraph are the same sentence, including both venue branches, the 15-day deadline and the one-arrest-per-petition limit. SERVICE: the manifest's serve_party entry and the packet's service paragraph are the same sentence, including both named recipients and the 15-day deadline. FEE_AND_WAIVER: the packet quotes the manifest's pay_fee wording verbatim and names FW-001 twice.",
+        "whatIDidNotAccept": "The open CLIPPING obligation was re-measured from the delivered bytes rather than inherited. It fails, and it fails more broadly than the prior description: the defect is not only a word off the page edge but a second word group drawn inside a neighbouring control's rectangle, and in the delivered raster the notice is unreadable at both ends."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-851-91-set, run in this container at this base: PASS_COMPLETE, 14/129 written, all nine zero. Non-vacuous: 129 terminal dispositions were audited and 14 came back written, and the field map independently reports 131 terminal fields with 14 writes, 2 selections, 115 refusals and 0 unmapped.",
+        "andTheCounterCaveat": "visualDefects reads 0 while a visual defect is present on every delivered primary filing in this family. The counter cannot see it: this family has no central raster receipt at all, nothing upstream of the counter has looked at a rendered page, and the counter is not itself a pixel measurement. That is why this row fails, and it is the case for reading bytes rather than reading counters."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "One route key, and it resolves in the census. The statutory identity is on the rendered page and is discriminated at the level California makes it easy to get wrong.",
+          "evidence": {
+            "distinctRouteKeysInFamily": 1,
+            "canonicalKey": "obligation:track-only:CA:ca-851-91",
+            "occurrencesInCanonicalRouteUniverse": 3,
+            "occurrencesInRouteObligationCandidate": 1,
+            "agreesWithMasterQueue": true,
+            "carriedBy": [
+              "production-field-map.json",
+              "product-wiring.json",
+              "reports/packet-evidence.json"
+            ],
+            "statuteOnTheRenderedPage": "851.91 printed 3 times in each delivered CR-409 and 7 times in each delivered CR-410",
+            "siblingStatuteMentionsAnywhereInTheFamily": 0
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "All four bound official binaries rehash exactly from the mounted corpus. Measured, not deferred.",
+          "evidence": {
+            "sourcesRehashedHere": 4,
+            "exactMatches": 4,
+            "mismatches": 0,
+            "CR-106": "f8a37a9a8c30a016... 104278 bytes, exact",
+            "CR-409": "59fa8a041633feb8... 106622 bytes, exact",
+            "CR-410": "d94bd94bad3da9d0... 52034 bytes, exact",
+            "MC-031": "defc9108f6baa4c2... 109506 bytes, exact",
+            "agreesWithSourceReceipt": true,
+            "knownStructuralLimit": "all four record structuralClassObserved 'unreadable' in source-receipt.json; the bytes are exact and it is the parser, not the binding, that fails"
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Every declared component ships in every variant set, and the three companions are byte-identical to the corpus originals.",
+          "evidence": {
+            "componentsDeclaredInManifest": 4,
+            "variantSets": 4,
+            "pdfsPerVariantSet": 4,
+            "totalFixturePdfs": 16,
+            "companionsByteIdenticalToCorpusOfficial": 12,
+            "primaryFilingsDerived": 4,
+            "pageCountsPreserved": "CR-409 2p in, 2p out; CR-106 2p; CR-410 1p; MC-031 1p",
+            "observationNotAFailure": "the manifest marks MC-031 conditional, on the interests-of-justice branch, and it ships in the matter-of-right sets too. Over-inclusion of a conditional component is not a missing required component and is not scored as one here."
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "Fourteen writes on the canonical primaries and twelve on the boundary primaries, every one read back out of the output bytes at its own measured widget rectangle, and every declared artifact digest recomputes.",
+          "evidence": {
+            "writesInFieldMap": 14,
+            "selections": 2,
+            "refusals": 115,
+            "unmapped": 0,
+            "terminalFields": 131,
+            "canonicalPrimaryWrites": 14,
+            "boundaryPrimaryWrites": 12,
+            "writesProvedFromOutputBytes": "every entry in writtenProof carries a flattenedAppearancesReadFromOutputBytes record at the same rectangle as the field map's widget",
+            "factsWritten": "county, full legal name, case caption name, date of birth, case number and contact facts only",
+            "declaredArtifactShaRecomputedAndMatched": "16 of 16"
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "Exact set equality between what the field map classifies as required before filing and what the participant instructions list, with no row on either side unmatched.",
+          "evidence": {
+            "fieldMapRequiredBeforeFilingCount": 46,
+            "refusalsClassifiedREQUIRED_BEFORE_FILING": 46,
+            "instructionTableRows": 46,
+            "setEquality": true,
+            "instructionRowsWithNoMatchingField": 0,
+            "fieldsWithNoInstructionRow": 0,
+            "eachRowNames": "page, the form field as the source PDF names it, and the words the form prints beside the blank"
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "The two statutory elections are separate variants, each marks a different control, and the difference is in the delivered bytes rather than only in the report.",
+          "evidence": {
+            "variants": [
+              "pc-851-91-matter-of-right",
+              "pc-851-91-interests-of-justice"
+            ],
+            "matterOfRightControl": "CR-409[0].Page2[0].LI3-2[0].li3h[0].DismissSection[0], on-state 1, rect [84.5,409.44,93.5,418.44]",
+            "interestsOfJusticeControl": "CR-409[0].Page2[0].LI3-2[0].li3h[0].DismissSection[1], on-state 2, rect [84.5,362.85,93.5,371.85]",
+            "marksDecodedFromDeliveredContentStreams": "matter-of-right page 2 carries exactly the two diagonal segments (86.5,411.44)-(91.5,416.44) and (86.5,416.44)-(91.5,411.44); interests-of-justice page 2 carries exactly (86.5,364.85)-(91.5,369.85) and (86.5,369.85)-(91.5,364.85)",
+            "drewANewBox": false,
+            "redrewTheCourtsBox": false,
+            "textLayersOfTheTwoVariantsAreIdentical": "expected: the election is a drawn mark, not text"
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "The only repeating structure in this family is the service-recipient block on CR-106, and all four blocks are enumerated completely and symmetrically.",
+          "evidence": {
+            "repeatingGroups": 4,
+            "membersPerGroup": "street, city, state and zip for each of the four served-party address blocks, plus the served-agency name and the service date for each",
+            "block1": "Page1 SrvMailingAddress1 + #area[7] City1/State1/Zip1",
+            "block2": "Page1 #area[8] Address2/City2/State2/Zip2",
+            "block3": "Page2 #area[1] Address3/City3/State3/Zip3",
+            "block4": "Page2 #area[2] Address4/City4/State4/Zip4",
+            "partialRows": 0,
+            "incompleteRowsCounterMeasuredHere": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "No participant value and no added mark reaches any refused field. I tested this by comparing the delivered text inside every refused widget rectangle against the same rectangle on the official form, rather than by reading the builder's assertion.",
+          "evidence": {
+            "cr409RefusedFieldsTested": 23,
+            "refusedFieldsWhoseContentIsIdenticalToTheOfficialForm": 21,
+            "attorneyBlockFields": [
+              "ProtectedLawyerName",
+              "ProtectedLawyerBar",
+              "ProtectedLawyerFirm"
+            ],
+            "attorneyBlockDelta": "none; all three are empty in the delivered bytes exactly as on the official form",
+            "clerkOnlyHearingBlock": "refused as classified_unwritable_by_role and empty in the delivered bytes",
+            "protectedButtonsWithAddedMarks": 0,
+            "theTwoDeltasAreNotParticipantInk": "Warning[0] and Print[0] differ from the official form, but neither delta is a written value. Both are the flattener's own regeneration of a pushbutton caption, and both are recorded under CLIPPING_AND_OVERLAP where they belong."
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Every digest this family declares recomputes to the bytes on disk. Scored on the bytes, because there is no central receipt to score against.",
+          "evidence": {
+            "renderedArtifactsDigestsRecomputed": 40,
+            "matched": 40,
+            "mismatched": 0,
+            "productWiringDigests": 0,
+            "actualWritesOutputShaRecomputedAndMatched": "16 of 16",
+            "residualLimitNotAFailure": "no central raster receipt exists for this family and none can be bound: RASTER_QUEUE lists it under notEligible. The family's own PNGs were produced by Poppler pdftoppm at 72 dpi, as build-findings.json states, which is not the central gate's measurement. I read those PNGs as corroboration only and say plainly that no gate pixel-measured this family.",
+            "consequence": "this family cannot reach PASS_COMPLETE on the factory's own rule while it has no hash-bound RASTER_PASS, independently of the failure below"
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "The family ships four separate documents rather than one assembled packet, the primary preserves the official page geometry exactly, and the assembly order the participant is told to use matches the committed manifest.",
+          "evidence": {
+            "assembledPacketPdf": "none; this family delivers per-document fixtures",
+            "primaryPagesIn": 2,
+            "primaryPagesOut": 2,
+            "companionPageCountsUnchanged": true,
+            "manifestComponentOrder": "1 CR-409 primary_filing, 2 CR-410 proposed_order, 3 CR-106 proof_of_service, 4 MC-031 supporting_declaration",
+            "instructionsAgree": "the packet tells the participant to file the verified CR-409 with the proposed CR-410, and to complete CR-106 only after service has occurred, which is the manifest's order"
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "FAIL",
+          "finding": "On all four delivered primary filings, the flattener regenerates the CR-409 footer pushbutton captions and lays the long one out as a single line wider than its own widget and wider than the page. Eight of that caption's eighteen words are lost off the left page edge, three more are drawn inside the neighbouring Print button's rectangle, and in the delivered raster the sentence is cut at both ends and reads as a meaningless fragment. The official form renders the same notice whole, on two lines, entirely inside the page, so this is a regression the build introduces rather than a property of the source.",
+          "evidence": {
+            "fixturesMeasured": 16,
+            "fixturesWithWordsOutsideThePageBox": 4,
+            "allFourAreTheFilledPrimaryFiling": true,
+            "unchangedOfficialCompanionsAffected": 0,
+            "clippedWordText": "otection",
+            "clippedWordX0": -3.442,
+            "clippedWordBox": "[-3.442, 765.077, 24.574, 772.477] on a 612 x 792 page, page 2",
+            "officialSameNoticeX0": 36.043,
+            "officialSetsItAsTwoLines": true,
+            "artifactSetsItAsOneLine": true,
+            "wordsInTheNoticeOnTheOfficialForm": 18,
+            "wordsSurvivingInTheDeliveredPage": 10,
+            "wordsLostOffTheLeftEdge": "For your pr",
+            "newWordBoxOverlapPairsNotPresentInTheOfficialForm": 4,
+            "largestOverlap": "'Print' and 'printed' intersect over 95.1 square points at x 270.01, y 767.45",
+            "overlapVictim": "the Print[0] pushbutton caption, whose own rectangle is invaded by the Warning caption's tail",
+            "sourceOfTheCaption": "the Warning[0] pushbutton in the unlocked CR-409, /FT /Btn with /Ff 65536 so bit 17 is set, /MK /CA 'For your protection and privacy, please press the Clear This Form button after you have printed the form.', /Rect [36.043, 12.461, 247.337, 35.64]",
+            "whatTheDeliveredBytesShow": "the delivered CR-409 carries no AcroForm and no annotations; all 15 page-2 widgets, the four footer pushbuttons among them, survive as flattened appearances stamped onto the page",
+            "flatWidgetPlacementsDecodedFromTheDeliveredPage": "24 on page 1, 15 on page 2",
+            "theSuppressionPathExistsAndDidNotReachThese": "scripts/rcap-official-forms/rcap-active-content.mjs classifies a pushbutton as SUPPRESS_CONTROL_APPEARANCE and dropWidgets/detachFromAcroForm exist precisely so updateFieldAppearances cannot regenerate a caption from /MK /CA. I confirmed with pdf-lib that all four footer pushbuttons ARE enumerable through the AcroForm on the unlocked source, so they were reachable. Why they were not suppressed on this build path is the repairer's question, not a determination of mine.",
+            "confirmedInPixels": "raster/pc-851-91-matter-of-right-canonical/cr-409/page-02.png, read at this base: the footer reads 'd privacy, please press the Clear This Form button after you have' with the opening words gone and the closing words occluded, beside three stamped interactive-only buttons coloured green, yellow and red",
+            "participantHarm": "the delivered primary filing is a court document carrying a truncated, unreadable sentence and three coloured buttons that do nothing on paper",
+            "whatWouldClearIt": "suppress the four CR-409 footer pushbutton captions before flattening, or regenerate the Warning caption within its own rectangle at the official two-line layout; then re-measure that no word box falls outside the page box and that no new word-box overlap exists against the official baseline"
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The packet states the venue the repository holds, in the repository's own words, rather than asking the participant a question the record already answers.",
+          "evidence": {
+            "heldSource": "the committed packet-set manifest for ca-851-91-set, participantActionRequired kind 'file'",
+            "manifestText": "File the verified CR-409 with the proposed CR-410 at least 15 days before the hearing, in the court where the accusatory pleading was filed, or where no pleading was filed in a court with criminal jurisdiction in the city or county where the arrest occurred. One arrest per petition.",
+            "packetText": "the same sentence, both venue branches, the 15-day deadline and the one-arrest-per-petition limit included",
+            "a1TestApplied": "the repository establishes it, so the packet states it rather than naming an authority to ask",
+            "compiledProfileAgrees": "CA-california.json places arrest sealing under the county Superior Court"
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "No held source establishes an amount for this route, the packet says so in the manifest's own words, and it names an office a participant can actually reach, twice, alongside the waiver form by number.",
+          "evidence": {
+            "standardLimbMet": "the packet states that no held source establishes the fee AND names a specific checkable authority",
+            "manifestPayFee": "Unresolved and county-specific. Do not publish a figure.",
+            "compiledProfileOnPointLine": "Arrest sealing (851.91) Filing fee varies County Superior Court",
+            "namedAuthority": "the clerk of the Superior Court in the county of the arrest",
+            "authorityNamedTimes": 3,
+            "waiverFormNamed": "FW-001, named twice, with the packet stating plainly that it is a separate form not included and not filled in",
+            "proximity": "the authority is named in the same paragraph as the refusal, which is what A2's answersVT13B1 asks builders to prefer",
+            "a3SiblingTrapAvoided": "the profile's '1203.4 dismissal petition ~$60-$150 per case' line sits three lines from the 851.91 line and is keyed to a different statute; the string 1203.4 appears in no text artifact and in none of the 16 delivered PDFs of this family",
+            "siblingFigureLeakage": 0
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "The packet states the service rule the manifest holds, names both recipients and the deadline, ships the proof-of-service form the rule requires, and tells the participant the sequence that makes the proof true.",
+          "evidence": {
+            "heldSource": "the committed packet-set manifest, participantActionRequired kind 'serve_party'",
+            "manifestText": "Serve the prosecuting attorney of the city or county where the arrest occurred, and the arresting agency, at least 15 days before the hearing.",
+            "packetText": "the same sentence, both named recipients and the 15-day deadline included",
+            "sequencingRuleStated": "serve first, then complete the proof of service, and count the deadline backwards from the hearing date rather than from the filing date",
+            "proofOfServiceComponentShipped": "CR-106, byte-identical to the corpus official in all four variant sets",
+            "everyCR106BlankMarked": "complete this only after service has actually occurred, on all 30 of its instruction rows"
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "The packet has a section that says where its self-help ends, names what comes from the clerk rather than from the packet, and names the point at which the participant should stop and get a lawyer.",
+          "evidence": {
+            "sectionPresent": "Where this packet's self-help ends",
+            "whatItDisclaims": "it does not decide whether the arrest qualifies to be sealed, does not appear for the participant, and is not legal advice",
+            "whatItRoutesElsewhere": "the filing fee, the payment methods the court accepts, and any local intake rule such as a cover sheet, a filing window or an e-filing requirement",
+            "namedStoppingPoint": "if the case does not match the route named at the top of the page, or if anyone opposes the petition, get a lawyer or a legal-aid office rather than press on with these papers",
+            "consistentWithTheRestOfThePacket": "the fixtures are also declared deterministic review fixtures rather than approved filing packets, in the opening line"
+          }
+        }
+      },
+      "whatIMeasuredVersusResidualLimits": {
+        "measuredHere": [
+          "four bound source binaries rehashed from the mounted corpus",
+          "16 delivered fixture PDFs parsed for word geometry against the page box",
+          "word-box overlap computed on every delivered page and differenced against the official baseline",
+          "the delivered CR-409 content streams decoded for flattened appearance placements and for the statutory selection strokes",
+          "the unlocked derivative's AcroForm walked with pikepdf and enumerated with pdf-lib",
+          "40 declared artifact digests recomputed",
+          "the nine completeness counters produced by running the verifier in this container",
+          "the compiled California profile and the committed packet-set manifest read for the fee, venue and service facts",
+          "one delivered raster page read as pixels"
+        ],
+        "residualLimits": [
+          "no central raster receipt exists or can exist for this family at this base, so no gate has pixel-measured any of its 16 documents; the PNGs I read were produced by the build with Poppler pdftoppm at 72 dpi and are corroboration, not a gate measurement",
+          "why the pushbutton suppression path did not reach the four CR-409 footer captions on this build path is not determined here; I established that the fields were enumerable and that the captions survived, and left the cause to the repair lane",
+          "the four official sources will not open in the page-counting parser, which is why the central gate refuses them; that is a source-structure fact I confirmed but did not resolve"
+        ]
+      },
+      "determinationsThatAreNotMine": [
+        "DET-FEE-AND-WAIVER-001 and amendments A1 through A4, which fixed the yardstick for FEE_AND_WAIVER, SERVICE, FILING_DESTINATION and REQUIRED_BEFORE_FILING and which I applied rather than decided",
+        "A2's answersVT8C4, which settled that a committed packet-set manifest's participantActionRequired entries count as a held source; that determination is what makes this family's FILING_DESTINATION and SERVICE passes possible and it is not mine",
+        "the queue's classification of this family as notEligible for the central raster gate",
+        "the legal content of the route itself, which is counsel's"
+      ],
+      "commercialRoutesOpened": 0,
+      "familyPromoted": false,
+      "productionTouched": false,
+      "packetBytesModified": 0,
+      "overlayDirectoriesModified": 0
     }
   ],
   "supersededLaneMembership": {
@@ -2732,5 +3039,63 @@
     "productionTouched": false,
     "packetsModified": 0,
     "overlayDirectoriesModified": 0
+  },
+  "arrayKey": "rows",
+  "itemKeyField": "itemId",
+  "assignmentId": "VF03",
+  "whyThisReaderIsIndependent": "FABLE-VA asserted each grant at data/rcap-grade-a/packet-factory-24h/claim-ledger.json before opening any artifact of the family it names, and read nothing for the six items whose asserts refused. It holds no packet-build, repair or shared-host-repair claim on either family it read, wrote no byte inside either overlay directory, and produced none of the reports it reads. Every counter, digest, hash, geometry measurement and page read below was recomputed in this container at the stated base; where a prior lane's claim is confirmed it is confirmed by re-measurement, and where a prior lane's claim is overturned the measurement that overturns it is given.",
+  "fableVaRead": {
+    "worker": "FABLE-VA",
+    "readAtBase": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+    "branch": "fable/va",
+    "assignmentsHeldPerActiveAssignments": {
+      "VF01": [
+        "ar-arrest-seal-set",
+        "pa_pardon_expungement-set"
+      ],
+      "VF02": [
+        "ar-misdemeanor-dwi-seal-set",
+        "rcap-oh-custom-pleading-clean-tracks"
+      ],
+      "VF03": [
+        "ca-851-91-set",
+        "ut_pet_acquittal-set"
+      ],
+      "VF04": [
+        "ca-prop64-set",
+        "ut_pet_conviction-set"
+      ]
+    },
+    "assertsGranted": [
+      "VF01 pa_pardon_expungement-set",
+      "VF03 ca-851-91-set"
+    ],
+    "assertsRefused": {
+      "VF01 ar-arrest-seal-set": "GRANTED_ELSEWHERE: granted to VF10",
+      "VF02 ar-misdemeanor-dwi-seal-set": "GRANTED_ELSEWHERE: granted to VF10",
+      "VF02 rcap-oh-custom-pleading-clean-tracks": "GRANTED_ELSEWHERE: granted to VF10",
+      "VF03 ut_pet_acquittal-set": "ALREADY_RELEASED at 2026-09-02T06:07:31.306Z",
+      "VF04 ca-prop64-set": "GRANTED_ELSEWHERE: granted to VF12",
+      "VF04 ut_pet_conviction-set": "GRANTED_ELSEWHERE: granted to VF10"
+    },
+    "whatARefusalMeant": "The ledger is the authority and ACTIVE_ASSIGNMENTS.json is a snapshot that the ledger has moved past. Six of the eight items this lane was briefed on are held by other lanes or already released. No grant was transferred and no artifact of those six families was opened, so this return carries no verdict about any of them and no lane should read one into its silence.",
+    "corpusMounted": true,
+    "corpusIdentity": "archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, governance checksums verified, jurisdictions=51 files=499 pdfs=329",
+    "measuredBy": "the fifteen proof obligations, each scored by name; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container rather than read from a builder report; source binaries rehashed from the mounted corpus; declared artifact digests recomputed from the bytes on disk; word geometry and word-box overlap extracted from the delivered PDFs and differenced against the official corpus originals; content streams decoded with pikepdf; and committed raster pages read as pixels.",
+    "whyThisReaderIsIndependent": "FABLE-VA asserted each grant at data/rcap-grade-a/packet-factory-24h/claim-ledger.json before opening any artifact of the family it names, and read nothing for the six items whose asserts refused. It holds no packet-build, repair or shared-host-repair claim on either family it read, wrote no byte inside either overlay directory, and produced none of the reports it reads. Every counter, digest, hash, geometry measurement and page read below was recomputed in this container at the stated base; where a prior lane's claim is confirmed it is confirmed by re-measurement, and where a prior lane's claim is overturned the measurement that overturns it is given.",
+    "commercialRoutesOpened": 0,
+    "familiesPromoted": 0,
+    "productionTouched": false,
+    "packetBytesModified": 0,
+    "overlayDirectoriesModified": 0,
+    "assignmentId": "VF03",
+    "subjectsReadOnThisLane": [
+      "ca-851-91-set"
+    ],
+    "verdictsOnThisLane": {
+      "ca-851-91-set": "FAIL_REPAIR_REQUIRED"
+    },
+    "priorRowsPreserved": true,
+    "priorRowsAreNotMine": "Every other row in this file was written by an earlier worker on this lane. FABLE-VA neither confirms nor disturbs them."
   }
 }
