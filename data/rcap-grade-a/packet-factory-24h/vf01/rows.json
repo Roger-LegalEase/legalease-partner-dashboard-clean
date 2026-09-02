@@ -26,9 +26,9 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 34,
-  "rows": 38,
-  "PASS_COMPLETE_INDEPENDENT": 25,
+  "families": 35,
+  "rows": 39,
+  "PASS_COMPLETE_INDEPENDENT": 26,
   "FAIL_REPAIR_REQUIRED": 11,
   "BLOCKED_SOURCE": 0,
   "BLOCKED_LEGAL_INPUT": 0,
@@ -7873,6 +7873,151 @@
     "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/boundary.pdf",
     "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
     "data/record-clearing/legal-design-track-registry.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/stale-artifact-block.json"
+   ]
+  },
+  {
+   "itemId": "rcap-tn-custom-pleading",
+   "lane": "VF01",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading",
+   "readAtBase": "247b790b6",
+   "rasterState": "RASTER_PASS",
+   "rasterWorkflowRunId": "33605354695",
+   "verdictCeilingApplied": null,
+   "supersedes": {
+    "lane": "vf04",
+    "verdict": "PASS_COMPLETE_INDEPENDENT",
+    "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "note": "MASTER_QUEUE marks that verdict lapsed as FAMILY_MOVED_SINCE_THE_VERDICT. Nothing is carried over from it; every measurement below was made afresh on the bytes committed at this base."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-tn-custom-pleading, run in this worktree: PASS_COMPLETE, 100/278 written"
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "eleven route keys, and the same eleven in every record that names them: the MASTER_QUEUE row, source-receipt.json, production-field-map.json, product-wiring.json and rendered-artifacts.json routeArtifactRoutes. Each route also has its own artifact pair under fixtures/routes, named for its track, and every composed page carries its own route in its footer and its own statutory ground in its body - which I read on the delivered pages rather than taking from the map.",
+     "evidence": "MASTER_QUEUE.json; source-receipt.json; production-field-map.json; product-wiring.json; reports/rendered-artifacts.json routeArtifactRoutes; pdftotext of the route artifacts"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "a custom pleading from codified text binds no official binary, so what must hash is what it composes from, and all three committed records rehash byte-exact here: legal-design-track-registry.json 0a92a1a2... at 16555956 bytes with 190 anchor statements verified, legal-design-specifications.json cc0c7959... at 16829383 bytes, and route-obligation-candidate.json at its declared length. Each matches source-receipt.json in both hash and length.",
+     "evidence": "SHA-256 recomputed over each committed record named in source-receipt.json committedRecords"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the committed specification names eighteen components across the eleven tracks and every one is rendered and present, plus one filing-instructions component per route, twenty-nine in all. I checked it from both ends: every declared component appears in some route artifact's page manifest, and no manifest names a component the declared set omits. The eleven canonical route artifacts sum to exactly the sixty-two pages of the assembly, and the assembly's own manifest runs through all twenty-nine components in route order. One inconsistency worth recording without failing on it: production-field-map.json routeSelectionsMade names twenty finer-grained instruments - clerk search and certification, fee disclosure, no-cost statement, scope disclosure, alternative-route screening, after-order instructions - that are not rendered under those ids. Reading the delivered pages, their substance is carried on each route's single filing-instructions component: on tn_arrest_no_court_record, the clerk's search and certification under Sec. 40-32-109(c), the mandatory Sec. 8-21-401 clerk's fee and the after-order steps are all on pages 4 to 6. The naming is finer than the render, not the render thinner than the record.",
+     "evidence": "data/record-clearing/legal-design-specifications.json customPleadingSpecs for all eleven tracks; reports/rendered-artifacts.json componentSet and every routeArtifact pageManifest; pdftotext -layout of the route artifacts; production-field-map.json routeSelectionsMade"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "one hundred values are declared written on each assembly fixture and I found every one in the extracted text of the pages its own component occupies - 0 not found, on both fixtures. Every one of the twenty-two route artifacts also carries its own persona's name in its own bytes. knownRequiredFieldsMissing and invisibleWrites are zero, measured here.",
+     "evidence": "reports/actual-writes.json actualWrites compared value by value against pdftotext -layout of each component's own pages; text of all 22 route artifacts; the completeness verifier run here"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "135 items are declared required before filing and all 135 are named in participant-instructions.md, checked one by one by disclosure label, printed context and field identity - 0 undisclosed. They are the case facts of eleven different Tennessee routes, each printed on its own page as a labelled item in the committed record's own question wording. The forty-three protected blanks are separately disclosed.",
+     "evidence": "reports/blanks-left-for-the-participant.json requiredBeforeFiling and protectedBlanks; participant-instructions.md, item by item"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "no election control is printed on any page of any artifact, and the packet says why: with eleven statutory routes in one family, which route applies is determined by the participant's own record rather than by a box on a form. Every composed page states its own route in its footer, each route has its own artifact, and the participant instructions carry a table saying which set of pages belongs to which situation. requiredOptionsMissing is zero, measured here.",
+     "evidence": "production-field-map.json routeSelectionNote; the delivered text of all eleven canonical route artifacts; participant-instructions.md; the completeness verifier run here"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the one repeating structure in the family is the count-by-count schedule on the redaction route, and on the delivered pages every row is a wholly empty labelled item - 'What happened to this charge, and on what date:' repeated with nothing written beside it - so no row carries a written cell beside a required cell left blank. Everywhere else the facts are free-text labelled blanks rather than cells. incompleteRows is zero, measured here.",
+     "evidence": "pdftotext -layout of fixtures/routes/tn_redaction/canonical.pdf and boundary.pdf; the completeness verifier run here"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "forty-three blanks are protected - thirty-six signature or date and seven court, prosecutor, clerk or agency owned - and I tested every signing surface in all twenty-four delivered PDFs. Across seventy-two lines mentioning a signature, a notary or a judge there is exactly one distinct signing line shape, 'DATE .... SIGNATURE OF PETITIONER ....', and it is an empty dotted rule everywhere it appears. No clerk certification, district-attorney instrument or court order is generated or pre-completed; the tn_arrest_no_court_record instructions say so in terms, that the clerk's certification under (c) and the court's order under (d) remain instruments of their own actors. protectedWrites is zero, measured here.",
+     "evidence": "line-level scan of the signature, notary and judge lines in all 22 route artifacts and both assembly fixtures; reports/blanks-left-for-the-participant.json protectedBlanks; the completeness verifier run here"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "twenty-four PDFs are named and all twenty-four rehash to what the record names, recomputed here: the two assembly fixtures (canonical 4bfc8238... at 178224 bytes, boundary be3ec3ee... at 181239) and all twenty-two route artifacts, 0 mismatches and 0 absent. The route fixture tree holds exactly twenty-two files and every one is declared - nothing on disk is undeclared and nothing declared is missing. The canonical assembly hash equals the one RASTER_QUEUE.json carries and the RASTER_PASS receipt is bound to it. No hash here is on the stale-artifact block.",
+     "evidence": "SHA-256 recomputed over every file named in reports/rendered-artifacts.json pdfs and routeArtifacts, and a directory walk of fixtures/routes compared against the declaration; RASTER_QUEUE.json; data/rcap-grade-a/stale-artifact-block.json"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "every artifact's page manifest is numbered one to N with no gap or repeat, and the page count read from the bytes equals the declared count, on all twenty-four - 0 problems across the twenty-two route artifacts and both assemblies. The eleven canonical route artifacts sum to exactly sixty-two pages, the length of the canonical assembly, and the assembly's manifest walks the twenty-nine components in route order, so the assembly is the routes concatenated rather than reordered.",
+     "evidence": "page counts and page manifests read from all 24 artifacts; reports/rendered-artifacts.json"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "no word box leaves its page anywhere in the family: measured from pdftotext -bbox word rectangles against each page's own MediaBox across all twenty-two route artifacts and both assembly fixtures, the total count of words outside a page is zero. That measurement matters more than usual here, because the central raster gate's RASTER_PASS is bound to the canonical assembly, and rendered-artifacts.json itself records that the assembly is build and review evidence rather than a participant deliverable while the twenty-two route artifacts - the things a participant would actually receive - are routeArtifactRasterPending. Those are the ones I measured directly. visualDefects is zero, measured here.",
+     "evidence": "pdftotext -bbox word rectangles of all 24 artifacts against their MediaBoxes; reports/rendered-artifacts.json familyAssemblyRole and routeArtifactRasterPending; RASTER_QUEUE.json; the completeness verifier run here"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "every one of the eleven routes carries its own WHERE IT GOES section on its own delivered filing-instructions page - I checked all eleven and none is missing it - and each names the court or office the committed registry records for that track, with the venue reasoning attached. On tn_arrest_no_court_record it is the court with jurisdiction over the offence, filed through its clerk, with the statute's own explanation that the forum sits inside the eligibility clause of Sec. 40-32-109(a) rather than in a standalone filing directive. The caption's court line is left for the participant rather than guessed.",
+     "evidence": "section-presence check over all eleven canonical route artifacts; pdftotext -layout of the delivered instructions pages; data/record-clearing/legal-design-track-registry.json"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all eleven routes carry a WHAT IT COSTS, AND WHETHER A WAIVER EXISTS section, and the family's answers differ by route because the statutes do. On tn_arrest_no_court_record the packet states that a clerk's fee applies and is mandatory under Sec. 40-32-109(e) by reference to Sec. 8-21-401, that no figure is quoted because the current Sec. 8-21-401 text was not retrievable from an official Tennessee source, that this is the material difference from the free Sec. 40-32-106 route, and that Sec. 40-32-109 contains no indigency or waiver provision in express contrast to Sec. 40-32-106(a)(1) - and it says the participant must be told the route is not free before anything is prepared. That is a stated posture with its own reasoning rather than a delegation.",
+     "evidence": "section-presence check over all eleven canonical route artifacts; pdftotext -layout of fixtures/routes/tn_arrest_no_court_record/canonical.pdf pages 4-5; data/record-clearing/legal-design-track-registry.json"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all eleven routes carry a WHO MUST BE SERVED section. Each states who serves whom and whether the participant does it: on tn_arrest_no_court_record service is through the clerk, the participant does not effect it, the clerk serves the petition on the district attorney general for that judicial district on filing, and both sides may file evidence under Sec. 40-32-109(b). The routes that run to a district attorney rather than a court say so in their own component names and in their instructions.",
+     "evidence": "section-presence check over all eleven canonical route artifacts; pdftotext -layout of the delivered instructions pages; data/record-clearing/legal-design-track-registry.json"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all eleven routes carry a WHEN TO STOP AND GET HELP INSTEAD OF FILING section, and the committed registry holds 119 self-help stop conditions across the eleven tracks. I compared every one of the 119 against participant-instructions.md and all 119 appear verbatim; 111 also appear verbatim in the delivered assembly bytes. The stops are route-specific and substantive - on tn_arrest_no_court_record they include the court in fact having a record of the arrest, which redirects the participant to the free Sec. 40-32-106 route rather than handing them off, and the district attorney general filing contrary evidence, which converts the matter into a contested question of fact.",
+     "evidence": "condition-by-condition comparison of all 119 registry selfHelpStopConditions for the eleven tracks against participant-instructions.md and against the delivered assembly text; section-presence check over all eleven canonical route artifacts"
+    }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": [],
+   "whatThisPassDoesNotOpen": "an independent PASS proves this packet is complete. It approves no output and opens no commercial route; product-wiring.json remains DECLARED_NOT_INSTALLED with generationAllowed false, and the twenty-two route artifacts the participant would receive are still routeArtifactRasterPending at the central gate.",
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
     "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
     "data/rcap-grade-a/stale-artifact-block.json"
