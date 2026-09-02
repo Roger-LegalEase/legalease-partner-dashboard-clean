@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "1f1dade04f48973b36bebfc5ad7d32315c606c1e",
+  "minimumCaptainSha": "c3833600a9f9f4ee8cd4b811e8a2be657092bd07",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -69,18 +69,18 @@
     "sourceReady": 48,
     "sourceBlocked": 105,
     "legalBlocked": 32,
-    "verifyPending": 43,
-    "repairRequired": 15,
+    "verifyPending": 42,
+    "repairRequired": 16,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 48,
     "COMPLETE_PACKET_PROVEN": 94,
-    "VERIFY_PENDING": 43,
+    "VERIFY_PENDING": 42,
     "OUT_OF_SCOPE": 5,
     "SOURCE_BLOCKED": 105,
     "LEGAL_BLOCKED": 22,
-    "FAIL_REPAIR_REQUIRED": 15,
+    "FAIL_REPAIR_REQUIRED": 16,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
     "VERIFIED_PASS": 1,
@@ -7101,37 +7101,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The packet tells the participant that no committed record it binds states a filing fee for this route. It binds the compiled Mississippi profile by exact SHA-256, and that profile states the fee for petitions under § 99-19-71 — which is what this route is. This is DET-FEE-AND-WAIVER-001 A1/A2 and A4 together.",
-          "evidence": {
-            "thePacketsStatement": "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the clerk's office of the Mississippi intervention court that certified completion and entered the dismissal. Ask before you go, because a filing you cannot pay for is a filing you cannot make.",
-            "whereItAppears": [
-              "participant-instructions.md, the FEE_AND_WAIVER row of 'Where this is filed, what it costs, and who must be served'",
-              "the rendered ms-intervention-court-dismissal-only-filing-instructions-3 component in the packet bytes"
-            ],
-            "whatTheBoundRecordActuallySays": {
-              "record": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
-              "boundBy": "committed_record_bound_as_authority, sha256 d30c78bcdbcd4378d1d6e656dd65f8ebde3b6d231e7020add220e55d865ea689, which I recomputed from the file's bytes at the review base and it matches",
-              "feeRules0": "Mississippi Code 99-19-72 sets a $150 filing fee for each petition to expunge an offense under 99-19-71.",
-              "feeRules1": "Expect at least a $150 statutory filing fee for many 99-19-71 petitions, but confirm with the clerk because filing method and local court practice may affect total cost."
-            },
-            "theA3Test": {
-              "question": "is the $150 keyed to this FACT and this ROUTE, or is it a cross-read from another statute?",
-              "answer": "§ 99-19-72 levies the fee on each petition to expunge an offense under § 99-19-71, with no subsection limit in the record's own words. This family's declared statutoryAuthority is Miss. Code Ann. § 99-19-71(4) — a subsection OF § 99-19-71, not a different statute. So the fee reaches this route on the face of the record the packet binds.",
-              "contrastWithTheCorrectRefusal": "Mississippi is right to refuse to read the § 99-19-71 fee across to § 99-15-59, because § 99-15-59 is a different statute. § 99-19-71(4) is not a different statute; it is the same one."
-            },
-            "theInternalContradiction": "ms-fel-set, a sibling family in this same lane's roster, grounded on the same compiled profile, states the $150 for its § 99-19-71(2) petition and gives the reason in terms: 'This petition is a petition to expunge an offense under Sec. 99-19-71, so the fee applies to it on the face of the statute.' The identical reasoning applies to § 99-19-71(4). Two families read one bound record two opposite ways, and the refusal is the one that does not survive the record's own words.",
-            "theA4Point": "a packet may never tell a participant it does not state something it does state, and the custody form of that rule is that a packet may not tell a participant no bound record answers a question that a record it binds does answer.",
-            "consequenceForAParticipant": "someone on this route is told to go and ask the clerk what filing costs, when the repository holds a $150 statutory figure and its distribution, and is given no figure at all to budget against or to check the clerk's answer with.",
-            "whatTheRepairIsNot": "this is not a request to assert $150 as certain. The correct repair is the one ms-fel-set already performs: state the statutory figure and its basis, state the open question the record itself records about justice and municipal courts, and tell the participant to confirm the amount with the clerk."
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -7278,16 +7249,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -7602,16 +7565,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -7877,16 +7832,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "THE ROUTE-LEVEL REFUSAL IS CORRECT; A SOURCED SENTENCE INSIDE IT IS FALSE ABOUT THE RECORD IT NAMES. What is right, and should survive the repair: no committed record this packet binds states a filing fee or a fee waiver for § 61-14-9 — this lane searched the compiled West Virginia profile and the route contract and found no fee keyed to 61-14-9 — and the packet names a specific checkable authority, the office of the clerk of the West Virginia circuit court in the county of conviction or juvenile adjudication, in the same breath as the refusal. That is DET-FEE-AND-WAIVER-001 theStandard.met limb three, and the packet's A3 discipline in refusing to import a sibling section's figure is exactly what A3 was written to protect. WHAT IS WRONG: the delivered canonical and boundary bytes, on the filing-instructions page, print 'The compiled profile carries no-fee lines keyed to W. Va. Code Sec. 61-11-25 and a $200 figure keyed to Sec. 61-11-26; this route is Sec. 61-14-9 and is neither of them.' THE COMPILED PROFILE CONTAINS NO $200. A search of src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json for '$200' returns ZERO hits. What the profile actually records for 61-11-26, in its feeRules and twice more in its fee section, is: 'For 61-11-26 conviction expungement, the circuit clerk charges the same fee as filing a civil action, and a person who receives an expungement order must pay a $100 West Virginia State Police processing fee.' So the sentence is wrong twice over — wrong on the amount ($100, not $200) and wrong on the character of the charge (a civil-action fee plus a $100 processing fee payable on grant, not a flat $200 filing fee). The $200 figure IS held in this repository, but by different records: the route-obligation census and the packet-family build worklist record 'the § 59-1-11(a)(1) civil-action filing fee of $200' for the 61-11-26 families. The packet attributes to the compiled profile a figure the compiled profile does not carry. Under A4's operative rule — a false sentence 'fails under whichever obligation carries the false sentence' — this one is carried by the fee paragraph. The repair is one clause, not the paragraph: correct the attribution, or drop the sibling aside entirely, and leave the § 61-14-9 refusal and its named authority exactly as they stand.",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -7955,34 +7902,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "SOURCE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": "The census pin does not hold at this base. The family's other bound records do: src/lib/legal-authority/routes/single-routes.json rehashes to its declared value at 52,860 B and src/lib/rcap-engine/compiled/profiles/WY-wyoming.json at 120,012 B, both exactly as source-receipt.json declares. The third bound record, data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, is pinned at e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816 / 2,596,466 B and at this base holds e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2 / 2,596,674 B. The receipt's own bindingMethod is 'committed repository records bound by exact SHA-256', and its allSourcesExact:true does not hold. I dated the drift rather than assuming it: the declared hash was the file's content at commit 4fb89c96e, and commit 7613a4b50 (\"Montana's MMRTA label named two required documents; split it\") moved it. I then compared the two versions entry by entry -- 703 route entries in each, 0 added, 0 removed, exactly 4 changed, and all four are Montana MMRTA units. The WY route entry obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708 is byte-identical between the pinned version and the file on disk. So no fact this packet reads has moved, and the repair is a re-pin rather than a rebuild. Recorded because it is systemic and not this family's alone: all 31 families in data/rcap-all50/overlays/census-v1 that bind this census carry the same stale pin and the same allSourcesExact:true, and not one carries the current hash.",
-          "evidence": {
-            "recomputedHere": "every bound record rehashed from the committed bytes in this container",
-            "driftCommit": "7613a4b50; the declared hash was current at 4fb89c96e",
-            "substanceCompared": "703 census route entries diffed across the two versions: 4 changed, all Montana",
-            "scale": "31/31 families binding this census are stale; 0 current",
-            "readInThisLane": true
-          }
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The packet denies that the repository says anything about the cost of this route, and the record it binds says something about the cost of this route -- by name. participant-instructions.md and the delivered filing-instructions page both read: 'No committed record this packet binds states a filing fee, or a fee waiver, for this route.' The bound compiled profile, src/lib/rcap-engine/compiled/profiles/WY-wyoming.json, which this family pins by exact SHA-256 and which I rehashed MATCH in this container, carries the row 'Human-trafficking victim vacatur Verify with clerk; statute is a motion route, not a standard expungement filing-fee route' -- twice, at packetGenerator.feeRules[4] and again in sourceSections[9].text, inside a Route/Fee table whose other four rows are keyed to 7-13-1401 ($0), 7-13-1501 ($100), 7-13-1502 ($300) and 14-6-241 ($0). The row is keyed to THIS route by its own label, so A3 does not excuse it: this is not a sibling statute's answer read across, it is this route's own line. What the packet withholds is not an amount -- there is none -- but the reason, and the reason is the participant's best instrument at the counter: told only 'ask the clerk', a participant quoted the $300 felony-expungement fee has nothing to say; told what the profile holds, they can say this is a motion in the existing case and not a standard expungement filing. Under DET-FEE-AND-WAIVER-001 A2 the compiled state profile is a held source, and under A4's narrow rule a packet may never tell a participant that it does not state something it does state. This is squarely the A2 error pattern the determination names: the claim about the bound FORMS would be fine; the claim about the REPOSITORY is false. The named authority is present and correct, so the participant can still act, and the repair is to publish what the profile holds rather than to find an amount that does not exist.",
-          "evidence": {
-            "standard": "DET-FEE-AND-WAIVER-001 A2 as bounded by A3, and A4's internal-consistency rule",
-            "profileQuoteVerified": "WY-wyoming.json packetGenerator.feeRules[4] and sourceSections[9].text, located in this lane",
-            "boundBySha": "the family pins this profile by exact SHA-256 and it rehashes MATCH here",
-            "routeKeyedByName": true,
-            "readInThisLane": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -23919,11 +23840,141 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The field map declares ExpungeCntyName a candidate_write bound to factId matter.county, with four widgets on pages 18, 27, 30 and 40. It is written on none of them. It is absent from the 17 entries in actual-writes.json 'written', absent from all 17 entries of 'writtenProof', and this reader found no ink at any of the four rects in the delivered bytes: the caption on each of those four pages reads 'Superior Court of New Jersey / Law Division / ______ County / (where you are filing)' with the county line blank. The build disposes of it only as {reason: explicit_mapping_conflicts_with_field_name, category: mapping_conflict} — a machinery conflict, not a participant-facing classification. The same shared build host writes this fact on its sibling: ny_mrta_marijuana-set writes Court_County = matter.county ('ALBANY') on its canonical fixture, proving the fact is held and writable. This is the sibling shape the Captain flagged, present here. The 17 values the build does declare are all correct: this reader read all 17 back from the delivered bytes (55 inked appearances canonical, 54 boundary, the one-value delta matching the declared 17/16 delta exactly), so the sibling's other shape — declaring more writes than the bytes carry — does NOT repeat here.",
+          "evidence": {
+            "field": "ExpungeCntyName",
+            "decision": "candidate_write",
+            "factId": "matter.county",
+            "pages": [
+              18,
+              27,
+              30,
+              40
+            ],
+            "rects": [
+              {
+                "x": 391.748,
+                "y": 694.263,
+                "width": 148.298,
+                "height": 16.128
+              },
+              {
+                "x": 391.762,
+                "y": 690.944,
+                "width": 174.458,
+                "height": 16.127
+              },
+              {
+                "x": 398.979,
+                "y": 682,
+                "width": 148.298,
+                "height": 16.127
+              },
+              {
+                "x": 392.286,
+                "y": 676.158,
+                "width": 163.786,
+                "height": 16.127
+              }
+            ],
+            "inkedInDeliveredBytes": false,
+            "inWrittenList": false,
+            "inWrittenProof": false,
+            "buildDisposition": "explicit_mapping_conflicts_with_field_name / mapping_conflict",
+            "siblingWritesSameFact": "ny_mrta_marijuana-set Court_County = matter.county",
+            "declaredWritesVerifiedInBytes": {
+              "canonicalDeclared": 17,
+              "canonicalInkedAppearances": 55,
+              "boundaryDeclared": 16,
+              "boundaryInkedAppearances": 54,
+              "allDeclaredValuesFound": true
+            }
+          }
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Seven blanks reach the participant undisclosed. (1) The four ExpungeCntyName caption blanks above carry no blankTreatment at all — unlike SccCntyName, ProbCntyName and Prob2CntyName, which carry blankTreatment REQUIRED_BEFORE_FILING and DO appear in the instructions list — so the participant is never told to write the county in the caption of the Petition, the Order for Hearing, the Expungement Order or the Proof of Notice. (2) arrest3Statute, arrest4Statute and arrest5Statute are classified signature_or_date_participant_completion. They are statute cells in an arrest table, not signature or date fields; rows 1 and 2 of the same column are correctly REQUIRED_BEFORE_FILING and DO appear in the instructions. Because of the misclassification those three cells are omitted from the participant's 77-item blank list, while arrest3Dt, arrest3CaseNum, arrest4Dt, arrest4CaseNum, arrest5Dt and arrest5CaseNum are all listed. The participant is handed rows 3, 4 and 5 with the statute column silently missing.",
+          "evidence": {
+            "undisclosedCaptionBlanks": 4,
+            "misclassifiedStatuteCells": [
+              "arrest3Statute",
+              "arrest4Statute",
+              "arrest5Statute"
+            ],
+            "misclassifiedAs": "signature_or_date_participant_completion",
+            "correctlyClassifiedPeers": [
+              "arrest1Statute",
+              "arrest2Statute"
+            ],
+            "listedBlanksInInstructions": 77,
+            "instructionsFile": "participant-instructions.md"
+          }
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "The packet states no destination. The whole of what participant-instructions.md says about it is the catch-all at line 12: 'Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.' The registry entry for this family's own track records the answer: kind court, 'Superior Court, Criminal Division', 'Filed in the county of residence or a county where a conviction was adjudged, through the eCourts Expungement System or on the Judiciary kit forms.' This is the exact shape a prior lane failed on the sibling ny_mrta_marijuana-set, and the repair reached that sibling: NY's line 12 now reads 'Confirm current revision, local procedures, attachments, and proposed-order requirements before filing. Where to file, Cost and Who must be served are each answered in their own section below.' NJ still carries the unrepaired line.",
+          "evidence": {
+            "packetLine12": "Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.",
+            "registryDestination": "Superior Court, Criminal Division — filed in the county of residence or a county where a conviction was adjudged, through the eCourts Expungement System or on the Judiciary kit forms",
+            "siblingRepairedLine12": "Confirm current revision, local procedures, attachments, and proposed-order requirements before filing. Where to file, Cost and Who must be served are each answered in their own section below.",
+            "sectionsPresentInSibling": [
+              "What it costs to file",
+              "Where to file",
+              "Who must be served",
+              "Where self-help ends"
+            ],
+            "sectionsPresentHere": []
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The packet states no fee and no waiver, and tells the participant to go and confirm fees. The registry entry for this family's own track answers it, and the answer is participant-favourable: 'No court filing fee. New Jersey Courts states \"It's free\", and the Judiciary kit was updated in June 2020 to remove the fee. The State Police charge for the SBI criminal history record.' Sending a participant away to confirm a fee that the bound record says does not exist is the defect, not the absence of a figure.",
+          "evidence": {
+            "packetFeeStatement": "none — only the line 12 catch-all",
+            "registryFees": "No court filing fee. New Jersey Courts states \"It's free\", and the Judiciary kit was updated in June 2020 to remove the fee. The State Police charge for the SBI criminal history record.",
+            "registryFeeWaiverRuleHeld": true
+          }
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The packet says only 'Complete service certificates only after service actually occurs' and defers service to the line 12 catch-all. It never says who must be served. The registry records both the service rule — 'Service on the required parties with the petition, and service of a certified copy of the signed order on every record-holding agency after entry' — and the notice list: the county prosecutor, the Attorney General, the State Police, the courts involved, the arresting agency, probation and any relevant municipal court. On a route whose kit contains a Proof of Notice form (p. 40) and three cover letters to served parties, a participant who is not told whom to serve cannot complete the packet.",
+          "evidence": {
+            "packetServiceStatement": "timing caution only; no recipients named",
+            "registryService": "Service on the required parties with the petition, and service of a certified copy of the signed order on every record-holding agency after entry.",
+            "registryNotice": "The county prosecutor, the Attorney General, the State Police, the courts involved, the arresting agency, probation and any relevant municipal court.",
+            "kitFormsRequiringService": [
+              "Form E Notice of Hearing",
+              "Form F Proof of Notice",
+              "Form G Notice Expungement Granted"
+            ]
+          }
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "Measured by the prescribed instrument. The registry entry for track nj_disorderly_persons records 29 self-help stop conditions in its own words, including hard ones: 'Immigration exposure. New Jersey expungement has no federal immigration effect.'; 'Any Title 39 motor vehicle matter, including DWI, which N.J.S.A. 2C:52-28 puts outside the chapter entirely.'; 'Prior expungement, which N.J.S.A. 2C:52-14(e) bars except on the Clean Slate route.'; 'Prosecutor objection.'; 'Counting disputes at the five-offence line.' The packet conveys none of them. A grep of the whole family directory for 'stop and get help', 'immigration', 'five-offence', 'Title 39' and 'prosecutor objection' returns zero files. The sibling ny_mrta_marijuana-set, same build host, carries a full 'Where self-help ends' section quoting its registry stops word for word. On the specific hearing test: this registry entry records no hearing as the end of self-help, and the packet contains no sentence telling the participant to attend one, so that sub-test is clean — the failure is the wholesale absence of the section.",
+          "evidence": {
+            "registryStopConditions": 29,
+            "conveyedInPacket": 0,
+            "filesMentioningAnyStopCondition": 0,
+            "hearingSubTest": "clean — registry records no hearing as end of self-help and packet directs the participant to none",
+            "siblingWithSection": "ny_mrta_marijuana-set"
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
@@ -28037,7 +28088,10 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "RASTER_NOT_ENROLLED",
+        "meaning": "The verdict stands but the visual gate could not enrol the family, so there is no raster receipt for L4 to read."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -28059,23 +28113,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "PROTECTED_FIELDS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "PROTECTED_FIELDS",
-          "finding": "The date line of the Option 1 declaration - a field this family's own blanks report classifies as PROTECTED_FIELD, and which the participant page says is left blank - is delivered carrying the date 12/15/2022, in both fixtures.",
-          "evidence": {
-            "whatIsOnThePage": "pdftotext -bbox-layout over packet page 11 of fixtures/canonical.pdf returns the word 12/15/2022 at xMin 99.7522, yMin 474.524, xMax 159.8002, yMax 485.624. The preprinted label immediately below it reads \"Date (month, day, year) / Fecha (mes, dia, ano)\". Above it sits the empty Signature rule. The heading of that block is \"Option 1 / Opcion 1 - Declaration: I declare under penalty of perjury that the foregoing is true and correct.\" The identical word at the identical coordinates is in fixtures/boundary.pdf.",
-            "theFieldIsDeclaredProtected": "reports/blanks-left-for-the-participant.json protectedBlanks includes tx-expunction-fee-waiver-statement.Today - 28 protected blanks in all, and Today is one of them. reports/actual-writes.json separately records it under documentAuthoredAppearances: {field: \"Today\", document: tx-expunction-fee-waiver-statement, page: 11, drawnText: \"12/15/2022\", sourceValue: \"12/15/2022\"}.",
-            "whatThePacketTellsTheParticipant": "participant-instructions.md, \"Things the platform deliberately left blank\": \"**Your signature and the date.** You sign when you actually swear it.\" The delivered page states a date the page says it does not state, on a perjury declaration, four years stale.",
-            "theBuildStrippedTheOtherTwoAndNotThisOne": "The official source carries three stray field appearances. I extracted all three from the source and looked for each in the delivered packet. Source page 7 carries a 0 in the Total Value of Property field at (315.44, 638.09)-(322.11, 654.47); source page 8 carries a 0 in Total Monthly Expenses at (320.22, 678.21)-(326.89, 694.59). Neither survives into the delivered packet - a bbox scan of packet pages 7 and 8 finds no word containing 0 other than the footer docket number 22-9090. The third, 12/15/2022 on page 11, does survive. So the build sanitised the two source-authored financial values and kept the one on the protected signature-date line, which is the inverse of what the protection rule requires.",
-            "whyThisIsNotAnExactBytesDefence": "The family renders \"assembled_packet_of_official_forms\", and carrying official bytes forward unchanged is normally right. It cannot be right for this field, because the build already demonstrated it will and can strip source-authored appearances - it did so twice on the same document - and because the packet's own page promises this particular line is blank.",
-            "refusedFieldsWithInkIsEmptyAndThatIsTheProblem": "reports/actual-writes.json reports refusedFieldsWithInk [] and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0. Both are true of ink the build added. Neither instrument looks at ink that was already there."
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -28196,7 +28235,10 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "RASTER_NOT_ENROLLED",
+        "meaning": "The verdict stands but the visual gate could not enrol the family, so there is no raster receipt for L4 to read."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -28218,22 +28260,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FILING_DESTINATION",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",

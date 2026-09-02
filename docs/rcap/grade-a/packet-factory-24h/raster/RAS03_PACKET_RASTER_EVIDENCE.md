@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `7292511170e1bd1d1bfdaf32e52a423a85ed9096`
+**Minimum required ancestor:** `c3833600a9f9f4ee8cd4b811e8a2be657092bd07`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -79,7 +79,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/fixtures/canonical.pdf` — `704b326392672a2aed2014438273a0d8be0fe0effee2a9494e0f0960357ef492`
 - boundary `data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/fixtures/boundary.pdf` — `6e85ef27ca1692b54d28e7a18618f0175e4ab3bc3ee71a9c3a7103a2caa5466b`
 - expected pages 4 · requested scale 2.5
-- built by VF08
+- built by VF04
 
 ### ct-cannabis-petition-set
 
@@ -226,7 +226,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `06ad787efc569d60d90fc85abb2e380f4485ee9685151a89e411439a52078d3b`
 - boundary `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `fdcb1584a97ce8cf9bdad07b90270166d9671b4ba61092bd03abdb3b8be37e52`
 - expected pages 15 · requested scale 2.5
-- built by VF07
+- built by VF09
 
 ### ri_marijuana-set
 
