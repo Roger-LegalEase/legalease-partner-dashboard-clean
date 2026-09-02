@@ -124,7 +124,8 @@ out.pdfs = pdfs.map(p => ({ file: p.file, fixture: p.fixture, declaredPageCount:
 // Locate each official form's page block by matching its own bytes against the packet.
 const srcInk = {};
 for (const d of (sr?.documents || [])) { if (!d.pathInArchive) continue; const abs = R(d.pathInArchive); if (!exists(abs)) continue;
-  try { srcInk[d.documentId] = await readInk(abs); } catch (e) { srcInk[d.documentId] = { error: String(e) }; } }
+  const key = d.documentId || d.formNumber || d.sourceId; if (!key) continue;
+  try { srcInk[key] = await readInk(abs); } catch (e) { srcInk[key] = { error: String(e) }; } }
 const toks = (t) => new Set(norm(t).toLowerCase().replace(/[^a-z0-9 ]+/g, " ").split(" ").filter(w => w.length > 3));
 const jac = (a, b) => { if (!a.size || !b.size) return 0; let n = 0; for (const x of a) if (b.has(x)) n++; return n / a.size; };
 const docOffsets = {};
@@ -142,6 +143,18 @@ for (const [docId, pages] of Object.entries(srcInk)) {
     docOffsets[`${docId}|${fx}`] = best; // document page 1 lands on packet page best.offset+1
   }
 }
+// Where the receipt's own page counts add up to the packet, the assembly order fixes the
+// offsets exactly, and that beats guessing from text on forms that barely extract.
+const receiptDocs = (sr?.documents || []).map(d => ({ key: d.documentId || d.formNumber || d.sourceId, pages: d.pageCount ?? null })).filter(d => d.key && d.pages);
+const receiptTotal = receiptDocs.reduce((a, d) => a + d.pages, 0);
+out.offsetMethod = "text match";
+for (const fx of ["canonical", "boundary"]) {
+  const fk = fileFor(fx); const pk = ink[fk];
+  if (!Array.isArray(pk) || !receiptDocs.length || receiptTotal !== pk.length) continue;
+  let acc = 0;
+  for (const d of receiptDocs) { docOffsets[`${d.key}|${fx}`] = { offset: acc, score: 1, method: "assembly order from source-receipt page counts" }; acc += d.pages; }
+  out.offsetMethod = "assembly order from source-receipt page counts";
+}
 out.documentPageOffsets = docOffsets;
 // Where a family renders one PDF per document, that PDF is the document: offset 0.
 const perDocFile = {};
@@ -152,7 +165,11 @@ for (const p of pdfs) {
 out.perDocFile = perDocFile;
 const docFileFor = (docId, fx) => perDocFile[`${docId}|${fx}`] || perDocFile[`${docId}|canonical`] || fileFor(fx);
 const packetPageRaw = (docId, fx, localPage) => { const b = docOffsets[`${docId}|${fx}`]; return b && b.offset !== null && b.score >= 0.5 ? b.offset + localPage : null; };
-const packetPage = (docId, fx, localPage) => perDocFile[`${docId}|${fx}`] || perDocFile[`${docId}|canonical`] ? localPage : packetPageRaw(docId, fx, localPage);
+const packetPage = (docId, fx, localPage) => {
+  if (perDocFile[`${docId}|${fx}`] || perDocFile[`${docId}|canonical`]) return localPage;
+  if (!docOffsets[`${docId}|${fx}`]) return localPage; // no bound source to offset against: the page is the page
+  return packetPageRaw(docId, fx, localPage);
+};
 
 const pageOf = (fk, n) => Array.isArray(ink[fk]) ? ink[fk].find(x => x.page === n) : null;
 const pageText = (fk, n) => { const pg = pageOf(fk, n); return pg ? norm(pg.items.map(i => i.text).join(" ")) : null; };
@@ -392,10 +409,17 @@ out.refusedFieldsWithInkDeclared = (aw?.documents || []).flatMap(d => (d.refused
 const instrPath = path.join(D, "participant-instructions.md");
 const instrRaw = exists(instrPath) ? fs.readFileSync(instrPath, "utf8") : "";
 const instr = norm(instrRaw);
-const rbf = pfm?.requiredBeforeFiling || [];
-const undis = rbf.filter(r => { const l = norm(r.disclosureLabel || r.printedContext || r.field); return l && !instr.includes(l); });
+const rbf = (pfm?.requiredBeforeFiling && pfm.requiredBeforeFiling.length ? pfm.requiredBeforeFiling
+  : (bl?.requiredBeforeFiling || refusals.filter(r => r.fixture === "canonical" && dispOf(r) === "REQUIRED_BEFORE_FILING")
+      .map(r => ({ document: r.documentId, field: r._field, page: r._page, disclosureLabel: r._label ?? null, participantMustSupply: r.participantMustSupply ?? null }))));
+const rbfLabel = (r) => norm(r.disclosureLabel || r.printedContext || r.label || r.effectiveLabel || r.sourceLabel || r.field || r.fieldId);
+const rbfAsk = (r) => norm(r.participantMustSupply || "");
+const undis = rbf.filter(r => { const l = rbfLabel(r); const a = rbfAsk(r);
+  if (!l && !a) return false;
+  const inInstr = (l && instr.includes(l)) || (a && instr.includes(a));
+  return !inInstr; });
 out.requiredBeforeFiling = { fieldMapCount: rbf.length, declaredCount: pfm?.requiredBeforeFilingCount ?? null, blanksReportCount: (bl?.requiredBeforeFiling || []).length,
-  everyItemDisclosedClaim: bl?.everyRequiredBeforeFilingItemIsDisclosed ?? null, undisclosedInInstructions: undis.length, undisclosedSample: undis.slice(0, 15).map(r => ({ document: r.document, field: r.field, label: r.disclosureLabel })),
+  everyItemDisclosedClaim: bl?.everyRequiredBeforeFilingItemIsDisclosed ?? null, undisclosedInInstructions: undis.length, undisclosedSample: undis.slice(0, 15).map(r => ({ document: r.document ?? null, field: r.field ?? r.fieldId ?? null, label: rbfLabel(r), ask: rbfAsk(r).slice(0, 90) })),
   refusalsMarkedRBFCanonical: refusals.filter(r => dispOf(r) === "REQUIRED_BEFORE_FILING" && r.fixture === "canonical").length };
 out.rbfWithInk = rbf.map(r => { const m = (pfm?.maps || []).find(m => m.documentId === r.document); const ref = (m?.canonicalRefusals || []).find(x => x.field === r.field);
   if (!ref?.rect || !ref?.page) return null; const pp = packetPage(r.document, "canonical", ref.page); if (!pp) return null;
@@ -433,7 +457,7 @@ for (const m of (pfm?.maps || [])) for (const key of ["canonicalWrites", "canoni
 const censusUnmapped = [];
 for (const d of (cen?.documents || [])) for (const r of (d.rows || [])) if (!mapped.has(`${d.documentId} ${r.field}`)) censusUnmapped.push({ document: d.documentId, field: r.field, page: r.page, policy: r.policy });
 out.censusUnmapped = { count: censusUnmapped.length, sample: censusUnmapped.slice(0, 25) };
-out.censusDeclared = (cen?.documents || []).map(d => ({ documentId: d.documentId, unmapped: (d.unmapped || []).length, stale: (d.staleDictionaryKeys || []).length, captionDrift: (d.captionDrift || []).length, fields: d.fields, pageCount: d.pageCount, rows: (d.rows || []).length }));
+out.censusDeclared = (cen?.documents || []).map(d => ({ documentId: d.documentId, unmapped: (d.unmapped || []).length, stale: (d.staleDictionaryKeys || []).length, captionDrift: (d.captionDrift || []).length, fieldCount: Array.isArray(d.fields) ? d.fields.length : (d.fields ?? null), pageCount: d.pageCount, rows: (d.rows || []).length }));
 
 // ---- CLIPPING_AND_OVERLAP ----
 const clip = [], overlap = [];
@@ -446,10 +470,52 @@ for (const [fk, pages] of Object.entries(ink)) { if (!Array.isArray(pages)) cont
     const byY = new Map(); for (const it of its) { const k = Math.round(it.y * 2) / 2; if (!byY.has(k)) byY.set(k, []); byY.get(k).push(it); }
     for (const [y, arr] of byY) { if (arr.length < 2) continue; const s = arr.slice().sort((a, b) => a.x - b.x);
       for (let i = 1; i < s.length; i++) { const ov = (s[i - 1].x + s[i - 1].advance) - s[i].x;
-        if (ov > 2 && norm(s[i].text) && norm(s[i - 1].text)) overlap.push({ file: fk, page: pg.page, y, overlapPts: +ov.toFixed(1), a: s[i - 1].text.slice(0, 40), b: s[i].text.slice(0, 40) }); } }
+        const isRule = (t) => /^[_.\u2024\u2026\-\s]*$/.test(t);
+        if (ov > 2 && norm(s[i].text) && norm(s[i - 1].text) && !isRule(s[i].text) && !isRule(s[i - 1].text)) overlap.push({ file: fk, page: pg.page, y, overlapPts: +ov.toFixed(1), a: s[i - 1].text.slice(0, 40), b: s[i].text.slice(0, 40) }); } }
   } }
 out.clipping = { count: clip.length, sample: clip.slice(0, 20) };
 out.overlap = { count: overlap.length, sample: overlap.slice(0, 20) };
+
+
+// ---- FILING_DESTINATION / FEE_AND_WAIVER / SERVICE / SELF_HELP_STOP ----
+// Measured against this family's own entries in the legal-design track registry.
+const REGJ = regRaw ? JSON.parse(regRaw) : null;
+const tracksAll = REGJ?.tracks || [];
+const famTracks = tracksAll.filter(t => (fam.routeKeys || []).some(k => k.split(":").includes(t.trackId)) || (fam.routeKeys || []).some(k => k.includes(`:${t.trackId}:`) || k.endsWith(`:${t.trackId}`)));
+out.registryTracks = famTracks.map(t => ({ trackId: t.trackId, jurisdiction: t.jurisdiction, legalName: t.legalName,
+  venue: t.venue ?? null, destination: t.destination ?? null,
+  selfHelpBoundaries: t.selfHelpBoundaries ?? null, selfHelpStopConditions: t.selfHelpStopConditions ?? null,
+  participantFilingRequirements: t.participantFilingRequirements ?? null, manualCompletionItems: t.manualCompletionItems ?? null,
+  packetInstructions: t.packetInstructions ?? null, postGenerationHandoffs: t.postGenerationHandoffs ?? null,
+  legalDesignLimitations: t.legalDesignLimitations ?? null, scopeRestrictions: t.scopeRestrictions ?? null }));
+
+const packetAllText = Object.keys(ink).map(k => allText(k) || "").join(" ");
+const HAYSTACK = norm(instrRaw + " " + packetAllText);
+const sentences = HAYSTACK.split(/(?<=[.;:!?])\s+/);
+const grab = (re, max = 8) => sentences.filter(x => re.test(x)).slice(0, max);
+out.legalExcerpts = {
+  filingDestination: grab(/\b(file|filing|submit|mail|send|deliver|clerk|counter|e-?file|address)\b/i, 12),
+  feeAndWaiver: grab(/\b(fee|fees|cost|costs|waiv|free of charge|no charge|\$\d|inability to afford|indigen)\b/i, 12),
+  service: grab(/\b(serve|served|service|prosecut|district attorney|county attorney|certificate of (mailing|service)|proof of service|notice to the state|copy to)\b/i, 12),
+  selfHelpStop: grab(/\b(cannot|can not|does not|will not|lawyer|attorney|counsel|hearing|self-?help|LegalEase|we do not|stop)\b/i, 16),
+};
+// registry stop conditions, and whether the packet says the same thing
+const stops = famTracks.flatMap(t => [].concat(t.selfHelpStopConditions || [], t.selfHelpBoundaries || []))
+  .map(x => typeof x === "string" ? x : (x?.condition || x?.text || x?.boundary || JSON.stringify(x))).filter(Boolean);
+const STOP_WORDS = new Set("about above after again against because before being below between both cannot could during each* every from further having however itself other should their there these those through under until where which while whose would within without participant petition record records court case cases filing filed person people rather".split(/\s+/));
+const distinctive = (t) => [...new Set(norm(t).toLowerCase().replace(/[^a-z0-9. ]+/g, " ").split(" ")
+  .filter(w => (w.length >= 7 || /\d/.test(w)) && !STOP_WORDS.has(w)))];
+out.selfHelpStopDiff = stops.map(stopText => {
+  const words = distinctive(stopText); const hay = HAYSTACK.toLowerCase();
+  const present = words.filter(w => hay.includes(w)); const missing = words.filter(w => !hay.includes(w));
+  return { stop: stopText.slice(0, 240), distinctiveTokens: words.length, present: present.length,
+    coverage: words.length ? +(present.length / words.length).toFixed(2) : null, missing: missing.slice(0, 12) };
+});
+out.selfHelpStopsWeaklyCovered = out.selfHelpStopDiff.filter(d => d.coverage !== null && d.coverage < 0.5);
+// a hearing the registry treats as the end of self-help must not be presented as an ordinary step
+const hearingStops = stops.filter(x => /hearing/i.test(x));
+out.hearingLanguage = { registryStopsMentioningHearing: hearingStops.map(x => x.slice(0, 220)),
+  packetSentencesMentioningHearing: grab(/hearing/i, 14) };
 
 // ---- reported counters (for comparison only, never as proof) ----
 out.builderCounters = cc?.counters ?? null; out.builderBlankDispositions = cc?.blankDispositions ?? null;
