@@ -20,12 +20,12 @@
     "EXACT_LEGAL_HOLD": "One named legal-design question must be answered before any treatment is safe."
   },
   "counts": {
-    "ATTACH_HELD_SOURCE": 73,
+    "ATTACH_HELD_SOURCE": 83,
     "ACQUIRE_EXACT_SOURCE": 69,
     "EXACT_LEGAL_HOLD": 3,
     "NON_PACKET_TREATMENT": 1,
     "COMPOSE_FROM_AUTHORITY": 8,
-    "EXACT_EXTERNAL_SOURCE_HOLD": 10
+    "EXACT_EXTERNAL_SOURCE_HOLD": 11
   },
   "familiesClassified": 161,
   "familiesInCohort": 70,
@@ -9065,6 +9065,914 @@
           "whyTheLabelIsFamilySpecific": "ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI is named by exactly one family in data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json -- ar-misdemeanor-dwi-seal-set -- measured in this lane. Scoping the finding to that family rather than binding the label globally cannot change what any family this lane does not hold resolves to, which is the whole reason the scope is used here."
         }
       ]
+    },
+    {
+      "familyId": "il-exp-nonconv-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "CODEX-CS2-SRC1 acquired the current official binary for each of these Illinois forms and completed custody into the owner's Drive. Reconciling that return against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool. Captain recomputed each SHA-256 from the bytes on disk in this container and every one matches both the acquisition row and the index. Nothing had to be acquired for these: the identity between the census label and the held binary was what was missing, and the acquisition is what established it. That two independent fetches agree hash for hash is also the currentness evidence -- the held copy is what the publisher serves today.",
+      "jurisdiction": "IL",
+      "formsNamedByFamily": [
+        "EXP-AD Case List",
+        "EXP-AD Additional Cases Expungement"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "EXP-AD Case List"
+          ],
+          "printedFormNumber": "ATJ 2902.1",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS\", form number \"ATJ 2902.1\", revision \"06/26\" on the basis \"Printed on the form; official publisher page says Approved 06/2026.\". Captain independently recomputed the held bytes at LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "byteLength": 744328,
+            "pageCount": 1,
+            "revisionOrEffectiveDate": "06/26"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:EXP-AD Case List",
+          "servesFamilies": [
+            "il-exp-nonconv-set",
+            "il-exp-pardon-set",
+            "il-exp-precompletion-set",
+            "il-exp-qualprob-set",
+            "il-exp-supervision-set",
+            "il-seal-2yr-set",
+            "il-seal-3yr-set",
+            "il-seal-edu-set",
+            "il-seal-nonconv-set"
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "ADDITIONAL ARRESTS OR CASES FOR EXPUNGEMENT",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "EXP-AD Additional Cases Expungement"
+          ],
+          "printedFormNumber": "ATJ 2903.5",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/9cb2130f-056d-4962-a6e7-a592b4f4b4bb/EXP-AD%20Additional%20Cases%20Expungement.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"ADDITIONAL ARRESTS OR CASES FOR EXPUNGEMENT\", form number \"ATJ 2903.5\", revision \"06/26\" on the basis \"Printed on the form; official publisher page says Approved 06/2026.\". Captain independently recomputed the held bytes at LegalEase Illinois/EXP-AD Additional Cases Expungement.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/EXP-AD Additional Cases Expungement.pdf",
+            "sha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
+            "byteLength": 821758,
+            "pageCount": 1,
+            "revisionOrEffectiveDate": "06/26"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:EXP-AD Additional Cases Expungement",
+          "servesFamilies": [
+            "il-exp-nonconv-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "il-exp-pardon-set",
+        "il-exp-precompletion-set",
+        "il-exp-qualprob-set",
+        "il-exp-supervision-set",
+        "il-seal-2yr-set",
+        "il-seal-3yr-set",
+        "il-seal-edu-set",
+        "il-seal-nonconv-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "il-exp-pardon-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "CODEX-CS2-SRC1 acquired the current official binary for each of these Illinois forms and completed custody into the owner's Drive. Reconciling that return against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool. Captain recomputed each SHA-256 from the bytes on disk in this container and every one matches both the acquisition row and the index. Nothing had to be acquired for these: the identity between the census label and the held binary was what was missing, and the acquisition is what established it. That two independent fetches agree hash for hash is also the currentness evidence -- the held copy is what the publisher serves today.",
+      "jurisdiction": "IL",
+      "formsNamedByFamily": [
+        "EXP-AD Case List"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "EXP-AD Case List"
+          ],
+          "printedFormNumber": "ATJ 2902.1",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS\", form number \"ATJ 2902.1\", revision \"06/26\" on the basis \"Printed on the form; official publisher page says Approved 06/2026.\". Captain independently recomputed the held bytes at LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "byteLength": 744328,
+            "pageCount": 1,
+            "revisionOrEffectiveDate": "06/26"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:EXP-AD Case List",
+          "servesFamilies": [
+            "il-exp-nonconv-set",
+            "il-exp-pardon-set",
+            "il-exp-precompletion-set",
+            "il-exp-qualprob-set",
+            "il-exp-supervision-set",
+            "il-seal-2yr-set",
+            "il-seal-3yr-set",
+            "il-seal-edu-set",
+            "il-seal-nonconv-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "il-exp-nonconv-set",
+        "il-exp-precompletion-set",
+        "il-exp-qualprob-set",
+        "il-exp-supervision-set",
+        "il-seal-2yr-set",
+        "il-seal-3yr-set",
+        "il-seal-edu-set",
+        "il-seal-nonconv-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "il-exp-precompletion-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "CODEX-CS2-SRC1 acquired the current official binary for each of these Illinois forms and completed custody into the owner's Drive. Reconciling that return against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool. Captain recomputed each SHA-256 from the bytes on disk in this container and every one matches both the acquisition row and the index. Nothing had to be acquired for these: the identity between the census label and the held binary was what was missing, and the acquisition is what established it. That two independent fetches agree hash for hash is also the currentness evidence -- the held copy is what the publisher serves today.",
+      "jurisdiction": "IL",
+      "formsNamedByFamily": [
+        "EXP-AD Case List"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "EXP-AD Case List"
+          ],
+          "printedFormNumber": "ATJ 2902.1",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS\", form number \"ATJ 2902.1\", revision \"06/26\" on the basis \"Printed on the form; official publisher page says Approved 06/2026.\". Captain independently recomputed the held bytes at LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "byteLength": 744328,
+            "pageCount": 1,
+            "revisionOrEffectiveDate": "06/26"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:EXP-AD Case List",
+          "servesFamilies": [
+            "il-exp-nonconv-set",
+            "il-exp-pardon-set",
+            "il-exp-precompletion-set",
+            "il-exp-qualprob-set",
+            "il-exp-supervision-set",
+            "il-seal-2yr-set",
+            "il-seal-3yr-set",
+            "il-seal-edu-set",
+            "il-seal-nonconv-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "il-exp-nonconv-set",
+        "il-exp-pardon-set",
+        "il-exp-qualprob-set",
+        "il-exp-supervision-set",
+        "il-seal-2yr-set",
+        "il-seal-3yr-set",
+        "il-seal-edu-set",
+        "il-seal-nonconv-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "il-exp-qualprob-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "CODEX-CS2-SRC1 acquired the current official binary for each of these Illinois forms and completed custody into the owner's Drive. Reconciling that return against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool. Captain recomputed each SHA-256 from the bytes on disk in this container and every one matches both the acquisition row and the index. Nothing had to be acquired for these: the identity between the census label and the held binary was what was missing, and the acquisition is what established it. That two independent fetches agree hash for hash is also the currentness evidence -- the held copy is what the publisher serves today.",
+      "jurisdiction": "IL",
+      "formsNamedByFamily": [
+        "EXP-AD Case List"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "EXP-AD Case List"
+          ],
+          "printedFormNumber": "ATJ 2902.1",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS\", form number \"ATJ 2902.1\", revision \"06/26\" on the basis \"Printed on the form; official publisher page says Approved 06/2026.\". Captain independently recomputed the held bytes at LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "byteLength": 744328,
+            "pageCount": 1,
+            "revisionOrEffectiveDate": "06/26"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:EXP-AD Case List",
+          "servesFamilies": [
+            "il-exp-nonconv-set",
+            "il-exp-pardon-set",
+            "il-exp-precompletion-set",
+            "il-exp-qualprob-set",
+            "il-exp-supervision-set",
+            "il-seal-2yr-set",
+            "il-seal-3yr-set",
+            "il-seal-edu-set",
+            "il-seal-nonconv-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "il-exp-nonconv-set",
+        "il-exp-pardon-set",
+        "il-exp-precompletion-set",
+        "il-exp-supervision-set",
+        "il-seal-2yr-set",
+        "il-seal-3yr-set",
+        "il-seal-edu-set",
+        "il-seal-nonconv-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "il-exp-supervision-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "CODEX-CS2-SRC1 acquired the current official binary for each of these Illinois forms and completed custody into the owner's Drive. Reconciling that return against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool. Captain recomputed each SHA-256 from the bytes on disk in this container and every one matches both the acquisition row and the index. Nothing had to be acquired for these: the identity between the census label and the held binary was what was missing, and the acquisition is what established it. That two independent fetches agree hash for hash is also the currentness evidence -- the held copy is what the publisher serves today.",
+      "jurisdiction": "IL",
+      "formsNamedByFamily": [
+        "EXP-AD Case List"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "EXP-AD Case List"
+          ],
+          "printedFormNumber": "ATJ 2902.1",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS\", form number \"ATJ 2902.1\", revision \"06/26\" on the basis \"Printed on the form; official publisher page says Approved 06/2026.\". Captain independently recomputed the held bytes at LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "byteLength": 744328,
+            "pageCount": 1,
+            "revisionOrEffectiveDate": "06/26"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:EXP-AD Case List",
+          "servesFamilies": [
+            "il-exp-nonconv-set",
+            "il-exp-pardon-set",
+            "il-exp-precompletion-set",
+            "il-exp-qualprob-set",
+            "il-exp-supervision-set",
+            "il-seal-2yr-set",
+            "il-seal-3yr-set",
+            "il-seal-edu-set",
+            "il-seal-nonconv-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "il-exp-nonconv-set",
+        "il-exp-pardon-set",
+        "il-exp-precompletion-set",
+        "il-exp-qualprob-set",
+        "il-seal-2yr-set",
+        "il-seal-3yr-set",
+        "il-seal-edu-set",
+        "il-seal-nonconv-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "il-seal-2yr-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "CODEX-CS2-SRC1 acquired the current official binary for each of these Illinois forms and completed custody into the owner's Drive. Reconciling that return against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool. Captain recomputed each SHA-256 from the bytes on disk in this container and every one matches both the acquisition row and the index. Nothing had to be acquired for these: the identity between the census label and the held binary was what was missing, and the acquisition is what established it. That two independent fetches agree hash for hash is also the currentness evidence -- the held copy is what the publisher serves today.",
+      "jurisdiction": "IL",
+      "formsNamedByFamily": [
+        "EXP-AD Case List"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "EXP-AD Case List"
+          ],
+          "printedFormNumber": "ATJ 2902.1",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS\", form number \"ATJ 2902.1\", revision \"06/26\" on the basis \"Printed on the form; official publisher page says Approved 06/2026.\". Captain independently recomputed the held bytes at LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "byteLength": 744328,
+            "pageCount": 1,
+            "revisionOrEffectiveDate": "06/26"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:EXP-AD Case List",
+          "servesFamilies": [
+            "il-exp-nonconv-set",
+            "il-exp-pardon-set",
+            "il-exp-precompletion-set",
+            "il-exp-qualprob-set",
+            "il-exp-supervision-set",
+            "il-seal-2yr-set",
+            "il-seal-3yr-set",
+            "il-seal-edu-set",
+            "il-seal-nonconv-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "il-exp-nonconv-set",
+        "il-exp-pardon-set",
+        "il-exp-precompletion-set",
+        "il-exp-qualprob-set",
+        "il-exp-supervision-set",
+        "il-seal-3yr-set",
+        "il-seal-edu-set",
+        "il-seal-nonconv-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "il-seal-3yr-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "CODEX-CS2-SRC1 acquired the current official binary for each of these Illinois forms and completed custody into the owner's Drive. Reconciling that return against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool. Captain recomputed each SHA-256 from the bytes on disk in this container and every one matches both the acquisition row and the index. Nothing had to be acquired for these: the identity between the census label and the held binary was what was missing, and the acquisition is what established it. That two independent fetches agree hash for hash is also the currentness evidence -- the held copy is what the publisher serves today.",
+      "jurisdiction": "IL",
+      "formsNamedByFamily": [
+        "EXP-AD Case List"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "EXP-AD Case List"
+          ],
+          "printedFormNumber": "ATJ 2902.1",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS\", form number \"ATJ 2902.1\", revision \"06/26\" on the basis \"Printed on the form; official publisher page says Approved 06/2026.\". Captain independently recomputed the held bytes at LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "byteLength": 744328,
+            "pageCount": 1,
+            "revisionOrEffectiveDate": "06/26"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:EXP-AD Case List",
+          "servesFamilies": [
+            "il-exp-nonconv-set",
+            "il-exp-pardon-set",
+            "il-exp-precompletion-set",
+            "il-exp-qualprob-set",
+            "il-exp-supervision-set",
+            "il-seal-2yr-set",
+            "il-seal-3yr-set",
+            "il-seal-edu-set",
+            "il-seal-nonconv-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "il-exp-nonconv-set",
+        "il-exp-pardon-set",
+        "il-exp-precompletion-set",
+        "il-exp-qualprob-set",
+        "il-exp-supervision-set",
+        "il-seal-2yr-set",
+        "il-seal-edu-set",
+        "il-seal-nonconv-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "il-seal-edu-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "CODEX-CS2-SRC1 acquired the current official binary for each of these Illinois forms and completed custody into the owner's Drive. Reconciling that return against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool. Captain recomputed each SHA-256 from the bytes on disk in this container and every one matches both the acquisition row and the index. Nothing had to be acquired for these: the identity between the census label and the held binary was what was missing, and the acquisition is what established it. That two independent fetches agree hash for hash is also the currentness evidence -- the held copy is what the publisher serves today.",
+      "jurisdiction": "IL",
+      "formsNamedByFamily": [
+        "EXP-AD Case List"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "EXP-AD Case List"
+          ],
+          "printedFormNumber": "ATJ 2902.1",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS\", form number \"ATJ 2902.1\", revision \"06/26\" on the basis \"Printed on the form; official publisher page says Approved 06/2026.\". Captain independently recomputed the held bytes at LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "byteLength": 744328,
+            "pageCount": 1,
+            "revisionOrEffectiveDate": "06/26"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:EXP-AD Case List",
+          "servesFamilies": [
+            "il-exp-nonconv-set",
+            "il-exp-pardon-set",
+            "il-exp-precompletion-set",
+            "il-exp-qualprob-set",
+            "il-exp-supervision-set",
+            "il-seal-2yr-set",
+            "il-seal-3yr-set",
+            "il-seal-edu-set",
+            "il-seal-nonconv-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "il-exp-nonconv-set",
+        "il-exp-pardon-set",
+        "il-exp-precompletion-set",
+        "il-exp-qualprob-set",
+        "il-exp-supervision-set",
+        "il-seal-2yr-set",
+        "il-seal-3yr-set",
+        "il-seal-nonconv-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "il-seal-nonconv-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "CODEX-CS2-SRC1 acquired the current official binary for each of these Illinois forms and completed custody into the owner's Drive. Reconciling that return against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool. Captain recomputed each SHA-256 from the bytes on disk in this container and every one matches both the acquisition row and the index. Nothing had to be acquired for these: the identity between the census label and the held binary was what was missing, and the acquisition is what established it. That two independent fetches agree hash for hash is also the currentness evidence -- the held copy is what the publisher serves today.",
+      "jurisdiction": "IL",
+      "formsNamedByFamily": [
+        "EXP-AD Case List"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "EXP-AD Case List"
+          ],
+          "printedFormNumber": "ATJ 2902.1",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"CASE LIST FOR REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS\", form number \"ATJ 2902.1\", revision \"06/26\" on the basis \"Printed on the form; official publisher page says Approved 06/2026.\". Captain independently recomputed the held bytes at LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "byteLength": 744328,
+            "pageCount": 1,
+            "revisionOrEffectiveDate": "06/26"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:EXP-AD Case List",
+          "servesFamilies": [
+            "il-exp-nonconv-set",
+            "il-exp-pardon-set",
+            "il-exp-precompletion-set",
+            "il-exp-qualprob-set",
+            "il-exp-supervision-set",
+            "il-seal-2yr-set",
+            "il-seal-3yr-set",
+            "il-seal-edu-set",
+            "il-seal-nonconv-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "il-exp-nonconv-set",
+        "il-exp-pardon-set",
+        "il-exp-precompletion-set",
+        "il-exp-qualprob-set",
+        "il-exp-supervision-set",
+        "il-seal-2yr-set",
+        "il-seal-3yr-set",
+        "il-seal-edu-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "il-cannabis-vacate-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "CODEX-CS2-SRC1 acquired the current official binary for each of these Illinois forms and completed custody into the owner's Drive. Reconciling that return against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool. Captain recomputed each SHA-256 from the bytes on disk in this container and every one matches both the acquisition row and the index. Nothing had to be acquired for these: the identity between the census label and the held binary was what was missing, and the acquisition is what established it. That two independent fetches agree hash for hash is also the currentness evidence -- the held copy is what the publisher serves today.",
+      "jurisdiction": "IL",
+      "formsNamedByFamily": [
+        "CXP Getting Started Motion to Vacate and Expunge",
+        "CXP Motion to Vacate and Expunge",
+        "CXP Additional Cannabis Convictions",
+        "CXP Notice of Court Date for Motion",
+        "CXP Additional Notice of Court Date",
+        "CXP Order Granting or Denying Motion"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "Getting Started Motion to Vacate & Expunge Eligible Cannabis Convictions",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "CXP Getting Started Motion to Vacate and Expunge"
+          ],
+          "printedFormNumber": "EXC-G 4700.2",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/da1fc04d-1770-4e40-8a5c-527bd52ca7f9/CXP%20Getting%20Started%20Motion%20to%20Vacate%20and%20Expunge.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"Getting Started Motion to Vacate & Expunge Eligible Cannabis Convictions\", form number \"EXC-G 4700.2\", revision \"03/22\" on the basis \"Printed on the form; official publisher page says Approved 03/2022.\". Captain independently recomputed the held bytes at LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf",
+            "sha256": "52ce3880f8d813ca7ebebb1654da5a04f4d70dca538868f7094163a7199eb0b2",
+            "byteLength": 150220,
+            "pageCount": 1,
+            "revisionOrEffectiveDate": "03/22"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:CXP Getting Started Motion to Vacate and Expunge",
+          "servesFamilies": [
+            "il-cannabis-vacate-set"
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "MOTION TO VACATE & EXPUNGE ELIGIBLE CANNABIS CONVICTIONS",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "CXP Motion to Vacate and Expunge"
+          ],
+          "printedFormNumber": "EXC-M 4702.2",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/8562a938-0296-4236-9030-3217460e8b5c/CXP%20Motion%20to%20Vacate%20and%20Expunge.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"MOTION TO VACATE & EXPUNGE ELIGIBLE CANNABIS CONVICTIONS\", form number \"EXC-M 4702.2\", revision \"03/22\" on the basis \"Printed on the form; official publisher page says Approved 03/2022.\". Captain independently recomputed the held bytes at LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf",
+            "sha256": "728ad50c5db068d3d3a6bc68901c79431e865f8e2eaa94c37c38a086d9815acf",
+            "byteLength": 227699,
+            "pageCount": 3,
+            "revisionOrEffectiveDate": "03/22"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:CXP Motion to Vacate and Expunge",
+          "servesFamilies": [
+            "il-cannabis-vacate-set"
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "ADDITIONAL CANNABIS CONVICTIONS",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "CXP Additional Cannabis Convictions"
+          ],
+          "printedFormNumber": "EXC-AA 4706.2",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/85296a2c-ee02-41c9-b962-6fb1f797dc8e/CXP%20Additional%20Cannabis%20Convictions.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"ADDITIONAL CANNABIS CONVICTIONS\", form number \"EXC-AA 4706.2\", revision \"03/22\" on the basis \"Printed on the form; official publisher page says Approved 03/2022.\". Captain independently recomputed the held bytes at LegalEase Illinois/CXP Additional Cannabis Convictions.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/CXP Additional Cannabis Convictions.pdf",
+            "sha256": "32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969",
+            "byteLength": 396270,
+            "pageCount": 2,
+            "revisionOrEffectiveDate": "03/22"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:CXP Additional Cannabis Convictions",
+          "servesFamilies": [
+            "il-cannabis-vacate-set"
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "NOTICE OF COURT DATE FOR MOTION TO VACATE & EXPUNGE ELIGIBLE CANNABIS CONVICTIONS",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "CXP Notice of Court Date for Motion"
+          ],
+          "printedFormNumber": "EXC-N 4703.2",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/a9f72f2b-0bc7-482d-a301-9dc73e64e4b7/CXP%20Notice%20of%20Court%20Date%20for%20Motion.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"NOTICE OF COURT DATE FOR MOTION TO VACATE & EXPUNGE ELIGIBLE CANNABIS CONVICTIONS\", form number \"EXC-N 4703.2\", revision \"03/22\" on the basis \"Printed on the form; official publisher page says Approved 03/2022.\". Captain independently recomputed the held bytes at LegalEase Illinois/CXP Notice of Court Date for Motion.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/CXP Notice of Court Date for Motion.pdf",
+            "sha256": "56179412256e2c98b0f535a328801e4cf012ae3d179848c3a1efe7df6377b041",
+            "byteLength": 370872,
+            "pageCount": 2,
+            "revisionOrEffectiveDate": "03/22"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:CXP Notice of Court Date for Motion",
+          "servesFamilies": [
+            "il-cannabis-vacate-set"
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "ADDITIONAL NOTICE OF COURT DATE FOR MOTION TO VACATE & EXPUNGE ELIGIBLE CANNABIS CONVICTIONS",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "CXP Additional Notice of Court Date"
+          ],
+          "printedFormNumber": "EXC-AM 4705.2",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62d19ea4-46a8-423b-9e42-b975974fc77b/CXP%20Additional%20Notice%20of%20Court%20Date.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"ADDITIONAL NOTICE OF COURT DATE FOR MOTION TO VACATE & EXPUNGE ELIGIBLE CANNABIS CONVICTIONS\", form number \"EXC-AM 4705.2\", revision \"03/22\" on the basis \"Printed on the form; official publisher page says Approved 03/2022.\". Captain independently recomputed the held bytes at LegalEase Illinois/CXP Additional Notice of Court Date.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/CXP Additional Notice of Court Date.pdf",
+            "sha256": "4a6dde5541b6531f99a4294e07a28ea85096ea5c982ee76e46cf3e8dd00b0afa",
+            "byteLength": 283605,
+            "pageCount": 1,
+            "revisionOrEffectiveDate": "03/22"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:CXP Additional Notice of Court Date",
+          "servesFamilies": [
+            "il-cannabis-vacate-set"
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "ORDER GRANTING OR DENYING MOTION TO VACATE & EXPUNGE ELIGIBLE CANNABIS CONVICTIONS",
+          "issuingAuthority": "State of Illinois Office of the Illinois Courts; Illinois Supreme Court Commission on Access to Justice",
+          "authority": null,
+          "authorityAbsentBecause": "The return records no statutory citation for this form and none was inferred.",
+          "namedInFamiliesAs": [
+            "CXP Order Granting or Denying Motion"
+          ],
+          "printedFormNumber": "EXC-O 4704.2",
+          "identityEvidence": "CODEX-CS2-SRC1 resolved https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/0c788d57-5951-47d9-9946-dfc36b7d1d50/CXP%20Order%20Granting%20or%20Denying%20Motion.pdf from https://www.illinoiscourts.gov/forms/approved-forms/forms-approved-forms-circuit-court/expungement-sealing/ and read the printed identity off the document: title \"ORDER GRANTING OR DENYING MOTION TO VACATE & EXPUNGE ELIGIBLE CANNABIS CONVICTIONS\", form number \"EXC-O 4704.2\", revision \"03/22\" on the basis \"Printed on the form; official publisher page says Approved 03/2022.\". Captain independently recomputed the held bytes at LegalEase Illinois/CXP Order Granting or Denying Motion.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Illinois/CXP Order Granting or Denying Motion.pdf",
+            "sha256": "ca0fdef8909a3ef134c562d09a89dcc24de22036c7b8238902443892c3ac77cc",
+            "byteLength": 332731,
+            "pageCount": 2,
+            "revisionOrEffectiveDate": "03/22"
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes. It is preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:CXP Order Granting or Denying Motion",
+          "servesFamilies": [
+            "il-cannabis-vacate-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "il-prb-cert-set",
+      "class": "EXACT_EXTERNAL_SOURCE_HOLD",
+      "why": "CODEX-CS2-SRC1 acquired the current official binary for each of these Illinois Prisoner Review Board certificates and completed custody into the owner's Google Drive, owner-only and unshared. Unlike the other eight documents in that return, these four are in no local custody: the corpus index carries no entry at their SHA-256 and no container here can open them. Their identity, currentness and preservation are established; their bytes are not available to a builder. This records the hold rather than pretending the family can be built.",
+      "jurisdiction": "IL",
+      "formsNamedByFamily": [
+        "PRB Certificate of Sealing Application",
+        "PRB Certificate of Sealing Eligibility Acknowledgement",
+        "PRB Certificate of Expungement for Military Application",
+        "PRB Certificate of Expungement for Military Eligibility Acknowledgement"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "CERTIFICATE OF SEALING",
+          "issuingAuthority": "Illinois Prisoner Review Board",
+          "namedInFamiliesAs": [
+            "PRB Certificate of Sealing Application"
+          ],
+          "printedFormNumber": null,
+          "identityEvidence": "Resolved https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/sealing-docs/Certificate%20of%20Sealing%20application%209.18.24.pdf from https://prb.illinois.gov/certificate-of-sealing.html; printed title \"CERTIFICATE OF SEALING\", revision \"09/18/2024\" on the basis \"The official agency filename carries 9.18.24; no revision line is printed in the visible form.\".",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1GAxZVzStjHTLm-5Wybmy5yb7qgsgvyCN",
+            "storedTitle": "CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-SEALING-APPLICATION__5aa1b7803bfa.pdf",
+            "sha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+            "byteLength": 226488,
+            "byteLengthVerifiedByReadback": 226488,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T18:02:21.430Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the SHA-256 recorded is the worker's readback, not a hash Captain recomputed. Every other identity claim in this cohort was independently recomputed; these four were not, and that difference is stated rather than smoothed over.",
+          "artifactId": "official-form:PRB Certificate of Sealing Application",
+          "servesFamilies": [
+            "il-prb-cert-set"
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "Certificate of Sealing Eligibility Acknowledgement",
+          "issuingAuthority": "Illinois Prisoner Review Board",
+          "namedInFamiliesAs": [
+            "PRB Certificate of Sealing Eligibility Acknowledgement"
+          ],
+          "printedFormNumber": null,
+          "identityEvidence": "Resolved https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/sealing-docs/certificate-of-sealing-eligibility-acknowledgement.pdf from https://prb.illinois.gov/certificate-of-sealing.html; printed title \"Certificate of Sealing Eligibility Acknowledgement\", revision null on the basis \"No revision or effective date is printed, and the official publisher page presents the PDF without a date.\".",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1Fi0H317CpZJgDZkrr1HhSI5IuU5rz0sW",
+            "storedTitle": "CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-SEALING-ELIGIBILITY-ACKNOWLEDGEMENT__b204190533f2.pdf",
+            "sha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+            "byteLength": 89530,
+            "byteLengthVerifiedByReadback": 89530,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T18:02:27.977Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the SHA-256 recorded is the worker's readback, not a hash Captain recomputed. Every other identity claim in this cohort was independently recomputed; these four were not, and that difference is stated rather than smoothed over.",
+          "artifactId": "official-form:PRB Certificate of Sealing Eligibility Acknowledgement",
+          "servesFamilies": [
+            "il-prb-cert-set"
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "CERTIFICATE OF EXPUNGEMENT FOR MILITARY",
+          "issuingAuthority": "Illinois Prisoner Review Board",
+          "namedInFamiliesAs": [
+            "PRB Certificate of Expungement for Military Application"
+          ],
+          "printedFormNumber": null,
+          "identityEvidence": "Resolved https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/military-expungement-docs/Certificate%20of%20Expungement%20for%20Military%20application%20v9.18.24.pdf from https://prb.illinois.gov/certificate-of-expungement-for-military.html; printed title \"CERTIFICATE OF EXPUNGEMENT FOR MILITARY\", revision \"09/18/2024\" on the basis \"The official agency filename carries v9.18.24; no revision line is printed in the visible form.\".",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1_HjEk-NnIkKVq1l2ZJeB69wn9ZHO7O0l",
+            "storedTitle": "CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-APPLICATION__87d693a24931.pdf",
+            "sha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+            "byteLength": 222490,
+            "byteLengthVerifiedByReadback": 222490,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T18:02:23.688Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the SHA-256 recorded is the worker's readback, not a hash Captain recomputed. Every other identity claim in this cohort was independently recomputed; these four were not, and that difference is stated rather than smoothed over.",
+          "artifactId": "official-form:PRB Certificate of Expungement for Military Application",
+          "servesFamilies": [
+            "il-prb-cert-set"
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "officialTitle": "Certificate of Expungement for Military Eligibility Acknowledgement",
+          "issuingAuthority": "Illinois Prisoner Review Board",
+          "namedInFamiliesAs": [
+            "PRB Certificate of Expungement for Military Eligibility Acknowledgement"
+          ],
+          "printedFormNumber": null,
+          "identityEvidence": "Resolved https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/military-expungement-docs/certificate-of-expugnement-for-military-eligibility-acknowledgement.pdf from https://prb.illinois.gov/certificate-of-expungement-for-military.html; printed title \"Certificate of Expungement for Military Eligibility Acknowledgement\", revision \"08/11/2014\" on the basis \"Printed in the document page margin; the agency currently links this exact PDF from its official page.\".",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1btGZPdwdvxdgJrMDq9Qu4bVWftqnEvfu",
+            "storedTitle": "CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-ELIGIBILITY-ACKNOWLEDGEMENT__691ce0bffc30.pdf",
+            "sha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+            "byteLength": 84623,
+            "byteLengthVerifiedByReadback": 84623,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T18:02:25.791Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the SHA-256 recorded is the worker's readback, not a hash Captain recomputed. Every other identity claim in this cohort was independently recomputed; these four were not, and that difference is stated rather than smoothed over.",
+          "artifactId": "official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+          "servesFamilies": [
+            "il-prb-cert-set"
+          ]
+        }
+      ],
+      "whatThisDoesNotEstablish": "It records custody and identity. It does not make the bytes openable by any builder, and the family stays source-blocked until they are installed into a local custody."
     }
   ],
   "artifactIndex": {

@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `b03b38d9055aa9d4fe2db98e74e109dee02d09fb` (or the newer dispatch base)
+**Minimum required ancestor:** `88c19f9bbd2761aad70e56c4e3fb9ef4929c13f1` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC06 \
-  --source-obligation 'ma-expunge-k-set::official-form:Petition for Expungement, G.L. c. 276, § 100K' \
+  --source-obligation 'ia-901c3-set::official-form:Certification of Service by Mailing or Delivery' \
   --codex-cloud \
-  --minimum-captain-sha b03b38d9055aa9d4fe2db98e74e109dee02d09fb
+  --minimum-captain-sha 88c19f9bbd2761aad70e56c4e3fb9ef4929c13f1
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**4 obligations · 4 families this lane WOULD release if every one of them resolves · hosts: MA, TX**
+**4 obligations · 3 families this lane WOULD release if every one of them resolves · hosts: IA, MA**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -105,10 +105,10 @@ the issuing court or agency that publishes the document
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
+| `ia-901c3-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-901c3-set` | unresolved exact identity or URL | `ACQ` |
 | `ma-expunge-k-set::official-form:Petition for Expungement, G.L. c. 276, § 100K` | `official-form:Petition for Expungement, G.L. c. 276, § 100K` | MA | `exact-source-identity` | `ma-expunge-k-set` | unresolved exact identity or URL | `ACQ` |
 | `ma-seal-admin-set::official-form:Petition to Seal (Office of the Commissioner of Probation)` | `official-form:Petition to Seal (Office of the Commissioner of Probation)` | MA | `exact-source-identity` | `ma-seal-admin-set` | unresolved exact identity or URL | `ACQ` |
 | `ma-seal-decrim-set::official-form:Petition to Seal (Office of the Commissioner of Probation), Part A box 4` | `official-form:Petition to Seal (Office of the Commissioner of Probation), Part A box 4` | MA | `exact-source-identity` | `ma-seal-decrim-set` | unresolved exact identity or URL | `ACQ` |
-| `tx_nd_dwi_conviction-set::official-form:OCA Model Order of Nondisclosure under Section 411.0736` | `official-form:OCA Model Order of Nondisclosure under Section 411.0736` | TX | `exact-source-identity` | `tx_nd_dwi_conviction-set` | unresolved exact identity or URL | `ACQ` |
 
 Deterministically assert exactly the 4 committed itemIds (failures are recorded per row and do not terminate the loop):
 
@@ -128,7 +128,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC06 --source-obligation 'ma-expunge-k-set::official-form:Petition for Expungement, G.L. c. 276, § 100K' --codex-cloud --minimum-captain-sha b03b38d9055aa9d4fe2db98e74e109dee02d09fb
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC06 --source-obligation 'ia-901c3-set::official-form:Certification of Service by Mailing or Delivery' --codex-cloud --minimum-captain-sha 88c19f9bbd2761aad70e56c4e3fb9ef4929c13f1
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -137,7 +137,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC06 --source
 
 ### Families this lane would release
 
-`ma-expunge-k-set`, `ma-seal-admin-set`, `ma-seal-decrim-set`, `tx_nd_dwi_conviction-set`
+`ma-expunge-k-set`, `ma-seal-admin-set`, `ma-seal-decrim-set`
 
 
 ### Settle these first
@@ -146,10 +146,10 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC06 --source
 
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
+| Certification of Service by Mailing or Delivery | IA | 3 |
 | Petition for Expungement, G.L. c. 276, § 100K | MA | 1 |
 | Petition to Seal (Office of the Commissioner of Probation) | MA | 1 |
 | Petition to Seal (Office of the Commissioner of Probation), Part A box 4 | MA | 1 |
-| OCA Model Order of Nondisclosure under Section 411.0736 | TX | 1 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 

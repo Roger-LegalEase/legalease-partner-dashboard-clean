@@ -3,11 +3,11 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "b03b38d9055aa9d4fe2db98e74e109dee02d09fb",
+  "minimumCaptainSha": "88c19f9bbd2761aad70e56c4e3fb9ef4929c13f1",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
-    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "d7b28ac781983b3ebe8e58c243cef13654f33de965fbb542322c98835dcc303b",
+    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "fc7126e11fb6890e95906de798a2df3cbf1a83ccb4993b5eea78d6c53b8f1c8e",
     "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "53f5d176a93a97d0421e045576429d646b08079a1db4468e70c6651280f1c0e0",
     "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json": "fbb02da468ece257271b0004773f8ad86fe8f7698cf1e2314f0611437cb3bbbf",
     "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json": "cf15ce284dde2fbd2ce4525e1a797a9cbced9829a612bbc14ccc0cdf113748ea",
@@ -66,20 +66,20 @@
     "activeFamiliesExcluded": 1,
     "guidanceOnly": 0,
     "remaining": 345,
-    "sourceReady": 51,
-    "sourceBlocked": 102,
+    "sourceReady": 61,
+    "sourceBlocked": 92,
     "legalBlocked": 31,
-    "verifyPending": 38,
-    "repairRequired": 25,
+    "verifyPending": 50,
+    "repairRequired": 13,
     "sumsToDenominator": true
   },
   "byState": {
-    "SOURCE_READY": 51,
+    "SOURCE_READY": 61,
     "COMPLETE_PACKET_PROVEN": 89,
-    "VERIFY_PENDING": 38,
+    "VERIFY_PENDING": 50,
     "OUT_OF_SCOPE": 5,
-    "SOURCE_BLOCKED": 102,
-    "FAIL_REPAIR_REQUIRED": 25,
+    "SOURCE_BLOCKED": 92,
+    "FAIL_REPAIR_REQUIRED": 13,
     "LEGAL_BLOCKED": 22,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -89,9 +89,9 @@
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 91,
-    "SOURCE_BOUND_BY_HELD_BYTES": 153,
+    "SOURCE_BOUND_BY_HELD_BYTES": 163,
     "SOURCE_GENUINELY_MISSING": 44,
-    "SOURCE_IDENTITY_UNRESOLVED": 43,
+    "SOURCE_IDENTITY_UNRESOLVED": 33,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 5,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
@@ -159,11 +159,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 16,
-    "sourceReadyFamilies": 51,
-    "familiesPerBuilder": 3.2,
+    "sourceReadyFamilies": 61,
+    "familiesPerBuilder": 3.8,
     "targetPerBuilder": "15 to 25",
-    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 51 do, so a full roster of 16 builders averages 3.2 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 178 source obligations across 133 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 61 do, so a full roster of 16 builders averages 3.8 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 162 source obligations across 123 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -2343,7 +2343,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-cs-possession-seal-set.mjs",
@@ -3446,7 +3446,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
@@ -12055,23 +12055,96 @@
         "official-form:CXP Notice of Court Date for Motion",
         "official-form:CXP Order Granting or Denying Motion"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:CXP Additional Cannabis Convictions",
+          "path": "LegalEase Illinois/CXP Additional Cannabis Convictions.pdf",
+          "sha256": "32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CXP Additional Notice of Court Date",
+          "path": "LegalEase Illinois/CXP Additional Notice of Court Date.pdf",
+          "sha256": "4a6dde5541b6531f99a4294e07a28ea85096ea5c982ee76e46cf3e8dd00b0afa",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CXP Getting Started Motion to Vacate and Expunge",
+          "path": "LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf",
+          "sha256": "52ce3880f8d813ca7ebebb1654da5a04f4d70dca538868f7094163a7199eb0b2",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CXP Motion to Vacate and Expunge",
+          "path": "LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf",
+          "sha256": "728ad50c5db068d3d3a6bc68901c79431e865f8e2eaa94c37c38a086d9815acf",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CXP Notice of Court Date for Motion",
+          "path": "LegalEase Illinois/CXP Notice of Court Date for Motion.pdf",
+          "sha256": "56179412256e2c98b0f535a328801e4cf012ae3d179848c3a1efe7df6377b041",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CXP Order Granting or Denying Motion",
+          "path": "LegalEase Illinois/CXP Order Granting or Denying Motion.pdf",
+          "sha256": "ca0fdef8909a3ef134c562d09a89dcc24de22036c7b8238902443892c3ac77cc",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CXP Additional Cannabis Convictions: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CXP Additional Notice of Court Date: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CXP Getting Started Motion to Vacate and Expunge: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CXP Motion to Vacate and Expunge: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CXP Notice of Court Date for Motion: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CXP Order Granting or Denying Motion: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:CXP Additional Cannabis Convictions",
+            "path": "LegalEase Illinois/CXP Additional Cannabis Convictions.pdf",
+            "sha256": "32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CXP Additional Notice of Court Date",
+            "path": "LegalEase Illinois/CXP Additional Notice of Court Date.pdf",
+            "sha256": "4a6dde5541b6531f99a4294e07a28ea85096ea5c982ee76e46cf3e8dd00b0afa",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CXP Getting Started Motion to Vacate and Expunge",
+            "path": "LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf",
+            "sha256": "52ce3880f8d813ca7ebebb1654da5a04f4d70dca538868f7094163a7199eb0b2",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CXP Motion to Vacate and Expunge",
+            "path": "LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf",
+            "sha256": "728ad50c5db068d3d3a6bc68901c79431e865f8e2eaa94c37c38a086d9815acf",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CXP Notice of Court Date for Motion",
+            "path": "LegalEase Illinois/CXP Notice of Court Date for Motion.pdf",
+            "sha256": "56179412256e2c98b0f535a328801e4cf012ae3d179848c3a1efe7df6377b041",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CXP Order Granting or Denying Motion",
+            "path": "LegalEase Illinois/CXP Order Granting or Denying Motion.pdf",
+            "sha256": "ca0fdef8909a3ef134c562d09a89dcc24de22036c7b8238902443892c3ac77cc",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 6,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 6,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
@@ -12097,7 +12170,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-cannabis-vacate-set.mjs",
@@ -12152,6 +12225,18 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:EXP-AD Additional Cases Expungement",
+          "path": "LegalEase Illinois/EXP-AD Additional Cases Expungement.pdf",
+          "sha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:EXP-AD Case List",
+          "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:EXP-AD Order Granting",
           "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
           "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
@@ -12170,14 +12255,11 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:EXP-AD Additional Cases Expungement: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:EXP-AD Case List: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:FW-CIV-APPLICATION",
@@ -12185,6 +12267,20 @@
             "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:EXP-AD Additional Cases Expungement",
+            "path": "LegalEase Illinois/EXP-AD Additional Cases Expungement.pdf",
+            "sha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:EXP-AD Case List",
+            "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           },
           {
             "sourceId": "official-form:EXP-AD Order Granting",
@@ -12202,8 +12298,8 @@
           }
         ],
         "namedOfficialForms": 5,
-        "boundCount": 3,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 5,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
@@ -12229,7 +12325,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-exp-nonconv-set.mjs",
@@ -12280,6 +12376,12 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:EXP-AD Case List",
+          "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:EXP-AD Order Granting",
           "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
           "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
@@ -12298,13 +12400,11 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:EXP-AD Case List: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:FW-CIV-APPLICATION",
@@ -12312,6 +12412,13 @@
             "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:EXP-AD Case List",
+            "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           },
           {
             "sourceId": "official-form:EXP-AD Order Granting",
@@ -12329,8 +12436,8 @@
           }
         ],
         "namedOfficialForms": 4,
-        "boundCount": 3,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 4,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
@@ -12356,7 +12463,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-exp-pardon-set.mjs",
@@ -12407,6 +12514,12 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:EXP-AD Case List",
+          "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:EXP-AD Order Granting",
           "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
           "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
@@ -12425,13 +12538,11 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:EXP-AD Case List: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:FW-CIV-APPLICATION",
@@ -12439,6 +12550,13 @@
             "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:EXP-AD Case List",
+            "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           },
           {
             "sourceId": "official-form:EXP-AD Order Granting",
@@ -12456,8 +12574,8 @@
           }
         ],
         "namedOfficialForms": 4,
-        "boundCount": 3,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 4,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
@@ -12483,7 +12601,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-exp-precompletion-set.mjs",
@@ -12534,6 +12652,12 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:EXP-AD Case List",
+          "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:EXP-AD Order Granting",
           "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
           "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
@@ -12552,13 +12676,11 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:EXP-AD Case List: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:FW-CIV-APPLICATION",
@@ -12566,6 +12688,13 @@
             "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:EXP-AD Case List",
+            "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           },
           {
             "sourceId": "official-form:EXP-AD Order Granting",
@@ -12583,8 +12712,8 @@
           }
         ],
         "namedOfficialForms": 4,
-        "boundCount": 3,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 4,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
@@ -12610,7 +12739,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-exp-qualprob-set.mjs",
@@ -12661,6 +12790,12 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:EXP-AD Case List",
+          "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:EXP-AD Order Granting",
           "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
           "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
@@ -12679,13 +12814,11 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:EXP-AD Case List: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:FW-CIV-APPLICATION",
@@ -12693,6 +12826,13 @@
             "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:EXP-AD Case List",
+            "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           },
           {
             "sourceId": "official-form:EXP-AD Order Granting",
@@ -12710,8 +12850,8 @@
           }
         ],
         "namedOfficialForms": 4,
-        "boundCount": 3,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 4,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
@@ -12737,7 +12877,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-exp-supervision-set.mjs",
@@ -12973,6 +13113,12 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:EXP-AD Case List",
+          "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:EXP-AD Order Granting",
           "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
           "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
@@ -12991,13 +13137,11 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:EXP-AD Case List: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:FW-CIV-APPLICATION",
@@ -13005,6 +13149,13 @@
             "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:EXP-AD Case List",
+            "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           },
           {
             "sourceId": "official-form:EXP-AD Order Granting",
@@ -13022,8 +13173,8 @@
           }
         ],
         "namedOfficialForms": 4,
-        "boundCount": 3,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 4,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
@@ -13049,7 +13200,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-2yr-set.mjs",
@@ -13100,6 +13251,12 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:EXP-AD Case List",
+          "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:EXP-AD Order Granting",
           "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
           "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
@@ -13118,13 +13275,11 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:EXP-AD Case List: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:FW-CIV-APPLICATION",
@@ -13132,6 +13287,13 @@
             "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:EXP-AD Case List",
+            "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           },
           {
             "sourceId": "official-form:EXP-AD Order Granting",
@@ -13149,8 +13311,8 @@
           }
         ],
         "namedOfficialForms": 4,
-        "boundCount": 3,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 4,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
@@ -13176,7 +13338,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-3yr-set.mjs",
@@ -13227,6 +13389,12 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:EXP-AD Case List",
+          "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:EXP-AD Order Granting",
           "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
           "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
@@ -13245,13 +13413,11 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:EXP-AD Case List: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:FW-CIV-APPLICATION",
@@ -13259,6 +13425,13 @@
             "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:EXP-AD Case List",
+            "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           },
           {
             "sourceId": "official-form:EXP-AD Order Granting",
@@ -13276,8 +13449,8 @@
           }
         ],
         "namedOfficialForms": 4,
-        "boundCount": 3,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 4,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
@@ -13303,7 +13476,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-edu-set.mjs",
@@ -13354,6 +13527,12 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:EXP-AD Case List",
+          "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:EXP-AD Order Granting",
           "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
           "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
@@ -13372,13 +13551,11 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:EXP-AD Case List: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:FW-CIV-APPLICATION",
@@ -13386,6 +13563,13 @@
             "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:EXP-AD Case List",
+            "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           },
           {
             "sourceId": "official-form:EXP-AD Order Granting",
@@ -13403,8 +13587,8 @@
           }
         ],
         "namedOfficialForms": 4,
-        "boundCount": 3,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 4,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
@@ -13430,7 +13614,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-nonconv-set.mjs",
@@ -14430,7 +14614,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_section1_petition-set.mjs",
@@ -21574,7 +21758,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nd-nonconviction-close-petition-set.mjs",
@@ -23589,7 +23773,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -27495,7 +27679,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-oh-custom-pleading-clean-tracks.mjs",
@@ -30683,7 +30867,7 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
@@ -31284,7 +31468,7 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
@@ -33086,7 +33270,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
@@ -33234,7 +33418,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_exp_decriminalized-set.mjs",
@@ -33853,7 +34037,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
@@ -34411,7 +34595,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_cannabis-set.mjs",
@@ -36451,18 +36635,18 @@
     }
   ],
   "totals": {
-    "lanes": 52,
+    "lanes": 48,
     "builders": 16,
     "verifiers": 12,
     "sourceLanes": 16,
-    "repairLanes": 8,
-    "familiesAssignedToBuilders": 51,
-    "sourceObligationsAssigned": 178,
-    "actualPromotedAndReleased": 51,
+    "repairLanes": 4,
+    "familiesAssignedToBuilders": 61,
+    "sourceObligationsAssigned": 162,
+    "actualPromotedAndReleased": 61,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 102,
+    "prospectiveReleasesAcrossSourceLanes": 92,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false
