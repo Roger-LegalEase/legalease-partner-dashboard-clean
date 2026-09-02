@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF31",
+  "worker": "CODEX-CS2-VF31",
+  "generatedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+  "claimsReleased": false,
+  "repairAssignments": [
+    {
+      "itemId": "vt_exp_decriminalized-set",
+      "lane": "VF31",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
+      "failedProofObligations": [
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "decisiveDefect": "The participant-facing instructions contradict or omit three settled obligations: they replace the held no-fee answer with an unknown-fee instruction, describe prosecutor delivery as service without stating the held delivery method, and carry none of the track's eleven self-help stop conditions.",
+      "perObligation": {
+        "FEE_AND_WAIVER": {
+          "measuredEvidence": "participant-instructions.md line 17 says to ask the clerk for the filing fee and whether it can be waived, and says the amount covered by the included waiver form is not stated. The committed packet-set manifest instead makes form 600-00228 conditional 'Only where a fee is charged; on this track none is,' and its pay_fee action states no filing fee under 32 V.S.A. section 1431(e).",
+          "repairRequired": "State the committed no-filing-fee answer for this track and make clear that 600-00228 is included only for a circumstance in which a charge actually applies; do not present an unconditional waiver task."
+        },
+        "SERVICE": {
+          "measuredEvidence": "participant-instructions.md lines 19-23 says a copy must be served on the prosecuting office, but it supplies neither a delivery method nor a deadline and warns that a prosecutor signature is not service. The packet-set serve_party action says the participant does not serve the prosecutor with process; on the stipulation path the participant takes or sends that form to the prosecutor and asks whether the prosecutor will file it or return it signed, with section 7602(a)(4) assigning filing to the respondent.",
+          "repairRequired": "Replace the service framing with the committed no-participant-service posture and the exact stipulation delivery/file-or-return workflow. Preserve the distinction between obtaining a stipulation and service of process."
+        },
+        "SELF_HELP_STOP": {
+          "measuredEvidence": "The legal-design track registry carries eleven selfHelpStopConditions for trackId vt_exp_decriminalized. Whitespace-normalized review of participant-instructions.md and extracted output text found no stop section and none of those conditions; the line 189 generic disclaimer that the packet is not legal advice is not a stop rule.",
+          "repairRequired": "Add a participant-facing where-self-help-ends section carrying all eleven conditions held for vt_exp_decriminalized, including opposition/hearing, victim opposition, pending charge, mixed qualifying status, commercial-driver exclusion, listed-crime or unlisted-felony uncertainty, immigration effects, collateral attack, inability to document decriminalization, and an unestablished regulated-drug amount."
+        }
+      },
+      "whatMustNotChange": [
+        "Do not change the accepted boundary prefill refusal: field 34i's long email is refused at the readable-size floor, recorded with its exact held value, and disclosed on packet page 8 for hand completion.",
+        "Do not change the canonical or boundary artifacts merely to make the existing verifier counters move; re-render only as a consequence of the participant-facing instruction repair.",
+        "Do not infer any source content unavailable to the repair lane."
+      ],
+      "independentArtifactEvidence": "canonical.pdf recomputed as 3bd92e3418501450ff38c2167236eec074dfd5d8d617f2317a424a043f9dbffd (848321 bytes, 8 pages); boundary.pdf recomputed as 9166048a156dbaee595d006cef918934ae64312c7ed05b7be6841fd45a93b99f (849362 bytes, 8 pages). All 16 committed 2448x3168 raster hashes and byte lengths matched, and the set digest recomputed as c8c18bec96ec6964339a63e81604777a26963aa77845a088d9db7ba5814895ff.",
+      "blockedButNotAssignedHere": "SOURCE_IDENTITY remains blocked because the three exact source binaries named by the receipts are absent from this isolated checkout; the direct packet failures above are independently established by committed legal-design records and delivered output."
+    },
+    {
+      "itemId": "vt_seal_nonconviction-set",
+      "lane": "VF31",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+      "failedProofObligations": [
+        "ROUTE_IDENTITY",
+        "KNOWN_PREFILLS",
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "decisiveDefect": "The family still binds a phantom route identity in its field map, silently drops one boundary prefill and clips another in the delivered raster, and leaves settled fee and service answers unknown in the participant instructions.",
+      "perObligation": {
+        "ROUTE_IDENTITY": {
+          "measuredEvidence": "production-field-map.json line 5 and every documentPolicy routeKey carry obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing. That exact key has zero occurrences in the committed route census. MASTER_QUEUE and product-wiring.json instead bind the family to obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-automatic-and-verification, :vt-nonconviction-ordinary-petition and :vt-nonconviction-stipulated-petition.",
+          "repairRequired": "Replace the phantom field-map and document-policy route identity with the three census-backed unit keys, preserving their route-specific binding. Re-run the family generator so every generated record and participant-facing artifact agrees."
+        },
+        "KNOWN_PREFILLS": {
+          "measuredEvidence": "On boundary packet page 3, source form 200-00132 page 1, mapped email field 34i is blank even though participant.email is known; no refusal, unfittable record or participant disclosure accounts for the blank. On the same page, mapped field 34d renders only 'Maria-Alejandra O'Shaughnessy-WI' from the expected boundary value 'Maria-Alejandra O'Shaughnessy-Whitfield'.",
+          "repairRequired": "Make field 34i either visibly carry the held email or produce the same exact-value refusal and participant hand-completion disclosure used by the expungement family. Fit field 34d at the established readable floor or refuse and disclose it; never truncate it silently."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measuredEvidence": "Direct inspection of the committed 2448x3168 boundary raster for packet page 3 shows the right edge of field 34d clipping the name after '-WI'. The canonical page is the control and fits its shorter name. This measured raster defect contradicts reports/completeness-counters.json visualDefects=0.",
+          "repairRequired": "Correct the fit/refusal logic for 200-00132 field 34d, re-render both fixtures, and regenerate/review all raster receipts. The repair is complete only when the entire boundary value is visible without overlap or an exact refusal/disclosure is recorded."
+        },
+        "FEE_AND_WAIVER": {
+          "measuredEvidence": "participant-instructions.md line 15 says the fee and waiver applicability are unknown and tells the participant to ask the clerk. The committed packet-set manifest makes 600-00228 conditional 'Only where a filing fee is charged; on this track none is,' and its pay_fee action states no filing fee under 32 V.S.A. section 1431(e).",
+          "repairRequired": "State the committed no-filing-fee posture and accurately condition the waiver form instead of presenting the settled question as unknown."
+        },
+        "SERVICE": {
+          "measuredEvidence": "participant-instructions.md line 16 explicitly leaves both recipient and method to the clerk. The committed packet-set serve_party action says the participant does not serve the prosecutor with process and provides the stipulation workflow: take or send it to the prosecutor and ask whether the prosecutor will file it or return it signed for participant filing.",
+          "repairRequired": "State the no-participant-service posture and the exact stipulation delivery/file-or-return workflow; do not conflate prosecutor signature with service."
+        }
+      },
+      "whatMustNotChange": [
+        "Preserve all six current self-help stop conditions; SELF_HELP_STOP passes at this base.",
+        "Preserve protected participant, prosecutor, court, signature and date controls.",
+        "Never repair a finding by changing a receipt alone; re-render and independently re-raster the output after fixing the fill logic."
+      ],
+      "independentArtifactEvidence": "canonical.pdf recomputed as cafc3111e0c8d1669df9e9aae3d4d77a1847f9ead1ccbf70006155cee5703898 (856943 bytes, 8 pages); boundary.pdf recomputed as 87032f4047b63294f8db291f0ebe336eb93db86bd49e22ea72f76ed37a9bafe4 (857391 bytes, 8 pages). All 16 committed 2448x3168 raster hashes and byte lengths matched, and the set digest recomputed as 3856d75d965fe5e7bafea482d0582394b761b7a083f6df1f8bb8d7e322b151af.",
+      "blockedButNotAssignedHere": "SOURCE_IDENTITY remains blocked because the three exact source binaries named by the receipts are absent from this isolated checkout; that block does not erase the defects measured directly from repository records and delivered rasters."
+    }
+  ],
+  "doesNotAuthorize": [
+    "No commercial route is opened.",
+    "No family is approved for production or live use.",
+    "No claim is released.",
+    "No packet was repaired by this verification lane."
+  ]
+}
