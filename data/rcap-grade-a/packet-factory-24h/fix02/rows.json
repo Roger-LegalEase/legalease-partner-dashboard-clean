@@ -1,164 +1,46 @@
 {
   "schemaVersion": "rcap-packet-factory-lane-return/v1",
-  "worker": "FABLE-FA",
-  "workerBranch": "fable/fa",
+  "worker": "FIX02",
+  "workerBranch": "worktree-agent-a136ff4b1db3e2134",
   "laneKind": "repair",
-  "baseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
-  "question": "Were exactly the failed proof obligations repaired, on exactly the families they failed on?",
+  "assignmentId": "FIX02",
+  "baseSha": "0880e69cc",
+  "baseShaNote": "The worktree branch this lane was handed was 1425 commits behind the sprint-captain branch and did not contain the grade-A packet factory at all - no scripts/grade-a-packet-factory-24h, no claim ledger, no brief. It was merged forward to 0880e69cc, the captain head, before any family was read. Its one unique commit (the raster artifact-label slug, #221) was already present in captain.",
+  "question": "Of the three families the claim ledger grants FIX02, which decisive defects named by the standing verdicts are still live at the captain head, and what does repairing exactly those and nothing more require?",
   "selfVerified": false,
+  "selfVerifiedNote": "This lane repaired and re-measured its own work. It issues no PASS. Every family returns to independent verification by a lane that neither built nor repaired it.",
   "productionTouched": false,
   "commercialRoutesOpened": 0,
-  "grantsNothing": "This is a repairer's return. It promotes no family, proves none, and opens no commercial route.",
+  "grantsNothing": "This return grants nothing. It opens no route, sets no price, touches no checkout, promotes no build status and marks no packet proven.",
   "preflight": {
-    "command": "node scripts/verify-packet-build-environment.mjs --family <familyId>",
-    "result": "12/13 passed, 1 failed, 4 not applicable",
-    "theOneFailure": "family_sources_bind reported 9 of 9 sources do not bind. It is an instrument defect, not a packet defect, and it was not worked around. familySources() takes the custody row's path, which for these families is the repo-relative private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/... , and joins it onto masterLibraryRoot(); the join can never exist. Both copies of every source were hashed by hand in this lane and both bind: 1000EX hashes 401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611 under the Master Library and under the d_source_packs tree, which is the digest the receipt and the committed corpus index carry. The builder binds through MASTER_LIBRARY_SOURCE_DIR and its own re-hash, and it built. Reported for Captain rather than repaired: scripts/verify-packet-build-environment.mjs is not this lane's path.",
-    "rasterizer": "pdftoppm 22.12.0 via PATH. This host rasters at build time through Poppler, not a browser; no Chromium was needed and none was reached for."
+    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud (NOT RUN)",
+    "result": "NOT_APPLICABLE_IN_THIS_ENVIRONMENT",
+    "why": "This lane ran in a real git worktree of the repository, not a Codex Cloud container. The dispatcher directed it to skip the --codex-cloud preflight, whose shallow-checkout and container-corpus checks do not describe this host. The corpus was bound instead by symlinking the gitignored Master Library at /home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 into the worktree at its expected repo-relative path; it was read, never copied, and the symlink is gitignored and appears in no commit.",
+    "sourceBinding": "Every builder re-hashed its own pinned sources against data/rcap-all50/local-source-corpus-index.json and refused on drift. North Dakota bound ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf at sha256 21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f, 1319263 bytes. Utah bound its nine source-bound components and rebuilt byte-identical.",
+    "rasterizer": "North Dakota and Utah raster at build time through Poppler pdftoppm, which is on this host's PATH; no browser was needed or reached for. Vermont rasters through a browser and was not rebuilt (see its row)."
   },
-  "determinismProof": "Every family on this host was built at base BEFORE any edit and produced a zero-byte git diff, so the environment reproduces the committed bytes exactly. After the edit each repaired family was built twice and the second build reproduced the first byte for byte across both fixtures and participant-instructions.md.",
-  "theSharedHost": {
-    "host": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
-    "familiesOnIt": 7,
-    "familiesThisLaneHolds": [
-      "ut_pet_dismissed_without_prejudice-set",
-      "ut_pet_limitations-set",
-      "ut_pet_no_charges-set"
-    ],
-    "familiesOutsideThisGrant": [
-      "ut_pet_acquittal-set",
-      "ut_pet_conviction-set",
-      "ut_pet_dismissed_with_prejudice-set",
-      "ut_pet_traffic-set"
-    ],
-    "howCollisionWasAvoided": "Every change is gated behind a per-family config flag that the four families outside this grant do not set. All four were rebuilt after the edit and every one produced a zero-byte diff - fixtures, rasters, participant-instructions.md, field maps and reports alike. One first attempt DID move two of them: rewording the shared statesManifestPreFilingItems observation string changed ut_pet_conviction-set's and ut_pet_dismissed_with_prejudice-set's build-findings.json. That was caught by the control rebuild, the wording was restored verbatim, the two files were restored from HEAD, and the new detail was moved into a separate route-gated observation. It is recorded here rather than quietly fixed, because the control catching it is the only reason it is not in the diff.",
-    "controlFamilyHashesUnchanged": {
-      "ut_pet_acquittal-set": {
-        "canonical": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
-        "boundary": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
-        "participantInstructions": "cc36d6cfd2cbf534430fcc22b922407bc861c270c94ee04fe8ceb370811dc869"
-      },
-      "ut_pet_conviction-set": {
-        "canonical": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
-        "boundary": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
-        "participantInstructions": "1e40d146e7b2ad3a1ae1188583d96582adfb17279523cb4415e8959dfa9f3697"
-      },
-      "ut_pet_dismissed_with_prejudice-set": {
-        "canonical": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
-        "boundary": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
-        "participantInstructions": "332d579373cc7b86440232f05c60e89170f556f789ab3b78ae885b511498cc08"
-      },
-      "ut_pet_traffic-set": {
-        "canonical": "b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909",
-        "boundary": "ef8b488fe1f78f87a47419ddf2123ad9909b88612931a8c031ade0299a8d6e03",
-        "participantInstructions": "3ecd87cebe9aeee9aad98e272abf9a737ae3b9fb3222f66a9239028ff4e26afe"
-      }
-    }
+  "countersNote": "verify-packet-completeness.mjs does not score ROUTE_IDENTITY, SELF_HELP_STOP or the auditability of a KNOWN_PREFILLS refusal. All nine counters were already zero on all three families before this pass and are zero after, so on these obligations the counters are HELD, not MOVED. A held counter is the evidence that a text-and-record repair broke nothing; it is not the evidence that the obligation was discharged. That evidence is named per row.",
+  "centralManifestsTouched": "none. MASTER_QUEUE.json, VERIFIER_RETURNS.json and ACTIVE_ASSIGNMENTS.json are untouched by hand; the claim ledger moved only through claim.mjs.",
+  "fourthFamilyInTheBrief": {
+    "itemId": "ca-1203-41-set",
+    "handling": "NOT WORKED. The brief lists four families but the claim ledger grants FIX02 three. ca-1203-41-set is not among them, so it was never asserted, never read and none of its artifacts were touched. The ledger governs.",
+    "ledgerStatus": "no live FIX02 grant at 0880e69cc"
   },
-  "reportedNotRepaired": {
-    "theSameClippingDefectOnThreeUnheldFamilies": "ut_pet_acquittal-set, ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set deliver the identical BCI application page 18 through the identical write box at x=50.5, so the participant's name is drawn over the pre-printed \"I\" of the sworn declaration in their delivered bytes too. This lane holds no grant on them and moving the box unconditionally would have rewritten their bytes, so the flag exists and they do not set it. Repairing them is one word per family for whichever lane holds them.",
-    "theCertificateAnswerOnTheAcquittalRoute": "ut_pet_acquittal-set is an acquittal, and the compiled profile's exempting limb names acquittals. Its shipped instructions still tell the participant the packet cannot state the certificate amount and to ask BCI - the same A1 defect this lane repaired on the dismissal and declination routes. Not this lane's family and not touched. Whoever holds it can set certificateIssuanceFeeHeldExempt: \"an acquittal\" and get the same repair.",
-    "aWordInTheExistingSharedText": "The paragraph the three already-flagged families ship says \"The certificates themselves cost more than the application\". The only held basis for a comparison is the profile's \"an additional $65 per case\" for conviction, plea-in-abeyance and special certificates. For a route in that class the sentence is supportable; this lane did not extend it to any route outside that class, which is why ut_pet_limitations-set got new wording rather than the existing paragraph. Flagged, not decided, and not edited on families this lane does not hold."
-  },
-  "whatCouldNotBeEstablished": [
-    "The per-incident BCI CERTIFICATE price for ut_pet_limitations-set. Nothing in the repository states it for a charge ended by the limitations period, and the one profile sentence that speaks to certificate pricing addresses other dispositions. The packet names BCI as the authority and says why; no figure was invented.",
-    "Whether BCI's published FAQ exemption for \"dismissals\" is meant to reach a dismissal WITHOUT prejudice specifically. The profile's word is unqualified and the charging limb names dispositions this route is not, so the exemption is stated as what the held record holds - and the packet tells the participant in the same breath to confirm it with BCI before paying, and says the record is a published FAQ rather than a statutory schedule. A lane wanting certainty should read the BCI FAQ the profile cites."
-  ],
-  "assignmentId": "FIX02",
-  "theCaliforniaFamilies": {
-    "what": "ca-1203-41-set (FIX01), ca-1203-42-set (FIX02) and ca-1203-4a-set (FIX03) each answered ALREADY_RELEASED at --assert: the grant sits on this lane but was closed by an earlier worker on 2026-09-01 at 23:56:32.720Z, 23:57:38.089Z and 23:58:22.837Z. A refused assert is a full stop, so nothing was read and nothing was written for any of them, and this lane did not reissue its own released grant to get around the refusal.",
-    "theSharedHostFixWasNotApplied": "The brief describes a known shared-host fix for the California clipping defect - detachFromAcroForm() scanning only the top level of /AcroForm /Fields, so a pushbutton's /MK /CA caption survives suppression on XFA-generated forms and pdf-lib redraws it off the page edge - and instructs that it be applied only if this grant covers every family whose bytes it moves. It does not, on two independent grounds, so nothing was applied to that host. First, all three grants are closed. Second, the fix is described as measured across twelve California fixtures, and this lane's assignments name three California families; ca-1203-43-set and ca-17b-reduction-set are on every one of these lanes' prohibitedPaths, and ca-prop64-set, ca-851-91-set and the rest were never granted here. The prior lane reverted the same fix for the same reason. Applying it would repeat that mistake with a larger blast radius.",
-    "onTheirFees": "Recorded because it was asked and can be answered without touching them: A3 settles that the California profile's \"1203.4 dismissal petition ~$60-$150 per case\" line does not answer a 1203.41, 1203.42 or 1203.4a route, because those are different statutory sections. If nothing else establishes their fee, naming a checkable authority is the complete deliverable and not a defect to repair away."
-  },
+  "preservedPriorReturn": "data/rcap-grade-a/packet-factory-24h/fix02/rows.previous-batch-fable-fa.json holds the earlier FIX02 batch (worker FABLE-FA, families ut_pet_limitations-set, ca-1203-42-set, wa_vac_treaty_fishing-set) that occupied this path. It carries no trace in VERIFIER_RETURNS.json, so it reads as un-integrated and was moved aside rather than overwritten. Captain should integrate it from there if it was never picked up.",
   "rows": [
     {
-      "itemId": "ut_pet_limitations-set",
+      "itemId": "nd-nonconviction-close-petition-set",
       "status": "COMPLETED",
-      "verdict": "COMPLETED",
       "laneKind": "repair",
-      "verdictNote": "A repair lane's completion, not a verdict on the family. The three obligations handed to this lane were repaired and the family goes to an independent lane that is neither its builder nor its repairer.",
-      "obligationsAssigned": [
-        "CLIPPING_AND_OVERLAP",
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failReadFrom": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json, lane vf11, the non-superseded row for this family",
-      "proofObligations": {
-        "ROUTE_IDENTITY": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "The route key and disposition label for ut_pet_limitations-set are unchanged by this repair; no route, track or selection was touched. Not an obligation this lane was handed, not disturbed by this repair, and recorded PASS by the last independent read (vf11, base ab82f102a44ea5e8bc0698b35d49164c9334f6fe)."
-        },
-        "SOURCE_IDENTITY": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "All nine bound source PDFs re-hash byte-exact on every build against the committed corpus index, and the build refuses on drift. The Master Library copy and the d_source_packs copy of 1000EX both hash 401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611. Not an obligation this lane was handed, not disturbed by this repair, and recorded PASS by the last independent read (vf11, base ab82f102a44ea5e8bc0698b35d49164c9334f6fe)."
-        },
-        "COMPONENT_SET": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "Nine source-bound components rendered into two fixtures, nineteen pages each, one raster per page; requiredComponentsMissing 0. Not an obligation this lane was handed, not disturbed by this repair, and recorded PASS by the last independent read (vf11, base ab82f102a44ea5e8bc0698b35d49164c9334f6fe)."
-        },
-        "KNOWN_PREFILLS": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "Every written value is re-read out of the finalized PDF's own glyphs at its committed measured box before the build finishes; knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0. Not an obligation this lane was handed, not disturbed by this repair, and recorded PASS by the last independent read (vf11, base ab82f102a44ea5e8bc0698b35d49164c9334f6fe)."
-        },
-        "ROUTE_OPTIONS": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "No selection control was added, removed or moved; requiredOptionsMissing 0. Not an obligation this lane was handed, not disturbed by this repair, and recorded PASS by the last independent read (vf11, base ab82f102a44ea5e8bc0698b35d49164c9334f6fe)."
-        },
-        "REPEATING_ROWS": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "incompleteRows 0; no repeating-row write was touched. Not an obligation this lane was handed, not disturbed by this repair, and recorded PASS by the last independent read (vf11, base ab82f102a44ea5e8bc0698b35d49164c9334f6fe)."
-        },
-        "PROTECTED_FIELDS": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "protectedPlanGuard runs on every plan and the byte proof refuses ink in any refused field; protectedWrites 0 and invisibleWrites 0. No signature, signing date, service act, court, agency, prosecutor or victim field was written. Not an obligation this lane was handed, not disturbed by this repair, and recorded PASS by the last independent read (vf11, base ab82f102a44ea5e8bc0698b35d49164c9334f6fe)."
-        },
-        "PAGE_ORDER": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "The page manifest is derived from the same source packet on every build and is unchanged; nineteen pages in both fixtures. Not an obligation this lane was handed, not disturbed by this repair, and recorded PASS by the last independent read (vf11, base ab82f102a44ea5e8bc0698b35d49164c9334f6fe)."
-        },
-        "FILING_DESTINATION": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "The two-destination BCI-then-district-court paragraph is unchanged by this repair. Not an obligation this lane was handed, not disturbed by this repair, and recorded PASS by the last independent read (vf11, base ab82f102a44ea5e8bc0698b35d49164c9334f6fe)."
-        },
-        "SERVICE": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "The prosecutor service paragraph and 1146XX are unchanged by this repair. Not an obligation this lane was handed, not disturbed by this repair, and recorded PASS by the last independent read (vf11, base ab82f102a44ea5e8bc0698b35d49164c9334f6fe)."
-        },
-        "SELF_HELP_STOP": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "The Utah State Courts Self-Help Center number 888-583-0009 and the \"what this packet is not\" section are unchanged by this repair. Not an obligation this lane was handed, not disturbed by this repair, and recorded PASS by the last independent read (vf11, base ab82f102a44ea5e8bc0698b35d49164c9334f6fe)."
-        },
-        "ARTIFACTS": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "The fixtures were re-rendered, so this obligation was re-checked rather than assumed. reports/rendered-artifacts.json declares canonical dd21a4460eba9fa2ab92a267788fe1b4c2a98301f5607f2163975a9ffd257f57 and boundary 7002b83486f9abcaa1a3e423a56e955addd083347e02297da0a7e78deaba40e7, and each re-hashes from disk to exactly that value. Nineteen page rasters per fixture, one per page, and only page-18.png moved."
-        },
-        "CLIPPING_AND_OVERLAP": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "REPAIRED. The FAIL was one true text-on-text collision in the DELIVERED canonical fixture: on packet page 18 the BCI Application's sworn declaration \"I, ______ , declare under criminal penalty of the State of Utah...\" had the participant's name written over the pre-printed \"I\". Measured again in this lane with pdftotext -bbox against this family's own committed bytes: the pre-printed \"I\" occupies x=49.745-52.742 and the name began at x=50.5, a 2.242pt overlap on a shared baseline band. The write box now begins at x=55.5, clearing the glyph by 2.758pt; re-measured after the rebuild the name begins at 55.50 in both fixtures and the widest value (the boundary name) ends at 169.55, well left of the closing comma at x=194.626. The regenerated raster/canonical/page-18.png was read visually at 6x magnification in this lane and the line now reads \"I, Jordan Avery Reyes , declare under criminal penalty of\" with the I intact and separate. Width, height and baseline are unchanged and no other field's geometry was touched."
-        },
-        "FEE_AND_WAIVER": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "REPAIRED on the one limb the FAIL named, and deliberately NOT \"repaired\" on the limb that does not fail.\n\nA4 limb (internal consistency): the packet told the participant in bold that it \"does not state an amount because BCI sets it per applicant\" while its own delivered canonical PDF prints \"$65.00\" three times on packet pages 17-18. Confirmed in this lane against THIS family's own bytes with pdftotext -layout: three occurrences in the canonical and three in the boundary. The instructions now state the $65.00 BCI application fee and BCI's own indigency waiver, and the forbidden sentence is gone.\n\nA1/A2/A3 limb: this route's certificate refusal was and remains HONEST, and vf11 said so. The compiled Utah profile's certificate sentence reads \"eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations\". This route is a charge ended by the limitations period. It is not a conviction, a plea in abeyance or a special certificate, and it is not a dismissal, an acquittal or a declination either, so NEITHER limb of that sentence addresses it. Reading the exemption across would be exactly the sibling-route inference A3 exists to forbid, and it is the reading this lane had the most to gain from. The packet therefore keeps the named-authority route A1 calls complete - and now shows its work, so a reader can see the refusal is reasoned rather than lazy: it quotes the profile sentence, says which route it has, and says why neither half is about that route, before naming the Bureau of Criminal Identification at bci.utah.gov/expungements as who answers it.\n\nNo amount was invented and no waiver rule was invented. Two of this lane's three Utah families DID get a stated no-fee answer; this one did not, and that difference is the whole content of A3.\n\nUndisturbed: the $150 court filing fee sourced to 1044XX page 2, and the 1305GE waiver route under Utah Code 78A-2-302 and CJA Rule 4-508."
-        },
-        "REQUIRED_BEFORE_FILING": {
-          "result": "PASS",
-          "scoredBy": "this repair lane, reading its own work",
-          "evidence": "REPAIRED. The FAIL was that the instructions' \"facts you must supply before filing\" list was scoped entirely to blanks on paper, while this family's own committed packet-set manifest (data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ut_pet_limitations-set) additionally holds requiredBeforeFiling entries scoped to what the participant must have IN HAND - including a bar the manifest says defeats the petition. A committed manifest is the repository answering the question (A2, and A4 extends the ask-the-repository-first test to this obligation).\n\nThe instructions now carry a new block, \"You must also have these in hand before you file\", holding: the paid-in-full bar on fines, fees, interest and restitution, with the sentencing-court clerk and the Office of State Debt Collection named as where to check it and the manifest's own warning that an unpaid balance defeats both the petition and the BCI certificate; and the all-states case list including previously expunged cases, with the manifest's reason for it. This route's manifest holds exactly the two shared items beyond the blanks and no others, so exactly two bullets were added. vf11 counted two; two is what it got.\n\nEvery bullet is quoted or closely paraphrased from THIS family's manifest entry for THIS route. Nothing was carried across from a sibling route, and nothing was inferred. The nine counters were zero before and are zero after, which is the point vf11 made about the instrument: these are documents and money states, not blanks, so no counter reaches them."
-        }
-      },
+      "verdictNote": "A repair lane's completion, not a verdict on the family. It returns to a lane that neither built nor repaired it.",
+      "obligationRepaired": "KNOWN_PREFILLS",
+      "failReadFrom": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json, raised by VT-F",
+      "decisiveDefectAsNamed": "participant.city_state_zip is refused on the boundary fixture as value_exceeds_widget_width_at_minimum_font while the same unfittable record states rect.width 181.35 against requiredWidthAtMin 179 at minFontSize 6. 179 is smaller than 181.35, so on the packet's own numbers the value fits and the (City, State, Zip Code) slot on page 4 is empty for no reason that survives its own measurement.",
+      "whatWasFoundOnRemeasurement": "The assignment allowed two outcomes: the value fits and must be written, or the fitter applies an inset the record does not state and the record must state it. The second is what is true, and half of it was already discharged at the captain head by 2d4e8f160. The unfittable record now states horizontalPadding 4, usableWidth 177.35, exceedsUsableWidth true, exceedsWidgetRectangle false, and a widthBasis sentence explaining that 179pt is compared with 177.35pt of usable width inside a 181.35pt widget rather than with the rectangle itself. 179 exceeds 177.35, so the refusal stands and is auditable on its face. Nothing there needed moving and nothing there was moved.",
+      "whatThisLaneRepaired": "The assignment's second requirement was to confirm the disclosure reaches the page-4 address block, and it did not. participant-instructions.md carried one refusal-disclosure paragraph, about the proposed order's caption on page 5. That paragraph covers the family's two other drops, Defendant (195.6 required, 146 usable) and County (143.6 required, 131.6 usable), because both are caption fields sharing one widget across pages 3 and 5. city_state_zip is not a caption field. It sits in the address block below the signature line on page 4, which the instructions told the participant the platform had filled in and never told them to check. On the boundary value that slot is blank and nothing in the packet accounted for it.",
+      "repair": "One paragraph added to scripts/build-census-v1-nd-nonconviction-close-petition-set.mjs beside the page-5 one: the same measurement governs the page-4 block, a value that will not fit is left blank rather than shrunk past readability, that block appears once and has no second copy, so read page 4 and hand-write what the packet left blank. It describes what the packet does. No fee, waiver, service recipient, filing destination or eligibility rule is stated, broadened or reinterpreted.",
+      "blastRadius": "Two files: the builder and participant-instructions.md. Rebuilt with the family's own build script; both fixtures re-render byte-identical (canonical 2211ad2f8597d79a..., boundary 7f178d4a93edc84c...), so no raster is owed and no receipt is re-pinned. participant-instructions.md is the only artifact that moved.",
+      "commit": "6d8c1b2de0bfdf4fbf292024ac2e75fb6c3aa252",
       "countersBefore": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -181,63 +63,95 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "completenessResult": "PASS_COMPLETE",
-      "countersNote": "Nine counters at zero is necessary and not sufficient. None of the three failing obligations is a counter, and all nine were already zero while all three were failing - which is what vf11 said and what this lane confirmed before writing anything.",
-      "rasterOwed": {
-        "whyOwed": "The canonical and boundary PDFs of all three families moved, so the visual gate must run again against these exact bytes. The build's own Poppler rasters were regenerated here and only page-18.png moved in each fixture, which is the page the geometry repair touches; no other page's raster changed in any of the three families.",
-        "rasterState": "BUILT_RASTER_PENDING. visualDefects reads 0 on every row because the counter records that nobody with a browser has looked, not that there is nothing to see. Nothing here is RASTER_PASS and nothing here is proven.",
-        "fixtures": [
-          {
-            "fixture": "canonical",
-            "before": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
-            "after": "dd21a4460eba9fa2ab92a267788fe1b4c2a98301f5607f2163975a9ffd257f57"
-          },
-          {
-            "fixture": "boundary",
-            "before": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
-            "after": "7002b83486f9abcaa1a3e423a56e955addd083347e02297da0a7e78deaba40e7"
-          },
-          {
-            "page": "raster/canonical/page-18.png",
-            "before": "2bcadd794fce47bf4422c0f1d610886e19fc862bff9acd9a442ebc627b3250d1",
-            "after": "480d357f7220065877f5163ce2fa1bfa791a7137aac799c4c2c7837566ec37ac"
-          },
-          {
-            "page": "raster/boundary/page-18.png",
-            "before": "00f0ad7fba26024f5ff23cbb7f429a6c10a947ae25f9926397780cf5c3cb4aff",
-            "after": "1ca7cfece38bc1ea7e04538d9b9fe3676fb36b4ecf4cbed6c293eb2ec874f6b7"
-          }
-        ]
-      },
-      "pdfBytesMoved": true,
-      "pdfBytesNote": "The geometry repair is a change to the delivered PDF. The fee and pre-filing repairs are not: they live in participant-instructions.md beside the packet.",
-      "participantInstructionsSha256": {
-        "before": "d11ba889207735fb413c6ab7d719e194e3a6d3e2a2ca96351e2eca4a5dd319f5",
-        "after": "9f21419f2f6d8387d961c908e1456cb56c035609bf17bb3efec76e0d3627f23f"
-      },
-      "claimReleased": true,
-      "ceiling": "This is a repairer's reading of its own work. It is not an independent verification, it proves nothing, it promotes nothing and it opens no commercial route. An independent lane reads this family afterwards, and no family becomes PASS_COMPLETE without RASTER_PASS."
+      "countersMoved": false,
+      "countersMovedNote": "verify-packet-completeness.mjs does not score ROUTE_IDENTITY, SELF_HELP_STOP or the auditability of a KNOWN_PREFILLS refusal. All nine counters were already zero on all three families before this pass and are zero after, so on these obligations the counters are HELD, not MOVED. A held counter is the evidence that a text-and-record repair broke nothing; it is not the evidence that the obligation was discharged. That evidence is named per row.",
+      "completenessVerdict": "PASS_COMPLETE, 9/20 written, before and after"
     },
     {
-      "itemId": "ca-1203-42-set",
-      "status": "STOPPED",
-      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "itemId": "ut_pet_dismissed_with_prejudice-set",
+      "status": "COMPLETED",
       "laneKind": "repair",
-      "claimAsserted": false,
-      "refusal": "ALREADY_RELEASED: ca-1203-42-set at 2026-09-01T23:57:38.089Z (claim.mjs exit 9)",
-      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 ca-1203-42-set",
-      "whatThisLaneDid": "Nothing. No artifact of this family was read and no byte of it or of its build host was written. The claim gate is the authority and a refused assert is a full stop; the ledger was not edited, no grant was reissued and no grant was transferred to this lane."
+      "verdictNote": "A repair lane's completion, not a verdict on the family. It returns to a lane that neither built nor repaired it.",
+      "obligationRepaired": "SELF_HELP_STOP",
+      "failReadFrom": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json, raised by FABLE-VT-E",
+      "decisiveDefectAsNamed": "The committed track registry records 8 selfHelpStopConditions for track ut_pet_dismissed_with_prejudice and participant-instructions.md carried none, including the express hard stop for non-citizens. One condition was worse than omitted: the registry names a prosecutor or victim objection, or a scheduled hearing, as where self-help ends, and the packet's only sentence on that situation sent the participant onward - \"if the court schedules a hearing, attend it\".",
+      "whatWasFoundOnRemeasurement": "Already repaired at the captain head by 6036c07a5, and this lane re-measured every limb of the assignment rather than taking the commit's word. All 8 conditions are carried word for word in the registry's own order under \"When to stop and get a lawyer\", checked term by term against data/record-clearing/legal-design-track-registry.json. The non-citizen condition is first and carries the registry's own \"This is a hard stop, not a caveat.\" The inverted sentence is corrected: it now records that the registry marks both objection and scheduled hearing as the end of self-help and sends the participant to a lawyer rather than to the hearing. The DET-FEE-AND-WAIVER-001 repair the assignment warned must stay repaired is intact - \"The BCI application fee is $65.00, and it is non-refundable\" with both printed quotations.",
+      "durabilityCheck": "The one thing worth doubting: 6036c07a5 edited two participant-instructions.md files but only one builder, scripts/build-census-v1-ut_pet_acquittal-set.mjs, which would normally mean this family's repair is text-only and the next rebuild erases it. It is not. scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs is a three-line wrapper delegating to runUtahCompletenessRepair in that shared host, whose CONFIGS entry for this family sets statesRegistryStopConditions to its own trackId, so the eight conditions are read from the registry at build time and pass through no editor's hands. Confirmed by rebuilding: the family re-renders byte-identical, working tree clean. The repair is durable and reproducible.",
+      "whatThisLaneRepaired": "Nothing. The obligation was already discharged, and re-doing a discharged repair is not a repair.",
+      "blastRadius": "No byte of this family was edited by this lane.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMoved": false,
+      "countersMovedNote": "verify-packet-completeness.mjs does not score ROUTE_IDENTITY, SELF_HELP_STOP or the auditability of a KNOWN_PREFILLS refusal. All nine counters were already zero on all three families before this pass and are zero after, so on these obligations the counters are HELD, not MOVED. A held counter is the evidence that a text-and-record repair broke nothing; it is not the evidence that the obligation was discharged. That evidence is named per row.",
+      "completenessVerdict": "PASS_COMPLETE, 38/444 written, before and after"
     },
     {
-      "itemId": "wa_vac_treaty_fishing-set",
-      "status": "STOPPED",
-      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "itemId": "vt_seal_nonconviction-set",
+      "status": "COMPLETED",
       "laneKind": "repair",
-      "claimAsserted": false,
-      "refusal": "GRANTED_ELSEWHERE: wa_vac_treaty_fishing-set is granted to FIX10, not FIX02 (claim.mjs exit 8)",
-      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 wa_vac_treaty_fishing-set",
-      "whatThisLaneDid": "Nothing. No artifact of this family was read and no byte of it or of its build host was written. The claim gate is the authority and a refused assert is a full stop; the ledger was not edited, no grant was reissued and no grant was transferred to this lane.",
-      "alsoRecorded": "FIX10's grant is live and FABLE-R21 holds this family at BLOCKED_SOURCE over CR 09.0500/0600/0700. The brief asked whether the newly installed d_source_packs custody now holds them; that question belongs to the lane holding the grant, and this lane did not read the family's artifacts to answer it."
+      "verdictNote": "A repair lane's completion, not a verdict on the family. It returns to a lane that neither built nor repaired it.",
+      "obligationRepaired": "ROUTE_IDENTITY and SELF_HELP_STOP",
+      "failReadFrom": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json, raised by VT-B",
+      "decisiveDefectAsNamed": "Two defects. The family printed obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing on its participant-facing pages, a machine route id occurring nowhere in the census and nowhere in the compiled runtime. And the packet nowhere stated where self-help ends although the committed track registry records six selfHelpStopConditions for the track.",
+      "whatWasFoundOnRemeasurement": "Already repaired at the captain head by 6832d3abf, re-measured limb by limb. SELF_HELP_STOP: all six conditions are carried word for word in registry order under \"When to stop and get a lawyer\", checked against the registry, matching the shape the assignment named as the standard - sibling vt_seal_pardon-set, which likewise carries its ten in participant-instructions.md and not in its canonical PDF. ROUTE_IDENTITY: the phantom id is gone from both participant-facing surfaces. participant-instructions.md now closes \"Route: sealing a record that did not end in a conviction (13 V.S.A. Sec. 7603)\", and page 8 of fixtures/canonical.pdf prints the same human-readable label - confirmed by inflating all 255 content streams of the fixture and searching them, zero hits for track-pathway, and again with pdftotext on pages 7-8.",
+      "onTheRemedyDeviation": "Recorded because a verifier will want it. The assignment asked for the Kansas shape - re-point the builder to the keys the census carries. 6832d3abf instead removed the machine id from what the participant reads and left config.routeKey, the documentPolicy and production-field-map.json untouched, per the owner's decision recorded in that commit. That is the same end state the Kansas families are in: data/rcap-all50/overlays/census-v1/ks/*/production-field-map.json still declare obligation:track-pathway:KS:... routeKeys. So the remedy differs in route but lands where the precedent landed, and the defect as stated - a route key on participant-facing pages that no census carries - is gone. This lane does not score that; it records it for the lane that will.",
+      "whatThisLaneRepaired": "Nothing. Both obligations were already discharged.",
+      "blastRadius": "No byte of this family was edited by this lane.",
+      "notRebuilt": "This family rasters through a browser rather than Poppler and its build did not complete inside this lane's time budget. It was not rebuilt, because this lane repaired nothing in it and a rebuild would move raster bytes for no repair reason. Durability was established by reading the builder instead: scripts/build-census-v1-vt_seal_nonconviction-set.mjs reads track.selfHelpStopConditions from the registry at build time and emits the human-readable route label, so both repairs are in the generator, not only in the artifact. Two scratch PDFs the interrupted build left under raster/boundary/page-03 were deleted; the working tree is clean.",
+      "rasterDebt": "6832d3abf moved fixtures/canonical.pdf, fixtures/boundary.pdf and the page-08 rasters and recorded that this family owes a re-raster acceptance. This lane found no later commit discharging it. Carried forward as an open obligation for Captain to route; no packet becomes PASS_COMPLETE without RASTER_PASS.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMoved": false,
+      "countersMovedNote": "verify-packet-completeness.mjs does not score ROUTE_IDENTITY, SELF_HELP_STOP or the auditability of a KNOWN_PREFILLS refusal. All nine counters were already zero on all three families before this pass and are zero after, so on these obligations the counters are HELD, not MOVED. A held counter is the evidence that a text-and-record repair broke nothing; it is not the evidence that the obligation was discharged. That evidence is named per row.",
+      "completenessVerdict": "PASS_COMPLETE, 27/167 written, before and after"
     }
+  ],
+  "whatCouldNotBeEstablished": [
+    "That the two already-repaired families are correct as legal text. This lane checked that every committed stop condition is carried in the registry's own words and order and that the inverted sentence is corrected. Whether the registry's conditions are themselves right is counsel's question and not this lane's.",
+    "Vermont's raster acceptance. See its rasterDebt field."
+  ],
+  "reportedNotRepaired": [
+    "Vermont's outstanding re-raster acceptance from 6832d3abf.",
+    "The brief's fourth family, ca-1203-41-set, which the claim ledger does not grant FIX02."
   ]
 }
