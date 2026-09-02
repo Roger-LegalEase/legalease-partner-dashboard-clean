@@ -225,8 +225,8 @@
       "operation": "independent-verification",
       "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T09:16:56.430Z"
     },
     {
       "subjectType": "packet-family",
@@ -419,7 +419,8 @@
       "operation": "independent-verification",
       "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-02T09:16:56.514Z"
     },
     {
       "subjectType": "packet-family",
@@ -1226,8 +1227,8 @@
       "operation": "independent-verification",
       "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T09:16:56.592Z"
     },
     {
       "subjectType": "packet-family",
@@ -2290,8 +2291,8 @@
       "operation": "independent-verification",
       "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T09:16:56.674Z"
     },
     {
       "subjectType": "packet-family",
@@ -3759,7 +3760,8 @@
       "operation": "independent-verification",
       "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-02T09:16:56.756Z"
     },
     {
       "subjectType": "packet-family",
@@ -4325,8 +4327,8 @@
       "operation": "independent-verification",
       "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T09:16:56.837Z"
     },
     {
       "subjectType": "packet-family",
@@ -4859,7 +4861,8 @@
       "operation": "independent-verification",
       "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-02T09:16:56.915Z"
     },
     {
       "subjectType": "packet-family",
@@ -11208,7 +11211,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "58deab87af5e65d12c367be8080e9fff5a2ece374ace2f6c68003b617f1815eb",
+  "claimsDigest": "b7e17cf475d8f328158ab7bf8218219d69cecef17f7d8508cb93d12e13dbe623",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -11223,7 +11226,6 @@
     "releasedAt"
   ],
   "revocationIsVisibleHow": "the digest changes whenever a grant is added or withdrawn; generatedAtCommit is a declared floor and does not",
-  "whatTheReleaseLogsLaneMeans": "releases[].lane is the lane that HELD the grant when it was released — claim.mjs refuses any other lane from releasing it (exit 8 GRANTED_ELSEWHERE). claims[].lane is the CURRENT dispatch packing, and this generator re-packs released claims freely because a released claim's lane is history. The two differing after a repack is expected; it is not a cross-lane release, and a cross-lane release cannot happen through claim.mjs at all.",
   "releases": [
     {
       "lane": "VF01",
@@ -21466,5 +21468,6 @@
       "withdrawnAt": "2026-09-02T09:15:39Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
-  ]
+  ],
+  "whatTheReleaseLogsLaneMeans": "releases[].lane is the lane that HELD the grant when it was released — claim.mjs refuses any other lane from releasing it (exit 8 GRANTED_ELSEWHERE). claims[].lane is the CURRENT dispatch packing, and this generator re-packs released claims freely because a released claim's lane is history. The two differing after a repack is expected; it is not a cross-lane release, and a cross-lane release cannot happen through claim.mjs at all."
 }

@@ -1,4 +1,15 @@
 {
+  "waveThree": {
+    "wave": "packet-factory-24h/VF04/wave-3 (FABLE-VA4, 2026-09-02)",
+    "whatThisMarkerIs": "Two repair assignments were appended to this file. Everything already here was written by earlier workers on this lane and is preserved byte for byte; nothing in it is edited or withdrawn. The entries carrying \"wave\": \"packet-factory-24h/VF04/wave-3 (FABLE-VA4, 2026-09-02)\" are this reading's, and only those.",
+    "worker": "FABLE-VA4 (independent; built, repaired and rendered none of these packets)",
+    "baseSha": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
+    "assignmentCountAddedHere": 2,
+    "familiesFailedHere": [
+      "ar-misdemeanor-dwi-seal-set",
+      "ny_mrta_marijuana-set"
+    ]
+  },
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF04",
   "worker": "VF-SRC-A",
@@ -40,6 +51,91 @@
       },
       "repairMustNotDo": [
         "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "wave": "packet-factory-24h/VF04/wave-3 (FABLE-VA4, 2026-09-02)",
+      "itemId": "ar-misdemeanor-dwi-seal-set",
+      "lane": "VF04",
+      "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill",
+      "decisiveDefect": "The packet tells the participant that no source it holds establishes what filing this petition costs. The compiled Arkansas profile states the Act 1460 filing fee as $0 three times, and this route is one of the Act 1460 uniform petition-and-order pairs.",
+      "failedProofObligations": [
+        "FEE_AND_WAIVER",
+        "SOURCE_IDENTITY"
+      ],
+      "perObligation": {
+        "FEE_AND_WAIVER": {
+          "measuredDetail": "participant-instructions.md line 22, under '## The filing fee', reads: 'Neither the petition nor the order states a filing fee, and no source this packet holds establishes what filing this petition costs — or whether it costs anything.' The first clause is true of the two forms. The second is false of the repository. src/lib/rcap-engine/compiled/profiles/AR-arkansas.json states, at line 2506, 'Sealing petition filing fee $0 Filing fees eliminated by the 2019 amendments'; at line 2505, 'Act 1460 eliminated sealing filing fees; the real costs are records and any counsel'; and at line 2484, in the filing rule, 'File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.' The same profile's form table at line 2444 lists 'Petition and Order to Seal Misdemeanor DWI / BWI Driving- or boating-while-intoxicated misdemeanor; 10-year wait' among the Act 1460 uniform pairs, so the elimination reaches this exact route.",
+          "corroboration": "The sibling family ar-arrest-seal-set, built from the same profile, states the answer at participant-instructions.md line 24: 'There is no filing fee for this petition… states it three ways'. One Arkansas route publishes the held answer and this one denies it exists.",
+          "standard": "DET-FEE-AND-WAIVER-001 A4 (a packet may never tell a participant that it does not state something it does state) and A2 (the repository includes the compiled state profile whether or not the route census enumerates it).",
+          "whatRepairMustDo": "State the $0 Act 1460 filing fee from the compiled Arkansas profile, quoting it and naming the profile. Keep the clerk-confirmation sentence but demote it to a question about that court's practice rather than the answer to the fee. Say what the waiver half means where there is no fee to waive — the sibling's paragraph on the petition's sworn 'paid all filing fees' averment is the model. Do NOT delete the sentence and leave silence; silence fails the same determination."
+        },
+        "SOURCE_IDENTITY": {
+          "measuredDetail": "Both pinned documents hash exactly, recomputed here from the mounted corpus — ae6b81f6882133c207f23435b00785b50b40e014c616d3c77707e8b6020d43af (order) and 04d876b09fe82b76298a2d06093d122a0ef539f767f76811001030cc7805715d (petition) — but the identity resolution is tier token_subset_same_jurisdiction in data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json. The census names official-form:ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI and official-form:ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI; the corpus holds AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION and AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION. At this base MASTER_QUEUE.json still records sourceStatus SOURCE_IDENTITY_NOT_EXACT, sourceBound false, and 'MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding' for both.",
+          "whatRepairMustDo": "This is an id-alias reconciliation and not an acquisition — the bytes are already held and hash-exact. Reconcile the census form-number identity to the held document ids, then regenerate the queue's sourceReadiness so the two records stop disagreeing. Nothing needs to be fetched.",
+          "notForTheFixLane": "If the reconciliation belongs to a source lane rather than a packet-repair lane, route it there; the packet itself needs no rebuild for this obligation."
+        }
+      },
+      "obligationsThatPassedAndMustNotRegress": [
+        "ROUTE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "do not re-render the fixtures for a fee sentence — this repair is confined to participant-instructions.md and to the source identity records; the bytes carry a RASTER_PASS bound to them",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "wave": "packet-factory-24h/VF04/wave-3 (FABLE-VA4, 2026-09-02)",
+      "itemId": "ny_mrta_marijuana-set",
+      "lane": "VF04",
+      "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill",
+      "decisiveDefect": "The packet never states where self-help ends. participant-instructions.md contains no match, case-insensitively, for lawyer, attorney, legal aid, legal help, self-help, stop or advice.",
+      "failedProofObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "SELF_HELP_STOP": {
+          "measuredDetail": "Zero matches across the whole of participant-instructions.md for the stop vocabulary. There is no stop section, no trigger condition, no referral and no named office for the moment the participant is out of their depth. The nearest thing is the closing 'What you should get back' paragraph naming the clerk of the court of conviction as the office to ask if nothing arrives, which is a status enquiry rather than a boundary. Every other family this lane verified carries a dedicated section; the weakest of them, ut_pet_limitations-set, still names the objection-and-hearing moment and a live referral with a telephone number.",
+          "whatRepairMustDo": "Add a stop section naming a New York attorney or legal-aid office, with trigger conditions for at least: an application returned or refused; convictions in more than one New York court where the participant is unsure which are eligible, given that a separate application goes to each court; and any question about whether the conviction is within the MRTA expungement at all. The Idaho and Nevada families in this same lane are the models — each names the condition, the actor and the referral together."
+        }
+      },
+      "obligationsThatPassedAndMustNotRegress": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "alsoForCaptainRatherThanTheFixLane": "MASTER_QUEUE.json still carries legalInputStatus OPEN_LEGAL_INPUT for this family and WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json states the blocker as 'The review instructions require current local fees to be confirmed', citing a sentence that no longer exists in the file. The packet now states 'There is no application fee' from the form's own face. Clear or restate the open input; it should not gate this family.",
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "do not re-render the single fixture for an instructions section — the bytes carry a RASTER_PASS bound to them",
+        "do not repair the four instruction obligations VF05, VF08 and VF09 failed; all four were repaired before this base and pass here",
         "this verification opens no commercial route and grants no approval"
       ]
     }
