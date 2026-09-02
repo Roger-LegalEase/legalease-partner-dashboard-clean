@@ -390,8 +390,53 @@
       "selfVerified": false,
       "mayNotVerifyItsOwnRepair": true,
       "why": "Every Kansas hash in this record is a pre-repair hash. The builder was re-pointed from the two superseded track-only obligation keys to the current five-segment track-pathway keys, and the packet page then printed the 108- and 105-character machine key, hard-wrapped mid-token across three lines. Roger Roman decided on 2026-09-02 that the Kansas packet page prints a short human label and the machine id stays in the manifests and the wiring. Both changes moved every artifact's bytes. The bytes this record binds no longer exist.",
-      "whatAWithdrawalIs": "A withdrawal removes a claim. It does not make a new one. Nothing here says the current Kansas artifacts are deterministic, complete or rastered to acceptance; it says only that the rows which used to say so were about different bytes, and names the current bytes so an independent lane can measure them.",
-      "currentBytes": [
+      "whatAWithdrawalIs": "A withdrawal removes a claim. It does not make a new one, and it leaves no binding of its own standing. Nothing here says the current Kansas artifacts are deterministic, complete, or rastered to acceptance; it says only that the rows which used to say so were about bytes that no longer exist. The current bytes are named below so an independent lane can measure them without hunting, and naming them asserts nothing about them.",
+      "routesWithdrawn": [
+        {
+          "route": "ks-12-4516-municipal",
+          "jobId": 100282293069,
+          "routeKeyItNamed": "obligation:track-only:KS:ks-12-4516-municipal",
+          "pagesQueued": 13,
+          "documentsThisRunRendered": [
+            {
+              "role": "boundary",
+              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
+              "priorSha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
+              "priorPageCount": 7
+            },
+            {
+              "role": "canonical",
+              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
+              "priorSha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
+              "priorPageCount": 6
+            }
+          ]
+        },
+        {
+          "route": "ks-12-4516a-municipal-arrest",
+          "jobId": 100282293024,
+          "routeKeyItNamed": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
+          "pagesQueued": 12,
+          "documentsThisRunRendered": [
+            {
+              "role": "boundary",
+              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
+              "priorSha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
+              "priorPageCount": 6
+            },
+            {
+              "role": "canonical",
+              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
+              "priorSha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
+              "priorPageCount": 6
+            }
+          ]
+        }
+      ],
+      "thisLaneCannotReplaceThem": "A central receipt comes from the GitHub-hosted workflow. This lane does not dispatch workflows and did not touch .github/workflows, so run 33640297318's Kansas coverage is withdrawn and nothing replaces it. No central run has rendered the current Kansas bytes. What does exist is a local receipt for each of the six current artifacts, rendered in this container against those exact hashes and listed in rasterReceiptsForTheCurrentBytes. A local receipt is not a central one and does not restore a withdrawn central route.",
+      "laneContinuedBy": "KSPATH2, the same repair grant on rcap-ks-custom-pleading, still unreleased in claim-ledger.json. FIX03 wrote the withdrawal; this amendment removes the bindings the withdrawal itself left standing.",
+      "theseAreHistoryNotBindings": "Every SHA-256 and page count under a `prior...` key in this withdrawal is a historical value, recording what the withdrawn row asserted. It is not a binding. Those bytes are not on disk and no build in this repository produces them. Nothing may be re-derived from them, and a reader who finds one here has found the record of a retracted claim, not a claim. The keys were renamed from `boundToSha256` and `boundToPageCount` because a key that reads as a binding is a binding to everyone who greps for one.",
+      "currentBytesOnDisk": [
         {
           "unit": "family_assembly",
           "route": null,
@@ -449,49 +494,36 @@
           "pageCount": 6
         }
       ],
-      "routesWithdrawn": [
-        {
-          "route": "ks-12-4516-municipal",
-          "jobId": 100282293069,
-          "routeKeyItNamed": "obligation:track-only:KS:ks-12-4516-municipal",
-          "documentsPinned": [
-            {
-              "role": "boundary",
-              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
-              "sha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
-              "pageCount": 7
-            },
-            {
-              "role": "canonical",
-              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
-              "sha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
-              "pageCount": 6
-            }
-          ],
-          "pagesQueued": 13
+      "currentBytesAssertNothing": "The six artifacts on disk, hashed at withdrawal. This is a pointer for whoever measures them next. It is not an acceptance, a completeness result, a determinism result, or a raster verdict, and no count in this file counts it.",
+      "rasterReceiptsForTheCurrentBytes": {
+        "familyAssembly": {
+          "file": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading.verdict.json",
+          "verdict": "RASTER_PASS",
+          "pagesMeasured": 25,
+          "boundTo": {
+            "canonical": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
+            "boundary": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2"
+          }
         },
-        {
-          "route": "ks-12-4516a-municipal-arrest",
-          "jobId": 100282293024,
-          "routeKeyItNamed": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
-          "documentsPinned": [
-            {
-              "role": "boundary",
-              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
-              "sha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
-              "pageCount": 6
-            },
-            {
-              "role": "canonical",
-              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
-              "sha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
-              "pageCount": 6
-            }
-          ],
-          "pagesQueued": 12
+        "ks-12-4516-municipal": {
+          "file": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516-municipal.verdict.json",
+          "verdict": "RASTER_PASS",
+          "pagesMeasured": 13,
+          "boundTo": {
+            "canonical": "f79d5b4e82d3ccf22c9b03aa42ad202e0796a13b4de95f3d25b38b2adf22f810",
+            "boundary": "7b234e970d38bdc0515122916c6f3961f1140e74f12978b6096e6aa34928600f"
+          }
+        },
+        "ks-12-4516a-municipal-arrest": {
+          "file": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest.verdict.json",
+          "verdict": "RASTER_PASS",
+          "pagesMeasured": 12,
+          "boundTo": {
+            "canonical": "8a85bc0f2365938bd8b5e0483585b95abf2550a6cc24a4717b0d72001abd708d",
+            "boundary": "dd364be7194a5e23643057ba75e5d5ea84950e7cd18b2945db5483761b9f3617"
+          }
         }
-      ],
-      "thisLaneCannotReplaceThem": "A central receipt comes from the GitHub-hosted workflow. FIX03 does not dispatch workflows and did not touch .github/workflows. The current Kansas artifacts were rendered locally in this container instead, and those local receipts are recorded in data/rcap-grade-a/route-artifact-acceptance/raster-receipts/. A local receipt is not a central one."
+      }
     }
   ]
 }

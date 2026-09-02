@@ -400,8 +400,61 @@
       "selfVerified": false,
       "mayNotVerifyItsOwnRepair": true,
       "why": "Every Kansas hash in this record is a pre-repair hash. The builder was re-pointed from the two superseded track-only obligation keys to the current five-segment track-pathway keys, and the packet page then printed the 108- and 105-character machine key, hard-wrapped mid-token across three lines. Roger Roman decided on 2026-09-02 that the Kansas packet page prints a short human label and the machine id stays in the manifests and the wiring. Both changes moved every artifact's bytes. The bytes this record binds no longer exist.",
-      "whatAWithdrawalIs": "A withdrawal removes a claim. It does not make a new one. Nothing here says the current Kansas artifacts are deterministic, complete or rastered to acceptance; it says only that the rows which used to say so were about different bytes, and names the current bytes so an independent lane can measure them.",
-      "currentBytes": [
+      "whatAWithdrawalIs": "A withdrawal removes a claim. It does not make a new one, and it leaves no binding of its own standing. Nothing here says the current Kansas artifacts are deterministic, complete, or rastered to acceptance; it says only that the rows which used to say so were about bytes that no longer exist. The current bytes are named below so an independent lane can measure them without hunting, and naming them asserts nothing about them.",
+      "artifactsWithdrawn": [
+        {
+          "unit": "family_assembly",
+          "route": null,
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "priorSha256": "682a6a4b1d64f6998135325d264af837fab045ae4828fa6a0b4a5e6bc88cdb67",
+          "classification": "REPRODUCES"
+        },
+        {
+          "unit": "family_assembly",
+          "route": null,
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "priorSha256": "6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8",
+          "classification": "REPRODUCES"
+        },
+        {
+          "unit": "route_artifact",
+          "route": "ks-12-4516-municipal",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
+          "priorSha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
+          "classification": "REPRODUCES"
+        },
+        {
+          "unit": "route_artifact",
+          "route": "ks-12-4516-municipal",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
+          "priorSha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
+          "classification": "REPRODUCES"
+        },
+        {
+          "unit": "route_artifact",
+          "route": "ks-12-4516a-municipal-arrest",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
+          "priorSha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
+          "classification": "REPRODUCES"
+        },
+        {
+          "unit": "route_artifact",
+          "route": "ks-12-4516a-municipal-arrest",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
+          "priorSha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
+          "classification": "REPRODUCES"
+        }
+      ],
+      "whatThisLaneMeasuredInstead": "The overlay directory data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading was deleted outright and the builder run from scratch twice with --no-raster, the flag the committed build used (build-status.json records rasterPages 0). All 16 emitted files were byte-identical between the two runs, and both runs reproduced the 16 committed files exactly. product-wiring.json is the seventeenth committed file and is not emitted by the builder; it was restored from git and is unchanged. This is the lane measuring its own change, so it is reported and deliberately NOT written into this file as a result.",
+      "laneContinuedBy": "KSPATH2, the same repair grant on rcap-ks-custom-pleading, still unreleased in claim-ledger.json. FIX03 wrote the withdrawal; this amendment removes the bindings the withdrawal itself left standing.",
+      "theseAreHistoryNotBindings": "Every SHA-256 and page count under a `prior...` key in this withdrawal is a historical value, recording what the withdrawn row asserted. It is not a binding. Those bytes are not on disk and no build in this repository produces them. Nothing may be re-derived from them, and a reader who finds one here has found the record of a retracted claim, not a claim. The keys were renamed from `boundToSha256` and `boundToPageCount` because a key that reads as a binding is a binding to everyone who greps for one.",
+      "currentBytesOnDisk": [
         {
           "unit": "family_assembly",
           "route": null,
@@ -459,57 +512,7 @@
           "pageCount": 6
         }
       ],
-      "artifactsWithdrawn": [
-        {
-          "unit": "family_assembly",
-          "route": null,
-          "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf",
-          "boundToSha256": "682a6a4b1d64f6998135325d264af837fab045ae4828fa6a0b4a5e6bc88cdb67",
-          "classification": "REPRODUCES"
-        },
-        {
-          "unit": "family_assembly",
-          "route": null,
-          "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-          "boundToSha256": "6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8",
-          "classification": "REPRODUCES"
-        },
-        {
-          "unit": "route_artifact",
-          "route": "ks-12-4516-municipal",
-          "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
-          "boundToSha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
-          "classification": "REPRODUCES"
-        },
-        {
-          "unit": "route_artifact",
-          "route": "ks-12-4516-municipal",
-          "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
-          "boundToSha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
-          "classification": "REPRODUCES"
-        },
-        {
-          "unit": "route_artifact",
-          "route": "ks-12-4516a-municipal-arrest",
-          "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
-          "boundToSha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
-          "classification": "REPRODUCES"
-        },
-        {
-          "unit": "route_artifact",
-          "route": "ks-12-4516a-municipal-arrest",
-          "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
-          "boundToSha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
-          "classification": "REPRODUCES"
-        }
-      ],
-      "whatThisLaneMeasuredInstead": "FIX03 deleted data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading entirely and ran the builder from scratch twice with --no-raster, and all 16 emitted files were byte-identical between the two runs. That is this lane measuring its own change, so it is reported in the repair record and is deliberately NOT written into this acceptance file."
+      "currentBytesAssertNothing": "The six artifacts on disk, hashed at withdrawal. This is a pointer for whoever measures them next. It is not an acceptance, a completeness result, a determinism result, or a raster verdict, and no count in this file counts it."
     }
   ]
 }
