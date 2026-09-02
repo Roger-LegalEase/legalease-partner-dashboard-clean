@@ -1,0 +1,447 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF31",
+  "laneKind": "independent-verification",
+  "worker": "CODEX-CS2-VF31",
+  "baseSha": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+  "dispatchAncestor": "84218d2dae40d561591a65ae382adbe658c53fb0",
+  "grantSet": "4cc1802649c11619",
+  "claimsAssertedBeforeRead": [
+    "tx_exp_acquittal-set",
+    "ut_pet_acquittal-set",
+    "ut_pet_dismissed_with_prejudice-set",
+    "ut_pet_no_charges-set",
+    "vt_exp_decriminalized-set",
+    "vt_seal_nonconviction-set",
+    "wv_conv_multiple_misdemeanors-set"
+  ],
+  "claimsReleased": false,
+  "measuredBy": "Independent reads of the committed canonical and boundary PDF bytes, their content streams and page geometry, every committed canonical and boundary raster, fresh in-memory 72 dpi rasters for the Texas family that has no committed raster files, the route and packet-set records, participant instructions, production field maps, source receipts, actual-writes reports, and a fresh focused completeness-verifier run for every family. PDF, raster, byte-length and page-count claims were recomputed rather than copied.",
+  "sourceIdentityEnvironment": {
+    "result": "BLOCKED_SOURCE",
+    "finding": "The exact source binaries named by the receipts are not present in this isolated checkout. /workspaces/cs2vf31/private does not exist, no corpus-root environment file is present, and this worker did not inspect or use the Captain checkout. Receipt and queue hashes are cross-record assertions, not an independent recomputation from source bytes.",
+    "pathsChecked": [
+      "/workspaces/cs2vf31/private",
+      "/home/codespace/.legalease-corpus-env",
+      "/home/user/.legalease-corpus-env"
+    ]
+  },
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 0,
+    "FAIL_REPAIR_REQUIRED": 2,
+    "BLOCKED_SOURCE": 5,
+    "BLOCKED_LEGAL_INPUT": 0
+  },
+  "overlayDirectoriesModified": 0,
+  "packetsBuiltOrRepairedHere": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "evidenceCatalog": {
+    "sourceSets": {
+      "tx": [
+        {
+          "documentId": "tx_exp_acquittal-fee-waiver-statement-5",
+          "pathInArchive": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "recordedSha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+          "recordedByteLength": 6667524,
+          "recomputedFromSourceBytes": false
+        }
+      ],
+      "ut": [
+        {
+          "documentId": "1000EX",
+          "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+          "recordedSha256": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+          "recordedByteLength": 62671,
+          "recomputedFromSourceBytes": false
+        },
+        {
+          "documentId": "1020EX",
+          "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+          "recordedSha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+          "recordedByteLength": 106091,
+          "recomputedFromSourceBytes": false
+        },
+        {
+          "documentId": "1044XX",
+          "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+          "recordedSha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+          "recordedByteLength": 119736,
+          "recomputedFromSourceBytes": false
+        },
+        {
+          "documentId": "1146XX",
+          "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+          "recordedSha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+          "recordedByteLength": 192790,
+          "recomputedFromSourceBytes": false
+        },
+        {
+          "documentId": "1148XX",
+          "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
+          "recordedSha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+          "recordedByteLength": 191518,
+          "recomputedFromSourceBytes": false
+        },
+        {
+          "documentId": "1149XX",
+          "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf",
+          "recordedSha256": "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3",
+          "recordedByteLength": 108630,
+          "recomputedFromSourceBytes": false
+        },
+        {
+          "documentId": "1169XX",
+          "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf",
+          "recordedSha256": "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244",
+          "recordedByteLength": 104506,
+          "recomputedFromSourceBytes": false
+        },
+        {
+          "documentId": "UT-BCI-EXP-APPLICATION",
+          "pathInArchive": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf",
+          "recordedSha256": "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13",
+          "recordedByteLength": 2337718,
+          "recomputedFromSourceBytes": false
+        },
+        {
+          "documentId": "UT-BCI-THIRD-PARTY-RELEASE",
+          "pathInArchive": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf",
+          "recordedSha256": "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451",
+          "recordedByteLength": 349009,
+          "recomputedFromSourceBytes": false
+        }
+      ],
+      "vt_exp": [
+        {
+          "documentId": "200-00129",
+          "pathInArchive": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00129__petition-to-expunge-criminal-history__REV-2025-07__EN.pdf",
+          "recordedSha256": "6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+          "recordedByteLength": 2000422,
+          "recomputedFromSourceBytes": false
+        },
+        {
+          "documentId": "200-00132A",
+          "pathInArchive": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+          "recordedSha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+          "recordedByteLength": 1959576,
+          "recomputedFromSourceBytes": false
+        },
+        {
+          "documentId": "600-00228",
+          "pathInArchive": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+          "recordedSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+          "recordedByteLength": 2871072,
+          "recomputedFromSourceBytes": false
+        }
+      ],
+      "vt_seal": [
+        {
+          "documentId": "200-00130",
+          "pathInArchive": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+          "recordedSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+          "recordedByteLength": 1535506,
+          "recomputedFromSourceBytes": false
+        },
+        {
+          "documentId": "200-00132",
+          "pathInArchive": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+          "recordedSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+          "recordedByteLength": 1999317,
+          "recomputedFromSourceBytes": false
+        },
+        {
+          "documentId": "600-00228",
+          "pathInArchive": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+          "recordedSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+          "recordedByteLength": 2871072,
+          "recomputedFromSourceBytes": false
+        }
+      ],
+      "wv": [
+        {
+          "documentId": "SCA-C906",
+          "pathInArchive": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+          "recordedSha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+          "recordedByteLength": 176072,
+          "recomputedFromSourceBytes": false
+        }
+      ]
+    },
+    "artifactSets": {
+      "tx_exp_acquittal-set": {
+        "canonical": {"sha256": "d9fb4fcc682df7c530609115e75165566e0c368f0337f0be0e395933803efcbd", "byteLength": 976888, "pages": 23},
+        "boundary": {"sha256": "0c72f34ff2ce096c529a5a85237ecf35175ab220f4734ab458d17e2764574b15", "byteLength": 977529, "pages": 23},
+        "allPdfClaimsRecomputedAndMatched": true,
+        "committedRasterPages": 0,
+        "freshInMemoryRaster": {"engine": "pdftocairo", "dpi": 72, "dimensions": "612x792", "canonicalPages": 23, "canonicalSetDigest": "be94e449dd2657d9348bfd5ef27a389e64d85fc62b483ed3ab78813ce1c60877", "boundaryPages": 23, "boundarySetDigest": "2db1e419f8e0a609a3c10548e6091df44dc3c77970f54ff1b29f3b39efc43637"}
+      },
+      "ut_pet_acquittal-set": {
+        "canonical": {"sha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6", "byteLength": 3024920, "pages": 19},
+        "boundary": {"sha256": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765", "byteLength": 3025560, "pages": 19},
+        "allPdfClaimsRecomputedAndMatched": true,
+        "rasterPages": 38,
+        "rasterDimensions": "612x792",
+        "allRasterClaimsRecomputedAndMatched": true,
+        "rasterSetDigest": "1490dcc5306ad60d86320f292992c98023b31870afa9616e0d01c6fb617b6989"
+      },
+      "ut_pet_dismissed_with_prejudice-set": {
+        "canonical": {"sha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6", "byteLength": 3024920, "pages": 19},
+        "boundary": {"sha256": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765", "byteLength": 3025560, "pages": 19},
+        "allPdfClaimsRecomputedAndMatched": true,
+        "rasterPages": 38,
+        "rasterDimensions": "612x792",
+        "allRasterClaimsRecomputedAndMatched": true,
+        "rasterSetDigest": "1490dcc5306ad60d86320f292992c98023b31870afa9616e0d01c6fb617b6989"
+      },
+      "ut_pet_no_charges-set": {
+        "canonical": {"sha256": "1ee8fad3cd777f6f476b159be35dea893a47477d91ca70e3518e53bcbfffe143", "byteLength": 3024892, "pages": 19},
+        "boundary": {"sha256": "3686f4f02146dc1e0e5ea105d219e1f9497dcb514a4345fce76f029f7f1c6485", "byteLength": 3025531, "pages": 19},
+        "allPdfClaimsRecomputedAndMatched": true,
+        "rasterPages": 38,
+        "rasterDimensions": "612x792",
+        "allRasterClaimsRecomputedAndMatched": true,
+        "rasterSetDigest": "432ee112d207500d15547182adfb2c24af7bf3b40e8ca715d4e988c2cd4d5a80"
+      },
+      "vt_exp_decriminalized-set": {
+        "canonical": {"sha256": "3bd92e3418501450ff38c2167236eec074dfd5d8d617f2317a424a043f9dbffd", "byteLength": 848321, "pages": 8},
+        "boundary": {"sha256": "9166048a156dbaee595d006cef918934ae64312c7ed05b7be6841fd45a93b99f", "byteLength": 849362, "pages": 8},
+        "allPdfClaimsRecomputedAndMatched": true,
+        "rasterPages": 16,
+        "rasterDimensions": "2448x3168",
+        "allRasterClaimsRecomputedAndMatched": true,
+        "rasterSetDigest": "c8c18bec96ec6964339a63e81604777a26963aa77845a088d9db7ba5814895ff"
+      },
+      "vt_seal_nonconviction-set": {
+        "canonical": {"sha256": "cafc3111e0c8d1669df9e9aae3d4d77a1847f9ead1ccbf70006155cee5703898", "byteLength": 856943, "pages": 8},
+        "boundary": {"sha256": "87032f4047b63294f8db291f0ebe336eb93db86bd49e22ea72f76ed37a9bafe4", "byteLength": 857391, "pages": 8},
+        "allPdfClaimsRecomputedAndMatched": true,
+        "rasterPages": 16,
+        "rasterDimensions": "2448x3168",
+        "allRasterClaimsRecomputedAndMatched": true,
+        "rasterSetDigest": "3856d75d965fe5e7bafea482d0582394b761b7a083f6df1f8bb8d7e322b151af"
+      },
+      "wv_conv_multiple_misdemeanors-set": {
+        "canonical": {"sha256": "31a49f2d2216fd2c7a1327aa7f95f3214b8a760e9d46c05517d764d7bd60f90d", "byteLength": 173531, "pages": 4},
+        "boundary": {"sha256": "2a0b701a523d3f7c71f6327c6bd4384cbf438689d0be42d30b869f218f6e1dbe", "byteLength": 173742, "pages": 4},
+        "allPdfClaimsRecomputedAndMatched": true,
+        "rasterPages": 8,
+        "rasterDimensions": "612x792",
+        "allRasterClaimsRecomputedAndMatched": true,
+        "rasterSetDigest": "d6f1486a587b862f7c90f7b7f2463b387b29a386f684608f32a1f0ee9d6b724f"
+      }
+    }
+  },
+  "rows": [
+    {
+      "itemId": "tx_exp_acquittal-set",
+      "lane": "VF31",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading",
+      "queueStateAtRead": "VERIFY_PENDING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true, "verifierResult": "PASS_COMPLETE"},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "Both obligation:unit:TX:tx_exp_acquittal route keys agree across MASTER_QUEUE, source-receipt, production-field-map, product-wiring, the rendered instruction footer and the PDF bytes."},
+        "SOURCE_IDENTITY": {"measured": false, "result": "BLOCKED", "finding": "The single TX official source could not be independently hashed because its exact human-source-return path is absent. See evidenceCatalog.sourceSets.tx."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "All six packet-set components occur in both 23-page artifact manifests: request, information package, petition, proposed order, fee-waiver statement and filing instructions."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "The focused verifier measured knownRequiredFieldsMissing=0; 17 declared writes were read from both output byte sets and the boundary raster shows each fitted value."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "requiredFactsNotCollected=0 and unclassifiedBlanks=0; participant-instructions.md identifies the form/page/caption and source for every participant completion item and separately requires the judgment and agency list."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "requiredOptionsMissing=0; the in-window request and out-of-window petition remain separate, conditional branches and the packet tells the participant which applies."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "incompleteRows=0 in the focused run; no partially populated required row was found in either output."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "protectedWrites=0 and invisibleWrites=0; signatures, verification dates, notary, clerk and judge blocks remain blank in the output bytes and rasters."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Both PDF SHA-256 values, byte lengths and 23-page counts recomputed exactly; see evidenceCatalog.artifactSets.tx_exp_acquittal-set."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "The bytes reproduce the contiguous 1..23 page manifest and preserve every component's internal source-page order in both fixtures."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "Measured from both PDF content streams and 46 fresh in-memory 612x792 rasters: zero generated runs outside the MediaBox, zero generated-run collisions, and no clipped or overlapping added ink on visual read."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The instructions distinguish the trial court for the in-window request from the district clerk/court of the county of arrest or alleged offence for the out-of-window petition, matching the track destination."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "The packet states the mandatory timely-acquittal waiver, the out-of-window ordinary civil or $100 court fee posture, paper-transmission charges and the Rule 145 statewide inability form."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The packet states that the participant does not serve in the ordinary route and that the clerk transmits by certified mail or electronic means to the listed agencies."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "The instructions reproduce all 12 track selfHelpStopConditions and direct the participant to Texas counsel when any applies."}
+      },
+      "failedProofObligations": [],
+      "blockedProofObligations": ["SOURCE_IDENTITY"],
+      "artifactEvidenceRef": "evidenceCatalog.artifactSets.tx_exp_acquittal-set",
+      "sourceEvidenceRef": "evidenceCatalog.sourceSets.tx"
+    },
+    {
+      "itemId": "ut_pet_acquittal-set",
+      "lane": "VF31",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill",
+      "queueStateAtRead": "VERIFY_PENDING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true, "verifierResult": "PASS_COMPLETE"},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The two UT acquittal unit route keys and routeSelectionId agree across MASTER_QUEUE, production-field-map and product-wiring; the instructions accurately fence automatic expungement from the fallback petition."},
+        "SOURCE_IDENTITY": {"measured": false, "result": "BLOCKED", "finding": "None of the nine exact Utah source files is reachable for re-hashing. See evidenceCatalog.sourceSets.ut."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "The 19-page packet contains all nine official forms in its rendered page manifest; the required filing/timing instructions exist as participant-instructions.md."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "All 38 declared writes are present in both PDF byte sets; the repaired BCI declaration name is clear of the printed declaration text on canonical and boundary page 18."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "requiredFactsNotCollected=0 and unclassifiedBlanks=0; all 15 packet-set prefiling requirements are covered by the facts, documents, signature and payment sections."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "requiredOptionsMissing=0; automatic-first versus documented-failure fallback, payment elections and participant/court-owned choices are explicitly separated."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "incompleteRows=0; no partially written repeating row appears in the bytes or raster pairs."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "protectedWrites=0 and invisibleWrites=0; signatures, service certifications, prosecutor/victim, agency and court-only fields remain protected."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Both PDF and all 38 raster hashes, lengths/dimensions and 19-page counts recomputed and matched; see evidenceCatalog.artifactSets.ut_pet_acquittal-set."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both PDF byte sets match the rendered 19-row page manifest exactly, with contiguous packet pages and monotone source pages inside every form."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "Measured from both content streams and all 38 rasters: no content leaves a MediaBox, mapped values stay within their measured boxes at 2-point tolerance, and no clipped/overlapping participant ink was found."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The instructions state the automatic no-filing path, then BCI followed by the court that decided the case for the fallback, including the certificate's 180-day limit."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "Automatic expungement is stated as free; the fallback states the $150 court fee, form 1305GE waiver, $65 BCI application fee and separate BCI indigency process."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The instructions state no service on the automatic route and court-given notice to the prosecutor on the fallback, followed by the court-to-BCI and BCI-to-agency sequence."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "The current instructions reproduce all eight track stop conditions and expressly stop at objection or hearing rather than telling the participant to proceed alone."}
+      },
+      "failedProofObligations": [],
+      "blockedProofObligations": ["SOURCE_IDENTITY"],
+      "artifactEvidenceRef": "evidenceCatalog.artifactSets.ut_pet_acquittal-set",
+      "sourceEvidenceRef": "evidenceCatalog.sourceSets.ut"
+    },
+    {
+      "itemId": "ut_pet_dismissed_with_prejudice-set",
+      "lane": "VF31",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+      "queueStateAtRead": "VERIFY_PENDING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true, "verifierResult": "PASS_COMPLETE"},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The two dismissed-with-prejudice route keys and the routeSelectionId agree across MASTER_QUEUE, production-field-map and product-wiring."},
+        "SOURCE_IDENTITY": {"measured": false, "result": "BLOCKED", "finding": "None of the nine exact Utah source files is reachable for re-hashing. See evidenceCatalog.sourceSets.ut."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "All nine official-form components appear in the 19-page manifest and the participant instructions supply the required guidance component."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "All 38 declared writes are visible in both byte/raster sets, with no silent refusal."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "requiredFactsNotCollected=0 and unclassifiedBlanks=0; all 14 packet-set prefiling requirements are disclosed, including proof of final dismissal and the plea-in-abeyance check."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "requiredOptionsMissing=0; the automatic, petition, plea-in-abeyance, payment and optional-form choices are kept with their proper owners."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "incompleteRows=0; both fixtures contain no partially completed required row."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "protectedWrites=0 and invisibleWrites=0; signature, date, service, prosecutor/victim, court and agency fields remain protected."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Both PDF and all 38 raster claims recomputed and matched; see evidenceCatalog.artifactSets.ut_pet_dismissed_with_prejudice-set."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "The two byte sets match the same 19-row rendered page manifest, with no omitted, duplicated or internally transposed source page."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "Measured from the PDF content streams and all 38 rasters; no MediaBox escape, clipped mapped value or overlapping added ink was found."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "BCI then the district court for the county where the case was heard, with the 180-day certificate limit, is stated."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "The $150 court fee, 1305GE waiver, $65 BCI application fee, separate BCI waiver and disposition-specific certificate-fee caveat are stated."},
+        "SERVICE": {"measured": false, "result": "BLOCKED", "finding": "participant-instructions.md says the participant mails or emails the prosecutor, citing UT-BCI-EXP-INSTRUCTIONS SHA-256 9e03980f512fe3aa89418539407f542a34d734a8c12516b40682dd50b9dadefa; the committed track registry instead says the court sends the filing and the petitioner does not serve. The cited source bytes are absent, so this conflict cannot be resolved independently."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "The current instructions reproduce all eight track stop conditions, including the plea-in-abeyance-specific stop."}
+      },
+      "failedProofObligations": [],
+      "blockedProofObligations": ["SOURCE_IDENTITY", "SERVICE"],
+      "artifactEvidenceRef": "evidenceCatalog.artifactSets.ut_pet_dismissed_with_prejudice-set",
+      "sourceEvidenceRef": "evidenceCatalog.sourceSets.ut"
+    },
+    {
+      "itemId": "ut_pet_no_charges-set",
+      "lane": "VF31",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill",
+      "queueStateAtRead": "VERIFY_PENDING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true, "verifierResult": "PASS_COMPLETE"},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "Both no-charges route keys and routeSelectionId agree across MASTER_QUEUE, production-field-map and product-wiring."},
+        "SOURCE_IDENTITY": {"measured": false, "result": "BLOCKED", "finding": "None of the nine exact Utah source files is reachable for re-hashing. See evidenceCatalog.sourceSets.ut."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "All nine official-form components appear in the rendered 19-page packet and participant-instructions.md supplies the filing guidance."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "All 38 declared writes are visible in both PDF byte/raster sets, with no silent refusal."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "requiredFactsNotCollected=0 and unclassifiedBlanks=0; all 13 packet-set requirements are disclosed, including proof of final prosecutorial declination."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "requiredOptionsMissing=0 and the no-charges-specific facts and participant elections remain participant-owned."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "incompleteRows=0; no partially populated required row was found."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "protectedWrites=0 and invisibleWrites=0 across both output byte sets."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Both PDF and all 38 raster claims recomputed and matched; see evidenceCatalog.artifactSets.ut_pet_no_charges-set."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "The output bytes match the 19-row manifest: BCI application/release, cover sheet, petition/order, then service/victim/reply forms, each internally ordered."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "Measured from the content streams and all 38 rasters; no MediaBox escape, clipped mapped value or overlapping added ink was found."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "BCI then the district court for the county where the matter was handled, with the 180-day certificate limit, is stated."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "The $150 court fee, 1305GE waiver, $65 BCI application fee, BCI indigency route and no-issuance-fee disposition posture are stated."},
+        "SERVICE": {"measured": false, "result": "BLOCKED", "finding": "participant-instructions.md says the participant mails or emails the prosecutor, citing UT-BCI-EXP-INSTRUCTIONS SHA-256 9e03980f512fe3aa89418539407f542a34d734a8c12516b40682dd50b9dadefa; the committed track registry says the court sends the filing and the petitioner does not serve. The cited source bytes are absent, so this conflict cannot be resolved independently."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "All eight track stop conditions are reproduced, including the route-specific inability to establish a final declination."}
+      },
+      "failedProofObligations": [],
+      "blockedProofObligations": ["SOURCE_IDENTITY", "SERVICE"],
+      "artifactEvidenceRef": "evidenceCatalog.artifactSets.ut_pet_no_charges-set",
+      "sourceEvidenceRef": "evidenceCatalog.sourceSets.ut"
+    },
+    {
+      "itemId": "vt_exp_decriminalized-set",
+      "lane": "VF31",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
+      "queueStateAtRead": "VERIFY_PENDING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true, "verifierResult": "PASS_COMPLETE"},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "production-field-map and product-wiring now carry the census key obligation:track-pathway:VT:vt_exp_decriminalized:adult-conviction-expungement-narrow-statutory-route; the participant page prints an accurate human route label."},
+        "SOURCE_IDENTITY": {"measured": false, "result": "BLOCKED", "finding": "The three exact Vermont source files are absent and could not be re-hashed. See evidenceCatalog.sourceSets.vt_exp."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Petition, stipulation/order, fee-waiver form and filing instructions all appear in both eight-page outputs."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "The one unfittable boundary email is explicitly refused at the readable-size floor, recorded with field 34i and its held value, and printed on packet page 8 for hand completion; every accepted prefill is visible in its measured box."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "requiredFactsNotCollected=0 and unclassifiedBlanks=0; participant-instructions.md enumerates all 112 field-map completion items."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "requiredOptionsMissing=0; question 2(d), consent choices, financial elections and signatures stay participant-owned."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "incompleteRows=0 and no written partial offence, agency, income, expense or asset row was found."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "protectedWrites=0 and invisibleWrites=0; participant, prosecutor, judge and signature ownership is preserved."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Both PDFs and all 16 raster hashes, byte lengths, dimensions and page counts recomputed and matched; see evidenceCatalog.artifactSets.vt_exp_decriminalized-set."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both outputs reproduce the eight-row manifest in order: petition 1-2, stipulation/order 3-4, fee-waiver 5-6, instructions 7-8."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "Measured from both content streams and all 16 2448x3168 rasters: no accepted write is clipped, no added ink overlaps printed text and no content escapes a page box."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The Criminal Division of Vermont Superior Court in the unit where the case was decided is stated and matches the track destination."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "FAIL", "finding": "The packet says the filing fee and waiver applicability are not established and tells the participant to ask the clerk, while the committed track and packet-set record say there is no filing fee on this track and make 600-00228 conditional only where a fee is charged. The packet neither states the held no-fee answer nor applies its own condition."},
+        "SERVICE": {"measured": true, "result": "FAIL", "finding": "The instructions say a copy must be served on the prosecuting office but leave the method and deadline unknown. The obligation requires who and how; the committed track says the participant does not serve process and, for a stipulation, takes or sends it to the prosecutor, who files it under section 7602(a)(4)."},
+        "SELF_HELP_STOP": {"measured": true, "result": "FAIL", "finding": "The track records 11 selfHelpStopConditions, but participant-instructions.md and rendered pages 7-8 contain no stop section and none of those conditions; the generic 'not legal advice' disclaimer does not state where self-help ends."}
+      },
+      "failedProofObligations": ["FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP"],
+      "blockedProofObligations": ["SOURCE_IDENTITY"],
+      "artifactEvidenceRef": "evidenceCatalog.artifactSets.vt_exp_decriminalized-set",
+      "sourceEvidenceRef": "evidenceCatalog.sourceSets.vt_exp"
+    },
+    {
+      "itemId": "vt_seal_nonconviction-set",
+      "lane": "VF31",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+      "queueStateAtRead": "VERIFY_PENDING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true, "verifierResult": "PASS_COMPLETE"},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "FAIL", "finding": "The participant pages now print a correct human label, but production-field-map.json and every documentPolicy still carry obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing, which occurs in no census route. MASTER_QUEUE and product-wiring carry three obligation:unit:VT:vt_seal_nonconviction keys instead."},
+        "SOURCE_IDENTITY": {"measured": false, "result": "BLOCKED", "finding": "The three exact Vermont source files are absent and could not be re-hashed. See evidenceCatalog.sourceSets.vt_seal."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Petition, stipulation/order, fee-waiver form and two-page process guidance cover the packet-set's petition, automatic/stipulated guidance and interests-of-justice prompts."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "FAIL", "finding": "On boundary packet page 3 (200-00132 page 1), participant.email field 34i is empty with no refusal/disclosure, and field 34d's expected full name Maria-Alejandra O'Shaughnessy-Whitfield is visibly clipped to Maria-Alejandra O'Shaughnessy-WI in the 2448x3168 raster."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "requiredFactsNotCollected=0 and unclassifiedBlanks=0; participant-instructions.md enumerates all field-map completion items and the ten packet-set prefiling requirements."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "requiredOptionsMissing=0; the non-conviction route mark is present while the three fact-specific endings, ordinary/stipulated election and protected consent boxes remain participant-owned."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "incompleteRows=0 and no written partial offence, agency, income, expense or asset row was found."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "protectedWrites=0 and invisibleWrites=0; court, prosecutor, signature and date fields remain blank."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Both PDFs and all 16 raster hashes, byte lengths, dimensions and page counts recomputed and matched; see evidenceCatalog.artifactSets.vt_seal_nonconviction-set."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both output byte sets reproduce the eight-row rendered manifest: petition 1-2, stipulation/order 3-4, fee-waiver 5-6 and process guidance 7-8."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "FAIL", "finding": "Raster measurement contradicts visualDefects=0: boundary packet page 3 clips the right end of the field 34d name at the write-box edge, rendering Maria-Alejandra O'Shaughnessy-WI instead of the expected Maria-Alejandra O'Shaughnessy-Whitfield. The canonical counterpart fits and provides the control."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The Criminal Division of Vermont Superior Court in the unit where the case was decided, plus the automatic no-filing branch, is stated."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "FAIL", "finding": "The packet says the filing fee and waiver applicability are not established and directs the participant to ask the clerk; the committed track says no filing fee and the packet-set makes 600-00228 conditional only where a fee is charged, on this track none."},
+        "SERVICE": {"measured": true, "result": "FAIL", "finding": "The packet explicitly leaves both recipient and method unknown. The committed track says no participant service of process and directs a stipulation to the prosecuting office for the respondent to file; the required who/how answer is therefore neither stated nor accurately fenced."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "The current instructions reproduce all six track selfHelpStopConditions and expressly stop on objection, opposition or a scheduled hearing."}
+      },
+      "failedProofObligations": ["ROUTE_IDENTITY", "KNOWN_PREFILLS", "CLIPPING_AND_OVERLAP", "FEE_AND_WAIVER", "SERVICE"],
+      "blockedProofObligations": ["SOURCE_IDENTITY"],
+      "artifactEvidenceRef": "evidenceCatalog.artifactSets.vt_seal_nonconviction-set",
+      "sourceEvidenceRef": "evidenceCatalog.sourceSets.vt_seal"
+    },
+    {
+      "itemId": "wv_conv_multiple_misdemeanors-set",
+      "lane": "VF31",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+      "queueStateAtRead": "VERIFY_PENDING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true, "verifierResult": "PASS_COMPLETE"},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The single WV track-pathway key and routeSelectionId agree across MASTER_QUEUE, production-field-map and product-wiring, and the SCA-C906 route marks the multiple-misdemeanor branch."},
+        "SOURCE_IDENTITY": {"measured": false, "result": "BLOCKED", "finding": "The exact SCA-C906 source binary is absent and could not be re-hashed. See evidenceCatalog.sourceSets.wv."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "SCA-C906 pages 1-4 provide the primary filing, verification and certificate; participant-instructions.md supplies service/filing guidance, and the conditional multi-county supplement is not triggered by these fixtures."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "Each fixture carries 24 visible text writes plus two visible route-selection marks; the boundary name, address and three complete charge rows are readable in the rasters."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "requiredFactsNotCollected=0 and unclassifiedBlanks=0; all 16 packet-set prefiling requirements, including dispositions, supervision proof, notarization and service completion, are stated."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "requiredOptionsMissing=0; the multiple-misdemeanor and no-prior-expungement selections are visible, while participant facts and service method remain participant-owned."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "incompleteRows=0; all three written charge rows are complete and the remaining row is untouched."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "protectedWrites=0 and invisibleWrites=0; civil case number, participant signatures/dates, notary and certificate-of-service attestations remain blank."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Both PDFs and all eight raster hashes, lengths, dimensions and four-page counts recomputed and matched; see evidenceCatalog.artifactSets.wv_conv_multiple_misdemeanors-set."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "The four-byte-page sequence matches the manifest and SCA-C906's printed 1-of-4 through 4-of-4 order."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "Measured from both content streams and all eight 612x792 rasters: all added text and both selection marks remain inside their controls, with no clipping or overlap."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The clerk of the circuit court of the county of conviction is stated, with the multi-county uncertainty fenced to counsel."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "The packet states the $200 filing fee, the separate $100 State Police fee on grant, the absence of a held section 61-11-26 waiver and the distinct section 61-11-26a waiver limitation."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "All five section 61-11-26(e) recipients, victim service ownership and the page-4 delivery-method election are stated."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "All ten track stop conditions are reproduced and the packet expressly ends self-help on opposition or hearing."}
+      },
+      "failedProofObligations": [],
+      "blockedProofObligations": ["SOURCE_IDENTITY"],
+      "artifactEvidenceRef": "evidenceCatalog.artifactSets.wv_conv_multiple_misdemeanors-set",
+      "sourceEvidenceRef": "evidenceCatalog.sourceSets.wv"
+    }
+  ]
+}
