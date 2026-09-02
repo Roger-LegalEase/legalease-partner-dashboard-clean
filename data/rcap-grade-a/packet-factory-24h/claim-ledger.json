@@ -5182,7 +5182,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX14",
+      "lane": "FIX18",
       "laneKind": "repair",
       "released": false,
       "releasedAt": null
@@ -5257,7 +5257,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX14",
+      "lane": "FIX19",
       "laneKind": "repair",
       "released": false,
       "releasedAt": null
@@ -12247,7 +12247,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "71e70989e2951e015a962bdcca24c5252bd49e2b11235f2a95a903b2f7ede40c",
+  "claimsDigest": "e89a06c32b6842912e227e7980e9ec2ec870909636b329af94f3a6cab765c5be",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -22271,6 +22271,22 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-02T22:52:05.192Z"
+    },
+    {
+      "lane": "FIX14",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-nv-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T22:56:40.730Z"
+    },
+    {
+      "lane": "FIX14",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ok-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T22:56:40.880Z"
     }
   ],
   "reissues": [
@@ -28626,6 +28642,28 @@
       "previouslyReleasedAt": "2026-09-02T06:02:27.528Z",
       "transferredAt": "2026-09-02T22:55:54.034Z",
       "reason": "Focused repair of exact VF30 process-guidance binding, pardon prerequisites, and self-help stops; instruction/component completeness cohort"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-nv-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX14",
+      "toLane": "FIX18",
+      "previouslyReleasedAt": "2026-09-02T22:56:40.730Z",
+      "transferredAt": "2026-09-02T22:56:40.805Z",
+      "reason": "Split the accepted raster-only repair cohort so exact Nevada packet bytes can be rendered without path overlap"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ok-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX14",
+      "toLane": "FIX19",
+      "previouslyReleasedAt": "2026-09-02T22:56:40.880Z",
+      "transferredAt": "2026-09-02T22:56:40.965Z",
+      "reason": "Split the accepted raster-only repair cohort so exact Oklahoma packet bytes can be rendered without path overlap"
     }
   ],
   "withdrawals": [
