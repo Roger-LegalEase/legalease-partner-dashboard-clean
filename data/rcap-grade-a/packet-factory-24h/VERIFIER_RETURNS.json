@@ -21,10 +21,10 @@
   "obligationVocabularyNote": "The P2V rows record thirteen obligations as strings and two as booleans. Both are read; a third spelling refuses, because reading only the strings turned two passing obligations into failures and doubled the defect count.",
   "supersessionRule": "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. Recency is never inferred from file modification or merge time. Superseded rows remain as history with superseded: true",
   "counts": {
-    "returnDirectories": 37,
-    "rows": 487,
-    "independentVerdicts": 179,
-    "failRepairRequired": 34,
+    "returnDirectories": 38,
+    "rows": 492,
+    "independentVerdicts": 183,
+    "failRepairRequired": 39,
     "passIndependent": 136
   },
   "failRepairRequiredFamilies": [
@@ -48,6 +48,11 @@
     "ny_mrta_marijuana-set",
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
+    "rcap-ks-custom-pleading",
+    "rcap-ks-custom-pleading::ks-12-4516-municipal::boundary",
+    "rcap-ks-custom-pleading::ks-12-4516-municipal::canonical",
+    "rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::boundary",
+    "rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::canonical",
     "rcap-ms-custom-pleading",
     "rcap-nv-custom-pleading",
     "rcap-ok-custom-pleading",
@@ -7184,6 +7189,72 @@
     },
     {
       "familyId": "rcap-ks-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "ks-municipal-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "2/4 route fixtures fail KNOWN_PREFILLS; see the fixture rows for exact evidence.",
+          "evidence": {
+            "fixtureEvidence": [
+              {
+                "itemId": "rcap-ks-custom-pleading::ks-12-4516-municipal::canonical",
+                "result": "PASS"
+              },
+              {
+                "itemId": "rcap-ks-custom-pleading::ks-12-4516-municipal::boundary",
+                "result": "FAIL"
+              },
+              {
+                "itemId": "rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::canonical",
+                "result": "PASS"
+              },
+              {
+                "itemId": "rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::boundary",
+                "result": "FAIL"
+              }
+            ]
+          }
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "4/4 route fixtures fail CLIPPING_AND_OVERLAP; see the fixture rows for exact evidence.",
+          "evidence": {
+            "fixtureEvidence": [
+              {
+                "itemId": "rcap-ks-custom-pleading::ks-12-4516-municipal::canonical",
+                "result": "FAIL"
+              },
+              {
+                "itemId": "rcap-ks-custom-pleading::ks-12-4516-municipal::boundary",
+                "result": "FAIL"
+              },
+              {
+                "itemId": "rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::canonical",
+                "result": "FAIL"
+              },
+              {
+                "itemId": "rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::boundary",
+                "result": "FAIL"
+              }
+            ]
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-ks-custom-pleading",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf09",
       "isIndependentVerification": true,
@@ -7222,7 +7293,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-ks-custom-pleading",
@@ -7251,6 +7322,991 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
       "superseded": true
+    },
+    {
+      "familyId": "rcap-ks-custom-pleading::ks-12-4516-municipal::boundary",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "ks-municipal-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": null,
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "All 7 bound values are extractable, but the long mailing-address prefill on petition page 3 is visibly clipped at the right page edge; extractability does not make the participant-visible write complete.",
+          "evidence": {
+            "valuesBoundToRoute": 7,
+            "valuesReadBackFromExactBytes": 7,
+            "visuallyClippedKnownPrefills": [
+              "participant.street_address on page 3"
+            ],
+            "page3": {
+              "page": 3,
+              "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/boundary/page-003.png",
+              "rasterSha256": "db2620ba4370513f5dfc42a8fa899c6260ee41ca1a20b65f98037db95792bc3c",
+              "rasterByteLength": 612180,
+              "dimensionsPx": {
+                "width": 1530,
+                "height": 1980
+              },
+              "rasterScalePixelsPerPoint": 2.5,
+              "pageEdgeInkPixels": 64,
+              "inkPixelsWithinFivePxOfPageEdge": 325,
+              "inkMarginsPx": {
+                "left": 179,
+                "top": 177,
+                "right": 0,
+                "bottom": 235
+              },
+              "textLinesMeasured": 34,
+              "textLinesOutsideMediaBox": 7,
+              "maximumRightOverrunPt": 37.5,
+              "measuredTextOverlapPairCount": 0,
+              "directRasterInspectionCompleted": true,
+              "clippingMeasured": true,
+              "clippingObserved": true,
+              "overlapMeasured": true,
+              "overlapObserved": false,
+              "readabilityMeasured": true,
+              "readabilityResult": "FAIL_CLIPPED_TEXT",
+              "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+            }
+          }
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "6/7 raster pages contain right-edge clipping; overlap was independently measured on every page and no text-overlap pair was found.",
+          "evidence": {
+            "clippingMeasuredOnEveryPage": true,
+            "overlapMeasuredOnEveryPage": true,
+            "directRasterInspectionOnEveryPage": true,
+            "clippedPages": 6,
+            "overlapPages": 0,
+            "maximumRightOverrunPt": 65,
+            "pages": [
+              {
+                "page": 1,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/boundary/page-001.png",
+                "rasterSha256": "c4439df40b7d05ee503975390f1fe02a44d55a028d22e788c7e639ccf40ff1a2",
+                "rasterByteLength": 818472,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 69,
+                "inkPixelsWithinFivePxOfPageEdge": 440,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 204
+                },
+                "textLinesMeasured": 33,
+                "textLinesOutsideMediaBox": 12,
+                "maximumRightOverrunPt": 48.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 2,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/boundary/page-002.png",
+                "rasterSha256": "7c68fbae8bebae6887940dfba6c5d74c2177c5cdcc3bb4fb668b66bc8e6165c9",
+                "rasterByteLength": 530765,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 69,
+                "inkPixelsWithinFivePxOfPageEdge": 300,
+                "inkMarginsPx": {
+                  "left": 180,
+                  "top": 194,
+                  "right": 0,
+                  "bottom": 204
+                },
+                "textLinesMeasured": 35,
+                "textLinesOutsideMediaBox": 6,
+                "maximumRightOverrunPt": 32,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 3,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/boundary/page-003.png",
+                "rasterSha256": "db2620ba4370513f5dfc42a8fa899c6260ee41ca1a20b65f98037db95792bc3c",
+                "rasterByteLength": 612180,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 64,
+                "inkPixelsWithinFivePxOfPageEdge": 325,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 177,
+                  "right": 0,
+                  "bottom": 235
+                },
+                "textLinesMeasured": 34,
+                "textLinesOutsideMediaBox": 7,
+                "maximumRightOverrunPt": 37.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 4,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/boundary/page-004.png",
+                "rasterSha256": "1ab1f7c5490a103c9ddc01e8823b7fb59e98033abeb322f988c7867f4b7279e8",
+                "rasterByteLength": 41866,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 0,
+                "inkPixelsWithinFivePxOfPageEdge": 0,
+                "inkMarginsPx": {
+                  "left": 181,
+                  "top": 158,
+                  "right": 350,
+                  "bottom": 1794
+                },
+                "textLinesMeasured": 1,
+                "textLinesOutsideMediaBox": 0,
+                "maximumRightOverrunPt": 0,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": false,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "PASS",
+                "visualFinding": "No clipped text, overlapping glyphs, or unreadable content observed on this page."
+              },
+              {
+                "page": 5,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/boundary/page-005.png",
+                "rasterSha256": "f90e3b96f3554b8f5a6d6a5f0da230e88fed4efd117a05b13a142f4f9dc5ed0a",
+                "rasterByteLength": 371252,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 40,
+                "inkPixelsWithinFivePxOfPageEdge": 168,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 743
+                },
+                "textLinesMeasured": 20,
+                "textLinesOutsideMediaBox": 3,
+                "maximumRightOverrunPt": 37.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 6,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/boundary/page-006.png",
+                "rasterSha256": "fb72b7638d1c9a2071ff2b9da3436e7bd2fb8e2628a0892250fb0e9e1ad4ac02",
+                "rasterByteLength": 997409,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 150,
+                "inkPixelsWithinFivePxOfPageEdge": 796,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 199
+                },
+                "textLinesMeasured": 35,
+                "textLinesOutsideMediaBox": 20,
+                "maximumRightOverrunPt": 59.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 7,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/boundary/page-007.png",
+                "rasterSha256": "4a83826f040f470880790cda686c70fa640152b606efad3a7d17afe1c096252b",
+                "rasterByteLength": 755455,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 63,
+                "inkPixelsWithinFivePxOfPageEdge": 567,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 158,
+                  "right": 0,
+                  "bottom": 561
+                },
+                "textLinesMeasured": 28,
+                "textLinesOutsideMediaBox": 10,
+                "maximumRightOverrunPt": 65,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              }
+            ]
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading::ks-12-4516-municipal::boundary",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-ks-custom-pleading::ks-12-4516-municipal::canonical",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "ks-municipal-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": null,
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "6/6 raster pages contain right-edge clipping; overlap was independently measured on every page and no text-overlap pair was found.",
+          "evidence": {
+            "clippingMeasuredOnEveryPage": true,
+            "overlapMeasuredOnEveryPage": true,
+            "directRasterInspectionOnEveryPage": true,
+            "clippedPages": 6,
+            "overlapPages": 0,
+            "maximumRightOverrunPt": 65,
+            "pages": [
+              {
+                "page": 1,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-001.png",
+                "rasterSha256": "91ebdba7c50cf6302e81a1c42aa5a7f4c3817eef372350d2abb71e3ef0fe241e",
+                "rasterByteLength": 802945,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 54,
+                "inkPixelsWithinFivePxOfPageEdge": 396,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 204
+                },
+                "textLinesMeasured": 33,
+                "textLinesOutsideMediaBox": 12,
+                "maximumRightOverrunPt": 48.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 2,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-002.png",
+                "rasterSha256": "7c68fbae8bebae6887940dfba6c5d74c2177c5cdcc3bb4fb668b66bc8e6165c9",
+                "rasterByteLength": 530765,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 69,
+                "inkPixelsWithinFivePxOfPageEdge": 300,
+                "inkMarginsPx": {
+                  "left": 180,
+                  "top": 194,
+                  "right": 0,
+                  "bottom": 204
+                },
+                "textLinesMeasured": 35,
+                "textLinesOutsideMediaBox": 6,
+                "maximumRightOverrunPt": 32,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 3,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-003.png",
+                "rasterSha256": "bd4347a5d53440d04e730794e8804ad3bf669e8dd08da153243ed745375b1a4d",
+                "rasterByteLength": 593474,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 54,
+                "inkPixelsWithinFivePxOfPageEdge": 272,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 177,
+                  "right": 0,
+                  "bottom": 199
+                },
+                "textLinesMeasured": 34,
+                "textLinesOutsideMediaBox": 7,
+                "maximumRightOverrunPt": 37.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 4,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-004.png",
+                "rasterSha256": "dcd037ce66c6a5d64809944b1562e18148f901b47fab69a3eea72e6b7e5a73ec",
+                "rasterByteLength": 363369,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 40,
+                "inkPixelsWithinFivePxOfPageEdge": 168,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 743
+                },
+                "textLinesMeasured": 20,
+                "textLinesOutsideMediaBox": 3,
+                "maximumRightOverrunPt": 37.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 5,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-005.png",
+                "rasterSha256": "338f999501d803b938c2a77198c1f9a60880451dba5e59a0e92b6c70c62bc0fa",
+                "rasterByteLength": 988253,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 150,
+                "inkPixelsWithinFivePxOfPageEdge": 796,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 199
+                },
+                "textLinesMeasured": 35,
+                "textLinesOutsideMediaBox": 20,
+                "maximumRightOverrunPt": 59.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 6,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-006.png",
+                "rasterSha256": "4a83826f040f470880790cda686c70fa640152b606efad3a7d17afe1c096252b",
+                "rasterByteLength": 755455,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 63,
+                "inkPixelsWithinFivePxOfPageEdge": 567,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 158,
+                  "right": 0,
+                  "bottom": 561
+                },
+                "textLinesMeasured": 28,
+                "textLinesOutsideMediaBox": 10,
+                "maximumRightOverrunPt": 65,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              }
+            ]
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading::ks-12-4516-municipal::canonical",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::boundary",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "ks-municipal-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": null,
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "All 7 bound values are extractable, but the long mailing-address prefill on petition page 3 is visibly clipped at the right page edge; extractability does not make the participant-visible write complete.",
+          "evidence": {
+            "valuesBoundToRoute": 7,
+            "valuesReadBackFromExactBytes": 7,
+            "visuallyClippedKnownPrefills": [
+              "participant.street_address on page 3"
+            ],
+            "page3": {
+              "page": 3,
+              "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/boundary/page-003.png",
+              "rasterSha256": "d5619fd2f09504971a6a76bd11379e4bc94b0ff16d53e44f1e7afe2d485b8efc",
+              "rasterByteLength": 469207,
+              "dimensionsPx": {
+                "width": 1530,
+                "height": 1980
+              },
+              "rasterScalePixelsPerPoint": 2.5,
+              "pageEdgeInkPixels": 44,
+              "inkPixelsWithinFivePxOfPageEdge": 310,
+              "inkMarginsPx": {
+                "left": 179,
+                "top": 158,
+                "right": 0,
+                "bottom": 743
+              },
+              "textLinesMeasured": 23,
+              "textLinesOutsideMediaBox": 6,
+              "maximumRightOverrunPt": 48.5,
+              "measuredTextOverlapPairCount": 0,
+              "directRasterInspectionCompleted": true,
+              "clippingMeasured": true,
+              "clippingObserved": true,
+              "overlapMeasured": true,
+              "overlapObserved": false,
+              "readabilityMeasured": true,
+              "readabilityResult": "FAIL_CLIPPED_TEXT",
+              "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+            }
+          }
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "6/6 raster pages contain right-edge clipping; overlap was independently measured on every page and no text-overlap pair was found.",
+          "evidence": {
+            "clippingMeasuredOnEveryPage": true,
+            "overlapMeasuredOnEveryPage": true,
+            "directRasterInspectionOnEveryPage": true,
+            "clippedPages": 6,
+            "overlapPages": 0,
+            "maximumRightOverrunPt": 65,
+            "pages": [
+              {
+                "page": 1,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/boundary/page-001.png",
+                "rasterSha256": "af149b446d0e6eb5c5de07552db3c988f288743000f72838fc47ab4d7fa31fd3",
+                "rasterByteLength": 784377,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 126,
+                "inkPixelsWithinFivePxOfPageEdge": 688,
+                "inkMarginsPx": {
+                  "left": 177,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 204
+                },
+                "textLinesMeasured": 33,
+                "textLinesOutsideMediaBox": 11,
+                "maximumRightOverrunPt": 59.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 2,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/boundary/page-002.png",
+                "rasterSha256": "60cd2eae3deb0d0610b1bd76451e6983ddf50d65ce4a976bb8f38659bf9ba538",
+                "rasterByteLength": 529726,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 94,
+                "inkPixelsWithinFivePxOfPageEdge": 295,
+                "inkMarginsPx": {
+                  "left": 180,
+                  "top": 177,
+                  "right": 0,
+                  "bottom": 240
+                },
+                "textLinesMeasured": 35,
+                "textLinesOutsideMediaBox": 6,
+                "maximumRightOverrunPt": 43,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 3,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/boundary/page-003.png",
+                "rasterSha256": "d5619fd2f09504971a6a76bd11379e4bc94b0ff16d53e44f1e7afe2d485b8efc",
+                "rasterByteLength": 469207,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 44,
+                "inkPixelsWithinFivePxOfPageEdge": 310,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 158,
+                  "right": 0,
+                  "bottom": 743
+                },
+                "textLinesMeasured": 23,
+                "textLinesOutsideMediaBox": 6,
+                "maximumRightOverrunPt": 48.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 4,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/boundary/page-004.png",
+                "rasterSha256": "f80d2594093e7bc80fd738a7f0bb2cd3e69c6870c104e99af3548c703fdaeb4a",
+                "rasterByteLength": 380537,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 73,
+                "inkPixelsWithinFivePxOfPageEdge": 290,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 743
+                },
+                "textLinesMeasured": 20,
+                "textLinesOutsideMediaBox": 4,
+                "maximumRightOverrunPt": 37.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 5,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/boundary/page-005.png",
+                "rasterSha256": "4d06d59a31ac04421d603b1fb80d65f5dfaf823715e16c44a132e8ac4954a809",
+                "rasterByteLength": 981958,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 143,
+                "inkPixelsWithinFivePxOfPageEdge": 806,
+                "inkMarginsPx": {
+                  "left": 177,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 204
+                },
+                "textLinesMeasured": 34,
+                "textLinesOutsideMediaBox": 16,
+                "maximumRightOverrunPt": 65,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 6,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/boundary/page-006.png",
+                "rasterSha256": "59b7b2d5d4a695c85dcd70249799d5f1e270b02867443964f8268345b357d143",
+                "rasterByteLength": 694834,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 92,
+                "inkPixelsWithinFivePxOfPageEdge": 455,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 194,
+                  "right": 0,
+                  "bottom": 634
+                },
+                "textLinesMeasured": 27,
+                "textLinesOutsideMediaBox": 11,
+                "maximumRightOverrunPt": 54,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              }
+            ]
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::boundary",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::canonical",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "ks-municipal-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": null,
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "6/6 raster pages contain right-edge clipping; overlap was independently measured on every page and no text-overlap pair was found.",
+          "evidence": {
+            "clippingMeasuredOnEveryPage": true,
+            "overlapMeasuredOnEveryPage": true,
+            "directRasterInspectionOnEveryPage": true,
+            "clippedPages": 6,
+            "overlapPages": 0,
+            "maximumRightOverrunPt": 65,
+            "pages": [
+              {
+                "page": 1,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-001.png",
+                "rasterSha256": "3acd2d2dd443a429ce29dedc5542dab86af48978a55f11a0d112b55e79f47201",
+                "rasterByteLength": 765308,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 138,
+                "inkPixelsWithinFivePxOfPageEdge": 744,
+                "inkMarginsPx": {
+                  "left": 177,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 204
+                },
+                "textLinesMeasured": 33,
+                "textLinesOutsideMediaBox": 12,
+                "maximumRightOverrunPt": 59.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 2,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-002.png",
+                "rasterSha256": "60cd2eae3deb0d0610b1bd76451e6983ddf50d65ce4a976bb8f38659bf9ba538",
+                "rasterByteLength": 529726,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 94,
+                "inkPixelsWithinFivePxOfPageEdge": 295,
+                "inkMarginsPx": {
+                  "left": 180,
+                  "top": 177,
+                  "right": 0,
+                  "bottom": 240
+                },
+                "textLinesMeasured": 35,
+                "textLinesOutsideMediaBox": 6,
+                "maximumRightOverrunPt": 43,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 3,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-003.png",
+                "rasterSha256": "d67c6cc3f26e9ef870176b561d3bee022252df163c98a7f9a5ce5f855d7e9f4f",
+                "rasterByteLength": 424787,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 34,
+                "inkPixelsWithinFivePxOfPageEdge": 257,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 158,
+                  "right": 0,
+                  "bottom": 779
+                },
+                "textLinesMeasured": 22,
+                "textLinesOutsideMediaBox": 6,
+                "maximumRightOverrunPt": 48.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 4,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-004.png",
+                "rasterSha256": "3d784c39c50d164644ce42973efa7b54762796005f1eb9f595c86feb8d063c5d",
+                "rasterByteLength": 370358,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 73,
+                "inkPixelsWithinFivePxOfPageEdge": 290,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 743
+                },
+                "textLinesMeasured": 20,
+                "textLinesOutsideMediaBox": 4,
+                "maximumRightOverrunPt": 37.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 5,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-005.png",
+                "rasterSha256": "bf6a81f49740b5e1aeaefbad1f751cd16704b280e2cdf1bc919c343af980d4da",
+                "rasterByteLength": 974089,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 143,
+                "inkPixelsWithinFivePxOfPageEdge": 806,
+                "inkMarginsPx": {
+                  "left": 177,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 204
+                },
+                "textLinesMeasured": 34,
+                "textLinesOutsideMediaBox": 16,
+                "maximumRightOverrunPt": 65,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 6,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-006.png",
+                "rasterSha256": "59b7b2d5d4a695c85dcd70249799d5f1e270b02867443964f8268345b357d143",
+                "rasterByteLength": 694834,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 92,
+                "inkPixelsWithinFivePxOfPageEdge": 455,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 194,
+                  "right": 0,
+                  "bottom": 634
+                },
+                "textLinesMeasured": 27,
+                "textLinesOutsideMediaBox": 11,
+                "maximumRightOverrunPt": 54,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              }
+            ]
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::canonical",
+      "superseded": false
     },
     {
       "familyId": "rcap-ms-custom-pleading",

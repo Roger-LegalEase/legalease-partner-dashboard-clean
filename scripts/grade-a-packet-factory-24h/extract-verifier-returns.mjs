@@ -166,7 +166,7 @@ for (const { base, name: d } of sweep) {
   // design refuses.
   const isVerification = base === FACTORY_RETURNS
     ? (doc.laneKind ?? "") === "independent-verification" || /^vf\d+$/.test(d)
-    : /verif/i.test(d);
+    : /verif/i.test(d) || /independent-review/i.test(d);
   /*
    * Which obligations this lane actually scored. Lane contract L9 already
    * refuses a PASS_COMPLETE_INDEPENDENT awarded over a subset of them, and it
@@ -229,7 +229,7 @@ for (const { base, name: d } of sweep) {
        * side and recorded per-row bases to avoid stamping its commit onto
        * VF-SRC-A's rows in the files it shared.
        */
-      verifiedAtBase: r.verifiedAtBase ?? r.baseSha ?? null,
+      verifiedAtBase: r.verifiedAtBase ?? r.reviewBase ?? r.baseSha ?? null,
       ...(narrowlyScored ? {
         downgradedFrom: "PASS_COMPLETE_INDEPENDENT",
         downgradedBecause: `the lane scored ${PROOF_OBLIGATIONS.length - unscoredObligations.length} of ${PROOF_OBLIGATIONS.length} proof obligations; the strongest verdict is a claim about all of them`,
