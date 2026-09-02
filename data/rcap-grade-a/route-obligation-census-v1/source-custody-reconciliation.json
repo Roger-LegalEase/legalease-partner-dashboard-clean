@@ -146,13 +146,13 @@
   "whatAnAmbiguousFormNumberCosts": "The label is refused at tier 1, so any obligation naming it stays unresolved. Where the family also names the same documents by source-sha256 -- as Montana's two MMRTA families do -- nothing it holds changes; only the false claim that one label identified one of two required documents.",
   "acquisitionTasks": 295,
   "counts": {
-    "SOURCE_ALREADY_HELD": 117,
+    "SOURCE_ALREADY_HELD": 135,
     "SOURCE_REVISION_STALE": 0,
     "SOURCE_IDENTITY_UNRESOLVED": 130,
-    "SOURCE_GENUINELY_MISSING": 48
+    "SOURCE_GENUINELY_MISSING": 30
   },
-  "commissionAcquisitionFor": 178,
-  "doNotCommissionAcquisitionFor": 117,
+  "commissionAcquisitionFor": 160,
+  "doNotCommissionAcquisitionFor": 135,
   "rows": [
     {
       "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
@@ -324,9 +324,9 @@
         "AL"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 7,
       "documentSources": [
         {
@@ -344,14 +344,19 @@
         {
           "sourceId": "official-form:CR-65",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "al-felony-dwop-set",
@@ -360,9 +365,9 @@
         "AL"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 5,
       "documentSources": [
         {
@@ -380,14 +385,19 @@
         {
           "sourceId": "official-form:CR-65",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "al-felony-nonconviction-90-set",
@@ -396,9 +406,9 @@
         "AL"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 5,
       "documentSources": [
         {
@@ -416,14 +426,19 @@
         {
           "sourceId": "official-form:CR-65",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "al-misd-conviction-set",
@@ -432,9 +447,9 @@
         "AL"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 7,
       "documentSources": [
         {
@@ -452,14 +467,19 @@
         {
           "sourceId": "official-form:CR-65",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "al-misd-dwop-set",
@@ -468,9 +488,9 @@
         "AL"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 5,
       "documentSources": [
         {
@@ -488,14 +508,19 @@
         {
           "sourceId": "official-form:CR-65",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "al-misd-nonconviction-90-set",
@@ -504,9 +529,9 @@
         "AL"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 6,
       "documentSources": [
         {
@@ -524,14 +549,19 @@
         {
           "sourceId": "official-form:CR-65",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "al-pardon-set",
@@ -564,9 +594,9 @@
         "AL"
       ],
       "routeCount": 2,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 8,
       "documentSources": [
         {
@@ -584,14 +614,19 @@
         {
           "sourceId": "official-form:CR-65",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "al-trafficking-set",
@@ -600,9 +635,9 @@
         "AL"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 8,
       "documentSources": [
         {
@@ -620,14 +655,19 @@
         {
           "sourceId": "official-form:CR-65",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "ar-act346-set",
@@ -3256,22 +3296,27 @@
         "HI"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 5,
       "documentSources": [
         {
           "sourceId": "official-form:HCJDC-159B",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from https://ag.hawaii.gov/hcjdc/hcjdc-forms/ to https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "hi_dag_danc_expungement-set",
@@ -3280,22 +3325,27 @@
         "HI"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 5,
       "documentSources": [
         {
           "sourceId": "official-form:HCJDC-159B",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from https://ag.hawaii.gov/hcjdc/hcjdc-forms/ to https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "hi_nonconviction_expungement-set",
@@ -3304,22 +3354,27 @@
         "HI"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 6,
       "documentSources": [
         {
           "sourceId": "official-form:HCJDC-159B",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from https://ag.hawaii.gov/hcjdc/hcjdc-forms/ to https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "ia-12346-set",
@@ -5729,18 +5784,23 @@
         "MD"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 9,
       "documentSources": [
         {
           "sourceId": "official-form:CC-DC-CR-072C",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from the official publisher page to https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072c.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac"
+          }
         },
         {
           "sourceId": "official-form:CC-DC-CR-078",
@@ -5755,8 +5815,8 @@
           }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "md_10105_favorable-set",
@@ -5765,22 +5825,27 @@
         "MD"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 7,
       "documentSources": [
         {
           "sourceId": "official-form:CC-DC-CR-072A",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from the official publisher page to https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072A.pdf/ccdccr072A.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "md_10110_conviction-set",
@@ -5789,9 +5854,9 @@
         "MD"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 9,
       "documentSources": [
         {
@@ -5809,14 +5874,19 @@
         {
           "sourceId": "official-form:CC-DC-CR-072B",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from the official publisher page to https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "md_cannabis_petition-set",
@@ -5825,9 +5895,9 @@
         "MD"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 9,
       "documentSources": [
         {
@@ -5845,14 +5915,19 @@
         {
           "sourceId": "official-form:CC-DC-CR-072D",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from the official publisher page to https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072d.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "md_pardon_expungement-set",
@@ -5861,9 +5936,9 @@
         "MD"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 9,
       "documentSources": [
         {
@@ -5881,14 +5956,19 @@
         {
           "sourceId": "official-form:CC-DC-CR-072B",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from the official publisher page to https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "me-nonconv-set",
@@ -8889,22 +8969,27 @@
         "HI"
       ],
       "routeCount": 5,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 11,
       "documentSources": [
         {
           "sourceId": "official-form:HCJDC-159B",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from https://ag.hawaii.gov/hcjdc/hcjdc-forms/ to https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "rcap-in-custom-pleading",
@@ -10173,9 +10258,9 @@
         "UT"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 5,
-      "documentSourcesResolved": 4,
+      "documentSourcesResolved": 5,
       "nonDocumentSourceIds": 13,
       "documentSources": [
         {
@@ -10193,10 +10278,15 @@
         {
           "sourceId": "official-form:1023EX",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Resolved from https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html to https://legacy.utcourts.gov/howto/expunge/docs/1023EX_Order_Cannabis_Conviction.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Utah/1023EX_Order_Cannabis_Conviction.pdf and they hash to the same value at the same length.",
+          "heldAs": {
+            "path": "LegalEase Utah/1023EX_Order_Cannabis_Conviction.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "24868a504130440532dd51f47b212e925815abc91c086a3bf67d5c014b5d002a"
+          }
         },
         {
           "sourceId": "official-form:1044XX",
@@ -10235,8 +10325,8 @@
           }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "ut_pet_conviction-set",

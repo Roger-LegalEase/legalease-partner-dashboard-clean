@@ -20,12 +20,12 @@
     "EXACT_LEGAL_HOLD": "One named legal-design question must be answered before any treatment is safe."
   },
   "counts": {
-    "ATTACH_HELD_SOURCE": 83,
+    "ATTACH_HELD_SOURCE": 101,
     "ACQUIRE_EXACT_SOURCE": 69,
     "EXACT_LEGAL_HOLD": 3,
     "NON_PACKET_TREATMENT": 1,
     "COMPOSE_FROM_AUTHORITY": 8,
-    "EXACT_EXTERNAL_SOURCE_HOLD": 11
+    "EXACT_EXTERNAL_SOURCE_HOLD": 22
   },
   "familiesClassified": 161,
   "familiesInCohort": 70,
@@ -9972,6 +9972,1555 @@
           ]
         }
       ],
+      "whatThisDoesNotEstablish": "It records custody and identity. It does not make the bytes openable by any builder, and the family stays source-blocked until they are installed into a local custody."
+    },
+    {
+      "familyId": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
+      "class": "EXACT_EXTERNAL_SOURCE_HOLD",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms, and unlike the fifteen documents in the same cohort that turned out to be already held, these are in no local custody: the corpus index carries no entry at their SHA-256 and no container here can open them. Identity, currentness and preservation are established; the bytes are not available to a builder.",
+      "jurisdiction": null,
+      "formsNamedByFamily": [
+        "CR-432"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": null,
+          "officialTitle": "Order on Petition—Incarcerated Individual Hand Crew or Institutional Firehouse Participant",
+          "issuingAuthority": "Judicial Council of California",
+          "namedInFamiliesAs": [
+            "CR-432"
+          ],
+          "printedFormNumber": "CR-432",
+          "revisionOrEffectiveDate": "Rev. January 1, 2024, Optional Form",
+          "sourceUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr432.pdf",
+          "retrievalDate": "2026-09-02T17:56:12.248Z",
+          "identityEvidence": "Resolved from the official publisher page to https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr432.pdf; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1PtXCgSbU_i86XEJC7Een4FGo1ZAdhyv8",
+            "storedTitle": "CODEX-CS1-SRC1__CR-432__8ef45f07cf9f.pdf",
+            "sha256": "8ef45f07cf9fac15af97addd4f7b7d5f08e2b5ad4b4134cf002484821bc0c43e",
+            "byteLength": 109666,
+            "byteLengthVerifiedByReadback": null,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T17:56:12.248Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:CR-432",
+          "servesFamilies": [
+            "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [],
+      "whatThisDoesNotEstablish": "It records custody and identity. It does not make the bytes openable by any builder, and the family stays source-blocked until they are installed into a local custody."
+    },
+    {
+      "familyId": "al-diversion-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "AL",
+      "formsNamedByFamily": [
+        "CR-65"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "AL",
+          "officialTitle": null,
+          "issuingAuthority": null,
+          "namedInFamiliesAs": [
+            "CR-65"
+          ],
+          "printedFormNumber": null,
+          "revisionOrEffectiveDate": null,
+          "sourceUrl": null,
+          "retrievalDate": "2026-09-02T19:56:58.910Z",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "byteLength": 468056,
+            "pageCount": 8
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:CR-65",
+          "servesFamilies": [
+            "al-diversion-set",
+            "al-felony-dwop-set",
+            "al-felony-nonconviction-90-set",
+            "al-misd-conviction-set",
+            "al-misd-dwop-set",
+            "al-misd-nonconviction-90-set",
+            "al-pardoned-felony-set",
+            "al-trafficking-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "al-felony-dwop-set",
+        "al-felony-nonconviction-90-set",
+        "al-misd-conviction-set",
+        "al-misd-dwop-set",
+        "al-misd-nonconviction-90-set",
+        "al-pardoned-felony-set",
+        "al-trafficking-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "al-felony-dwop-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "AL",
+      "formsNamedByFamily": [
+        "CR-65"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "AL",
+          "officialTitle": null,
+          "issuingAuthority": null,
+          "namedInFamiliesAs": [
+            "CR-65"
+          ],
+          "printedFormNumber": null,
+          "revisionOrEffectiveDate": null,
+          "sourceUrl": null,
+          "retrievalDate": "2026-09-02T19:56:58.910Z",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "byteLength": 468056,
+            "pageCount": 8
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:CR-65",
+          "servesFamilies": [
+            "al-diversion-set",
+            "al-felony-dwop-set",
+            "al-felony-nonconviction-90-set",
+            "al-misd-conviction-set",
+            "al-misd-dwop-set",
+            "al-misd-nonconviction-90-set",
+            "al-pardoned-felony-set",
+            "al-trafficking-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "al-diversion-set",
+        "al-felony-nonconviction-90-set",
+        "al-misd-conviction-set",
+        "al-misd-dwop-set",
+        "al-misd-nonconviction-90-set",
+        "al-pardoned-felony-set",
+        "al-trafficking-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "AL",
+      "formsNamedByFamily": [
+        "CR-65"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "AL",
+          "officialTitle": null,
+          "issuingAuthority": null,
+          "namedInFamiliesAs": [
+            "CR-65"
+          ],
+          "printedFormNumber": null,
+          "revisionOrEffectiveDate": null,
+          "sourceUrl": null,
+          "retrievalDate": "2026-09-02T19:56:58.910Z",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "byteLength": 468056,
+            "pageCount": 8
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:CR-65",
+          "servesFamilies": [
+            "al-diversion-set",
+            "al-felony-dwop-set",
+            "al-felony-nonconviction-90-set",
+            "al-misd-conviction-set",
+            "al-misd-dwop-set",
+            "al-misd-nonconviction-90-set",
+            "al-pardoned-felony-set",
+            "al-trafficking-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "al-diversion-set",
+        "al-felony-dwop-set",
+        "al-misd-conviction-set",
+        "al-misd-dwop-set",
+        "al-misd-nonconviction-90-set",
+        "al-pardoned-felony-set",
+        "al-trafficking-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "al-misd-conviction-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "AL",
+      "formsNamedByFamily": [
+        "CR-65"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "AL",
+          "officialTitle": null,
+          "issuingAuthority": null,
+          "namedInFamiliesAs": [
+            "CR-65"
+          ],
+          "printedFormNumber": null,
+          "revisionOrEffectiveDate": null,
+          "sourceUrl": null,
+          "retrievalDate": "2026-09-02T19:56:58.910Z",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "byteLength": 468056,
+            "pageCount": 8
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:CR-65",
+          "servesFamilies": [
+            "al-diversion-set",
+            "al-felony-dwop-set",
+            "al-felony-nonconviction-90-set",
+            "al-misd-conviction-set",
+            "al-misd-dwop-set",
+            "al-misd-nonconviction-90-set",
+            "al-pardoned-felony-set",
+            "al-trafficking-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "al-diversion-set",
+        "al-felony-dwop-set",
+        "al-felony-nonconviction-90-set",
+        "al-misd-dwop-set",
+        "al-misd-nonconviction-90-set",
+        "al-pardoned-felony-set",
+        "al-trafficking-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "al-misd-dwop-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "AL",
+      "formsNamedByFamily": [
+        "CR-65"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "AL",
+          "officialTitle": null,
+          "issuingAuthority": null,
+          "namedInFamiliesAs": [
+            "CR-65"
+          ],
+          "printedFormNumber": null,
+          "revisionOrEffectiveDate": null,
+          "sourceUrl": null,
+          "retrievalDate": "2026-09-02T19:56:58.910Z",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "byteLength": 468056,
+            "pageCount": 8
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:CR-65",
+          "servesFamilies": [
+            "al-diversion-set",
+            "al-felony-dwop-set",
+            "al-felony-nonconviction-90-set",
+            "al-misd-conviction-set",
+            "al-misd-dwop-set",
+            "al-misd-nonconviction-90-set",
+            "al-pardoned-felony-set",
+            "al-trafficking-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "al-diversion-set",
+        "al-felony-dwop-set",
+        "al-felony-nonconviction-90-set",
+        "al-misd-conviction-set",
+        "al-misd-nonconviction-90-set",
+        "al-pardoned-felony-set",
+        "al-trafficking-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "al-misd-nonconviction-90-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "AL",
+      "formsNamedByFamily": [
+        "CR-65"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "AL",
+          "officialTitle": null,
+          "issuingAuthority": null,
+          "namedInFamiliesAs": [
+            "CR-65"
+          ],
+          "printedFormNumber": null,
+          "revisionOrEffectiveDate": null,
+          "sourceUrl": null,
+          "retrievalDate": "2026-09-02T19:56:58.910Z",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "byteLength": 468056,
+            "pageCount": 8
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:CR-65",
+          "servesFamilies": [
+            "al-diversion-set",
+            "al-felony-dwop-set",
+            "al-felony-nonconviction-90-set",
+            "al-misd-conviction-set",
+            "al-misd-dwop-set",
+            "al-misd-nonconviction-90-set",
+            "al-pardoned-felony-set",
+            "al-trafficking-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "al-diversion-set",
+        "al-felony-dwop-set",
+        "al-felony-nonconviction-90-set",
+        "al-misd-conviction-set",
+        "al-misd-dwop-set",
+        "al-pardoned-felony-set",
+        "al-trafficking-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "al-pardoned-felony-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "AL",
+      "formsNamedByFamily": [
+        "CR-65"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "AL",
+          "officialTitle": null,
+          "issuingAuthority": null,
+          "namedInFamiliesAs": [
+            "CR-65"
+          ],
+          "printedFormNumber": null,
+          "revisionOrEffectiveDate": null,
+          "sourceUrl": null,
+          "retrievalDate": "2026-09-02T19:56:58.910Z",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "byteLength": 468056,
+            "pageCount": 8
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:CR-65",
+          "servesFamilies": [
+            "al-diversion-set",
+            "al-felony-dwop-set",
+            "al-felony-nonconviction-90-set",
+            "al-misd-conviction-set",
+            "al-misd-dwop-set",
+            "al-misd-nonconviction-90-set",
+            "al-pardoned-felony-set",
+            "al-trafficking-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "al-diversion-set",
+        "al-felony-dwop-set",
+        "al-felony-nonconviction-90-set",
+        "al-misd-conviction-set",
+        "al-misd-dwop-set",
+        "al-misd-nonconviction-90-set",
+        "al-trafficking-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "al-trafficking-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "AL",
+      "formsNamedByFamily": [
+        "CR-65"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "AL",
+          "officialTitle": null,
+          "issuingAuthority": null,
+          "namedInFamiliesAs": [
+            "CR-65"
+          ],
+          "printedFormNumber": null,
+          "revisionOrEffectiveDate": null,
+          "sourceUrl": null,
+          "retrievalDate": "2026-09-02T19:56:58.910Z",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "byteLength": 468056,
+            "pageCount": 8
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:CR-65",
+          "servesFamilies": [
+            "al-diversion-set",
+            "al-felony-dwop-set",
+            "al-felony-nonconviction-90-set",
+            "al-misd-conviction-set",
+            "al-misd-dwop-set",
+            "al-misd-nonconviction-90-set",
+            "al-pardoned-felony-set",
+            "al-trafficking-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "al-diversion-set",
+        "al-felony-dwop-set",
+        "al-felony-nonconviction-90-set",
+        "al-misd-conviction-set",
+        "al-misd-dwop-set",
+        "al-misd-nonconviction-90-set",
+        "al-pardoned-felony-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "al-pardon-set",
+      "class": "EXACT_EXTERNAL_SOURCE_HOLD",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms, and unlike the fifteen documents in the same cohort that turned out to be already held, these are in no local custody: the corpus index carries no entry at their SHA-256 and no container here can open them. Identity, currentness and preservation are established; the bytes are not available to a builder.",
+      "jurisdiction": "AL",
+      "formsNamedByFamily": [
+        "ABPP-3"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "AL",
+          "officialTitle": null,
+          "issuingAuthority": null,
+          "namedInFamiliesAs": [
+            "ABPP-3"
+          ],
+          "printedFormNumber": null,
+          "revisionOrEffectiveDate": null,
+          "sourceUrl": null,
+          "retrievalDate": "2026-09-02T19:57:25.173Z",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1gtsVBXAjLedr0MzrF6eMNWBw3rw-NVkh",
+            "storedTitle": "CODEX-CS1-SRC2__ABPP-3__874e738a83c3.pdf",
+            "sha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
+            "byteLength": 160009,
+            "byteLengthVerifiedByReadback": 160009,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T19:57:25.173Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:ABPP-3",
+          "servesFamilies": [
+            "al-pardon-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [],
+      "whatThisDoesNotEstablish": "It records custody and identity. It does not make the bytes openable by any builder, and the family stays source-blocked until they are installed into a local custody."
+    },
+    {
+      "familyId": "mo-575-120-identity-theft-correction-set",
+      "class": "EXACT_EXTERNAL_SOURCE_HOLD",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms, and unlike the fifteen documents in the same cohort that turned out to be already held, these are in no local custody: the corpus index carries no entry at their SHA-256 and no container here can open them. Identity, currentness and preservation are established; the bytes are not available to a builder.",
+      "jurisdiction": "MO",
+      "formsNamedByFamily": [
+        "CR310"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "MO",
+          "officialTitle": null,
+          "issuingAuthority": null,
+          "namedInFamiliesAs": [
+            "CR310"
+          ],
+          "printedFormNumber": null,
+          "revisionOrEffectiveDate": null,
+          "sourceUrl": null,
+          "retrievalDate": "2026-09-02T19:57:29.151Z",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1S-dg44ushGUcYAALjEgYBKmjieRl3QsY",
+            "storedTitle": "CODEX-CS1-SRC2__CR310__2592efa5a9cb.pdf",
+            "sha256": "2592efa5a9cbe170a7a7f19e3e0e13c9687d9ab9c92049998f3685c0183b6509",
+            "byteLength": 106723,
+            "byteLengthVerifiedByReadback": 106723,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T19:57:29.151Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:CR310",
+          "servesFamilies": [
+            "mo-575-120-identity-theft-correction-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [],
+      "whatThisDoesNotEstablish": "It records custody and identity. It does not make the bytes openable by any builder, and the family stays source-blocked until they are installed into a local custody."
+    },
+    {
+      "familyId": "mo-610-122-arrest-expungement-set",
+      "class": "EXACT_EXTERNAL_SOURCE_HOLD",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms, and unlike the fifteen documents in the same cohort that turned out to be already held, these are in no local custody: the corpus index carries no entry at their SHA-256 and no container here can open them. Identity, currentness and preservation are established; the bytes are not available to a builder.",
+      "jurisdiction": "MO",
+      "formsNamedByFamily": [
+        "CR143"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "MO",
+          "officialTitle": null,
+          "issuingAuthority": null,
+          "namedInFamiliesAs": [
+            "CR143"
+          ],
+          "printedFormNumber": null,
+          "revisionOrEffectiveDate": null,
+          "sourceUrl": null,
+          "retrievalDate": "2026-09-02T19:57:32.603Z",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1cn8Gu8gAgTWi4pLYqPne4CXvUqWUN85Z",
+            "storedTitle": "CODEX-CS1-SRC2__CR143__e39619185578.pdf",
+            "sha256": "e39619185578a4a29ef99e7c91b71c1346309bf91ab2b4670a01711b5a4c1441",
+            "byteLength": 69818,
+            "byteLengthVerifiedByReadback": 69818,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T19:57:32.603Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:CR143",
+          "servesFamilies": [
+            "mo-610-122-arrest-expungement-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [],
+      "whatThisDoesNotEstablish": "It records custody and identity. It does not make the bytes openable by any builder, and the family stays source-blocked until they are installed into a local custody."
+    },
+    {
+      "familyId": "mo-610-140-arrest-set",
+      "class": "EXACT_EXTERNAL_SOURCE_HOLD",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms, and unlike the fifteen documents in the same cohort that turned out to be already held, these are in no local custody: the corpus index carries no entry at their SHA-256 and no container here can open them. Identity, currentness and preservation are established; the bytes are not available to a builder.",
+      "jurisdiction": "MO",
+      "formsNamedByFamily": [
+        "CR370"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "MO",
+          "officialTitle": null,
+          "issuingAuthority": null,
+          "namedInFamiliesAs": [
+            "CR370"
+          ],
+          "printedFormNumber": null,
+          "revisionOrEffectiveDate": null,
+          "sourceUrl": null,
+          "retrievalDate": "2026-09-02T19:57:36.567Z",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1mcBDDIGVtm05PZraqLUOgmWVo1d8hT_d",
+            "storedTitle": "CODEX-CS1-SRC2__CR370__8a4d32d66d3f.pdf",
+            "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+            "byteLength": 103658,
+            "byteLengthVerifiedByReadback": 103658,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T19:57:36.567Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:CR370",
+          "servesFamilies": [
+            "mo-610-140-arrest-set",
+            "mo-610-140-conviction-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "mo-610-140-conviction-set"
+      ],
+      "whatThisDoesNotEstablish": "It records custody and identity. It does not make the bytes openable by any builder, and the family stays source-blocked until they are installed into a local custody."
+    },
+    {
+      "familyId": "mo-610-140-conviction-set",
+      "class": "EXACT_EXTERNAL_SOURCE_HOLD",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms, and unlike the fifteen documents in the same cohort that turned out to be already held, these are in no local custody: the corpus index carries no entry at their SHA-256 and no container here can open them. Identity, currentness and preservation are established; the bytes are not available to a builder.",
+      "jurisdiction": "MO",
+      "formsNamedByFamily": [
+        "CR370"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "MO",
+          "officialTitle": null,
+          "issuingAuthority": null,
+          "namedInFamiliesAs": [
+            "CR370"
+          ],
+          "printedFormNumber": null,
+          "revisionOrEffectiveDate": null,
+          "sourceUrl": null,
+          "retrievalDate": "2026-09-02T19:57:36.567Z",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1mcBDDIGVtm05PZraqLUOgmWVo1d8hT_d",
+            "storedTitle": "CODEX-CS1-SRC2__CR370__8a4d32d66d3f.pdf",
+            "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+            "byteLength": 103658,
+            "byteLengthVerifiedByReadback": 103658,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T19:57:36.567Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:CR370",
+          "servesFamilies": [
+            "mo-610-140-arrest-set",
+            "mo-610-140-conviction-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "mo-610-140-arrest-set"
+      ],
+      "whatThisDoesNotEstablish": "It records custody and identity. It does not make the bytes openable by any builder, and the family stays source-blocked until they are installed into a local custody."
+    },
+    {
+      "familyId": "mo-610-145-mistaken-identity-set",
+      "class": "EXACT_EXTERNAL_SOURCE_HOLD",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms, and unlike the fifteen documents in the same cohort that turned out to be already held, these are in no local custody: the corpus index carries no entry at their SHA-256 and no container here can open them. Identity, currentness and preservation are established; the bytes are not available to a builder.",
+      "jurisdiction": "MO",
+      "formsNamedByFamily": [
+        "CR311"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "MO",
+          "officialTitle": null,
+          "issuingAuthority": null,
+          "namedInFamiliesAs": [
+            "CR311"
+          ],
+          "printedFormNumber": null,
+          "revisionOrEffectiveDate": null,
+          "sourceUrl": null,
+          "retrievalDate": "2026-09-02T19:57:42.473Z",
+          "identityEvidence": "Resolved from the official publisher page to undefined; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1r45LLdLn0xlMtniVGyHIBGAbkIOa7eG5",
+            "storedTitle": "CODEX-CS1-SRC2__CR311__3ce91ab2c9bb.pdf",
+            "sha256": "3ce91ab2c9bbcdb4f20cb72e99ee786a1b2e1979c2bc72831452addaff0eef40",
+            "byteLength": 97529,
+            "byteLengthVerifiedByReadback": 97529,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T19:57:42.473Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:CR311",
+          "servesFamilies": [
+            "mo-610-145-mistaken-identity-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [],
+      "whatThisDoesNotEstablish": "It records custody and identity. It does not make the bytes openable by any builder, and the family stays source-blocked until they are installed into a local custody."
+    },
+    {
+      "familyId": "md_10110_conviction-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "MD",
+      "formsNamedByFamily": [
+        "CC-DC-CR-072B"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "MD",
+          "officialTitle": "PETITION FOR EXPUNGEMENT OF RECORDS (NON-MARIJUANA/CANNABIS RELATED OFFENSES) (GUILTY DISPOSITION)",
+          "issuingAuthority": "Maryland Judiciary, Circuit Court and District Court of Maryland",
+          "namedInFamiliesAs": [
+            "CC-DC-CR-072B"
+          ],
+          "printedFormNumber": "CC-DC-CR-072B",
+          "revisionOrEffectiveDate": "Rev. 10/01/2025-2",
+          "sourceUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf",
+          "retrievalDate": "2026-09-02T20:02:09.033Z",
+          "identityEvidence": "Resolved from the official publisher page to https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+            "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "byteLength": 764936,
+            "pageCount": 1
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "CC-DC-CR-072B",
+          "servesFamilies": [
+            "md_10110_conviction-set",
+            "md_pardon_expungement-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "md_pardon_expungement-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "md_pardon_expungement-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "MD",
+      "formsNamedByFamily": [
+        "CC-DC-CR-072B"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "MD",
+          "officialTitle": "PETITION FOR EXPUNGEMENT OF RECORDS (NON-MARIJUANA/CANNABIS RELATED OFFENSES) (GUILTY DISPOSITION)",
+          "issuingAuthority": "Maryland Judiciary, Circuit Court and District Court of Maryland",
+          "namedInFamiliesAs": [
+            "CC-DC-CR-072B"
+          ],
+          "printedFormNumber": "CC-DC-CR-072B",
+          "revisionOrEffectiveDate": "Rev. 10/01/2025-2",
+          "sourceUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf",
+          "retrievalDate": "2026-09-02T20:02:09.033Z",
+          "identityEvidence": "Resolved from the official publisher page to https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+            "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "byteLength": 764936,
+            "pageCount": 1
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "CC-DC-CR-072B",
+          "servesFamilies": [
+            "md_10110_conviction-set",
+            "md_pardon_expungement-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "md_10110_conviction-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "md_10105_early-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "MD",
+      "formsNamedByFamily": [
+        "CC-DC-CR-072C"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "MD",
+          "officialTitle": "PETITION FOR EXPUNGEMENT OF RECORDS — Acquittal, Dismissal, Not Guilty, or Nolle Prosequi (LESS THAN 3 YEARS HAS PASSED SINCE DISPOSITION)",
+          "issuingAuthority": "Maryland Judiciary, Circuit Court and District Court of Maryland",
+          "namedInFamiliesAs": [
+            "CC-DC-CR-072C"
+          ],
+          "printedFormNumber": "CC-DC-CR-072C",
+          "revisionOrEffectiveDate": "Rev. 01/2025",
+          "sourceUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072c.pdf",
+          "retrievalDate": "2026-09-02T20:02:13.582Z",
+          "identityEvidence": "Resolved from the official publisher page to https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072c.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf",
+            "sha256": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+            "byteLength": 888008,
+            "pageCount": 1
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "CC-DC-CR-072C",
+          "servesFamilies": [
+            "md_10105_early-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "md_cannabis_petition-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "MD",
+      "formsNamedByFamily": [
+        "CC-DC-CR-072D"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "MD",
+          "officialTitle": "PETITION FOR EXPUNGEMENT OF RECORDS (MARIJUANA/CANNABIS RELATED OFFENSES)",
+          "issuingAuthority": "Maryland Judiciary, Circuit Court and District Court of Maryland",
+          "namedInFamiliesAs": [
+            "CC-DC-CR-072D"
+          ],
+          "printedFormNumber": "CC-DC-CR-072D",
+          "revisionOrEffectiveDate": "Rev. 10/2025",
+          "sourceUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072d.pdf",
+          "retrievalDate": "2026-09-02T20:02:17.980Z",
+          "identityEvidence": "Resolved from the official publisher page to https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072d.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf",
+            "sha256": "6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147",
+            "byteLength": 166429,
+            "pageCount": 1
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "CC-DC-CR-072D",
+          "servesFamilies": [
+            "md_cannabis_petition-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "md_10105_favorable-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "MD",
+      "formsNamedByFamily": [
+        "CC-DC-CR-072A"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "MD",
+          "officialTitle": "PETITION FOR EXPUNGEMENT OF RECORDS (ACQUITTAL, DISMISSAL, PROBATION BEFORE JUDGMENT, NOLLE PROSEQUI, STET, NOT CRIMINALLY RESPONSIBLE, OR TRANSFER TO JUVENILE DISPOSITION)",
+          "issuingAuthority": "Maryland Judiciary, Circuit Court and District Court of Maryland",
+          "namedInFamiliesAs": [
+            "CC-DC-CR-072A"
+          ],
+          "printedFormNumber": "CC-DC-CR-072A",
+          "revisionOrEffectiveDate": "Rev. 09/2025; current on 2026-09-02 because the separately listed 10/2026 edition is marked not effective until 10/01/2026",
+          "sourceUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072A.pdf/ccdccr072A.pdf",
+          "retrievalDate": "2026-09-02T20:02:21.640Z",
+          "identityEvidence": "Resolved from the official publisher page to https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072A.pdf/ccdccr072A.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf",
+            "sha256": "8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2",
+            "byteLength": 195791,
+            "pageCount": 1
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "CC-DC-CR-072A",
+          "servesFamilies": [
+            "md_10105_favorable-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "hi_712_1200_deferred_expungement-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "HI",
+      "formsNamedByFamily": [
+        "HCJDC-159B"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "HI",
+          "officialTitle": "Expungement Application",
+          "issuingAuthority": "Hawaii Criminal Justice Data Center, Department of the Attorney General",
+          "namedInFamiliesAs": [
+            "HCJDC-159B"
+          ],
+          "printedFormNumber": "HCJDC 159(b)",
+          "revisionOrEffectiveDate": "Rev. 06/03/2026",
+          "sourceUrl": "https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+          "retrievalDate": "2026-09-02T19:59:49.014Z",
+          "identityEvidence": "Resolved from https://ag.hawaii.gov/hcjdc/hcjdc-forms/ to https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+            "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+            "byteLength": 181711,
+            "pageCount": 1
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:HCJDC-159B",
+          "servesFamilies": [
+            "hi_712_1200_deferred_expungement-set",
+            "hi_dag_danc_expungement-set",
+            "hi_nonconviction_expungement-set",
+            "rcap-hi-custom-pleading"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "hi_dag_danc_expungement-set",
+        "hi_nonconviction_expungement-set",
+        "rcap-hi-custom-pleading"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "hi_dag_danc_expungement-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "HI",
+      "formsNamedByFamily": [
+        "HCJDC-159B"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "HI",
+          "officialTitle": "Expungement Application",
+          "issuingAuthority": "Hawaii Criminal Justice Data Center, Department of the Attorney General",
+          "namedInFamiliesAs": [
+            "HCJDC-159B"
+          ],
+          "printedFormNumber": "HCJDC 159(b)",
+          "revisionOrEffectiveDate": "Rev. 06/03/2026",
+          "sourceUrl": "https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+          "retrievalDate": "2026-09-02T19:59:49.014Z",
+          "identityEvidence": "Resolved from https://ag.hawaii.gov/hcjdc/hcjdc-forms/ to https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+            "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+            "byteLength": 181711,
+            "pageCount": 1
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:HCJDC-159B",
+          "servesFamilies": [
+            "hi_712_1200_deferred_expungement-set",
+            "hi_dag_danc_expungement-set",
+            "hi_nonconviction_expungement-set",
+            "rcap-hi-custom-pleading"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "hi_712_1200_deferred_expungement-set",
+        "hi_nonconviction_expungement-set",
+        "rcap-hi-custom-pleading"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "hi_nonconviction_expungement-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "HI",
+      "formsNamedByFamily": [
+        "HCJDC-159B"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "HI",
+          "officialTitle": "Expungement Application",
+          "issuingAuthority": "Hawaii Criminal Justice Data Center, Department of the Attorney General",
+          "namedInFamiliesAs": [
+            "HCJDC-159B"
+          ],
+          "printedFormNumber": "HCJDC 159(b)",
+          "revisionOrEffectiveDate": "Rev. 06/03/2026",
+          "sourceUrl": "https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+          "retrievalDate": "2026-09-02T19:59:49.014Z",
+          "identityEvidence": "Resolved from https://ag.hawaii.gov/hcjdc/hcjdc-forms/ to https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+            "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+            "byteLength": 181711,
+            "pageCount": 1
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:HCJDC-159B",
+          "servesFamilies": [
+            "hi_712_1200_deferred_expungement-set",
+            "hi_dag_danc_expungement-set",
+            "hi_nonconviction_expungement-set",
+            "rcap-hi-custom-pleading"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "hi_712_1200_deferred_expungement-set",
+        "hi_dag_danc_expungement-set",
+        "rcap-hi-custom-pleading"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "HI",
+      "formsNamedByFamily": [
+        "HCJDC-159B"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "HI",
+          "officialTitle": "Expungement Application",
+          "issuingAuthority": "Hawaii Criminal Justice Data Center, Department of the Attorney General",
+          "namedInFamiliesAs": [
+            "HCJDC-159B"
+          ],
+          "printedFormNumber": "HCJDC 159(b)",
+          "revisionOrEffectiveDate": "Rev. 06/03/2026",
+          "sourceUrl": "https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+          "retrievalDate": "2026-09-02T19:59:49.014Z",
+          "identityEvidence": "Resolved from https://ag.hawaii.gov/hcjdc/hcjdc-forms/ to https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+            "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+            "byteLength": 181711,
+            "pageCount": 1
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:HCJDC-159B",
+          "servesFamilies": [
+            "hi_712_1200_deferred_expungement-set",
+            "hi_dag_danc_expungement-set",
+            "hi_nonconviction_expungement-set",
+            "rcap-hi-custom-pleading"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [
+        "hi_712_1200_deferred_expungement-set",
+        "hi_dag_danc_expungement-set",
+        "hi_nonconviction_expungement-set"
+      ],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "nc_145_8a_youthful-set",
+      "class": "EXACT_EXTERNAL_SOURCE_HOLD",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms, and unlike the fifteen documents in the same cohort that turned out to be already held, these are in no local custody: the corpus index carries no entry at their SHA-256 and no container here can open them. Identity, currentness and preservation are established; the bytes are not available to a builder.",
+      "jurisdiction": "NC",
+      "formsNamedByFamily": [
+        "AOC-CR-293",
+        "AOC-CR-293-INSTRUCTIONS"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "NC",
+          "officialTitle": "Petition And Order Of Expunction Under G.S. 15A-145.8A (Non-Traffic Misdemeanor Or Felony Under Age 18 Committed Before Raise The Age)",
+          "issuingAuthority": "North Carolina Administrative Office of the Courts",
+          "namedInFamiliesAs": [
+            "AOC-CR-293"
+          ],
+          "printedFormNumber": "AOC-CR-293",
+          "revisionOrEffectiveDate": "Rev. 3/25",
+          "sourceUrl": "https://www.nccourts.gov/assets/documents/forms/cr293_2.pdf?VersionId=rgwpGKAVYVHndEQ4K4Eh78MI4ojhIqOa",
+          "retrievalDate": "2026-09-02T19:59:53.121Z",
+          "identityEvidence": "Resolved from https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1458a-non-traffic-misdemeanor-or-felony-under-age-18-committed-before-raise-the-age-instructions-for-petition-and-order-of-expunction-under-gs-15a-1458a-non-traffic-misdemeanor-or-felony-under to https://www.nccourts.gov/assets/documents/forms/cr293_2.pdf?VersionId=rgwpGKAVYVHndEQ4K4Eh78MI4ojhIqOa; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1IBHAQ2Dh9IWymWZwI1R7SsAucyBEdy9N",
+            "storedTitle": "CODEX-CS1-SRC4__AOC-CR-293__37308914289a.pdf",
+            "sha256": "37308914289a01649bd5cf009a91902386d6ec9658de8d7a1f99054b31310086",
+            "byteLength": 271932,
+            "byteLengthVerifiedByReadback": 271932,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T19:59:53.121Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:AOC-CR-293",
+          "servesFamilies": [
+            "nc_145_8a_youthful-set"
+          ]
+        },
+        {
+          "jurisdiction": "NC",
+          "officialTitle": "Instructions For Petition And Order Of Expunction Under G.S. 15A-145.8A (Non-Traffic Misdemeanor Or Felony Under Age 18 Committed Before Raise The Age)",
+          "issuingAuthority": "North Carolina Administrative Office of the Courts",
+          "namedInFamiliesAs": [
+            "AOC-CR-293-INSTRUCTIONS"
+          ],
+          "printedFormNumber": "AOC-CR-293 Instructions",
+          "revisionOrEffectiveDate": "Rev. 3/25",
+          "sourceUrl": "https://www.nccourts.gov/assets/documents/forms/cr293-instr_2.pdf?VersionId=uFnzcvZeem1dUhdM1uo2BazhD1pqME5t",
+          "retrievalDate": "2026-09-02T19:59:57.005Z",
+          "identityEvidence": "Resolved from https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1458a-non-traffic-misdemeanor-or-felony-under-age-18-committed-before-raise-the-age-instructions-for-petition-and-order-of-expunction-under-gs-15a-1458a-non-traffic-misdemeanor-or-felony-under to https://www.nccourts.gov/assets/documents/forms/cr293-instr_2.pdf?VersionId=uFnzcvZeem1dUhdM1uo2BazhD1pqME5t; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1dLzbn4_9v8A3ZcJSRK4_1PANMofHXo6V",
+            "storedTitle": "CODEX-CS1-SRC4__AOC-CR-293-INSTRUCTIONS__ae9e161bf5a1.pdf",
+            "sha256": "ae9e161bf5a190b2956662216afe5738f99be4416d5902e66a3c3bea5fe87fe3",
+            "byteLength": 217181,
+            "byteLengthVerifiedByReadback": 217181,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T19:59:57.005Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:AOC-CR-293-INSTRUCTIONS",
+          "servesFamilies": [
+            "nc_145_8a_youthful-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [],
+      "whatThisDoesNotEstablish": "It records custody and identity. It does not make the bytes openable by any builder, and the family stays source-blocked until they are installed into a local custody."
+    },
+    {
+      "familyId": "nc_auto_146_a4_agency_followup-set",
+      "class": "EXACT_EXTERNAL_SOURCE_HOLD",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms, and unlike the fifteen documents in the same cohort that turned out to be already held, these are in no local custody: the corpus index carries no entry at their SHA-256 and no container here can open them. Identity, currentness and preservation are established; the bytes are not available to a builder.",
+      "jurisdiction": "NC",
+      "formsNamedByFamily": [
+        "AOC-G-260"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "NC",
+          "officialTitle": "Application For Certificate Of Verification Of Prior Expunction Or Discharge",
+          "issuingAuthority": "North Carolina Administrative Office of the Courts",
+          "namedInFamiliesAs": [
+            "AOC-G-260"
+          ],
+          "printedFormNumber": "AOC-G-260",
+          "revisionOrEffectiveDate": "Rev. 5/24",
+          "sourceUrl": "https://www.nccourts.gov/assets/documents/forms/g260_5.pdf?VersionId=PbAgEuc8h_WO4G4DqVUGojz2f6FE96_f",
+          "retrievalDate": "2026-09-02T20:00:00.876Z",
+          "identityEvidence": "Resolved from https://www.nccourts.gov/documents/forms/application-for-certificate-of-verification-of-prior-expunction-or-discharge to https://www.nccourts.gov/assets/documents/forms/g260_5.pdf?VersionId=PbAgEuc8h_WO4G4DqVUGojz2f6FE96_f; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1Hxui0PCjlfPlsImFv2gnFYDs4Sux4yNQ",
+            "storedTitle": "CODEX-CS1-SRC4__AOC-G-260__cf998cecefea.pdf",
+            "sha256": "cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817",
+            "byteLength": 290429,
+            "byteLengthVerifiedByReadback": 290429,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T20:00:00.876Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:AOC-G-260",
+          "servesFamilies": [
+            "nc_auto_146_a4_agency_followup-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [],
+      "whatThisDoesNotEstablish": "It records custody and identity. It does not make the bytes openable by any builder, and the family stays source-blocked until they are installed into a local custody."
+    },
+    {
+      "familyId": "ut_pet_remove_link-set",
+      "class": "EXACT_EXTERNAL_SOURCE_HOLD",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms, and unlike the fifteen documents in the same cohort that turned out to be already held, these are in no local custody: the corpus index carries no entry at their SHA-256 and no container here can open them. Identity, currentness and preservation are established; the bytes are not available to a builder.",
+      "jurisdiction": "UT",
+      "formsNamedByFamily": [
+        "1501CR",
+        "1501CR-C",
+        "1502CR"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "UT",
+          "officialTitle": "Motion to Remove Link Between Personal Identifying Information and Dismissed Criminal Case or Denied Request for Civil Protective Order or Civil Stalking Injunction",
+          "issuingAuthority": "Utah State Courts",
+          "namedInFamiliesAs": [
+            "1501CR"
+          ],
+          "printedFormNumber": "1501CRF",
+          "revisionOrEffectiveDate": "Approved June 11, 2018; Revised April 8, 2024",
+          "sourceUrl": "https://legacy.utcourts.gov/howto/criminallaw/docs/1501CR_Motion_to_Remove_Link_to_Personal_Identifying_Information.pdf",
+          "retrievalDate": "2026-09-02T20:00:04.790Z",
+          "identityEvidence": "Resolved from https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/delinking.html to https://legacy.utcourts.gov/howto/criminallaw/docs/1501CR_Motion_to_Remove_Link_to_Personal_Identifying_Information.pdf; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1hnvPeDSAxw4xvosbP0rxpI0HdFlNIcUP",
+            "storedTitle": "CODEX-CS1-SRC4__1501CR__69c37d4da60e.pdf",
+            "sha256": "69c37d4da60eeccddd54b174427737f6be092cdcbf759dd27e101eb8d3b1c623",
+            "byteLength": 175626,
+            "byteLengthVerifiedByReadback": 175626,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T20:00:04.790Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:1501CR",
+          "servesFamilies": [
+            "ut_pet_remove_link-set"
+          ]
+        },
+        {
+          "jurisdiction": "UT",
+          "officialTitle": "Motion to Remove Link Between Personal Identifying Information and Dismissed Criminal Case or Denied Request for Civil Protective Order or Civil Stalking Injunction - Commissioner",
+          "issuingAuthority": "Utah State Courts",
+          "namedInFamiliesAs": [
+            "1501CR-C"
+          ],
+          "printedFormNumber": "1501CRF-C",
+          "revisionOrEffectiveDate": "Approved June 11, 2018; Revised April 8, 2024",
+          "sourceUrl": "https://legacy.utcourts.gov/howto/criminallaw/docs/1501CR-C_Motion_to_Remove_Link_to_Personal_Identifying_Information-Commissioner.pdf",
+          "retrievalDate": "2026-09-02T20:00:08.433Z",
+          "identityEvidence": "Resolved from https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/delinking.html to https://legacy.utcourts.gov/howto/criminallaw/docs/1501CR-C_Motion_to_Remove_Link_to_Personal_Identifying_Information-Commissioner.pdf; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1YgTrSPRe51ndKjL9vPqD1kdZ-Mo1rwwX",
+            "storedTitle": "CODEX-CS1-SRC4__1501CR-C__25e24089f588.pdf",
+            "sha256": "25e24089f588bf32121cf01fe0c3a32e5eb576c757670baad163bc4b4f023951",
+            "byteLength": 177335,
+            "byteLengthVerifiedByReadback": 177335,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T20:00:08.433Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:1501CR-C",
+          "servesFamilies": [
+            "ut_pet_remove_link-set"
+          ]
+        },
+        {
+          "jurisdiction": "UT",
+          "officialTitle": "Order on Motion to Remove Link Between Personal Identifying Information and Dismissed Criminal Case or Denied Request for Civil Protective Order or Civil Stalking Injunction",
+          "issuingAuthority": "Utah State Courts",
+          "namedInFamiliesAs": [
+            "1502CR"
+          ],
+          "printedFormNumber": "1502CRF",
+          "revisionOrEffectiveDate": "Approved June 11, 2018; Revised April 12, 2021",
+          "sourceUrl": "https://legacy.utcourts.gov/howto/criminallaw/docs/1502CR_Order_on_Motion_to_Remove_Link_to_Personal.pdf",
+          "retrievalDate": "2026-09-02T20:00:12.172Z",
+          "identityEvidence": "Resolved from https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/delinking.html to https://legacy.utcourts.gov/howto/criminallaw/docs/1502CR_Order_on_Motion_to_Remove_Link_to_Personal.pdf; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1QuYjAhIixVwN14sgbzfCq2KLFDY7hn0V",
+            "storedTitle": "CODEX-CS1-SRC4__1502CR__d23d74d35aaf.pdf",
+            "sha256": "d23d74d35aafbc5eab484a5753aab3b80bf8be93995f72f141a3b9c3926dae27",
+            "byteLength": 106034,
+            "byteLengthVerifiedByReadback": 106034,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T20:00:12.172Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:1502CR",
+          "servesFamilies": [
+            "ut_pet_remove_link-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [],
+      "whatThisDoesNotEstablish": "It records custody and identity. It does not make the bytes openable by any builder, and the family stays source-blocked until they are installed into a local custody."
+    },
+    {
+      "familyId": "ut_pet_cannabis-set",
+      "class": "ATTACH_HELD_SOURCE",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms. Reconciling the returns against the committed corpus index shows the acquired bytes are byte-identical to documents this repository already holds in the Nationwide recovery pool, and Captain recomputed every SHA-256 from the bytes on disk here: each matches both the acquisition row and the index. Nothing had to be reacquired. What was missing was the identity between the census label and the held binary, and the acquisition is what established it -- two independent fetches agreeing hash for hash is also the evidence that the held copy is what the publisher serves today.",
+      "jurisdiction": "UT",
+      "formsNamedByFamily": [
+        "1023EX"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "UT",
+          "officialTitle": "Order on Petition to Expunge Records (Cannabis Conviction)",
+          "issuingAuthority": "Utah State Courts",
+          "namedInFamiliesAs": [
+            "1023EX"
+          ],
+          "printedFormNumber": "1023EXF",
+          "revisionOrEffectiveDate": "Approved March 9, 2020; Revised April 10, 2023",
+          "sourceUrl": "https://legacy.utcourts.gov/howto/expunge/docs/1023EX_Order_Cannabis_Conviction.pdf",
+          "retrievalDate": "2026-09-02T20:00:16.125Z",
+          "identityEvidence": "Resolved from https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html to https://legacy.utcourts.gov/howto/expunge/docs/1023EX_Order_Cannabis_Conviction.pdf; printed identity read off the document. Captain independently recomputed the held bytes at LegalEase Utah/1023EX_Order_Cannabis_Conviction.pdf and they hash to the same value at the same length.",
+          "identityConfidence": "confirmed_from_document_text",
+          "held": {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "pathInArchive": "LegalEase Utah/1023EX_Order_Cannabis_Conviction.pdf",
+            "sha256": "24868a504130440532dd51f47b212e925815abc91c086a3bf67d5c014b5d002a",
+            "byteLength": 110830,
+            "pageCount": 3
+          },
+          "alsoPreservedIn": {
+            "provider": "Google Drive",
+            "visibility": "owner_only",
+            "shared": false,
+            "note": "Owner-only custody of the same bytes: preservation, not a second identity, and no build reads it."
+          },
+          "artifactId": "official-form:1023EX",
+          "servesFamilies": [
+            "ut_pet_cannabis-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [],
+      "whatThisDoesNotEstablish": "It binds an identity to bytes this repository holds. It approves no output, opens no route, sets no price and proves no packet."
+    },
+    {
+      "familyId": "ut_pet_special_certificate-set",
+      "class": "EXACT_EXTERNAL_SOURCE_HOLD",
+      "why": "The Codespace-1 custody cohort completed owner-only Drive custody for these forms, and unlike the fifteen documents in the same cohort that turned out to be already held, these are in no local custody: the corpus index carries no entry at their SHA-256 and no container here can open them. Identity, currentness and preservation are established; the bytes are not available to a builder.",
+      "jurisdiction": "UT",
+      "formsNamedByFamily": [
+        "1001EX",
+        "1021EX"
+      ],
+      "artifacts": [
+        {
+          "jurisdiction": "UT",
+          "officialTitle": "Petition to Expunge Records with Special Certificate",
+          "issuingAuthority": "Utah State Courts",
+          "namedInFamiliesAs": [
+            "1001EX"
+          ],
+          "printedFormNumber": "1001EXF",
+          "revisionOrEffectiveDate": "Approved April 11, 2022; Revised April 10, 2023",
+          "sourceUrl": "https://legacy.utcourts.gov/howto/expunge/docs/1001EX_Petition_to_Expunge_Records_Special_Certificate.pdf",
+          "retrievalDate": "2026-09-02T20:00:19.899Z",
+          "identityEvidence": "Resolved from https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html to https://legacy.utcourts.gov/howto/expunge/docs/1001EX_Petition_to_Expunge_Records_Special_Certificate.pdf; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1sHLFJOcqbdk2Z4Gs-KBP_PSib2rqw7HW",
+            "storedTitle": "CODEX-CS1-SRC4__1001EX__0f575aa4c08f.pdf",
+            "sha256": "0f575aa4c08f9ce0001ea386177f08ed707ff72b55c0036d07d024693dbca1ed",
+            "byteLength": 112139,
+            "byteLengthVerifiedByReadback": 112139,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T20:00:19.899Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:1001EX",
+          "servesFamilies": [
+            "ut_pet_special_certificate-set"
+          ]
+        },
+        {
+          "jurisdiction": "UT",
+          "officialTitle": "Order on Petition to Expunge Records with Special Certificate",
+          "issuingAuthority": "Utah State Courts",
+          "namedInFamiliesAs": [
+            "1021EX"
+          ],
+          "printedFormNumber": "1021EXF",
+          "revisionOrEffectiveDate": "Approved April 11, 2022; Revised April 14, 2025",
+          "sourceUrl": "https://legacy.utcourts.gov/howto/expunge/docs/1021EX_Order_Special_Certificate.pdf",
+          "retrievalDate": "2026-09-02T20:00:23.578Z",
+          "identityEvidence": "Resolved from https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html to https://legacy.utcourts.gov/howto/expunge/docs/1021EX_Order_Special_Certificate.pdf; printed identity read off the document.",
+          "identityConfidence": "confirmed_from_document_text",
+          "externalHold": {
+            "provider": "Google Drive",
+            "fileId": "1zHmG__sBZ3c41xBQIfBfXotHQ_fwp_Av",
+            "storedTitle": "CODEX-CS1-SRC4__1021EX__2b730d0a34f9.pdf",
+            "sha256": "2b730d0a34f91a69f0316ac8a8e9ce78f559e554c564a9ebcc271533daefc174",
+            "byteLength": 104276,
+            "byteLengthVerifiedByReadback": 104276,
+            "shared": false,
+            "visibility": "owner_only",
+            "createdAt": "2026-09-02T20:00:23.578Z"
+          },
+          "notVerifiableHere": "This container holds no copy of these bytes and cannot reach Drive, so the recorded SHA-256 is the worker's readback checked for exact equality against the acquisition row, not a hash Captain recomputed from the document.",
+          "artifactId": "official-form:1021EX",
+          "servesFamilies": [
+            "ut_pet_special_certificate-set"
+          ]
+        }
+      ],
+      "otherFamiliesServedBySameArtifacts": [],
       "whatThisDoesNotEstablish": "It records custody and identity. It does not make the bytes openable by any builder, and the family stays source-blocked until they are installed into a local custody."
     }
   ],

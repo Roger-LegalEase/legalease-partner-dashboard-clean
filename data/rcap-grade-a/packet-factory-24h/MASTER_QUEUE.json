@@ -3,11 +3,11 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "d746cc78637455f671969696161bd6b1ae8a9660",
+  "minimumCaptainSha": "0907452b199e7ac23c2298950264eb9d4dc988e3",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
-    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "fc7126e11fb6890e95906de798a2df3cbf1a83ccb4993b5eea78d6c53b8f1c8e",
+    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "7ac4d23816bff7b09a89551bf8360c75d41b96749466b174985ce8c379e98771",
     "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "53f5d176a93a97d0421e045576429d646b08079a1db4468e70c6651280f1c0e0",
     "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json": "fbb02da468ece257271b0004773f8ad86fe8f7698cf1e2314f0611437cb3bbbf",
     "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json": "cf15ce284dde2fbd2ce4525e1a797a9cbced9829a612bbc14ccc0cdf113748ea",
@@ -66,19 +66,19 @@
     "activeFamiliesExcluded": 0,
     "guidanceOnly": 0,
     "remaining": 346,
-    "sourceReady": 61,
-    "sourceBlocked": 92,
+    "sourceReady": 79,
+    "sourceBlocked": 74,
     "legalBlocked": 32,
     "verifyPending": 45,
     "repairRequired": 18,
     "sumsToDenominator": true
   },
   "byState": {
-    "SOURCE_READY": 61,
+    "SOURCE_READY": 79,
     "COMPLETE_PACKET_PROVEN": 90,
     "VERIFY_PENDING": 44,
     "OUT_OF_SCOPE": 5,
-    "SOURCE_BLOCKED": 92,
+    "SOURCE_BLOCKED": 74,
     "FAIL_REPAIR_REQUIRED": 18,
     "LEGAL_BLOCKED": 22,
     "HANDOFF_READY": 2,
@@ -89,8 +89,8 @@
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 91,
-    "SOURCE_BOUND_BY_HELD_BYTES": 163,
-    "SOURCE_GENUINELY_MISSING": 44,
+    "SOURCE_BOUND_BY_HELD_BYTES": 181,
+    "SOURCE_GENUINELY_MISSING": 26,
     "SOURCE_IDENTITY_UNRESOLVED": 33,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 5,
@@ -161,11 +161,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 16,
-    "sourceReadyFamilies": 61,
-    "familiesPerBuilder": 3.8,
+    "sourceReadyFamilies": 79,
+    "familiesPerBuilder": 4.9,
     "targetPerBuilder": "15 to 25",
-    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 61 do, so a full roster of 16 builders averages 3.8 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 162 source obligations across 124 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 79 do, so a full roster of 16 builders averages 4.9 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 144 source obligations across 106 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -1127,15 +1127,19 @@
           "path": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
           "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:CR-65",
+          "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+          "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CR-65: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:C-10-CRIMINAL",
@@ -1143,16 +1147,22 @@
             "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:CR-65",
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1173,7 +1183,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-diversion-set.mjs",
@@ -1222,15 +1232,19 @@
           "path": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
           "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:CR-65",
+          "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+          "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CR-65: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:C-10-CRIMINAL",
@@ -1238,16 +1252,22 @@
             "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:CR-65",
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1268,7 +1288,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-dwop-set.mjs",
@@ -1317,15 +1337,19 @@
           "path": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
           "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:CR-65",
+          "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+          "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CR-65: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:C-10-CRIMINAL",
@@ -1333,16 +1357,22 @@
             "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:CR-65",
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1363,7 +1393,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-nonconviction-90-set.mjs",
@@ -1412,15 +1442,19 @@
           "path": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
           "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:CR-65",
+          "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+          "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CR-65: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:C-10-CRIMINAL",
@@ -1428,16 +1462,22 @@
             "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:CR-65",
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1458,7 +1498,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-conviction-set.mjs",
@@ -1507,15 +1547,19 @@
           "path": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
           "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:CR-65",
+          "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+          "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CR-65: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:C-10-CRIMINAL",
@@ -1523,16 +1567,22 @@
             "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:CR-65",
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1553,7 +1603,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-dwop-set.mjs",
@@ -1604,15 +1654,19 @@
           "path": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
           "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:CR-65",
+          "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+          "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CR-65: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:C-10-CRIMINAL",
@@ -1620,16 +1674,22 @@
             "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:CR-65",
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1650,7 +1710,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-nonconviction-90-set.mjs",
@@ -1774,15 +1834,19 @@
           "path": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
           "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:CR-65",
+          "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+          "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CR-65: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:C-10-CRIMINAL",
@@ -1790,16 +1854,22 @@
             "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:CR-65",
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1820,7 +1890,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-pardoned-felony-set.mjs",
@@ -1867,15 +1937,19 @@
           "path": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
           "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:CR-65",
+          "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+          "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CR-65: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:C-10-CRIMINAL",
@@ -1883,16 +1957,22 @@
             "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:CR-65",
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1913,7 +1993,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-trafficking-set.mjs",
@@ -10960,23 +11040,35 @@
       "sourceIds": [
         "official-form:HCJDC-159B"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:HCJDC-159B",
+          "path": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+          "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:HCJDC-159B: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:HCJDC-159B",
+            "path": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+            "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 1,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 1,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -10997,7 +11089,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-hi_712_1200_deferred_expungement-set.mjs",
@@ -11034,23 +11126,35 @@
       "sourceIds": [
         "official-form:HCJDC-159B"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:HCJDC-159B",
+          "path": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+          "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:HCJDC-159B: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:HCJDC-159B",
+            "path": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+            "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 1,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 1,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -11071,7 +11175,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-hi_dag_danc_expungement-set.mjs",
@@ -11108,23 +11212,35 @@
       "sourceIds": [
         "official-form:HCJDC-159B"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:HCJDC-159B",
+          "path": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+          "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:HCJDC-159B: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:HCJDC-159B",
+            "path": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+            "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 1,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 1,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -11145,7 +11261,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-hi_nonconviction_expungement-set.mjs",
@@ -17285,19 +17401,23 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:CC-DC-CR-072C",
+          "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf",
+          "sha256": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:CC-DC-CR-078",
           "path": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-CR-078__general-waiver-and-release__REV-2025-01__EN.pdf",
           "sha256": "6dc8f576c2fe488b488948c6d50e0137c2fd9781a904179219c491b2f776ea1b",
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CC-DC-CR-072C: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:CC-DC-CR-078",
@@ -17305,16 +17425,22 @@
             "sha256": "6dc8f576c2fe488b488948c6d50e0137c2fd9781a904179219c491b2f776ea1b",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index"
+          },
+          {
+            "sourceId": "official-form:CC-DC-CR-072C",
+            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf",
+            "sha256": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -17335,7 +17461,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-md_10105_early-set.mjs",
@@ -17372,23 +17498,35 @@
       "sourceIds": [
         "official-form:CC-DC-CR-072A"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:CC-DC-CR-072A",
+          "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf",
+          "sha256": "8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CC-DC-CR-072A: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:CC-DC-CR-072A",
+            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf",
+            "sha256": "8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 1,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 1,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -17409,7 +17547,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-md_10105_favorable-set.mjs",
@@ -17456,15 +17594,19 @@
           "path": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf",
           "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:CC-DC-CR-072B",
+          "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+          "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CC-DC-CR-072B: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:CC-DC-089",
@@ -17472,16 +17614,22 @@
             "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index"
+          },
+          {
+            "sourceId": "official-form:CC-DC-CR-072B",
+            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+            "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -17502,7 +17650,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-md_10110_conviction-set.mjs",
@@ -17549,15 +17697,19 @@
           "path": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf",
           "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:CC-DC-CR-072D",
+          "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf",
+          "sha256": "6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CC-DC-CR-072D: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:CC-DC-089",
@@ -17565,16 +17717,22 @@
             "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index"
+          },
+          {
+            "sourceId": "official-form:CC-DC-CR-072D",
+            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf",
+            "sha256": "6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -17595,7 +17753,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-md_cannabis_petition-set.mjs",
@@ -17642,15 +17800,19 @@
           "path": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf",
           "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:CC-DC-CR-072B",
+          "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+          "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CC-DC-CR-072B: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:CC-DC-089",
@@ -17658,16 +17820,22 @@
             "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index"
+          },
+          {
+            "sourceId": "official-form:CC-DC-CR-072B",
+            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+            "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -17688,7 +17856,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-md_pardon_expungement-set.mjs",
@@ -26803,23 +26971,35 @@
       "sourceIds": [
         "official-form:HCJDC-159B"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:HCJDC-159B",
+          "path": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+          "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:HCJDC-159B: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:HCJDC-159B",
+            "path": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+            "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 1,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 1,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -26840,7 +27020,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-hi-custom-pleading.mjs",
@@ -30896,6 +31076,12 @@
           "tier": "exact_form_number"
         },
         {
+          "sourceId": "official-form:1023EX",
+          "path": "LegalEase Utah/1023EX_Order_Cannabis_Conviction.pdf",
+          "sha256": "24868a504130440532dd51f47b212e925815abc91c086a3bf67d5c014b5d002a",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:1044XX",
           "path": "STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
           "sha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
@@ -30914,13 +31100,11 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:1023EX: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:1003EX",
@@ -30949,16 +31133,22 @@
             "sha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:1023EX",
+            "path": "LegalEase Utah/1023EX_Order_Cannabis_Conviction.pdf",
+            "sha256": "24868a504130440532dd51f47b212e925815abc91c086a3bf67d5c014b5d002a",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 5,
-        "boundCount": 4,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 5,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -30979,7 +31169,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_cannabis-set.mjs",
@@ -36605,13 +36795,13 @@
     "verifiers": 12,
     "sourceLanes": 16,
     "repairLanes": 4,
-    "familiesAssignedToBuilders": 61,
-    "sourceObligationsAssigned": 162,
-    "actualPromotedAndReleased": 61,
+    "familiesAssignedToBuilders": 79,
+    "sourceObligationsAssigned": 144,
+    "actualPromotedAndReleased": 79,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 92,
+    "prospectiveReleasesAcrossSourceLanes": 74,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false
