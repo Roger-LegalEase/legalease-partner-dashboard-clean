@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "worker": "FABLE-VT6",
+  "lane": "independent-verification",
+  "branch": "fable/vt6",
+  "returnedAt": "2026-09-02T02:10:00Z",
+  "readAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+  "mission": "One corpus-capable read that closes fourteen families other lanes could not close: seven held at PASS solely because SOURCE_IDENTITY was unmeasurable without the Master Library, one capped while its raster was pending, and six carrying verdicts from older lanes that scored a narrower obligation set.",
+  "builtNoneOfThesePackets": true,
+
+  "corpusMounted": {
+    "answer": "YES",
+    "howItWasMounted": "scripts/rcap-corpus/bootstrap-private-corpus.sh, run in this lane",
+    "archiveSha256": "a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89",
+    "shapeVerifiedFromDisk": "51 jurisdictions / 499 files / 329 PDFs",
+    "governanceChecksums": "the corpus verified against its own 00_GOVERNANCE/CHECKSUMS.sha256",
+    "committedIndexRehashed": "all 329 entries of data/rcap-all50/local-source-corpus-index.json rehashed from the mounted bytes: 329 matched, 0 mismatched, 0 absent",
+    "whyThisMatters": "SOURCE_IDENTITY is the obligation seven of these families were held below the strongest verdict by, and it is not a claim this lane inherited: every bound source of every one of the fourteen was rehashed from the source bytes here, together with every source SHA-256 the families' own build reports and participant instructions cite. All of them agree with the receipts, with the committed index, and with the archive's own STATE_MANIFEST.csv files."
+  },
+
+  "claims": {
+    "assertedBeforeAnyArtifactWasRead": 14,
+    "refusals": 0,
+    "releasedAfterRecording": 14,
+    "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs only; claim-ledger.json was never hand-edited"
+  },
+
+  "obligationsScored": [
+    "ROUTE_IDENTITY", "SOURCE_IDENTITY", "COMPONENT_SET", "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING", "ROUTE_OPTIONS", "REPEATING_ROWS", "PROTECTED_FIELDS",
+    "ARTIFACTS", "PAGE_ORDER", "CLIPPING_AND_OVERLAP", "FILING_DESTINATION",
+    "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP"
+  ],
+  "allFifteenScoredOnEveryRow": true,
+  "controllingStandard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json, including amendment A1 — read before FEE_AND_WAIVER, SERVICE or FILING_DESTINATION was scored on any family",
+
+  "howEachObligationWasMeasured": {
+    "SOURCE_IDENTITY": "every bound source rehashed from the mounted Master Library (or, for two committed Georgia legal-design records, from the repository) and cross-checked against source-receipt.json, the committed corpus index, and the archive's own STATE_MANIFEST.csv and CHECKSUMS.sha256; receipt face-anchor claims re-tested against text extracted from the source bytes",
+    "ARTIFACTS": "fixture SHA-256 and byte length recomputed from the committed bytes, then compared against the RASTER_PASS receipt's boundToCanonicalSha256 and boundToBoundarySha256 in RASTER_QUEUE.json",
+    "PAGE_ORDER": "page count read from the PDF bytes with pdfinfo, compared against the artifact record and the page manifest length, with document blocks and intra-block source-page order read from the manifest",
+    "KNOWN_PREFILLS": "every recorded write value searched for in text extracted from that fixture's own bytes; non-text selection marks verified from drawn stroke geometry in the final content stream",
+    "CLIPPING_AND_OVERLAP": "pdftotext -bbox word geometry per page, checked against the page box and against every same-baseline word pair, with value-on-form-rule pairs separated from text-on-text pairs, the same measurement re-run on the corpus source to tell inherited artwork from build-introduced damage, and committed raster pages read visually wherever the geometry raised a question",
+    "nineCounters": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> run fresh in this lane for all fourteen; all fourteen PASS_COMPLETE with every counter zero",
+    "participantFacingFour": "FILING_DESTINATION, FEE_AND_WAIVER, SERVICE and SELF_HELP_STOP read from participant-instructions.md and from the packet's own extracted pages, against what data/record-clearing/legal-design-track-registry.json holds for the same track"
+  },
+
+  "verdicts": {
+    "PASS_COMPLETE_INDEPENDENT": 8,
+    "FAIL_REPAIR_REQUIRED": 6,
+    "rows": [
+      { "familyId": "dc_correct_misattributed_arrest-set", "lane": "VF03", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "All fifteen pass. SOURCE_IDENTITY measured from the mounted corpus — the DC instruction sheet rehashes byte-exact and all 19 receipt face anchors were found on its face — so the family clears the ceiling VF10 could not." },
+      { "familyId": "dc_innocence_expungement-set", "lane": "VF04", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "All fifteen pass; the same DC source rehashes byte-exact, and the fee sentence is the determination's own proven case with the Criminal Division clerk named and reachable." },
+      { "familyId": "dc_seal_conviction-set", "lane": "VF05", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "All fifteen pass across all four variant fixtures; the raster that was pending has passed (run 33571399568, hash-bound to these exact bytes and checked here), and each variant states its own route in its own paragraph 2." },
+      { "familyId": "ga-fo-active-pre2026-set", "lane": "VF06", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "All fifteen pass; the Georgia legal review rehashes byte-exact from the corpus with all 24 face anchors found, the two committed legal-design records rehash from the repository, and step 5 names the filing clerk the registry holds." },
+      { "familyId": "ga-fo-discharged-pre2026-set", "lane": "VF07", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "All fifteen pass on the same evidence as its sibling, with the destination the registry holds — the clerk of the court that granted the discharge — stated in the instructions." },
+      { "familyId": "ky_felony_vacatur_expungement-set", "lane": "VF11", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "All fifteen pass. Both AOC forms rehash byte-exact; the two same-baseline overlaps are the Commonwealth seal, present at identical coordinates in the corpus source, and the build resolved the county dropdown lists the source stacks 7,143 deep rather than stamping them." },
+      { "familyId": "ut_pet_no_charges-set", "lane": "VF05", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "All fifteen pass. Nine bound sources and all five publications its instructions cite by SHA-256 rehash byte-exact; it states both stages of the two-stage destination, both fees with both waiver routes, and the service rule." },
+      { "familyId": "ut_pet_traffic-set", "lane": "VF06", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "All fifteen pass, with the cleanest geometry of the fourteen: zero words outside the page box, zero text-on-text overlaps and zero value-on-rule collisions." },
+      { "familyId": "ut_pet_acquittal-set", "lane": "VF02", "verdict": "FAIL_REPAIR_REQUIRED", "failed": ["FILING_DESTINATION", "SERVICE"], "finding": "Thirteen pass; the 1,167-byte participant-instructions.md is a required-before-filing list and nothing else, so the second stage of the two-stage destination and the service rule the track registry holds are stated nowhere." },
+      { "familyId": "ut_pet_conviction-set", "lane": "VF03", "verdict": "FAIL_REPAIR_REQUIRED", "failed": ["FILING_DESTINATION", "SERVICE"], "finding": "Same stub, same two failures, same shared artifact bytes." },
+      { "familyId": "ut_pet_dismissed_with_prejudice-set", "lane": "VF04", "verdict": "FAIL_REPAIR_REQUIRED", "failed": ["FILING_DESTINATION", "SERVICE"], "finding": "Same stub, same two failures, same shared artifact bytes." },
+      { "familyId": "ne-setaside-custodial-set", "lane": "VF05", "verdict": "FAIL_REPAIR_REQUIRED", "failed": ["CLIPPING_AND_OVERLAP", "FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE"], "finding": "Packet page 4 is unreadable: five of DC 1:15's alternate captions are printed on top of each other, 47 same-baseline text-on-text overlaps, where the corpus source has none. The instructions are a dump of raw PDF field identifiers and say nothing about where to file, what it costs, or whom to serve." },
+      { "familyId": "wv_conv_multiple_misdemeanors-set", "lane": "VF10", "verdict": "FAIL_REPAIR_REQUIRED", "failed": ["FILING_DESTINATION", "FEE_AND_WAIVER"], "finding": "Thirteen pass, including the five statutory service recipients named on the packet's own face. The packet never names the circuit clerk it is filed with and says nothing about cost, while the track registry holds both." },
+      { "familyId": "wv_conv_single_misdemeanor-set", "lane": "VF11", "verdict": "FAIL_REPAIR_REQUIRED", "failed": ["FILING_DESTINATION", "FEE_AND_WAIVER"], "finding": "Same two failures as its sibling on the same shared host and the same stub instructions." }
+    ]
+  },
+
+  "theFindingsWorthReadingTwice": {
+    "nebraskaPage4": {
+      "what": "The build flattens hidden widget appearances that Nebraska form DC 1:15 keeps hidden, so all five of its alternate caption variants print on top of each other on packet page 4, together with the red box the form itself says will not print.",
+      "howItWasEstablishedRatherThanAsserted": "the same pdftotext -bbox same-baseline measurement was run on the corpus source and on the packet: the source carries 0 text-on-text overlaps across its two pages, the packet carries 47 on the corresponding pages; the committed raster page-04.png was then read visually and shows the superimposed block, and the source rendered in this lane shows one clean caption",
+      "whyNoGateCaughtIt": "the family holds a RASTER_PASS receipt, and the raster gate proves the pages render, not that a participant can read them; the completeness contract's visualDefects counter is 0 on the same bytes",
+      "alsoOnThatFamily": "ten underscore rules run past the right page edge (x1 = 613 on a 612pt page) on packet pages 4 and 5, where the source has one"
+    },
+    "kentuckyIsTheControl": {
+      "what": "The corpus source AOC-496.3 carries 7,143 same-baseline text-on-text overlaps because every Kentucky county name in its dropdown option list sits at one coordinate; the built packet carries 2, both of them the seal artwork the source has at identical coordinates.",
+      "why": "It shows the measurement is not producing false positives on official-PDF-fill families, and it shows what correct flattening looks like next to Nebraska's."
+    },
+    "utahSharedBytes": {
+      "what": "ut_pet_acquittal-set, ut_pet_conviction-set, ut_pet_dismissed_with_prejudice-set and ut_pet_limitations-set ship the byte-identical canonical fixture ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6 and the byte-identical boundary b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765.",
+      "notScoredAsARouteDefect": "Utah's own court forms are route-agnostic: 1000EX prints 'Certificate of Eligibility (Utah Code 77-40a-305(1)(a))' for every one of these routes, and the eligibility subsection is BCI's determination at the certificate stage rather than the petition's. The registry agrees — all four run through 77-40a-304/-305 for the petition.",
+      "recordedAnyway": "because it is checkable, surprising, and a reader of these rows should not have to rediscover it"
+    },
+    "utahLimitationsIsNotInThisLane": "ut_pet_limitations-set shares the same artifact bytes and the same 1,167-byte stub instructions as the three Utah families failed here, and currently carries a VF09 PASS_COMPLETE_INDEPENDENT. It is not claimed by this lane and no verdict was written for it; it is named so the Utah instruction repair is not scoped to three families when four are affected."
+  },
+
+  "sharedRepairs": [
+    { "families": ["ut_pet_acquittal-set", "ut_pet_conviction-set", "ut_pet_dismissed_with_prejudice-set"], "alsoAffected": ["ut_pet_limitations-set"], "repair": "give these families the 'Where you file this' and 'Who must receive a copy, and how' sections their siblings ut_pet_no_charges-set and ut_pet_traffic-set already carry, keyed to the two-stage BCI-then-court sequence and the 180-day certificate window the track registry holds" },
+    { "families": ["wv_conv_single_misdemeanor-set", "wv_conv_multiple_misdemeanors-set"], "repair": "state the circuit clerk of the county of conviction as the filing destination and the § 59-1-11(a)(1) $200 civil-action filing fee with the $100 State Police processing fee on grant, both of which the committed track registry already holds; one fix across the shared build host" },
+    { "families": ["ne-setaside-custodial-set"], "repair": "two independent parts — stop the build flattening DC 1:15's hidden alternate-caption widget appearances into visible page content, and replace the dump of raw PDF field identifiers with real filing, fee and service sections" }
+  ],
+
+  "filesWritten": [
+    "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "data/rcap-grade-a/fable-packet-factory/returns/vt6.json"
+  ],
+  "rowsReplaced": [
+    { "file": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json", "familyId": "ky_felony_vacatur_expungement-set", "why": "this lane's own earlier row for a subject granted to this lane; git history preserves it" }
+  ],
+  "otherLanesRowsLeftUntouched": true,
+  "baseShaDeclaredPerRowNotPerDocument": "these files are shared with other lanes, and a document-level base would stamp this commit onto their older rows",
+
+  "validation": {
+    "extractVerifierReturns": "node scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs — 33 return directories, 97 independent verdicts, all fourteen of this lane's rows parse and are the current verdict for their family; every prior row is carried as superseded history and none is discarded",
+    "laneContracts": "node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs — 9/9, LANE_CONTRACTS_HELD, with L9 accepting all eight PASS_COMPLETE_INDEPENDENT rows because each scores all fifteen obligations and carries none unmeasured",
+    "claimLedger": "node scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs — CLAIM_LEDGER_OK before release; all fourteen released through claim.mjs afterwards",
+    "fullTestSuiteNotRun": true
+  },
+
+  "overlayDirectoriesModified": 0,
+  "packetsModified": 0,
+  "buildScriptsModified": 0,
+  "queueFilesModified": ["VERIFIER_RETURNS.json is regenerated by its own generator; MASTER_QUEUE.json, RASTER_QUEUE.json and ACTIVE_ASSIGNMENTS.json were read and not written"],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "corpusBytesCommitted": false,
+  "grantsNothing": "These are verdicts about what fourteen packets contain. They promote nothing, open no route, and prepare no review package. Eight families now hold the strongest verdict this factory awards; six hold a repair assignment. Neither is an authorization to sell anything."
+}
