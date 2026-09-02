@@ -5926,6 +5926,275 @@
       },
       "blindSpotAnswered": "A flattened fixture defeats an AcroForm reader: getForm() returns zero fields on both of this family's documents, so a verifier that reads field values would have concluded nothing was written anywhere, including on the 15-page bundle. Every value reported here was decoded from page content streams instead. The bundle's fonts carry no ToUnicode CMap, so the text was recovered by simple-font byte decoding rather than by a mapped extractor.",
       "whatThisFailDoesNotDisturb": "This FAIL is a verdict and a repair assignment. This lane wrote into no overlay directory, ran no build script, moved no artifact byte, opened no route and changed no queue state. The family's source binding, component set, prefill counts, protected-field discipline, artifact hashes, page order, filing destination, fee and service obligations all pass and are undisturbed by the two failures."
+    },
+    {
+      "itemId": "rcap-ms-custom-pleading",
+      "lane": "VF11",
+      "verdict": "FAIL",
+      "laneDisposition": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+      "verifiedBy": "FABLE-RVD (RV-D; independent — built, repaired and rastered none of this family)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading",
+      "stateAtRead": "VERIFY_PENDING",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "artifactBytesMovedByThisLane": 0,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 3,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": false,
+        "measuredHere": true
+      },
+      "failedObligations": [
+        "COMPONENT_SET"
+      ],
+      "unmeasuredObligations": [],
+      "adr0004Note": "Mississippi is one of the five jurisdictions whose legacy commercial authority was retired on 2026-08-28. That retirement is not a defect and is not scored here; this family is measured on completeness alone. Equally, the passes below grant nothing: completeness is not authority, and no route is opened, priced or made deliverable by this row.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Three route keys for three distinct statutory reliefs, all present in the census the receipt binds: first-offence controlled-substance conditional discharge under § 41-29-150(d), first DUI under § 63-11-30(13), and underage alcohol under § 67-3-70(6). Each maps to its own registry track — ms-drug-cd, ms-dui, ms-mip — and the packet keeps them separate throughout, giving each its own petition, order, certificate of service and instruction pages rather than merging them. The DUI pages state the subsection the petition is actually under and distinguish § 41-29-139 trafficking as outside the drug route entirely.",
+          "evidence": {
+            "routeKeys": 3,
+            "registryTracks": [
+              "ms-drug-cd",
+              "ms-dui",
+              "ms-mip"
+            ],
+            "keptSeparateInThePacket": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "custom_pleading from codified text: no official form binary is bound and none is claimed, which is correct because the packet says in terms that Mississippi publishes no statewide expungement form. All three committed records the receipt binds were rehashed from disk and every SHA-256 and byte length matches, with 62, 9 and 3 anchor statements verified against them respectively.",
+          "evidence": [
+            {
+              "record": "data/record-clearing/legal-design-track-registry.json",
+              "recordedSha": "49d08b90a767d616ebea55b7493b3121c70eee91aa270babf4a66da83ff7ac58",
+              "recomputedSha": "49d08b90a767d616ebea55b7493b3121c70eee91aa270babf4a66da83ff7ac58",
+              "match": true,
+              "recordedByteLength": 16469590,
+              "actualByteLength": 16469590
+            },
+            {
+              "record": "data/record-clearing/legal-design-specifications.json",
+              "recordedSha": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+              "recomputedSha": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+              "match": true,
+              "recordedByteLength": 16829383,
+              "actualByteLength": 16829383
+            },
+            {
+              "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "recordedSha": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+              "recomputedSha": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+              "match": true,
+              "recordedByteLength": 2599752,
+              "actualByteLength": 2599752
+            }
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "requiredComponentsMissing 3, and it is hidden by exactly the ordinal collision the West Virginia repair in this same assignment was written to remove. Each of the three registry packetSets declares FIVE components, every one of them requirement 'required' with no conditional limb: primary-filing-1, proposed-order-2, certificate-of-service-3, attachment-4 (role attachment, process_guidance) and instructions-5 (role instructions, process_guidance). The packet renders FOUR per track and the fourth is named filing-instructions-4, so the instructions component sits on the attachment's ordinal. The consequence is that ordinals read 1,2,3,4 — unique and contiguous within each track — and a COMPONENT_SET check that counts ordinals sees a complete set, while attachment-4 is absent from all three tracks and instructions-5 exists nowhere under that id. The missing component is not a formality. In the sibling family rcap-wv-custom-pleading the same role is the records checklist, and its repair reproduced the registry's participantFilingRequirements verbatim on its own packet pages. Mississippi's registry holds twelve such records across the three tracks — four for ms-drug-cd, five for ms-dui, three for ms-mip, including the certified discharge and dismissal orders, the blood or breath test result, the certified driving record and the clerk's zero-balance account sheet — and I searched all 26 delivered pages of the canonical fixture and none of them carries a records-to-obtain checklist. The list exists only in participant-instructions.md, which is not a delivered packet component. The builder's own completeness-counters reports requiredComponentsMissing 0, for the same reason the West Virginia counter did before its repair.",
+          "evidence": {
+            "registryComponentsPerTrack": 5,
+            "renderedComponentsPerTrack": 4,
+            "missingPerTrack": [
+              "ms-drug-cd-attachment-4",
+              "ms-dui-attachment-4",
+              "ms-mip-attachment-4"
+            ],
+            "instructionsDeliveredUnderTheAttachmentOrdinal": [
+              "ms-drug-cd-filing-instructions-4",
+              "ms-dui-filing-instructions-4",
+              "ms-mip-filing-instructions-4"
+            ],
+            "registryIdNotPresentAnywhere": [
+              "ms-drug-cd-instructions-5",
+              "ms-dui-instructions-5",
+              "ms-mip-instructions-5"
+            ],
+            "everyMissingComponentIsRequiredNotConditional": true,
+            "ordinalsLookContiguousAndHideTheGap": true,
+            "participantFilingRequirementsInRegistry": {
+              "ms-drug-cd": 4,
+              "ms-dui": 5,
+              "ms-mip": 3,
+              "total": 12
+            },
+            "recordsChecklistPagesInDeliveredPacket": 0,
+            "deliveredPagesSearched": 26,
+            "builderCounterSays": 0
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Proven from the artifact bytes. The fixtures carry no AcroForm, so every value was decoded from page content streams and canonical diffed against boundary. The diff isolates exactly the participant-dependent values and nothing else — applicant name, date of birth, mailing address, telephone, email — each appearing only where the field map assigns it: the caption and opening averment of each of the three petitions, the signature blocks, the certificate of service on each track, and the 'This page is for' line on each instruction page. Each petition's opening averment names its own subsections, so the drug petition cites § 41-29-150(d)(2), § 41-29-139(c) and (d), and the underage petition cites § 67-3-70(6), (1) and (2); no track's statute leaks into another track's pleading.",
+          "evidence": {
+            "acroFormFields": 0,
+            "participantValuesIsolatedByFixtureDiff": 5,
+            "valuesOutsideAssignedPlaces": 0,
+            "crossTrackStatuteLeakage": 0
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "unclassifiedBlanks 0. Eighty-nine blanks, every one classified: 59 required before filing and 30 protected, matching the builder's blankDispositions exactly. None of the 89 lacks a why or a refusalClass. I tested the receipt's claim that every required-before-filing item is disclosed in participant-instructions.md and all 59 disclosure labels occur there. This obligation is scored on the blanks the packet does carry; the fact that the records-to-obtain list is not delivered as a packet component is recorded against COMPONENT_SET, where it belongs.",
+          "evidence": {
+            "blanksTotal": 89,
+            "requiredBeforeFiling": 59,
+            "protectedBlanks": 30,
+            "blanksWithNullClassification": 0,
+            "disclosureLabelsFoundInInstructions": 59
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing 0. The election on this family is which of the three tracks the participant's case belongs to, and the packet does not guess: it delivers all three sets, keeps them physically separate in the packet, and tells the participant which facts decide. The MIP instructions route a case involving a DUI to the DUI track as a stop condition, and the drug pages exclude trafficking under § 41-29-139 from the route entirely. No election is marked on the participant's behalf and none is invented.",
+          "evidence": {
+            "tracksDelivered": 3,
+            "electionsMarkedOnBehalfOfParticipant": 0,
+            "crossTrackRoutingRulesStated": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The repeating structures are the per-component item tables and the three parallel track sets. Each row carries its own distinct fact: item rows are keyed to distinct C-numbers with their own participant questions, and the three track sets, though structurally parallel, carry different statutes, different destinations, different service rules and different stop conditions rather than one caption repeated over three identical bodies. No caption stands for a different fact in different rows without saying so.",
+          "evidence": {
+            "repeatingRowFamilies": 2,
+            "parallelTrackSets": 3,
+            "rowsSharingALabelAcrossDifferentFacts": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites 0, measured from the bytes. Thirty protected blanks across the three tracks: 18 court-, prosecutor-, clerk- or agency-owned and 12 signature or date fields. In both fixtures every one renders as an empty dotted rule — 142 dotted rules across the packet — with the printed guidance beside it, and the certificate of service on each track carries the express statement that the signer delivered the papers on the date written beside the signing line 'and not before'. No signature, no date beside a signing line and no case number carries a value in either fixture.",
+          "evidence": {
+            "protectedBlanks": 30,
+            "courtOrAgencyOwned": 18,
+            "signatureOrDate": 12,
+            "protectedBlanksCarryingInk": 0,
+            "dottedRulesLeftEmpty": 142
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Two artifacts declared, two present on disk, both SHA-256 recomputed and matching, both 26 pages as declared. No raster is declared and none is claimed.",
+          "evidence": [
+            {
+              "file": "fixtures/canonical.pdf",
+              "present": true,
+              "declaredSha": "2d343efa1c4c6387171aa6b73f041be3885bef4f9d0e39f2be8ffe771a5521d0",
+              "recomputedSha": "2d343efa1c4c6387171aa6b73f041be3885bef4f9d0e39f2be8ffe771a5521d0",
+              "match": true,
+              "declaredPages": 26,
+              "actualPages": 26
+            },
+            {
+              "file": "fixtures/boundary.pdf",
+              "present": true,
+              "declaredSha": "09b2f2be1a2419c6e7876ec28ef60a3b7b9ddc607aa761bf35195c314d95477f",
+              "recomputedSha": "09b2f2be1a2419c6e7876ec28ef60a3b7b9ddc607aa761bf35195c314d95477f",
+              "match": true,
+              "declaredPages": 26,
+              "actualPages": 26
+            }
+          ]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Twenty-six pages in three self-contained blocks, each in filing order: drug-cd petition 1-4, order 5, certificate 6, instructions 7-8; DUI petition 9-12, order 13, certificate 14, instructions 15-17; MIP petition 18-21, order 22, certificate 23, instructions 24-26. Every page is attributed to exactly one component with no gap, no duplicate and no interleaving between tracks, and both fixtures carry the identical manifest. The ordering is not the defect here — the delivered pages are correctly sequenced; what is missing is a component that would have added pages, and that is scored under COMPONENT_SET.",
+          "evidence": {
+            "pages": 26,
+            "pagesAttributed": 26,
+            "unattributedPages": 0,
+            "trackBlocksInterleaved": false,
+            "fixturesAgree": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects 0 as measured here. The boundary fixture is the test and it passes: a 46-character name, a 78-character mailing address and a telephone number with an extension all reflow onto continuation lines rather than clipping, with the boundary's page 12 and 14 carrying the address across two lines ending 'Fort Saint Clairsville' / '39501-2214'. No value is truncated and both fixtures hold the same 26 pages. Central rasterisation has not run, so a raster-level visual defect is not excluded by this row.",
+          "evidence": {
+            "clippedValues": 0,
+            "reflowedLongValues": 3,
+            "pagesAgreeAcrossFixtures": true,
+            "rasterPages": 0
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Answered per track, in the registry's own words, and the packet does the hard part rather than the easy one. The drug route goes to the clerk of the court that granted the conditional discharge; the underage route to the clerk of the court that disposed of the charge, with the registry's own note that § 67-3-70(6) says simply 'apply to the court'. The DUI route carries the venue trap explicitly: file in the CIRCUIT COURT of the county of conviction even though the conviction was entered in a municipal or justice court, because the Attorney General has opined that a municipal court judge is not authorised to expunge a DUI conviction. A packet that had read the destination across from the convicting court would have sent the participant to a judge without power to grant the relief.",
+          "evidence": {
+            "destinationsStatedPerTrack": 3,
+            "quotedFromRegistry": true,
+            "duiVenueTrapDisclosed": true,
+            "attorneyGeneralOpinionCited": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Correct on all three routes, and correct in the way that matters for this statute. The packet publishes no amount. For each track it reproduces the registry's fee rule verbatim — 'No amount is published here. Section 99-19-72's fee reaches petitions under § 99-19-71 and does not reach § 41-29-150 by its terms' and the same sentence keyed to § 63-11-30 and to § 67-3-70 — and reproduces the waiver rule verbatim as 'Not established. The participant asks the clerk.' So § 99-19-72 is named with its limit intact, each petition's own subsection is stated, the reach is not decided in the participant's favour or against them, and the clerk is named as the office that answers, with the DUI route correctly naming the circuit clerk. No figure is carried across from a sibling Mississippi route and no rescinded amount appears anywhere in the family. Measured per fact and per route, as the standard requires, rather than by reading a sibling's answer across.",
+          "evidence": {
+            "amountPublishedInPacket": null,
+            "feeRuleQuotedVerbatimPerTrack": 3,
+            "waiverRuleQuotedVerbatimPerTrack": 3,
+            "section991972NamedWithItsLimitIntact": true,
+            "ownSubsectionStated": true,
+            "reachDecidedEitherWay": false,
+            "clerkNamed": true,
+            "figuresBorrowedFromSiblingRoutes": 0,
+            "familyIsOutsideMsMisdAddl": true
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Answered per track and quoted from the registry: service by United States mail or hand delivery, evidenced by the certificate of service, on all three routes. The notice limb differs by track and the packet keeps the difference — on the drug route the prosecuting authority for the court receives a copy and no response or objection period is established, and the packet says the period is not established rather than inventing one; on the DUI route the district attorney receives a copy and relief is discretionary with the person having to justify the expungement to the court. Each track carries its own certificate of service as a component, left unsigned and undated, with the page itself stating that delivery happens before signing and not after.",
+          "evidence": {
+            "serviceQuotedVerbatimPerTrack": 3,
+            "noticeDifferencesPreserved": true,
+            "certificatesOfServiceDelivered": 3,
+            "allLeftUnsigned": true,
+            "unestablishedPeriodDisclosedNotInvented": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All fifteen registry stop conditions across the three tracks appear in the packet verbatim — five for ms-drug-cd, six for ms-dui, four for ms-mip — and nothing is composed. The DUI track's blanket stop is carried intact and is the most important sentence in the family: 'Every DUI. All DUI packets carry mandatory attorney review before filing and a post-generation handoff.' The packet adds one further stop that is also the record's own words, about the district attorney's approval as to form being the practical gate on the entire Mississippi product and a negotiation rather than a filing, with the platform disclaiming any role in seeking or negotiating it and naming a declining or silent prosecutor as an attorney handoff. On the hearing test this family reads correctly: no registry stop here is a hearing, and the packet describes the § 41-29-150(d)(2) hearing as the statutory step it is — the court determines the matter after hearing and on the requisite findings shall enter the order — while stating that the underage route involves no hearing at all. No sentence tells the participant to attend a hearing the registry records as the end of self-help.",
+          "evidence": {
+            "registryStopConditionsTotal": 15,
+            "appearingVerbatim": 15,
+            "composedConditions": 0,
+            "duiBlanketAttorneyReviewStopCarried": true,
+            "prosecutorApprovalGateDisclosed": true,
+            "tellsParticipantToAttendAStoppingHearing": false
+          }
+        }
+      },
+      "blindSpotAnswered": "The ordinal collision is invisible to every check that counts ordinals rather than names. Within each Mississippi track the delivered componentIds end 1, 2, 3, 4 — unique, contiguous, no duplicate — so an ordinal-based COMPONENT_SET check passes while a required component is missing, which is precisely the state West Virginia was repaired out of. It is caught only by comparing the delivered componentIds by NAME against the registry packetSet, and then by looking in the delivered pages for the content the missing component was supposed to carry. I did both: the names differ, and none of the 26 pages carries the records-to-obtain checklist the registry's twelve participantFilingRequirements describe.",
+      "whatThisFailDoesNotDisturb": "This FAIL is a verdict and a repair assignment. This lane wrote into no overlay directory, ran no build script, moved no artifact byte, opened no route and changed no queue state. It also grants nothing in the other direction: Mississippi's legacy commercial authority was retired on 2026-08-28 and the fourteen passing obligations above do not restore it, do not reopen a route and do not set a price. Completeness is measured on the merits; authority comes only from a Grade-A fulfillment record keyed to an exact route and packet family."
     }
   ],
   "determination": {
