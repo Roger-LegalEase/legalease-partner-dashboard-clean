@@ -5,7 +5,7 @@
   "participantNote": "participantActionRequired and requiredBeforeFiling describe what the participant does after LegalEase hands them the packet. LegalEase does not collect, inspect or authenticate any of it, and none of it gates generation or packet_ready.",
   "jurisdictionsReceived": 51,
   "jurisdictionsOutstanding": 0,
-  "trackCount": 501,
+  "trackCount": 502,
   "packetReadyCount": 0,
   "readinessCeiling": {
     "note": "A ceiling is what a track could become if every platform gate passed — never what it is. Every imported track is runtime_disabled, no route is enabled, and nothing here promotes anything. The two rows show what the Master Library authority gate removes from the hypothetical.",
@@ -20,7 +20,7 @@
     "auditPath": "data/record-clearing/master-library/track-source-audit.json",
     "auditPresent": true,
     "tracksAuthorityCleared": 142,
-    "tracksAuthorityBlocked": 359,
+    "tracksAuthorityBlocked": 360,
     "note": "Track-level authority results live in the audit file, not in this registry: the Master Library is the source authority and this registry is a derived implementation of it. Authority clearance is a provenance result only — it never makes a track ready, and every gate in readinessCeilingFor still applies.",
     "failClosed": "A track with no audit entry is treated as blocked. Absence of a check is not a pass."
   },
@@ -249788,6 +249788,343 @@
         "sourceRecordIds": [
           "src/lib/legal-authority/routes/single-routes.json#WV:sex-trafficking-victim-vacatur-and-expungement",
           "src/lib/legal-authority/authority.json#LD-WV-04"
+        ],
+        "absentFields": [
+          {
+            "field": "recordTypes",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred. The contract’s screeningFactIds are screening handles, not a record-type list, and were not converted into one."
+          },
+          {
+            "field": "dispositions",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred. Not derived from screeningFactIds or from the exclusions."
+          },
+          {
+            "field": "waitingPeriods",
+            "reason": "The contract states timing as an event trigger with no elapsed period. That verbatim timing is carried in routeContract.timing. Recorded as no waiting period because that is what the record says, not because the record is silent."
+          },
+          {
+            "field": "outputStrategy",
+            "reason": "Not stated. The contract states outcomeMode participant_packet, which is a delivery mode, not an output strategy. The census family directory declares custom_pleading, but that is a build-side declaration and not bound legal authority."
+          },
+          {
+            "field": "outputStrategyDeclared",
+            "reason": "Not stated. See outputStrategy."
+          },
+          {
+            "field": "compositionMode",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "units",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "geographicScope",
+            "reason": "Not stated. The governing provision is a state statute, but the contract declares no geographic scope and none was inferred from that."
+          },
+          {
+            "field": "geographyKeys",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "venue",
+            "reason": "Not stated. No filing destination appears in any bound record for this route, and none was invented."
+          },
+          {
+            "field": "destination",
+            "reason": "Not stated. No filing actor, court, clerk or agency is named in any bound record for this route, and none was invented."
+          },
+          {
+            "field": "packetSet.packetSetId",
+            "reason": "Not stated by bound legal authority. The census family directory carries a familyId, but that is a build record. The runtime route id in runtimeRouteId is the linkage this entry asserts."
+          },
+          {
+            "field": "packetSet.components[].role",
+            "reason": "The contract names packet components by title only. Role, requirement, order semantics, output strategy and official form identity are not stated and were not assigned."
+          },
+          {
+            "field": "officialSources",
+            "reason": "No official source with a title, URL, retrieval date and hash appears in any bound record for this route. The governing statute is carried in authority."
+          },
+          {
+            "field": "rules.filing",
+            "reason": "Not stated. No filing mechanics appear in any bound record for this route."
+          },
+          {
+            "field": "rules.fees",
+            "reason": "Not stated. No fee is recorded anywhere in the bound authority for this route, and none was invented. Absent is not the same as none."
+          },
+          {
+            "field": "rules.feeWaiver",
+            "reason": "Not stated. No waiver treatment is recorded anywhere in the bound authority for this route, and none was invented. Absent is not the same as none."
+          },
+          {
+            "field": "rules.notice",
+            "reason": "Not stated. No notice treatment appears in any bound record for this route."
+          },
+          {
+            "field": "rules.service",
+            "reason": "Not stated. No service recipient appears in any bound record for this route, and none was invented."
+          },
+          {
+            "field": "rules.participantSignature",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "rules.notarization",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "generationRequirements",
+            "reason": "The contract’s requiredFacts are carried verbatim in routeContract.requiredFacts. They were not reshaped into {key, question, requirement} rows, because the key and requirement values would be authored rather than transcribed."
+          },
+          {
+            "field": "participantFilingRequirements",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "manualCompletionItems",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "selfHelpBoundaries",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "postGenerationHandoffs",
+            "reason": "The contract declares no handoffTo. Recorded as none held, on the record rather than by inference."
+          },
+          {
+            "field": "packetInstructions",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "participantQuestions",
+            "reason": "Not stated as participant questions. The contract’s requiredFacts are carried verbatim in routeContract.requiredFacts and were not relabelled as participant questions."
+          },
+          {
+            "field": "buildBlockers",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "releaseBlockers",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "awaitingCounselClassification",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "openLegalQuestions",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "counselQuestions",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "unresolvedQuestions",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "guidanceRationales",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "legalDesignLimitations",
+            "reason": "No legal-design memo exists for this route, so there is no classified limitation set to transcribe."
+          },
+          {
+            "field": "implementationQueue",
+            "reason": "Not stated. The implementation queue follows from an output strategy, which this route’s bound authority does not state."
+          },
+          {
+            "field": "effectiveTo",
+            "reason": "The bound route contract and the bound decision record state nothing for this field. Left empty rather than inferred."
+          },
+          {
+            "field": "effectiveFrom",
+            "reason": "Not stated as an effective date by the contract. The ruleId may contain a date token, but a ruleId is an identifier and was not read as an effective date."
+          }
+        ]
+      }
+    },
+    {
+      "jurisdiction": "WY",
+      "trackId": "human-trafficking-victim-vacatur-w-s-6-2-708",
+      "runtimeRouteId": "WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "legalName": "Wyoming Trafficking-Victim Vacatur Petition under § 6-2-708",
+      "publicName": "Human-trafficking-victim vacatur",
+      "mechanism": "Human-trafficking-victim vacatur",
+      "authority": [
+        "Wyo. Stat. § 6-2-708(c)"
+      ],
+      "reviewedAsOf": "2026-08-24",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "recordTypes": [],
+      "dispositions": [],
+      "exclusions": [
+        "Participation in the offense resulted from trafficking victimization",
+        "Statutory evidentiary and offense requirements satisfied"
+      ],
+      "waitingPeriods": [],
+      "outputStrategy": null,
+      "outputStrategyDeclared": null,
+      "compositionMode": null,
+      "units": [],
+      "geographicScope": null,
+      "geographyKeys": [],
+      "venue": null,
+      "destination": null,
+      "packetSet": {
+        "packetSetId": null,
+        "version": null,
+        "components": [
+          {
+            "componentId": null,
+            "role": null,
+            "requirement": null,
+            "conditionDescription": null,
+            "outputStrategy": null,
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1,
+            "contractComponentName": "Petition to vacate"
+          },
+          {
+            "componentId": null,
+            "role": null,
+            "requirement": null,
+            "conditionDescription": null,
+            "outputStrategy": null,
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 2,
+            "contractComponentName": "Nexus evidence"
+          }
+        ],
+        "participantActionRequired": [],
+        "requiredBeforeFiling": []
+      },
+      "officialSources": [],
+      "rules": {
+        "filing": null,
+        "fees": null,
+        "feeWaiver": null,
+        "notice": null,
+        "service": null,
+        "participantSignature": null,
+        "notarization": null
+      },
+      "generationRequirements": [],
+      "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "selfHelpBoundaries": [],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [],
+      "participantQuestions": [],
+      "scopeRestrictions": [
+        "Statutory documentation creates the stated evidentiary effect but is not the only possible proof; the intake must permit alternative nexus evidence. No nonconviction, misdemeanor, felony or juvenile waiting table may be imported."
+      ],
+      "buildBlockers": [],
+      "releaseBlockers": [],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": true,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [],
+      "selfHelpStopConditionsReason": "Empty because the bound authority for this route declares no self-help stop condition. The route contract states exclusions, which are eligibility criteria, and an eligibility criterion is a different legal object from a stop condition. No exclusion was converted into a stop condition, because that mapping is a substantive legal choice that no record here makes. No stop condition was imported from a neighbouring state track, a sibling route, or from this route’s own participant packet: the registry is the independent comparison instrument, and populating it from the packet it measures would make every future comparison self-vouching. Zero conditions held is a measured result, not an unfilled field.",
+      "unresolvedQuestions": [],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_not_performed",
+      "legalDesignLimitations": [],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Transcribed from a route contract, not imported from a legal-design memo. Legal design has not been performed for this route, and output review, visual review and technical proof are all outstanding. This entry opens no route, sets no price and changes no product treatment.",
+      "implementationQueue": null,
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "legal_design_blocker",
+          "statement": "No legal-design memo exists for this route. This entry is a transcription of the bound route contract, and a route contract is not a legal-design approval."
+        },
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending. Nothing here approves a produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        }
+      ],
+      "routeContract": {
+        "sourceFile": "src/lib/legal-authority/routes/single-routes.json",
+        "batch": "single-routes",
+        "batchAuthority": "Record Clearing Implementation Authority Reconciled (2026-08-24), Completed Decision Matrix — decisions that govern a single route",
+        "routeKey": "WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "pathwayId": "human-trafficking-victim-vacatur-w-s-6-2-708",
+        "decisionId": "LD-WY-03",
+        "ruleId": "WY-6-2-708-ANY-TIME-AFTER-CONVICTION-TRAFFICKING",
+        "mechanism": "Human-trafficking-victim vacatur",
+        "statute": "Wyo. Stat. § 6-2-708(c)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "handoffTo": null,
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "conviction_date",
+          "anchorText": "available at any time after entry of the covered conviction"
+        },
+        "requiredFacts": [
+          "Exact conviction?",
+          "Conviction date?",
+          "Trafficking period?",
+          "Causal nexus?",
+          "Official documentation if available?",
+          "Alternative evidence?",
+          "Other counts?",
+          "Requested vacatur effect?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Participation in the offense resulted from trafficking victimization",
+          "Statutory evidentiary and offense requirements satisfied"
+        ],
+        "packetFamily": "Wyoming Trafficking-Victim Vacatur Petition under § 6-2-708",
+        "packetComponents": [
+          "Petition to vacate",
+          "Nexus evidence"
+        ],
+        "effectiveFrom": null,
+        "notes": "Statutory documentation creates the stated evidentiary effect but is not the only possible proof; the intake must permit alternative nexus evidence. No nonconviction, misdemeanor, felony or juvenile waiting table may be imported."
+      },
+      "boundDecision": {
+        "sourceFile": "src/lib/legal-authority/authority.json",
+        "authorityVersion": "2026-08-24",
+        "id": "LD-WY-03",
+        "jurisdiction": "WY",
+        "priority": "P2",
+        "ruleId": "WY-6-2-708-ANY-TIME-AFTER-CONVICTION-TRAFFICKING",
+        "outputMode": "COURT VACATUR PETITION PACKET",
+        "affectedFlowCount": 1,
+        "effectiveDateNote": "The intake should permit alternative nexus evidence and not require a single certification form if the statute does not.",
+        "decisionEnumeratesThisRouteKey": true,
+        "note": "The decision record enumerates this exact route key."
+      },
+      "transcription": {
+        "method": "verbatim_transcription_from_bound_route_contract",
+        "note": "Every value here is copied from a bound record or left empty with a recorded reason. No eligibility rule, fee, waiver, service recipient, filing destination or stop condition was authored. No language was imported from a neighbouring state track, a sibling route or a participant packet. This entry grants nothing: it opens no route, proves no packet and creates no commercial authority.",
+        "sourceRecordIds": [
+          "src/lib/legal-authority/routes/single-routes.json#WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+          "src/lib/legal-authority/authority.json#LD-WY-03"
         ],
         "absentFields": [
           {
