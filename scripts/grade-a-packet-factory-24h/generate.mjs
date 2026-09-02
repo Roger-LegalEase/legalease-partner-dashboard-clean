@@ -241,6 +241,97 @@ const custodyByGroup = new Map(IN.custody.rows.map((r) => [r.worklistGroupId, r]
 const completenessByFamily = new Map(IN.completeness.results.map((r) => [r.familyId, r]));
 const verdictByFamily = new Map((IN.verificationLedger.rows ?? []).map((r) => [r.family, r]));
 /*
+ * A WAVE-2 LEGAL-APPROVAL VERDICT IS A READ, AND READS ARE ORDERED.
+ *
+ * `verdictByFamily` is the wave-2 verification ledger. Seventeen of its rows
+ * are BLOCKED_LEGAL_APPROVAL_INPUT, and until now every one of them blocked its
+ * family forever: `legalBlocked` consulted the row and nothing ever outranked
+ * it. That is the one verdict record in the factory exempt from ordering, and
+ * the exemption is not principled. extract-verifier-returns already settled the
+ * rule for verifier rows -- a read made at a descendant of another read's base
+ * is later, full stop -- after lane-number precedence kept stale FAILs current
+ * and held finished families out of the queue. The same defect lives here, one
+ * record further out.
+ *
+ * It is not academic. dc_seal_conviction, ut_pet_traffic, pa_790_nonconviction,
+ * az_marijuana_expungement_arrest_no_charges and wa_vac_domestic_violence all
+ * reached VERIFIED_PASS carrying a current independent verdict, and four of the
+ * five could not be proven because a wave-2 row from 30-31 August still said
+ * counsel had not answered. Thirteen of the seventeen rows say
+ * `sendToLawrence: false` in their own text: by the wave-2 ledger's own
+ * classification they were never counsel questions at all.
+ *
+ * So a wave-2 legal block is superseded when ALL of the following hold, and
+ * otherwise it stands:
+ *
+ *   - a current independent verification exists for the family;
+ *   - its verdict is PASS_COMPLETE_INDEPENDENT, which the extractor records
+ *     only when all fifteen obligations were scored and none left unmeasured --
+ *     so it is a claim about the very obligation the wave-2 row stopped at, and
+ *     not merely about some others;
+ *   - that read DECLARES the commit it was made at, on the row itself rather
+ *     than at the document level, for the reason the extractor gives: these
+ *     files are appended to, and a later team's base lands on top of rows it
+ *     never read;
+ *   - and that commit is later than the wave-2 return commit.
+ *
+ * "Later" is ancestry where ancestry answers. Here it usually does not: wave-2
+ * returns came back as diffs on worker branches that were never merged, so
+ * their commits are reachable but unrelated to ours. Committer date decides
+ * those, and a pair orderable by neither is NOT superseded.
+ *
+ * Nothing here weakens the gate. A block with no later read, or with a later
+ * read that failed, or with one that declares no base, keeps blocking -- which
+ * is why az_marijuana_expungement_arrest_no_charges, the single row the wave-2
+ * ledger classifies GENUINE_NARROW_LEGAL_QUESTION, stays blocked: its passing
+ * read declares no base, so this cannot order it and does not pretend to.
+ */
+const isCommitish = (x) => typeof x === "string" && /^[0-9a-f]{7,40}$/.test(x);
+const commitDateCache = new Map();
+const commitDateOf = (c) => {
+  if (commitDateCache.has(c)) return commitDateCache.get(c);
+  const raw = git(["show", "-s", "--format=%ct", c]);
+  const d = raw ? Number(raw) || null : null;
+  commitDateCache.set(c, d);
+  return d;
+};
+const readIsLaterThan = (candidate, prior) => {
+  if (!isCommitish(candidate) || !isCommitish(prior) || candidate === prior) return false;
+  try { execFileSync("git", ["merge-base", "--is-ancestor", prior, candidate], { cwd: ROOT, stdio: "ignore" }); return true; }
+  catch { /* unrelated branches; the dates decide */ }
+  const a = commitDateOf(prior), b = commitDateOf(candidate);
+  return a !== null && b !== null && b > a;
+};
+const wave2LegalBlockSuperseded = (familyId) => {
+  const w2 = verdictByFamily.get(familyId);
+  if (w2?.verdict !== "BLOCKED_LEGAL_APPROVAL_INPUT") return null;
+  const later = independentReturnByFamily.get(familyId) ?? null;
+  const stands = (reason) => ({
+    superseded: false, reason,
+    wave2ReturnCommit: w2.returnCommit ?? null,
+    wave2DecisiveObligation: w2.decisiveObligation ?? null,
+    wave2LegalInputClass: w2.legalInputClass ?? null,
+    wave2SendToLawrence: w2.sendToLawrence ?? null
+  });
+  if (!later) return stands("no independent verification has read this family since the wave-2 block");
+  if (later.verdict !== "PASS_COMPLETE_INDEPENDENT")
+    return stands(`the current independent read is ${later.verdict}, which does not answer the blocked obligation`);
+  if (!isCommitish(later.verifiedAtBase))
+    return stands("the current independent read declares no review base on its row, so it cannot be ordered against the wave-2 read");
+  if (!readIsLaterThan(later.verifiedAtBase, w2.returnCommit))
+    return stands(`the current read's base ${later.verifiedAtBase} is not later than the wave-2 return ${w2.returnCommit}`);
+  return {
+    superseded: true,
+    wave2ReturnCommit: w2.returnCommit,
+    wave2DecisiveObligation: w2.decisiveObligation ?? null,
+    wave2LegalInputClass: w2.legalInputClass ?? null,
+    wave2SendToLawrence: w2.sendToLawrence ?? null,
+    supersededBy: { lane: later.lane, verdict: later.verdict, verifiedAtBase: later.verifiedAtBase },
+    reason: "a later independent read, at a review base it declares and that is later than the wave-2 return commit, scored all fifteen obligations with none failing",
+    whatThisDoesNotDo: "It lifts one stale block. It approves no output, opens no commercial route and proves no packet; COMPLETE_PACKET_PROVEN still needs its raster receipt and its wiring record."
+  };
+};
+/*
  * What the independent verifiers returned, extracted from their own diffs by
  * scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs. Absent until
  * that has run, and the dispatch is still generatable without it -- but F29
@@ -885,8 +976,9 @@ for (const f of IN.scoreboard.familiesDetail) {
         narrowingLiftsNothing: "The family stays LEGAL_BLOCKED and payment stays closed. A measurement removed a factual premise; it decided no legal question."
       }
     : laneHold;
+  const wave2Legal = wave2LegalBlockSuperseded(familyId);
   const legalBlocked = routes.some((r) => openCounselRoutes.has(r.routeKey))
-    || verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT"
+    || (verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" && wave2Legal?.superseded !== true)
     || Boolean(laneHold);
   const guidanceOnly = routes.length > 0 && routes.every((r) => confirmBRoutes.has(r.routeKey));
   const notAFamily = routes.length === 0;
@@ -1030,7 +1122,11 @@ for (const f of IN.scoreboard.familiesDetail) {
      * from a lane that tried to build the family and hit a legal wall. */
     legalInputBasis: laneHold ? "LANE_RETURN_BLOCKED_LEGAL_INPUT"
       : routes.some((r) => openCounselRoutes.has(r.routeKey)) ? "OPEN_COUNSEL_QUESTION"
-        : verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" ? "LEGAL_APPROVAL_VERDICT" : null,
+        : (verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" && wave2Legal?.superseded !== true) ? "LEGAL_APPROVAL_VERDICT" : null,
+    /* Present on every family the wave-2 ledger blocked, whether or not a later
+     * read outranked it, so the reason a block stands is as readable as the
+     * reason one lifted. */
+    wave2LegalBlock: wave2Legal,
     laneReturnLegalHold: laneHoldNarrowed,
     routeMappingStatus: routeMappingOpen ? "UNBOUND_TO_A_PACKET_FAMILY" : "BOUND",
     artifactStatus: artifactPresent ? "RENDERED" : "NOT_RENDERED",
@@ -1095,24 +1191,71 @@ try {
  * ownership, not the roster's, and must not swallow the family back out of
  * the dispatch (that is the flap this comment is the tombstone of).
  *
- * VERIFY_PENDING does NOT belong in this rule, and it was tried. Eight
- * families -- sd_arrest_expungement-set and the seven wa_vac families -- are
- * VERIFY_PENDING under a roster owner with no live ledger claim, so they look
- * exactly like the stale case above and nothing in the factory can read them.
- * Adding VERIFY_PENDING here does free them, and then C7 and E2 both go red:
+ * VERIFY_PENDING does not belong in this rule AS A BLANKET, and it was tried.
+ * Eight families -- sd_arrest_expungement-set and the seven wa_vac families --
+ * are VERIFY_PENDING under a roster owner with no live ledger claim, so they
+ * look exactly like the stale case above and nothing in the factory can read
+ * them. Adding VERIFY_PENDING here does free them, and then C7 and E2 both go
+ * red:
  * the wa_vac seven are owned by WARV01/WARV02, the Washington re-verification
  * lanes provisioned for precisely this second read, so a factory VF grant on
  * top is a real double-ownership rather than a rescue. A family waiting on a
  * lane that has not launched is not the same as a family waiting on nobody,
- * and only the second is this rule's business. */
+ * and only the second is this rule's business.
+ *
+ * THAT PREMISE HAS SINCE EXPIRED, AND IT IS MEASURED HERE RATHER THAN ASSUMED.
+ * WASHINGTON_REPAIR.json records WARV01 and WARV02 as RETIRED_NEVER_EXECUTED;
+ * they hold no claim, appear in no dispatch, and provision nothing. Meanwhile
+ * P2V01, P2V02 and P2V03 have RETURNED -- their rows.json sit in
+ * data/rcap-grade-a/codex-cloud/ and their verdicts are already extracted --
+ * and FIX03 through FIX06 then repaired the families those verdicts failed. So
+ * five wa_vac families are parked under readers that finished days ago, behind
+ * re-readers that were retired before they ran. They are not waiting on a lane
+ * that has not launched. They are waiting on nobody, which is the case this
+ * rule exists for.
+ *
+ * A returned lane is therefore released PER FAMILY, on evidence the lane
+ * itself produced: its return directory exists and names this family, and the
+ * ledger holds no live claim for the family on that lane. SDV01 satisfies
+ * neither -- it has no return directory at all -- so sd_arrest_expungement-set
+ * stays exactly where it is. The rule frees what returned and holds what did
+ * not, which is the distinction the paragraph above was drawing all along. */
+const returnedRosterLanes = (() => {
+  const byLane = new Map();
+  const base = path.join(ROOT, "data/rcap-grade-a/codex-cloud");
+  let dirs = [];
+  try { dirs = fs.readdirSync(base); } catch { return byLane; }
+  for (const a of ACTIVE_LANES) {
+    const slug = String(a.assignmentId).toLowerCase().replace(/_/g, "-");
+    const dir = dirs.find((d) => slug.startsWith(d) || d.startsWith(slug.split("-")[0] + "-"));
+    if (!dir) continue;
+    const rowsPath = path.join(base, dir, "rows.json");
+    if (!fs.existsSync(rowsPath)) continue;
+    let doc;
+    try { doc = JSON.parse(fs.readFileSync(rowsPath, "utf8")); } catch { continue; }
+    const read = new Set();
+    for (const r of doc.rows ?? []) { const id = r.itemId ?? r.familyId; if (id) read.add(id); }
+    if (read.size) byLane.set(a.assignmentId, { dir, read });
+  }
+  return byLane;
+})();
+const rosterLaneHasReturnedThisFamily = (f) => {
+  const ret = returnedRosterLanes.get(f.activeOwner);
+  return Boolean(ret?.read.has(f.familyId))
+    && !(liveClaimLanesByFamily.get(f.familyId)?.has(f.activeOwner));
+};
 const ownerStillHolds = (f) => f.activeOwner
-  && !(f.state === "FAIL_REPAIR_REQUIRED" && !(liveClaimLanesByFamily.get(f.familyId)?.has(f.activeOwner)));
+  && !(f.state === "FAIL_REPAIR_REQUIRED" && !(liveClaimLanesByFamily.get(f.familyId)?.has(f.activeOwner)))
+  && !rosterLaneHasReturnedThisFamily(f);
 /* Ended ownership is cleared on the row itself, so every downstream reader —
  * the dispatch packers, F4's collision sweep, the checkpoint — sees one
  * consistent answer. The roster's name survives as staleRosterOwner. */
 for (const f of families) {
   if (f.activeOwner && !ownerStillHolds(f)) {
     f.staleRosterOwner = f.activeOwner;
+    f.whyTheRosterOwnerNoLongerHolds = rosterLaneHasReturnedThisFamily(f)
+      ? `${f.activeOwner} returned a verdict for this family in data/rcap-grade-a/codex-cloud/${returnedRosterLanes.get(f.activeOwner).dir}/rows.json and holds no live claim on it; a lane that has returned is not still verifying`
+      : "the roster names an owner the ledger does not back on a family carrying a returned FAIL";
     f.activeOwner = null;
     f.activeOwnerLane = null;
   }

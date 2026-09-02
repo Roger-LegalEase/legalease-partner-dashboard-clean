@@ -148,10 +148,41 @@ for (const f of master.families) {
   if (!fs.existsSync(artifactsPath)) continue;
   let art;
   try { art = JSON.parse(fs.readFileSync(artifactsPath, "utf8")); } catch { continue; }
-  /* Fixture labels vary by host era: "canonical", "tf810-canonical", …
-   * A canonical fixture is one whose label says canonical. */
-  const docs = (art.artifacts ?? art.pdfs ?? []).filter((a) => /(^|-)canonical$/.test(String(a.fixture ?? "")));
+  /* Fixture labels vary by host era: "canonical", "tf810-canonical",
+   * "canonical-misdemeanor_5yr". A canonical fixture is one whose label
+   * carries `canonical` as a hyphen-delimited segment.
+   *
+   * The anchored form missed only the third shape, and only dc_seal_conviction
+   * wears it -- which is why that family alone reached VERIFIED_PASS with no
+   * wiring record at all, and so could never be proven. Every other family
+   * matched by this test already matched the anchored one, so widening it
+   * writes exactly one record that was previously skipped and rewrites none.
+   */
+  const docs = (art.artifacts ?? art.pdfs ?? []).filter((a) => /(^|-)canonical(-|$)/.test(String(a.fixture ?? "")));
   if (docs.length === 0) continue;
+  /*
+   * A component is a document a participant files. It is NOT a rendering.
+   *
+   * DC renders the same `assembled_packet` twice, once per route -- the
+   * misdemeanor five-year track and the felony eight-year track -- and listing
+   * those two renderings as `component-1` (primary_filing) and `component-2`
+   * (companion_document) would tell a route installer that one participant
+   * files a misdemeanor motion AND a felony motion. That is not what the
+   * family builds and not what anyone would file.
+   *
+   * So canonical renderings are grouped by the document they render. A group
+   * with one rendering is the ordinary case and is unchanged. A group with
+   * several is one component rendered per route, and it says so: its own file
+   * and digest are null, because there is no single set of bytes to pin, and
+   * the per-route renderings carry the bytes instead.
+   */
+  const componentGroups = [];
+  const groupIndex = new Map();
+  for (const d of docs) {
+    const key = d.documentId ?? d.document ?? path.basename(d.file ?? "", ".pdf");
+    if (!groupIndex.has(key)) { groupIndex.set(key, componentGroups.length); componentGroups.push({ key, renderings: [] }); }
+    componentGroups[groupIndex.get(key)].renderings.push(d);
+  }
   const wiring = {
     schemaVersion: "rcap-census-v1-product-wiring/v1",
     family: f.familyId,
@@ -174,15 +205,28 @@ for (const f of master.families) {
       note: "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
       packetSetId: f.familyId,
       outputStrategy: f.implementationStrategy,
-      components: docs.map((d, i) => ({
-        componentId: `${f.familyId}-component-${i + 1}`,
-        role: i === 0 ? "primary_filing" : "companion_document",
-        order: i + 1,
-        documentId: d.documentId ?? d.document ?? path.basename(d.file ?? "", ".pdf"),
-        file: d.file ?? null,
-        sha256: d.sha256 ?? null,
-        requirement: "required"
-      }))
+      components: componentGroups.map((g, i) => {
+        const perRoute = g.renderings.length > 1;
+        const only = g.renderings[0];
+        return {
+          componentId: `${f.familyId}-component-${i + 1}`,
+          role: i === 0 ? "primary_filing" : "companion_document",
+          order: i + 1,
+          documentId: g.key,
+          file: perRoute ? null : (only.file ?? null),
+          sha256: perRoute ? null : (only.sha256 ?? null),
+          requirement: "required",
+          ...(perRoute ? {
+            renderedPerRoute: g.renderings.map((d) => ({
+              routeKey: d.routeKey ?? null,
+              fixture: d.fixture ?? null,
+              file: d.file ?? null,
+              sha256: d.sha256 ?? null
+            })),
+            whyThereIsNoSingleDigest: "This component is rendered once per route the family serves, so there is no one set of bytes to pin here. A route installs the rendering whose routeKey it matches; the digests are on those renderings."
+          } : {})
+        };
+      })
     }
   };
   fs.writeFileSync(wiringPath, `${JSON.stringify(wiring, null, 2)}\n`);
