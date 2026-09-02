@@ -1,0 +1,40 @@
+{
+ "schemaVersion": "rcap-fable-verifier-return/v1",
+ "verifier": "FABLE-VT3",
+ "role": "independent packet verifier — built none of these packets",
+ "lanes": ["VF07", "VF09", "VF19", "VF24"],
+ "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+ "branch": "fable/vt3",
+ "method": "Per family: claim asserted before reading; MASTER_QUEUE row and overlay directory located; verify-packet-completeness.mjs re-run in this container and read directly; committed reports (completeness counters, rendered-artifacts, actual-writes, blanks disclosure, approval-request) read against the fixtures; fixture PDFs rehashed against rendered-artifacts.json; every source PDF rehashed from the Master Library bytes mounted at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 against source-receipt.json and the committed corpus index; participant writes proven in the fixture bytes (committed byte-proof, with pdftotext re-reads wherever the report's own glyph readback could not reproduce a value); fixture faces checked for route/statute, placeholder text and wrong-state content; RASTER_QUEUE receipts checked hash-bound to the exact fixture bytes; repaired families checked against the prior FAIL findings defect by defect.",
+ "verdicts": [
+  {"lane": "VF07", "itemId": "co_multiple_conviction_seal-set", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "JDF-641 + JDF-642 complete; 32 writes proven in bytes; the report's 4 boundary apostrophe readback mismatches are extraction artifacts — the bytes carry U+2019."},
+  {"lane": "VF07", "itemId": "in_infraction_nondisclosure-set", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "Verified as the guidance deliverable it declares: stage-2 petition deliberately absent per its dependency record (drafted:false, unresolved_form_question) and the packet says so on its face."},
+  {"lane": "VF07", "itemId": "or_conviction_setaside-set", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "ORS 137.225 set-aside packet complete; committed actual-writes carries aggregates only (null per-write readback), so all 8 write values were independently confirmed in the fixture bytes."},
+  {"lane": "VF07", "itemId": "vt_exp_decriminalized-set", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "200-00129 + 200-00132A + 600-00228 under 13 V.S.A. § 7602; 47 writes proven; filing destination stated."},
+  {"lane": "VF07", "itemId": "vt_seal_misdemeanor-set", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "REPAIRED family: prior BLOCKED_SOURCE cleared — all 3 sources rehashed from mounted library bytes; the Vermont filing-handoff repair holds ('Where you file this' present; fee and service honestly deferred to the unit clerk with reasons)."},
+  {"lane": "VF09", "itemId": "ga-felony-j1-set", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "O.C.G.A. § 35-3-37(j)(1) custom pleading, five components, 18 writes foundInOutputBytes."},
+  {"lane": "VF09", "itemId": "mi_setaside_marihuana-set", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "REPAIRED family: both prior defects hold repaired — familyId consistent across all records, and service now states who (prosecuting official), how (mail), and the sworn certificate-of-mailing order."},
+  {"lane": "VF09", "itemId": "ut_pet_limitations-set", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "REPAIRED family: all four VF08 defects hold repaired — SID#R&F reclassified PROTECTED_FIELD with positional evidence; BCI-then-district-court destination stated; $150 fee + 1305GE waiver + BCI indigent route stated; prosecutor service with 1146XX stated."},
+  {"lane": "VF09", "itemId": "vt_seal_pardon-set", "verdict": "BLOCKED_LEGAL_INPUT", "finding": "Mechanically complete, but the family's own treatment record is exact_supported_deferral: the § 7602(c) three-year vs § 7602(d) seven-year clock for a pardoned misdemeanour is unresolved, counsel question VTL01 has no committed output or answer, and VERMONT_REPAIR directs this family out of the verification queues until it is answered. Secondary defect recorded: instructions lack the filing-destination/service section its siblings received."},
+  {"lane": "VF09", "itemId": "wi_nc_doj_fingerprint_removal-set", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "DJ-LE-250B under Wis. Stat. 165.84(1); 20 writes proven; source-form subset fonts (no ToUnicode) garble boilerplate extraction but the fill glyphs read back correctly."},
+  {"lane": "VF19", "itemId": "ak-tf800-set", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "TF-800 under Administrative Rule 37.6, 3 pages all bound to the recorded source sha; 14 writes proven; 7 required blanks each with why + participantMustSupply."},
+  {"lane": "VF24", "itemId": "ct-cleanslate-petition-set", "verdict": "PASS_COMPLETE_INDEPENDENT", "finding": "JD-CR-202 under C.G.S. § 54-142a / P.A. 23-134 § 1; the documented shared caption-channel defect is contained — affected fields refused by role, correct facts verified in the delivered bytes."}
+ ],
+ "handoffs": [
+  {
+   "what": "VERIFIER_RETURNS supersession keeps a stale FAIL current for mi_setaside_marihuana-set",
+   "detail": "extract-verifier-returns.mjs ranks factory lanes by lane number, so VF25's pre-repair FAIL_REPAIR_REQUIRED outranks this fresh VF09 PASS_COMPLETE_INDEPENDENT and the family still lists under failRepairRequiredFamilies. The fresh read was assigned to VF09 by the captain; reconciling the precedence (or refreshing the VF25 row) is captain-side — this lane does not edit another lane's rows."
+  },
+  {
+   "what": "vt_seal_pardon-set remains out of the verification queue by its own records",
+   "detail": "MASTER_QUEUE legalInputStatus SETTLED contradicts the committed treatment record (exact_supported_deferral) and VERMONT_REPAIR's pardonRoute disposition; VTL01's output directory does not exist. The packet also still lacks the filing-destination/service instruction section the other four Vermont sealing families received."
+  }
+ ],
+ "refusals": [],
+ "claims": "All 12 subjects asserted before reading and released after verdicts were recorded (grant set 573bba8a85de8544).",
+ "overlayDirectoriesModified": 0,
+ "buildScriptsModified": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "grantsNothing": "An independent PASS proves a packet is complete. It approves no output, opens no commercial route, and creates no fulfillment record."
+}

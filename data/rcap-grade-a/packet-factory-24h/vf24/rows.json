@@ -1,0 +1,218 @@
+{
+ "schemaVersion": "rcap-independent-verification-rows/v1",
+ "lane": "VF24",
+ "laneKind": "independent-verification",
+ "generatedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+ "preflight": "verify-packet-completeness.mjs run per family in this container at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666; Master Library mounted and sources rehashed from bytes",
+ "overlayDirectoriesModified": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route. A FAIL is a verdict and a repair assignment, never an edit; this lane wrote into no overlay directory and no build script.",
+ "rows": [
+  {
+   "itemId": "ct-cleanslate-petition-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+   "verifier": "FABLE-VT3 (independent — built none of these packets)",
+   "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "proofObligations": {
+    "routeIdentity": {
+     "result": "PASS",
+     "finding": "Connecticut JD-CR-202 Rev. 11-23, 'Petition for Clean Slate Erasure, Convictions Before 1/1/2000', citing C.G.S. § 54-142a and P.A. 23-134 § 1 on its face; route obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202.",
+     "evidence": {
+      "form": "JD-CR-202 Rev. 11-23",
+      "authorities": [
+       "C.G.S. § 54-142a",
+       "P.A. 23-134 § 1"
+      ]
+     }
+    },
+    "componentSet": {
+     "result": "PASS",
+     "finding": "The single declared form JD-CR-202 is the packet.",
+     "evidence": {
+      "declared": [
+       "JD-CR-202"
+      ],
+      "present": [
+       "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000"
+      ]
+     }
+    },
+    "captionChannelDefectContained": {
+     "result": "PASS",
+     "finding": "The family documents a defect in shared caption-harvest infrastructure (reports/caption-channel-defect.json: a multi-cell table-header caption row is harvested as one run-on caption) and contains it: every affected field is refused BY ROLE rather than by the defective caption, nothing shared was edited, and the delivered fixtures bind the correct facts — DEFNAME carries the participant name, DEFEMAIL the email, DEFPHONE the phone and DOB the date of birth, each verified in the output bytes. The defect record's warning (that a naive caption repair would prefill a sworn attestation block) is a finding for the owning script, not a defect of this packet.",
+     "evidence": {
+      "defectRecord": "reports/caption-channel-defect.json",
+      "severity": "reportable_defect_in_shared_infrastructure",
+      "thisFamilysWrites": "correct facts verified in bytes for DEFNAME/DEFEMAIL/DEFPHONE/DOB"
+     }
+    },
+    "completenessCounters": {
+     "result": "PASS",
+     "finding": "Re-run in this container at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666: verify-packet-completeness.mjs --family ct-cleanslate-petition-set returns PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects).",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-cleanslate-petition-set",
+      "result": "PASS_COMPLETE",
+      "allNineCountersZero": true
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "Every bound source was rehashed from the Master Library bytes mounted in the shared checkout (private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1); each recomputed SHA-256 and byte length agrees with source-receipt.json and the committed local-source-corpus-index.json entry, and every page-manifest sourceSha256 is a receipt sha.",
+     "evidence": [
+      {
+       "form": "JD-CR-202",
+       "recordedSha": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+       "inCorpusIndex": true,
+       "rehashedFromLibraryBytes": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+       "rehashMatches": true,
+       "byteLenMatches": true
+      }
+     ]
+    },
+    "artifactIdentity": {
+     "result": "PASS",
+     "finding": "Both committed fixture PDFs rehash to exactly the sha256 and byteLength recorded in reports/rendered-artifacts.json.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+       "shaMatches": true,
+       "byteLenMatches": true
+      },
+      {
+       "fixture": "boundary",
+       "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+       "shaMatches": true,
+       "byteLenMatches": true
+      }
+     ]
+    },
+    "actualWrites": {
+     "result": "PASS",
+     "finding": "All 10 writes proven in bytes: 6 canonical and 2 boundary rows match in the committed report, and the 2 boundary rows the report's readback returned empty (DEFADDRESS, DEFPHONE — long boundary values) were re-read with pdftotext and both values are present verbatim in the boundary fixture bytes ('12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B'; '203-555-0142 ext. 44821').",
+     "evidence": {
+      "total": 10,
+      "verifiedInBytes": 10,
+      "unrecordedPerWrite": 0,
+      "reportReadbackDiscrepanciesResolvedAgainstBytes": [
+       {
+        "fixture": "petition-canonical",
+        "field": "form1[0].PAGE1[0].DOCKETNO[0]",
+        "expected": "N23N-CR98-0123456-S",
+        "drawnPerReport": "",
+        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+       },
+       {
+        "fixture": "petition-canonical",
+        "field": "form1[0].PAGE1[0].DOB[0]",
+        "expected": "1971-04-17",
+        "drawnPerReport": "",
+        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+       },
+       {
+        "fixture": "petition-canonical",
+        "field": "form1[0].PAGE1[0].DEFADDRESS[0]",
+        "expected": "118 Maple Street",
+        "drawnPerReport": "",
+        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+       },
+       {
+        "fixture": "petition-canonical",
+        "field": "form1[0].PAGE1[0].DEFPHONE[0]",
+        "expected": "203-555-0142",
+        "drawnPerReport": "",
+        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+       },
+       {
+        "fixture": "petition-boundary",
+        "field": "form1[0].PAGE1[0].DOB[0]",
+        "expected": "1971-04-17",
+        "drawnPerReport": "",
+        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+       },
+       {
+        "fixture": "petition-boundary",
+        "field": "form1[0].PAGE1[0].DEFADDRESS[0]",
+        "expected": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
+        "drawnPerReport": "",
+        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+       },
+       {
+        "fixture": "petition-boundary",
+        "field": "form1[0].PAGE1[0].DEFPHONE[0]",
+        "expected": "203-555-0142 ext. 44821",
+        "drawnPerReport": "",
+        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+       }
+      ]
+     }
+    },
+    "blanksDisclosure": {
+     "result": "PASS",
+     "finding": "Zero unnamed participant blanks: the blanks report classifies all 16 remaining blanks (form buttons, the sworn attestation block, the court's order section, the crimes box) with the honest note that nineteen of twenty-two fields stay unfilled and why; unclassifiedBlanks 0 on my verifier run.",
+     "evidence": {
+      "source": "reports/blanks-left-for-the-participant.json",
+      "requiredBeforeFiling": 0
+     }
+    },
+    "placeholderAndFace": {
+     "result": "PASS",
+     "finding": "pdftotext over every fixture finds no placeholder text (no TODO/TBD/PLACEHOLDER/lorem/{{...}}/[INSERT), and the packet face names its own jurisdiction, instrument and authority.",
+     "evidence": {
+      "faceChecks": [
+       {
+        "fixture": "canonical",
+        "chars": 4799,
+        "placeholderHits": [],
+        "mentionsOwnState": true
+       },
+       {
+        "fixture": "boundary",
+        "chars": 4828,
+        "placeholderHits": [],
+        "mentionsOwnState": true
+       }
+      ],
+      "statutoryAuthority": null,
+      "jurisdiction": "CT"
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "participant-instructions.md is present and substantive, enumerating the items the participant must supply.",
+     "evidence": {
+      "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/participant-instructions.md",
+      "bytes": 5611
+     }
+    },
+    "rasterVisual": {
+     "result": "PASS",
+     "finding": "The central raster workflow holds a hash-bound RASTER_PASS for this family, and the queue's canonical and boundary PDF sha256 values match the bytes I rehashed in this worktree.",
+     "evidence": {
+      "state": "RASTER_PASS",
+      "canonicalPdfSha256": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
+      "boundaryPdfSha256": "e190d7304260be94e84e46fb18710ee85e1f5a5314e7a7a5a5dd5eeb33b3d052"
+     }
+    },
+    "commercialPosture": {
+     "result": "PASS",
+     "finding": "generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0 in production-field-map.json; approval-request claims no approval and no live status. This verdict opens nothing.",
+     "evidence": {
+      "fieldMap": {
+       "generationAllowed": false,
+       "runtimeSelectable": false,
+       "commercialRoutesOpened": null
+      },
+      "approvalRequest": {
+       "status": "REQUESTED",
+       "approvedForLive": null,
+       "live": null
+      }
+     }
+    }
+   }
+  }
+ ]
+}
