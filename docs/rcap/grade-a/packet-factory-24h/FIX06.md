@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `1f1c014e728f2cb6cb5c1f380696ed07a5c70c26` (or the newer dispatch base)
+**Minimum required ancestor:** `b03b38d9055aa9d4fe2db98e74e109dee02d09fb` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4 \
+  --family ca-851-91-set \
   --codex-cloud \
-  --minimum-captain-sha 1f1c014e728f2cb6cb5c1f380696ed07a5c70c26
+  --minimum-captain-sha b03b38d9055aa9d4fe2db98e74e109dee02d09fb
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,14 +56,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 6 families
+## The 1 family
 
-- `composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4`
-- `composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement`
-- `nj_disorderly_persons-set` — failing: knownRequiredFieldsMissing
-- `rcap-ok-custom-pleading`
-- `rcap-wv-custom-pleading`
-- `ut_pet_acquittal-set`
+- `ca-851-91-set`
 
 ## What you receive
 
@@ -76,17 +71,8 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix06/**`
-- `data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
-- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4.mjs`
-- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement.mjs`
-- `scripts/build-census-v1-nj_disorderly_persons-set.mjs`
-- `scripts/build-census-v1-rcap-ok-custom-pleading.mjs`
-- `scripts/build-census-v1-rcap-wv-custom-pleading.mjs`
+- `data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ca-851-91-set.mjs`
 
 ## Never write here
 

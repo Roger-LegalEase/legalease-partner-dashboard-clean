@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-02T18:51:18.514Z",
-  "captainHead": "cc24a6fb4b6a0be22b8d70b0f08e61b79260ad17",
+  "generatedAt": "2026-09-02T19:02:51.599Z",
+  "captainHead": "b03b38d9055aa9d4fe2db98e74e109dee02d09fb",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-02T19:11:18.514Z",
-    "nextSourceReleaseDeadline": "2026-09-02T19:21:18.514Z",
+    "nextIntegrationDeadline": "2026-09-02T19:22:51.599Z",
+    "nextSourceReleaseDeadline": "2026-09-02T19:32:51.599Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,7 +34,7 @@
           "VF11",
           "VF12"
         ],
-        "measured": 44,
+        "measured": 39,
         "threshold": 20,
         "triggered": true
       },
@@ -46,9 +46,9 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 15,
+        "measured": 25,
         "threshold": 20,
-        "triggered": false
+        "triggered": true
       },
       {
         "when": "SOURCE_READY > 80",
@@ -81,16 +81,16 @@
     "sourceReady": 51,
     "sourceBlocked": 102,
     "legalBlocked": 22,
-    "verifyPending": 44,
-    "repairRequired": 15,
+    "verifyPending": 39,
+    "repairRequired": 25,
     "byState": {
       "SOURCE_READY": 51,
-      "COMPLETE_PACKET_PROVEN": 94,
-      "VERIFY_PENDING": 43,
+      "COMPLETE_PACKET_PROVEN": 89,
+      "VERIFY_PENDING": 38,
       "OUT_OF_SCOPE": 5,
       "SOURCE_BLOCKED": 102,
+      "FAIL_REPAIR_REQUIRED": 25,
       "LEGAL_BLOCKED": 22,
-      "FAIL_REPAIR_REQUIRED": 15,
       "HANDOFF_READY": 2,
       "GUIDANCE_READY": 9,
       "VERIFIED_PASS": 1,

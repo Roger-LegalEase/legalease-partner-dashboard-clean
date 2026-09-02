@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `cc24a6fb4b6a0be22b8d70b0f08e61b79260ad17` (or the newer dispatch base)
+**Minimum required ancestor:** `b03b38d9055aa9d4fe2db98e74e109dee02d09fb` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 \
+  --family ar-cs-possession-seal-set \
   --codex-cloud \
-  --minimum-captain-sha cc24a6fb4b6a0be22b8d70b0f08e61b79260ad17
+  --minimum-captain-sha b03b38d9055aa9d4fe2db98e74e109dee02d09fb
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,15 +56,17 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 7 families
+## The 9 families
 
+- `ar-cs-possession-seal-set`
 - `composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085`
 - `in_section1_petition-set`
 - `nj_arrest_no_conviction-set`
 - `ut_pet_acquittal-set`
 - `vt_exp_decriminalized-set`
 - `wa_vac_cannabis-set`
-- `nj_disorderly_persons-set`
+- `az_marijuana_expungement_arrest_no_charges-set`
+- `wa_vac_homicide_victim_prostitution-set`
 
 ## What you receive
 
@@ -77,18 +79,21 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
+- `data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ar-cs-possession-seal-set.mjs`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085.mjs`
 - `scripts/build-census-v1-in_section1_petition-set.mjs`
 - `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`
 - `scripts/build-census-v1-wa_vac_cannabis-set.mjs`
-- `scripts/build-census-v1-nj_disorderly_persons-set.mjs`
+- `scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs`
 
 ## Never write here
 
