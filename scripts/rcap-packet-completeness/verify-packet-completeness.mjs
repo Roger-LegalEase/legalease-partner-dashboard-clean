@@ -491,7 +491,40 @@ if (WRITE) {
 
 if (MUTATIONS) {
   console.log("\nmutations — each injects a defect the old PASS definition accepted:");
-  const sample = targets[0];
+  /*
+   * THE SAMPLE MUST HAVE THE SHAPE THE MUTATIONS MUTATE.
+   *
+   * This took `targets[0]` and pushed onto `m.writes` and `m.refusals`. Nine of
+   * the hundred and eighty committed field maps carry those arrays at the top
+   * level; a hundred and thirty-eight nest them under `maps[]`, because the
+   * newer build hosts emit one map per document rather than one per family. So
+   * whenever the first audited family was a newer one, every mutation threw
+   * `Cannot read properties of undefined (reading 'push')` and the whole
+   * mutation suite died before its first case — a gate with a hole in it,
+   * reported by a lane that reproduced the crash at its own base with its own
+   * directories removed.
+   *
+   * Picking a sample that has the shape is the honest fix: it changes nothing
+   * about what the suite proves, and the suite runs. Refusing outright when no
+   * family has the shape is the other half — a mutation suite that silently
+   * tests nothing is worse than one that says it could not run.
+   */
+  const hasFlatShape = (t) => {
+    try {
+      const m = JSON.parse(fs.readFileSync(path.join(ROOT, `${t.dir}/production-field-map.json`), "utf8"));
+      return Array.isArray(m.writes) && Array.isArray(m.refusals);
+    } catch { return false; }
+  };
+  const sample = targets.find(hasFlatShape);
+  if (!sample) {
+    console.log("  REFUSED: no audited family carries a top-level writes[]/refusals[] field map, which is the shape every mutation below injects into.");
+    console.log("  This is not a pass. The mutation suite proves the counters CATCH injected defects, and it proved nothing on this run.");
+    console.log(`  ${targets.length} family(ies) audited; none has the shape. Point --family at one that does, or teach the cases the nested maps[] shape.`);
+    process.exit(1);
+  }
+  if (sample !== targets[0]) {
+    console.log(`  sample: ${sample.familyId} — the first audited family does not carry a top-level writes[]/refusals[] field map, so the suite runs against the first that does.`);
+  }
   const original = fs.readFileSync(path.join(ROOT, `${sample.dir}/production-field-map.json`));
   const originalWrites = fs.existsSync(path.join(ROOT, `${sample.dir}/reports/actual-writes.json`))
     ? fs.readFileSync(path.join(ROOT, `${sample.dir}/reports/actual-writes.json`)) : null;
