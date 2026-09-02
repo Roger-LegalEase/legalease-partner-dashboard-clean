@@ -1,4 +1,18 @@
 {
+ "vtdReading": {
+  "reading": "packet-factory-24h/VF11 (VT-D, 2026-09-02)",
+  "whatThisMarkerIs": "VT-D read this lane's two remaining VERIFY_PENDING families at base a0d49e1ad49ad4397eac4b009225baf0b94bf03e and appended no repair assignment, because neither family failed. Everything already in this file was written by earlier workers on this lane and is preserved byte for byte; nothing in it is edited or withdrawn.",
+  "worker": "VT-D (independent; built, repaired and rendered none of these packets)",
+  "baseSha": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+  "familiesRead": [
+   "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+   "ut_pet_no_charges-set"
+  ],
+  "assignmentCountAddedHere": 0,
+  "familiesFailedHere": [],
+  "whyUtahIsNotHere": "ut_pet_no_charges-set is BLOCKED_LEGAL_INPUT, not FAIL_REPAIR_REQUIRED, so it takes no repair assignment. Its two earlier failed obligations, PAGE_ORDER and SELF_HELP_STOP, were re-measured at this base and are repaired: the packet now delivers the two BCI components first, in the packet-set manifest's declared order, and carries all eight registry stop conditions verbatim with the hearing inversion gone. What remains is an unlifted fee-and-waiver input hold: packet-family-build-worklist.json still records filingFee and feeWaiverTreatment as not_recorded for the ut_pet_no_charges-court-petition route. Recording that input in the controlling file, then re-verifying, is what clears it. See vf11/rows.json for the measurement.",
+  "grantsNothing": "No route opened, no price set, no promotion authorised."
+ },
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF11",
  "generatedAtBase": "09b741ad00be0d630bd73a72f66640294abab397",

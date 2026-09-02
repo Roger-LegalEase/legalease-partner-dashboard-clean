@@ -1,4 +1,22 @@
 {
+  "vtdReading": {
+    "reading": "packet-factory-24h/VF04 (VT-D, 2026-09-02)",
+    "whatThisMarkerIs": "One repair assignment was appended to this file by VT-D, carrying \"wave\": \"packet-factory-24h/VF04 (VT-D, 2026-09-02)\". Everything already here was written by earlier workers on this lane and is preserved byte for byte; nothing in it is edited or withdrawn.",
+    "worker": "VT-D (independent; built, repaired and rendered none of these packets)",
+    "baseSha": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "familiesRead": [
+      "rcap-tn-custom-pleading",
+      "ct-decriminalized-set",
+      "ct-missed-erasure-set",
+      "wv_conv_single_misdemeanor-set",
+      "wa_vac_felony-set"
+    ],
+    "assignmentCountAddedHere": 1,
+    "familiesFailedHere": [
+      "wa_vac_felony-set"
+    ],
+    "grantsNothing": "No route opened, no price set, no promotion authorised."
+  },
   "waveThree": {
     "wave": "packet-factory-24h/VF04/wave-3 (FABLE-VA4, 2026-09-02)",
     "whatThisMarkerIs": "Two repair assignments were appended to this file. Everything already here was written by earlier workers on this lane and is preserved byte for byte; nothing in it is edited or withdrawn. The entries carrying \"wave\": \"packet-factory-24h/VF04/wave-3 (FABLE-VA4, 2026-09-02)\" are this reading's, and only those.",
@@ -15,6 +33,44 @@
   "worker": "VF-SRC-A",
   "assignmentCount": 1,
   "assignments": [
+  {
+    "wave": "packet-factory-24h/VF04 (VT-D, 2026-09-02)",
+    "itemId": "wa_vac_felony-set",
+    "lane": "VF04",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "raisedBy": "VT-D (independent; built, repaired and rendered none of these packets)",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill",
+    "decisiveDefect": "The packet carries 4 of the 12 self-help stop conditions the committed track registry holds for trackId wa_vac_felony, and the family binds no SELF_HELP_STOP record at all. Eight conditions are absent from participant-instructions.md and from every other packet-authored page, including 'Immigration consequences', which a non-citizen vacating a Washington felony record is never told about.",
+    "failedProofObligations": [
+      {
+        "obligation": "SELF_HELP_STOP",
+        "finding": "data/record-clearing/legal-design-track-registry.json, track wa_vac_felony, selfHelpStopConditions holds 12 entries. Measured by whitespace-normalised search over the whole of participant-instructions.md and over the extracted text of both delivered PDFs, 4 are carried and 8 are not.",
+        "carried": [
+          "Any question about offence class or the exact RCW. — carried as 'you are not sure whether your felony is class B or class C'",
+          "The felony class or the exact RCW cannot be established from the judgment and sentence. — same bullet",
+          "No certificate of discharge has been entered. — carried as 'you do not have a certificate of discharge'",
+          "The offence may be a crime against persons under RCW 43.43.830 even if it is not a violent offence under RCW 9.94A.030. — carried loosely as 'a crime against a person', without the RCW 43.43.830 / RCW 9.94A.030 contrast the registry insists on"
+        ],
+        "absent": [
+          "Any pending charge in Washington, another state, federal court, or tribal court. (0 hits for 'pending charge', 0 for 'tribal')",
+          "Any domestic violence element, charged or findable from the court file. (the file's only domestic-violence mention is the opposite posture: it refers a participant who WAS a victim of domestic violence to the victim-survivor family)",
+          "Any protection, no-contact, antiharassment or civil restraining order currently in effect, or violated in the last five years. (0 hits for 'no-contact', 'restraining', 'antiharassment')",
+          "Any DUI, physical control, or alcohol or drug related driving offence, including a reduced charge. (0 hits for 'DUI', 'physical control')",
+          "Any firearm, deadly weapon or sexual motivation enhancement. (0 hits for 'firearm', 'deadly weapon', 'sexual motivation')",
+          "Immigration consequences. (0 hits for 'immigration' anywhere in the family)",
+          "Any participant whose real goal is firearm rights restoration, which is a separate proceeding under RCW 9.41.041. (0 hits for '9.41.041', 'rights restoration')",
+          "Assault in the third degree where the victim may have been a law enforcement or peace officer. (0 hits for 'assault in the third', 'law enforcement', 'peace officer')"
+        ],
+        "whyThePdfHitsDoNotAnswerIt": "The delivered PDFs return hits for 'firearm', 'deadly weapon', 'physical control' and '43.43.830' only inside CR 08.0900's own printed section 2 exclusion list. That is pinned source text the participant is asked to self-assess against — the opposite of the packet telling them to stop and get help — and it is precisely the self-assessment the registry records as beyond self-help.",
+        "structuralEvidence": "No file in the family directory contains the string SELF_HELP or selfHelp. filing-obligations.json binds FILING_DESTINATION, FEE_AND_WAIVER and SERVICE and stops there, so unlike the family's other four narrative obligations this one was never bound to the registry at build time."
+      }
+    ],
+    "whatIsNotTheDefect": "The instruction to attend the hearing is not the inversion pattern and must not be repaired away. This route's registry record treats a hearing as an ordinary step ('expect a possible hearing'), and the packet separately tells the participant to stop if the prosecuting attorney objects. Leave that as it is.",
+    "whatWouldClearIt": "Carry all 12 registry selfHelpStopConditions for trackId wa_vac_felony in participant-instructions.md's 'Where self-help ends' section, in the registry's own words, and bind SELF_HELP_STOP in filing-obligations.json alongside the three obligations already bound there, so the binding is checkable rather than incidental. Give the immigration condition the treatment the sibling families give it — wv_conv_single_misdemeanor-set and ut_pet_no_charges-set both mark it a hard stop rather than a caveat — and restore the RCW 43.43.830 versus RCW 9.94A.030 contrast the registry records, since those are two different lists and the second is long. Preserve the packet's existing additions (the victim-survivor referral, the prosecutor-objection stop, the record-mismatch stop); they are correct and the registry does not hold them.",
+    "everythingElsePassed": "The other fourteen obligations were measured here and pass. All nine completeness counters are zero, measured here. Both bound Master Library sources recompute exact against pin, byte length and corpus index; all four PDFs hash to record with matching deterministic second renders; the added-token diff against the pinned sources finds 0 unexplained tokens on any of the four artifacts; and exactly the three route-determined elections are marked with 11 controls proved unmarked. This is a single legal-safety omission in an otherwise clean family.",
+    "doesNotAuthorise": "This assignment opens no route, sets no price and promotes nothing."
+  },
     {
       "itemId": "ar-arrest-seal-set",
       "lane": "VF04",
