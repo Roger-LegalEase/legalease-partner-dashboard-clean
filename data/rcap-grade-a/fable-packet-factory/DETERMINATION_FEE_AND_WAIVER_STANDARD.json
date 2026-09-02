@@ -129,5 +129,34 @@
     "commercialRoutesOpened": 0,
     "productionTouched": false,
     "grantsNothing": "This settles how one obligation is scored. It promotes no family, opens no route, and overrides no legal decision."
+  },
+  "amendment4": {
+    "amendmentId": "DET-FEE-AND-WAIVER-001-A4",
+    "decidedAt": "2026-09-02T04:35:00Z",
+    "question": "FABLE-VT15 asked whether A2's ask-the-repository-first test extends to REQUIRED_BEFORE_FILING. Four of its five failures rested on applying it to a fourth obligation, and it flagged that rather than assuming it.",
+    "answer": "Yes, but narrowly, and the Utah families do not need it. A2 governs any obligation whose failure mode is the packet DENYING or OMITTING a fact the repository establishes. It does not convert REQUIRED_BEFORE_FILING into a fee-style audit of every fact a participant might want.",
+    "theNarrowerRuleThatActuallyDecidesUtah": {
+      "rule": "A packet may never tell a participant that it does not state something it does state. This is not an obligation-scoping question and does not depend on A1, A2 or A3 at all: it is internal consistency, and it fails under whichever obligation carries the false sentence.",
+      "theEvidence": "ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set tell the participant, in bold, that 'this packet does not state an amount because BCI sets it per applicant.' Their own delivered canonical PDF prints '$65.00' three times: 'The application fee is $65.00 and non-refundable', 'a non-refundable $65.00 application fee', and 'Application fee is $65.00' on the payment-method block. Confirmed by Captain with pdftotext against the committed bytes, not taken from the verifier's report.",
+      "theHonestNuance": "The $65.00 is the BCI APPLICATION fee; the instructions are describing the per-incident CERTIFICATE cost, which may genuinely be set per applicant. So the sentence is not necessarily false about certificates. It is still a defect, and a participant-facing one: a reader is told the packet states no amount, then finds $65.00 three times on the form they must submit and cannot tell whether they have missed something. The repair is to state the $65.00 application fee and distinguish it from per-certificate costs, not to delete the certificate paragraph.",
+      "whyThisMattersBeyondUtah": "A verifier can establish this without resolving any question about what the repository holds. Reading the delivered artifact against its own instructions is cheaper than a source hunt and catches a class the source hunt cannot see."
+    },
+    "onTheWiderQuestion": {
+      "extends": "REQUIRED_BEFORE_FILING, FILING_DESTINATION, SERVICE and FEE_AND_WAIVER all share one failure mode: the packet withholds or denies something the repository establishes, and the participant cannot act. Where that is the failure, ask the repository first.",
+      "doesNotExtend": "An obligation failing for a structural reason — a missing component, a field drawn outside its box, a page out of order — is not an A2 question and must not be argued as one.",
+      "theGuard": "A2 as widened is still bounded by A3: holding is per fact, and a record answers only the route it addresses."
+    },
+    "a3WasValidatedInTheField": {
+      "what": "VT15 found the sign-flipped twin of the California trap A3 was written for. West Virginia's compiled profile carries three 'no filing fees or costs are charged' lines keyed to section 61-11-25, while the route in hand is a section 61-11-26 petition that costs $200.",
+      "consequence": "A per-document reading — which A2, before A3, literally licensed — would have published 'no filing fee' for a $200 filing and sent participants to the clerk's counter with nothing. The repair did not walk into it, and A3 is why the next lane will not either."
+    },
+    "alsoRecorded": {
+      "wvFailureIsIndependentOfThisAmendment": "Both West Virginia families fail REQUIRED_BEFORE_FILING on a ground that needs no amendment: the instructions contradict the family's own field map. Narrowing A2 would not save them.",
+      "arkansasQueueRow": "ar-arrest-seal-set's own queue row reads SOURCE_IDENTITY_NOT_EXACT with boundCount 0/2 on what is purely an id-alias mismatch between the census and the corpus index, while the bytes hash exact. No route may promote while its own row says that; the row is wrong and the row is what a reader sees.",
+      "onceInALifetime": "Neither West Virginia packet mentions the once-per-lifetime bar in any form — not 61-11-26(o), not 17C-5-2b, not 60A-4-407, not the words 'only once'. The textual question of whether the bar reaches these tracks is unsettled and stays a counsel question; that the packets are silent about a bar their own tracks list as an exclusion is not."
+    },
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "This settles how obligations are scored. It promotes no family, opens no route, and overrides no legal decision."
   }
 }

@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "c65e29da9ce730d8c6009e558f97d851f7d72379",
+  "minimumCaptainSha": "ba6c88a3311ab20bb1c161a8e432ac3897a62396",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
@@ -1842,27 +1842,25 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER"
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
       ],
       "failedObligations": [
         {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The packet asserts a silence the repository does not have. Its \"The filing fee\" section reads the petition's paragraph 3 correctly — a sworn statement that fees \"mandated by A.C.A § 16-90-1419\" have been paid — and correctly reports that no amount is printed on the form, which this lane confirmed by extracting the source PDF's text (paragraph 3 names the fee statute and no figure appears anywhere on the face). But it then tells the participant that \"no source this packet holds establishes it\" and sends them to ask the clerk what the § 16-90-1419 fee is. The repository establishes it. The compiled Arkansas profile — cited as a requiredSourceId for this exact route in the national route census — states it three separate ways: packetGenerator.feeRules[1] \"Sealing petition filing fee $0 — Filing fees eliminated by the 2019 amendments\", feeRules[0] \"Act 1460 eliminated sealing filing fees; the real costs are records and any counsel\", and filingDestinationRules[1] \"File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.\" The profile's sourceFormStatements[7] ties this to the very form in this packet: \"Petition and Order to Seal Arrest (Act 1460) — Arrest records under § 16-90-1409.\" Amendment A1 settles the ordering: ask first whether the repository establishes the answer; if it does, the packet states it, and a named checkable authority may stand in only where no held source establishes it. Here one does, so the stand-in is unavailable and the packet substitutes a question for an answer the repository holds. The consequence is not cosmetic: paragraph 3 is sworn, and a participant told to go and pay an unknown fee before signing is being sent to resolve something the repository says was abolished in 2019. The repair is for a repairer with the legal record in front of them, not for this lane: state what the profile holds and reconcile it with the form's paragraph 3, which still recites the fee statute. Whether the correct sentence is \"$0, fees eliminated by the 2019 amendments\" or a reconciliation of the two is a drafting and counsel question; asserting repository silence is not an available answer.",
-          "evidence": {
-            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
-            "standardClauseFailed": "amendment.theTest — ask first whether the repository establishes the answer",
-            "packetClaim": "no source this packet holds establishes it",
-            "repositoryHolds": [
-              "packetGenerator.feeRules[1]: Sealing petition filing fee $0 Filing fees eliminated by the 2019 amendments",
-              "packetGenerator.feeRules[0]: Act 1460 eliminated sealing filing fees; the real costs are records and any counsel",
-              "packetGenerator.filingDestinationRules[1]: Act 1460 eliminated filing fees for sealing",
-              "packetGenerator.sourceFormStatements[7]: Petition and Order to Seal Arrest (Act 1460) Arrest records under § 16-90-1409"
-            ],
-            "heldIn": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
-            "citedAsRequiredSourceForThisRoute": "compiled-profile:src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
-            "formFaceConfirmedSilentOnAmount": "petition paragraph 3 names A.C.A. §16-90-1419 and prints no figure; extracted from the source PDF in this lane",
-            "waiverAlsoNotStated": true
-          }
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
         }
       ],
       "continuationResult": null,
@@ -25637,46 +25635,19 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FILING_DESTINATION",
-        "SERVICE"
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "FILING_DESTINATION",
-          "finding": "This route has two destinations in a fixed legal sequence and the packet states one of them. Stage one is fully named on the packet's own face: the BCI instruction page prints \"UTAH BUREAU OF CRIMINAL IDENTIFICATION, 4315 South 2700 West, Suite 1300, Taylorsville, Utah 84129\" and bciexpungements@utah.gov. Stage two — the district or justice court that decided the case — is named nowhere: the 1,167-byte participant-instructions.md has no \"Where you file this\" section at all, and the only trace is the prefilled caption, which under this factory's settled standard is evidence but is not the instructions naming a destination. Amendment A1's test is answered first and it is answered yes: the committed track registry holds \"Two destinations in a fixed legal sequence ... the participant first applies to BCI, which decides eligibility and issues a certificate valid for 180 days. The participant then files the expungement petition ... in the district or justice court that decided the case.\" The repository establishes it, so the packet must state it. The sibling ut_pet_no_charges-set, which ships nearly the same forms, states both stages and the 180-day window in full, so this is a gap in this packet rather than a limit of what is knowable.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/participant-instructions.md",
-            "instructionsByteLength": 1167,
-            "sectionsPresent": [
-              "Required before filing"
-            ],
-            "sectionsAbsent": [
-              "Where you file this",
-              "What it costs, and how to ask for a waiver",
-              "Who must receive a copy, and how",
-              "What this packet is not"
-            ],
-            "trackRegistryDestination": "Stage one, the Utah DPS Bureau of Criminal Identification; stage two, the court that decided the case",
-            "registry": "data/record-clearing/legal-design-track-registry.json",
-            "siblingThatStatesIt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/participant-instructions.md",
-            "stageOneNamedOnTheFace": "UTAH BUREAU OF CRIMINAL IDENTIFICATION, 4315 South 2700 West, Suite 1300, Taylorsville, Utah 84129; bciexpungements@utah.gov"
-          }
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
         },
         {
-          "obligation": "SERVICE",
-          "finding": "The packet states neither who must receive a copy nor how, and names no authority to ask. The 1,167-byte participant-instructions.md mentions service only twice, both times as a timing caveat — \"Service method, address, date, and certification only after service occurs\" and \"service certifications ... remain protected\" — which tells the participant when to fill a certificate in, not whom to serve. The packet does carry form 1146XX, Acceptance of Service – Expungement (Prosecutor), but a form's presence is not a direction: nothing on the delivered pages says the participant must send the prosecutor a copy, or by what method. The repository establishes the rule — the committed track registry states \"The court sends the filing to the prosecuting attorney; the petitioner does not serve\" — and the sibling ut_pet_no_charges-set packet states the recipient and the method in terms and names the Utah State Courts Self-Help Center (888-583-0009) besides. Under the determination, silence fails and a rule the repository holds must be stated.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/participant-instructions.md",
-            "instructionsByteLength": 1167,
-            "whatTheInstructionsSayAboutService": [
-              "Service method, address, date, and certification only after service occurs",
-              "service certifications ... remain protected"
-            ],
-            "trackRegistryService": "The court sends the filing to the prosecuting attorney; the petitioner does not serve",
-            "registry": "data/record-clearing/legal-design-track-registry.json",
-            "siblingThatStatesIt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/participant-instructions.md",
-            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json"
-          }
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
         }
       ],
       "continuationResult": "PASS_COMPLETE",
@@ -25895,46 +25866,19 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FILING_DESTINATION",
-        "SERVICE"
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "FILING_DESTINATION",
-          "finding": "This route has two destinations in a fixed legal sequence and the packet states one of them. Stage one is fully named on the packet's own face: the BCI instruction page prints \"UTAH BUREAU OF CRIMINAL IDENTIFICATION, 4315 South 2700 West, Suite 1300, Taylorsville, Utah 84129\" and bciexpungements@utah.gov. Stage two — the district or justice court that decided the case — is named nowhere: the 1,167-byte participant-instructions.md has no \"Where you file this\" section at all, and the only trace is the prefilled caption, which under this factory's settled standard is evidence but is not the instructions naming a destination. Amendment A1's test is answered first and it is answered yes: the committed track registry holds \"Two destinations in a fixed legal sequence ... the participant first applies to BCI, which decides eligibility and issues a certificate valid for 180 days. The participant then files the expungement petition ... in the district or justice court that decided the case.\" The repository establishes it, so the packet must state it. The sibling ut_pet_no_charges-set, which ships nearly the same forms, states both stages and the 180-day window in full, so this is a gap in this packet rather than a limit of what is knowable.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/participant-instructions.md",
-            "instructionsByteLength": 1167,
-            "sectionsPresent": [
-              "Required before filing"
-            ],
-            "sectionsAbsent": [
-              "Where you file this",
-              "What it costs, and how to ask for a waiver",
-              "Who must receive a copy, and how",
-              "What this packet is not"
-            ],
-            "trackRegistryDestination": "Stage one, the Utah DPS Bureau of Criminal Identification; stage two, the court that decided the case",
-            "registry": "data/record-clearing/legal-design-track-registry.json",
-            "siblingThatStatesIt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/participant-instructions.md",
-            "stageOneNamedOnTheFace": "UTAH BUREAU OF CRIMINAL IDENTIFICATION, 4315 South 2700 West, Suite 1300, Taylorsville, Utah 84129; bciexpungements@utah.gov"
-          }
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
         },
         {
-          "obligation": "SERVICE",
-          "finding": "The packet states neither who must receive a copy nor how, and names no authority to ask. The 1,167-byte participant-instructions.md mentions service only twice, both times as a timing caveat — \"Service method, address, date, and certification only after service occurs\" and \"service certifications ... remain protected\" — which tells the participant when to fill a certificate in, not whom to serve. The packet does carry form 1146XX, Acceptance of Service – Expungement (Prosecutor), but a form's presence is not a direction: nothing on the delivered pages says the participant must send the prosecutor a copy, or by what method. The repository establishes the rule — the committed track registry states \"The court sends the filing to the prosecuting attorney; the petitioner does not serve\" — and the sibling ut_pet_no_charges-set packet states the recipient and the method in terms and names the Utah State Courts Self-Help Center (888-583-0009) besides. Under the determination, silence fails and a rule the repository holds must be stated.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/participant-instructions.md",
-            "instructionsByteLength": 1167,
-            "whatTheInstructionsSayAboutService": [
-              "Service method, address, date, and certification only after service occurs",
-              "service certifications ... remain protected"
-            ],
-            "trackRegistryService": "The court sends the filing to the prosecuting attorney; the petitioner does not serve",
-            "registry": "data/record-clearing/legal-design-track-registry.json",
-            "siblingThatStatesIt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/participant-instructions.md",
-            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json"
-          }
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
         }
       ],
       "continuationResult": "PASS_COMPLETE",
@@ -30130,41 +30074,13 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "FILING_DESTINATION"
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "FILING_DESTINATION",
-          "finding": "The packet does not name the office it is filed with. participant-instructions.md has no filing section — it directs the participant only to \"the manner the form and filing court require\" — and the packet's own pages carry the caption \"IN THE CIRCUIT COURT OF Kanawha COUNTY, WEST VIRGINIA\", which under this factory's settled standard is evidence of a court type but is not the instructions naming a destination. This family ships the petition alone: SCA-C900, the instructions form its single-misdemeanour sibling carries, is not in this packet, so there is not even a general how-to page. Amendment A1's test is answered yes: the committed track registry holds \"Clerk of the circuit court of the county of conviction\". The repository establishes the destination and the packet is silent about it.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/participant-instructions.md",
-            "whatTheInstructionsSay": "Complete or sign them only at the event and in the manner the form and filing court require",
-            "trackRegistryDestination": "Clerk of the circuit court of the county of conviction",
-            "registry": "data/record-clearing/legal-design-track-registry.json",
-            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
-            "standardClause": "amendment A1"
-          }
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "Silence, and the repository holds the figure. Searched in this lane across the full extracted text of both fixtures and the whole of participant-instructions.md: no amount, no statement that filing is free, no waiver or in-forma-pauperis procedure, and no office named to ask. The committed track registry states the fee in terms — \"the § 59-1-11(a)(1) civil-action filing fee of $200, plus a $100 State Police processing fee paid on grant\" — so this is not a case where naming an authority could stand in: A1's test asks first whether the repository establishes the answer, and here it does. Silence fails under the determination's first not-met clause in any event.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/participant-instructions.md",
-            "searchedFor": [
-              "$",
-              "fee",
-              "waiver",
-              "indigent",
-              "in forma pauperis",
-              "cost"
-            ],
-            "hitsInPacketOrInstructions": 0,
-            "trackRegistryFee": "the § 59-1-11(a)(1) civil-action filing fee of $200, plus a $100 State Police processing fee paid on grant",
-            "registry": "data/record-clearing/legal-design-track-registry.json",
-            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
-            "standardClause": "theStandard.notMet[0], with amendment A1 closing the named-authority alternative"
-          }
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
         }
       ],
       "continuationResult": "PASS_COMPLETE",
@@ -30358,41 +30274,13 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "FILING_DESTINATION"
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "FILING_DESTINATION",
-          "finding": "The packet does not name the office it is filed with. participant-instructions.md has no filing section — it directs the participant only to \"the manner the form and filing court require\" — and the packet's own pages carry the caption \"IN THE CIRCUIT COURT OF Kanawha COUNTY, WEST VIRGINIA\", which under this factory's settled standard is evidence of a court type but is not the instructions naming a destination. The SCA-C900 instructions component that ships in this packet tells the participant how to complete each part of the form and never says where to take it. Amendment A1's test is answered yes: the committed track registry holds \"Clerk of the circuit court of the county in which the conviction occurred\". The repository establishes the destination and the packet is silent about it.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/participant-instructions.md",
-            "whatTheInstructionsSay": "Complete or sign them only at the event and in the manner the form and filing court require",
-            "trackRegistryDestination": "Clerk of the circuit court of the county in which the conviction occurred",
-            "registry": "data/record-clearing/legal-design-track-registry.json",
-            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
-            "standardClause": "amendment A1"
-          }
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "Silence, and the repository holds the figure. Searched in this lane across the full extracted text of both fixtures and the whole of participant-instructions.md: no amount, no statement that filing is free, no waiver or in-forma-pauperis procedure, and no office named to ask. The committed track registry states the fee in terms — \"the § 59-1-11(a)(1) civil-action filing fee, which the official text sets at $200, plus a $100 State Police processing fee paid on grant\" — so this is not a case where naming an authority could stand in: A1's test asks first whether the repository establishes the answer, and here it does. Silence fails under the determination's first not-met clause in any event.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/participant-instructions.md",
-            "searchedFor": [
-              "$",
-              "fee",
-              "waiver",
-              "indigent",
-              "in forma pauperis",
-              "cost"
-            ],
-            "hitsInPacketOrInstructions": 0,
-            "trackRegistryFee": "the § 59-1-11(a)(1) civil-action filing fee, which the official text sets at $200, plus a $100 State Police processing fee paid on grant",
-            "registry": "data/record-clearing/legal-design-track-registry.json",
-            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
-            "standardClause": "theStandard.notMet[0], with amendment A1 closing the named-authority alternative"
-          }
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
         }
       ],
       "continuationResult": "PASS_COMPLETE",
