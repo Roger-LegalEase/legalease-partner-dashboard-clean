@@ -347,6 +347,37 @@ try {
     laneReturnLegalHolds.get(r.familyId).foundBy.push(`${r.lane} (PR #${r.pr})`);
   }
 } catch { /* no extraction yet; the dispatch is still generatable */ }
+
+/*
+ * A hold limb the repository has since answered by measurement.
+ *
+ * A legal hold must name ONE exact unresolved decision, and some were recorded
+ * naming two or three at once. Where a later measurement removes a factual
+ * premise from one of them -- not a judgement about it, a measurement of it --
+ * the hold narrows to what is genuinely still open, and a reviewer is not sent
+ * to decide something the bytes already settle.
+ *
+ * Nebraska's trafficking hold is the case in hand. It named a vehicle conflict
+ * AND "held form CC-6-12 is an instruction document". The second was true of
+ * what the lane was handed and false of the corpus: CC-6-12 is held as both a
+ * form and an instruction sheet under one number, and every resolver's
+ * last-write-wins map handed out the sheet. With that fixed the family binds
+ * the two-page motion to seal, and the vehicle conflict is the whole hold.
+ *
+ * This narrows; it never lifts. A family with any limb still open stays
+ * LEGAL_BLOCKED and fail-closed, which is why the record carries no mechanism
+ * for marking a hold satisfied.
+ */
+let legalHoldLimbsAnswered = new Map();
+try {
+  const doc = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/LEGAL_HOLD_LIMBS_ANSWERED.json`), "utf8"));
+  for (const e of doc.entries ?? []) {
+    if (!e.familyId || !e.limbAnswered || !e.measurement || !e.whatStillStandsAndIsTheWholeHoldNow) continue;
+    if (!legalHoldLimbsAnswered.has(e.familyId)) legalHoldLimbsAnswered.set(e.familyId, []);
+    legalHoldLimbsAnswered.get(e.familyId).push(e);
+  }
+} catch { /* no answered limbs recorded; every hold stands exactly as its lane wrote it */ }
+
 const c11Stopped = new Set((IN.c11.families ?? []).filter((f) => f.classification !== "BUILT").map((f) => f.familyId));
 
 /* overlay directories that exist */
@@ -698,6 +729,20 @@ for (const f of IN.scoreboard.familiesDetail) {
   const sourceHashes = docs.filter((d) => d.heldAs?.sha256).map((d) => ({ sourceId: d.sourceId, path: d.heldAs.path, sha256: d.heldAs.sha256, tier: d.tier }));
 
   const laneHold = laneReturnLegalHolds.get(familyId) ?? null;
+  const answeredLimbs = legalHoldLimbsAnswered.get(familyId) ?? [];
+  const laneHoldNarrowed = laneHold && answeredLimbs.length > 0
+    ? {
+        ...laneHold,
+        limbsAnsweredByMeasurement: answeredLimbs.map((e) => ({
+          limb: e.limbAnswered,
+          answer: e.answer,
+          measurement: e.measurement,
+          reproduceIt: e.reproduceIt ?? null
+        })),
+        theOneDecisionStillOpen: answeredLimbs[answeredLimbs.length - 1].whatStillStandsAndIsTheWholeHoldNow,
+        narrowingLiftsNothing: "The family stays LEGAL_BLOCKED and payment stays closed. A measurement removed a factual premise; it decided no legal question."
+      }
+    : laneHold;
   const legalBlocked = routes.some((r) => openCounselRoutes.has(r.routeKey))
     || verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT"
     || Boolean(laneHold);
@@ -792,7 +837,7 @@ for (const f of IN.scoreboard.familiesDetail) {
     legalInputBasis: laneHold ? "LANE_RETURN_BLOCKED_LEGAL_INPUT"
       : routes.some((r) => openCounselRoutes.has(r.routeKey)) ? "OPEN_COUNSEL_QUESTION"
         : verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" ? "LEGAL_APPROVAL_VERDICT" : null,
-    laneReturnLegalHold: laneHold,
+    laneReturnLegalHold: laneHoldNarrowed,
     routeMappingStatus: routeMappingOpen ? "UNBOUND_TO_A_PACKET_FAMILY" : "BOUND",
     artifactStatus: artifactPresent ? "RENDERED" : "NOT_RENDERED",
     completenessStatus,

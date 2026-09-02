@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "3ac44241b3333818ee20a81f790a97b980a3c754",
+  "minimumCaptainSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
@@ -20408,7 +20408,17 @@
         "foundBy": [
           "PF07 (PR #151)"
         ],
-        "why": "The assigned family has unresolved source-identity and duplicate-vehicle legal-design inputs: the worklist assigns custom_pleading and official_pdf_fill vehicles, while held form CC-6-12 is an instruction document rather than either required motion."
+        "why": "The assigned family has unresolved source-identity and duplicate-vehicle legal-design inputs: the worklist assigns custom_pleading and official_pdf_fill vehicles, while held form CC-6-12 is an instruction document rather than either required motion.",
+        "limbsAnsweredByMeasurement": [
+          {
+            "limb": "held form CC-6-12 is an instruction document",
+            "answer": "CC-6-12 is held as BOTH a form and an instruction sheet, and `official-form:CC-6-12` now resolves to the form. The Master Library and the D source packs each carry NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf (2 pages, assetClass FORM) and NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf (2 pages, assetClass INSTRUCTIONS). Both carry formNumber CC-6-12, because the library files an instruction sheet under the number of the form it explains.",
+            "measurement": "scripts/lib/official-form-asset-class.mjs now makes an `official-form:` label see only FORM entries where a form number has any. ne-trafficking-setaside-and-seal-set's queue row binds official-form:CC-6-12 to NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf at tier exact_form_number.",
+            "reproduceIt": "node scripts/grade-a-packet-factory-24h/generate.mjs && node -e \"const q=require('./data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json');console.log(q.families.find(f=>f.familyId==='ne-trafficking-setaside-and-seal-set').sourceReadiness.boundSources)\""
+          }
+        ],
+        "theOneDecisionStillOpen": "The vehicle conflict. The worklist assigns this family BOTH custom_pleading and official_pdf_fill, and that is a legal-design decision about which instrument this route actually files — not something any measurement of the corpus can settle.",
+        "narrowingLiftsNothing": "The family stays LEGAL_BLOCKED and payment stays closed. A measurement removed a factual premise; it decided no legal question."
       },
       "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
