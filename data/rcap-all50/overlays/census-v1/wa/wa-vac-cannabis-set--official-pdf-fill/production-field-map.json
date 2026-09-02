@@ -25,6 +25,31 @@
   "valueNormalization": {
     "matter.county": "For CR-08 caption blanks following the source text 'County of', strip a trailing 'County' designator from the fact before rendering so 'King County' prints as 'County of King', not 'County of King County'."
   },
+  "valueConstraints": [
+    {
+      "factIdPattern": "matter.charges[].charge",
+      "governedForms": [
+        "CRRLJ-09.0800",
+        "CRRLJ-09.0870"
+      ],
+      "governedAnchorCount": 6,
+      "mustMatch": "/\\b(cannabis|marijuana|marihuana)\\b/i",
+      "printedGoverningLines": {
+        "CRRLJ-09.0800": "I was convicted of the following cannabis offense(s)",
+        "CRRLJ-09.0870": "cannabis"
+      },
+      "printedGoverningLinesVerifiedInPinnedSource": true,
+      "authority": [
+        "RCW 9.96.060(5)",
+        "RCW 69.50.4014",
+        "former RCW 69.50.401(e)",
+        "former RCW 69.50.401(d)",
+        "RCW 69.50.101"
+      ],
+      "why": "The blank sits under a printed line that says the offences listed are cannabis offences, inside a declaration signed under penalty of perjury, and the same values are carried onto the proposed order the judge signs. A non-cannabis offence written here is a false sworn statement and an order to vacate a conviction this route does not reach.",
+      "enforcement": "Asserted at build time against the printed face of each governed form and against every value written into a governed anchor. A runtime that fills this map must apply it before writing: the blank is not a general offence cell."
+    }
+  ],
   "documents": [
     {
       "formNumber": "CRRLJ-09.0800",
@@ -229,7 +254,8 @@
             "baselineY": 269.45
           },
           "fontSize": 10,
-          "captionOnly": false
+          "captionOnly": false,
+          "valueConstraint": "matter.charges[].charge"
         },
         {
           "blankId": "p1-y250.85-x160.58",
@@ -269,7 +295,8 @@
             "baselineY": 250.85
           },
           "fontSize": 10,
-          "captionOnly": false
+          "captionOnly": false,
+          "valueConstraint": "matter.charges[].charge"
         },
         {
           "blankId": "p1-y232.25-x160.58",
@@ -309,7 +336,8 @@
             "baselineY": 232.25
           },
           "fontSize": 10,
-          "captionOnly": false
+          "captionOnly": false,
+          "valueConstraint": "matter.charges[].charge"
         },
         {
           "blankId": "p1-y194.90-x185.66",
@@ -583,7 +611,8 @@
             "baselineY": 252.24
           },
           "fontSize": 10,
-          "captionOnly": false
+          "captionOnly": false,
+          "valueConstraint": "matter.charges[].charge"
         },
         {
           "blankId": "p1-y233.64-x160.56",
@@ -623,7 +652,8 @@
             "baselineY": 233.64
           },
           "fontSize": 10,
-          "captionOnly": false
+          "captionOnly": false,
+          "valueConstraint": "matter.charges[].charge"
         },
         {
           "blankId": "p1-y214.92-x160.56",
@@ -663,7 +693,8 @@
             "baselineY": 214.92
           },
           "fontSize": 10,
-          "captionOnly": false
+          "captionOnly": false,
+          "valueConstraint": "matter.charges[].charge"
         },
         {
           "blankId": "p2-y298.20-x72.00",

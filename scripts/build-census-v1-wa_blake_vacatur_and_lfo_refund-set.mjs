@@ -136,6 +136,86 @@ const BOUNDARY = {
 
 const write = (factId, effectiveLabel) => ({ factId, effectiveLabel });
 
+/*
+ * FIX01/RP-2, KNOWN_PREFILLS on wa_vac_cannabis-set.
+ *
+ * CANONICAL above is one fixture persona shared by ten Washington families, and
+ * its matter.charges are deliberately generic: Theft in the Third Degree,
+ * Malicious Mischief in the Third Degree, Criminal Trespass in the Second
+ * Degree. Under CrRLJ 09.0100's caption -- "the following offense/s" -- that is
+ * exactly right, and the seven families that use 09.0100 are untouched by
+ * anything below.
+ *
+ * On CrRLJ 09.0800 the same three values land under a DIFFERENT printed line:
+ * "On (date), I was convicted of the following cannabis offense(s):", inside a
+ * declaration the participant signs under penalty of perjury. They are then
+ * carried onto CrRLJ 09.0870 paragraph 3, so the proposed order asked a judge
+ * to vacate theft and malicious mischief as cannabis convictions. Those two
+ * forms are bound by this family and by no other -- 09.0800 and 09.0870 appear
+ * in one source receipt in the state -- so the correction belongs to this
+ * family and is made here, not to the shared persona.
+ *
+ * The values below are the offences the committed record names for this route:
+ * data/record-clearing/legal-design-track-registry.json, track wa_vac_cannabis,
+ * whose mechanism reads "any offence under RCW 69.50.4014 from 1 July 2004
+ * onward, its predecessor statutes including former RCW 69.50.401(e) ... and
+ * former RCW 69.50.401(d) ..., and any offence under an equivalent municipal
+ * ordinance".
+ *
+ * A fixture correction alone would leave the defect reachable, because a
+ * fixture is not a rule: the field map declared no cannabis constraint on
+ * matter.charges[].charge at all, and the word "cannabis" occurred in the whole
+ * map exactly once, inside the familyId. CHARGE_CONSTRAINTS below is that rule.
+ * It is asserted against the pinned form's own printed face at build time, it
+ * is asserted against every value this build writes into a governed anchor, and
+ * it is emitted into production-field-map.json so a runtime reading the map
+ * finds the constraint rather than inferring it from a family name.
+ */
+const CHARGE_CONSTRAINTS = Object.freeze({
+  "wa_vac_cannabis-set": Object.freeze({
+    factIdPattern: "matter.charges[].charge",
+    governedForms: Object.freeze(["CRRLJ-09.0800", "CRRLJ-09.0870"]),
+    // Re-read from each governed form's pinned bytes before anything is
+    // written. If a source revision ever stops printing these words, the words
+    // this constraint exists to honour are gone and the build stops.
+    printedGoverningLines: Object.freeze({
+      "CRRLJ-09.0800": "I was convicted of the following cannabis offense(s)",
+      "CRRLJ-09.0870": "cannabis"
+    }),
+    mustMatch: /\b(cannabis|marijuana|marihuana)\b/i,
+    authority: Object.freeze(["RCW 9.96.060(5)", "RCW 69.50.4014",
+      "former RCW 69.50.401(e)", "former RCW 69.50.401(d)", "RCW 69.50.101"]),
+    why: "The blank sits under a printed line that says the offences listed are cannabis offences, "
+      + "inside a declaration signed under penalty of perjury, and the same values are carried onto "
+      + "the proposed order the judge signs. A non-cannabis offence written here is a false sworn "
+      + "statement and an order to vacate a conviction this route does not reach.",
+    charges: Object.freeze([
+      { count: "1", charge: "Possession of Forty Grams or Less of Marijuana", statute: "69.50.4014" },
+      { count: "2", charge: "Possession of Marijuana (former RCW 69.50.401(e))", statute: "former 69.50.401(e)" },
+      { count: "3", charge: "Possession of Marijuana (former RCW 69.50.401(d))", statute: "former 69.50.401(d)" },
+      { count: "4", charge: "Unlawful Possession of Marijuana, municipal ordinance", statute: "equivalent municipal ordinance" }
+    ])
+  })
+});
+
+/* Whether one anchor of one form is governed by this family's charge
+ * constraint. Both the map emission and the write-time assertion ask this, so
+ * there is one answer rather than two that can drift apart. */
+function constraintGovernsAnchor(familyId, formNumber, anchor) {
+  const constraint = CHARGE_CONSTRAINTS[familyId];
+  if (!constraint) return false;
+  return constraint.governedForms.includes(formNumber)
+    && /^matter\.charges\[\d+\]\.charge$/.test(String(anchor.factId ?? ""));
+}
+
+/* The charges this family writes: its own where it declares them, the shared
+ * persona's where it does not. The case number stays the fixture's. */
+function chargesFor(familyId, facts) {
+  const constraint = CHARGE_CONSTRAINTS[familyId];
+  if (!constraint) return facts["matter.charges"];
+  return constraint.charges.map((row) => ({ ...row, case_number: facts["matter.case_number"] }));
+}
+
 // These rules are bound to the exact source hashes recorded by each family's
 // source receipt. They describe actual terminal lines on the six Washington
 // forms. The prior builder treated every measured horizontal rule as a field,
@@ -2214,14 +2294,83 @@ async function buildOfficialFamily(familyId, records, documents) {
         "For CR-08 caption blanks following the source text 'County of', strip a trailing 'County' designator "
         + "from the fact before rendering so 'King County' prints as 'County of King', not 'County of King County'."
     },
+    ...(CHARGE_CONSTRAINTS[familyId] ? { valueConstraints: [{
+      factIdPattern: CHARGE_CONSTRAINTS[familyId].factIdPattern,
+      governedForms: CHARGE_CONSTRAINTS[familyId].governedForms,
+      governedAnchorCount: censused.reduce((n, { document, anchors }) =>
+        n + (CHARGE_CONSTRAINTS[familyId].governedForms.includes(document.formNumber)
+          ? anchors.filter((a) => /^matter\.charges\[\d+\]\.charge$/.test(a.factId)).length : 0), 0),
+      mustMatch: String(CHARGE_CONSTRAINTS[familyId].mustMatch),
+      printedGoverningLines: CHARGE_CONSTRAINTS[familyId].printedGoverningLines,
+      printedGoverningLinesVerifiedInPinnedSource: true,
+      authority: CHARGE_CONSTRAINTS[familyId].authority,
+      why: CHARGE_CONSTRAINTS[familyId].why,
+      enforcement: "Asserted at build time against the printed face of each governed form and against every "
+        + "value written into a governed anchor. A runtime that fills this map must apply it before writing: "
+        + "the blank is not a general offence cell."
+    }] } : {}),
     documents: censused.map(({ document, census, anchors, withheld }) => ({
       formNumber: document.formNumber, role: document.role, sourceSha256: document.expectedSha256,
-      writableAnchors: anchors, withheldBlankCount: withheld.length, withheld,
+      writableAnchors: anchors.map((anchor) => (constraintGovernsAnchor(familyId, document.formNumber, anchor)
+        ? { ...anchor, valueConstraint: CHARGE_CONSTRAINTS[familyId].factIdPattern }
+        : anchor)),
+      withheldBlankCount: withheld.length, withheld,
       explicitGeometryRefusals: census.unresolvedVisibleFields
     })),
     generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });
   writeJson(productWiringPath, preservedProductWiring);
+
+  /*
+   * The constraint, asserted twice before a byte is written.
+   *
+   * First against the PRINTED FACE of each governed form, read out of the
+   * pinned bytes: the words that make this blank a cannabis blank have to still
+   * be on the page. Second against every VALUE this build is about to put in a
+   * governed anchor. The second is the one that would have caught "Theft in the
+   * Third Degree" going onto a sworn cannabis declaration, and it is what stops
+   * a later fixture edit putting it back.
+   */
+  const chargeConstraint = CHARGE_CONSTRAINTS[familyId];
+  const findingsFromChargeConstraint = [];
+  if (chargeConstraint) {
+    for (const formNumber of chargeConstraint.governedForms) {
+      const item = censused.find(({ document }) => document.formNumber === formNumber);
+      if (!item) fail("a governed form of the charge constraint is not in this family", formNumber);
+      const needle = chargeConstraint.printedGoverningLines[formNumber];
+      const printed = item.census.documentTextLines.some((line) =>
+        cleanText(line).toLowerCase().includes(needle.toLowerCase()));
+      if (!printed) {
+        fail("the printed line that makes this blank a cannabis blank is no longer on the pinned form",
+          `${formNumber}: "${needle}"`);
+      }
+    }
+    const governedAnchors = censused.flatMap(({ document, anchors }) =>
+      anchors.filter((anchor) => constraintGovernsAnchor(familyId, document.formNumber, anchor))
+        .map((anchor) => ({ formNumber: document.formNumber, anchor })));
+    if (governedAnchors.length === 0) fail("the charge constraint governs no anchor", familyId);
+    for (const [fixture, facts] of [["canonical", CANONICAL], ["boundary", BOUNDARY]]) {
+      const charges = chargesFor(familyId, facts);
+      for (const { formNumber, anchor } of governedAnchors) {
+        const index = Number(/\[(\d+)\]/.exec(anchor.factId)[1]);
+        const value = charges[index]?.charge ?? null;
+        if (value == null) continue;
+        if (!chargeConstraint.mustMatch.test(value)) {
+          fail("a value that is not a cannabis offence would be written under a printed cannabis line",
+            `${formNumber}/${fixture} ${anchor.factId}: ${JSON.stringify(value)}`);
+        }
+      }
+    }
+    findingsFromChargeConstraint.push({
+      finding: `${governedAnchors.length} offence anchor(s) on ${chargeConstraint.governedForms.join(" and ")} `
+        + "are governed by a cannabis-only value constraint, asserted against the printed face of each form "
+        + "and against every value written into them.",
+      consequence: "Before this repair the field map declared no constraint on matter.charges[].charge and the "
+        + "shared fixture persona's generic offences -- theft, malicious mischief, criminal trespass -- were "
+        + "written under 'I was convicted of the following cannabis offense(s)' inside a declaration signed "
+        + "under penalty of perjury, and carried onto the proposed order at CrRLJ 09.0870 paragraph 3."
+    });
+  }
 
   const blockedHashes = new Set(readJson(STALE_BLOCK).hashes ?? []);
   const artifacts = [];
@@ -2230,7 +2379,7 @@ async function buildOfficialFamily(familyId, records, documents) {
   const findings = [];
   for (const item of censused) {
     for (const [fixture, facts] of [["canonical", CANONICAL], ["boundary", BOUNDARY]]) {
-      const renderedFacts = { ...facts };
+      const renderedFacts = { ...facts, "matter.charges": chargesFor(familyId, facts) };
       const countyIsMapped = item.anchors.some((anchor) => anchor.factId === "matter.county");
       if (countyIsMapped && typeof renderedFacts["matter.county"] === "string") {
         renderedFacts["matter.county"] = renderedFacts["matter.county"].replace(/\s+County\s*$/i, "").trim();
@@ -2437,7 +2586,8 @@ async function buildOfficialFamily(familyId, records, documents) {
         + "is the court filing fee and any fee-waiver route, which no held source establishes for this route, and "
         + "county-level attachment and hearing-scheduling practice. See filing-obligations.json.",
       "No fee amount, waiver rule or service recipient in this packet was inferred; each is either read from a "
-        + "committed record or, where nothing establishes it, replaced by a named office the participant can reach."
+        + "committed record or, where nothing establishes it, replaced by a named office the participant can reach.",
+      ...findingsFromChargeConstraint.map((row) => `${row.finding} ${row.consequence}`)
     ],
     deterministicFixtureRebuilds: artifacts.every((artifact) => artifact.sha256 === artifact.deterministicSecondRenderSha256)
   });

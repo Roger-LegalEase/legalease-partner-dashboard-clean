@@ -12,9 +12,12 @@ File the completed packet with the **Circuit Court** for the city or county prin
 
 If your case was decided in a General District Court or in a Juvenile and Domestic Relations District Court, the petition still goes to the **Circuit Court** for that city or county. The petition asks separately which court decided the case, and that is a different question from where the petition is filed.
 
-Two things this packet does **not** tell you, because neither is established by the petition and an unsourced figure in a filing instruction is worse than none:
+## What this costs
 
-- **The filing fee, and whether it can be waived.** Ask the clerk of the circuit court above.
+Nothing, at the courthouse. The committed record for this route states it: *"File the petition with no court fees or costs."* There is **no filing fee** on this petition, so there is no fee for you to pay and none for you to ask to have waived. If a clerk asks you for a filing fee on this petition, that is worth questioning before you pay it.
+
+One thing this packet does **not** tell you, because it is not established by the petition and an unsourced figure in a filing instruction is worse than none:
+
 - **How long you have, and exactly how the copy must be served.** The petition's own acknowledgment says a copy goes to the Attorney for the Commonwealth by delivery or by first-class mail with postage prepaid. It sets no deadline, and neither does this page. Ask the same clerk.
 
 ## What is in this packet
@@ -105,4 +108,4 @@ Check each marked box against your own record before you file. If any of them is
 
 This is a prepared set of official Virginia forms and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant sealing.
 
-_Route: obligation:track-pathway:VA:va_seal_petition_misdemeanor:petition-based-sealing_
+_Route: Misdemeanour conviction or deferred dismissal sealing - Va. Code 19.2-392.12_

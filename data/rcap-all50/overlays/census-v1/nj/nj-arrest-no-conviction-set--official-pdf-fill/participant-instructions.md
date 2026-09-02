@@ -9,7 +9,51 @@ These files are deterministic review fixtures made from exact held official sour
 - Review every page, choose only legally applicable elections, and complete every required signature and date yourself.
 - Complete service certificates only after service actually occurs.
 - Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.
-- Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.
+- Confirm current revision, local procedures, attachments, and proposed-order requirements before filing. Where to file, Cost and Who must be served are each answered in their own section below.
+
+## What it costs to file
+
+**There is no court filing fee.** The kit bound into this packet says so on its own face: the running footer on four of its pages reads *Kit updated 06/2020 to remove the filing fee, CN 10557*. The committed New Jersey record for this route says the same — no court filing fee for any expungement petition, New Jersey Courts states "It's free", and the kit was updated in June 2020 specifically to remove the fee.
+
+**There is nothing to waive, and so no waiver form in this packet.** The committed record puts it in terms: a fee waiver is *not applicable to the court filing. There is no filing fee to waive.* If an office asks you for a filing fee on an expungement petition, that is worth questioning before you pay it.
+
+**Two costs that are not the filing fee.** The State Police charge for the SBI criminal history record, which is a separate request to a separate agency; and the Verification page of the Petition must be signed in front of a notary, who may charge for that. Neither is a court fee and no held source sets either figure, so none is stated here.
+
+**One condition that is about money but is not a fee.** The committed record for this route records that outstanding court-ordered financial assessments must be paid, subject to the statute's failure-to-pay provisions. Whether that reaches your case is not something this packet decides; it is listed among the points below where self-help ends.
+
+## Where to file
+
+**File in the county where you were arrested or taken into custody, or where you were prosecuted or adjudicated.** That is the New Jersey Judiciary's own instruction, printed at page 9 of the kit bound into this packet, and the committed record for this route says the same: the destination is the Superior Court, Criminal Division, of the vicinage. New Jersey is one statewide court system with fifteen vicinages, and no local form variation was identified for this route.
+
+**The office that receives it is the Criminal Case Management Office of that county.** Page 10 of the enclosed kit says to mail the package there, or to file it in person if you prefer, and the list of those offices with their telephone numbers is printed at the end of the same kit. Do not look for a statewide filing address; there is not one.
+
+**If your cases are in more than one county**, the kit tells you to contact the Criminal Case Management Office in either county and ask whether they will let you file for expungement of your entire record in that county, and then to file the whole package with the office that agreed. This packet does not choose the county for you and does not make that call for you.
+
+**What to send with it.** Make three copies of the notarized Petition (Form A), the Order for Hearing (Form B) and the proposed Expungement Order (Form C). The original and two copies are filed; keep one of each. Attach the Cover Letter for Filing (Form D), and enclose two large self-addressed envelopes with postage on each — those are what the court uses to send your filed copies back.
+
+**There is also an online route.** The Judiciary's eCourts Expungement System assembles the petition and the proposed order from data you enter, instead of from these forms. This packet is the kit-forms route. Nothing here prevents you using eCourts instead; if you do, you do not file these papers as well.
+
+## Who must be served
+
+**Nobody is served until the court gives you filed copies back.** One copy each of the Petition, the Order for Hearing and the proposed Expungement Order comes back to you marked *Filed*, with an Expungement Docket Number, and the Order for Hearing will carry the date and time of your hearing. Service starts then, and not before. This is page 10 of the enclosed kit.
+
+**Then make at least seven copies of those three papers and mail one set to each agency involved in your case, by certified mail, return receipt requested.** The kit names them at pages 10 and 11: the Attorney General of New Jersey; the Superintendent of State Police, Expungement Unit; the County Prosecutor; the administrator of the municipal court if a municipal court heard the matter; the Chief of Police or other head of the police department where the offence was committed or the arrest was made; the chief law-enforcement officer of any other State law-enforcement agency that took part in the arrest; the Warden or superintendent of any institution you were held in; and the County Probation Division if you had a conditional discharge or conditional dismissal, were in PTI or a juvenile diversion programme, had a deferred disposition, performed community service, owed fines or restitution, or served probation — and, if supervision was transferred, both the original county probation office and the one it went to. The Division of Criminal Justice, Records and Identification Unit is added if your case went through the State Grand Jury.
+
+**Mail them within five days of the date the Order for Hearing was signed.** The kit states that period at page 11 and tells you to mail at the post office, certified mail return receipt requested, which may be done electronically. Form E, the Cover Letter — Notice of Hearing, is the letter to attach to each set; it is bound into this packet.
+
+**Keep the receipts, and ask before the hearing what the court wants.** After the return receipt cards or the electronic confirmations arrive, the kit tells you to contact the Criminal Case Management Office and ask whether proof of mailing must be submitted at or before the hearing. Form F, the Proof of Notice, is where that proof goes.
+
+**Agencies have a window to object.** The committed record for this route records that they do, and records the exact period as an open question. No number of days is stated here, because none is established; the Criminal Case Management Office that has your docket number is the office that can tell you.
+
+## Values this platform holds but did not print
+
+The blanks below are not blanks the platform has no fact for. It holds each of these values and could not put it on the paper, so it left the box **empty** rather than print something a court could not read, or leave a row half filled. **Write each one in by hand before you file.** Which of them bites on a real packet depends on how long that participant's own name, charge or docket number is; the fixtures a row was measured on are named in the last column.
+
+| Source field | The fact | Why it is not printed | Measured on |
+| --- | --- | --- | --- |
+| `arrest1CaseNum` | `matter.case_number` | the value does not fit this box at a size a court could read | boundary |
+| `arrest1Dt` | `matter.arrest_date` | another cell of the same row (arrest1CaseNum) could not be printed, and a row is completed or left untouched | boundary |
+| `dismissOff1` | `matter.charge` | the value does not fit this box at a size a court could read | boundary |
 
 ## Exact facts still required before filing
 
@@ -29,6 +73,7 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - (original indictment/accusation/summons/war (source field: `contOrigNums`)
 - a (source field: `contDsmissOff2`)
 - conviction. The compelling circumstances for the Court to gr (source field: `seek5yrsDetails`)
+- County (where you are filing) (source field: `ExpungeCntyName`)
 - , (source field: `orderHearYr`)
 - an Order of (source field: `hearDay`)
 - at (source field: `hearTime`)
@@ -83,5 +128,41 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - Records and Identification Unit (source field: `FamDivAddrStr`)
 - (address) (address) (source field: `FamDivAddr2`)
 - The administrator(s) of the (source field: `AdminMuniCts`)
+
+## Where self-help ends
+
+**This packet is not legal advice, and no lawyer has reviewed your case in preparing it.** It is a prepared copy of the New Jersey Judiciary's expungement kit CN-10557 for you to read, complete, sign, have notarized where the kit requires it, file and serve yourself. It is not filed for you, it is not served for you, and it does not decide whether a court will grant expungement.
+
+**Stop and get help before you sign, file or serve anything if any of the following is true of your case.** Each one below is carried word for word from this route's own committed track record — `data/record-clearing/legal-design-track-registry.json`, track `nj_arrest_no_conviction`, `selfHelpStopConditions` — and each is a point where this packet stops being enough.
+
+- Dismissal after pretrial intervention, conditional discharge or another diversion programme.
+
+- Any count still open.
+
+- Prosecutor objection.
+
+- Any conviction that might sit on the N.J.S.A. 2C:52-2(b) or (c) non-expungeable list.
+
+- Any classification or out-of-state equivalency question.
+
+- Any same-day or closely-related bundling argument.
+
+- Prior expungement, which N.J.S.A. 2C:52-14(e) bars except on the Clean Slate route.
+
+- Pending charges.
+
+- Unpaid financial assessments and the willfulness question.
+
+- The participant cannot assemble complete case identifiers.
+
+- Federal, out-of-state or tribal records. They are not reachable, but they count toward eligibility and toward the offense counts.
+
+- Immigration exposure. New Jersey expungement has no federal immigration effect.
+
+- Any Title 39 motor vehicle matter, including DWI, which N.J.S.A. 2C:52-28 puts outside the chapter entirely.
+
+**If you are not a United States citizen, the immigration condition above is a hard stop, not a caveat.** Ask a New Jersey immigration attorney before you sign or file. A New Jersey expungement has no federal immigration effect, and this packet does not tell you what any immigration authority already holds or will do.
+
+**Where to ask, and for what.** The kit's own page 3 says it plainly: the court system can be confusing and it is a good idea to get a lawyer. If you cannot afford one, contact the legal services programme in your county to see whether you qualify for free legal services — their number is listed online under Legal Aid or Legal Services. If you do not qualify and need help finding an attorney, your county bar association's lawyer referral service can give you names, and some of those attorneys will consult at a reduced fee. The Criminal Case Management Office can explain how the court works, what the filing requirements are, and what its deadlines are; the kit states in the same place that court staff **cannot** give you legal advice. Only a lawyer can.
 - The route election is the measured existing dismissed control on page 18; no box is invented.
 - The shared 43-page kit's signature, date, notary, service, court, prosecutor, clerk, agency, and post-order fields are expressly refused.

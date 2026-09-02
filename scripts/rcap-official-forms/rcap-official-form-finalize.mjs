@@ -460,6 +460,48 @@ function alignWidgetDefaultAppearanceSizes(handle, fontSize) {
   return aligned;
 }
 
+/*
+ * Writes a SIZE OF ITS OWN into every widget of one field.
+ *
+ * alignWidgetDefaultAppearanceSizes above stamps ONE size -- the field's single
+ * measured fit -- onto every widget that already carries a /DA. That is the
+ * right repair when a field's widgets are the same shape, and the wrong one
+ * when they are not. CN-10557 carries `DefName` across twenty widgets from
+ * 208.23 to 366.15 points wide, and the fit is measured against widgets[0]
+ * alone: the boundary name fitted at 6.5pt in a 228.92pt box, and at 6.5pt it
+ * needs 219.5pt, which is 15 points more than the narrowest widget can hold. So
+ * four widgets overflowed, and on four pages a word left the 612-point page
+ * altogether and was cut mid-word -- a cover letter to a court carrying a
+ * truncated name and a truncated address.
+ *
+ * A widget is a place on paper. One measurement cannot describe twenty of them,
+ * so this writes each widget's own measured size into that widget's own /DA,
+ * and leaves the field-level /DA at the SMALLEST of them so a widget with no
+ * /DA of its own inherits a size that is safe everywhere. Only the size token
+ * moves; the font resource name and the colour operators are preserved exactly,
+ * for the reason given above. A widget with no /DA and no field /DA to copy is
+ * left alone -- it is already covered by the field-level minimum.
+ */
+function applyPerWidgetDefaultAppearanceSizes(handle, sizes, fieldDefaultAppearance) {
+  const applied = [];
+  const widgets = (() => { try { return handle.acroField.getWidgets(); } catch { return []; } })();
+  widgets.forEach((widget, index) => {
+    const size = sizes[index];
+    if (!(size > 0)) return;
+    const own = widget.dict.get(PDFName.of("DA"));
+    const before = (own instanceof PDFString || own instanceof PDFHexString)
+      ? own.decodeText()
+      : (typeof fieldDefaultAppearance === "string" ? fieldDefaultAppearance : null);
+    if (before == null) return;
+    const after = before.replace(/(^|\s)(\d*\.?\d+)(\s+Tf\b)/,
+      (whole, lead, current, tail) => (Number(current) === Number(size) ? whole : `${lead}${size}${tail}`));
+    if (after === before && (own instanceof PDFString || own instanceof PDFHexString)) return;
+    widget.dict.set(PDFName.of("DA"), PDFString.of(after));
+    applied.push({ widgetIndex: index, fontSize: size, before, after });
+  });
+  return applied;
+}
+
 export async function finalizeOfficialForm({
   sourceBytes,
   expectedSha256,
@@ -521,6 +563,36 @@ export async function finalizeOfficialForm({
    * a defect wherever it occurs, not only here.
    */
   alignWidgetFontSizeToFit = false,
+  /*
+   * Whether each WIDGET of a multi-widget text field is fitted on its own
+   * rectangle instead of all of them on widgets[0].
+   *
+   * `const rect = field.widgets?.[0]?.rect` below is the whole of the current
+   * measurement. Where a field's widgets are the same shape that is exact; where
+   * they are not it is a measurement of one box applied to boxes it never saw.
+   * On CN-10557 it put participant text off the right edge of a 612-point page
+   * on four pages of the delivered boundary filing while the build report called
+   * the same writes "fit" and "shrunk".
+   *
+   * With this on, every widget is fitted on its own rectangle. The field's VALUE
+   * -- and, for a multiline field, its line breaks -- comes from the most
+   * constraining widget, because a field holds one string however many places it
+   * appears; each widget's own /DA then carries that widget's own size. If ANY
+   * widget cannot hold the value at a readable size the whole field is refused,
+   * which is the existing behaviour of this module extended to every box rather
+   * than to the first one: a value half of whose appearances are legible is not
+   * a written field.
+   *
+   * Opt-in on the same reasoning as the two flags above: forty-odd builders
+   * share this module and a repair lane does not get to decide what the other
+   * families' next rebuild produces. A single-widget field measures identically
+   * either way, so a family whose fields carry one widget each is byte-identical
+   * with it on.
+   *
+   * CAPTAIN DECISION: this default should flip to true once every family can be
+   * rebuilt together.
+   */
+  fitTextPerWidget = false,
   title = null,
   // Field name -> appearance disposition, for the family being rendered. The
   // caller resolves it from the shared semantic registry; an empty map leaves
@@ -579,7 +651,9 @@ export async function finalizeOfficialForm({
     // Widgets whose own /DA size was brought into line with the measured fit.
     // Empty unless alignWidgetFontSizeToFit is on; empty then too when no widget
     // carries its own /DA, or the fit already equals what that /DA declares.
-    widgetFontSizeAligned: []
+    widgetFontSizeAligned: [],
+    // Widgets fitted on their own rectangle. Empty unless fitTextPerWidget is on.
+    widgetFittedIndividually: []
   };
 
   // Deciding and writing used to happen in one pass, which cannot see that two
@@ -670,24 +744,62 @@ export async function finalizeOfficialForm({
       continue;
     }
 
-    const fit = fitTextToWidget({
+    const rects = fitTextPerWidget
+      ? (field.widgets ?? []).map((w) => w?.rect).filter((r) => r)
+      : [];
+    const perWidgetFits = rects.map((widgetRect) => fitTextToWidget({
       font: helvetica,
       text,
-      rect,
+      rect: widgetRect,
       multiline: field.multiline === true,
       maxFontSize,
       minFontSize,
       evaluateDeclaredMinimumSize
-    });
+    }));
+    // The most constraining widget decides the string that is stored and, for a
+    // multiline field, where its lines break; a field holds one value however
+    // many places it is printed.
+    const fit = perWidgetFits.length > 0
+      ? (perWidgetFits.find((f) => f.outcome === "refused")
+        ?? perWidgetFits.reduce((tightest, candidate) => (candidate.fontSize < tightest.fontSize ? candidate : tightest)))
+      : fitTextToWidget({
+        font: helvetica,
+        text,
+        rect,
+        multiline: field.multiline === true,
+        maxFontSize,
+        minFontSize,
+        evaluateDeclaredMinimumSize
+      });
 
     if (fit.outcome === "refused") {
-      report.unfittable.push({ field: field.name, factId: decision.factId, ...fit });
-      report.refused.push({ field: field.name, reason: fit.reason, category: "unfittable" });
+      const refusedWidget = perWidgetFits.findIndex((f) => f.outcome === "refused");
+      report.unfittable.push({
+        field: field.name, factId: decision.factId, ...fit,
+        ...(refusedWidget >= 0 ? { refusedAtWidgetIndex: refusedWidget, widgetsMeasured: perWidgetFits.length } : {})
+      });
+      report.refused.push({
+        field: field.name, reason: fit.reason, category: "unfittable",
+        ...(refusedWidget >= 0 ? { refusedAtWidgetIndex: refusedWidget, widgetsMeasured: perWidgetFits.length } : {})
+      });
       continue;
     }
 
     applyFitToTextField(handle, fit);
-    const widgetsAligned = alignWidgetFontSizeToFit
+    const perWidgetSizes = perWidgetFits.map((f) => f.fontSize);
+    const fittedIndividually = perWidgetFits.length > 1
+      ? applyPerWidgetDefaultAppearanceSizes(handle, perWidgetSizes,
+        (() => { try { return handle.acroField.getDefaultAppearance(); } catch { return null; } })())
+      : [];
+    if (fittedIndividually.length) {
+      report.widgetFittedIndividually.push({
+        field: field.name, fontSizes: perWidgetSizes, widgets: fittedIndividually
+      });
+    }
+    // The blanket alignment is the fallback for a family that has not opted into
+    // per-widget fitting; running both would stamp one size over the individual
+    // ones this field just measured.
+    const widgetsAligned = (alignWidgetFontSizeToFit && fittedIndividually.length === 0)
       ? alignWidgetDefaultAppearanceSizes(handle, fit.fontSize)
       : [];
     if (widgetsAligned.length) {
@@ -696,6 +808,8 @@ export async function finalizeOfficialForm({
     report.written.push({
       field: field.name, factId: decision.factId, kind: "text",
       fontSize: fit.fontSize, outcome: fit.outcome, lines: fit.lines.length,
+      ...(perWidgetFits.length > 1 ? { widgetFontSizes: perWidgetSizes } : {}),
+      ...(fittedIndividually.length ? { widgetsFittedIndividually: fittedIndividually.length } : {}),
       ...(widgetsAligned.length ? { widgetFontSizeAligned: widgetsAligned.length } : {})
     });
     report.expectedValues.push(text);
