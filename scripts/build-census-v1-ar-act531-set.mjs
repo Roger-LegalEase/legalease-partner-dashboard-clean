@@ -90,29 +90,33 @@ const DOCUMENTS = [
     // `matter.charge` is a requiresExplicitMapping descriptor, so the caller
     // must name it or nothing binds.
     //
-    // THE COUNTY IS NOT MAPPED, AND THAT IS A DECISION RATHER THAN AN OMISSION.
+    explicitMappings: {
+      "First Middle and Last name": "participant.full_legal_name",
+      "OFFENSE 1": "matter.charge"
+    },
+
+    // THE COUNTY, AND WHY IT TAKES A PRINTED-LABEL CORRECTION.
     //
     // The caption's county blank is the widget named `COURT 1` (see the header
     // note: measured, not guessed). The shared binder reaches a fact through
     // the field NAME first and the harvested printed caption second; "COURT 1"
-    // matches no descriptor and the harvested caption for that widget is the
+    // matches no descriptor, and the harvested caption for that widget is the
     // fragment "_______ DI", which matches none either. An explicit mapping
-    // cannot create a binding the shared binder never reached — decideBinding
-    // consults explicitMappings only to AUTHORISE a descriptor that already
-    // matched — so naming `matter.county` here writes nothing.
+    // cannot help: decideBinding consults explicitMappings only to AUTHORISE a
+    // descriptor that already matched, so naming `matter.county` there writes
+    // nothing at all.
     //
-    // The remaining way to write it would be to hand the finalizer a corrected
-    // effectiveLabel for this widget. That is the printed-label channel, and it
-    // is the exact mechanism that put a participant's name into an offence
-    // blank on this form's sibling. The caption also does not print the word
-    // "county" at all — it reads "COURT OF ______, ARKANSAS" — so a corrected
-    // label would most naturally bind `matter.court`, which is a different
-    // fact. The blank is therefore left for the participant, declared
-    // required-before-filing, and named in participant-instructions.md with the
-    // exact value to write.
-    explicitMappings: {
-      "First Middle and Last name": "participant.full_legal_name",
-      "OFFENSE 1": "matter.charge"
+    // The correction states the printed line this build read at that widget's
+    // own measured position, and it is narrow on purpose: it names the county
+    // and nothing else, so it cannot reach the court name, and it is not used
+    // on any offence, charge or statute blank anywhere in this family.
+    printedLabelCorrections: {
+      "COURT 1": {
+        printedLabel: "COURT OF county, ARKANSAS",
+        readFrom: "page 1, printed line at y=707.0: \"IN THE ______________ COURT OF ________________, ARKANSAS\"",
+        measuredEvidence: "the widget occupies x 320.00-444.60; the printed \"OF\" ends at 316.3, the blank's underscores begin at 320.1 and the \"_,\" before \" ARKANSAS\" is at 436.8, so the widget spans the county blank",
+        why: "The widget's own name is \"COURT 1\", which reads as the court; the blank it covers is the county. The widget over the COURT blank is named \"DIVISION 1\" and the one over the DIVISION blank is named \"DIVISION 2\" — the names are shifted by one, and only the geometry settles it."
+      }
     },
 
     unwritable: [
@@ -142,8 +146,6 @@ const DOCUMENTS = [
         why: "The type of court in the caption — the blank in 'IN THE ______ COURT OF'. The county is written; which Arkansas court takes this petition is the clerk's answer, and the platform holds no court-type fact for this route." },
       { field: "DIVISION 2", class: "court_division_not_held",
         why: "The caption's division blank, completed only where the filing court has divisions. The platform holds no division fact." },
-      { field: "COURT 1", class: "caption_county_not_reachable_by_the_shared_binder",
-        why: "The caption's county blank. See explicitMappings above: neither the field name nor the harvested caption reaches a descriptor, and the only remaining channel is the printed-label fallback that has previously put the wrong fact in the wrong blank on this form's sibling. The participant writes the county." },
 
       // The offence lines the shared binder reads as rows of a repeating charge
       // table, and which are not rows of one.
@@ -196,8 +198,6 @@ const DOCUMENTS = [
         // participant-instructions.md.
         "DIVISION 1": { requiredBeforeFiling: true,
           reason: "The type of court in the caption's 'IN THE ______ COURT OF' blank. Which Arkansas court takes this petition is the answer the circuit clerk of the county gives, and the participant writes it before filing." },
-        "COURT 1": { requiredBeforeFiling: true,
-          reason: "The county in the caption's 'COURT OF ______, ARKANSAS' blank. This packet does not write it: the widget's own name is 'COURT 1' and its harvested caption is the fragment '_______ DI', so no channel of the shared binder reaches the county without overriding the document's printed caption, which is the mechanism that has previously put the wrong fact in the wrong blank on this form's sibling. The participant writes the county of the court that handled the case, and it must match on both forms." },
         "OFFENSE 3": { requiredBeforeFiling: true,
           reason: "Paragraph 2's 'convicted of the offense(s) of' line. The platform holds one offence for this matter and writes it on paragraph 1's charged-offence line; the offence you were convicted of may be a different or reduced offence, so it is yours to write from your judgment before filing." },
         "DAY 1": { requiredBeforeFiling: true,
@@ -273,9 +273,15 @@ const DOCUMENTS = [
     explicitMappings: {
       "First Middle and Last name": "participant.full_legal_name"
     },
+    printedLabelCorrections: {
+      "COURT 1": {
+        printedLabel: "COURT OF county, ARKANSAS",
+        readFrom: "page 1, printed line at y=707.0: \"IN THE ______________ COURT OF ________________, ARKANSAS\"",
+        measuredEvidence: "the widget occupies x 320.00-444.60, spanning the blank between the printed \"OF\" and the \"_,\" before \" ARKANSAS\"",
+        why: "Same shifted naming as the petition, and the order's caption must match the petition's. The county is the one caption fact this packet can source."
+      }
+    },
     unwritable: [
-      { field: "COURT 1", class: "caption_county_not_reachable_by_the_shared_binder",
-        why: "The order caption's county blank, on the same footing as the petition's: the field is named 'COURT 1', its harvested caption is a fragment, and no honest binder channel reaches the county. The participant writes it, matching the petition." },
       { field: "OFFENSE 1", class: "court_recital_offence_line",
         why: "The offence line in the court's own recital. captionOnly already refuses it; stated here because it is a recital of the court's finding rather than a blank this packet fills." },
       { field: "OFFENSE 2", class: "court_recital_offence_line", why: "The second rule of the same recital." },
@@ -313,8 +319,6 @@ const DOCUMENTS = [
       fields: {
         "DIVISION 1": { requiredBeforeFiling: true,
           reason: "The type of court in the order's caption, which must match the petition's. Which Arkansas court takes the petition is the answer the circuit clerk of the county gives, and the participant writes it before filing." },
-        "COURT 1": { requiredBeforeFiling: true,
-          reason: "The county in the order caption's 'COURT OF ______, ARKANSAS' blank, which must match the petition's. This packet does not write it, for the reason recorded on the petition's own row; the participant writes the county of the court that handled the case." },
         "DIVISION 2": { refusalClass: null,
           reason: "The caption's division blank, completed only if that court has divisions, to match the petition. The clerk answers whether it does; the platform does not invent it." }
       }
@@ -482,22 +486,36 @@ async function censusDocument(doc, bytes) {
     return { x0: best.x0, x1: best.x1, y: best.y1, construction: best.construction };
   };
 
+  // Printed-label corrections. Each replaces the harvested caption for ONE
+  // named widget with the printed text this build read at that widget's own
+  // measured position, and the harvested value it replaces is kept beside it so
+  // both answers stay visible. Used only where the widget's own name says
+  // nothing or says the wrong thing, only for identity, contact and venue
+  // facts, and never to reach an offence, charge or statute blank.
+  const corrections = doc.printedLabelCorrections ?? {};
   const censusFields = fields.map((f) => {
     const c = context.get(f.name) ?? {};
     const w = f.widgets[0] ?? null;
-    const subject = c.effectiveLabel ?? f.name;
+    const correction = Object.hasOwn(corrections, f.name) ? corrections[f.name] : null;
+    const harvested = c.effectiveLabel ?? null;
+    const effective = correction ? correction.printedLabel : harvested;
+    const subject = effective ?? f.name;
     return {
       name: f.name,
       type: f.type,
-      effectiveLabel: c.effectiveLabel ?? null,
-      labelBasis: c.labelBasis ?? null,
+      effectiveLabel: effective,
+      harvestedLabel: harvested,
+      printedLabelCorrection: correction,
+      labelBasis: correction
+        ? "printed_page_text_read_at_the_measured_widget_position"
+        : (c.labelBasis ?? null),
       regionHeading: c.regionHeading ?? null,
       widgets: f.widgets,
       captionDescribesChargeValue: captionDescribesChargeValue(subject),
       captionOrNameMentionsCharge: CHARGE_VALUE_WORDS.test(subject) || CHARGE_VALUE_WORDS.test(f.name),
       protectCategory: protectCategoryOf(subject) ?? protectCategoryOf(f.name) ?? null,
       descriptorsByName: descriptorsMatching(f.name).map((d) => d.factId),
-      descriptorsByLabel: c.effectiveLabel ? descriptorsMatching(c.effectiveLabel).map((d) => d.factId) : [],
+      descriptorsByLabel: effective ? descriptorsMatching(effective).map((d) => d.factId) : [],
       measuredRuleUnderWriteBox: w ? ruleUnder(w.page, w.rect) : null
     };
   });
@@ -610,6 +628,8 @@ function completenessFields({ doc, census, written }) {
       field: f.name,
       fieldId: f.name,
       effectiveLabel: f.effectiveLabel,
+      harvestedLabel: f.harvestedLabel ?? null,
+      labelBasis: f.labelBasis ?? null,
       page: f.widgets?.[0]?.page ?? null,
       pdfType: f.type,
       isSelectionControl: f.type === "checkbox" || f.type === "radio",
@@ -698,19 +718,15 @@ This packet is two ACIC forms, filed together:
 
 The petition's own printed title names both statutes: Act 531 of 1993, A.C.A. § 16-93-1201 et seq. (the Community Punishment Act), and Act 1460 of 2013, A.C.A. § 16-90-1401 et seq. (the sealing procedure). Paragraph 3 of the petition states the situation this route covers: **the offense or offenses listed are a target offense as defined in A.C.A. § 16-93-1202(10)(A)(i) or (ii) and are not violent or sexual offenses as defined in A.C.A. § 16-93-1202(10)(A)(iii) or (iv)**. If that is not true of your case, this is the wrong packet — see _Where self-help ends_ below.
 
-The platform filled what it holds about you and your case: your name in the caption and in the prayer line, the case number, your date of birth, the offense on **paragraph 1's first offense line only**, and — on the certificate page — your street address, city, state and ZIP code. Every other blank is deliberate, and every one is listed below. **The caption's court and county blanks are both left for you**; _Where you file this_ explains why and what to write. If your full legal name is too long to fit a caption blank at the smallest legible size, that blank is refused rather than drawn over the form's rule, and completing it by hand is yours.
+The platform filled what it holds about you and your case: your name in the caption and in the prayer line, the county in the caption, the case number, your date of birth, the offense on **paragraph 1's first offense line only**, and — on the certificate page — your street address, city, state and ZIP code. Every other blank is deliberate, and every one is listed below. **The caption's court blank is left for you**; _Where you file this_ explains why and what to write. If your full legal name is too long to fit a caption blank at the smallest legible size, that blank is refused rather than drawn over the form's rule, and completing it by hand is yours.
 
 ## Where you file this
 
 **This petition goes to the court that handled the underlying criminal case.** The committed route record for this packet gives the destination as "the underlying criminal court" and describes it as a "statewide Arkansas program-specific process". The compiled Arkansas profile this route is built from — \`src/lib/rcap-engine/compiled/profiles/AR-arkansas.json\` — says the same thing twice and adds the detail: "Sealing is filed in the court that handled the case", and "File in the circuit or district court that handled the case."
 
-**Both caption blanks are yours to write, and this packet leaves them blank on purpose.** The caption reads
+**Check the county printed in the caption after "COURT OF".** It comes from what the platform holds for your matter, and venue on this route follows the court that handled the case. If the case was handled in a different county, the caption is wrong and must be corrected before you file. (Inside the PDF the county blank is named \`COURT 1\` and the court blank is named \`DIVISION 1\` — the form's own field names are shifted by one. This packet decided which blank is which by measuring the printed caption, not by trusting the names.)
 
-> IN THE \\_\\_\\_\\_\\_\\_ COURT OF \\_\\_\\_\\_\\_\\_, ARKANSAS
-
-The first blank is the **court** and the second is the **county**. Inside the PDF the court blank is named \`DIVISION 1\` and the county blank is named \`COURT 1\` — the form's own field names are the wrong way round, which is why nothing is prefilled into either. Writing a value into a blank whose name says something else is how the wrong fact ends up in the wrong place, and this packet will not do it. **Write the county of the court that handled your case in the second blank, and the court's name in the first, on BOTH forms so the petition and the order match.**
-
-**Ask the circuit clerk's office of the county where your case was handled which court takes this petition.** The compiled Arkansas profile records that both the circuit and the district court take sealing petitions, depending on which handled the case; the clerk can tell you which, and the clerk's office is where the filing is received. The DIVISION blank on the second caption line is also yours, only if that court has divisions; the same clerk can tell you that.
+**The court's own name is left for you, in the "IN THE ______ COURT OF" blank.** The platform holds no court fact tied to this route, and this packet does not print a court name it cannot source to your case. The compiled Arkansas profile records that both the circuit and the district court take sealing petitions, depending on which handled the case. **Ask the circuit clerk's office of the county printed in your caption which court handled your case and which takes this petition; the clerk can tell you, and the clerk's office is where the filing is received.** Write that answer on **both** forms so the petition and the order match. The DIVISION blank on the second caption line is also yours, only if that court has divisions; the same clerk can tell you that.
 
 **If you have records in more than one court, this packet covers one of them.** The compiled Arkansas profile records that venue is "the court that handled the case — file separately in each county where the person has records". One petition does not reach a case in another county.
 
@@ -746,7 +762,6 @@ The first blank is the **court** and the second is the **county**. Inside the PD
 | Page | The blank on the form | What to write |
 | --- | --- | --- |
 | 1 | Caption — "IN THE ______ COURT OF" (the court's name; inside the PDF this blank is called \`DIVISION 1\`) | the court the clerk tells you handled your case and takes this petition |
-| 1 | Caption — "COURT OF ______, ARKANSAS" (the county; inside the PDF this blank is called \`COURT 1\`) | the county of the court that handled your case |
 | 1 | Caption — "_______ DIVISION" (inside the PDF, \`DIVISION 2\`) | that court's division, only if it has divisions; otherwise leave blank |
 | 1 | Paragraph 2 — "convicted of the offense(s) of ______" (\`OFFENSE 3\`) | the offense you were **convicted** of, copied from your judgment. Only paragraph 1's charged-offense line is filled |
 | 1 | Paragraph 1 — "arrested on the ___ day of ______, ____" (\`DAY 1\`, \`MONTH 1\`, \`YEAR 1\`) | the arrest date, copied from your arrest or court paperwork. The platform holds the date only as a whole and does not split it into these blanks |
@@ -783,7 +798,7 @@ Paragraph 1 asks what you were **charged with**; paragraph 2 asks what you were 
 
 ## The proposed order
 
-The order's caption — the court's name, the county, the case number and your name — must match the petition's. The case number and your name are filled to match; **the court's name and the county are blank on the order for the same reason they are blank on the petition, and you write the same answers into both.** Everything below the caption is deliberately untouched: the recitals, the paragraph boxes, the decree, the judge's signature and the date beside it may never carry anyone's ink but the court's. **When you file, ask the clerk whether the court wants the proposed order's recital blanks completed to match your petition**, and complete exactly those if the clerk says so.
+The order's caption — the court's name, the county, the case number and your name — must match the petition's. The county, the case number and your name are filled to match; **the court's name is blank on the order for the same reason it is blank on the petition, and you write the same answer into both.** Everything below the caption is deliberately untouched: the recitals, the paragraph boxes, the decree, the judge's signature and the date beside it may never carry anyone's ink but the court's. **When you file, ask the clerk whether the court wants the proposed order's recital blanks completed to match your petition**, and complete exactly those if the clerk says so.
 
 ## What the platform deliberately left blank
 
@@ -791,7 +806,7 @@ The order's caption — the court's name, the county, the case number and your n
 - **The whole Certificate of Service** — name, signature, date. Service has not happened yet.
 - **The arrest date's and the conviction date's day, month and year blanks.** The platform holds each date only as a whole and has no day, month or year fact to put in them.
 - **Race, sex, ATN, SID and FBI number.** Identification facts the platform either does not hold or does not write.
-- **The court's name and the county in both captions.** The platform holds no court-type fact for this route, and this form's field names are the wrong way round for the county, so nothing is written into either rather than risking the wrong value in the wrong blank.
+- **The court's name in both captions.** The platform holds no court fact tied to this route; the clerk answers it. The county beside it *is* written, from the printed caption measured at that blank.
 - **Paragraph 2's conviction-offense line.** The platform holds one offense and has written it as the offense you were charged with; what you were convicted of is yours to state.
 - **Everything on the order below its caption** that belongs to the court.
 
@@ -945,6 +960,12 @@ async function main() {
         ownership: doc.ownership,
         captionOnly: doc.captionOnly,
         explicitMappings: doc.explicitMappings,
+        printedLabelCorrections: doc.printedLabelCorrections ?? {},
+        printedLabelCorrectionNote:
+          "Each entry replaced the harvested caption for one named widget with the printed text this build read "
+          + "at that widget's own measured position, because the widget's name says nothing or says the wrong "
+          + "thing. The harvested value each replaced is kept on the field-census row as harvestedLabel, and the "
+          + "evidence for each correction is in the entry itself.",
         roleRefusals: doc.unwritable,
         writeBoxes: written.map((w) => {
           const f = byName.get(w.field);

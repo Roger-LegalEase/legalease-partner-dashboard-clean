@@ -38,6 +38,8 @@
           "name": "Case No",
           "type": "text",
           "effectiveLabel": "Case No",
+          "harvestedLabel": "Case No",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "STATE OF ARKANSAS PLAINTIFF",
           "widgets": [
@@ -67,6 +69,8 @@
           "name": "First Middle and Last name",
           "type": "text",
           "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
           "labelBasis": "no_printed_caption_within_reach",
           "regionHeading": "STATE OF ARKANSAS PLAINTIFF",
           "widgets": [
@@ -94,6 +98,8 @@
           "name": "Defendants Signature",
           "type": "other",
           "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
           "labelBasis": "no_printed_caption_within_reach",
           "regionHeading": null,
           "widgets": [
@@ -121,6 +127,8 @@
           "name": "Race",
           "type": "text",
           "effectiveLabel": "Race",
+          "harvestedLabel": "Race",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -146,6 +154,8 @@
           "name": "Sex",
           "type": "text",
           "effectiveLabel": "Sex",
+          "harvestedLabel": "Sex",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -171,6 +181,8 @@
           "name": "DOB",
           "type": "text",
           "effectiveLabel": "DOB",
+          "harvestedLabel": "DOB",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "NATIONAL RECORD SYSTEMS",
           "widgets": [
@@ -200,6 +212,8 @@
           "name": "Arrest Tracking Number",
           "type": "text",
           "effectiveLabel": "Arrest Tracking Number",
+          "harvestedLabel": "Arrest Tracking Number",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "NATIONAL RECORD SYSTEMS",
           "widgets": [
@@ -225,6 +239,8 @@
           "name": "FBI No if known",
           "type": "text",
           "effectiveLabel": "FBI No. (if know",
+          "harvestedLabel": "FBI No. (if know",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "NATIONAL RECORD SYSTEMS",
           "widgets": [
@@ -250,6 +266,8 @@
           "name": "Defendant or Defendants Attorney",
           "type": "text",
           "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
           "labelBasis": "no_printed_caption_within_reach",
           "regionHeading": null,
           "widgets": [
@@ -277,6 +295,8 @@
           "name": "Defendant Address  Street 1",
           "type": "text",
           "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
           "labelBasis": "no_printed_caption_within_reach",
           "regionHeading": null,
           "widgets": [
@@ -304,6 +324,8 @@
           "name": "Defendant Address  Street 2",
           "type": "text",
           "effectiveLabel": "Defendant Address, Street:__________________________________",
+          "harvestedLabel": "Defendant Address, Street:__________________________________",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -333,6 +355,8 @@
           "name": "DIVISION 1",
           "type": "text",
           "effectiveLabel": "IN THE",
+          "harvestedLabel": "IN THE",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -357,8 +381,15 @@
         {
           "name": "COURT 1",
           "type": "text",
-          "effectiveLabel": "_______ DI",
-          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "effectiveLabel": "COURT OF county, ARKANSAS",
+          "harvestedLabel": "_______ DI",
+          "printedLabelCorrection": {
+            "printedLabel": "COURT OF county, ARKANSAS",
+            "readFrom": "page 1, printed line at y=707.0: \"IN THE ______________ COURT OF ________________, ARKANSAS\"",
+            "measuredEvidence": "the widget occupies x 320.00-444.60; the printed \"OF\" ends at 316.3, the blank's underscores begin at 320.1 and the \"_,\" before \" ARKANSAS\" is at 436.8, so the widget spans the county blank",
+            "why": "The widget's own name is \"COURT 1\", which reads as the court; the blank it covers is the county. The widget over the COURT blank is named \"DIVISION 1\" and the one over the DIVISION blank is named \"DIVISION 2\" — the names are shifted by one, and only the geometry settles it."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
           "regionHeading": null,
           "widgets": [
             {
@@ -376,13 +407,17 @@
           "captionOrNameMentionsCharge": false,
           "protectCategory": null,
           "descriptorsByName": [],
-          "descriptorsByLabel": [],
+          "descriptorsByLabel": [
+            "matter.county"
+          ],
           "measuredRuleUnderWriteBox": null
         },
         {
           "name": "DIVISION 2",
           "type": "text",
           "effectiveLabel": "IN THE _________",
+          "harvestedLabel": "IN THE _________",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "IN THE ______________ COURT OF ________________, ARKANSAS",
           "widgets": [
@@ -408,6 +443,8 @@
           "name": "DAY 1",
           "type": "text",
           "effectiveLabel": "1.The defendant was arrested on the",
+          "harvestedLabel": "1.The defendant was arrested on the",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-",
           "widgets": [
@@ -435,6 +472,8 @@
           "name": "MONTH 1",
           "type": "text",
           "effectiveLabel": "1",
+          "harvestedLabel": "1",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-",
           "widgets": [
@@ -460,6 +499,8 @@
           "name": "YEAR 1",
           "type": "text",
           "effectiveLabel": "______________,",
+          "harvestedLabel": "______________,",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-",
           "widgets": [
@@ -485,6 +526,8 @@
           "name": "OFFENSE 1",
           "type": "text",
           "effectiveLabel": "______________, _____, and charged with the offense(s) of",
+          "harvestedLabel": "______________, _____, and charged with the offense(s) of",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-",
           "widgets": [
@@ -514,6 +557,8 @@
           "name": "OFFENSE 2",
           "type": "text",
           "effectiveLabel": "_____________________________________________________",
+          "harvestedLabel": "_____________________________________________________",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-",
           "widgets": [
@@ -541,6 +586,8 @@
           "name": "CLASS 1",
           "type": "text",
           "effectiveLabel": "_____________________________________________________",
+          "harvestedLabel": "_____________________________________________________",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-",
           "widgets": [
@@ -566,6 +613,8 @@
           "name": "FELONY 1",
           "type": "checkbox",
           "effectiveLabel": "_____________________________________________________",
+          "harvestedLabel": "_____________________________________________________",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-",
           "widgets": [
@@ -591,6 +640,8 @@
           "name": "MISDEMEANOR 1",
           "type": "checkbox",
           "effectiveLabel": "_____________________________________________________",
+          "harvestedLabel": "_____________________________________________________",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-",
           "widgets": [
@@ -616,6 +667,8 @@
           "name": "OFFENSE 3",
           "type": "text",
           "effectiveLabel": "2",
+          "harvestedLabel": "2",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-",
           "widgets": [
@@ -643,6 +696,8 @@
           "name": "ACA 2",
           "type": "text",
           "effectiveLabel": "A.C.A. §",
+          "harvestedLabel": "A.C.A. §",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-",
           "widgets": [
@@ -668,6 +723,8 @@
           "name": "ACA 1",
           "type": "text",
           "effectiveLabel": "A Class _____ [_] felony [_] misdemeanor in violation of A.C",
+          "harvestedLabel": "A Class _____ [_] felony [_] misdemeanor in violation of A.C",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-",
           "widgets": [
@@ -695,6 +752,8 @@
           "name": "DAY 2",
           "type": "text",
           "effectiveLabel": "A.C.A. § ___________________, on t",
+          "harvestedLabel": "A.C.A. § ___________________, on t",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-",
           "widgets": [
@@ -720,6 +779,8 @@
           "name": "MONTH 2",
           "type": "text",
           "effectiveLabel": "3",
+          "harvestedLabel": "3",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-",
           "widgets": [
@@ -745,6 +806,8 @@
           "name": "YEAR 2",
           "type": "text",
           "effectiveLabel": "_________,",
+          "harvestedLabel": "_________,",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-",
           "widgets": [
@@ -770,6 +833,8 @@
           "name": "COMPLETED 1",
           "type": "checkbox",
           "effectiveLabel": "5",
+          "harvestedLabel": "5",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -795,6 +860,8 @@
           "name": "COMPLETED 2",
           "type": "checkbox",
           "effectiveLabel": "transfer to the Arkansas Department of Community Corrections",
+          "harvestedLabel": "transfer to the Arkansas Department of Community Corrections",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -820,6 +887,8 @@
           "name": "COMPLETED 3",
           "type": "checkbox",
           "effectiveLabel": "or",
+          "harvestedLabel": "or",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -845,6 +914,8 @@
           "name": "COMPLETED 4",
           "type": "checkbox",
           "effectiveLabel": "[_] Supervised or unsupervised probation; or",
+          "harvestedLabel": "[_] Supervised or unsupervised probation; or",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -870,6 +941,8 @@
           "name": "PENDING CHARGE 1",
           "type": "checkbox",
           "effectiveLabel": "8",
+          "harvestedLabel": "8",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -897,6 +970,8 @@
           "name": "PENDING CHARGE 2",
           "type": "checkbox",
           "effectiveLabel": "court; or",
+          "harvestedLabel": "court; or",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -924,6 +999,8 @@
           "name": "OFFENSE 4",
           "type": "text",
           "effectiveLabel": "federal court and the status of that/those charges is/are as",
+          "harvestedLabel": "federal court and the status of that/those charges is/are as",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -951,6 +1028,8 @@
           "name": "OFFENSE 5",
           "type": "text",
           "effectiveLabel": "__________________________________________________",
+          "harvestedLabel": "__________________________________________________",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -978,6 +1057,8 @@
           "name": "DEFENDANT PRINTED",
           "type": "text",
           "effectiveLabel": "WHEREFORE, the Defendant,",
+          "harvestedLabel": "WHEREFORE, the Defendant,",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -1007,6 +1088,8 @@
           "name": "FULL DATE",
           "type": "text",
           "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
           "labelBasis": "no_printed_caption_within_reach",
           "regionHeading": null,
           "widgets": [
@@ -1032,6 +1115,8 @@
           "name": "SID NO",
           "type": "text",
           "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "NATIONAL RECORD SYSTEMS",
           "widgets": [
@@ -1057,6 +1142,8 @@
           "name": "CERTIFY 1",
           "type": "text",
           "effectiveLabel": "I,",
+          "harvestedLabel": "I,",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -1082,6 +1169,8 @@
           "name": "FULL DATE 2",
           "type": "text",
           "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
           "labelBasis": "no_printed_caption_within_reach",
           "regionHeading": null,
           "widgets": [
@@ -1107,6 +1196,8 @@
           "name": "City 1",
           "type": "text",
           "effectiveLabel": "_________________________________________________________",
+          "harvestedLabel": "_________________________________________________________",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -1134,6 +1225,8 @@
           "name": "State 1",
           "type": "text",
           "effectiveLabel": "_________________________________________________________",
+          "harvestedLabel": "_________________________________________________________",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -1161,6 +1254,8 @@
           "name": "Zip code 1",
           "type": "text",
           "effectiveLabel": "City:_________________________State:__________Zip",
+          "harvestedLabel": "City:_________________________State:__________Zip",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -1219,6 +1314,8 @@
           "name": "Case No",
           "type": "text",
           "effectiveLabel": "Case No",
+          "harvestedLabel": "Case No",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "STATE OF ARKANSAS PLAINTIFF",
           "widgets": [
@@ -1248,6 +1345,8 @@
           "name": "First Middle and Last name",
           "type": "text",
           "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
           "labelBasis": "no_printed_caption_within_reach",
           "regionHeading": "STATE OF ARKANSAS PLAINTIFF",
           "widgets": [
@@ -1275,6 +1374,8 @@
           "name": "Judge",
           "type": "text",
           "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
           "labelBasis": "no_printed_caption_within_reach",
           "regionHeading": null,
           "widgets": [
@@ -1300,6 +1401,8 @@
           "name": "Race",
           "type": "text",
           "effectiveLabel": "Race",
+          "harvestedLabel": "Race",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -1325,6 +1428,8 @@
           "name": "Arrest Tracking Number",
           "type": "text",
           "effectiveLabel": "Arrest Tracking Number",
+          "harvestedLabel": "Arrest Tracking Number",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "NATIONAL RECORD SYSTEMS",
           "widgets": [
@@ -1350,6 +1455,8 @@
           "name": "Sex",
           "type": "text",
           "effectiveLabel": "Sex",
+          "harvestedLabel": "Sex",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -1375,6 +1482,8 @@
           "name": "DOB",
           "type": "text",
           "effectiveLabel": "DOB",
+          "harvestedLabel": "DOB",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "NATIONAL RECORD SYSTEMS",
           "widgets": [
@@ -1404,6 +1513,8 @@
           "name": "FBI No if known",
           "type": "text",
           "effectiveLabel": "FBI No. (if know",
+          "harvestedLabel": "FBI No. (if know",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "NATIONAL RECORD SYSTEMS",
           "widgets": [
@@ -1429,6 +1540,8 @@
           "name": "DIVISION 1",
           "type": "text",
           "effectiveLabel": "IN THE",
+          "harvestedLabel": "IN THE",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -1453,8 +1566,15 @@
         {
           "name": "COURT 1",
           "type": "text",
-          "effectiveLabel": "_______ DI",
-          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "effectiveLabel": "COURT OF county, ARKANSAS",
+          "harvestedLabel": "_______ DI",
+          "printedLabelCorrection": {
+            "printedLabel": "COURT OF county, ARKANSAS",
+            "readFrom": "page 1, printed line at y=707.0: \"IN THE ______________ COURT OF ________________, ARKANSAS\"",
+            "measuredEvidence": "the widget occupies x 320.00-444.60, spanning the blank between the printed \"OF\" and the \"_,\" before \" ARKANSAS\"",
+            "why": "Same shifted naming as the petition, and the order's caption must match the petition's. The county is the one caption fact this packet can source."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
           "regionHeading": null,
           "widgets": [
             {
@@ -1472,13 +1592,17 @@
           "captionOrNameMentionsCharge": false,
           "protectCategory": null,
           "descriptorsByName": [],
-          "descriptorsByLabel": [],
+          "descriptorsByLabel": [
+            "matter.county"
+          ],
           "measuredRuleUnderWriteBox": null
         },
         {
           "name": "DIVISION 2",
           "type": "text",
           "effectiveLabel": "IN THE _________",
+          "harvestedLabel": "IN THE _________",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "IN THE ______________ COURT OF ________________, ARKANSAS",
           "widgets": [
@@ -1504,6 +1628,8 @@
           "name": "DAY 1",
           "type": "text",
           "effectiveLabel": "1.The defendant was arrested on the",
+          "harvestedLabel": "1.The defendant was arrested on the",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201,",
           "widgets": [
@@ -1531,6 +1657,8 @@
           "name": "MONTH 1",
           "type": "text",
           "effectiveLabel": "1",
+          "harvestedLabel": "1",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201,",
           "widgets": [
@@ -1556,6 +1684,8 @@
           "name": "YEAR 1",
           "type": "text",
           "effectiveLabel": "______________,",
+          "harvestedLabel": "______________,",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201,",
           "widgets": [
@@ -1581,6 +1711,8 @@
           "name": "OFFENSE 1",
           "type": "text",
           "effectiveLabel": "______________, _____, and charged with the offense(s) of",
+          "harvestedLabel": "______________, _____, and charged with the offense(s) of",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201,",
           "widgets": [
@@ -1610,6 +1742,8 @@
           "name": "OFFENSE 2",
           "type": "text",
           "effectiveLabel": "_____________________________________________________",
+          "harvestedLabel": "_____________________________________________________",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201,",
           "widgets": [
@@ -1637,6 +1771,8 @@
           "name": "CLASS 1",
           "type": "text",
           "effectiveLabel": "A",
+          "harvestedLabel": "A",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201,",
           "widgets": [
@@ -1662,6 +1798,8 @@
           "name": "FELONY 1",
           "type": "checkbox",
           "effectiveLabel": "A",
+          "harvestedLabel": "A",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201,",
           "widgets": [
@@ -1687,6 +1825,8 @@
           "name": "MISDEMEANOR 1",
           "type": "checkbox",
           "effectiveLabel": "A Class",
+          "harvestedLabel": "A Class",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201,",
           "widgets": [
@@ -1712,6 +1852,8 @@
           "name": "ACA 1",
           "type": "text",
           "effectiveLabel": "A Class _____ [_] felony [_] misdemeanor in violation of A.C",
+          "harvestedLabel": "A Class _____ [_] felony [_] misdemeanor in violation of A.C",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201,",
           "widgets": [
@@ -1739,6 +1881,8 @@
           "name": "OFFENSE 3",
           "type": "text",
           "effectiveLabel": "2",
+          "harvestedLabel": "2",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201,",
           "widgets": [
@@ -1766,6 +1910,8 @@
           "name": "ACA 2",
           "type": "text",
           "effectiveLabel": "A.C.A. §",
+          "harvestedLabel": "A.C.A. §",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201,",
           "widgets": [
@@ -1791,6 +1937,8 @@
           "name": "DAY 2",
           "type": "text",
           "effectiveLabel": "A.C.A. § ___________________, on t",
+          "harvestedLabel": "A.C.A. § ___________________, on t",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201,",
           "widgets": [
@@ -1816,6 +1964,8 @@
           "name": "MONTH 2",
           "type": "text",
           "effectiveLabel": "3",
+          "harvestedLabel": "3",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201,",
           "widgets": [
@@ -1841,6 +1991,8 @@
           "name": "YEAR 2",
           "type": "text",
           "effectiveLabel": "_________,",
+          "harvestedLabel": "_________,",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201,",
           "widgets": [
@@ -1866,6 +2018,8 @@
           "name": "COMPLETED 1",
           "type": "checkbox",
           "effectiveLabel": "5",
+          "harvestedLabel": "5",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -1891,6 +2045,8 @@
           "name": "COMPLETED 2",
           "type": "checkbox",
           "effectiveLabel": "transfer to the Arkansas Department of Community Corrections",
+          "harvestedLabel": "transfer to the Arkansas Department of Community Corrections",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -1916,6 +2072,8 @@
           "name": "COMPLETED 3",
           "type": "checkbox",
           "effectiveLabel": "or",
+          "harvestedLabel": "or",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -1941,6 +2099,8 @@
           "name": "COMPLETED 4",
           "type": "checkbox",
           "effectiveLabel": "[_] Supervised or unsupervised probation; or",
+          "harvestedLabel": "[_] Supervised or unsupervised probation; or",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -1966,6 +2126,8 @@
           "name": "HAS 1",
           "type": "checkbox",
           "effectiveLabel": "8.The defendant",
+          "harvestedLabel": "8.The defendant",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -1993,6 +2155,8 @@
           "name": "HAS NOT 1",
           "type": "checkbox",
           "effectiveLabel": "8.The defendant [_] HAS or",
+          "harvestedLabel": "8.The defendant [_] HAS or",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -2020,6 +2184,8 @@
           "name": "PENDING 1",
           "type": "checkbox",
           "effectiveLabel": "9",
+          "harvestedLabel": "9",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -2045,6 +2211,8 @@
           "name": "PENDING 2",
           "type": "checkbox",
           "effectiveLabel": "federal court; or",
+          "harvestedLabel": "federal court; or",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -2070,6 +2238,8 @@
           "name": "OFFENSE 4",
           "type": "text",
           "effectiveLabel": "federal court and the status of that/those charges is/are as",
+          "harvestedLabel": "federal court and the status of that/those charges is/are as",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -2097,6 +2267,8 @@
           "name": "OFFENSE 5",
           "type": "text",
           "effectiveLabel": "__________________________________________________",
+          "harvestedLabel": "__________________________________________________",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "widgets": [
@@ -2124,6 +2296,8 @@
           "name": "DEFENDANT SIG",
           "type": "text",
           "effectiveLabel": "IT IS, TH",
+          "harvestedLabel": "IT IS, TH",
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": null,
           "widgets": [
@@ -2151,6 +2325,8 @@
           "name": "FULL DATE",
           "type": "text",
           "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
           "labelBasis": "no_printed_caption_within_reach",
           "regionHeading": null,
           "widgets": [
@@ -2176,6 +2352,8 @@
           "name": "SID NO",
           "type": "text",
           "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "NATIONAL RECORD SYSTEMS",
           "widgets": [

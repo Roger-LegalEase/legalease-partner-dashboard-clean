@@ -7,19 +7,15 @@ This packet is two ACIC forms, filed together:
 
 The petition's own printed title names both statutes: Act 531 of 1993, A.C.A. § 16-93-1201 et seq. (the Community Punishment Act), and Act 1460 of 2013, A.C.A. § 16-90-1401 et seq. (the sealing procedure). Paragraph 3 of the petition states the situation this route covers: **the offense or offenses listed are a target offense as defined in A.C.A. § 16-93-1202(10)(A)(i) or (ii) and are not violent or sexual offenses as defined in A.C.A. § 16-93-1202(10)(A)(iii) or (iv)**. If that is not true of your case, this is the wrong packet — see _Where self-help ends_ below.
 
-The platform filled what it holds about you and your case: your name in the caption and in the prayer line, the case number, your date of birth, the offense on **paragraph 1's first offense line only**, and — on the certificate page — your street address, city, state and ZIP code. Every other blank is deliberate, and every one is listed below. **The caption's court and county blanks are both left for you**; _Where you file this_ explains why and what to write. If your full legal name is too long to fit a caption blank at the smallest legible size, that blank is refused rather than drawn over the form's rule, and completing it by hand is yours.
+The platform filled what it holds about you and your case: your name in the caption and in the prayer line, the county in the caption, the case number, your date of birth, the offense on **paragraph 1's first offense line only**, and — on the certificate page — your street address, city, state and ZIP code. Every other blank is deliberate, and every one is listed below. **The caption's court blank is left for you**; _Where you file this_ explains why and what to write. If your full legal name is too long to fit a caption blank at the smallest legible size, that blank is refused rather than drawn over the form's rule, and completing it by hand is yours.
 
 ## Where you file this
 
 **This petition goes to the court that handled the underlying criminal case.** The committed route record for this packet gives the destination as "the underlying criminal court" and describes it as a "statewide Arkansas program-specific process". The compiled Arkansas profile this route is built from — `src/lib/rcap-engine/compiled/profiles/AR-arkansas.json` — says the same thing twice and adds the detail: "Sealing is filed in the court that handled the case", and "File in the circuit or district court that handled the case."
 
-**Both caption blanks are yours to write, and this packet leaves them blank on purpose.** The caption reads
+**Check the county printed in the caption after "COURT OF".** It comes from what the platform holds for your matter, and venue on this route follows the court that handled the case. If the case was handled in a different county, the caption is wrong and must be corrected before you file. (Inside the PDF the county blank is named `COURT 1` and the court blank is named `DIVISION 1` — the form's own field names are shifted by one. This packet decided which blank is which by measuring the printed caption, not by trusting the names.)
 
-> IN THE \_\_\_\_\_\_ COURT OF \_\_\_\_\_\_, ARKANSAS
-
-The first blank is the **court** and the second is the **county**. Inside the PDF the court blank is named `DIVISION 1` and the county blank is named `COURT 1` — the form's own field names are the wrong way round, which is why nothing is prefilled into either. Writing a value into a blank whose name says something else is how the wrong fact ends up in the wrong place, and this packet will not do it. **Write the county of the court that handled your case in the second blank, and the court's name in the first, on BOTH forms so the petition and the order match.**
-
-**Ask the circuit clerk's office of the county where your case was handled which court takes this petition.** The compiled Arkansas profile records that both the circuit and the district court take sealing petitions, depending on which handled the case; the clerk can tell you which, and the clerk's office is where the filing is received. The DIVISION blank on the second caption line is also yours, only if that court has divisions; the same clerk can tell you that.
+**The court's own name is left for you, in the "IN THE ______ COURT OF" blank.** The platform holds no court fact tied to this route, and this packet does not print a court name it cannot source to your case. The compiled Arkansas profile records that both the circuit and the district court take sealing petitions, depending on which handled the case. **Ask the circuit clerk's office of the county printed in your caption which court handled your case and which takes this petition; the clerk can tell you, and the clerk's office is where the filing is received.** Write that answer on **both** forms so the petition and the order match. The DIVISION blank on the second caption line is also yours, only if that court has divisions; the same clerk can tell you that.
 
 **If you have records in more than one court, this packet covers one of them.** The compiled Arkansas profile records that venue is "the court that handled the case — file separately in each county where the person has records". One petition does not reach a case in another county.
 
@@ -55,7 +51,6 @@ The first blank is the **court** and the second is the **county**. Inside the PD
 | Page | The blank on the form | What to write |
 | --- | --- | --- |
 | 1 | Caption — "IN THE ______ COURT OF" (the court's name; inside the PDF this blank is called `DIVISION 1`) | the court the clerk tells you handled your case and takes this petition |
-| 1 | Caption — "COURT OF ______, ARKANSAS" (the county; inside the PDF this blank is called `COURT 1`) | the county of the court that handled your case |
 | 1 | Caption — "_______ DIVISION" (inside the PDF, `DIVISION 2`) | that court's division, only if it has divisions; otherwise leave blank |
 | 1 | Paragraph 2 — "convicted of the offense(s) of ______" (`OFFENSE 3`) | the offense you were **convicted** of, copied from your judgment. Only paragraph 1's charged-offense line is filled |
 | 1 | Paragraph 1 — "arrested on the ___ day of ______, ____" (`DAY 1`, `MONTH 1`, `YEAR 1`) | the arrest date, copied from your arrest or court paperwork. The platform holds the date only as a whole and does not split it into these blanks |
@@ -92,7 +87,7 @@ Paragraph 1 asks what you were **charged with**; paragraph 2 asks what you were 
 
 ## The proposed order
 
-The order's caption — the court's name, the county, the case number and your name — must match the petition's. The case number and your name are filled to match; **the court's name and the county are blank on the order for the same reason they are blank on the petition, and you write the same answers into both.** Everything below the caption is deliberately untouched: the recitals, the paragraph boxes, the decree, the judge's signature and the date beside it may never carry anyone's ink but the court's. **When you file, ask the clerk whether the court wants the proposed order's recital blanks completed to match your petition**, and complete exactly those if the clerk says so.
+The order's caption — the court's name, the county, the case number and your name — must match the petition's. The county, the case number and your name are filled to match; **the court's name is blank on the order for the same reason it is blank on the petition, and you write the same answer into both.** Everything below the caption is deliberately untouched: the recitals, the paragraph boxes, the decree, the judge's signature and the date beside it may never carry anyone's ink but the court's. **When you file, ask the clerk whether the court wants the proposed order's recital blanks completed to match your petition**, and complete exactly those if the clerk says so.
 
 ## What the platform deliberately left blank
 
@@ -100,7 +95,7 @@ The order's caption — the court's name, the county, the case number and your n
 - **The whole Certificate of Service** — name, signature, date. Service has not happened yet.
 - **The arrest date's and the conviction date's day, month and year blanks.** The platform holds each date only as a whole and has no day, month or year fact to put in them.
 - **Race, sex, ATN, SID and FBI number.** Identification facts the platform either does not hold or does not write.
-- **The court's name and the county in both captions.** The platform holds no court-type fact for this route, and this form's field names are the wrong way round for the county, so nothing is written into either rather than risking the wrong value in the wrong blank.
+- **The court's name in both captions.** The platform holds no court fact tied to this route; the clerk answers it. The county beside it *is* written, from the printed caption measured at that blank.
 - **Paragraph 2's conviction-offense line.** The platform holds one offense and has written it as the offense you were charged with; what you were convicted of is yours to state.
 - **Everything on the order below its caption** that belongs to the court.
 
