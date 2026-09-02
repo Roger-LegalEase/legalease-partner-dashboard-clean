@@ -4027,6 +4027,232 @@
         "routesChanged": 0
       },
       "whatThisRowDidNotDo": "FABLE-VA5 repaired nothing, added no component, and edited no byte of this family."
+    },
+    {
+      "itemId": "ca-851-91-set",
+      "familyId": "ca-851-91-set",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "worker": "FABLE-VA12",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "43e11ccd3",
+      "verifiedAtBaseFull": "43e11ccd3a64c5048eb673b369cc365aa0786f94",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill",
+      "routesServed": [
+        "obligation:track-only:CA:ca-851-91"
+      ],
+      "obligationsScored": 15,
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "claimAssertion": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 ca-851-91-set --reason \"FABLE-VA12 independent verification of VF01 roster at base 43e11ccd3\" -> CLAIM_OK VF01 ca-851-91-set (independent-verification, grant set 5be13a33a3963f3b)",
+      "rosterDerivedNotAssumed": "The roster was derived from data/rcap-grade-a/packet-factory-24h/claim-ledger.json at this base by filtering released !== true and laneKind === \"independent-verification\". VF01 holds exactly one live family, ca-851-91-set. VF05 holds four, not the five the dispatch named; the ledger governs and the fifth does not exist as a live grant.",
+      "whyThisReaderIsIndependent": "FABLE-VA12 neither built nor repaired this family and holds no PF or FIX lane. Every hash, page count, box measurement, glyph coordinate and quotation below was recomputed in this container from the committed bytes and the mounted Master Library. The pre-repair verdict this family carries in its own binding (FAIL_REPAIR_REQUIRED, lane vf03, base ee5bdb5b56d69c00750663087e5e8c5a6d144acf) was treated as stale and was not read as evidence; the family is scored on the bytes standing at this base.",
+      "preflight": "node scripts/verify-packet-build-environment.mjs -> PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable, with MASTER_LIBRARY_SOURCE_DIR bound to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (499 files, 329 PDFs, 51 jurisdictions; 24 sampled index entries byte-exact).",
+      "packetAndFixtureHashesReviewed": {
+        "method": "SHA-256 recomputed over every file byte in this container; page counts read with pdf-lib and, where pdf-lib refuses the document, with poppler pdfinfo 24.02.0.",
+        "artifactsMeasured": 16,
+        "shaMatchesDeclared": 16,
+        "byteLengthMatchesDeclared": 16,
+        "primaryFilings": [
+          {
+            "packetId": "pc-851-91-matter-of-right-canonical",
+            "file": "cr-409-filled.pdf",
+            "sha256": "b9d2d145461e51bb08b57712a93e2d4e4b4df19b501bed09785ef709a74d84e3",
+            "bytes": 48095,
+            "pages": 2
+          },
+          {
+            "packetId": "pc-851-91-matter-of-right-boundary",
+            "file": "cr-409-filled.pdf",
+            "sha256": "e972373596de7fe774d1ffc7feebd833cf6d3ce344ad46ddc45165d3bf1ad356",
+            "bytes": 48305,
+            "pages": 2
+          },
+          {
+            "packetId": "pc-851-91-interests-of-justice-canonical",
+            "file": "cr-409-filled.pdf",
+            "sha256": "906f4348cbfca61609edddda4e905480411aadadd177d91152a3ef42d115f16e",
+            "bytes": 48095,
+            "pages": 2
+          },
+          {
+            "packetId": "pc-851-91-interests-of-justice-boundary",
+            "file": "cr-409-filled.pdf",
+            "sha256": "fdd760246fa33ed54537b65314b0ba397c441946d8bdadadcaf050f75ab50926",
+            "bytes": 48305,
+            "pages": 2
+          }
+        ],
+        "unchangedOfficialComponents": {
+          "CR-410": {
+            "sha256": "d94bd94bad3da9d05d71b1b154a440db1864b9441e2972c84b7854e1538604f9",
+            "bytes": 52034,
+            "popplerPages": 1,
+            "identicalToMasterLibrarySource": true,
+            "copiesInPacket": 4
+          },
+          "CR-106": {
+            "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+            "bytes": 104278,
+            "popplerPages": 2,
+            "identicalToMasterLibrarySource": true,
+            "copiesInPacket": 4
+          },
+          "MC-031": {
+            "sha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075",
+            "bytes": 109506,
+            "popplerPages": 1,
+            "identicalToMasterLibrarySource": true,
+            "copiesInPacket": 4
+          }
+        },
+        "committedRasters": "24 PNGs under raster/, every one present and byte-equal to the sha256 its rendered-artifacts.json row declares."
+      },
+      "rasterReceiptPosition": {
+        "familyIsNotEnrolled": true,
+        "whereRecorded": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json notEligible[], familyId ca-851-91-set",
+        "reasonConfirmedFromBytesHere": "12 of the 16 queued documents will not open in pdf-lib 1.17.1: every cr-410-unchanged-official.pdf, cr-106-unchanged-official.pdf and mc-031-unchanged-official.pdf in all four packets throws \"Expected instance of PDFDict, but got instance of undefined\". pdfinfo shows why: CR-106 and CR-410 are AES-encrypted XFA documents and MC-031 is RC4-encrypted, all with permissions set (copy:no change:no) and an empty user password. The four cr-409-filled.pdf files open normally and report Form: none, confirming the flatten.",
+        "notScoredAsADefect": "The absent raster receipt is the queue refusing to claim it rendered documents whose pages it cannot count. It is not treated as a defect of this family, and no pixel of any raster was inspected by this lane."
+      },
+      "nineCountersRecomputedHere": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-851-91-set",
+        "result": "PASS_COMPLETE, 14/129 written",
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "andWhyTheVerdictIsStillFAIL": "All nine counters are structural. Not one of them reads participant-instructions.md against the committed packet-set manifest, and not one of them can see that a statutory election was pre-marked while the page telling the participant about it says the platform never marks a box. Both failures below are invisible to every counter that returned zero."
+      },
+      "blindSpotCheck": {
+        "onTheUnclassifiedBlanksBlindSpotList": false,
+        "listConsulted": "data/rcap-grade-a/packet-completeness/UNCLASSIFIED_BLANKS_BLIND_SPOT.json, 40 families; ca-851-91-set is not among them.",
+        "captionReadAnyway": "The caption court blank on CR-409 page 1 is written, not blank: the flattened CourtInfo widget carries the county value and the preprinted label reads \"Superior Court of California, County of\". Read from the delivered bytes, not from a counter."
+      },
+      "instrumentLimits": "pdftotext -bbox-layout sees extractable text geometry only. It cannot see raster ink, vector rules, field borders, images, or glyphs with no extractable text. The item 3h election below was therefore found by decompressing the page content stream directly rather than by text extraction, because the mark is two stroked line segments and carries no glyph.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "One route key, obligation:track-only:CA:ca-851-91, and the same string in product-wiring.json routeKeys, production-field-map.json routeKeys, the binding, and every one of the 16 artifact rows in reports/rendered-artifacts.json.",
+          "evidence": "The census row at data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json for that key carries trackId ca-851-91, packetSetId ca-851-91-set, currentOutputStrategy official_pdf_fill (the family's implementationStrategy) and statuteOrAuthority beginning \"Cal. Penal Code section 851.91, added by SB 393 (2017)\"."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "All four bound official forms recompute byte-exact from the mounted Master Library, and the three unchanged-official components shipped in the packet are byte-identical to those sources, not merely derived from them.",
+          "evidence": "Recomputed here: CR-409 59fa8a041633feb8351715938d7b66fda0d879e502f1fb5dd3764939efcc1088 (106622 bytes); CR-410 d94bd94bad3da9d05d71b1b154a440db1864b9441e2972c84b7854e1538604f9 (52034); CR-106 f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a (104278); MC-031 defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075 (109506). Each equals source-receipt.json's pinnedSha256, corpusIndexSha256 and pinnedByteLength. The CR-410, CR-106 and MC-031 copies inside all four packets hash to those same four values, so the packet ships the official bytes unchanged."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Four components declared, four delivered, in every one of the four packets. The committed packet-set manifest declares primary_filing CR-409 (required), proposed_order CR-410 (required), proof_of_service CR-106 (required) and supporting_declaration MC-031 (conditional, for the interests-of-justice pattern showing). All four are present in both variants and both fixtures.",
+          "evidence": "reports/rendered-artifacts.json packets[].documents lists the same four files for each of the four packetIds; all 16 files exist and hash as declared. requiredComponentsMissing recomputed 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "finding": "The platform marks the CR-409 item 3h statutory election on a sworn petition, while the packet's own participant page tells the participant in terms that it does not, and while the committed packet-set manifest assigns that election to the participant as a required-before-filing act.",
+          "evidence": {
+            "theMarkIsInTheBytes": "Decompressed the page-2 content stream of pc-851-91-matter-of-right-canonical/cr-409-filled.pdf in this container and read, verbatim: \"q / 0 0 0 RG / 1.2 w / [] 0 d / 86.5 411.44 m / 86.5 411.44 m / 91.5 416.44 l / S / Q\" followed by the crossing stroke \"86.5 416.44 m ... 91.5 411.44 l S\". Two black 1.2pt diagonal strokes forming an X, inset 2pt inside the li3h DismissSection[0] widget box (84.5, 409.44)-(93.5, 418.44).",
+            "andTheOtherVariantMarksTheOtherBox": "The interests-of-justice fixture carries the identical construct at y 364.85/369.85, inside DismissSection[1]. Text extraction from the two canonical CR-409s is byte-identical (md5 9f49fb8a37a937c9 both), so the ONLY difference between the two variants is the vector X. That is why a text-only instrument reports nothing here.",
+            "whatThePacketTellsTheParticipant": "participant-instructions.md, \"What you must do before you file\", item 2: \"**Mark every election yourself.** The platform never marks a box on a sworn filing.\" Nothing anywhere in that file discloses the pre-marked 3h election; \"Blanks that are not yours to fill\" lists only CR-410, the attorney block, and signatures and signature dates.",
+            "whatTheRepositoryAssigns": "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ca-851-91-set, participantActionRequired: {kind: complete_field, description: \"Matter-of-right versus interests-of-justice election - CR-409 item 3h\", requirement: required, requiredBeforeFiling: true}, and the same string appears in that packet set's requiredBeforeFiling list. Per DET-FEE-AND-WAIVER-001 A2 answersVT8C4 a committed packet-set manifest is a held source; it assigns item 3h to the participant.",
+            "notATooltipQuibble": "production-field-map.json statutorySelectionsByVariant deliberately declares both selections (DismissSection[0] onState 1, tooltipIncludes \"sealed as a matter of right\"; DismissSection[1] onState 2, tooltipIncludes \"interests of justice\"). The build is doing this on purpose. The defect is that the participant page denies it and the manifest forbids it."
+          },
+          "standard": "DET-FEE-AND-WAIVER-001 A4's narrow internal-consistency rule - a packet may never tell a participant that it does not state something it does state - together with A2 as it settles that the committed packet-set manifest is a held source."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "finding": "The committed packet-set manifest holds ten required-before-filing items for this route. Four of them are absent from the packet in any form, including the only two that send the participant out to obtain a record they will not otherwise have, and including the verification under penalty of perjury that section 851.91 turns on.",
+          "evidence": {
+            "absentEntirely": [
+              "\"Obtain Arrest report or arresting agency record showing the report number. Ask the arresting agency for the report number and arrest record. The petition requires the arresting agency and report number, which most participants will not have to hand.\" - requirement required, requiredBeforeFiling true, obtainedFrom \"The arresting law enforcement agency\". participant-instructions.md returns 0 case-insensitive hits for \"obtain\" and never tells the participant to ask the arresting agency for anything.",
+              "\"Check your answer to 'What is the police report number?' against Arrest report or arresting agency record showing the report number, and correct the packet if they disagree.\" - 0 hits for \"correct the packet\".",
+              "\"Check your answer to 'How did the matter end - no charges filed, dismissed, acquitted, or a conviction vacated on appeal?' against Court docket showing the disposition, and correct the packet if they disagree.\" - 0 hits for \"docket\" and 0 for \"disposition\".",
+              "\"Verification and signature under penalty of perjury - CR-409, petitioner signature block\" and \"The petitioner verifies and signs CR-409 under penalty of perjury.\" - 0 hits for \"penalty of perjury\". The packet says only \"Sign and date each form yourself\"."
+            ],
+            "whatIsPresent": "The manifest's file, serve_party, pay_fee and apply_fee_waiver items are all carried, correctly and in the manifest's own words - those are the paragraphs the earlier repair added and they are sound.",
+            "whyThisIsTheSameFailureShape": "The manifest is a held source under A2, and the failure mode is the packet omitting something the repository establishes, which is what A4 onTheWiderQuestion extends the ask-first test to. A participant who follows this page files a petition whose item 3d the form itself calls for and whose supporting record they were never told to get."
+          },
+          "standard": "DET-FEE-AND-WAIVER-001 A1 as widened by A2 and extended by A4 onTheWiderQuestion."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "Both statutory options that section 851.91 offers are built and are correctly paired. The matter-of-right variant marks DismissSection[0], whose tooltip is \"sealed as a matter of right\"; the interests-of-justice variant marks DismissSection[1], whose tooltip is \"interests of justice\". Each mark falls inside its own widget rectangle with a 2pt inset and neither redraws the court's box.",
+          "evidence": "production-field-map.json statutorySelectionsByVariant and evidenceVariants; the two content-stream coordinate sets read from the delivered bytes here (411.44/416.44 versus 364.85/369.85). requiredOptionsMissing recomputed 0. That the elections are marked AT ALL is scored under KNOWN_PREFILLS; that the right one is marked in each variant is scored here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "The only repeating structure in this family is CR-106's served-party blocks. Every row of every block is disclosed to the participant as a blank they must fill, with the page, the source-PDF field name and the words printed beside it.",
+          "evidence": "participant-instructions.md tabulates Page1 #area[7] and #area[8] and Page2 #area[1] and #area[2] street/city/state/zip sets plus the paired FillText39 and FillText72 name-and-date rows, 30 CR-106 rows in all, each carrying \"complete this only after service has actually occurred\". incompleteRows recomputed 0."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "No refused field carries participant ink. The field map refuses 115 of 131 terminal fields and every signature and signature-date line on the delivered CR-409 is blank in both variants and both fixtures.",
+          "evidence": "Read from the bytes: page 2 of every cr-409-filled.pdf shows \"Date:\" with nothing after it and the \"Type or print your name\" / \"Signature of Petitioner or Attorney\" rules empty. actual-writes.json statutorySelectionProof.protectedButtonsWithAddedMarks is [] for all four artifacts and I found no added mark at any other button box. The item 3h mark is a declared selection, not a refused field, which is why it is scored under KNOWN_PREFILLS and not here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Every declared artifact exists and every declared hash, byte length and page count is what the bytes say.",
+          "evidence": "16/16 sha256 match, 16/16 byteLength match. Page counts: the four cr-409-filled.pdf report 2 pages under pdf-lib and 2 under pdfinfo, matching pageCount and the two-entry pageGeometry. The 12 encrypted official components refuse pdf-lib, so their page counts were read with pdfinfo instead: CR-410 1, CR-106 2, MC-031 1, each matching its declared pageCount. All 24 committed raster PNGs are present and byte-equal to their declared sha256."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "Each of the four packets lists its documents in the order the committed manifest declares: CR-409 (order 1, primary_filing), CR-410 (order 2, proposed_order), CR-106 (order 3, proof_of_service), MC-031 (order 4, supporting_declaration).",
+          "evidence": "reports/rendered-artifacts.json packets[].documents order compared against legal-design-packet-set-manifests.json packetSetId ca-851-91-set components[].order. Within each document the page indices ascend from 0 with no gap, verified against pageGeometry for CR-409 and against pdfinfo page counts for the other three."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "No written value escapes its widget and no two independent values share a baseline. The single same-baseline pair on page 2 is the Judicial Council's own typesetting and is present in the official source.",
+          "evidence": {
+            "boxContainment": "pdftotext -bbox-layout over the canonical CR-409: all 14 written values fall wholly inside their writtenProof rectangles, maximum overflow 0.00pt right and 0.00pt bottom. Over the boundary CR-409, whose fixture carries a 70-character name, a 75-character street and a 37-character case number, the maximum overflow is 1.47pt horizontally and 2.07pt vertically - glyph-bbox descender margin, uniform across every field, with no value crossing a rule or a neighbouring label.",
+            "sameBaselineClassification": "One pair on page 2 in both fixtures: \"MC-031\" (325.137-362.416) against \").\" (360.740-367.153), 1.68pt of horizontal overlap. Classified as official preprinted typesetting, not a build defect: the identical pair at the identical coordinates is present in derived-sources/cr-409-pikepdf-unlocked.pdf, whose source-receipt comparison records originalPageContentStreamsIdentical true against the official CR-409.",
+            "whatIcannotSee": "Text geometry cannot see the item 3h X, which has no glyph. It was measured from the content stream instead and sits 2pt inside its own bracket, which is intended rendering."
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The packet states the destination and the deadline in the committed manifest's own words, and names the manifest as its source rather than passing it off as local practice.",
+          "evidence": "participant-instructions.md: \"File the verified CR-409 with the proposed CR-410 at least 15 days before the hearing, in the court where the accusatory pleading was filed, or where no pleading was filed in a court with criminal jurisdiction in the city or county where the arrest occurred. One arrest per petition.\" That is verbatim the manifest's participantActionRequired kind file description. The census destination for this route agrees: \"The court where the accusatory pleading was filed, or a court with criminal jurisdiction in the city or county of arrest.\" A3 check performed: the compiled California profile's step 4 says \"File in the Superior Court of the county of conviction\", which is keyed to the 1203.4 conviction-dismissal route and does not answer an arrest-sealing petition where there may be no conviction; the route-specific manifest answer governs and is the one printed."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "The repository does not hold a figure for this route, the packet says so, says why, and names a specific reachable office for both the fee and the waiver form.",
+          "evidence": {
+            "askTheRepositoryFirst": "The manifest's pay_fee entry reads \"Unresolved and county-specific. Do not publish a figure.\" The compiled California profile's fee table, read here, carries one line keyed to this exact route: \"Arrest sealing (851.91) | Filing fee varies | County Superior Court\". Under A3 that line addresses THIS route and it establishes that the fee varies and that the County Superior Court is the office - it establishes no amount. Both held sources agree with each other and with the packet.",
+            "a3GuardApplied": "The same profile table carries \"1203.4 dismissal petition ~$60-$150 per case\". Section 1203.4 is a different statute and a different remedy; per A3 that line does not answer an 851.91 arrest sealing and was not read across.",
+            "whatThePacketSays": "\"Ask the clerk of the Superior Court in the county of the arrest what the filing fee is for this petition, and ask at the same time what payment methods that court accepts\", plus \"ask the clerk of the Superior Court in the county of the arrest for form FW-001 and whether a waiver applies to this filing\". FW-001 is named, and the manifest's apply_fee_waiver entry says exactly \"FW-001 is the general California fee waiver form.\" That meets the standard's third met limb: no held source establishes the figure, and a specific checkable authority is named well enough to reach."
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Recipients, deadline and sequence are all stated, in the manifest's words, and the proof-of-service component is explained rather than merely shipped.",
+          "evidence": "participant-instructions.md: \"Serve the prosecuting attorney of the city or county where the arrest occurred, and the arresting agency, at least 15 days before the hearing\" - verbatim the manifest's serve_party description. It adds \"Serve first, then complete the proof of service - never the other way round\", and every CR-106 row in the blanks table carries \"complete this only after service has actually occurred\"."
+        },
+        "SELF_HELP_STOP": {
+          "result": "FAIL",
+          "finding": "The committed track registry holds six self-help stop conditions for trackId ca-851-91. Five are absent from the packet in any form, and the one that is missing most consequentially is the pattern-offence bar that decides which of this family's own two variants a participant is entitled to use.",
+          "evidence": {
+            "registryConditions": [
+              "Any pattern offense: domestic violence, child abuse or elder abuse. Route to an attorney.",
+              "The prosecutor opposes.",
+              "Any contested hearing.",
+              "A charge with no statute of limitations.",
+              "Any evasion allegation, whether by absconding or by identity fraud.",
+              "A conviction that was vacated on appeal, which is a posture that needs a lawyer."
+            ],
+            "termLevelGrepOfParticipantInstructions": "domestic 0, \"child abuse\" 0, elder 0, pattern 0, \"statute of limitations\" 0, limitations 0, abscond 0, \"identity fraud\" 0, evasion 0, vacated 0, appeal 0, contested 0. Only \"opposes\" returns 1 hit, in \"if anyone opposes the petition, that is the point to get a lawyer or a legal-aid office\", which covers the prosecutor-opposes condition and reaches no other.",
+            "whyThePatternBarMatters": "Section 851.91(c)(2)(A) makes matter-of-right relief unavailable where the arrest was for domestic violence, child abuse or elder abuse and the record shows a pattern. The delivered CR-409 prints that parenthetical on its own face at item 3h - so the form says it - but the packet's guidance page never tells the participant that this is a stop-and-get-an-attorney posture, and the platform has already marked the matter-of-right box for them in the canonical fixture. The omission and the pre-mark compound each other.",
+            "notMeasuredFromAReport": "The six conditions were read from data/record-clearing/legal-design-track-registry.json in this container and matched against a normalised, punctuation-insensitive reading of the delivered participant-instructions.md."
+          }
+        }
+      },
+      "priorRowsNotInherited": "The family's own product-wiring binding records lastIndependentVerification {verdict FAIL_REPAIR_REQUIRED, lane vf03, verifiedAtBase ee5bdb5b56d69c00750663087e5e8c5a6d144acf}. That row was recorded before the AcroForm-field-tree repair moved this family's fixture bytes and was not read. Nothing above is carried from it.",
+      "whatThisRowGrantsAndDoesNot": "This is a read. It modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface. It opens no commercial route, creates no fulfillment record and promotes nothing."
     }
   ],
   "supersededLaneMembership": {
@@ -4510,5 +4736,28 @@
     "opensNothing": "No overlay directory, packet PDF, fixture, queue, route, price or production surface was modified, and no other lane's worktree was entered. This verification grants no approval and opens no commercial route.",
     "returnsFile": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_VA5_VERIFICATION.json",
     "priorTopLevelKeysAndRowsPreserved": true
+  },
+  "fableVa12Append": {
+    "worker": "FABLE-VA12",
+    "appendedAtBase": "43e11ccd3",
+    "appendedAtBaseFull": "43e11ccd3a64c5048eb673b369cc365aa0786f94",
+    "rosterDerivedFromTheLedger": "The roster was derived from data/rcap-grade-a/packet-factory-24h/claim-ledger.json at this base (released !== true AND laneKind === \"independent-verification\"), not from the dispatch list. VF05 holds four live families, not five; the ledger governs and no fifth live grant exists. Every family was asserted with scripts/grade-a-packet-factory-24h/claim.mjs before it was opened, and all five assertions returned CLAIM_OK on grant set 5be13a33a3963f3b. No claim was refused, so no exit 8 or exit 9 case arose and data/rcap-grade-a/external-worker-control/EXTERNAL_ASSIGNMENTS.json needed no reissue check; it was read anyway and names none of these five.",
+    "preservation": "Every pre-existing row and every pre-existing top-level key in this file was preserved byte-for-byte. The writer proved that before writing by re-serialising the HEAD blob with this file's own indent and escaping profile and requiring byte equality; a git diff against HEAD:<path> shows additions only.",
+    "nothingWasRepaired": "FABLE-VA12 modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface, and no other lane's worktree. It edited no ledger by hand.",
+    "lane": "VF01",
+    "appended": [
+      "ca-851-91-set"
+    ],
+    "fableVa12Tally": {
+      "familiesReadInThisAppend": 1,
+      "PASS_COMPLETE_INDEPENDENT": 0,
+      "FAIL_REPAIR_REQUIRED": 1,
+      "WRONG_DELIVERY_TYPE": 0,
+      "BLOCKED_SOURCE": 0,
+      "BLOCKED_LEGAL_INPUT": 0,
+      "obligationsScoredPerFamily": 15,
+      "scope": "Covers only the row FABLE-VA12 appended. The file's pre-existing summary key was left exactly as it stood."
+    },
+    "scoredOnPostRepairBytes": "ca-851-91-set was repaired shortly before this read: a nested AcroForm field tree had hidden five CR-409 pushbuttons from the flattener and the fixture bytes moved. This row scores the bytes standing at base 43e11ccd3 and inherits nothing from the pre-repair vf03 verdict. The family is not enrolled in the raster queue - RASTER_QUEUE.json notEligible, because 12 of its 16 documents will not open in the page parser, which this lane confirmed from the bytes - and the absent raster receipt is not scored as a defect."
   }
 }

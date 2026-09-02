@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF01",
   "worker": "VF-SRC-A",
-  "assignmentCount": 5,
+  "assignmentCount": 6,
   "assignments": [
     {
       "itemId": "ak-courtview-set",
@@ -122,6 +122,45 @@
         "do not read AL Form C-10-CRIMINAL across as this route's payment-plan answer without counsel; whether Alabama's general substantial-hardship affidavit is the vehicle for a chapter 12-26 petition is a legal question no record here answers, and A3 forbids borrowing it",
         "this verification opens no commercial route and grants no approval"
       ]
+    },
+    {
+      "itemId": "ca-851-91-set",
+      "lane": "VF01",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedBy": "FABLE-VA12",
+      "verifiedAtBase": "43e11ccd3",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill",
+      "decisiveDefect": "The delivered CR-409 pre-marks the item 3h statutory election on a sworn petition, while participant-instructions.md tells the participant \"The platform never marks a box on a sworn filing\" and the committed packet-set manifest assigns that election to the participant as a required-before-filing act.",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "KNOWN_PREFILLS": {
+          "measuredDetail": "Two black 1.2pt diagonal strokes forming an X, read from the decompressed page-2 content stream of cr-409-filled.pdf, inset 2pt inside the li3h DismissSection[0] widget box (84.5, 409.44)-(93.5, 418.44) in the matter-of-right fixtures and inside DismissSection[1] at y 364.85/369.85 in the interests-of-justice fixtures. Text extraction from the two canonical CR-409s is identical (md5 9f49fb8a37a937c9), so the mark is the only difference between the variants and no text-only instrument can see it. legal-design-packet-set-manifests.json for ca-851-91-set carries participantActionRequired {kind: complete_field, description: \"Matter-of-right versus interests-of-justice election - CR-409 item 3h\", requirement: required, requiredBeforeFiling: true}.",
+          "whatRepairMustDo": "Resolve the three-way conflict, do not paper over it. Either the build stops marking item 3h and the two evidence variants are distinguished some other way, or participant-instructions.md stops claiming the platform never marks a box and instead states plainly which box this packet has marked, on which ground, and that the participant must check it against their own case before signing. If the second path is taken, the manifest's participantActionRequired entry for item 3h needs reconciling too, because it currently assigns that election to the participant."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measuredDetail": "Four of the manifest's ten required-before-filing items are absent from participant-instructions.md in any form. Grep of that file: \"obtain\" 0 hits, \"docket\" 0, \"disposition\" 0, \"correct the packet\" 0, \"penalty of perjury\" 0. The four are: obtain the arrest report or arresting-agency record showing the report number (requirement required, obtainedFrom \"The arresting law enforcement agency\"); check the police report number answer against it and correct the packet if they disagree; check the how-the-matter-ended answer against the court docket and correct the packet if they disagree; and the verification and signature under penalty of perjury at the CR-409 petitioner signature block.",
+          "whatRepairMustDo": "Add the two obtain-and-confirm steps and the verification step to participant-instructions.md, in the manifest's own words, in the \"What you must do before you file\" section. The arresting-agency step is the one with teeth: item 3d of the delivered CR-409 asks for the arrest or police report number and the packet currently lists it as a blank without telling the participant who has the answer."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "data/record-clearing/legal-design-track-registry.json holds six selfHelpStopConditions for trackId ca-851-91. Term-level grep of participant-instructions.md: domestic 0, \"child abuse\" 0, elder 0, pattern 0, \"statute of limitations\" 0, limitations 0, abscond 0, \"identity fraud\" 0, evasion 0, vacated 0, appeal 0, contested 0. Only \"opposes\" returns a hit, covering \"The prosecutor opposes\" and nothing else. The five absent conditions are the pattern-offence bar (domestic violence, child abuse or elder abuse - \"Route to an attorney\"), any contested hearing, a charge with no statute of limitations, any evasion allegation by absconding or identity fraud, and a conviction vacated on appeal.",
+          "whatRepairMustDo": "Add a stop-and-get-help section carrying all six conditions in the registry's own words. The pattern-offence condition must not be paraphrased away: section 851.91(c)(2)(A) makes matter-of-right relief unavailable on that ground, the delivered CR-409 prints the bar on its own face at item 3h, and the platform is currently marking the matter-of-right box for the participant in the canonical fixture. This repair and the KNOWN_PREFILLS repair have to be done together or the packet will still be electing a ground it never warned the participant about."
+        }
+      },
+      "sharedHostNote": "product-wiring.json records rebuiltFrom scripts/build-census-v1-ca-851-91-set.mjs with sharedBuildHost build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs. Whether the statutory-selection behaviour is shared was not measured by this lane; a repairer should check before changing the host.",
+      "notInheritedFromAnyPriorRow": "The family's binding carries lastIndependentVerification {FAIL_REPAIR_REQUIRED, lane vf03, base ee5bdb5b56d69c00750663087e5e8c5a6d144acf}, recorded before the AcroForm-field-tree repair moved the fixture bytes. Nothing here is carried from it; every finding above was measured on the bytes at base 43e11ccd3.",
+      "notADefect": [
+        "The absent raster receipt. ca-851-91-set is in RASTER_QUEUE.json notEligible because 12 of its 16 documents will not open in the page parser, which I confirmed from the bytes: CR-106 and CR-410 are AES-encrypted XFA and MC-031 is RC4-encrypted, all with an empty user password, and pdf-lib refuses all twelve while poppler reads them and confirms the declared page counts. Do not treat the missing receipt as a defect and do not re-render to manufacture one.",
+        "The 1.68pt overlap of \"MC-031\" and \").\" on CR-409 page 2. It is present at identical coordinates in the official source and is the Judicial Council's own typesetting."
+      ],
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "do not resolve the item 3h conflict by deleting the manifest's participantActionRequired entry",
+        "this verification opens no commercial route and grants no approval"
+      ]
     }
   ],
   "supersededLaneMembership": {
@@ -176,5 +215,19 @@
       "official-form-treatment:obligation:research-decision-route:AL:al-olr"
     ],
     "note": "Three FAIL_REPAIR_REQUIRED verdicts from the FABLE-VA5 wave. Each names the decisive defect and the exact failed obligations. FABLE-VA5 repaired nothing: it modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface."
+  },
+  "fableVa12Assignments": {
+    "worker": "FABLE-VA12",
+    "appendedAtBase": "43e11ccd3",
+    "appendedAtBaseFull": "43e11ccd3a64c5048eb673b369cc365aa0786f94",
+    "rosterDerivedFromTheLedger": "The roster was derived from data/rcap-grade-a/packet-factory-24h/claim-ledger.json at this base (released !== true AND laneKind === \"independent-verification\"), not from the dispatch list. VF05 holds four live families, not five; the ledger governs and no fifth live grant exists. Every family was asserted with scripts/grade-a-packet-factory-24h/claim.mjs before it was opened, and all five assertions returned CLAIM_OK on grant set 5be13a33a3963f3b. No claim was refused, so no exit 8 or exit 9 case arose and data/rcap-grade-a/external-worker-control/EXTERNAL_ASSIGNMENTS.json needed no reissue check; it was read anyway and names none of these five.",
+    "preservation": "Every pre-existing row and every pre-existing top-level key in this file was preserved byte-for-byte. The writer proved that before writing by re-serialising the HEAD blob with this file's own indent and escaping profile and requiring byte equality; a git diff against HEAD:<path> shows additions only.",
+    "nothingWasRepaired": "FABLE-VA12 modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface, and no other lane's worktree. It edited no ledger by hand.",
+    "lane": "VF01",
+    "added": [
+      "ca-851-91-set"
+    ],
+    "note": "One FAIL_REPAIR_REQUIRED from the FABLE-VA12 wave. Existing assignments untouched.",
+    "assignmentCountUpdated": "assignmentCount moved 5 -> 6 so it keeps matching assignments.length, which is what the prior appending lane in this file did. No existing assignment object was altered."
   }
 }
