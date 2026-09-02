@@ -50,21 +50,7 @@ const SPEC = {
         "Exact remedy, offense class, disposition, completion, and operational availability",
         "Excluded offenses and clean-record rules apply",
         "Petition under § 2-6-109",
-        "Disposition or closure record",
-        "Exact route?",
-        "Arrest/charge limitations?",
-        "Prosecutor declination?",
-        "Reversal/dismissal?",
-        "DNA innocence?",
-        "Pardon?",
-        "Deferred order and dismissal?",
-        "Full-record versus court-record relief?",
-        "Reclassification date?",
-        "Fine amount/payment?",
-        "Trafficking nexus?",
-        "Juvenile completion?",
-        "VPO hearing/vacatur/death?",
-        "Portal/automatic status?"
+        "Disposition or closure record"
       ]
     },
     {
@@ -124,61 +110,41 @@ const SPEC = {
         "",
         "C. THE FACTS OF THIS MATTER, WHICH THE PETITIONER SUPPLIES FROM THE RECORD",
         "",
-        "Each item below is printed in the words the committed record uses for it. Fill each one from the record itself, never from memory.",
+        "Each item below is a fact 10A O.S. Sec. 2-6-109 turns on, as the committed records for this route state it. Fill each one from the court or agency document named for it in the participant instructions, never from memory. Nothing in this section is filled in for the petitioner, because the platform holds no juvenile court record.",
         "",
-        "[C1 - exact route] Exact route?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C2 - arrest/charge limitations] Arrest/charge limitations?",
+        "[C1 - court and county where the juvenile record is located] The Oklahoma district court, and the county, where the juvenile record is located. The compiled Oklahoma profile records that the petition goes to that court.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C3 - prosecutor declination] Prosecutor declination?",
+        "[C2 - juvenile case number] The case number of the juvenile case whose record is to be sealed.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C4 - reversal/dismissal] Reversal/dismissal?",
+        "[C3 - nature of the disposition] Which of these the juvenile case ended in: informal adjustment, deferred adjudication, probation, or custody.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C5 - dna innocence] DNA innocence?",
+        "[C4 - date of the disposition] The date that disposition was entered.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C6 - pardon] Pardon?",
+        "[C5 - date the requirements were completed] The date every requirement of that informal adjustment, deferred adjudication, probation or custody was completed. The compiled profile records completion of those requirements as a condition of this route.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C7 - deferred order and dismissal] Deferred order and dismissal?",
+        "[C6 - date the case was dismissed or closed] The date the juvenile case was dismissed or closed. The compiled profile records that the case must be dismissed or closing.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C8 - full-record versus court-record relief] Full-record versus court-record relief?",
+        "[C7 - adult matters pending] Whether any adult arrest, charge, indictment or information is pending against the petitioner, and if so, what and where. The compiled profile records that there must be none pending.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C9 - reclassification date] Reclassification date?",
+        "[C8 - court costs, restitution, fines and ordered requirements] Whether all court costs, restitution, fines and ordered requirements in the juvenile case are completed, and the date the last of them was satisfied. The compiled profile records that all of them must be completed.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C10 - fine amount/payment] Fine amount/payment?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C11 - trafficking nexus] Trafficking nexus?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C12 - juvenile completion] Juvenile completion?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C13 - vpo hearing/vacatur/death] VPO hearing/vacatur/death?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C14 - portal/automatic status] Portal/automatic status?",
+        "[C9 - law-enforcement agency holding the related file] The law-enforcement agency or agencies holding the files related to this juvenile record. The compiled profile records that a grant seals the juvenile court records AND the related law-enforcement files, so the order has to name the agency that holds them.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
@@ -225,101 +191,66 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
-          "id": "fact_q1",
-          "label": "Item C1 - exact route",
-          "supply": "Exact route — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_court_and_county",
+          "label": "Item C1 - court and county where the juvenile record is located",
+          "supply": "the Oklahoma district court and county where the juvenile record is located - copy it from the juvenile court's own disposition, dismissal or closure order, or ask the clerk of that court",
+          "why": "10A O.S. Sec. 2-6-109 turns on this fact as the compiled Oklahoma profile records the route, and it lives on a court or agency record the platform has never seen"
         },
         {
           "kind": "rbf",
-          "id": "fact_q2",
-          "label": "Item C2 - arrest/charge limitations",
-          "supply": "Arrest/charge limitations — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_juvenile_case_number",
+          "label": "Item C2 - juvenile case number",
+          "supply": "the case number of the juvenile case whose record is to be sealed - copy it from the juvenile court's disposition, dismissal or closure order",
+          "why": "10A O.S. Sec. 2-6-109 turns on this fact as the compiled Oklahoma profile records the route, and it lives on a court or agency record the platform has never seen"
         },
         {
           "kind": "rbf",
-          "id": "fact_q3",
-          "label": "Item C3 - prosecutor declination",
-          "supply": "Prosecutor declination — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_disposition_nature",
+          "label": "Item C3 - nature of the disposition",
+          "supply": "which of informal adjustment, deferred adjudication, probation or custody the juvenile case ended in - copy it from the juvenile court's disposition order",
+          "why": "10A O.S. Sec. 2-6-109 turns on this fact as the compiled Oklahoma profile records the route, and it lives on a court or agency record the platform has never seen"
         },
         {
           "kind": "rbf",
-          "id": "fact_q4",
-          "label": "Item C4 - reversal/dismissal",
-          "supply": "Reversal/dismissal — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_disposition_date",
+          "label": "Item C4 - date of the disposition",
+          "supply": "the date the disposition was entered - copy it from the juvenile court's disposition order",
+          "why": "10A O.S. Sec. 2-6-109 turns on this fact as the compiled Oklahoma profile records the route, and it lives on a court or agency record the platform has never seen"
         },
         {
           "kind": "rbf",
-          "id": "fact_q5",
-          "label": "Item C5 - dna innocence",
-          "supply": "DNA innocence — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_requirements_completed_date",
+          "label": "Item C5 - date the requirements were completed",
+          "supply": "the date every requirement of the informal adjustment, deferred adjudication, probation or custody was completed - copy it from the completion or discharge record, or from the written confirmation of the office that supervised it",
+          "why": "10A O.S. Sec. 2-6-109 turns on this fact as the compiled Oklahoma profile records the route, and it lives on a court or agency record the platform has never seen"
         },
         {
           "kind": "rbf",
-          "id": "fact_q6",
-          "label": "Item C6 - pardon",
-          "supply": "Pardon — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_dismissed_or_closed_date",
+          "label": "Item C6 - date the case was dismissed or closed",
+          "supply": "the date the juvenile case was dismissed or closed - copy it from the juvenile court's dismissal or closure order, which the committed contract names as a component of this packet",
+          "why": "10A O.S. Sec. 2-6-109 turns on this fact as the compiled Oklahoma profile records the route, and it lives on a court or agency record the platform has never seen"
         },
         {
           "kind": "rbf",
-          "id": "fact_q7",
-          "label": "Item C7 - deferred order and dismissal",
-          "supply": "Deferred order and dismissal — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_adult_matters_pending",
+          "label": "Item C7 - adult matters pending",
+          "supply": "whether any adult arrest, charge, indictment or information is pending, and if so what and where - check it against a current Oklahoma State Bureau of Investigation criminal history record rather than answering from memory",
+          "why": "10A O.S. Sec. 2-6-109 turns on this fact as the compiled Oklahoma profile records the route, and it lives on a court or agency record the platform has never seen"
         },
         {
           "kind": "rbf",
-          "id": "fact_q8",
-          "label": "Item C8 - full-record versus court-record relief",
-          "supply": "Full-record versus court-record relief — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_costs_and_restitution",
+          "label": "Item C8 - court costs, restitution, fines and ordered requirements",
+          "supply": "whether all court costs, restitution, fines and ordered requirements are completed, and the date the last was satisfied - copy it from the clerk's payment history or receipt for the juvenile case",
+          "why": "10A O.S. Sec. 2-6-109 turns on this fact as the compiled Oklahoma profile records the route, and it lives on a court or agency record the platform has never seen"
         },
         {
           "kind": "rbf",
-          "id": "fact_q9",
-          "label": "Item C9 - reclassification date",
-          "supply": "Reclassification date — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q10",
-          "label": "Item C10 - fine amount/payment",
-          "supply": "Fine amount/payment — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q11",
-          "label": "Item C11 - trafficking nexus",
-          "supply": "Trafficking nexus — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q12",
-          "label": "Item C12 - juvenile completion",
-          "supply": "Juvenile completion — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q13",
-          "label": "Item C13 - vpo hearing/vacatur/death",
-          "supply": "VPO hearing/vacatur/death — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q14",
-          "label": "Item C14 - portal/automatic status",
-          "supply": "Portal/automatic status — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_law_enforcement_agency",
+          "label": "Item C9 - law-enforcement agency holding the related file",
+          "supply": "the law-enforcement agency or agencies holding the files related to this juvenile record - copy the agency name from the arrest or referral paperwork in the juvenile court file, or ask the clerk of that court",
+          "why": "10A O.S. Sec. 2-6-109 turns on this fact as the compiled Oklahoma profile records the route, and it lives on a court or agency record the platform has never seen"
         },
         {
           "kind": "court",
@@ -492,6 +423,14 @@ const SPEC = {
     {
       "finding": "The census records this route's destination as not recorded; the compiled Oklahoma profile names it outright as the district court where the juvenile record is located.",
       "consequence": "The packet states the destination rather than delegating it. DET-FEE-AND-WAIVER-001-A2 and A1 together: ask the repository first, and where it answers, say so."
+    },
+    {
+      "finding": "An earlier build printed the route contract's requiredFacts array on the face of the petition as this route's fact set - fourteen items running 'Exact route?', 'Arrest/charge limitations?', 'Prosecutor declination?', 'Reversal/dismissal?', 'DNA innocence?', 'Pardon?', 'Deferred order and dismissal?', 'Full-record versus court-record relief?', 'Reclassification date?', 'Fine amount/payment?', 'Trafficking nexus?', 'Juvenile completion?', 'VPO hearing/vacatur/death?' and 'Portal/automatic status?'. That array is not this route's fact set. All ELEVEN Oklahoma routes in src/lib/legal-authority/routes/route-splits.json carry it identically under ruleId OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP: it is one question per sibling route plus generic ones, an analyst checklist for choosing between the eleven, not the facts a Sec. 2-6-109 juvenile petition alleges.",
+      "consequence": "Printing it on the filing the participant signs was the sibling-route read-across DET-FEE-AND-WAIVER-001-A3 forbids, on the face of a court document, and it asked the participant fourteen questions they cannot answer while never asking for the facts the section turns on. Section C is now the nine facts the compiled Oklahoma profile records this route as turning on - the court and county where the juvenile record is located, the juvenile case number, the nature and date of the disposition, the date its requirements were completed, the date the case was dismissed or closed, whether any adult matter is pending, whether costs, restitution, fines and ordered requirements are completed, and the law-enforcement agency holding the related file - and each blank names the court or agency document to copy it from. The fourteen strings are removed from the route contract's mustContain anchors, because this build no longer reads them."
+    },
+    {
+      "finding": "Correcting the route contract's requiredFacts array itself is NOT done here. That array is shared by eleven Oklahoma routes under one ruleId, and changing it in src/lib/legal-authority/routes/route-splits.json would move ten routes this repair does not hold.",
+      "consequence": "The array is left exactly as it stands and this packet simply stops reading it as a participant fact set. If it is to be corrected, that is a separate change against eleven routes."
     },
     {
       "finding": "The compiled profile records the effect of a grant precisely, including that records are NOT physically destroyed by default and that juvenile and criminal-justice actors retain access.",
