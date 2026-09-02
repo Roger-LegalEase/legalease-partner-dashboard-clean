@@ -94,6 +94,19 @@ const WAVE_ROWS = "data/rcap-grade-a/wave-2/p1-ut-petition-expunge-completeness/
  *     one flag across all three would have put a false no-fee statement into
  *     the third packet, which is exactly the sibling-route inference A3 forbids.
  *
+ * `certificateIssuanceFeeHeldExemptUnlessAbeyance` and
+ * `certificateIssuanceFeeHeldPerCase` are the fourth and fifth, and they
+ * close the unflagged case the first three left open. The unflagged paragraph
+ * served ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set and was
+ * false on both, so each now declares its own limb of the profile sentence: the
+ * conviction route holds "$65 per case" with the record's "may require"
+ * condition, and the with-prejudice route holds the exemption together with the
+ * plea-in-abeyance fact that reverses it. `statesPleaInAbeyanceDiscriminator`
+ * carries that same fact into the free-route disclosure and into the pre-filing
+ * checks; it is set on ut_pet_dismissed_with_prejudice-set alone, because that
+ * is the only route on this host whose disposition the profile's abeyance
+ * carve-out is written about.
+ *
  * `declarationNameBoxClearsPrePrintedI` moves ONE write box and is likewise set
  * only on the three claimed families. On packet page 18 the BCI Application's
  * sworn declaration reads "I, ______ , declare under criminal penalty...". The
@@ -130,12 +143,39 @@ const CONFIGS = Object.freeze({
   "ut_pet_conviction-set": {
     slug: "ut-pet-conviction-set", traffic: false, routeKind: "case",
     chargeLabel: "Eligible conviction",
-    statesBciApplicationFee: true, statesManifestPreFilingItems: true
+    statesBciApplicationFee: true, statesManifestPreFilingItems: true,
+    // The OTHER limb of the same BCI FAQ sentence, and the reason the flag is
+    // not the exemption one. The sentence opens "eligible conviction,
+    // plea-in-abeyance, or special certificates may require an additional $65
+    // per case" and only then exempts "dismissals, acquittals, or
+    // declinations". This route is an eligible conviction, so the FIRST limb is
+    // the one that names it. Under A3 the holding is per fact and per route:
+    // the exempting limb does not reach a conviction, and the $65-per-case limb
+    // does, so the packet states the figure and the "may require" condition the
+    // record attaches to it rather than telling the participant no amount can
+    // be stated.
+    certificateIssuanceFeeHeldPerCase: "an eligible conviction"
   },
   "ut_pet_dismissed_with_prejudice-set": {
     slug: "ut-pet-dismissed-with-prejudice-set", traffic: false, routeKind: "case",
     chargeLabel: "Charge dismissed with prejudice", dismissedWithPrejudice: true,
-    statesBciApplicationFee: true, statesManifestPreFilingItems: true
+    statesBciApplicationFee: true, statesManifestPreFilingItems: true,
+    // A dismissal, and the exempting limb names "dismissals" without
+    // qualification -- so the exemption is held on this route exactly as it is
+    // on ut_pet_dismissed_without_prejudice-set. It gets its own flag rather
+    // than the plain one because ONE fact can move it: the same sentence's
+    // first limb names "plea-in-abeyance ... certificates" among those that may
+    // require $65 per case, and a dismissal with prejudice CAN be the end of a
+    // completed plea in abeyance. Where both limbs of one sentence can reach a
+    // participant depending on a fact the packet does not hold, A3 is satisfied
+    // by stating both limbs and the fact that chooses between them -- not by
+    // picking the cheaper one.
+    certificateIssuanceFeeHeldExemptUnlessAbeyance: "a dismissal with prejudice",
+    // The same fact again, in two other places: it decides whether the free
+    // 180-day automatic route reaches this participant at all, and it is a
+    // pre-filing check the packet must ask for. The compiled profile makes it
+    // dispositive twice and the instructions did not mention it once.
+    statesPleaInAbeyanceDiscriminator: true
   },
   "ut_pet_dismissed_without_prejudice-set": {
     slug: "ut-pet-dismissed-without-prejudice-set", traffic: false, routeKind: "case",
@@ -215,6 +255,29 @@ const UT_PROFILE = "src/lib/rcap-engine/compiled/profiles/UT-utah.json";
 const UT_PROFILE_CERTIFICATE_SENTENCE =
   "eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; "
   + "no certificate issuance fee is required for dismissals, acquittals, or declinations";
+
+/**
+ * The plea-in-abeyance discriminator, quoted from the same compiled profile.
+ *
+ * Independent verification failed ut_pet_dismissed_with_prejudice-set on
+ * REQUIRED_BEFORE_FILING because "abeyance" appeared zero times in a packet
+ * built for the one disposition the profile makes the abeyance question
+ * dispositive for. It is dispositive twice over: it decides whether the free
+ * 180-day automatic route reaches the participant, and it decides which limb of
+ * the BCI certificate-fee sentence above reaches them. Each sentence is
+ * asserted present on every build for the same reason the fee sentence is -- a
+ * regenerated profile that no longer says this must refuse the build rather
+ * than ship a packet that claims it does.
+ */
+const UT_PROFILE_ABEYANCE_EXCLUSION =
+  "A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that "
+  + "favorable-outcome automatic category";
+const UT_PROFILE_ABEYANCE_TIMING =
+  "Dismissal with prejudice Goal: 180 days after dismissal/final appeal, unless dismissed after plea in abeyance";
+const UT_PROFILE_ABEYANCE_SCREENING =
+  "If the dismissal was after plea in abeyance, do not use the simple dismissed-with-prejudice automatic path.";
+const UT_PROFILE_ABEYANCE_CLEAN_SLATE =
+  "Some plea-in-abeyance dismissals may qualify for Clean Slate timing, but others require petition analysis.";
 
 /**
  * The held publications the filing instructions quote, and nothing else.
@@ -344,17 +407,32 @@ function resolveCitedAuthorities(config) {
       verifiedBy: "re-hashed on this build against the committed corpus index"
     });
   }
-  if (config.certificateIssuanceFeeHeldExempt || config.certificateIssuanceFeeNotEstablished) {
+  const citesProfileFee = config.certificateIssuanceFeeHeldExempt
+    || config.certificateIssuanceFeeHeldExemptUnlessAbeyance
+    || config.certificateIssuanceFeeHeldPerCase
+    || config.certificateIssuanceFeeNotEstablished;
+  if (citesProfileFee || config.statesPleaInAbeyanceDiscriminator) {
     const bytes = fs.readFileSync(path.join(rootDir, UT_PROFILE));
     const text = bytes.toString("utf8");
-    assert.ok(text.includes(JSON.stringify(UT_PROFILE_CERTIFICATE_SENTENCE).slice(1, -1)),
-      `${UT_PROFILE}: the certificate-fee sentence this packet cites is no longer in the compiled profile`);
+    if (citesProfileFee) {
+      assert.ok(text.includes(JSON.stringify(UT_PROFILE_CERTIFICATE_SENTENCE).slice(1, -1)),
+        `${UT_PROFILE}: the certificate-fee sentence this packet cites is no longer in the compiled profile`);
+    }
+    if (config.statesPleaInAbeyanceDiscriminator) {
+      for (const sentence of [UT_PROFILE_ABEYANCE_EXCLUSION, UT_PROFILE_ABEYANCE_TIMING,
+        UT_PROFILE_ABEYANCE_SCREENING, UT_PROFILE_ABEYANCE_CLEAN_SLATE]) {
+        assert.ok(text.includes(JSON.stringify(sentence).slice(1, -1)),
+          `${UT_PROFILE}: a plea-in-abeyance sentence this packet quotes is no longer in the compiled profile: ${sentence}`);
+      }
+    }
     resolved.push({
       id: "UT-COMPILED-STATE-PROFILE",
       title: "Compiled Utah state profile (BCI expungement FAQ, as compiled into this repository)",
       pathInArchive: UT_PROFILE,
       sha256: sha256(bytes), byteLength: bytes.length,
-      supports: ["feeAndWaiver"],
+      supports: config.statesPleaInAbeyanceDiscriminator
+        ? ["feeAndWaiver", "automaticExpungement", "requiredBeforeFiling"]
+        : ["feeAndWaiver"],
       verifiedBy: "read from the checkout on this build, with the cited sentence asserted present"
     });
   }
@@ -1204,7 +1282,43 @@ async function rasterPacket(file, outDirRel) {
  * limb of that sentence addresses the disposition, so nothing establishes it and
  * the named-authority refusal is the honest outcome rather than a defect; that
  * packet says so and says WHY, so a reader can see the refusal is reasoned
- * rather than lazy. Where a family sets neither flag the paragraph is unchanged.
+ * rather than lazy.
+ *
+ * A THIRD read (vf10) took the same route-by-route discipline to the two
+ * families that had been left on the unflagged paragraph, and found that the
+ * paragraph was false on BOTH of them, in opposite directions:
+ *
+ *   ut_pet_conviction-set -- the profile sentence OPENS with "eligible
+ *     conviction ... certificates may require an additional $65 per case". The
+ *     packet's "this packet does not state that amount because BCI sets it per
+ *     applicant" therefore denied a figure the repository holds, which is the
+ *     A1 refusal, and its companion clause "the certificates themselves cost
+ *     more than the application" is contradicted by that same figure for a
+ *     single eligible case. The route now states $65 per case with the record's
+ *     own "may require" condition, promises no total, and keeps BCI as the
+ *     confirming authority.
+ *   ut_pet_dismissed_with_prejudice-set -- this route is a dismissal and the
+ *     exempting limb names dismissals, so the packet was telling a participant
+ *     that a fee the record puts at zero was MORE than $65 and unknowable. The
+ *     wording had simply been written once for the conviction route and reused
+ *     where the disposition class inverts the answer. The route now states the
+ *     exemption -- and states the one fact inside the same sentence that takes
+ *     it back, a dismissal that ended a completed plea in abeyance, because the
+ *     other limb of that sentence names plea-in-abeyance certificates.
+ *
+ * There is no unflagged case left. Every non-traffic family declares which limb
+ * of the profile's fee sentence reaches its route, or declares expressly that
+ * neither does, and the build refuses a family that declares nothing.
+ *
+ * The plea-in-abeyance fact is dispositive a second time on the with-prejudice
+ * route, which is why the same read also failed it on REQUIRED_BEFORE_FILING.
+ * The packet disclosed a free automatic route 180 days after dismissal and did
+ * not disclose that the profile excludes a dismissal following a completed plea
+ * in abeyance from it -- so a participant in that position was advised to wait
+ * out 180 days for relief the record says would not arrive. The exclusion is
+ * now stated with the disclosure, and the fact is asked as a pre-filing check,
+ * marked in the instructions as coming from the compiled profile rather than
+ * from the family's packet-set manifest.
  */
 function participantInstructions(config, authorities) {
   const items = REQUIRED_BEFORE_FILING.filter((item) => {
@@ -1299,6 +1413,34 @@ function participantInstructions(config, authorities) {
       // this family is one of them -- not a read-across from a sibling route.
       out.push(`**On this route, the held record says the certificate carries no issuance fee.** The compiled Utah state profile in this repository records BCI's published expungement FAQ as saying that "${UT_PROFILE_CERTIFICATE_SENTENCE}". This packet is built for ${config.certificateIssuanceFeeHeldExempt}, which is one of the dispositions that sentence exempts, so on the held record the $65.00 application fee above is the only BCI amount this route carries.`, "");
       out.push("Two things are worth saying plainly rather than hiding. That sentence records what BCI's FAQ publishes, not a fee fixed by statute, and the general sequence described elsewhere in this packet's own materials is that BCI issues a certificate on payment of an issuance fee. So take the exemption as what the record holds and confirm it before you pay anything: ask the Bureau of Criminal Identification, at bci.utah.gov/expungements, what your certificates cost on a case like yours. Do not assume the court's $150 waiver covers any BCI amount — the court and BCI are two different offices with two different waivers.", "");
+    } else if (config.certificateIssuanceFeeHeldExemptUnlessAbeyance) {
+      /*
+       * The exemption, and the one fact inside the SAME sentence that takes it
+       * away. A packet that stated only the exempting limb here would be right
+       * for most participants on this route and expensively wrong for the ones
+       * whose dismissal ended a plea in abeyance -- and it is the profile's own
+       * sentence, not an inference, that puts them under the other limb.
+       */
+      out.push(`**On this route the held record says the certificate carries no issuance fee — and one fact about your case can change that.** The compiled Utah state profile in this repository, at \`${UT_PROFILE}\`, records BCI's published expungement FAQ as saying that "${UT_PROFILE_CERTIFICATE_SENTENCE}". This packet is built for ${config.certificateIssuanceFeeHeldExemptUnlessAbeyance}, and "dismissals" is one of the dispositions that sentence exempts, so on the held record the $65.00 application fee above is the only BCI amount an ordinary dismissal with prejudice carries.`, "");
+      out.push(`**The exception is a plea in abeyance, and it is in the first half of the same sentence.** That half names "plea-in-abeyance ... certificates" among the ones that "may require an additional $65 per case". A dismissal with prejudice can be how a completed plea in abeyance ends. **If that is your case, expect the certificate charge — up to $65 per case — rather than the exemption.** The profile records the same division elsewhere: "${UT_PROFILE_ABEYANCE_EXCLUSION}". Establishing which of the two you are is a required pre-filing check, and it is listed below.`, "");
+      out.push("Two things are worth saying plainly rather than hiding. That sentence records what BCI's FAQ publishes, not a fee fixed by statute, and the general sequence described elsewhere in this packet's own materials is that BCI issues a certificate on payment of an issuance fee. So take the exemption as what the record holds and confirm it before you pay anything: ask the Bureau of Criminal Identification, at bci.utah.gov/expungements, what your certificates cost on a case like yours, and say whether the dismissal followed a plea in abeyance when you ask. Do not assume the court's $150 waiver covers any BCI amount — the court and BCI are two different offices with two different waivers.", "");
+    } else if (config.certificateIssuanceFeeHeldPerCase) {
+      /*
+       * A1 and A2 with the answer running AGAINST the participant, which is the
+       * harder direction and the one the earlier text dodged. The repository
+       * holds a figure for this route. The packet used to say "this packet does
+       * not state that amount because BCI sets it per applicant" -- a refusal of
+       * a fact the repository answers, which A1 forbids -- and paired it with
+       * "the certificates themselves cost more than the application", which the
+       * held figure contradicts outright for a single eligible case. The
+       * condition the record attaches ("may require") is stated with the
+       * figure, and no total is promised, because the number of certificates is
+       * what BCI's letter decides.
+       */
+      out.push(`**The certificate carries a further BCI charge, and the held record states a figure: $65 per case.** A certificate must be purchased for each eligible incident you want expunged, and BCI's instructions tell you to "pay all associated fees as indicated in the BCI letter" — that letter is where your own certificate list appears.`, "");
+      out.push(`This packet has checked what this repository holds rather than sending you away to find out. The compiled Utah state profile, at \`${UT_PROFILE}\`, records BCI's published expungement FAQ as saying that "${UT_PROFILE_CERTIFICATE_SENTENCE}". Your route is ${config.certificateIssuanceFeeHeldPerCase}, which is the first disposition that sentence names, so the $65-per-case half is the half about your case. The exempting half — dismissals, acquittals and declinations — is not about your case, and this packet does not read it across to you.`, "");
+      out.push("**Read the figure with the condition the record puts on it.** It says an eligible conviction certificate *may require* an additional $65 per case, not that it always does, and it is BCI's published FAQ rather than an amount fixed by statute. It is also charged **per case**: if BCI's letter finds more than one eligible case, expect it once for each. This packet does not state your total, because how many certificates you need is what BCI's letter decides — but the per-case figure is held, so the packet states it instead of calling it unknowable.", "");
+      out.push("**Confirm it with the office that charges it, before you pay.** Ask the Bureau of Criminal Identification, at bci.utah.gov/expungements, what your certificates cost on a case like yours, and ask at the same time whether its indigency waiver covers the certificate charge as well as the $65.00 application fee. Do not assume the court's $150 waiver covers either BCI amount: the court and BCI are two different offices with two different waivers.", "");
     } else if (config.certificateIssuanceFeeNotEstablished) {
       // A3, applied honestly against this lane's own interest. The exempting
       // limb would have been convenient here and it does not reach this route,
@@ -1308,7 +1450,25 @@ function participantInstructions(config, authorities) {
       out.push(`This packet has checked, and says what it found rather than guessing. The compiled Utah state profile in this repository records BCI's published expungement FAQ as saying that "${UT_PROFILE_CERTIFICATE_SENTENCE}". Your route is ${config.certificateIssuanceFeeNotEstablished}. That is not a conviction, a plea in abeyance or a special certificate, and it is not a dismissal, an acquittal or a declination either, so neither half of that sentence is about your case and this packet will not read it across to you.`, "");
       out.push("Ask the Bureau of Criminal Identification what a certificate will cost on your case, at bci.utah.gov/expungements, and ask at the same time whether its indigency waiver covers the issuance fee as well as the $65.00 application fee. Do not assume the court's $150 waiver covers either BCI amount: the court and BCI are two different offices with two different waivers.", "");
     } else {
-      out.push("**The certificates themselves cost more than the application, and this packet does not state that amount because BCI sets it per applicant.** A certificate must be purchased for each eligible incident you want expunged, and BCI's instructions tell you to \"pay all associated fees as indicated in the BCI letter\" — that letter is where your own certificate price appears. Ask the Bureau of Criminal Identification what your certificates will cost. Do not assume the court's $150 waiver covers either BCI amount: the court and BCI are two different offices with two different waivers.", "");
+      /*
+       * There is no unflagged case left, and there must not be one.
+       *
+       * What stood here was the paragraph two independent reads condemned: "The
+       * certificates themselves cost more than the application, and this packet
+       * does not state that amount because BCI sets it per applicant." Both
+       * halves were wrong on the two routes it actually served. The repository
+       * holds $65 per case for an eligible conviction, so the refusal denied a
+       * held fact; and for a dismissal with prejudice the repository holds an
+       * exemption, so the packet overstated the cost of the route the
+       * participant was holding. Every non-traffic family on this host now
+       * declares which limb of the profile's fee sentence reaches its route, or
+       * declares expressly that neither does. A new family must make that
+       * declaration too, and the build refuses rather than falling back on a
+       * paragraph that was true for no one.
+       */
+      assert.fail(`${config.slug}: a non-traffic Utah family must declare its certificate-fee holding `
+        + "(certificateIssuanceFeeHeldExempt, certificateIssuanceFeeHeldExemptUnlessAbeyance, "
+        + "certificateIssuanceFeeHeldPerCase or certificateIssuanceFeeNotEstablished)");
     }
   } else if (!config.traffic) {
     out.push("**The BCI certificate carries a separate fee, and this packet does not state an amount because BCI sets it per applicant.** BCI's instructions tell you to \"pay all associated fees as indicated in the BCI letter\", and a certificate must be purchased for each eligible incident you want expunged. BCI publishes separate *Indigent Expungement Applicant Instructions* under which BCI sends a fee waiver together with the certificate list. Ask the Bureau of Criminal Identification what your certificates cost and whether you qualify for its fee waiver; do not assume the court's $150 waiver covers BCI's fee, because they are two different offices.", "");
@@ -1319,6 +1479,14 @@ function participantInstructions(config, authorities) {
     // under 77-40a-206, so the petition is the faster paid route to the same
     // result and the free route must be disclosed before payment."
     out.push("**Before you pay any of this, know that there is a free route to the same result.** A case dismissed with prejudice is separately eligible for **automatic expungement 180 days after the dismissal** under Utah Code 77-40a-206, where no appeal was filed. That route costs nothing and needs no petition, no BCI certificate and no filing fee. This petition is the *faster* paid route to the same result, not the only one. If you are not in a hurry, waiting out the 180 days is free.", "");
+    if (config.statesPleaInAbeyanceDiscriminator) {
+      // The disclosure above argues against this packet's own sale, which is
+      // exactly why it must carry its exclusion. Told to wait 180 days for
+      // relief the record says will not arrive, a plea-in-abeyance participant
+      // loses the time and still needs the petition.
+      out.push(`**That free route has one exclusion, and it turns on the same fact as the certificate fee above.** The compiled Utah state profile, at \`${UT_PROFILE}\`, records it twice: "${UT_PROFILE_ABEYANCE_EXCLUSION}", and in the automatic-timing table, "${UT_PROFILE_ABEYANCE_TIMING}". **So if your case was dismissed with prejudice after you completed a plea in abeyance, do not wait out the 180 days expecting the automatic route to reach you — the record says this automatic path is not the one for you.** The profile's own screening direction says the same thing in the same words a clerk would: "${UT_PROFILE_ABEYANCE_SCREENING}"`, "");
+      out.push(`**That is not the end of the free routes for a plea-in-abeyance dismissal; it is the end of *this* one.** The same profile records that "${UT_PROFILE_ABEYANCE_CLEAN_SLATE}" So if your dismissal followed a plea in abeyance, ask the court that heard the case, or the Utah State Courts Self-Help Center on **888-583-0009**, whether Clean Slate reaches your case on its own timing, before you treat this petition as the only way. This petition remains available to you either way.`, "");
+    }
   }
 
   out.push(config.acquittalAutomaticFirst ? "## Who gives notice, and to whom" : "## Who must receive a copy, and how", "");
@@ -1381,6 +1549,16 @@ function participantInstructions(config, authorities) {
     if (config.dismissedWithPrejudice) {
       out.push("- **A certified copy of the order of dismissal.** Ask the clerk of the court that handled the case. It carries the dismissal date and states whether the dismissal was with or without prejudice — which decides which track applies, and this packet is built for the *with prejudice* track.");
       out.push("- **The dismissal date, checked against that certified copy.** Correct the packet if the date you gave and the date on the order disagree.");
+    }
+    if (config.statesPleaInAbeyanceDiscriminator) {
+      // Not from the packet-set manifest, and the text says so. The manifest
+      // scopes this route by whether the dismissal was WITH or WITHOUT
+      // prejudice; the compiled profile adds a second discriminator inside the
+      // "with prejudice" answer, and it decides both the free-route question
+      // and the certificate-fee question above. A check the repository makes
+      // dispositive and the packet never asks for is the REQUIRED_BEFORE_FILING
+      // defect, whichever committed record holds it.
+      out.push(`- **Whether the dismissal followed a plea in abeyance.** The certified copy of the order and the case docket are where this is established; ask the clerk of the court that handled the case if the order does not say. This item is not from this family's packet-set manifest — it is from the compiled Utah state profile at \`${UT_PROFILE}\`, which records that "${UT_PROFILE_ABEYANCE_EXCLUSION}" and directs, "${UT_PROFILE_ABEYANCE_SCREENING}" **It decides two things stated above: whether the free 180-day automatic route reaches you at all, and which half of BCI's certificate-fee sentence applies to you.** Answer it before you file, and correct this packet if the answer disagrees with what you told it.`);
     }
     // The remaining manifest items are route-specific, so each is gated on the
     // route it belongs to and quoted from that family's own manifest entry.
@@ -1561,12 +1739,18 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
       "The filing destination, the $150 court fee, the 1305GE waiver route and the prosecutor service step are stated in participant-instructions.md and quoted from the cited held publications, each re-hashed against the committed corpus index on this build.",
       ...(config.statesBciApplicationFee ? ["The BCI application fee of $65.00, and BCI's own indigency waiver and its before-you-apply sequencing rule, are stated in participant-instructions.md and quoted from the BCI Application for Certificate of Eligibility this packet delivers. The per-incident certificate price is still refused rather than guessed, and the refusal now says which of the two BCI amounts it applies to (DET-FEE-AND-WAIVER-001 amendment A4)."] : []),
       ...(config.certificateIssuanceFeeHeldExempt ? [`The certificate issuance fee is STATED rather than refused on this route, because the repository establishes it: the compiled Utah state profile records BCI's published FAQ exempting dismissals, acquittals and declinations, and this route is ${config.certificateIssuanceFeeHeldExempt}. The profile is cited as an authority and its sentence is asserted present on every build. The residual - that the sentence records a published FAQ rather than a statutory schedule - is stated to the participant rather than smoothed over (DET-FEE-AND-WAIVER-001 amendments A1, A2 and A3).`] : []),
+      ...(config.certificateIssuanceFeeHeldExemptUnlessAbeyance ? [`The certificate issuance fee is STATED rather than refused on this route, and so is the one fact that reverses it. The compiled Utah state profile records BCI's published FAQ exempting dismissals, and this route is ${config.certificateIssuanceFeeHeldExemptUnlessAbeyance}; the SAME sentence's other limb names plea-in-abeyance certificates among those that may require an additional $65 per case, and a dismissal with prejudice can be how a completed plea in abeyance ends. Both limbs and the fact that chooses between them are stated, because stating only the exempting one would understate the cost for the participants the other limb reaches (DET-FEE-AND-WAIVER-001 amendments A1, A2 and A3).`] : []),
+      ...(config.certificateIssuanceFeeHeldPerCase ? [`The certificate issuance fee is STATED rather than refused on this route, with the answer running against the participant. The compiled Utah state profile records BCI's published FAQ as saying eligible conviction certificates may require an additional $65 per case, and this route is ${config.certificateIssuanceFeeHeldPerCase} - the first disposition that sentence names. The earlier text refused the figure ("this packet does not state that amount because BCI sets it per applicant") and paired the refusal with "the certificates themselves cost more than the application", which the held per-case figure contradicts for a single eligible case. Both are gone: the packet states $65 per case, states the record's own "may require" condition, promises no total because the number of certificates is what BCI's letter decides, and keeps BCI as the confirming authority (DET-FEE-AND-WAIVER-001 amendments A1, A2 and A3).`] : []),
       ...(config.certificateIssuanceFeeNotEstablished ? [`The certificate issuance fee is refused on this route and the refusal is reasoned on the packet's face: the compiled Utah profile's certificate sentence names conviction, plea-in-abeyance and special certificates on one side and dismissals, acquittals and declinations on the other, and ${config.certificateIssuanceFeeNotEstablished} is neither. Reading the exemption across to this route would be the sibling-route inference DET-FEE-AND-WAIVER-001 amendment A3 forbids, so the packet names BCI as the authority instead.`] : []),
       ...(config.declarationNameBoxClearsPrePrintedI ? ["The BCI application's sworn declaration on packet page 18 no longer writes the participant's name over the pre-printed \"I\". The committed write box began at x=50.5 and the pre-printed glyph occupies x=49.745-52.742; the box now begins at x=55.5 and nothing else on the line moved. This is a geometry correction to a box, not a change to what is written or to any counter."] : []),
       ...(config.statesManifestPreFilingItems ? ["The requiredBeforeFiling items this family's committed packet-set manifest holds and the earlier instructions omitted - the paid-in-full bar on fines, fees, interest and restitution, and the all-states case list BCI reviews - are stated in participant-instructions.md, quoted from that manifest."] : []),
       ...(config.statesManifestPreFilingItems && (config.dismissedWithoutPrejudice || config.routeKind === "incident")
         ? ["This route's own manifest items beyond the two shared ones - the documentary proof the route turns on, and the answer-check the manifest pairs with it - are stated in participant-instructions.md and quoted from this family's manifest entry."] : []),
       ...(config.dismissedWithPrejudice ? ["The free alternative the committed track registry says must be disclosed before payment - automatic expungement 180 days after the dismissal under Utah Code 77-40a-206 - is stated in participant-instructions.md ahead of every amount the packet asks the participant to pay."] : []),
+      ...(config.statesPleaInAbeyanceDiscriminator ? [
+        "REQUIRED_BEFORE_FILING: whether the dismissal followed a plea in abeyance is now asked of the participant. The compiled Utah state profile makes it dispositive - a dismissal with prejudice after a successfully completed plea in abeyance is excluded from the favorable-outcome automatic category - and the word \"abeyance\" previously appeared zero times in this packet's instructions. It is listed as a pre-filing check, and the instructions say it comes from the compiled profile rather than from this family's packet-set manifest.",
+        "The free 180-day automatic route is now disclosed WITH its exclusion. The disclosure argues against this packet's own sale, which is why it may not omit the carve-out: a participant whose dismissal ended a plea in abeyance would otherwise wait out 180 days for relief the record says that path does not deliver. The profile's Clean Slate line - some plea-in-abeyance dismissals may qualify on different timing - is stated too, so the exclusion closes one free route rather than implying there are none."
+      ] : []),
       ...(config.acquittalAutomaticFirst ? [
         "Owner determination DET-DT-UT-ACQUITTAL-001: an acquittal on all charges is inside Utah's current automatic expungement, so this family's primary treatment is AUTOMATIC_OR_AGENCY_PROCESS and the delivered petition is a fallback for a documented automatic-process failure. participant-instructions.md now opens on the automatic route, before any amount and before any filing step.",
         "The automatic route is stated with its 60-day acquittal goal, its 120-day processing window, and the January 1 2026 retirement of the temporary request form, each quoted verbatim from the compiled Utah state profile and each keyed to an acquittal on all charges rather than read across from a sibling disposition (DET-FEE-AND-WAIVER-001 amendments A2 and A3). The packet does not direct the participant to the retired request form.",
