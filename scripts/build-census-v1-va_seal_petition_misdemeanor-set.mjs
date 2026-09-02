@@ -75,6 +75,7 @@ import { finalizeOfficialForm, PARTICIPANT_INK, SELECTION_INSET, SELECTION_LINE_
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
+import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -1530,7 +1531,19 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
       .map((r) => ({ key: r.key, name: r.name, page: r.page, rect: r.rect, routeReason: r.routeReason }));
     const { bytes: marked, marks } = await markRouteSelections(filled, selections);
 
-    const packet = await PDFDocument.create();
+    // The assembled container carries the same fixed date every component page
+    // already carries. PDFDocument.create() stamps the wall clock into
+    // /CreationDate and /ModDate, and save({ updateMetadata: false }) only
+    // declines to REFRESH that stamp -- it does not remove it -- so the first
+    // stamp survived into the saved bytes. Two consecutive builds of
+    // va_seal_petition_misdemeanor-set from identical inputs produced different
+    // canonical.pdf and boundary.pdf SHA-256 while all sixteen raster pages and
+    // both per-form primary-filing artifacts came out byte-identical. A
+    // RASTER_PASS is pinned to the packet hash, so a rebuild that changed
+    // nothing discarded the visual verdict as though the packet had been
+    // edited. This host assembles all four VA seal-petition families, so the
+    // fix reaches every one of them on its next rebuild.
+    const packet = stampDeterministic(await PDFDocument.create());
     const pageManifest = [];
     const documents = [];
 
