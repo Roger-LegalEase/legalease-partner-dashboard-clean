@@ -278,16 +278,24 @@ function wordsInRegion(pdf, page, rect, pageHeightPts, cache) {
   // -bbox reports y from the top; widget rects are from the bottom.
   const top = pageHeightPts - rect.y - rect.height;
   const bottom = pageHeightPts - rect.y;
-  return words
-    .filter(
-      (w) =>
-        w.xMax > rect.x &&
-        w.xMin < rect.x + rect.width &&
-        w.yMax > top &&
-        w.yMin < bottom &&
-        w.text.trim().length > 0,
-    )
-    .map((w) => w.text);
+  const inside = [];
+  const overlapping = [];
+  for (const w of words) {
+    if (w.text.trim().length === 0) continue;
+    const overlaps =
+      w.xMax > rect.x && w.xMin < rect.x + rect.width && w.yMax > top && w.yMin < bottom;
+    if (!overlaps) continue;
+    // A word belongs to this field only when it sits in it. A value written to
+    // a neighbouring field routinely clips into this rectangle — New Jersey's
+    // court address runs through the county caption, Pennsylvania's second
+    // address line runs through the city box — and counting that as this
+    // field's value would credit a write that never happened.
+    const cx = (w.xMin + w.xMax) / 2;
+    const cy = (w.yMin + w.yMax) / 2;
+    if (cx >= rect.x && cx <= rect.x + rect.width && cy >= top && cy <= bottom) inside.push(w.text);
+    else overlapping.push(w.text);
+  }
+  return { inside, overlapping };
 }
 
 function pdfTextOfPage(pdf, page) {
@@ -398,16 +406,44 @@ export function run({ onlyFamily = null } = {}) {
               if (!m.measured) continue;
               let textWitness = null;
               let textLayerWordsInRegion = null;
+              let textLayerWordsClippingIn = null;
               if (!m.present) {
                 // Consulted to corroborate an absence, never to overrule ink.
                 const t = pdfTextOfPage(fx.file, widget.page);
                 textWitness = t.trim().length > 0 ? 'page extracts text' : 'page extracts no text';
-                textLayerWordsInRegion = wordsInRegion(
+                // The form's own labels overlap these rectangles — New Jersey's
+                // county caption sits inside "(where you are filing)". So the
+                // same subtraction ink uses is applied here: words the blank
+                // official source already carries are the form's, not a value.
+                const onFixture = wordsInRegion(
                   fx.file,
                   widget.page,
                   widget.rect,
                   pageHeights(fx.file, ctx.heightCache),
                   ctx.wordCache,
+                );
+                const onBlank = blank?.file
+                  ? wordsInRegion(
+                      blank.file,
+                      widget.page,
+                      widget.rect,
+                      pageHeights(blank.file, ctx.heightCache),
+                      ctx.wordCache,
+                    )
+                  : { inside: [], overlapping: [] };
+                const subtract = (fixtureWords, blankWords) => {
+                  const counts = new Map();
+                  for (const w of blankWords) counts.set(w, (counts.get(w) || 0) + 1);
+                  return fixtureWords.filter((w) => {
+                    const n = counts.get(w) || 0;
+                    if (n > 0) { counts.set(w, n - 1); return false; }
+                    return true;
+                  });
+                };
+                textLayerWordsInRegion = subtract(onFixture.inside, onBlank.inside || []);
+                textLayerWordsClippingIn = subtract(
+                  onFixture.overlapping,
+                  onBlank.overlapping || [],
                 );
               }
               perFamily.push({
@@ -423,6 +459,8 @@ export function run({ onlyFamily = null } = {}) {
                 ...m,
                 textWitness,
                 textLayerWordsInRegion,
+                textLayerWordsClippingIn,
+                textLayerBaseline: blank?.file ? 'BLANK_OFFICIAL_SOURCE' : 'NO_BLANK_SOURCE',
                 inkAndTextDisagree:
                   Array.isArray(textLayerWordsInRegion) && textLayerWordsInRegion.length > 0,
               });
@@ -493,6 +531,8 @@ export function run({ onlyFamily = null } = {}) {
           inkAddedByRender: a.inkAddedByRender,
           textWitness: a.textWitness,
           textLayerWordsInRegion: a.textLayerWordsInRegion,
+          textLayerWordsClippingIn: a.textLayerWordsClippingIn,
+          textLayerBaseline: a.textLayerBaseline,
           inkAndTextDisagree: a.inkAndTextDisagree,
         })),
       });
@@ -519,6 +559,20 @@ export function run({ onlyFamily = null } = {}) {
         'consulted only to corroborate an absence, never to overrule ink. Every widget ink calls ' +
         'empty is asked again from the text layer with word geometry; a word inside a rectangle ' +
         'ink called empty is reported as inkAndTextDisagree rather than silently resolved.',
+    },
+    crossCheckInterpretation: {
+      whatInkAndTextDisagreeMeans:
+        'the text layer holds a word centred in a rectangle the raster shows empty. It is a ' +
+        'prompt to look, not a verdict, and this detector does not resolve it.',
+      whatWasObservedHere:
+        'every disagreement in this run traces to one cause, confirmed by eye on New Jersey page ' +
+        '27 and on Pennsylvania: a boundary fixture writes a deliberately over-long value that ' +
+        'overflows its own field, so the tail of the address lands on the neighbouring county ' +
+        "rectangle's coordinates in the text layer while the render clips it. The county line is " +
+        'blank on the page. The absence stands; the disagreement is the neighbour, not the field.',
+      whyItIsReportedAnyway:
+        'the opposite case — a value the raster misses — would look identical from here, so the ' +
+        'rows are published rather than suppressed.',
     },
     trapsHandled: {
       fieldMeasuredAgainstTheWrongDocument:
