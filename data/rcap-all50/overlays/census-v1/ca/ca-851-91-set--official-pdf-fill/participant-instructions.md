@@ -14,9 +14,27 @@ The platform filled in only identity and record facts it verifiably holds — na
 3. **Sign and date each form yourself**, and complete the proof of service only after service has actually occurred.
 4. **Leave CR-410 entirely blank** except the report numbers listed below. The order to seal is the court's form.
 
-## What this packet does not tell you
+## Where you file this, and by when
 
-The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the arrest. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.
+File the verified CR-409 with the proposed CR-410 at least 15 days before the hearing, in the court where the accusatory pleading was filed, or where no pleading was filed in a court with criminal jurisdiction in the city or county where the arrest occurred. One arrest per petition.
+
+That rule is the committed packet-set manifest for this packet, not a guess at local practice. Read it against your own case before you rely on it: it tells you which court, what goes in together, and the deadline that governs both.
+
+## Who you must serve, and by when
+
+Serve the prosecuting attorney of the city or county where the arrest occurred, and the arresting agency, at least 15 days before the hearing.
+
+This is why CR-106 ships with this packet: it is the proof that you served those parties. Serve first, then complete the proof of service — never the other way round. The deadline runs backwards from the hearing, so count from the hearing date, not from the day you file.
+
+## What this costs
+
+**The filing fee itself is the one question this packet cannot answer.** The committed packet-set manifest records the fee for this route as "Unresolved and county-specific. Do not publish a figure." — it varies from county to county and the repository does not hold the figure for yours, so none is printed here. Publishing an amount this packet does not hold would be worse than publishing none. **Ask the clerk of the Superior Court in the county of the arrest what the filing fee is for this petition**, and ask at the same time what payment methods that court accepts.
+
+**If you cannot pay it, ask about a fee waiver by name.** FW-001 is the general California fee waiver form. It is a separate form: it is not part of this packet, is not filled in for you, and is available from the California Courts self-help forms site along with the forms in this packet. Naming it is as far as the repository goes — whether a waiver is available on this particular petition, and what it requires of you, is decided on your own financial circumstances and on that court's practice, so **ask the clerk of the Superior Court in the county of the arrest for form FW-001 and whether a waiver applies to this filing**.
+
+## Where this packet's self-help ends
+
+This packet states what the repository holds for this route and nothing beyond it. The filing fee, the payment methods that court accepts, and any local intake rule — a cover sheet, a filing window, an e-filing requirement — come from the clerk of the Superior Court in the county of the arrest, not from this packet. It does not decide whether your arrest qualifies to be sealed, it does not appear for you, and it is not legal advice. If your case does not match the route named at the top of this page, or if anyone opposes the petition, that is the point to get a lawyer or a legal-aid office rather than to press on with these papers.
 
 ## The blanks you must fill in
 

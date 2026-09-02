@@ -659,6 +659,21 @@ async function verifyFromBytes({ file, census, report, facts, label, documentId 
 // and the build fails before this function runs if either byte changes, so the
 // statements below are statements about exactly the two documents this packet
 // contains.
+//
+// The filing-fee section is the exception to that last sentence, and
+// deliberately so. It was previously written as a statement about the two
+// documents alone -- neither prints an amount, so the section said no held
+// source establishes the fee and sent the participant to the clerk. Amendment
+// A2 of DETERMINATION_FEE_AND_WAIVER_STANDARD.json settles that "the
+// repository" means every record the route census names as a requiredSourceId
+// for this route, not just the family's own bound PDFs. The census entry for
+// obligation:track-pathway:AR:ar-arrest-seal:situation-a-non-convictions names
+// src/lib/rcap-engine/compiled/profiles/AR-arkansas.json, and that profile
+// answers the fee outright in packetGenerator.feeRules[0], feeRules[1] and
+// filingDestinationRules[1]. Under A1's ordering the named-authority stand-in
+// is unavailable where the repository holds the answer, so the section now
+// states the answer and keeps the clerk only for the residual question of a
+// particular court's own practice.
 function participantInstructionsMarkdown() {
   return `# Filing instructions — Seal an Arkansas arrest record under Act 1460 of 2013
 
@@ -677,7 +692,11 @@ File the petition, with the proposed order behind it, with the **clerk of the co
 
 ## The filing fee
 
-Paragraph 3 of the petition is a sworn statement that you have "paid all filing fees required to be paid with the filing of this Petition mandated by A.C.A § 16-90-1419" — so filing can carry a fee, and by signing you state it has been paid. The amount is not printed on the form, and no source this packet holds establishes it; an unsourced figure in a filing instruction is worse than none. **Ask the clerk of the court where you file what the A.C.A. § 16-90-1419 filing fee is for a petition to seal an arrest, and ask the same clerk whether any fee waiver or reduction is available to you.** Settle this before you sign, because paragraph 3 is part of what you sign.
+**There is no filing fee for this petition.** The compiled Arkansas profile this route is built from — \`src/lib/rcap-engine/compiled/profiles/AR-arkansas.json\`, named as a required source for a petition to seal an arrest under A.C.A. § 16-90-1409 — states it three ways: "Act 1460 eliminated sealing filing fees"; "Sealing petition filing fee $0 — Filing fees eliminated by the 2019 amendments"; and, in its filing rule, "File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing."
+
+**What that means for paragraph 3.** Paragraph 3 of the petition is a sworn statement that you have "paid all filing fees required to be paid with the filing of this Petition mandated by A.C.A § 16-90-1419". The printed form still recites that statute, and the amount is not printed anywhere on it. Where no filing fee is required, there is none left to have paid, and the averment is true as printed. So do not treat paragraph 3 as a bill: sign it as the statement it is. **If the clerk of the court where you file nevertheless asks you to pay something, that is a question about that court's own practice rather than about this packet — ask the clerk what the charge is for and whether a waiver or reduction is available, and settle it before you sign, because paragraph 3 is part of what you sign.**
+
+**The costs this route does carry are not filing fees.** The same profile records them: the ACIC criminal-history record carries an ACIC fee, a copy of the Judgment and Commitment Order carries a small clerk fee from the sentencing court, and counsel carries whatever counsel costs — which is not required, and which legal-aid and sealing clinics assist with at no charge. The profile also records that the real gate is satisfying outstanding restitution, fines and court costs, which is an eligibility requirement rather than a fee for filing.
 
 ## Who you serve, and how
 
@@ -690,7 +709,7 @@ The method is on the form: **by placing a copy in the United States mail, postag
 
 ## What you must do before you file
 
-1. **Ask the clerk two questions**: which court in the caption's county takes an Act 1460 petition to seal this arrest, and what the A.C.A. § 16-90-1419 filing fee is (and whether a waiver is available). Both answers go into what you file — the court into the caption, the fee into whether paragraph 3 is true when you sign.
+1. **Ask the clerk which court takes this petition**: which court in the caption's county takes an Act 1460 petition to seal this arrest. That answer goes into the caption. You do not need to ask about the filing fee — Act 1460 eliminated it, and _The filing fee_ above explains what that means for paragraph 3.
 2. **Complete every blank listed in the tables below.** Each is named with the form it is on, the page, and what belongs in it.
 3. **Read paragraphs 2, 4 and 5 of the petition and mark only what is true of you.** Paragraph 4's checkboxes state whether you have pending felony charges; paragraph 5's state whether you are required to register under the Sex Offender Registration Act of 1997 (A.C.A. § 12-12-901, et seq.). Paragraph 6 makes the whole petition a statement that is true and correct to the best of your knowledge.
 4. **Sign and date the petition yourself.** The signature and its date are yours and are left blank.

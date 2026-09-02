@@ -495,23 +495,33 @@ Object.assign(FAMILY, {
         hash: "76c0c54ed0a80c8b5b5fddd64e2087b31f9615d5ebe7524ead803352fba3cca3", bytes: 79928, render: false,
       }),
     ],
-    // Asked in the standard's own order. The repository was searched first: the
-    // text of both held CPL 160.59 sources was read page by page for a fee, a
-    // dollar amount, a cost, a waiver or an indigency route, and neither says
-    // anything about any of them. So the answer is the honest one -- no held
-    // source establishes it -- with the clerk's office the held pro se packet
-    // itself names as the office that does. The one fee the repository DOES
-    // hold, on the certificate-of-disposition companion, is stated as the
-    // amount it is, because where the repository establishes the answer the
-    // packet states it rather than delegating it.
+    // Asked in the standard's own order, and corrected under amendment A2.
+    //
+    // The first draft searched only this family's two bound CPL 160.59 sources.
+    // Neither states a fee, so it reported that no held source establishes the
+    // application fee and sent the participant to the clerk's office of the
+    // court of conviction. That claim about the FORMS is true and was
+    // re-confirmed from the source bytes; the claim about the REPOSITORY was
+    // false, and A2 is explicit that this family's clerk referral is the defect
+    // it names. The route obligation census entry for
+    // obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59
+    // names src/lib/rcap-engine/compiled/profiles/NY-new-york.json as a
+    // requiredSourceId, and that profile answers it in
+    // packetGenerator.feeRules[2]: "CPL 160.59 sealing application No separate
+    // filing fee Court motion; notarization needed". So the answer is stated.
+    //
+    // The certificate-of-disposition paragraph is unchanged and stays: it was
+    // always the correct treatment -- the repository holds those figures, so
+    // the packet states them -- and it is now the second of two stated answers
+    // rather than the only one.
     feeAndWaiver: [
-      "**No held source establishes what it costs to file a CPL 160.59 sealing application.** Neither of this packet's two application sources — the Notice of Motion and Affidavit in Support of Sealing under CPL 160.59, nor the CPL 160.59 Pro Se Sealing Application Packet and Instructions — states a filing fee, states that filing is free, or describes a fee waiver. This packet does not supply a figure it does not hold.",
-      "**Ask the clerk's office of the court where you were convicted and sentenced.** That is the same office this packet's own held instructions send you to: the pro se packet tells you to contact \"the clerk's office of the court where you will apply to seal your case, which is the court where you were convicted and sentenced\", and to file \"by mail or in person at the clerk's office of the appropriate courthouse\". Put two questions to that clerk before you file: what, if anything, the court charges to file a CPL 160.59 sealing application, and whether any fee waiver or reduction is available to you.",
-      "**One cost this packet does hold, and it is not the application fee.** The Criminal Certificate of Disposition Request Form states its own fee on its face: five dollars ($5) in courts located outside New York City, or ten dollars ($10) in courts located in New York City's five boroughs, and it tells you to contact the court to ask what payment methods are accepted. You need a certificate of disposition for each conviction you are applying to seal, so budget that amount per case. It says nothing about what the sealing application itself costs.",
+      "**The CPL 160.59 sealing application carries no separate filing fee.** The compiled New York profile this route is built from — `src/lib/rcap-engine/compiled/profiles/NY-new-york.json`, named as a required source for discretionary conviction sealing by petition under CPL 160.59 — records it directly: *CPL 160.59 sealing application — No separate filing fee — Court motion; notarization needed*. The profile's own summary says the same thing in full sentences: the 160.59 motion \"carries no separate filing fee\", and the near-certain costs are the certificate of disposition and any DCJS record-review fee. Neither of this packet's two application sources — the Notice of Motion and Affidavit in Support of Sealing under CPL 160.59, nor the CPL 160.59 Pro Se Sealing Application Packet and Instructions — prints a fee on its face, and that silence is consistent with the rule rather than a gap in it.",
+      "**What you should still expect to pay, and what you should not.** The application itself is free to file, so no fee waiver is needed for it. The Criminal Certificate of Disposition Request Form states its own fee on its face: five dollars ($5) in courts located outside New York City, or ten dollars ($10) in courts located in New York City's five boroughs, and it tells you to contact the court to ask what payment methods are accepted. You need a certificate of disposition for each conviction you are applying to seal, so budget that amount per case. The profile also records a DCJS fee if you order a review of your own record to confirm what is on it. Your application must be notarized, and a notary may charge for that.",
+      "**Free help exists, and the profile names it.** The compiled profile records that legal-aid organizations and county district attorney sealing units assist pro se applicants at no cost. If the clerk's office of the court where you were convicted and sentenced tells you something different about cost from what this section says, follow the clerk — that office is the one that takes the filing — and the pro se packet already sends you to it: contact \"the clerk's office of the court where you will apply to seal your case, which is the court where you were convicted and sentenced\", and file \"by mail or in person at the clerk's office of the appropriate courthouse\".",
     ],
     notes: [
       "Prior-application elections, reasons, sworn dates, service facts, prosecutor information, and notary fields remain blank.",
-      "The post-order seal-verification document is source-custody evidence only; form currency, local service practice, and the proposed-order branch remain release blockers. The fee is no longer among them: this packet's fee-and-waiver section states that no held source establishes the application fee and names the clerk's office that answers it.",
+      "The post-order seal-verification document is source-custody evidence only; form currency, local service practice, and the proposed-order branch remain release blockers. The fee is no longer among them: this packet's fee-and-waiver section states the answer the compiled New York profile holds — the CPL 160.59 application carries no separate filing fee — together with the certificate-of-disposition, DCJS and notary costs it does carry.",
     ],
   },
   "ny_mrta_marijuana-set": {
@@ -1656,7 +1666,12 @@ function sourceReceipt(familyId, config, rows) {
 function feeAndWaiverSection(config) {
   const paragraphs = config.feeAndWaiver ?? null;
   if (!paragraphs?.length) return "";
-  return `\n## What it costs to file, and who answers that\n\n${paragraphs.map((p) => `${p}\n`).join("\n")}`;
+  // The heading used to read "...and who answers that", which was written when
+  // the only family declaring this section delegated the question. Under
+  // amendment A2 that family states the held answer instead, so the heading no
+  // longer promises a referral. ny_160_59_petition-set is the sole declarer on
+  // this host, so this wording change moves no other family's bytes.
+  return `\n## What it costs to file\n\n${paragraphs.map((p) => `${p}\n`).join("\n")}`;
 }
 
 function participantInstructions(config, fieldMaps) {
