@@ -32,6 +32,8 @@ Two things this packet does **not** tell you, because neither is established her
 4. **Decide which route you are taking.** If the State's Attorney will sign the stipulation (200-00132), that is the quicker route and the court may seal on that agreement. If they will not, file the petition (200-00130) on its own and ask the court to set a hearing. The process-guidance page in this packet sets out both, and the third route — the one that files nothing — as well.
 5. **File the fee waiver (600-00228) only if you cannot pay.**
 
+**A scheduled hearing is where this packet's self-help ends.** The committed track registry records the prosecutor opposing the petition, or the court scheduling a hearing, as the point to get a lawyer or a legal-aid office rather than to press on alone — and it records an objection "in the interests of justice" as converting the automatic route into a § 7603(b) hearing. The hearing date stands either way, so start looking for help the day you learn of one.
+
 ## The items you must supply
 
 ### 200-00130 — Petition to Seal Criminal History
@@ -165,8 +167,21 @@ Two things this packet does **not** tell you, because neither is established her
 - **The State's Attorney's signature, date and printed name, and the court's order on the stipulation.** Those belong to the prosecutor and the judge.
 - **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.
 
+## When to stop and get a lawyer
+
+The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:
+
+- Either party objected in the interests of justice, which converts the automatic route into a § 7603(b) hearing.
+- The prosecutor opposes the petition, or the court schedules a hearing.
+- Any criminal charge is pending anywhere.
+- The disposition is not clearly one of the three § 7603(a)(1) triggers and the participant is unsure whether a probable cause determination was made at arraignment.
+- The participant expects expungement rather than sealing. Act 60 repealed the no-conviction expungement routes and the record will be sealed, not destroyed.
+- Immigration consequences.
+
+**Immigration consequences are the last of these, and this packet cannot tell you what sealing does to your immigration position.** Ask an immigration lawyer before you file if you are not a United States citizen. And note the fifth: this route seals the record, it does not destroy it — Act 60 repealed the no-conviction expungement routes, so if what you are expecting is expungement, this is not that.
+
 ## What this packet is not
 
 This is a prepared set of official Vermont forms and a process-guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will seal the record.
 
-_Route: obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing_
+_Route: sealing a record that did not end in a conviction (13 V.S.A. Sec. 7603)_
