@@ -308,14 +308,26 @@ const ORDER = ["200-00129", "200-00132A", "600-00228"];
  * key, and a route key printed for a participant was only ever a place for this
  * kind of error to hide.
  *
+ * The label follows the shape Kansas already ships -- a short mechanism phrase,
+ * a hyphen, the statute -- so a reader who meets a LegalEase route line on two
+ * different packets reads the same kind of sentence twice. Kansas is
+ * scripts/build-census-v1-rcap-ks-custom-pleading.mjs and its label is
+ * "Municipal conviction or diversion expungement - K.S.A. 12-4516".
+ *
+ * The section sign is deliberately absent from the label. sanitizePdfText below
+ * writes "Sec. " over it before the composed page is drawn, so a label carrying
+ * one would print differently from the label the manifest declares;
+ * assertRouteLabel refuses that rather than letting the two drift.
+ *
  * This declares WHAT THE PACKET IS. It opens no route, sets no price and
- * touches no compiled runtime.
+ * touches no compiled runtime. It is this family alone: no other builder that
+ * prints a route line is touched by it.
  */
 export const FAMILY_CONFIGS = Object.freeze({
   "vt_exp_decriminalized-set": {
     jurisdiction: "VT",
     routeKey: "obligation:track-pathway:VT:vt_exp_decriminalized:adult-conviction-expungement-narrow-statutory-route",
-    routeLabel: "Vermont expungement of a conviction for conduct no longer prohibited by law",
+    routeLabel: "Expungement of a conviction for conduct no longer a crime - 13 V.S.A. 7602",
     routeSelectionId: "vt-exp-decriminalized-200-00129-complete-set",
     legalName: "Petition to Expunge a Conviction for Conduct No Longer Prohibited by Law, 13 V.S.A. § 7602",
     routeName: "expunging a conviction for conduct that is no longer prohibited by law",
@@ -533,12 +545,46 @@ function sanitizePdfText(t) {
     .replaceAll("”", '"').replaceAll("§", "Sec. ").replaceAll("…", "...");
 }
 
+/* The composed instruction page's own geometry. Named because assertRouteLabel
+ * measures the printed route line against the same column the renderer draws
+ * into; two copies of 612 and 72 is how those two silently stop agreeing. */
+const COMPOSED_FONT_SIZE = 11;
+const COMPOSED_PAGE_WIDTH = 612;
+const COMPOSED_MARGIN = 72;
+const COMPOSED_TEXT_WIDTH = COMPOSED_PAGE_WIDTH - 2 * COMPOSED_MARGIN;
+
+/*
+ * The guard on the two identities.
+ *
+ * A label that carried a machine key, or that could not be read at a glance,
+ * would defeat the point of having one; a label the page sanitizer rewrites
+ * would make the manifest and the paper disagree; and a label that wrapped
+ * would hand a participant the same broken line the key gave them. The width is
+ * measured against the composed page's own font, size and text column rather
+ * than against a character count, because a character count is a guess about a
+ * proportional font.
+ */
+async function assertRouteLabel(config) {
+  const label = config.routeLabel;
+  assert.ok(typeof label === "string" && label.trim().length > 0,
+    `${config.routeKey}: declares no human-readable routeLabel, and the packet page prints the label`);
+  assert.ok(!label.includes("obligation:"),
+    `${config.routeKey}: routeLabel "${label}" carries a machine route key; the label is what a person reads`);
+  assert.equal(label, sanitizePdfText(label),
+    `${config.routeKey}: routeLabel would be rewritten by the page sanitizer, so the manifest and the page would disagree`);
+  const probe = await PDFDocument.create();
+  const font = await probe.embedFont(StandardFonts.TimesRoman);
+  const width = font.widthOfTextAtSize(`Route: ${label}`, COMPOSED_FONT_SIZE);
+  assert.ok(width <= COMPOSED_TEXT_WIDTH,
+    `${config.routeKey}: the printed route line is ${width.toFixed(1)}pt wide against a ${COMPOSED_TEXT_WIDTH}pt column, so it would wrap`);
+}
+
 async function renderComposedPdf(fullText, title) {
   const pdf = await PDFDocument.create();
   pdf.setTitle(title); pdf.setProducer("RCAP census-v1 artifact-only renderer"); pdf.setCreator("RCAP evidence build");
   const fixed = new Date(FIXED_DATE); pdf.setCreationDate(fixed); pdf.setModificationDate(fixed);
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
-  const size = 11, lh = 14.5, W = 612, H = 792, margin = 72, maxW = W - 2 * margin;
+  const size = COMPOSED_FONT_SIZE, lh = 14.5, W = COMPOSED_PAGE_WIDTH, H = 792, margin = COMPOSED_MARGIN, maxW = COMPOSED_TEXT_WIDTH;
   let page = pdf.addPage([W, H]); let y = H - margin;
   const draw = (line) => { if (y < margin) { page = pdf.addPage([W, H]); y = H - margin; } if (line) page.drawText(line, { x: margin, y, size, font, color: rgb(0, 0, 0) }); y -= lh; };
   const splitToken = (tok) => { const out = []; let c = ""; for (const ch of tok) { if (c && font.widthOfTextAtSize(`${c}${ch}`, size) > maxW) { out.push(c); c = ch; } else c += ch; } if (c) out.push(c); return out; };
@@ -841,6 +887,7 @@ function writeArtifacts(ctx) {
 export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   const config = FAMILY_CONFIGS[familyId];
   assert.ok(config, `unknown family ${familyId}`);
+  await assertRouteLabel(config);
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
   const { resolved, failures } = resolveSources(familyId);

@@ -171,4 +171,4 @@ Two things this packet does **not** tell you, because neither is established her
 
 This is a prepared set of official Vermont forms. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.
 
-_Route: Vermont expungement of a conviction for conduct no longer prohibited by law_
+_Route: Expungement of a conviction for conduct no longer a crime - 13 V.S.A. 7602_
