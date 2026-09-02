@@ -286,8 +286,53 @@
     "VT-C wrote no byte inside any overlay directory, no build script and no vf directory other than vf03 and vf10; MASTER_QUEUE.json, VERIFIER_RETURNS.json and generate.mjs are untouched.",
     "ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, ROUTE_OPTIONS, PROTECTED_FIELDS, ARTIFACTS and PAGE_ORDER all PASS on this family and were measured, not assumed. The source binds exactly (c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1,924,831 B, three places agreeing) and both fixture hashes recompute to what the reports record. Do not re-derive any of that in the repair."
    ]
-  }
- ],
+  },
+    {
+      "itemId": "pa_pardon_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "assignedBy": "FABLE-RVD (RV-D), lane VF10",
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+      "decisiveDefect": "Two mapped known prefills, AddrState and AddrZip, are declared written on the boundary fixture and are absent from its bytes, and the loss is disclosed nowhere in the family. The packet also tells the participant that a telephone number and an email address were prefilled when the petition form carries no such field.",
+      "failedProofObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "production-field-map.json lists AddrState and AddrZip in boundaryWrites for PA-RCRIM-P-790-PETITION, so a reader that trusts any row whose decision is not refuse counts nine boundary writes. The boundary fixture's bytes carry seven. Canonical page 1 prints '42 Maple Street', 'Philadelphia', 'PA', '19107'; boundary page 1 prints '1188 Upper Notch Crossing Road, Apartment 14B', 'Wilkes-Barre Township' and then stops. The family's own reports/actual-writes.json already records 7 for the boundary petition, so the field map and the byte proof contradict each other inside one directory.",
+          "howToProve": "Decode the page content streams of fixtures/boundary.pdf and fixtures/canonical.pdf — both are flattened and carry no AcroForm — and compare against the pinned source at STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf."
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "participant-instructions.md line 5 states 'The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number.' No telephone number and no email address appears in either fixture, and the petition form has no telephone or email field among its 76.",
+          "howToProve": "Search both fixtures for any phone- or email-shaped value; enumerate the source form's fields."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Because the build believes AddrState and AddrZip were written, neither appears among the 78 requiredBeforeFiling items, so on the boundary path the petition is filed with a street address and a city and no state and no ZIP and the packet never asks anyone to complete them."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The packet carries no self-help boundary at all. None of the registry's three selfHelpStopConditions for pa_pardon_expungement appears, verbatim or in substance; participant-instructions.md has no section for them and neither do the two process-guidance pages. The document never tells the participant to seek a lawyer. The load-bearing omission is the first condition — that the participant has not yet obtained a pardon, the pardon application itself being out of scope and a referral — so nothing in the packet establishes that a pardon must already have been granted before this petition is filed."
+        }
+      ],
+      "repairInstruction": "Three things, in this order. First, settle what the boundary path actually writes: either make the two address fields fit and write them, or refuse them and record the refusal the way this repository's other families do — an unfittable entry carrying the field, factId, value, measured rect, minimum font size and required width, exactly as ma-expunge-time-set and id_isp_expungement-set already do — and add both to requiredBeforeFiling so the participant is asked for them. Do not leave production-field-map.json declaring a write the paper does not carry. Second, correct participant-instructions.md line 5 so it names only what is prefilled; the telephone and email claims must go. Third, add a self-help section carrying the registry's three stop conditions for pa_pardon_expungement in the registry's own words, and name the office or the lawyer that answers where self-help ends.",
+      "doNotDo": "Do not close the KNOWN_PREFILLS defect by deleting the two rows from boundaryWrites without deciding whether the participant is asked for the values. Silence in the field map and silence to the participant is the defect, not the row.",
+      "obligationsAlreadyPassing": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "grantsNothing": "This assignment authorises a repair. It opens no route, sets no price and approves no output."
+    }
+  ],
  "fableVA10Note": "The one assignment above FABLE-VA10's belongs to an earlier roster (ut_pet_traffic-set) and is left exactly as that lane wrote it; assignment ids are reused across shifts, so these six were written beside it rather than over it, and each carries a VA10- prefixed assignmentId, its own verifiedAtBase and raisedBy FABLE-VA10. The file's top-level generatedAtBase still describes the earlier lane's assignment, not these.",
  "vtcAppendNote": "VT-C appended one repair assignment (nj_arrest_no_conviction-set) at base a0d49e1ad49ad4397eac4b009225baf0b94bf03e and re-serialised no earlier entry. VT-C's other seven families — ar-nonconviction-seal-set, composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief, tx_exp_acquittal-set, wa_vac_survivor_misdemeanor-set, ca-851-91-set, wv_conv_multiple_misdemeanors-set and ut_pet_conviction-set — returned PASS_COMPLETE_INDEPENDENT and carry no repair assignment."
 }
