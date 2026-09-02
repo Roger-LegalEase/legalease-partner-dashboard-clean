@@ -220,3 +220,53 @@ paid for once already.
   it. And family-level `implementationStrategy` is not reliable for cutting
   cohorts: five of those twenty carry routes whose own currentOutputStrategy is
   official_pdf_fill inside a family the scoreboard labels custom_pleading.
+
+## A repair grant does not survive a family the queue thinks is healthy
+
+I transferred three Utah repair grants onto FIX09 to act on a measured A4
+breach, committed, and ran the chain. `generate.mjs` rewrote the ledger from
+the queue and dropped all three, because it mints a repair grant only for a
+family in FAIL_REPAIR_REQUIRED and those three were COMPLETE_PACKET_PROVEN and
+VERIFIED_PASS. The transfer left no trace in the commit and I did not notice
+until a later merge reported the same claims as "withdrawn by Captain".
+
+The architecture was right and I was working against it. A repair grant is
+downstream of a verdict, not a substitute for one. No verdict in the
+repository said anything was wrong with those packets, so nothing could be
+granted for repairing them, however certain the finding was.
+
+The order is: an independent read records the FAIL -> the family drops to
+FAIL_REPAIR_REQUIRED -> generate.mjs mints the grant -> a repairer works it.
+Captain cannot enter that chain at step three, and cannot enter it at step one
+either, because Captain measuring a defect and then recording its own verdict
+is the self-verification the whole design refuses.
+
+Two consequences worth carrying:
+
+- The claim ledger is BOTH an input and an output of generate.mjs. Anything
+  written into it by hand survives only if the queue would have written it
+  too. Check a hand-made ledger change against a regenerated ledger before
+  believing it landed.
+- Do not brief a repair lane on a family whose state does not warrant a
+  repair. FABLE-R22 was dispatched to fix three packets it could never have
+  been granted, and only its claim-gate check stopped it writing.
+
+## Two lanes repaired the same two families because I dispatched them twice
+
+FABLE-R17 and FABLE-R20 both repaired ar-arrest-seal-set and
+ar-misdemeanor-dwi-seal-set, independently, from different bases, and reached
+substantially the same fix -- including the same COMPONENT_SET schema
+correction. Neither did anything wrong; I put the same two families in two
+assignments.
+
+R17 landed first and an independent lane was already reading its bytes, so
+R17's version was kept and R20's Arkansas work was set aside rather than
+merged over a read in flight. That is the cheapest resolution and it is still
+a loss: two lanes spent their time on one problem, and the discarded side had
+material the kept side does not (a separate-filing-per-county rule, and the
+caption-county versus venue-county data-model question).
+
+Before dispatching a wave, diff the family lists against each other and
+against every lane already running. The claim ledger prevents two lanes
+WRITING the same family at once; it does not prevent me from asking two lanes
+to solve the same problem in different worktrees.

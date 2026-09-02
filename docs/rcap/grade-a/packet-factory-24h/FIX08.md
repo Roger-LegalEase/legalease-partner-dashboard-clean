@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `ab82f102a44ea5e8bc0698b35d49164c9334f6fe` (or the newer dispatch base)
+**Minimum required ancestor:** `aaecbecd65f4502318711243c1eaa74b6dcfd278` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ct-cleanslate-petition-set \
+  --family ne-setaside-custodial-set \
   --codex-cloud \
-  --minimum-captain-sha ab82f102a44ea5e8bc0698b35d49164c9334f6fe
+  --minimum-captain-sha aaecbecd65f4502318711243c1eaa74b6dcfd278
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,11 +56,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 3 families
+## The 2 families
 
-- `ct-cleanslate-petition-set`
-- `sd_arrest_expungement-set`
-- `wa_vac_treaty_fishing-set`
+- `ne-setaside-custodial-set`
+- `wa_vac_cannabis-set`
 
 ## What you receive
 
@@ -73,12 +72,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
-- `data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ct-cleanslate-petition-set.mjs`
-- `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
-- `scripts/build-census-v1-wa_vac_treaty_fishing-set.mjs`
+- `data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/**`
+- `scripts/build-census-v1-wa_vac_cannabis-set.mjs`
 
 ## Never write here
 
