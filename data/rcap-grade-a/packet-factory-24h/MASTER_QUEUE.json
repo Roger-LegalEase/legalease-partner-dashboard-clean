@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "3a816d7bdd4e60dc76e8c8b11abe519252d4f2dc",
+  "minimumCaptainSha": "798471d2cd48ef53c16ad1b0d9e1b63f85964534",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
@@ -60,15 +60,15 @@
     "sourceReady": 45,
     "sourceBlocked": 162,
     "legalBlocked": 24,
-    "verifyPending": 73,
+    "verifyPending": 71,
     "repairRequired": 7,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 45,
     "SOURCE_BLOCKED": 162,
-    "COMPLETE_PACKET_PROVEN": 31,
-    "VERIFY_PENDING": 81,
+    "COMPLETE_PACKET_PROVEN": 33,
+    "VERIFY_PENDING": 79,
     "VERIFIED_PASS": 3,
     "BUILD_IN_PROGRESS": 4,
     "LEGAL_BLOCKED": 13,
@@ -23507,8 +23507,8 @@
       "failedObligations": [
         {
           "obligation": "FEE_AND_WAIVER",
-          "finding": null,
-          "evidence": null
+          "finding": "THE PRIOR DEFECT STANDS VERBATIM AND UNREPAIRED: vf17 failed this family because 'the packet does not state a filing fee or a waiver route. The closest it gets is a catch-all line that names it among other items without answering it or naming who to ask' — and that identical catch-all line ('Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.') is still the instructions' only word on fees. No commit has touched the family directory since FIX01 (461289767, 07:38), which repaired refusal classes and counters, not this obligation; vf17's read postdates FIX01 (09:32). The DC-33's own included instruction page says nothing about a filing fee either (read from the fixture bytes). The held RI legal review states 'Filing fee: unresolved. Not stated in the reference. Release blocker for cost copy.' — so the compliant repair per the vf18/vf20 standard is a dedicated fee item naming the District Court clerk as the checkable authority and stating that the held review records the fee as unresolved",
+          "evidence": "participant-instructions.md line 12, unchanged; git log of the family directory; corpus RI legal review § fees, read here"
         }
       ],
       "continuationResult": null,
@@ -27324,117 +27324,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "feeAndWaiver",
-        "knownPrefills",
-        "service"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "knownPrefills",
-          "finding": "One mapped known prefill is absent from the boundary artifact's bytes. participant.email is mapped to 200-00132 page 1 field \"34i\" (rect x395.69 y120.55 w174.74 h12.96) in both fixtures. The canonical artifact carries it: packet page 3 holds eight flattened widget appearances, the eighth reading \"jordan.reyes@example.org\". The boundary artifact carries only seven on the same page and the email is not among them, while the family's own report still records valuesReportedByFinalizer 8 for that document and fixture. The loss is silent — no refusal, no unfittable note, no finding. It is not a policy on long values either: the same boundary email, maria.alejandra.oshaughnessy.whitfield@longmailexample.org, is written and present on packet page 2 (200-00130) and packet page 5 (600-00228) of the same artifact.",
-          "evidence": {
-            "missingWrite": {
-              "formNumber": "200-00132",
-              "sourcePage": 1,
-              "field": "34i",
-              "factId": "participant.email",
-              "fixture": "boundary",
-              "rect": {
-                "x": 395.69,
-                "y": 120.55,
-                "width": 174.74,
-                "height": 12.96
-              }
-            },
-            "flattenedWidgetAppearancesReadFromArtifactBytes": {
-              "canonicalPage3": 8,
-              "boundaryPage3": 7,
-              "canonicalPage3Values": [
-                "123-4-21 Cncr",
-                "Jordan Avery Reyes",
-                "1991-04-17",
-                "42 Maple Street",
-                "Burlington, VT 05401",
-                "Jordan Avery Reyes",
-                "802-555-0142",
-                "jordan.reyes@example.org"
-              ],
-              "boundaryPage3Values": [
-                "1276-11-24 Frcr",
-                "Maria-Alejandra O’Shaughnessy-Whitfield",
-                "1968-12-31",
-                "1188 Upper Notch Crossing Road, Apartment 14B",
-                "South Burlington, Vermont 05403-2214",
-                "Maria-Alejandra O’Shaughnessy-Whitfield",
-                "(802) 555-0199 ext. 4417"
-              ]
-            },
-            "theSameValueSurvivesElsewhereInTheSameArtifact": [
-              {
-                "packetPage": 2,
-                "formNumber": "200-00130",
-                "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
-              },
-              {
-                "packetPage": 5,
-                "formNumber": "600-00228",
-                "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
-              }
-            ],
-            "familyReportStillClaimsTheWrite": {
-              "document": "200-00132",
-              "fixture": "boundary",
-              "valuesReportedByFinalizer": 8,
-              "writesActuallyPresent": 7
-            },
-            "method": "Every page of both artifacts was opened and its flattened widget appearance streams decoded byte-exactly in this lane; the counts and values above are read from the PDF bytes, not from reports/actual-writes.json.",
-            "reportTranscriptionObservation": "reports/actual-writes.json renders the boundary name as \"Maria-Alejandra OShaughnessy-Whitfield\", dropping the apostrophe. The bytes are correct: the appearance stream carries 0x92 (WinAnsi right single quotation mark) between O and S. The dropped character is a defect in the report's read-back transcription, not in the artifact, and no obligation is failed on it.",
-            "counts": {
-              "mappedWrites": {
-                "canonical": 24,
-                "boundary": 24
-              },
-              "writesProvedOnTheOutputBytes": {
-                "canonical": 24,
-                "boundary": 23
-              }
-            }
-          }
-        },
-        {
-          "obligation": "feeAndWaiver",
-          "finding": "The fee is not stated and no waiver route is established. The instructions say so themselves: \"The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.\" The waiver form 600-00228 is in the packet and filled, which is more than nothing, but the packet does not establish that it applies to this filing, and an instruction to ask the clerk is not the fee being stated.",
-          "evidence": {
-            "feeAmountStated": false,
-            "waiverRouteStated": false,
-            "waiverFormIncludedAndFilled": "600-00228",
-            "instructionText": "**The filing fee, and whether it can be waived.** Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.",
-            "openSourceObligations": [
-              "vt_seal_18_to_21-set::filing-fee-and-waiver-route"
-            ],
-            "dispatchedTo": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md",
-            "note": "This is an open source obligation, already dispatched. The repair is to land the sourced fact, not to have a packet lane infer a fee."
-          }
-        },
-        {
-          "obligation": "service",
-          "finding": "Who must be served, and how, is not stated. The instructions say: \"Who must be served, and how. Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.\" The packet correctly refuses to conflate the prosecutor's signature with service, and correctly declines to invent a rule, but neither a recipient nor a method is stated.",
-          "evidence": {
-            "recipientStated": false,
-            "methodStated": false,
-            "openSourceObligations": [
-              "vt_seal_18_to_21-set::service-recipient-and-method"
-            ],
-            "instructionText": "**Who must be served, and how.** Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.",
-            "dispatchedTo": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md",
-            "note": "This is an open source obligation, already dispatched. The repair is to land the sourced fact, not to have a packet lane infer a service rule."
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_18_to_21-set.mjs",
@@ -27529,117 +27423,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "feeAndWaiver",
-        "knownPrefills",
-        "service"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "knownPrefills",
-          "finding": "One mapped known prefill is absent from the boundary artifact's bytes. participant.email is mapped to 200-00132 page 1 field \"34i\" (rect x395.69 y120.55 w174.74 h12.96) in both fixtures. The canonical artifact carries it: packet page 3 holds eight flattened widget appearances, the eighth reading \"jordan.reyes@example.org\". The boundary artifact carries only seven on the same page and the email is not among them, while the family's own report still records valuesReportedByFinalizer 8 for that document and fixture. The loss is silent — no refusal, no unfittable note, no finding. It is not a policy on long values either: the same boundary email, maria.alejandra.oshaughnessy.whitfield@longmailexample.org, is written and present on packet page 2 (200-00130) and packet page 5 (600-00228) of the same artifact.",
-          "evidence": {
-            "missingWrite": {
-              "formNumber": "200-00132",
-              "sourcePage": 1,
-              "field": "34i",
-              "factId": "participant.email",
-              "fixture": "boundary",
-              "rect": {
-                "x": 395.69,
-                "y": 120.55,
-                "width": 174.74,
-                "height": 12.96
-              }
-            },
-            "flattenedWidgetAppearancesReadFromArtifactBytes": {
-              "canonicalPage3": 8,
-              "boundaryPage3": 7,
-              "canonicalPage3Values": [
-                "123-4-21 Cncr",
-                "Jordan Avery Reyes",
-                "1991-04-17",
-                "42 Maple Street",
-                "Burlington, VT 05401",
-                "Jordan Avery Reyes",
-                "802-555-0142",
-                "jordan.reyes@example.org"
-              ],
-              "boundaryPage3Values": [
-                "1276-11-24 Frcr",
-                "Maria-Alejandra O’Shaughnessy-Whitfield",
-                "1968-12-31",
-                "1188 Upper Notch Crossing Road, Apartment 14B",
-                "South Burlington, Vermont 05403-2214",
-                "Maria-Alejandra O’Shaughnessy-Whitfield",
-                "(802) 555-0199 ext. 4417"
-              ]
-            },
-            "theSameValueSurvivesElsewhereInTheSameArtifact": [
-              {
-                "packetPage": 2,
-                "formNumber": "200-00130",
-                "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
-              },
-              {
-                "packetPage": 5,
-                "formNumber": "600-00228",
-                "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
-              }
-            ],
-            "familyReportStillClaimsTheWrite": {
-              "document": "200-00132",
-              "fixture": "boundary",
-              "valuesReportedByFinalizer": 8,
-              "writesActuallyPresent": 7
-            },
-            "method": "Every page of both artifacts was opened and its flattened widget appearance streams decoded byte-exactly in this lane; the counts and values above are read from the PDF bytes, not from reports/actual-writes.json.",
-            "reportTranscriptionObservation": "reports/actual-writes.json renders the boundary name as \"Maria-Alejandra OShaughnessy-Whitfield\", dropping the apostrophe. The bytes are correct: the appearance stream carries 0x92 (WinAnsi right single quotation mark) between O and S. The dropped character is a defect in the report's read-back transcription, not in the artifact, and no obligation is failed on it.",
-            "counts": {
-              "mappedWrites": {
-                "canonical": 24,
-                "boundary": 24
-              },
-              "writesProvedOnTheOutputBytes": {
-                "canonical": 24,
-                "boundary": 23
-              }
-            }
-          }
-        },
-        {
-          "obligation": "feeAndWaiver",
-          "finding": "The fee is not stated and no waiver route is established. The instructions say so themselves: \"The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.\" The waiver form 600-00228 is in the packet and filled, which is more than nothing, but the packet does not establish that it applies to this filing, and an instruction to ask the clerk is not the fee being stated.",
-          "evidence": {
-            "feeAmountStated": false,
-            "waiverRouteStated": false,
-            "waiverFormIncludedAndFilled": "600-00228",
-            "instructionText": "**The filing fee, and whether it can be waived.** Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.",
-            "openSourceObligations": [
-              "vt_seal_dui-set::filing-fee-and-waiver-route"
-            ],
-            "dispatchedTo": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md",
-            "note": "This is an open source obligation, already dispatched. The repair is to land the sourced fact, not to have a packet lane infer a fee."
-          }
-        },
-        {
-          "obligation": "service",
-          "finding": "Who must be served, and how, is not stated. The instructions say: \"Who must be served, and how. Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.\" The packet correctly refuses to conflate the prosecutor's signature with service, and correctly declines to invent a rule, but neither a recipient nor a method is stated.",
-          "evidence": {
-            "recipientStated": false,
-            "methodStated": false,
-            "openSourceObligations": [
-              "vt_seal_dui-set::service-recipient-and-method"
-            ],
-            "instructionText": "**Who must be served, and how.** Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.",
-            "dispatchedTo": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md",
-            "note": "This is an open source obligation, already dispatched. The repair is to land the sourced fact, not to have a packet lane infer a service rule."
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_dui-set.mjs",

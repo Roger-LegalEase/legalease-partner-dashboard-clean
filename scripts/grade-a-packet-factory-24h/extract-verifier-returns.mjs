@@ -140,10 +140,18 @@ for (const { base, name: d } of sweep) {
       { problems.push(`${d}/${familyId}: claims PASS_COMPLETE_INDEPENDENT with ${unmeasuredObligations.length} unmeasured obligation(s): ${unmeasuredObligations.join(", ")}`); continue; }
     rows.push({
       familyId, verdict, lane: d, isIndependentVerification: isVerification,
-      /* The commit the read was actually made against. A row states its own
-       * base when the lane records one per row; otherwise the document's. This
-       * is what makes "which read is later" answerable from evidence. */
-      verifiedAtBase: r.verifiedAtBase ?? r.baseSha ?? doc.baseSha ?? doc.generatedAtBase ?? null,
+      /*
+       * The commit THIS ROW's read was made against, and only if the row says
+       * so. A document-level base is not inherited: these files are appended
+       * to by successive lanes, so a later team's baseSha lands on top of
+       * older rows it never read. vf11 shows it exactly -- a stale
+       * vt_seal_18_to_21 FAIL carrying the fresh base a different team stamped
+       * on the document when it appended its own rows, which is a stale read
+       * wearing a current timestamp. VT2 saw the same hazard from the writing
+       * side and recorded per-row bases to avoid stamping its commit onto
+       * VF-SRC-A's rows in the files it shared.
+       */
+      verifiedAtBase: r.verifiedAtBase ?? r.baseSha ?? null,
       ...(narrowlyScored ? {
         downgradedFrom: "PASS_COMPLETE_INDEPENDENT",
         downgradedBecause: `the lane scored ${PROOF_OBLIGATIONS.length - unscoredObligations.length} of ${PROOF_OBLIGATIONS.length} proof obligations; the strongest verdict is a claim about all of them`,
@@ -212,6 +220,16 @@ const isAncestorOf = (a, b) => {
 const supersedes = (r, prior) => {
   if (isAncestorOf(prior.verifiedAtBase, r.verifiedAtBase)) return true;
   if (isAncestorOf(r.verifiedAtBase, prior.verifiedAtBase)) return false;
+  /*
+   * A row that states the commit it read at has made a checkable claim about
+   * when it read; one that states nothing has not. Lane number is only a proxy
+   * for recency and this file exists because that proxy inverts. So stated
+   * evidence outranks the proxy, and lane precedence decides only when neither
+   * row says when it read.
+   */
+  const rSays = isCommit(r.verifiedAtBase);
+  const priorSays = isCommit(prior.verifiedAtBase);
+  if (rSays !== priorSays) return rSays;
   return lanePrecedence(r) > lanePrecedence(prior);
 };
 
