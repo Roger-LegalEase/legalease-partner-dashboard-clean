@@ -8,8 +8,8 @@
   "liveFamilyDenominator": 346,
   "completePacketProven": 84,
   "states": {
-    "SOURCE_BLOCKED": 162,
-    "SOURCE_READY": 45,
+    "SOURCE_BLOCKED": 157,
+    "SOURCE_READY": 50,
     "LEGAL_BLOCKED": 13,
     "ASSIGNED_TO_BUILD": 0,
     "BUILD_IN_PROGRESS": 4,
@@ -25,29 +25,23 @@
     "COMPLETE_PACKET_PROVEN": 84,
     "LEGITIMATE_GUIDANCE_ONLY": 0
   },
-  "sourceReady": 45,
-  "sourceBlocked": 162,
-  "assigned": 45,
+  "sourceReady": 50,
+  "sourceBlocked": 157,
+  "assigned": 50,
   "completedSinceLastCheckpoint": 0,
   "newlySourceReady": 0,
   "returnedForRepair": 0,
   "codex": {
     "activeTasks": 0,
     "queuedTasks": 48,
-    "lanesWithWorkAtDispatch": 30,
-    "lanesProvisionedEmpty": 18,
+    "lanesWithWorkAtDispatch": 32,
+    "lanesProvisionedEmpty": 16,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
     {
       "family": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:Request to Correct Criminal Justice Information",
-      "owner": "DISC05",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "ak-mistaken-identity-set",
-      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO",
       "owner": "DISC05",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
@@ -246,7 +240,7 @@
     {
       "family": "de_mandatory_expungement-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
-      "owner": "DISC03",
+      "owner": "DISC05",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -361,18 +355,6 @@
       "family": "ia-dci77-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:DCI-76 Criminal History Record Check Billing Form, official-form:DCI-77 Criminal History Record Check Request Form",
       "owner": "DISC06",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "id_clean_slate_shield-set",
-      "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:ISC-PETITION-TO-SHIELD-67-3004-11",
-      "owner": "SRC02",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "id_isp_expungement-set",
-      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:ISP-BCI-EXPUNGEMENT-APPLICATION",
-      "owner": "DISC04",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -574,12 +556,6 @@
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
-      "family": "ma-expunge-time-set",
-      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:Massachusetts Probation Service Petition to Expunge",
-      "owner": "DISC06",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
       "family": "ma-seal-admin-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:Petition to Seal (Office of the Commissioner of Probation)",
       "owner": "DISC06",
@@ -588,7 +564,7 @@
     {
       "family": "ma-seal-court-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:TC0057",
-      "owner": "SRC03",
+      "owner": "SRC02",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -856,12 +832,6 @@
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
-      "family": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
-      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:Alabama AOC Order of Limited Relief packet",
-      "owner": "DISC01",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
       "family": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:CR-430, official-form:CR-431, official-form:CR-432, official-form:CR-430-INFO, official-form:CR-106",
       "owner": "SRC01",
@@ -894,7 +864,7 @@
     {
       "family": "ri_decriminalized-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:DC-33, official-form:DC-33-AFFIDAVIT, official-form:DC-33-ORDER",
-      "owner": "SRC04",
+      "owner": "SRC03",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {

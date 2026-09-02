@@ -13,13 +13,13 @@
   "matchingIsConservative": "Only an exact content hash or a strong form-number match within the same jurisdiction counts as held. An unresolvable label is recorded as unresolved identity rather than as missing, because absence of a match is not evidence of absence -- and calling a held source missing wastes acquisition while calling a missing source held suppresses it.",
   "acquisitionTasks": 295,
   "counts": {
-    "SOURCE_ALREADY_HELD": 58,
+    "SOURCE_ALREADY_HELD": 63,
     "SOURCE_REVISION_STALE": 0,
-    "SOURCE_IDENTITY_UNRESOLVED": 166,
-    "SOURCE_GENUINELY_MISSING": 71
+    "SOURCE_IDENTITY_UNRESOLVED": 162,
+    "SOURCE_GENUINELY_MISSING": 70
   },
-  "commissionAcquisitionFor": 237,
-  "doNotCommissionAcquisitionFor": 58,
+  "commissionAcquisitionFor": 232,
+  "doNotCommissionAcquisitionFor": 63,
   "rows": [
     {
       "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
@@ -157,22 +157,27 @@
         "AK"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 4,
       "documentSources": [
         {
           "sourceId": "official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file reads \"STATE OF ALASKA / DEPARTMENT OF PUBLIC SAFETY / REQUEST TO SEAL CRIMINAL JUSTICE INFORMATION\"; PART I recites AS 12.62.180 and 13 AAC 68.205.",
+          "heldAs": {
+            "path": "STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-SEAL-REQ-2-04__request-to-seal-criminal-justice-information__REV-2004-02__EN.pdf",
+            "formNumber": "DPS-SEAL-REQ-2-04",
+            "revision": "REV-2004-02",
+            "sha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "This family names no document-shaped source, or names one that cannot be resolved to a corpus identity. Resolve the identity before commissioning anything: absence of a match is not evidence of absence."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "al-diversion-set",
@@ -3310,22 +3315,27 @@
         "ID"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 6,
       "documentSources": [
         {
           "sourceId": "official-form:ISC-PETITION-TO-SHIELD-67-3004-11",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "Full text of the held PDF carries the running footer \"Petition to Shield Records from Public Disclosure I.C. s 67-3004(11) - 01/01/2024\" and recites 67-3004(11)(b). The corpus filename encodes the statute, not the ISC- identifier the family names.",
+          "heldAs": {
+            "path": "STATES/ID/02_PACKET_FORMS/ID__FORM__PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE__petition-to-shield-records-from-public-disclosure-i-c-67-3004-11__REV-2001-01__EN.pdf",
+            "formNumber": "PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE",
+            "revision": "REV-2001-01",
+            "sha256": "91130b9036728677e0b6919222e00f8eae0a9114222a5b9d0ed8b3376140dede"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "id_felony_reduction-set",
@@ -3349,22 +3359,27 @@
         "ID"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 5,
       "documentSources": [
         {
           "sourceId": "official-form:ISP-BCI-EXPUNGEMENT-APPLICATION",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 reads \"Idaho State Police / Bureau of Criminal Identification / Expungement Application\".",
+          "heldAs": {
+            "path": "STATES/ID/05_SOURCE_GATED/ID__SOURCE-GATED__ISP-BCI__idaho-state-police-bureau-of-criminal-identification-expungement-application__REV-UNKNOWN__EN.pdf",
+            "formNumber": "ISP-BCI",
+            "revision": "REV-UNKNOWN",
+            "sha256": "7442267d7799b9b117b20494b919a875974e8086f1317c7bc7532f038c131bcf"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "This family names no document-shaped source, or names one that cannot be resolved to a corpus identity. Resolve the identity before commissioning anything: absence of a match is not evidence of absence."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "id_set_aside_dismissal-set",
@@ -5196,22 +5211,27 @@
         "MA"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 6,
       "documentSources": [
         {
           "sourceId": "official-form:Massachusetts Probation Service Petition to Expunge",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 reads \"PETITION TO EXPUNGE / TO: Commissioner of Probation, One Ashburton Place, Room 405, Boston\" with selectable boxes for Section 100F, Section 100G and Section 100H.",
+          "heldAs": {
+            "path": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf",
+            "formNumber": "MA-PROBATION-SERVICE",
+            "revision": "REV-2018-10-11",
+            "sha256": "5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "This family names no document-shaped source, or names one that cannot be resolved to a corpus identity. Resolve the identity before commissioning anything: absence of a match is not evidence of absence."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "ma-seal-admin-set",
@@ -7730,22 +7750,27 @@
         "AL"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 0,
       "documentSources": [
         {
           "sourceId": "official-form:Alabama AOC Order of Limited Relief packet",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 reads \"State of Alabama / Unified Judicial System / Form C-94A / PETITION FOR ORDER OF LIMITED RELIEF / Rev. 10/2023\".",
+          "heldAs": {
+            "path": "STATES/AL/05_SOURCE_GATED/AL__SOURCE-GATED__C-94A__petition-for-order-of-limited-relief__REV-2023-10__EN.pdf",
+            "formNumber": "C-94A",
+            "revision": "REV-2023-10",
+            "sha256": "e7ebe16d45d9a5619fd36f2834d4696efc4c0e7bf3ef42c44fa684906effc2c2"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "This family names no document-shaped source, or names one that cannot be resolved to a corpus identity. Resolve the identity before commissioning anything: absence of a match is not evidence of absence."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",

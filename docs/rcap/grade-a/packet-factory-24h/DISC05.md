@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `8b5126174414338b0bed1d11d7f6e56b13e3b01b` (or the newer dispatch base)
+**Minimum required ancestor:** `1c24f5350f416beb51af94a3692d598033368788` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC05 \
   --source-obligation 'agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information' \
   --codex-cloud \
-  --minimum-captain-sha 8b5126174414338b0bed1d11d7f6e56b13e3b01b
+  --minimum-captain-sha 1c24f5350f416beb51af94a3692d598033368788
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**21 obligations · 8 families this lane WOULD release if every one of them resolves · hosts: AK, AR, MT**
+**21 obligations · 8 families this lane WOULD release if every one of them resolves · hosts: AK, AR, DE, MT**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -106,7 +106,6 @@ the issuing court or agency that publishes the document
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
 | `agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information` | `official-form:Request to Correct Criminal Justice Information` | AK | `exact-source-identity` | `agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record` | unresolved exact identity or URL | `ACQ` |
-| `ak-mistaken-identity-set::official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO` | `official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO` | AK | `exact-source-identity` | `ak-mistaken-identity-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | `official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | AR | `exact-source-identity` | `ar-act346-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-cs-possession-seal-set::official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION` | `official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION` | AR | `exact-source-identity` | `ar-cs-possession-seal-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-cs-possession-seal-set::official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION` | `official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION` | AR | `exact-source-identity` | `ar-cs-possession-seal-set` | unresolved exact identity or URL | `ACQ` |
@@ -120,6 +119,7 @@ the issuing court or agency that publishes the document
 | `ar-nonconviction-seal-set::official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION` | `official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION` | AR | `exact-source-identity` | `ar-nonconviction-seal-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-veterans-court-set::official-form:ACIC-ORDER-VETERANS-COURT` | `official-form:ACIC-ORDER-VETERANS-COURT` | AR | `exact-source-identity` | `ar-veterans-court-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-veterans-court-set::official-form:ACIC-PETITION-VETERANS-COURT` | `official-form:ACIC-PETITION-VETERANS-COURT` | AR | `exact-source-identity` | `ar-veterans-court-set` | unresolved exact identity or URL | `ACQ` |
+| `de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | `official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | DE | `exact-source-identity` | `de_mandatory_expungement-set` | unresolved exact identity or URL | `ACQ` |
 | `mt_mmrta_completed-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX` | `official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX` | MT | `exact-source-identity` | `mt_mmrta_completed-set` | unresolved exact identity or URL | `ACQ` |
 | `mt_mmrta_completed-set::official-form:MT-FORM-B` | `official-form:MT-FORM-B` | MT | `exact-source-identity` | `mt_mmrta_completed-set` | unresolved exact identity or URL | `ACQ` |
 | `mt_mmrta_completed-set::official-form:MT-OCA-MMRTA` | `official-form:MT-OCA-MMRTA` | MT | `exact-source-identity` | `mt_mmrta_completed-set` | unresolved exact identity or URL | `ACQ` |
@@ -145,7 +145,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source-obligation 'agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information' --codex-cloud --minimum-captain-sha 8b5126174414338b0bed1d11d7f6e56b13e3b01b
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source-obligation 'agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information' --codex-cloud --minimum-captain-sha 1c24f5350f416beb51af94a3692d598033368788
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -154,7 +154,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source
 
 ### Families this lane would release
 
-`agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record`, `ak-mistaken-identity-set`, `ar-cs-possession-seal-set`, `ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-nonconviction-seal-set`, `ar-veterans-court-set`
+`agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record`, `ar-cs-possession-seal-set`, `ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-nonconviction-seal-set`, `ar-veterans-court-set`, `de_mandatory_expungement-set`
 
 
 ### Settle these first
@@ -166,12 +166,12 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source
 | EXPUNGEMENTREMOVALREQUESTFORM.DOCX | MT | 4 |
 | ACIC-UNIFORM-ORDER-TO-SEAL | AR | 2 |
 | Request to Correct Criminal Justice Information | AK | 1 |
-| DPS-REQUEST-TO-SEAL-CRIM-INFO | AK | 1 |
 | ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS | AR | 1 |
 | ACIC-ORDER-TO-SEAL-CS-POSSESSION | AR | 1 |
 | ACIC-ORDER-DRUG-COURT | AR | 1 |
 | ACIC-ORDER-TO-SEAL-NONCONVICTION | AR | 1 |
 | ACIC-ORDER-VETERANS-COURT | AR | 1 |
+| DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION | DE | 1 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 

@@ -45,6 +45,7 @@ const WORKLIST = "data/rcap-grade-a/route-obligation-census-candidate/packet-fam
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const OUT = "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json";
 const ACQUISITION = "OFFICIAL_SOURCE_ACQUISITION_REQUIRED";
+const IDENTITY_FINDINGS = "data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json";
 
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(rootDir, rel), "utf8"));
 const worklist = readJson(WORKLIST);
@@ -52,6 +53,93 @@ const corpus = readJson(CORPUS_INDEX);
 
 const normalise = (value) => String(value ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "");
 const tokens = (value) => String(value ?? "").toLowerCase().split(/[^a-z0-9]+/).filter((t) => t.length > 2);
+
+/*
+ * TIER 3: an identity established by reading the document, not by matching its
+ * name.
+ *
+ * Tiers 1 and 2 are both string tests, and a string test cannot bridge the gap
+ * this corpus actually has. The census names Alaska's form
+ * DPS-REQUEST-TO-SEAL-CRIM-INFO; the library files the same bytes as
+ * DPS-SEAL-REQ-2-04. Kentucky's AOC-RU-009 is printed on page one of a file the
+ * corpus indexes as "AOC-009 / records unit". Indiana names five documents that
+ * are five page ranges of one fifteen-page PDF. Iowa's "Certification of Service
+ * by Mailing or Delivery" is page two of the form it accompanies, not a document
+ * at all. No normalisation reaches any of those, and loosening one until it did
+ * would bind the wrong bytes somewhere else -- which is the failure this file's
+ * header calls the dangerous kind of wrong.
+ *
+ * What reaches them is somebody opening the file and reading what is printed on
+ * it. So a binding established that way is admitted here as its own tier,
+ * carrying its evidence, and it is admitted under three conditions that keep it
+ * as strict as the hash tier:
+ *
+ *   1. the finding says the identity was confirmed from the document's own text,
+ *      not inferred from a filename or a revision date;
+ *   2. it names an exact SHA-256; and
+ *   3. the committed corpus index holds that exact path at that exact hash.
+ *
+ * Condition 3 is what makes this a reading rather than an assertion: a finding
+ * about bytes this repository does not hold binds nothing, however well
+ * evidenced, and drops through to unresolved exactly as before. A finding whose
+ * hash has since moved binds nothing either.
+ *
+ * This is not a per-family allowance. Any finding meeting the three conditions
+ * binds, for any family, and the tier travels on the row so a reader can always
+ * see that this identity came from a person reading a page.
+ */
+const identityFindings = (() => {
+  const abs = path.join(rootDir, IDENTITY_FINDINGS);
+  if (!fs.existsSync(abs)) return new Map();
+  let doc;
+  try { doc = JSON.parse(fs.readFileSync(abs, "utf8")); } catch { return new Map(); }
+  const byLabel = new Map();
+  for (const entry of doc.entries ?? []) {
+    for (const artifact of entry.artifacts ?? []) {
+      const held = artifact.held ?? {};
+      /*
+       * Only a reading of the document itself. The findings file distinguishes
+       * a dozen grades of confidence, and the line is drawn where its own
+       * author drew it: `confirmed_from_document_text`, with or without a page
+       * map, means somebody opened the file and read what is printed on it.
+       *
+       * Everything else stays out, and the near misses are the point of the
+       * line rather than an oversight. `confirmed_from_corpus_title` and
+       * `confirmed_from_corpus_title_and_section_number` are string tests
+       * against the index's own metadata -- a different field from tier 2, not
+       * a different method -- and thirty-seven bindings taken on one would be
+       * the dangerous kind of wrong this file's header names: a source called
+       * held suppresses the acquisition of a real gap.
+       * `confirmed_form_number_later_revision_held` is not an identity question
+       * at all; the corpus holds a LATER edition than the family names, and
+       * binding it silently would ship a different revision. This reconciler
+       * has a SOURCE_REVISION_STALE class for that, and it belongs there.
+       *
+       * Each of those is one document read away from qualifying. That is
+       * bounded, cheap work with a named outcome, which is a better place for
+       * them than an inference nobody can check later.
+       */
+      if (!/^confirmed_from_document_text\b/.test(String(artifact.identityConfidence ?? ""))) continue;
+      if (!held.pathInArchive || !/^[0-9a-f]{64}$/.test(String(held.sha256 ?? ""))) continue;
+      for (const label of artifact.namedInFamiliesAs ?? []) {
+        const key = normalise(label);
+        const prior = byLabel.get(key);
+        /* One label, one identity. Two findings disagreeing about what a label
+         * names is an unresolved identity, not a resolved one, so the label is
+         * poisoned rather than decided by whichever was read first. */
+        if (prior && prior.sha256 !== held.sha256) { byLabel.set(key, null); continue; }
+        if (prior === null) continue;
+        byLabel.set(key, {
+          path: held.pathInArchive,
+          sha256: held.sha256,
+          officialTitle: artifact.officialTitle ?? null,
+          identityEvidence: artifact.identityEvidence ?? null
+        });
+      }
+    }
+  }
+  return byLabel;
+})();
 
 const byHash = new Map(corpus.entries.map((e) => [e.sha256, e]));
 const byFormNumber = new Map();
@@ -88,6 +176,13 @@ function resolveFormLabel(label, jurisdictions) {
     return labelTokens.every((t) => entryTokens.has(t));
   });
   if (matches.length === 1) return { entry: matches[0], tier: "token_subset_same_jurisdiction" };
+  const identified = identityFindings.get(key);
+  if (identified) {
+    /* The corpus index is the arbiter, not the finding: the path must be held
+     * here and must still hash to what the finding recorded. */
+    const entry = corpus.entries.find((e) => e.path === identified.path && e.sha256 === identified.sha256);
+    if (entry) return { entry, tier: "exact_identity_confirmed_from_document_text", identityEvidence: identified.identityEvidence };
+  }
   return null;
 }
 
@@ -138,6 +233,7 @@ for (const family of worklist.packetFamilies) {
       const match = resolveFormLabel(label, jurisdictions);
       documentSources.push({
         sourceId: id, kind: "form_label", resolved: Boolean(match), tier: match?.tier ?? null,
+        ...(match?.identityEvidence ? { identityEvidence: match.identityEvidence } : {}),
         heldAs: match ? { path: match.entry.path, formNumber: match.entry.formNumber, revision: match.entry.revision, sha256: match.entry.sha256 } : null
       });
     }

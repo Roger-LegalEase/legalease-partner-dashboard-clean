@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `8b5126174414338b0bed1d11d7f6e56b13e3b01b` (or the newer dispatch base)
+**Minimum required ancestor:** `1c24f5350f416beb51af94a3692d598033368788` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id SRC03 \
   --source-obligation 'co_municipal_conviction_seal-set::official-form:JDF-684' \
   --codex-cloud \
-  --minimum-captain-sha 8b5126174414338b0bed1d11d7f6e56b13e3b01b
+  --minimum-captain-sha 1c24f5350f416beb51af94a3692d598033368788
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**37 obligations · 18 families this lane WOULD release if every one of them resolves · hosts: CO, DE, MA, MD, MN, MT, NE**
+**37 obligations · 17 families this lane WOULD release if every one of them resolves · hosts: CO, DE, MD, MN, MT, NE, RI**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -112,7 +112,6 @@ the private corpus and the committed inventory, read only — nothing is fetched
 | `de_discretionary_superior_court-set::official-form:CIV_EXP_04_A` | `official-form:CIV_EXP_04_A` | DE | `held-inventory-reconciliation` | `de_discretionary_superior_court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `de_pardon_expungement-set::official-form:CIV_EXP_02_A` | `official-form:CIV_EXP_02_A` | DE | `held-inventory-reconciliation` | `de_pardon_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `de_pardon_expungement-set::official-form:CIV_EXP_08_A` | `official-form:CIV_EXP_08_A` | DE | `held-inventory-reconciliation` | `de_pardon_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `ma-seal-court-set::official-form:TC0057` | `official-form:TC0057` | MA | `held-inventory-reconciliation` | `ma-seal-court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `md_10105_early-set::official-form:CC-DC-CR-072C` | `official-form:CC-DC-CR-072C` | MD | `held-inventory-reconciliation` | `md_10105_early-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `md_10105_favorable-set::official-form:CC-DC-CR-072A` | `official-form:CC-DC-CR-072A` | MD | `held-inventory-reconciliation` | `md_10105_favorable-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `md_10110_conviction-set::official-form:CC-DC-CR-072B` | `official-form:CC-DC-CR-072B` | MD | `held-inventory-reconciliation` | `md_10110_conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
@@ -140,6 +139,7 @@ the private corpus and the committed inventory, read only — nothing is fetched
 | `mt_mmrta_serving-set::source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9` | `source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9` | MT | `held-inventory-reconciliation` | `mt_mmrta_serving-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ne-seal-pardoned-set::official-form:CC-6-12a` | `official-form:CC-6-12a` | NE | `held-inventory-reconciliation` | `ne-seal-pardoned-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ne-seal-pre2017-set::official-form:CC-6-12a` | `official-form:CC-6-12a` | NE | `held-inventory-reconciliation` | `ne-seal-pre2017-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ri_decriminalized-set::official-form:DC-33-AFFIDAVIT` | `official-form:DC-33-AFFIDAVIT` | RI | `held-inventory-reconciliation` | `ri_decriminalized-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 
 Deterministically assert exactly the 37 committed itemIds (failures are recorded per row and do not terminate the loop):
 
@@ -159,7 +159,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-obligation 'co_municipal_conviction_seal-set::official-form:JDF-684' --codex-cloud --minimum-captain-sha 8b5126174414338b0bed1d11d7f6e56b13e3b01b
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-obligation 'co_municipal_conviction_seal-set::official-form:JDF-684' --codex-cloud --minimum-captain-sha 1c24f5350f416beb51af94a3692d598033368788
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -168,7 +168,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-
 
 ### Families this lane would release
 
-`co_municipal_conviction_seal-set`, `co_petition_seal_arrest-set`, `de_discretionary_family_court-set`, `de_discretionary_superior_court-set`, `de_pardon_expungement-set`, `ma-seal-court-set`, `md_10105_early-set`, `md_10105_favorable-set`, `md_10110_conviction-set`, `md_cannabis_petition-set`, `md_pardon_expungement-set`, `mn_petition_15218-set`, `mn_petition_609a02_subd3-set`, `mn_petition_juvenile_as_adult-set`, `mt_deferred_dismissal-set`, `mt_misdemeanor_expungement-set`, `ne-seal-pardoned-set`, `ne-seal-pre2017-set`
+`co_municipal_conviction_seal-set`, `co_petition_seal_arrest-set`, `de_discretionary_family_court-set`, `de_discretionary_superior_court-set`, `de_pardon_expungement-set`, `md_10105_early-set`, `md_10105_favorable-set`, `md_10110_conviction-set`, `md_cannabis_petition-set`, `md_pardon_expungement-set`, `mn_petition_15218-set`, `mn_petition_609a02_subd3-set`, `mn_petition_juvenile_as_adult-set`, `mt_deferred_dismissal-set`, `mt_misdemeanor_expungement-set`, `ne-seal-pardoned-set`, `ne-seal-pre2017-set`
 
 
 ### Settle these first
@@ -178,6 +178,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
 | EXPUNGEMENTREMOVALREQUESTFORM.DOCX | MT | 4 |
+| DC-33 | RI | 4 |
 | CC-DC-089 | MD | 3 |
 | EXP102 | MN | 3 |
 | CIV_EXP_02_A | DE | 2 |
@@ -185,7 +186,6 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-
 | JDF-683 | CO | 1 |
 | JDF-417 | CO | 1 |
 | FORM-281 | DE | 1 |
-| TC0057 | MA | 1 |
 | CC-DC-CR-072C | MD | 1 |
 | CC-DC-CR-072A | MD | 1 |
 

@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `8b5126174414338b0bed1d11d7f6e56b13e3b01b` (or the newer dispatch base)
+**Minimum required ancestor:** `1c24f5350f416beb51af94a3692d598033368788` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id SRC02 \
   --source-obligation 'al-diversion-set::official-form:CR-65' \
   --codex-cloud \
-  --minimum-captain-sha 8b5126174414338b0bed1d11d7f6e56b13e3b01b
+  --minimum-captain-sha 1c24f5350f416beb51af94a3692d598033368788
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**49 obligations · 20 families this lane WOULD release if every one of them resolves · hosts: AL, FL, ID, IN, MO, RI, UT, WV**
+**49 obligations · 20 families this lane WOULD release if every one of them resolves · hosts: AL, FL, IN, MA, MO, RI, UT, WV**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -123,12 +123,12 @@ the private corpus and the committed inventory, read only — nothing is fetched
 | `fl-trafficking-set::official-form:FL-RULE-3.989-ORDER` | `official-form:FL-RULE-3.989-ORDER` | FL | `held-inventory-reconciliation` | `fl-trafficking-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `fl-trafficking-set::official-form:FL-RULE-3.989-PETITION` | `official-form:FL-RULE-3.989-PETITION` | FL | `held-inventory-reconciliation` | `fl-trafficking-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `fl-trafficking-set::official-form:FL-RULE-3.9895-SWORN-STATEMENT` | `official-form:FL-RULE-3.9895-SWORN-STATEMENT` | FL | `held-inventory-reconciliation` | `fl-trafficking-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `id_clean_slate_shield-set::official-form:ISC-PETITION-TO-SHIELD-67-3004-11` | `official-form:ISC-PETITION-TO-SHIELD-67-3004-11` | ID | `held-inventory-reconciliation` | `id_clean_slate_shield-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `in_arrest_no_charges-set::official-form:CCA-GF-0120-3016` | `official-form:CCA-GF-0120-3016` | IN | `held-inventory-reconciliation` | `in_arrest_no_charges-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `in_conviction_d6-set::official-form:CCA-GF-0120-3016` | `official-form:CCA-GF-0120-3016` | IN | `held-inventory-reconciliation` | `in_conviction_d6-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `in_conviction_felony-set::official-form:CCA-GF-0120-3016` | `official-form:CCA-GF-0120-3016` | IN | `held-inventory-reconciliation` | `in_conviction_felony-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `in_conviction_misd-set::official-form:CCA-GF-0120-3016` | `official-form:CCA-GF-0120-3016` | IN | `held-inventory-reconciliation` | `in_conviction_misd-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `in_section1_petition-set::official-form:CCA-GF-0120-3016` | `official-form:CCA-GF-0120-3016` | IN | `held-inventory-reconciliation` | `in_section1_petition-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ma-seal-court-set::official-form:TC0057` | `official-form:TC0057` | MA | `held-inventory-reconciliation` | `ma-seal-court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `mo-575-120-identity-theft-correction-set::official-form:CR310` | `official-form:CR310` | MO | `held-inventory-reconciliation` | `mo-575-120-identity-theft-correction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `mo-610-122-arrest-expungement-set::official-form:CR143` | `official-form:CR143` | MO | `held-inventory-reconciliation` | `mo-610-122-arrest-expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `mo-610-140-arrest-set::official-form:CR370` | `official-form:CR370` | MO | `held-inventory-reconciliation` | `mo-610-140-arrest-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
@@ -171,7 +171,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id SRC02 --source-obligation 'al-diversion-set::official-form:CR-65' --codex-cloud --minimum-captain-sha 8b5126174414338b0bed1d11d7f6e56b13e3b01b
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC02 --source-obligation 'al-diversion-set::official-form:CR-65' --codex-cloud --minimum-captain-sha 1c24f5350f416beb51af94a3692d598033368788
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -180,7 +180,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC02 --source-
 
 ### Families this lane would release
 
-`al-diversion-set`, `al-felony-dwop-set`, `al-felony-nonconviction-90-set`, `al-misd-conviction-set`, `al-misd-dwop-set`, `al-misd-nonconviction-90-set`, `al-pardon-set`, `al-pardoned-felony-set`, `al-trafficking-set`, `fl-trafficking-set`, `id_clean_slate_shield-set`, `rcap-mo-custom-pleading`, `ri_deferred_sentence-set`, `ri_first_offender_felony-set`, `ri_first_offender_misdemeanor-set`, `ri_multiple_misdemeanors-set`, `ut_pet_cannabis-set`, `ut_pet_special_certificate-set`, `wv_acc_treatment_job_readiness-set`, `wv_conv_nonviolent_felony-set`
+`al-diversion-set`, `al-felony-dwop-set`, `al-felony-nonconviction-90-set`, `al-misd-conviction-set`, `al-misd-dwop-set`, `al-misd-nonconviction-90-set`, `al-pardon-set`, `al-pardoned-felony-set`, `al-trafficking-set`, `fl-trafficking-set`, `ma-seal-court-set`, `rcap-mo-custom-pleading`, `ri_deferred_sentence-set`, `ri_first_offender_felony-set`, `ri_first_offender_misdemeanor-set`, `ri_multiple_misdemeanors-set`, `ut_pet_cannabis-set`, `ut_pet_special_certificate-set`, `wv_acc_treatment_job_readiness-set`, `wv_conv_nonviolent_felony-set`
 
 
 ### Settle these first
@@ -197,7 +197,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC02 --source-
 | 1044XX | UT | 2 |
 | SCA-C907 | WV | 2 |
 | ABPP-3 | AL | 1 |
-| ISC-PETITION-TO-SHIELD-67-3004-11 | ID | 1 |
+| TC0057 | MA | 1 |
 | Superior-55 | RI | 1 |
 | 1110GE or 1111GE | UT | 1 |
 

@@ -3,11 +3,11 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "8b5126174414338b0bed1d11d7f6e56b13e3b01b",
+  "minimumCaptainSha": "1c24f5350f416beb51af94a3692d598033368788",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
-    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "8621a819904ec5837b3312829845c01ffc325f5016f9c75a490458a8155ae537",
+    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "c3c1d439ce63ff7104dae33af358f1a9f78d6095be75fd8758041d2e76448eef",
     "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "53f5d176a93a97d0421e045576429d646b08079a1db4468e70c6651280f1c0e0",
     "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json": "fbb02da468ece257271b0004773f8ad86fe8f7698cf1e2314f0611437cb3bbbf",
     "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json": "cf15ce284dde2fbd2ce4525e1a797a9cbced9829a612bbc14ccc0cdf113748ea",
@@ -57,16 +57,16 @@
     "activeFamiliesExcluded": 6,
     "guidanceOnly": 0,
     "remaining": 340,
-    "sourceReady": 45,
-    "sourceBlocked": 162,
+    "sourceReady": 50,
+    "sourceBlocked": 157,
     "legalBlocked": 29,
     "verifyPending": 2,
     "repairRequired": 30,
     "sumsToDenominator": true
   },
   "byState": {
-    "SOURCE_READY": 45,
-    "SOURCE_BLOCKED": 162,
+    "SOURCE_READY": 50,
+    "SOURCE_BLOCKED": 157,
     "COMPLETE_PACKET_PROVEN": 84,
     "FAIL_REPAIR_REQUIRED": 30,
     "VERIFIED_PASS": 6,
@@ -76,9 +76,9 @@
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
-    "SOURCE_IDENTITY_UNRESOLVED": 76,
-    "SOURCE_BOUND_BY_HELD_BYTES": 93,
-    "SOURCE_GENUINELY_MISSING": 68,
+    "SOURCE_IDENTITY_UNRESOLVED": 72,
+    "SOURCE_BOUND_BY_HELD_BYTES": 98,
+    "SOURCE_GENUINELY_MISSING": 67,
     "SOURCE_IDENTITY_NOT_EXACT": 3,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 5,
@@ -153,11 +153,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 16,
-    "sourceReadyFamilies": 45,
-    "familiesPerBuilder": 2.8,
+    "sourceReadyFamilies": 50,
+    "familiesPerBuilder": 3.1,
     "targetPerBuilder": "15 to 25",
-    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 45 do, so a full roster of 16 builders averages 2.8 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 341 source obligations across 191 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 50 do, so a full roster of 16 builders averages 3.1 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 336 source obligations across 186 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -700,18 +700,31 @@
       "sourceIds": [
         "official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO",
+          "path": "STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-SEAL-REQ-2-04__request-to-seal-criminal-justice-information__REV-2004-02__EN.pdf",
+          "sha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO",
+            "path": "STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-SEAL-REQ-2-04__request-to-seal-criminal-justice-information__REV-2004-02__EN.pdf",
+            "sha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 1,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 1,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -727,7 +740,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ak-mistaken-identity-set.mjs",
@@ -9926,18 +9939,31 @@
       "sourceIds": [
         "official-form:ISC-PETITION-TO-SHIELD-67-3004-11"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:ISC-PETITION-TO-SHIELD-67-3004-11",
+          "path": "STATES/ID/02_PACKET_FORMS/ID__FORM__PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE__petition-to-shield-records-from-public-disclosure-i-c-67-3004-11__REV-2001-01__EN.pdf",
+          "sha256": "91130b9036728677e0b6919222e00f8eae0a9114222a5b9d0ed8b3376140dede",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:ISC-PETITION-TO-SHIELD-67-3004-11: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:ISC-PETITION-TO-SHIELD-67-3004-11",
+            "path": "STATES/ID/02_PACKET_FORMS/ID__FORM__PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE__petition-to-shield-records-from-public-disclosure-i-c-67-3004-11__REV-2001-01__EN.pdf",
+            "sha256": "91130b9036728677e0b6919222e00f8eae0a9114222a5b9d0ed8b3376140dede",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 1,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 1,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -9953,7 +9979,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-id_clean_slate_shield-set.mjs",
@@ -10046,18 +10072,31 @@
       "sourceIds": [
         "official-form:ISP-BCI-EXPUNGEMENT-APPLICATION"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:ISP-BCI-EXPUNGEMENT-APPLICATION",
+          "path": "STATES/ID/05_SOURCE_GATED/ID__SOURCE-GATED__ISP-BCI__idaho-state-police-bureau-of-criminal-identification-expungement-application__REV-UNKNOWN__EN.pdf",
+          "sha256": "7442267d7799b9b117b20494b919a875974e8086f1317c7bc7532f038c131bcf",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:ISP-BCI-EXPUNGEMENT-APPLICATION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:ISP-BCI-EXPUNGEMENT-APPLICATION",
+            "path": "STATES/ID/05_SOURCE_GATED/ID__SOURCE-GATED__ISP-BCI__idaho-state-police-bureau-of-criminal-identification-expungement-application__REV-UNKNOWN__EN.pdf",
+            "sha256": "7442267d7799b9b117b20494b919a875974e8086f1317c7bc7532f038c131bcf",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 1,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 1,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -10073,7 +10112,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-id_isp_expungement-set.mjs",
@@ -14126,18 +14165,31 @@
       "sourceIds": [
         "official-form:Massachusetts Probation Service Petition to Expunge"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:Massachusetts Probation Service Petition to Expunge",
+          "path": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf",
+          "sha256": "5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:Massachusetts Probation Service Petition to Expunge: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:Massachusetts Probation Service Petition to Expunge",
+            "path": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf",
+            "sha256": "5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 1,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 1,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -14153,7 +14205,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-expunge-time-set.mjs",
@@ -20755,18 +20807,31 @@
       "sourceIds": [
         "official-form:Alabama AOC Order of Limited Relief packet"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:Alabama AOC Order of Limited Relief packet",
+          "path": "STATES/AL/05_SOURCE_GATED/AL__SOURCE-GATED__C-94A__petition-for-order-of-limited-relief__REV-2023-10__EN.pdf",
+          "sha256": "e7ebe16d45d9a5619fd36f2834d4696efc4c0e7bf3ef42c44fa684906effc2c2",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:Alabama AOC Order of Limited Relief packet: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:Alabama AOC Order of Limited Relief packet",
+            "path": "STATES/AL/05_SOURCE_GATED/AL__SOURCE-GATED__C-94A__petition-for-order-of-limited-relief__REV-2023-10__EN.pdf",
+            "sha256": "e7ebe16d45d9a5619fd36f2834d4696efc4c0e7bf3ef42c44fa684906effc2c2",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 1,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 1,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -20782,7 +20847,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-official-form-treatment:obligation:research-decision-route:AL:al-olr.mjs",
@@ -30536,13 +30601,13 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 8,
-    "familiesAssignedToBuilders": 45,
-    "sourceObligationsAssigned": 341,
-    "actualPromotedAndReleased": 45,
+    "familiesAssignedToBuilders": 50,
+    "sourceObligationsAssigned": 336,
+    "actualPromotedAndReleased": 50,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 162,
+    "prospectiveReleasesAcrossSourceLanes": 157,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false

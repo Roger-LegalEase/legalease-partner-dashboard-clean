@@ -200,7 +200,12 @@ const INPUTS = {
 };
 const IN = Object.fromEntries(Object.entries(INPUTS).map(([k, p]) => [k, read(p)]));
 
-const EXACT_TIERS = new Set(["exact_form_number", "content_hash", "exact_content_hash"]);
+/* An identity established by reading the document is exact in the only sense
+ * this set cares about: the custody row names one path and one SHA-256, and
+ * the binding below still refuses it unless the committed corpus index holds
+ * that path at that hash. The reconciler's tier-3 comment says how it is
+ * established and what it refuses. */
+const EXACT_TIERS = new Set(["exact_form_number", "content_hash", "exact_content_hash", "exact_identity_confirmed_from_document_text"]);
 
 /*
  * SOURCE_READY means a builder can open the bytes, not that the census can name
