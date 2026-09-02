@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "rcap-captain-determination/v1",
+  "determinationId": "DET-FEE-AND-WAIVER-001",
+  "decidedAt": "2026-09-02T00:45:00Z",
+  "decidedBy": "Captain",
+  "subject": "What satisfies the FEE_AND_WAIVER proof obligation",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "This settles how one proof obligation is scored. It promotes no family, opens no route, and overrides no legal decision.",
+
+  "whyThisWasNeeded": {
+    "observation": "Two verification teams scored FEE_AND_WAIVER differently on packets whose fee paragraphs are the same words.",
+    "provenCase": "dc_seal_fugitive-set passed FEE_AND_WAIVER on one lane while dc_innocence_expungement-set and dc_correct_misattributed_arrest-set failed it on another. All three are built by the same District of Columbia host and all three carry the identical sentence: 'Any filing fee or fee-waiver answer. No held source states a fee, that filing is free, or a waiver procedure - ask the Criminal Division clerk's office (202-879-1373) before filing.'",
+    "whyItMatters": "A family's terminal state would then depend on which verifier read it rather than on what the participant receives. This is the same divergence class lane contract L9 was written for, recurring one level down: L9 makes every lane score the same OBLIGATIONS, and this makes them score one obligation by the same STANDARD."
+  },
+
+  "theStandard": {
+    "met": [
+      "the packet states the fee amount, sourced",
+      "the packet states that no fee is charged, sourced",
+      "the packet states that no held source establishes the fee AND names a specific checkable authority the participant can ask - an office, desk or clerk identified well enough to actually reach"
+    ],
+    "notMet": [
+      "the packet says nothing about cost anywhere: no amount, no statement that filing is free, and no office to ask",
+      "the packet gestures at a fee without naming who answers it ('fees may apply', 'check with the court')"
+    ],
+    "theReasoning": "The obligation is that the participant can find out what filing costs, not that the repository knows the figure. Where no held source establishes a fee, naming the office that answers it is a complete deliverable: the participant can act. Demanding a figure the repository does not have would force exactly the invention every other rule in this factory forbids, and would punish the honest refusal it requires. Silence is different in kind - a participant cannot tell from silence whether filing is free, whether a fee exists, or whom to ask, and that is a real gap in the deliverable.",
+    "worksBothWays": "This is not a relaxation. wi_nc_doj_fingerprint_removal-set correctly FAILS under it: its instructions carry no amount, no no-fee statement and no office to ask, and a verifier decoded the form's own subsetted font to confirm nothing on its face answers the question either."
+  },
+
+  "appliesTo": "Every lane scoring FEE_AND_WAIVER, and by the same reasoning SERVICE, where a named checkable authority stands in for a rule no held source establishes. An obligation that genuinely cannot be measured in the lane's environment stays NOT_MEASURABLE_HERE and caps the verdict at PASS; that is unchanged and is a different question from this one.",
+
+  "actionTaken": "The six FEE_AND_WAIVER failures recorded against the fuller re-score are returned to their verifier to re-examine against this standard. The verifier keeps every failure where no checkable authority is named, and only those. Verdicts remain the verifier's; this fixes the yardstick, not the reading.",
+
+  "familiesToReExamine": [
+    "ga-fo-active-pre2026-set",
+    "ga-fo-discharged-pre2026-set",
+    "dc_correct_misattributed_arrest-set",
+    "dc_innocence_expungement-set",
+    "ky_void_seal_controlled_substance-set",
+    "ky_void_seal_marijuana_synthetic_salvia-set"
+  ],
+  "notReExamined": {
+    "wi_nc_doj_fingerprint_removal-set": "fails on true silence; the standard confirms that verdict rather than disturbing it",
+    "ky route-key defects": "the Kentucky pair also fails ROUTE_IDENTITY and FILING_DESTINATION on a route-key mismatch that is a genuine defect independent of the fee question"
+  }
+}
