@@ -52,186 +52,14 @@
   },
   "cohortA": {
     "name": "ONE_DOCUMENT_READ_AWAY",
-    "artifacts": 11,
-    "familiesServed": 6,
+    "artifacts": 0,
+    "familiesServed": 0,
     "whatIsTrueOfThemAll": "The bytes are held in the Master Library, the committed corpus index carries the exact path at the exact SHA-256, and FABLE-C4 established the identity from the corpus's recorded title or form number rather than from the document's own text.",
     "whatIsOwed": "One read per artifact: open the held file, read the identity printed on page one, and record it as confirmed_from_document_text with the sentence it was read from. The reconciler then binds it with no further change — the tier already exists and the hash already matches.",
     "whyItIsNotDoneHere": "Reading a PDF's printed identity requires the Master Library mounted (bash scripts/rcap-corpus/bootstrap-private-corpus.sh). A Captain integrating central state does not hold the corpus, and asserting an identity it has not read would be exactly the inference the tier refuses.",
-    "byConfidence": {
-      "confirmed_from_corpus_title": 9,
-      "confirmed_form_number_later_revision_held": 2
-    },
-    "byCustody": {
-      "MASTER_LIBRARY": 11
-    },
-    "artifactList": [
-      {
-        "artifactId": "AR-ACIC-ORDER-DRUG-COURT-POST",
-        "jurisdiction": "AR",
-        "officialTitle": "Order to Dismiss and Seal Offense in Post-Adjudication Drug Court Proceeding",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT-OFF__order-to-dismiss-and-seal-offense-in-post-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
-        "sha256": "731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2",
-        "servesFamilies": [
-          "ar-drug-court-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-ORDER-DRUG-COURT"
-        ]
-      },
-      {
-        "artifactId": "AR-ACIC-ORDER-DRUG-COURT-PRE",
-        "jurisdiction": "AR",
-        "officialTitle": "Order to Dismiss and Seal Offense in Pre-Adjudication Drug Court Proceeding",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE__order-to-dismiss-and-seal-offense-in-pre-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
-        "sha256": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e",
-        "servesFamilies": [
-          "ar-drug-court-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-ORDER-DRUG-COURT"
-        ]
-      },
-      {
-        "artifactId": "AR-ACIC-ORDER-SEAL-FELONY-1460",
-        "jurisdiction": "AR",
-        "officialTitle": "Order to Seal Felony under Act 1460 of 2013",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460__order-to-seal-felony-under-act-1460-of-2013__REV-2021-08-16__EN.pdf",
-        "sha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
-        "servesFamilies": [
-          "ar-felony-seal-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-UNIFORM-ORDER-TO-SEAL"
-        ]
-      },
-      {
-        "artifactId": "AR-ACIC-ORDER-SEAL-MISDEMEANORS-1460",
-        "jurisdiction": "AR",
-        "officialTitle": "Order to Seal Misdemeanors under Act 1460 of 2013",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
-        "sha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
-        "servesFamilies": [
-          "ar-misdemeanor-seal-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-UNIFORM-ORDER-TO-SEAL"
-        ]
-      },
-      {
-        "artifactId": "AR-ACIC-PETITION-DRUG-COURT-POST",
-        "jurisdiction": "AR",
-        "officialTitle": "Petition to Dismiss and Seal Offense in Post-Adjudication Drug Court Proceeding",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT__petition-to-dismiss-and-seal-offense-in-post-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
-        "sha256": "99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39",
-        "servesFamilies": [
-          "ar-drug-court-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-PETITION-DRUG-COURT"
-        ]
-      },
-      {
-        "artifactId": "AR-ACIC-PETITION-DRUG-COURT-PRE",
-        "jurisdiction": "AR",
-        "officialTitle": "Petition to Dismiss and Seal Offense in Pre-Adjudication Drug Court Proceeding",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O__petition-to-dismiss-and-seal-offense-in-pre-adjudication-drug-court-proceeding__REV-2014-08-25__EN.pdf",
-        "sha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42",
-        "servesFamilies": [
-          "ar-drug-court-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-PETITION-DRUG-COURT"
-        ]
-      },
-      {
-        "artifactId": "AR-ACIC-PETITION-SEAL-FELONY-1460",
-        "jurisdiction": "AR",
-        "officialTitle": "Petition to Seal Felony under Act 1460 of 2013",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
-        "sha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
-        "servesFamilies": [
-          "ar-felony-seal-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-UNIFORM-PETITION-TO-SEAL"
-        ]
-      },
-      {
-        "artifactId": "AZ-AOCCRSA3F",
-        "jurisdiction": "AZ",
-        "officialTitle": "Application for Certificate of Second Chance",
-        "identityConfidence": "confirmed_form_number_later_revision_held",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA3F-103023__application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
-        "sha256": "4e2b06d403e50f5cd6769b1ebc8d41e918c2a8ab9739b72724829023a548a91a",
-        "servesFamilies": [
-          "az_certificate_second_chance-set"
-        ],
-        "namedInFamiliesAs": [
-          "AOCCRSA3F-010122"
-        ]
-      },
-      {
-        "artifactId": "AZ-AOCCRSA4F",
-        "jurisdiction": "AZ",
-        "officialTitle": "Order Regarding Application for Certificate of Second Chance",
-        "identityConfidence": "confirmed_form_number_later_revision_held",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA4F-103023__order-regarding-application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
-        "sha256": "b3aae63fd8ae2fc891fed28ab2c0807d1b3564921912bc3ae67898aecedc635e",
-        "servesFamilies": [
-          "az_certificate_second_chance-set"
-        ],
-        "namedInFamiliesAs": [
-          "AOCCRSA4F-010122"
-        ]
-      },
-      {
-        "artifactId": "FL-FDLE-40-021-EXPUNCTION",
-        "jurisdiction": "FL",
-        "officialTitle": "Application for a Certificate of Eligibility for Expunction (FDLE 40-021)",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-EXPUNCTION__application-for-a-certificate-of-eligibility-for-expunction__REV-2019-10__EN.pdf",
-        "sha256": "b2f5a7ba874be75f2d9f1d045862d9ab4f36f2268240879ec4beed8cdc48d100",
-        "servesFamilies": [
-          "fl-10yr-bridge-set",
-          "fl-expunction-set"
-        ],
-        "namedInFamiliesAs": [
-          "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION"
-        ]
-      },
-      {
-        "artifactId": "FL-FDLE-40-021-SEALING",
-        "jurisdiction": "FL",
-        "officialTitle": "Application for a Certificate of Eligibility for Sealing (FDLE 40-021)",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-SEALING__application-for-a-certificate-of-eligibility-for-sealing__REV-2019-10__EN.pdf",
-        "sha256": "82042a5dff4c80d5805a1b01e7d44e33ac855a02e7c718f0a119790b22684e3d",
-        "servesFamilies": [
-          "fl-10yr-bridge-set"
-        ],
-        "namedInFamiliesAs": [
-          "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION"
-        ]
-      }
-    ]
+    "byConfidence": {},
+    "byCustody": {},
+    "artifactList": []
   },
   "cohortB": {
     "name": "HELD_BUT_OUTSIDE_THE_COMMITTED_INDEX",
@@ -701,6 +529,192 @@
         "namedInFamiliesAs": [
           "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
         ]
+      }
+    ]
+  },
+  "readAndRefused": {
+    "name": "READ_AND_REFUSED",
+    "artifacts": 11,
+    "familiesAffected": 6,
+    "whatIsTrueOfThemAll": "Somebody opened the document and what it said did not establish the identity the family names. These are finished reads, not owed ones.",
+    "whatIsOwed": "A determination, not another read. Each entry's readOutcome names the question: one census label over two held documents, a held document narrower than the label it is asked to serve, or a later revision than the family names.",
+    "artifactList": [
+      {
+        "artifactId": "AR-ACIC-ORDER-DRUG-COURT-POST",
+        "jurisdiction": "AR",
+        "officialTitle": "Order to Dismiss and Seal Offense in Post-Adjudication Drug Court Proceeding",
+        "identityConfidence": "confirmed_from_corpus_title",
+        "custody": "MASTER_LIBRARY",
+        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT-OFF__order-to-dismiss-and-seal-offense-in-post-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+        "sha256": "731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2",
+        "servesFamilies": [
+          "ar-drug-court-set"
+        ],
+        "namedInFamiliesAs": [
+          "ACIC-ORDER-DRUG-COURT"
+        ],
+        "readOutcome": "Read and not upgraded. Page 1 prints \"ORDER TO DISMISS AND SEAL OFFENSE IN POST ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. § 16-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}\" with the page 1 footer \"ACIC Form\" / \"Revised 01/01/2014\". The document is genuinely the post-adjudication order, but the census label ACIC-ORDER-DRUG-COURT does not say pre- or post-adjudication, and the library holds both (AR-ACIC-ORDER-DRUG-COURT-PRE prints the identical caption with PRE-ADJUDICATION). One label, two held documents: which one ar-drug-court-set names - or whether it needs both - is a determination for the census owner, not something page one decides."
+      },
+      {
+        "artifactId": "AR-ACIC-ORDER-DRUG-COURT-PRE",
+        "jurisdiction": "AR",
+        "officialTitle": "Order to Dismiss and Seal Offense in Pre-Adjudication Drug Court Proceeding",
+        "identityConfidence": "confirmed_from_corpus_title",
+        "custody": "MASTER_LIBRARY",
+        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE__order-to-dismiss-and-seal-offense-in-pre-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+        "sha256": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e",
+        "servesFamilies": [
+          "ar-drug-court-set"
+        ],
+        "namedInFamiliesAs": [
+          "ACIC-ORDER-DRUG-COURT"
+        ],
+        "readOutcome": "Read and not upgraded. Page 1 prints \"ORDER TO DISMISS AND SEAL OFFENSE IN PRE-ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. §16-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}\" with the page 1 footer \"ACIC Form\" / \"Revised 01/01/2014\". Same finding as AR-ACIC-ORDER-DRUG-COURT-POST: the label ACIC-ORDER-DRUG-COURT is served by two distinct held ACIC orders and cannot be bound to one of them by reading either."
+      },
+      {
+        "artifactId": "AR-ACIC-ORDER-SEAL-FELONY-1460",
+        "jurisdiction": "AR",
+        "officialTitle": "Order to Seal Felony under Act 1460 of 2013",
+        "identityConfidence": "confirmed_from_corpus_title",
+        "custody": "MASTER_LIBRARY",
+        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460__order-to-seal-felony-under-act-1460-of-2013__REV-2021-08-16__EN.pdf",
+        "sha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
+        "servesFamilies": [
+          "ar-felony-seal-set"
+        ],
+        "namedInFamiliesAs": [
+          "ACIC-UNIFORM-ORDER-TO-SEAL"
+        ],
+        "readOutcome": "Read and not upgraded. Page 1 prints \"ORDER TO SEAL FELONY UNDER ACT 1460 OF 2013; A.C.A.16 - 90 - 1401, Et. Seq.\" with the page 1 footer \"Revised 8/16/2021\". The word \"Uniform\" is not printed anywhere in the document (a full-text pdftotext pass over all three pages finds no occurrence), so the document does not establish itself as the census label ACIC-UNIFORM-ORDER-TO-SEAL. That label is named by two families - ar-felony-seal-set and ar-misdemeanor-seal-set - and two distinct held documents answer to it, this one and AR-ACIC-ORDER-SEAL-MISDEMEANORS-1460. Binding either would attach a felony order to a misdemeanor family or the reverse. Whether ACIC-UNIFORM-ORDER-TO-SEAL is one form or a per-offence-class series is a determination for the census owner."
+      },
+      {
+        "artifactId": "AR-ACIC-ORDER-SEAL-MISDEMEANORS-1460",
+        "jurisdiction": "AR",
+        "officialTitle": "Order to Seal Misdemeanors under Act 1460 of 2013",
+        "identityConfidence": "confirmed_from_corpus_title",
+        "custody": "MASTER_LIBRARY",
+        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
+        "sha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+        "servesFamilies": [
+          "ar-misdemeanor-seal-set"
+        ],
+        "namedInFamiliesAs": [
+          "ACIC-UNIFORM-ORDER-TO-SEAL"
+        ],
+        "readOutcome": "Read and not upgraded. Page 1 prints \"ORDER TO SEAL MISDEMEANORS UNDER ACT 1460 OF 2013; A.C.A.16-90-1401, Et. Seq.\" with the page 1 footer \"ACIC Form\" / \"Revised 08/01/2019\". \"Uniform\" is not printed anywhere in the document. Same finding as AR-ACIC-ORDER-SEAL-FELONY-1460: one census label, two held documents, two families."
+      },
+      {
+        "artifactId": "AR-ACIC-PETITION-DRUG-COURT-POST",
+        "jurisdiction": "AR",
+        "officialTitle": "Petition to Dismiss and Seal Offense in Post-Adjudication Drug Court Proceeding",
+        "identityConfidence": "confirmed_from_corpus_title",
+        "custody": "MASTER_LIBRARY",
+        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT__petition-to-dismiss-and-seal-offense-in-post-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+        "sha256": "99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39",
+        "servesFamilies": [
+          "ar-drug-court-set"
+        ],
+        "namedInFamiliesAs": [
+          "ACIC-PETITION-DRUG-COURT"
+        ],
+        "readOutcome": "Read and not upgraded. Page 1 prints \"PETITION TO DISMISS AND SEAL OFFENSE IN POST ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A . § 16 -98- 303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}\" with the page 1 footer \"ACIC Form\" / \"Revised 01/01/2014\". The census label ACIC-PETITION-DRUG-COURT is served by both this and the pre-adjudication petition; one label, two held documents, and the choice is a determination for the census owner."
+      },
+      {
+        "artifactId": "AR-ACIC-PETITION-DRUG-COURT-PRE",
+        "jurisdiction": "AR",
+        "officialTitle": "Petition to Dismiss and Seal Offense in Pre-Adjudication Drug Court Proceeding",
+        "identityConfidence": "confirmed_from_corpus_title",
+        "custody": "MASTER_LIBRARY",
+        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O__petition-to-dismiss-and-seal-offense-in-pre-adjudication-drug-court-proceeding__REV-2014-08-25__EN.pdf",
+        "sha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42",
+        "servesFamilies": [
+          "ar-drug-court-set"
+        ],
+        "namedInFamiliesAs": [
+          "ACIC-PETITION-DRUG-COURT"
+        ],
+        "readOutcome": "Read and not upgraded. Page 1 prints \"PETITION TO DISMISS AND SEAL OFFENSE IN PRE-ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. §16-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}\" with the page 1 footer \"ACIC Form\" / \"Revised 08/25/2014\". Same finding as AR-ACIC-PETITION-DRUG-COURT-POST."
+      },
+      {
+        "artifactId": "AR-ACIC-PETITION-SEAL-FELONY-1460",
+        "jurisdiction": "AR",
+        "officialTitle": "Petition to Seal Felony under Act 1460 of 2013",
+        "identityConfidence": "confirmed_from_corpus_title",
+        "custody": "MASTER_LIBRARY",
+        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
+        "sha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+        "servesFamilies": [
+          "ar-felony-seal-set"
+        ],
+        "namedInFamiliesAs": [
+          "ACIC-UNIFORM-PETITION-TO-SEAL"
+        ],
+        "readOutcome": "Read and not upgraded. Page 1 prints \"PETITION TO SEAL FELONY UNDER ACT 1460 OF 2013; A.C.A.16 - 90 - 1401, Et. Seq.\" with the page 1 footer \"ACIC Form\" / \"Revised 07/21/2021\" (pages 2-4 print \"Revised 08/16/2021\", so the held file carries two revision dates in its own footers). \"Uniform\" is not printed anywhere in the document. The census label ACIC-UNIFORM-PETITION-TO-SEAL is named by both ar-felony-seal-set and ar-misdemeanor-seal-set, and the reconciler binds a label globally rather than per family, so binding this felony-only petition would hand a felony petition to the misdemeanor family. The library holds no Act 1460 petition to seal misdemeanors at all."
+      },
+      {
+        "artifactId": "AZ-AOCCRSA3F",
+        "jurisdiction": "AZ",
+        "officialTitle": "Application for Certificate of Second Chance",
+        "identityConfidence": "confirmed_form_number_later_revision_held",
+        "custody": "MASTER_LIBRARY",
+        "pathInArchive": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA3F-103023__application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
+        "sha256": "4e2b06d403e50f5cd6769b1ebc8d41e918c2a8ab9739b72724829023a548a91a",
+        "servesFamilies": [
+          "az_certificate_second_chance-set"
+        ],
+        "namedInFamiliesAs": [
+          "AOCCRSA3F-010122"
+        ],
+        "readOutcome": "Read and not upgraded, and this is a revision question rather than an identity question. Page 1 prints \"APPLICATION FOR CERTIFICATE OF SECOND CHANCE\" / \"A.R.S. § 13-905\" over \"COURT OF ARIZONA\", and the page 1 footer prints \"Arizona Supreme Court   Page 1 of 3   AOCCRSA3F-103023\". The form number matches the family label AOCCRSA3F-010122 but the edition does not: the family names the 01/01/22 edition and the corpus holds the 10/30/23 edition. Held edition AOCCRSA3F-103023; edition named by az_certificate_second_chance-set AOCCRSA3F-010122. SOURCE_REVISION_STALE. Which edition the family must ship is a determination for the census owner and counsel, not for this read."
+      },
+      {
+        "artifactId": "AZ-AOCCRSA4F",
+        "jurisdiction": "AZ",
+        "officialTitle": "Order Regarding Application for Certificate of Second Chance",
+        "identityConfidence": "confirmed_form_number_later_revision_held",
+        "custody": "MASTER_LIBRARY",
+        "pathInArchive": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA4F-103023__order-regarding-application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
+        "sha256": "b3aae63fd8ae2fc891fed28ab2c0807d1b3564921912bc3ae67898aecedc635e",
+        "servesFamilies": [
+          "az_certificate_second_chance-set"
+        ],
+        "namedInFamiliesAs": [
+          "AOCCRSA4F-010122"
+        ],
+        "readOutcome": "Read and not upgraded, same class as AZ-AOCCRSA3F. Page 1 prints \"ORDER REGARDING APPLICATION FOR CERTIFICATE OF SECOND CHANCE\" / \"A.R.S. § 13-905\", and the page 1 footer prints \"Arizona Supreme Court   Page 1 of 2   AOCCRSA4F-103023\". Held edition AOCCRSA4F-103023; edition named by az_certificate_second_chance-set AOCCRSA4F-010122. SOURCE_REVISION_STALE."
+      },
+      {
+        "artifactId": "FL-FDLE-40-021-EXPUNCTION",
+        "jurisdiction": "FL",
+        "officialTitle": "Application for a Certificate of Eligibility for Expunction (FDLE 40-021)",
+        "identityConfidence": "confirmed_from_corpus_title",
+        "custody": "MASTER_LIBRARY",
+        "pathInArchive": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-EXPUNCTION__application-for-a-certificate-of-eligibility-for-expunction__REV-2019-10__EN.pdf",
+        "sha256": "b2f5a7ba874be75f2d9f1d045862d9ab4f36f2268240879ec4beed8cdc48d100",
+        "servesFamilies": [
+          "fl-10yr-bridge-set",
+          "fl-expunction-set"
+        ],
+        "namedInFamiliesAs": [
+          "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION"
+        ],
+        "readOutcome": "Read and not upgraded. Page 1 prints \"FLORIDA DEPARTMENT OF LAW ENFORCEMENT\" / \"APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR SEALING (s. 943.059, F.S.) or EXPUNCTION (s. 943.585, F.S.)\", and the page 1 footer prints \"Revised October 2019   Ref. Rule 11C-7.006 and 11C-7.007   FDLE40-021\". The printed identity is one form, FDLE40-021, covering sealing and expunction together; this copy differs from FL-FDLE-40-021-SEALING only in the pre-filled field \"Request Type: Expunge\" (and an embedded document UUID), five bytes apart in length. The census label FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION is named by three families - fl-10yr-bridge-set, fl-expunction-set and fl-sealing-set - so a single global binding to this pre-filled copy would hand an Expunge-marked application to fl-sealing-set. Whether to hold a blank FDLE40-021 or to carry per-request-type variants is a determination for the census owner; page one cannot decide it because both copies print the same identity."
+      },
+      {
+        "artifactId": "FL-FDLE-40-021-SEALING",
+        "jurisdiction": "FL",
+        "officialTitle": "Application for a Certificate of Eligibility for Sealing (FDLE 40-021)",
+        "identityConfidence": "confirmed_from_corpus_title",
+        "custody": "MASTER_LIBRARY",
+        "pathInArchive": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-SEALING__application-for-a-certificate-of-eligibility-for-sealing__REV-2019-10__EN.pdf",
+        "sha256": "82042a5dff4c80d5805a1b01e7d44e33ac855a02e7c718f0a119790b22684e3d",
+        "servesFamilies": [
+          "fl-10yr-bridge-set"
+        ],
+        "namedInFamiliesAs": [
+          "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION"
+        ],
+        "readOutcome": "Read and not upgraded. Page 1 prints the identical form identity to FL-FDLE-40-021-EXPUNCTION - \"APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR SEALING (s. 943.059, F.S.) or EXPUNCTION (s. 943.585, F.S.)\" with the page 1 footer \"Revised October 2019   Ref. Rule 11C-7.006 and 11C-7.007   FDLE40-021\" - and differs only in the pre-filled field \"Request Type: Seal\". Same finding as FL-FDLE-40-021-EXPUNCTION."
       }
     ]
   },

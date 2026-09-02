@@ -6,6 +6,7 @@ const byPath = new Map((idx.entries ?? []).map((e) => [e.path, e]));
 
 const READ = /^confirmed_from_document_text(_|$)/;
 const oneReadAway = new Map();   // artifactId -> record
+const readAndRefused = new Map();
 const outsideIndex = new Map();
 const alreadyBinding = [];
 
@@ -27,6 +28,18 @@ for (const e of d.entries) {
       namedInFamiliesAs: a.namedInFamiliesAs ?? []
     };
     if (READ.test(String(a.identityConfidence ?? ""))) { if (indexed) alreadyBinding.push(id); continue; }
+    /*
+     * An artifact carrying a readOutcome HAS been read; the read refused it.
+     * Keying this cohort off identityConfidence alone left all eleven of
+     * FABLE-A1's refusals sitting under ONE_DOCUMENT_READ_AWAY with the read
+     * already done, which overstates the work remaining and would send a
+     * second lane to repeat it. A1 caught that in its own return.
+     *
+     * A refusal is a finished result, so it leaves the cohort -- and it is not
+     * discarded either: these are the artifacts where reading the document
+     * produced a question rather than a binding, and the question is named.
+     */
+    if (a.readOutcome) { if (!readAndRefused.has(id)) readAndRefused.set(id, { ...rec, readOutcome: a.readOutcome }); continue; }
     if (indexed) { if (!oneReadAway.has(id)) oneReadAway.set(id, rec); }
     else if (h.pathInArchive) { if (!outsideIndex.has(id)) outsideIndex.set(id, rec); }
   }
@@ -72,6 +85,15 @@ const doc = {
     artifactList: [...outsideIndex.values()].sort((a, b) => a.artifactId.localeCompare(b.artifactId))
   },
 
+  readAndRefused: {
+    name: "READ_AND_REFUSED",
+    artifacts: readAndRefused.size,
+    familiesAffected: famCount(readAndRefused),
+    whatIsTrueOfThemAll: "Somebody opened the document and what it said did not establish the identity the family names. These are finished reads, not owed ones.",
+    whatIsOwed: "A determination, not another read. Each entry's readOutcome names the question: one census label over two held documents, a held document narrower than the label it is asked to serve, or a later revision than the family names.",
+    artifactList: [...readAndRefused.values()].sort((a, b) => a.artifactId.localeCompare(b.artifactId))
+  },
+
   whatThisDoesNotEstablish: [
     "No family is promoted, and no family's state changes because this file exists.",
     "An artifact appearing here is not proof the family that names it will build; it is proof that its source is located and what remains to be done about it.",
@@ -85,3 +107,4 @@ fs.writeFileSync("data/rcap-grade-a/fable-packet-factory/SOURCE_ATTACH_COHORT.js
 console.log(`cohort A ${doc.cohortA.artifacts} artifact(s) / ${doc.cohortA.familiesServed} famil(ies) — one read each`);
 console.log(`cohort B ${doc.cohortB.artifacts} artifact(s) / ${doc.cohortB.familiesServed} famil(ies) — index extension`);
 console.log(`already attached: ${alreadyBinding.length}`);
+console.log(`read and refused: ${doc.readAndRefused.artifacts} artifact(s) / ${doc.readAndRefused.familiesAffected} famil(ies) — a determination each`);

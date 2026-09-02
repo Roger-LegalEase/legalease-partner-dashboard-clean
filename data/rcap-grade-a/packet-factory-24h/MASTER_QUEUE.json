@@ -3,11 +3,11 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "5c83cfd869ce04dadd9f6c78449bb266bf1201f8",
+  "minimumCaptainSha": "a5471ad9da4d3a9b3ab92ba98c385edd96d1fcce",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
-    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "cac30a12a7a453ecc3f38bb8e45f8d04e10ff9e38d449415f2d479413239833c",
+    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "08338015a59aa9046193357831725fbdb6e25198610cc8fd85a3005bebcecf83",
     "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "53f5d176a93a97d0421e045576429d646b08079a1db4468e70c6651280f1c0e0",
     "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json": "fbb02da468ece257271b0004773f8ad86fe8f7698cf1e2314f0611437cb3bbbf",
     "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json": "cf15ce284dde2fbd2ce4525e1a797a9cbced9829a612bbc14ccc0cdf113748ea",
@@ -57,16 +57,16 @@
     "activeFamiliesExcluded": 6,
     "guidanceOnly": 0,
     "remaining": 340,
-    "sourceReady": 54,
-    "sourceBlocked": 153,
+    "sourceReady": 57,
+    "sourceBlocked": 150,
     "legalBlocked": 29,
     "verifyPending": 8,
     "repairRequired": 24,
     "sumsToDenominator": true
   },
   "byState": {
-    "SOURCE_READY": 54,
-    "SOURCE_BLOCKED": 153,
+    "SOURCE_READY": 57,
+    "SOURCE_BLOCKED": 150,
     "COMPLETE_PACKET_PROVEN": 84,
     "VERIFY_PENDING": 8,
     "VERIFIED_PASS": 6,
@@ -76,9 +76,9 @@
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
-    "SOURCE_IDENTITY_UNRESOLVED": 68,
-    "SOURCE_BOUND_BY_HELD_BYTES": 102,
-    "SOURCE_GENUINELY_MISSING": 67,
+    "SOURCE_IDENTITY_UNRESOLVED": 66,
+    "SOURCE_BOUND_BY_HELD_BYTES": 105,
+    "SOURCE_GENUINELY_MISSING": 66,
     "SOURCE_IDENTITY_NOT_EXACT": 3,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 5,
@@ -153,11 +153,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 16,
-    "sourceReadyFamilies": 54,
-    "familiesPerBuilder": 3.4,
+    "sourceReadyFamilies": 57,
+    "familiesPerBuilder": 3.6,
     "targetPerBuilder": "15 to 25",
-    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 54 do, so a full roster of 16 builders averages 3.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 311 source obligations across 182 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 57 do, so a full roster of 16 builders averages 3.6 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 287 source obligations across 179 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -1763,19 +1763,44 @@
         "official-form:ACIC-ORDER-SEAL-ACT-531-ACT-1460",
         "official-form:ACIC-PETITION-SEAL-ACT-531-ACT-1460"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:ACIC-ORDER-SEAL-ACT-531-ACT-1460",
+          "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1__order-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+          "sha256": "edd3eb10e5b3830afa417f4165611489a32c1f43d2dde3203855bdbe3b0b19da",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:ACIC-PETITION-SEAL-ACT-531-ACT-1460",
+          "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC__petition-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+          "sha256": "cca9d9454b565d36930a95ac6337d370f6506f8780e9d98cbfc8f99343e0a356",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:ACIC-ORDER-SEAL-ACT-531-ACT-1460: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:ACIC-PETITION-SEAL-ACT-531-ACT-1460: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:ACIC-ORDER-SEAL-ACT-531-ACT-1460",
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1__order-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+            "sha256": "edd3eb10e5b3830afa417f4165611489a32c1f43d2dde3203855bdbe3b0b19da",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:ACIC-PETITION-SEAL-ACT-531-ACT-1460",
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC__petition-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+            "sha256": "cca9d9454b565d36930a95ac6337d370f6506f8780e9d98cbfc8f99343e0a356",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 2,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -1791,7 +1816,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-act531-set.mjs",
@@ -1944,19 +1969,44 @@
         "official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION",
         "official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+          "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI__order-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2014-01-01__EN.pdf",
+          "sha256": "b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+          "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE__petition-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2015-04-01__EN.pdf",
+          "sha256": "015c7246ffd5ad1512d55234708d885db3dd6d5eebb937c049aca8fe4f818029",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI__order-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2014-01-01__EN.pdf",
+            "sha256": "b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE__petition-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2015-04-01__EN.pdf",
+            "sha256": "015c7246ffd5ad1512d55234708d885db3dd6d5eebb937c049aca8fe4f818029",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 2,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -1972,7 +2022,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-cs-possession-seal-set.mjs",
@@ -2353,19 +2403,44 @@
         "official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION",
         "official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION",
+          "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA__order-to-seal-records-of-nolle-prosequi-dismissals-judg__REV-2023-10-25__EN.pdf",
+          "sha256": "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION",
+          "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO__petition-to-seal-records-of-nolle-prosequi-dismissals-j__REV-2020-04-22__EN.pdf",
+          "sha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION",
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA__order-to-seal-records-of-nolle-prosequi-dismissals-judg__REV-2023-10-25__EN.pdf",
+            "sha256": "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION",
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO__petition-to-seal-records-of-nolle-prosequi-dismissals-j__REV-2020-04-22__EN.pdf",
+            "sha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 2,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -2381,7 +2456,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-nonconviction-seal-set.mjs",
@@ -2506,18 +2581,32 @@
         "official-form:ACIC-ORDER-VETERANS-COURT",
         "official-form:ACIC-PETITION-VETERANS-COURT"
       ],
-      "sourceHashes": [],
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:ACIC-PETITION-VETERANS-COURT",
+          "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
+          "sha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
       "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
       "sourceBound": false,
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "official-form:ACIC-ORDER-VETERANS-COURT: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:ACIC-PETITION-VETERANS-COURT: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+          "official-form:ACIC-ORDER-VETERANS-COURT: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
-        "boundSources": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:ACIC-PETITION-VETERANS-COURT",
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
+            "sha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
+        ],
         "namedOfficialForms": 2,
-        "boundCount": 0,
+        "boundCount": 1,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "directAttachment": true
       },
@@ -24520,13 +24609,25 @@
         "official-form:OCA Model Order of Nondisclosure under Section 411.072",
         "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
       ],
-      "sourceHashes": [],
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
+          "path": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.072__instructions-for-petition-for-order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+          "sha256": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.072",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.072__order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+          "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
       "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
       "sourceBound": false,
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
           "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
         "boundSources": [
@@ -24536,10 +24637,17 @@
             "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
             "tier": "exact_statute_section_and_document_kind",
             "resolvedBy": "census_title_section_number_against_committed_index_filename_kind"
+          },
+          {
+            "sourceId": "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
+            "path": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.072__instructions-for-petition-for-order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+            "sha256": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 3,
-        "boundCount": 1,
+        "boundCount": 2,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "directAttachment": true
       },
@@ -24603,7 +24711,20 @@
         "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0735",
         "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
       ],
-      "sourceHashes": [],
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0735",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725-411.073-411.0735__order-of-nondisclosure-under-411-0725-411-073-411-0735__REV-2022-02__EN.pdf",
+          "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0735",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0735__petition-for-order-of-nondisclosure-under-411-0735__REV-2022-02__EN.pdf",
+          "sha256": "da0bd63c66a6ee35a7a0659556a02268f1fd6053ebf7419e912b78fd3fb3dd13",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
       "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
       "sourceBound": false,
       "sourceReadiness": {
@@ -24692,7 +24813,20 @@
         "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0725",
         "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
       ],
-      "sourceHashes": [],
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0725",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725-411.073-411.0735__order-of-nondisclosure-under-411-0725-411-073-411-0735__REV-2022-02__EN.pdf",
+          "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0725",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725__petition-for-order-of-nondisclosure-under-411-0725__REV-2022-02__EN.pdf",
+          "sha256": "2eb2e9699e0803d0fa0766cbb1fad38f088a8d8b15a18b21add93da5e879ae67",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
       "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
       "sourceBound": false,
       "sourceReadiness": {
@@ -24781,7 +24915,14 @@
         "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
         "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
       ],
-      "sourceHashes": [],
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
+          "sha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
       "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
       "sourceBound": false,
       "sourceReadiness": {
@@ -24864,13 +25005,25 @@
         "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0726",
         "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
       ],
-      "sourceHashes": [],
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure (Driving While Intoxicated) under Section 411.0726",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0726-DWI-ORDER__order-of-nondisclosure-under-411-0726-dwi__REV-2022-02__EN.pdf",
+          "sha256": "c2b4c3ecf0033ef5af21ae05eaf79f7be197228150c5d6e752d1d423736d2b06",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0726",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0726__petition-for-order-of-nondisclosure-under-411-0726__REV-2022-02__EN.pdf",
+          "sha256": "0ef70a8afe2521b0173a210b8ac22eee503c6231c0cf71fcd3c6a91af82db27d",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
       "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
       "sourceBound": false,
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "official-form:OCA Model Order of Nondisclosure (Driving While Intoxicated) under Section 411.0726: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
           "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
         "boundSources": [
@@ -24880,10 +25033,17 @@
             "sha256": "0ef70a8afe2521b0173a210b8ac22eee503c6231c0cf71fcd3c6a91af82db27d",
             "tier": "exact_statute_section_and_document_kind",
             "resolvedBy": "census_title_section_number_against_committed_index_filename_kind"
+          },
+          {
+            "sourceId": "official-form:OCA Model Order of Nondisclosure (Driving While Intoxicated) under Section 411.0726",
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0726-DWI-ORDER__order-of-nondisclosure-under-411-0726-dwi__REV-2022-02__EN.pdf",
+            "sha256": "c2b4c3ecf0033ef5af21ae05eaf79f7be197228150c5d6e752d1d423736d2b06",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 3,
-        "boundCount": 1,
+        "boundCount": 2,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "directAttachment": true
       },
@@ -24947,7 +25107,20 @@
         "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0731",
         "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
       ],
-      "sourceHashes": [],
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0731",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0731__order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
+          "sha256": "f085cd5c03edc67671c4aaab3210c76c33325e45fabdd6b818782e87cf413bd4",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0731",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0731__petition-for-order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
+          "sha256": "51f747e27d6f2b64e545991f242964dad77c0c69702278acb2b43565b0da62ee",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
       "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
       "sourceBound": false,
       "sourceReadiness": {
@@ -25036,7 +25209,20 @@
         "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.073",
         "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
       ],
-      "sourceHashes": [],
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.073",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725-411.073-411.0735__order-of-nondisclosure-under-411-0725-411-073-411-0735__REV-2022-02__EN.pdf",
+          "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.073",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.073-411.0732__petition-for-order-of-nondisclosure-under-411-073-411-0732__REV-2022-02__EN.pdf",
+          "sha256": "0f60ff4c10f3f670356907a4d571285e247b796980c674c9bd64737cdd6a068a",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
       "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
       "sourceBound": false,
       "sourceReadiness": {
@@ -25125,7 +25311,20 @@
         "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0727",
         "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
       ],
-      "sourceHashes": [],
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0727",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0727__order-of-nondisclosure-under-411-0727__REV-2022-02__EN.pdf",
+          "sha256": "2c9500206f032b2195a6d99ea04310d520413d8ecdc6978da4ba284c2d01189f",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0727",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0727__petition-for-order-of-nondisclosure-under-411-0727__REV-2022-02__EN.pdf",
+          "sha256": "7c34e5f5aeee2ce9bb7e757f3c2c9aa9899d536c8917f5329f0d4dc28f6bfa9d",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
       "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
       "sourceBound": false,
       "sourceReadiness": {
@@ -25212,7 +25411,20 @@
         "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0729",
         "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
       ],
-      "sourceHashes": [],
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0729",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0729__order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
+          "sha256": "3440721f4f22e37b60539789222518b27f49dcd7a8c4b9d64536181041382ba9",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0729",
+          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0729__petition-for-order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
+          "sha256": "5fbe7c7fe7efb752b2d3bce84298d66305f0384b9e30710ca660107ce6fc6c10",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
       "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
       "sourceBound": false,
       "sourceReadiness": {
@@ -30905,13 +31117,13 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 8,
-    "familiesAssignedToBuilders": 54,
-    "sourceObligationsAssigned": 311,
-    "actualPromotedAndReleased": 54,
+    "familiesAssignedToBuilders": 57,
+    "sourceObligationsAssigned": 287,
+    "actualPromotedAndReleased": 57,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 153,
+    "prospectiveReleasesAcrossSourceLanes": 150,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false
