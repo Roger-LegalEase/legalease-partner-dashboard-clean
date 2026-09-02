@@ -31,6 +31,23 @@ const master = read("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json");
 const returns = read("data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json");
 const raster = read("data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json");
 const counsel = read("data/rcap-ledger/completed-output-counsel-manifest.json");
+/*
+ * Condition seven, decided by reading and recorded where it can be checked.
+ *
+ * Whether a post-approval change was substantive is a reading of diffs against
+ * the decision record's own two lists, so no script can compute it -- but a
+ * script must not therefore ignore it, which would let a family into the cohort
+ * on the strength of an approval that does not reach its current output. The
+ * reading lives in POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json, and a family
+ * with no entry there is NOT covered: silence is a missing reading, never a
+ * pass. That default is what keeps a newly proven family from drifting into a
+ * cohort behind an old approval nobody re-read it against.
+ */
+const postApprovalAudit = (() => {
+  try { return read("data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json"); }
+  catch { return { families: [] }; }
+})();
+const auditVerdict = new Map((postApprovalAudit.families ?? []).map((r) => [r.familyId, r]));
 const bundleIndex = (() => {
   try { return JSON.parse(fs.readFileSync("/tmp/vrb-html/INDEX.json", "utf8")); } catch { return null; }
 })();
@@ -58,6 +75,7 @@ const evaluate = (f) => {
     routeToFamilyBindingExact: (f.routeKeys ?? []).length > 0 && fs.existsSync(path.join(ROOT, f.directory, "product-wiring.json")),
     sourceIdentityComplete: f.sourceBound === true || f.sourceReadiness?.ready === true,
     coveredByAnExistingOwnerApproval: approvedFamilies.has(f.familyId),
+    noSubstantiveLegalChangeSinceThatApproval: auditVerdict.get(f.familyId)?.verdict === "COVERED_BY_EXISTING_APPROVAL",
     noHoldApplies: f.legalInputStatus !== "OPEN_LEGAL_INPUT" && (f.holds ?? []).length === 0 && !f.laneReturnLegalHold
   };
 };
@@ -110,10 +128,12 @@ const doc = {
     "its route-to-family binding is exact and a wiring record exists",
     "its source identity and currentness are complete",
     "its legal design and output are covered by an existing decision-owner approval",
-    "no substantive legal change occurred after that approval",
+    "no substantive legal change occurred after that approval, read against the decision record's own two lists",
     "no repair, source, legal, problematic-PDF or maintenance hold applies"
   ],
-  conditionSevenIsNotDecidedHere: "Whether a post-approval change was substantive is a reading of diffs against the decision record's own two lists (correctionsNotRequiringANewLegalDecision against requiresANewDecisionOwnerDecision), not something this script can compute. Each cohort row records that its packet proof and legal design memo are unchanged since the approval, which is necessary and not sufficient; the reading is carried separately and a row does not become a v2 record until it is returned.",
+  conditionSevenIsReadRatherThanComputed: "Whether a post-approval change was substantive is a reading of diffs against the decision record's own two lists, not something this script can compute. The reading is recorded in data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json and consulted here. A family with no entry there fails the condition: silence is a missing reading, never a pass.",
+  whyAnUnchangedPacketProofIsNotEnough: "All three candidates' packetProofSha256 are unchanged, and that proves less than it appears to. The proofs attest implementation outputs under src/lib/rcap/packets/jurisdictions/ and scripts/verify-rcap-*-custom-pleading.mjs, and none of those paths exists in this checkout — the shipping artifacts come from the census-v1 generator. They are unchanged because nothing touched them. So a v2 record's packetSpecification must be bound to the census-v1 artifact that actually ships, never to the stale proof.",
+  postApprovalAudit: (postApprovalAudit.families ?? []).map((r) => ({ familyId: r.familyId, verdict: r.verdict, mayEnterTheFirstCohort: r.mayEnterTheFirstCohort })),
   counts: {
     completePacketProven: proven.length,
     familiesInsideTheOwnerApproval: approvedFamilies.size,

@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "rcap-post-approval-change-audit/v1",
+  "producedBy": "Captain, from a read-only audit lane's diff reading, with every decisive claim re-measured independently before it was recorded here",
+  "producedOn": "2026-09-02",
+  "question": "For each first-cohort candidate, does any change made after the decision owner's completed-output approval fall in the class that requires a NEW decision, or is it all in the class the existing approval already covers?",
+  "controllingRecord": {
+    "recordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+    "manifest": "data/rcap-ledger/completed-output-counsel-manifest.json",
+    "effectiveDate": "2026-08-19",
+    "decisionOwner": "Roger Roman",
+    "reviewUnit": "packet_family",
+    "requiresSignature": false
+  },
+  "howTheTestWorks": "The decision record carries its own two lists. correctionsNotRequiringANewLegalDecision covers renderer wiring, field mapping, PDF flattening, active-content removal, text fitting, caption correction, a source hash refresh for the same form and revision, visual fixes, storage integration, route-to-family wiring, packet-builder wiring and deterministic fixture corrections. requiresANewDecisionOwnerDecision covers changing the remedy, eligibility logic, a mandatory filing, venue, the required recipient or service party, replacing a mandatory official form with a custom pleading, and adding substantive legal language not already present in the approved design. A change is read against those lists and nothing else.",
+  "whyAnUnchangedPacketProofIsNotEnough": "All three families' packetProofSha256 and legalDesignMemoSha256 are unchanged since the approval, and that is necessary rather than sufficient. The three packet proofs attest implementation outputs under src/lib/rcap/packets/jurisdictions/ and scripts/verify-rcap-*-custom-pleading.mjs, and none of those paths exists in this checkout — the shipping artifacts come from the census-v1 generator instead. The proofs are unchanged because nothing touched them, not because they describe what now ships. So coverage was decided by reading the rendered output against the unchanged legal design memo, not by trusting the proof hash.",
+  "method": "Each family's legal design memo was flattened into a string corpus, every memo fragment of thirty characters or more was removed from the normalised text of the rendered canonical fixture and the participant instructions, and the residue of sixty characters or more was read by hand. A residue of nothing but captions and scaffolding means the packet asserts only what the approved design already contains.",
+  "families": [
+    {
+      "familyId": "rcap-ks-custom-pleading",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "routesServed": 2,
+      "changeGroups": [
+        "the family was composed and rendered for the first time on 2026-09-02; every legal statement in it is verbatim memo text, and the whole-packet residual scan found no substantive residue",
+        "a source-receipt re-pin of the route-obligation census, whose four changed routes are all Montana and none of them read by Kansas — a source hash refresh for the same record and revision",
+        "product-wiring gaining its acceptance receipt and independent verdict — storage integration and route-to-family wiring, carrying no legal text",
+        "the boundary fixture differing from the canonical one only by the synthetic participant identity and its reflow — a deterministic fixture correction"
+      ],
+      "decisiveEvidence": "Destination, venue, fee, fee waiver, service, notice and every stop condition match the memo's tracks[].destination, geography.venue, rules.* and selfHelpStopConditions word for word. The one line that read as new is the memo's own legalDesignDecision.limitations[].statement.",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "routesServed": 11,
+      "changeGroups": [
+        "first composition and render, with a zero-residue scan against the memo",
+        "the same Montana-only census re-pin",
+        "the same product-wiring bookkeeping",
+        "the same deterministic boundary variation"
+      ],
+      "decisiveEvidence": "The fee and service statements are the exact risk class and they are memo text: the no-cost statement under 40-32-106(a)(1), the clerk's fee under 40-32-106(d)(3) and 8-21-401, and 'Through the clerk. The participant does not effect service.' are rules.fees and rules.service verbatim. They surface the approved design rather than adding to it. The five prosecutor-destination routes are correctly not composed as petitions: the packet ships a request to the District Attorney General matching the memo roles, and the build findings say so.",
+      "alsoChecked": "Nine declared components are not rendered as separate pages, and every one of them is outputStrategy process_guidance consolidated onto the filing-instructions page; all eleven custom_pleading instruments the memo names are built.",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "rcap-sc-custom-pleading",
+      "verdict": "NEEDS_NEW_DECISION_OWNER_DECISION",
+      "routesServed": 10,
+      "whichListItIsOn": "replacing a mandatory official form with a custom pleading, and touching the required recipient",
+      "decisiveEvidence": "The approved design defers to a mandatory, exclusive official form and the built packet does not carry it. The SC memo states for every route that the composed package 'is not a substitute for the official order form', that section 17-22-930 makes the solicitor's blank form 'mandatory and to the exclusion of all other expungement forms', and it declares a required component official_form_reference naming SCCA 223A1 GS (Revised 04/2026).",
+      "measuredIndependentlyByCaptain": [
+        "the string 223A1 appears in no file in the family directory and nowhere in the rendered canonical fixture; the only form named in the packet is SCCA 223C, on one route",
+        "the rendered componentSet contains no official_form_reference, no records_checklist and no fee_instrument_schedule component on any route",
+        "eleven of the twelve tracks in the SC memo carry destination.kind prosecutor, and the rendered packet is captioned IN THE ......... COURT"
+      ],
+      "whyTheAmbiguityResolvesAgainstCoverage": "The participant instructions do carry the memo's filing rule and name the solicitor's office, so the packet is not silent about it everywhere. But the phrase 'Filing as recorded:' appears zero times in any of the three PDFs — the composer drops that rule from the rendered packet — so a participant holding only the PDF never learns the mandatory form exists. Attaching the owner's approval to that would extend it past what it says.",
+      "alsoFlagged": [
+        "sc_pti_17_22_150 is named in the manifest family row and in the memo but is not built; the family delivers ten of eleven approved tracks",
+        "build-findings.json asserts that no official form was substituted while its own first finding records sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT and the master queue row reads SOURCE_BOUND_BY_HELD_BYTES with custody SOURCE_GENUINELY_MISSING"
+      ],
+      "mayEnterTheFirstCohort": false,
+      "consequence": "This is not only a cohort-scope question. A mandatory-exclusive official form that the approved design requires and the packet omits is a packet defect, so the family is sent for an independent re-read on COMPONENT_SET, FILING_DESTINATION and ROUTE_IDENTITY rather than left proven."
+    }
+  ],
+  "grantsNothing": "This audit decides which families a pre-existing approval already covers. It creates no approval, opens no route, sets no price, and changes no family state by itself."
+}

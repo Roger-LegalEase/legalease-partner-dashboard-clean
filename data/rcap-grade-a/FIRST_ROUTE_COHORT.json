@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "6475937714113a43e17b607fb1bed1206a25499b",
+  "atCommit": "dce40ef9335287b02690bc84c157c66e21929520",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -12,16 +12,34 @@
     "its route-to-family binding is exact and a wiring record exists",
     "its source identity and currentness are complete",
     "its legal design and output are covered by an existing decision-owner approval",
-    "no substantive legal change occurred after that approval",
+    "no substantive legal change occurred after that approval, read against the decision record's own two lists",
     "no repair, source, legal, problematic-PDF or maintenance hold applies"
   ],
-  "conditionSevenIsNotDecidedHere": "Whether a post-approval change was substantive is a reading of diffs against the decision record's own two lists (correctionsNotRequiringANewLegalDecision against requiresANewDecisionOwnerDecision), not something this script can compute. Each cohort row records that its packet proof and legal design memo are unchanged since the approval, which is necessary and not sufficient; the reading is carried separately and a row does not become a v2 record until it is returned.",
+  "conditionSevenIsReadRatherThanComputed": "Whether a post-approval change was substantive is a reading of diffs against the decision record's own two lists, not something this script can compute. The reading is recorded in data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json and consulted here. A family with no entry there fails the condition: silence is a missing reading, never a pass.",
+  "whyAnUnchangedPacketProofIsNotEnough": "All three candidates' packetProofSha256 are unchanged, and that proves less than it appears to. The proofs attest implementation outputs under src/lib/rcap/packets/jurisdictions/ and scripts/verify-rcap-*-custom-pleading.mjs, and none of those paths exists in this checkout — the shipping artifacts come from the census-v1 generator. They are unchanged because nothing touched them. So a v2 record's packetSpecification must be bound to the census-v1 artifact that actually ships, never to the stale proof.",
+  "postApprovalAudit": [
+    {
+      "familyId": "rcap-ks-custom-pleading",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "rcap-sc-custom-pleading",
+      "verdict": "NEEDS_NEW_DECISION_OWNER_DECISION",
+      "mayEnterTheFirstCohort": false
+    }
+  ],
   "counts": {
     "completePacketProven": 112,
     "familiesInsideTheOwnerApproval": 57,
     "provenAndApproved": 3,
-    "inCohort": 3,
-    "cohortRoutes": 23,
+    "inCohort": 2,
+    "cohortRoutes": 13,
     "provenButOutsideAnyExistingApproval": 109
   },
   "whyTheCohortIsSmall": "The decision owner's completed-output approval covers 57 families, and 112 families are packet-proven, but they are largely different populations: the approval covers the earlier guidance-implementation wave, and the proof covers the later census-v1 packet wave. Only the overlap can enter a first cohort without a new legal decision.",
@@ -53,43 +71,6 @@
         "packetProofSha256Now": "628cb03a621aa4db6967346bd5b73caceb316a7bb7bf777c47345e49a97f1d50",
         "legalDesignMemoSha256Recorded": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1",
         "legalDesignMemoSha256Now": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1"
-      }
-    },
-    {
-      "familyId": "rcap-sc-custom-pleading",
-      "jurisdiction": "SC",
-      "routeKeys": [
-        "obligation:track-only:SC:sc_aep",
-        "obligation:track-only:SC:sc_conditional_discharge_44_53_450",
-        "obligation:track-only:SC:sc_tep",
-        "obligation:track-pathway:SC:sc_17_1_40_general_sessions:general-sessions-non-conviction-expungement",
-        "obligation:track-pathway:SC:sc_17_1_65_handgun:eligible-conviction-expungement",
-        "obligation:track-pathway:SC:sc_22_5_910:eligible-conviction-expungement",
-        "obligation:track-pathway:SC:sc_22_5_920_yoa:eligible-conviction-expungement",
-        "obligation:track-pathway:SC:sc_22_5_930_drug:eligible-conviction-expungement",
-        "obligation:track-pathway:SC:sc_34_11_90e_check:eligible-conviction-expungement",
-        "obligation:track-pathway:SC:sc_56_5_750f:eligible-conviction-expungement"
-      ],
-      "routeCount": 10,
-      "deliveryType": "custom_pleading",
-      "inCohort": true,
-      "independentVerification": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf03",
-        "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00"
-      },
-      "legalApproval": {
-        "legalApprovalResult": "approved_by_decision_owner",
-        "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "legalDecisionOwner": "Roger Roman",
-        "legalDecisionEffectiveDate": "2026-08-19",
-        "requiresSignature": false,
-        "adoptedLegalDesignRecord": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "packetProofPath": "data/record-clearing/production-factory/packet-proofs/rcap-sc-custom-pleading.json",
-        "packetProofSha256Recorded": "acf0a349b2812001d1b12ba9ef60a3838a81792d2dd4c3ecde944463ec8cca24",
-        "packetProofSha256Now": "acf0a349b2812001d1b12ba9ef60a3838a81792d2dd4c3ecde944463ec8cca24",
-        "legalDesignMemoSha256Recorded": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
-        "legalDesignMemoSha256Now": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f"
       }
     },
     {
@@ -134,16 +115,6 @@
   "cohortRouteIds": [
     "obligation:track-only:KS:ks-12-4516-municipal",
     "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
-    "obligation:track-only:SC:sc_aep",
-    "obligation:track-only:SC:sc_conditional_discharge_44_53_450",
-    "obligation:track-only:SC:sc_tep",
-    "obligation:track-pathway:SC:sc_17_1_40_general_sessions:general-sessions-non-conviction-expungement",
-    "obligation:track-pathway:SC:sc_17_1_65_handgun:eligible-conviction-expungement",
-    "obligation:track-pathway:SC:sc_22_5_910:eligible-conviction-expungement",
-    "obligation:track-pathway:SC:sc_22_5_920_yoa:eligible-conviction-expungement",
-    "obligation:track-pathway:SC:sc_22_5_930_drug:eligible-conviction-expungement",
-    "obligation:track-pathway:SC:sc_34_11_90e_check:eligible-conviction-expungement",
-    "obligation:track-pathway:SC:sc_56_5_750f:eligible-conviction-expungement",
     "obligation:track-only:TN:tn_arrest_no_court_record",
     "obligation:track-only:TN:tn_illegal_voting",
     "obligation:track-only:TN:tn_mistaken_identity",
@@ -872,10 +843,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -900,10 +873,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -928,11 +903,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -957,10 +934,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -985,10 +964,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1013,11 +994,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1042,10 +1025,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1070,11 +1055,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1099,10 +1086,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1127,10 +1116,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1156,10 +1147,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1184,10 +1177,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1212,10 +1207,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1240,10 +1237,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1268,10 +1267,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1296,10 +1297,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1324,10 +1327,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1352,10 +1357,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1380,10 +1387,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1408,10 +1417,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1437,10 +1448,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1466,10 +1479,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1494,10 +1509,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1522,10 +1539,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1550,10 +1569,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1579,10 +1600,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1608,10 +1631,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1637,10 +1662,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1665,10 +1692,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1693,10 +1722,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1722,10 +1753,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1750,11 +1783,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1779,11 +1814,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1808,10 +1845,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1836,10 +1875,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1864,10 +1905,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1892,10 +1935,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1920,10 +1965,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1948,11 +1995,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -1977,10 +2026,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2005,11 +2056,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2035,10 +2088,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2063,11 +2118,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2093,11 +2150,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2122,10 +2181,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2150,10 +2211,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2178,10 +2241,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2206,10 +2271,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2235,10 +2302,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2264,10 +2333,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2292,10 +2363,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2320,10 +2393,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2348,10 +2423,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2376,10 +2453,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2404,11 +2483,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2433,11 +2514,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2463,11 +2546,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2492,10 +2577,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2520,11 +2607,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2549,10 +2638,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2580,10 +2671,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2609,10 +2702,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2637,10 +2732,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2665,11 +2762,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2695,10 +2794,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2723,10 +2824,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2751,11 +2854,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2781,10 +2886,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2809,10 +2916,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2837,10 +2946,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2865,10 +2976,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2893,11 +3006,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2922,10 +3037,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2950,11 +3067,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -2979,10 +3098,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3007,10 +3128,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3035,10 +3158,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3063,10 +3188,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3091,10 +3218,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3119,11 +3248,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3148,11 +3279,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3178,10 +3311,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3206,10 +3341,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3235,6 +3372,7 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": true,
+        "noSubstantiveLegalChangeSinceThatApproval": true,
         "noHoldApplies": true
       },
       "unmetConditions": [],
@@ -3282,10 +3420,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": true,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
-      "unmetConditions": [],
-      "inCohort": true,
+      "unmetConditions": [
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf03",
@@ -3330,6 +3471,7 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": true,
+        "noSubstantiveLegalChangeSinceThatApproval": true,
         "noHoldApplies": true
       },
       "unmetConditions": [],
@@ -3369,11 +3511,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3399,11 +3543,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3429,10 +3575,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3457,10 +3605,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3485,10 +3635,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3513,10 +3665,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3541,10 +3695,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3569,11 +3725,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3598,11 +3756,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3627,11 +3787,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3656,11 +3818,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3685,10 +3849,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3714,11 +3880,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3743,10 +3911,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3771,10 +3941,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3799,10 +3971,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3827,10 +4001,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3857,11 +4033,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3886,11 +4064,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3915,10 +4095,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3943,11 +4125,13 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -3972,10 +4156,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -4000,10 +4186,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -4028,10 +4216,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -4057,10 +4247,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
@@ -4085,10 +4277,12 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval"
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
