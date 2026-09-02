@@ -1,0 +1,1925 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "in_section1_petition-set",
+  "routeKeys": [
+    "obligation:track-pathway:IN:in_section1_petition:non-conviction-arrest-or-criminal-charge-expungement",
+    "obligation:track-pathway:IN:in_section1_petition:juvenile-allegation-expungement"
+  ],
+  "renderStrategy": "acroform_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "documents": [
+    {
+      "documentId": "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE",
+      "documentRole": "PETITION_ORDER_AND_ATTACHMENTS",
+      "ownership": "participant_completed",
+      "captionOnly": false,
+      "explicitMappings": {},
+      "printedLabelCorrections": {
+        "PetDLorStateID#": {
+          "printedLabel": "Petitioner's driver license or state identification number",
+          "readFrom": "page 3, printed paragraph 2 at y=268-284: \"Petitioner's date of birth is ______; Petitioner's Social Security Number is XXX-XX-______; and Petitioner's driver license or state identification number is ______\"",
+          "measuredEvidence": "the widget occupies x 478.10-571.80 at y=268.20, the last blank on that line; the SSN-last-four widget sits to its left at x 98.40-169.10 on the same line",
+          "why": "The widget's own name ends in a hash and the shared binder matched participant.state on it, so the canonical fixture would have printed \"XX\" as a driver licence number. The correction names the blank; the role refusal below keeps it empty."
+        },
+        "PetitionerAliases": {
+          "printedLabel": "other names or aliases the Petitioner has used, in the proposed order's findings",
+          "readFrom": "page 9, the proposed order's finding 1: \"Petitioner's full name is ______, and Petitioner has used the following other names or aliases:\" followed by two rules",
+          "measuredEvidence": "the widget occupies x 72.00-570.00 at y=163.30 and is 32.3 points tall, spanning both alias rules",
+          "why": "The widget's name matched the shared binder's full-name descriptor, so the participant's own legal name would have been printed as an alias they have used. Refused by role."
+        },
+        "PetDOB": {
+          "printedLabel": "Petitioner's date of birth, in the proposed order's findings",
+          "readFrom": "page 9, the proposed order's finding 2: \"Petitioner's date of birth is ______; Petitioner's Social Security Number is ______; and Petitioner's driver's license number is ______.\"",
+          "measuredEvidence": "the widget occupies x 210.20-352.00 at y=141.10",
+          "why": "Named so the field map distinguishes the ORDER's finding from the PETITION's own paragraph 2, which carries different widgets on page 3."
+        },
+        "RelatedCriminalCauseNumbers": {
+          "printedLabel": "Related Criminal Cause Numbers, in the proposed order's caption",
+          "readFrom": "page 9, the caption block printed at y=630.2: \"Related Criminal Cause Numbers\" over four rules at y=616.4, 602.6, 588.8 and 575.0",
+          "measuredEvidence": "the widget occupies x 358.40-568.40 at y=569.20 and is 62.3 points tall, spanning all four rules",
+          "why": "Its name matched matter.case_number, so this matter's own cause number would have been printed under a heading asking for the cause numbers of OTHER, related criminal cases."
+        },
+        "AppellateCauseNumbers": {
+          "printedLabel": "appellate cause or case numbers, in the proposed order",
+          "readFrom": "page 12, the proposed order's directive: \"As to court records stored under the following appellate cause/case numbers:\" followed by two rules",
+          "measuredEvidence": "the widget occupies x 30.30-569.70 at y=245.30 and is 37.1 points tall, spanning both rules",
+          "why": "Its name matched matter.case_number, so a trial-court cause number would have been printed as an appellate one. An appellate cause number is a different number issued by a different court, and the platform holds none."
+        },
+        "PetFullSSN": {
+          "printedLabel": "Petitioner's full Social Security Number, on the Confidential Information Form",
+          "readFrom": "page 8, printed line: \"PETITIONER'S FULL SOCIAL SECURITY NUMBER: ______\"",
+          "measuredEvidence": "the widget occupies x 353.20-542.60 at y=591.40, to the right of that printed caption",
+          "why": "Named so the field map says which of the bundle's two Social Security blanks this is: the Confidential Information Form asks for the whole number, the petition's paragraph 2 asks for the last four digits only."
+        },
+        "PetSSN-Last4": {
+          "printedLabel": "last four digits of the Petitioner's Social Security Number, in the petition",
+          "readFrom": "page 3, printed paragraph 2: \"Petitioner's Social Security Number is XXX-XX-______\"",
+          "measuredEvidence": "the widget occupies x 98.40-169.10 at y=268.20, immediately after the printed \"XXX-XX-\"",
+          "why": "Named for the same reason as the Confidential Information Form's blank above."
+        },
+        "Address": {
+          "printedLabel": "Petitioner's current address, on the Appearance",
+          "readFrom": "page 1 of the Appearance by Unrepresented Person: \"2. My current address is:\"",
+          "measuredEvidence": "the widget occupies x 180.00-396.10 at y=430.30 and is 59 points tall — a multi-line box beneath that caption; the Email, Phone and Fax boxes sit below it",
+          "why": "Its harvested caption is \"Email address\", the caption of a line BELOW it, so the field map would have described the wrong blank. The binding is unchanged: the field's own name reaches the participant's street address."
+        },
+        "Fax": {
+          "printedLabel": "fax number, on the Appearance",
+          "readFrom": "page 1 of the Appearance: the printed \"Fax:\" line under \"Phone:\"",
+          "measuredEvidence": "the widget occupies x 180.00-396.10 at y=360.60, the lowest of the three contact boxes",
+          "why": "Named so the row says what it is; its harvested caption is the sentence about the Attorney General confidential address printed below it. The word \"Petitioner\" is deliberately NOT in the corrected label: a first attempt read \"Petitioner's fax number\", the shared binder matched its full-name descriptor on that word, and the participant's name was drawn into the fax box. The name-placement allowlist caught it and failed the build."
+        },
+        "DD-cap-CourtType": {
+          "printedLabel": "the type of court, in the Appearance caption",
+          "readFrom": "page 1 of the Appearance, printed caption: \"IN THE __________________ _________________ COURT\"",
+          "measuredEvidence": "the dropdown occupies x 404.10-509.10 at y=708.00, the second of the two caption blanks",
+          "why": "Named so the row says what it is. It is a dropdown rather than a text field, and the shared binder never writes a non-text widget."
+        }
+      },
+      "partialFills": [],
+      "missingCompanionForms": [
+        {
+          "namedBy": "the bound source's own printed pages",
+          "printedInstruction": "Take out this page and insert your non-conviction Facts pages (from the Non Conviction Insert Forms)",
+          "where": "page 5 of the bundle, inside the Verified Petition, between paragraph 3 and the WHEREFORE clause",
+          "whatIsMissing": "CCA Non Conviction Insert Forms — Facts pages",
+          "consequence": "The petition as delivered has no factual allegations about the arrest, charge or allegation being expunged. It cannot be filed as it stands."
+        },
+        {
+          "namedBy": "the bound source's own printed pages",
+          "printedInstruction": "Take out this page and insert your non-conviction Findings pages (from the Non Conviction Insert Forms)",
+          "where": "page 10 of the bundle, inside the proposed order, after finding 3",
+          "whatIsMissing": "CCA Non Conviction Insert Forms — Findings pages",
+          "consequence": "The proposed order has no findings for the court to adopt."
+        },
+        {
+          "namedBy": "the bound source's own printed pages",
+          "printedInstruction": "Take out this page and insert your non-conviction Exhibit pages (from the Non Conviction Insert Forms)",
+          "where": "page 11 of the bundle, inside the proposed order",
+          "whatIsMissing": "CCA Non Conviction Insert Forms — Exhibit pages",
+          "consequence": "Exhibit A, which the order's own paragraph 1(a) says carries \"all information necessary to identify particular agency records that are to be expunged pursuant to this Order\" as I.C. § 35-38-9-1(g) requires, is absent."
+        }
+      ],
+      "whereTheParticipantGetsThem": {
+        "printedOnEveryPageOfTheBundle": "www.indianalegalhelp.org",
+        "approvedBy": "the Coalition for Court Access",
+        "why": "Every page of this bundle carries that address in its own footer, beside \"Approved by the Coalition for Court Access\", so the participant is sent to the body that publishes the missing insert forms rather than to a search."
+      },
+      "partialFillNote": "A blank this packet fills only partly. Each entry names what the blank asks for, what was written, what was not, and where the participant is told to complete it. Declared here rather than left to be discovered on the paper.",
+      "printedLabelCorrectionNote": "Each entry replaced the harvested caption for one named widget with the printed text this build read at that widget's own measured position, because the widget's name says nothing or says the wrong thing. The harvested value each replaced is kept on the field-census row as harvestedLabel, and the evidence for each correction is in the entry itself.",
+      "roleRefusals": [
+        {
+          "field": "PetDLorStateID#",
+          "class": "government_identifier",
+          "why": "The petitioner's driver licence or state identification number, in the petition's paragraph 2. The shared binder matched participant.state on the widget's name and would have printed \"XX\" as a licence number. The platform holds no licence number."
+        },
+        {
+          "field": "PetitionerAliases",
+          "class": "alias_list_not_held",
+          "why": "The proposed order's finding that the petitioner \"has used the following other names or aliases\". The shared binder would have written the participant's own legal name there, which asserts they have used it as an alias, and the platform holds no alias fact."
+        },
+        {
+          "field": "RelatedCriminalCauseNumbers",
+          "class": "other_matters_not_held",
+          "why": "The RELATED criminal cause numbers in the proposed order's caption — the cause numbers of other cases. The shared binder would have written this matter's own cause number under that heading."
+        },
+        {
+          "field": "AppellateCauseNumbers",
+          "class": "other_matters_not_held",
+          "why": "Appellate cause or case numbers in the proposed order. A different number issued by a different court; the shared binder would have written this matter's trial-court cause number there."
+        },
+        {
+          "field": "County",
+          "class": "court_ordered_agency_directive",
+          "why": "The county sheriff's department named in the proposed order's directive to remove criminal history information. It is the court's own order to an agency, and the shared binder would have written matter.county into it."
+        },
+        {
+          "field": "County1",
+          "class": "certificate_of_service_block",
+          "why": "The prosecutor's county in a certificate of service. Service has not happened, and the shared binder writes matter.county into it."
+        },
+        {
+          "field": "County2",
+          "class": "certificate_of_service_block",
+          "why": "The same, on the e-filing limb of the same certificate."
+        },
+        {
+          "field": "County3",
+          "class": "certificate_of_service_block",
+          "why": "The same, on the petition's certificate of service."
+        },
+        {
+          "field": "County4",
+          "class": "certificate_of_service_block",
+          "why": "The same, on the e-filing limb of the petition's certificate."
+        },
+        {
+          "field": "County5",
+          "class": "certificate_of_service_block",
+          "why": "The same, on Form ACR's certificate of service."
+        },
+        {
+          "field": "County6",
+          "class": "certificate_of_service_block",
+          "why": "The same, on the e-filing limb of Form ACR's certificate."
+        },
+        {
+          "field": "Fax",
+          "class": "fax_number_not_held",
+          "why": "The Appearance's fax line. The platform holds no fax number, and the corrected printed label must avoid the word \"Petitioner\" because the shared binder matches its full-name descriptor on it — a first attempt drew the participant's name into the fax box."
+        },
+        {
+          "field": "PetDOB",
+          "class": "proposed_order_finding",
+          "why": "The date of birth in the PROPOSED ORDER's finding 2. The order below its caption is the court's instrument and this packet writes nothing in it; the shared binder wrote participant.date_of_birth into the court's own finding."
+        },
+        {
+          "field": "CauseNumber1",
+          "class": "related_case_table_cell",
+          "why": "A cause-number cell of the Appearance's RELATED CASES table, which asks for the case numbers of OTHER cases connected to this one. The shared binder writes this matter's own cause number into row 1, so the participant would file an Appearance stating that this case is related to itself."
+        },
+        {
+          "field": "CauseNumber2",
+          "class": "related_case_table_cell",
+          "why": "A cause-number cell of the Appearance's RELATED CASES table, which asks for the case numbers of OTHER cases connected to this one. The shared binder writes this matter's own cause number into row 1, so the participant would file an Appearance stating that this case is related to itself."
+        },
+        {
+          "field": "CauseNumber3",
+          "class": "related_case_table_cell",
+          "why": "A cause-number cell of the Appearance's RELATED CASES table, which asks for the case numbers of OTHER cases connected to this one. The shared binder writes this matter's own cause number into row 1, so the participant would file an Appearance stating that this case is related to itself."
+        },
+        {
+          "field": "CauseNumber4",
+          "class": "related_case_table_cell",
+          "why": "A cause-number cell of the Appearance's RELATED CASES table, which asks for the case numbers of OTHER cases connected to this one. The shared binder writes this matter's own cause number into row 1, so the participant would file an Appearance stating that this case is related to itself."
+        },
+        {
+          "field": "CauseNumber5",
+          "class": "related_case_table_cell",
+          "why": "A cause-number cell of the Appearance's RELATED CASES table, which asks for the case numbers of OTHER cases connected to this one. The shared binder writes this matter's own cause number into row 1, so the participant would file an Appearance stating that this case is related to itself."
+        },
+        {
+          "field": "CauseNumber6",
+          "class": "related_case_table_cell",
+          "why": "A cause-number cell of the Appearance's RELATED CASES table, which asks for the case numbers of OTHER cases connected to this one. The shared binder writes this matter's own cause number into row 1, so the participant would file an Appearance stating that this case is related to itself."
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "cap-COUNTY",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 107.16,
+            "y": 679.92,
+            "width": 108,
+            "height": 13.08
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "COUNTY OF"
+        },
+        {
+          "field": "cap-PetitionerFullName",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 36.43,
+            "y": 597.02,
+            "width": 210.08,
+            "height": 12.51
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
+        },
+        {
+          "field": "Email",
+          "factId": "participant.email",
+          "page": 1,
+          "rect": {
+            "x": 179.04,
+            "y": 403.8,
+            "width": 217.08,
+            "height": 13.08
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Email address"
+        },
+        {
+          "field": "Phone",
+          "factId": "participant.phone",
+          "page": 1,
+          "rect": {
+            "x": 180,
+            "y": 374.4,
+            "width": 216.12,
+            "height": 13.08
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "\u0007\u0006"
+        },
+        {
+          "field": "Address",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 180,
+            "y": 430.25,
+            "width": 216.12,
+            "height": 58.95
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Petitioner's current address, on the Appearance"
+        }
+      ],
+      "refused": [
+        {
+          "field": "Check Box1",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Fax",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box2",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box3",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box4",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "CauseNumber1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "CauseNumber2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "CauseNumber3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "CauseNumber4",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Caption1",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Caption2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Caption3",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Caption4",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Caption5",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Caption6",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "CauseNumber5",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "CauseNumber6",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "AdditionalInformation",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box6",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box7",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "County2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Date1",
+          "reason": "protected_page_region",
+          "category": "service_block",
+          "regionHeading": "CERTIFICATE OF SERVICE"
+        },
+        {
+          "field": "Date5",
+          "reason": "protected_page_region",
+          "category": "service_block",
+          "regionHeading": "CERTIFICATE OF SERVICE"
+        },
+        {
+          "field": "Date2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Date6",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "County1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "County6",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ProsecutorAddress1",
+          "reason": "protected_category",
+          "category": "prosecutor",
+          "regionHeading": null
+        },
+        {
+          "field": "County5",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ProsecutorAddress3",
+          "reason": "protected_category",
+          "category": "prosecutor",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box13",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box14",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "County",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "PetFullSSN",
+          "reason": "protected_category",
+          "category": "government_identifier",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box8",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box31",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Prosecutor",
+          "reason": "protected_category",
+          "category": "prosecutor",
+          "regionHeading": null
+        },
+        {
+          "field": "ProsecutorMailingAddress",
+          "reason": "protected_category",
+          "category": "prosecutor",
+          "regionHeading": null
+        },
+        {
+          "field": "MailAddressSheriff",
+          "reason": "protected_category",
+          "category": "agency",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box32",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "CountyClerkAddress",
+          "reason": "protected_category",
+          "category": "clerk",
+          "regionHeading": null
+        },
+        {
+          "field": "List-MailingAddresses_LEA",
+          "reason": "protected_category",
+          "category": "agency",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box33",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box34",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "RelatedCriminalCauseNumbers",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "PetitionerAliases",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "PetDOB",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "PetSSN-Last4",
+          "reason": "protected_category",
+          "category": "government_identifier",
+          "regionHeading": null
+        },
+        {
+          "field": "LEA1",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "LEA2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "LEA3",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box9",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box10",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "AppellateCauseNumbers",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box11",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Date3",
+          "reason": "protected_page_region",
+          "category": "service_block",
+          "regionHeading": "CERTIFICATE OF SERVICE"
+        },
+        {
+          "field": "County3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ProsecutorAddress2",
+          "reason": "protected_category",
+          "category": "prosecutor",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box12",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Date4",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "County4",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "PetDLorStateID#",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DD-cap-CourtType",
+          "reason": "value_not_among_field_options",
+          "factId": "matter.court"
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "Check Box1",
+          "category": "type_guard"
+        },
+        {
+          "field": "Fax",
+          "category": "role"
+        },
+        {
+          "field": "Check Box2",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box3",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box4",
+          "category": "type_guard"
+        },
+        {
+          "field": "CauseNumber1",
+          "category": "role"
+        },
+        {
+          "field": "CauseNumber2",
+          "category": "role"
+        },
+        {
+          "field": "CauseNumber3",
+          "category": "role"
+        },
+        {
+          "field": "CauseNumber4",
+          "category": "role"
+        },
+        {
+          "field": "CauseNumber5",
+          "category": "role"
+        },
+        {
+          "field": "CauseNumber6",
+          "category": "role"
+        },
+        {
+          "field": "Check Box6",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box7",
+          "category": "type_guard"
+        },
+        {
+          "field": "County2",
+          "category": "role"
+        },
+        {
+          "field": "Date1",
+          "category": "service_block"
+        },
+        {
+          "field": "Date5",
+          "category": "service_block"
+        },
+        {
+          "field": "County1",
+          "category": "role"
+        },
+        {
+          "field": "County6",
+          "category": "role"
+        },
+        {
+          "field": "ProsecutorAddress1",
+          "category": "prosecutor"
+        },
+        {
+          "field": "County5",
+          "category": "role"
+        },
+        {
+          "field": "ProsecutorAddress3",
+          "category": "prosecutor"
+        },
+        {
+          "field": "Check Box13",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box14",
+          "category": "type_guard"
+        },
+        {
+          "field": "County",
+          "category": "role"
+        },
+        {
+          "field": "PetFullSSN",
+          "category": "government_identifier"
+        },
+        {
+          "field": "Check Box8",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box31",
+          "category": "type_guard"
+        },
+        {
+          "field": "Prosecutor",
+          "category": "prosecutor"
+        },
+        {
+          "field": "ProsecutorMailingAddress",
+          "category": "prosecutor"
+        },
+        {
+          "field": "MailAddressSheriff",
+          "category": "agency"
+        },
+        {
+          "field": "Check Box32",
+          "category": "type_guard"
+        },
+        {
+          "field": "CountyClerkAddress",
+          "category": "clerk"
+        },
+        {
+          "field": "List-MailingAddresses_LEA",
+          "category": "agency"
+        },
+        {
+          "field": "Check Box33",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box34",
+          "category": "type_guard"
+        },
+        {
+          "field": "RelatedCriminalCauseNumbers",
+          "category": "role"
+        },
+        {
+          "field": "PetitionerAliases",
+          "category": "role"
+        },
+        {
+          "field": "PetDOB",
+          "category": "role"
+        },
+        {
+          "field": "PetSSN-Last4",
+          "category": "government_identifier"
+        },
+        {
+          "field": "Check Box9",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box10",
+          "category": "type_guard"
+        },
+        {
+          "field": "AppellateCauseNumbers",
+          "category": "role"
+        },
+        {
+          "field": "Check Box11",
+          "category": "type_guard"
+        },
+        {
+          "field": "Date3",
+          "category": "service_block"
+        },
+        {
+          "field": "County3",
+          "category": "role"
+        },
+        {
+          "field": "ProsecutorAddress2",
+          "category": "prosecutor"
+        },
+        {
+          "field": "Check Box12",
+          "category": "type_guard"
+        },
+        {
+          "field": "County4",
+          "category": "role"
+        },
+        {
+          "field": "PetDLorStateID#",
+          "category": "role"
+        }
+      ],
+      "fields": [
+        {
+          "field": "cap-COUNTY",
+          "fieldId": "cap-COUNTY",
+          "effectiveLabel": "COUNTY OF",
+          "harvestedLabel": "COUNTY OF",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.county",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "cap-PetitionerFullName",
+          "fieldId": "cap-PetitionerFullName",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "DD-cap-CourtType",
+          "fieldId": "DD-cap-CourtType",
+          "effectiveLabel": "the type of court, in the Appearance caption",
+          "harvestedLabel": null,
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "dropdown",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The type of court in the Appearance's caption — the second blank in \"IN THE ______ ______ COURT\". The platform holds no court fact for this route, and the blank is a dropdown the shared binder never writes. The participant selects the court the case is filed in.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Email",
+          "fieldId": "Email",
+          "effectiveLabel": "Email address",
+          "harvestedLabel": "Email address",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.email",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Check Box1",
+          "fieldId": "Check Box1",
+          "effectiveLabel": "Phone",
+          "harvestedLabel": "Phone",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The Appearance's \"I will accept service at the above email address\" box. Whether to accept service by email is the participant's own choice.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Phone",
+          "fieldId": "Phone",
+          "effectiveLabel": "\u0007\u0006",
+          "harvestedLabel": "\u0007\u0006",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.phone",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Fax",
+          "fieldId": "Fax",
+          "effectiveLabel": "fax number, on the Appearance",
+          "harvestedLabel": "OR, if in a rel",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "fax_number_not_held",
+          "buildRoleWhy": "The Appearance's fax line. The platform holds no fax number, and the corrected printed label must avoid the word \"Petitioner\" because the shared binder matches its full-name descriptor on it — a first attempt drew the participant's name into the fax box.",
+          "reason": "The petitioner's fax number on the Appearance. The platform holds no fax number. Leave it blank if you have none.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Check Box2",
+          "fieldId": "Check Box2",
+          "effectiveLabel": "the",
+          "harvestedLabel": "the",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The Appearance's \"Attorney General confidential address\" box, available only to a participant who has used that address in a related case. The platform holds nothing about it.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box3",
+          "fieldId": "Check Box3",
+          "effectiveLabel": "Ther",
+          "harvestedLabel": "Ther",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The Appearance's \"There are related cases: Yes\" box. Whether other cases are related to this one is the participant's own statement.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box4",
+          "fieldId": "Check Box4",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The Appearance's \"There are related cases: No\" box, the other half of the same election.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "CauseNumber1",
+          "fieldId": "CauseNumber1",
+          "effectiveLabel": "Case No",
+          "harvestedLabel": "Case No",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "related_case_table_cell",
+          "buildRoleWhy": "A cause-number cell of the Appearance's RELATED CASES table, which asks for the case numbers of OTHER cases connected to this one. The shared binder writes this matter's own cause number into row 1, so the participant would file an Appearance stating that this case is related to itself.",
+          "reason": "One cell of the Appearance's related-cases table, which asks for the caption and case number of OTHER cases related to this one. The platform holds this matter and does not know what else is related to it; the participant lists them if there are any, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "CauseNumber2",
+          "fieldId": "CauseNumber2",
+          "effectiveLabel": "Case No",
+          "harvestedLabel": "Case No",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "related_case_table_cell",
+          "buildRoleWhy": "A cause-number cell of the Appearance's RELATED CASES table, which asks for the case numbers of OTHER cases connected to this one. The shared binder writes this matter's own cause number into row 1, so the participant would file an Appearance stating that this case is related to itself.",
+          "reason": "One cell of the Appearance's related-cases table, which asks for the caption and case number of OTHER cases related to this one. The platform holds this matter and does not know what else is related to it; the participant lists them if there are any, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "CauseNumber3",
+          "fieldId": "CauseNumber3",
+          "effectiveLabel": "Case No",
+          "harvestedLabel": "Case No",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "related_case_table_cell",
+          "buildRoleWhy": "A cause-number cell of the Appearance's RELATED CASES table, which asks for the case numbers of OTHER cases connected to this one. The shared binder writes this matter's own cause number into row 1, so the participant would file an Appearance stating that this case is related to itself.",
+          "reason": "One cell of the Appearance's related-cases table, which asks for the caption and case number of OTHER cases related to this one. The platform holds this matter and does not know what else is related to it; the participant lists them if there are any, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "CauseNumber4",
+          "fieldId": "CauseNumber4",
+          "effectiveLabel": "Case No",
+          "harvestedLabel": "Case No",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "related_case_table_cell",
+          "buildRoleWhy": "A cause-number cell of the Appearance's RELATED CASES table, which asks for the case numbers of OTHER cases connected to this one. The shared binder writes this matter's own cause number into row 1, so the participant would file an Appearance stating that this case is related to itself.",
+          "reason": "One cell of the Appearance's related-cases table, which asks for the caption and case number of OTHER cases related to this one. The platform holds this matter and does not know what else is related to it; the participant lists them if there are any, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "Caption1",
+          "fieldId": "Caption1",
+          "effectiveLabel": "Caption",
+          "harvestedLabel": "Caption",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "One cell of the Appearance's related-cases table, which asks for the caption and case number of OTHER cases related to this one. The platform holds this matter and does not know what else is related to it; the participant lists them if there are any, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "Caption2",
+          "fieldId": "Caption2",
+          "effectiveLabel": "Caption",
+          "harvestedLabel": "Caption",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "One cell of the Appearance's related-cases table, which asks for the caption and case number of OTHER cases related to this one. The platform holds this matter and does not know what else is related to it; the participant lists them if there are any, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "Caption3",
+          "fieldId": "Caption3",
+          "effectiveLabel": "Caption",
+          "harvestedLabel": "Caption",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "One cell of the Appearance's related-cases table, which asks for the caption and case number of OTHER cases related to this one. The platform holds this matter and does not know what else is related to it; the participant lists them if there are any, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "Caption4",
+          "fieldId": "Caption4",
+          "effectiveLabel": "Caption",
+          "harvestedLabel": "Caption",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "One cell of the Appearance's related-cases table, which asks for the caption and case number of OTHER cases related to this one. The platform holds this matter and does not know what else is related to it; the participant lists them if there are any, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "Caption5",
+          "fieldId": "Caption5",
+          "effectiveLabel": "Caption",
+          "harvestedLabel": "Caption",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "One cell of the Appearance's related-cases table, which asks for the caption and case number of OTHER cases related to this one. The platform holds this matter and does not know what else is related to it; the participant lists them if there are any, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "Caption6",
+          "fieldId": "Caption6",
+          "effectiveLabel": "Caption",
+          "harvestedLabel": "Caption",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "One cell of the Appearance's related-cases table, which asks for the caption and case number of OTHER cases related to this one. The platform holds this matter and does not know what else is related to it; the participant lists them if there are any, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "CauseNumber5",
+          "fieldId": "CauseNumber5",
+          "effectiveLabel": "Case No",
+          "harvestedLabel": "Case No",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "related_case_table_cell",
+          "buildRoleWhy": "A cause-number cell of the Appearance's RELATED CASES table, which asks for the case numbers of OTHER cases connected to this one. The shared binder writes this matter's own cause number into row 1, so the participant would file an Appearance stating that this case is related to itself.",
+          "reason": "One cell of the Appearance's related-cases table, which asks for the caption and case number of OTHER cases related to this one. The platform holds this matter and does not know what else is related to it; the participant lists them if there are any, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "CauseNumber6",
+          "fieldId": "CauseNumber6",
+          "effectiveLabel": "Case No",
+          "harvestedLabel": "Case No",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "related_case_table_cell",
+          "buildRoleWhy": "A cause-number cell of the Appearance's RELATED CASES table, which asks for the case numbers of OTHER cases connected to this one. The shared binder writes this matter's own cause number into row 1, so the participant would file an Appearance stating that this case is related to itself.",
+          "reason": "One cell of the Appearance's related-cases table, which asks for the caption and case number of OTHER cases related to this one. The platform holds this matter and does not know what else is related to it; the participant lists them if there are any, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "AdditionalInformation",
+          "fieldId": "AdditionalInformation",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The Appearance's \"Additional information as required by local rule\" box. What a particular Indiana court requires by local rule is not a fact the platform holds, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "Check Box6",
+          "fieldId": "Check Box6",
+          "effectiveLabel": "class",
+          "harvestedLabel": "class",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Check Box7",
+          "fieldId": "Check Box7",
+          "effectiveLabel": "upon t",
+          "harvestedLabel": "upon t",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "County2",
+          "fieldId": "County2",
+          "effectiveLabel": "upon the",
+          "harvestedLabel": "upon the",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "certificate_of_service_block",
+          "buildRoleWhy": "The same, on the e-filing limb of the same certificate.",
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Date1",
+          "fieldId": "Date1",
+          "effectiveLabel": "\u0007\u0006I hereby certify that I sent a copy of this document",
+          "harvestedLabel": "\u0007\u0006I hereby certify that I sent a copy of this document",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Date5",
+          "fieldId": "Date5",
+          "effectiveLabel": "\u0007\u0006I hereby certify that I sent a copy of this document",
+          "harvestedLabel": "\u0007\u0006I hereby certify that I sent a copy of this document",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 7,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Date2",
+          "fieldId": "Date2",
+          "effectiveLabel": "\u0007\u0006I hereby certify that",
+          "harvestedLabel": "\u0007\u0006I hereby certify that",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Date6",
+          "fieldId": "Date6",
+          "effectiveLabel": "\u0007\u0006I hereby certify that",
+          "harvestedLabel": "\u0007\u0006I hereby certify that",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 7,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "County1",
+          "fieldId": "County1",
+          "effectiveLabel": "\u0007\u0006I hereby certify that I sent a copy of this docume",
+          "harvestedLabel": "\u0007\u0006I hereby certify that I sent a copy of this docume",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "certificate_of_service_block",
+          "buildRoleWhy": "The prosecutor's county in a certificate of service. Service has not happened, and the shared binder writes matter.county into it.",
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "County6",
+          "fieldId": "County6",
+          "effectiveLabel": "upon the",
+          "harvestedLabel": "upon the",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 7,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "certificate_of_service_block",
+          "buildRoleWhy": "The same, on the e-filing limb of Form ACR's certificate.",
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "ProsecutorAddress1",
+          "fieldId": "ProsecutorAddress1",
+          "effectiveLabel": "\u0007\u0006I hereby certify that I s",
+          "harvestedLabel": "\u0007\u0006I hereby certify that I s",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "County5",
+          "fieldId": "County5",
+          "effectiveLabel": "\u0007\u0006I hereby certify that I sent a copy of this docume",
+          "harvestedLabel": "\u0007\u0006I hereby certify that I sent a copy of this docume",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 7,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "certificate_of_service_block",
+          "buildRoleWhy": "The same, on Form ACR's certificate of service.",
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "ProsecutorAddress3",
+          "fieldId": "ProsecutorAddress3",
+          "effectiveLabel": "class U.S. mail, postage prepaid",
+          "harvestedLabel": "class U.S. mail, postage prepaid",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 7,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Check Box13",
+          "fieldId": "Check Box13",
+          "effectiveLabel": "class",
+          "harvestedLabel": "class",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 7,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Check Box14",
+          "fieldId": "Check Box14",
+          "effectiveLabel": "upon t",
+          "harvestedLabel": "upon t",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 7,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "County",
+          "fieldId": "County",
+          "effectiveLabel": "b",
+          "harvestedLabel": "b",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 12,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_ordered_agency_directive",
+          "buildRoleWhy": "The county sheriff's department named in the proposed order's directive to remove criminal history information. It is the court's own order to an agency, and the shared binder would have written matter.county into it.",
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "PetFullSSN",
+          "fieldId": "PetFullSSN",
+          "effectiveLabel": "Petitioner's full Social Security Number, on the Confidential Information Form",
+          "harvestedLabel": "PETITIONERS FULL SOCIAL SECURITY NUMBER",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 8,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The petitioner's FULL Social Security Number, on the Confidential Information Form. The platform holds no Social Security Number. This form is filed as a confidential document — the form's own words are \"ATTENTION CLERK: FOR SELF REPRESENTED LITIGANTS TREAT THIS FORM AS IF IT IS PRINTED ON GREEN PAPER. IF THIS DOCUMENT IS E-FILED, FILE THIS AS A CONFIDENTIAL DOCUMENT\" — and the number goes on it and nowhere else.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Check Box8",
+          "fieldId": "Check Box8",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 12,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box31",
+          "fieldId": "Check Box31",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 12,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Address",
+          "fieldId": "Address",
+          "effectiveLabel": "Petitioner's current address, on the Appearance",
+          "harvestedLabel": "Email address",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.street_address",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Prosecutor",
+          "fieldId": "Prosecutor",
+          "effectiveLabel": "Attn",
+          "harvestedLabel": "Attn",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 13,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "ProsecutorMailingAddress",
+          "fieldId": "ProsecutorMailingAddress",
+          "effectiveLabel": "Attn: __________________________________ Attn: Records Divis",
+          "harvestedLabel": "Attn: __________________________________ Attn: Records Divis",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 13,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "MailAddressSheriff",
+          "fieldId": "MailAddressSheriff",
+          "effectiveLabel": "___________________ County Sheriffs Dept. Office of the Ind",
+          "harvestedLabel": "___________________ County Sheriffs Dept. Office of the Ind",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 13,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box32",
+          "fieldId": "Check Box32",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 14,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "CountyClerkAddress",
+          "fieldId": "CountyClerkAddress",
+          "effectiveLabel": "\u0007\u0006______________________ County Clerk",
+          "harvestedLabel": "\u0007\u0006______________________ County Clerk",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 14,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "List-MailingAddresses_LEA",
+          "fieldId": "List-MailingAddresses_LEA",
+          "effectiveLabel": "Law Enforcement Agencies",
+          "harvestedLabel": "Law Enforcement Agencies",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 14,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box33",
+          "fieldId": "Check Box33",
+          "effectiveLabel": "_______________________________________",
+          "harvestedLabel": "_______________________________________",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 14,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box34",
+          "fieldId": "Check Box34",
+          "effectiveLabel": "________________________________________",
+          "harvestedLabel": "________________________________________",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 14,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "RelatedCriminalCauseNumbers",
+          "fieldId": "RelatedCriminalCauseNumbers",
+          "effectiveLabel": "Related Criminal Cause Numbers, in the proposed order's caption",
+          "harvestedLabel": "VERIFIED PETITION FOR EXPUNGEMENT OF AND S",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 9,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "other_matters_not_held",
+          "buildRoleWhy": "The RELATED criminal cause numbers in the proposed order's caption — the cause numbers of other cases. The shared binder would have written this matter's own cause number under that heading.",
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "PetitionerAliases",
+          "fieldId": "PetitionerAliases",
+          "effectiveLabel": "other names or aliases the Petitioner has used, in the proposed order's findings",
+          "harvestedLabel": "1. Petitioners full name is _______________________________",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 9,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "alias_list_not_held",
+          "buildRoleWhy": "The proposed order's finding that the petitioner \"has used the following other names or aliases\". The shared binder would have written the participant's own legal name there, which asserts they have used it as an alias, and the platform holds no alias fact.",
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "PetDOB",
+          "fieldId": "PetDOB",
+          "effectiveLabel": "Petitioner's date of birth, in the proposed order's findings",
+          "harvestedLabel": "Petitioners date of birth is",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 9,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "proposed_order_finding",
+          "buildRoleWhy": "The date of birth in the PROPOSED ORDER's finding 2. The order below its caption is the court's instrument and this packet writes nothing in it; the shared binder wrote participant.date_of_birth into the court's own finding.",
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "PetSSN-Last4",
+          "fieldId": "PetSSN-Last4",
+          "effectiveLabel": "last four digits of the Petitioner's Social Security Number, in the petition",
+          "harvestedLabel": "is XXX-XX-",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The last four digits of the petitioner's Social Security Number, in the petition's paragraph 2. The platform holds no Social Security Number; the participant writes them before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "LEA1",
+          "fieldId": "LEA1",
+          "effectiveLabel": "b",
+          "harvestedLabel": "b",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 12,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "LEA2",
+          "fieldId": "LEA2",
+          "effectiveLabel": "d",
+          "harvestedLabel": "d",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 12,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "LEA3",
+          "fieldId": "LEA3",
+          "effectiveLabel": "d",
+          "harvestedLabel": "d",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 12,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box9",
+          "fieldId": "Check Box9",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 5,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "One of the two election boxes in the petition's WHEREFORE clause, choosing which orders under I.C. § 35-38-9-1(f) the petitioner asks the court to make. Which relief to request is the participant's own request.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box10",
+          "fieldId": "Check Box10",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 5,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The other election box in the same WHEREFORE clause, on the same footing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "AppellateCauseNumbers",
+          "fieldId": "AppellateCauseNumbers",
+          "effectiveLabel": "appellate cause or case numbers, in the proposed order",
+          "harvestedLabel": "\u0007\u0006",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 12,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "other_matters_not_held",
+          "buildRoleWhy": "Appellate cause or case numbers in the proposed order. A different number issued by a different court; the shared binder would have written this matter's trial-court cause number there.",
+          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box11",
+          "fieldId": "Check Box11",
+          "effectiveLabel": "class",
+          "harvestedLabel": "class",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 6,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Date3",
+          "fieldId": "Date3",
+          "effectiveLabel": "\u0007\u0006I hereby certify that I sent a copy of this document",
+          "harvestedLabel": "\u0007\u0006I hereby certify that I sent a copy of this document",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 6,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "County3",
+          "fieldId": "County3",
+          "effectiveLabel": "\u0007\u0006I hereby certify that I sent a copy of this docume",
+          "harvestedLabel": "\u0007\u0006I hereby certify that I sent a copy of this docume",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 6,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "certificate_of_service_block",
+          "buildRoleWhy": "The same, on the petition's certificate of service.",
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "ProsecutorAddress2",
+          "fieldId": "ProsecutorAddress2",
+          "effectiveLabel": "Prosecutor  at the following addr",
+          "harvestedLabel": "Prosecutor  at the following addr",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 6,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Check Box12",
+          "fieldId": "Check Box12",
+          "effectiveLabel": "upon t",
+          "harvestedLabel": "upon t",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 6,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Date4",
+          "fieldId": "Date4",
+          "effectiveLabel": "\u0007\u0006I hereby certify that o",
+          "harvestedLabel": "\u0007\u0006I hereby certify that o",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 6,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "County4",
+          "fieldId": "County4",
+          "effectiveLabel": "upon the",
+          "harvestedLabel": "upon the",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 6,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "certificate_of_service_block",
+          "buildRoleWhy": "The same, on the e-filing limb of the petition's certificate.",
+          "reason": "Part of a certificate of service. The bundle carries four of them — on the Appearance, on the petition and on Form ACR — and each certifies a date, a method and a county prosecutor's address. Service has not happened when this packet is produced, the platform holds no prosecutor's address, and a certificate completed before service certifies a delivery that did not occur.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "PetDLorStateID#",
+          "fieldId": "PetDLorStateID#",
+          "effectiveLabel": "Petitioner's driver license or state identification number",
+          "harvestedLabel": "Petitioners date of birth is ______________________________",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "government_identifier",
+          "buildRoleWhy": "The petitioner's driver licence or state identification number, in the petition's paragraph 2. The shared binder matched participant.state on the widget's name and would have printed \"XX\" as a licence number. The platform holds no licence number.",
+          "reason": "The petitioner's driver licence or state identification number, in the petition's paragraph 2. The platform holds no licence or state-ID number; the participant writes it before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        }
+      ]
+    }
+  ]
+}
