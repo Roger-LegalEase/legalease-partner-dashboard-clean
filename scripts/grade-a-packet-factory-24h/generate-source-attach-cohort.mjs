@@ -49,6 +49,63 @@ const famCount = (m) => new Set([...m.values()].flatMap((r) => r.servesFamilies)
 const byCustody = (m) => { const c = {}; for (const r of m.values()) c[r.custody ?? "(none)"] = (c[r.custody ?? "(none)"] ?? 0) + 1; return c; };
 const byConfidence = (m) => { const c = {}; for (const r of m.values()) c[r.identityConfidence ?? "(none)"] = (c[r.identityConfidence ?? "(none)"] ?? 0) + 1; return c; };
 
+/* ---- the generic source-blocked population, sized against the D packs -------
+ *
+ * A family is generically source-blocked when the queue says SOURCE_BLOCKED and
+ * no classification entry names an actionable class for it. That population is
+ * the one the mission is trying to drive to zero, and until now nobody could
+ * say which of them the newly installed d_source_packs custody can reach.
+ *
+ * This measures it three ways, because the three call for different work:
+ *
+ *   STRING_MATCHED     — the reconciler's own two tiers already bind a named
+ *                        form to a D-pack document. These need nothing but a
+ *                        reconciliation run.
+ *   JURISDICTION_HELD  — the packs carry documents for this family's state, but
+ *                        no named form matches by string. The census labels and
+ *                        the packs' form numbers are simply different names for
+ *                        the same paper, which is exactly what the reconciler's
+ *                        read-identity tier exists to settle: open the document,
+ *                        read page one, record the sentence.
+ *   NOT_IN_THE_PACKS   — the packs carry nothing for this jurisdiction at all.
+ *                        No amount of reading reaches these; they need an
+ *                        acquisition or a composed treatment.
+ *
+ * The counts are recomputed here rather than remembered, so a pack landing or a
+ * family attaching moves them without anyone editing a list.
+ */
+const master = JSON.parse(fs.readFileSync("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json", "utf8"));
+const classifiedFamilies = new Set((d.entries ?? []).map((e) => e.familyId));
+const dPack = (idx.entries ?? []).filter((e) => e.custody === "d_source_packs");
+const dPackByState = new Map();
+for (const e of dPack) { if (!dPackByState.has(e.state)) dPackByState.set(e.state, []); dPackByState.get(e.state).push(e); }
+const normForm = (v) => String(v ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+const formTokens = (v) => String(v ?? "").toLowerCase().split(/[^a-z0-9]+/).filter((t) => t.length > 2);
+const dPackByForm = new Map();
+for (const e of dPack) { const k = normForm(e.formNumber); if (!dPackByForm.has(k)) dPackByForm.set(k, []); dPackByForm.get(k).push(e); }
+
+const genericBlocked = { STRING_MATCHED: [], JURISDICTION_HELD: [], NOT_IN_THE_PACKS: [] };
+for (const f of master.families) {
+  if (f.state !== "SOURCE_BLOCKED" || classifiedFamilies.has(f.familyId)) continue;
+  const named = (f.sourceReadiness?.reasons ?? [])
+    .map((r) => (r.match(/^official-form:(.+?):/) ?? [])[1]).filter(Boolean);
+  const matched = [];
+  for (const label of named) {
+    const exact = dPackByForm.get(normForm(label)) ?? [];
+    if (exact.length === 1) { matched.push({ label, path: exact[0].path, tier: "exact_form_number" }); continue; }
+    const lt = formTokens(label);
+    if (lt.length < 3) continue;
+    const cand = dPack.filter((e) => e.state === f.jurisdiction && e.formNumber
+      && lt.every((t) => new Set(formTokens(e.formNumber)).has(t)));
+    if (cand.length === 1) matched.push({ label, path: cand[0].path, tier: "token_subset_same_jurisdiction" });
+  }
+  const inState = dPackByState.get(f.jurisdiction) ?? [];
+  const row = { familyId: f.familyId, jurisdiction: f.jurisdiction, namedForms: named, dPackDocumentsInJurisdiction: inState.length };
+  if (matched.length) genericBlocked.STRING_MATCHED.push({ ...row, matched });
+  else if (inState.length) genericBlocked.JURISDICTION_HELD.push(row);
+  else genericBlocked.NOT_IN_THE_PACKS.push(row);
+}
+
 const doc = {
   schemaVersion: "rcap-source-attach-cohort/v1",
   generatedBy: "scripts/grade-a-packet-factory-24h/generate-source-attach-cohort.mjs",
@@ -94,6 +151,26 @@ const doc = {
     artifactList: [...readAndRefused.values()].sort((a, b) => a.artifactId.localeCompare(b.artifactId))
   },
 
+  genericSourceBlocked: {
+    whatThisIs: "families the queue calls SOURCE_BLOCKED that carry no actionable classification, measured against what the D source packs actually hold",
+    total: genericBlocked.STRING_MATCHED.length + genericBlocked.JURISDICTION_HELD.length + genericBlocked.NOT_IN_THE_PACKS.length,
+    STRING_MATCHED: {
+      count: genericBlocked.STRING_MATCHED.length,
+      whatIsOwed: "a reconciliation run; the reconciler's own tiers already bind these",
+      families: genericBlocked.STRING_MATCHED
+    },
+    JURISDICTION_HELD: {
+      count: genericBlocked.JURISDICTION_HELD.length,
+      whatIsOwed: "one document read each: the packs hold paper for this jurisdiction under different form numbers than the census uses, and the read-identity tier is what settles that",
+      families: genericBlocked.JURISDICTION_HELD
+    },
+    NOT_IN_THE_PACKS: {
+      count: genericBlocked.NOT_IN_THE_PACKS.length,
+      whatIsOwed: "an acquisition or a composed treatment; no reading reaches a jurisdiction the packs do not carry",
+      families: genericBlocked.NOT_IN_THE_PACKS
+    }
+  },
+
   whatThisDoesNotEstablish: [
     "No family is promoted, and no family's state changes because this file exists.",
     "An artifact appearing here is not proof the family that names it will build; it is proof that its source is located and what remains to be done about it.",
@@ -108,3 +185,4 @@ console.log(`cohort A ${doc.cohortA.artifacts} artifact(s) / ${doc.cohortA.famil
 console.log(`cohort B ${doc.cohortB.artifacts} artifact(s) / ${doc.cohortB.familiesServed} famil(ies) — index extension`);
 console.log(`already attached: ${alreadyBinding.length}`);
 console.log(`read and refused: ${doc.readAndRefused.artifacts} artifact(s) / ${doc.readAndRefused.familiesAffected} famil(ies) — a determination each`);
+console.log(`generic source-blocked: ${doc.genericSourceBlocked.total} — ${doc.genericSourceBlocked.STRING_MATCHED.count} string-matched, ${doc.genericSourceBlocked.JURISDICTION_HELD.count} one read away, ${doc.genericSourceBlocked.NOT_IN_THE_PACKS.count} not in the packs`);
