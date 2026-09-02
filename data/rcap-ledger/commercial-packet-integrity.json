@@ -8,11 +8,11 @@
   "totals": {
     "commercialRoutes": 30,
     "evaluatorPaymentAllowed": 29,
-    "checkoutActuallyOpen": 25,
+    "checkoutActuallyOpen": 24,
     "provenByFulfillmentRecord": 1,
     "sponsorshipCapable": 0,
-    "PACKET_CORRECTION_REQUIRED": 25,
-    "GUIDANCE_OR_HANDOFF_NO_PACKET": 4,
+    "PACKET_CORRECTION_REQUIRED": 24,
+    "GUIDANCE_OR_HANDOFF_NO_PACKET": 5,
     "COMPLETE_PACKET_PROVEN_COMMERCIALLY_HELD": 1
   },
   "departuresFromTheCommercialDenominator": {
@@ -1218,15 +1218,15 @@
       "route": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
       "jurisdiction": "OR",
       "pathway": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
-      "packetFamily": "Oregon Set-Aside Motion under ORS 137.225(1)(c)-(d)",
+      "packetFamily": null,
       "currentResultCode": "packet_ready_with_caution",
       "currentPaymentAuthority": {
         "evaluatorPaymentAllowed": true,
-        "contractPaymentAuthority": "packet_checkout",
-        "checkoutActuallyOpen": true
+        "contractPaymentAuthority": "closed",
+        "checkoutActuallyOpen": false
       },
       "currentSponsorshipAuthority": {
-        "contractSponsorshipAuthority": "open",
+        "contractSponsorshipAuthority": "closed",
         "routeCreditConsumable": false
       },
       "generationEntryPoint": "generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)",
@@ -1249,14 +1249,14 @@
         "OR:LegalEase Oregon/or-setaside-motion.html:daf6ed74eae2690719a769961af9a8790c773db272c6cde7d6956d854fa0d108",
         "OR:LegalEase Oregon/CriminalSetAside_AdultCases2.pdf:6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a"
       ],
-      "renderer": "packet_document_v1",
-      "routeKind": "factory_v2",
+      "renderer": "none",
+      "routeKind": "guidance_only",
       "artifactHash": "257f88b7f4e61d2ba967d19ceb297758eedd679cd7072df5b114a853c1372724",
       "artifactBytes": 1211,
       "privateDelivery": "owner-scoped Briefcase download path; not reached while the route is fail-closed",
       "repeatDownload": "supported by the download path; not reached while the route is fail-closed",
-      "currentClassification": "PACKET_CORRECTION_REQUIRED",
-      "exactRemainingDelta": "Checkout is OPEN. A participant can pay today and receive a 1211-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps."
+      "currentClassification": "GUIDANCE_OR_HANDOFF_NO_PACKET",
+      "exactRemainingDelta": "The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed true. The two disagree; only the resolver's answer is closing it."
     },
     {
       "route": "UT:path-i-traffic-offense-expungement-or-deletion",

@@ -24,6 +24,342 @@ const ok = (name, condition, detail = "") => {
 
 const fs = await import("node:fs");
 const TODAY = new Date("2026-08-28T00:00:00.000Z");
+
+// ---------------------------------------------------------------------------
+// --mutations: the availability battery.
+//
+// The availability layer on resolvePacketRoute derives one word per route, and
+// each rule below is proved to BITE by staging a deliberately altered copy of
+// the exact input it reads — the Grade-A registry and observation snapshot, the
+// route-holds ledger, the release-readiness deployment block, the
+// problematic-PDF register, the consumer-delivery route state — resolving, and
+// requiring the word to move exactly as the rule says. Every staged file is
+// restored and every process cache dropped afterward; tracked content is left
+// byte-identical.
+//
+// The closed-legal-contract rule (LEGAL_HOLD) and the handoff rule cannot be
+// staged this way — route contracts are compiled imports — so they are proved
+// against real routes in the base run below instead.
+// ---------------------------------------------------------------------------
+const MUTATIONS = process.argv.includes("--mutations");
+if (MUTATIONS) {
+  const crypto = await import("node:crypto");
+  const sha256 = (value) => crypto.createHash("sha256").update(value).digest("hex");
+  const {
+    resolvePacketRoute,
+    resetRouteAvailabilityCachesForTest
+  } = await import("@/lib/rcap/documents/packet-route-resolver");
+  const {
+    fulfillmentRecordSha256,
+    resetFulfillmentRegistryCache
+  } = await import("@/lib/rcap/fulfillment/grade-a-registry");
+  const { resetObservationCache } = await import("@/lib/rcap/fulfillment/grade-a-admission");
+
+  const V1 = "rcap-grade-a-fulfillment-authority/v1";
+  const V2 = "rcap-grade-a-fulfillment-authority/v2";
+  const REGISTRY = "data/rcap-grade-a/fulfillment-authority-registry.json";
+  const OBSERVATION = "data/rcap-grade-a/fulfillment-observation-snapshot.json";
+  const HOLDS = "data/rcap-grade-a/maintenance/route-holds.json";
+  const READINESS = "data/rcap-codex/release-readiness.json";
+  const PDF_REGISTER = "data/rcap-all50/problematic-pdf-register.json";
+  const DELIVERY_ENV = "RCAP_CONSUMER_DELIVERY_ROUTE_STATE";
+
+  // Two real factory_v2 routes with open payment authority and no standing
+  // holds: one whose packet names official forms (PACKET_READY flavour) and one
+  // whose registered specification is a custom pleading (CUSTOM_PLEADING_READY).
+  const ROUTES = {
+    official: {
+      jurisdiction: "AK",
+      pathwayId: "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+      trackId: "ak-mistaken-identity",
+      family: "rcap-ak-official-pdf"
+    },
+    pleading: {
+      jurisdiction: "ND",
+      pathwayId: "first-offense-possession-sealing",
+      trackId: "nd-first-offense-possession",
+      family: "rcap-nd-custom-pleading"
+    }
+  };
+
+  const covered = (basis) => ({ state: "covered", basis });
+  const completenessProof = () => ({
+    specificationId: "synthetic-spec",
+    specificationVersion: "1.0.0",
+    specificationSha256: sha256("spec"),
+    filingApplication: covered("documents[0]"),
+    proposedOrder: covered("documents[1]"),
+    attachmentsAndSchedules: covered("attachments"),
+    serviceAndNotice: covered("serviceAndNotice"),
+    filingDestination: covered("filingDestination"),
+    feeAndWaiverInstructions: covered("feeAndWaiver"),
+    copyRequirements: covered("copyRequirements"),
+    postFilingSteps: covered("postFilingTimeline"),
+    hearingAndObjectionStopConditions: covered("hearingAndObjectionStops"),
+    customPleadingAuthority: { required: true, approved: true, authorityId: "synthetic-authority" },
+    filingFormatArtifact: {
+      format: "pdf",
+      sha256: sha256("filing.pdf"),
+      pageCount: 4,
+      producedBy: {
+        renderer: "ghcr.io/example/rcap-render-worker@1.0.0",
+        matchesRecordProvider: true,
+        reconciliation: null,
+        deterministicRenderVerified: true
+      }
+    }
+  });
+
+  /** A synthetic fully-proven record, valid under the registry's structural and hash-chain rules. */
+  function provenRecord(route, overrides = {}) {
+    const record = {
+      schemaVersion: V2,
+      recordId: `synthetic-${route.jurisdiction}-availability-mutation`,
+      routeId: `${route.jurisdiction}:${route.pathwayId}`,
+      jurisdiction: route.jurisdiction,
+      pathwayId: route.pathwayId,
+      packetFamilyId: route.family,
+      serviceDisposition: "paid_packet_intended",
+      version: 1,
+      effectiveFrom: "2026-09-01",
+      supersededBy: null,
+      supersededAt: null,
+      revocation: { revoked: false, reason: null, revokedAt: null, revokedBy: null },
+      legalAuthority: {
+        recordId: "synthetic-auth", version: "synthetic-auth", status: "approved_by_decision_owner",
+        effectiveDate: "2026-09-01", scopeSha256: sha256("scope")
+      },
+      packetSpecification: { specId: "synthetic-set", sha256: sha256("packet-spec"), complete: true },
+      officialSources: [{
+        sourceId: "SYNTHETIC-FORM-1",
+        sha256: sha256("synthetic-document-bytes"),
+        expectedSha256: sha256("synthetic-document-bytes"),
+        installedSha256: sha256("synthetic-document-bytes"),
+        corpusReleaseId: "synthetic-corpus-2026-09-01",
+        corpusArchiveSha256: sha256("synthetic-corpus-archive"),
+        verifiedAt: "corpus-import:synthetic-corpus-2026-09-01",
+        verificationRecord: "data/rcap-grade-a/official-source-registry.json"
+      }],
+      provider: {
+        providerId: "ghcr.io/example/rcap-render-worker", rendererKind: "packet_document_v1",
+        rendererVersion: "1.0.0",
+        imageDigest: "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      fixture: { fixtureId: `${route.jurisdiction}:${route.pathwayId}`, sha256: sha256("fixture"), deterministic: true },
+      artifactValidation: { state: "validated", artifactSha256: sha256("artifact"), validatedAt: "2026-09-01" },
+      packetCompleteness: completenessProof(),
+      visualReview: {
+        state: "passed", pagesReviewed: 4, pageCount: 4, evidenceSha256: sha256("sheet"),
+        reviewedBy: "synthetic reviewer", reviewedAt: "2026-09-01"
+      },
+      outputLegalApproval: {
+        state: "passed", reviewerId: "synthetic counsel", decidedAt: "2026-09-01", scopeSha256: sha256("output")
+      },
+      finalVerification: {
+        state: "bound", verifierId: "availability-mutation-battery", boundInputsSha256: sha256("bound"), verifiedAt: "2026-09-01"
+      },
+      history: [],
+      ...overrides
+    };
+    record.history = [{
+      version: record.version, changeKind: "created", changedAt: "2026-09-01",
+      changedBy: "scripts/verify-route-resolution.mjs --mutations",
+      reason: "Synthetic availability-mutation record; staged temporarily and restored, never committed.",
+      recordSha256: fulfillmentRecordSha256(record), supersedesRecordSha256: null
+    }];
+    return record;
+  }
+
+  function observationFor(record, drift = {}) {
+    return {
+      observedAt: "2026-09-01",
+      legalAuthority: {
+        version: record.legalAuthority.version, status: record.legalAuthority.status,
+        scopeSha256: record.legalAuthority.scopeSha256
+      },
+      packetSpecificationSha256: record.packetSpecification.sha256,
+      officialSourceSha256ById: Object.fromEntries(record.officialSources.map((s) => [s.sourceId, s.sha256])),
+      corpusReleaseId: record.officialSources[0].corpusReleaseId,
+      corpusArchiveSha256: record.officialSources[0].corpusArchiveSha256,
+      provider: { ...record.provider },
+      fixtureSha256: record.fixture.sha256,
+      artifactSha256: record.artifactValidation.artifactSha256,
+      visualReviewEvidenceSha256: record.visualReview.evidenceSha256,
+      outputLegalApprovalScopeSha256: record.outputLegalApproval.scopeSha256,
+      finalVerificationBoundInputsSha256: record.finalVerification.boundInputsSha256,
+      ...drift
+    };
+  }
+
+  // ---- staging: back up, overwrite, restore byte-identically ---------------
+  const backups = new Map();
+  const stage = (rel, content) => {
+    if (!backups.has(rel)) backups.set(rel, fs.existsSync(rel) ? fs.readFileSync(rel, "utf8") : null);
+    fs.writeFileSync(rel, content);
+  };
+  const restoreAll = () => {
+    for (const [rel, previous] of backups) {
+      if (previous === null) fs.rmSync(rel, { force: true });
+      else fs.writeFileSync(rel, previous);
+    }
+    backups.clear();
+  };
+  const resetCaches = () => {
+    resetFulfillmentRegistryCache();
+    resetObservationCache();
+    resetRouteAvailabilityCachesForTest();
+  };
+
+  const pinnedReadiness = () => {
+    const doc = JSON.parse(fs.readFileSync(READINESS, "utf8"));
+    doc.deploymentReadiness = {
+      ...doc.deploymentReadiness,
+      applicationTarget: "synthetic-final-sha",
+      finalApplicationShaRequired: true,
+      workerTarget: "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      immutableDigestRequired: true
+    };
+    return JSON.stringify(doc);
+  };
+  const unpinnedReadiness = () => {
+    const doc = JSON.parse(fs.readFileSync(READINESS, "utf8"));
+    doc.deploymentReadiness = {
+      ...doc.deploymentReadiness,
+      applicationTarget: null,
+      finalApplicationShaRequired: true,
+      workerTarget: null,
+      immutableDigestRequired: true
+    };
+    return JSON.stringify(doc);
+  };
+
+  const holdsDocument = (rows) => JSON.stringify({ schemaVersion: "rcap-route-holds/v1", holds: rows });
+  const holdRow = (route, holdType, released = false) => ({
+    routeId: `${route.jurisdiction}:${route.pathwayId}`,
+    holdType,
+    reason: "Synthetic availability-mutation hold; staged temporarily and restored.",
+    evidence: ["scripts/verify-route-resolution.mjs"],
+    placedBy: "availability-mutation-battery",
+    placedAt: "2026-09-01T00:00:00Z",
+    releasedAt: released ? "2026-09-01T01:00:00Z" : null,
+    reacceptance: released ? { reference: "scripts/verify-route-resolution.mjs", note: "synthetic" } : null
+  });
+
+  /**
+   * Stage one scenario, resolve one route, and require one exact word.
+   * Everything not overridden is the proven baseline: both synthetic records
+   * proven at v2, both observations matching, delivery live, deploys pinned.
+   */
+  function scenario(name, expect, options = {}) {
+    const {
+      target = "official",
+      records,
+      observationDrift = {},
+      holds,
+      rawHolds,
+      readiness = "pinned",
+      live = true,
+      pdfHoldTrack
+    } = options;
+    try {
+      const staged = records ?? [provenRecord(ROUTES.official), provenRecord(ROUTES.pleading)];
+      stage(REGISTRY, JSON.stringify({ schemaVersion: V1, generatedBy: "availability-mutation-battery", records: staged }));
+      const routesBlock = {};
+      for (const record of staged) routesBlock[record.routeId] = observationFor(record, observationDrift);
+      stage(OBSERVATION, JSON.stringify({ schemaVersion: "synthetic", observedAt: "2026-09-01", routes: routesBlock }));
+      if (rawHolds !== undefined) stage(HOLDS, rawHolds);
+      else if (holds !== undefined) stage(HOLDS, holdsDocument(holds));
+      stage(READINESS, readiness === "pinned" ? pinnedReadiness() : unpinnedReadiness());
+      if (pdfHoldTrack) {
+        const register = JSON.parse(fs.readFileSync(PDF_REGISTER, "utf8"));
+        register.records.push({ identity: "SYN|synthetic|0", formId: "synthetic", affectedTrackIds: [pdfHoldTrack] });
+        stage(PDF_REGISTER, JSON.stringify(register));
+      }
+      if (live) process.env[DELIVERY_ENV] = "live";
+      else delete process.env[DELIVERY_ENV];
+      resetCaches();
+      const route = ROUTES[target];
+      const resolution = resolvePacketRoute({ state: route.jurisdiction, pathway: route.pathwayId });
+      ok(name, resolution.availability === expect, `availability=${resolution.availability}, expected ${expect}`);
+      ok(`${name} — and the word opens no payment`,
+        resolution.sellable === false && resolution.creditConsumable === false,
+        `sellable=${resolution.sellable} creditConsumable=${resolution.creditConsumable}`);
+    } finally {
+      restoreAll();
+      delete process.env[DELIVERY_ENV];
+      resetCaches();
+    }
+  }
+
+  console.log("Availability mutations — every hold and ready rule must bite:\n");
+
+  // The baseline must be able to go ready at all, in both flavours, or every
+  // hold "detection" below is meaningless.
+  scenario("a proven v2 record on a live, pinned path reaches PACKET_READY (official-PDF flavour)", "PACKET_READY");
+  scenario("a proven v2 custom-pleading record reaches CUSTOM_PLEADING_READY", "CUSTOM_PLEADING_READY", { target: "pleading" });
+
+  // 1. The admission schema rule: a v1 record proven under its own schema NEVER
+  //    yields a ready word. This is the dangerous case — nothing about it looks wrong.
+  scenario("a v1-schema record with every v1 proof stays UNFINISHED, never PACKET_READY", "UNFINISHED", {
+    records: [provenRecord(ROUTES.official, { schemaVersion: V1, packetCompleteness: null })]
+  });
+
+  // 2. The nationwide flip: a proven route on a non-live consumer path is under
+  //    maintenance. Availability reflects the owner-authorized flip, it never performs it.
+  scenario("a proven route with the consumer path not live is a MAINTENANCE_HOLD", "MAINTENANCE_HOLD", { live: false });
+
+  // 3. The deployment config-completeness gate.
+  scenario("a proven route with unpinned deploy targets is a MAINTENANCE_HOLD", "MAINTENANCE_HOLD", { readiness: "unpinned" });
+
+  // 4/5. The route-scoped hold ledger, both types, and release discipline.
+  scenario("an unreleased LEGAL_HOLD row overrides a proven route", "LEGAL_HOLD", {
+    holds: [holdRow(ROUTES.official, "LEGAL_HOLD")]
+  });
+  scenario("an unreleased MAINTENANCE_HOLD row overrides a proven route", "MAINTENANCE_HOLD", {
+    holds: [holdRow(ROUTES.official, "MAINTENANCE_HOLD")]
+  });
+  scenario("a released hold no longer bites; the route returns through reaccepted evidence", "PACKET_READY", {
+    holds: [holdRow(ROUTES.official, "MAINTENANCE_HOLD", true)]
+  });
+  scenario("a hold on one route does not hold its neighbour", "CUSTOM_PLEADING_READY", {
+    target: "pleading",
+    holds: [holdRow(ROUTES.official, "MAINTENANCE_HOLD")]
+  });
+
+  // 6. A present-but-malformed ledger holds everything it cannot parse.
+  scenario("a malformed hold ledger holds everything it cannot parse", "MAINTENANCE_HOLD", {
+    rawHolds: JSON.stringify({ schemaVersion: "rcap-route-holds/v1", holds: "not-an-array" })
+  });
+  scenario("a wildcard hold row is unparseable scope, so everything is held", "MAINTENANCE_HOLD", {
+    rawHolds: holdsDocument([{ ...holdRow(ROUTES.official, "MAINTENANCE_HOLD"), routeId: "*" }])
+  });
+
+  // 7. The problematic-PDF register, matched by the route's own track.
+  scenario("a problematic-PDF record naming the route's track is a MAINTENANCE_HOLD", "MAINTENANCE_HOLD", {
+    pdfHoldTrack: ROUTES.official.trackId
+  });
+
+  // 8. The proof has to stay current: a revoked record and a drifted world both
+  //    fall back to UNFINISHED, never to a ready word.
+  scenario("a revoked record is UNFINISHED", "UNFINISHED", {
+    records: [provenRecord(ROUTES.official, {
+      revocation: { revoked: true, reason: "synthetic revocation", revokedAt: "2026-09-01", revokedBy: "battery" }
+    })]
+  });
+  scenario("an observation that no longer matches the record is UNFINISHED", "UNFINISHED", {
+    observationDrift: { artifactSha256: sha256("a-different-artifact") }
+  });
+
+  console.log("");
+  if (failures.length > 0) {
+    console.error(`Availability mutations FAILED — ${failures.length} of ${passed + failures.length}:`);
+    for (const f of failures) console.error(`  - ${f}`);
+    process.exit(1);
+  }
+  console.log(`Availability mutations passed: ${passed} checks — every hold and ready rule bites.`);
+  process.exit(0);
+}
+
 /** A verified-record fact, the provenance a branch selector demands. */
 const verified = (value) => ({ value, provenance: "verified_record", verifiedAt: "2026-08-28T00:00:00.000Z" });
 /** Something the authenticated participant told us. */
@@ -677,6 +1013,101 @@ for (const row of contradictions.rows) {
     before?.category === row.proposal.previousClassification
     && contractByKey.get(row.pathwayKey)?.outcomeMode === row.authorityOutcomeMode);
 }
+
+console.log("\nThe availability layer — one derived word per route, never a rollout mechanism:");
+
+const {
+  resolvePacketRoute,
+  PACKET_ROUTE_AVAILABILITIES
+} = await import("@/lib/rcap/documents/packet-route-resolver");
+const { allCompleteGuidanceTracks } = await import("@/lib/rcap/documents/guidance-packet-registry");
+const { listCurrentFulfillmentRecords } = await import("@/lib/rcap/fulfillment/grade-a-registry");
+
+const rp = (state, pathway, trackId = null) => resolvePacketRoute({ state, pathway, trackId });
+
+ok("the vocabulary is exactly the seven agreed words",
+  PACKET_ROUTE_AVAILABILITIES.join(",") ===
+  "PACKET_READY,CUSTOM_PLEADING_READY,GUIDANCE_READY,HANDOFF_READY,MAINTENANCE_HOLD,LEGAL_HOLD,UNFINISHED",
+  PACKET_ROUTE_AVAILABILITIES.join(","));
+
+// Maintenance: the resolver's own proven-incomplete-packet finding.
+const correction = rp("MS", "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59");
+ok("a packet-correction route is a MAINTENANCE_HOLD",
+  correction.routeKind === "packet_correction_required" && correction.availability === "MAINTENANCE_HOLD",
+  `${correction.routeKind} / ${correction.availability}`);
+
+// Handoff: an attorney-review contract is a handoff route, not anonymous guidance.
+const trafficking = rp("MS", "human-trafficking-survivor-vacatur-97-3-54-6-5");
+ok("an attorney-review contract resolves routeKind handoff and HANDOFF_READY",
+  trafficking.routeKind === "handoff" && trafficking.availability === "HANDOFF_READY",
+  `${trafficking.routeKind} / ${trafficking.availability}`);
+ok("the attorney-review handoff names retained counsel and stays fail-closed",
+  trafficking.handoffTo === "retained_counsel" && trafficking.sellable === false
+  && trafficking.creditConsumable === false && trafficking.rendererKind === "none",
+  `${trafficking.handoffTo} sellable=${trafficking.sellable} renderer=${trafficking.rendererKind}`);
+
+const enforcementReferral = rp("MS", "intervention-court-statutory-result-enforcement-referral");
+ok("an enforcement referral is a hand-off to the attorney or prosecutor",
+  enforcementReferral.routeKind === "handoff" && enforcementReferral.availability === "HANDOFF_READY"
+  && enforcementReferral.handoffTo === "attorney_or_prosecutor",
+  `${enforcementReferral.routeKind} / ${enforcementReferral.availability} / ${enforcementReferral.handoffTo}`);
+
+// Legal hold: an authority-closed contract yields LEGAL_HOLD, and it outranks
+// even a route that carries the registry's only v2 fulfillment record.
+const scPti = rp("SC", "diversion-or-program-completion-expungement");
+ok("a closed legal contract yields LEGAL_HOLD", scPti.availability === "LEGAL_HOLD", scPti.availability);
+const orAcquittal = rp("OR", "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c");
+ok("an authority-closed contract outranks the route's own v2 fulfillment record",
+  orAcquittal.availability === "LEGAL_HOLD", orAcquittal.availability);
+
+// Legal hold: a treatment awaiting independent review is never read as approval.
+const pendingReview = [];
+for (const file of fs.readdirSync("data/rcap-all50/terminalization-treatments")) {
+  if (!file.endsWith(".json") || file.startsWith("_")) continue;
+  const parsed = JSON.parse(fs.readFileSync(`data/rcap-all50/terminalization-treatments/${file}`, "utf8"));
+  const items = Array.isArray(parsed) ? parsed : parsed.treatments ?? parsed.records ?? [];
+  for (const treatment of items) {
+    if (!treatment?.trackId) continue;
+    const resolved = rp(String(treatment.jurisdiction ?? file.replace(".json", "").toUpperCase()), treatment.pathwayId ?? "", treatment.trackId);
+    if (resolved.treatmentReviewState === "pending_independent_review") pendingReview.push(resolved);
+  }
+}
+ok("at least one treatment is pending independent review, so the rule is exercised", pendingReview.length > 0, String(pendingReview.length));
+ok("every treatment pending independent review is a LEGAL_HOLD",
+  pendingReview.every((resolved) => resolved.availability === "LEGAL_HOLD"),
+  [...new Set(pendingReview.map((resolved) => resolved.availability))].join(","));
+
+// Guidance: ready only through a registered complete-guidance treatment.
+const guidanceResolutions = allCompleteGuidanceTracks().map((track) => rp(track.jurisdiction, "", track.trackId));
+ok("at least one guidance route is GUIDANCE_READY through its registered track",
+  guidanceResolutions.some((resolved) => resolved.routeKind === "guidance_only" && resolved.availability === "GUIDANCE_READY"));
+ok("no complete-guidance track resolves to a ready-to-sell word",
+  guidanceResolutions.every((resolved) => resolved.availability !== "PACKET_READY" && resolved.availability !== "CUSTOM_PLEADING_READY"));
+ok("guidance with no registered track is UNFINISHED, not ready",
+  rp("AK", "executive-pardon-backstop").availability === "UNFINISHED",
+  rp("AK", "executive-pardon-backstop").availability);
+
+// The ready states: today's registry holds 7 v1 records and 1 v2 record, none
+// admissible, so ZERO routes may report ready — that is the correct,
+// fail-closed initial output, and nothing here forces a route ready.
+const fulfillmentRecords = listCurrentFulfillmentRecords();
+ok("the Grade-A registry binds records to evaluate against", fulfillmentRecords.length > 0, String(fulfillmentRecords.length));
+const registryResolutions = fulfillmentRecords.map((record) => rp(record.jurisdiction, record.pathwayId));
+ok("no route with a current fulfillment record reports a ready word today",
+  registryResolutions.every((resolved) => resolved.availability !== "PACKET_READY" && resolved.availability !== "CUSTOM_PLEADING_READY"),
+  registryResolutions.map((resolved) => resolved.availability).join(","));
+ok("the v1-record flagship route is UNFINISHED, not ready and not held",
+  rp("ND", "first-offense-possession-sealing").availability === "UNFINISHED",
+  rp("ND", "first-offense-possession-sealing").availability);
+
+// The default, and the invariant that availability opens nothing.
+ok("an unknown route is UNFINISHED", rp("ZZ", "no-such-route").availability === "UNFINISHED");
+ok("an empty input is UNFINISHED", rp("", "").availability === "UNFINISHED");
+const everyResolution = [correction, trafficking, enforcementReferral, scPti, orAcquittal, ...pendingReview, ...guidanceResolutions, ...registryResolutions];
+ok("every availability word carries a word from the vocabulary",
+  everyResolution.every((resolved) => PACKET_ROUTE_AVAILABILITIES.includes(resolved.availability)));
+ok("no availability word opens payment or credit — sellable and creditConsumable stay false everywhere asserted",
+  everyResolution.every((resolved) => resolved.sellable === false && resolved.creditConsumable === false));
 
 console.log("");
 if (failures.length > 0) {

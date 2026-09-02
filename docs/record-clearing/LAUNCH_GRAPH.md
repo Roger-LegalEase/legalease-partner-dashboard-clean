@@ -21,16 +21,35 @@ reconciled quietly, so there is nothing here for a second denominator to disagre
 | EXACT TRACK + PACKET SET | 220 |
 | REGISTRY GAP + PATHWAY PACKET SET | 40 |
 | OWNER-APPROVED LEGAL | 93 |
-| FACTORY_V2 RESOLVED | 167 |
+| FACTORY_V2 RESOLVED | 166 |
 | PAYMENT ALLOWED | 29 |
 | DETERMINISTICALLY RENDERED (complete packet) | 38 |
-| — composed text proven deterministic | 167 |
-| — official forms named but not held here | 129 |
+| — composed text proven deterministic | 166 |
+| — official forms named but not held here | 128 |
 | OPERATIONALLY SELLABLE | 0 |
 
 Operationally sellable means all nine of: correct public witness; authoritative intended pathway;
 paymentAllowed=true; complete packet specification; owner-approved existing legal design; current
 technical approval; renderer selected; deterministic artifact proven; no problematic-PDF hold.
+
+## Availability
+
+The resolver's derived availability word, per route, aggregated here. Reporting, not rollout:
+the two ready states are reachable only through a current Grade-A fulfillment record at the
+admission schema version, and flipping the consumer path live remains a single nationwide
+owner-authorized action through the consumer-delivery control under the all-51 launch rule.
+
+| Availability | Routes |
+|---|---:|
+| `PACKET_READY` | 0 |
+| `CUSTOM_PLEADING_READY` | 0 |
+| `GUIDANCE_READY` | 0 |
+| `HANDOFF_READY` | 3 |
+| `MAINTENANCE_HOLD` | 19 |
+| `LEGAL_HOLD` | 1 |
+| `UNFINISHED` | 237 |
+
+Per-state counts are carried in `availability.byState` of the JSON ledger.
 
 ## What is missing, and on how many routes
 
@@ -40,7 +59,7 @@ technical approval; renderer selected; deterministic artifact proven; no problem
 | `deterministicArtifactProven` | 222 |
 | `technicalApprovalCurrent` | 192 |
 | `ownerApprovedLegalDesign` | 167 |
-| `rendererSelected` | 63 |
+| `rendererSelected` | 64 |
 | `packetSpecificationComplete` | 40 |
 | `noProblematicPdfHold` | 19 |
 
