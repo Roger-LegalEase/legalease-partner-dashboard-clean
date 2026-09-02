@@ -2980,8 +2980,74 @@ const customBoundaryFixture = {
   productName: "RCAP evidence build", shadowMode: true,
 };
 
+/*
+ * WHERE EACH CLEAN TRACK IS FILED, WHAT IT COSTS, AND WHO IS SERVED.
+ *
+ * Read from the committed compiled Ohio profile at
+ * src/lib/rcap-engine/compiled/profiles/OH-ohio.json -- its "Filing
+ * instructions" and "Fees" sections -- and keyed by the statutory section each
+ * track pleads, never across sections. The packet used to answer all three
+ * questions with "no held source in this packet states it, ask the clerk",
+ * which was false of the repository and cost the participant the out-of-state
+ * and federal limb of the 2953.32 filing rule outright.
+ */
+const OH_CLEAN_TRACK_ROUTE_RULES = {
+  oh_2953_32_sealing: {
+    section: "Ohio Rev. Code Sec. 2953.32",
+    destinationCourt: "the sentencing court for an Ohio conviction, or a court of common pleas for an out-of-state or federal conviction",
+    destination: "File in the sentencing court for an Ohio conviction or in a court of common pleas for an out-of-state or federal conviction.",
+    fee: "$50 application fee unless indigent, plus possible local court fee up to $50.",
+    service: "The court schedules a hearing, notifies the prosecutor at least 60 days before the hearing, and holds the hearing 45-90 days after filing. The prosecutor may object at least 30 days before the hearing, and victims may be heard if applicable.",
+  },
+  oh_2953_32_expungement: {
+    section: "Ohio Rev. Code Sec. 2953.32",
+    destinationCourt: "the sentencing court for an Ohio conviction, or a court of common pleas for an out-of-state or federal conviction",
+    destination: "File in the sentencing court for an Ohio conviction or in a court of common pleas for an out-of-state or federal conviction.",
+    fee: "$50 application fee unless indigent, plus possible local court fee up to $50.",
+    service: "The court schedules a hearing, notifies the prosecutor at least 60 days before the hearing, and holds the hearing 45-90 days after filing. The prosecutor may object at least 30 days before the hearing, and victims may be heard if applicable.",
+  },
+  oh_2953_33_nonconviction: {
+    section: "Ohio Rev. Code Sec. 2953.33",
+    destinationCourt: "the court where the case was pending, dismissed, resulted in not guilty, or where the grand jury no bill was reported",
+    destination: "File in the court where the case was pending, dismissed, resulted in not guilty, or where the grand jury no bill was reported.",
+    fee: "Ohio Legal Help says no fee for dismissal, not-guilty and no-bill sealing.",
+    service: "The court holds a hearing 45-90 days after filing, and the prosecutor may object.",
+  },
+  oh_2953_35_firearm: {
+    section: "Ohio Rev. Code Sec. 2953.35",
+    destinationCourt: "the sentencing court",
+    destination: "The application is filed in the sentencing court.",
+    fee: "$50 unless indigent.",
+    service: "The court considers prosecutor objections and weighs the applicant's interest against government needs.",
+  },
+};
+
 function fixtureForOhioTrack(trackId, baseFixture) {
   const fixture = JSON.parse(JSON.stringify(baseFixture));
+  /*
+   * KNOWN_PREFILLS repair. Paragraphs 5, 7 and 8 printed a POINTER in the
+   * grammatical slot where the FACT belongs -- "Possession offense shown on the
+   * certified disposition", "Disposition shown on the certified disposition",
+   * and, worst, this build's own non-certification sentence inside the pleading's
+   * eligibility allegation. The instructions tell the participant to "transfer
+   * only reviewed content", and those three sentences carried none of the
+   * bracketed marking that makes the other unresolved items self-evidently
+   * untransferable. They are now marked exactly the way every other unresolved
+   * item on this paper is marked, and each is declared and disclosed as a
+   * required-before-filing blank rather than reported as a written fact.
+   */
+  if (OH_CLEAN_TRACK_ROUTE_RULES[trackId]) {
+    const long = baseFixture === customBoundaryFixture;
+    fixture.chargeData.chargeDescription = long
+      ? "[COMPLETE CHARGE DESCRIPTION, INCLUDING EVERY COUNT AND EVERY STATUTORY SUBSECTION, MUST BE COPIED WORD FOR WORD FROM THE CERTIFIED CHARGING DOCUMENT AND DISPOSITION]"
+      : "[CHARGE MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION]";
+    fixture.chargeData.disposition = long
+      ? "[COMPLETE DISPOSITION, INCLUDING EVERY COUNT AND THE DISPOSITION OF EACH, MUST BE CONFIRMED FROM THE COURT RECORD AND THE CERTIFIED DISPOSITION]"
+      : "[DISPOSITION MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION]";
+    fixture.eligibilityData.eligibilityBasisLabel = long
+      ? "[STATUTORY ELIGIBILITY BASIS, INCLUDING THE REMEDY, THE STATUTORY VERSION, THE TIMING AND EVERY LOCAL-PRACTICE CONDITION, MUST BE CONFIRMED AGAINST THE CITED STATUTE AND THE CERTIFIED RECORD]"
+      : "[STATUTORY ELIGIBILITY BASIS MUST BE CONFIRMED AGAINST THE CITED STATUTE AND THE CERTIFIED RECORD]";
+  }
   if (trackId !== "oh_marijuana_expungement") return fixture;
   fixture.eligibilityData.additionalFacts = [
     ...(fixture.eligibilityData.additionalFacts ?? []),
@@ -3120,7 +3186,7 @@ function trackInstructions(trackId, definition) {
   return `# ${definition.title}\n\n`
     + `This is a statutory-content draft and review artifact. It is not a statewide Ohio court form and is not filing-ready.\n\n`
     + `## Required local-form step\n\n`
-    + `Obtain the current application, caption, filing instructions, fee information, and any proposed-order requirement from the Ohio court that handled the case. Transfer only reviewed content to that form. The absence of a catalogued local form is an explicit release blocker.\n\n`
+    + `Obtain the current application, caption, filing instructions, fee information, and any proposed-order requirement from ${OH_CLEAN_TRACK_ROUTE_RULES[trackId]?.destinationCourt ?? "the Ohio court that handled the case"}. Transfer only reviewed content to that form. The absence of a catalogued local form is an explicit release blocker.\n\n`
     + `## Hard stops\n\n${definition.hardStops.map((stop) => `- ${stop}`).join("\n")}${memoSection}\n\n`
     + `## Participant-owned acts\n\n`
     + `- The participant signs and dates the local application.\n`
@@ -3165,7 +3231,7 @@ const COMPOSED_PLEADING_BLANKS = [
   { field: "localCourtCaption", factId: "matter.local_court_caption",
     effectiveLabel: "Name of court and local caption",
     requiredBeforeFiling: true,
-    reason: "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption the sentencing court uses and does not guess." },
+    reason: "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption used by the filing court the filing rule in these instructions names, and does not guess." },
   { field: "arrestDate", factId: "matter.arrest_date",
     effectiveLabel: "Date of arrest",
     requiredBeforeFiling: true,
@@ -3204,7 +3270,37 @@ const COMPOSED_PLEADING_BLANKS = [
  * document it never disclosed. The attachment schedule now names it and this row
  * declares it, on the same channel as every other blank the participant fills.
  */
+const OH_CLEAN_TRACK_UNRESOLVED_BLANKS = [
+  { field: "chargeDescription", factId: "matter.charge",
+    effectiveLabel: "Charge as it appears on the certified disposition",
+    requiredBeforeFiling: true,
+    reason: "REQUIRED_BEFORE_FILING: the pleading prints \u201c[CHARGE MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION]\u201d because the packet holds no charge for this matter; the participant copies the charge off the certified disposition and does not guess." },
+  { field: "disposition", factId: "matter.disposition",
+    effectiveLabel: "Disposition as it appears on the certified disposition",
+    requiredBeforeFiling: true,
+    reason: "REQUIRED_BEFORE_FILING: the pleading prints \u201c[DISPOSITION MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION]\u201d because the packet holds no disposition for this matter; the participant copies the disposition off the certified disposition and does not guess." },
+  { field: "eligibilityBasisStatement", factId: "eligibility.basis_label",
+    effectiveLabel: "Statutory basis alleged for eligibility",
+    requiredBeforeFiling: true,
+    reason: "REQUIRED_BEFORE_FILING: the pleading prints \u201c[STATUTORY ELIGIBILITY BASIS MUST BE CONFIRMED AGAINST THE CITED STATUTE AND THE CERTIFIED RECORD]\u201d because this packet does not decide eligibility and must not put its own non-certification sentence into a pleading's eligibility allegation; the participant, or a lawyer, states the statutory basis after reading the cited statute against the certified record." },
+];
+
+/*
+ * Writes this build no longer makes on the four clean Ohio tracks, because the
+ * value it had for each was a pointer rather than the fact. They are declared
+ * above as required-before-filing blanks instead, on the same channel as every
+ * other unresolved item.
+ */
+const COMPOSED_PLEADING_TRACK_WRITE_SUPPRESSIONS = Object.fromEntries(
+  ["oh_2953_32_sealing", "oh_2953_32_expungement", "oh_2953_33_nonconviction", "oh_2953_35_firearm"]
+    .map((trackId) => [trackId, OH_CLEAN_TRACK_UNRESOLVED_BLANKS.map((row) => row.field)]),
+);
+
 const COMPOSED_PLEADING_TRACK_BLANKS = {
+  oh_2953_32_sealing: OH_CLEAN_TRACK_UNRESOLVED_BLANKS,
+  oh_2953_32_expungement: OH_CLEAN_TRACK_UNRESOLVED_BLANKS,
+  oh_2953_33_nonconviction: OH_CLEAN_TRACK_UNRESOLVED_BLANKS,
+  oh_2953_35_firearm: OH_CLEAN_TRACK_UNRESOLVED_BLANKS,
   oh_marijuana_expungement: [
     { field: "sameActChargeSchedule", factId: null,
       effectiveLabel: "Ohio Rev. Code Sec. 2953.61 same-act charge schedule",
@@ -3219,7 +3315,9 @@ function composedFieldMapDocuments(familyId, sourceCensus) {
     documentRole: "COMPOSED_CUSTOM_PLEADING",
     generatedParticipantArtifact: true,
     fields: [
-      ...COMPOSED_PLEADING_WRITES.map((row) => ({ ...row, decision: "candidate_write" })),
+      ...COMPOSED_PLEADING_WRITES
+        .filter((row) => !(COMPOSED_PLEADING_TRACK_WRITE_SUPPRESSIONS[trackId] ?? []).includes(row.field))
+        .map((row) => ({ ...row, decision: "candidate_write" })),
       ...[...COMPOSED_PLEADING_BLANKS, ...(COMPOSED_PLEADING_TRACK_BLANKS[trackId] ?? [])].map((row) => ({
         field: row.field, decision: "refuse", factId: row.factId ?? null,
         ...(row.refusalClass ? { refusalClass: row.refusalClass } : {}),
@@ -3260,13 +3358,22 @@ function composedFieldMapDocuments(familyId, sourceCensus) {
  */
 function composedParticipantInstructions(familyId) {
   const tracks = tracksForComposedFamily(familyId);
+  // One entry per statutory section this packet actually pleads. Section-keyed
+  // and never read across sections: DET-FEE-AND-WAIVER-001 A3 is per fact and
+  // per route, and two tracks pleading Sec. 2953.32 share one row because it is
+  // the same section, not because they are siblings.
+  const routeRules = [...new Map(tracks
+    .filter((trackId) => OH_CLEAN_TRACK_ROUTE_RULES[trackId])
+    .map((trackId) => [OH_CLEAN_TRACK_ROUTE_RULES[trackId].section, OH_CLEAN_TRACK_ROUTE_RULES[trackId]]))
+    .entries()];
   return `# Ohio custom-pleading packet — participant instructions\n\n`
     + `This packet contains ${tracks.length === 1 ? "one statutory-content draft" : `${tracks.length} statutory-content drafts`} and one unchanged official Ohio BCI request held as post-order companion evidence. The drafts are review artifacts. They are not statewide Ohio court forms and they are not filing-ready.\n\n`
     + `## What you must supply before filing\n\n`
     // Track-scoped blanks are disclosed here too. A required-before-filing row
     // the participant is never told about is an uncollected fact, and the
     // completeness verifier counts it as one.
-    + [...COMPOSED_PLEADING_BLANKS, ...tracks.flatMap((trackId) => COMPOSED_PLEADING_TRACK_BLANKS[trackId] ?? [])]
+    + [...new Map([...COMPOSED_PLEADING_BLANKS, ...tracks.flatMap((trackId) => COMPOSED_PLEADING_TRACK_BLANKS[trackId] ?? [])]
+      .map((row) => [row.field, row])).values()]
       .filter((row) => row.requiredBeforeFiling === true)
       .map((row) => {
         const why = row.reason.replace(/^REQUIRED_BEFORE_FILING:\s*/, "");
@@ -3275,13 +3382,27 @@ function composedParticipantInstructions(familyId) {
     + `\n\n## What you must obtain\n\n`
     + `- The certified disposition for the case, from the court that handled it.\n`
     + `- Your Ohio BCI criminal-history record.\n`
-    + `- The current local application, caption and filing instructions from the Ohio court that handled the case.\n\n`
+    + (routeRules.length > 0
+      ? `- The current local application, caption and filing instructions from the court the filing rule below sends you to.\n\n`
+      : `- The current local application, caption and filing instructions from the Ohio court that handled the case.\n\n`)
     + `## Where this is filed\n\n`
-    + `In the Ohio court that handled the case. No held source in this packet names a statewide Ohio filing office or a statewide application, so the sentencing court's own clerk is the office that tells you the caption, the form and the filing counter to use.\n\n`
+    + (routeRules.length > 0
+      ? `The compiled Ohio profile this repository holds, \`src/lib/rcap-engine/compiled/profiles/OH-ohio.json\`, states the filing rule for each route in this packet, and this packet states it rather than sending you to ask for it:\n\n`
+        + routeRules.map(([, rule]) => `- **${rule.section}.** ${rule.destination}\n`).join("")
+        + `\nOhio has no single mandatory statewide form packet. Get the current application, caption and filing instructions from that court, which may keep different packets for convictions and for non-convictions.\n\n`
+      : `In the Ohio court that handled the case. No held source in this packet names a statewide Ohio filing office or a statewide application, so the sentencing court's own clerk is the office that tells you the caption, the form and the filing counter to use.\n\n`)
     + `## What this costs\n\n`
-    + `No held source in this packet states a filing fee, states that filing is free, or states a fee-waiver procedure. Ask the clerk of the Ohio court that handled the case what the current filing fee is and whether a waiver (an affidavit of indigency) is available, before you file. This packet does not state an amount because it holds no source for one.\n\n`
+    + (routeRules.length > 0
+      ? `The same compiled Ohio profile carries a fee table keyed by statutory section, and this packet states the row for each route it carries:\n\n`
+        + routeRules.map(([, rule]) => `- **${rule.section}.** ${rule.fee}\n`).join("")
+        + `\nThe waiver limb is indigency: where the applicant is indigent, the $50 application fee is not charged. The additional local court fee is permitted up to $50 and is not fixed by the statute, so ask the clerk of the filing court what that court charges and how it takes an indigency affidavit.\n\n`
+      : `No held source in this packet states a filing fee, states that filing is free, or states a fee-waiver procedure. Ask the clerk of the Ohio court that handled the case what the current filing fee is and whether a waiver (an affidavit of indigency) is available, before you file. This packet does not state an amount because it holds no source for one.\n\n`)
     + `## Who is served\n\n`
-    + `No held source in this packet states who must be served or how. Ask the same clerk. These drafts generate no certificate of service, and you must not complete one before service has actually happened.\n\n`
+    + (routeRules.length > 0
+      ? `You serve nobody. On this scheme the court notifies the prosecutor and sets the hearing, and the compiled Ohio profile states the mechanism for each route in this packet:\n\n`
+        + routeRules.map(([, rule]) => `- **${rule.section}.** ${rule.service}\n`).join("")
+        + `\nThese drafts generate no certificate of service and you must not complete one. There is no service step for you to perform, so do not go looking for one.\n\n`
+      : `No held source in this packet states who must be served or how. Ask the same clerk. These drafts generate no certificate of service, and you must not complete one before service has actually happened.\n\n`)
     + `## You sign; nothing here is signed for you\n\n`
     + `- You sign and date the application. The signature and date rules are left blank on purpose.\n`
     + `- Do not complete judge, clerk, prosecutor, agency, hearing, or order fields.\n`

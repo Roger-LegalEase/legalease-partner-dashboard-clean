@@ -28,24 +28,6 @@
           "decision": "candidate_write"
         },
         {
-          "field": "chargeDescription",
-          "factId": "matter.charge",
-          "decisionBasis": "printed in the case-history paragraph from chargeData.chargeDescription",
-          "decision": "candidate_write"
-        },
-        {
-          "field": "disposition",
-          "factId": "matter.disposition",
-          "decisionBasis": "printed in the case-history paragraph from chargeData.disposition",
-          "decision": "candidate_write"
-        },
-        {
-          "field": "eligibilityBasisStatement",
-          "factId": "eligibility.basis_label",
-          "decisionBasis": "printed in the eligibility allegations from eligibilityData.eligibilityBasisLabel",
-          "decision": "candidate_write"
-        },
-        {
           "field": "localCourtCaption",
           "decision": "refuse",
           "factId": "matter.local_court_caption",
@@ -54,7 +36,7 @@
           "routeDetermined": false,
           "identity": "oh_2953_32_sealing field localCourtCaption",
           "effectiveLabel": "Name of court and local caption",
-          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption the sentencing court uses and does not guess."
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption used by the filing court the filing rule in these instructions names, and does not guess."
         },
         {
           "field": "arrestDate",
@@ -117,6 +99,39 @@
           "blankTreatment": null,
           "effectiveLabel": "Date beside the applicant signature",
           "reason": "Signature or date field; never prefilled. The date rule is left blank and the participant dates it when signing."
+        },
+        {
+          "field": "chargeDescription",
+          "decision": "refuse",
+          "factId": "matter.charge",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_sealing field chargeDescription",
+          "effectiveLabel": "Charge as it appears on the certified disposition",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[CHARGE MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION]” because the packet holds no charge for this matter; the participant copies the charge off the certified disposition and does not guess."
+        },
+        {
+          "field": "disposition",
+          "decision": "refuse",
+          "factId": "matter.disposition",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_sealing field disposition",
+          "effectiveLabel": "Disposition as it appears on the certified disposition",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[DISPOSITION MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION]” because the packet holds no disposition for this matter; the participant copies the disposition off the certified disposition and does not guess."
+        },
+        {
+          "field": "eligibilityBasisStatement",
+          "decision": "refuse",
+          "factId": "eligibility.basis_label",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_sealing field eligibilityBasisStatement",
+          "effectiveLabel": "Statutory basis alleged for eligibility",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[STATUTORY ELIGIBILITY BASIS MUST BE CONFIRMED AGAINST THE CITED STATUTE AND THE CERTIFIED RECORD]” because this packet does not decide eligibility and must not put its own non-certification sentence into a pleading's eligibility allegation; the participant, or a lawyer, states the statutory basis after reading the cited statute against the certified record."
         }
       ]
     },
@@ -144,24 +159,6 @@
           "decision": "candidate_write"
         },
         {
-          "field": "chargeDescription",
-          "factId": "matter.charge",
-          "decisionBasis": "printed in the case-history paragraph from chargeData.chargeDescription",
-          "decision": "candidate_write"
-        },
-        {
-          "field": "disposition",
-          "factId": "matter.disposition",
-          "decisionBasis": "printed in the case-history paragraph from chargeData.disposition",
-          "decision": "candidate_write"
-        },
-        {
-          "field": "eligibilityBasisStatement",
-          "factId": "eligibility.basis_label",
-          "decisionBasis": "printed in the eligibility allegations from eligibilityData.eligibilityBasisLabel",
-          "decision": "candidate_write"
-        },
-        {
           "field": "localCourtCaption",
           "decision": "refuse",
           "factId": "matter.local_court_caption",
@@ -170,7 +167,7 @@
           "routeDetermined": false,
           "identity": "oh_2953_32_expungement field localCourtCaption",
           "effectiveLabel": "Name of court and local caption",
-          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption the sentencing court uses and does not guess."
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption used by the filing court the filing rule in these instructions names, and does not guess."
         },
         {
           "field": "arrestDate",
@@ -233,6 +230,39 @@
           "blankTreatment": null,
           "effectiveLabel": "Date beside the applicant signature",
           "reason": "Signature or date field; never prefilled. The date rule is left blank and the participant dates it when signing."
+        },
+        {
+          "field": "chargeDescription",
+          "decision": "refuse",
+          "factId": "matter.charge",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_expungement field chargeDescription",
+          "effectiveLabel": "Charge as it appears on the certified disposition",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[CHARGE MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION]” because the packet holds no charge for this matter; the participant copies the charge off the certified disposition and does not guess."
+        },
+        {
+          "field": "disposition",
+          "decision": "refuse",
+          "factId": "matter.disposition",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_expungement field disposition",
+          "effectiveLabel": "Disposition as it appears on the certified disposition",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[DISPOSITION MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION]” because the packet holds no disposition for this matter; the participant copies the disposition off the certified disposition and does not guess."
+        },
+        {
+          "field": "eligibilityBasisStatement",
+          "decision": "refuse",
+          "factId": "eligibility.basis_label",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_expungement field eligibilityBasisStatement",
+          "effectiveLabel": "Statutory basis alleged for eligibility",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[STATUTORY ELIGIBILITY BASIS MUST BE CONFIRMED AGAINST THE CITED STATUTE AND THE CERTIFIED RECORD]” because this packet does not decide eligibility and must not put its own non-certification sentence into a pleading's eligibility allegation; the participant, or a lawyer, states the statutory basis after reading the cited statute against the certified record."
         }
       ]
     },
@@ -260,24 +290,6 @@
           "decision": "candidate_write"
         },
         {
-          "field": "chargeDescription",
-          "factId": "matter.charge",
-          "decisionBasis": "printed in the case-history paragraph from chargeData.chargeDescription",
-          "decision": "candidate_write"
-        },
-        {
-          "field": "disposition",
-          "factId": "matter.disposition",
-          "decisionBasis": "printed in the case-history paragraph from chargeData.disposition",
-          "decision": "candidate_write"
-        },
-        {
-          "field": "eligibilityBasisStatement",
-          "factId": "eligibility.basis_label",
-          "decisionBasis": "printed in the eligibility allegations from eligibilityData.eligibilityBasisLabel",
-          "decision": "candidate_write"
-        },
-        {
           "field": "localCourtCaption",
           "decision": "refuse",
           "factId": "matter.local_court_caption",
@@ -286,7 +298,7 @@
           "routeDetermined": false,
           "identity": "oh_2953_33_nonconviction field localCourtCaption",
           "effectiveLabel": "Name of court and local caption",
-          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption the sentencing court uses and does not guess."
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption used by the filing court the filing rule in these instructions names, and does not guess."
         },
         {
           "field": "arrestDate",
@@ -349,6 +361,39 @@
           "blankTreatment": null,
           "effectiveLabel": "Date beside the applicant signature",
           "reason": "Signature or date field; never prefilled. The date rule is left blank and the participant dates it when signing."
+        },
+        {
+          "field": "chargeDescription",
+          "decision": "refuse",
+          "factId": "matter.charge",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_33_nonconviction field chargeDescription",
+          "effectiveLabel": "Charge as it appears on the certified disposition",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[CHARGE MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION]” because the packet holds no charge for this matter; the participant copies the charge off the certified disposition and does not guess."
+        },
+        {
+          "field": "disposition",
+          "decision": "refuse",
+          "factId": "matter.disposition",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_33_nonconviction field disposition",
+          "effectiveLabel": "Disposition as it appears on the certified disposition",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[DISPOSITION MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION]” because the packet holds no disposition for this matter; the participant copies the disposition off the certified disposition and does not guess."
+        },
+        {
+          "field": "eligibilityBasisStatement",
+          "decision": "refuse",
+          "factId": "eligibility.basis_label",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_33_nonconviction field eligibilityBasisStatement",
+          "effectiveLabel": "Statutory basis alleged for eligibility",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[STATUTORY ELIGIBILITY BASIS MUST BE CONFIRMED AGAINST THE CITED STATUTE AND THE CERTIFIED RECORD]” because this packet does not decide eligibility and must not put its own non-certification sentence into a pleading's eligibility allegation; the participant, or a lawyer, states the statutory basis after reading the cited statute against the certified record."
         }
       ]
     },
@@ -376,24 +421,6 @@
           "decision": "candidate_write"
         },
         {
-          "field": "chargeDescription",
-          "factId": "matter.charge",
-          "decisionBasis": "printed in the case-history paragraph from chargeData.chargeDescription",
-          "decision": "candidate_write"
-        },
-        {
-          "field": "disposition",
-          "factId": "matter.disposition",
-          "decisionBasis": "printed in the case-history paragraph from chargeData.disposition",
-          "decision": "candidate_write"
-        },
-        {
-          "field": "eligibilityBasisStatement",
-          "factId": "eligibility.basis_label",
-          "decisionBasis": "printed in the eligibility allegations from eligibilityData.eligibilityBasisLabel",
-          "decision": "candidate_write"
-        },
-        {
           "field": "localCourtCaption",
           "decision": "refuse",
           "factId": "matter.local_court_caption",
@@ -402,7 +429,7 @@
           "routeDetermined": false,
           "identity": "oh_2953_35_firearm field localCourtCaption",
           "effectiveLabel": "Name of court and local caption",
-          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption the sentencing court uses and does not guess."
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption used by the filing court the filing rule in these instructions names, and does not guess."
         },
         {
           "field": "arrestDate",
@@ -465,6 +492,39 @@
           "blankTreatment": null,
           "effectiveLabel": "Date beside the applicant signature",
           "reason": "Signature or date field; never prefilled. The date rule is left blank and the participant dates it when signing."
+        },
+        {
+          "field": "chargeDescription",
+          "decision": "refuse",
+          "factId": "matter.charge",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_35_firearm field chargeDescription",
+          "effectiveLabel": "Charge as it appears on the certified disposition",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[CHARGE MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION]” because the packet holds no charge for this matter; the participant copies the charge off the certified disposition and does not guess."
+        },
+        {
+          "field": "disposition",
+          "decision": "refuse",
+          "factId": "matter.disposition",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_35_firearm field disposition",
+          "effectiveLabel": "Disposition as it appears on the certified disposition",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[DISPOSITION MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION]” because the packet holds no disposition for this matter; the participant copies the disposition off the certified disposition and does not guess."
+        },
+        {
+          "field": "eligibilityBasisStatement",
+          "decision": "refuse",
+          "factId": "eligibility.basis_label",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_35_firearm field eligibilityBasisStatement",
+          "effectiveLabel": "Statutory basis alleged for eligibility",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[STATUTORY ELIGIBILITY BASIS MUST BE CONFIRMED AGAINST THE CITED STATUTE AND THE CERTIFIED RECORD]” because this packet does not decide eligibility and must not put its own non-certification sentence into a pleading's eligibility allegation; the participant, or a lawyer, states the statutory basis after reading the cited statute against the certified record."
         }
       ]
     },
