@@ -518,5 +518,54 @@
   "noRepairPerformed": true,
   "overlayDirectoriesModified": 0,
   "packetsModified": 0
- }
+ },
+  "waveSixAssignments": {
+    "reading": "packet-factory-24h/VF04/wave-6 (2026-09-02)",
+    "whatThisMarkerIs": "A sixth reading appended the assignments below, each carrying \"wave\": \"packet-factory-24h/VF04/wave-6 (2026-09-02)\". Everything already in this file was written by earlier workers on this lane and is preserved byte for byte; nothing in it is edited or withdrawn.",
+    "worker": "VF04 wave-6 (independent; built, repaired and rendered none of these packets)",
+    "baseSha": "247b790b6decf4ab14924914b10ad16a6ab57400",
+    "noRepairPerformed": true,
+    "overlayDirectoriesModified": 0,
+    "packetsModified": 0,
+    "assignments": [
+      {
+        "wave": "packet-factory-24h/VF04/wave-6 (2026-09-02)",
+        "familyId": "pa_pardon_expungement-set",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "assignedBy": "VF04 independent verification at base 247b790b6decf4ab14924914b10ad16a6ab57400",
+        "failedProofObligations": [
+          "SELF_HELP_STOP"
+        ],
+        "everyOtherObligationPassed": true,
+        "nineCountersAllZero": true,
+        "decisiveDefect": "The packet does not state where self-help ends, and in particular never states the committed track registry's first recorded self-help stop condition for pa_pardon_expungement: \"The participant has not yet obtained a pardon; the pardon application itself is out of scope and is a referral.\"",
+        "whyItMatters": "That condition is the entry condition for the whole route. A participant who has not obtained a pardon is not eligible for anything in this packet, and the packet is the only place they learn what the route needs. As built it would have them fill seventy-eight blanks, order a Pennsylvania State Police criminal history within a 60-day window, and pay a county filing fee reported at roughly $132 to $215, for a petition that cannot succeed. The build's own findings file shows the builder knew the conditional-versus-unconditional question was 'a self-help limit' and chose to state the difference in terms; the not-yet-pardoned case was not carried over at all.",
+        "whatWasMeasured": {
+          "registrySelfHelpStopConditions": [
+            "The participant has not yet obtained a pardon; the pardon application itself is out of scope and is a referral.",
+            "Whether the pardon is conditional or unconditional cannot be determined from the document.",
+            "The record still appears after the quarterly cycle and the fallback route's availability is unclear."
+          ],
+          "statedInThePacket": {
+            "condition1_notYetPardoned": "NOT STATED anywhere. The five rendered pages use the word 'pardon' three times and all three are route labels: the guidance page's 'Route: Expungement Following an Unconditional Pardon' and the two printed route keys. participant-instructions.md never raises it.",
+            "condition2_conditionalVsUnconditional": "APPROACHED, NOT STATED AS A STOP. Instructions item 4 says a conditional pardon 'is a different matter: it may lead to Clean Slate limited access rather than to full expungement', without saying the packet cannot determine which the participant holds or that this is a point to stop and get help.",
+            "condition3_fallbackAvailabilityUnclear": "APPROACHED, NOT STATED AS A STOP. The guidance page says it states no timetable and no criterion because neither is established by the two forms the packet is built from, and directs the participant to the Clerk of Courts."
+          },
+          "sectionNamingWhereSelfHelpEnds": "None. participant-instructions.md has no such heading anywhere."
+        },
+        "theRepair": "Add a section to participant-instructions.md that states where self-help ends on this route, and state all three of the registry's recorded stop conditions in the registry's own words, the not-yet-pardoned referral first. The pattern already exists in this repository and should be followed rather than invented: data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/participant-instructions.md carries '## Where self-help ends', and data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/participant-instructions.md carries '## When to stop and get a lawyer' and introduces the list with 'The committed track registry records these as the points where self-help ends on this route, in its own words.' Consider carrying the same statement onto the composed process_guidance page, which is the component that already exists to tell a reader they may be in the wrong route.",
+        "sourceOfTruthForTheRepair": "data/record-clearing/legal-design-track-registry.json, track pa_pardon_expungement, field selfHelpStopConditions. The words are already settled there; nothing needs to be drafted or referred to counsel.",
+        "whatTheRepairMustNotDo": [
+          "Do not change any bound source. Both official forms bind by exact SHA-256 and both recompute exactly from the mounted corpus.",
+          "Do not touch the fourteen obligations that pass, and do not alter the rendered fixtures except as a re-render of a changed instructions component requires.",
+          "If any fixture byte moves, the family needs a fresh central raster acceptance: the current RASTER_PASS receipt binds boundToCanonicalSha256 888d4766... and refuses a packet nobody rendered.",
+          "The repair does not promote the family. A repaired family owes a second independent read by a lane that neither built nor repaired it."
+        ],
+        "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set. Note that this returns PASS_COMPLETE with all nine counters zero: no counter in the completeness contract measures whether the packet states where self-help ends, so this defect is invisible to the counters and has to be read.",
+        "notBlocked": "Not BLOCKED_SOURCE (sourceStatus SOURCE_BOUND_BY_HELD_BYTES, sourceBound true, both hashes recomputed exact here) and not BLOCKED_LEGAL_INPUT (legalInputStatus SETTLED, and the missing condition is already recorded in settled words).",
+        "grantsNothing": "This assignment promotes nothing, opens no route and grants no approval."
+      }
+    ]
+  }
 }

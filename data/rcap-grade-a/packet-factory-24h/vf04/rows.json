@@ -5543,6 +5543,93 @@
       "repairedNothing": true,
       "grantsNothing": "This row is a verification reading. It promotes nothing, opens no route and grants no approval."
     }
+  ,
+    {
+      "lane": "VF04",
+      "worker": "VF04 wave-6 (independent; built, repaired and rendered none of these packets)",
+      "wave": "packet-factory-24h/VF04/wave-6 (2026-09-02)",
+      "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+      "itemId": "pa_pardon_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "claim": {
+        "assert": "CLAIM_OK VF04 pa_pardon_expungement-set (independent-verification, grant set f4f8e2ad0eb227f9)",
+        "exitCode": 0
+      },
+      "decisiveDefect": "The packet never states the committed track registry's first recorded self-help stop condition for pa_pardon_expungement: \"The participant has not yet obtained a pardon; the pardon application itself is out of scope and is a referral.\" It appears nowhere in participant-instructions.md and nowhere in the five rendered pages. That is this route's entry condition and the single most likely reason a reader is in the wrong packet, and the packet has no section anywhere that says where self-help ends.",
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set, run in this worktree at this base without --write. Result PASS_COMPLETE, 17/109 written. The nine counters are all zero and the failure is not one of them: no counter in the contract measures whether the packet states where self-help ends, which is why this obligation has to be read rather than counted.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": "PASS",
+        "SOURCE_IDENTITY": "PASS",
+        "COMPONENT_SET": "PASS",
+        "KNOWN_PREFILLS": "PASS",
+        "REQUIRED_BEFORE_FILING": "PASS",
+        "ROUTE_OPTIONS": "PASS",
+        "REPEATING_ROWS": "PASS",
+        "PROTECTED_FIELDS": "PASS",
+        "ARTIFACTS": "PASS",
+        "PAGE_ORDER": "PASS",
+        "CLIPPING_AND_OVERLAP": "PASS",
+        "FILING_DESTINATION": "PASS",
+        "FEE_AND_WAIVER": "PASS",
+        "SERVICE": "PASS",
+        "SELF_HELP_STOP": "FAIL"
+      },
+      "evidence": {
+        "ROUTE_IDENTITY": "The census records two routes for this family and the packet carries both, each named to its own component. participant-instructions.md closes with 'Route carried by the petition in this packet: obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition' and 'Route carried by the process-guidance page: obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route', and the rendered guidance page repeats both. Those are the two routeKeys in production-field-map.json and product-wiring.json, and the petition really is the Rule 790 fallback instrument while the guidance page really is the no-filing automatic route.",
+        "SOURCE_IDENTITY": "Two official forms bound from the Master Library, both recomputed here from the corpus bytes with sha256sum and both byte lengths recomputed: PA-RCRIM-P-790-PETITION rev 2009-03 fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de / 87647, PA-RCRIM-P-790-ORDER rev 2021-07 4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95 / 151853. Both match source-receipt.json exactly at MASTER_LIBRARY_SOURCE_DIR/STATES/PA/02_PACKET_FORMS/.",
+        "COMPONENT_SET": "Three components declared -- primary_filing, proposed_order, process_guidance -- and all three are rendered in both fixtures. The page manifest gives five pages: petition on page 1, the two-page order on pages 2-3, the two-page guidance on pages 4-5, and the extracted text confirms each.",
+        "KNOWN_PREFILLS": "Seventeen writes declared. Fifteen carry AcroForm widget rects, and I measured ink inside every one of those fifteen rects from the rendered page's own word boxes: all fifteen carry text, none is invisible. The remaining two are on the composed guidance page, which has no widget rects, and both are visible in the extracted text ('Petitioner: Jordan Avery Reyes' and 'Docket No.: CP-51-CR-0004170-2021'). Every known required fact is written and on the page it belongs to.",
+        "REQUIRED_BEFORE_FILING": "Seventy-eight items declared REQUIRED_BEFORE_FILING, and all seventy-eight are named in participant-instructions.md. Checked against the file with whole-token matching on each widget name plus its printed label, not with loose substring matching, so 'Judge' cannot be satisfied by the word 'Judge' appearing anywhere. Zero missing.",
+        "ROUTE_OPTIONS": "No route-determined election is left unmade. routeSelectionsMade is empty and the field map says why: neither official form asks the question that separates this family's two routes, so nothing can be elected from the forms and the map records the absence instead of inventing a selection. Every checkbox on the petition is a statement about the participant's own record rather than a route determination, and the packet marks none of them and says so in terms. requiredOptionsMissing measured 0.",
+        "REPEATING_ROWS": "Five charge rows on the petition, Row1 through Row5, each with seven cells: PA Statute Title, Section, Subsection, Statute Description, Counts, Grade and Disposition. Measured across all thirty-five cells: zero are written and all thirty-five are classed REQUIRED_BEFORE_FILING. No row carries written cells beside required cells left blank, because no row carries a written cell at all.",
+        "PROTECTED_FIELDS": "Seven protected fields, all on the proposed order and all court-owned: Month, Day, Year, Petition/Motion, PresentedBy, Disposition and CourtSignature. A first pass found words inside all seven rects, so I measured again against the pristine PA-RCRIM-P-790-ORDER in the Master Library, comparing the words in each rect on the packet page against the words in the same rect on the source page. The packet adds nothing to any of the seven: what is there is the official order's own preprinted rules ('____________,', '20___,'). Zero build ink on any signature, signature date, certificate of mailing, court-only or prosecutor-only field.",
+        "ARTIFACTS": "Both fixtures recomputed from the bytes here. canonical.pdf 888d476669d2dcfa... 317897 bytes, 5 pages by pdfinfo; boundary.pdf bdc27af98952ba01... 318053 bytes, 5 pages. Both match reports/rendered-artifacts.json on hash, byte length and page count. The product-wiring acceptanceReceipt binds boundToCanonicalSha256 888d4766..., which is the canonical hash on disk now, and the proposedRepresentation component binds the same hash.",
+        "PAGE_ORDER": "The rendered page order matches the packet manifest in both fixtures: primary_filing, proposed_order, proposed_order, process_guidance, process_guidance. That component sequence is the declared componentSet order, and pdfinfo agrees with the manifest at five pages.",
+        "CLIPPING_AND_OVERLAP": "Measured here from word bounding boxes and separated from the official form's own typography. Zero words fall outside an 18pt printable margin on any page of either fixture. The canonical fixture has 143 overlapping word pairs, but 133 of them are present in the pristine PA-RCRIM-P-790-ORDER before this build touches it -- that form's body text has about 1.1pt of line-box overlap from its own leading -- and I confirmed that by running the same detector over the pristine source, which returns exactly 133. The 10 remaining pairs on canonical and 8 on boundary are each a written value sitting on the form's own preprinted fill rule, which is what filling a printed line is. No ink lies outside a measured write box.",
+        "FILING_DESTINATION": "The committed registry records the destination as 'Court of common pleas of the judicial district in which the charges were disposed' and the venue as the same. The instructions name the Clerk of Courts of the judicial district where the charges were disposed as where the packet is filed, and say a Rule 790 petition is decided by a judge of the Court of Common Pleas of that district even where a magisterial district judge or Philadelphia Municipal Court judge disposed of the case. That is the route's destination and its venue.",
+        "FEE_AND_WAIVER": "Both stated. The registry records 'County filing fees apply to the fallback petition and vary' and 'In forma pauperis relief is available for the fallback petition.' The instructions state that Pennsylvania fees are set county by county, that no held source states the fee for the participant's county, give the reported statewide range of roughly $132 to $215 expressly as a range to expect rather than as the participant's figure, and name the Clerk of Courts of the judicial district of disposition as the office that answers it. For the waiver they name Pennsylvania's statewide in forma pauperis forms for the Court of Common Pleas, say plainly that this packet does not include one, and name the same clerk as the office that explains how to file that way.",
+        "SERVICE": "Stated. The registry records service on the fallback route as service on the attorney for the Commonwealth, with 60 days to respond under Rule 790 and no participant notice obligation on the automatic route. The instructions say the petition is served on the Commonwealth, identify that as the District Attorney as attorney for the Commonwealth, give the 60-day response window, describe what follows it, note the 30-day stay where the petition is granted without consent, and tell the participant to keep proof of service. Who must be served, and how.",
+        "SELF_HELP_STOP": "FAIL. The committed track registry records three selfHelpStopConditions for pa_pardon_expungement. The first -- 'The participant has not yet obtained a pardon; the pardon application itself is out of scope and is a referral.' -- is stated nowhere. The rendered packet uses the word 'pardon' only three times and all three are route labels: the guidance page's 'Route: Expungement Following an Unconditional Pardon' and the two printed route keys. The second condition, that the document cannot tell you whether the pardon is conditional or unconditional, is approached but not stated as a stop: instructions item 4 says a conditional pardon 'is a different matter: it may lead to Clean Slate limited access rather than to full expungement', without saying the packet cannot determine which the participant has or that this is a point to stop. The third, that the fallback route's availability is unclear once the record still appears after the quarterly cycle, is approached on the guidance page, which says it states no timetable and no criterion because neither is established by the two forms, and directs the participant to the Clerk of Courts. The packet has no section anywhere that says where self-help ends. Its own sibling in the same jurisdiction, pa-490-nonconviction-set--official-pdf-fill, carries '## Where self-help ends', and ut-pet-no-charges-set--official-pdf-fill carries '## When to stop and get a lawyer' and prints the registry's stop conditions verbatim with the sentence 'The committed track registry records these as the points where self-help ends on this route, in its own words.' This family prints no such section and omits the entry condition for its own route."
+      },
+      "whyThisIsNotBlocked": "Not BLOCKED_SOURCE: both official forms bind by exact SHA-256 from the mounted corpus and MASTER_QUEUE.json reads sourceStatus SOURCE_BOUND_BY_HELD_BYTES with sourceBound true. Not BLOCKED_LEGAL_INPUT: legalInputStatus is SETTLED, and the missing stop condition is not an open legal question -- the committed registry already records it in settled words. The packet simply does not state it, which is a build defect and a repair.",
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+        "MASTER_LIBRARY_SOURCE_DIR/STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+        "MASTER_LIBRARY_SOURCE_DIR/STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
+        "data/record-clearing/legal-design-track-registry.json (track pa_pardon_expungement: destination, venue, rules, selfHelpStopConditions)",
+        "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/participant-instructions.md (comparison only)",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/participant-instructions.md (comparison only)"
+      ],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+      "commercialRoutesOpened": 0,
+      "overlayDirectoriesModified": 0,
+      "packetsModified": 0,
+      "productionTouched": false,
+      "repairedNothing": true,
+      "grantsNothing": "This row is a verification reading. It promotes nothing, opens no route and grants no approval."
+    }
   ],
   "supersededLaneMembership": {
     "note": "the earlier reading, when this lane covered other families",
