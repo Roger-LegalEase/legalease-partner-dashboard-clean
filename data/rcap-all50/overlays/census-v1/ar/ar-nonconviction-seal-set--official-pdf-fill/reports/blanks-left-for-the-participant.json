@@ -1,0 +1,561 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "ar-nonconviction-seal-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "petition",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      "field": "petition.Arrest Tracking Number",
+      "page": 3,
+      "printedContext": "Identification block - Arrest Tracking Number",
+      "disclosureLabel": "Identification block - Arrest Tracking Number",
+      "identity": "petition field Arrest Tracking Number",
+      "why": "the ATN is assigned by Arkansas ACIC when an arrest is processed and identifies the arrest through a system the platform has no knowledge of",
+      "participantMustSupply": "the ATN, copied from your arrest paperwork or your ACIC criminal-history record"
+    },
+    {
+      "document": "petition",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      "field": "petition.COUNTY OF",
+      "page": 3,
+      "printedContext": "Verification - \"STATE OF ARKANSAS / COUNTY OF ______\"",
+      "disclosureLabel": "Verification - \"STATE OF ARKANSAS / COUNTY OF ______\"",
+      "identity": "petition field COUNTY OF",
+      "why": "the county of a notarial oath is where the participant happens to be sworn, which the platform does not know",
+      "participantMustSupply": "the county in which you swear the verification before the notary - the notary can tell you, and it need not be the county of the court"
+    },
+    {
+      "document": "petition",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      "field": "petition.COUNTY/CITY",
+      "page": 1,
+      "printedContext": "Caption - the county in \"COURT OF ________, ARKANSAS\"",
+      "disclosureLabel": "Caption - the county in \"COURT OF ________, ARKANSAS\"",
+      "identity": "petition field COUNTY/CITY",
+      "why": "this blank binds participant.city through its own field name, which is the wrong fact; the county of the filing court is a case fact the participant establishes",
+      "participantMustSupply": "the county of the court where the nolle prosequi, dismissal or judgment of acquittal was entered - not the county you live in"
+    },
+    {
+      "document": "petition",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      "field": "petition.COURT TYPE",
+      "page": 1,
+      "printedContext": "Caption - the type of court in \"IN THE ______ COURT OF\"",
+      "disclosureLabel": "Caption - the type of court in \"IN THE ______ COURT OF\"",
+      "identity": "petition field COURT TYPE",
+      "why": "the compiled profile records that Act 1460 sealing is filed in the circuit or district court that handled the case, and which of the two varies by county",
+      "participantMustSupply": "which Arkansas court takes an Act 1460 non-conviction petition where your order was entered - circuit or district; the circuit clerk's office of that county answers it"
+    },
+    {
+      "document": "petition",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      "field": "petition.DAY 1",
+      "page": 1,
+      "printedContext": "Paragraph 1 - the DAY of the arrest date",
+      "disclosureLabel": "Paragraph 1 - the DAY of the arrest date",
+      "identity": "petition field DAY 1",
+      "why": "the platform holds an arrest date as a whole and holds no day fact",
+      "participantMustSupply": "the day of the month you were arrested, copied from your arrest paperwork"
+    },
+    {
+      "document": "petition",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      "field": "petition.in violation of ACA",
+      "page": 1,
+      "printedContext": "Paragraph 1 - \"in violation of A.C.A. Sec. ______\"",
+      "disclosureLabel": "Paragraph 1 - \"in violation of A.C.A. Sec. ______\"",
+      "identity": "petition field in violation of ACA",
+      "why": "this blank binds matter.charge through its printed caption, but it holds a code section rather than an offence name",
+      "participantMustSupply": "the Arkansas Code section of the offence, copied from your arrest or court paperwork or from your ACIC record"
+    },
+    {
+      "document": "petition",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      "field": "petition.MONTH 1",
+      "page": 1,
+      "printedContext": "Paragraph 1 - the MONTH of the arrest date",
+      "disclosureLabel": "Paragraph 1 - the MONTH of the arrest date",
+      "identity": "petition field MONTH 1",
+      "why": "the platform holds no month fact, and this blank class was proved on the sibling ACIC form to take a participant name through the printed-label fallback",
+      "participantMustSupply": "the month you were arrested, copied from the same paperwork"
+    },
+    {
+      "document": "petition",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      "field": "petition.Petitioner",
+      "page": 3,
+      "printedContext": "Verification - \"Comes the Petitioner, ______, under oath and states\"",
+      "disclosureLabel": "Verification - \"Comes the Petitioner, ______, under oath and states\"",
+      "identity": "petition field Petitioner",
+      "why": "this one field also controls the notarised signature rule at the foot of the jurat, and a packet may never put a name on a signature line, so the field is refused whole",
+      "participantMustSupply": "your own name, written on the page you swear before the notary"
+    },
+    {
+      "document": "petition",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      "field": "petition.Race",
+      "page": 3,
+      "printedContext": "Identification block - Race",
+      "disclosureLabel": "Identification block - Race",
+      "identity": "petition field Race",
+      "why": "the platform does not hold or write a race fact",
+      "participantMustSupply": "your race, as the form asks; the form states this block is required for proper identification of the Defendant in the state and national record systems"
+    },
+    {
+      "document": "petition",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      "field": "petition.Sex",
+      "page": 3,
+      "printedContext": "Identification block - Sex",
+      "disclosureLabel": "Identification block - Sex",
+      "identity": "petition field Sex",
+      "why": "this blank binds participant.date_of_birth through the printed-label fallback, because the block prints Sex and DOB one line apart; a date of birth in the sex box is a wrong answer rather than a missing one",
+      "participantMustSupply": "your sex, as the form asks, in the same identification block"
+    },
+    {
+      "document": "petition",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      "field": "petition.SID",
+      "page": 3,
+      "printedContext": "Identification block - SID No.",
+      "disclosureLabel": "Identification block - SID No.",
+      "identity": "petition field SID",
+      "why": "the platform holds no SID, and the shared semantics refuse a government identifier on any form",
+      "participantMustSupply": "your State Identification number, from your arrest paperwork or your ACIC criminal-history record"
+    },
+    {
+      "document": "petition",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      "field": "petition.YEAR 1",
+      "page": 1,
+      "printedContext": "Paragraph 1 - the YEAR of the arrest date",
+      "disclosureLabel": "Paragraph 1 - the YEAR of the arrest date",
+      "identity": "petition field YEAR 1",
+      "why": "the platform holds no year fact",
+      "participantMustSupply": "the year you were arrested, copied from the same paperwork"
+    },
+    {
+      "document": "order",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      "field": "order.1",
+      "page": 1,
+      "printedContext": "Order paragraph 1 - the offence(s) in the court's findings, first printed rule",
+      "disclosureLabel": "Order paragraph 1 - the offence(s) in the court's findings, first printed rule",
+      "identity": "order field 1",
+      "why": "the order is the court's instrument and accepts caption facts only; its findings are not caption facts",
+      "participantMustSupply": "nothing unless the clerk asks you to complete the recitals; then the offence, as on the petition"
+    },
+    {
+      "document": "order",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      "field": "order.ACA NO",
+      "page": 1,
+      "printedContext": "Order paragraph 1 - \"in violation of A.C.A. Sec.\" in the court's findings",
+      "disclosureLabel": "Order paragraph 1 - \"in violation of A.C.A. Sec.\" in the court's findings",
+      "identity": "order field ACA NO",
+      "why": "this blank binds matter.charge through its printed caption but holds a code section, and the findings are the court's",
+      "participantMustSupply": "nothing unless the clerk asks you to complete the recitals; then the Arkansas Code section, as on the petition"
+    },
+    {
+      "document": "order",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      "field": "order.Arrest Tracking Number",
+      "page": 3,
+      "printedContext": "Order identification block - Arrest Tracking Number",
+      "disclosureLabel": "Order identification block - Arrest Tracking Number",
+      "identity": "order field Arrest Tracking Number",
+      "why": "the ATN is assigned by Arkansas ACIC and is the agency's identifier",
+      "participantMustSupply": "the same ATN you wrote on the petition"
+    },
+    {
+      "document": "order",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      "field": "order.CLASS",
+      "page": 1,
+      "printedContext": "Order paragraph 1 - the \"A Class ______\" blank in the court's findings",
+      "disclosureLabel": "Order paragraph 1 - the \"A Class ______\" blank in the court's findings",
+      "identity": "order field CLASS",
+      "why": "the platform holds no offence-class fact, and the findings are the court's",
+      "participantMustSupply": "nothing unless the clerk asks you to complete the recitals; then the class letter of the offence"
+    },
+    {
+      "document": "order",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      "field": "order.COUNTY/CITY",
+      "page": 1,
+      "printedContext": "Order caption - the county, which must match the petition's",
+      "disclosureLabel": "Order caption - the county, which must match the petition's",
+      "identity": "order field COUNTY/CITY",
+      "why": "this blank binds participant.city through its own field name, which is the wrong fact",
+      "participantMustSupply": "the same county you wrote in the petition's caption - the county of the court where the order was entered"
+    },
+    {
+      "document": "order",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      "field": "order.COURT TYPE",
+      "page": 1,
+      "printedContext": "Order caption - the type of court, which must match the petition's",
+      "disclosureLabel": "Order caption - the type of court, which must match the petition's",
+      "identity": "order field COURT TYPE",
+      "why": "the order travels with the petition and carries the same caption the participant establishes",
+      "participantMustSupply": "the same court you wrote in the petition's caption"
+    },
+    {
+      "document": "order",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      "field": "order.DAY 1",
+      "page": 1,
+      "printedContext": "Order paragraph 1 - the DAY of the arrest date in the court's findings",
+      "disclosureLabel": "Order paragraph 1 - the DAY of the arrest date in the court's findings",
+      "identity": "order field DAY 1",
+      "why": "the platform holds no day fact, and the recitals below the caption are the court's",
+      "participantMustSupply": "nothing unless the clerk asks you to complete the order's recitals to match your petition; then the day of the arrest, as on the petition"
+    },
+    {
+      "document": "order",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      "field": "order.MONTH 1",
+      "page": 1,
+      "printedContext": "Order paragraph 1 - the MONTH of the arrest date in the court's findings",
+      "disclosureLabel": "Order paragraph 1 - the MONTH of the arrest date in the court's findings",
+      "identity": "order field MONTH 1",
+      "why": "the platform holds no month fact, and the recitals below the caption are the court's",
+      "participantMustSupply": "nothing unless the clerk asks you to complete the recitals; then the month, as on the petition"
+    },
+    {
+      "document": "order",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      "field": "order.Race",
+      "page": 3,
+      "printedContext": "Order identification block - Race",
+      "disclosureLabel": "Order identification block - Race",
+      "identity": "order field Race",
+      "why": "the platform does not hold or write a race fact",
+      "participantMustSupply": "the same race entry you wrote on the petition"
+    },
+    {
+      "document": "order",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      "field": "order.Sex",
+      "page": 3,
+      "printedContext": "Order identification block - Sex",
+      "disclosureLabel": "Order identification block - Sex",
+      "identity": "order field Sex",
+      "why": "the platform does not hold a sex fact",
+      "participantMustSupply": "the same sex entry you wrote on the petition"
+    },
+    {
+      "document": "order",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      "field": "order.SID",
+      "page": 3,
+      "printedContext": "Order identification block - SID No.",
+      "disclosureLabel": "Order identification block - SID No.",
+      "identity": "order field SID",
+      "why": "the platform holds no SID, and the shared semantics refuse a government identifier",
+      "participantMustSupply": "the same SID you wrote on the petition"
+    },
+    {
+      "document": "order",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      "field": "order.YEAR 1",
+      "page": 1,
+      "printedContext": "Order paragraph 1 - the YEAR of the arrest date in the court's findings",
+      "disclosureLabel": "Order paragraph 1 - the YEAR of the arrest date in the court's findings",
+      "identity": "order field YEAR 1",
+      "why": "the platform holds no year fact, and the recitals below the caption are the court's",
+      "participantMustSupply": "nothing unless the clerk asks you to complete the recitals; then the year, as on the petition"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "petition",
+      "field": "petition.DIVISION",
+      "label": "Caption - the DIVISION blank",
+      "refusalClass": null,
+      "why": "completed only if the court you file in has divisions; the clerk's office of that court answers whether it does"
+    },
+    {
+      "document": "petition",
+      "field": "petition.2",
+      "label": "Paragraph 1 - the second printed rule of the offence list",
+      "refusalClass": null,
+      "why": "used only if the same arrest carried a further offence; the first rule is filled from what you gave"
+    },
+    {
+      "document": "petition",
+      "field": "petition.CHARGES 1",
+      "label": "Paragraph 4 - status of pending felony charge(s), first printed rule",
+      "refusalClass": null,
+      "why": "used only if you tick paragraph 4's second box: the court, case number and current status of each pending felony charge"
+    },
+    {
+      "document": "petition",
+      "field": "petition.CHARGES 2",
+      "label": "Paragraph 4 - status of pending felony charge(s), second printed rule",
+      "refusalClass": null,
+      "why": "used only if the first rule will not hold the answer"
+    },
+    {
+      "document": "petition",
+      "field": "petition.ADDRESS 2",
+      "label": "Defendant's Address - second street line",
+      "refusalClass": null,
+      "why": "used only if your address needs a second line; the platform holds one street address and writes it on the first rule"
+    },
+    {
+      "document": "petition",
+      "field": "petition.FBI No if known",
+      "label": "Identification block - FBI No. (if known)",
+      "refusalClass": null,
+      "why": "the form itself marks this blank \"(if known)\"; leave it empty if you do not know it"
+    },
+    {
+      "document": "petition",
+      "field": "petition.Check Box1",
+      "label": "Paragraph 2 - Order of Nolle Prosequi entered more than one year ago and not refiled",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "which of paragraph 2's four situations ended the case is a fact about the participant's own record; the committed packet-set manifest asks the participant that question in terms rather than resolving it"
+    },
+    {
+      "document": "petition",
+      "field": "petition.Check Box2",
+      "label": "Paragraph 2 - Order of Dismissal has been entered",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the same election, second of four"
+    },
+    {
+      "document": "petition",
+      "field": "petition.Check Box3",
+      "label": "Paragraph 2 - Judgment of Acquittal, not for reason of mental disease or defect",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the same election, third of four"
+    },
+    {
+      "document": "petition",
+      "field": "petition.Check Box4",
+      "label": "Paragraph 2 - the prosecuting or city attorney did not file charges",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the same election, fourth of four"
+    },
+    {
+      "document": "petition",
+      "field": "petition.Check Box5",
+      "label": "Paragraph 4 - no pending felony charges in any state or federal court",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "a sworn statement about the participant's own record which the route does not determine"
+    },
+    {
+      "document": "petition",
+      "field": "petition.Check Box6",
+      "label": "Paragraph 4 - one or more pending felony charges",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the other half of the same sworn election"
+    },
+    {
+      "document": "petition",
+      "field": "petition.Check Box7",
+      "label": "Paragraph 5 - IS required to register under the Sex Offender Registration Act of 1997",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "a sworn statement about the participant's own status which the route does not determine"
+    },
+    {
+      "document": "petition",
+      "field": "petition.Check Box8",
+      "label": "Paragraph 5 - IS NOT required to register",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the other half of the same sworn election"
+    },
+    {
+      "document": "petition",
+      "field": "petition.Defendants Signature",
+      "label": "Defendant's Signature on page 2",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "paragraph 6 makes the petition a statement that the information is true and correct; the participant signs it"
+    },
+    {
+      "document": "petition",
+      "field": "petition.Date",
+      "label": "Date beside the Defendant's Signature on page 2",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the petition is signed would be false"
+    },
+    {
+      "document": "petition",
+      "field": "petition.DEFENDANT",
+      "label": "Certificate of Service - the certifying party's name in \"I, ______, do hereby certify\"",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a sworn statement about an act of service, made after mailing and not before"
+    },
+    {
+      "document": "petition",
+      "field": "petition.Defendant or Defendants Attorney",
+      "label": "Certificate of Service - signature line",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "signed by the participant, or their attorney, after service has actually happened"
+    },
+    {
+      "document": "petition",
+      "field": "petition.Date_2",
+      "label": "Certificate of Service - date line",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the date of service, written after service has happened"
+    },
+    {
+      "document": "petition",
+      "field": "petition.Notary Public",
+      "label": "Verification - the Notary Public signature line",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "a notary signs their own jurat"
+    },
+    {
+      "document": "petition",
+      "field": "petition.DAY 2",
+      "label": "Verification - the DAY of \"Subscribed and sworn to before me on this ___\"",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary completes the jurat when the oath is administered"
+    },
+    {
+      "document": "petition",
+      "field": "petition.MONTH 2",
+      "label": "Verification - the MONTH of the jurat",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary completes the jurat when the oath is administered"
+    },
+    {
+      "document": "petition",
+      "field": "petition.YEAR 2",
+      "label": "Verification - the YEAR of the jurat",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary completes the jurat when the oath is administered"
+    },
+    {
+      "document": "petition",
+      "field": "petition.EXPIRE DATE",
+      "label": "Verification - \"My Commission expires\"",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary's own commission expiry, which only the notary knows"
+    },
+    {
+      "document": "order",
+      "field": "order.DIVISION",
+      "label": "Order caption - the DIVISION blank",
+      "refusalClass": null,
+      "why": "completed only if that court has divisions, to match the petition"
+    },
+    {
+      "document": "order",
+      "field": "order.Judge",
+      "label": "The order's signature line, for the Judge",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the court signs its own order, if and only if it grants the petition"
+    },
+    {
+      "document": "order",
+      "field": "order.Date",
+      "label": "The date beside the Judge's signature",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the court dates its own order"
+    },
+    {
+      "document": "order",
+      "field": "order.2",
+      "label": "Order paragraph 1 - the second printed rule of the offence list in the court's findings",
+      "refusalClass": null,
+      "why": "nothing unless the clerk asks you to complete the recitals and the same arrest carried a further offence"
+    },
+    {
+      "document": "order",
+      "field": "order.CHARGES 1",
+      "label": "Order paragraph 4 - status of pending felony charge(s), first printed rule",
+      "refusalClass": null,
+      "why": "nothing unless the clerk asks you to complete the recitals and paragraph 4's second box is yours"
+    },
+    {
+      "document": "order",
+      "field": "order.CHARGES 2",
+      "label": "Order paragraph 4 - status of pending felony charge(s), second printed rule",
+      "refusalClass": null,
+      "why": "nothing unless the first rule will not hold the answer"
+    },
+    {
+      "document": "order",
+      "field": "order.FBI No if known",
+      "label": "Order identification block - FBI No. (if known)",
+      "refusalClass": null,
+      "why": "the form itself marks this blank \"(if known)\""
+    },
+    {
+      "document": "order",
+      "field": "order.Check BoxF",
+      "label": "Order paragraph 1 - felony box in the court's findings",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the court makes its own findings; where a clerk asks for the recitals to be completed to match the petition, which box is true is read off the participant's own paperwork and the route does not determine it"
+    },
+    {
+      "document": "order",
+      "field": "order.Check BoxM",
+      "label": "Order paragraph 1 - misdemeanor box in the court's findings",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the other half of the same election"
+    },
+    {
+      "document": "order",
+      "field": "order.Check Box1",
+      "label": "Order paragraph 2 - Order of Nolle Prosequi entered more than one year ago and not refiled",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the same election as the petition's paragraph 2, in the court's findings"
+    },
+    {
+      "document": "order",
+      "field": "order.Check Box2",
+      "label": "Order paragraph 2 - Order of Dismissal has been entered",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the same election, second of four"
+    },
+    {
+      "document": "order",
+      "field": "order.Check Box3",
+      "label": "Order paragraph 2 - Judgment of Acquittal, not for reason of mental disease or defect",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the same election, third of four"
+    },
+    {
+      "document": "order",
+      "field": "order.Check Box4",
+      "label": "Order paragraph 2 - the prosecuting or city attorney did not file charges",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the same election, fourth of four"
+    },
+    {
+      "document": "order",
+      "field": "order.Check Box5",
+      "label": "Order paragraph 4 - no pending felony charges",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the same sworn election as the petition's paragraph 4"
+    },
+    {
+      "document": "order",
+      "field": "order.Check Box6",
+      "label": "Order paragraph 4 - one or more pending felony charges",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the other half of the same election"
+    },
+    {
+      "document": "order",
+      "field": "order.Check Box7",
+      "label": "Order paragraph 5 - IS required to register as a sex offender",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the same sworn election as the petition's paragraph 5"
+    },
+    {
+      "document": "order",
+      "field": "order.Check Box8",
+      "label": "Order paragraph 5 - IS NOT required to register",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the other half of the same election"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/participant-instructions.md"
+}

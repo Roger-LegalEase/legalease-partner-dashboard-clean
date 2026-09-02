@@ -374,3 +374,43 @@ Three rules follow, and none of them is optional:
 
 A brief that tells a worker WHAT to do and not WHERE to do it has only done half
 the job.
+
+## A released grant with no artifact is usually a handoff, not an abandonment
+
+Twice in one session a lane reported the same alarming thing: families whose
+grants read `released: true` with no overlay directory, no rows.json row and no
+evidence anybody built them. FABLE-PD found five agency treatments released
+inside 0.3 seconds; FABLE-CA2 found three California families with released FIX
+grants it could not re-assert.
+
+Both were real observations and both had the same benign cause: the families are
+out with an EXTERNAL worker. `data/rcap-grade-a/external-worker-control/EXTERNAL_ASSIGNMENTS.json`
+holds them — CODEX-CS-A has the five agency treatments for packet-build,
+CODEX-CS-B has the three California families for rapid-repair — and the internal
+grant was released precisely SO the external worker could hold it.
+
+Captain made the mistake too, and worse: I reissued grants on all three
+California families before checking, double-booking them against CODEX-CS-B, and
+the E2 gate is what caught it.
+
+**Before treating a released grant as abandoned work, read the external worker
+index.** A grant released with no artifact means one of three things and the
+index distinguishes them: the subject is out with an external worker (leave it
+alone), the lane finished and the artifact is elsewhere (find it), or the work
+really was dropped (reissue). Only the third is a reissue, and it is the least
+likely of the three.
+
+## The dispatch and the ledger can disagree, and only the ledger stops a worker
+
+The dispatch names a lane for a family; the ledger decides whether that lane may
+assert it. Nothing reconciled them, so twenty-six families were dispatched to
+lanes whose assert would answer ALREADY_RELEASED. A lane reads its brief, tries
+to claim, is refused, and correctly stops — which looks like a lane failure and
+is a dispatch failure.
+
+generate.mjs now reissues in exactly that case, under six conditions, and the
+conditions matter more than the mechanism: the dispatch must name THIS lane, the
+reissued claim must sit on THAT lane, every prior claim must be released, the
+family's state must owe the operation, no external worker may hold it, and it
+must not have been released after its last reissue. Three of those six were
+added only after a gate caught the version without them.
