@@ -495,9 +495,23 @@ Object.assign(FAMILY, {
         hash: "76c0c54ed0a80c8b5b5fddd64e2087b31f9615d5ebe7524ead803352fba3cca3", bytes: 79928, render: false,
       }),
     ],
+    // Asked in the standard's own order. The repository was searched first: the
+    // text of both held CPL 160.59 sources was read page by page for a fee, a
+    // dollar amount, a cost, a waiver or an indigency route, and neither says
+    // anything about any of them. So the answer is the honest one -- no held
+    // source establishes it -- with the clerk's office the held pro se packet
+    // itself names as the office that does. The one fee the repository DOES
+    // hold, on the certificate-of-disposition companion, is stated as the
+    // amount it is, because where the repository establishes the answer the
+    // packet states it rather than delegating it.
+    feeAndWaiver: [
+      "**No held source establishes what it costs to file a CPL 160.59 sealing application.** Neither of this packet's two application sources — the Notice of Motion and Affidavit in Support of Sealing under CPL 160.59, nor the CPL 160.59 Pro Se Sealing Application Packet and Instructions — states a filing fee, states that filing is free, or describes a fee waiver. This packet does not supply a figure it does not hold.",
+      "**Ask the clerk's office of the court where you were convicted and sentenced.** That is the same office this packet's own held instructions send you to: the pro se packet tells you to contact \"the clerk's office of the court where you will apply to seal your case, which is the court where you were convicted and sentenced\", and to file \"by mail or in person at the clerk's office of the appropriate courthouse\". Put two questions to that clerk before you file: what, if anything, the court charges to file a CPL 160.59 sealing application, and whether any fee waiver or reduction is available to you.",
+      "**One cost this packet does hold, and it is not the application fee.** The Criminal Certificate of Disposition Request Form states its own fee on its face: five dollars ($5) in courts located outside New York City, or ten dollars ($10) in courts located in New York City's five boroughs, and it tells you to contact the court to ask what payment methods are accepted. You need a certificate of disposition for each conviction you are applying to seal, so budget that amount per case. It says nothing about what the sealing application itself costs.",
+    ],
     notes: [
       "Prior-application elections, reasons, sworn dates, service facts, prosecutor information, and notary fields remain blank.",
-      "The post-order seal-verification document is source-custody evidence only; form currency, local service practice, fees, and the proposed-order branch remain release blockers.",
+      "The post-order seal-verification document is source-custody evidence only; form currency, local service practice, and the proposed-order branch remain release blockers. The fee is no longer among them: this packet's fee-and-waiver section states that no held source establishes the application fee and names the clerk's office that answers it.",
     ],
   },
   "ny_mrta_marijuana-set": {
@@ -1623,10 +1637,36 @@ function sourceReceipt(familyId, config, rows) {
   };
 }
 
+/*
+ * The fee-and-waiver answer, for a family that has one to give.
+ *
+ * DETERMINATION_FEE_AND_WAIVER_STANDARD.json settles what satisfies this
+ * obligation, and its test is asked in order: does the repository establish the
+ * answer? If it does, the packet states it. Only where no held source does may a
+ * NAMED, reachable authority stand in -- an office, desk or clerk identified
+ * well enough to actually reach -- and never a gesture ("fees may apply", "check
+ * with the court"). Never a figure the repository does not hold.
+ *
+ * The template's catch-all line lists "fees" among six other things and answers
+ * none of them, which is exactly the shape the standard fails. A family that
+ * declares `feeAndWaiver` answers the question in its own section, and the
+ * catch-all stops claiming to cover it. A family that declares nothing is
+ * untouched: its instructions render byte-for-byte as before.
+ */
+function feeAndWaiverSection(config) {
+  const paragraphs = config.feeAndWaiver ?? null;
+  if (!paragraphs?.length) return "";
+  return `\n## What it costs to file, and who answers that\n\n${paragraphs.map((p) => `${p}\n`).join("\n")}`;
+}
+
 function participantInstructions(config, fieldMaps) {
   if (config.guidance) return guidedParticipantInstructions(config, fieldMaps);
   const routeLines = config.routeKeys.map((route) => `- Route scope: \`${route}\``).join("\n");
   const notes = (config.notes ?? []).map((note) => `- ${note}`).join("\n");
+  const fees = feeAndWaiverSection(config);
+  const confirmBeforeFiling = fees
+    ? `- Confirm current revision, filing destination, local procedures, attachments, service, and proposed-order requirements before filing. Cost is answered in its own section below.\n`
+    : `- Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.\n`;
   const requiredBeforeFiling = [...new Map(fieldMaps.flatMap((document) => document.fields)
     .filter((field) => field.blankTreatment === "REQUIRED_BEFORE_FILING")
     .map((field) => [field.field, field.effectiveLabel ?? field.field])).entries()]
@@ -1638,7 +1678,8 @@ function participantInstructions(config, fieldMaps) {
     + `- Review every page, choose only legally applicable elections, and complete every required signature and date yourself.\n`
     + `- Complete service certificates only after service actually occurs.\n`
     + `- Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.\n`
-    + `- Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.\n`
+    + confirmBeforeFiling
+    + fees
     + (requiredBeforeFiling
       ? `\n## Exact facts still required before filing\n\nThe platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.\n\n${requiredBeforeFiling}\n`
       : "")

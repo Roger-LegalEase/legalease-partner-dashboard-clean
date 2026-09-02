@@ -14674,6 +14674,14 @@
       "releasedAt": "2026-09-02T00:48:45.457Z"
     },
     {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "ar-arrest-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T00:56:57.531Z"
+    },
+    {
       "lane": "VF03",
       "subjectType": "packet-family",
       "subjectId": "dc_correct_misattributed_arrest-set",
@@ -14824,6 +14832,22 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-02T01:02:36.016Z"
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "ny_160_59_petition-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T01:04:29.175Z"
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "ri_nonconviction_sealing-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T01:07:36.671Z"
     }
   ],
   "reissues": [
@@ -15256,6 +15280,36 @@
       "previouslyReleasedAt": "2026-09-02T00:01:25.673Z",
       "reissuedAt": "2026-09-02T00:40:03.399Z",
       "reason": "fresh read that declares its base: current verdicts are being decided by lane number where no lane states when it read"
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "ar-arrest-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T15:59:39.936Z",
+      "reissuedAt": "2026-09-02T00:56:26.598Z",
+      "reason": "FABLE-R11 dispatch: the FIX01 grant released 2026-09-01T15:59Z, and the vf02 fresh read afterwards returned FAIL_COMPONENT_SET on this family; the repair lane that must fix it is FIX01 itself, which is the exact case --reissue exists for"
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "ny_160_59_petition-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T16:02:54.362Z",
+      "reissuedAt": "2026-09-02T01:00:52.754Z",
+      "reason": "FABLE-R11 dispatch: the FIX05 grant released 2026-09-01T16:02Z and the vf28 fresh read afterwards returned FAIL on FEE_AND_WAIVER; FIX05 is the dispatched repair lane for that failure, which is the case --reissue exists for"
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "ri_nonconviction_sealing-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T07:37:22.764Z",
+      "reissuedAt": "2026-09-02T01:04:52.182Z",
+      "reason": "FABLE-R11 dispatch: the FIX06 grant released 2026-09-01T07:37Z and the vf06 fresh read afterwards found the FEE_AND_WAIVER defect standing verbatim and unrepaired; FIX06 is the dispatched repair lane for it, which is the case --reissue exists for"
     }
   ],
   "transfers": [
