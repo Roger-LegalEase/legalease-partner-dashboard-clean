@@ -378,8 +378,8 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T05:32:17.133Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -453,8 +453,8 @@
       "operation": "rapid-repair",
       "lane": "FIX02",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T05:32:24.638Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -11296,7 +11296,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "5be13a33a3963f3b53ac15f4b356fff23dc797d5642631ae428de0996242bae9",
+  "claimsDigest": "9df34da128fbe6c764a72887c0299dd37d417a72dbf672605ebf8715539edcd9",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -19976,6 +19976,26 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-02T10:25:34Z",
       "reason": "the current dispatch names FIX04 for this family, the family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "ar-arrest-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T05:32:17.133Z",
+      "reissuedAt": "2026-09-02T10:57:23.182Z",
+      "reason": "FABLE-FIXAR repair lane: ARTIFACTS/SERVICE/SOURCE_IDENTITY failed obligations still open at 43e11ccd3; no external worker holds this subject (absent from EXTERNAL_ASSIGNMENTS.json)"
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "ar-misdemeanor-dwi-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T05:32:24.638Z",
+      "reissuedAt": "2026-09-02T10:57:33.426Z",
+      "reason": "FABLE-FIXAR repair lane: FEE_AND_WAIVER and SOURCE_IDENTITY failed obligations still open at 43e11ccd3; no external worker holds this subject (absent from EXTERNAL_ASSIGNMENTS.json)"
     }
   ],
   "transfers": [
