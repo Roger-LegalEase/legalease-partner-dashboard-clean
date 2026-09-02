@@ -138,7 +138,32 @@ const CONFIGS = Object.freeze({
     // BCI FAQ sentence names "dismissals, acquittals, or declinations", and an
     // acquittal is named in it as plainly as a dismissal is. Under A3 that is a
     // per-route holding on THIS route, not a read-across from a sibling.
-    certificateIssuanceFeeHeldExempt: "an acquittal"
+    certificateIssuanceFeeHeldExempt: "an acquittal",
+    /*
+     * FIX01/RP-1, SELF_HELP_STOP. The committed track registry holds eight
+     * self-help stop conditions for trackId ut_pet_acquittal and the packet
+     * carried none of them -- no stop section of any kind, and the words
+     * "citizen" and "immigration" appeared nowhere in the packet or its
+     * nineteen pages. The registry marks the first condition, in its own words,
+     * "a hard stop, not a caveat". On the one condition the packet did reach it
+     * said the opposite of what the registry holds, telling the participant to
+     * attend a hearing the registry records as the end of self-help; that
+     * sentence is replaced in the automatic-first branch above.
+     *
+     * Set on THIS FAMILY ONLY, and set to the registry-reading flag rather than
+     * the config-carried one so no condition passes through an editor's hands.
+     */
+    statesRegistryStopConditions: "ut_pet_acquittal",
+    /*
+     * The closing line is route-specific, so it is carried by the family. The
+     * last condition on this track is the one that is this route's own
+     * question.
+     */
+    registryStopConditionsClosing:
+      "The last of these is this route's own question. This packet is built for an acquittal, and the record stops "
+      + "self-help where the verdict was not guilty by reason of insanity rather than a plain acquittal; if that is what "
+      + "your verdict was, that is the point the record marks, and this is not the petition for it until the "
+      + "petition-track position is confirmed."
   },
   "ut_pet_conviction-set": {
     slug: "ut-pet-conviction-set", traffic: false, routeKind: "case",
@@ -197,7 +222,33 @@ const CONFIGS = Object.freeze({
     // 180-day automatic route reaches this participant at all, and it is a
     // pre-filing check the packet must ask for. The compiled profile makes it
     // dispositive twice and the instructions did not mention it once.
-    statesPleaInAbeyanceDiscriminator: true
+    statesPleaInAbeyanceDiscriminator: true,
+    /*
+     * FIX02/RP-1, SELF_HELP_STOP. The committed track registry holds eight
+     * self-help stop conditions for trackId ut_pet_dismissed_with_prejudice and
+     * the packet carried none of them: zero occurrences of immigration,
+     * citizen, lawyer, counsel or protective order. The registry marks the
+     * first condition, in its own words, "a hard stop, not a caveat". On the
+     * one condition the packet did reach it said the opposite of what the
+     * registry holds, telling the participant that if the court schedules a
+     * hearing they should attend it -- the shared `else` branch below replaces
+     * that sentence once this flag is set.
+     *
+     * Set on THIS FAMILY ONLY, and set to the registry-reading flag rather than
+     * the config-carried one so no condition passes through an editor's hands.
+     */
+    statesRegistryStopConditions: "ut_pet_dismissed_with_prejudice",
+    /*
+     * The closing line is route-specific. The last condition on this track is
+     * the plea-in-abeyance discriminator this family already carries twice
+     * above, reached here as the point where the packet is built for the wrong
+     * thing entirely.
+     */
+    registryStopConditionsClosing:
+      "The last of these is this route's own question, and it is the same fact this packet asks you to check twice "
+      + "above. This packet is built for a case that has actually been dismissed with prejudice; if what you have is a "
+      + "plea in abeyance that has not been dismissed yet, a Motion to Dismiss comes first and this is not the petition "
+      + "for it."
   },
   "ut_pet_dismissed_without_prejudice-set": {
     slug: "ut-pet-dismissed-without-prejudice-set", traffic: false, routeKind: "case",
@@ -1685,7 +1736,22 @@ function participantInstructions(config, authorities) {
     out.push("**If you file the fallback petition, the court gives the notices — not you.** The compiled Utah profile records what happens after the petition is filed: \"The court gives notice to the prosecuting office.\" The BCI *Expungement Applicant Instructions* included in this packet record what happens after the order: \"Once the court has expunged your case, the court will send BCI an electronic Order to Expunge. BCI will inform all available agencies listed in the case of the expungement.\" The profile records the same step and adds the federal one — after the court issues an order, \"BCI notifies affected agencies and forwards a copy to the FBI\". In order: you file with the court, the court notifies the prosecutor, the court sends the order to BCI, and BCI notifies the affected agencies.", "");
     out.push("**Two lines on the enclosed BCI sheet do not govern this route.** The *Expungement Applicant Instructions* included in this packet were updated 08/20/2024. Its Step 2 line \"Mail or email the prosecutor copies of what you file\" and its Step 4 note that you \"are still able to send a copy of the Order to Expunge to the agencies listed as well\" are **superseded for this route** by the court-notice sequence above. Read them as history, not as a step you owe. If you want that confirmed for your own case, the Utah State Courts Self-Help Center answers it on **888-583-0009**.", "");
     out.push("This packet still includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*. It exists for a prosecutor who chooses to acknowledge receipt; it is not a step this route requires you to perform, and the packet leaves it blank.", "");
-    out.push("The prosecutor or a victim in your case may object to a filed petition; if the court schedules a hearing, attend it.", "");
+    /*
+     * FIX01, SELF_HELP_STOP. The automatic-first branch carried its own copy of
+     * the inversion the two earlier lanes found on the shared `else` branch
+     * below: "if the court schedules a hearing, attend it" directs
+     * self-representation at the exact point this route's committed record says
+     * self-help ends. This route's registry entry holds the objection-or-hearing
+     * condition in the same words as its siblings, so the sentence is replaced
+     * on the same terms -- gated on the family's own flag, so a family that does
+     * not set it keeps the sentence it already delivers and its bytes do not
+     * move.
+     */
+    if (config.statesRegistryStopConditions) {
+      out.push("The prosecutor or a victim in your case may object to a filed petition, and the court may schedule a hearing. **The committed track registry records both of those as the point where this packet's self-help ends** — get a lawyer or a legal-aid office rather than arguing it yourself. A hearing date does not wait while you look, so start looking the day you learn of one. The Utah State Courts Self-Help Center answers procedural questions on **888-583-0009**, and it is not a substitute for a lawyer at a contested hearing.", "");
+    } else {
+      out.push("The prosecutor or a victim in your case may object to a filed petition; if the court schedules a hearing, attend it.", "");
+    }
   } else if (config.traffic) {
     out.push("**The prosecutor must receive a copy of what you file.** This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, whose printed text is the prosecutor acknowledging \"receipt of a copy of the Petition for Expungement\" — the form exists because the prosecutor gets a copy.", "");
     out.push("For an expungement petition Utah's published applicant instructions direct you to **mail or email the prosecutor copies of what you file**. Because this is the traffic route rather than the BCI route, confirm the method and the prosecutor's current address with the clerk of the district court where you file, or with the Utah State Courts Self-Help Center on **888-583-0009**, before you serve.", "");

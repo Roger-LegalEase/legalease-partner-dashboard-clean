@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `98eda7585939a96359f15e742695f6de12341455`
+**Minimum required ancestor:** `7292511170e1bd1d1bfdaf32e52a423a85ed9096`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -272,8 +272,8 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### vt_seal_nonconviction-set
 
-- canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf` — `9cf262bf31d99e3cf64379bc7efcbf87081694307842a86c4277c967d981c21b`
-- boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf` — `baf3bbd94b100416c355be450d68160099aff231387705719adf98db3c5c033f`
+- canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf` — `cafc3111e0c8d1669df9e9aae3d4d77a1847f9ead1ccbf70006155cee5703898`
+- boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf` — `87032f4047b63294f8db291f0ebe336eb93db86bd49e22ea72f76ed37a9bafe4`
 - expected pages 8 · requested scale 2.5
 - built by FIX02
 
