@@ -3079,8 +3079,723 @@
     "overlayDirectoriesModified": 0,
     "productionTouched": false,
     "grantsNothing": "An independent verdict proves a packet is complete or names why it is not. It approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "az_wrongful_arrest_clearance-set",
+   "lane": "VF06",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading",
+   "verdictCeilingApplied": "none — RASTER_PASS pins canonical ae9d2adf…, which recomputes from the live bytes",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId agrees across all 10 JSON records with no foreign familyId; the single routeKey obligation:track-only:AZ:az_wrongful_arrest_clearance agrees between the receipt, product-wiring and the MASTER_QUEUE row (routeCount 1)",
+     "evidence": "every packet JSON parsed and compared here"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "zero-source composition: all 3 committedRecords recomputed from disk and equal to the receipt (track registry 49d08b90…, specifications cc0c7959…, route-obligation census 09368333…). The declared routeKey is PRESENT in the committed record it binds and in the route-obligation census. No corpus binary is claimed.",
+     "evidence": "sha256 recomputed here; routeKey grepped inside each bound record"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both declared components render and no foreign component appears: az_wrongful_arrest_clearance-primary-filing-1 and az_wrongful_arrest_clearance-filing-instructions-2",
+     "evidence": "rendered-artifacts.json, field map and receipt cross-compared here"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "knownRequiredFieldsMissing=0 measured here; 24 writes / 698 added glyphs read back from the output bytes and present in the extracted fixture text",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; pdftotext of the committed canonical bytes"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all 6 declared items (3 in the field map, 3 in blanks-left-for-the-participant.json) are named in participant-instructions.md by their own disclosure label; 0 unnamed",
+     "evidence": "both declarations matched against the file here"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredOptionsMissing=0 measured here; this route declares no route-determined election and the packet asserts none",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows=0 measured here",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites=0 and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0; read from the bytes, no signature rule or signature date carries ink",
+     "evidence": "actual-writes.json plus pdftotext of the canonical fixture here"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both PDFs re-hashed here from the committed bytes and equal to the record (canonical ae9d2adf…, boundary 9ff414df…), page counts read from the bytes with pdf-lib. No PDF on disk goes unrecorded. Recorded because a shared composer invites the suspicion: this family's fixtures are byte-distinct from the other three composed-pleading families in this lane, so the shared build host is not producing one packet under four names.",
+     "evidence": "sha256 of all four composed families compared here"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both page manifests contiguous 1..4, equal to declared pageCount and to the pages read from the PDF bytes; primary-filing pp.1-2 then filing-instructions pp.3-4",
+     "evidence": "pageManifest vs pdf-lib, computed here"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects=0 measured here and the RASTER_PASS receipt pins a digest that recomputes from the live bytes",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; acceptance pin re-hashed here"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states it: the superior court, with the registry's recorded venue (\"Statewide Arizona law; petition in superior court\") and the statutory hearing carried",
+     "evidence": "participant-instructions.md read here"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "stated as an express non-statement in the record's own words, with the clerk of the superior court named as the office that answers both the fee and its own waiver application",
+     "evidence": "participant-instructions.md read here"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "stated as an express non-statement in the record's own words, with the clerk of the superior court named as the office that answers who must be served and how, and the statutory hearing carried as the recorded notice position",
+     "evidence": "participant-instructions.md read here"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all 4 selfHelpStopConditions the committed track registry records for track az_wrongful_arrest_clearance are carried — evidentiary dispute or contested hearing, the petitioner's merits burden on wrongfulness, a denial the person wants to challenge, and immigration consequences — stated in the obligations table and again in a dedicated section",
+     "evidence": "registry conditions counted and matched against participant-instructions.md here"
+    }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": [],
+   "notes": "SELF_HELP_STOP is scored here against the route's own committed record rather than against the presence of any disclaimer. It PASSES where the packet states where self-help ends; it FAILS where data/record-clearing/legal-design-track-registry.json records selfHelpStopConditions for the track that the packet omits, so a participant could pass a point the record marks as a stop. The registry conditions were counted per track and each was searched for in participant-instructions.md by its own subject vocabulary in this lane.",
+   "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+   "verifiedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)"
+  },
+  {
+   "itemId": "dc_yra_set_aside-set",
+   "lane": "VF06",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading",
+   "verdictCeilingApplied": "none — RASTER_PASS pins canonical 302ebea7…, which recomputes from the live bytes",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "adr0004Note": "The District of Columbia is one of the five jurisdictions whose legacy commercial authority was retired on 2026-08-28 (ADR-0004; data/record-clearing/legal-decisions/2026-08-28-legacy-generator-retirement.json). Retirement preserves assets and history, not authority, and it is not a completeness defect: it is scored nowhere in the fifteen obligations. Nor does this PASS convert into authority. Measured and recorded so nobody reads the verdict as a route opening: product-wiring.json carries status DECLARED_NOT_INSTALLED, authorityCreated \"none\", paymentEligible false, sponsorshipEligible false, commercialState NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP. This packet may be complete and still deliver nothing commercially, and both of those are true here.",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId agrees across all 10 JSON records with no foreign familyId; the single routeKey obligation:track-only:DC:dc_yra_set_aside agrees between the receipt, product-wiring and the MASTER_QUEUE row (routeCount 1)",
+     "evidence": "every packet JSON parsed and compared here"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "zero-source composition: all 3 committedRecords recomputed from disk and equal to the receipt. The declared routeKey is PRESENT in the committed record it binds and in the route-obligation census. No corpus binary is claimed, and none is needed — the packet composes from codified text.",
+     "evidence": "sha256 recomputed here; routeKey grepped inside each bound record"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both declared components render and no foreign component appears: dc_yra_set_aside-primary-filing-1 and dc_yra_set_aside-filing-instructions-2",
+     "evidence": "rendered-artifacts.json, field map and receipt cross-compared here"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "knownRequiredFieldsMissing=0 measured here; 24 writes / 698 added glyphs read back from the output bytes and present in the extracted fixture text",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; pdftotext of the committed canonical bytes"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all 8 declared items (4 in the field map, 4 in blanks-left-for-the-participant.json) are named in participant-instructions.md by their own disclosure label; 0 unnamed",
+     "evidence": "both declarations matched against the file here"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredOptionsMissing=0 measured here; this route declares no route-determined election and the packet asserts none",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows=0 measured here",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites=0 and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0; read from the bytes, no signature rule or signature date carries ink",
+     "evidence": "actual-writes.json plus pdftotext of the canonical fixture here"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both PDFs re-hashed here from the committed bytes and equal to the record (canonical 302ebea7…, boundary 3fb8f39c…), page counts read from the bytes with pdf-lib; byte-distinct from the sibling composed families. No PDF on disk goes unrecorded.",
+     "evidence": "sha256 and pdf-lib recomputed here"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both page manifests contiguous 1..4, equal to declared pageCount and to the pages read from the PDF bytes",
+     "evidence": "pageManifest vs pdf-lib, computed here"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects=0 measured here and the RASTER_PASS receipt pins a digest that recomputes from the live bytes",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; acceptance pin re-hashed here"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states it: the Superior Court of the District of Columbia, Criminal Division, one motion per case number, with the registry's unresolved-vehicle caveat carried and that court's clerk named as the office that says which paper it accepts",
+     "evidence": "participant-instructions.md read here"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "stated as an express non-statement in the record's own words, with the Superior Court Criminal Division clerk named as the office that answers both the fee and its own waiver application",
+     "evidence": "participant-instructions.md read here"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "stated in the record's own words as unresolved and among the items counsel must confirm, with the Superior Court Criminal Division clerk named as the office that answers who must be served and how",
+     "evidence": "participant-instructions.md read here"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all 4 selfHelpStopConditions the committed track registry records for track dc_yra_set_aside are carried — a prosecutor opposition or court-ordered response, the court setting a hearing, a federal/military/tribal/other-jurisdiction record, and immigration/firearm/licensing/clearance/childcare/healthcare/law-enforcement-employment consequences — stated in the obligations table and again in a dedicated section",
+     "evidence": "registry conditions counted and matched against participant-instructions.md here"
+    }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": [],
+   "notes": "Scored on completeness merits with ADR-0004 held apart from the measurement in both directions. SELF_HELP_STOP is scored here against the route's own committed record rather than against the presence of any disclaimer. It PASSES where the packet states where self-help ends; it FAILS where data/record-clearing/legal-design-track-registry.json records selfHelpStopConditions for the track that the packet omits, so a participant could pass a point the record marks as a stop. The registry conditions were counted per track and each was searched for in participant-instructions.md by its own subject vocabulary in this lane.",
+   "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+   "verifiedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)"
+  },
+  {
+   "itemId": "nc_146_dismissal_petition-set",
+   "lane": "VF06",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+   "verdictCeilingApplied": "none — RASTER_PASS pins canonical 81d71db0…, which recomputes from the live bytes",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId agrees across all 10 JSON records with no foreign familyId; the single routeKey obligation:track-only:NC:nc_146_dismissal_petition agrees between the receipt, product-wiring, the field map and the MASTER_QUEUE row (routeCount 1)",
+     "evidence": "every packet JSON parsed and compared here"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all 4 declared sources recomputed and equal to the receipt: the committed packet-set manifest 563147bf… (3677637 B) from the repository, and the three AOC forms from the mounted Master Library — AOC-CR-287 a8762293… (257828 B, 2 pp), AOC-CR-287-INSTRUCTIONS fe222704… (217744 B, 1 p), AOC-CV-226 74057a13… (269426 B, 2 pp). These bind through pathInCustody rather than pathInArchive; resolved and re-hashed through the declared custody root here rather than reported absent. Declared page counts confirmed against the PDF bytes. The declared routeKey is PRESENT in the committed manifest it binds and in the route-obligation census.",
+     "evidence": "sha256 and pdf-lib recomputed here against the corpus bytes"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all three components render and no foreign component appears: petition (AOC-CR-287), instructions (AOC-CR-287-INSTRUCTIONS) and fee_waiver (AOC-CV-226), matching the three the MASTER_QUEUE row names for this packet set. The forms are delivered as the AOC publishes them, which G.S. 15A-146(c) requires.",
+     "evidence": "receipt, field map, rendered-artifacts and the queue packetComponents cross-compared here"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "knownRequiredFieldsMissing=0 measured here; 56 written values / 746 added glyphs read back from the output bytes, 14 of 197 fields written, values present in the extracted fixture text",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; pdftotext of the committed canonical bytes"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all 124 declared items (62 in the field map, 62 in blanks-left-for-the-participant.json) are named in participant-instructions.md by their own disclosure label, checked string by string; 0 unnamed. The file additionally names three things to establish before filing that are not blanks on any form: whether the dismissal was under a deferred prosecution or conditional discharge (the only thing that turns the $175.00 fee on), whether the district attorney intends to petition instead on AOC-CR-295, and whether the case has already cleared automatically.",
+     "evidence": "both declarations matched against the file here"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredOptionsMissing=0 measured here; the subsection (a) / (a1) election and paragraph 3's boxes a and b are disclosed to the participant as their own characterization rather than inferred by the build",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; participant-instructions.md read here"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows=0 measured here",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites=0 and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0; read from the bytes, no signature line, signature date, certification, court-only or district-attorney field carries ink across the 5 pages",
+     "evidence": "actual-writes.json plus pdftotext of the canonical fixture here"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both PDFs re-hashed here from the committed bytes and equal to the record (canonical 81d71db0…, boundary af582b14…), page counts read from the bytes with pdf-lib. No PDF on disk goes unrecorded.",
+     "evidence": "sha256 and pdf-lib recomputed here"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both page manifests contiguous 1..5, equal to declared pageCount and to the 5 pages read from the PDF bytes, and equal to the sum of the three sources' own page counts (2 + 1 + 2) recomputed from the corpus bytes",
+     "evidence": "pageManifest vs pdf-lib vs source page counts, all computed here"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects=0 measured here and the RASTER_PASS receipt pins a digest that recomputes from the live bytes",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; acceptance pin re-hashed here"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states the court the route names and distinguishes it from the two AOC forms that are not this one (AOC-CR-295, the district attorney's petition, and AOC-CR-285, the continuation sheet)",
+     "evidence": "participant-instructions.md read here"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the fee is stated with the exact condition that turns it on — $175.00 where the dismissal was pursuant to a deferred prosecution agreement or a conditional discharge — and the waiver route is the AOC's own indigency affidavit AOC-CV-226, which the packet ships as a component rather than pointing at",
+     "evidence": "participant-instructions.md read against the shipped components here"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states who receives what and separates this route's service from the 20-day service on the district attorney that a DNA application under G.S. 15A-146(b1) requires, which is expressly not this packet",
+     "evidence": "participant-instructions.md read here"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all 6 selfHelpStopConditions the committed track registry records for track nc_146_dismissal_petition are carried under \"When to stop and get help\", including the two the packet quotes with attribution — a felony dismissed pursuant to a plea agreement, and possible later relief under G.S. 15A-145.4 or 15A-145.6 where \"sequencing matters\" — plus lack-of-capacity dismissals under G.S. 15A-1008, the conviction-not-dismissal case, the DNA-record case, multi-offence uncertainty, record-retention for immigration proceedings, and any immigration question at all",
+     "evidence": "registry conditions counted and matched against participant-instructions.md here"
+    }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": [],
+   "notes": "The strongest instructions in this lane: 124 declared blanks each named, and the stop conditions quoted with the registry named as their source. SELF_HELP_STOP is scored here against the route's own committed record rather than against the presence of any disclaimer. It PASSES where the packet states where self-help ends; it FAILS where data/record-clearing/legal-design-track-registry.json records selfHelpStopConditions for the track that the packet omits, so a participant could pass a point the record marks as a stop. The registry conditions were counted per track and each was searched for in participant-instructions.md by its own subject vocabulary in this lane.",
+   "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+   "verifiedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)"
+  },
+  {
+   "itemId": "rcap-ga-guidance-implementation",
+   "lane": "VF06",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading",
+   "verdictCeilingApplied": "none — RASTER_PASS pins canonical ecfb488b…, which recomputes from the live bytes",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "deliveryTypeNote": "This is a guidance family and it is scored as what it claims to be, not as a petition that failed to appear. The committed guidance specification records that nothing may be filed until the prosecuting attorney's advance consent is obtained, that LegalEase neither obtains consent nor files, and that no participant document is generated on this route as currently offered. The packet ships exactly the two things the record does describe — the participant's own factual record and a page explaining the gate — and says in its own first paragraph that it contains no petition and nothing that gets filed. A missing petition would be a defect in a petition family; here it is the recorded design, and the packet states the route contract's own warning that this guidance family must not be used to close the § 42-8-66 petition gate.",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId agrees across all 10 JSON records with no foreign familyId; the single routeKey obligation:track-pathway:GA:ga-rfo:retroactive-first-offender-treatment-under-42-8-66 agrees between the receipt, product-wiring and the MASTER_QUEUE row (routeCount 1)",
+     "evidence": "every packet JSON parsed and compared here"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "zero-source composition: all 3 committedRecords recomputed from disk and equal to the receipt. The declared routeKey is PRESENT in the committed record it binds and in the route-obligation census. No corpus binary is claimed.",
+     "evidence": "sha256 recomputed here; routeKey grepped inside each bound record"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both declared components render and no foreign component appears: ga-rfo-participant-factual-record-1 and ga-rfo-process-guidance-2, which are the two the guidance specification describes. No petition component is declared, none is rendered, and none is claimed.",
+     "evidence": "rendered-artifacts.json, field map and receipt cross-compared here"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "knownRequiredFieldsMissing=0 measured here; 24 writes / 698 added glyphs read back from the output bytes and present in the extracted fixture text",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; pdftotext of the committed canonical bytes"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all 18 declared items (9 in the field map, 9 in blanks-left-for-the-participant.json) are named in participant-instructions.md by their own disclosure label; 0 unnamed",
+     "evidence": "both declarations matched against the file here"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredOptionsMissing=0 measured here; this guidance route declares no route-determined election and the packet asserts none",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows=0 measured here",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites=0 and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0; read from the bytes, no signature rule or signature date carries ink, and nothing here is a filing to sign",
+     "evidence": "actual-writes.json plus pdftotext of the canonical fixture here"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both PDFs re-hashed here from the committed bytes and equal to the record (canonical ecfb488b…, boundary 6866fd68…), page counts read from the bytes with pdf-lib; byte-distinct from the sibling composed families. No PDF on disk goes unrecorded.",
+     "evidence": "sha256 and pdf-lib recomputed here"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both page manifests contiguous 1..4, equal to declared pageCount and to the pages read from the PDF bytes; factual record pp.1-2 then process guidance pp.3-4",
+     "evidence": "pageManifest vs pdf-lib, computed here"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects=0 measured here and the RASTER_PASS receipt pins a digest that recomputes from the live bytes",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; acceptance pin re-hashed here"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "answered on the route's own terms and not dodged: the packet states that the participant does not file this and neither does the platform, that the route's eventual destination is the convicting court, and that the destination of the first thing the participant does is the prosecuting attorney's office — which the committed record puts outside self-help",
+     "evidence": "participant-instructions.md read here"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "a positive no-fee answer rather than a delegation: no filing fee for a § 42-8-66 petition per § 42-8-66(h), with the waiver question recorded as answered by that — none needed, because the statute prohibits the fee",
+     "evidence": "participant-instructions.md read here"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "stated: nothing is served because nothing is filed without consent; the consent requirement is recorded as a threshold to filing rather than a notice provision, prosecutor silence is expressly not consent, and post-grant distribution to the petitioner, prosecuting attorney, GCIC and DDS is identified as the court's act rather than the participant's",
+     "evidence": "participant-instructions.md read here"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all 4 selfHelpStopConditions the committed track registry records for track ga-rfo are carried, and the packet goes further than the record by stating that self-help stops always, at the consent stage, because obtaining advance consent is negotiation with an opposing party — then names four Georgia expungement desks by name to route the participant to",
+     "evidence": "registry conditions counted and matched against participant-instructions.md here"
+    }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": [],
+   "notes": "Scored as guidance. SELF_HELP_STOP is scored here against the route's own committed record rather than against the presence of any disclaimer. It PASSES where the packet states where self-help ends; it FAILS where data/record-clearing/legal-design-track-registry.json records selfHelpStopConditions for the track that the packet omits, so a participant could pass a point the record marks as a stop. The registry conditions were counted per track and each was searched for in participant-instructions.md by its own subject vocabulary in this lane.",
+   "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+   "verifiedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)"
+  },
+  {
+   "itemId": "wa_vac_substance_use_disorder-set",
+   "lane": "VF06",
+   "verdict": "BLOCKED_LEGAL_INPUT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+   "verdictCeilingApplied": "not reached — the family is blocked before a completeness verdict is available to it",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "whyBlocked": "Two live blocked limbs, either of which is sufficient. (1) ROUTE_OPTIONS: the family's own route-options-block.json records status BLOCKED_LEGAL_INPUT — CrRLJ 09.0100 (rev. 11/2024) prints four grounds and none names RCW 9.96.060(6), so the packet cannot state this route on the form's face without an answer, and marking any printed ground would misstate the route. (2) FEE_AND_WAIVER: MASTER_QUEUE legalInputStatus is OPEN_LEGAL_INPUT with a live wave2LegalBlock (superseded:false), class MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT. Neither LEGAL_HOLD_LIMBS_ANSWERED.json nor ROGER_SOURCE_UNBLOCK_LIST.json mentions this family.",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId agrees across all 14 JSON records with no foreign familyId; the single routeKey obligation:track-only:WA:wa_vac_substance_use_disorder agrees between the receipt, product-wiring and the MASTER_QUEUE row (routeCount 1)",
+     "evidence": "every packet JSON parsed and compared here"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all three sources this packet relies on recomputed from the mounted Master Library and equal to their declared digests: CRRLJ-09.0100 1f72e901… (5 pp) and CRRLJ-09.0200 b53035dd… (6 pp) from source-receipt.json, and CrRLJ 09.0300 42ac9ccb…, which is cited only in a markdown table in participant-instructions.md and would be missed by a JSON-only sweep — it resolves through data/rcap-all50/local-source-corpus-index.json and recomputes exactly. The fixture manifest's sourceSha256 values agree with the receipt for both forms. The declared routeKey is PRESENT in the route-obligation census and in the MASTER_QUEUE row.",
+     "evidence": "sha256 recomputed here for every hash cited anywhere in the packet, JSON and markdown alike"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both components the MASTER_QUEUE row names render in both fixtures — primary filing (CrRLJ 09.0100) and proposed order (CrRLJ 09.0200) — four filled PDFs in total, and no component of another route appears",
+     "evidence": "fixture-manifest.json, rendered-artifacts.json and the queue packetComponents cross-compared here"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "knownRequiredFieldsMissing=0 measured here; 56 written values / 1292 added glyphs read back from the output bytes across the four fixtures, 28 of 71 fields written, and the values read in the extracted text of both canonical PDFs",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; pdftotext of the committed fixture bytes"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "participant-completion-instructions.json and participant-instructions.md together name what the participant must bring: local criminal-history attachments where the court requires them, the conviction/count/offence information from the court file, documentation of the substance-use-disorder programme, and the proposed order to bring to the hearing — each with the office to ask",
+     "evidence": "participant-completion-instructions.json matched against participant-instructions.md here"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "This is a blocked obligation and it is not scored. The family's own route-options-block.json records it, and the reasoning holds on re-reading: the form carries no election for RCW 9.96.060(6), and its only printed occurrence of \"substance use disorder\" sits inside section 5's RCW 46.61.5055 DUI deferred-prosecution list — a phrase that matches this route's words while answering a different section's question. The packet marks no checkbox, which is the right refusal rather than a missing mark. requiredOptionsMissing=0 is consistent with that: there is no election to be missing, which is the whole problem.",
+     "evidence": "route-options-block.json read here and its reading of CrRLJ 09.0100 confirmed against the re-hashed source bytes"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows=0 measured here; the three charge rows are written completely in both fixtures",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; fixture-manifest.json facts read here"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites=0 and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0. Read from the bytes: no declaration signature, signature date, judge's findings, ruling or clerk section carries ink, and the packet states that the order's findings and rulings belong to the court. reports/protection-report.json exists and agrees.",
+     "evidence": "actual-writes.json, protection-report.json and pdftotext of both canonical fixtures, read here"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all 26 recorded artifact hashes recomputed here from the committed bytes and equal to the record, including all four filled PDFs and every per-page raster; page counts read from the PDF bytes with pdf-lib. No PDF on disk goes unrecorded.",
+     "evidence": "sha256 and pdf-lib recomputed here"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "this family declares no assembled page manifest because it ships two separate documents rather than one assembled packet, and its order is measurable as such: the petition renders 5 pages and the order 6, each equal to its source's page count recomputed from the corpus bytes, each rastered page-01..page-05 and page-01..page-06 with no gap, and the instructions state the petition is filed and the order is the proposed order the judge completes",
+     "evidence": "pdf-lib page counts, source page counts and the raster trees, all computed here"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects=0 measured here and the RASTER_PASS receipt pins a digest that recomputes from the live bytes. Recorded rather than scored: the acceptance receipt names coversTheWholeFamily true while pinning only the CrRLJ 09.0100 canonical fixture of this family's four.",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; acceptance pin re-hashed here"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states it and sources it: the court of limited jurisdiction that sentenced you — the county district court or the city municipal court — identified from the judgment caption and the docket, with CrRLJ 09.0300 section 3 quoted and the clerk of that court named where the participant is unsure",
+     "evidence": "participant-instructions.md read against the re-hashed instruction sheet"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "This is the second blocked obligation and it is not scored. Recorded for whoever discharges the block: neither CrRLJ 09.0100 nor CrRLJ 09.0300 states a filing fee, the packet does not invent one, and it directs the participant to the clerk of the sentencing court with three specific questions — whether a fee applies, the amount, and whether a waiver is available and how to apply. The open input is the current fee schedule for a named court, which the wave-2 record itself describes as an operational fact to look up rather than a question for counsel.",
+     "evidence": "MASTER_QUEUE wave2LegalBlock and WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json read here; participant-instructions.md read against the re-hashed sources"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states who and how, quoting CrRLJ 09.0300 section 3 in a block quote: the prosecuting attorney's office that prosecuted you receives a copy of each document on the same day it is filed, with the copy count stated (at least 2 of each)",
+     "evidence": "participant-instructions.md read against the re-hashed instruction sheet"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The committed track registry records 11 selfHelpStopConditions for track wa_vac_substance_use_disorder. The packet's \"Where self-help ends\" section carries 6 bullets and none of them is one of the record's screens. Searched in this lane against participant-instructions.md: \"immigration\" 0 occurrences, \"domestic violence\" 0, \"firearm\" 0, \"protection order\" 0, \"no-contact\" 0, \"pending charge\" 0. The registry's recorded conditions that the packet omits include immigration consequences; any pending charge in Washington, another state, federal or tribal court; any domestic-violence element charged or findable from the court file; any protection, no-contact, antiharassment or civil restraining order in effect; any DUI or alcohol/drug-related driving offence including a reduced one; any firearm, deadly-weapon or sexual-motivation enhancement; and a participant whose real goal is firearm-rights restoration, which is a separate proceeding. This is a measured content defect and it survives the two blocks — it is not what the family is blocked on and discharging either block will not repair it.",
+     "evidence": "data/record-clearing/legal-design-track-registry.json track wa_vac_substance_use_disorder selfHelpStopConditions, counted here, matched term by term against participant-instructions.md"
+    }
+   },
+   "failedProofObligations": [
+    "SELF_HELP_STOP"
+   ],
+   "blockedProofObligations": [
+    "ROUTE_OPTIONS",
+    "FEE_AND_WAIVER"
+   ],
+   "notMeasurableHere": [],
+   "notes": "The verdict is BLOCKED_LEGAL_INPUT under the lane's row stop condition, and a blocked family is neither a FAIL nor a PASS. The SELF_HELP_STOP defect is recorded as measured and a repair assignment is raised for it anyway, because it is independent of both blocks and would otherwise be discharged along with them. SELF_HELP_STOP is scored here against the route's own committed record rather than against the presence of any disclaimer. It PASSES where the packet states where self-help ends; it FAILS where data/record-clearing/legal-design-track-registry.json records selfHelpStopConditions for the track that the packet omits, so a participant could pass a point the record marks as a stop. The registry conditions were counted per track and each was searched for in participant-instructions.md by its own subject vocabulary in this lane.",
+   "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+   "verifiedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)"
+  },
+  {
+   "itemId": "oh_marijuana_expungement-set",
+   "lane": "VF06",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+   "verdictCeilingApplied": "none — RASTER_PASS pins canonical ddf3d484…, which recomputes from the live bytes",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId agrees across all 8 JSON records with no foreign familyId; the single routeKey obligation:track-pathway:OH:oh_marijuana_expungement:marijuana-hashish-possession-expungement-under-2953-321 agrees between the receipt, product-wiring and the MASTER_QUEUE row (routeCount 1)",
+     "evidence": "every packet JSON parsed and compared here"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the one declared source recomputed from the mounted Master Library and equal to the receipt: OH-BCI-SEALING-EXPUNGEMENT-REQUEST 9234ec76… 235789 B, STATES/OH/04_SUPPORTING_PROCESS. The declared routeKey is PRESENT in the route-obligation census and in the MASTER_QUEUE row. The source is held and exact — which is precisely why the ARTIFACTS failure below is a build defect and not a source problem, and why this family is not BLOCKED_SOURCE.",
+     "evidence": "sha256 recomputed here against the corpus bytes"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "DECIDING DEFECT, first limb. The packet declares two components and ships one. source-receipt.json declares OH-BCI-SEALING-EXPUNGEMENT-REQUEST with documentRole POST_ORDER_COMPANION_SOURCE, copiedWithoutModification true, and companionArtifact \"…/companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf\". That file does not exist. The companion/ directory contains companion-guidance.md and nothing else, and git ls-files confirms the PDF was never committed — it was dropped in commit c01b87d15, \"43 packet families built, 4 stopped, 59 corpus binaries excluded\". The MASTER_QUEUE row names component:oh_marijuana_expungement-bci-transmission-5 for this packet set, which is that component. The packet's own participant-instructions.md opens \"This packet contains one statutory-content draft and one unchanged official Ohio BCI request held as post-order companion evidence\" and states \"It is included unchanged and is not prefilled\"; companion-guidance.md states \"The exact held BCI request is copied unchanged at SHA-256 9234ec76…\". A participant reading this packet is told a document is in it that is not in it.",
+     "evidence": "directory listing, git ls-files and git check-ignore run here; source-receipt.json and both instruction files read against the tree"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "knownRequiredFieldsMissing=0 measured here; the participant facts read back in the extracted pleading text (Jordan Avery Reyes, 118 Maple Street Columbus Ohio 43215, docket 24-CR-001234) and every fact the packet does not hold is printed as a named confirmation token rather than guessed — [ARREST DATE TO BE CONFIRMED], [DISPOSITION DATE TO BE CONFIRMED], [ARRESTING AGENCY MUST BE CONFIRMED], LOCAL CAPTION MUST BE CONFIRMED",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; pdftotext of the committed canonical bytes"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the six items participant-instructions.md declares under \"What you must supply before filing\" each correspond to a token printed on the page or to a stated note, and the three under \"What you must obtain\" name where to get them; the pleading's own ATTACHMENTS block repeats the list and marks each \"(participant must obtain)\" or \"(participant must assemble)\"",
+     "evidence": "participant-instructions.md matched against pdftotext of the canonical fixture here"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredOptionsMissing=0 measured here; this route declares no route-determined election on a form face and the packet asserts none",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows=0 measured here",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites=0. Read from the bytes rather than from a writes report — this family ships no reports/actual-writes.json — the verification signature rule is blank, the date rule is blank, the proposed order's \"AND NOW, this ______ day of ____________________, 20____\" is blank, the judicial signature rule above \"J.\" is blank, and no certificate of service exists. The packet also prints \"No agency shall treat this unsigned proposed order as effective\".",
+     "evidence": "pdftotext of the committed canonical bytes, read here"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "DECIDING DEFECT, second limb. Of the 15 artifact hashes this packet records, 14 recompute from the committed bytes and equal the record; one names bytes that are not there. reports/rendered-artifacts.json pdfs[0] records companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf at 9234ec76…, 235789 B, 1 page, and the file is absent — so it hashes to nothing and the record cannot be confirmed against it. Its rasters were nonetheless produced and committed and do verify: raster/oh-bci-official-source/page-01.png 02db2acc… and reports/contact-sheets/oh-bci-official-source.png 6f8ed825…. The packet therefore ships a rendered picture of a document it does not ship. Recorded because a prior lane failed this family on a different artifact limb and that limb is now clean: the vf02 read found the canonical and boundary render-report text hashes disagreeing with the bytes; both now recompute exactly (canonical.txt ae390310…, boundary.txt 141efb5e…), as do both pleading PDFs (ddf3d484…, 330138cf…).",
+     "evidence": "every recorded hash recomputed here from the committed bytes; the recorded hash was never read back as proof"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the composed pleading declares 3 pages and reads 3 from its own bytes in both fixtures, with the render report's per-page text-run counts matching the extracted order — application (p.1-2), proposed order and attachments (p.3). The absent companion is scored under COMPONENT_SET and ARTIFACTS rather than counted twice here.",
+     "evidence": "pdf-lib page counts and pdftotext of the committed bytes, computed here"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects=0 measured here and the RASTER_PASS receipt pins canonical ddf3d484…, which recomputes from the live bytes. Recorded rather than scored: the receipt names coversTheWholeFamily true for a family one of whose declared artifacts is not in the tree.",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; acceptance pin re-hashed here"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states it: the Ohio court that handled the case, with the express statement that no held source names a statewide filing office or a statewide application, so the sentencing court's own clerk is the office that names the caption, the form and the counter",
+     "evidence": "participant-instructions.md read here"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "stated as an express non-statement with a named authority — no held source states a fee, that filing is free, or a waiver procedure, so ask the clerk of the court that handled the case what the current fee is and whether an affidavit of indigency is available. The track instructions separately carry the frozen design's recorded $50 as something to confirm rather than as an amount the packet asserts.",
+     "evidence": "participant-instructions.md and tracks/oh_marijuana_expungement/participant-instructions.md read here"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "stated as an express non-statement with a named authority: no held source states who must be served or how, ask the same clerk, these drafts generate no certificate of service, and do not complete one before service has happened",
+     "evidence": "participant-instructions.md read here"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "A second, independent defect. The committed track registry records 9 selfHelpStopConditions for track oh_marijuana_expungement. The packet carries a \"Hard stops\" list that covers roughly four of them in substance — statutory scope, the § 2953.61 same-act limitation, the pre-March-20-2026 timing and quantity evidence, and the fee/hearing-window/prosecutor-notice confirmations. Four recorded conditions are absent from both instruction files and from companion-guidance.md, searched here: \"immigration\" 0 occurrences (the registry records \"Immigration exposure\"); \"open warrant\" and \"pending criminal\" 0 (the registry records \"Pending criminal proceedings or open warrants\"); \"prosecutor object\" and \"victim object\" 0 (the registry records \"Prosecutor objection, and any victim objection where applicable\" — the packet mentions prosecutor notice, which is not the same thing); and \"sealing and expungement\" 0 (the registry records \"Choosing between sealing and expungement, which is a legal judgment with different waits\").",
+     "evidence": "data/record-clearing/legal-design-track-registry.json track oh_marijuana_expungement selfHelpStopConditions, counted here, matched term by term against the concatenation of both participant-instructions.md files and companion-guidance.md"
+    }
+   },
+   "failedProofObligations": [
+    "COMPONENT_SET",
+    "ARTIFACTS",
+    "SELF_HELP_STOP"
+   ],
+   "notMeasurableHere": [],
+   "notes": "The nine completeness counters are all zero and the verifier returns PASS_COMPLETE for this family — the missing companion is invisible to it, because it checks the fields of what is rendered rather than whether every declared artifact is on disk. That gap is the reason this read exists. SELF_HELP_STOP is scored here against the route's own committed record rather than against the presence of any disclaimer. It PASSES where the packet states where self-help ends; it FAILS where data/record-clearing/legal-design-track-registry.json records selfHelpStopConditions for the track that the packet omits, so a participant could pass a point the record marks as a stop. The registry conditions were counted per track and each was searched for in participant-instructions.md by its own subject vocabulary in this lane.",
+   "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+   "verifiedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)"
   }
-],
+ ],
  "supersededLaneMembership": {
   "note": "the earlier reading, when this lane covered other families",
   "schemaVersion": "rcap-independent-verification-rows/v1",
@@ -3634,5 +4349,32 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsNothing": "An independent verdict proves a packet is complete or names why it is not. It approves no output and opens no commercial route."
+ },
+ "fableVteAppend": {
+  "verifier": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)",
+  "readAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+  "appendedRows": [
+   "az_wrongful_arrest_clearance-set",
+   "dc_yra_set_aside-set",
+   "nc_146_dismissal_petition-set",
+   "rcap-ga-guidance-implementation",
+   "wa_vac_substance_use_disorder-set",
+   "oh_marijuana_expungement-set"
+  ],
+  "note": "Rows are spliced into the existing array and nothing already in this file was re-serialized, reworded or withdrawn. Per-row verifiedAtBase rather than a document-level base: this file is shared with other lanes and a document base would stamp this commit onto their older reads.",
+  "independence": "VT-E built none of these packets, ran no build script, and wrote into no overlay directory and no build script. Every family was claimed with scripts/grade-a-packet-factory-24h/claim.mjs --assert before any artifact of it was opened, and released after. MASTER_QUEUE.json, VERIFIER_RETURNS.json, generate.mjs and every vf* directory other than vf05 and vf06 are untouched.",
+  "corpusMounted": true,
+  "corpusMountEvidence": "MASTER_LIBRARY_SOURCE_DIR mounted at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1; scripts/verify-packet-build-environment.mjs returned PACKET_BUILD_ENVIRONMENT_READY 14/14 with master_library_complete (499 files, 329 PDFs, 51 jurisdictions) and corpus_matches_committed_index passing.",
+  "howSourceIdentityWasMeasured": "Every committedRecords[] and documents[] entry was re-hashed from disk with byte length checked, and the sweep was widened past those two arrays: every {path,sha256} pair anywhere in every packet JSON, and every 64-hex digest cited in packet markdown, was resolved and recomputed. That widening is what caught CrRLJ 09.0300 in the Washington family, which is bound only in a markdown table, and the compiled Utah state profile, which is a repository file rather than a corpus binary. 21 corpus-bound references and 12 committed-record references across the nine families: all 33 recompute exactly. No stale pin, and no vanished anchor, anywhere in this set.",
+  "howArtifactsWereMeasured": "Every PDF and PNG the records name was re-hashed here and every PDF page count was read from the bytes with pdf-lib. The recorded hash was never read back as its own proof. Each family's RASTER_PASS acceptance pin was re-hashed against the live fixture bytes, so no raster receipt in this set is pinned to a byte state its packet has left.",
+  "howSelfHelpStopWasMeasured": "Against data/record-clearing/legal-design-track-registry.json selfHelpStopConditions for each family's own track, counted and matched term by term against participant-instructions.md, rather than against the presence of a disclaimer. Three families fail that test and six pass it.",
+  "whatThisGrants": "Nothing. No route is opened, no price is set, no checkout is touched, no packet is marked proven, and no commercial authority is created or implied by any verdict here, including the PASS verdicts.",
+  "summary": {
+   "families": 6,
+   "PASS_COMPLETE_INDEPENDENT": 4,
+   "FAIL_REPAIR_REQUIRED": 1,
+   "BLOCKED_SOURCE": 0,
+   "BLOCKED_LEGAL_INPUT": 1
+  }
  }
 }
