@@ -6622,5 +6622,25 @@
         "pathsTouchedByBuild": 0
       }
     }
-  ]
+  ],
+  "captainAnswerToTheRicherQuestion": {
+    "answeredOn": "2026-09-02",
+    "theQuestionS1Asked": "23 proven families were proven against artifacts lacking rasters their builder now produces — deliberate snapshot or stale?",
+    "answer": "Neither. The builder could not raster where it ran, and the visual gate never depended on it.",
+    "measurement": {
+      "richerFamilies": 23,
+      "carryingAHostedRasterPass": 23,
+      "whoseReceiptBindsTheCurrentFixtureHashes": 23,
+      "whoseBuilderReportRecordsNoLocalRaster": 22,
+      "reproduceIt": "node -e on RASTER_QUEUE.json comparing each row rasterReceipt.boundToCanonicalSha256 and boundToBoundarySha256 against the row own canonicalPdfSha256 and boundaryPdfSha256, for the 23 familyIds this file lists with direction RICHER."
+    },
+    "whyThatSettlesIt": [
+      "The visual gate is .github/workflows/rcap-packet-raster-acceptance-batch.yml, which renders with a real Chromium on a hosted runner and produces a hash-bound receipt. It is not the builder.",
+      "A builder lane has no browser, so it writes rasterPages 0 and everyPageRastered false — a record of what THAT LANE did, not a statement about the packet. S1 rebuilt on a machine that does have a rasteriser, so the rebuild renders 12 to 20 pages and reads as RICHER.",
+      "All 23 hosted receipts bind the hashes these rows carry RIGHT NOW, so every one of them describes the bytes on disk today. generate.mjs already refuses COMPLETE_PACKET_PROVEN unless that is true; this confirms the refusal is doing its job rather than assuming it.",
+      "So no COMPLETE_PACKET_PROVEN verdict among the 23 rests on thinner evidence than it appears to. The divergence is real, measured and benign."
+    ],
+    "theFieldNameIsStillMisleading": "everyPageRastered: false reads as \"pages went unrendered\" and means \"this lane could not render\". A future reader will make the same inference S1 reasonably made. Renaming it would move committed bytes in every builder report and invalidate nothing else, so it is worth doing deliberately rather than in passing — recorded here rather than done here.",
+    "whatIsNotAnsweredByThis": "The 12 SAME_SIZE families (a stale rasteriser path, corrected separately) and the 1 POORER family, az_marijuana_expungement_arrest_no_charges-set, whose rebuild loses PROTECTED_FIELD dispositions and refusal rows. That one is a legal-content question about which artefact is authoritative and stays open."
+  }
 }
