@@ -70,6 +70,32 @@ const HANDOFF_CANDIDATE_SOURCES = [
   "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq03/handoff-candidates.json"
 ];
 
+/*
+ * Manifest entries a lane established by reading the document, not by counting
+ * files.
+ *
+ * The evidence sweep admits a URL when two committed files carry it, which is
+ * the right bar for an address inferred from the repository's own records. It
+ * is the wrong bar for an address a lane settled by opening the document at it
+ * and reading the form number off the face: that is stronger evidence than any
+ * number of files repeating a guess, and it is routinely carried by one file or
+ * none.
+ *
+ * ACQ established five such addresses, wrote them into the manifest, and the
+ * next chain run erased all five -- because the manifest is regenerated from
+ * scratch and nothing regenerated them. So they are read from the lane's own
+ * committed return, which is durable, and the manifest becomes a function of
+ * the return rather than a place work is stored.
+ *
+ * The admission rule is narrow: `exactBinaryUrlEstablished` true, a `sourceId`,
+ * an `officialUrl`, and at least one obligation key. Everything after that --
+ * HTTPS, host policy, jurisdiction, duplicate URL, duplicate source id -- is
+ * the same gate every other entry passes through, unchanged.
+ */
+const LANE_ESTABLISHED_ENTRY_RETURNS = [
+  "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
+];
+
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 const git = (args) => { try { return execFileSync("git", args, { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { return null; } };
 
@@ -187,6 +213,33 @@ for (const rel of RECEIPT_SOURCES) {
       expectedSha256: /^[0-9a-f]{64}$/.test(String(r.sha256 ?? "")) ? r.sha256 : null,
       obligationKeys: r.obligationKeys ?? [],
       recordedIn: rel
+    });
+  }
+}
+
+/* ---- addresses a lane established by reading the document ----------------- */
+const laneEstablished = new Map();
+for (const rel of LANE_ESTABLISHED_ENTRY_RETURNS) {
+  if (!fs.existsSync(path.join(ROOT, rel))) continue;
+  const doc = read(rel);
+  for (const e of doc.manifestEntriesAdded?.entries ?? []) {
+    if (e.exactBinaryUrlEstablished !== true) continue;
+    if (!e.sourceId || !e.officialUrl) continue;
+    if (!(e.obligationKeys ?? []).length) continue;
+    laneEstablished.set(e.officialUrl, { ...e, recordedIn: e.recordedIn ?? rel });
+    urlRecords.push({
+      officialUrl: e.officialUrl,
+      jurisdiction: e.jurisdiction ?? null,
+      sourceId: e.sourceId,
+      formNumber: e.formNumber ?? null,
+      officialTitle: e.officialTitle ?? null,
+      issuingAuthority: e.issuingAuthority ?? null,
+      urlKind: e.urlKind ?? "UNSTATED",
+      expectedSha256: /^[0-9a-f]{64}$/.test(String(e.expectedSha256 ?? "")) ? e.expectedSha256 : null,
+      obligationKeys: e.obligationKeys,
+      recordedIn: e.recordedIn ?? rel,
+      /* Read from the document, so the file-count bar does not apply. */
+      establishedByDocumentRead: true
     });
   }
 }
@@ -367,7 +420,19 @@ for (const r of urlRecords) {
     obligationKeys: r.obligationKeys,
     recordedIn: r.recordedIn,
     ...(r.expectedSha256Note ? { expectedSha256Note: r.expectedSha256Note } : {}),
-    ...(r.corroboration ? { corroboration: r.corroboration } : {})
+    ...(r.corroboration ? { corroboration: r.corroboration } : {}),
+    /*
+     * A lane that established the address by reading the document wrote the
+     * grounds down with it -- the printed edition, the statute, why one binary
+     * answers two labels, and exactly what it did and did not exercise. Carrying
+     * only the URL forward would strip the reviewable part and leave an address
+     * that looks guessed.
+     */
+    ...(laneEstablished.has(r.officialUrl)
+      ? (({ sourceId, jurisdiction, formNumber, officialTitle, issuingAuthority, officialUrl,
+            urlKind, expectedSha256, host, commitBody, obligationKeys, recordedIn, ...rest }) => rest)(
+          laneEstablished.get(r.officialUrl))
+      : {})
   });
 }
 manifestEntries.sort((a, b) => a.sourceId.localeCompare(b.sourceId));
