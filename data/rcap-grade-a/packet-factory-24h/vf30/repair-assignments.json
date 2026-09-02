@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF30",
+  "worker": "CODEX-CS2-VF30",
+  "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+  "assignmentCount": 2,
+  "assignments": [
+    {
+      "itemId": "oh_marijuana_expungement-set",
+      "lane": "VF30",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+      "decisiveDefect": "The family promises and declares an unchanged official BCI companion PDF that is absent at the declared participant path. Its participant guidance also omits held pre-filing requirements and concrete stop conditions, denies a held $50/indigency answer, and delegates a held court-notice/prosecutor service mechanism.",
+      "failedProofObligations": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "ARTIFACTS",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "COMPONENT_SET": {
+          "measuredDetail": "The manifest requires five components, including OH-BCI-SEALING-EXPUNGEMENT-REQUEST. source-receipt.json and reports/rendered-artifacts.json declare companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf, and participant-instructions.md says it is included unchanged, but that file does not exist in this family directory.",
+          "whatRepairMustDo": "Make the declared official BCI transmission component genuinely available to the participant at a correctly declared path, or change every component/participant contract coherently if policy requires a different delivery mechanism. Do not merely change a receipt to conceal missing bytes."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measuredDetail": "The held packet manifest requires a BCI-history comparison for all Ohio cases, the certified charging document showing substance/quantity/ORC division, and the $50 fee or indigency showing. The current instructions omit those exact participant tasks even though the generic completeness counters are zero.",
+          "whatRepairMustDo": "Carry each held pre-filing participant action onto the participant-facing instructions, including where the document comes from, what fact it confirms, and the fee-versus-indigency task. Preserve participant-owned and post-order acts."
+        },
+        "ARTIFACTS": {
+          "measuredDetail": "The two custom-pleading PDFs and all ten PNGs bind, but only 2 of the 3 PDFs declared in reports/rendered-artifacts.json exist. The missing exact path is companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf. An identical 235,789-byte source exists elsewhere and rehashes correctly, but it is not the participant artifact this family declares.",
+          "whatRepairMustDo": "Restore a real, hash-bound participant artifact or revise the delivery contract coherently. Recompute every affected artifact receipt and raster binding from the bytes actually delivered."
+        },
+        "FEE_AND_WAIVER": {
+          "measuredDetail": "participant-instructions.md says no held source states a fee or waiver. The committed legal-design track and packet manifests state $50 unless indigent and that indigency excuses the fee under ORC 2953.321(G).",
+          "whatRepairMustDo": "State the held $50 amount and the indigency exception with its authority and practical filing instruction. Do not delegate an answer the repository already holds as if it were unknown."
+        },
+        "SERVICE": {
+          "measuredDetail": "participant-instructions.md says no held source states who must be served or how. The committed track record states that the court sets the hearing and notifies the prosecutor, the prosecutor may object to the court, and no separate participant service requirement is stated.",
+          "whatRepairMustDo": "Tell the participant the held court-notice/prosecutor-objection mechanism and whether the participant has a separate service act. Delegate only genuinely local or unresolved details."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "The generic stop-if-unclear paragraph does not carry the registry's nine concrete boundaries: division/substance/quantity uncertainty, 15-gram hashish threshold, mixed/same-act cases, dispositions on or after March 20 2026, differing dispositions, pending proceedings or warrants, prosecutor/victim objections, sealing-versus-expungement choice, and immigration exposure.",
+          "whatRepairMustDo": "Carry all nine held conditions as recognizable participant-facing stops and identify the appropriate lawyer/legal-aid escalation."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "do not treat zero completeness counters as proof that the missing declared PDF exists",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "pa_pardon_expungement-set",
+      "lane": "VF30",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "decisiveDefect": "The required automatic-route process-guidance component is omitted from the product binding and contradicts the held quarterly-cycle treatment, while participant instructions omit the pardon-copy/route-verification prerequisites and all three concrete self-help stops.",
+      "failedProofObligations": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "COMPONENT_SET": {
+          "measuredDetail": "The registry requires process_guidance, primary_filing, and proposed_order. The PDF and rendered manifest contain all three roles, but product-wiring.json binding.packetComponents lists only the two filing-form components. The rendered guidance says it states no timetable, while the held automatic-route unit says the guidance explains the quarterly Board-of-Pardons-to-AOPC cycle and participant-instructions.md states that cycle elsewhere.",
+          "whatRepairMustDo": "Bind the required process-guidance component in product wiring and make its participant-facing content agree with the held quarterly-cycle route treatment and the rest of the packet. Re-render and re-bind any changed bytes."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measuredDetail": "The held manifest requires obtaining a copy of the pardon, checking from that document whether it is unconditional, and recording the quarterly verification date. Those route-deciding acts are absent from participant-instructions.md and the rendered guidance.",
+          "whatRepairMustDo": "State the pardon-copy source, unconditional-versus-conditional verification, quarterly verification step/date, and how those facts decide whether no filing or fallback Rule 790 filing is appropriate."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "None of the three held boundaries is carried as a stop: no pardon yet/pardon application out of scope and referral; pardon type cannot be determined from the document; record remains after the quarterly cycle and fallback availability is unclear. The rendered guidance instead says simply to file if the record is not clear.",
+          "whatRepairMustDo": "Carry all three conditions as explicit participant-facing stops and name the appropriate referral or lawyer/legal-aid escalation instead of directing an uncertain participant to file."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "do not invent a quarterly criterion or fallback rule beyond the held legal-design record",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    }
+  ]
+}
