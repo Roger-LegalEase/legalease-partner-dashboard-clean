@@ -533,3 +533,64 @@ Before writing a tool for an integration step, grep `scripts/` for one. The
 scratchpad is for probes and measurements, not for the mechanisms an
 integration depends on — anything the next Captain will need belongs in the
 repository, which is the whole reason that file is there.
+
+## A claim that refuses is telling you who owns the family
+
+FABLE-FIX05 found both its grants at exit 9 ALREADY_RELEASED, with no other
+lane holding them, and its environment then refused `claim.mjs --reissue`. It
+stopped and measured rather than hand-editing the ledger, which was right.
+
+Captain then reissued one of them from here — and external check E2 refused it,
+because `ca-1203-4a-set` is held live by external worker CODEX-CS-B. That is
+the third time E2 has caught this same Captain error, and it also explains what
+the lane ran into: the grant had been released *because the subject is
+externally dispatched*, not because the work was done.
+
+So a refused claim is information about ownership, not an obstacle to route
+around. Before reissuing anything, read
+`data/rcap-grade-a/external-worker-control/EXTERNAL_ASSIGNMENTS.json`: a
+subject there belongs to that worker, and the finding you want to act on
+belongs in their hands, not in a new lane's.
+
+## A nested field tree hides fields from a scan of /Fields
+
+`detachFromAcroForm` walked only the AcroForm's own `/Fields` array. ISO
+32000-1 8.6.1 lets field trees nest, and California's CR-409 puts one entry
+there with its four footer pushbuttons five `/Kids` levels below it. Everything
+downstream looked correct — the pushbuttons were classified for suppression and
+the detachment was called — and nothing was removed, so `getFields()` still
+walked them, `updateFieldAppearances()` regenerated the appearance from
+`/MK /CA`, and `flatten()` stamped it through the widget's own `/P`.
+
+Two general lessons. A scan over a tree structure has to recurse, and a form
+library's top-level array is a tree root rather than a list. And when a fix
+finally *does* reach something, look at what it reached: removing all five
+pushbuttons broke a sentence, because the fifth carried the form number
+"MC-031" inside text the court printed. Chrome and content can wear the same
+widget type; only the artifact tells you which.
+
+## A rebuild drops the wiring binding block, and the chain puts it back
+
+A build script does not emit `product-wiring.json`'s `binding` block —
+`generate-product-wiring.mjs` installs it. So a rebuild silently drops it, and
+a lane that commits mid-chain ships a record without it.
+
+Measured rather than assumed: deleting a binding block and running the wiring
+generator restores it, acceptance receipt and all, because the receipt is
+rebuilt from the raster queue. So this self-heals through the standard chain
+and only bites a lane that commits without running step 8. Restore from HEAD
+if you must commit early, and do not treat the loss as permanent.
+
+## Do not generalise a corpus gap from one state
+
+FABLE-DISC05 measured Arkansas against the Nationwide inventory and found 22 of
+26 files already held, concluding a mount would be cheaper than a fetch. That
+is true of Arkansas and false of the country: nationally only 212 of 583 are
+duplicates, 237 unheld files are form-shaped, and up to 99 of the 111
+SOURCE_BLOCKED families sit in a jurisdiction where that tree holds forms this
+repository does not. Arkansas is the best-covered state in the inventory.
+
+Both records carry hashes, so the national answer was one arithmetic pass over
+two committed files. When a lane hands you a sample and a conclusion, the
+sample is usually sound and the conclusion is usually scoped to it — run the
+same comparison over the whole denominator before you plan around it.
