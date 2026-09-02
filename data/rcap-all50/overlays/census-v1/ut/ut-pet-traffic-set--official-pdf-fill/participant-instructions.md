@@ -12,9 +12,11 @@ The caption on the petition and the order is already marked **District Court**, 
 
 ## What it costs, and how to ask for a waiver
 
-**The court filing fee is $150.** The district court cover sheet in this packet (1044XX, page 2) prints the row `$150 [ ] Expungement Petition - Criminal (E)`, and this packet has already selected that row for you.
+**This packet does not publish a filing fee.** Utah sets the district court filing fee under Utah Code 78A-2-301, and the Utah Courts direct filers to the cover sheet for the current amount rather than publishing one. **Ask the clerk of the district court where your case was heard — the court named above — what this petition costs today, before you file.**
 
-**If you cannot pay it, Utah has a waiver route for exactly this filing.** It is the *Motion to Waive Fees for Expungement – Criminal*, Utah court form **1305GE**, brought under Utah Code 78A-2-302 and Code of Judicial Administration Rule 4-508. That form is not included in this review fixture; ask the clerk of the court named above for it, or get it from the Utah State Courts self-help forms for expungement. It asks you to name the filing fee amount from the cover sheet and to say why you qualify.
+**What the cover sheet in this packet prints.** The district court cover sheet enclosed here is Utah form **1044XX**, revision **2026-05-06**, and page 2 of it prints the row `$150 [ ] Expungement Petition - Criminal (E)`. This packet has already marked that row for you, so you are filing a sheet that carries that figure. That is what the form says, on the revision this packet holds; it is not this packet certifying the amount is current, and the clerk is the one who can tell you that.
+
+**If you cannot pay it, Utah has a waiver route for exactly this filing.** It is the *Motion to Waive Fees for Expungement – Criminal*, Utah court form **1305GE**, whose own title block prints "(Utah Code 78A-2-302 and Code of Judicial Administration Rule 4-508)". That form is not included in this review fixture; ask the clerk of the court named above for it, or get it from the Utah State Courts self-help forms for expungement. It asks you to name the filing fee amount, and its own fee line reads "Filing fee (Refer to Cover Sheet)" — which is the same direction this packet gives you: the amount comes from the cover sheet and the clerk, not from here.
 
 ## Who must receive a copy, and how
 

@@ -37,9 +37,14 @@
  *   FILING DESTINATION  the circuit clerk of the county of conviction — the
  *                       court in which the conviction was had.
  *                       MS.memo track ms-fel rules.filing and destination.
- *   FEE                 $150.00, levied by Miss. Code Ann. § 99-19-72 on each
- *                       petition to expunge an offense under § 99-19-71, and
- *                       collected by the circuit clerk.
+ *   FEE                 no amount is published. MS.memo track ms-fel
+ *                       rules.fees: § 99-19-72 sets a fee for a petition to
+ *                       expunge an offence under § 99-19-71 and this track is
+ *                       such a petition on the face of the statute, "but the
+ *                       section's current text could not be retrieved on this
+ *                       pass, so the participant confirms the amount with the
+ *                       clerk." The circuit clerk of the county of conviction
+ *                       is that clerk.
  *   WAIVER              not established for expungement specifically; the
  *                       circuit clerk of the county of conviction is named as
  *                       the authority who answers a pauper's-affidavit route.
@@ -48,43 +53,41 @@
  *                       with at least TEN DAYS before any hearing —
  *                       § 99-19-71(2)(b), the one hard timing rule here.
  *
- * THE FEE, AND WHY THIS PACKET STATES A FIGURE WHERE THE MANIFEST DOES NOT
+ * THE FEE, AND WHY THIS PACKET NOW PUBLISHES NO FIGURE
  *
- * This needs saying plainly, because it is a deliberate departure from one
- * committed record on the strength of two others, and a reviewer should be
- * able to check it rather than take it.
+ * This build previously stated $150.00 and explained at length why it departed
+ * from the controlling design to do so. The decision owner has overruled that
+ * departure. OWNER_CORRECTIONS_REQUIRED.json, Q4, ms-fel-set:
  *
- * The packet-set manifest's pay_fee entry, and MS.memo's rules.fees for this
- * track, both say no amount is published and direct the participant to the
- * clerk. But the compiled Mississippi profile states the figure outright and
- * keys it to the section (packetGenerator.feeRules[0]): "Mississippi Code
- * 99-19-72 sets a $150 filing fee for each petition to expunge an offense
- * under 99-19-71." And MS.memo's own unresolvedQuestions[0] QUOTES the
- * statute — "A filing fee of One Hundred Fifty Dollars ($150.00) is hereby
- * levied on each petition to expunge an offense under Section 99-19-71 to be
- * collected by the circuit clerk" — with its distribution and its amendment
- * history.
+ *   "DO NOT PUBLISH AN UNCONFIRMED FEE. Follow the controlling design's
+ *    refusal and direct the participant to the specific clerk or agency for
+ *    the current amount. Add a figure only when current primary authority or
+ *    the official form supports it."
  *
- * So the repository HOLDS the figure, and A2 as amended forbids a packet
- * telling a participant that no held source establishes what the compiled
- * profile establishes. That is the ny_160_59_petition-set error exactly.
+ * The exception was checked before the figure was withdrawn, because a figure
+ * current primary authority supports is the better outcome and is allowed.
+ * It is not available here. MS.memo track ms-fel rules.fees records, in terms,
+ * that "the section's current text could not be retrieved on this pass"; the
+ * memo's own quotation of § 99-19-72 sits inside unresolvedQuestions, which is
+ * where the record puts what it has NOT confirmed; the compiled profile's
+ * feeRules[0] is a derived internal record and is not primary authority; the
+ * only § 99-19-72 URL held is a Justia secondary page retrieved 2026-07-30;
+ * and this route binds no official form at all (officialFormFamily NONE), so
+ * there is no form to support a figure either. Current primary authority for
+ * the fee is therefore not in hand, and the figure comes out.
  *
- * A3 then asks whether that line answers THIS route's question. It does. The
- * memo's recorded uncertainty about § 99-19-72 is specific and is about other
- * tracks: whether the fee reaches a § 99-19-71(4) NON-conviction petition
- * (where there is no offense to expunge), and whether it reaches a § 99-19-71(1)
- * or (4) petition filed in JUSTICE or MUNICIPAL court (where the collection
- * mechanism naming the circuit clerk does not map). This track is neither: it
- * is a § 99-19-71(2) petition to expunge one felony CONVICTION, filed with the
- * circuit clerk of the county of conviction. Both of the memo's stated
- * uncertainties fall outside it.
+ * What replaces it is the controlling design's own refusal, in the shape its
+ * five Mississippi siblings already use: no amount is published, the reason is
+ * stated rather than left blank, and the participant is sent to ONE named
+ * office — the circuit clerk of the county of conviction, who takes this
+ * filing and collects any fee — for the current amount and for any
+ * pauper's-affidavit route.
  *
- * The packet therefore states the $150, names the circuit clerk of the county
- * of conviction for the residue — the pauper's-affidavit route, and the total
- * where local practice adds anything — and does not resolve either open
- * question. The tension between the manifest's blanket no-figure decision and
- * the compiled profile's affirmative figure is raised in approval-request.json
- * as a counsel question rather than decided here.
+ * Nothing else about this route moves. The remedy, the eligibility rule, the
+ * venue, the filing destination, the service responsibility, the ten-day
+ * notice, the components and the self-help stopping points are exactly as they
+ * were; only the unconfirmed figure and the reasoning that published it are
+ * withdrawn.
  *
  * WHAT THIS BUILD WRITES
  *
@@ -169,10 +172,10 @@ const COMPONENT_CONDITIONS = {};
 
 const COMPOSED_FROM =
   "the legal-design intake record (data/record-clearing/legal-design-intake/MS.memo.json, track ms-fel) and the "
-  + "packet-set manifest (data/record-clearing/legal-design-packet-set-manifests.json, ms-fel-set), with the "
-  + "§ 99-19-72 filing fee read from the compiled Mississippi profile "
-  + "(src/lib/rcap-engine/compiled/profiles/MS-mississippi.json, packetGenerator.feeRules[0]) and from the "
-  + "statutory text quoted in MS.memo track ms-fel unresolvedQuestions[0]";
+  + "packet-set manifest (data/record-clearing/legal-design-packet-set-manifests.json, ms-fel-set). No fee "
+  + "figure is composed from any record: MS.memo track ms-fel rules.fees refuses to publish one because "
+  + "§ 99-19-72's current text could not be retrieved, and the owner correction of 2026-09-02 (Q4) requires that "
+  + "refusal to be carried through to the participant";
 
 const FIXTURES = {
   canonical: {
@@ -324,9 +327,9 @@ function composedBody(componentId, facts) {
     L.push(`Prepared for: ${name}`, "");
     L.push("BEFORE ANYTHING ELSE: GET A LAWYER TO REVIEW THIS. The committed legal record on this route says so without qualification. Every felony conviction carries mandatory attorney review before filing. The twelve-category exclusion list, the discretionary rehabilitation finding, and the fact that Sec. 99-19-71(2)(a) allows ONE felony expunction IN A LIFETIME make this route unsuitable for unassisted self-help. Filing the wrong petition can spend an allowance you cannot get back.", "");
     L.push("WHERE THIS IS FILED. File the petition, the proposed order and the certificate of service with the CIRCUIT CLERK OF THE COUNTY OF CONVICTION - the court in which the conviction was had. Mississippi has no statewide form, so call that clerk before filing to ask about that district's own requirements.", "");
-    L.push("WHAT IT COSTS. Miss. Code Ann. Sec. 99-19-72 levies a filing fee of ONE HUNDRED FIFTY DOLLARS ($150.00) on each petition to expunge an offense under Sec. 99-19-71, to be collected by the circuit clerk. It is distributed $100 to the Judicial System Operation Fund, $40 to the District Attorneys Operation Fund and $10 retained by the circuit clerk. This petition is a petition to expunge an offense under Sec. 99-19-71, so the fee applies to it on the face of the statute.", "");
-    L.push("TWO THINGS ABOUT THAT FIGURE. Filing method and local court practice may add to the total. And the records this packet is built from record an open question about whether the Sec. 99-19-72 fee reaches petitions filed in justice or municipal court rather than circuit court, because the collection mechanism names the circuit clerk. That question is NOT settled here. CONFIRM THE AMOUNT WITH THE CIRCUIT CLERK OF THE COUNTY OF CONVICTION before you file.", "");
-    L.push("ABOUT A FEE WAIVER. No waiver procedure specific to expungement is established in the records this packet is built from. Ask THE SAME CIRCUIT CLERK - the clerk of the county of conviction, who takes the filing and collects the fee - about a pauper's affidavit before you pay.", "");
+    L.push("WHAT IT COSTS. NO FEE AMOUNT IS PUBLISHED IN THIS PACKET, and that is deliberate rather than an omission. Miss. Code Ann. Sec. 99-19-72 levies a filing fee on each petition to expunge an offense under Sec. 99-19-71, collected by the circuit clerk, and this petition is such a petition on the face of that section - but the current text of Sec. 99-19-72 could not be retrieved for the records this packet is built from, and local practice differs, so no figure is stated here. ASK THE CIRCUIT CLERK OF THE COUNTY OF CONVICTION - the same clerk who takes this filing and collects the fee - FOR THE CURRENT AMOUNT BEFORE YOU FILE. Filing method and local court practice may add to whatever that clerk quotes.", "");
+    L.push("ONE THING THAT IS OPEN, AND IS NOT SETTLED HERE. The records this packet is built from record an open question about whether the Sec. 99-19-72 fee reaches petitions filed in justice or municipal court rather than circuit court, because the collection mechanism names the circuit clerk. Ask the clerk of the court in which the conviction was had what THAT court charges for this petition.", "");
+    L.push("ABOUT A FEE WAIVER. No waiver procedure specific to expungement is established in the records this packet is built from. Ask THE SAME CIRCUIT CLERK - the clerk of the county of conviction - about a pauper's affidavit before you pay.", "");
     L.push("WHO YOU SERVE, AND THE ONE HARD DEADLINE. Serve the DISTRICT ATTORNEY for the county of conviction, by United States mail or hand delivery, and file the certificate of service as your evidence of it. Section 99-19-71(2)(b) requires TEN (10) DAYS' written notice to the district attorney BEFORE ANY HEARING. That is the one hard timing rule on this route. No response or objection period is fixed by the statute, and the district attorney may appear.", "");
     L.push("THE HEARING AND THE FINDING. A hearing is held as determined in the discretion of the court. The court may grant if it determines, on the record or in writing, that the applicant is rehabilitated from the offense. Where the court denies, its findings must be identified specifically and not generally.", "");
     L.push("WHAT THIS ORDER DOES NOT DO - AND THIS IS UNUSUAL, SO READ IT.", "");
@@ -461,12 +464,12 @@ const RECEIPT = {
   groundingRecords: [
     { record: "data/record-clearing/legal-design-intake/MS.memo.json", track: "ms-fel" },
     { record: "data/record-clearing/legal-design-packet-set-manifests.json", packetSetId: "ms-fel-set" },
-    { record: "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json", read: "packetGenerator.feeRules[0], which states the § 99-19-72 $150 filing fee and keys it to § 99-19-71" }
+    { record: "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json", read: "Q4, ms-fel-set — the owner's direction that no unconfirmed fee figure be published and that the controlling design's refusal be carried to the participant" }
   ],
   officialSourcesRecordedInIntake: [
     { title: "2026 Mississippi House Bill 1546, As Sent to Governor (enrolled), Chapter 430, Laws of 2026, approved 30 March 2026, effective 1 July 2026 — amends Miss. Code Ann. § 99-19-71", url: "https://billstatus.ls.state.ms.us/2026/pdf/history/HB/HB1546.htm", retrievedOn: "2026-07-30" },
     { title: "Miss. Code Ann. § 99-19-71 — Expunction of criminal record (as amended by 2026 HB 1546, eff. 1 July 2026)", url: "https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/", retrievedOn: "2026-07-30" },
-    { title: "Miss. Code Ann. § 99-19-72 — Filing fee levied on each petition to expunge an offense under § 99-19-71", url: "https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-72/", retrievedOn: "2026-07-30" }
+    { title: "Miss. Code Ann. § 99-19-72 — Filing fee levied on each petition to expunge an offense under § 99-19-71 (secondary compilation; the section's CURRENT text was not retrieved, which is why no figure is published)", url: "https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-72/", retrievedOn: "2026-07-30" }
   ],
   formIdentityNote:
     "No official form exists for a Miss. Code Ann. § 99-19-71(2) petition. Mississippi has no statewide expungement "
@@ -479,6 +482,7 @@ const RECEIPT = {
   whatThisReceiptDoesNotEstablish: [
     "that any output is approved for participant delivery",
     "that this participant is eligible under § 99-19-71(2) — the twelve-category exclusion list, the rehabilitation determination and the common-nucleus question are not encoded and are left to the participant, counsel and the court",
+    "what this filing costs — § 99-19-72's current text was not retrieved for the committed record, no figure is published on this route, and the circuit clerk of the county of conviction is named as the authority who states the current amount",
     "whether the § 99-19-72 fee reaches a petition filed in justice or municipal court rather than circuit court — the collection mechanism names the circuit clerk and the committed record leaves the question open in terms",
     "whether any pauper's-affidavit route is available for an expungement petition, which the committed record records as not established",
     "whether notarization is required — the committed record records it as unresolved and a simple truth statement is used"
@@ -514,7 +518,7 @@ const INSTRUCTIONS = {
     "ms-fel-proposed-order-2": "the proposed Order of Expungement. It is unexecuted; its findings, its date, the judge's signature and the prosecuting authority's approval as to form are all blank",
     "ms-fel-certificate-of-service-3": "the certificate of service on the district attorney, captioned for **this** petition, which is your evidence of the ten days' notice",
     "ms-fel-attachment-4": "the six documents to obtain first, and which office holds each",
-    "ms-fel-instructions-5": "where to file, the $150 fee, who to serve, the ten-day rule, and the three things this order does **not** do",
+    "ms-fel-instructions-5": "where to file, the filing fee you confirm with the circuit clerk because this packet publishes no figure, who to serve, the ten-day rule, and the three things this order does **not** do",
     "ms-fel-notice-6": "the ten days' written notice to the district attorney that § 99-19-71(2)(b) requires before any hearing"
   },
   documentsLines: [
@@ -531,7 +535,7 @@ const INSTRUCTIONS = {
     "2. **Obtain the six documents above.** The three-year clock runs from the date the last term was completed, and that date comes from the completion documentation, not memory.",
     "3. **Fill every dotted blank** on the petition, the certificate of service and the notice, from the record itself.",
     "4. **Make the three reserved statements yourself** — the exclusion-list determination, the rehabilitation showing, and, where more than one conviction is involved, the common-nucleus statement.",
-    "5. **File the petition, the proposed order and the certificate of service with the circuit clerk of the county of conviction**, and pay the **$150.00** fee levied by § 99-19-72. Call that clerk first about that district's own requirements and to confirm the amount.",
+    "5. **File the petition, the proposed order and the certificate of service with the circuit clerk of the county of conviction**, and pay the filing fee. **This packet publishes no fee amount** — § 99-19-72 levies a fee on a petition under § 99-19-71, but its current text was not retrieved for the record this packet is built from. **Ask that clerk for the current amount, and for any pauper's-affidavit route, before you file**, along with that district's own requirements.",
     "6. **Give the district attorney ten days' written notice** — the notice component — by United States mail or hand delivery, and file the certificate of service as your evidence. **At least ten days must pass between service and any hearing.** This is the one hard timing rule on this route.",
     "7. **Attend the hearing** if the court sets one. The court may grant if it determines, on the record or in writing, that you are rehabilitated from the offense."
   ],
@@ -575,16 +579,17 @@ const FINDINGS = [
   },
   {
     finding:
-      "The packet-set manifest's pay_fee entry and MS.memo's rules.fees for this track both state that no amount is "
-      + "published and direct the participant to the clerk. The compiled Mississippi profile states the figure "
-      + "outright and keys it to the section (packetGenerator.feeRules[0]: 'Mississippi Code 99-19-72 sets a $150 "
-      + "filing fee for each petition to expunge an offense under 99-19-71'), and MS.memo's own "
-      + "unresolvedQuestions[0] quotes the statutory text verbatim, with the distribution and amendment history.",
+      "An earlier build of this family published '$150.00' as this route's cost, on the strength of the compiled "
+      + "Mississippi profile's feeRules[0] and the statutory text quoted in MS.memo unresolvedQuestions[0], against "
+      + "the packet-set manifest's pay_fee entry and MS.memo's rules.fees, which both refuse to publish an amount. "
+      + "The decision owner overruled that departure on 2026-09-02 (OWNER_CORRECTIONS_REQUIRED.json, Q4).",
     consequence:
-      "The packet STATES the $150 rather than saying no amount is published. A2 as amended forbids a packet telling "
-      + "a participant that no held source establishes what the compiled profile establishes. The tension between "
-      + "the manifest's blanket no-figure decision and the profile's affirmative figure is raised as a counsel "
-      + "question rather than decided here."
+      "The figure is withdrawn and the controlling design's refusal is carried instead. The owner's exception — a "
+      + "figure where current primary authority or the official form supports it — was checked and is unavailable: "
+      + "rules.fees records that § 99-19-72's current text could not be retrieved, the memo's quotation sits inside "
+      + "unresolvedQuestions, the compiled profile is a derived record rather than primary authority, the only held "
+      + "§ 99-19-72 URL is a secondary compilation, and this route binds no official form. The packet now names the "
+      + "circuit clerk of the county of conviction as the office that states the current amount."
   },
   {
     finding:
@@ -593,9 +598,11 @@ const FINDINGS = [
       + "municipal court where the collection mechanism naming the circuit clerk does not map.",
     consequence:
       "Neither uncertainty reaches this route, which is a § 99-19-71(2) petition to expunge one felony CONVICTION "
-      + "filed with the circuit clerk of the county of conviction. The packet states the figure for this route, "
-      + "states the venue caveat as an open question rather than resolving it, and names the circuit clerk of the "
-      + "county of conviction as the authority for the residue and for any pauper's-affidavit route."
+      + "filed with the circuit clerk of the county of conviction — but that does not license a figure, because the "
+      + "reason no figure is published is that § 99-19-72's current text was not retrieved, not that its reach is "
+      + "doubtful here. The packet states the venue caveat as an open question rather than resolving it, and names "
+      + "the circuit clerk of the county of conviction as the authority for the amount and for any "
+      + "pauper's-affidavit route."
   },
   {
     finding:
@@ -622,7 +629,7 @@ const FINDINGS = [
 
 const APPROVAL = {
   counselQuestionsRaised: [
-    "THE FEE QUESTION, RAISED RATHER THAN DECIDED. The packet-set manifest and MS.memo rules.fees both direct the participant to the clerk without a figure; the compiled profile states '$150 filing fee for each petition to expunge an offense under 99-19-71' and MS.memo's unresolvedQuestions[0] quotes the statute verbatim. This build states the $150 for this route, on the reasoning that the memo's recorded uncertainties concern § 99-19-71(4) non-conviction petitions and justice or municipal venue, neither of which is this track. Confirm that reading, or direct that the figure be withdrawn.",
+    "THE FEE QUESTION, DECIDED BY THE OWNER AND APPLIED HERE. An earlier build published $150.00; OWNER_CORRECTIONS_REQUIRED.json Q4 directed that the figure be withdrawn and the controlling design's refusal carried, with a figure permitted only where current primary authority or the official form supports it. Neither is in hand — MS.memo rules.fees records that § 99-19-72's current text could not be retrieved, and this route binds no official form — so this build publishes no amount and names the circuit clerk of the county of conviction. If counsel obtains the current certified text of § 99-19-72, a figure may be restored on that basis and this note is where to record it.",
     "Confirm the venue caveat as printed — that the committed record leaves open whether the § 99-19-72 fee reaches a petition filed in justice or municipal court, because the collection mechanism names the circuit clerk — is stated at the right strength for a participant who was convicted in county or municipal court.",
     "Confirm the three reserved statements are correctly left to the participant and counsel rather than pleaded: the twelve-category exclusion determination, the rehabilitation showing, and the common-nucleus statement.",
     "Confirm the § 99-19-71(3) limitations as printed — employer inquiry, prospective juror disclosure, and the retained nonpublic Criminal Information Center record — are complete and correctly worded for a participant.",

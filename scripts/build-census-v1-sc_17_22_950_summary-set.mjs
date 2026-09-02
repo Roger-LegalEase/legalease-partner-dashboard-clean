@@ -883,8 +883,8 @@ const LEGAL_FACTS = Object.freeze({
   authority: "S.C. Code § 17-22-950",
   fee: "none — \"the defendant applies at no cost\"; \"Fee: none.\" (legal review, Track 1)",
   automatic: "the Summary Courts are required to automatically issue orders of expungement for cases tried in their courts where the defendant is found not guilty, or the charges are dismissed or nolle prossed (legal review, Track 1)",
-  objection: "prosecution or law enforcement may object within 30 days, on limited grounds only (pending charges or an ineligible charge), transmitted on form SCCA 223D; if no objection is filed, the trial judge signs the order no sooner than 31 and no later than 40 days after notice (legal review, Track 1)",
-  stops: "preliminary hearing dismissals; related pending charges from the same events; objection filed; an order that did not issue within the 40-day window (legal review, Track 1, self-help limits)"
+  objection: "prosecution or law enforcement may object within 30 days, on limited grounds only (pending charges or an ineligible charge), transmitted on form SCCA 223D (legal review, Track 1); the timing of the order itself is stated from the statute, not from the review — the expungement must occur no sooner than the appeal expiration date and no later than thirty days after that date, § 17-22-950(C), as read at source on 2026-08-06 and recorded in SC.memo waitingPeriods",
+  stops: "preliminary hearing dismissals; related pending charges from the same events; objection filed; an order that has not issued within the § 17-22-950(C) window (legal review, Track 1, self-help limits, with the window taken from the statute)"
 });
 
 function participantInstructions(maps, rbf) {
@@ -933,8 +933,10 @@ function participantInstructions(maps, rbf) {
     "**You do not serve anyone.** The form prints no certificate of service and the reviewed authority places no "
     + "service step on the applicant. After the application, notice runs inside the court system: prosecution or law "
     + "enforcement may object **within 30 days**, on limited grounds only (pending charges or an ineligible charge), "
-    + "on the court's own objection transmittal (SCCA 223D). If no objection is filed, the trial judge signs the "
-    + "order **no sooner than 31 and no later than 40 days** after notice.", ""
+    + "on the court's own objection transmittal (SCCA 223D). If no objection is filed, the order is the court's to "
+    + "issue, and the statute sets when: under **§ 17-22-950(C)** the expungement must occur **no sooner than the "
+    + "appeal expiration date and no later than thirty days after that date**. Ask the summary court that handled "
+    + "your charge what your appeal expiration date is if you need to know when to expect the order.", ""
   );
 
   out.push("## Attachments", "");
@@ -948,7 +950,8 @@ function participantInstructions(maps, rbf) {
   out.push(
     "The reviewed sources state **no deadline for applying**: § 17-22-950 does not condition this expungement on how "
     + "long ago the charge was resolved. The only clocks in the process run after you apply — the 30-day objection "
-    + "window, and the judge's signature between day 31 and day 40 after notice.", ""
+    + "window under § 17-22-950(F), and the signature window § 17-22-950(C) sets, which runs from the appeal "
+    + "expiration date rather than from the notice.", ""
   );
 
   out.push("## Read this before you sign", "");
@@ -1020,7 +1023,8 @@ function participantInstructions(maps, rbf) {
     "3. **Your dismissal came through a diversion program** (PTI, traffic or alcohol education, conditional "
     + "discharge, or another solicitor-operated program) — apply at the solicitor's office; this form is the wrong one.",
     "4. **You were fingerprinted and the automatic order never issued**, or **an objection was filed**, or **no "
-    + "signed order appears within the 40-day window** — those are beyond this packet's self-help path. Contact the "
+    + "signed order appears within the window § 17-22-950(C) allows** — those are beyond this packet's self-help "
+    + "path. Contact the "
     + "summary court that handled the charge; if that does not resolve it, the circuit solicitor's office or a South "
     + "Carolina attorney is the next step.", ""
   );
@@ -1320,6 +1324,30 @@ export async function runFamily(argv = process.argv.slice(2)) {
     findings: [
       {
         finding:
+          "OWNER CORRECTION Q5, 2026-09-02. The packet stated that \"if no objection is filed, the trial judge signs "
+          + "the order no sooner than 31 and no later than 40 days after notice.\" The owner directed that the "
+          + "unsourced timing rule be removed and not reappear until supported by controlling authority. The rule "
+          + "was searched for before it was removed. It is NOT invented: the held South Carolina legal review "
+          + "(STATES/SC/01_LEGAL_REVIEW/...ASOF-2026-08-01, Track 1, lines 87 and 347) states it in those words, and "
+          + "the Nationwide custody's South Carolina Wilma agent reference states it too, both attributing it to the "
+          + "South Carolina Judicial Branch page "
+          + "https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/. "
+          + "Neither is controlling authority, and that page could not be read on this build: an outbound request to "
+          + "it, and to https://www.scstatehouse.gov/code/t17c022.php, were both refused at CONNECT with HTTP 403 by "
+          + "this container's egress proxy, so the absence is a fetch refusal and not a finding that the page lacks "
+          + "the rule.",
+        consequence:
+          "The 31/40-day rule is removed from the participant deliverable in all three places it appeared (service "
+          + "and notice, deadline, self-help stop 4). What replaces it is the controlling authority the design "
+          + "already holds: § 17-22-950(C), read at source on 2026-08-06 and recorded in SC.memo waitingPeriods — "
+          + "the expungement must occur no sooner than the appeal expiration date and no later than thirty days "
+          + "after that date. Note the two rules are not the same rule differently worded: the statute's window is "
+          + "anchored to the APPEAL EXPIRATION DATE and the removed rule was anchored to NOTICE. The self-help stop "
+          + "is kept and now names the statutory window instead of a day count. Neither SCCA 223E nor SCCA 223D1 "
+          + "carries 31 or 40 anywhere; both were re-read on this build."
+      },
+      {
+        finding:
           "\"Full Name (at time of arrest)\" is a different fact from the participant's current legal name: a "
           + "participant whose name has changed since the arrest would be misdescribed by today's name.",
         consequence:
@@ -1399,7 +1427,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
       "The instructions tell a fingerprinted participant to verify automatic issuance instead of filing. Counsel "
         + "should confirm that guidance against § 17-22-950 and the legal review's Track 1.",
       "The corpus's SCCA-223E carries revision REV-UNKNOWN and prints (5/16); the legal review's open question on "
-        + "revision currentness stands for source-freshness review."
+        + "revision currentness stands for source-freshness review.",
+      "OWNER CORRECTION Q5: the \"no sooner than 31 and no later than 40 days after notice\" rule is out of the "
+        + "deliverable and § 17-22-950(C)'s appeal-expiration window is in. Two held secondary records — the SC legal "
+        + "review Track 1 and the Nationwide Wilma agent reference — both carry the 31/40 rule and both attribute it "
+        + "to the South Carolina Judicial Branch's magistrate/municipal expungement-process page, which this "
+        + "container could not fetch (CONNECT refused, HTTP 403). If counsel or a source lane can read that page, "
+        + "the question to settle is whether the Judicial Branch publishes a 31-to-40-day post-notice signature "
+        + "window ALONGSIDE § 17-22-950(C)'s appeal-expiration window, or whether the review paraphrased the statute "
+        + "wrongly. Until then the statute governs the packet."
     ]
   });
 

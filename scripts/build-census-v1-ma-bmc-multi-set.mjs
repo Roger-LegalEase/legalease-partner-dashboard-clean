@@ -29,6 +29,38 @@
  * contents. This build composes exactly that: the consolidated petition and
  * its threshold-and-venue instructions, nothing more.
  *
+ * OWNER CORRECTION Q3, 2026-09-02: THE FORM STATUS IS NOW RESOLVED.
+ *
+ * The owner held this family because the record left open whether a mandatory
+ * official form governs this filing. It was searched for, in the three places
+ * this repository can search, and the answer has two halves.
+ *
+ * NO BMC CONSOLIDATED FORM EXISTS TO FIND. The mounted Master Library holds
+ * exactly two Massachusetts PDFs (STATES/MA/05_SOURCE_GATED: the Probation
+ * Service §§ 100F/100G/100H expungement petition, and TC0021, the marijuana
+ * expungement petition) and neither is a BMC form. The partial Nationwide
+ * custody's Massachusetts folder holds six PDFs and none is a BMC consolidated
+ * petition. The official-source registry holds one Massachusetts entry, TC0021.
+ * That is an exact absence rather than an unsearched question.
+ *
+ * THE STATEWIDE FORM IS LOCATED, AND IT IS NAMED. The per-case form for these
+ * same dispositions is TC0057 (2/24), "Petition to Seal Criminal Records for
+ * Nolle Prosequi or Dismissal", footer "Standardized (Multi - BMC, DC, JC,
+ * SC) - Criminal", held in the Nationwide custody at sha256
+ * f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0. The
+ * controlling review answers "Is an official form mandatory?" for that route
+ * with "Statewide-standardized across four court departments. Treat as
+ * mandatory," and answers whether it may be replaced locally with "In BMC, a
+ * consolidated petition supplements rather than replaces TC0057."
+ *
+ * So the composed instrument is RETAINED, in exactly the posture the owner's
+ * decision allows for it: a local supplement authorised by the Standing Order,
+ * not a replacement for the mandatory statewide form. The packet now names
+ * TC0057 by number where it previously said only "the statewide per-case
+ * form", so a participant and a clerk are talking about the same document.
+ * Nothing about remedy, eligibility, venue, filing destination, service or the
+ * component set moves.
+ *
  * WHAT THIS BUILD WRITES, AND WHAT IT CARRIES
  *
  * The platform holds the participant's own identity and contact facts, and it
@@ -491,7 +523,7 @@ function participantInstructions(maps, rbf) {
   const out = [];
   out.push(`# What you must do before you file — ${ROUTE.routeName}`, "");
   out.push(`This packet is prepared for **${ROUTE.legalName}**.`, "");
-  out.push("In Massachusetts, **sealing** and **expungement** are different remedies and are never interchangeable — sealing does not destroy the record; expungement does. This packet is about sealing only. The Boston Municipal Court Department permits a single consolidated petition to seal **three or more** criminal records from **two or more** BMC divisions, under Amended Standing Order No. 1-09 and the Commonwealth v. Pon standard. No published BMC form for the consolidated petition was established, so the petition in this packet is a composed pleading drafted against the Standing Order's required contents — and in the BMC it **supplements rather than replaces** the statewide per-case sealing form.", "");
+  out.push("In Massachusetts, **sealing** and **expungement** are different remedies and are never interchangeable — sealing does not destroy the record; expungement does. This packet is about sealing only. The Boston Municipal Court Department permits a single consolidated petition to seal **three or more** criminal records from **two or more** BMC divisions, under Amended Standing Order No. 1-09 and the Commonwealth v. Pon standard. No BMC form for the consolidated petition exists in the sources this packet is built from, so the petition in this packet is a composed pleading drafted against the Standing Order's required contents — and in the BMC it **supplements rather than replaces** the statewide per-case sealing form, which is Trial Court form **TC0057 (2/24), *Petition to Seal Criminal Records for Nolle Prosequi or Dismissal***.", "");
   out.push("The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every case fact belongs to records the platform has not seen — your own CORI from DCJIS and your court paperwork — so every one of them is a labelled dotted blank listed below, and you fill it from the record itself, never from memory.", "");
 
   out.push("## Use this packet only if", "");
@@ -500,7 +532,7 @@ function participantInstructions(maps, rbf) {
   out.push("## What is in this packet", "");
   out.push("| Component | What it is |", "| --- | --- |");
   out.push("| `primary_filing` | the composed consolidated petition under § 100C and Standing Order 1-09 |");
-  out.push("| `instructions` | the threshold, the venue rule, the supplements-not-replaces posture, and what follows filing |");
+  out.push("| `instructions` | the threshold, the venue rule, the supplements-not-replaces posture against form TC0057, and what follows filing |");
   out.push("");
 
   out.push("## Documents you must obtain before filing", "");
@@ -524,7 +556,7 @@ function participantInstructions(maps, rbf) {
   out.push("4. **Fill in every dotted blank**, listing each record's division, docket number and disposition from your CORI and court paperwork.");
   out.push("5. **Write the good-cause narrative in your own words**, against the Pon-standard questions on the instructions page: what specific problems the records have caused you, and what you have done since the cases ended.");
   out.push("6. **Sign and date the petition yourself.**");
-  out.push("7. **Ask the clerk of the venue division** how the division wants the statewide per-case form presented alongside this petition, whether the division uses any form of its own for the consolidated procedure, and whether anything is charged — the controlling review identified no fee, and this packet asserts none.");
+  out.push("7. **Ask the clerk of the venue division** whether that division wants **TC0057 (2/24), *Petition to Seal Criminal Records for Nolle Prosequi or Dismissal*** — the statewide per-case form for a nolle prosequi or a dismissal, which prints \"Use a separate form for each case\" on its own face — filed alongside this consolidated petition, and how many. The Standing Order exists so that one petition can do the work of several separate filings, but the controlling review records the consolidated petition as **supplementing rather than replacing** TC0057, and it does not settle which of the two the division wants in the file. **Ask before you file; do not assume this petition alone is the whole filing.** Ask at the same time whether the division uses any form of its own for the consolidated procedure, and whether anything is charged — the controlling review identified no fee, and this packet asserts none.");
   out.push("8. **File in the venue division.** A preliminary hearing, public notice and a final hearing follow under the Standing Order, and the judge may request additional information from the Clerk-Magistrate or the Probation Department.");
   out.push("");
 
@@ -539,7 +571,7 @@ function participantInstructions(maps, rbf) {
   out.push("- a hearing is set.", "");
 
   out.push("## What this packet is not", "");
-  out.push("This is a prepared consolidated pleading with its instructions. It is not an official BMC form — whether the BMC publishes one for this procedure is an open question this packet does not decide — and it is not legal advice, it is not filed for you, and it does not decide whether the court will seal any record. Sealing does not destroy the record; expungement does, and this packet is not an expungement.", "");
+  out.push("This is a prepared consolidated pleading with its instructions. It is not an official BMC form: no BMC form for this procedure exists in the sources this packet is built from, and the statewide form for these dispositions — TC0057 (2/24), *Petition to Seal Criminal Records for Nolle Prosequi or Dismissal* — is a different document this packet does not include. It is not legal advice, it is not filed for you, and it does not decide whether the court will seal any record. Sealing does not destroy the record; expungement does, and this packet is not an expungement.", "");
   out.push(`_Route: ${ROUTE.routeKey}_`);
   return `${out.join("\n")}\n`;
 }
@@ -670,8 +702,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
     statutoryAuthority: ROUTE.statute, legalName: ROUTE.legalName,
     allSourcesExact: true,
     formIdentityNote:
-      "BMC Amended Standing Order No. 1-09 prescribes the consolidated procedure's contents but no published BMC "
-      + "form for the consolidated multi-record petition was established; the adopted Batch 2 resolution directs "
+      "FORM STATUS RESOLVED, owner correction Q3 of 2026-09-02. No BMC form for the consolidated multi-record "
+      + "petition exists in any source this repository holds: the Master Library's STATES/MA carries two PDFs "
+      + "(the Probation Service §§ 100F/100G/100H expungement petition and TC0021) and no BMC form; the partial "
+      + "Nationwide custody's Massachusetts folder carries six PDFs and no BMC form; the official-source registry "
+      + "carries one Massachusetts entry, TC0021. The statewide per-case form IS located and is named here: "
+      + "TC0057 (2/24), Petition to Seal Criminal Records for Nolle Prosequi or Dismissal, footer 'Standardized "
+      + "(Multi - BMC, DC, JC, SC) - Criminal', held in the Nationwide custody at sha256 "
+      + "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0. The controlling review treats TC0057 "
+      + "as mandatory and records that in BMC a consolidated petition supplements rather than replaces it, so "
+      + "this composed petition is retained as that supplement and the packet names TC0057 to the participant. "
+      + "BMC Amended Standing Order No. 1-09 prescribes the consolidated procedure's contents; "
+      + "the adopted Batch 2 resolution directs "
       + "that where no current BMC form is published, a counsel-approved custom consolidated petition may be "
       + "used, only for qualifying BMC records, and that the consolidated petition supplements rather than "
       + "replaces the statewide per-case form. The composed petition is drafted against the Standing Order's "
@@ -684,7 +726,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     composedComponentsAuthoredByThisBuild: COMPONENTS,
     sourceBinaryCommitted: false, commercialRoutesOpened: 0,
     whatThisReceiptDoesNotEstablish: [
-      "whether the Boston Municipal Court publishes a dedicated form for the consolidated multi-record petition",
+      "that TC0057 is or is not additionally required in the file alongside this consolidated petition — the controlling review says the consolidated petition supplements rather than replaces it and does not say how the division wants both presented, so the packet sends the participant to the venue division's clerk with the form named",
       "that any output is approved for participant delivery",
       "that any record qualifies for sealing under G.L. c. 276, § 100C"
     ]
@@ -787,14 +829,26 @@ export async function runFamily(argv = process.argv.slice(2)) {
     findings: [
       {
         finding:
-          "The BMC consolidated multi-record procedure is a local implementation of the ordinary § 100C "
-          + "judicial-sealing remedy under Amended Standing Order No. 1-09, available only for three or more "
-          + "records from two or more BMC divisions, and no published BMC form for it was established.",
+          "OWNER CORRECTION Q3, 2026-09-02. The BMC consolidated multi-record procedure is a local implementation "
+          + "of the ordinary § 100C judicial-sealing remedy under Amended Standing Order No. 1-09, available only "
+          + "for three or more records from two or more BMC divisions. Whether a mandatory official form governs "
+          + "the filing is now RESOLVED rather than open. No BMC consolidated form exists in the Master Library "
+          + "(two Massachusetts PDFs, neither a BMC form), the partial Nationwide custody (six Massachusetts PDFs, "
+          + "none a BMC form) or the official-source registry (one Massachusetts entry, TC0021). The mandatory "
+          + "statewide per-case form IS located: TC0057 (2/24), held in the Nationwide custody at sha256 "
+          + "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0, which the controlling review "
+          + "directs be treated as mandatory and which the same review says a BMC consolidated petition "
+          + "supplements rather than replaces.",
         consequence:
           "The petition is a composed pleading drafted against the Standing Order's required contents and the "
           + "Pon standard, with the threshold printed on its own face, and the packet exists as a local variant "
           + "that never double-counts the underlying relief. Below the threshold the instructions route to the "
-          + "ordinary per-case route rather than adapting this instrument."
+          + "ordinary per-case route rather than adapting this instrument. Under the owner's decision the "
+          + "composed instrument is RETAINED rather than withdrawn, because the located mandatory form does not "
+          + "govern the consolidated procedure and the Standing Order authorises the supplement; the packet now "
+          + "names TC0057 by number and tells the participant to ask the venue division's clerk whether it is "
+          + "wanted in the file alongside this petition, instead of leaving the participant to discover a form "
+          + "the record already identifies."
       },
       {
         finding:
@@ -841,7 +895,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     buildStatus: "state_built", status: "PENDING_INDEPENDENT_VERIFICATION",
     approvedForLive: false, live: false, commercialRoutesOpened: 0,
     counselQuestionsRaised: [
-      "Whether the Boston Municipal Court publishes a dedicated form for the consolidated multi-record petition — the record's own release blocker on correct_form. If one exists, it governs (localFormOverride) and this composed petition becomes the covering instrument or is withdrawn.",
+      "FORM STATUS, RESOLVED FACTUALLY AND NOT LEGALLY. No BMC consolidated form exists in any source this repository holds (Master Library, partial Nationwide custody, official-source registry — each searched and each named in build-findings.json). The statewide per-case form is located and named: TC0057 (2/24), sha256 f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0. What remains for counsel is narrower than the original release blocker: the controlling review says the consolidated petition SUPPLEMENTS rather than replaces TC0057, and does not say whether a BMC division expects TC0057 forms in the file alongside the consolidated petition. The packet names TC0057 and sends the participant to the venue division's clerk. Confirm that is the right handling, or direct that TC0057 be built into this family.",
       "The Batch 2 resolution permits 'a counsel-approved custom consolidated petition'. This composed petition is the candidate for that approval; nothing here asserts it. Approve, amend or reject the instrument.",
       "The petition's paragraph 2 lists records in a three-plus-continuation layout. Confirm the layout satisfies the Standing Order's required contents.",
       "The review identified no filing fee; the packet asserts none and delegates to the venue division's clerk. Confirm the treatment."

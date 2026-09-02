@@ -41,6 +41,48 @@
  * carries the participant's own account in their own words, prompted but
  * never written. No filing fee arises: 32 V.S.A. § 1431(e) applies the $90
  * fee only to DUI-record sealing and expressly not to a § 5119(g) motion.
+ *
+ * OWNER CORRECTION Q3, 2026-09-02: THE FORM STATUS IS NOW RESOLVED, AGAINST
+ * THE HELD FORM SET RATHER THAN AGAINST A FORM LIST READ ONCE ON A WEBSITE.
+ *
+ * The owner held this family because the record left open whether a mandatory
+ * official form governs this filing. Vermont is the hardest of the three Q3
+ * families to answer honestly, because Vermont IS a form state — the
+ * controlling review calls it "a clean official_pdf_fill state" with "a
+ * unified Superior Court and one statewide form set" — so the absence of a
+ * form here had to be tested rather than assumed.
+ *
+ * IT WAS TESTED AGAINST THE FORMS THEMSELVES. The mounted Master Library holds
+ * the whole Vermont Judiciary set the registry knows: 200-00129 (Petition to
+ * Expunge Criminal History, rev. 07/2025), 200-00130 (Petition to Seal
+ * Criminal History, rev. 07/2025), 200-00130A (the instructions for both, rev.
+ * 07/2025), 200-00131 (Response, 07/2018), 200-00132 and 200-00132A (the
+ * stipulations, 07/2025), 200-00631 (Request for Sealing Order in Special
+ * Index, 09/2019), plus 200-00331 and 600-00228. Every one of those nine was
+ * text-extracted on this pass and the string "5119" appears in NONE of them.
+ * The two candidates that could plausibly have governed do not:
+ *   - 200-00130 is a general "Petition to Seal Criminal History" that carries
+ *     no statutory citation on its own face at all; and
+ *   - 200-00130A, the instructions published WITH it, define its grounds
+ *     exclusively by 13 V.S.A. § 7602 — the chapter 230 scheme, with the
+ *     three-, seven- and ten-year conviction waits, the qualifying-crime lists
+ *     and the interests-of-justice standard. Not one of the § 5119(g)
+ *     elements this route turns on appears anywhere in it: no under-25 test,
+ *     no two-year clock from final discharge, no ten-year listed-crime
+ *     lookback, no § 5119(m) restitution bar, no affirmative rehabilitation
+ *     burden. A § 5119(g) application cannot be made on it.
+ * The controlling review says the same thing from the other direction: "The
+ * Judiciary's form list does not identify a distinct under-25 sealing form,"
+ * and, in its own custom-pleading section, "If the under-25 route at 33 V.S.A.
+ * section 5119 turns out to have no published form, revisit this section for
+ * that track alone rather than reclassifying it." That is the condition, and
+ * it is met.
+ *
+ * NO MANDATORY OFFICIAL FORM IS LOCATED. The composed application is therefore
+ * RETAINED as the output rather than withdrawn or demoted to a cover document.
+ * Outbound fetching was refused at CONNECT in this container, so the Judiciary
+ * site could not be re-read live; the determination rests on the held form set
+ * and its own instructions, which is the better evidence in any case.
  */
 import {
   mapHelpers, composedMapOf, runIfMain, DOTS
@@ -221,7 +263,7 @@ function participantInstructions(rbf) {
   const out = [];
   out.push(`# What you must do before you file — ${ROUTE.routeName}`, "");
   out.push(`This packet is prepared for **${ROUTE.legalName}**.`, "");
-  out.push("The Vermont Judiciary publishes no form for a § 5119(g) application — none was located on 2026-08-06 — so the application in this packet is a composed, controlled pleading: the statute itself supplies the court, the vehicle, the three findings the Court must make, and the relief. This route sits outside chapter 230 and is unlike it: notice to all parties of record and a **hearing** are mandatory, the rehabilitation burden is yours, and the Court is obliged by § 5119(k) to provide assistance to applicants.", "");
+  out.push("The Vermont Judiciary publishes no form for a § 5119(g) application. That was checked against the Judiciary's own form set rather than assumed: none of its expungement and sealing forms mentions § 5119, and the general *Petition to Seal Criminal History* (200-00130) is published with instructions that define its grounds by 13 V.S.A. § 7602 — a different scheme, with none of the tests this route turns on. So the application in this packet is a composed, controlled pleading: the statute itself supplies the court, the vehicle, the three findings the Court must make, and the relief. This route sits outside chapter 230 and is unlike it: notice to all parties of record and a **hearing** are mandatory, the rehabilitation burden is yours, and the Court is obliged by § 5119(k) to provide assistance to applicants.", "");
   out.push("The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every case fact is a labelled dotted blank listed below, and you fill it from the record itself, never from memory. **Your rehabilitation account is yours alone** — prompted, never written.", "");
 
   out.push("## What is in this packet", "");
@@ -290,7 +332,18 @@ const FAMILY = {
   fixtures: FIXTURES,
   participantInstructions,
   formIdentityNote:
-    "The Vermont Judiciary publishes no form for a 33 V.S.A. § 5119(g) application — none appears in the "
+    "FORM STATUS RESOLVED, owner correction Q3 of 2026-09-02: no mandatory official form is located for a "
+    + "33 V.S.A. § 5119(g) application, tested against the held forms rather than against a form list. All nine "
+    + "Vermont Judiciary PDFs in the mounted Master Library (200-00129, 200-00130, 200-00130A, 200-00131, "
+    + "200-00132, 200-00132A, 200-00631, 200-00331, 600-00228) were text-extracted on this build and none "
+    + "contains the string '5119'. The nearest candidate, 200-00130 'Petition to Seal Criminal History' (rev. "
+    + "07/2025), carries no statutory citation on its face, and the instructions published with it (200-00130A) "
+    + "define its grounds exclusively by 13 V.S.A. § 7602 — the chapter 230 scheme — with none of this route's "
+    + "elements: no under-25 test, no two-year clock from final discharge, no ten-year listed-crime lookback, no "
+    + "§ 5119(m) restitution bar and no affirmative rehabilitation burden. The official-source registry's nine "
+    + "Vermont entries are the same nine forms. Outbound fetching was refused at CONNECT in the build container, "
+    + "so the Judiciary site was not re-read live. "
+    + "The Vermont Judiciary publishes no form for a 33 V.S.A. § 5119(g) application — none appears in the "
     + "expungement page's form list and none was located in the forms library on 2026-08-06 — and the legal-design "
     + "record resolves the strategy to custom_pleading in terms: the statute supplies the court, the vehicle, the "
     + "findings and the relief, and the absence of a form is the express condition for drafting a controlled "
@@ -312,14 +365,20 @@ const FAMILY = {
   buildFindings: [
     {
       finding:
-        "The Vermont Judiciary publishes no form for a § 5119(g) application, and the controlling review recorded "
-        + "the missing form as a blocker; the legal-design record carries it as a release blocker rather than a "
-        + "build blocker because the statute supplies the court, the vehicle, the three findings and the relief, "
-        + "making a controlled pleading supportable rather than a guess.",
+        "OWNER CORRECTION Q3, 2026-09-02, RESOLVED. The Vermont Judiciary publishes no form for a § 5119(g) "
+        + "application, and this build proves it against the forms rather than against a form list. All nine "
+        + "Vermont Judiciary PDFs held in the Master Library were text-extracted and none contains '5119'. "
+        + "200-00130, Petition to Seal Criminal History (rev. 07/2025), carries no statutory citation on its face, "
+        + "and 200-00130A, the instructions published with it, define its grounds solely by 13 V.S.A. § 7602 and "
+        + "contain none of this route's elements — no under-25 test, no two-year clock from final discharge, no "
+        + "ten-year listed-crime lookback, no § 5119(m) restitution bar, no rehabilitation burden. The controlling "
+        + "review's own condition for a drafted pleading on this track — 'if the under-25 route at 33 V.S.A. "
+        + "section 5119 turns out to have no published form, revisit this section for that track alone' — is met.",
       consequence:
-        "The application is composed to the statute's own conditions and ends at state_built; whether the packet "
-        + "should instead be a completed official form, should the Judiciary publish one, travels with the family "
-        + "as a counsel question."
+        "No mandatory official form governs this filing, so the composed application is RETAINED as the output "
+        + "rather than reduced to a cover document or withdrawn. The application is composed to the statute's own "
+        + "conditions and ends at state_built. The counsel question that travels with the family is narrowed: not "
+        + "whether a form exists, but what to do if the Judiciary later publishes one."
     },
     {
       finding:
@@ -361,7 +420,7 @@ const FAMILY = {
     }
   ],
   counselQuestions: [
-    "Whether the composed § 5119(g) application is sufficient where the Judiciary publishes no form — and, should the Judiciary publish one, whether the packet should become a completed official form instead (the recorded release blocker).",
+    "FORM STATUS, RESOLVED FACTUALLY UNDER OWNER CORRECTION Q3: no mandatory official form governs a § 5119(g) application. All nine held Vermont Judiciary PDFs were text-extracted on this build and none names § 5119; 200-00130's own instructions (200-00130A) confine it to 13 V.S.A. § 7602. Outbound fetching was refused at CONNECT, so the Judiciary site was not re-read live. What is left for counsel is whether the composed § 5119(g) application is sufficient in substance — and, should the Judiciary later publish a form, whether the packet should become a completed official form instead.",
     "Whether the application's statement structure for the three § 5119(g) findings — two years since final discharge, the ten-year listed-crime lookback with nothing pending, and the rehabilitation account left wholly to the applicant — matches how Criminal Division judges expect the showing to be made.",
     "How Vermont courts discharge the § 5119(k) assistance duty in practice, and whether that assistance changes what this self-help packet should contain or hand off.",
     "Confirmation that no notice or service step belongs to the applicant, given that § 5119(g) assigns notice to all parties of record to the Court."

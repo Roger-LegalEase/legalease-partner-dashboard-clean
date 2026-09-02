@@ -8,13 +8,16 @@
   "live": false,
   "commercialRoutesOpened": 0,
   "counselQuestionsRaised": [
-    "The stage-2 verified petition is deliberately absent: the release gates (whether a statewide form exists for an I.C. 34-28-5-15 petition; how counties handle the MC case-type assignment) are open and the component's dependency record prohibits drafting until they close. Close the gates — the recorded checkable source is the Coalition for Court Access expungement forms index at in.gov/courts — and the family then needs a second build that adds the petition.",
-    "Confirm the guidance-only packet shape is acceptable for this family at state_built, with the petition's absence disclosed on the paper and in the instructions.",
-    "Confirm the timing table (the statute's earliest filing dates per disposition) is stated correctly for participant use."
+    "THE STAGE-2 VERIFIED PETITION IS NOW BUILT, under OWNER_CORRECTIONS_REQUIRED.json Q7 of 2026-09-02. It is a composed pleading, not a form fill, because no statewide form exists: every Indiana PDF in the mounted Master Library and in the partial Nationwide custody was text-extracted on this build and none contains '34-28-5-15' or 'infraction'. THE SUBSTANCE OF THE PETITION IS WHAT COUNSEL MUST READ. Every clause traces to this family's own records — the caption to the memo's venue rule, paragraphs 3 and 4 to its six eligibleDispositions and five waitingPeriods, paragraph 6 to rules.fees, paragraph 7 to rules.service and rules.notice, and the verification to rules.participantSignature and the single manualCompletionItem — but a drafted pleading is a legal instrument and no verifier can approve its wording for it. Approve, amend or reject the petition as drafted.",
+    "The MC case-type caption line is left BLANK and declared required before filing, with the county clerk named, because county handling of the assignment is unconfirmed and unpublished. Confirm that a blank with a named authority is the right treatment rather than a stop condition that withholds the petition entirely.",
+    "Confirm the timing table and the petition's paragraph 4 (the statute's earliest filing dates per disposition) are stated correctly for participant use.",
+    "The petition instructs the participant NOT to file where the clerk says an order was already entered. Confirm that instruction is placed strongly enough on the petition's own face as well as in the instructions."
   ],
   "mattersForTheReviewersAttention": [
-    "The build refuses to rerun unchanged if the stage-2 dependency record stops saying drafted:false, so the guidance-only shape cannot silently outlive its justification.",
+    "The build now refuses to run if the stage-2 dependency record is reverted to drafted:false, which is the mirror of the guard it carried before the correction: the reduced shape cannot silently return.",
+    "The dependency record's recordedButNotRendered block is preserved verbatim and marked superseded, with a renderedInto map, so the drafted petition can be checked clause by clause against the registry statement it was drafted from.",
     "Terminology: the byte proof asserts no page claims records are destroyed.",
-    "Every worksheet item is required-before-filing and disclosed; nothing is signed because stage 1 files nothing."
+    "Nothing on the petition is signed or dated by this build. The verification is affirmed under the penalties for perjury and belongs to the participant on the day of filing; the court's ruling block is left to the court.",
+    "Outbound fetching of the Coalition for Court Access expungement forms index was refused at CONNECT (HTTP 403) in the correction container. The absence of a statewide form rests on held sources, and the exact URL is recorded in the dependency record's exactMissingSource rather than treated as answered by a fetch."
   ]
 }

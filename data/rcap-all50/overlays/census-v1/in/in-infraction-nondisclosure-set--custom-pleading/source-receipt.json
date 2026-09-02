@@ -25,26 +25,29 @@
     {
       "record": "manifest",
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa",
-      "byteLength": 3674510,
+      "sha256": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d",
+      "byteLength": 3677637,
       "anchorsVerified": 3
     },
     {
       "record": "dependency",
       "path": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json",
-      "sha256": "18dd47b13899182aaa15d97d1e359f35ea6b05fcde97c469997fd0a0e479ab15",
-      "byteLength": 4985,
-      "anchorsVerified": 3
+      "sha256": "d511a5e3d7d98089ab6a5e25a160b887be6493f42d36d71018a678ff0a3c6b5c",
+      "byteLength": 8069,
+      "anchorsVerified": 5
     }
   ],
   "documents": [],
   "composedComponentsAuthoredByThisBuild": [
-    "in_infraction_nondisclosure-process-guidance-1"
+    "in_infraction_nondisclosure-process-guidance-1",
+    "in_infraction_nondisclosure-primary-filing-2"
   ],
-  "componentDeliberatelyAbsent": {
+  "ownerCorrectionQ7": {
     "componentId": "in_infraction_nondisclosure-primary-filing-2",
     "unitId": "in_infraction_nondisclosure-stage-2",
-    "whyAbsent": "The manifest makes this component conditional on 'once the form and MC case-type gates close', and they have not: the memo records the unit unavailable ('No statewide form has been identified and county handling of the MC case-type assignment is unconfirmed'), and the component's own dependency record states drafted false, dependencyKind unresolved_form_question, with the missing determination assigned to the source-acquisition lanes. Drafting it here would override the family's own controlling records.",
+    "builtUnder": "OWNER_CORRECTIONS_REQUIRED.json, Q7-required-component-deliberately-absent, decided 2026-09-02",
+    "previouslyAbsentBecause": "the manifest makes the component conditional on 'once the form and MC case-type gates close'; the memo held the unit unavailable ('No statewide form has been identified and county handling of the MC case-type assignment is unconfirmed'), and the component's own dependency record stated drafted:false with dependencyKind unresolved_form_question.",
+    "whatChanged": "The form half of the gate is answered from held sources: no statewide form exists for an I.C. 34-28-5-15 infraction petition. Every Indiana PDF in the mounted Master Library and in the partial Nationwide custody was text-extracted and none contains '34-28-5-15' or 'infraction'; every Coalition for Court Access instrument held is an I.C. 35-38-9 expungement form. The registry's officialFormId and officialSourceUrl for this component are null. Outbound fetching of the CCA forms index was refused at CONNECT in this container, so the absence rests on held sources and is stated as such. The MC case-type half is a county-practice question that was never a drafting bar: it is a blank on the petition's caption, declared required before filing, with the clerk named as the authority — which is what the family's own records already direct.",
     "dependencyRecord": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json"
   },
   "sourceBinaryCommitted": false,

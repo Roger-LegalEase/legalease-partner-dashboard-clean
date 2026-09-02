@@ -2,7 +2,7 @@
 
 This packet is prepared for **Consolidated Multi-Record Sealing Petition in the Boston Municipal Court Department**.
 
-In Massachusetts, **sealing** and **expungement** are different remedies and are never interchangeable — sealing does not destroy the record; expungement does. This packet is about sealing only. The Boston Municipal Court Department permits a single consolidated petition to seal **three or more** criminal records from **two or more** BMC divisions, under Amended Standing Order No. 1-09 and the Commonwealth v. Pon standard. No published BMC form for the consolidated petition was established, so the petition in this packet is a composed pleading drafted against the Standing Order's required contents — and in the BMC it **supplements rather than replaces** the statewide per-case sealing form.
+In Massachusetts, **sealing** and **expungement** are different remedies and are never interchangeable — sealing does not destroy the record; expungement does. This packet is about sealing only. The Boston Municipal Court Department permits a single consolidated petition to seal **three or more** criminal records from **two or more** BMC divisions, under Amended Standing Order No. 1-09 and the Commonwealth v. Pon standard. No BMC form for the consolidated petition exists in the sources this packet is built from, so the petition in this packet is a composed pleading drafted against the Standing Order's required contents — and in the BMC it **supplements rather than replaces** the statewide per-case sealing form, which is Trial Court form **TC0057 (2/24), *Petition to Seal Criminal Records for Nolle Prosequi or Dismissal***.
 
 The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every case fact belongs to records the platform has not seen — your own CORI from DCJIS and your court paperwork — so every one of them is a labelled dotted blank listed below, and you fill it from the record itself, never from memory.
 
@@ -15,7 +15,7 @@ You are sealing **three or more** BMC records from **two or more** BMC divisions
 | Component | What it is |
 | --- | --- |
 | `primary_filing` | the composed consolidated petition under § 100C and Standing Order 1-09 |
-| `instructions` | the threshold, the venue rule, the supplements-not-replaces posture, and what follows filing |
+| `instructions` | the threshold, the venue rule, the supplements-not-replaces posture against form TC0057, and what follows filing |
 
 ## Documents you must obtain before filing
 
@@ -46,7 +46,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one before yo
 4. **Fill in every dotted blank**, listing each record's division, docket number and disposition from your CORI and court paperwork.
 5. **Write the good-cause narrative in your own words**, against the Pon-standard questions on the instructions page: what specific problems the records have caused you, and what you have done since the cases ended.
 6. **Sign and date the petition yourself.**
-7. **Ask the clerk of the venue division** how the division wants the statewide per-case form presented alongside this petition, whether the division uses any form of its own for the consolidated procedure, and whether anything is charged — the controlling review identified no fee, and this packet asserts none.
+7. **Ask the clerk of the venue division** whether that division wants **TC0057 (2/24), *Petition to Seal Criminal Records for Nolle Prosequi or Dismissal*** — the statewide per-case form for a nolle prosequi or a dismissal, which prints "Use a separate form for each case" on its own face — filed alongside this consolidated petition, and how many. The Standing Order exists so that one petition can do the work of several separate filings, but the controlling review records the consolidated petition as **supplementing rather than replacing** TC0057, and it does not settle which of the two the division wants in the file. **Ask before you file; do not assume this petition alone is the whole filing.** Ask at the same time whether the division uses any form of its own for the consolidated procedure, and whether anything is charged — the controlling review identified no fee, and this packet asserts none.
 8. **File in the venue division.** A preliminary hearing, public notice and a final hearing follow under the Standing Order, and the judge may request additional information from the Clerk-Magistrate or the Probation Department.
 
 ## Things the platform deliberately left blank
@@ -63,6 +63,6 @@ Each is printed on its page as a labelled dotted blank. Fill every one before yo
 
 ## What this packet is not
 
-This is a prepared consolidated pleading with its instructions. It is not an official BMC form — whether the BMC publishes one for this procedure is an open question this packet does not decide — and it is not legal advice, it is not filed for you, and it does not decide whether the court will seal any record. Sealing does not destroy the record; expungement does, and this packet is not an expungement.
+This is a prepared consolidated pleading with its instructions. It is not an official BMC form: no BMC form for this procedure exists in the sources this packet is built from, and the statewide form for these dispositions — TC0057 (2/24), *Petition to Seal Criminal Records for Nolle Prosequi or Dismissal* — is a different document this packet does not include. It is not legal advice, it is not filed for you, and it does not decide whether the court will seal any record. Sealing does not destroy the record; expungement does, and this packet is not an expungement.
 
 _Route: obligation:track-only:MA:ma-bmc-multi_
