@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+  "worklistGroupId": "composed-treatment:nd-nonconviction-auto-close-verify",
+  "jurisdiction": "ND",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "committed repository records bound by exact SHA-256 at build time, with every relied-on statement re-read from the committed bytes as an anchor before composing",
+  "routeKeys": [
+    "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:written_clerk_correction_request",
+    "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:original_case_enforcement_motion"
+  ],
+  "statutoryAuthority": [
+    "N.D.C.C. § 12-60.1-05"
+  ],
+  "legalName": "Correction Instruments for Mandatory Non-Conviction Record Closure Under N.D.C.C. § 12-60.1-05 (Still Public on Day 62)",
+  "allSourcesExact": true,
+  "formIdentityNote": "No dedicated statewide enforcement form exists for a § 12-60.1-05 closure that did not happen — the controlling LA-IMM-03 decision records exactly that — so both correction instruments are composed by this build from the committed records. The official pre-2025-08-01 petition is a DIFFERENT instrument on a different branch (pre_effective_date_petition) and is deliberately not in this packet: the record states that pre-August 1, 2025 dispositions remain on the official petition route. No form was substituted and none was invented.",
+  "committedRecords": [
+    {
+      "sourceIds": [
+        "committed-record:src/lib/legal-authority/routes/national-report-2026-08-28.json"
+      ],
+      "recordId": "route-contract:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+      "pathInRepository": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+      "sha256": "918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b",
+      "byteLength": 37333,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed route contract: the automatic parent, the 61-day/day-62 timing, the nd_still_public_day_62 failure branch this family implements, and the recorded separations (pre-2025 petition route; agency correction; contested eligibility)",
+      "anchorStatementsVerified": 6
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json"
+      ],
+      "recordId": "legal-decision:2026-08-28:LA-IMM-03:nd-nonconviction-auto-close-verify",
+      "pathInRepository": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+      "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+      "byteLength": 184365,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the controlling LA-IMM-03 decision naming both composed correction instruments, their contents, and the recorded absence of a dedicated statewide enforcement form",
+      "anchorStatementsVerified": 6
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [
+    "clerk_correction_request",
+    "enforcement_motion",
+    "proposed_order",
+    "filing_instructions"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that any record is eligible for the relief this family composes for",
+    "that any particular disposition is a qualifying non-conviction disposition under N.D.C.C. § 12-60.1-05",
+    "that the pre-2025-08-01 official petition branch is buildable from this family — it is not, and it is not carried here"
+  ]
+}

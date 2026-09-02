@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "composed-treatment:sd_sis_sealing",
+  "requiredBeforeFiling": [
+    {
+      "document": "implementation_request",
+      "field": "implementation_request.discharge_dismissal_date",
+      "page": 1,
+      "printedContext": "Date of the order of discharge and dismissal, on the request",
+      "disclosureLabel": "Date of the order of discharge and dismissal, on the request",
+      "identity": "implementation_request field discharge_dismissal_date",
+      "why": "no disposition fact is held for a record the platform has not seen",
+      "participantMustSupply": "the date of the order of discharge and dismissal, copied from the attached order"
+    },
+    {
+      "document": "implementation_request",
+      "field": "implementation_request.public_record_evidence",
+      "page": 1,
+      "printedContext": "Your evidence that the matter still appears on a public record search, described on the request",
+      "disclosureLabel": "Your evidence that the matter still appears on a public record search, described on the request",
+      "identity": "implementation_request field public_record_evidence",
+      "why": "what a public record search shows is a fact only the participant can state",
+      "participantMustSupply": "what still shows the matter, in your own words, with dated evidence attached"
+    },
+    {
+      "document": "implementation_request",
+      "field": "implementation_request.request_case_number",
+      "page": 1,
+      "printedContext": "Case number of the original criminal case, in the caption of the request",
+      "disclosureLabel": "Case number of the original criminal case, in the caption of the request",
+      "identity": "implementation_request field request_case_number",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the case number of the original criminal case, copied from the court record"
+    },
+    {
+      "document": "implementation_request",
+      "field": "implementation_request.request_court",
+      "page": 1,
+      "printedContext": "Court named in the caption of the request, and its county",
+      "disclosureLabel": "Court named in the caption of the request, and its county",
+      "identity": "implementation_request field request_court",
+      "why": "which court holds the original case belongs to the participant's record",
+      "participantMustSupply": "the name of the court in the original criminal case, and its county - that court's own office can confirm both"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.after_request",
+      "page": 1,
+      "printedContext": "What happened after your written request, stated on the motion",
+      "disclosureLabel": "What happened after your written request, stated on the motion",
+      "identity": "enforcement_motion field after_request",
+      "why": "what followed the participant's own request is a fact only the participant can state",
+      "participantMustSupply": "what happened after your request - whether the record was corrected - in your own words, with a copy of your request attached"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.motion_case_number",
+      "page": 1,
+      "printedContext": "Case number of the original criminal case, in the caption of the motion",
+      "disclosureLabel": "Case number of the original criminal case, in the caption of the motion",
+      "identity": "enforcement_motion field motion_case_number",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the case number of the original criminal case, copied from the court record"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.motion_court",
+      "page": 1,
+      "printedContext": "Court named in the caption of the motion, and its county",
+      "disclosureLabel": "Court named in the caption of the motion, and its county",
+      "identity": "enforcement_motion field motion_court",
+      "why": "which court holds the original case belongs to the participant's record",
+      "participantMustSupply": "the same court and county as the original criminal case"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.motion_discharge_date",
+      "page": 1,
+      "printedContext": "Date of the order of discharge and dismissal, on the motion",
+      "disclosureLabel": "Date of the order of discharge and dismissal, on the motion",
+      "identity": "enforcement_motion field motion_discharge_date",
+      "why": "no disposition fact is held for a record the platform has not seen",
+      "participantMustSupply": "the date of the order of discharge and dismissal, copied from the attached order"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "implementation_request",
+      "field": "implementation_request.request_signature",
+      "label": "Signature of the defendant on the request",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the defendant signs the request personally"
+    },
+    {
+      "document": "implementation_request",
+      "field": "implementation_request.request_signature_date",
+      "label": "Date beside the defendant's signature on the request",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the request is signed would be false"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.motion_signature",
+      "label": "Signature of the defendant on the motion",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the defendant signs the motion personally"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.motion_signature_date",
+      "label": "Date beside the defendant's signature on the motion",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the motion is signed would be false"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/participant-instructions.md"
+}
