@@ -275,8 +275,108 @@
       ],
       "raisedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)",
       "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+    },
+    {
+      "itemId": "in_arrest_no_charges-set",
+      "lane": "VF06",
+      "assignedBy": "VF06",
+      "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
+      "decisiveDefect": "fixtures/packet-boundary-filled.pdf prints a truncated petitioner name. cap-PetitionerFullName is one AcroForm field name with fourteen widgets across pages 1, 3, 5, 7, 8, 9 and 13, and the fill wrote the boundary value into all of them at a font sized against one widget. Three widgets are narrower than the value needs and the appearance is clipped there: page 7 x=332.9 w=187.9 prints '…Oyelaran y Fitzwillian' (ink to 530.3 against a 520.8 right edge) directly before the printed 'has filed'; page 7 x=406.4 w=161.1 prints '…Oyelaran y' and loses 'Fitzwilliam III' entirely (ink to 603.8 against 567.5); page 9 x=124.7 w=182.2 prints '…Oyelaran y Fitzwilli' (ink to 322.1 against 306.9). Form ACR and the order pages therefore name a person who is not the petitioner.",
+      "failedProofObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "perObligation": {
+        "CLIPPING_AND_OVERLAP": {
+          "measuredDetail": "Measured here, not read from a report: 105 widget rectangles read out of the bound source with pdf-lib, added ink isolated by differencing pdftotext -bbox words on each fixture page against the same page of the bound source, each added word matched to the widget it sits in. Canonical is clean — 66 added words, 0 outside a written field's widget, 0 overrunning. Boundary — 74 added words, 4 outside every written field's widget, 2 widgets carrying ink past their own right edge, and the three clipped appearances confirmed by rastering pages 7 and 9 at 200dpi and reading the images.",
+          "whatRepairMustDo": "Make the existing fit rule govern every widget of a shared field name rather than one of them. The rule already exists and already fires in this same fixture — reports/rendered-artifacts.json records cap-COUNTY refused as value_exceeds_widget_width_at_minimum_font (requiredWidthAtMin 143.6 against a 108-wide rect) and Address likewise — so the repair is to evaluate the value against the narrowest widget carrying that field name and to refuse, or to fit to that narrowest widget, rather than to write a value that renders clipped. A refused blank is safe; a name silently cut mid-word on a sworn filing is not. Then re-render both fixtures and re-hash: the artifact record and any raster receipt bind the current bytes.",
+          "whereToLook": "the shared-field fill path for AcroForm families in the Indiana build script, and the widget-fit check that produced the two refusals already recorded in reports/rendered-artifacts.json"
+        }
+      },
+      "secondaryDefectNotScored": {
+        "what": "participant-instructions.md contradicts itself about the insert pages. Its 'Read this first' section states 'All three sets are in this packet' and tables which insert page answers which printed instruction, but step 1 of 'What you must do before you file' still reads 'Get the Non Conviction Insert Forms — Facts, Findings and Exhibit pages — from www.indianalegalhelp.org … Nothing else in this list matters until this is done.'",
+        "whyItIsNotTheVerdict": "the pages are bound and rendered, so no proof obligation fails on it; it is a stale line from before the inserts were bound and it sends a participant to fetch what they already hold.",
+        "whatRepairShouldDo": "rewrite that step to say the insert pages are in the packet and are to be put in place of the three placeholder pages, keeping the rest of the list as it stands."
+      },
+      "whatIsNotWrongWithThisFamily": "Both sources rehash exactly; all five written facts land in their own widgets; no protected widget carries ink in either fixture; the related-cases table is uniformly blank; the instructions state venue, the absence of a filing fee, both service positions and all thirteen registry self-help stops. The repair is narrow.",
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "do not close the defect by removing the boundary fixture or by shortening the boundary name — the fixture exists to find exactly this",
+        "this verification opens no commercial route and grants no approval"
+      ]
     }
   ],
+     "vf06ReDispatchWaveBlockedFamilies": {
+        "whatThisIs": "families this lane read and could not score PASS or FAIL, because an obligation depends on a legal input no record the family binds answers. Not repair assignments; the work here is a decision, not an edit.",
+        "families": [
+           {
+              "itemId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+              "lane": "VF06",
+              "recordedBy": "VF06",
+              "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+              "verdict": "BLOCKED_LEGAL_INPUT",
+              "whyThisIsHereAndNotInAssignments": "A block is not a FAIL and it carries no repair assignment. It is recorded alongside them so the open question reaches whoever reads this file for work, rather than sitting only in a verdict row.",
+              "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading",
+              "blockedObligation": "SERVICE",
+              "theOpenQuestion": "Who must be served on a petition under Miss. Code Ann. § 99-19-71(4) brought on the intervention-court dismissal-only branch, and how?",
+              "whatTheRecordsSay": {
+                 "registryTrackForThisPathway": "trackId intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4 — rules.service null, rules.notice null, venue null, destination null, selfHelpStopConditions empty, legalStatus 'legal_review_pending'",
+                 "compiledProfilePathway": "carries the mechanism, timing, required facts and exclusions, and no service or notice rule",
+                 "neighbouringTrack": "ms-nonconv, the § 99-19-71(4) nonconviction petition track — service: 'United States mail or hand delivery by the petitioner to the prosecuting authority, contemporaneous with filing, evidenced by the certificate of service'; notice: 'The prosecuting authority receives a copy', with the § 99-19-71(2)(b) ten-day district-attorney notice expressly NOT imported into this subsection; destination adds 'The prosecuting authority is served with a copy.'",
+                 "whatThePacketDoes": "states on its filing-instructions page that no record it binds answers the question and names the clerk's office of the intervention court as the office that does; composes no certificate-of-service component, where the Mississippi sibling family rcap-ms-custom-pleading composes one per route"
+              },
+              "whyItCannotBeMeasuredHere": "Whether the ms-nonconv service rule governs this branch of the same subsection is a legal determination. The record that would settle it is the one marked legal_review_pending, and a verifier that answered it would be legislating rather than measuring.",
+              "whatWouldCloseIt": [
+                 "counsel decides whether the ms-nonconv service and notice rules reach the intervention-court dismissal-only branch",
+                 "if they do: the registry track for this pathway is filled in and leaves legal_review_pending, the packet states service and its method, and a certificate-of-service component is composed as the sibling Mississippi family already does",
+                 "if they do not: the record states why no service is required on this branch, and the packet says that instead of saying nobody has answered"
+              ],
+              "whatIsNotWrongWithThisFamily": "Fourteen obligations pass and all nine counters are zero, measured here: three committed records rehash exactly, both fixtures hash to their record, five pages match the manifest in both, all seven writes land on their own component's pages, nothing crosses the 72pt margin in either fixture, no signature or court-decision line carries ink, all six required-before-filing items are named in the instructions, and the fee answer states its statutory basis and names the office that holds the amount.",
+              "nothingHereOpensARoute": true
+           },
+           {
+              "itemId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+              "lane": "VF06",
+              "recordedBy": "VF06",
+              "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+              "verdict": "BLOCKED_LEGAL_INPUT",
+              "whyThisIsHereAndNotInAssignments": "A block is not a FAIL and carries no repair assignment. It is recorded here so the open questions reach whoever reads this file for work.",
+              "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
+              "blockedObligations": [
+                 "FEE_AND_WAIVER",
+                 "SERVICE"
+              ],
+              "theOpenQuestions": [
+                 "What does the circuit clerk charge to file a vacatur and expungement petition under W. Va. Code § 61-14-9, and is any waiver available?",
+                 "Who must be served on a § 61-14-9 petition, and how?"
+              ],
+              "whatTheRecordsSay": {
+                 "registryTrackForThisRoute": "trackId sex-trafficking-victim-vacatur-and-expungement, authority W. Va. Code § 61-14-9 — rules.fees null, rules.feeWaiver null, rules.service null, rules.notice null, legalStatus 'legal_review_pending'",
+                 "compiledProfilePathway": "gives the mechanism, the destination (circuit court in the county of conviction or juvenile adjudication) and the referral boundary, and no fee or service rule",
+                 "whatExistsForOtherSections": "wv_common_conv_procedure (§ 61-11-26): circuit clerk charges the civil-action fee, recorded in the census as $200 under § 59-1-11(a)(1), plus a $100 State Police processing fee on an order, and service on five recipients under § 61-11-26(e) with victims served by the prosecuting attorney under (f). wv_common_nc_procedure (§ 61-11-25): no filing fee at all, and no service on the node.",
+                 "whatThePacketDoes": "states that no record it binds answers either question, names the circuit clerk's office as the office that does, and sets out in terms which § 61-11-25 and § 61-11-26 figures it is refusing to carry across and why"
+              },
+              "whyItCannotBeMeasuredHere": "Whether West Virginia's § 61-11-25 or § 61-11-26 fee and service rules reach a § 61-14-9 petition is a legal determination. The committed contract's own note says broader trafficking-related matters require referral rather than an invented rule, and the record that would settle it is marked legal_review_pending.",
+              "whatWouldCloseIt": [
+                 "counsel establishes the filing fee and any waiver, and the service and notice rule, for § 61-14-9 specifically",
+                 "the registry track for this route is filled in and leaves legal_review_pending",
+                 "the packet then states both, and composes a certificate of service if service is required"
+              ],
+              "whyItMattersOnThisRouteInParticular": "The participants are trafficking victims, and the packet's own stop conditions include personal safety once a filing becomes a public court record. Who receives a copy of that filing is not a question to answer by analogy.",
+              "whatIsNotWrongWithThisFamily": "Thirteen obligations pass and all nine counters are zero, measured here: three committed records rehash exactly, both fixtures hash to their record, four pages match the manifest in each, all six writes land on their own component's pages, nothing crosses the 72pt margin in either fixture, no signature line carries ink, all seven required-before-filing items are named in the instructions, and the filing destination is answered from the compiled profile rather than left open.",
+              "nothingHereOpensARoute": true
+           }
+        ]
+     },
+   "vf06ReDispatchWave": {
+     "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
+     "appendedBy": "VF06 (independent; built, repaired and rendered none of these packets)",
+     "appended": [
+       "in_arrest_no_charges-set"
+     ],
+     "noteOnAssignmentCount": "the top-level assignmentCount reads 1 and predates several waves of appends; it was already stale before this wave and is left as the earlier lanes wrote it. The assignments array is the record.",
+     "whatAFailIs": "a verdict and a repair assignment. This lane edited no packet, no overlay directory and no build script."
+   },
   "supersededLaneMembership": {
     "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
     "lane": "VF06",
