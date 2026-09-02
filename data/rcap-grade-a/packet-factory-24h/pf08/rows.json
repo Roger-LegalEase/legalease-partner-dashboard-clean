@@ -1,100 +1,520 @@
 {
   "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
   "assignmentId": "PF08",
-  "workerId": "PF-C",
+  "workerId": "FABLE-PB",
   "lane": "packet-build",
-  "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
-  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
-  "takenAfter": "the static queue PF12-PF16, as the Captain's nextLaneByWorker assignment for PF-C",
-  "familiesAssigned": 1,
+  "engine": "Claude Code Remote worker; commits and pushes to fable/pb, no PR",
+  "shiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+  "familiesAssigned": 2,
   "preflight": {
-    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
-    "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed — including family_sources_bind, 5/5 source(s) bind by exact SHA-256"
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable (codex-cloud mode)",
+    "corpusMounted": "THREE custodies. The Master Library and the D source packs were already resolved in this container and were verified rather than re-downloaded: 51 jurisdictions, 499 files, 329 PDFs, all 498 governance checksums verifying, and the pinned OR/ND sources matching byte-for-byte. The human_source_returns custody, which the bootstrap script does not install, was mounted separately after verifying the Statement of Inability against the committed index digest.",
+    "whyNotBootstrapped": "scripts/rcap-corpus/bootstrap-private-corpus.sh failed on curl exit 23 with the container disk at 99% full. The corpus already present was verified against its own governance checksums and the committed index instead of being re-fetched. No corpus byte was written into this worktree and no corpus byte is committed."
   },
-  "selfVerification": "none.",
+  "selfVerification": "none. This lane does not verify its own packets. The counters below are the builder's own count using the repository's own contract functions, and every one of the fifteen obligations is returned BUILT_RASTER_PENDING because a builder verdict is not a verdict.",
+  "rasterRule": "no page raster was produced in this container. Every fixture SHA-256 is reported so the central raster workflow can render the exact bytes. No family here is PASS_COMPLETE and none may become so without a hash-bound RASTER_PASS.",
   "rows": [
     {
-      "itemId": "ca-1203-4-set",
-      "status": "STOPPED",
-      "stopClass": "source_present_and_exact_but_not_readable_by_the_toolchain",
-      "notBlockedSource": "The row gate's family_sources_bind check passes: all five sources are present at their indexed paths and every one hashes to the SHA-256 the committed corpus index declares. Nothing about the custody of these bytes is in doubt, so this is not a BLOCKED_SOURCE row.",
-      "stopReason": "Every one of the five Judicial Council forms this family needs is an encrypted PDF, and pdf-lib — the only PDF reader in this toolchain — implements no decryption. Each throws on load, with `ignoreEncryption: true` set, before a single widget can be censused. Nothing can be measured, so nothing may be written.",
-      "jurisdiction": "CA",
-      "routeKey": "track:CA:ca-1203-4",
-      "implementationStrategy": "official_pdf_fill",
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill",
-      "overlayDirectoryTouched": false,
-      "overlayDirectoryEvidence": {
-        "files": 7,
-        "treeHash": "44ba11eda2c137b8e761bf0fd2f38cf89b187ab2685dca33401799704c935ab7",
-        "treeHashBasis": "sha256 of the sorted sha256sum listing of every file under the overlay directory, taken before and after this lane's work; unchanged.",
-        "note": "The directory holds a previous build's artifacts. This lane wrote no byte into it, so what a reviewer opens there is that earlier build and not a partial one."
+      "itemId": "ms-misd-addl-set",
+      "status": "COMPLETED",
+      "familyKind": "packet_family",
+      "whyThisIsAPacketFamilyAndNotAnAgencyTreatment": "it is a court filing the participant makes; the state publishes no form for it, so every page is composed from codified text and the committed legal-design record. It is not an agency application: a court receives it and a judge decides it",
+      "jurisdiction": "MS",
+      "routeKeys": [
+        "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6"
+      ],
+      "statutoryAuthority": "Miss. Code Ann. §§ 9-11-15(3) and 21-23-7(6)",
+      "implementationStrategy": "custom_pleading",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading",
+      "buildScript": "scripts/build-census-v1-ms-misd-addl-set.mjs",
+      "componentSet": [
+        "ms-misd-addl-primary-filing-1",
+        "ms-misd-addl-proposed-order-2",
+        "ms-misd-addl-certificate-of-service-3",
+        "ms-misd-addl-attachment-4",
+        "ms-misd-addl-instructions-5"
+      ],
+      "sourcesBound": [],
+      "fieldMapArithmetic": {
+        "terminalFields": 37,
+        "written": 9,
+        "blank": 28,
+        "requiredBeforeFiling": 20,
+        "checks": "9 written + 28 blank = 37 terminal fields; every blank carries an approved disposition from the closed vocabulary and an undeclared blank fails the build"
       },
-      "sourcesExamined": [
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "participantFacingObligations": {
+        "FILING_DESTINATION": {
+          "state": "HELD, and stated outright",
+          "answer": "the clerk of the justice court or municipal court in which the convictions were had. Each court expunges only its own misdemeanours, so convictions in two courts need two petitions.",
+          "readIn": [
+            "MS.memo track ms-misd-addl rules.filing and destination.detail"
+          ]
+        },
+        "FEE_AND_WAIVER": {
+          "state": "NOT ESTABLISHED for these sections, and the record says WHY rather than being silent",
+          "answer": "Sec. 99-19-72's $150 applies by its terms to petitions under Sec. 99-19-71 and DOES NOT REACH Secs. 9-11-15(3) or 21-23-7(6); neither of those sections specifies a fee of its own. The clerk of the convicting justice or municipal court is named as the authority for what that court actually charges and for any waiver.",
+          "readIn": [
+            "MS.memo track ms-misd-addl rules.fees and rules.feeWaiver",
+            "the compiled MS profile, searched: its only fee line is keyed to Sec. 99-19-71 and does not address these sections"
+          ],
+          "a3Discipline": "the $150 is named ONLY to exclude it. Reading it across would be the sibling-route inference the standard forbids, and would tell a participant to expect a charge the law does not levy on them."
+        },
+        "SERVICE": {
+          "state": "HELD",
+          "answer": "the prosecuting authority - the municipal prosecuting attorney on the Sec. 21-23-7(6) branch and the equivalent prosecutor for justice court on the Sec. 9-11-15(3) branch - by United States mail or hand delivery, evidenced by the certificate of service, as PRIOR notice",
+          "readIn": [
+            "MS.memo track ms-misd-addl rules.notice and rules.service"
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "answer": "whenever this track is in play, because the three-element showing is discretionary advocacy made in open court; plus convictions in more than one court, any conviction anywhere within two years, expecting the driving record to be cleared, and non-citizenship",
+          "readIn": [
+            "MS.memo track ms-misd-addl selfHelpStopConditions"
+          ]
+        }
+      },
+      "fifteenObligations": [
         {
-          "sourceId": "official-form:CR-106",
-          "title": "Proof of Service (criminal record clearing)",
-          "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
-          "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
-          "byteLength": 104278,
-          "bindsByExactSha256": true,
-          "encryption": "/Encrypt present, /V 4 /R 4, /CFM AESV2",
-          "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined"
+          "obligation": "ROUTE_IDENTITY",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "production-field-map.json carries routeKeys [\"obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3\",\"obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6\"] and the statute Miss. Code Ann. §§ 9-11-15(3) and 21-23-7(6); every composed page prints the route keys on its own last line"
         },
         {
-          "sourceId": "official-form:CR-180",
-          "title": "Petition for Dismissal",
-          "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-180__petition-for-dismissal__REV-2024-01-01__EN.pdf",
-          "byteLength": 110684,
-          "bindsByExactSha256": true,
-          "encryption": "/Encrypt present, /V 5 /R 6, /CFM AESV3 (AES-256)",
-          "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined",
-          "sha256": "06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe"
+          "obligation": "SOURCE_IDENTITY",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "zero source binaries bound (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); allSourcesExact is true vacuously and the source receipt says so in terms"
         },
         {
-          "sourceId": "official-form:CR-181",
-          "title": "Order for Dismissal",
-          "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-181__order-for-dismissal__REV-2024-01-01__EN.pdf",
-          "byteLength": 110123,
-          "bindsByExactSha256": true,
-          "encryption": "/Encrypt present, /V 5 /R 6, /CFM AESV3 (AES-256)",
-          "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined",
-          "sha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504"
+          "obligation": "COMPONENT_SET",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "componentSet [\"ms-misd-addl-primary-filing-1\",\"ms-misd-addl-proposed-order-2\",\"ms-misd-addl-certificate-of-service-3\",\"ms-misd-addl-attachment-4\",\"ms-misd-addl-instructions-5\"]; every component appears in both rendered fixtures and in the page manifest"
         },
         {
-          "sourceId": "official-form:MC-025",
-          "title": "Attachment to Judicial Council Form",
-          "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-025__attachment-to-judicial-council-form__REV-2009-07-01__EN.pdf",
-          "byteLength": 104832,
-          "bindsByExactSha256": true,
-          "encryption": "/Encrypt present, /V 4 /R 4, /CFM V2 (RC4)",
-          "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined",
-          "sha256": "b0ca1509f2c3de152518079de7c1eb2771eaa1eb7da457c2e918498894f6f0af"
+          "obligation": "KNOWN_PREFILLS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "9 write(s) declared, each read back from the assembled packet bytes and recorded in reports/actual-writes.json"
         },
         {
-          "sourceId": "official-form:MC-031",
-          "title": "Attached Declaration",
-          "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-031__attached-declaration__REV-2005-07-01__EN.pdf",
-          "byteLength": 109506,
-          "bindsByExactSha256": true,
-          "encryption": "/Encrypt present, /V 4 /R 4, /CFM V2 (RC4)",
-          "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined",
-          "sha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075"
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "20 item(s) declared REQUIRED_BEFORE_FILING, every one disclosed in participant-instructions.md and listed in reports/blanks-left-for-the-participant.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "no route election is made by the build; the field map's routeSelectionNote states why for this family"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "no repeating table carries a written cell, so no row reads as finished when it is not; the builder's incompleteRows counter is 0"
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "every signature, signature date and court-, clerk- or prosecutor-owned field is refused with a typed refusal class, and the byte proof asserts no refused field carries ink"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "two fixtures rendered, 8 pages each, hashes recorded in reports/rendered-artifacts.json and reported to Captain for the raster batch"
+        },
+        {
+          "obligation": "PAGE_ORDER",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the page manifest records every packet page against its component and source page, in the component order the packet-set manifest declares"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "not measurable in this container without a browser; no page raster was produced here, which is exactly what BUILT_RASTER_PENDING records"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the clerk of the justice court or municipal court in which the convictions were had. Each court expunges only its own misdemeanours, so convictions in two courts need two petitions."
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "Sec. 99-19-72's $150 applies by its terms to petitions under Sec. 99-19-71 and DOES NOT REACH Secs. 9-11-15(3) or 21-23-7(6); neither of those sections specifies a fee of its own. The clerk of the convicting justice or municipal court is named as the authority for what that court actually charges and for any waiver."
+        },
+        {
+          "obligation": "SERVICE",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the prosecuting authority - the municipal prosecuting attorney on the Sec. 21-23-7(6) branch and the equivalent prosecutor for justice court on the Sec. 9-11-15(3) branch - by United States mail or hand delivery, evidenced by the certificate of service, as PRIOR notice"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "whenever this track is in play, because the three-element showing is discretionary advocacy made in open court; plus convictions in more than one court, any conviction anywhere within two years, expecting the driving record to be cleared, and non-citizenship"
         }
       ],
-      "corroboration": "The committed corpus index records pageCount: null and acroFieldCount: null for all five, and for no other form in this lane's reach. Whatever built that index could not open them either.",
-      "whatWasNotClaimed": "This lane did not test another PDF reader against these files, because it has none, and so states nothing about whether some other reader could open them. The finding is about this toolchain, and it is stated as such.",
-      "counters": null,
-      "countersNote": "No counters are returned. A counter set implies a censused form, and no form here was censused. Returning nine zeros for a family that rendered nothing would be the worst possible row.",
-      "componentsRendered": [],
-      "artifacts": [],
-      "findingsRaisedForOthers": [
-        "BLOCKING for this family, owner of the acquisition pipeline: all five California Judicial Council forms in the Master Library are encrypted PDFs — CR-106, MC-025 and MC-031 with /V 4 /R 4, CR-180 and CR-181 with /V 5 /R 6 AES-256. They bind by exact SHA-256 and cannot be read. This family cannot be built until either the corpus carries decrypted-at-acquisition copies of these five, with their own recorded custody, or the toolchain gains a reader that decrypts. Both are decisions above this lane.",
-        "The same condition holds for WV SCA-C903, returned separately in the PF10 row. The two are one problem, not two: whatever acquired these files preserved the publisher's encryption, and every downstream family that needs one of them stops in the same place."
+      "artifactsForTheRasterBatch": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+          "pageCount": 8,
+          "byteLength": 21298
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5",
+          "pageCount": 8,
+          "byteLength": 21617
+        }
       ],
-      "independentVerificationStatus": "NOT_APPLICABLE_NOTHING_WAS_BUILT",
+      "inkPerFixture": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 9,
+          "glyphs": 162,
+          "appearances": 0
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 9,
+          "glyphs": 352,
+          "appearances": 0
+        }
+      ],
+      "determinism": {
+        "proof": "built twice in this container; the WHOLE overlay tree hashed byte-for-byte identical, not only the fixtures",
+        "creationDatePinned": "stampDeterministic() from scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs is applied to every document this build creates, including the assembled packet, because pdf-lib stamps the wall clock into PDFDocument.create() and save({updateMetadata:false}) does not remove a stamp already there"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "tx_nd_conviction_no_supervision-set",
+      "status": "COMPLETED",
+      "familyKind": "packet_family",
+      "whyThisIsAPacketFamilyAndNotAnAgencyTreatment": "it fills or delivers an official court form the repository holds by exact SHA-256, and the participant files it with a court",
+      "jurisdiction": "TX",
+      "routeKeys": [
+        "obligation:track-pathway:TX:tx_nd_conviction_no_supervision:petitioned-nondisclosure-for-an-eligible-conviction-411-0735"
+      ],
+      "statutoryAuthority": "Tex. Gov't Code §§ 411.0735, 411.0745 and 411.074",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs",
+      "componentSet": [
+        "tx_nd_conviction_no_supervision-petition-1",
+        "tx_nd_conviction_no_supervision-proposed-order-2",
+        "tx_nd_conviction_no_supervision-proof-of-delivery-to-prosecutor-3",
+        "tx_nd_conviction_no_supervision-fee-waiver-statement-4",
+        "tx_nd_conviction_no_supervision-filing-and-after-order-instructions-5"
+      ],
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0735",
+          "formNumber": "TX-GC-411.0735-PETITION",
+          "custody": "master_library",
+          "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0735__petition-for-order-of-nondisclosure-under-411-0735__REV-2022-02__EN.pdf",
+          "sha256": "da0bd63c66a6ee35a7a0659556a02268f1fd6053ebf7419e912b78fd3fb3dd13"
+        },
+        {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0735",
+          "formNumber": "TX-GC-411.0725-073-0735-ORDER",
+          "custody": "master_library",
+          "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725-411.073-411.0735__order-of-nondisclosure-under-411-0725-411-073-411-0735__REV-2022-02__EN.pdf",
+          "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680"
+        },
+        {
+          "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+          "formNumber": "TX-SCT-22-9090-STATEMENT-OF-INABILITY",
+          "custody": "human_source_returns",
+          "pathInArchive": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d"
+        }
+      ],
+      "fieldMapArithmetic": {
+        "terminalFields": 178,
+        "written": 15,
+        "blank": 163,
+        "requiredBeforeFiling": 117,
+        "checks": "15 written + 163 blank = 178 terminal fields; every blank carries an approved disposition from the closed vocabulary and an undeclared blank fails the build"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "participantFacingObligations": {
+        "FILING_DESTINATION": {
+          "state": "HELD",
+          "answer": "the clerk of the court that sentenced the person, who forwards it to the court; Sec. 411.0745(a) allows filing in person, electronically or by mail",
+          "readIn": [
+            "TX.memo track tx_nd_conviction_no_supervision rules.filing"
+          ]
+        },
+        "FEE_AND_WAIVER": {
+          "state": "HELD, and there is no flat statutory figure",
+          "answer": "identical to the Sec. 411.0731 route: Sec. 411.0745(b) sets the TYPE of fee and not an amount, county civil schedules govern, OCA describes about $280 varying by county, and the clerk of the filing court is the named authority. Waiver is the Rule 145 Statement of Inability, shipped as a bound component.",
+          "readIn": [
+            "TX.memo track tx_nd_conviction_no_supervision rules.fees and rules.feeWaiver"
+          ],
+          "trapAvoided": "the $28 no-petition figure is named only to exclude it, as on the sibling route"
+        },
+        "SERVICE": {
+          "state": "HELD, and the COURT notifies the State",
+          "answer": "Sec. 411.0745(e), as on the sibling route: the court gives notice and an opportunity for a hearing, the filer is not charged for it, and a hearing is required unless the State stays silent for 45 days and the court makes the two findings. The proof-of-delivery page is CONDITIONAL.",
+          "readIn": [
+            "TX.memo track tx_nd_conviction_no_supervision rules.notice and rules.service"
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "answer": "led by the wrong-section risk - Sec. 411.0735 requires that there was NO community supervision of any kind - then the Sec. 411.0735(c-1) violent-or-sexual bar with its Penal Code Sec. 22.01 assault exception, an incomplete or uncertain sentence-completion date, uncertainty whether the misdemeanour was fine-only (which decides whether the wait is nil or two years), any other conviction or deferred adjudication, family violence, and non-citizenship",
+          "readIn": [
+            "TX.memo track tx_nd_conviction_no_supervision controllingAuthority.summary",
+            "the manifest participantActionRequired entries"
+          ]
+        }
+      },
+      "fifteenObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "production-field-map.json carries routeKeys [\"obligation:track-pathway:TX:tx_nd_conviction_no_supervision:petitioned-nondisclosure-for-an-eligible-conviction-411-0735\"] and the statute Tex. Gov't Code §§ 411.0735, 411.0745 and 411.074; every composed page prints the route keys on its own last line"
+        },
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "3 source(s) bound by exact SHA-256 against three records that must agree: the committed corpus index entry, the bytes mounted in the custody that index declares, and the pin in the builder"
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "componentSet [\"tx_nd_conviction_no_supervision-petition-1\",\"tx_nd_conviction_no_supervision-proposed-order-2\",\"tx_nd_conviction_no_supervision-proof-of-delivery-to-prosecutor-3\",\"tx_nd_conviction_no_supervision-fee-waiver-statement-4\",\"tx_nd_conviction_no_supervision-filing-and-after-order-instructions-5\"]; every component appears in both rendered fixtures and in the page manifest"
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "15 write(s) declared, each read back from the assembled packet bytes and recorded in reports/actual-writes.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "117 item(s) declared REQUIRED_BEFORE_FILING, every one disclosed in participant-instructions.md and listed in reports/blanks-left-for-the-participant.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "no route election is made by the build; the field map's routeSelectionNote states why for this family"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "no repeating table carries a written cell, so no row reads as finished when it is not; the builder's incompleteRows counter is 0"
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "every signature, signature date and court-, clerk- or prosecutor-owned field is refused with a typed refusal class, and the byte proof asserts no refused field carries ink"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "two fixtures rendered, 24 pages each, hashes recorded in reports/rendered-artifacts.json and reported to Captain for the raster batch"
+        },
+        {
+          "obligation": "PAGE_ORDER",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the page manifest records every packet page against its component and source page, in the component order the packet-set manifest declares"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "not measurable in this container without a browser; no page raster was produced here, which is exactly what BUILT_RASTER_PENDING records"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the clerk of the court that sentenced the person, who forwards it to the court; Sec. 411.0745(a) allows filing in person, electronically or by mail"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "identical to the Sec. 411.0731 route: Sec. 411.0745(b) sets the TYPE of fee and not an amount, county civil schedules govern, OCA describes about $280 varying by county, and the clerk of the filing court is the named authority. Waiver is the Rule 145 Statement of Inability, shipped as a bound component."
+        },
+        {
+          "obligation": "SERVICE",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "Sec. 411.0745(e), as on the sibling route: the court gives notice and an opportunity for a hearing, the filer is not charged for it, and a hearing is required unless the State stays silent for 45 days and the court makes the two findings. The proof-of-delivery page is CONDITIONAL."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "led by the wrong-section risk - Sec. 411.0735 requires that there was NO community supervision of any kind - then the Sec. 411.0735(c-1) violent-or-sexual bar with its Penal Code Sec. 22.01 assault exception, an incomplete or uncertain sentence-completion date, uncertainty whether the misdemeanour was fine-only (which decides whether the wait is nil or two years), any other conviction or deferred adjudication, family violence, and non-citizenship"
+        }
+      ],
+      "artifactsForTheRasterBatch": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "9d99a242799be5c90ce9aad7d91c322bc855d3fb6c24fb260c4868d7b057e3a2",
+          "pageCount": 24,
+          "byteLength": 1240730
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "29bac4d194aa367e63f62e465c1de566271f61ad1fd8ee475c15691195255c57",
+          "pageCount": 24,
+          "byteLength": 1241106
+        }
+      ],
+      "inkPerFixture": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 13,
+          "glyphs": 262,
+          "appearances": 15
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 13,
+          "glyphs": 590,
+          "appearances": 15
+        }
+      ],
+      "determinism": {
+        "proof": "built twice in this container; the WHOLE overlay tree hashed byte-for-byte identical, not only the fixtures",
+        "creationDatePinned": "stampDeterministic() from scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs is applied to every document this build creates, including the assembled packet, because pdf-lib stamps the wall clock into PDFDocument.create() and save({updateMetadata:false}) does not remove a stamp already there"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
     }
-  ]
+  ],
+  "supersededShiftReturn": {
+    "note": "the return this file held before this shift wrote its own, preserved verbatim",
+    "document": {
+      "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+      "assignmentId": "PF08",
+      "workerId": "PF-C",
+      "lane": "packet-build",
+      "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
+      "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+      "takenAfter": "the static queue PF12-PF16, as the Captain's nextLaneByWorker assignment for PF-C",
+      "familiesAssigned": 1,
+      "preflight": {
+        "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
+        "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed — including family_sources_bind, 5/5 source(s) bind by exact SHA-256"
+      },
+      "selfVerification": "none.",
+      "rows": [
+        {
+          "itemId": "ca-1203-4-set",
+          "status": "STOPPED",
+          "stopClass": "source_present_and_exact_but_not_readable_by_the_toolchain",
+          "notBlockedSource": "The row gate's family_sources_bind check passes: all five sources are present at their indexed paths and every one hashes to the SHA-256 the committed corpus index declares. Nothing about the custody of these bytes is in doubt, so this is not a BLOCKED_SOURCE row.",
+          "stopReason": "Every one of the five Judicial Council forms this family needs is an encrypted PDF, and pdf-lib — the only PDF reader in this toolchain — implements no decryption. Each throws on load, with `ignoreEncryption: true` set, before a single widget can be censused. Nothing can be measured, so nothing may be written.",
+          "jurisdiction": "CA",
+          "routeKey": "track:CA:ca-1203-4",
+          "implementationStrategy": "official_pdf_fill",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill",
+          "overlayDirectoryTouched": false,
+          "overlayDirectoryEvidence": {
+            "files": 7,
+            "treeHash": "44ba11eda2c137b8e761bf0fd2f38cf89b187ab2685dca33401799704c935ab7",
+            "treeHashBasis": "sha256 of the sorted sha256sum listing of every file under the overlay directory, taken before and after this lane's work; unchanged.",
+            "note": "The directory holds a previous build's artifacts. This lane wrote no byte into it, so what a reviewer opens there is that earlier build and not a partial one."
+          },
+          "sourcesExamined": [
+            {
+              "sourceId": "official-form:CR-106",
+              "title": "Proof of Service (criminal record clearing)",
+              "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
+              "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+              "byteLength": 104278,
+              "bindsByExactSha256": true,
+              "encryption": "/Encrypt present, /V 4 /R 4, /CFM AESV2",
+              "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined"
+            },
+            {
+              "sourceId": "official-form:CR-180",
+              "title": "Petition for Dismissal",
+              "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-180__petition-for-dismissal__REV-2024-01-01__EN.pdf",
+              "byteLength": 110684,
+              "bindsByExactSha256": true,
+              "encryption": "/Encrypt present, /V 5 /R 6, /CFM AESV3 (AES-256)",
+              "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined",
+              "sha256": "06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe"
+            },
+            {
+              "sourceId": "official-form:CR-181",
+              "title": "Order for Dismissal",
+              "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-181__order-for-dismissal__REV-2024-01-01__EN.pdf",
+              "byteLength": 110123,
+              "bindsByExactSha256": true,
+              "encryption": "/Encrypt present, /V 5 /R 6, /CFM AESV3 (AES-256)",
+              "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined",
+              "sha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504"
+            },
+            {
+              "sourceId": "official-form:MC-025",
+              "title": "Attachment to Judicial Council Form",
+              "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-025__attachment-to-judicial-council-form__REV-2009-07-01__EN.pdf",
+              "byteLength": 104832,
+              "bindsByExactSha256": true,
+              "encryption": "/Encrypt present, /V 4 /R 4, /CFM V2 (RC4)",
+              "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined",
+              "sha256": "b0ca1509f2c3de152518079de7c1eb2771eaa1eb7da457c2e918498894f6f0af"
+            },
+            {
+              "sourceId": "official-form:MC-031",
+              "title": "Attached Declaration",
+              "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-031__attached-declaration__REV-2005-07-01__EN.pdf",
+              "byteLength": 109506,
+              "bindsByExactSha256": true,
+              "encryption": "/Encrypt present, /V 4 /R 4, /CFM V2 (RC4)",
+              "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined",
+              "sha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075"
+            }
+          ],
+          "corroboration": "The committed corpus index records pageCount: null and acroFieldCount: null for all five, and for no other form in this lane's reach. Whatever built that index could not open them either.",
+          "whatWasNotClaimed": "This lane did not test another PDF reader against these files, because it has none, and so states nothing about whether some other reader could open them. The finding is about this toolchain, and it is stated as such.",
+          "counters": null,
+          "countersNote": "No counters are returned. A counter set implies a censused form, and no form here was censused. Returning nine zeros for a family that rendered nothing would be the worst possible row.",
+          "componentsRendered": [],
+          "artifacts": [],
+          "findingsRaisedForOthers": [
+            "BLOCKING for this family, owner of the acquisition pipeline: all five California Judicial Council forms in the Master Library are encrypted PDFs — CR-106, MC-025 and MC-031 with /V 4 /R 4, CR-180 and CR-181 with /V 5 /R 6 AES-256. They bind by exact SHA-256 and cannot be read. This family cannot be built until either the corpus carries decrypted-at-acquisition copies of these five, with their own recorded custody, or the toolchain gains a reader that decrypts. Both are decisions above this lane.",
+            "The same condition holds for WV SCA-C903, returned separately in the PF10 row. The two are one problem, not two: whatever acquired these files preserved the publisher's encryption, and every downstream family that needs one of them stops in the same place."
+          ],
+          "independentVerificationStatus": "NOT_APPLICABLE_NOTHING_WAS_BUILT",
+          "commercialRoutesOpened": 0,
+          "productionTouched": false
+        }
+      ]
+    }
+  }
 }

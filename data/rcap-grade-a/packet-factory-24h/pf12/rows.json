@@ -1,165 +1,271 @@
 {
   "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
   "assignmentId": "PF12",
-  "workerId": "PF-C",
+  "workerId": "FABLE-PB",
   "lane": "packet-build",
-  "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
-  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
-  "familiesAssigned": 2,
+  "engine": "Claude Code Remote worker; commits and pushes to fable/pb, no PR",
+  "shiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+  "familiesAssigned": 5,
   "preflight": {
-    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
-    "note": "This container resolves a real Chromium at /opt/pw-browsers/chromium-1194/chrome-linux/chrome, so browser_environment_exported passes on an executable that renders rather than on a waiver, and --require-rasterizer renders a page. Page rasters were produced here; the family is returned RASTER_LOCAL_PENDING_CENTRAL rather than BUILT_RASTER_PENDING, and PASS_COMPLETE still requires a hash-bound RASTER_PASS from the central workflow."
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable (codex-cloud mode)",
+    "corpusMounted": "THREE custodies. The Master Library and the D source packs were already resolved in this container and were verified rather than re-downloaded: 51 jurisdictions, 499 files, 329 PDFs, all 498 governance checksums verifying, and the pinned OR/ND sources matching byte-for-byte. The human_source_returns custody, which the bootstrap script does not install, was mounted separately after verifying the Statement of Inability against the committed index digest.",
+    "whyNotBootstrapped": "scripts/rcap-corpus/bootstrap-private-corpus.sh failed on curl exit 23 with the container disk at 99% full. The corpus already present was verified against its own governance checksums and the committed index instead of being re-fetched. No corpus byte was written into this worktree and no corpus byte is committed."
   },
-  "selfVerification": "none. The builder does not verify its own packets; the counters below are the builder's own count using the repository's own contract functions, not a verdict.",
+  "selfVerification": "none. This lane does not verify its own packets. The counters below are the builder's own count using the repository's own contract functions, and every one of the fifteen obligations is returned BUILT_RASTER_PENDING because a builder verdict is not a verdict.",
+  "rasterRule": "no page raster was produced in this container. Every fixture SHA-256 is reported so the central raster workflow can render the exact bytes. No family here is PASS_COMPLETE and none may become so without a hash-bound RASTER_PASS.",
   "rows": [
     {
-      "itemId": "ct-cleanslate-petition-set",
-      "status": "COMPLETED",
-      "jurisdiction": "CT",
-      "routeKey": "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
-      "statutoryAuthority": "C.G.S. § 54-142a(e)(1)(A)(i)(II) and (ii)(II); C.G.S. § 54-142a(k), no fee; P.A. 23-134 § 1; Judicial Branch form JD-CR-202, Rev. 11-23",
-      "implementationStrategy": "official_pdf_fill",
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
-      "buildScript": "scripts/build-census-v1-ct-cleanslate-petition-set.mjs",
-      "sourcesBound": [
-        {
-          "sourceId": "official-form:JD-CR-202",
-          "pathInArchive": "STATES/CT/02_PACKET_FORMS/CT__FORM__JD-CR-202__petition-for-clean-slate-erasure-convictions-before-1-1-2000__REV-2023-11__EN.pdf",
-          "sha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
-          "byteLength": 820630,
-          "boundBy": "exact pinned SHA-256 proved three ways: the family's declared hash, the committed corpus-index entry, and the bytes on disk"
-        }
-      ],
-      "counters": {
-        "knownRequiredFieldsMissing": 0,
-        "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
-        "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
-        "requiredComponentsMissing": 0,
-        "invisibleWrites": 0,
-        "protectedWrites": 0,
-        "visualDefects": 0
-      },
-      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
-      "fields": {
-        "total": 22,
-        "written": 6,
-        "requiredBeforeFiling": 3,
-        "participantElections": 0,
-        "protected": 9,
-        "viewerControls": 4
-      },
-      "whatChanged": "This family existed before this lane and did not meet the builder contract. Its production-field-map was written in a schema the completeness verifier refuses as unauditable, it carried no participant-instructions.md and no byte-proof record, and — the substantive defect — three of the participant's own facts were blank on the filing because JD-CR-202 prints its column headings a row above its inputs and the shared caption harvest read every field one row out. Captions are now measured and re-checked against the pinned binary on every build; the name, e-mail and phone are written; the family carries a contract-readable map, a byte-proof record, participant instructions and a build status.",
-      "artifacts": [
-        {
-          "fixture": "petition-canonical",
-          "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
-          "sha256": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
-          "byteLength": 248957,
-          "pageCount": 2,
-          "rasterPages": 2,
-          "fieldsWritten": 6
-        },
-        {
-          "fixture": "petition-boundary",
-          "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
-          "sha256": "e190d7304260be94e84e46fb18710ee85e1f5a5314e7a7a5a5dd5eeb33b3d052",
-          "byteLength": 248978,
-          "pageCount": 2,
-          "rasterPages": 2,
-          "fieldsWritten": 4,
-          "unfittable": 2,
-          "unfittableNote": "The boundary fixture's 70-character name and 46-character docket number do not fit their boxes at the minimum readable font, so they are refused rather than clipped. That is the boundary fixture doing its job; the canonical fixture writes both."
-        }
-      ],
-      "componentsRendered": [
-        "primary_filing"
-      ],
-      "findingsRaisedForOthers": [
-        "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs harvests the whole header line on any form that prints its column headings above its inputs. Read here, never edited.",
-        "rowKeyOf in scripts/rcap-packet-completeness/completeness-contract.mjs reads a trailing [n] in a field name as a repeating-row index, which groups every field of an Adobe LiveCycle form into one phantom row. It also consults only classifyField and never a blank's declared disposition, so a correctly disclosed REQUIRED_BEFORE_FILING blank beside any written cell trips it.",
-        "The printed name on the defendant's own signature row is left blank here because JD-CR-202 is sworn before an officer, which differs from vt_seal_misdemeanor-set's practice on a form that is not sworn. Flagged for counsel, not settled by this lane.",
-        "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
-        "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
-      ],
-      "independentVerificationStatus": "PENDING",
+      "itemId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "familyKind": "agency_application_treatment",
+      "whyThisIsAnAgencyTreatmentAndNotAPacketFamily": "MASTER_QUEUE marks it implementationStrategy participant_agency_application: the participant applies to an agency through the agency's own published process, and there is no court filing to fill",
+      "overlayBytesWritten": false,
+      "artifactsRead": 0,
+      "stopReason": "claim.mjs --assert PF12 refused with ALREADY_RELEASED (exit 9): the grant is a packet-family grant held by PF12 itself and was released at 2026-09-01T19:14:26.451Z. A refused assert is a full stop for that family, so nothing was read and nothing was written.",
+      "whatTheLedgerShows": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json carries a packet-family claim on this subject, lane PF12, laneKind packet-build, released true. A PRIOR PF12 SHIFT BUILT AND RELEASED IT.",
+      "corroboration": "the work appears already delivered: the build script and the overlay directory both exist at this base, so this is very likely a duplicate dispatch rather than lost work. That is Captain's call to confirm, not this lane's.",
+      "whatThisLaneDidNotDo": "it did not reissue the grant to itself. claim.mjs has a --reissue path for exactly this shape of refusal, and using it would have been this lane transferring a grant to itself on its own authority. Re-opening a released claim is how two workers end up writing one family, and the brief makes a refused assert a full stop.",
+      "captainDecisionNeeded": "either confirm the prior PF12 shift's delivery stands and drop these five from the active assignment, or reissue the five grants deliberately with a stated cause so a lane may rebuild them.",
+      "packetsSelfVerified": 0,
       "commercialRoutesOpened": 0,
-      "productionTouched": false,
-      "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
-      "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml."
+      "productionTouched": false
     },
     {
-      "itemId": "ak-tf800-set",
-      "status": "COMPLETED",
-      "jurisdiction": "AK",
-      "routeKey": "track:AK:ak-tf800",
-      "statutoryAuthority": "Alaska Court System form TF-800 (5/25); Alaska Administrative Rule 37.6",
-      "implementationStrategy": "official_pdf_fill",
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
-      "buildScript": "scripts/build-census-v1-ak-tf800-set.mjs",
-      "sourcesBound": [
-        {
-          "sourceId": "official-form:TF-800",
-          "pathInArchive": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
-          "sha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
-          "byteLength": 130602,
-          "boundBy": "exact form number + committed corpus-index SHA-256 + on-disk SHA-256 + byte length"
-        }
-      ],
-      "counters": {
-        "knownRequiredFieldsMissing": 0,
-        "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
-        "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
-        "requiredComponentsMissing": 0,
-        "invisibleWrites": 0,
-        "protectedWrites": 0,
-        "visualDefects": 0
-      },
-      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs over this family's field map, byte proof, rendered artifacts and participant-instructions.md",
-      "fields": {
-        "total": 28,
-        "written": 7,
-        "requiredBeforeFiling": 7,
-        "participantElections": 10,
-        "protected": 4
-      },
-      "artifacts": [
-        {
-          "fixture": "tf800-canonical",
-          "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-canonical-filled.pdf",
-          "sha256": "66d0c390198984a8c42a550d0077ef63dae98af3900f51630490ec8fcb0c54d6",
-          "byteLength": 108325,
-          "pageCount": 3,
-          "rasterPages": 3
-        },
-        {
-          "fixture": "tf800-boundary",
-          "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-boundary-filled.pdf",
-          "sha256": "b077fbfff439494d3af3ecf8e72c58af882b3c3b224205e632238e89459c95a5",
-          "byteLength": 108449,
-          "pageCount": 3,
-          "rasterPages": 3
-        }
-      ],
-      "componentsRendered": [
-        "primary_filing"
-      ],
-      "advisoryFindings": [
-        "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it. Recorded in build-findings.json for visual review; the behaviour is in the shared finalizer's font encoding and reproduces identically in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
-      ],
-      "independentVerificationStatus": "PENDING",
+      "itemId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "familyKind": "agency_application_treatment",
+      "whyThisIsAnAgencyTreatmentAndNotAPacketFamily": "MASTER_QUEUE marks it implementationStrategy participant_agency_application: the participant applies to an agency through the agency's own published process, and there is no court filing to fill",
+      "overlayBytesWritten": false,
+      "artifactsRead": 0,
+      "stopReason": "claim.mjs --assert PF12 refused with ALREADY_RELEASED (exit 9): the grant is a packet-family grant held by PF12 itself and was released at 2026-09-01T19:14:26.516Z. A refused assert is a full stop for that family, so nothing was read and nothing was written.",
+      "whatTheLedgerShows": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json carries a packet-family claim on this subject, lane PF12, laneKind packet-build, released true. A PRIOR PF12 SHIFT BUILT AND RELEASED IT.",
+      "corroboration": "the work appears already delivered: the build script and the overlay directory both exist at this base, so this is very likely a duplicate dispatch rather than lost work. That is Captain's call to confirm, not this lane's.",
+      "whatThisLaneDidNotDo": "it did not reissue the grant to itself. claim.mjs has a --reissue path for exactly this shape of refusal, and using it would have been this lane transferring a grant to itself on its own authority. Re-opening a released claim is how two workers end up writing one family, and the brief makes a refused assert a full stop.",
+      "captainDecisionNeeded": "either confirm the prior PF12 shift's delivery stands and drop these five from the active assignment, or reissue the five grants deliberately with a stated cause so a lane may rebuild them.",
+      "packetsSelfVerified": 0,
       "commercialRoutesOpened": 0,
-      "productionTouched": false,
-      "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
-      "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml.",
-      "findingsRaisedForOthers": [
-        "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
-        "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
-      ]
+      "productionTouched": false
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "familyKind": "agency_application_treatment",
+      "whyThisIsAnAgencyTreatmentAndNotAPacketFamily": "MASTER_QUEUE marks it implementationStrategy participant_agency_application: the participant applies to an agency through the agency's own published process, and there is no court filing to fill",
+      "overlayBytesWritten": false,
+      "artifactsRead": 0,
+      "stopReason": "claim.mjs --assert PF12 refused with ALREADY_RELEASED (exit 9): the grant is a packet-family grant held by PF12 itself and was released at 2026-09-01T19:14:26.593Z. A refused assert is a full stop for that family, so nothing was read and nothing was written.",
+      "whatTheLedgerShows": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json carries a packet-family claim on this subject, lane PF12, laneKind packet-build, released true. A PRIOR PF12 SHIFT BUILT AND RELEASED IT.",
+      "corroboration": "the work appears already delivered: the build script and the overlay directory both exist at this base, so this is very likely a duplicate dispatch rather than lost work. That is Captain's call to confirm, not this lane's.",
+      "whatThisLaneDidNotDo": "it did not reissue the grant to itself. claim.mjs has a --reissue path for exactly this shape of refusal, and using it would have been this lane transferring a grant to itself on its own authority. Re-opening a released claim is how two workers end up writing one family, and the brief makes a refused assert a full stop.",
+      "captainDecisionNeeded": "either confirm the prior PF12 shift's delivery stands and drop these five from the active assignment, or reissue the five grants deliberately with a stated cause so a lane may rebuild them.",
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "familyKind": "agency_application_treatment",
+      "whyThisIsAnAgencyTreatmentAndNotAPacketFamily": "MASTER_QUEUE marks it implementationStrategy participant_agency_application: the participant applies to an agency through the agency's own published process, and there is no court filing to fill",
+      "overlayBytesWritten": false,
+      "artifactsRead": 0,
+      "stopReason": "claim.mjs --assert PF12 refused with ALREADY_RELEASED (exit 9): the grant is a packet-family grant held by PF12 itself and was released at 2026-09-01T19:14:26.663Z. A refused assert is a full stop for that family, so nothing was read and nothing was written.",
+      "whatTheLedgerShows": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json carries a packet-family claim on this subject, lane PF12, laneKind packet-build, released true. A PRIOR PF12 SHIFT BUILT AND RELEASED IT.",
+      "corroboration": "the work appears already delivered: the build script and the overlay directory both exist at this base, so this is very likely a duplicate dispatch rather than lost work. That is Captain's call to confirm, not this lane's.",
+      "whatThisLaneDidNotDo": "it did not reissue the grant to itself. claim.mjs has a --reissue path for exactly this shape of refusal, and using it would have been this lane transferring a grant to itself on its own authority. Re-opening a released claim is how two workers end up writing one family, and the brief makes a refused assert a full stop.",
+      "captainDecisionNeeded": "either confirm the prior PF12 shift's delivery stands and drop these five from the active assignment, or reissue the five grants deliberately with a stated cause so a lane may rebuild them.",
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "familyKind": "agency_application_treatment",
+      "whyThisIsAnAgencyTreatmentAndNotAPacketFamily": "MASTER_QUEUE marks it implementationStrategy participant_agency_application: the participant applies to an agency through the agency's own published process, and there is no court filing to fill",
+      "overlayBytesWritten": false,
+      "artifactsRead": 0,
+      "stopReason": "claim.mjs --assert PF12 refused with ALREADY_RELEASED (exit 9): the grant is a packet-family grant held by PF12 itself and was released at 2026-09-01T19:14:26.729Z. A refused assert is a full stop for that family, so nothing was read and nothing was written.",
+      "whatTheLedgerShows": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json carries a packet-family claim on this subject, lane PF12, laneKind packet-build, released true. A PRIOR PF12 SHIFT BUILT AND RELEASED IT.",
+      "corroboration": "the work appears already delivered: the build script and the overlay directory both exist at this base, so this is very likely a duplicate dispatch rather than lost work. That is Captain's call to confirm, not this lane's.",
+      "whatThisLaneDidNotDo": "it did not reissue the grant to itself. claim.mjs has a --reissue path for exactly this shape of refusal, and using it would have been this lane transferring a grant to itself on its own authority. Re-opening a released claim is how two workers end up writing one family, and the brief makes a refused assert a full stop.",
+      "captainDecisionNeeded": "either confirm the prior PF12 shift's delivery stands and drop these five from the active assignment, or reissue the five grants deliberately with a stated cause so a lane may rebuild them.",
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
-  "laneNote": "The Captain rebased shiftBaseSha to 2e6ca51b at 09:51:26Z, after this lane's families were built on the previous base 09b741ad. The shared machinery this lane depends on is unchanged between the two: completeness-contract.mjs, the finalizer, the field semantics, the anchor capture, the rule lines and the corpus index are all identical, so the counters in these rows were computed against the same contract the new base carries. What DID change is that scripts/lib/pdf-page-raster.mjs moved; see findingsRaisedForOthers. This branch was not reset onto the new base, because resetting would discard five commits of finished, pushed returns and the rebase reason given in the shift file — verifiers rebasing onto a base missing the integration waves — does not apply to a builder whose preflight already reads 15/15."
+  "supersededShiftReturn": {
+    "note": "the return this file held before this shift wrote its own, preserved verbatim",
+    "document": {
+      "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+      "assignmentId": "PF12",
+      "workerId": "PF-C",
+      "lane": "packet-build",
+      "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
+      "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+      "familiesAssigned": 2,
+      "preflight": {
+        "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
+        "note": "This container resolves a real Chromium at /opt/pw-browsers/chromium-1194/chrome-linux/chrome, so browser_environment_exported passes on an executable that renders rather than on a waiver, and --require-rasterizer renders a page. Page rasters were produced here; the family is returned RASTER_LOCAL_PENDING_CENTRAL rather than BUILT_RASTER_PENDING, and PASS_COMPLETE still requires a hash-bound RASTER_PASS from the central workflow."
+      },
+      "selfVerification": "none. The builder does not verify its own packets; the counters below are the builder's own count using the repository's own contract functions, not a verdict.",
+      "rows": [
+        {
+          "itemId": "ct-cleanslate-petition-set",
+          "status": "COMPLETED",
+          "jurisdiction": "CT",
+          "routeKey": "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+          "statutoryAuthority": "C.G.S. § 54-142a(e)(1)(A)(i)(II) and (ii)(II); C.G.S. § 54-142a(k), no fee; P.A. 23-134 § 1; Judicial Branch form JD-CR-202, Rev. 11-23",
+          "implementationStrategy": "official_pdf_fill",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ct-cleanslate-petition-set.mjs",
+          "sourcesBound": [
+            {
+              "sourceId": "official-form:JD-CR-202",
+              "pathInArchive": "STATES/CT/02_PACKET_FORMS/CT__FORM__JD-CR-202__petition-for-clean-slate-erasure-convictions-before-1-1-2000__REV-2023-11__EN.pdf",
+              "sha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+              "byteLength": 820630,
+              "boundBy": "exact pinned SHA-256 proved three ways: the family's declared hash, the committed corpus-index entry, and the bytes on disk"
+            }
+          ],
+          "counters": {
+            "knownRequiredFieldsMissing": 0,
+            "requiredFactsNotCollected": 0,
+            "unclassifiedBlanks": 0,
+            "incompleteRows": 0,
+            "requiredOptionsMissing": 0,
+            "requiredComponentsMissing": 0,
+            "invisibleWrites": 0,
+            "protectedWrites": 0,
+            "visualDefects": 0
+          },
+          "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
+          "fields": {
+            "total": 22,
+            "written": 6,
+            "requiredBeforeFiling": 3,
+            "participantElections": 0,
+            "protected": 9,
+            "viewerControls": 4
+          },
+          "whatChanged": "This family existed before this lane and did not meet the builder contract. Its production-field-map was written in a schema the completeness verifier refuses as unauditable, it carried no participant-instructions.md and no byte-proof record, and — the substantive defect — three of the participant's own facts were blank on the filing because JD-CR-202 prints its column headings a row above its inputs and the shared caption harvest read every field one row out. Captions are now measured and re-checked against the pinned binary on every build; the name, e-mail and phone are written; the family carries a contract-readable map, a byte-proof record, participant instructions and a build status.",
+          "artifacts": [
+            {
+              "fixture": "petition-canonical",
+              "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+              "sha256": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
+              "byteLength": 248957,
+              "pageCount": 2,
+              "rasterPages": 2,
+              "fieldsWritten": 6
+            },
+            {
+              "fixture": "petition-boundary",
+              "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+              "sha256": "e190d7304260be94e84e46fb18710ee85e1f5a5314e7a7a5a5dd5eeb33b3d052",
+              "byteLength": 248978,
+              "pageCount": 2,
+              "rasterPages": 2,
+              "fieldsWritten": 4,
+              "unfittable": 2,
+              "unfittableNote": "The boundary fixture's 70-character name and 46-character docket number do not fit their boxes at the minimum readable font, so they are refused rather than clipped. That is the boundary fixture doing its job; the canonical fixture writes both."
+            }
+          ],
+          "componentsRendered": [
+            "primary_filing"
+          ],
+          "findingsRaisedForOthers": [
+            "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs harvests the whole header line on any form that prints its column headings above its inputs. Read here, never edited.",
+            "rowKeyOf in scripts/rcap-packet-completeness/completeness-contract.mjs reads a trailing [n] in a field name as a repeating-row index, which groups every field of an Adobe LiveCycle form into one phantom row. It also consults only classifyField and never a blank's declared disposition, so a correctly disclosed REQUIRED_BEFORE_FILING blank beside any written cell trips it.",
+            "The printed name on the defendant's own signature row is left blank here because JD-CR-202 is sworn before an officer, which differs from vt_seal_misdemeanor-set's practice on a form that is not sworn. Flagged for counsel, not settled by this lane.",
+            "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
+            "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
+          ],
+          "independentVerificationStatus": "PENDING",
+          "commercialRoutesOpened": 0,
+          "productionTouched": false,
+          "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
+          "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml."
+        },
+        {
+          "itemId": "ak-tf800-set",
+          "status": "COMPLETED",
+          "jurisdiction": "AK",
+          "routeKey": "track:AK:ak-tf800",
+          "statutoryAuthority": "Alaska Court System form TF-800 (5/25); Alaska Administrative Rule 37.6",
+          "implementationStrategy": "official_pdf_fill",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ak-tf800-set.mjs",
+          "sourcesBound": [
+            {
+              "sourceId": "official-form:TF-800",
+              "pathInArchive": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
+              "sha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+              "byteLength": 130602,
+              "boundBy": "exact form number + committed corpus-index SHA-256 + on-disk SHA-256 + byte length"
+            }
+          ],
+          "counters": {
+            "knownRequiredFieldsMissing": 0,
+            "requiredFactsNotCollected": 0,
+            "unclassifiedBlanks": 0,
+            "incompleteRows": 0,
+            "requiredOptionsMissing": 0,
+            "requiredComponentsMissing": 0,
+            "invisibleWrites": 0,
+            "protectedWrites": 0,
+            "visualDefects": 0
+          },
+          "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs over this family's field map, byte proof, rendered artifacts and participant-instructions.md",
+          "fields": {
+            "total": 28,
+            "written": 7,
+            "requiredBeforeFiling": 7,
+            "participantElections": 10,
+            "protected": 4
+          },
+          "artifacts": [
+            {
+              "fixture": "tf800-canonical",
+              "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-canonical-filled.pdf",
+              "sha256": "66d0c390198984a8c42a550d0077ef63dae98af3900f51630490ec8fcb0c54d6",
+              "byteLength": 108325,
+              "pageCount": 3,
+              "rasterPages": 3
+            },
+            {
+              "fixture": "tf800-boundary",
+              "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-boundary-filled.pdf",
+              "sha256": "b077fbfff439494d3af3ecf8e72c58af882b3c3b224205e632238e89459c95a5",
+              "byteLength": 108449,
+              "pageCount": 3,
+              "rasterPages": 3
+            }
+          ],
+          "componentsRendered": [
+            "primary_filing"
+          ],
+          "advisoryFindings": [
+            "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it. Recorded in build-findings.json for visual review; the behaviour is in the shared finalizer's font encoding and reproduces identically in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+          ],
+          "independentVerificationStatus": "PENDING",
+          "commercialRoutesOpened": 0,
+          "productionTouched": false,
+          "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
+          "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml.",
+          "findingsRaisedForOthers": [
+            "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
+            "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
+          ]
+        }
+      ],
+      "laneNote": "The Captain rebased shiftBaseSha to 2e6ca51b at 09:51:26Z, after this lane's families were built on the previous base 09b741ad. The shared machinery this lane depends on is unchanged between the two: completeness-contract.mjs, the finalizer, the field semantics, the anchor capture, the rule lines and the corpus index are all identical, so the counters in these rows were computed against the same contract the new base carries. What DID change is that scripts/lib/pdf-page-raster.mjs moved; see findingsRaisedForOthers. This branch was not reset onto the new base, because resetting would discard five commits of finished, pushed returns and the rebase reason given in the shift file — verifiers rebasing onto a base missing the integration waves — does not apply to a builder whose preflight already reads 15/15."
+    }
+  }
 }

@@ -1,36 +1,65 @@
 {
   "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
   "assignmentId": "PF10",
-  "workerId": "PF-C",
-  "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This lane carries two families, so it checkpoints per family rather than holding both back.",
+  "workerId": "FABLE-PB",
+  "shiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+  "checkpointRule": "return every five completed families, or every two hours, whichever comes first",
+  "howThisLaneCheckpointed": "this lane holds fourteen assigned items across six assignment ids and built them as one body of work, so checkpoints are recorded against the whole grant rather than per assignment id. Each landed as a commit on fable/pb before the next family was started.",
   "checkpoints": [
     {
       "checkpoint": 1,
-      "at": "2026-09-01T10:01:21Z",
-      "familiesCompletedSoFar": [
-        "wi_nc_doj_challenge-set"
+      "landedAs": "commit on fable/pb: Build four composed-pleading families: WY felony, and three Mississippi",
+      "familiesCompleted": [
+        "wy_fel_1502-set"
       ],
-      "familiesStoppedSoFar": [],
-      "familiesRemaining": [
-        "wv_nc_diversion_deferred-set"
-      ],
-      "note": "DJ-LE-247 built as a measured flat overlay onto a ruled table: twenty-two cells, each bounded by four strokes read from the page content stream, with the top of every write box measured against the lowest printed line inside its cell. Five participant facts written and read back from the finalized bytes; the requester's name deliberately not written, because the box asks for surname first and the platform holds the name in natural order. All nine counters zero by the builder's own count. A placement defect found on the first raster — values sitting on their cell borders — was fixed before return, in this family and in the sibling family in PF11. Not verified here."
+      "note": "the four zero-bound-source families. The fee obligation was answered per fact and per route: Wyoming and ms-fel state a figure the repository holds, ms-misd-addl and ms-diversion refuse to read the Sec. 99-19-72 $150 across to sections it does not reach and name the clerk instead."
     },
     {
-      "checkpoint": 2,
-      "at": "2026-09-01T10:01:50Z",
-      "familiesCompletedSoFar": [
-        "wi_nc_doj_challenge-set"
+      "checkpoint": 4,
+      "landedAs": "commit on fable/pb: Build the two Texas expunction families: post-acquittal, and the fee waiver",
+      "familiesCompleted": [
+        "rcap-tx-custom-pleading"
       ],
-      "familiesStoppedSoFar": [
-        "wv_nc_diversion_deferred-set"
-      ],
-      "familiesRemaining": [],
-      "note": "SCA-C903 binds by exact SHA-256 and is an AES-256 encrypted PDF that pdf-lib cannot open. Its encryption dictionary was read directly out of the bytes and is recorded in the row with the load error. The overlay directory does not exist and this lane did not create it. Nothing was rendered and no counters are claimed. PF10 returns two rows for two assigned families, one COMPLETED and one STOPPED."
+      "note": "completing the nine buildable families. The acquittal family supplies no proposed order on the in-window branch because art. 55A.201 assigns that to someone else; the fee-waiver family renders once and declares the eight component ids it serves."
     }
   ],
-  "laneComplete": true,
-  "familiesAssigned": 2,
-  "rowsReturned": 2,
-  "timestampBasis": "Checkpoint 1 is the modification time of the family's build-status.json on the build host. Checkpoint 2 is the wall clock at the time the stopped row was written, read from `date -u`."
+  "supersededShiftCheckpoints": {
+    "note": "the checkpoints this file held before this shift wrote its own, preserved verbatim",
+    "document": {
+      "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+      "assignmentId": "PF10",
+      "workerId": "PF-C",
+      "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This lane carries two families, so it checkpoints per family rather than holding both back.",
+      "checkpoints": [
+        {
+          "checkpoint": 1,
+          "at": "2026-09-01T10:01:21Z",
+          "familiesCompletedSoFar": [
+            "wi_nc_doj_challenge-set"
+          ],
+          "familiesStoppedSoFar": [],
+          "familiesRemaining": [
+            "wv_nc_diversion_deferred-set"
+          ],
+          "note": "DJ-LE-247 built as a measured flat overlay onto a ruled table: twenty-two cells, each bounded by four strokes read from the page content stream, with the top of every write box measured against the lowest printed line inside its cell. Five participant facts written and read back from the finalized bytes; the requester's name deliberately not written, because the box asks for surname first and the platform holds the name in natural order. All nine counters zero by the builder's own count. A placement defect found on the first raster — values sitting on their cell borders — was fixed before return, in this family and in the sibling family in PF11. Not verified here."
+        },
+        {
+          "checkpoint": 2,
+          "at": "2026-09-01T10:01:50Z",
+          "familiesCompletedSoFar": [
+            "wi_nc_doj_challenge-set"
+          ],
+          "familiesStoppedSoFar": [
+            "wv_nc_diversion_deferred-set"
+          ],
+          "familiesRemaining": [],
+          "note": "SCA-C903 binds by exact SHA-256 and is an AES-256 encrypted PDF that pdf-lib cannot open. Its encryption dictionary was read directly out of the bytes and is recorded in the row with the load error. The overlay directory does not exist and this lane did not create it. Nothing was rendered and no counters are claimed. PF10 returns two rows for two assigned families, one COMPLETED and one STOPPED."
+        }
+      ],
+      "laneComplete": true,
+      "familiesAssigned": 2,
+      "rowsReturned": 2,
+      "timestampBasis": "Checkpoint 1 is the modification time of the family's build-status.json on the build host. Checkpoint 2 is the wall clock at the time the stopped row was written, read from `date -u`."
+    }
+  }
 }
