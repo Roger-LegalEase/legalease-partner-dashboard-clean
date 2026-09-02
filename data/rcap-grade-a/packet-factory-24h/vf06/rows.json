@@ -4631,8 +4631,129 @@
     "data/record-clearing/legal-design-track-registry.json (tracks intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4 and ms-nonconv, read for the service question)"
    ],
    "whatThisDoesNotDo": "A block is not a failure and not an approval. Nothing here opens a route, and this lane edited nothing."
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+   "lane": "VF06",
+   "wave": "packet-factory-24h/VF06 re-dispatch (2026-09-02)",
+   "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "verdict": "BLOCKED_LEGAL_INPUT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
+   "whyBlocked": "Thirteen obligations pass on measurement here and all nine counters are zero. Two cannot be answered from any record this packet binds, and both are the same shape: what the filing costs and whether any waiver exists, and who must be served and how. The registry track dedicated to this route — trackId sex-trafficking-victim-vacatur-and-expungement, authority W. Va. Code § 61-14-9 — carries rules.fees null, rules.feeWaiver null, rules.service null, rules.notice null and legalStatus 'legal_review_pending'. The compiled profile's pathway for the route carries none of them either. West Virginia's recorded fee and service rules sit on the shared § 61-11-25 and § 61-11-26 procedure tracks — a $200 circuit-clerk civil filing fee and a $100 State Police processing fee on the conviction route, no filing fee at all on the non-conviction route, and service on five recipients under § 61-11-26(e) — and this is neither section. The packet refuses to carry any of it across and says so explicitly, which is what the committed contract's own note requires: 'Broader trafficking-related offenses require referral rather than an invented rule.' It names the office that answers both questions — the clerk of the circuit court in the county of conviction or juvenile adjudication — and tells the participant to ask before going. That is the honest handling of an open input rather than a defect to repair, so this is a block and not a FAIL.",
+   "whatWouldUnblockIt": "Counsel establishes, for § 61-14-9 specifically, what the circuit clerk charges to file and whether any waiver exists, and who must be served and how — then the registry track for this route is filled in and leaves legal_review_pending, and the packet states both. Importing the § 61-11-25 or § 61-11-26 rules is the one thing that must not happen without that determination: the contract says referral rather than an invented rule, and the receipt already records that this build takes nothing from either.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <this id> at this base: PASS_COMPLETE, 6/16 written, every counter 0. Measured again here: all three committed records rehashed from their bytes, both fixture hashes recomputed, four pages of each fixture extracted and matched against the page manifest, all six written values found in the extracted text on their own component's pages in both fixtures, and geometry measured with pdftotext -bbox — 0 words outside the page box, left edge 72.0 and right edge 540.0 on a 612-wide page, identical in canonical and boundary.",
+    "whyZeroCountersDoNotMakeThisAPass": "The nine counters measure the blanks on the pages that exist. They cannot see a fee rule or a service rule that no bound record states."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "detail": "obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement, declared identically across source-receipt.json, production-field-map.json, product-wiring.json and approval-request.json, and matching the committed contract in src/lib/legal-authority/routes/single-routes.json (decisionId LD-WV-04, ruleId WV-61-14-9-TRAFFICKING-DIRECT-RESULT-NO-WAIT, statute W. Va. Code § 61-14-9). The packet keeps the contract's limit rather than widening it: it carries the note that the route is limited to the statute's covered prostitution-related offence and that broader trafficking-related offences are a referral."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "detail": "Three committed records, all rehashed here and exact: src/lib/legal-authority/routes/single-routes.json 6322c66143f51678… at 67,533 B; src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json 0d5885d3ee56f516… at 219,546 B; and the route-obligation census 0936833332542f8e… at 2,599,752 B, the current hash rather than the stale pin recorded against other census-v1 families."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "detail": "The contract names two components: 'Petition under § 61-14-9' and 'Direct-result nexus evidence'. The petition is composed and rendered over two pages; the nexus evidence is material the participant holds, which no build can author, and it is named in 'Documents you must obtain before filing' with the record's own recommendation that the question goes to legal aid or an attorney. A filing-instructions component is added beyond the contract. requiredComponentsMissing 0."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "detail": "Six values written — name, date of birth, mailing address, telephone and email on the petition, and the identifier on the filing-instructions page — all six found in the extracted text on their own component's pages in both fixtures. The seven facts the contract requires are case facts the platform does not hold, and each is a labelled blank. The packet deliberately asks for none of the trafficking narrative: 'No page in this packet asks for an account of what was done to you.'"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "detail": "Seven blanks are disposed REQUIRED_BEFORE_FILING — items C1 to C7, one for each of the contract's required facts (exact offence/statute, conviction/adjudication, trafficking period, direct-result evidence, supporting records, other counts, requested vacatur and expungement) — and all seven disclosure labels appear in participant-instructions.md, checked label by label."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "detail": "One route, one instrument, and no election control on any composed page — 0 selection controls across both components. No route-determined election is left unselected."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "detail": "No repeating row group exists; the petition is seven numbered items on dotted rules. incompleteRows 0."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "detail": "Three blanks are refused with the actor named — the participant signs personally, a date written before signing would be false, and the cause number is assigned by the court at filing. Measured from the bytes: no signature or signing-date line carries a written value in either fixture."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "detail": "sha256sum here: canonical 704b326392672a2a… at 12,078 B and boundary 6e85ef27ca1692b5… at 12,265 B, both equal to reports/rendered-artifacts.json, four pages each and four extracted from each. NOTED: rasterState is BUILT_RASTER_PENDING with rasterPages 0, so the visual measurement was made here from the PDF geometry rather than from a stored raster."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "detail": "Four pages, two contiguous component blocks in declared order — petition 1-2, filing instructions 3-4 — numbered 1..4 with no gap, and both rendered fixtures carry exactly those pages."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "detail": "Measured with pdftotext -bbox over all four pages of both fixtures on a 612x792 page: 0 words outside the page box, nearest left edge 72.0, furthest right edge 540.0 — nothing crosses the 72pt margin, and the boundary fixture measures the same as canonical."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "detail": "Answered from the repository and marked as such: the compiled West Virginia profile's own summary for this pathway records that the person 'may petition the circuit court in the county of conviction or juvenile adjudication', which I read in the profile itself, and that is the destination the packet states in its instructions, on its filing-instructions page and in its 'what you do, in order' list. The census records the route's destination field as not recorded; the packet says so and then answers from the profile rather than leaving it open."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "BLOCKED_LEGAL_INPUT",
+     "detail": "The packet states that no record it binds gives a filing fee or a waiver for this route, names the circuit clerk's office as the office that answers both, and sets out exactly what it is refusing to import: the compiled profile's no-fee lines keyed to § 61-11-25, the § 61-11-26 rule that the circuit clerk charges the civil-action fee and that a person receiving an order pays a $100 State Police processing fee, and the census's record of that civil-action fee as $200 under § 59-1-11(a)(1). I confirmed the gap in the records themselves: the registry track for this route has rules.fees and rules.feeWaiver null under legalStatus legal_review_pending, and the compiled pathway carries no fee rule. The amount is unknown to the repository, not withheld by the packet."
+    },
+    "SERVICE": {
+     "result": "BLOCKED_LEGAL_INPUT",
+     "detail": "The packet states that no record it binds says who must be served on this route or how, and names the circuit clerk's office as the office that answers it. Confirmed against the records: rules.service and rules.notice are null on the route's own registry track, which is legal_review_pending, and the compiled pathway carries neither. West Virginia's recorded service rule — the petitioner serves five recipients under § 61-11-26(e), with the prosecuting attorney serving identified victims under (f) — belongs to the shared conviction-expungement procedure for a different section, and carrying it across is the kind of invented rule the contract's own note forbids. On a route whose participants are trafficking victims and whose stop conditions include personal safety, who receives a copy is not a question to guess at."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "detail": "Five stops, and the first is the compiled record's own words carried verbatim — West Virginia has a special relief route for prostitution records caused by sex trafficking, it can involve vacating the conviction or adjudication, so it should be routed to legal aid or an attorney — followed by the account of the trafficking being the participant's alone to tell, personal safety once a filing becomes a public record, other counts or other cases, and any immigration question. They appear both on the composed filing-instructions page and in participant-instructions.md. The route's own registry track carries no stop conditions, so these come from the contract and the compiled profile."
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/ (source-receipt.json, production-field-map.json, participant-instructions.md, product-wiring.json, approval-request.json, build-status.json, reports/rendered-artifacts.json, reports/actual-writes.json, both fixtures)",
+    "src/lib/legal-authority/routes/single-routes.json (route contract, re-hashed)",
+    "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json (compiled pathway, re-hashed)",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (re-hashed)",
+    "data/record-clearing/legal-design-track-registry.json (tracks sex-trafficking-victim-vacatur-and-expungement, wv_common_conv_procedure and wv_common_nc_procedure, read for the fee and service questions)"
+   ],
+   "whatThisDoesNotDo": "A block is not a failure and not an approval. Nothing here opens a route, and this lane edited nothing."
   }
  ],
+  "vf06ReDispatchWave": {
+   "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
+   "note": "VF06 re-dispatch wave (2026-09-02, base 247b790b6): the seven families dispatch transferred to VF06, none of which any prior VF06 row covered. Rows from earlier waves are preserved above unchanged.",
+   "families": [
+    "ut_pet_conviction-set",
+    "ut_pet_no_charges-set",
+    "in_arrest_no_charges-set",
+    "rcap-ms-custom-pleading",
+    "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+    "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement"
+   ],
+   "verdicts": {
+    "BLOCKED_LEGAL_INPUT": 2,
+    "FAIL_REPAIR_REQUIRED": 1,
+    "PASS_COMPLETE_INDEPENDENT": 3
+   },
+   "overlayDirectoriesModified": 0,
+   "packetsModified": 0,
+   "buildScriptsModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "centralManifestsModified": "none - MASTER_QUEUE.json, VERIFIER_RETURNS.json and ACTIVE_ASSIGNMENTS.json untouched; the claim ledger changed only through claim.mjs --assert and --release",
+   "measuredBy": "Each family measured in this container: the nine counters from scripts/rcap-packet-completeness/verify-packet-completeness.mjs run here, every bound source and artifact SHA-256 recomputed from the mounted Master Library and the committed bytes, added ink isolated by differencing pdftotext -bbox words on each packet page against its bound source page, and the narrative obligations read against participant-instructions.md and the committed legal records."
+  },
   "vf06ReDispatchWave": {
    "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
    "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
