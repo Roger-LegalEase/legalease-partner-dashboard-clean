@@ -137,6 +137,25 @@
           "because": "This is the date part of the Option 1 declaration - \"I declare under penalty of perjury that the foregoing is true and correct\" - directly above the preprinted label \"Date (month, day, year) / Fecha (mes, dia, ano)\" and below an empty Signature rule. This family's own production-field-map.json refuses it with category signature_or_date_participant_completion and the reason \"signature or date field; never prefilled by this build\", reports/blanks-left-for-the-participant.json carries it among protectedBlanks, and participant-instructions.md tells the participant \"Your signature and the date\" are among the things deliberately left blank because \"You sign when you actually swear it.\" A date the participant did not enter, four years stale, on a perjury declaration, is ink no packet may carry, and the packet states in terms that it is not there."
         }
       }
+    },
+    "tx_nd_dwi_probation-set:tx_nd_dwi_probation-fee-waiver-statement-4": {
+      "measuredAt": "2f9b289d8815cf11b498958c98a885f7800faf71",
+      "whyThisFamilyNeededClassifying": "The same Texas Statement of Inability to Afford Payment of Court Costs (Misc. Docket No. 22-9090) that rcap-tx-custom-pleading delivers, enclosed here as component 4 of the nondisclosure packet. Its Today field ships with /V \"12/15/2022\" set by the official source. Today is a /Tx text field, so the structural rule calls it the court's own ink and preserves it onto the sworn declaration date line at packet page 20.",
+      "howMeasured": "The /V was read first-hand from the pinned source at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf (sha256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d) and its flattened appearance was read from the Form XObject it became in fixtures/canonical.pdf, matched to widget /Rect [97.7522, 302.312, 247.752, 324.312] on source page 11.",
+      "theSameFieldOnTheSameFormIsClassifiedForRcapTxCustomPleading": "This is a per-family registry, so a form enclosed by two families is classified once per family. The disposition and the reason are the same because the field and the form are the same; neither entry was read across from the other, and each was measured against its own family's delivered bytes and its own family's field map.",
+      "fields": {
+        "Today": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "12/15/2022",
+          "rect": [
+            97.7522,
+            302.312,
+            247.752,
+            324.312
+          ],
+          "because": "This family's production-field-map.json refuses tx_nd_dwi_probation-fee-waiver-statement-4.Today with refusalClass signature_or_date_participant_completion and the stated reason \"a date written before the Statement is actually sworn would be false\". The delivered page carried the date anyway, beside the participant's own signature line, on the page headed by the declaration under penalty of perjury, and the instructions said nothing about it. A packet that states a date the participant did not enter, on a document they will swear years later, is stating something false on their behalf."
+        }
+      }
     }
   }
 }

@@ -134,6 +134,8 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
+import { loadAppearanceSemantics, dispositionsForFamily }
+  from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS }
@@ -176,6 +178,32 @@ const FAMILY_ID = "tx_nd_dwi_probation-set";
 const OUT = "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill";
 const BUILD_SCRIPT = "scripts/build-census-v1-tx_nd_dwi_probation-set.mjs";
 const IMPLEMENTATION_STRATEGY = "official_pdf_fill";
+
+/* The appearance-meaning registry, read once. Keyed familyId:componentId. */
+const APPEARANCE_SEMANTICS = loadAppearanceSemantics();
+
+/*
+ * FIX01/RT-1, SELF_HELP_STOP. The stop list used to be seven bullets written
+ * here by hand, and three of the eight conditions the committed registry holds
+ * for this track were absent from the packet in any form -- including that
+ * whether the offence was violent or sexual is a court determination under
+ * Gov't Code 411.0735, which the packet never mentioned. Two more were carried
+ * narrowed, reaching only an established finding where the registry reaches an
+ * allegation, which is the wrong direction for a stop condition.
+ *
+ * So the list is no longer written here. It is read from the committed record
+ * at build time and reproduced word for word, and what this packet adds from
+ * its own forms' assertions is stated separately as this packet's own.
+ */
+const STOP_TRACK = "tx_nd_dwi_probation";
+const REGISTRY_STOP_CONDITIONS = (() => {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, "data/record-clearing/legal-design-track-registry.json"), "utf8"));
+  const track = (registry.tracks ?? []).find((row) => row.trackId === STOP_TRACK);
+  assert.ok(track, `${STOP_TRACK}: no committed track registry entry to read stop conditions from`);
+  const conditions = (track.selfHelpStopConditions ?? []).map((c) => String(c).trim()).filter(Boolean);
+  assert.ok(conditions.length, `${STOP_TRACK}: the track registry holds no self-help stop condition`);
+  return Object.freeze(conditions);
+})();
 
 const ROUTE = Object.freeze({
   jurisdiction: "TX",
@@ -719,12 +747,13 @@ const COMPOSED_COMPONENTS = {
       L.push("YOU REMAIN ELIGIBLE IF THE COURT WAIVED YOUR FINES AND COSTS. Waiver does not disqualify you.", "");
       L.push("WHAT THE ORDER ACTUALLY DOES - AND WHAT IT DOES NOT. Nondisclosure is SEALING, not expunction. The order prohibits criminal justice agencies from disclosing the record to the public, and the information is still disclosed to the individuals and agencies listed in Government Code Sec. 411.076(a). The clerk sends the order to the DPS Crime Records Service by the 15th business day; DPS forwards it to the agencies in Sec. 411.075(b) within 10 business days; and any person, agency or entity holding the information seals it within 30 business days of receiving it. The record is not destroyed and you should never say it does not exist.", "");
       L.push("WHEN TO STOP AND GET HELP INSTEAD.");
+      L.push("The committed track registry for this route records these as the points where self-help ends, in its own words:");
+      for (const condition of REGISTRY_STOP_CONDITIONS) L.push(`- ${condition.replaceAll("\u00a7", "Sec. ")}`);
+      L.push("This packet adds five more of its own, from the assertions the forms in it make:");
       L.push("- The offence resulted in a motor vehicle collision involving another person, including a passenger. Sec. 411.0731(e) lets the State stop the order on that evidence.");
       L.push("- Your alcohol concentration was 0.15 or higher, or you are not sure. The petition asserts it was less than 0.15.");
-      L.push("- You have ever been convicted of, or placed on deferred adjudication community supervision for, any other offence other than a fine-only traffic offence. The petition asserts you have not.");
       L.push("- Your community supervision was revoked at any point.");
-      L.push("- The court has made an affirmative finding of family violence, or any offence on the Sec. 411.074 exclusion list is in your history.");
-      L.push("- You are not sure which waiting period applies and the conditions of supervision do not plainly say.");
+      L.push("- Any offence on the Sec. 411.074 exclusion list is in your history.");
       L.push("- You are not a United States citizen.", "");
       L.push("DOCUMENTS TO GET FIRST, AND WHO HAS THEM.");
       L.push("- Your Texas DPS criminal history record - the Texas Department of Public Safety Crime Records Service, following DPS form CR-63. It establishes the disposition and shows every other conviction and deferred adjudication.");
@@ -828,12 +857,16 @@ const INSTRUCTIONS = {
     "- **The district attorney's name and address**, if that county wants the proof of delivery. The platform holds neither for any Texas county."
   ],
   stopsLines: [
+    "The committed track registry for this route records these as the points where self-help ends, in its own words. If any of them describes your case, stop here and get advice before you file:",
+    "",
+    ...REGISTRY_STOP_CONDITIONS.map((condition) => `- ${condition}`),
+    "",
+    "This packet adds five more of its own, from the assertions the forms in it make. They are this packet's, not the registry's:",
+    "",
     "- **the offence resulted in a motor vehicle collision involving another person, including a passenger.** Under § 411.0731(e) the court may not issue the order if the State presents evidence sufficient to show that;",
     "- your alcohol concentration was 0.15 or higher, or you are not sure — the petition asserts it was less than 0.15;",
-    "- you have ever been convicted of, or placed on deferred adjudication community supervision for, any other offence other than a fine-only traffic offence;",
     "- your community supervision was revoked at any point;",
-    "- the court has made an affirmative finding of family violence, or any offence on the § 411.074 exclusion list is in your history;",
-    "- you are not sure which waiting period applies and the written conditions of supervision do not plainly say;",
+    "- any offence on the § 411.074 exclusion list is in your history;",
     "- you are not a United States citizen.",
     "",
     "Where self-help stops, the clerk of the court that sentenced you answers filing mechanics and the county's fee, and the Texas Department of Public Safety Crime Records Service issues the criminal history record the other-offence question depends on."
@@ -1162,7 +1195,22 @@ async function renderDocument(source, census, fixtureName) {
     census: censusForFinalizer,
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
-    title: source.title
+    title: source.title,
+    /*
+     * What this document's classified fields' appearances MEAN.
+     *
+     * Empty for a component with no registry entry, which is the structural
+     * default and what every other document here already gets. It matters for
+     * the Statement of Inability because the structural rule calls every
+     * unwritten /Tx appearance the court's own ink and preserves it, and that
+     * form ships its Option 1 declaration date field carrying 12/15/2022. This
+     * build's own field map refuses that field as
+     * signature_or_date_participant_completion, for the reason "a date written
+     * before the Statement is actually sworn would be false", so it must
+     * contribute nothing unless this run wrote it - which it never does.
+     */
+    appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS,
+      `${FAMILY_ID}:${source.componentId}`)
   });
   // A build that intends a write and gets a refusal must be able to say WHY
   // without being rebuilt from scratch. The refusals are the finalizer's own

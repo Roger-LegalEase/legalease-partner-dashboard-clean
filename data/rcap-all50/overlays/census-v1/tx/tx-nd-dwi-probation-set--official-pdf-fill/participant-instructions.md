@@ -190,12 +190,23 @@ Each is a blank on the official form named beside it. Fill every one that belong
 
 ## When to stop and get help instead
 
+The committed track registry for this route records these as the points where self-help ends, in its own words. If any of them describes your case, stop here and get advice before you file:
+
+- Any family violence finding or family violence allegation anywhere in the record.
+- Any prior conviction or deferred adjudication other than a fine-only traffic offence, where the target section carries a first-time-offender condition.
+- The prosecutor opposes the petition or requests a hearing.
+- Any dispute about whether the sentence, fines, costs or restitution were completed.
+- Immigration consequences.
+- Any question whether the offence was violent or sexual in nature, which is a court determination under Gov't Code 411.0735.
+- Any accident allegation in the offence report. The prosecutor can defeat the petition outright by presenting evidence of a collision involving another person, including a passenger.
+- The interlock condition or its duration cannot be established from the judgment and conditions of supervision.
+
+This packet adds five more of its own, from the assertions the forms in it make. They are this packet's, not the registry's:
+
 - **the offence resulted in a motor vehicle collision involving another person, including a passenger.** Under § 411.0731(e) the court may not issue the order if the State presents evidence sufficient to show that;
 - your alcohol concentration was 0.15 or higher, or you are not sure — the petition asserts it was less than 0.15;
-- you have ever been convicted of, or placed on deferred adjudication community supervision for, any other offence other than a fine-only traffic offence;
 - your community supervision was revoked at any point;
-- the court has made an affirmative finding of family violence, or any offence on the § 411.074 exclusion list is in your history;
-- you are not sure which waiting period applies and the written conditions of supervision do not plainly say;
+- any offence on the § 411.074 exclusion list is in your history;
 - you are not a United States citizen.
 
 Where self-help stops, the clerk of the court that sentenced you answers filing mechanics and the county's fee, and the Texas Department of Public Safety Crime Records Service issues the criminal history record the other-offence question depends on.
