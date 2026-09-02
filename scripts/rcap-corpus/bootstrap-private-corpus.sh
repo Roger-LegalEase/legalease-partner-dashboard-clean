@@ -203,6 +203,156 @@ else
   echo "D source packs NOT installed; the Master Library is unaffected." >&2
 fi
 
+# ---- the operational Nationwide tree ----------------------------------------
+#
+# THE CORPUS THE PLATFORM ACTUALLY BUILDS PACKETS FROM, and the one thing this
+# bootstrap could not restore. It is not the Master Library and not the D packs:
+# its top level is "LegalEase <State>" folders, and 371 of its 583 files are
+# held nowhere else in this repository. Up to 99 of the SOURCE_BLOCKED families
+# are waiting on documents that tree records and no other custody carries; the
+# arithmetic is in data/rcap-grade-a/fable-packet-factory/NATIONWIDE_MOUNT_GAP.json.
+#
+# WHY THERE IS NO ARCHIVE DIGEST PINNED HERE. Every other stanza in this file
+# pins one, because those archives are already published. This one is not: at
+# the time of writing no asset in $RELEASE_REPO carries this corpus, and the
+# workspace it was inventoried from -- a Codespace of a repository that no
+# longer exists -- is unreachable. A digest cannot be pinned for bytes nobody
+# has published yet.
+#
+# So this verifies the CONTENTS instead, against the 583 path-and-hash pairs
+# committed in data/rcap-all50/nationwide-restore-manifest.json. That is the
+# stronger check of the two: an archive digest proves a container is the one
+# somebody uploaded, while the manifest proves the extracted tree IS the
+# inventoried corpus, file by file. When the asset is published, set
+# NATIONWIDE_ASSET (and optionally NATIONWIDE_TAG) and this runs unchanged.
+#
+# It is best-effort in the same sense the D packs are: a session that cannot
+# reach the asset still finishes with a working Master Library rather than a
+# failed bootstrap. It is NOT lenient about what it accepts -- a tree that
+# misses a file, or carries one at the wrong hash, is refused and removed.
+NATIONWIDE_TAG="${NATIONWIDE_TAG:-$RELEASE_TAG}"
+NATIONWIDE_ASSET="${NATIONWIDE_ASSET:-Nationwide_Record_Clearing.zip}"
+NATIONWIDE_ROOT="private/Nationwide Record Clearing"
+NATIONWIDE_MANIFEST="data/rcap-all50/nationwide-restore-manifest.json"
+
+install_nationwide() {
+  [ -f "$NATIONWIDE_MANIFEST" ] || { echo "  nationwide: $NATIONWIDE_MANIFEST is absent; nothing to verify against" >&2; return 1; }
+
+  local token="${GITHUB_TOKEN:-${GH_TOKEN:-}}"
+  [ -n "$token" ] || { echo "  nationwide: no token in the environment; the release is private" >&2; return 1; }
+
+  local id
+  id=$(
+    curl -sS --fail-with-body \
+      -H "Authorization: Bearer $token" \
+      -H "Accept: application/vnd.github+json" \
+      -H "X-GitHub-Api-Version: 2022-11-28" \
+      "https://api.github.com/repos/$RELEASE_REPO/releases/tags/$NATIONWIDE_TAG" 2>/dev/null \
+    | node -e '
+        let s = "";
+        process.stdin.on("data", (d) => (s += d)).on("end", () => {
+          let release; try { release = JSON.parse(s); } catch { process.exit(1); }
+          const asset = (release.assets || []).find((a) => a.name === process.argv[1]);
+          if (!asset) process.exit(1);
+          process.stdout.write(String(asset.id));
+        });
+      ' "$NATIONWIDE_ASSET"
+  ) || {
+    echo "  nationwide: no asset named $NATIONWIDE_ASSET in $RELEASE_REPO@$NATIONWIDE_TAG." >&2
+    echo "  nationwide: publish the operational tree as that asset and re-run; nothing else here changes." >&2
+    return 1
+  }
+
+  local stage="$WORK/nationwide"
+  mkdir -p "$stage"
+  local zip="$stage/$NATIONWIDE_ASSET"
+  curl -sSL --fail-with-body --max-time 1800 \
+    -H "Authorization: Bearer $token" \
+    -H "Accept: application/octet-stream" \
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    -o "$zip" \
+    "https://api.github.com/repos/$RELEASE_REPO/releases/assets/$id" \
+    || { echo "  nationwide: download failed" >&2; return 1; }
+
+  local extract="$stage/extract"
+  mkdir -p "$extract"
+  unzip -q -o "$zip" -d "$extract" || { echo "  nationwide: the archive did not extract" >&2; return 1; }
+
+  # The tree may be archived with or without a wrapping directory. Find the
+  # level that actually holds the "LegalEase <State>" folders rather than
+  # assuming one, and refuse anything else -- a STATES/-shaped corpus here is
+  # the Master Library or a D pack being substituted for the operational tree,
+  # which operational-corpus-precondition.mjs refuses by name and so does this.
+  local src=""
+  if compgen -G "$extract/LegalEase *" >/dev/null 2>&1; then
+    src="$extract"
+  else
+    local only
+    only=$(find "$extract" -mindepth 1 -maxdepth 1 -type d | head -1)
+    if [ -n "$only" ] && compgen -G "$only/LegalEase *" >/dev/null 2>&1; then src="$only"; fi
+  fi
+  [ -n "$src" ] || {
+    echo "  nationwide: the archive holds no \"LegalEase <State>\" directories." >&2
+    echo "  nationwide: this is not the operational tree; refusing to install it there." >&2
+    return 1
+  }
+
+  rm -rf "$NATIONWIDE_ROOT"
+  mkdir -p "$(dirname "$NATIONWIDE_ROOT")"
+  mv "$src" "$NATIONWIDE_ROOT"
+  find "$NATIONWIDE_ROOT" -name '.DS_Store' -delete 2>/dev/null || true
+
+  # ---- verify every recorded file, by path and by hash ----------------------
+  node -e '
+    const fs = require("node:fs");
+    const crypto = require("node:crypto");
+    const path = require("node:path");
+    const manifest = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
+    const root = process.argv[2];
+    let missing = 0, mismatched = 0, ok = 0;
+    for (const f of manifest.files) {
+      const abs = path.join(root, f.relativePath);
+      if (!fs.existsSync(abs)) {
+        if (missing < 10) console.error(`    ABSENT     ${f.relativePath}`);
+        missing++; continue;
+      }
+      const got = crypto.createHash("sha256").update(fs.readFileSync(abs)).digest("hex");
+      if (got !== f.sha256) {
+        if (mismatched < 10) console.error(`    MISMATCH   ${f.relativePath}`);
+        mismatched++; continue;
+      }
+      ok++;
+    }
+    const extra = [];
+    const walk = (d) => { for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+      if (e.name === "__MACOSX" || e.name.startsWith("._") || e.name === ".DS_Store") continue;
+      const full = path.join(d, e.name);
+      if (e.isDirectory()) walk(full); else extra.push(path.relative(root, full));
+    } };
+    walk(root);
+    const known = new Set(manifest.files.map((f) => f.relativePath));
+    const unknown = extra.filter((r) => !known.has(r));
+    console.log(`  nationwide: ${ok} verified, ${missing} absent, ${mismatched} mismatched, ${unknown.length} not in the manifest`);
+    if (missing || mismatched) process.exit(1);
+  ' "$NATIONWIDE_MANIFEST" "$NATIONWIDE_ROOT" || {
+    echo "  nationwide: the extracted tree is not the inventoried corpus; removing it." >&2
+    rm -rf "$NATIONWIDE_ROOT"
+    return 1
+  }
+
+  local tracked; tracked=$(git ls-files -- "$NATIONWIDE_ROOT" | wc -l | tr -d ' ')
+  [ "$tracked" = "0" ] || fail "Git tracks $tracked file(s) under $NATIONWIDE_ROOT; the operational corpus must never be committed"
+  return 0
+}
+
+NATIONWIDE_INSTALLED=no
+if install_nationwide; then
+  NATIONWIDE_INSTALLED=yes
+  echo "Operational Nationwide tree installed to $NATIONWIDE_ROOT"
+else
+  echo "Operational Nationwide tree NOT installed; the Master Library is unaffected." >&2
+fi
+
 # ---- write the environment record (git-ignored, no secrets) -----------------
 cat > private/source-corpus-environment.txt <<ENVEOF
 # LegalEase source corpus environment
@@ -225,9 +375,15 @@ export RCAP_BUNDLE_EXTRACT="\$PWD/$INSTALL_ROOT"
 #   d_source_packs by scripts/generate-rcap-local-source-corpus-index.mjs.
 
 # --- Operational Nationwide tree: what the platform builds packets from
-# A DIFFERENT corpus, not carried by this release. Do not substitute the Master
-# Library for it; the operational-corpus precondition refuses that by name.
-# export OFFICIAL_FORMS_SOURCE_DIR="\$PWD/private/Nationwide Record Clearing"
+# A DIFFERENT corpus. Do not substitute the Master Library or a D pack for it;
+# the operational-corpus precondition refuses that by name, and so does the
+# bootstrap. The export below is live only when the tree verified against all
+# 583 path-and-hash pairs in data/rcap-all50/nationwide-restore-manifest.json.
+#   installed $NATIONWIDE_INSTALLED
+#   asset     $NATIONWIDE_ASSET in $RELEASE_REPO@$NATIONWIDE_TAG
+$([ "$NATIONWIDE_INSTALLED" = yes ] \
+  && echo "export OFFICIAL_FORMS_SOURCE_DIR=\"\$PWD/$NATIONWIDE_ROOT\"" \
+  || echo "# export OFFICIAL_FORMS_SOURCE_DIR=\"\$PWD/$NATIONWIDE_ROOT\"  # not installed")
 ENVEOF
 echo "Wrote private/source-corpus-environment.txt"
 
