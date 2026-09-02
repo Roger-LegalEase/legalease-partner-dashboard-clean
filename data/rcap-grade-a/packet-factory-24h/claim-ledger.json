@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "aaecbecd65f4502318711243c1eaa74b6dcfd278",
+  "generatedAtCommit": "d31022157b42c47283f9ed79e89a5a74b8e4c431",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -31,7 +31,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF11",
+      "lane": "PF12",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T19:14:26.451Z"
@@ -76,7 +76,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF11",
+      "lane": "PF12",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T19:14:26.516Z"
@@ -91,7 +91,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF11",
+      "lane": "PF12",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T19:14:26.593Z"
@@ -106,7 +106,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF11",
+      "lane": "PF12",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T19:14:26.663Z"
@@ -121,7 +121,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF11",
+      "lane": "PF12",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T19:14:26.729Z"
@@ -3248,6 +3248,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "rcap-tx-custom-pleading",
+      "familyId": "rcap-tx-custom-pleading",
+      "itemId": null,
+      "familyIds": [
+        "rcap-tx-custom-pleading"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF10",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "rcap-wa-custom-pleading-clean-tracks",
       "familyId": "rcap-wa-custom-pleading-clean-tracks",
       "itemId": null,
@@ -3378,6 +3393,141 @@
       "operation": "rapid-repair",
       "lane": "FIX03",
       "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_exp_acquittal-set",
+      "familyId": "tx_exp_acquittal-set",
+      "itemId": null,
+      "familyIds": [
+        "tx_exp_acquittal-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF11",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_automatic_misdemeanor_deferred-set",
+      "familyId": "tx_nd_automatic_misdemeanor_deferred-set",
+      "itemId": null,
+      "familyIds": [
+        "tx_nd_automatic_misdemeanor_deferred-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF03",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_conviction_no_supervision-set",
+      "familyId": "tx_nd_conviction_no_supervision-set",
+      "itemId": null,
+      "familyIds": [
+        "tx_nd_conviction_no_supervision-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF08",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_deferred_other-set",
+      "familyId": "tx_nd_deferred_other-set",
+      "itemId": null,
+      "familyIds": [
+        "tx_nd_deferred_other-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF03",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_dwi_deferred-set",
+      "familyId": "tx_nd_dwi_deferred-set",
+      "itemId": null,
+      "familyIds": [
+        "tx_nd_dwi_deferred-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF04",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_dwi_probation-set",
+      "familyId": "tx_nd_dwi_probation-set",
+      "itemId": null,
+      "familyIds": [
+        "tx_nd_dwi_probation-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF07",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_probation_misdemeanor-set",
+      "familyId": "tx_nd_probation_misdemeanor-set",
+      "itemId": null,
+      "familyIds": [
+        "tx_nd_probation_misdemeanor-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF06",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_veterans_court-set",
+      "familyId": "tx_nd_veterans_court-set",
+      "itemId": null,
+      "familyIds": [
+        "tx_nd_veterans_court-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF04",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_veterans_reemployment-set",
+      "familyId": "tx_nd_veterans_reemployment-set",
+      "itemId": null,
+      "familyIds": [
+        "tx_nd_veterans_reemployment-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF05",
+      "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
     },
@@ -4584,7 +4734,7 @@
       ],
       "sourceId": "official-form:Request to Correct Criminal Justice Information",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:53.872Z"
@@ -4752,7 +4902,7 @@
       ],
       "sourceId": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:11.934Z"
@@ -4822,7 +4972,7 @@
       ],
       "sourceId": "official-form:ACIC-ORDER-DRUG-COURT",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.205Z"
@@ -4836,7 +4986,7 @@
       ],
       "sourceId": "official-form:ACIC-PETITION-DRUG-COURT",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.297Z"
@@ -4850,7 +5000,7 @@
       ],
       "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.387Z"
@@ -4864,7 +5014,7 @@
       ],
       "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.476Z"
@@ -4878,7 +5028,7 @@
       ],
       "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.570Z"
@@ -4892,7 +5042,7 @@
       ],
       "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.668Z"
@@ -4962,7 +5112,7 @@
       ],
       "sourceId": "official-form:ACIC-ORDER-VETERANS-COURT",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.944Z"
@@ -5130,7 +5280,7 @@
       ],
       "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:54.067Z"
@@ -5144,7 +5294,7 @@
       ],
       "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:54.171Z"
@@ -5158,7 +5308,7 @@
       ],
       "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
       "operation": "exact-source-identity",
-      "lane": "DISC03",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:52:20.554Z"
@@ -5928,7 +6078,7 @@
       ],
       "sourceId": "official-form:Certification of Service by Mailing or Delivery",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC03",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:13.844Z"
@@ -5942,7 +6092,7 @@
       ],
       "sourceId": "official-form:Rule 2.86 Form 3",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC03",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:13.977Z"
@@ -5956,7 +6106,7 @@
       ],
       "sourceId": "official-form:Certification of Service by Mailing or Delivery",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC03",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.097Z"
@@ -5970,7 +6120,7 @@
       ],
       "sourceId": "official-form:Certification of Service by Mailing or Delivery",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC03",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.206Z"
@@ -5984,7 +6134,7 @@
       ],
       "sourceId": "official-form:Certification of Service by Mailing or Delivery",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC03",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.308Z"
@@ -5998,7 +6148,7 @@
       ],
       "sourceId": "official-form:Rule 2.86 Form 1",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC03",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.406Z"
@@ -6012,7 +6162,7 @@
       ],
       "sourceId": "official-form:Certification of Service by Mailing or Delivery",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC03",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.507Z"
@@ -6026,7 +6176,7 @@
       ],
       "sourceId": "official-form:Rule 2.86 Form 2",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC03",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.604Z"
@@ -6040,7 +6190,7 @@
       ],
       "sourceId": "official-form:Rule 2.86 Form 2 attached sheet",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC03",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.707Z"
@@ -6054,7 +6204,7 @@
       ],
       "sourceId": "official-form:DCI-76 Criminal History Record Check Billing Form",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC03",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.811Z"
@@ -6068,7 +6218,7 @@
       ],
       "sourceId": "official-form:DCI-77 Criminal History Record Check Request Form",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC03",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.907Z"
@@ -8252,7 +8402,7 @@
       ],
       "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:38:22.515Z"
@@ -8266,7 +8416,7 @@
       ],
       "sourceId": "official-form:MT-FORM-B",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.627Z"
@@ -8280,7 +8430,7 @@
       ],
       "sourceId": "official-form:MT-OCA-MMRTA",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.694Z"
@@ -8350,7 +8500,7 @@
       ],
       "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:38:22.592Z"
@@ -8364,7 +8514,7 @@
       ],
       "sourceId": "official-form:MT-FORM-A",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.554Z"
@@ -8378,7 +8528,7 @@
       ],
       "sourceId": "official-form:MT-OCA-MMRTA",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.760Z"
@@ -8602,7 +8752,7 @@
       ],
       "sourceId": "official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:57.231Z"
@@ -8616,7 +8766,7 @@
       ],
       "sourceId": "official-form:ND-DECLARATION-OF-SERVICE",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:57.330Z"
@@ -8630,7 +8780,7 @@
       ],
       "sourceId": "official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:57.426Z"
@@ -8644,7 +8794,7 @@
       ],
       "sourceId": "official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:57.524Z"
@@ -9512,7 +9662,7 @@
       ],
       "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0736",
       "operation": "exact-source-identity",
-      "lane": "DISC03",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:36:24.607Z"
@@ -9778,7 +9928,7 @@
       ],
       "sourceId": "official-form:1110GE or 1111GE",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:57.830Z"
@@ -10006,129 +10156,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "rcap-tx-custom-pleading",
-      "familyId": "rcap-tx-custom-pleading",
-      "itemId": null,
-      "familyIds": [
-        "rcap-tx-custom-pleading"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF10",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "tx_exp_acquittal-set",
-      "familyId": "tx_exp_acquittal-set",
-      "itemId": null,
-      "familyIds": [
-        "tx_exp_acquittal-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF11",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "tx_nd_conviction_no_supervision-set",
-      "familyId": "tx_nd_conviction_no_supervision-set",
-      "itemId": null,
-      "familyIds": [
-        "tx_nd_conviction_no_supervision-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF08",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "tx_nd_deferred_other-set",
-      "familyId": "tx_nd_deferred_other-set",
-      "itemId": null,
-      "familyIds": [
-        "tx_nd_deferred_other-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF03",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "tx_nd_dwi_probation-set",
-      "familyId": "tx_nd_dwi_probation-set",
-      "itemId": null,
-      "familyIds": [
-        "tx_nd_dwi_probation-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF07",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "tx_nd_probation_misdemeanor-set",
-      "familyId": "tx_nd_probation_misdemeanor-set",
-      "itemId": null,
-      "familyIds": [
-        "tx_nd_probation_misdemeanor-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF06",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "tx_nd_veterans_court-set",
-      "familyId": "tx_nd_veterans_court-set",
-      "itemId": null,
-      "familyIds": [
-        "tx_nd_veterans_court-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF04",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "tx_nd_veterans_reemployment-set",
-      "familyId": "tx_nd_veterans_reemployment-set",
-      "itemId": null,
-      "familyIds": [
-        "tx_nd_veterans_reemployment-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF05",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "69b33cd856670fad29301cbb3151fec22d7f05ee7a5b621d5413132238dd876d",
+  "claimsDigest": "d1164efa57fc2552a94605fbf13c939b94a813886043a35e262f47f3c9494498",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
