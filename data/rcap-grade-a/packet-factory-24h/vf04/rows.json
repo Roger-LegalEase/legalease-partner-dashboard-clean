@@ -1933,6 +1933,541 @@
       ],
       "alsoAffectedNotInThisLane": "ut_pet_limitations-set ships the byte-identical artifact and the byte-identical 1,167-byte stub; it is not claimed by this lane and is named here so the repair is not scoped too narrowly",
       "supersedes": "the codex-cloud s2-continuation-verify-01 row for this family, which recorded PASS_COMPLETE_INDEPENDENT over a narrower obligation set and declared no base commit"
+    },
+    {
+      "itemId": "ms-nonadj-set",
+      "lane": "VF04",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-nonadj-set--custom-pleading",
+      "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+      "verifier": "FABLE-VT9 (independent; built none of these packets)",
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PASS",
+      "verdictCeilingApplied": null,
+      "obligationsScored": 15,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "corpusMounted": true,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonadj-set run in this container; PASS_COMPLETE"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "One route key, obligation:track-only:MS:ms-nonadj, agreeing across product-wiring.json, production-field-map.json, source-receipt.json and the MASTER_QUEUE row, and resolving in the national route census to this packetSetId. The pleading pleads Miss. Code Ann. § 99-15-26 alone and says so on its own face, and the receipt records the routing question that would change the key — whether a § 99-15-26(4) dismissal also qualifies under § 99-19-71(4) — as preserved-unresolved rather than silently resolved in either direction.",
+          "evidence": {
+            "routeKey": "obligation:track-only:MS:ms-nonadj",
+            "statutoryAuthority": "Miss. Code Ann. § 99-15-26",
+            "agreesAcross": [
+              "product-wiring.json",
+              "production-field-map.json",
+              "source-receipt.json",
+              "MASTER_QUEUE family row",
+              "route-obligation-candidate.json"
+            ],
+            "routingQuestionPreservedNotResolved": "§ 99-15-26 vs § 99-19-71(4) recorded unresolved; the petition pleads § 99-15-26 alone"
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "Measured, not deferred: this family binds zero source binaries by design and four records say so consistently. The MASTER_QUEUE row carries sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, officialFormFamily NONE and forms []; the receipt's bindingMethod states no source bytes are bound and boundCount is 0; allSourcesExact is true and the receipt calls that vacuous itself. The corpus was mounted in this lane and all 329 committed index entries rehash clean, so this is a design fact rather than an environment gap. The receipt's formIdentityNote is unusually careful about why: Mississippi has no statewide expungement form, the four archived petition and order PDFs are Fourth Circuit Court District local models for three counties only, the legal-design record classifies them as drafting references, and it lists the recorded defects this build deliberately does not inherit — dual-statute citation, mandatory indictment allegation, mis-captioned certificate, hardcoded county, year and address, and a race field.",
+          "evidence": {
+            "corpusMounted": true,
+            "corpusMountEvidence": "scripts/rcap-corpus/bootstrap-private-corpus.sh mounted the pinned Master Library in this container: archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 verified, 51 jurisdictions / 499 files / 329 PDFs, governance checksums verified. All 329 entries of data/rcap-all50/local-source-corpus-index.json were rehashed here from the mounted bytes: 329 matched, 0 mismatched, 0 absent.",
+            "boundSourceBinaries": 0,
+            "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+            "officialFormFamily": "NONE",
+            "allSourcesExact": "true, vacuously — stated as such by the receipt",
+            "groundingRecords": [
+              "data/record-clearing/legal-design-intake/MS.memo.json",
+              "data/record-clearing/legal-design-packet-set-manifests.json"
+            ],
+            "localModelsRejectedWithReasons": [
+              "dual-statute citation",
+              "mandatory indictment allegation",
+              "mis-captioned certificate",
+              "hardcoded county/year/address",
+              "race field"
+            ]
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Five composed components declared and all five present in the delivered packet. The receipt names composedComponentsAuthoredByThisBuild = primary_filing, proposed_order, certificate_of_service, attachment and instructions; product-wiring declares one assembled artifact carrying them, which rehashes to its declared hash; and the instructions table lists all five with what each is. Reading the delivered bytes in this lane confirms the petition and its numbered paragraphs, the proposed order, and the certificate of service are all present in the eight pages. requiredComponentsMissing=0.",
+          "evidence": {
+            "componentsDeclared": 5,
+            "componentsListedInInstructions": 5,
+            "foundInDeliveredBytes": [
+              "PETITION FOR EXPUNGEMENT OF CRIMINAL RECORD UNDER MISS. CODE ANN. SEC. 99-15-26",
+              "proposed order",
+              "certificate of service"
+            ],
+            "assembledArtifactHashMatched": true,
+            "requiredComponentsMissing": 0
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0, from the completeness verifier run here (9 of 33 written). The packet fills only participant identity facts it holds — name, date of birth, mailing address, telephone, email — and states the rule it follows for everything else: every case fact lives on a court record the platform has not seen, so every one is a labelled dotted blank filled from the record itself, never from memory.",
+          "evidence": {
+            "knownRequiredFieldsMissing": 0,
+            "fieldsWritten": 9,
+            "fieldsTotal": 33,
+            "prefillsAreIdentityFactsOnly": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "Thirty-six field-map rows declare requiredBeforeFiling true, and the instructions carry per-component tables of every item plus a \"Documents you must obtain first\" table naming each document and the office that issues it — the certified nonadjudication order, the certified dismissal order, the disposition or sentencing order, proof of completion, the indictment only if the case was actually indicted, and the participant's own Mississippi criminal history record. The prosecuting authority's address row carries an explicit refusal: the current published address, never a default address.",
+          "evidence": {
+            "requiredBeforeFilingRows": 36,
+            "documentsToObtainFirstWithIssuingOffice": 6,
+            "noDefaultAddressRule": "name and current published mailing address of the prosecuting authority; never a default address"
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0. The route carries a localFormOverride election and the packet surfaces it in its opening paragraph rather than burying it: where the court where the case was heard publishes its own preferred form, that local form governs, and the participant is told to call that court's office before filing. The court-level election — justice, county, circuit or municipal — is also surfaced as step 1 with the instruction to check the case papers.",
+          "evidence": {
+            "requiredOptionsMissing": 0,
+            "localFormOverrideSurfaced": "stated in the opening paragraph, with the instruction to call the court's office first",
+            "courtLevelElectionSurfaced": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "incompleteRows=0. The petition's repeating structures are the record-fact lines in paragraphs 2 through 4 and the list of record-keeping offices; every one is a labelled dotted blank the participant completes from the record, and none is partly populated by the build. The instructions name every district-variable fact — court, county, cause number, prosecuting authority name and address, and the list of offices — as never hardcoded and never defaulted.",
+          "evidence": {
+            "incompleteRows": 0,
+            "districtVariableFactsNeverDefaulted": [
+              "court",
+              "county",
+              "cause number",
+              "prosecuting authority name and address",
+              "record-keeping offices"
+            ]
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "No judicial or prosecutorial field carries ink, read back from the artifact bytes: reports/actual-writes.json is derived from the artifact bytes and records refusedFieldsWithInk=[] and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 on both fixtures. Three separate protections hold and the instructions state each: the judge's signature line and date of entry are the court's; the approved-as-to-form block belongs to the prosecuting authority and is never pre-signed; and the finding that the petitioner meets the criteria for expungement is the court's finding, which the proposed order tenders and asserts nothing about. The petition also never asserts eligibility, first-offender status or rehabilitation.",
+          "evidence": {
+            "refusedFieldsWithInk": 0,
+            "glyphsOutsideWriteBoxes": 0,
+            "derivedFromArtifactBytes": true,
+            "protectionsHeld": [
+              "judge's signature line and date of entry",
+              "approved-as-to-form block, never pre-signed",
+              "the court's eligibility finding"
+            ],
+            "petitionAssertsNoEligibility": true
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Both fixtures recomputed from committed bytes in this lane and both match: canonical b3488303e6e8ab6e344bb4ef96c9533c5adc1db5d04a2a66707d11f3e2d72527 at 19,899 bytes and boundary 3c016942a2891e2b300a33247ec119ee2efce7e129c3ae0991d773152fba47de at 20,142 bytes. These are the hashes the central raster receipt binds to.",
+          "evidence": {
+            "artifactsRehashed": 2,
+            "artifactsMatched": 2,
+            "alsoMatchesRasterReceiptHashes": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "Eight pages observed in each fixture with pdfinfo, matching the recorded pageCount of 8 and the raster queue's expectedPages of 8. Reading the headings out of the bytes in sequence confirms the filing order the instructions describe: petition first, proposed order tendered with it, certificate of service, then the exhibit checklist and the instruction pages.",
+          "evidence": {
+            "observedPages": {
+              "canonical": 8,
+              "boundary": 8
+            },
+            "recordedPageCount": 8,
+            "queueExpectedPages": 8,
+            "componentOrderReadFromBytes": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "visualDefects=0, and confirmed independently from the delivered bytes: a word-geometry read of both fixtures with pdftotext -bbox finds zero words outside the page media box and zero same-line overlaps across all eight pages of each, including in the boundary fixture with its adversarial maximum-length values. A hash-bound central RASTER_PASS covers the assembled packet at these exact hashes.",
+          "evidence": {
+            "visualDefects": 0,
+            "wordsOutsidePageBox": 0,
+            "sameLineOverlaps": 0,
+            "pagesChecked": 16,
+            "rasterVerdict": "RASTER_PASS",
+            "rasterCoversWholeFamily": true,
+            "rasterWorkflowRunId": "33574304514"
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "Amendment A1's test is answered first and the packet passes it on its own face. The repository holds the destination — the route census records kind:clerk, \"Clerk of the court that ordered nonadjudication\", with the detail \"File with the clerk of the court that entered the nonadjudication order and later the dismissal\" — and the petition itself states it: paragraph 1, read from the fixture bytes in this lane, pleads that the petitioner \"petitions this court, the court that ordered nonadjudication in this\" cause. The instructions carry the same rule operationally: step 1 identifies the correct court and county and explains that Mississippi has four trial court levels that all handle expungements, the documents table sends the participant to \"office of the court that ordered it\" for the nonadjudication order, and step 3 is the clerk-first rule.",
+          "evidence": {
+            "registryDestination": "Clerk of the court that ordered nonadjudication",
+            "packetStatesItOnTheFace": "petition paragraph 1 — petitions this court, the court that ordered nonadjudication in this cause",
+            "instructionsRestateIt": [
+              "step 1 identify the correct court and county",
+              "documents table: office of the court that ordered it",
+              "step 3 clerk-first rule"
+            ],
+            "amendmentApplied": "DET-FEE-AND-WAIVER-001-A1"
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "The strongest fee handling of the five families read in this lane, because it engages the repository's held figure instead of ignoring it or overreaching from it. The compiled Mississippi profile does hold a fee — \"Mississippi Code 99-19-72 sets a $150 filing fee for each petition to expunge an offense under 99-19-71\" — and the packet neither copies it across nor pretends not to have seen it. Step 3 states: \"No fee amount is published in this packet — the § 99-19-72 fee applies by its terms to § 99-19-71 petitions and does not reach § 99-15-26\". That is a reasoned statutory boundary, and it is the correct one for this route, which pleads § 99-15-26 alone. Having established that the held figure does not govern here, the packet then does what the standard's third clause requires: it names the office to ask — the same court office the participant has already been sent to for the case file and docket — and tells them to ask what filing fee, if any, it collects, and it names the waiver route too, the pauper's-affidavit, asked about at the same office. A named, reachable authority and a named waiver instrument, for an amount no held source establishes for this statute.",
+          "evidence": {
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+            "standardClause": "theStandard.met[2]",
+            "a1TestApplied": "asked first whether the repository establishes the answer for THIS route; the held $150 attaches by its terms to § 99-19-71 petitions and this route pleads § 99-15-26 alone",
+            "repositoryFigureEngagedNotIgnored": "Mississippi Code 99-19-72 sets a $150 filing fee for each petition to expunge an offense under 99-19-71",
+            "namedAuthority": "the office of the court that ordered nonadjudication — the same office named for the case file and docket",
+            "waiverNamed": "pauper's affidavit, asked about at the same office"
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Answered in full. The recipient is named by court level rather than left generic — the district attorney for the circuit district for a circuit-court case, or the county or municipal prosecuting authority for a lower court — with an explicit refusal attached: the current published mailing address, never a default address. The method is named: delivery by United States mail or hand delivery, step 5, followed by completing and keeping the certificate of service. The packet also carries the practice point the route census records, that some districts expect the prosecuting authority to approve the order as to form before the judge signs, and states plainly that this is a negotiation the packet does not conduct.",
+          "evidence": {
+            "recipientNamedByCourtLevel": [
+              "district attorney for the circuit district (circuit court)",
+              "county or municipal prosecuting authority (lower court)"
+            ],
+            "methodNamed": "United States mail or hand delivery",
+            "certificateOfServiceComponentShipped": true,
+            "noDefaultAddressRule": true,
+            "approvalAsToFormPracticeStated": "some districts expect prosecutor sign-off before the judge signs; the packet states it does not conduct that negotiation"
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "A \"When to stop and get help instead\" section with six specific conditions, each tied to a document or a legal question the packet will not answer — a missing nonadjudication, dismissal or completion proof; an offence possibly excluded from nonadjudication; a revoked nonadjudication or unmet conditions; the unresolved § 99-15-26 versus § 99-19-71(4) routing question; a prosecuting authority that declines to approve as to form or is silent; and non-citizenship. It also routes trafficking-related matters onward to Miss. Code Ann. § 97-3-54.6(6) with a lawyer or qualified survivor services, saying the packet does not attempt that route. The closing states it is not a statewide form, is not legal advice, is not filed for the participant, and does not decide the outcome, and adds what expungement does not reach — fingerprint records, the Criminal Information Center's nonpublic record, and the employer question.",
+          "evidence": {
+            "section": "When to stop and get help instead",
+            "stopConditions": 6,
+            "onwardReferral": "Miss. Code Ann. § 97-3-54.6(6) for trafficking-related matters, with a lawyer or qualified survivor services",
+            "notLegalAdviceStated": true,
+            "limitsOfReliefStated": [
+              "fingerprint records excepted",
+              "Criminal Information Center keeps a nonpublic record",
+              "an employer may still ask whether an order of expunction was entered",
+              "Mississippi has no automatic record clearance"
+            ]
+          }
+        }
+      },
+      "whyThisIsAPass": "All fifteen obligations measured in this lane and all fifteen pass, with nothing unmeasured. The corpus mounted, so SOURCE_IDENTITY was measured rather than deferred, and for a zero-binary custom pleading the answer is that there is nothing to bind and four records say so — with a receipt that goes further and lists the recorded defects in the local models it declined to inherit. The nine counters are zero from a verifier run here; artifacts, page order and geometry were read from the delivered bytes; and a hash-bound central RASTER_PASS covers the packet. The fee section is the model of what Amendment A1 asks for: it engages the repository's held $150, gives the statutory reason it does not reach this route, and only then names a reachable office and a named waiver instrument.",
+      "reExaminedUnder": "DET-FEE-AND-WAIVER-001 and its amendment A1"
+    },
+    {
+      "itemId": "ny_160_59_petition-set",
+      "lane": "VF04",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill",
+      "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+      "verifier": "FABLE-VT9 (independent; built none of these packets)",
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PENDING",
+      "verdictCeilingApplied": "BUILT_RASTER_PENDING",
+      "ceilingNote": "The central visual gate has not run at this base — the raster queue row carries currentRasterState RASTER_PENDING and no rasterReceipt — so this family could not have reached PASS_COMPLETE_INDEPENDENT regardless. All fifteen obligations were scored anyway, as instructed, and the verdict is set by four real failures rather than by the ceiling.",
+      "obligationsScored": 15,
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "corpusMounted": true,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_160_59_petition-set run in this container; PASS_COMPLETE"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "One route key, obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59, agreeing across product-wiring.json, production-field-map.json, source-receipt.json and the MASTER_QUEUE row, and resolving in the route census to this packetSetId. familyId agrees across every record in the directory and the raster queue row.",
+          "evidence": {
+            "routeKey": "obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
+            "statute": "N.Y. Crim. Proc. Law § 160.59",
+            "agreesAcross": [
+              "product-wiring.json",
+              "production-field-map.json",
+              "source-receipt.json",
+              "MASTER_QUEUE family row",
+              "route-obligation-candidate.json"
+            ]
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "All four bound sources were recomputed from the mounted Master Library and every one binds exactly: NY-CPL-160.59-APPLICATION 73a5eeaf…aae4 at 1,234,105 bytes, NY-CPL-160.59-COD-REQUEST 68b14570…2774 at 198,814 bytes, NY-CPL-160.59-PRO-SE-PACKET cf22b8ea…0298 at 519,607 bytes and NY-CPL-160.59-SEAL-VERIFICATION 76c0c54e…3cca3 at 79,928 bytes, each matching the receipt's recorded SHA-256 and byte length. The MASTER_QUEUE row agrees, carrying sourceStatus SOURCE_BOUND_BY_HELD_BYTES.",
+          "evidence": {
+            "corpusMounted": true,
+            "corpusMountEvidence": "scripts/rcap-corpus/bootstrap-private-corpus.sh mounted the pinned Master Library in this container: archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 verified, 51 jurisdictions / 499 files / 329 PDFs, governance checksums verified. All 329 entries of data/rcap-all50/local-source-corpus-index.json were rehashed here from the mounted bytes: 329 matched, 0 mismatched, 0 absent.",
+            "documentsRehashed": 4,
+            "documentsMatched": 4,
+            "queueSourceStatus": "SOURCE_BOUND_BY_HELD_BYTES"
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Three participant artifacts for four bound sources, and the fourth is correctly excluded rather than missing. This family's product-wiring is the integration-payload schema (rcap-family-product-wiring/v1) and carries no components array, so the set was measured from the receipt and the rendered-artifacts report instead: the three fillable sources — the application, the certificate-of-disposition request and the pro se packet, all acroform — each render canonical and boundary fixtures that exist and hash-match. The fourth, NY-CPL-160.59-SEAL-VERIFICATION, is a flat PDF with zero AcroForm fields and documentRole POST_ORDER_SOURCE_ONLY, and rendered-artifacts.componentsNotGenerated states why no fixture exists for it: it is held as exact source evidence, not a generated participant artifact. requiredComponentsMissing=0.",
+          "evidence": {
+            "boundSources": 4,
+            "fillableSources": 3,
+            "participantArtifactsRendered": 3,
+            "artifactFixturesPresentAndHashMatched": 6,
+            "excludedSource": "NY-CPL-160.59-SEAL-VERIFICATION — flat_pdf, 0 AcroForm fields, documentRole POST_ORDER_SOURCE_ONLY",
+            "exclusionDeclared": "reports/rendered-artifacts.json componentsNotGenerated",
+            "schemaNote": "product-wiring here is the integration-payload schema with no components array; the set was measured from the receipt and rendered-artifacts instead",
+            "requiredComponentsMissing": 0
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0, from the completeness verifier run here (34 of 148 written). The prefills are participant identity and case-caption facts, and reports/actual-writes.json proves each from the flattened appearance streams with exactValueObserved true — the expected value is confirmed present in the delivered bytes rather than asserted from the builder's intent.",
+          "evidence": {
+            "knownRequiredFieldsMissing": 0,
+            "fieldsWritten": 34,
+            "fieldsTotal": 148,
+            "writesProvenFromFlattenedAppearanceStreams": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "finding": "The list exists and is long — 66 field-map rows declare requiredBeforeFiling true — but a systematic off-by-one in the labels makes part of it actively misleading, and the defect flows straight into the participant-facing document. On the certificate-of-disposition request, the field census's effectiveLabel for a vertical stack of identifier fields on page 2 is the label of the row above, not the row it is attached to, while labelBasis still claims printed_to_the_left_in_the_same_cell. Measured in this lane, descending the stack by y: IDVNumber is labelled \"Docket, Indictment, or SCI Number\" (a duplicate of the field above it), ArrestNumber is labelled \"IDV Number\", OrderofProtectionNumber is labelled \"Arrest Number\", CertificateofDispositionNumber is labelled \"Order of Protection Number\", CriminalJusticeTrackingNumber(CJTN) is labelled \"Certificate of Disposition Number\", TicketNumber is labelled \"Complaint Number\", NYSIDNumber is labelled \"Ticket Number\", PartialDocketNumber is labelled \"NYSID Number\", and ArrestDate is labelled \"Incident Date\". Two anchors are correct and each is followed by a run of shifted labels, which is the signature of a label-picking rule that mis-resolves in a dense stack. The consequence for the participant is direct: participant-instructions.md reproduces these pairings verbatim, so it tells them to write their IDV number into the field named ArrestNumber and their arrest number into OrderofProtectionNumber, on the form used to obtain the certificate of disposition that every 160.59 application requires. The application and pro se packet carry milder versions of the same defect — the application collapses \"Number(s) Weight Date Date Section\" onto four distinct fields and labels both NYSID and Motorist_ID \"¼Motorist ID #\", and the instruction list shows the damage as entries like \"Weight (source field: Conviction_Date)\" and \"IDV Number (source field: ArrestNumber)\". The nine counters do not catch this: a mislabelled field is still a classified field, so knownRequiredFieldsMissing stays zero while the list misdirects.",
+          "evidence": {
+            "requiredBeforeFilingRows": 66,
+            "misalignedStackDocument": "NY-CPL-160.59-COD-REQUEST, page 2",
+            "misalignedPairsMeasuredHere": {
+              "IDVNumber": "Docket, Indictment, or SCI Number",
+              "ArrestNumber": "IDV Number",
+              "OrderofProtectionNumber": "Arrest Number",
+              "CertificateofDispositionNumber": "Order of Protection Number",
+              "CriminalJusticeTrackingNumber(CJTN)": "Certificate of Disposition Number",
+              "TicketNumber": "Complaint Number",
+              "NYSIDNumber": "Ticket Number",
+              "PartialDocketNumber": "NYSID Number",
+              "ArrestDate": "Incident Date"
+            },
+            "labelBasisClaimed": "printed_to_the_left_in_the_same_cell",
+            "duplicateLabelCounts": {
+              "NY-CPL-160.59-COD-REQUEST": 7,
+              "NY-CPL-160.59-APPLICATION": 2,
+              "NY-CPL-160.59-PRO-SE-PACKET": 3
+            },
+            "comparison": "DJ-LE-250B in the Wisconsin family read in the same lane has zero duplicate labels; Arkansas's two ACIC forms have two each and both are benign and explained in prose",
+            "flowsIntoParticipantDocument": "participant-instructions.md 'Exact facts still required before filing' reproduces the mislabelled pairings",
+            "countersDoNotCatchIt": "a mislabelled field is still classified, so knownRequiredFieldsMissing remains 0"
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0. The elections on this route — the prior-application statement, the type-of-service election and the attachment selections — are all left to the participant, and reports/actual-writes.json records a choiceNeutralization block confirming no election was pre-set in the delivered bytes.",
+          "evidence": {
+            "requiredOptionsMissing": 0,
+            "choiceNeutralizationRecorded": true,
+            "electionsLeftToParticipant": [
+              "prior-application elections",
+              "type of service",
+              "attachment selections"
+            ]
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "incompleteRows=0. The application's repeating structures are the numbered conviction blocks and the attachment and document lists; the first conviction block is populated from held facts and the second is left entirely blank rather than half-filled, and the attachment and document rows are left to the participant as a set.",
+          "evidence": {
+            "incompleteRows": 0,
+            "secondConvictionBlockLeftEntirelyBlank": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "No protected field carries ink. This family's actual-writes report uses a different schema from its siblings — rcap-actual-writes-from-artifact-bytes/v1, which records what was written and proves each value from the flattened appearance streams but carries no refusedFieldsWithInk or glyphs-outside-write-boxes counters — so the check was made independently here instead of read off the report. Every field the report records as written is a participant identity or case-caption fact; no sworn date, notary field, prosecutor field or judicial field appears among them, and the instructions state that court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing and post-order fields remain for their proper owners, with prior-application elections, sworn dates, service facts, prosecutor information and notary fields left blank. protectedWrites=0 from the verifier run here.",
+          "evidence": {
+            "protectedWrites": 0,
+            "reportSchemaLacksInkCounters": "rcap-actual-writes-from-artifact-bytes/v1 records writes and proves them from flattened appearance streams, but carries no refusedFieldsWithInk field",
+            "checkedIndependentlyHere": true,
+            "writtenFieldsAreIdentityAndCaptionOnly": true,
+            "ownerFieldsLeftBlank": [
+              "court",
+              "judge",
+              "prosecutor",
+              "clerk",
+              "law enforcement",
+              "agency",
+              "notary",
+              "hearing",
+              "post-order",
+              "sworn dates",
+              "service facts"
+            ]
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "All six fixtures recomputed from committed bytes in this lane and every hash and byte length matches the record: application canonical d5c8fbc8…7021 / 1,239,801 B and boundary cda7142c…4b6d / 1,238,792 B, cod-request canonical 316a241c…5231 / 172,746 B and boundary 2b2c0730…a274 / 172,632 B, pro-se-packet canonical / 496,967 B and boundary / 496,650 B. The canonical application hash also matches the value pinned in the raster queue row, so the four-byte shift this family was repaired through is reflected consistently in both the family's own report and the queue.",
+          "evidence": {
+            "artifactsRehashed": 6,
+            "artifactsMatched": 6,
+            "queueCanonicalHashAgreesWithDisk": true,
+            "note": "the repaired canonical PDF and the queue row agree at this base; the queue simply has not been rastered since"
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "Page counts observed with pdfinfo match the record on every fixture: application 6 pages, cod-request 2, pro-se-packet 12, in both canonical and boundary, matching each source document's receipt pageCount and the queue's expectedPages of 6 for the primary document. The three documents are separately paginated and filed as a set rather than assembled into one packet, which the raster coverage basis states.",
+          "evidence": {
+            "observedPages": {
+              "application-canonical": 6,
+              "application-boundary": 6,
+              "cod-request-canonical": 2,
+              "cod-request-boundary": 2,
+              "pro-se-packet-canonical": 12,
+              "pro-se-packet-boundary": 12
+            },
+            "receiptPageCountsAgree": true,
+            "queueExpectedPages": 6
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "FAIL",
+          "finding": "A clipped write, introduced by this build, sitting in a fixture no visual gate has looked at. A word-geometry read of every delivered fixture with pdftotext -bbox finds five text runs in pro-se-packet-boundary.pdf that extend past the right edge of the 612-point page: on page 9 and again on page 11, and worst at 5.21 points of overhang. It is participant text, not the form's: the pristine NY-CPL-160.59-PRO-SE-PACKET from the mounted corpus reads zero words outside the page box, and so do all five other fixtures in this family and all eight fixtures across the other four families read in this lane. Measured against the widget rectangles the field census records, the overflow is much larger than the page overhang suggests — the Email widget on page 11 is x=308.768 width=263.544, so its right edge is 572.312, and the drawn email runs to 617.21: 44.89 points past its own widget box and 5.21 past the page. City State Zip runs to 614.61 (42.30 past the widget) and Applicant Name to 613.99 (41.68 past). The build believes these fit: reports/actual-writes.json records all three as outcome \"shrunk\" at font sizes 8, 7 and 7.5, and its proof block records exactValueObserved true — which is true and is the point, because the value is drawn in full and drawn outside the box. The fit calculation is measuring something other than the widget's own rectangle. Contrast the Arkansas family in this same lane, whose boundary fixture refuses three over-long values with value_exceeds_widget_width_at_minimum_font rather than drawing them past the rule. The visual gate's stated proof list includes \"no clipped write\", and this family's raster is PENDING, so nobody has looked — this is exactly the defect the gate exists to catch, found by reading the bytes instead.",
+          "evidence": {
+            "visualDefectsCounterSays": 0,
+            "counterDoesNotMeasureContainment": "the nine counters read zero while three fields are drawn outside their widget boxes and past the page edge; the counter does not measure page- or widget-box containment from the delivered bytes",
+            "wordsOutsidePageBox": {
+              "pro-se-packet-boundary.pdf": 5,
+              "all other fixtures in this family": 0,
+              "pristine source pro-se packet": 0
+            },
+            "overflowMeasured": {
+              "Email": {
+                "widgetRight": 572.312,
+                "drawnTo": 617.21,
+                "pastWidgetPt": 44.89,
+                "pastPagePt": 5.21,
+                "page": 11
+              },
+              "CityStateZip": {
+                "widgetRight": 572.312,
+                "drawnTo": 614.61,
+                "pastWidgetPt": 42.3,
+                "pastPagePt": 2.61,
+                "page": 11
+              },
+              "ApplicantName": {
+                "widgetRight": 572.312,
+                "drawnTo": 613.99,
+                "pastWidgetPt": 41.68,
+                "pastPagePt": 1.99,
+                "page": 11
+              }
+            },
+            "pageWidth": 612,
+            "buildBelievesTheyFit": "actual-writes records outcome 'shrunk' at fontSize 8 / 7 / 7.5 with exactValueObserved true",
+            "contrast": "ar-arrest-seal-set's boundary fixture refuses three over-long values with value_exceeds_widget_width_at_minimum_font",
+            "rasterState": "RASTER_PENDING — the gate that proves 'no clipped write' has not run on this family"
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "Amendment A1's test is answered first and the packet passes it, though the statement lives inside the fee section rather than in a section of its own. The repository holds the destination — the route census records kind:court, \"The New York court of conviction\", with the detail that the motion is filed in the court of conviction and served on the county district attorney — and the packet states it, quoting its own held pro se instructions: the clerk's office is \"the clerk's office of the court where you will apply to seal your case, which is the court where you were convicted and sentenced\", and filing is \"by mail or in person at the clerk's office of the appropriate courthouse\". That is the destination the registry holds, stated as an answer rather than deferred.",
+          "evidence": {
+            "registryDestination": "The New York court of conviction",
+            "packetStatesIt": "quoted from the held pro se packet, inside the 'What it costs, and who answers that' section",
+            "quotedText": [
+              "the clerk's office of the court where you will apply to seal your case, which is the court where you were convicted and sentenced",
+              "by mail or in person at the clerk's office of the appropriate courthouse"
+            ],
+            "amendmentApplied": "DET-FEE-AND-WAIVER-001-A1",
+            "note": "stated inside the fee section rather than under its own heading; scored on substance, not placement"
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "FAIL",
+          "finding": "The repair added a well-drafted section that names a checkable authority, and it still fails, because it asserts a silence the repository does not have. The section states: \"No held source establishes what it costs to file a CPL 160.59 sealing application\", that neither application source states a filing fee, states that filing is free, or describes a fee waiver, and that the packet \"does not supply a figure it does not hold\" — then names the clerk's office of the court of conviction and sentencing as the office to ask. The claim about the two forms is correct and this lane confirmed it independently: extracting the text of both the application and the pro se packet from the mounted corpus finds no fee, cost or dollar figure anywhere on either face. But the claim about the repository is false. The compiled New York profile, cited as a requiredSourceId for this exact route, answers it directly: packetGenerator.feeRules[2] reads \"CPL 160.59 sealing application — No separate filing fee — Court motion; notarization needed\", and the profile's narrative repeats it — \"the 160.59 motion itself carries no separate filing fee\" — and its agent guidance says to note that the motion has no separate filing fee. Amendment A1 settles the ordering: ask first whether the repository establishes the answer, and a named checkable authority may stand in only where none does. One does here, so the stand-in is unavailable and the packet sends the participant to ask a question the repository already answers. The packet's third paragraph shows it can do this correctly — it states the certificate-of-disposition fee, $5 outside New York City and $10 in the five boroughs, sourced to the form's own face, and the compiled profile's feeRules[0] and [1] hold exactly those figures. The repair is to state the no-separate-filing-fee answer the profile holds alongside the certificate fee it already states, and to carry across the waiver-adjacent facts the profile also holds — that legal-aid organisations and county district attorney sealing units assist pro se applicants at no cost.",
+          "evidence": {
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+            "standardClauseFailed": "amendment.theTest — ask first whether the repository establishes the answer",
+            "packetClaim": "No held source establishes what it costs to file a CPL 160.59 sealing application",
+            "repositoryHolds": [
+              "packetGenerator.feeRules[2]: CPL 160.59 sealing application — No separate filing fee — Court motion; notarization needed",
+              "narrative: the 160.59 motion itself carries no separate filing fee",
+              "AGENT GUIDANCE: note the 160.59 motion has no separate filing fee",
+              "feeRules[17]: legal-aid organizations and county DA sealing units assist pro se applicants at no cost"
+            ],
+            "heldIn": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+            "formFacesConfirmedSilent": "text extracted here from NY-CPL-160.59-APPLICATION and NY-CPL-160.59-PRO-SE-PACKET in the mounted corpus: no fee, cost or dollar figure on either face; the packet's claim about the forms is correct",
+            "packetGetsTheOtherFeeRight": "certificate of disposition $5 outside NYC / $10 in the five boroughs, matching the profile's feeRules[0] and [1]",
+            "partOfTheSamePatternAs": [
+              "ar-arrest-seal-set",
+              "wi_nc_doj_fingerprint_removal-set"
+            ]
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Stated, though thinly, and the substance is present. The repository holds the rule — the route census records that the motion is \"served on the county district attorney, who may consent or object\" — and the packet carries it through its own structure and prose: the required-facts list names the district attorney service addresses (Address_of_DA_1 and Address_of_DA_2), the type-of-service election, the server's name and address, the service date and the affidavit of service, and the instructions state the timing rule that matters — complete service certificates only after service actually occurs, and service facts remain blank. The route census's own note that some county district attorney offices run sealing units with their own published instructions is reflected in the packet's acknowledgement that local service practice remains a release blocker. Scored a pass because the recipient the repository names is the recipient the packet collects addresses for and the timing rule is stated correctly; recorded as the weakest of this family's passing obligations, because the recipient is carried by the field structure and the closing note rather than by a sentence telling the participant in plain words that the district attorney must be served.",
+          "evidence": {
+            "registryServiceRule": "served on the county district attorney, who may consent or object",
+            "packetCarriesIt": [
+              "Address_of_DA_1 and Address_of_DA_2 in the required-facts list",
+              "Type of Service election",
+              "Server Name, Server Address, Service Date",
+              "Complete the affidavit of service"
+            ],
+            "timingRuleStated": "complete service certificates only after service actually occurs",
+            "weakness": "no plain-language sentence naming the district attorney as the party who must be served; the recipient is carried by field structure and the closing note",
+            "localPracticeAcknowledged": "local service practice recorded as a remaining release blocker"
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "FAIL",
+          "finding": "Absent. This is the only one of the five families read in this lane whose participant document contains no self-help boundary at all: searching participant-instructions.md finds no \"not legal advice\", no referral to a lawyer or to legal aid, no \"when to stop\" section, and no statement that the packet does not decide whether the conviction can be sealed. The nearest thing is the opening line, \"These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets\" — but that is a build-status disclaimer addressed to a reviewer, not a statement to a participant of where self-help ends, and the closing line is likewise about release blockers rather than about the participant's limits. The gap is conspicuous because the repository holds the material to close it: the compiled New York profile records that legal-aid organisations and county district attorney sealing units assist pro se applicants at no cost, and CPL 160.59 relief is discretionary — the court may grant or refuse — which is exactly the kind of limit the other four packets in this lane state plainly. The document reads as a machine-generated field list with a hand-written fee section added to it, and the sections its siblings carry as a matter of course were never written.",
+          "evidence": {
+            "searchedFor": [
+              "not legal advice",
+              "lawyer",
+              "attorney",
+              "stop and get",
+              "self-help",
+              "does not decide"
+            ],
+            "matchesFound": 0,
+            "comparison": "ar-arrest-seal-set has 'Where self-help ends' naming an Arkansas-licensed lawyer; il-prostitution-j-vacate-set and ms-nonadj-set each have 'When to stop and get help instead'; wi_nc_doj_fingerprint_removal-set states it does not decide and directs the participant to read the conditions on page 1",
+            "nearestThing": "an opening build-status disclaimer addressed to reviewers, not a participant self-help boundary",
+            "materialAvailableToCloseIt": "compiled NY profile records legal-aid organisations and county DA sealing units assisting pro se applicants at no cost; the relief is discretionary"
+          }
+        }
+      },
+      "whyNotAPass": "Eleven of fifteen obligations pass and four fail, all measured here from the delivered bytes and the mounted corpus. The verdict ceiling BUILT_RASTER_PENDING would have capped this family in any event — the central gate has not run at this base — but the verdict is set by the failures, not the ceiling. This lane was asked to give the family a genuine second read after its fee section was repaired, and did: the repaired section is well written and names a real office, but it fails on the other limb, asserting that no held source establishes the CPL 160.59 filing fee when the compiled New York profile states that the motion carries no separate filing fee. Two further failures are independent of the repair and neither has been looked at by any gate: a systematic off-by-one in the certificate-of-disposition field labels that flows verbatim into the participant's required-facts list, and a clipped write in the pro se packet's boundary fixture where three participant values are drawn 42 to 45 points outside their own widget boxes and up to 5.2 points past the page edge while the build records them as shrunk-to-fit. The fourth is an absence: this is the only family of the five read here whose participant document carries no self-help boundary at all.",
+      "reExaminedUnder": "DET-FEE-AND-WAIVER-001 and its amendment A1",
+      "secondReadOfARepair": "The FIX05 fee section was read on its own terms rather than accepted because it was recent. Its factual claim about the two application forms is correct and was confirmed independently from the source bytes; its claim about the repository is not. The canonical PDF's four-byte shift is consistent between the family's own report and the raster queue row, so nothing is stale there — the family simply has not been rastered since.",
+      "repairIsShared": [],
+      "raisedNotDecided": "Two findings a Captain may want to route beyond this family. First, the nine completeness counters read all-zero on a family that carries a clipped write and a misleading required-facts list; visualDefects in particular does not measure page- or widget-box containment from the delivered bytes, so a family can hold RASTER_PENDING, score nine zeros, and still ship text off the page. Second, this family's actual-writes report uses a schema (rcap-actual-writes-from-artifact-bytes/v1) that carries no refusedFieldsWithInk or glyphs-outside-write-boxes counters, unlike the schema its siblings use, so the protected-field check had to be made independently here; a lane reading the report alone would have nothing to read."
     }
   ],
   "supersededLaneMembership": {
@@ -2241,5 +2776,42 @@
       "ut_pet_dismissed_with_prejudice-set"
     ],
     "rowsReplacedInThisFile": []
+  },
+  "vt9Read": {
+    "verifier": "FABLE-VT9 (independent; built none of these packets)",
+    "readAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+    "note": "Per-row verifiedAtBase, not a document-level base: these files are shared with other lanes and a document base would stamp this commit onto their older rows.",
+    "familiesReadHere": [
+      "ms-nonadj-set",
+      "ny_160_59_petition-set"
+    ],
+    "corpusMounted": true,
+    "corpusMountEvidence": "scripts/rcap-corpus/bootstrap-private-corpus.sh mounted the pinned Master Library in this container: archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 verified, 51 jurisdictions / 499 files / 329 PDFs, governance checksums verified. All 329 entries of data/rcap-all50/local-source-corpus-index.json were rehashed here from the mounted bytes: 329 matched, 0 mismatched, 0 absent.",
+    "obligationSet": [
+      "ROUTE_IDENTITY",
+      "SOURCE_IDENTITY",
+      "COMPONENT_SET",
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING",
+      "ROUTE_OPTIONS",
+      "REPEATING_ROWS",
+      "PROTECTED_FIELDS",
+      "ARTIFACTS",
+      "PAGE_ORDER",
+      "CLIPPING_AND_OVERLAP",
+      "FILING_DESTINATION",
+      "FEE_AND_WAIVER",
+      "SERVICE",
+      "SELF_HELP_STOP"
+    ],
+    "measuredBy": "All fifteen obligations scored on every family from the committed artifacts and the mounted corpus. The nine counters come from running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container, not from any builder report. Artifact and source hashes were recomputed from bytes here. Page counts came from pdfinfo and clipping from a pdftotext -bbox word-geometry read of every delivered fixture against its own page media box and, where the family binds an official form, against the pristine source form from the mounted corpus.",
+    "verdictsHere": {
+      "PASS_COMPLETE_INDEPENDENT": 1,
+      "FAIL_REPAIR_REQUIRED": 1
+    },
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "packetsModified": 0,
+    "overlayDirectoriesModified": 0
   }
 }
