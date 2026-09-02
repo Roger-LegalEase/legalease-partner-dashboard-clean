@@ -6918,6 +6918,143 @@
         "no file inside the family's overlay directory"
       ],
       "grantsNothing": "A BLOCKED_BEFORE_CLAIM row is a statement about this lane, not about this packet. It proves nothing about the family, supersedes no standing verdict, and opens no route."
+    },
+    {
+      "itemId": "ca-prop64-set",
+      "lane": "VF02",
+      "wave": "packet-factory-24h — VF02 re-dispatch read at 247b790b6",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "247b790b6",
+      "verifier": "VF02 (independent-verification; this lane did not build, repair, render or previously read this family — no VF02 row has ever named ca-prop64-set)",
+      "claim": {
+        "asserted": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 ca-prop64-set",
+        "exitCode": 0,
+        "result": "CLAIM_OK VF02 ca-prop64-set (independent-verification, grant set 8534744b1771d813)"
+      },
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family ca-prop64-set — PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind 3/3 by exact SHA-256",
+      "measuredBy": "the fifteen proof obligations measured in this checkout, and the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here without --write, rather than read from any builder report",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredHere": true,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Two rendered variants, hs-11361-8-completed-sentence-application and hs-11361-8-currently-serving-petition, carry the two route keys the record names for a filing: prop-64-completed-sentence-application-11361-8 and prop-64-currently-serving-petition-11361-8. Every packet, document and artifact entry stamps its own routeKey and they match.",
+          "evidence": "The family names a third route key, obligation:track-pathway:CA:ca-prop64:tool-5-proposition-64-marijuana-relief, which ships no variant. I checked whether that is a gap and it is not: the compiled California profile defines tool-5 as routeType 'automatic', filingRequired false, suggestedResultCode 'guidance_only', with lawrenceRatification packet_capable false and paymentAllowed false. It is the automatic H&S 11361.9 / AB 1793 branch, which owes no petition packet. A family that shipped a filing for it would be the defect."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three bound sources recomputed byte-for-byte from the Master Library corpus, not read from source-receipt.json.",
+          "evidence": "sha256sum over MASTER_LIBRARY_SOURCE_DIR/STATES/CA/02_PACKET_FORMS: CR-400 d325bb75f5a90b7864eab8fa43a905db7f2a9c233bb89fe412f609dee9ab35a1 (82246 bytes), CR-401 394421959966e27833ddd481cc39b969abd788b4119b47a3670de2d2ddb05d01 (80276), CR-403 b0ecaeb4fc761feb6afe22b7c848e811a1028c8b4d1432e803c67112a347baff (102018). Each equals the pinned digest and pinned byte length in MASTER_QUEUE.json, source-receipt.json and product-wiring.json binding.sourceVersion."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three declared components are rendered and present in all four packets: primary_filing (CR-400), proof_of_service (CR-401), proposed_order (CR-403).",
+          "evidence": "Twelve files on disk across four fixture directories, three per packet, listed by name in each packet's documents array. Directory listing matches the manifest exactly; nothing extra and nothing absent."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Three known facts are written, and I read each of them off the rendered page rather than off the write log: county (matter.county), case number (matter.case_number) and defendant name (participant.full_legal_name), all in the CR-400 caption on page 1 where the form prints them.",
+          "evidence": "pdftotext -layout and a 110 dpi pdftoppm render of the canonical CR-400 show 'SUPERIOR COURT OF CALIFORNIA, COUNTY OF Example County', 'CASE NUMBER: 24-CR-001234', 'DEFENDANT: Jordan Avery Reyes'. The boundary fixture writes the same three facts at maximum length. The filled PDFs carry no AcroForm — the values are in the page content stream, so they are visible ink rather than field values a viewer might not paint."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 25 declared REQUIRED_BEFORE_FILING items are named in participant-instructions.md, checked field name by field name against the file.",
+          "evidence": "production-field-map.json declares requiredBeforeFilingCount 25 and carries exactly 25 refusal rows with blankTreatment REQUIRED_BEFORE_FILING, every one on CR-401. Matching each row's field name against the instructions file returned 0 not named. They appear in the 'The blanks you must fill in' table with the page, the field name and the words the form prints beside the blank."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Every route-determined election is selected, and only those. Each variant marks exactly two boxes, and they are the mirror image of the other variant's two.",
+          "evidence": "Read off the rendered page, not the selection log. Completed-sentence variant: 'REDESIGNATION OR DISMISSAL/SEALING (§ 11361.8(f))' and item 2.b APPLICATION. Currently-serving variant: 'RESENTENCING OR DISMISSAL (§ 11361.8(b))' and item 2.a PETITION. Items 1.a-e, 3 and 4 are printed unmarked in both, which is right — the offence sections and the two rights waivers are the participant's to elect, and the instructions say so in terms."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No row carries written cells beside required cells left blank. CR-400 has no repeating row grid; its 1.a-e list is five independent elections, all printed unmarked, so no partially written row exists.",
+          "evidence": "incompleteRows 0 measured here, corroborated by the rendered page: no offence-section box carries a mark and no offence line carries text."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink.",
+          "evidence": "On the rendered CR-400 the Date line, the (TYPE OR PRINT NAME) line, the signature line and both FOR COURT USE ONLY blocks (DATE, TIME, DEPARTMENT) are blank, as is the whole attorney block. CR-401, the proof of service and certificate of mailing, and CR-403, the court's own order, are byte-identical to the blank official sources — their recomputed hashes equal the pinned source hashes exactly, so they carry no ink at all. protectedWrites 0 measured here. The field map classes 68 fields court_prosecutor_clerk_or_agency_owned and 2 signature_or_date_participant_completion, all REFUSE."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All twelve canonical and boundary artifacts hash to what the record names, recomputed from the bytes on disk.",
+          "evidence": "SHA-256 and byte length recomputed for each of the 12 entries in reports/rendered-artifacts.json: 12 checked, 0 mismatches. canonicalAndBoundaryPerVariant is true and both fixtures exist for both variants."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The rendered page order matches the packet manifest: CR-400 primary filing, then CR-401 proof of service, then CR-403 proposed order, in that order in every packet.",
+          "evidence": "Page counts read from the bytes with pdfinfo — CR-400 1 page, CR-401 1 page, CR-403 2 pages — match pageCount in every artifact entry, and each packet's documents array lists the three files in manifest order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No ink outside a measured write box, including under boundary-length values.",
+          "evidence": "I rendered the canonical and boundary CR-400 at 110 dpi and looked at them. The boundary fixture writes 'Saint Bartholomew and the Northern Reaches County', a 36-character case number and a 63-character defendant name; each shrinks to fit and stays inside its caption cell, clear of the printed rules and of the neighbouring FOR COURT USE ONLY column. visualDefects 0 and invisibleWrites 0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The instructions name the court the route names, and name it the same way.",
+          "evidence": "The build worklist records filingDestination for both routes as 'Superior Court of the county of conviction.' The instructions say 'File CR-400 in the Superior Court of the county of conviction, with CR-401 proof of service and the proposed CR-403 order.' The worklist records no filing deadline, and the instructions say so rather than inventing one."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The fee and the waiver route are both stated, each on a named record.",
+          "evidence": "The instructions state $0 and cite the compiled California profile line in terms; I found that line in src/lib/rcap-engine/compiled/profiles/CA-california.json as 'Prop 64 marijuana relief $0 Largely automatic'. They scope it to this route and refuse to read it across from the petition-based dismissals priced separately in the same table. The worklist records filingFee as not_recorded, so the fee statement rests on the profile rather than on the worklist, and the packet says which record it relies on. feeWaiverTreatment is recorded as 'FW-001 is the general California fee waiver form' and the instructions say exactly that, add that FW-001 is not part of this packet and is not filled in, and tell the participant to ask the clerk if money is demanded at the counter."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet names who must be served, ships the proof that proves it, and states openly that the method and the deadline are not established rather than inventing either.",
+          "evidence": "serviceRecipients is recorded as 'Serve the prosecuting agency and file CR-401 proof of service' and the instructions say precisely that. serviceMethod and serviceTiming are both not_recorded in the worklist; the instructions say the repository does not establish them, print no rule for either, and send the participant to the clerk of the Superior Court in the county of conviction. The personal-service and mail elections on CR-401 are listed as boxes the participant marks. The instructions also order the steps — serve first, then complete the proof, never the other way round."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet states where self-help ends, twice, and in the registry's own words.",
+          "evidence": "'When to stop and take this to a lawyer' lists a prosecuting-agency response at CR-402, a contested hearing, and unclear qualification under § 11361.8, then quotes the registry line that a routine hearing does not block the initial packet while a CR-402 response or a contested hearing triggers handoff. I found that sentence verbatim in the committed build worklist. A closing section states that payment methods and local intake rules come from the clerk, that the packet does not decide eligibility, does not appear for the participant, and is not legal advice."
+        }
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/ — all 44 files, including the 12 fixture PDFs read as bytes",
+        "participant-instructions.md, production-field-map.json, product-wiring.json, source-receipt.json, reports/rendered-artifacts.json, reports/packet-evidence.json",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CA/02_PACKET_FORMS — the three official PDFs, hashed",
+        "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json (this family's deliverable record)",
+        "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json (the third route key)",
+        "src/lib/rcap-engine/compiled/profiles/CA-california.json (the tool-5 pathway definition and the fee line)"
+      ],
+      "notMyVerdictToMake": {
+        "rasterEnrolment": "MASTER_QUEUE.json records verificationLapsedBecause RASTER_NOT_ENROLLED for this family: 8 of its 12 queued documents will not open in the parser the raster gate counts pages with, because the CR-401 and CR-403 official bytes are unreadable to pdf-lib. That is a live L4 problem and it is why this family cannot reach COMPLETE_PACKET_PROVEN on my verdict alone. It is not a completeness defect and it does not change this verdict: I counted those pages with poppler instead, which opens them, and every artifact hash matched.",
+        "whatItMeans": "A PASS_COMPLETE_INDEPENDENT proves the packet contains everything a filing needs. It does not supply the hash-bound raster receipt L4 requires, and it opens no route."
+      },
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "An independent PASS proves a packet is complete. It approves no output, promotes no family and opens no commercial route.",
+      "failedObligationNames": []
     }
   ],
   "vt1Read": {
