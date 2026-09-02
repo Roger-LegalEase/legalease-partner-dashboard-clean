@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ma-expunge-time-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The committed corpus index records this source as acroFormPresent false, acroFieldCount 0, structuralClassObserved flat_pdf, and the pinned binary agrees. There is no AcroForm to fill.",
+      "consequence": "Every value is drawn as a measured overlay into a write box placed by reading the form's own printed text runs and their x extents at each caption's baseline, so nothing this build draws can land on the form's own words. The byte proof reads the ink back as page text with the source's printed text at the same coordinates subtracted, because a flat overlay leaves no widget to read."
+    },
+    {
+      "finding": "Three of the four participant-facing obligations are answered by the form's own page-2 instruction sheet: where to file (Office of the Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108), who notifies the district attorney (that office does, not the participant), and when a hearing is held (on objection, or at the Court's discretion). The compiled Massachusetts profile and the intake record agree on the destination for this exact route.",
+      "consequence": "The packet states each of them outright rather than naming an authority to ask. It also tells the participant NOT to serve the district attorney, because inventing that obligation would contradict a document the participant is holding."
+    },
+    {
+      "finding": "No held source establishes a filing fee or a waiver route. The intake record records 'None identified in the review' and 'None identified'; the form's two pages state no fee; and the compiled Massachusetts profile carries exactly one dollar figure anywhere — a $50 threshold for minor motor-vehicle offences under § 100A, which is a different section answering a different question.",
+      "consequence": "The packet says no held source establishes a fee and names the office that answers it — the Office of the Commissioner of Probation at One Ashburton Place, Room 405, Boston, MA 02108, which is the same office the petition is sent to and is identified well enough to reach. The § 100A $50 figure is not read onto this route."
+    },
+    {
+      "finding": "The form asks for race, ethnicity, gender and a Social Security number. The platform does not collect race or ethnicity, does not hold a gender, and does not hold a Social Security number.",
+      "consequence": "All four are declared blanks, and the instructions say in terms that they were left blank because the platform does not collect or hold them rather than by omission. A packet that guessed a participant's race would be a serious defect; one that silently left the blanks without saying why would be a smaller one."
+    },
+    {
+      "finding": "The form asks for the mailing address split across Mailing Address, City, State and Zip, and the platform holds it as a single line. A first pass wrote the whole line into the street blank. THE BOUNDARY FIXTURE DISPROVED THAT: the long-address participant's 79-character address needs 242.3 points at the minimum legible font size and the measured blank is 171 points wide, so the finalizer correctly refused it and that fixture silently lost the participant's address while the canonical fixture kept it.",
+      "consequence": "All four address parts are now declared blanks the participant transcribes. A packet that writes an address when it happens to be short and drops it when it is long is worse than one that asks for it consistently, and splitting the single line by guessing where the street ends would invent structure the platform does not have. The finding is recorded rather than repaired away because the boundary fixture is what caught it."
+    },
+    {
+      "finding": "The three section boxes cover §§ 100F, 100G and 100H, and this family covers all three. The route's two obligations are staged — the Commissioner's certification and the court's determination — not a choice between statutes.",
+      "consequence": "The section box is declared required-before-filing with routeDetermined false, and no box is marked. Which section applies follows from the participant's own record, which the platform has not seen."
+    }
+  ]
+}
