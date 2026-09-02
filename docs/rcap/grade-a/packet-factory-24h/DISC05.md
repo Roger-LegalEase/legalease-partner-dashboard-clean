@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `859624e9f9bef14b79a1099086fba6b4a14e4e35` (or the newer dispatch base)
+**Minimum required ancestor:** `ca0a6e7127e428fa4e1d3dfe273e097595993874` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC05 \
-  --source-obligation 'ia-12346-set::official-form:Certification of Service by Mailing or Delivery' \
+  --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' \
   --codex-cloud \
-  --minimum-captain-sha 859624e9f9bef14b79a1099086fba6b4a14e4e35
+  --minimum-captain-sha ca0a6e7127e428fa4e1d3dfe273e097595993874
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC05 <itemId>`
-- The committed assignment contains exactly 15 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 13 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC05 <itemId>`.
 
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**15 obligations · 7 families this lane WOULD release if every one of them resolves · hosts: IA, ND**
+**13 obligations · 6 families this lane WOULD release if every one of them resolves · hosts: AR, DE, ND**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -105,29 +105,27 @@ the issuing court or agency that publishes the document
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `ia-12346-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-12346-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-12346-set::official-form:Rule 2.86 Form 3` | `official-form:Rule 2.86 Form 3` | IA | `exact-source-identity` | `ia-12346-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-12347-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-12347-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-7251-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-7251-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-901c2-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-901c2-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-901c2-set::official-form:Rule 2.86 Form 1` | `official-form:Rule 2.86 Form 1` | IA | `exact-source-identity` | `ia-901c2-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-901c3-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-901c3-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-901c3-set::official-form:Rule 2.86 Form 2` | `official-form:Rule 2.86 Form 2` | IA | `exact-source-identity` | `ia-901c3-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-901c3-set::official-form:Rule 2.86 Form 2 attached sheet` | `official-form:Rule 2.86 Form 2 attached sheet` | IA | `exact-source-identity` | `ia-901c3-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-dci77-set::official-form:DCI-76 Criminal History Record Check Billing Form` | `official-form:DCI-76 Criminal History Record Check Billing Form` | IA | `exact-source-identity` | `ia-dci77-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-dci77-set::official-form:DCI-77 Criminal History Record Check Request Form` | `official-form:DCI-77 Criminal History Record Check Request Form` | IA | `exact-source-identity` | `ia-dci77-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | `official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | AR | `exact-source-identity` | `ar-act346-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-drug-court-set::official-form:ACIC-ORDER-DRUG-COURT` | `official-form:ACIC-ORDER-DRUG-COURT` | AR | `exact-source-identity` | `ar-drug-court-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-drug-court-set::official-form:ACIC-PETITION-DRUG-COURT` | `official-form:ACIC-PETITION-DRUG-COURT` | AR | `exact-source-identity` | `ar-drug-court-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-felony-seal-set::official-form:ACIC-UNIFORM-ORDER-TO-SEAL` | `official-form:ACIC-UNIFORM-ORDER-TO-SEAL` | AR | `exact-source-identity` | `ar-felony-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-felony-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | `official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | AR | `exact-source-identity` | `ar-felony-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-ORDER-TO-SEAL` | `official-form:ACIC-UNIFORM-ORDER-TO-SEAL` | AR | `exact-source-identity` | `ar-misdemeanor-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | `official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | AR | `exact-source-identity` | `ar-misdemeanor-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-veterans-court-set::official-form:ACIC-ORDER-VETERANS-COURT` | `official-form:ACIC-ORDER-VETERANS-COURT` | AR | `exact-source-identity` | `ar-veterans-court-set` | unresolved exact identity or URL | `ACQ` |
+| `de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | `official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | DE | `exact-source-identity` | `de_mandatory_expungement-set` | unresolved exact identity or URL | `ACQ` |
 | `nd-prohibit-remote-public-access-set::official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS` | `official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS` | ND | `exact-source-identity` | `nd-prohibit-remote-public-access-set` | unresolved exact identity or URL | `ACQ` |
 | `nd-prohibit-remote-public-access-set::official-form:ND-DECLARATION-OF-SERVICE` | `official-form:ND-DECLARATION-OF-SERVICE` | ND | `exact-source-identity` | `nd-prohibit-remote-public-access-set` | unresolved exact identity or URL | `ACQ` |
 | `nd-prohibit-remote-public-access-set::official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS` | `official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS` | ND | `exact-source-identity` | `nd-prohibit-remote-public-access-set` | unresolved exact identity or URL | `ACQ` |
 | `nd-prohibit-remote-public-access-set::official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS` | `official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS` | ND | `exact-source-identity` | `nd-prohibit-remote-public-access-set` | unresolved exact identity or URL | `ACQ` |
 
-Deterministically assert exactly the 15 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 13 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='DISC05');
-if (!a || a.items.length !== 15) throw new Error('DISC05 committed item count changed');
+if (!a || a.items.length !== 13) throw new Error('DISC05 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','DISC05',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -139,7 +137,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source-obligation 'ia-12346-set::official-form:Certification of Service by Mailing or Delivery' --codex-cloud --minimum-captain-sha 859624e9f9bef14b79a1099086fba6b4a14e4e35
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' --codex-cloud --minimum-captain-sha ca0a6e7127e428fa4e1d3dfe273e097595993874
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -148,7 +146,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source
 
 ### Families this lane would release
 
-`ia-12346-set`, `ia-12347-set`, `ia-7251-set`, `ia-901c2-set`, `ia-901c3-set`, `ia-dci77-set`, `nd-prohibit-remote-public-access-set`
+`ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-veterans-court-set`, `de_mandatory_expungement-set`, `nd-prohibit-remote-public-access-set`
 
 
 ### Settle these first
@@ -157,8 +155,11 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source
 
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
-| Certification of Service by Mailing or Delivery | IA | 5 |
-| DCI-76 Criminal History Record Check Billing Form | IA | 1 |
+| ACIC-UNIFORM-ORDER-TO-SEAL | AR | 2 |
+| ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS | AR | 1 |
+| ACIC-ORDER-DRUG-COURT | AR | 1 |
+| ACIC-ORDER-VETERANS-COURT | AR | 1 |
+| DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION | DE | 1 |
 | ND-BRIEF-PROHIBIT-PUBLIC-ACCESS | ND | 1 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
