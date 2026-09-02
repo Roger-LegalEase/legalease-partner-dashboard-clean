@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-rows/v1",
  "lane": "VF10",
  "laneKind": "independent-verification",
- "generatedAtBase": "73aee695aaf7ee0aa7a1fcd69e26614e0d640bd0",
+ "generatedAtBase": "6d26f6b5508f860f6ae1e168eca9b1faf545a48b",
  "verifier": "FABLE-VT5 (independent; built none of these packets)",
  "preflight": "claims asserted per subject via claim.mjs --assert before any artifact was read; every assertion returned CLAIM_OK",
  "obligationSet": [
@@ -25,11 +25,12 @@
  "standardApplied": {
   "measuredHere": "Every obligation below was measured in this lane from the committed artifacts at the base sha named above. No counter was copied from a builder self-report; where a builder report is cited it is cited as the thing being checked. Artifact hashes were recomputed, page counts were read from the PDF bytes with pdfinfo, every recorded write value was searched for in text extracted from the fixture bytes, and word geometry was extracted with pdftotext -bbox and checked against the page box and against every same-band word pair.",
   "SOURCE_IDENTITY": "Met only by recomputing every bound source hash from the source bytes. The Master Library is not mounted in this container, so families that bind corpus bytes are NOT_MEASURABLE_HERE; families that bind only committed repository records were rehashed here and can pass.",
-  "FILING_DESTINATION": "Met when the participant-facing instructions, or a participant-facing page of the packet, name the court, clerk or agency the route names. A prefilled caption identifying a court type is evidence but is not on its own the instructions naming a destination.",
-  "FEE_AND_WAIVER": "Met when the packet states the filing fee AND a waiver route. A fee printed on a form the packet fills and selects counts as stated; a statute stating that no fee is payable counts as stated, and where no fee is payable there is no waiver to name. An instruction to ask someone what the fee is does not count.",
-  "SERVICE": "Met when the packet states who must be served and by what method. A rule that the participant serves nobody, stated affirmatively with the mechanism that replaces it, counts. An instruction to ask the clerk who must be served does not.",
+  "FILING_DESTINATION": "Met when the participant-facing instructions, or a participant-facing page, name the court, clerk or agency the route names. A prefilled caption identifying a court type is evidence but is not on its own the instructions naming a destination. DET-FEE-AND-WAIVER-001 extends its named-authority reasoning to FEE_AND_WAIVER and SERVICE and does not reach this obligation, so it is scored as before; where that boundary changes a finding in these lanes it is flagged in the finding itself.",
+  "FEE_AND_WAIVER": "Settled by DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) and applied here in place of this lane's earlier reading. Met by a sourced amount, by a sourced statement that no fee is charged, or by stating that no held source establishes the fee AND naming a specific checkable authority the participant can actually reach. Not met by silence - no amount, no no-fee statement, no office to ask - nor by a gesture that names nobody. The obligation is that the participant can find out what filing costs, not that the repository knows the figure.",
+  "SERVICE": "Met when the packet states who must be served and by what method. Per DET-FEE-AND-WAIVER-001, which extends the same reasoning to this obligation, a named checkable authority standing in for a rule no held source establishes satisfies it; so does a rule that the participant serves nobody, stated affirmatively with the mechanism that replaces it. Silence, or a direction to ask an office the packet does not name, does not.",
   "SELF_HELP_STOP": "Met when the packet states where the platform stops and the participant or a lawyer takes over - which facts it will not supply, which fields it will not sign, and that the artifact carries no approval.",
-  "contractNote": "Lane contract L9 requires that a PASS_COMPLETE_INDEPENDENT verdict score all fifteen canonical obligations by name. An earlier pass by this verifier scored a seven-item subset and is superseded by this one; git history preserves it. data/rcap-grade-a/packet-factory-24h/VERMONT_REPAIR.json records that FILING_DESTINATION was once scored FAIL by two verifiers and PASS by a third on identical bytes, so the standard applied here is stated above rather than left implicit."
+  "contractNote": "Lane contract L9 requires that a PASS_COMPLETE_INDEPENDENT verdict score all fifteen canonical obligations by name. An earlier pass by this verifier scored a seven-item subset and is superseded by this one; git history preserves it. data/rcap-grade-a/packet-factory-24h/VERMONT_REPAIR.json records that FILING_DESTINATION was once scored FAIL by two verifiers and PASS by a third on identical bytes, so the standard applied here is stated above rather than left implicit.",
+  "determinationApplied": "DET-FEE-AND-WAIVER-001, decided 2026-09-02. Six families were returned to this lane for re-examination. Four move to PASS; the two Kentucky families keep FAIL_REPAIR_REQUIRED on ROUTE_IDENTITY and FILING_DESTINATION, which are independent of the fee question, and their FEE_AND_WAIVER and SERVICE findings are reversed."
  },
  "overlayDirectoriesModified": 0,
  "commercialRoutesOpened": 0,
@@ -38,13 +39,10 @@
  "rows": [
   {
    "itemId": "dc_correct_misattributed_arrest-set",
-   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verdict": "PASS",
    "familyDirectory": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading",
    "obligationsScored": 15,
-   "failedObligations": [
-    "FEE_AND_WAIVER",
-    "SERVICE"
-   ],
+   "failedObligations": [],
    "unmeasuredObligations": [
     "SOURCE_IDENTITY"
    ],
@@ -255,19 +253,23 @@
      }
     },
     "FEE_AND_WAIVER": {
-     "result": "FAIL",
-     "finding": "The packet states no filing fee and no waiver route. participant-instructions.md records under \"Things the platform deliberately left blank\": \"Any filing fee or fee-waiver answer. No held source states a fee, that filing is free, or a waiver procedure - ask the Criminal Division clerk's office (202-879-1373) before filing.\" The packet face repeats the delegation. Under the standard this lane applies, an instruction to ask the clerk what the fee is does not state the fee, and no waiver route is named at all. The disclosure is honest and is the right refusal on unsourced facts - it is still an unmet obligation, and the approval-request already raises it as a counsel question. Repair: obtain the Criminal Division's fee answer for a 16-806(g) motion and the in forma pauperis route, and state both.",
+     "result": "PASS",
+     "finding": "Re-examined against DET-FEE-AND-WAIVER-001 and reversed. This family carries, word for word, the sentence the determination names as its proven case: \"Any filing fee or fee-waiver answer. No held source states a fee, that filing is free, or a waiver procedure - ask the Criminal Division clerk's office (202-879-1373) before filing.\" That is the third met clause exactly - the packet states that no held source establishes the fee AND names a specific checkable authority the participant can reach, an office with a street address (500 Indiana Avenue NW, Room 4001) and a telephone number, with the Seal Team at criminalmotionsealteam@dcsc.gov named alongside it. It is not the \"check with the court\" gesture the standard excludes, because it names who answers. My earlier FAIL demanded a figure the repository does not hold, which is the invention every other rule here forbids; dc_seal_fugitive-set passed on this identical sentence, and a family's terminal state cannot turn on which verifier read it.",
      "evidence": {
       "participantInstructions": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/participant-instructions.md",
-      "readInThisLane": true
+      "textQuotedFromTheFileInThisLane": "Any filing fee or fee-waiver answer. No held source states a fee, that filing is free, or a waiver procedure - ask the Criminal Division clerk's office (202-879-1373) before filing.",
+      "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+      "standardClause": "theStandard.met[2]"
      }
     },
     "SERVICE": {
-     "result": "FAIL",
-     "finding": "The packet states neither the recipient nor the method. The prosecutor_service page prints \"WHICH OFFICE, AND WHERE, IS NOT STATED HERE\" and leaves the office and address for the participant to obtain from the clerk; the instructions repeat that no held source states the routing rule between the U.S. Attorney's Office and the Office of the Attorney General. No service method is stated anywhere. Refusing to guess a recipient is right; the obligation is still unmet. Repair: establish the prosecuting-office routing rule and service addresses, and state the method the Criminal Division requires.",
+     "result": "PASS",
+     "finding": "Re-examined under the determination's extension to SERVICE and reversed. A named checkable authority stands in for a rule no held source establishes, for both halves of the obligation. Recipient: the instructions say to serve the prosecuting office after asking the Criminal Division clerk's office (202-879-1373) or the Seal Team \"which office prosecuted your case and its correct service address\", and the packet face repeats it with the clerk's street address; the two candidate offices are named by name (the U.S. Attorney's Office for the District of Columbia and the Office of the Attorney General for the District of Columbia), so what the participant asks for is which of two named offices applies, not who to serve in the abstract. Method: the service page directs that the certificate be completed when the copy goes out \"in the manner the clerk directs\" - the same named authority. The packet declines to guess the routing rule because no held source states it, which is the honest refusal this factory requires, and it names the office that answers.",
      "evidence": {
       "participantInstructions": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/participant-instructions.md",
-      "readInThisLane": true
+      "textQuotedFromTheFileInThisLane": "Serve the prosecuting office, using the service page, after asking the Criminal Division clerk's office (202-879-1373) or the Seal Team which office prosecuted your case and its correct service address.",
+      "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+      "standardClause": "theStandard.met[2]"
      }
     },
     "SELF_HELP_STOP": {
@@ -280,16 +282,16 @@
       "commercialRoutesOpened": 0
      }
     }
-   }
+   },
+   "reExaminedUnder": "DET-FEE-AND-WAIVER-001",
+   "whyNotTheStrongestVerdict": "Every obligation this lane could measure passes. SOURCE_IDENTITY could not be measured in this container, and a PASS_COMPLETE_INDEPENDENT verdict may carry none - so this row stops at PASS."
   },
   {
    "itemId": "ga-fo-active-pre2026-set",
-   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verdict": "PASS",
    "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading",
    "obligationsScored": 15,
-   "failedObligations": [
-    "FEE_AND_WAIVER"
-   ],
+   "failedObligations": [],
    "unmeasuredObligations": [
     "SOURCE_IDENTITY"
    ],
@@ -515,11 +517,13 @@
      }
     },
     "FEE_AND_WAIVER": {
-     "result": "FAIL",
-     "finding": "The packet states no fee figure and no usable waiver route. The instructions record: \"No statutory filing fee is identified for this petition... Whether any Georgia clerk charges a fee for such a filing is unresolved and county-specific, so this packet quotes no figure - ask the clerk... Whether the O.C.G.A. Sec. 9-15-2 pauper's-affidavit practice reaches a filing in a criminal case is likewise unresolved.\" Under the standard this lane applies, an instruction to ask the clerk does not state the fee, and a waiver route recorded as unresolved is not a stated waiver route. This is a weaker failure than a packet that simply omits the question - the packet reasons about it and refuses to invent a figure - but the obligation is unmet. Repair: resolve the clerk-fee and 9-15-2 questions for a filing in an existing criminal case and state both.",
+     "result": "PASS",
+     "finding": "Re-examined against DET-FEE-AND-WAIVER-001 and reversed. The packet states that no source establishes the fee and names the office that answers it: \"Whether any Georgia clerk charges a fee for such a filing is unresolved and county-specific, so this packet quotes no figure - ask the clerk of the court that ordered the First Offender sentence before filing.\" The waiver question is handled the same way and sent to the same clerk: whether the O.C.G.A. Sec. 9-15-2 pauper's-affidavit practice reaches a filing in a criminal case is recorded as unresolved, \"ask the same clerk\". The authority named is specific and reachable rather than a gesture - it resolves to exactly one office for this participant, the clerk of the court that sentenced them, which the same instructions elsewhere identify as the holder of their case papers and the confirmer of the court and county. The packet also states affirmatively what it does know: no statutory filing fee is identified for this petition, because it is a filing in an existing criminal case rather than a new civil action.",
      "evidence": {
       "participantInstructions": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/participant-instructions.md",
-      "readInThisLane": true
+      "textQuotedFromTheFileInThisLane": "Whether any Georgia clerk charges a fee for such a filing is unresolved and county-specific, so this packet quotes no figure - ask the clerk of the court that ordered the First Offender sentence before filing.",
+      "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+      "standardClause": "theStandard.met[2]"
      }
     },
     "SERVICE": {
@@ -540,7 +544,9 @@
       "commercialRoutesOpened": 0
      }
     }
-   }
+   },
+   "reExaminedUnder": "DET-FEE-AND-WAIVER-001",
+   "whyNotTheStrongestVerdict": "Every obligation this lane could measure passes. SOURCE_IDENTITY could not be measured in this container, and a PASS_COMPLETE_INDEPENDENT verdict may carry none - so this row stops at PASS."
   },
   {
    "itemId": "ky_void_seal_controlled_substance-set",
@@ -549,9 +555,7 @@
    "obligationsScored": 15,
    "failedObligations": [
     "ROUTE_IDENTITY",
-    "FILING_DESTINATION",
-    "FEE_AND_WAIVER",
-    "SERVICE"
+    "FILING_DESTINATION"
    ],
    "unmeasuredObligations": [
     "SOURCE_IDENTITY"
@@ -794,26 +798,32 @@
     },
     "FILING_DESTINATION": {
      "result": "FAIL",
-     "finding": "The instructions never name where the motion is filed. Step 4 says \"File the motion with the tendered order\", which states what accompanies what, not where it goes; no line names the circuit court clerk or the county of conviction as the destination. The caption on the composed pages carries Jefferson Circuit Court, but under the standard this lane applies a prefilled caption is evidence, not the instructions naming a destination. The committed track registry states the destination plainly (\"Office of the Circuit Court Clerk... filed in the original criminal case in the county of conviction\"), so the fact is held and simply not carried into the participant-facing page. Repair: state it.",
+     "finding": "Kept on re-examination, and the ground is stated exactly. The instructions never name where the motion is filed: step 4 says \"File the motion with the tendered order\", which states what accompanies what, and no line says the filing goes to the circuit court clerk or to the county of conviction. The fact is held elsewhere in this repository - the committed legal-design track registry entry for ky_void_seal_controlled_substance states the destination in terms (\"Office of the Circuit Court Clerk... filed in the original criminal case in the county of conviction\", with the Clerks' Manual filing type recorded) - so this is a fact the build holds and does not carry onto the participant-facing page, and the repair is to state it. Boundary noted rather than decided: DET-FEE-AND-WAIVER-001 extends its named-authority reasoning to FEE_AND_WAIVER and SERVICE only, and this packet does name the circuit court clerk for the county in the caption as an authority to ask - about service and about the fee, not about where to file. If Captain extends that reasoning to FILING_DESTINATION, this finding should be revisited; on the determination as written it stands.",
      "evidence": {
       "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/participant-instructions.md",
-      "readInThisLane": true
+      "instructionLineNearestToADestination": "File the motion with the tendered order. The order goes to the judge with the motion; it is not filed on its own.",
+      "destinationHeldInCommittedRegistry": "data/record-clearing/legal-design-track-registry.json, track ky_void_seal_controlled_substance, destination.kind clerk, destination.name \"Office of the Circuit Court Clerk\"",
+      "determinationScope": "DET-FEE-AND-WAIVER-001 appliesTo: FEE_AND_WAIVER and, by the same reasoning, SERVICE"
      }
     },
     "FEE_AND_WAIVER": {
-     "result": "FAIL",
-     "finding": "The instructions state, under \"What this packet does not tell you\": \"The filing fee, and any deadline. Ask the same clerk. No amount and no number of days is stated here, because an unsourced figure in a filing instruction is worse than none.\" No amount, no waiver route. Repair: source the circuit-clerk fee for a KRS 218A.275 motion and the in forma pauperis route under KRS 453.190, and state both - the sibling Kentucky family ky_felony_vacatur_expungement-set already does exactly this.",
+     "result": "PASS",
+     "finding": "Re-examined against DET-FEE-AND-WAIVER-001 and reversed. The packet states that it does not hold the figure and names who does: \"The filing fee, and any deadline. Ask the same clerk. No amount and no number of days is stated here, because an unsourced figure in a filing instruction is worse than none.\" \"The same clerk\" is the authority named in the bullet immediately above it - the circuit court clerk for the county in the caption - and the caption is one the packet itself fills, so the office resolves to a determinate, reachable clerk rather than a gesture. The stated reason for withholding a figure is the same principle the determination endorses. This obligation no longer contributes to this family's failure.",
      "evidence": {
       "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/participant-instructions.md",
-      "readInThisLane": true
+      "textQuotedFromTheFileInThisLane": "The filing fee, and any deadline. Ask the same clerk. No amount and no number of days is stated here, because an unsourced figure in a filing instruction is worse than none.",
+      "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+      "standardClause": "theStandard.met[2]"
      }
     },
     "SERVICE": {
-     "result": "FAIL",
-     "finding": "The packet states in terms that it does not establish service: \"Who must be served, and how. This is not established by the order form this packet is built from, so the certificate of service is left blank for you and no recipient is named.\" The certificate of service page repeats it. Repair: establish the service rule for a KRS 218A.275 motion and name the recipient and method.",
+     "result": "PASS",
+     "finding": "Re-examined under the determination's extension to SERVICE and reversed. Both halves are delegated to one named, reachable authority rather than left blank. Recipient: \"Ask the circuit court clerk for the county in the caption who must receive a copy\", repeated on the certificate of service page itself. Method: the instructions state the ordinary options and the authority that settles them - \"by hand, by first-class mail, or whatever method the clerk tells you this filing requires\". The packet is explicit that the order form it is built from does not establish the service rule, which is why it names the clerk instead of inventing a recipient. This obligation no longer contributes to this family's failure.",
      "evidence": {
       "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/participant-instructions.md",
-      "readInThisLane": true
+      "textQuotedFromTheFileInThisLane": "Ask the circuit court clerk for the county in the caption who must receive a copy, then complete the certificate at the time you actually send it.",
+      "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+      "standardClause": "theStandard.met[2]"
      }
     },
     "SELF_HELP_STOP": {
@@ -826,7 +836,9 @@
       "commercialRoutesOpened": 0
      }
     }
-   }
+   },
+   "reExaminedUnder": "DET-FEE-AND-WAIVER-001",
+   "smallestExactRepair": "Two repairs, both in the field map and the instructions, neither in the rendered legal text, and the fee and service findings are no longer among them. (1) Re-key production-field-map.json and participant-instructions.md from obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal - a key with zero occurrences in the canonical route universe - to the canonical obligation:track-only:KY:ky_void_seal_controlled_substance that product-wiring.json and the MASTER_QUEUE row already carry, and rerender so the printed Route: line matches. (2) State the filing destination on the participant-facing page; the committed track registry already holds it."
   },
   {
    "itemId": "ut_pet_no_charges-set",
@@ -1399,5 +1411,11 @@
    }
   }
  ],
- "supersessionNote": "The prior VF10 FAIL row for ut_pet_traffic-set is not carried here: that family was re-verified under this verifier's VF11 lane after repair commit 1c8007435, and its current verdict lives in vf11/rows.json. Git history preserves the prior row."
+ "supersessionNote": "The prior VF10 FAIL row for ut_pet_traffic-set is not carried here: that family was re-verified under this verifier's VF11 lane after repair commit 1c8007435, and its current verdict lives in vf11/rows.json. Git history preserves the prior row.",
+ "determination": {
+  "id": "DET-FEE-AND-WAIVER-001",
+  "path": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+  "appliedAt": "6d26f6b5508f860f6ae1e168eca9b1faf545a48b",
+  "effect": "FEE_AND_WAIVER and SERVICE re-examined on the six families the determination names. Reversals are recorded in the findings themselves; no other obligation was reopened and no artifact was re-measured, because the determination changes the yardstick and not the bytes."
+ }
 }
