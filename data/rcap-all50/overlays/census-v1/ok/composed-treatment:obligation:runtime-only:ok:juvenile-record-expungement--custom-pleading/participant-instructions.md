@@ -43,20 +43,15 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
-| Item C1 - exact route | Exact route — copied from the record itself, not from memory |
-| Item C2 - arrest/charge limitations | Arrest/charge limitations — copied from the record itself, not from memory |
-| Item C3 - prosecutor declination | Prosecutor declination — copied from the record itself, not from memory |
-| Item C4 - reversal/dismissal | Reversal/dismissal — copied from the record itself, not from memory |
-| Item C5 - dna innocence | DNA innocence — copied from the record itself, not from memory |
-| Item C6 - pardon | Pardon — copied from the record itself, not from memory |
-| Item C7 - deferred order and dismissal | Deferred order and dismissal — copied from the record itself, not from memory |
-| Item C8 - full-record versus court-record relief | Full-record versus court-record relief — copied from the record itself, not from memory |
-| Item C9 - reclassification date | Reclassification date — copied from the record itself, not from memory |
-| Item C10 - fine amount/payment | Fine amount/payment — copied from the record itself, not from memory |
-| Item C11 - trafficking nexus | Trafficking nexus — copied from the record itself, not from memory |
-| Item C12 - juvenile completion | Juvenile completion — copied from the record itself, not from memory |
-| Item C13 - vpo hearing/vacatur/death | VPO hearing/vacatur/death — copied from the record itself, not from memory |
-| Item C14 - portal/automatic status | Portal/automatic status — copied from the record itself, not from memory |
+| Item C1 - court and county where the juvenile record is located | the Oklahoma district court and county where the juvenile record is located - copy it from the juvenile court's own disposition, dismissal or closure order, or ask the clerk of that court |
+| Item C2 - juvenile case number | the case number of the juvenile case whose record is to be sealed - copy it from the juvenile court's disposition, dismissal or closure order |
+| Item C3 - nature of the disposition | which of informal adjustment, deferred adjudication, probation or custody the juvenile case ended in - copy it from the juvenile court's disposition order |
+| Item C4 - date of the disposition | the date the disposition was entered - copy it from the juvenile court's disposition order |
+| Item C5 - date the requirements were completed | the date every requirement of the informal adjustment, deferred adjudication, probation or custody was completed - copy it from the completion or discharge record, or from the written confirmation of the office that supervised it |
+| Item C6 - date the case was dismissed or closed | the date the juvenile case was dismissed or closed - copy it from the juvenile court's dismissal or closure order, which the committed contract names as a component of this packet |
+| Item C7 - adult matters pending | whether any adult arrest, charge, indictment or information is pending, and if so what and where - check it against a current Oklahoma State Bureau of Investigation criminal history record rather than answering from memory |
+| Item C8 - court costs, restitution, fines and ordered requirements | whether all court costs, restitution, fines and ordered requirements are completed, and the date the last was satisfied - copy it from the clerk's payment history or receipt for the juvenile case |
+| Item C9 - law-enforcement agency holding the related file | the law-enforcement agency or agencies holding the files related to this juvenile record - copy the agency name from the arrest or referral paperwork in the juvenile court file, or ask the clerk of that court |
 
 ## What you do, in order
 

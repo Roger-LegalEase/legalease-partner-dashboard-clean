@@ -12,9 +12,9 @@ This packet is one PDF published by the Coalition for Court Access and approved 
 
 This packet is built for one situation: **you were arrested and no criminal charges were ever filed.** The proposed order at the back records what the whole bundle is for — relief "for an arrest, criminal charge, or juvenile delinquency allegation that did not result in a conviction" — and paragraph 3 of the petition swears that no charges are currently pending against you and that you are not in a pretrial diversion programme. The committed record for this packet sets the waiting period as **one year** from the arrest, with no charges pending.
 
-## Read this first: three pages of this packet are missing, and the packet says so itself
+## Read this first: the bundle sends you to three insert pages, and they are in this packet
 
-**This bundle is not a complete filing on its own, and it tells you so in its own words, three times.** Where the petition's factual allegations should be, page 5 prints:
+**The Coalition for Court Access bundle is not a complete filing on its own, and it says so in its own words, three times.** Where the petition's factual allegations should be, page 4 prints:
 
 > Take out this page and insert your non-conviction **Facts** pages (from the Non Conviction Insert Forms)
 
@@ -24,11 +24,17 @@ and inside the proposed order, pages 10 and 11 print:
 >
 > Take out this page and insert your non-conviction **Exhibit** pages (from the Non Conviction Insert Forms)
 
-**Those insert forms are not in this packet and LegalEase does not hold them.** Without the Facts pages the petition alleges nothing about the arrest, charge or allegation you want expunged. Without the Findings pages the proposed order gives the judge nothing to find. Without the Exhibit pages there is no Exhibit A — and the order's own paragraph 1(a) says Exhibit A is where "all information necessary to identify particular agency records that are to be expunged pursuant to this Order" goes, as I.C. § 35-38-9-1(g) requires.
+**All three sets are in this packet.** They are the Coalition for Court Access Non Conviction Insert Forms, the second document here, four pages:
 
-**Get the Non Conviction Insert Forms from the body that publishes this packet.** Every page of this bundle carries the same footer: "Approved by the Coalition for Court Access — **www.indianalegalhelp.org**". That is where the insert forms are published, and it is printed on the paper in your hand.
+| Insert page | What it is | Which printed instruction it answers |
+| --- | --- | --- |
+| 1–2 | **FACTS PERTAINING TO EXPUNGEMENT MATTER** | the Facts pages, bundle page 4 |
+| 3 | **FINDINGS AS TO EXPUNGEMENT MATTER** | the Findings pages, proposed order page 10 |
+| 4 | **EXHIBIT A** | the Exhibit pages, proposed order page 11 — where "all information necessary to identify particular agency records that are to be expunged pursuant to this Order" goes, as I.C. § 35-38-9-1(g) requires |
 
-**Do not file this packet without them.**
+**Do exactly what the bundle says: take out each placeholder page and put the matching insert page in its place.** The insert pages are printed separately here so that you can.
+
+**Every blank on all four insert pages is yours to fill.** Nothing on them is filled in for you, and that is not an oversight — the reason is below, in the section headed "The insert pages".
 
 ## What this packet filled in, and what it did not
 
@@ -95,6 +101,24 @@ The committed route record for this packet states the statutory position: "The c
 | 7 | Form ACR — the certificate of service, both limbs | as above, **after you have served** |
 | 8 | Confidential Information Form — full Social Security Number (`PetFullSSN`) | your whole Social Security number. This form is filed as a confidential document |
 
+## The insert pages: everything on them is yours to write, and here is why
+
+**This packet writes nothing at all on the four insert pages, and the reason is in how the form is built rather than in what the platform holds.** The insert's boxes are shared by NAME across its own four pages: the same arrest-date, arresting-agency, county and offence-grid boxes carry *your* facts on pages 1–2, the *court's* findings on page 3, and Exhibit A on page 4. A PDF form field with several boxes holds one value, so anything this packet typed as your allegation would print, in the same breath, as the court's own finding. This family writes nothing below the proposed order's caption anywhere, and that refusal reaches every box on this insert. The Coalition for Court Access publishes these pages for you to complete.
+
+So fill all four insert pages by hand, from your court and arrest records and not from memory.
+
+| Insert page | The block on the form | The boxes inside the PDF | What to write |
+| --- | --- | --- | --- |
+| 1 | the arrest or summons block | `DD-ArrestOrSummons`, `ArrestDate`, `County`, `NameArrestingOfficer`, `ArrestingAgency`, `LEACaseNumber`, `Check Box15`, `Check Box17` | how the matter began, when, in which county, who arrested you, which agency, and that agency's own case number |
+| 1 | the charge block | `AssignedCaseNumber`, `DateChargesFiled`, `DD-HowChargesFiled`, `CauseNumber`, `DD-TypeChargesFiled` | the case number, the date and manner the charges were filed, the cause number and the type of charges |
+| 1 | the offence grid, counts 1 to 4 | `DD-CountNumber`, `OffenseDescript-Ct1`, `OffenseDescript-Ct2`, `OffenseDescript-Ct3`, `OffenseDescript-Ct4`, `DD-LevelChoice-Ct1`, `DD-LevelChoice-Ct2`, `DD-LevelChoice-Ct3`, `DD-LevelChoice-Ct4`, `DD-ChargeLevel-Ct1`, `DD-ChargeLevel-Ct2`, `DD-ChargeLevel-Ct3`, `DD-ChargeLevel-Ct4`, `DD-Misd/Felony-Ct1`, `DD-Misd/Felony-Ct2`, `DD-Misd/Felony-Ct3`, `DD-Misd/Felony-Ct4` | each count as your court record words it, with its level and whether it was a misdemeanour or a felony |
+| 1 | the disposition block | `DateChargesDismissed`, `DateAcquittal`, `AppellateCauseNumber`, `DateAppellateDecFinal`, `Check Box19`, `Check Box21`, `Check Box23`, `Check Box25`, `Check Box26` | how and when the matter ended, and any appellate cause number and final-decision date |
+| 2 | the related-matter block | `Check Box29`, `DescriptRelatedMatter`, `ListRelatedMCCauseNumbers` | whether there is a related matter, what it is, and its cause numbers |
+| 3 | **FINDINGS — leave the eight election boxes alone** | `Check Box16`, `Check Box18`, `Check Box20`, `Check Box22`, `Check Box24`, `Check Box27`, `Check Box28`, `Check Box30` | **nothing. These are the court's own findings.** The text blanks on page 3 carry the same values you write on pages 1–2 |
+| 4 | Exhibit A — who you are | `cap-PetitionerFullName`, `PetDOB`, `PetFullSSN`, `AliasNamesDOBsSSNs`, `AddressesSinceArrest` | your full name, date of birth, whole Social Security number, any other names, dates of birth or numbers you have used, and every address you have lived at since the arrest |
+| 4 | Exhibit A — the records to be expunged | `Criminal Cause Number`, `CountyCityArrest`, `Date of Dismissal` | the criminal cause number, the county and city of the arrest, and the date of dismissal |
+| 4 | Exhibit A — the offence grid and dispositions | `OffenseDescript-Exhibit-Ct5`, `OffenseDescript-Exhibit-Ct6`, `OffenseDescript-Exhibit-Ct7`, `DD-LevelChoice-Ct5`, `DD-LevelChoice-Ct6`, `DD-LevelChoice-Ct7`, `DD-ChargeLevel-Ct5`, `DD-ChargeLevel-Ct6`, `DD-ChargeLevel-Ct7`, `DD-Misd/Felony-Ct5`, `DD-Misd/Felony-Ct6`, `DD-Misd/Felony-Ct7`, `ChargeDisposition-Ct1`, `ChargeDisposition-Ct2`, `ChargeDisposition-Ct3`, `ChargeDisposition-Ct4`, `ChargeDisposition-Ct5`, `ChargeDisposition-Ct6`, `ChargeDisposition-Ct7` | any further counts, and the disposition of every count |
+
 ## What the platform deliberately left blank
 
 - **Every signature in the bundle, and every date beside one.** You make the statements; the petition's AFFIRMATION is made under penalties for perjury.
@@ -108,15 +132,26 @@ The committed route record for this packet states the statutory position: "The c
 
 This packet prepares official forms; it does not decide anything. Stop and get advice from a **lawyer licensed in Indiana**, or from the resources at **www.indianalegalhelp.org** — or put a procedural question to the **clerk of the court in the county in your caption**, who can say what the court requires even though the clerk cannot give legal advice — before filing, if any of these is true:
 
-- **you cannot obtain the Non Conviction Insert Forms**, or you are not sure which of them your case needs. Without them this is not a filing, and no part of this packet supplies them;
+- **you are not sure which of the insert pages your case needs, or how to complete them.** All four are in this packet, and every blank on them is yours to fill from your own court and arrest records;
 - **there will be a hearing and you are not ready for one.** The committed record for this packet records that "The court sets a hearing" on this route;
 - charges are currently pending against you, or you are participating in a pretrial diversion programme. Paragraph 3 of the petition swears that neither is true;
 - **less than a year has passed.** The committed record records the waiting period as one year from the arrest, charge or allegation, whichever is later — and records one exception: early filing is permitted on the **written agreement of the prosecuting attorney**. Obtaining that agreement is not something this packet does;
 - your case ended in a conviction. This packet is for an arrest, criminal charge or juvenile delinquency allegation that did **not** result in a conviction, and the proposed order says so on its face;
 - you want appellate records sealed. The petition and the order both have a place for appellate cause numbers and this packet writes neither, because an appellate cause number is issued by a different court and the platform holds none.
+- **the prosecutor objects or files a notice in opposition;**
+- **a victim submits a statement in opposition;**
+- the person has convictions in more than one county and the 365-day window is already partly consumed;
+- a conviction is not yet eligible and the person wants to file now, which is the Chastain trap;
+- the person has already filed a Sections 2 through 5 petition;
+- classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury;
+- **the person is a sex or violent offender or subject to registration;**
+- fines, fees, costs or restitution are unpaid or disputed;
+- **the record involves a commercial driver's licence and 49 C.F.R. 384.226;**
+- **immigration, firearm, licensing or CDL consequences are in play;**
+- the person wants to attack the underlying conviction rather than expunge it.
 
 ## What this packet is not
 
-This is a prepared copy of the Coalition for Court Access's own approved bundle, missing three sets of insert pages that the bundle itself directs you to add. It is not legal advice, it is not filed for you, and it does not decide whether your records can be expunged under I.C. § 35-38-9-1.
+This is a prepared copy of the Coalition for Court Access's own approved bundle together with the Non Conviction Insert Forms that the bundle directs you to add. It is not legal advice, it is not filed for you, and it does not decide whether your records can be expunged under I.C. § 35-38-9-1.
 
 _Route: obligation:track-pathway:IN:in_arrest_no_charges:non-conviction-arrest-or-criminal-charge-expungement — I.C. § 35-38-9-1(c), (a), (e), (f) and (k)_

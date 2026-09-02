@@ -704,6 +704,10 @@ This packet prepares one form; it does not decide anything. Stop, and get advice
 - you were charged by indictment or information within a year of the arrest, and you were neither acquitted nor had all charges dismissed — the statute printed on the form does not reach you;
 - you cannot obtain a certified court order of acquittal or dismissal. Without it the application is incomplete and will be returned;
 - your application is returned and you do not know why. Nothing in this packet or in any held record tells you what to do next, and the Criminal History Unit is the office that can.
+- **a § 19-2604 dismissal already happened or is being contemplated**, because the sequencing changes what relief remains. The committed track registry records this as a point where self-help ends, and it reaches a dismissal you are still considering as well as one already entered.
+- **the offense classification is genuinely unclear.**
+- **the record is federal, tribal, or from another state.** The Idaho State Police Criminal History Unit expunges Idaho records; an application about a record it does not hold cannot be acted on.
+- **immigration, professional licensing, peace officer employment, or firearm consequences are in play.**
 
 ## What this packet is not
 

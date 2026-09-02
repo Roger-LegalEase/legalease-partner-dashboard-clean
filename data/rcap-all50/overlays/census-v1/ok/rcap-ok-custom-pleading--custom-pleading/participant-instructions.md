@@ -10,47 +10,76 @@ The platform filled in what it holds about you: your name, your date of birth, y
 
 This packet carries more than one route. Use only the pages for the route that matches your own record, and leave the rest unused.
 
-| Instrument | When it is yours |
-| --- | --- |
-| Clear an Oklahoma record that is not yours | Where a record was created in the participant's name through identity theft, or otherwise identifies the wrong person, the section 18 identity-theft category with section 19a provides the route. |
-| Clear an Oklahoma case after a deferred sentence was dismissed | Where a deferred or delayed sentence has been completed and the case dismissed, the section 18 categories provide a petition route. |
-| Clear an Oklahoma felony conviction | The section 18 categories provide petition routes for felony convictions, including a reclassified-felony route with a short window that the review directs be screened before the longer routes, and a one-felony route carrying a separate-misdemeanour look-back. |
-| Clear an Oklahoma misdemeanor conviction | The section 18 categories provide petition routes for misdemeanour convictions on stated waiting periods and prior-record conditions. |
-| Clear an Oklahoma arrest that did not end in a conviction | The section 18 categories include records where the person was not charged, was acquitted, was factually innocent, or where the charge was dismissed. |
-| Clear an Oklahoma record after a pardon | A section 18 category provides a petition route following a pardon. |
-| Update an Oklahoma deferred sentence so the case shows as dismissed | A section 991c expungement updates the court record of a completed deferred sentence so the case shows as dismissed. |
-| Clear an Oklahoma protective order record | Title 22 section 60.18 provides for expungement of victim protective order records. |
+| Instrument | When it is yours | The declared routes this set serves |
+| --- | --- | --- |
+| Clear an Oklahoma record that is not yours | Where a record was created in the participant's name through identity theft, or otherwise identifies the wrong person, the section 18 identity-theft category with section 19a provides the route. | one declared route: `obligation:track-only:OK:ok_identity_theft` |
+| Clear an Oklahoma case after a deferred sentence was dismissed | Where a deferred or delayed sentence has been completed and the case dismissed, the section 18 categories provide a petition route. | **3 declared routes**, all served by this one set: `misdemeanor-deferred-dismissal-expungement`; `nonviolent-felony-deferred-dismissal-expungement`; `up-to-two-felony-deferred-dismissal-expungement` |
+| Clear an Oklahoma felony conviction | The section 18 categories provide petition routes for felony convictions, including a reclassified-felony route with a short window that the review directs be screened before the longer routes, and a one-felony route carrying a separate-misdemeanour look-back. | **3 declared routes**, all served by this one set: `felony-reclassified-as-a-misdemeanor`; `not-more-than-two-eligible-felony-convictions-expungement`; `one-eligible-nonviolent-felony-conviction-expungement` |
+| Clear an Oklahoma misdemeanor conviction | The section 18 categories provide petition routes for misdemeanour convictions on stated waiting periods and prior-record conditions. | **2 declared routes**, all served by this one set: `fine-only-misdemeanor-conviction-expungement`; `other-eligible-misdemeanor-conviction-expungement` |
+| Clear an Oklahoma arrest that did not end in a conviction | The section 18 categories include records where the person was not charged, was acquitted, was factually innocent, or where the charge was dismissed. All four are declared routes of one track and all four are served by this one set of pages, which is why the petition names all four in its footer rather than one of them. WHICH of the four you are on is a fact of your own record, and it changes the allegations you write on the petition - the committed generation requirements ask for the disposition and its date directly. If you cannot tell which, that is a question for a lawyer, not one to guess at. | **4 declared routes**, all served by this one set: `acquittal-dismissal-or-other-no-conviction-expungement`; `arrest-with-no-charges-filed`; `conviction-reversed-and-case-dismissed`; `dna-factual-innocence-expungement` |
+| Clear an Oklahoma record after a pardon | A section 18 category provides a petition route following a pardon. | one declared route: `pardon-based-expungement` |
+| Update an Oklahoma deferred sentence so the case shows as dismissed | A section 991c expungement updates the court record of a completed deferred sentence so the case shows as dismissed. | one declared route: `deferred-sentence-court-record-expungement-under-991-c` |
+| Clear an Oklahoma protective order record | Title 22 section 60.18 provides for expungement of victim protective order records. | one declared route: `victim-protective-order-record-relief` |
 
-Every page states its own route in its footer. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at.
+Every page states in its footer every declared route the set it belongs to serves, so the sixteen routes this family declares are the sixteen the pages name. Where a set serves more than one route, the routes share one instrument and differ in the facts you allege, not in the paper. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at.
 
 ## What is in this packet
 
 | Component | What it is |
 | --- | --- |
+| `ok_identity_theft-free-route-screen-1` | the page that asks, before anything is paid for, whether Oklahoma now seals this record without a petition (Clear an Oklahoma record that is not yours) |
 | `ok_identity_theft-primary-filing-2` | the composed petition, on this route's own statutory ground (Clear an Oklahoma record that is not yours) |
 | `ok_identity_theft-proposed-order-3` | the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma record that is not yours) |
-| `ok_identity_theft-filing-instructions-4` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an Oklahoma record that is not yours) |
+| `ok_identity_theft-record-gathering-instructions-4` | the records the committed registry requires the participant to obtain, who holds each and how (Clear an Oklahoma record that is not yours) |
+| `ok_identity_theft-fee-disclosure-5` | the fee and waiver position the committed registry records for this route, and the question it leaves open (Clear an Oklahoma record that is not yours) |
+| `ok_identity_theft-hearing-instructions-6` | where this is filed, who the court notifies, and where self-help ends at the hearing (Clear an Oklahoma record that is not yours) |
+| `ok_identity_theft-effect-disclosure-7` | the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Clear an Oklahoma record that is not yours) |
+| `ok_18_19_deferred_dismissal-free-route-screen-1` | the page that asks, before anything is paid for, whether Oklahoma now seals this record without a petition (Clear an Oklahoma case after a deferred sentence was dismissed) |
 | `ok_18_19_deferred_dismissal-primary-filing-2` | the composed petition, on this route's own statutory ground (Clear an Oklahoma case after a deferred sentence was dismissed) |
 | `ok_18_19_deferred_dismissal-proposed-order-3` | the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma case after a deferred sentence was dismissed) |
-| `ok_18_19_deferred_dismissal-filing-instructions-4` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an Oklahoma case after a deferred sentence was dismissed) |
+| `ok_18_19_deferred_dismissal-record-gathering-instructions-4` | the records the committed registry requires the participant to obtain, who holds each and how (Clear an Oklahoma case after a deferred sentence was dismissed) |
+| `ok_18_19_deferred_dismissal-fee-disclosure-5` | the fee and waiver position the committed registry records for this route, and the question it leaves open (Clear an Oklahoma case after a deferred sentence was dismissed) |
+| `ok_18_19_deferred_dismissal-hearing-instructions-6` | where this is filed, who the court notifies, and where self-help ends at the hearing (Clear an Oklahoma case after a deferred sentence was dismissed) |
+| `ok_18_19_deferred_dismissal-effect-disclosure-7` | the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Clear an Oklahoma case after a deferred sentence was dismissed) |
+| `ok_18_19_felony_conviction-free-route-screen-1` | the page that asks, before anything is paid for, whether Oklahoma now seals this record without a petition (Clear an Oklahoma felony conviction) |
 | `ok_18_19_felony_conviction-primary-filing-2` | the composed petition, on this route's own statutory ground (Clear an Oklahoma felony conviction) |
 | `ok_18_19_felony_conviction-proposed-order-3` | the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma felony conviction) |
-| `ok_18_19_felony_conviction-filing-instructions-4` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an Oklahoma felony conviction) |
+| `ok_18_19_felony_conviction-record-gathering-instructions-4` | the records the committed registry requires the participant to obtain, who holds each and how (Clear an Oklahoma felony conviction) |
+| `ok_18_19_felony_conviction-fee-disclosure-5` | the fee and waiver position the committed registry records for this route, and the question it leaves open (Clear an Oklahoma felony conviction) |
+| `ok_18_19_felony_conviction-hearing-instructions-6` | where this is filed, who the court notifies, and where self-help ends at the hearing (Clear an Oklahoma felony conviction) |
+| `ok_18_19_felony_conviction-effect-disclosure-7` | the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Clear an Oklahoma felony conviction) |
+| `ok_18_19_misdemeanor_conviction-free-route-screen-1` | the page that asks, before anything is paid for, whether Oklahoma now seals this record without a petition (Clear an Oklahoma misdemeanor conviction) |
 | `ok_18_19_misdemeanor_conviction-primary-filing-2` | the composed petition, on this route's own statutory ground (Clear an Oklahoma misdemeanor conviction) |
 | `ok_18_19_misdemeanor_conviction-proposed-order-3` | the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma misdemeanor conviction) |
-| `ok_18_19_misdemeanor_conviction-filing-instructions-4` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an Oklahoma misdemeanor conviction) |
+| `ok_18_19_misdemeanor_conviction-record-gathering-instructions-4` | the records the committed registry requires the participant to obtain, who holds each and how (Clear an Oklahoma misdemeanor conviction) |
+| `ok_18_19_misdemeanor_conviction-fee-disclosure-5` | the fee and waiver position the committed registry records for this route, and the question it leaves open (Clear an Oklahoma misdemeanor conviction) |
+| `ok_18_19_misdemeanor_conviction-hearing-instructions-6` | where this is filed, who the court notifies, and where self-help ends at the hearing (Clear an Oklahoma misdemeanor conviction) |
+| `ok_18_19_misdemeanor_conviction-effect-disclosure-7` | the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Clear an Oklahoma misdemeanor conviction) |
+| `ok_18_19_nonconviction-free-route-screen-1` | the page that asks, before anything is paid for, whether Oklahoma now seals this record without a petition (Clear an Oklahoma arrest that did not end in a conviction) |
 | `ok_18_19_nonconviction-primary-filing-2` | the composed petition, on this route's own statutory ground (Clear an Oklahoma arrest that did not end in a conviction) |
 | `ok_18_19_nonconviction-proposed-order-3` | the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma arrest that did not end in a conviction) |
-| `ok_18_19_nonconviction-filing-instructions-4` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an Oklahoma arrest that did not end in a conviction) |
+| `ok_18_19_nonconviction-record-gathering-instructions-4` | the records the committed registry requires the participant to obtain, who holds each and how (Clear an Oklahoma arrest that did not end in a conviction) |
+| `ok_18_19_nonconviction-fee-disclosure-5` | the fee and waiver position the committed registry records for this route, and the question it leaves open (Clear an Oklahoma arrest that did not end in a conviction) |
+| `ok_18_19_nonconviction-hearing-instructions-6` | where this is filed, who the court notifies, and where self-help ends at the hearing (Clear an Oklahoma arrest that did not end in a conviction) |
+| `ok_18_19_nonconviction-effect-disclosure-7` | the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Clear an Oklahoma arrest that did not end in a conviction) |
+| `ok_18_19_pardon-free-route-screen-1` | the page that asks, before anything is paid for, whether Oklahoma now seals this record without a petition (Clear an Oklahoma record after a pardon) |
 | `ok_18_19_pardon-primary-filing-2` | the composed petition, on this route's own statutory ground (Clear an Oklahoma record after a pardon) |
 | `ok_18_19_pardon-proposed-order-3` | the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma record after a pardon) |
-| `ok_18_19_pardon-filing-instructions-4` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an Oklahoma record after a pardon) |
+| `ok_18_19_pardon-record-gathering-instructions-4` | the records the committed registry requires the participant to obtain, who holds each and how (Clear an Oklahoma record after a pardon) |
+| `ok_18_19_pardon-fee-disclosure-5` | the fee and waiver position the committed registry records for this route, and the question it leaves open (Clear an Oklahoma record after a pardon) |
+| `ok_18_19_pardon-hearing-instructions-6` | where this is filed, who the court notifies, and where self-help ends at the hearing (Clear an Oklahoma record after a pardon) |
+| `ok_18_19_pardon-effect-disclosure-7` | the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Clear an Oklahoma record after a pardon) |
+| `ok_991c_deferred-arrest-record-screen-1` | the page that states, before anything is filed, that a section 991c order does not remove the arrest record (Update an Oklahoma deferred sentence so the case shows as dismissed) |
 | `ok_991c_deferred-primary-filing-2` | the composed petition, on this route's own statutory ground (Update an Oklahoma deferred sentence so the case shows as dismissed) |
 | `ok_991c_deferred-proposed-order-3` | the proposed order the court may sign; every decision line is the court's and is left blank (Update an Oklahoma deferred sentence so the case shows as dismissed) |
-| `ok_991c_deferred-filing-instructions-4` | what this set is, where it goes, what it costs, who must be served, and when to stop (Update an Oklahoma deferred sentence so the case shows as dismissed) |
+| `ok_991c_deferred-effect-disclosure-4` | the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Update an Oklahoma deferred sentence so the case shows as dismissed) |
+| `ok_vpo_60_18-free-route-screen-1` | the page that asks, before anything is paid for, whether Oklahoma now seals this record without a petition (Clear an Oklahoma protective order record) |
 | `ok_vpo_60_18-primary-filing-2` | the composed petition, on this route's own statutory ground (Clear an Oklahoma protective order record) |
 | `ok_vpo_60_18-proposed-order-3` | the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma protective order record) |
-| `ok_vpo_60_18-filing-instructions-4` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an Oklahoma protective order record) |
+| `ok_vpo_60_18-record-gathering-instructions-4` | the records the committed registry requires the participant to obtain, who holds each and how (Clear an Oklahoma protective order record) |
+| `ok_vpo_60_18-fee-disclosure-5` | the fee and waiver position the committed registry records for this route, and the question it leaves open (Clear an Oklahoma protective order record) |
+| `ok_vpo_60_18-hearing-instructions-6` | where this is filed, who the court notifies, and where self-help ends at the hearing (Clear an Oklahoma protective order record) |
+| `ok_vpo_60_18-effect-disclosure-7` | the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Clear an Oklahoma protective order record) |
 
 ## Where this is filed, what it costs, and who must be served
 
@@ -133,6 +162,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court named in the caption of the petition - the printed line IN THE ............ COURT | the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk |
 | Item C1 - ide full legal name | What is your full legal name, and have you used any other names? |
 | Item C2 - ide date of birth | What is your date of birth? |
 | Item C3 - ide county | In which Oklahoma county is the arrest information located? (Asked because venue is the district court in the county where the arrest information is located, and because multiple arrests in the same county may be combined in one petition while separate counties need separate petitions.) |
@@ -147,10 +177,17 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C12 - ide arrest record too | Do you want the arrest record cleared as well as the court record? (Asked because the Oklahoma State Bureau of Investigation states that expunging a court record is free while expunging an arrest record requires a $150 processing fee, plus possible local law enforcement fees.) |
 | Item C13 - idt how misidentified | How did your name come to be on this record, and when did you find out? |
 
+### ok_identity_theft-proposed-order-3 — Proposed Order - Clear an Oklahoma record that is not yours
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court named in the caption of the proposed order - the printed line IN THE ............ COURT | the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match |
+
 ### ok_18_19_deferred_dismissal-primary-filing-2 — Petition - Clear an Oklahoma case after a deferred sentence was dismissed
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court named in the caption of the petition - the printed line IN THE ............ COURT | the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk |
 | Item C1 - 18 full legal name | What is your full legal name, and have you used any other names? |
 | Item C2 - 18 date of birth | What is your date of birth? |
 | Item C3 - 18 county | In which Oklahoma county is the arrest information located? (Asked because venue is the district court in the county where the arrest information is located, and because multiple arrests in the same county may be combined in one petition while separate counties need separate petitions.) |
@@ -165,10 +202,17 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C12 - 18 arrest record too | Do you want the arrest record cleared as well as the court record? (Asked because the Oklahoma State Bureau of Investigation states that expunging a court record is free while expunging an arrest record requires a $150 processing fee, plus possible local law enforcement fees.) |
 | Item C13 - dfd completion | When did you finish the deferred or delayed sentence, and was the case then dismissed? |
 
+### ok_18_19_deferred_dismissal-proposed-order-3 — Proposed Order - Clear an Oklahoma case after a deferred sentence was dismissed
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court named in the caption of the proposed order - the printed line IN THE ............ COURT | the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match |
+
 ### ok_18_19_felony_conviction-primary-filing-2 — Petition - Clear an Oklahoma felony conviction
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court named in the caption of the petition - the printed line IN THE ............ COURT | the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk |
 | Item C1 - 18 full legal name | What is your full legal name, and have you used any other names? |
 | Item C2 - 18 date of birth | What is your date of birth? |
 | Item C3 - 18 county | In which Oklahoma county is the arrest information located? (Asked because venue is the district court in the county where the arrest information is located, and because multiple arrests in the same county may be combined in one petition while separate counties need separate petitions.) |
@@ -184,10 +228,17 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C13 - fel reclassified | Has the offence you were convicted of since been reclassified as a misdemeanour? (Asked because the review directs that the reclassified-felony route be screened before the longer routes, and it carries a much shorter window.) |
 | Item C14 - fel other misdemeanors | Have you had any separate misdemeanour convictions, and when? (Asked because the one-felony route carries a separate-misdemeanour look-back the review directs be encoded.) |
 
+### ok_18_19_felony_conviction-proposed-order-3 — Proposed Order - Clear an Oklahoma felony conviction
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court named in the caption of the proposed order - the printed line IN THE ............ COURT | the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match |
+
 ### ok_18_19_misdemeanor_conviction-primary-filing-2 — Petition - Clear an Oklahoma misdemeanor conviction
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court named in the caption of the petition - the printed line IN THE ............ COURT | the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk |
 | Item C1 - 18 full legal name | What is your full legal name, and have you used any other names? |
 | Item C2 - 18 date of birth | What is your date of birth? |
 | Item C3 - 18 county | In which Oklahoma county is the arrest information located? (Asked because venue is the district court in the county where the arrest information is located, and because multiple arrests in the same county may be combined in one petition while separate counties need separate petitions.) |
@@ -202,10 +253,17 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C12 - 18 arrest record too | Do you want the arrest record cleared as well as the court record? (Asked because the Oklahoma State Bureau of Investigation states that expunging a court record is free while expunging an arrest record requires a $150 processing fee, plus possible local law enforcement fees.) |
 | Item C13 - mis sentence complete | When did you finish the sentence, including any probation, and pay everything owed? |
 
+### ok_18_19_misdemeanor_conviction-proposed-order-3 — Proposed Order - Clear an Oklahoma misdemeanor conviction
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court named in the caption of the proposed order - the printed line IN THE ............ COURT | the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match |
+
 ### ok_18_19_nonconviction-primary-filing-2 — Petition - Clear an Oklahoma arrest that did not end in a conviction
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court named in the caption of the petition - the printed line IN THE ............ COURT | the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk |
 | Item C1 - 18 full legal name | What is your full legal name, and have you used any other names? |
 | Item C2 - 18 date of birth | What is your date of birth? |
 | Item C3 - 18 county | In which Oklahoma county is the arrest information located? (Asked because venue is the district court in the county where the arrest information is located, and because multiple arrests in the same county may be combined in one petition while separate counties need separate petitions.) |
@@ -220,10 +278,17 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C12 - 18 arrest record too | Do you want the arrest record cleared as well as the court record? (Asked because the Oklahoma State Bureau of Investigation states that expunging a court record is free while expunging an arrest record requires a $150 processing fee, plus possible local law enforcement fees.) |
 | Item C13 - ncv no refile | Has the prosecutor confirmed the case will not be refiled? (Asked because prosecutor no-refile confirmation is a self-help boundary the review identifies, and several non-conviction categories turn on it.) |
 
+### ok_18_19_nonconviction-proposed-order-3 — Proposed Order - Clear an Oklahoma arrest that did not end in a conviction
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court named in the caption of the proposed order - the printed line IN THE ............ COURT | the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match |
+
 ### ok_18_19_pardon-primary-filing-2 — Petition - Clear an Oklahoma record after a pardon
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court named in the caption of the petition - the printed line IN THE ............ COURT | the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk |
 | Item C1 - 18 full legal name | What is your full legal name, and have you used any other names? |
 | Item C2 - 18 date of birth | What is your date of birth? |
 | Item C3 - 18 county | In which Oklahoma county is the arrest information located? (Asked because venue is the district court in the county where the arrest information is located, and because multiple arrests in the same county may be combined in one petition while separate counties need separate petitions.) |
@@ -238,20 +303,34 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C12 - 18 arrest record too | Do you want the arrest record cleared as well as the court record? (Asked because the Oklahoma State Bureau of Investigation states that expunging a court record is free while expunging an arrest record requires a $150 processing fee, plus possible local law enforcement fees.) |
 | Item C13 - pdn pardon date | On what date was the pardon granted, and do you have the document? |
 
+### ok_18_19_pardon-proposed-order-3 — Proposed Order - Clear an Oklahoma record after a pardon
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court named in the caption of the proposed order - the printed line IN THE ............ COURT | the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match |
+
 ### ok_991c_deferred-primary-filing-2 — Petition - Update an Oklahoma deferred sentence so the case shows as dismissed
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court named in the caption of the petition - the printed line IN THE ............ COURT | the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk |
 | Item C1 - dfc full legal name | What is your full legal name? |
 | Item C2 - dfc county | Which Oklahoma county and district court handled the case? |
 | Item C3 - dfc case number | What is the case number? |
 | Item C4 - dfc completion date | When did you finish the deferred sentence and everything it required? |
 | Item C5 - dfc arrest record goal | Is your goal to have the arrest itself no longer show, as well as the court case? (Asked because a section 991c order does not remove the arrest record, and a participant whose real goal is the arrest record needs a section 18 petition instead of, or as well as, this motion.) |
 
+### ok_991c_deferred-proposed-order-3 — Proposed Order - Update an Oklahoma deferred sentence so the case shows as dismissed
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court named in the caption of the proposed order - the printed line IN THE ............ COURT | the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match |
+
 ### ok_vpo_60_18-primary-filing-2 — Petition - Clear an Oklahoma protective order record
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court named in the caption of the petition - the printed line IN THE ............ COURT | the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk |
 | Item C1 - vpo full legal name | What is your full legal name, and have you used any other names? |
 | Item C2 - vpo date of birth | What is your date of birth? |
 | Item C3 - vpo county | In which Oklahoma county is the arrest information located? (Asked because venue is the district court in the county where the arrest information is located, and because multiple arrests in the same county may be combined in one petition while separate counties need separate petitions.) |
@@ -265,6 +344,12 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C11 - vpo free route checked | Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.) |
 | Item C12 - vpo arrest record too | Do you want the arrest record cleared as well as the court record? (Asked because the Oklahoma State Bureau of Investigation states that expunging a court record is free while expunging an arrest record requires a $150 processing fee, plus possible local law enforcement fees.) |
 | Item C13 - vpo outcome | What happened with the protective order — was it dismissed, denied, or did it expire? |
+
+### ok_vpo_60_18-proposed-order-3 — Proposed Order - Clear an Oklahoma protective order record
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court named in the caption of the proposed order - the printed line IN THE ............ COURT | the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match |
 
 ## What you do, in order
 

@@ -68,7 +68,9 @@ const SPEC = {
       "mustContain": [
         "\"id\": \"intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4\"",
         "relief opens on the dismissal following court-certified completion, where a record remains",
-        "Upon petition, the court shall expunge a case where an arrest was made, the person was released, and the case was dismissed, the charges were dropped, there was no disposition, or the person was found not guilty at trial. This appears in both 99-15-26(5) and 99-19-71(4)."
+        "Upon petition, the court shall expunge a case where an arrest was made, the person was released, and the case was dismissed, the charges were dropped, there was no disposition, or the person was found not guilty at trial. This appears in both 99-15-26(5) and 99-19-71(4).",
+        "Mississippi Code 99-19-72 sets a $150 filing fee for each petition to expunge an offense under 99-19-71.",
+        "Expect at least a $150 statutory filing fee for many 99-19-71 petitions, but confirm with the clerk because filing method and local court practice may affect total cost."
       ]
     },
     {
@@ -346,7 +348,7 @@ const SPEC = {
         "",
         "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
         "",
-        "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the clerk's office of the Mississippi intervention court that certified completion and entered the dismissal. Ask before you go, because a filing you cannot pay for is a filing you cannot make.",
+        "THIS PACKET PUBLISHES NO FEE AMOUNT, AND HERE IS WHAT THE RECORD IT BINDS DOES SAY. The compiled Mississippi profile this packet binds by exact SHA-256 records that Sec. 99-19-72 sets a statutory filing fee for each petition to expunge an offence under Sec. 99-19-71, and its own guidance is to expect that statutory fee for many Sec. 99-19-71 petitions but to confirm the amount with the clerk. This route is a petition under Sec. 99-19-71(4), which is a subsection of Sec. 99-19-71, so the fee provision speaks to it on the face of the record. No figure is printed here all the same. The compiled profile is a derived internal record rather than current primary authority, the current text of Sec. 99-19-72 was not retrieved for the records this packet is built from, and this route binds no official form that carries a figure - so nothing in hand supports publishing an amount as this route's cost. There is also an open question the record itself does not close: whether the fee reaches a NON-conviction petition where the case was dismissed, and how the collection mechanism maps in a justice or municipal court. ASK THE CLERK'S OFFICE OF THE MISSISSIPPI INTERVENTION COURT that certified completion and entered the dismissal for the current amount, and for any pauper's-affidavit route. That office answers both. Ask before you go, because a filing you cannot pay for is a filing you cannot make.",
         "",
         "WHO MUST BE SERVED, AND WHO IS NOTIFIED",
         "",
@@ -405,7 +407,7 @@ const SPEC = {
     ],
     [
       "FEE_AND_WAIVER",
-      "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the clerk's office of the Mississippi intervention court that certified completion and entered the dismissal. Ask before you go, because a filing you cannot pay for is a filing you cannot make."
+      "This packet publishes no fee amount. The compiled Mississippi profile it binds records that Sec. 99-19-72 sets a statutory filing fee for each petition to expunge an offence under Sec. 99-19-71, and this route is a petition under Sec. 99-19-71(4), a subsection of that section - so the fee provision speaks to it on the face of the bound record. No figure is printed because the compiled profile is a derived record rather than current primary authority, the current text of Sec. 99-19-72 was not retrieved for the records this packet is built from, and this route binds no official form; and because the record leaves open whether the fee reaches a non-conviction petition on a dismissed case and how it maps in a justice or municipal court. No committed record this packet binds states a fee waiver for this route. The office that answers the current amount and any pauper's-affidavit route is the clerk's office of the Mississippi intervention court that certified completion and entered the dismissal. Ask before you go, because a filing you cannot pay for is a filing you cannot make."
     ],
     [
       "SERVICE",
@@ -470,6 +472,14 @@ const SPEC = {
     {
       "finding": "The compiled Mississippi line this packet relies on names § 99-15-26(5) and § 99-19-71(4) expressly.",
       "consequence": "It is used because it names this route's own section, not because it sits in the same document. DET-FEE-AND-WAIVER-001-A3: holding is per fact, and a line keyed elsewhere would not have been used."
+    },
+    {
+      "finding": "An earlier build of this family told the participant that NO committed record it binds states a filing fee for this route. That was false. The compiled Mississippi profile is bound here by exact SHA-256 and its own feeRules record that Sec. 99-19-72 sets a statutory filing fee for each petition to expunge an offence under Sec. 99-19-71; this route is a petition under Sec. 99-19-71(4), a subsection of that same section, so the provision speaks to it on the face of the bound record. DET-FEE-AND-WAIVER-001-A4: a packet may not tell a participant that no bound record answers a question a record it binds does answer.",
+      "consequence": "The denial is withdrawn. The packet now states what the bound record says about Sec. 99-19-72 and why this build still publishes no amount, and names the clerk's office of the intervention court as the office that states the current amount and any pauper's-affidavit route."
+    },
+    {
+      "finding": "No figure is published even though the bound compiled profile carries one. The owner's Q4 correction of 2026-09-02 (OWNER_CORRECTIONS_REQUIRED.json, applied to ms-fel-set) directs that an unconfirmed fee is not published and permits a figure only where current primary authority or the official form supports it. Neither is in hand: the compiled profile is a derived internal record rather than primary authority, the current text of Sec. 99-19-72 was not retrieved for the records this packet is built from, and this route binds no official form at all.",
+      "consequence": "The statutory basis is named and the amount is not. The packet also carries the open question the record itself leaves open - whether the fee reaches a non-conviction petition on a dismissed case, and how the collection mechanism maps in a justice or municipal court - rather than resolving it silently in either direction."
     },
     {
       "finding": "The retired legacy Mississippi generator covered Mississippi expungement routes, and its assets are preserved under ADR-0004.",

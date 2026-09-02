@@ -13,7 +13,8 @@ The platform filled in what it holds about you: your name, your date of birth, y
 | `wv_drug_conditional_discharge-primary-filing-1` | the composed petition, on this route's own statutory ground (Clear a first drug-possession case that ended in a conditional discharge) |
 | `wv_drug_conditional_discharge-supporting-affidavit-2` | the sworn affidavit filed with the application (Clear a first drug-possession case that ended in a conditional discharge) |
 | `wv_drug_conditional_discharge-certificate-of-service-3` | the page on which the participant records that the papers were actually delivered, signed only after delivery (Clear a first drug-possession case that ended in a conditional discharge) |
-| `wv_drug_conditional_discharge-filing-instructions-4` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear a first drug-possession case that ended in a conditional discharge) |
+| `wv_drug_conditional_discharge-records-checklist-4` | the records the committed track registry requires the participant to obtain, who holds each of them, and the answers each one is used to check (Clear a first drug-possession case that ended in a conditional discharge) |
+| `wv_drug_conditional_discharge-filing-instructions-5` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear a first drug-possession case that ended in a conditional discharge) |
 
 ## Where this is filed, what it costs, and who must be served
 

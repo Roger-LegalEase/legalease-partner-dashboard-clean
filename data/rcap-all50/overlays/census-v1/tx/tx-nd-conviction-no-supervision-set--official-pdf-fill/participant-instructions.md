@@ -202,6 +202,7 @@ Each is a blank on the official form named beside it. Fill every one that belong
 - your sentence is not complete, or you are not sure of the completion date;
 - you are not sure whether the misdemeanour was punishable by fine only, which decides whether you wait at all or wait two years;
 - you have any other conviction or deferred adjudication other than a fine-only traffic offence, or you are not sure;
+- **The prosecutor opposes the petition or requests a hearing.**
 - the court has made an affirmative finding of family violence, or any offence on the § 411.074 exclusion list is in your history;
 - you are not a United States citizen.
 
