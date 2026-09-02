@@ -26,12 +26,13 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 29,
-  "PASS_COMPLETE_INDEPENDENT": 22,
-  "PASS": 1,
+  "families": 30,
+  "rows": 34,
+  "PASS_COMPLETE_INDEPENDENT": 23,
   "FAIL_REPAIR_REQUIRED": 9,
   "BLOCKED_SOURCE": 0,
   "BLOCKED_LEGAL_INPUT": 0,
+  "PASS": 1,
   "STOPPED": 1,
   "tallyRecomputedOverEveryRowInThisFile": true,
   "onlyFableVaRowsAreFableVaDeterminations": [
@@ -7166,6 +7167,151 @@
     "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
     "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
     "data/rcap-grade-a/packet-factory-24h/RT2_REPAIR_RECORD.json"
+   ]
+  },
+  {
+   "itemId": "nj_arrest_no_conviction-set",
+   "lane": "VF01",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
+   "readAtBase": "247b790b6",
+   "rasterState": "RASTER_PENDING",
+   "rasterWorkflowRunId": null,
+   "verdictCeilingApplied": null,
+   "supersedes": {
+    "lane": "vf10",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "note": "the eight obligations vf10 failed were re-measured here on the repaired bytes; each is measured PASS below and the measurement that clears it is given"
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_arrest_no_conviction-set, run in this worktree on the committed bytes: PASS_COMPLETE, 18/179 written"
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "one route key, identical in all four records that name it: MASTER_QUEUE.families[nj_arrest_no_conviction-set].routeKeys, source-receipt.json routeKeys, product-wiring.json routeKeys and product-wiring binding.routeKeys all read obligation:track-pathway:NJ:nj_arrest_no_conviction:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6. The route-obligation census carries the same key with trackId nj_arrest_no_conviction and packetSetId nj_arrest_no_conviction-set.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json; source-receipt.json; product-wiring.json; data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "one source, recomputed from the bytes: sha256sum of STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf under MASTER_LIBRARY_SOURCE_DIR is c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7 at 1924831 bytes, equal to source-receipt.json, to MASTER_QUEUE sourceHashes and to product-wiring binding.sourceVersion. Reading the file with pdf-lib gives 43 pages and 179 AcroForm fields, the counts the receipt states.",
+     "evidence": "sha256sum of the pinned corpus binary; preflight family_sources_bind 1/1 by exact SHA-256; pdf-lib read of the source form"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the route names four components in route-obligation-candidate requiredSourceIds, and all four are present in the delivered 43-page kit, located by page in the extracted text of the canonical fixture: primary-filing-1 = Petition for Expungement (Form A), pages 15-23; statements-accompanying-petition-2 = Petition for Expungement Verification (Form A - Continued), page 24; order-for-hearing-3 = Order for Hearing (Form B), page 25; proposed-order-4 = Expungement Order (Form C), pages 30-33. rendered-artifacts.json declares componentsNotGenerated: [] and both fixtures render 43 of 43 pages.",
+     "evidence": "pdftotext of fixtures/cn-10557-canonical.pdf page by page; data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json requiredSourceIds; reports/rendered-artifacts.json"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "every declared write produced ink, inside its own declared widget rectangle, on its own declared page. I extracted pdftotext -bbox word rectangles from both fixtures and from the blank source, subtracted the source words to isolate the ink this build added, and matched every added word against the widget rectangles the field map declares: canonical 17 declared writes, 136 added words, 0 written fields with no added ink in a declared rect; boundary 14 declared writes, 279 added words, 0 with no ink. Values are present in the extracted text at the expected multiplicity - the canonical name on 20 pages, street address on 8, date of birth on 2. vf10's finding is cleared at its root: ExpungeCntyName is a PDFDropdown whose 22 options are bare county names ('Atlantic', 'Bergen'), so the held residence value 'Essex County' could never be selected; it is no longer declared a write, it is classified REQUIRED_BEFORE_FILING, and neither 'Essex' nor the boundary county string occurs anywhere in either fixture, so nothing was guessed in its place. The three values the build holds and could not print are separated into heldButNotPrinted and named to the participant.",
+     "evidence": "pdftotext -bbox word boxes of both fixtures against the blank source; production-field-map.json widget rects; reports/actual-writes.json heldButNotPrinted; pdf-lib read of the source field types"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "69 fields carry blankTreatment REQUIRED_BEFORE_FILING in production-field-map.json, and all 69 are named by source field name in participant-instructions.md - 0 undisclosed, checked field by field against the file. ExpungeCntyName, the caption filing county vf10 found disclosed nowhere, is now among them. The three values the build holds but could not print are additionally disclosed in their own table with the fixture each was measured on. No REQUIRED_BEFORE_FILING blank carries added ink in either fixture.",
+     "evidence": "production-field-map.json; participant-instructions.md; pdftotext -bbox ink test over all 69 rects in both fixtures"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "one route-determined election exists and it is selected. production-field-map.json declares exactly one measured_route_selection, the field 'dismiss', which pdf-lib reads in the source as a real PDFCheckBox with one widget - the court's own control, not an invented one. Rendering page 18 of the blank source and of both fixtures at 288 dpi and differencing the pixels shows an X drawn inside that box on both: 878 additional dark pixels, 926 pixels changed, canonical and boundary identical. Every changed pixel lies within the widget rectangle to within one pixel at 288 dpi (0.25 pt), so no new box was drawn beside the court's. Before flattening, all 33 button widgets were forced to /Off, so no other election is answered for the participant.",
+     "evidence": "production-field-map.json; pdf-lib field types of the source; pdftoppm -r 288 crop of page 18 for source, canonical and boundary, differenced here; reports/actual-writes.json choiceNeutralization"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the half-filled row vf10 found is gone, measured in the delivered bytes rather than in the report. On the boundary fixture the only ink added to page 31, the arrest table of the proposed Expungement Order, is the petitioner's name; the date cell and the docket cell of row (1) are both empty, so the row is untouched rather than half written, and rows (2)-(4) remain empty. On the canonical fixture the same row carries both cells - 2019-03-08 and 24-CR-001234. The withheld cells are named to the participant with the reason for each.",
+     "evidence": "pdftotext -bbox added-ink extraction for page 31 of both fixtures; reports/actual-writes.json heldButNotPrinted; participant-instructions.md"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "32 fields are refused as protected - 15 signature_or_date_participant_completion and 17 court_prosecutor_clerk_or_agency_owned. I tested every widget rectangle of all 32 against the ink this build added, in both fixtures, and found 0 marks in any of them. No field appears in both the write set and the refusal set. The printed name that appears beneath a signature line on page 23 is the form's separate 'your name printed' box, not the signature line, which is blank.",
+     "evidence": "pdftotext -bbox added-ink test over all 32 protected widget rects in both fixtures; production-field-map.json refusalClass"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "90 files recomputed by SHA-256 from the committed bytes in this worktree - 2 fixture PDFs, 2 contact sheets and 86 page rasters - and every hash and byte length equals what reports/rendered-artifacts.json names. 0 mismatches, 0 missing. The two fixture hashes also equal the hashes RASTER_QUEUE.json carries for this family, and neither is on the stale-artifact block (12 hashes, 6 families, none of them this one).",
+     "evidence": "SHA-256 recomputed over every file named in reports/rendered-artifacts.json; data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json; data/rcap-grade-a/stale-artifact-block.json"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet is the 43-page kit delivered in its own order, and I checked it page against page rather than by count. Extracting the text of all 43 pages of the blank source and of both fixtures, the leading tokens of every page agree with the source on 39 pages and differ on exactly four - 18, 24, 30 and 40 - each because a participant value is now printed ahead of the source's placeholder caption. No page is reordered, dropped or duplicated. Both fixtures read 43 pages from the bytes, matching rendered-artifacts.json, and the rasters are numbered 1 to 43 with no gap.",
+     "evidence": "pdftotext page-by-page comparison of source, canonical and boundary; reports/rendered-artifacts.json page inventory"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "no ink outside a measured write box, on either fixture, measured two ways. Against each page's own MediaBox: the blank source has 0 words outside the page, the canonical 0, the boundary 0 - the seven boundary words vf10 measured off the right edge of pages 23, 35, 38 and 43 are gone. Against each field's own declared widget rectangle: 0 added words end more than 1 pt past the rectangle they were written into, on either fixture, where vf10 measured 41 on the boundary and 30 on the canonical. The repair is visible in the report as 20 per-widget font sizes for DefName's 20 widgets. The central raster gate is RASTER_PENDING for these bytes; this result is measured here from the bytes and from a 288 dpi render, not read from a raster receipt.",
+     "evidence": "pdftotext -bbox word rectangles of source, canonical and boundary against MediaBox and against production-field-map.json widget rects; pdftoppm -r 288 render of page 18; reports/actual-writes.json widgetFontSizes"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "participant-instructions.md now carries a 'Where to file' section that answers it: the county of arrest or custody or of prosecution or adjudication, the Superior Court Criminal Division of the vicinage, and the Criminal Case Management Office of that county as the office that receives the package, with the multi-county instruction and the eCourts alternative. Each statement matches the committed track record - destination.name 'Superior Court, Criminal Division, of the vicinage' with the eCourts detail - and the enclosed kit's own pages 9 and 10. The catch-all sentence no longer claims to cover it.",
+     "evidence": "participant-instructions.md; data/record-clearing/legal-design-track-registry.json track nj_arrest_no_conviction destination and venue; the delivered kit text"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states what it encloses. 'What it costs to file' says there is no court filing fee, cites the kit's own running footer 'Kit updated 06/2020 to remove the filing fee, CN 10557', and states that there is nothing to waive and therefore no waiver form - matching rules.fees and rules.feeWaiver ('not applicable to the court filing. There is no filing fee to waive.') in the track registry. The two costs that are not the filing fee, the State Police SBI record charge and the notary, are named without inventing a figure no held source states, and the outstanding-financial-assessment condition is named as a condition rather than a fee.",
+     "evidence": "participant-instructions.md; data/record-clearing/legal-design-track-registry.json rules.fees and rules.feeWaiver; the kit footer in the delivered bytes"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "'Who must be served' states who, how and when: nobody until the filed copies come back with a docket number and hearing date; then at least seven copies of the three papers by certified mail return receipt requested to the Attorney General, the State Police Expungement Unit, the County Prosecutor, any municipal court administrator, the police chief where the offence was committed or the arrest made, any other participating State law-enforcement agency, any institution's warden, and the County Probation Division in the diversion and financial cases listed, plus Criminal Justice Records and Identification for State Grand Jury matters; within five days of the Order for Hearing being signed; with Form E as the covering letter and Form F for the proof. That matches the kit's pages 10-11 and the registry's rules.notice and rules.service. The agencies' objection window, which the record holds open, is disclosed as open with a named office to ask.",
+     "evidence": "participant-instructions.md; data/record-clearing/legal-design-track-registry.json rules.notice and rules.service; the delivered kit text"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "'Where self-help ends' states the boundary and then carries all thirteen selfHelpStopConditions the registry holds for track nj_arrest_no_conviction, word for word - I compared them one by one against the registry entry. The immigration condition is restated after the list as a hard stop for a non-citizen, and the kit's own page 3 referral routes (county legal services, the bar association referral service, and that court staff cannot give legal advice) are given. The file vf10 measured at zero hits for 'immigrat', 'lawyer' and 'legal aid' now answers all three.",
+     "evidence": "participant-instructions.md; data/record-clearing/legal-design-track-registry.json track nj_arrest_no_conviction selfHelpStopConditions (13 entries, compared individually)"
+    }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": [],
+   "whatThisPassDoesNotOpen": "an independent PASS proves this packet is complete. It grants no legal approval, opens no commercial route, and does not stand in for the central raster gate, which is still RASTER_PENDING for these bytes.",
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/raster/cn-10557-canonical",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/raster/cn-10557-boundary",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/stale-artifact-block.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
    ]
   }
  ],
