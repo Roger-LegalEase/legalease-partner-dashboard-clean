@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `0d08881e9bc4f41d9f4c03374ecc8e449f028b9c` (or the newer dispatch base)
+**Minimum required ancestor:** `83518ac252e26987cd14617311e4cfd40228bdb0` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ca-851-91-set \
+  --family ny_mrta_marijuana-set \
   --codex-cloud \
-  --minimum-captain-sha 0d08881e9bc4f41d9f4c03374ecc8e449f028b9c
+  --minimum-captain-sha 83518ac252e26987cd14617311e4cfd40228bdb0
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -58,7 +58,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 ## The 1 family
 
-- `ca-851-91-set`
+- `ny_mrta_marijuana-set`
 
 ## What you receive
 
@@ -71,8 +71,8 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix06/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ca-851-91-set.mjs`
+- `data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ny_mrta_marijuana-set.mjs`
 
 ## Never write here
 
