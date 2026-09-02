@@ -238,6 +238,43 @@
         "Do not open a commercial route, set generationAllowed or runtimeSelectable, or create a fulfillment record. This family remains BUILT_REVIEW_PENDING.",
         "A re-render is required here because the fix changes fixture bytes, so the acceptance receipt must be re-earned afterwards. That is a consequence of this repair, not a claim that the current receipt is stale."
       ]
+    },
+    {
+      "itemId": "oh_marijuana_expungement-set",
+      "lane": "VF06",
+      "familyVerdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+      "decisiveDefect": "The packet declares a component it does not ship. source-receipt.json declares OH-BCI-SEALING-EXPUNGEMENT-REQUEST as a POST_ORDER_COMPANION_SOURCE with copiedWithoutModification true and companionArtifact \"data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf\"; reports/rendered-artifacts.json records that same path at 9234ec76…, 235789 bytes, 1 page; and the file does not exist. companion/ holds companion-guidance.md and nothing else, git ls-files confirms the PDF was never committed, and the file is not gitignored — it was dropped in commit c01b87d15, \"43 packet families built, 4 stopped, 59 corpus binaries excluded\". Its rasters were nonetheless produced and committed and do verify, so the packet ships a rendered picture of a document it does not ship. The packet's own participant-instructions.md tells the participant the document is in it.",
+      "failedProofObligations": [
+        "COMPONENT_SET",
+        "ARTIFACTS",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "COMPONENT_SET": {
+          "measuredDetail": "Two components declared, one shipped. The MASTER_QUEUE row names component:oh_marijuana_expungement-bci-transmission-5 for this packet set, which is the absent companion. participant-instructions.md opens \"This packet contains one statutory-content draft and one unchanged official Ohio BCI request held as post-order companion evidence\" and later states \"It is included unchanged and is not prefilled\"; companion-guidance.md states \"The exact held BCI request is copied unchanged at SHA-256 9234ec76…\". None of that is true of the tree as committed.",
+          "whatRepairMustDo": "Either commit the companion PDF at the declared path so the bytes match the declared digest 9234ec76… — the source is held and exact in the Master Library at STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf, re-verified in this lane — or stop declaring it: remove it from source-receipt.json documents and from rendered-artifacts.json pdfs, remove its rasters and contact sheet, and rewrite both participant-instructions.md and companion-guidance.md so they do not tell a participant that a document is in the packet. Whichever way it goes, the record and the tree must say the same thing. If the exclusion of corpus binaries is deliberate policy, the second route is the correct one and the first must not be taken to defeat it.",
+          "sourceOfTruth": "source-receipt.json documents[0].companionArtifact; reports/rendered-artifacts.json pdfs[0]; the MASTER_QUEUE packetComponents row; the committed tree"
+        },
+        "ARTIFACTS": {
+          "measuredDetail": "14 of the 15 recorded artifact hashes recompute from the committed bytes and equal the record. The fifteenth, companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf at 9234ec76…, names bytes that are not on disk, so it hashes to nothing. Its two derived rasters verify against their own recorded digests (raster/oh-bci-official-source/page-01.png 02db2acc…, reports/contact-sheets/oh-bci-official-source.png 6f8ed825…), which is how the absence stayed invisible.",
+          "whatRepairMustDo": "The same choice as COMPONENT_SET, and the rasters follow it: if the PDF is committed, its rasters already match; if the declaration is withdrawn, the rasters and the contact sheet go with it, because a raster of a document the packet does not contain is evidence of nothing.",
+          "sourceOfTruth": "reports/rendered-artifacts.json, recomputed against the committed bytes"
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "The committed track registry records 9 selfHelpStopConditions for track oh_marijuana_expungement. The packet's \"Hard stops\" list covers roughly four in substance. Four are absent from both participant-instructions.md files and from companion-guidance.md, searched here across all three: \"immigration\" 0 occurrences against the registry's \"Immigration exposure\"; \"open warrant\" and \"pending criminal\" 0 against \"Pending criminal proceedings or open warrants\"; \"prosecutor object\" and \"victim object\" 0 against \"Prosecutor objection, and any victim objection where applicable\" — the packet mentions prosecutor notice, which is a different thing; and \"sealing and expungement\" 0 against \"Choosing between sealing and expungement, which is a legal judgment with different waits\".",
+          "whatRepairMustDo": "Carry the four omitted stop conditions into the packet's hard-stops list in the registry's own words. This is a text repair and is independent of the companion-artifact defect; repairing one does not repair the other.",
+          "sourceOfTruth": "data/record-clearing/legal-design-track-registry.json, track oh_marijuana_expungement, field selfHelpStopConditions"
+        }
+      },
+      "whatIsNotWrongHere": "The declared source is held and exact — OH-BCI-SEALING-EXPUNGEMENT-REQUEST recomputes to 9234ec76… from the mounted Master Library — so this family is not BLOCKED_SOURCE; the defect is in the build, not in the source. The artifact limb a prior lane failed this family on is now clean and must stay clean: the vf02 read found the canonical and boundary render-report text hashes disagreeing with the bytes, and both now recompute exactly (canonical.txt ae390310…, boundary.txt 141efb5e…), as do both pleading PDFs. Protection reads clean from the bytes: signature, date, judicial date and judicial signature are all blank and there is no certificate of service.",
+      "repairMustNotDo": [
+        "Do not edit an artifact merely so a record matches it. Where the record and the bytes disagree, repair whichever one is wrong on its own evidence.",
+        "This verification opens no commercial route, sets no price, touches no checkout and grants no approval. A repaired family returns to VERIFY_PENDING, not to live.",
+        "Do not treat a repaired obligation as discharging a legal-input block, and do not treat a discharged block as repairing an obligation. They are separate."
+      ],
+      "raisedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)",
+      "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
     }
   ],
   "supersededLaneMembership": {
@@ -282,5 +319,55 @@
     "whyAssignmentCountIsUnchanged": "assignmentCount 1 above is VF-SRC-A's count and is preserved byte-for-byte along with every other pre-existing top-level key and the one pre-existing assignment. The lane's true assignment count at this base is 6.",
     "claimedAndReleased": "All six VF06 families were asserted through scripts/grade-a-packet-factory-24h/claim.mjs before any file in a family directory was opened, and released after this row was written.",
     "grantsNothing": "A repair assignment names a defect and what a repair must do. It promotes no family, opens no commercial route, and approves no output."
+  },
+  "fableVteAppend": {
+    "verifier": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)",
+    "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "appendedAssignments": [
+      "oh_marijuana_expungement-set"
+    ],
+    "note": "Assignments are spliced into the existing array; nothing already in this file was changed, reworded or withdrawn. assignmentCount above counts the assignments this file carried before this append and is left as its author wrote it.",
+    "scopeRule": "One assignment per FAIL_REPAIR_REQUIRED verdict this lane returned. A family whose verdict is BLOCKED_LEGAL_INPUT is kept out of the assignments array, following this file's own precedent, so no repair lane picks it up while the hold is open; its measured defect is recorded under fableVteBlockedFamilyDefects instead.",
+    "blockedFamiliesRecordedSeparately": [
+      "wa_vac_substance_use_disorder-set"
+    ],
+    "whatThisGrants": "Nothing. Raising a repair opens no route, sets no price and grants no approval, and neither does completing one."
+  },
+  "fableVteBlockedFamilyDefects": {
+    "whyTheseAreNotAssignments": "Each family below returned BLOCKED_LEGAL_INPUT, not FAIL_REPAIR_REQUIRED. A blocked family is neither a FAIL nor a PASS, so it is kept out of the assignments array and no repair lane should pick it up while the hold is open. The defect is recorded because it was measured, is independent of the block, and would otherwise be discharged along with the block rather than repaired.",
+    "raisedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)",
+    "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "families": [
+      {
+        "itemId": "wa_vac_substance_use_disorder-set",
+        "lane": "VF06",
+        "familyVerdict": "BLOCKED_LEGAL_INPUT",
+        "familyVerdictNote": "This family's verdict is BLOCKED_LEGAL_INPUT, not FAIL_REPAIR_REQUIRED — a blocked family is neither a FAIL nor a PASS. The assignment is raised anyway because the defect below was measured, is independent of both blocks, and would otherwise be discharged along with them. Read it as a repair that is owed whatever happens to the blocks, not as a verdict.",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+        "decisiveDefect": "The committed track registry records 11 selfHelpStopConditions for track wa_vac_substance_use_disorder. The packet's \"Where self-help ends\" section carries 6 bullets and none of them is one of the record's screens. Searched against participant-instructions.md in this lane: \"immigration\" 0 occurrences, \"domestic violence\" 0, \"firearm\" 0, \"protection order\" 0, \"no-contact\" 0, \"pending charge\" 0.",
+        "failedProofObligations": [
+          "SELF_HELP_STOP"
+        ],
+        "blockedProofObligations": [
+          "ROUTE_OPTIONS",
+          "FEE_AND_WAIVER"
+        ],
+        "perObligation": {
+          "SELF_HELP_STOP": {
+            "measuredDetail": "The recorded conditions the packet omits include immigration consequences; any pending charge in Washington, another state, federal or tribal court; any domestic-violence element charged or findable from the court file; any protection, no-contact, antiharassment or civil restraining order in effect; any DUI, physical control or alcohol/drug-related driving offence including a reduced one; any firearm, deadly-weapon or sexual-motivation enhancement; any question about offence class or the exact RCW; a participant whose real goal is firearm-rights restoration, which is a separate proceeding; and uncertainty about whether the programme completed is one of the three named alternatives. The six bullets the packet does carry are good ones — they are about route and court fit, the RCW 9.96.060(6) section question, the truth of the printed eligibility statements, section 4 exclusions, prosecutor objection and record mismatch — but they are the packet's own, not the record's.",
+            "whatRepairMustDo": "Carry the 11 recorded stop conditions into \"Where self-help ends\" in the registry's own words, keeping the six the packet already has. This is a text repair in participant-instructions.md; no fixture byte needs to move and none should.",
+            "sourceOfTruth": "data/record-clearing/legal-design-track-registry.json, track wa_vac_substance_use_disorder, field selfHelpStopConditions"
+          }
+        },
+        "whatIsNotWrongHere": "The two blocked limbs are correctly recorded and this lane confirmed the reasoning behind the first of them first-hand: CrRLJ 09.0100 (rev. 11/2024, re-hashed to 1f72e901… here) prints four grounds and none names RCW 9.96.060(6), and its only occurrence of \"substance use disorder\" sits inside section 5's RCW 46.61.5055 DUI deferred-prosecution list. Marking any printed ground would misstate the route; the packet marks none, which is the right refusal. Source identity is clean, including CrRLJ 09.0300 at 42ac9ccb…, which is bound only in a markdown table and would be missed by a JSON-only sweep. All 26 recorded artifact hashes recompute.",
+        "repairMustNotDo": [
+          "Do not edit an artifact merely so a record matches it. Where the record and the bytes disagree, repair whichever one is wrong on its own evidence.",
+          "This verification opens no commercial route, sets no price, touches no checkout and grants no approval. A repaired family returns to VERIFY_PENDING, not to live.",
+          "Do not treat a repaired obligation as discharging a legal-input block, and do not treat a discharged block as repairing an obligation. They are separate."
+        ],
+        "raisedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)",
+        "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      }
+    ]
   }
 }

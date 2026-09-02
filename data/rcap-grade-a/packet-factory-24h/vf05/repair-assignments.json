@@ -201,6 +201,31 @@
         "do not satisfy COMPONENT_SET by renaming the two delivered guidance pages without building the three missing wa_del components",
         "this verification opens no commercial route and grants no approval"
       ]
+    },
+    {
+      "itemId": "ut_pet_dismissed_with_prejudice-set",
+      "lane": "VF05",
+      "familyVerdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+      "decisiveDefect": "The committed track registry records 8 selfHelpStopConditions for track ut_pet_dismissed_with_prejudice and participant-instructions.md carries none of them, including an express hard stop the registry states in those words: \"The participant is not a US citizen. The Utah Courts self-help page itself tells non-citizens to consult an immigration lawyer before expunging, because the FBI may retain records of an expunged case. This is a hard stop, not a caveat.\" The words \"immigration\", \"citizen\", \"lawyer\", \"counsel\", \"protective order\" and \"appellate\" appear nowhere in the file, and nowhere in the 19-page fixture text either.",
+      "failedProofObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "SELF_HELP_STOP": {
+          "measuredDetail": "8 recorded stop conditions, 0 carried. The packet's entire statement of where self-help ends is \"It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement\", plus the Self-Help Center number 888-583-0009 given twice in other contexts. One condition is worse than omitted: the registry names \"The prosecutor or a victim objects, or the court schedules a hearing\" as a point where self-help stops, and the packet's only sentence on that situation sends the participant onward — \"The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it.\"",
+          "whatRepairMustDo": "participant-instructions.md must carry the 8 selfHelpStopConditions the committed track registry records for this track, in the registry's own words as this family's siblings do, and must correct the objection/hearing sentence so it stops the participant rather than directing them to attend. The non-citizen condition must be stated as the hard stop the registry calls it. This is a text repair in participant-instructions.md; no fixture byte needs to move and none should.",
+          "sourceOfTruth": "data/record-clearing/legal-design-track-registry.json, track ut_pet_dismissed_with_prejudice, field selfHelpStopConditions"
+        }
+      },
+      "whatIsNotWrongHere": "The other fourteen obligations pass on measurement, and two things a repair could disturb are recorded so it does not. First, the DET-FEE-AND-WAIVER-001 A4 defect a prior lane found on these same canonical bytes (ad594f0a…) is repaired and must stay repaired: the instructions now state \"The BCI application fee is $65.00, and it is non-refundable\" and quote the two places the packet's own pages print it, which this lane confirmed with pdftotext at lines 696, 734 and 770 of the extracted canonical text. Second, all 12 corpus-bound sources and the compiled Utah state profile recompute exactly; nothing about source identity is in question.",
+      "repairMustNotDo": [
+        "Do not edit an artifact merely so a record matches it. Where the record and the bytes disagree, repair whichever one is wrong on its own evidence.",
+        "This verification opens no commercial route, sets no price, touches no checkout and grants no approval. A repaired family returns to VERIFY_PENDING, not to live.",
+        "Do not treat a repaired obligation as discharging a legal-input block, and do not treat a discharged block as repairing an obligation. They are separate."
+      ],
+      "raisedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)",
+      "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
     }
   ],
   "supersededLaneMembership": {
@@ -315,5 +340,16 @@
     ],
     "note": "Three FAIL_REPAIR_REQUIRED verdicts from the FABLE-VA12 wave, each naming the decisive defect and the exact failed obligations. Existing assignments untouched.",
     "assignmentCountUpdated": "assignmentCount moved 2 -> 5 so it keeps matching assignments.length, which is what the two prior appending lanes in this file did. No existing assignment object was altered."
+  },
+  "fableVteAppend": {
+    "verifier": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)",
+    "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "appendedAssignments": [
+      "ut_pet_dismissed_with_prejudice-set"
+    ],
+    "note": "Assignments are spliced into the existing array; nothing already in this file was changed, reworded or withdrawn. assignmentCount above counts the assignments this file carried before this append and is left as its author wrote it.",
+    "scopeRule": "One assignment per FAIL_REPAIR_REQUIRED verdict this lane returned. A family whose verdict is BLOCKED_LEGAL_INPUT is kept out of the assignments array, following this file's own precedent, so no repair lane picks it up while the hold is open; its measured defect is recorded under fableVteBlockedFamilyDefects instead.",
+    "blockedFamiliesRecordedSeparately": [],
+    "whatThisGrants": "Nothing. Raising a repair opens no route, sets no price and grants no approval, and neither does completing one."
   }
 }
