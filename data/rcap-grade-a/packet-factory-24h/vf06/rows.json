@@ -4153,8 +4153,130 @@
    },
    "measuredBy": "The fifteen proof obligations scored by name. The nine counters come from running scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> in this container at this base, never with --write and never from a builder report. Every source and artifact SHA-256 and byte length was recomputed here from the bytes against the mounted Master Library at MASTER_LIBRARY_SOURCE_DIR. Written values were read back out of the artifact PDFs by a content-stream walker written for this lane that walks page streams AND Form XObjects and decodes Tj/TJ through each font's ToUnicode CMap and /Differences, so a value in an XObject with an unmappable font is still seen. Selection marks and blank cells were measured by rendering packet and pristine source at 150dpi and diffing ink pixel by pixel, then rendering individual widget rects at 300dpi to tell a mark from a flattened border. Self-help stops were measured by diffing the packet against data/record-clearing/legal-design-track-registry.json per bound track, in the registry's own words. No overlay directory, packet, build script, MASTER_QUEUE.json or VERIFIER_RETURNS.json was modified.",
    "repairedNothing": true
+  },
+  {
+   "itemId": "ut_pet_conviction-set",
+   "lane": "VF06",
+   "wave": "packet-factory-24h/VF06 re-dispatch (2026-09-02)",
+   "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "Two independent measurements, both run here. (1) node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_conviction-set at this base: PASS_COMPLETE, 38/444 written, every counter 0. (2) A geometry measurement written for this read that never consults the builder's report: pdftotext -bbox over fixtures/canonical.pdf, fixtures/boundary.pdf and each of the nine bound Master Library source PDFs, differencing packet-page words against bound-source words to isolate added ink. It found 73 added words / 482 added glyphs in canonical and 120 / 1187 in boundary; every one of them lands inside a measured write box or inside the measured box of a selection control the map disposes as selected_route_option, 0 land anywhere else, and 0 land inside a protectedRules region. 482 is the same figure reports/actual-writes.json states, reached without reading it."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "detail": "The two route keys obligation:unit:UT:ut_pet_conviction:ut_pet_conviction-bci-certificate and obligation:unit:UT:ut_pet_conviction:ut_pet_conviction-court-petition are declared identically by source-receipt.json, production-field-map.json, product-wiring.json and approval-request.json, and are exactly the routeKeys the committed worklist entry for worklistGroupId ut_pet_conviction-set carries in data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json. routeSelectionId ut-conviction-bci-plus-court, implementationStrategy official_pdf_fill, and the track registry's packetSetId for track ut_pet_conviction is ut_pet_conviction-set. Checked here against the records, not against the builder's report."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "detail": "All nine bound documents re-hashed from the mounted Master Library in this container: 1000EX 401e0563… 62671 B, 1020EX cc437e7f… 106091 B, 1044XX b9958628… 119736 B, 1146XX 39f1205f… 192790 B, 1148XX 43c6d4fd… 191518 B, 1149XX 79f16112… 108630 B, 1169XX bd5594c7… 104506 B, UT-BCI-EXP-APPLICATION b4eacb2b… 2337718 B, UT-BCI-THIRD-PARTY-RELEASE c4b59e47… 349009 B. Nine of nine equal both the pinned SHA-256 and the pinned byte length. The four further sources participant-instructions.md quotes were also re-hashed here and all four hold: UT-BCI-EXP-INSTRUCTIONS 9e03980f…, UT-BCI-INDIGENT-INSTRUCTIONS 862e058f…, 1305GE c184a242…, and the compiled profile src/lib/rcap-engine/compiled/profiles/UT-utah.json 73dd7ea9…. This family binds no route-obligation census record, so the stale census pin recorded against other census-v1 families does not reach it."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "detail": "The track registry packetSet ut_pet_conviction-set names nine components, each with an officialFormId: bci-certificate-application-1 (UT-BCI-EXP-APPLICATION), bci-third-party-release-2 (UT-BCI-THIRD-PARTY-RELEASE), civil-cover-sheet-3 (1044XX), petition-4 (1000EX), proposed-order-5 (1020EX), acceptance-of-service-6 (1146XX), consent-and-waiver-of-hearing-7 (1148XX), victim-notice-form-8 (1149XX), reply-to-prosecutor-or-victim-statement-9 (1169XX). All nine forms are rendered and present in the 19-page fixture, one component to one form, and product-wiring.json lists the same nine componentIds the route's requiredSourceIds name. requiredComponentsMissing 0."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "detail": "Thirty text writes are declared (1000EX 9, 1020EX 10, 1044XX 5, UT-BCI-EXP-APPLICATION 6) and every one was found in text extracted from the fixture bytes on the packet page it belongs to — 0 declared writes absent from the artifact, and separately 0 of the 38 values reports/actual-writes.json records missing from its own page when checked the same way. The ten facts the packet holds (participant full legal name, BCI name, street address, mailing address, city/state/zip, phone, email, date of birth, matter case number, matter county) are written on the petition, the proposed order, the civil cover sheet and the BCI application. I also inverted the test: of 256 census blanks, every blank whose caption descriptor names a fact the packet holds and which carries no write carries an approved disposition instead (42 OPTIONAL_PARTICIPANT_CONTENT, 18 NOT_APPLICABLE_ON_THIS_ROUTE — the 1044XX attorney and additional-party branches, 14 PROTECTED_FIELD — the 1146XX recipient block, 2 REQUIRED_BEFORE_FILING); none is silently blank."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "detail": "Twelve blanks are disposed REQUIRED_BEFORE_FILING and each is named in participant-instructions.md, checked line by line against the file: judicial district and court address (1000EX ×4, 1020EX ×2) → 'Judicial district and court street address for the filing venue'; the certificate-of-eligibility number → 'BCI certificate-of-eligibility identification number'; the public-interest paragraph → 'Participant's public-interest explanation on the petition'; PREVIOUSLY USED NAME(S) → 'Every previously used name, or an express statement that there are none'; and the three remaining BCI application blanks → 'Gender, Social Security number, and driver-license number/state required by the BCI application'. Two of those three carry misleading captions in the map and I resolved them against the source page rather than trusting the caption: the blank captioned 'MAILING ADDRESS' at p2-y622.60-x445.83 sits on the printed GENDER rule (printed 'GENDER' ends at x≈398, the rule starts at x≈446) and the blank captioned 'ATE' at p2-y567.70-x424.55 sits on the printed 'DRIVER LICENSE # AND STATE:' rule. The real MAILING ADDRESS blank, at p2-y600.10-x131.49, is written rather than deferred. Caption attribution by nearest printed line is imprecise here; it is a record-legibility observation, not a defect in the packet."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "detail": "186 selection controls across the nine forms: 8 disposed selected_route_option and 178 explicit_refusal, and none disposed as requiring a selection that was not made. All 8 selected options were confirmed to carry a mark in the artifact bytes at the declared measured box — including the $150 'Expungement Petition - Criminal (E)' row on the 1044XX cover sheet, the District Court election and the Petitioner election on 1000EX. Measured from the bytes; requiredOptionsMissing 0."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "detail": "The family has no repeating row group: 0 of 442 census entries and 0 of the declared writes carry a rowId, rowIndex or repeatingGroup, and none of the nine Utah forms is tabular in the filled region. There is no row that could carry written cells beside blank required cells. incompleteRows 0."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "detail": "Zero added glyphs fall inside any protectedRules region in either fixture, measured by geometry from the bytes over all three declared rules on 1000EX (the Judge line, and both signature lines on page 2) and every rule on the other eight forms. Zero census blanks carrying protectCategory or regionProtectCategory carry a write. 44 blanks are refused as PROTECTED_FIELD with a stated actor, and 1 as LATER_COMPLETION (the 1020EX 'A hearing held on' line, left for the court). The signature, signature-date, acceptance-of-service and certificate-of-service blocks are all ink-free — 1146XX, 1148XX, 1149XX, 1169XX and UT-BCI-THIRD-PARTY-RELEASE carry no writes at all. protectedWrites 0."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "detail": "sha256sum here: fixtures/canonical.pdf ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6 at 3024920 B and fixtures/boundary.pdf b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765 at 3025560 B — both exactly what reports/rendered-artifacts.json names, and the canonical hash is also what product-wiring.json's acceptance receipt binds (boundToCanonicalSha256). pdf-lib reads 19 pages in each; 19 raster PNGs exist per fixture. activeContentScan hits are empty in both."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "detail": "The 19-page manifest is a faithful page-by-page expansion of the nine bound documents in the order the receipt lists them — 1000EX 1-2, 1020EX 3-5, 1044XX 6-7, 1146XX 8, 1148XX 9-10, 1149XX 11-13, 1169XX 14-16, UT-BCI-EXP-APPLICATION 17-18, UT-BCI-THIRD-PARTY-RELEASE 19 — every entry naming the source page and the source SHA-256, and the rendered PDFs carry exactly those 19 pages. Observation, not a defect: the physical order is the receipt's order and not the packetSet component 'order' field (which would put the BCI application and third-party release first); the instructions state the true filing sequence — BCI first, then the court — in words, so the participant is not misdirected by the assembly order."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "detail": "Of 73 added words in canonical and 120 in boundary, 0 fall outside every measured write box and selected-option box, and 0 write overruns its own box: for every declared write the extracted ink extends neither past the box's right edge nor left of its left edge, in either fixture. The boundary fixture carries 1187 added glyphs against canonical's 482 — the long-value stress case — and still stays inside the boxes. Page 1 of the canonical raster was also read as an image: the petitioner block, county and case number sit on their rules, the bracket elections are marked in place, and the Judge, judicial-district, court-address, certificate-number and public-interest lines are visibly empty. visualDefects 0."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "detail": "participant-instructions.md names two destinations in order — the Utah DPS Bureau of Criminal Identification for the certificate, then 'the Utah district court for the county where the case was heard' — which is what the track's destination and venue fields name (stage one BCI, stage two the court that decided the case). It also carries BCI's own 180-day deadline between the two steps, and says the judicial district number and court street address are blank for the participant to complete."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "detail": "Three charges and three waiver routes are stated, each tied to the office that charges it: the $150 court filing fee, with the cover-sheet row this packet selects, and the waiver route named as Utah form 1305GE under Utah Code 78A-2-302 and CJA Rule 4-508 (form not enclosed; the instructions say where to get it); the non-refundable $65.00 BCI application fee with BCI's indigency waiver, which the instructions say must be completed before the application is submitted; and the certificate charge, stated as the held figure of $65 per case with the FAQ's 'may require' condition kept, plus the instruction not to assume the court waiver reaches either BCI amount."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "detail": "'The prosecutor must receive a copy of what you file, by mail or by email', quoted from BCI's Expungement Applicant Instructions, with form 1146XX Acceptance of Service - Expungement (Prosecutor) enclosed for the prosecutor to acknowledge. The instructions also direct that service method, address and date be filled only after service actually happens, and the packet leaves that block blank, which the byte measurement confirms."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "detail": "A 'Where self-help ends' section carries thirteen stop conditions word for word from track ut_pet_conviction selfHelpStopConditions in data/record-clearing/legal-design-track-registry.json, with the non-citizen condition marked a hard stop and the objection/hearing condition marked as the point where the matter becomes contested, plus the Utah State Courts Self-Help Center number. A 'What this packet is not' section states it is not legal advice, is not filed for the participant, and decides nothing."
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/field-census.census-v1.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/raster/canonical/page-01.png",
+    "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+    "data/record-clearing/legal-design-track-registry.json (track ut_pet_conviction)",
+    "src/lib/rcap-engine/compiled/profiles/UT-utah.json (re-hashed)",
+    "MASTER_LIBRARY_SOURCE_DIR STATES/UT (nine bound PDFs plus UT-BCI-EXP-INSTRUCTIONS, UT-BCI-INDIGENT-INSTRUCTIONS and 1305GE, all re-hashed)"
+   ],
+   "whatThisDoesNotDo": "An independent PASS proves this packet is complete. It approves no output, opens no commercial route, and does not stand in for the output-level legal or independent visual approval this family still awaits."
   }
  ],
+  "vf06ReDispatchWave": {
+   "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
+   "note": "VF06 re-dispatch wave (2026-09-02, base 247b790b6): the seven families dispatch transferred to VF06, none of which any prior VF06 row covered. Rows from earlier waves are preserved above unchanged.",
+   "families": [
+    "ut_pet_conviction-set"
+   ],
+   "verdicts": {
+    "PASS_COMPLETE_INDEPENDENT": 1
+   },
+   "overlayDirectoriesModified": 0,
+   "packetsModified": 0,
+   "buildScriptsModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "centralManifestsModified": "none - MASTER_QUEUE.json, VERIFIER_RETURNS.json and ACTIVE_ASSIGNMENTS.json untouched; the claim ledger changed only through claim.mjs --assert and --release",
+   "measuredBy": "Each family measured in this container: the nine counters from scripts/rcap-packet-completeness/verify-packet-completeness.mjs run here, every bound source and artifact SHA-256 recomputed from the mounted Master Library and the committed bytes, added ink isolated by differencing pdftotext -bbox words on each packet page against its bound source page, and the narrative obligations read against participant-instructions.md and the committed legal records."
+  },
  "supersededLaneMembership": {
   "note": "the earlier reading, when this lane covered other families",
   "schemaVersion": "rcap-independent-verification-rows/v1",
