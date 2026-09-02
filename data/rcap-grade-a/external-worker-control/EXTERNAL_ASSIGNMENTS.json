@@ -1,13 +1,11 @@
 {
   "schemaVersion": "rcap-external-assignments/v1",
-  "generatedAt": "2026-09-01T12:25:55Z",
-  "captainSha": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
+  "generatedAt": "2026-09-02T01:05:56Z",
+  "captainSha": "0e03b148ef2d12af525b27e11fd95e1a66726c48",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "purpose": "The canonical record of externally dispatched lanes. The packet-factory generator reads this so regeneration cannot delete an external grant, and F24 reads it so an external grant is not an undispatched one.",
   "externalLanes": [
     "FIX09",
-    "FIX10",
-    "FIX11",
     "PF17",
     "VF18",
     "VF19",
@@ -17,9 +15,7 @@
     "VF23",
     "VF24",
     "VF25",
-    "VF26",
-    "VF27",
-    "VF28"
+    "VF26"
   ],
   "workers": [
     {
@@ -29,25 +25,25 @@
       "assignmentId": "CSA-PF17-V4-BATCH-001",
       "lane": "PF17",
       "laneKind": "packet-build",
-      "subjectIds": [],
+      "subjectIds": [
+        "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+        "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+        "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+        "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+        "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+        "ca-1203-4-set"
+      ],
       "operation": "packet-build",
       "subjectCount": 6,
-      "requiresCaptainTransferFirst": false,
-      "captainTransferCommands": [],
-      "completedSubjects": [
-        "ca-1203-4-set",
-        "ky_felony_vacatur_expungement-set",
-        "or_conviction_setaside-set",
-        "sc_17_22_950_summary-set",
-        "wi_nc_doj_challenge-set",
-        "wi_nc_doj_fingerprint_removal-set"
-      ],
-      "status": "STOOD_DOWN_COMPLETE",
-      "standDown": {
-        "on": "2026-09-01",
-        "why": "Every packet-build subject this Codespace was assigned finished internally: the claim ledger holds a RELEASED PF17 packet-build grant for all six (ca-1203-4-set released back to its source block). The takeover directive moved Codex off the critical packet-production path; nothing is reassigned here, the ledger already records the completions.",
-        "measuredFrom": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
-      }
+      "requiresCaptainTransferFirst": true,
+      "captainTransferCommands": [
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF05 PF17 agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge --reason \"<why this lane takes it>\"",
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF05 PF17 agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement --reason \"<why this lane takes it>\"",
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF05 PF17 agency-application-treatment:obligation:track-only:CT:ct-destruction-request --reason \"<why this lane takes it>\"",
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF05 PF17 agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon --reason \"<why this lane takes it>\"",
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF05 PF17 agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure --reason \"<why this lane takes it>\"",
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF17 PF17 ca-1203-4-set --reason \"<why this lane takes it>\""
+      ]
     },
     {
       "workerId": "CODEX-CS-B",
@@ -56,75 +52,19 @@
       "assignmentId": "CSB-FIX09-V4-BATCH-001",
       "lane": "FIX09",
       "laneKind": "repair",
-      "subjectIds": [],
-      "operation": "rapid-repair",
-      "subjectCount": 6,
-      "requiresCaptainTransferFirst": false,
-      "captainTransferCommands": [],
-      "completedSubjects": [
-        "az_marijuana_expungement_arrest_no_charges-set",
+      "subjectIds": [
+        "ca-1203-41-set",
         "ca-1203-42-set",
-        "ca-851-91-set",
-        "nj_arrest_no_conviction-set",
-        "nj_indictable_conviction-set",
-        "ny_160_59_petition-set"
+        "ca-1203-4a-set"
       ],
-      "status": "COMPLETE",
-      "completion": {
-        "on": "2026-09-01",
-        "why": "Codex off the critical path: every subject is now owned internally — az repaired, nj_arrest rebuilt and re-rastered, the four remaining repair grants live on FIX03-FIX06 with internal workers dispatched"
-      }
-    },
-    {
-      "workerId": "FABLE-R3",
-      "assignmentVersion": 4,
-      "mode": "PACKET_REPAIR",
-      "assignmentId": "FR3-FIX10-V4-BATCH-001",
-      "lane": "FIX10",
-      "laneKind": "repair",
-      "subjectIds": [],
       "operation": "rapid-repair",
-      "subjectCount": 9,
+      "subjectCount": 3,
       "requiresCaptainTransferFirst": true,
-      "captainTransferCommands": [],
-      "completedSubjects": [
-        "wa_vac_cannabis-set",
-        "wa_vac_domestic_violence-set",
-        "wa_vac_felony-set",
-        "wa_vac_homicide_victim_prostitution-set",
-        "wa_vac_misdemeanor_ordinary-set",
-        "wa_vac_substance_use_disorder-set",
-        "wa_vac_survivor_felony-set",
-        "wa_vac_survivor_misdemeanor-set",
-        "wa_vac_treaty_fishing-set"
-      ],
-      "status": "COMPLETE",
-      "completion": {
-        "on": "2026-09-01",
-        "why": "all nine WA repairs returned and merged (fable/r3); FIX10 grants released; two byte-changed families re-rastered in run 33526896195"
-      }
-    },
-    {
-      "workerId": "FABLE-R4",
-      "assignmentVersion": 4,
-      "mode": "PACKET_REPAIR",
-      "assignmentId": "FR4-FIX11-V4-BATCH-001",
-      "lane": "FIX11",
-      "laneKind": "repair",
-      "subjectIds": [],
-      "operation": "rapid-repair",
-      "subjectCount": 2,
-      "requiresCaptainTransferFirst": true,
-      "captainTransferCommands": [],
-      "completedSubjects": [
-        "pa_490_nonconviction-set",
-        "pa_9122_1_limited_access-set"
-      ],
-      "status": "COMPLETE",
-      "completion": {
-        "on": "2026-09-01",
-        "why": "both PA repairs returned and merged (fable/r4); FIX11 grants released; both re-rastered in run 33526896195"
-      }
+      "captainTransferCommands": [
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX01 FIX09 ca-1203-41-set --reason \"<why this lane takes it>\"",
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX02 FIX09 ca-1203-42-set --reason \"<why this lane takes it>\"",
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX03 FIX09 ca-1203-4a-set --reason \"<why this lane takes it>\""
+      ]
     },
     {
       "workerId": "FABLE-V2",
@@ -133,27 +73,21 @@
       "assignmentId": "FV2-VF26-V4-BATCH-001",
       "lane": "VF26",
       "laneKind": "independent-verification",
-      "subjectIds": [],
-      "operation": "independent-verification",
-      "subjectCount": 4,
-      "requiresCaptainTransferFirst": true,
-      "captainTransferCommands": [
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF05 VF26 va_seal_petition_felony-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF06 VF26 va_seal_petition_misdemeanor-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF04 VF26 va_seal_enumerated_seven_year-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF03 VF26 va_seal_ancillary_matter_only-set --reason \"<why this lane takes it>\""
-      ],
-      "completedSubjects": [
+      "subjectIds": [
         "va_seal_petition_felony-set",
         "va_seal_petition_misdemeanor-set",
         "va_seal_enumerated_seven_year-set",
         "va_seal_ancillary_matter_only-set"
       ],
-      "status": "COMPLETE",
-      "completion": {
-        "on": "2026-09-01",
-        "why": "all four VA verdicts returned and merged (fable/v2): PASS_COMPLETE_INDEPENDENT; VF26 grants released"
-      }
+      "operation": "independent-verification",
+      "subjectCount": 4,
+      "requiresCaptainTransferFirst": true,
+      "captainTransferCommands": [
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF26 VF26 va_seal_petition_felony-set --reason \"<why this lane takes it>\"",
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF26 VF26 va_seal_petition_misdemeanor-set --reason \"<why this lane takes it>\"",
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF26 VF26 va_seal_enumerated_seven_year-set --reason \"<why this lane takes it>\"",
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF26 VF26 va_seal_ancillary_matter_only-set --reason \"<why this lane takes it>\""
+      ]
     },
     {
       "workerId": "CLOUD01",
@@ -207,18 +141,13 @@
       "assignmentId": "CLOUD04-VF21-V4-BATCH-001",
       "lane": "VF21",
       "laneKind": "independent-verification",
-      "subjectIds": [],
+      "subjectIds": [
+        "ar-arrest-seal-set"
+      ],
       "operation": "independent-verification",
       "subjectCount": 1,
       "requiresCaptainTransferFirst": true,
-      "captainTransferCommands": [],
-      "heldSubjects": [
-        {
-          "subjectId": "ar-arrest-seal-set",
-          "why": "family is mid-repair on FIX01; the read this slot was minted for can only happen against post-repair bytes and a fresh raster receipt. The released VF grant is re-openable by captain transfer when the family returns to VERIFY_PENDING."
-        }
-      ],
-      "status": "ON_HOLD_REPAIR_IN_PROGRESS"
+      "captainTransferCommands": []
     },
     {
       "workerId": "CLOUD05",
@@ -227,18 +156,13 @@
       "assignmentId": "CLOUD05-VF22-V4-BATCH-001",
       "lane": "VF22",
       "laneKind": "independent-verification",
-      "subjectIds": [],
+      "subjectIds": [
+        "ar-misdemeanor-dwi-seal-set"
+      ],
       "operation": "independent-verification",
       "subjectCount": 1,
       "requiresCaptainTransferFirst": true,
-      "captainTransferCommands": [],
-      "heldSubjects": [
-        {
-          "subjectId": "ar-misdemeanor-dwi-seal-set",
-          "why": "family is mid-repair on FIX02; the read this slot was minted for can only happen against post-repair bytes and a fresh raster receipt. The released VF grant is re-openable by captain transfer when the family returns to VERIFY_PENDING."
-        }
-      ],
-      "status": "ON_HOLD_REPAIR_IN_PROGRESS"
+      "captainTransferCommands": []
     },
     {
       "workerId": "CLOUD06",
@@ -248,7 +172,7 @@
       "lane": "VF23",
       "laneKind": "independent-verification",
       "subjectIds": [
-        "co_motion_seal_nonconviction-set"
+        "az_marijuana_expungement_arrest_no_charges-set"
       ],
       "operation": "independent-verification",
       "subjectCount": 1,
@@ -263,7 +187,7 @@
       "lane": "VF24",
       "laneKind": "independent-verification",
       "subjectIds": [
-        "ct-cleanslate-petition-set"
+        "co_motion_seal_nonconviction-set"
       ],
       "operation": "independent-verification",
       "subjectCount": 1,
@@ -277,62 +201,17 @@
       "assignmentId": "CLOUD08-VF25-V4-BATCH-001",
       "lane": "VF25",
       "laneKind": "independent-verification",
-      "subjectIds": [],
+      "subjectIds": [
+        "co_multiple_conviction_seal-set"
+      ],
       "operation": "independent-verification",
       "subjectCount": 1,
       "requiresCaptainTransferFirst": true,
-      "captainTransferCommands": [],
-      "completedSubjects": [
-        "mi_setaside_marihuana-set"
-      ],
-      "status": "COMPLETE",
-      "completion": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "recordedAt": "data/rcap-grade-a/packet-factory-24h/vf25/rows.json",
-        "note": "the read happened and returned FAIL; the family moved to repair (FIX02 live), and its next read is a fresh dispatch after repair"
-      }
-    },
-    {
-      "workerId": "FABLE-V4",
-      "assignmentVersion": 4,
-      "mode": "SECOND_INDEPENDENT_READ",
-      "assignmentId": "FV4-VF27-V4-BATCH-001",
-      "lane": "VF27",
-      "laneKind": "independent-verification",
-      "subjectIds": [
-        "az_marijuana_expungement_arrest_no_charges-set",
-        "nj_arrest_no_conviction-set",
-        "wa_vac_domestic_violence-set",
-        "wa_vac_felony-set",
-        "pa_490_nonconviction-set",
-        "pa_9122_1_limited_access-set"
-      ],
-      "operation": "independent-verification",
-      "subjectCount": 6,
-      "requiresCaptainTransferFirst": false,
-      "captainTransfersCompleted": "all six transfers ran 2026-09-01 with reasons in the ledger transfer log",
-      "captainTransferCommands": []
-    },
-    {
-      "workerId": "FABLE-V5",
-      "assignmentVersion": 4,
-      "mode": "SECOND_INDEPENDENT_READ",
-      "assignmentId": "FV5-VF28-V4-BATCH-001",
-      "lane": "VF28",
-      "laneKind": "independent-verification",
-      "subjectIds": [
-        "nj_indictable_conviction-set",
-        "ny_160_59_petition-set"
-      ],
-      "operation": "independent-verification",
-      "subjectCount": 2,
-      "requiresCaptainTransferFirst": false,
-      "captainTransfersCompleted": "both transfers ran 2026-09-01 with reasons in the ledger transfer log",
       "captainTransferCommands": []
     }
   ],
   "claudeOwnershipUntouched": {
-    "liveClaudeClaimsAtGeneration": 211,
+    "liveClaudeClaimsAtGeneration": 168,
     "externalSubjectsOverlappingALiveClaim": []
   },
   "commercialRoutesOpened": 0,

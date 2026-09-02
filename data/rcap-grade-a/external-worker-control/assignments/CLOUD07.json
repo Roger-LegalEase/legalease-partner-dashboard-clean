@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-external-assignment/v1",
-  "captainSha": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
-  "createdAt": "2026-09-01T15:38:03Z",
+  "captainSha": "0e03b148ef2d12af525b27e11fd95e1a66726c48",
+  "createdAt": "2026-09-02T01:05:56Z",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -30,19 +30,20 @@
   "lane": "VF24",
   "laneKind": "independent-verification",
   "subjectIds": [
-    "ct-cleanslate-petition-set"
+    "co_motion_seal_nonconviction-set"
   ],
   "subjects": [
     {
-      "familyId": "ct-cleanslate-petition-set",
-      "directory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
-      "masterQueueState": "VERIFY_PENDING",
-      "sharesBytesWithAnotherFamily": false
+      "familyId": "co_motion_seal_nonconviction-set",
+      "directory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
+      "masterQueueState": "COMPLETE_PACKET_PROVEN",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF23"
     }
   ],
-  "claimPrerequisite": "Captain must first run: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer undefined VF24 ct-cleanslate-petition-set --reason \"second independent read; the family earned a RASTER_PASS the first read did not have\". Do not assert until CONTROL_STATE.json shows this transfer completed — a fresh assert on this family is a duplicate and will be refused.",
+  "claimPrerequisite": "Captain must first run: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF23 VF24 co_motion_seal_nonconviction-set --reason \"second independent read; the family earned a RASTER_PASS the first read did not have\". Do not assert until CONTROL_STATE.json shows this transfer completed — a fresh assert on this family is a duplicate and will be refused.",
   "claimAssertions": [
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF24 ct-cleanslate-petition-set   # only after Captain's transfer"
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF24 co_motion_seal_nonconviction-set   # only after Captain's transfer"
   ],
   "whyASecondRead": "The first read predates this family's hash-bound raster receipt over its complete document set. That receipt is evidence the first reader did not have.",
   "ownedPaths": [
@@ -55,7 +56,7 @@
   ],
   "readOnly": "You write evidence only, under your own return path. You modify no packet and no source body.",
   "controllingEvidencePaths": [
-    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/**",
     "data/rcap-grade-a/launch-control/GRADE_A_READINESS.json"
   ],
   "focusedTestCommands": [
@@ -90,7 +91,7 @@
   "branch": null,
   "branchFrom": {
     "remote": "origin/claude/legalease-sprint-captain-utucnw",
-    "mustContain": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
+    "mustContain": "0e03b148ef2d12af525b27e11fd95e1a66726c48",
     "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
   }
 }

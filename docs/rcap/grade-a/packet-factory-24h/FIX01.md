@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `6ecc5c7cbe5963d4f0b71ecf87e5a7948e8b7d27` (or the newer dispatch base)
+**Minimum required ancestor:** `0e03b148ef2d12af525b27e11fd95e1a66726c48` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ar-arrest-seal-set \
+  --family ca-1203-41-set \
   --codex-cloud \
-  --minimum-captain-sha 6ecc5c7cbe5963d4f0b71ecf87e5a7948e8b7d27
+  --minimum-captain-sha 0e03b148ef2d12af525b27e11fd95e1a66726c48
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,10 +56,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 2 families
+## The 4 families
 
-- `ar-arrest-seal-set`
+- `ca-1203-41-set` — failing: requiredOptionsMissing
 - `ky_void_seal_controlled_substance-set`
+- `ut_pet_acquittal-set`
+- `wv_conv_multiple_misdemeanors-set`
 
 ## What you receive
 
@@ -72,9 +74,11 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
-- `data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/**`
-- `scripts/build-census-v1-ar-arrest-seal-set.mjs`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ca-1203-41-set.mjs`
 
 ## Never write here
 

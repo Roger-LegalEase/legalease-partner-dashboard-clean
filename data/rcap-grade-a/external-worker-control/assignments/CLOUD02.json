@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-external-assignment/v1",
-  "captainSha": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
-  "createdAt": "2026-09-01T15:38:03Z",
+  "captainSha": "0e03b148ef2d12af525b27e11fd95e1a66726c48",
+  "createdAt": "2026-09-02T01:05:56Z",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -36,11 +36,12 @@
     {
       "familyId": "ak-tf800-set",
       "directory": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
-      "masterQueueState": "VERIFY_PENDING",
-      "sharesBytesWithAnotherFamily": false
+      "masterQueueState": "COMPLETE_PACKET_PROVEN",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF19"
     }
   ],
-  "claimPrerequisite": "Captain must first run: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer undefined VF19 ak-tf800-set --reason \"second independent read; the family earned a RASTER_PASS the first read did not have\". Do not assert until CONTROL_STATE.json shows this transfer completed — a fresh assert on this family is a duplicate and will be refused.",
+  "claimPrerequisite": "Captain must first run: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF19 VF19 ak-tf800-set --reason \"second independent read; the family earned a RASTER_PASS the first read did not have\". Do not assert until CONTROL_STATE.json shows this transfer completed — a fresh assert on this family is a duplicate and will be refused.",
   "claimAssertions": [
     "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF19 ak-tf800-set   # only after Captain's transfer"
   ],
@@ -90,7 +91,7 @@
   "branch": null,
   "branchFrom": {
     "remote": "origin/claude/legalease-sprint-captain-utucnw",
-    "mustContain": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
+    "mustContain": "0e03b148ef2d12af525b27e11fd95e1a66726c48",
     "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
   }
 }

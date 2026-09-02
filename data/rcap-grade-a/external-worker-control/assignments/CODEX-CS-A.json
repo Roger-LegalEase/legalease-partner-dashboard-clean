@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-external-assignment/v1",
-  "captainSha": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
-  "createdAt": "2026-09-01T15:38:03Z",
+  "captainSha": "0e03b148ef2d12af525b27e11fd95e1a66726c48",
+  "createdAt": "2026-09-02T01:05:56Z",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -29,22 +29,93 @@
   "role": "Primary Packet Build Factory (persistent Codespace)",
   "lane": "PF17",
   "laneKind": "packet-build",
-  "subjectIds": [],
+  "subjectIds": [
+    "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+    "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+    "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+    "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+    "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+    "ca-1203-4-set"
+  ],
   "subjects": [
+    {
+      "familyId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "directory": "data/rcap-all50/overlays/census-v1/al/agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill",
+      "masterQueueState": "SOURCE_READY",
+      "sharesBytesWithAnotherFamily": false
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "directory": "data/rcap-all50/overlays/census-v1/nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill",
+      "masterQueueState": "SOURCE_READY",
+      "sharesBytesWithAnotherFamily": false
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "directory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+      "masterQueueState": "SOURCE_READY",
+      "sharesBytesWithAnotherFamily": false
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "directory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill",
+      "masterQueueState": "SOURCE_READY",
+      "sharesBytesWithAnotherFamily": false
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "directory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill",
+      "masterQueueState": "SOURCE_READY",
+      "sharesBytesWithAnotherFamily": false
+    },
     {
       "familyId": "ca-1203-4-set",
       "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill",
       "masterQueueState": "SOURCE_READY",
       "sharesBytesWithAnotherFamily": false
-    },
-    {
-      "familyId": "wv_nc_diversion_deferred-set",
-      "directory": "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill",
-      "masterQueueState": "SOURCE_READY",
-      "sharesBytesWithAnotherFamily": false
     }
   ],
   "claimPlan": [
+    {
+      "subjectId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "kind": "TRANSFER",
+      "holdingLane": "PF05",
+      "operation": "packet-build",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF05 PF17 agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge   # only after Captain's transfer"
+    },
+    {
+      "subjectId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "kind": "TRANSFER",
+      "holdingLane": "PF05",
+      "operation": "packet-build",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF05 PF17 agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement   # only after Captain's transfer"
+    },
+    {
+      "subjectId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "kind": "TRANSFER",
+      "holdingLane": "PF05",
+      "operation": "packet-build",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF05 PF17 agency-application-treatment:obligation:track-only:CT:ct-destruction-request --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 agency-application-treatment:obligation:track-only:CT:ct-destruction-request   # only after Captain's transfer"
+    },
+    {
+      "subjectId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "kind": "TRANSFER",
+      "holdingLane": "PF05",
+      "operation": "packet-build",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF05 PF17 agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon   # only after Captain's transfer"
+    },
+    {
+      "subjectId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "kind": "TRANSFER",
+      "holdingLane": "PF05",
+      "operation": "packet-build",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF05 PF17 agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure   # only after Captain's transfer"
+    },
     {
       "subjectId": "ca-1203-4-set",
       "kind": "TRANSFER",
@@ -52,24 +123,24 @@
       "operation": "packet-build",
       "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF17 PF17 ca-1203-4-set --reason \"<why this lane takes it>\"",
       "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ca-1203-4-set   # only after Captain's transfer"
-    },
-    {
-      "subjectId": "wv_nc_diversion_deferred-set",
-      "kind": "TRANSFER",
-      "holdingLane": "PF03",
-      "operation": "packet-build",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF03 PF17 wv_nc_diversion_deferred-set --reason \"<why this lane takes it>\"",
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 wv_nc_diversion_deferred-set   # only after Captain's transfer"
     }
   ],
   "claimAssertions": [
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ca-1203-4-set   # only after Captain's transfer",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 wv_nc_diversion_deferred-set   # only after Captain's transfer"
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge   # only after Captain's transfer",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement   # only after Captain's transfer",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 agency-application-treatment:obligation:track-only:CT:ct-destruction-request   # only after Captain's transfer",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon   # only after Captain's transfer",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure   # only after Captain's transfer",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ca-1203-4-set   # only after Captain's transfer"
   ],
   "claimPrerequisite": "Every one of these families already holds a RELEASED packet-build claim from an earlier PF lane, so a bare --assert is a duplicate subject+operation and the ledger refuses it. Captain transfers each grant to PF17 first; claimPlan carries the exact command per subject. Do not assert until CONTROL_STATE.json shows the transfer completed, and if an assert is refused STOP and return the refusal rather than working without a grant.",
   "ownedPaths": [
-    "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/**",
-    "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill/**"
+    "data/rcap-all50/overlays/census-v1/al/agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/**"
   ],
   "prohibitedPaths": [
     "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
@@ -104,21 +175,7 @@
   "branch": "codex/cs-a/csa-pf17-v4-batch-001",
   "branchFrom": {
     "remote": "origin/claude/legalease-sprint-captain-utucnw",
-    "mustContain": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
+    "mustContain": "0e03b148ef2d12af525b27e11fd95e1a66726c48",
     "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
-  },
-  "status": "STOOD_DOWN_COMPLETE",
-  "completedSubjects": [
-    "ca-1203-4-set",
-    "ky_felony_vacatur_expungement-set",
-    "or_conviction_setaside-set",
-    "sc_17_22_950_summary-set",
-    "wi_nc_doj_challenge-set",
-    "wi_nc_doj_fingerprint_removal-set"
-  ],
-  "standDown": {
-    "on": "2026-09-01",
-    "why": "Every packet-build subject this Codespace was assigned finished internally: the claim ledger holds a RELEASED PF17 packet-build grant for all six (ca-1203-4-set released back to its source block). The takeover directive moved Codex off the critical packet-production path; nothing is reassigned here, the ledger already records the completions.",
-    "measuredFrom": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
   }
 }

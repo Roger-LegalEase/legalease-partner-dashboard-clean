@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-external-assignment/v1",
-  "captainSha": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
-  "createdAt": "2026-09-01T15:38:03Z",
+  "captainSha": "0e03b148ef2d12af525b27e11fd95e1a66726c48",
+  "createdAt": "2026-09-02T01:05:56Z",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -29,8 +29,19 @@
   "role": "Repair and Promotion Factory (persistent Codespace)",
   "lane": "FIX09",
   "laneKind": "repair",
-  "subjectIds": [],
+  "subjectIds": [
+    "ca-1203-41-set",
+    "ca-1203-42-set",
+    "ca-1203-4a-set"
+  ],
   "subjects": [
+    {
+      "familyId": "ca-1203-41-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": null
+    },
     {
       "familyId": "ca-1203-42-set",
       "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill",
@@ -39,73 +50,49 @@
       "firstReadBy": "VF17"
     },
     {
-      "familyId": "ca-851-91-set",
-      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill",
+      "familyId": "ca-1203-4a-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill",
       "masterQueueState": "FAIL_REPAIR_REQUIRED",
       "sharesBytesWithAnotherFamily": false,
-      "firstReadBy": "VF17"
-    },
-    {
-      "familyId": "nj_indictable_conviction-set",
-      "directory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
-      "masterQueueState": "FAIL_REPAIR_REQUIRED",
-      "sharesBytesWithAnotherFamily": false,
-      "firstReadBy": "VF17"
-    },
-    {
-      "familyId": "ny_160_59_petition-set",
-      "directory": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill",
-      "masterQueueState": "FAIL_REPAIR_REQUIRED",
-      "sharesBytesWithAnotherFamily": false,
-      "firstReadBy": "VF17"
+      "firstReadBy": null
     }
   ],
   "claimPlan": [
     {
+      "subjectId": "ca-1203-41-set",
+      "kind": "TRANSFER",
+      "holdingLane": "FIX01",
+      "operation": "rapid-repair",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX01 FIX09 ca-1203-41-set --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-41-set   # only after Captain's transfer"
+    },
+    {
       "subjectId": "ca-1203-42-set",
       "kind": "TRANSFER",
-      "holdingLane": "FIX09",
+      "holdingLane": "FIX02",
       "operation": "rapid-repair",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX09 FIX09 ca-1203-42-set --reason \"<why this lane takes it>\"",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX02 FIX09 ca-1203-42-set --reason \"<why this lane takes it>\"",
       "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-42-set   # only after Captain's transfer"
     },
     {
-      "subjectId": "ca-851-91-set",
+      "subjectId": "ca-1203-4a-set",
       "kind": "TRANSFER",
-      "holdingLane": "FIX09",
+      "holdingLane": "FIX03",
       "operation": "rapid-repair",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX09 FIX09 ca-851-91-set --reason \"<why this lane takes it>\"",
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-851-91-set   # only after Captain's transfer"
-    },
-    {
-      "subjectId": "nj_indictable_conviction-set",
-      "kind": "TRANSFER",
-      "holdingLane": "FIX09",
-      "operation": "rapid-repair",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX09 FIX09 nj_indictable_conviction-set --reason \"<why this lane takes it>\"",
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_indictable_conviction-set   # only after Captain's transfer"
-    },
-    {
-      "subjectId": "ny_160_59_petition-set",
-      "kind": "TRANSFER",
-      "holdingLane": "FIX09",
-      "operation": "rapid-repair",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX09 FIX09 ny_160_59_petition-set --reason \"<why this lane takes it>\"",
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ny_160_59_petition-set   # only after Captain's transfer"
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX03 FIX09 ca-1203-4a-set --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-4a-set   # only after Captain's transfer"
     }
   ],
   "claimAssertions": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-41-set   # only after Captain's transfer",
     "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-42-set   # only after Captain's transfer",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-851-91-set   # only after Captain's transfer",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_indictable_conviction-set   # only after Captain's transfer",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ny_160_59_petition-set   # only after Captain's transfer"
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-4a-set   # only after Captain's transfer"
   ],
   "claimPrerequisite": "Every one of these families already holds a RELEASED repair claim from FIX01-FIX08, so a bare --assert is refused as a duplicate. Captain transfers each grant to FIX09 first; claimPlan carries the exact command per subject.",
   "ownedPaths": [
+    "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/**",
     "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/**",
-    "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/**",
-    "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/**",
-    "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/**"
+    "data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/**"
   ],
   "prohibitedPaths": [
     "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
@@ -124,7 +111,7 @@
   "rasterDisposition": "A repair that moves packet bytes INVALIDATES that family's raster receipt. That is expected, not a regression: say so in the return and Captain re-rasters centrally.",
   "repairerSeparation": "You repair. You never verify your own repair — a different worker reads it, and Captain moves the grant with claim.mjs --transfer.",
   "repairOnlyTheNamedObligations": "REPAIR_BY_DEFECT_CLASS.json names the failing obligation per family. Repair those. Widening the change costs the receipt for no gain.",
-  "theTrapInThisQueue": "9 families across 2 groups pin byte-identical documents, which is what a missing route election looks like from outside. PF-B holds that classification. Do not repair ROUTE_OPTIONS on a family flagged sharesBytesWithAnotherFamily until PF-B returns.",
+  "theTrapInThisQueue": "17 families across 5 groups pin byte-identical documents, which is what a missing route election looks like from outside. PF-B holds that classification. Do not repair ROUTE_OPTIONS on a family flagged sharesBytesWithAnotherFamily until PF-B returns.",
   "stopConditions": [
     "a claim assert is refused",
     "the repair would require writing an unsourced court, fee, waiver route or service rule",
@@ -137,20 +124,7 @@
   "branch": "codex/cs-b/csb-fix09-v4-batch-001",
   "branchFrom": {
     "remote": "origin/claude/legalease-sprint-captain-utucnw",
-    "mustContain": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
+    "mustContain": "0e03b148ef2d12af525b27e11fd95e1a66726c48",
     "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
-  },
-  "completedSubjects": [
-    "az_marijuana_expungement_arrest_no_charges-set",
-    "ca-1203-42-set",
-    "ca-851-91-set",
-    "nj_arrest_no_conviction-set",
-    "nj_indictable_conviction-set",
-    "ny_160_59_petition-set"
-  ],
-  "status": "COMPLETE",
-  "completion": {
-    "on": "2026-09-01",
-    "why": "Codex off the critical path: every subject is now owned internally — az repaired, nj_arrest rebuilt and re-rastered, the four remaining repair grants live on FIX03-FIX06 with internal workers dispatched"
   }
 }

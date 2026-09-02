@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-external-assignment/v1",
-  "captainSha": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
-  "createdAt": "2026-09-01T15:38:03Z",
+  "captainSha": "0e03b148ef2d12af525b27e11fd95e1a66726c48",
+  "createdAt": "2026-09-02T01:05:56Z",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -29,33 +29,38 @@
   "role": "Fable director subagent (isolated worktree, read-only on packet bodies)",
   "lane": "VF26",
   "laneKind": "independent-verification",
-  "subjectIds": [],
+  "subjectIds": [
+    "va_seal_petition_felony-set",
+    "va_seal_petition_misdemeanor-set",
+    "va_seal_enumerated_seven_year-set",
+    "va_seal_ancillary_matter_only-set"
+  ],
   "subjects": [
     {
       "familyId": "va_seal_petition_felony-set",
       "directory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill",
-      "masterQueueState": "VERIFIED_PASS",
+      "masterQueueState": "COMPLETE_PACKET_PROVEN",
       "sharesBytesWithAnotherFamily": false,
       "firstReadBy": "VF26"
     },
     {
       "familyId": "va_seal_petition_misdemeanor-set",
       "directory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill",
-      "masterQueueState": "VERIFIED_PASS",
+      "masterQueueState": "COMPLETE_PACKET_PROVEN",
       "sharesBytesWithAnotherFamily": false,
       "firstReadBy": "VF26"
     },
     {
       "familyId": "va_seal_enumerated_seven_year-set",
       "directory": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill",
-      "masterQueueState": "VERIFIED_PASS",
+      "masterQueueState": "COMPLETE_PACKET_PROVEN",
       "sharesBytesWithAnotherFamily": false,
       "firstReadBy": "VF26"
     },
     {
       "familyId": "va_seal_ancillary_matter_only-set",
       "directory": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill",
-      "masterQueueState": "VERIFIED_PASS",
+      "masterQueueState": "COMPLETE_PACKET_PROVEN",
       "sharesBytesWithAnotherFamily": false,
       "firstReadBy": "VF26"
     }
@@ -127,18 +132,7 @@
   "branch": "fable/fv2-vf26-v4-batch-001",
   "branchFrom": {
     "remote": "origin/claude/legalease-sprint-captain-utucnw",
-    "mustContain": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
+    "mustContain": "0e03b148ef2d12af525b27e11fd95e1a66726c48",
     "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
-  },
-  "completedSubjects": [
-    "va_seal_petition_felony-set",
-    "va_seal_petition_misdemeanor-set",
-    "va_seal_enumerated_seven_year-set",
-    "va_seal_ancillary_matter_only-set"
-  ],
-  "status": "COMPLETE",
-  "completion": {
-    "on": "2026-09-01",
-    "why": "all four VA verdicts returned and merged (fable/v2): PASS_COMPLETE_INDEPENDENT; VF26 grants released"
   }
 }
