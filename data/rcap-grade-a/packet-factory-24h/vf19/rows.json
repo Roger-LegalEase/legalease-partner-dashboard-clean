@@ -1,0 +1,168 @@
+{
+ "schemaVersion": "rcap-independent-verification-rows/v1",
+ "lane": "VF19",
+ "laneKind": "independent-verification",
+ "generatedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+ "preflight": "verify-packet-completeness.mjs run per family in this container at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666; Master Library mounted and sources rehashed from bytes",
+ "overlayDirectoriesModified": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route. A FAIL is a verdict and a repair assignment, never an edit; this lane wrote into no overlay directory and no build script.",
+ "rows": [
+  {
+   "itemId": "ak-tf800-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
+   "verifier": "FABLE-VT3 (independent — built none of these packets)",
+   "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "proofObligations": {
+    "routeIdentity": {
+     "result": "PASS",
+     "finding": "Alaska TF-800 (Request to Make Case Records Confidential or Sealed under Administrative Rule 37.6), 3 pages, every packet page bound to the recorded source sha; the face names the rule and the Alaska Court System form identity.",
+     "evidence": {
+      "form": "TF-800",
+      "authority": "Alaska Administrative Rule 37.6",
+      "routeSelectionId": "ak-tf800-set-tf-800-primary-filing"
+     }
+    },
+    "componentSet": {
+     "result": "PASS",
+     "finding": "The single declared form TF-800 is the packet (3 pages, all bound to source sha 94bab525...).",
+     "evidence": {
+      "declared": [
+       "TF-800"
+      ],
+      "present": [
+       "TF-800"
+      ],
+      "pages": 3
+     }
+    },
+    "completenessCounters": {
+     "result": "PASS",
+     "finding": "Re-run in this container at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666: verify-packet-completeness.mjs --family ak-tf800-set returns PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects).",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ak-tf800-set",
+      "result": "PASS_COMPLETE",
+      "allNineCountersZero": true
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "Every bound source was rehashed from the Master Library bytes mounted in the shared checkout (private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1); each recomputed SHA-256 and byte length agrees with source-receipt.json and the committed local-source-corpus-index.json entry, and every page-manifest sourceSha256 is a receipt sha.",
+     "evidence": [
+      {
+       "form": "TF-800",
+       "recordedSha": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+       "inCorpusIndex": true,
+       "rehashedFromLibraryBytes": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+       "rehashMatches": true,
+       "byteLenMatches": true
+      }
+     ]
+    },
+    "artifactIdentity": {
+     "result": "PASS",
+     "finding": "Both committed fixture PDFs rehash to exactly the sha256 and byteLength recorded in reports/rendered-artifacts.json.",
+     "evidence": [
+      {
+       "fixture": "tf800-canonical",
+       "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-canonical-filled.pdf",
+       "pageCount": 3,
+       "shaMatches": true,
+       "byteLenMatches": true
+      },
+      {
+       "fixture": "tf800-boundary",
+       "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-boundary-filled.pdf",
+       "pageCount": 3,
+       "shaMatches": true,
+       "byteLenMatches": true
+      }
+     ]
+    },
+    "actualWrites": {
+     "result": "PASS",
+     "finding": "All 14 writes proven in bytes; the single boundary row where the committed readback dropped the U+2019 apostrophe in the participant name was re-read with pdftotext and 'O’Shaughnessy-Whitfield' is present verbatim in the boundary fixture bytes.",
+     "evidence": {
+      "total": 14,
+      "verifiedInBytes": 14,
+      "unrecordedPerWrite": 0,
+      "reportReadbackDiscrepanciesResolvedAgainstBytes": [
+       {
+        "fixture": "tf800-boundary",
+        "field": "name",
+        "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
+        "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
+        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+       }
+      ]
+     }
+    },
+    "blanksDisclosure": {
+     "result": "PASS",
+     "finding": "7 required-before-filing blanks (case name, party names, documents to restrict, hearing dates, etc.), each with why + participantMustSupply; 3 protected fields; 11 genuine participant elections; unclassifiedBlanks 0.",
+     "evidence": {
+      "source": "reports/blanks-left-for-the-participant.json",
+      "requiredBeforeFiling": 7
+     }
+    },
+    "placeholderAndFace": {
+     "result": "PASS",
+     "finding": "pdftotext over every fixture finds no placeholder text (no TODO/TBD/PLACEHOLDER/lorem/{{...}}/[INSERT), and the packet face names its own jurisdiction, instrument and authority.",
+     "evidence": {
+      "faceChecks": [
+       {
+        "fixture": "tf800-canonical",
+        "chars": 5115,
+        "placeholderHits": [],
+        "mentionsOwnState": true
+       },
+       {
+        "fixture": "tf800-boundary",
+        "chars": 5220,
+        "placeholderHits": [],
+        "mentionsOwnState": true
+       }
+      ],
+      "statutoryAuthority": "Alaska Court System form TF-800 (5/25); Alaska Administrative Rule 37.6",
+      "jurisdiction": "AK"
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "participant-instructions.md is present and substantive, enumerating the items the participant must supply.",
+     "evidence": {
+      "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/participant-instructions.md",
+      "bytes": 7614
+     }
+    },
+    "rasterVisual": {
+     "result": "PASS",
+     "finding": "The central raster workflow holds a hash-bound RASTER_PASS for this family, and the queue's canonical and boundary PDF sha256 values match the bytes I rehashed in this worktree.",
+     "evidence": {
+      "state": "RASTER_PASS",
+      "canonicalPdfSha256": "66d0c390198984a8c42a550d0077ef63dae98af3900f51630490ec8fcb0c54d6",
+      "boundaryPdfSha256": "b077fbfff439494d3af3ecf8e72c58af882b3c3b224205e632238e89459c95a5"
+     }
+    },
+    "commercialPosture": {
+     "result": "PASS",
+     "finding": "generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0 in production-field-map.json; approval-request claims no approval and no live status. This verdict opens nothing.",
+     "evidence": {
+      "fieldMap": {
+       "generationAllowed": false,
+       "runtimeSelectable": false,
+       "commercialRoutesOpened": 0
+      },
+      "approvalRequest": {
+       "status": "PENDING_INDEPENDENT_VERIFICATION",
+       "approvedForLive": false,
+       "live": false
+      }
+     }
+    }
+   }
+  }
+ ]
+}
