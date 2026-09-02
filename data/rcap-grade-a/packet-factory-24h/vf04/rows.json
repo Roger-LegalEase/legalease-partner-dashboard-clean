@@ -2,13 +2,19 @@
   "schemaVersion": "rcap-independent-verification-rows/v1",
   "lane": "VF04",
   "laneKind": "independent-verification",
-  "worker": "VF-SRC-A",
+  "worker": "VF-SRC-A (prior rows); FABLE-VT2 (fresh independent read, 2026-09-02)",
   "laneMembership": [
     "ar-arrest-seal-set",
-    "pa_age70_deceased-set"
+    "ga-vacated-j2-set",
+    "nd-deferred-imposition-records-set",
+    "nj_clean_slate-set",
+    "pa_age70_deceased-set",
+    "pa_summary_conviction-set",
+    "rcap-oh-custom-pleading-clean-tracks",
+    "vt_seal_18_to_21-set"
   ],
-  "verdictCeiling": "BUILT_RASTER_PENDING — no family returns PASS_COMPLETE_INDEPENDENT",
-  "measuredBy": "the fifteen proof obligations measured in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from the builder's report",
+  "verdictCeiling": "none for the FABLE-VT2 rows — hash-bound central RASTER_PASS receipts now exist and were re-verified against current bytes; earlier rows carried BUILT_RASTER_PENDING when no receipts existed",
+  "measuredBy": "FABLE-VT2 fresh read: nine counters measured by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container; every source and artifact SHA-256 recomputed here from the mounted Master Library corpus (bootstrap-private-corpus.sh, governance checksums verified) and the committed bytes; raster-queue pins re-hashed against the current fixture bytes; fixture text extracted from the PDFs with pdftotext and read against the committed legal records. Earlier rows: the fifteen proof obligations measured in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from the builder's report",
   "overlayDirectoriesModified": 0,
   "packetsModified": 0,
   "commercialRoutesOpened": 0,
@@ -23,11 +29,12 @@
     "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
   },
   "summary": {
-    "families": 2,
-    "PASS_COMPLETE_INDEPENDENT": 0,
-    "FAIL_REPAIR_REQUIRED": 1,
+    "families": 8,
+    "PASS_COMPLETE_INDEPENDENT": 5,
+    "FAIL_REPAIR_REQUIRED": 2,
     "BLOCKED_SOURCE": 1,
-    "BLOCKED_LEGAL_INPUT": 0
+    "BLOCKED_LEGAL_INPUT": 0,
+    "STOPPED": 0
   },
   "rows": [
     {
@@ -295,6 +302,693 @@
         "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/build-findings.json",
         "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/participant-instructions.md"
       ]
+    },
+    {
+      "itemId": "ga-vacated-j2-set",
+      "lane": "VF04",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading",
+      "verdictCeilingApplied": "none — a hash-bound central RASTER_PASS receipt (run 33547709781) binds to the current fixture bytes",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "familyId and route agree across source-receipt.json, approval-request.json, product-wiring.json and the MASTER_QUEUE row; the petition face pleads O.C.G.A. § 35-3-37(j)(2) (vacated or reversed conviction, not retried within two years) and prints 'Route: obligation:track-only:GA:ga-vacated-j2' on each component",
+          "evidence": "fixtures/canonical.pdf text, extracted here"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all three receipt sources recomputed and equal: GA legal review 85e22768… from the corpus STATES/GA/01_LEGAL_REVIEW, GA.memo.json 44e596a2… and legal-design-packet-set-manifests.json 80d88d69… from the committed tree",
+          "evidence": "sha256sum run in this container against the mounted corpus and the repository"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the three declared components — petition, proposed order naming GCIC, certificate of service — are present in the rendered canonical fixture, each carrying its own heading and the route footer",
+          "evidence": "PETITION TO RESTRICT ACCESS…, PROPOSED ORDER RESTRICTING ACCESS…, CERTIFICATE OF SERVICE headings read from extracted fixture text"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0 measured here; the fixture face carries the participant facts (name, mailing address, telephone, email) and every case fact the platform refuses is a labelled dotted blank with its source named",
+          "evidence": "verify-packet-completeness.mjs 9/34 written, counters zero; fixture text"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredFactsNotCollected=0 and unclassifiedBlanks=0 measured here; participant-instructions.md lists each required blank naming the document and where the record that answers it lives",
+          "evidence": "participant-instructions.md, 12410 bytes, read here"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here; the single-route family carries no unelected route control",
+          "evidence": "verify-packet-completeness.mjs counters"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here",
+          "evidence": "verify-packet-completeness.mjs counters"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites=0 measured here; the fixture face leaves the defendant's signature and date as dotted blanks with the printed statement that nothing is signed or dated for the defendant, and the order lines are completed only by the court",
+          "evidence": "counters + extracted fixture text"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 4 recorded artifact hashes recomputed from the committed bytes and equal to reports/rendered-artifacts.json",
+          "evidence": "recomputed in this container"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the raster row pins canonical 6c2ce97c… at 6 pages and boundary, both equal to the current bytes; component order in the extracted text matches the declared order",
+          "evidence": "RASTER_QUEUE row re-hashed here"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects=0 measured here and the complete-coverage central RASTER_PASS receipt (run 33547709781) binds to the same bytes",
+          "evidence": "counters + raster receipt pin equality"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "stated: file with the clerk of the convicting court, in the existing criminal case under the existing case number; the caption tells the participant which court and the instructions say who confirms it",
+          "evidence": "participant-instructions.md steps 3, 5 and 7"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "a stated position, not a catch-all: no statutory filing fee is identified for a filing in an existing criminal case, whether a county clerk charges one is named unresolved with the clerk of the convicting court to ask, and the O.C.G.A. § 9-15-2 pauper's-affidavit question is named with the same named authority",
+          "evidence": "participant-instructions.md 'What this costs' section"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "who and how are stated: the certificate of service names the prosecuting attorney (District Attorney or Solicitor-General) and the clerk of court as recipients, with certified mail, e-filing or hand delivery as the methods, completed only when copies actually go out",
+          "evidence": "certificate component in fixture text + instructions step 6"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "self-help ends are stated with four named Georgia records-restriction desks and the conditions under which to stop and take the packet to counsel",
+          "evidence": "participant-instructions.md help section"
+        }
+      },
+      "notes": "First independent read of this family. Completeness verifier: PASS_COMPLETE, 9/34 written, nine counters zero, measured here."
+    },
+    {
+      "itemId": "nd-deferred-imposition-records-set",
+      "lane": "VF04",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-deferred-imposition-records-set--custom-pleading",
+      "verdictCeilingApplied": "none — a hash-bound central RASTER_PASS receipt (run 33547709781) binds to the current fixture bytes",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both declared route units are on the face: the verification unit under N.D.R.Crim.P. 32.1 (nothing is filed) and the fallback motion under N.D.C.C. § 12.1-32-07.1 in the existing criminal case, each printing its own route key footer",
+          "evidence": "extracted fixture text; MASTER_QUEUE routeKeys"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both compositionSources recomputed and equal: ND.memo.json b39b420c… and legal-design-packet-set-manifests.json 80d88d69… from the committed tree",
+          "evidence": "sha256sum run here"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the three declared components are present in the rendered fixture: verification instructions (the four-step clerk's-file walkthrough), the conditional § 12.1-32-07.1 motion, and the legal-effect explanation of the § 12.1-32-07.2(2) restricted-access regime",
+          "evidence": "extracted fixture text read against the ND memo's component list"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0 measured here; the participant facts (name, mailing address, telephone, email) are on the face and the case facts are labelled dotted blanks tied to the deferral order and discharge record",
+          "evidence": "counters + fixture text"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredFactsNotCollected=0 and unclassifiedBlanks=0 measured here; the instructions name each blank, the record that answers it, and who holds that record",
+          "evidence": "participant-instructions.md, read here"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here; the one election on the face — the felony-reduction application under § 12.1-32-07.1 — is expressly the participant's own, marked only where the offence was a felony, with nothing marked for them",
+          "evidence": "fixture text FIFTH paragraph + counters"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here",
+          "evidence": "verify-packet-completeness.mjs counters"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites=0 measured here; signature and date are dotted blanks with the printed statement that nothing is signed or dated for the defendant, and no notarization is added",
+          "evidence": "counters + fixture text"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 4 recorded artifact hashes recomputed from the committed bytes and equal to reports/rendered-artifacts.json",
+          "evidence": "recomputed in this container"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the raster row pins canonical 8d6c3128… at 4 pages, equal to the current bytes; the units appear in the declared order in the extracted text",
+          "evidence": "RASTER_QUEUE row re-hashed here"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects=0 measured here and the complete-coverage central RASTER_PASS receipt (run 33547709781) binds to the same bytes",
+          "evidence": "counters + raster receipt pin equality"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "stated and matching the family's held legal record: on the verification unit nothing is filed; on the motion unit the motion is filed in the existing criminal case with the clerk of court of the sentencing court that deferred imposition",
+          "evidence": "instructions + ND.memo.json destination block"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "a stated position matching the family's own held legal record ('fees: none identified for either unit'; 'feeWaiver: not applicable; no fee is identified'): the packet's MONEY line states no fee is identified and names the clerk of the sentencing court as the checkable authority",
+          "evidence": "packet face MONEY line + instructions + ND.memo.json rules block, read here"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the family's own held legal record states 'service: None stated by the rule or the statute' and 'notice: None stated by the rule or the statute' for both units; the packet imposes no invented service duty, matching that record — the vf18 standard: no service duty is stated by the governing rule, measured against the held record rather than assumed",
+          "evidence": "ND.memo.json rules block for the deferred track, read here"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "stop conditions are printed on the face: no final order and no explanation from the clerk means stop and get help before filing anything; the legal-effect page warns what the seal is not",
+          "evidence": "extracted fixture text"
+        }
+      },
+      "notes": "First independent read. Completeness verifier: PASS_COMPLETE, 6/14 written, nine counters zero, measured here."
+    },
+    {
+      "itemId": "nj_clean_slate-set",
+      "lane": "VF04",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill",
+      "verdictCeilingApplied": "none — a hash-bound central RASTER_PASS receipt (run 33531491985) binds to the current fixture bytes",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "familyId agrees across source-receipt.json, production-field-map.json, reports and the MASTER_QUEUE row; participant-instructions.md states the route scope obligation:track-pathway:NJ:nj_clean_slate:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+          "evidence": "records read here"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the single declared source recomputed from the mounted corpus and equal to the receipt: CN-10557 New Jersey Expungement Kit (REV 2020-06) c1dd37b5…, STATES/NJ/02_PACKET_FORMS",
+          "evidence": "sha256sum run here against the corpus bytes"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the family ships the one assembled 43-page CN-10557 kit containing the four declared components (primary filing, statements accompanying petition, order for hearing, proposed order); page count and hash bound by the raster row",
+          "evidence": "RASTER_QUEUE row, 43 pages, re-hashed here"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0 measured here; the 17 written participant facts land in the extracted fixture text (name Jordan Avery Reyes, 118 Maple Street, Newark NJ 07102, DOB 1991-04-17, docket 24-CR-001234) and the conviction control is marked as the one declared selection",
+          "evidence": "counters + fixture text + reports/actual-writes.json"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredFactsNotCollected=0 and unclassifiedBlanks=0 measured here; every refused blank is disclosed by source field in participant-instructions.md, including the clean-slate election itself with its stated reason",
+          "evidence": "participant-instructions.md, read here"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here; the packet's one selection (the conviction control) is drawn, and the clean-slate checkbox on the proposed court order is left blank with a stated reason and disclosed. OBSERVATION, recorded not scored: this family's fixtures are byte-identical to nj_ordinance-set's (canonical 343407a3…, boundary 6256ba7f…) — the shared kit fill carries no route-specific ink, and route identity lives in the instructions, wiring and disclosures rather than on the fill itself. The measured contract accepts the declared dispositions; a reviewer deciding commercial scope should know the face alone does not distinguish the two routes",
+          "evidence": "sha256 comparison of both families' fixtures, run here"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here",
+          "evidence": "verify-packet-completeness.mjs counters"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites=0 measured here; the instructions expressly refuse the shared kit's signature, date, notary, service, court, prosecutor, clerk, agency and post-order fields",
+          "evidence": "counters + participant-instructions.md"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 90 recorded artifact hashes (fixtures, per-page rasters, contact sheets) recomputed from the committed bytes and equal to reports/rendered-artifacts.json",
+          "evidence": "recomputed in this container"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "43 pages pinned by the raster row, equal to the current bytes; the kit's own pagination ('page N of 43') reads in order in the extracted text",
+          "evidence": "RASTER_QUEUE row re-hashed here + fixture text"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects=0 measured here and the complete-coverage central RASTER_PASS receipt (run 33531491985) binds to the same bytes",
+          "evidence": "counters + raster receipt pin equality"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet itself states it: the CN-10557 kit's own instruction pages direct that the Petition for Expungement must be filed in the Superior Court in the county where you were arrested or prosecuted",
+          "evidence": "kit text extracted from the fixture bytes"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet itself states it: the kit's own pages carry 'Kit updated 06/2020 to remove the filing fee' — there is no filing fee for a New Jersey expungement petition, stated by the official kit the packet ships",
+          "evidence": "kit text extracted from the fixture bytes"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet itself states it: the kit's STEP 3 'File and Serve the Forms' and Step 4 'Distributing the Filed Copies' name the recipients and the method (certified mail, return receipt requested), with the return-receipt proof step",
+          "evidence": "kit text extracted from the fixture bytes"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the instructions state the packet is a deterministic review fixture, not an approved filing packet, that only legally applicable elections may be chosen, and that eligibility review is on the participant with the kit naming counsel routes",
+          "evidence": "participant-instructions.md + kit's own guidance"
+        }
+      },
+      "notes": "First independent read. Completeness verifier: PASS_COMPLETE, 19/179 written, nine counters zero, measured here. The byte-identity of this family's fixtures with nj_ordinance-set is recorded under ROUTE_OPTIONS as an observation for reviewers."
+    },
+    {
+      "itemId": "pa_summary_conviction-set",
+      "lane": "VF04",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill",
+      "verdictCeilingApplied": "none — a hash-bound central RASTER_PASS receipt (run 33531491985) binds to the current fixture bytes",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "familyId agrees across the records; the fixtures are the Rule 490 petition ('Petition for Expungement Pursuant to Pa.R.Crim.P. 490'), the Rule 490 order and the Rule 790 petition, matching the family's declared official form family PA-RCRIM-P-490-ORDER+PA-RCRIM-P-490-PETITION+PA-RCRIM-P-790-PETITION for the summary-conviction pathway",
+          "evidence": "extracted fixture text + MASTER_QUEUE row"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all three receipt sources recomputed from the mounted corpus and equal: 490 petition 082c515c…, 490 order ac671421…, 790 petition fc06486e…, STATES/PA/02_PACKET_FORMS",
+          "evidence": "sha256sum run here against the corpus bytes"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all three declared components render as canonical and boundary fixture pairs (six PDFs), each on its own official form",
+          "evidence": "fixtures directory + reports/rendered-artifacts.json, hashes recomputed here"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0 measured here; the petitioner facts land on the faces (Jordan Avery Reyes, DOB 1991-04-17, 118 Maple Street Harrisburg PA 17101, Dauphin County, docket) on both the 490 and 790 branches",
+          "evidence": "counters + extracted fixture text"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredFactsNotCollected=0 and unclassifiedBlanks=0 measured here; participant-instructions.md tables name each blank per form and page with the printed caption beside it",
+          "evidence": "participant-instructions.md, read here"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here; the one route-level question the packet cannot answer — which petition the case requires, which turns on the court where the summary conviction sits — is expressly declared a self-help stop with the clerk named as the authority, and no branch is silently chosen",
+          "evidence": "counters + instructions 'Where self-help ends'"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here; the offence-row blanks are disclosed row by row in the instructions tables",
+          "evidence": "counters + instructions"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites=0 measured here; the order's decision lines, date and 'BY THE COURT' signature are blank in the extracted text",
+          "evidence": "counters + extracted order text"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 20 recorded artifact hashes recomputed from the committed bytes and equal to reports/rendered-artifacts.json",
+          "evidence": "recomputed in this container"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the raster row pins the fixture hashes and page counts, equal to the current bytes",
+          "evidence": "RASTER_QUEUE row re-hashed here"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects=0 measured here and the central RASTER_PASS receipt (run 33531491985) binds to the same bytes. Noted, not scored: poppler emits 'XObject subtype is missing or wrong type' warnings while extracting the 790 petition; the same bytes passed the central raster gate",
+          "evidence": "counters + raster receipt pin equality + pdftotext stderr"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "stated: filed with the Clerk of Courts (the 490 petition's own face says so), and the instructions name the clerk of the court where the summary conviction was entered as the authority for which court that is",
+          "evidence": "petition face text + instructions"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the fee question is delegated to a named checkable authority in a dedicated line, not a catch-all — 'The filing fee and whether it can be waived … are not established in this repository. Ask the same clerk', where 'the same clerk' is the clerk of the court where the summary conviction was entered; no held PA source states the fee, so an unsourced figure would be worse than none (the vf18/vf20 standard)",
+          "evidence": "instructions dedicated line + corpus STATES/PA holdings, listed here"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet's own face states the service rule: 'When this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth' (490 petition), and the order names the criminal justice agencies to be served with certified copies",
+          "evidence": "extracted fixture text, 490 petition and order"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "a dedicated 'Where self-help ends' section names the branch question, eligibility, unanswerable blanks, prosecutor objections and hearings as stop points, with the clerk and Pennsylvania counsel as the authorities",
+          "evidence": "participant-instructions.md"
+        }
+      },
+      "notes": "First independent read. Completeness verifier: PASS_COMPLETE, 34/181 written, nine counters zero, measured here."
+    },
+    {
+      "itemId": "rcap-oh-custom-pleading-clean-tracks",
+      "lane": "VF04",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading",
+      "repairedFamilyFreshRead": true,
+      "priorFail": "vf03 FAIL_REPAIR_REQUIRED on ARTIFACTS: recomputed track text hashes did not match the recorded ones",
+      "verdictCeilingApplied": "not reached — the family fails before any ceiling applies",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "note": "counters are all zero but the verifier returns FAIL_COMPONENT_SET and marks the family unauditable — zero here measures nothing"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "familyId agrees across the records; each track face carries its own Ohio statute (application to seal under R.C. 2953.32 read here from the sealing track's rendered text) and the right parties and state",
+          "evidence": "tracks/*/rendered/canonical text, read here"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the companion official source recorded in reports/rendered-artifacts.json (OH-BCI-SEALING-EXPUNGEMENT-REQUEST, 9234ec76…, 235789 bytes) recomputes to exactly that hash from the mounted corpus at STATES/OH/04_SUPPORTING_PROCESS; the byte is a properly excluded corpus binary, not a defect",
+          "evidence": "sha256sum run here against the corpus"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-oh-custom-pleading-clean-tracks returns FAIL_COMPONENT_SET, 0/0 written: the family has no production-field-map.json, so nothing states what it was supposed to write and the family is unauditable for completeness. The four tracks each render canonical and boundary fixtures, but no field map makes them measurable",
+          "evidence": "verifier run in this container, read directly"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "with no production-field-map.json there is no statement of what was owed; the counters read zero because nothing was measured",
+          "evidence": "verifier refusal, this container"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "participant instructions exist per track and the build-findings hard stops are disclosed track by track",
+          "evidence": "tracks/*/participant-instructions.md + build-findings.json"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "no field map declares the elections, so nothing measurable states which options were owed",
+          "evidence": "verifier refusal, this container"
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "no field map declares the rows",
+          "evidence": "verifier refusal, this container"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no signature, date or court-owned line carries ink in the rendered track texts read here",
+          "evidence": "tracks/*/rendered text, read here"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "the exact defect vf03 failed is unrepaired: every one of the eight per-track render-report text hashes still disagrees with the committed .txt bytes. Recomputed here: oh_2953_32_expungement canonical recorded b4c8e7418bce… recomputed df03928dc247…, boundary recorded e92f6d72549f… recomputed d517101c6cfa…; oh_2953_32_sealing canonical 58b45ebe8409…→fe64611c4210…, boundary c19d58b60270…→ce9db7c52099…; oh_2953_33_nonconviction canonical 991fba47c74c…→2f32cdb52861…, boundary fe2b0f375782…→7e45041c15d5…; oh_2953_35_firearm canonical 25882b6fed76…→b4a0c0c824a0…, boundary a66624492479…→d3a3c97b0d09…. My recomputed value for the expungement canonical equals vf03's recomputation exactly, so two independent containers agree the committed bytes are stable and the records are stale. The eight PDF hashes in render-report.json and all 8 fixture PDF hashes in reports/rendered-artifacts.json DO match. The family directory has not changed since the Wave 2 integration commit — no repair ever landed on it",
+          "evidence": "sha256 recomputation in this container vs tracks/*/rendered/*/render-report.json; git log of the family directory"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the eight fixture PDFs recompute to the hashes in reports/rendered-artifacts.json with the recorded page counts",
+          "evidence": "recomputed here"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "no completeness measurement exists for this family (unauditable), and the raster queue lists it notEligible: 'no fixtures directory'",
+          "evidence": "RASTER_QUEUE.notEligible + verifier refusal"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "each track's instructions and hard stops name the sentencing/handling court and state that the court's current local application must be obtained before release",
+          "evidence": "build-findings.json + track instructions"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the fee and a waiver route are stated (unchanged from the vf03 read, which passed this obligation)",
+          "evidence": "track participant-instructions, read here"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "who must be served is stated per track (unchanged from the vf03 read)",
+          "evidence": "track participant-instructions, read here"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "every track carries hard stops on eligibility clocks, same-act charges and local-form confirmation, and the family's own status is artifact_evidence_built_release_stopped",
+          "evidence": "build-findings.json"
+        }
+      },
+      "exactDefects": [
+        "ARTIFACTS: all eight tracks' render-report.json text-artifact hashes disagree with the committed .txt bytes — the same mismatch vf03 named, byte for byte; no repair commit ever touched the family directory",
+        "COMPONENT_SET/auditability: no production-field-map.json exists, so verify-packet-completeness.mjs returns FAIL_COMPONENT_SET and the family cannot enter the raster queue (notEligible: no fixtures directory)"
+      ],
+      "notes": "REPAIRED-FAMILY FRESH READ THAT DOES NOT HOLD: the verification grant was re-opened for this family, but git shows no repair landed in the overlay directory; the defect reproduces exactly."
+    },
+    {
+      "itemId": "vt_seal_18_to_21-set",
+      "lane": "VF04",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
+      "repairedFamilyFreshRead": true,
+      "priorFail": "vf11 FAIL_REPAIR_REQUIRED on knownPrefills, feeAndWaiver and service; repaired by FIX03 (b9ecbd225) with re-rendered fixtures",
+      "verdictCeilingApplied": "none — a hash-bound central RASTER_PASS receipt (run 33547709781) binds to the current (post-FIX03) fixture bytes",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "familyId and routeSelectionId agree across the records; the instructions title the packet for young-adult sealing under 13 V.S.A. § 7602 and print the route footer obligation:track-pathway:VT:vt_seal_18_to_21:young-adult-sealing-for-offenses-committed-at-ages-18-21",
+          "evidence": "records + instructions, read here"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all three receipt sources recomputed from the mounted corpus and equal: 200-00130 ff914f49…, 200-00132 08811624…, 600-00228 263d4e19…; the fee/service source the instructions cite (200-00130A, 8a44b91c…) also recomputes to exactly that hash from the corpus",
+          "evidence": "sha256sum run here against the corpus bytes"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the three declared components — petition 200-00130, stipulation+order 200-00132, fee-waiver 600-00228 — are in the six-page assembled fixture, pinned by the raster row",
+          "evidence": "RASTER_QUEUE row re-hashed here + extracted fixture text"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "REPAIR VERIFIED: knownRequiredFieldsMissing=0 measured here, and the defect vf11 found from bytes — an empty flattened email appearance on the 200-00132 page of the boundary fixture — is gone: the boundary fixture now carries the long fixture email on the petition, the stipulation and the waiver pages in the extracted text; the canonical face carries name, DOB and docket",
+          "evidence": "pdftotext of fixtures/boundary.pdf, read here"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredFactsNotCollected=0 and unclassifiedBlanks=0 measured here; the instructions tables name each blank per form and page with the printed caption beside it",
+          "evidence": "participant-instructions.md, read here"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here; the sealing-basis and conviction controls on the petition are the participant's own, disclosed row by row (unchanged from the vf11 read, which passed this obligation)",
+          "evidence": "counters + instructions"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here",
+          "evidence": "verify-packet-completeness.mjs counters"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites=0 measured here; the instructions expressly leave the State's Attorney's signature, date and printed name to the prosecutor and every court-owned line blank",
+          "evidence": "counters + instructions"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 14 recorded artifact hashes recomputed from the committed bytes and equal to reports/rendered-artifacts.json",
+          "evidence": "recomputed in this container"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the raster row pins canonical 81525fd2… and boundary 8f0058c9… at 6 pages, equal to the current bytes",
+          "evidence": "RASTER_QUEUE row re-hashed here"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects=0 measured here and the central RASTER_PASS receipt (run 33547709781) binds to the same bytes",
+          "evidence": "counters + raster receipt pin equality"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "REPAIR VERIFIED (VTR01): 'File the completed packet with the Vermont Superior Court, Criminal Division, in the unit where your case was decided', with the docket number and any unit clerk as the way to identify the unit",
+          "evidence": "instructions 'Where you file this'"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "REPAIR VERIFIED (FIX03): the fee rule is quoted from the held official instructions 200-00130A (07/2025) — no fee except the $90 fee for sealing 23 V.S.A. § 1201(a) convictions — with the included 600-00228 waiver named as the waiver route, and the source hash re-verified here",
+          "evidence": "instructions 'What it costs' + corpus hash 8a44b91c… recomputed here"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "REPAIR VERIFIED (FIX03): quoted from 200-00130A — the court provides a copy to the prosecutor once the petition is filed (or skips it on a stipulated petition); the State's Attorney's stipulation signature is expressly distinguished from service",
+          "evidence": "instructions 'Who must receive a copy, and how'"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet states what it is not — not legal advice, not filed for you, no decision on whether the court grants sealing — and the blanks it deliberately leaves (unchanged from the vf11 read, which passed this obligation)",
+          "evidence": "instructions closing sections"
+        }
+      },
+      "notes": "REPAIRED-FAMILY FRESH READ THAT HOLDS: all three vf11 defects verified repaired from bytes and held sources; nothing else regressed. Completeness verifier: PASS_COMPLETE, 24/165 written, nine counters zero, measured here."
     }
   ],
   "supersededLaneMembership": {
