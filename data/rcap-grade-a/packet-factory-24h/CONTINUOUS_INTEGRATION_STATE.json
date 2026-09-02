@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-02T16:16:33.362Z",
-  "captainHead": "a4cedb4a1d2da0fe48ce0c47ffd8f6dfb8e66eb2",
+  "generatedAt": "2026-09-02T16:31:39.073Z",
+  "captainHead": "2fde791d30bcda3b713405de3becea7a910b7f07",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-02T16:36:33.362Z",
-    "nextSourceReleaseDeadline": "2026-09-02T16:46:33.362Z",
+    "nextIntegrationDeadline": "2026-09-02T16:51:39.073Z",
+    "nextSourceReleaseDeadline": "2026-09-02T17:01:39.073Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,9 +34,9 @@
           "VF11",
           "VF12"
         ],
-        "measured": 18,
+        "measured": 38,
         "threshold": 20,
-        "triggered": false
+        "triggered": true
       },
       {
         "when": "FAIL_REPAIR_REQUIRED > 20",
@@ -46,9 +46,9 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 45,
+        "measured": 19,
         "threshold": 20,
-        "triggered": true
+        "triggered": false
       },
       {
         "when": "SOURCE_READY > 80",
@@ -81,19 +81,19 @@
     "sourceReady": 48,
     "sourceBlocked": 105,
     "legalBlocked": 22,
-    "verifyPending": 18,
-    "repairRequired": 45,
+    "verifyPending": 38,
+    "repairRequired": 19,
     "byState": {
       "SOURCE_READY": 48,
-      "COMPLETE_PACKET_PROVEN": 90,
-      "FAIL_REPAIR_REQUIRED": 45,
+      "COMPLETE_PACKET_PROVEN": 94,
+      "VERIFY_PENDING": 37,
       "OUT_OF_SCOPE": 5,
       "SOURCE_BLOCKED": 105,
-      "VERIFY_PENDING": 17,
+      "VERIFIED_PASS": 3,
       "LEGAL_BLOCKED": 22,
+      "FAIL_REPAIR_REQUIRED": 19,
       "HANDOFF_READY": 2,
       "GUIDANCE_READY": 9,
-      "VERIFIED_PASS": 1,
       "WRONG_DELIVERY_TYPE": 1,
       "VERIFYING": 1
     }
