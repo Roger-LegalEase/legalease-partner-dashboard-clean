@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "d31022157b42c47283f9ed79e89a5a74b8e4c431",
+  "minimumCaptainSha": "0eb8238089ced50ff8c6d2bc3f972312621b407d",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "45117f4dcec6f50c737ed15fc99296762d372647792e48b382c6f8df5ca20dd1",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "38fdefa98e0fe833d84d3cc36cfc567808b24d7dccdbf7cd834fc4412656f39f",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -54,25 +54,25 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 6,
+    "activeFamiliesExcluded": 11,
     "guidanceOnly": 0,
-    "remaining": 340,
+    "remaining": 335,
     "sourceReady": 67,
     "sourceBlocked": 140,
-    "legalBlocked": 29,
-    "verifyPending": 10,
-    "repairRequired": 22,
+    "legalBlocked": 26,
+    "verifyPending": 16,
+    "repairRequired": 11,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 67,
     "SOURCE_BLOCKED": 140,
     "COMPLETE_PACKET_PROVEN": 84,
-    "VERIFY_PENDING": 10,
+    "VERIFY_PENDING": 21,
     "VERIFIED_PASS": 6,
     "BUILD_IN_PROGRESS": 4,
     "LEGAL_BLOCKED": 13,
-    "FAIL_REPAIR_REQUIRED": 22
+    "FAIL_REPAIR_REQUIRED": 11
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
@@ -111,37 +111,22 @@
       "ca-1203-43-set",
       "ca-17b-reduction-set",
       "nj_disorderly_persons-set",
+      "sd_arrest_expungement-set",
+      "wa_vac_cannabis-set",
       "wa_vac_domestic_violence-set",
-      "wa_vac_felony-set"
+      "wa_vac_felony-set",
+      "wa_vac_misdemeanor_ordinary-set",
+      "wa_vac_survivor_felony-set",
+      "wa_vac_survivor_misdemeanor-set"
     ],
     "staleRosterFamilies": [
-      {
-        "familyId": "sd_arrest_expungement-set",
-        "roster": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
-      },
-      {
-        "familyId": "wa_vac_cannabis-set",
-        "roster": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION"
-      },
       {
         "familyId": "wa_vac_homicide_victim_prostitution-set",
         "roster": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
       },
       {
-        "familyId": "wa_vac_misdemeanor_ordinary-set",
-        "roster": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
-      },
-      {
         "familyId": "wa_vac_substance_use_disorder-set",
         "roster": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
-      },
-      {
-        "familyId": "wa_vac_survivor_felony-set",
-        "roster": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
-      },
-      {
-        "familyId": "wa_vac_survivor_misdemeanor-set",
-        "roster": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
       },
       {
         "familyId": "wa_vac_treaty_fishing-set",
@@ -157,7 +142,7 @@
     "familiesPerBuilder": 4.2,
     "targetPerBuilder": "15 to 25",
     "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 67 do, so a full roster of 16 builders averages 4.2 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 276 source obligations across 169 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 276 source obligations across 166 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -5918,7 +5903,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085.mjs",
@@ -6270,7 +6255,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59.mjs",
@@ -6952,7 +6937,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ct-cleanslate-petition-set.mjs",
@@ -7091,7 +7076,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ct-missed-erasure-set.mjs",
@@ -19040,7 +19025,7 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
@@ -24510,9 +24495,9 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "VERIFY_PENDING",
+      "activeOwner": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION",
+      "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ne-setaside-custodial-set.mjs",
@@ -24523,8 +24508,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "staleRosterOwner": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
+      "exclusiveScript": true
     },
     {
       "familyId": "tx_exp_acquittal-set",
@@ -28852,7 +28836,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_pardon-set.mjs",
@@ -29248,9 +29232,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "VERIFY_PENDING",
+      "activeOwner": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION",
+      "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_cannabis-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -29261,8 +29245,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "staleRosterOwner": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION"
+      "exclusiveScript": true
     },
     {
       "familyId": "wa_vac_domestic_violence-set",
@@ -29731,9 +29714,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "VERIFY_PENDING",
+      "activeOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION",
+      "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_misdemeanor_ordinary-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -29744,8 +29727,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "staleRosterOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
+      "exclusiveScript": true
     },
     {
       "familyId": "wa_vac_substance_use_disorder-set",
@@ -30007,9 +29989,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "VERIFY_PENDING",
+      "activeOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
+      "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_survivor_felony-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -30020,8 +30002,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "staleRosterOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
+      "exclusiveScript": true
     },
     {
       "familyId": "wa_vac_survivor_misdemeanor-set",
@@ -30145,9 +30126,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "VERIFY_PENDING",
+      "activeOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
+      "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_survivor_misdemeanor-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -30158,8 +30139,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "staleRosterOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
+      "exclusiveScript": true
     },
     {
       "familyId": "wa_vac_treaty_fishing-set",
@@ -31240,9 +31220,9 @@
   "totals": {
     "lanes": 48,
     "builders": 16,
-    "verifiers": 8,
+    "verifiers": 12,
     "sourceLanes": 16,
-    "repairLanes": 8,
+    "repairLanes": 4,
     "familiesAssignedToBuilders": 67,
     "sourceObligationsAssigned": 276,
     "actualPromotedAndReleased": 67,
