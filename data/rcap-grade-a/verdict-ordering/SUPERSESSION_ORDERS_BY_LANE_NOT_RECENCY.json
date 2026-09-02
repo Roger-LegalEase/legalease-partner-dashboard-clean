@@ -1,0 +1,483 @@
+{
+  "schemaVersion": "rcap-grade-a-verdict-ordering-finding/v1",
+  "producedBy": "Captain",
+  "producedOn": "2026-09-02",
+  "question": "The supersession rule makes one verdict current per family by taking the highest lane number. Does that still select the newest read?",
+  "rule": "one current verdict per family: the highest-precedence lane wins (factory vf lanes over codex-cloud directories, then higher lane number); superseded rows remain as history with superseded: true",
+  "whyItStoppedTracking": "The re-dispatch moved thirty-five families to lanes that had never read them, chosen by reading every lane's rows. Those destinations are frequently lower-numbered than the lane whose stale verdict the family already carried, so the freshest independent read is now often on the lowest number and loses to the oldest.",
+  "method": "For every family with two or more vf-lane verdicts carrying a resolvable verifiedAtBase, the base commit's author time was read from git and compared with what the lane-number rule selects. Recency here is a fact about commits, not an assumption about lane numbering.",
+  "familiesMeasured": 179,
+  "familiesWhereTheRuleAndRecencyDisagree": 31,
+  "ofThoseWhereTheRuleIsMorePermissive": 5,
+  "noneIsProvenToday": true,
+  "whyThatMatters": "A rule that can carry a stale pass over a fresh failure would be a safety defect. Today it does not: of the families where the rule is the more permissive of the two, not one is COMPLETE_PACKET_PROVEN -- the separate lapse detector catches the byte change and lands them in VERIFY_PENDING or FAIL_REPAIR_REQUIRED anyway. So the live cost is correctness and throughput, not a deliverable shipping unsafely.",
+  "theThroughputCost": "Families whose newest independent read is a complete pass are carried as failures from an older, higher-numbered lane, which sends repair lanes to families already repaired.",
+  "whatWasNotDone": "The ordering was not changed. Re-ordering would move every one of these families' current verdict in a single step, which is the thing the standing instruction warns against: do not invalidate existing verdicts merely because the detector became stronger. The narrow fix is to order by the commit time of verifiedAtBase and fall back to lane number only where no base resolves.",
+  "rows": [
+    {
+      "familyId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+      "queueStateToday": "COMPLETE_PACKET_PROVEN",
+      "ruleSelects": {
+        "lane": "vf03",
+        "verdict": "STOPPED",
+        "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00"
+      },
+      "newestRead": {
+        "lane": "vf01",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "cd48fc14e"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "ak-mistaken-identity-set",
+      "queueStateToday": "OUT_OF_SCOPE",
+      "ruleSelects": {
+        "lane": "vf04",
+        "verdict": "STOPPED",
+        "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00"
+      },
+      "newestRead": {
+        "lane": "vf01",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "cd48fc14e"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "ar-arrest-seal-set",
+      "queueStateToday": "COMPLETE_PACKET_PROVEN",
+      "ruleSelects": {
+        "lane": "vf12",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757"
+      },
+      "newestRead": {
+        "lane": "vf01",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "ar-misdemeanor-dwi-seal-set",
+      "queueStateToday": "COMPLETE_PACKET_PROVEN",
+      "ruleSelects": {
+        "lane": "vf10",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a"
+      },
+      "newestRead": {
+        "lane": "vf01",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "ar-nonconviction-seal-set",
+      "queueStateToday": "COMPLETE_PACKET_PROVEN",
+      "ruleSelects": {
+        "lane": "vf09",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5"
+      },
+      "newestRead": {
+        "lane": "vf03",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "az_wrongful_arrest_clearance-set",
+      "queueStateToday": "VERIFY_PENDING",
+      "ruleSelects": {
+        "lane": "vf06",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "newestRead": {
+        "lane": "vf02",
+        "verdict": "BLOCKED_BEFORE_CLAIM",
+        "verifiedAtBase": "0880e69cc0b839c1b02679a6b64c5c536c62a644"
+      },
+      "ruleIsMorePermissive": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "queueStateToday": "FAIL_REPAIR_REQUIRED",
+      "ruleSelects": {
+        "lane": "vf11",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757"
+      },
+      "newestRead": {
+        "lane": "vf04",
+        "verdict": "BLOCKED_BEFORE_CLAIM",
+        "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "queueStateToday": "VERIFY_PENDING",
+      "ruleSelects": {
+        "lane": "vf12",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "43e11ccd3a64c5048eb673b369cc365aa0786f94"
+      },
+      "newestRead": {
+        "lane": "vf06",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "queueStateToday": "VERIFY_PENDING",
+      "ruleSelects": {
+        "lane": "vf09",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5"
+      },
+      "newestRead": {
+        "lane": "vf06",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "queueStateToday": "VERIFY_PENDING",
+      "ruleSelects": {
+        "lane": "vf10",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557"
+      },
+      "newestRead": {
+        "lane": "vf02",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "247b790b6"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "ct-cleanslate-petition-set",
+      "queueStateToday": "COMPLETE_PACKET_PROVEN",
+      "ruleSelects": {
+        "lane": "vf24",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8"
+      },
+      "newestRead": {
+        "lane": "vf12",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "1b40b32e0f59a6b70c7ca8779617a337ab184b22"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "ct-missed-erasure-set",
+      "queueStateToday": "COMPLETE_PACKET_PROVEN",
+      "ruleSelects": {
+        "lane": "vf09",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
+      },
+      "newestRead": {
+        "lane": "vf04",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "dc_yra_set_aside-set",
+      "queueStateToday": "FAIL_REPAIR_REQUIRED",
+      "ruleSelects": {
+        "lane": "vf06",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "newestRead": {
+        "lane": "vf03",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400"
+      },
+      "ruleIsMorePermissive": true
+    },
+    {
+      "familyId": "id_isp_expungement-set",
+      "queueStateToday": "VERIFY_PENDING",
+      "ruleSelects": {
+        "lane": "vf10",
+        "verdict": "PASS",
+        "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de"
+      },
+      "newestRead": {
+        "lane": "vf02",
+        "verdict": "BLOCKED_BEFORE_CLAIM",
+        "verifiedAtBase": "0880e69cc0b839c1b02679a6b64c5c536c62a644"
+      },
+      "ruleIsMorePermissive": true
+    },
+    {
+      "familyId": "ma-expunge-time-set",
+      "queueStateToday": "FAIL_REPAIR_REQUIRED",
+      "ruleSelects": {
+        "lane": "vf12",
+        "verdict": "PASS",
+        "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de"
+      },
+      "newestRead": {
+        "lane": "vf02",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "247b790b6"
+      },
+      "ruleIsMorePermissive": true
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "queueStateToday": "COMPLETE_PACKET_PROVEN",
+      "ruleSelects": {
+        "lane": "vf07",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "8b8699c2a"
+      },
+      "newestRead": {
+        "lane": "vf06",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "queueStateToday": "COMPLETE_PACKET_PROVEN",
+      "ruleSelects": {
+        "lane": "vf05",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595"
+      },
+      "newestRead": {
+        "lane": "vf03",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "oh_marijuana_expungement-set",
+      "queueStateToday": "VERIFY_PENDING",
+      "ruleSelects": {
+        "lane": "vf12",
+        "verdict": "BLOCKED_BEFORE_CLAIM",
+        "verifiedAtBase": "1b40b32e0f59a6b70c7ca8779617a337ab184b22"
+      },
+      "newestRead": {
+        "lane": "vf09",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "rcap-nd-custom-pleading",
+      "queueStateToday": "VERIFY_PENDING",
+      "ruleSelects": {
+        "lane": "vf11",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557"
+      },
+      "newestRead": {
+        "lane": "vf02",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "rcap-nv-custom-pleading",
+      "queueStateToday": "VERIFY_PENDING",
+      "ruleSelects": {
+        "lane": "vf12",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "43e11ccd3a64c5048eb673b369cc365aa0786f94"
+      },
+      "newestRead": {
+        "lane": "vf02",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "247b790b6"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "rcap-ok-custom-pleading",
+      "queueStateToday": "VERIFY_PENDING",
+      "ruleSelects": {
+        "lane": "vf05",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de"
+      },
+      "newestRead": {
+        "lane": "vf03",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400"
+      },
+      "ruleIsMorePermissive": true
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading",
+      "queueStateToday": "VERIFY_PENDING",
+      "ruleSelects": {
+        "lane": "vf10",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "cef3d1cfb1d93e75337f6a142031d2d55e23382b"
+      },
+      "newestRead": {
+        "lane": "vf02",
+        "verdict": "BLOCKED_BEFORE_CLAIM",
+        "verifiedAtBase": "0880e69cc0b839c1b02679a6b64c5c536c62a644"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "tx_exp_acquittal-set",
+      "queueStateToday": "VERIFY_PENDING",
+      "ruleSelects": {
+        "lane": "vf09",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5"
+      },
+      "newestRead": {
+        "lane": "vf02",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "tx_nd_dwi_probation-set",
+      "queueStateToday": "VERIFY_PENDING",
+      "ruleSelects": {
+        "lane": "vf11",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557"
+      },
+      "newestRead": {
+        "lane": "vf01",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "ut_pet_conviction-set",
+      "queueStateToday": "COMPLETE_PACKET_PROVEN",
+      "ruleSelects": {
+        "lane": "vf10",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a"
+      },
+      "newestRead": {
+        "lane": "vf06",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "ut_pet_limitations-set",
+      "queueStateToday": "LEGAL_BLOCKED",
+      "ruleSelects": {
+        "lane": "vf11",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "ab82f102a44ea5e8bc0698b35d49164c9334f6fe"
+      },
+      "newestRead": {
+        "lane": "vf04",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "queueStateToday": "VERIFY_PENDING",
+      "ruleSelects": {
+        "lane": "vf11",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "newestRead": {
+        "lane": "vf06",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "vt_seal_felony-set",
+      "queueStateToday": "COMPLETE_PACKET_PROVEN",
+      "ruleSelects": {
+        "lane": "vf06",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
+      },
+      "newestRead": {
+        "lane": "vf02",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
+      "queueStateToday": "COMPLETE_PACKET_PROVEN",
+      "ruleSelects": {
+        "lane": "vf09",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
+      },
+      "newestRead": {
+        "lane": "vf02",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "wi_nc_doj_fingerprint_removal-set",
+      "queueStateToday": "COMPLETE_PACKET_PROVEN",
+      "ruleSelects": {
+        "lane": "vf09",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
+      },
+      "newestRead": {
+        "lane": "vf01",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757"
+      },
+      "ruleIsMorePermissive": false
+    },
+    {
+      "familyId": "wv_conv_multiple_misdemeanors-set",
+      "queueStateToday": "VERIFY_PENDING",
+      "ruleSelects": {
+        "lane": "vf10",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595"
+      },
+      "newestRead": {
+        "lane": "vf04",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400"
+      },
+      "ruleIsMorePermissive": false
+    }
+  ]
+}
