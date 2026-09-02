@@ -346,3 +346,31 @@ for both routes. The participant instructions do differ, and only the pardon
 packet mentions a pardon.
 
 Diff the field maps before calling identical fixtures a defect.
+
+## A lane that creates its branch by checking out shares Captain's working tree
+
+Three lanes launched in one stretch created their branches with `git checkout -b`
+in `/home/user/legalease-partner-dashboard-clean` itself — the main worktree.
+The harness gives a lane its own worktree only when it asks; these did not, so
+all three, and Captain, were committing to the same checkout at the same time.
+Captain's own integration commit landed on a lane's branch, discovered only
+because `generate.mjs --check` reported two dispatch pins and the branch name in
+`git worktree list` was not the Captain branch.
+
+Recovered with `git branch -f` (the lane branch was a clean descendant of the
+Captain tip, so nothing was lost), then a checkout back onto the Captain branch.
+
+Three rules follow, and none of them is optional:
+
+1. **Every lane brief must say where the lane works**, in an exact command:
+   `git worktree add .claude/worktrees/<lane> -b fable/<lane> <captain-sha>`.
+   "Create your branch from that SHA" is not enough — it does not say WHERE.
+2. **Every lane brief must forbid `git checkout`, `switch`, `branch -f`,
+   `reset`, `stash`, `merge` and `rebase` in the main worktree by name.** A
+   lane's `git checkout .` there would destroy in-flight integration work.
+3. **Check `git rev-parse --abbrev-ref HEAD` before committing** when lanes are
+   running. Captain's branch is the only branch Captain may commit to, and a
+   lane can move it out from under a commit that is already staged.
+
+A brief that tells a worker WHAT to do and not WHERE to do it has only done half
+the job.
