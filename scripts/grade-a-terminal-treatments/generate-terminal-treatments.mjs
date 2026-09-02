@@ -298,21 +298,35 @@ function quotedSelfHelpStop(track) {
   };
 }
 
+/*
+ * The sentence in a family's own build findings that names where the matter
+ * goes. Selected by a fixed test, never written here, and the verifier applies
+ * the same test to the same file: a destination that cannot be re-selected from
+ * its source is a composed one.
+ */
+const DESTINATION_SENTENCE = /routed to legal aid or an attorney|attorney escalation path/i;
+
+
 function runtimeOnlyFacts(source, familyRow) {
   const findingsPath = `${source.directory}/build-findings.json`;
   const approvalPath = `${source.directory}/approval-request.json`;
   const findings = read(findingsPath);
   const approval = read(approvalPath);
   const contract = familyRow.tracks?.[0]?.routeAuthorityContract ?? null;
+  const named = (findings.findings ?? []).findIndex((f) => DESTINATION_SENTENCE.test(String(f.finding ?? "")));
   return {
     destination: {
-      quotedFrom: contract
-        ? { path: contract.sourceFile, field: `routes[routeKey=${contract.routeKey}] — decisionId ${contract.decisionId}`, sha256: exists(contract.sourceFile) ? sha(contract.sourceFile) : null }
-        : null,
-      kind: null,
-      name: null,
-      detail: contract ? `Route authority contract statute ${contract.statute}; the compiled profile's own destination instruction is quoted in the self-help stop below.` : null,
+      quotedFrom:
+        named >= 0
+          ? { path: findingsPath, sha256: sha(findingsPath), field: `findings[${named}].finding` }
+          : contract
+            ? { path: contract.sourceFile, field: `routes[routeKey=${contract.routeKey}] — decisionId ${contract.decisionId}`, sha256: exists(contract.sourceFile) ? sha(contract.sourceFile) : null }
+            : null,
+      kind: named >= 0 ? "referral" : null,
+      name: named >= 0 ? findings.findings[named].finding : null,
+      detail: contract ? `Route authority contract statute ${contract.statute}; decision ${contract.decisionId}.` : null,
       venue: null,
+      selectedBy: named >= 0 ? `the first findings[].finding matching ${DESTINATION_SENTENCE}` : null,
       noMemoTrack:
         "No state legal-design memo track carries this route, so no memo destination or venue exists to quote. The controlling records are the route-authority contract and the family's own committed build findings."
     },

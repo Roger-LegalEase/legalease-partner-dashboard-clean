@@ -228,9 +228,29 @@ for (const family of record.families) {
 }
 
 /* Runtime-only families quote their own committed build findings. */
+const DESTINATION_SENTENCE = /routed to legal aid or an attorney|attorney escalation path/i;
 for (const family of record.families) {
   const quotedFrom = family.selfHelpStop?.quotedFrom;
   if (!quotedFrom || !quotedFrom.path.endsWith("build-findings.json")) continue;
+
+  /*
+   * The destination sentence must be re-selectable from its source by the same
+   * fixed test the generator used. A destination that cannot be re-selected is
+   * a composed one, which is exactly what this record may not carry.
+   */
+  const destinationFrom = family.destination?.quotedFrom;
+  check(Boolean(destinationFrom?.path), `${family.familyId}: the destination names no source`);
+  if (destinationFrom?.path && exists(destinationFrom.path)) {
+    const index = Number(destinationFrom.field?.match(/findings\[(\d+)\]\.finding/)?.[1] ?? -1);
+    const source = read(destinationFrom.path);
+    const selected = (source.findings ?? []).findIndex((f) => DESTINATION_SENTENCE.test(String(f.finding ?? "")));
+    check(index === selected, `${family.familyId}: the destination sentence is not the one the fixed test selects from ${destinationFrom.path}`);
+    check(
+      index >= 0 && family.destination.name === source.findings[index].finding,
+      `${family.familyId}: the quoted destination does not match ${destinationFrom.path}`
+    );
+    check(family.destination.kind === "referral", `${family.familyId}: a runtime-only destination must be recorded as a referral`);
+  }
   check(exists(quotedFrom.path), `${family.familyId}: ${quotedFrom.path} is missing`);
   if (!exists(quotedFrom.path)) continue;
   check(sha(quotedFrom.path) === quotedFrom.sha256, `${family.familyId}: ${quotedFrom.path} changed since the record was generated`);
@@ -251,6 +271,31 @@ for (const family of record.families) {
     check(approval.approvedForLive === false, `${family.familyId}: ${nextFrom.path} records approvedForLive true`);
     check(approval.live === false, `${family.familyId}: ${nextFrom.path} records live true`);
     check(approval.commercialRoutesOpened === 0, `${family.familyId}: ${nextFrom.path} records an opened commercial route`);
+  }
+}
+
+/* ── 5b. a registry binding must be in the registry it names ─────────────── */
+
+for (const family of record.families) {
+  for (const route of family.routes) {
+    const bound = route.boundBy;
+    if (!bound || (bound.surface !== "terminalization_treatment" && bound.surface !== "guidance_packet_registry")) continue;
+    check(exists(bound.file), `${family.familyId}: ${bound.file} is missing`);
+    if (!exists(bound.file)) continue;
+    check(sha(bound.file) === bound.sha256, `${family.familyId}: ${bound.file} changed since the record was generated`);
+    const registry = read(bound.file);
+    const entries = registry.treatments ?? registry.packets ?? [];
+    const entry = entries.find((e) => e.trackId === route.trackId);
+    check(
+      Boolean(entry),
+      `${family.familyId}: ${bound.file} does not carry track ${route.trackId}, so the treatment is not bound where the record says it is`
+    );
+    if (entry) {
+      check(entry.treatment === bound.treatment, `${family.familyId}: ${route.trackId} is ${entry.treatment} in ${bound.file}, not ${bound.treatment}`);
+      /* A registered treatment closes the sale itself; it may never be sellable. */
+      check(entry.runtimeContract === undefined || entry.runtimeContract.sellable === false, `${family.familyId}: ${route.trackId} is registered sellable`);
+      check(entry.runtimeContract === undefined || entry.runtimeContract.paymentAllowed === false, `${family.familyId}: ${route.trackId} is registered payment-allowed`);
+    }
   }
 }
 
@@ -306,6 +351,11 @@ for (const family of record.families) {
         check(routePaymentAuthority(contract) === "closed", `${route.routeKey}: derived payment authority is not closed`);
         const expectedKind = expectedMode === "referral" ? "handoff" : "guidance_only";
         check(resolved.routeKind === expectedKind, `${route.routeKey}: the resolver returns ${resolved.routeKind}, not ${expectedKind}`);
+        if (expectedMode === "referral") {
+          /* A hand-off that does not say who takes the matter next is not a hand-off. */
+          check(resolved.availability === "HANDOFF_READY", `${route.routeKey}: a referral route does not report HANDOFF_READY`);
+          check(Boolean(resolved.handoffTo), `${route.routeKey}: the hand-off names nobody to take the matter next`);
+        }
       }
     }
 
