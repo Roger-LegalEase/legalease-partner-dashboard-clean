@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `18b19446bb5201eea502b941ffcf44e5775831b8` (or the newer dispatch base)
+**Minimum required ancestor:** `89d29c164c31233211765a41bf68695e1df700d0` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ca-1203-41-set \
+  --family ca-1203-42-set \
   --codex-cloud \
-  --minimum-captain-sha 18b19446bb5201eea502b941ffcf44e5775831b8
+  --minimum-captain-sha 89d29c164c31233211765a41bf68695e1df700d0
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,11 +56,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 3 families
+## The 2 families
 
-- `ca-1203-41-set` — failing: requiredOptionsMissing
-- `composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59`
-- `ny_160_59_petition-set`
+- `ca-1203-42-set` — failing: requiredOptionsMissing
+- `ct-missed-erasure-set`
 
 ## What you receive
 
@@ -73,12 +72,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ca-1203-41-set.mjs`
-- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59.mjs`
-- `scripts/build-census-v1-ny_160_59_petition-set.mjs`
+- `data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ct/ct-missed-erasure-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ca-1203-42-set.mjs`
+- `scripts/build-census-v1-ct-missed-erasure-set.mjs`
 
 ## Never write here
 
