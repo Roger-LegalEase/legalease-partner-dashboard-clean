@@ -7325,6 +7325,139 @@
       "productionTouched": false,
       "grantsNothing": "An independent PASS proves a packet is complete. It approves no output, promotes no family and opens no commercial route.",
       "failedObligationNames": []
+    },
+    {
+      "itemId": "rcap-wi-custom-pleading",
+      "lane": "VF02",
+      "wave": "packet-factory-24h — VF02 re-dispatch read at 247b790b6",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "247b790b6",
+      "verifier": "VF02 (independent-verification; this lane did not build, repair, render or previously read this family)",
+      "claim": {
+        "asserted": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 rcap-wi-custom-pleading",
+        "exitCode": 0,
+        "result": "CLAIM_OK VF02 rcap-wi-custom-pleading (independent-verification, grant set 758c3701f64f6529)"
+      },
+      "whyThisFamilyOwedAFreshRead": "MASTER_QUEUE.json records verificationLapsedBecause FAMILY_MOVED_SINCE_THE_VERDICT. This read is at the bytes that exist now.",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family rcap-wi-custom-pleading — PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+      "measuredBy": "the fifteen proof obligations measured in this checkout; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here without --write; both fixtures read as bytes page by page, with every word's bounding box extracted for the placement checks",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredHere": true,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "One route, and the packet is unusually careful about what kind of thing it is: a letter to an agency, not a court filing.",
+          "evidence": "Every one of the six pages ends with the footer obligation:track-only:WI:wi_exp_certificate_of_discharge_followup, and the caption block says in terms that the committed record reads 'Not a court filing. Send the written request to the supervising or detaining authority', that no court assigns it a case number and that it asks no court for anything. The body cites Wis. Stat. § 973.015(1m) and § 973.015(1m)(b), which is the statutory ground the queue and the census both name. The request paragraph closes 'This request asks nothing of any court.'"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three committed records this custom pleading binds to recompute exactly, and the packet records that Wisconsin publishes no official form for this request.",
+          "evidence": "sha256sum recomputed here: legal-design-track-registry.json 0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6 at 16555956 bytes, legal-design-specifications.json cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5 at 16829383, route-obligation-candidate.json 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f at 2599752 — each equal to the pin in source-receipt.json, byte length included. The delivered page states the reason there is no form to bind: 'No statute or rule prescribes the contents of that request and Wisconsin publishes no official participant form for it, so the correspondence is drafted.'"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three components the record names are rendered and present.",
+          "evidence": "The census candidate's participantFacingInstrument names primary-filing-1, status-request-2 and filing-instructions-3, and componentSet names the same three. In the delivered bytes the request letter runs pages 1-3, the status request is page 4, and the filing instructions are pages 5-6. The design specification names the first two as customPleadingSpecs; the third is the instructions page and is present."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All five held facts are written and visible on both letters, and the packet explains why they are printed rather than left blank.",
+          "evidence": "Read out of the delivered bytes: the request letter's section B prints full legal name, date of birth, reply address, reply telephone and reply email under the heading 'WHO IS ASKING — THE THREE THINGS THE PLATFORM ALREADY HOLDS', with the note that the committed record requires a name, a date of birth and return contact details before the request can be generated. The status request repeats the same five in its FROM block. The page also tells the participant to read each against their own papers and correct it in writing if it is wrong, and adds a line beside the name for any other name the case was under."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 13 declared items are named in participant-instructions.md, checked item by item against the file.",
+          "evidence": "requiredBeforeFilingCount is 13 and matching each declared disclosure label against the instructions returned 0 not named. Each is also printed on its own page as a labelled dotted blank in the committed record's own wording — the case number and county, the Department of Corrections identifier, the supervising authority and agent, the completion date, whether the judge ordered expungement at sentencing, and what the clerk said when asked whether a certificate had arrived."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No election on this route is route-determined, and none is printed.",
+          "evidence": "routeSelectionNote records one route and one instrument set with no election control on any composed page, and I found none in the delivered bytes. The one choice that appears — item C8, whether to ask the authority to issue and forward the certificate or only to say whether it has already been done — is the participant's, is printed as a question with a blank, and is left unanswered."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No row carries written cells beside required cells left blank; the packet uses no repeating row grid.",
+          "evidence": "Both letters are a fixed identity block followed by numbered free-text questions. incompleteRows 0, corroborated against the delivered pages."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Neither signing line carries ink, in either fixture, and the packet is explicit that the certificate itself is not its document.",
+          "evidence": "Two signing lines in each fixture — one on the request letter, one on the status request — and both carry nothing but their dotted rules in canonical and boundary alike. The request letter prints 'The person named above signs and dates this request personally. Nothing on this page is signed or dated for them.' Section A records that the letter 'does not itself change legal status, and the certificate remains the authority's document', and the stop list closes by saying issuance and forwarding are the authority's acts and that the packet ends at the letter."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both artifacts hash to what the record names, recomputed from the bytes.",
+          "evidence": "canonical.pdf b9cf7091ab2f… at 17221 bytes and boundary.pdf 08e2f3973f49… at 17706 bytes, each 6 pages; 2 checked, 0 mismatches against reports/rendered-artifacts.json."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The rendered page order matches componentSet: request letter, then status request, then filing instructions.",
+          "evidence": "Read page by page from the bytes — primary-filing-1 on pages 1-3, status-request-2 on page 4, filing-instructions-3 on pages 5-6 — which is componentSet order, and the 6-page total matches pageCount in both artifact entries."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No ink falls outside the text block in either fixture, and the boundary values wrap rather than overrun.",
+          "evidence": "Bounding boxes of all 1557 words in the canonical fixture and all 1580 in the boundary: both sit inside x 72.0 to 540.9 and y 64.5 to 712.4 on a 612 by 792 page, identical to the tenth of a point despite the boundary carrying a 39-character name, a 68-character address, a telephone with an extension and a 56-character email. The address wraps onto a second line inside the block rather than running past the margin."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The instructions name the destination the route names, and separate it from where the certificate ends up, which on this route are two different places.",
+          "evidence": "'WHERE IT GOES — The detaining or probationary authority that supervised the participant, with the clerk of circuit court as the certificate's destination', with the reason: § 973.015(1m)(b) places the issuing and forwarding duty on that authority. Venue is recorded as 'Not a court filing', statewide in scope — the Department of Corrections in most probation cases, or the detaining authority where the sentence included confinement. The instructions add that a copy to the clerk is appropriate where the participant has already confirmed with the clerk that nothing was received."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both are stated: there is no fee and no waiver, because the request is correspondence to an agency rather than a filing.",
+          "evidence": "'WHAT IT COSTS, AND WHETHER A WAIVER EXISTS — Fee as recorded: none. Fee waiver as recorded: none.' That matches the committed record, and it is the honest answer for a letter that no court receives."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The service question is answered, and the answer is that there is no service requirement and no other party to notify.",
+          "evidence": "'WHO MUST BE SERVED — Service as recorded: none. Ordinary mail or the authority's stated correspondence channel is sufficient; there is no service requirement. Notice as recorded: none. No notice to any other party is required, and no hearing arises from the request.' No certificate of service ships, and none is owed."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet states where self-help ends, and draws the line at the point that matters most on this route — the difference between a neutral request and advocacy.",
+          "evidence": "The stop list names: the judge not having ordered expungement at sentencing, so no certificate is owed and the request would be pointless; any dispute about whether completion was successful, singling out revocation and a subsequent conviction as the two facts that destroy the expungement entirely; the authority declining to issue; the authority not responding, or saying it forwarded the certificate while the clerk says nothing arrived; immigration consequences; federal, tribal or out-of-state records. It then says in terms 'Neutral request only. Do not draft accusations of agency misconduct, assertions of legal entitlement that would require document review, or any individualized advocacy', and closes that the packet ends at the letter and the follow-up checklist. The record's own must-know is printed too: confirm with the clerk that no certificate was received before sending, and re-check Wisconsin Circuit Court Access afterwards."
+        }
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/ — all 13 files, both fixtures read as bytes",
+        "data/record-clearing/legal-design-track-registry.json, data/record-clearing/legal-design-specifications.json and data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json — the three bound committed records, hashed"
+      ],
+      "notMyVerdictToMake": {
+        "rasterReceipt": "reports/rendered-artifacts.json records everyPageRastered false and rasterSkipped true, so this family holds no raster receipt and L4 keeps it short of COMPLETE_PACKET_PROVEN whatever I found. Not a completeness defect and not mine to supply."
+      },
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "An independent PASS proves a packet is complete. It approves no output, promotes no family and opens no commercial route.",
+      "failedObligationNames": []
     }
   ],
   "vt1Read": {
