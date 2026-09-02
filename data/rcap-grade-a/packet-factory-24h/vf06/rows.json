@@ -1769,6 +1769,174 @@
     "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (read only)"
    ]
+  },
+  {
+   "itemId": "ut_pet_dismissed_with_prejudice-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+   "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+   "verifier": "FABLE-VT15 (independent; built none of these packets and edited none of them)",
+   "obligationsScored": 15,
+   "buildStatus": "state_built",
+   "buildStatusSource": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/build-status.json records status BUILT_REVIEW_PENDING, completenessPreparedStatus PASS_COMPLETE, independentVerificationStatus PENDING, builtDocuments 9, renderedArtifacts 2, rasterPages 38, generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0. The MASTER_QUEUE row agrees: artifactStatus RENDERED, completenessStatus PASS_COMPLETE, legalInputStatus SETTLED, state VERIFY_PENDING.",
+   "rasterState": "RASTER_PASS",
+   "rasterStateDetail": "RASTER_QUEUE currentRasterState RASTER_PASS, receipt from workflow run 33488713831 (.github/workflows/rcap-packet-raster-acceptance-batch.yml) at rendered commit 71894f3f2dde0f5af34818a2fa8dc8bce84e0d24, bound to canonical ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6 and boundary b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765. I recomputed both fixtures from the committed bytes here and they hash to exactly those pins, so the receipt still binds the bytes at this base. This is the claim the task asked me to press hardest, and it holds: the repair moved no fixture byte, so the receipt survives because the bytes did not. The workflow artifact PNGs are not fetchable from this container; the 38 committed raster PNGs are, and all 38 rehash exactly to reports/rendered-artifacts.json.",
+   "corpusMounted": true,
+   "composedFamily": false,
+   "repairClaimUnderTest": {
+    "claimed": "REBUILD ALONE. The owning host already carried the two-stage BCI-to-district-court destination, the $150 cover-sheet fee, the 1305GE waiver motion and the prosecutor service step; these families had simply never been rebuilt on it, and no fixture byte changed.",
+    "verifiedLanded": true,
+    "how": "participant-instructions.md is now 6,356 bytes and carries 'Where you file this', 'What it costs, and how to ask for a waiver' and 'Who must receive a copy, and how'. MASTER_QUEUE's failedObligations for this family still quote the 1,167-byte file with none of those sections and list sectionsAbsent ['Where you file this','What it costs, and how to ask for a waiver','Who must receive a copy, and how','What this packet is not'] — all four are now present. Those two recorded failures are STALE and both obligations pass on the bytes at this base.",
+    "butDidNotFix": "FEE_AND_WAIVER, which fails on a different limb than the one the repair addressed, and REQUIRED_BEFORE_FILING, which the repair did not touch."
+   },
+   "failedObligationNames": [
+    "REQUIRED_BEFORE_FILING",
+    "FEE_AND_WAIVER"
+   ],
+   "unmeasuredObligations": [],
+   "notMeasurableHere": [],
+   "standardApplied": "DET-FEE-AND-WAIVER-001 with amendment A1, amendment A2 and amendment A3, all read in full. A3 is not present at this row's verifiedAtBase; I read it from the captain head 913410b1c and applied its per-fact test to every fee, service and filing-destination finding below. The row stays stamped at the base I actually read the PACKET at.",
+   "lane": "VF06",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Two route keys, obligation:unit:UT:ut_pet_dismissed_with_prejudice:ut_pet_dismissed_with_prejudice-bci-certificate and obligation:unit:UT:ut_pet_dismissed_with_prejudice:ut_pet_dismissed_with_prejudice-court-petition, declared identically and in the same order in product-wiring.json, production-field-map.json, the MASTER_QUEUE family row and the committed route census; familyId ut_pet_dismissed_with_prejudice-set and routeSelectionId agree across product-wiring.json, production-field-map.json, source-receipt.json and build-status.json. RECORDED, not scored against: this family's canonical.pdf and boundary.pdf are BYTE-IDENTICAL to ut_pet_conviction-set's (ad594f0a… and b3ba83a6…) and so is participant-instructions.md; a recursive diff of the two directories differs only in the metadata files, and inside production-field-map.json only in familyId, routeKeys and routeSelectionId. The two routes therefore deliver the same paper. Utah's own design supports that — both tracks run the statewide 1044XX/1000EX/1020EX packet on a BCI certificate — so this is not a key disagreement and I do not score it a failure. It is worth a Captain's eye because nothing in the delivered pages or the instructions tells a reader which of the two routes the packet was built for."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Measured from the mounted Master Library, not inferred. All nine bound documents in source-receipt.json were rehashed here and all nine are exact on both SHA-256 and byte length: 1000EX 401e0563…, 1020EX cc437e7f…, 1044XX b9958628…, 1146XX 39f1205f…, 1148XX 43c6d4fd…, 1149XX 79f16112…, 1169XX bd5594c7…, UT-BCI-EXP-APPLICATION b4eacb2b…, UT-BCI-THIRD-PARTY-RELEASE c4b59e47…. All nine also appear in 00_GOVERNANCE/CHECKSUMS.sha256, which bootstrap verified before extracting, and the MASTER_QUEUE sourceReadiness resolves all nine at tier exact_form_number by census_form_number_against_committed_index (boundCount 9/9, SOURCE_BOUND_BY_HELD_BYTES). Separately, the five citedAuthorities the repair leans on in production-field-map.json and prints in the instructions were rehashed here and all five match on hash AND byte length: UT-BCI-EXP-INSTRUCTIONS 9e03980f… (558045 B), UT-BCI-INDIGENT-INSTRUCTIONS 862e058f… (626493 B), 1044XX b9958628… (119736 B), 1305GE c184a242… (171816 B), 1146XX 39f1205f… (192790 B). THINNESS, not a failure: UT-BCI-EXP-INSTRUCTIONS, UT-BCI-INDIGENT-INSTRUCTIONS and 1305GE are cited as authority and printed with their hashes but are not listed in source-receipt.json's documents array, because that array is the rendered set. Their identity is nonetheless provable and I proved it."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Nine documents declared, nine rendered, and every page accounted for. reports/rendered-artifacts.json pageManifest maps all 19 packet pages to a source form and source page with its sourceSha256, and the counts reconcile exactly to the receipt's pageCounts: 1000EX 2 + 1020EX 3 + 1044XX 2 + 1146XX 1 + 1148XX 2 + 1149XX 3 + 1169XX 3 + UT-BCI-EXP-APPLICATION 2 + UT-BCI-THIRD-PARTY-RELEASE 1 = 19, and pdfinfo reads 19 pages from both fixtures. requiredComponentsMissing is 0 in the fresh run. The packet-set manifest's tenth component, filing_and_timing_instructions with officialFormId null, ships as participant-instructions.md rather than as a page, and the two conditional components (1149XX victim notice, 1169XX reply) are present anyway."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Read back from the output bytes, not from the builder's intent. reports/actual-writes.json carries 38 writes per fixture, each with glyph geometry read from the final PDF at its committed measured box, addedGlyphsReadFromOutputBytes 482 (canonical), refusedFieldsWithInk [] and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0. knownRequiredFieldsMissing 0 and invisibleWrites 0 in the fresh run. I re-derived the three 1044XX selections independently rather than trusting their labels, which the two-column harvester mangles: the label strings read 'Sch [ ] Property Right s$150 [ ] Expungement Petition - Criminal (E)', 'Total Claim for Damages … [ ]Yes [ ] No $250 [ ] Jury Demand' and '[ ] No monetary damages are requested (URCP $187.50 [ ] Damages $10,000 &over', any of which could describe two different boxes. I ran pdftotext -bbox on the official 1044XX and matched the write x-coordinates to bracket glyphs: x 355.98 on page 2 is the '[' of the '$150 [ ] Expungement Petition - Criminal (E)' row (bracket xMin 355.980000); x 410.16 on page 1 is the '[' of Jury Demand 'No' (xMin 410.162040); x 76.5 on page 1 is the '[' of 'No monetary damages are requested (URCP 26: Tier 2)' (xMin 76.500000). All three marks are correct and none is the neighbouring fee row. The mangled labels are never printed to the participant, so unlike the New York case this is a map thinness rather than a participant-facing defect."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "The packet's own 'facts you must supply before filing' list omits obligations the repository marks required before filing, including one the record says defeats the petition. Scored under A2's test — ask first whether the repository establishes the answer — applied to the obligation the packet's own section is named after. The committed packet-set manifest for ut_pet_dismissed_with_prejudice-set carries a requiredBeforeFiling array, and A2's answersVT8C4 settles that a committed manifest's participantActionRequired entries are a held source. Missing from the delivered instructions: (1) 'Proof that fines, fees, interest and restitution are paid in full. Ask the clerk of the sentencing court for a current balance … and check with the Office of State Debt Collection … An unpaid balance defeats the petition and will also defeat the BCI certificate' — no trace of it anywhere in the 6,356-byte file; (2) 'List every criminal case you have ever had, in any state, including cases that were already expunged. BCI reviews all of them when it decides your certificate' — the manifest's own note is that 'an incomplete list produces a denial rather than a certificate'; (3) 'Obtain Certified copy of the order of dismissal … It carries the dismissal date and states whether the dismissal was with or without prejudice, which decides which track applies', and the paired confirm_answer on the dismissal date — this family's two extra items over its sibling, and both absent. Everything the field map itself declares IS disclosed: I applied the disclosure gate by hand to all twelve rows carrying approvedBlankDisposition REQUIRED_BEFORE_FILING, because the committed reader never runs it here, and all twelve are named in the instructions — judicial district and court address, BCI certificate number, the public-interest explanation, previously used names, gender, SSN and driver licence, and the signing block. So the failure is not about form blanks; it is that the packet's pre-filing section is scoped to blanks on paper while the repository's is scoped to what the participant must have in hand, and the difference includes a money bar that kills the petition. TWO MAP DEFECTS RECORDED, neither participant-facing and neither scored: the BCI application's GENDER blank (baselineY 622.6, x0 445.83) carries the label 'MAILING ADDRESS' taken from the caption below it, and its measured x1 of 704.79 runs past the 612pt page width; and the 'DRIVER LICENSE # AND STATE' blank carries the truncated label 'ATE'. Both facts are disclosed correctly in the instructions' prose, so no participant is misled — but the first mislabel is what holds knownRequiredFieldsMissing at zero, as recorded under nineCounters."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "requiredOptionsMissing 0 in the fresh run, and no blank classifies ROUTE_OPTION_NOT_SELECTED in the reproduction. Eight elections are made and each is route-determined and correct: on 1000EX 'I am the [X] Petitioner' and '[X] District … Court of Utah'; on 1020EX the District caption box and the two 'case number' branches of the (choose one) pairs at the court's paragraphs 6 and 7, which is the case-based rather than the incident-based branch and is consistent across both; on 1044XX the $150 expungement row, Jury Demand No, and 'No monetary damages are requested (URCP 26: Tier 2)'. The attorney branch and the Justice Court branch are refused as not applicable on a self-represented district-court route. Nothing a route determines is left to the participant."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "incompleteRows 0 in the fresh run, and no row in the reproduction carries a written cell beside a required blank one. The repeating structures in this packet are the certificate-of-service tables on 1149XX page 3 and 1169XX page 3, and both documents carry documentPolicy mode no_fill with documentAcceptsFill false, so every cell in them is blank and no half-finished row exists."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "protectedWrites 0 in the fresh run, refusedFieldsWithInk is empty in both fixtures, and 64 blanks classify PROTECTED_FIELD in the reproduction. I read the protectedRules across all nine documents and they are coherent and complete for the roles that matter: Judge on 1000EX, 1020EX (twice), 1146XX, 1148XX, 1149XX and 1169XX; the petitioner and prosecutor signature lines; 'Prosecutor (print name)' on 1146XX and 1148XX; the 1149XX and 1169XX Certificate of Service blocks; and on the BCI application the applicant signature, the cardholder's credit-card signature, 'Agency Name', 'BUREAU USE ONLY' and 'SID#R&F'. Four of the nine documents carry mode no_fill outright. RECORDED: 1020EX carries documentPolicy mode 'caption_only' with captionOnly true, yet the build makes two body selections on it at the court's paragraphs 6 and 7. Those writes are correct on the merits — the committed route census says the design is 'proposed order 1020EX complete but for the judge's signature' — so this is an internal disagreement between the document policy string and the build, not ink on a protected field."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Recomputed from the committed bytes here. canonical.pdf hashes to ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6 at 3,024,920 bytes and boundary.pdf to b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765 at 3,025,560 bytes, matching reports/rendered-artifacts.json and the RASTER_QUEUE pins exactly. pdfinfo reads 19 pages and 612x792 letter from both. activeContentScan hits is empty and inspectable is true on both. All 38 committed raster PNGs rehash exactly to their recorded sha256 and byteLength (poppler_pdftoppm 24.02.0, 612x792 px, croppedToPage true, looksBlank false on every page)."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Read from the manifest and confirmed against the bytes. The 19-page sequence is 1000EX#1-2, 1020EX#1-3, 1044XX#1-2, 1146XX#1, 1148XX#1-2, 1149XX#1-3, 1169XX#1-3, UT-BCI-EXP-APPLICATION#1-2, UT-BCI-THIRD-PARTY-RELEASE#1; every source page appears exactly once, no page is duplicated or dropped, each document's internal order is preserved, and the boundary fixture's manifest is identical to the canonical's. RECORDED as usability rather than defect: the packet's own instructions say the filing has 'two destinations, in this order — 1. BCI … 2. the Utah district court', yet the assembled PDF puts the court instruments on pages 1-16 and the stage-one BCI application on pages 17-19, so the paper runs opposite to the sequence the instructions set."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "visualDefects 0 in the fresh run and a hash-bound central RASTER_PASS covers the exact current bytes, and I measured geometry directly rather than relying on either. Running pdftotext -bbox over all 19 pages of both fixtures: zero words fall outside the 612x792 page box in either, and zero same-baseline word pairs overlap by more than 1pt — including in the boundary fixture, which writes 'Alexandrina Montgomery-Vandenberg', a 76-character street address and '2026-CR-900123-EXTENDED-CASE-IDENTIFIER'. reports/actual-writes.json independently records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 for both fixtures, which is a measured 0 rather than an absent field."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Scored under A1: ask first whether the repository establishes the answer, and it does — the committed track registry gives 'Stage two: expungement petition in the court that entered the conviction … in the court that decided the case', and the packet now states it. The instructions name both destinations in order: 'The Utah Bureau of Criminal Identification (BCI)' for stage one and 'The Utah district court for the county where the case was heard' for stage two, with the 180-day window between them and the observation that the judicial district number and the court's street address remain the participant's to write. Every quotation is sourced and I verified each against the held bytes with pdftotext: UT-BCI-EXP-INSTRUCTIONS prints 'File a Cover Sheet, Petition to Expunge and Order on Petition to Expunge with the appropriate court', 'You will take this list to the court that is listed for that case', and 'You have 180 Days (including weekends and holidays) from the date listed on the letter of Expungement Eligibility to petition the court(s)'. This is the obligation MASTER_QUEUE still records as FAILED on a 1,167-byte file with no filing section at all; that record is stale. QUALIFICATION FOR THE CAPTAIN, recorded rather than scored: the repository says 'the court that decided the case', and both the track registry and the packet-set manifest add 'district or justice court'. The packet names only the district court and pre-marks the District box on the delivered petition and order, and the packet is built on 1044XX, which is the DISTRICT court cover sheet. That is internally coherent, but the route admits class B misdemeanours and infractions, which Utah justice courts decide, and the packet tells such a participant nothing. It is a route-scope question rather than a silence, so I record it here instead of failing the obligation."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "Scored under DET-FEE-AND-WAIVER-001 A2, and the packet fails on the limb A2 was written for: its claim about its own bound FORMS is right and its claim about the REPOSITORY is false. What the repair got right, and I verified: the court filing fee is stated and sourced — 'The court filing fee is $150', drawn from 1044XX page 2, and pdftotext -bbox on the official 1044XX confirms the row '$150 [ ] Expungement Petition - Criminal (E)' is on page 2 and that the packet marks that exact box; and the waiver route is named with a real instrument, form 1305GE 'Motion to Waive Fees for Expungement – Criminal', which I extracted from the held PDF and which carries exactly the title, the Utah Code 78A-2-302 citation and the Rule 4-508 citation the packet gives. WHAT FAILS. The packet then says: 'The BCI certificate carries a separate fee, and this packet does not state an amount because BCI sets it per applicant.' The repository does state one, and so does the packet's own paper. Page 17 of the delivered canonical.pdf — which is UT-BCI-EXP-APPLICATION source page 1, and which I read out of the fixture bytes, not the corpus copy — prints 'The application fee is $65.00 and non-refundable.' Page 18 prints it twice more: 'accompanied by a non-refundable $65.00 application fee' and 'Application fee is $65.00'. Stage one of the two-stage route this packet describes therefore has a flat, printed, held fee of $65.00 and the packet tells the participant no amount exists. There are two BCI money items and the packet conflates them: the $65.00 application fee, which is fixed and held, and the per-incident certificate purchase price, which genuinely is set per applicant in the BCI letter and which the packet is right to refuse. Refusing the second does not license denying the first. The repair is a sentence: state $65.00 for the application, keep the honest refusal for the certificates, and keep the named authority. Also recorded: the delivered BCI page carries a sequencing rule the packet omits — 'If you believe you are indigent and you check the box … you MUST complete the fee waiver form before submitting your application' — where the packet only says to ask BCI whether you qualify. SECOND LIMB, THIS FAMILY ONLY AND MORE SERIOUS. The committed track registry's mechanism for ut_pet_dismissed_with_prejudice says in terms: 'The same disposition is separately eligible for automatic expungement 180 days after dismissal under 77-40a-206, so the petition is the faster paid route to the same result and THE FREE ROUTE MUST BE DISCLOSED BEFORE PAYMENT', and its waitingPeriods repeat it under the condition 'Free alternative'. The packet — byte-identical to its conviction sibling's, which has no free alternative — discloses nothing about it. It directs the participant to pay $150 to the court, $65 to BCI and a per-incident certificate price for a result the repository says arrives free 180 days after the dismissal. That is the repository establishing an answer about money and the packet not stating it, on the limb where it matters most. APPLIED A3 (read from the captain head; it postdates this row's base). A3 asks whether the record establishes the fact FOR THIS ROUTE. Both figures here pass that test at the shortest possible range, because neither comes from a shared jurisdiction table: the $65.00 is printed on the face of UT-BCI-EXP-APPLICATION, which is a bound component of THIS packet and the stage-one instrument of THIS route, and I read it out of this family's own delivered fixture bytes at packet pages 17 and 18 rather than from any profile; the $150 is the row of 1044XX that the packet itself marks, captioned 'Expungement Petition - Criminal (E)', on a cover sheet that is likewise a bound component of this packet. There is no sibling-route line in play on either. A3 therefore leaves this failure exactly where it was."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The packet states the recipient, the method and a named checkable authority, all sourced, so it is met on the determination's first limb — and there is a repository conflict underneath it that the Captain should see. WHAT THE PACKET SAYS: 'The prosecutor must receive a copy of what you file, by mail or by email', citing BCI's Expungement Applicant Instructions, plus form 1146XX for the prosecutor to acknowledge receipt, the objection-and-hearing possibility, the Utah State Courts Self-Help Center on 888-583-0009, and the rule that the service method, address and date are completed only after service actually happens. VERIFIED AT SOURCE: I extracted UT-BCI-EXP-INSTRUCTIONS (rehashed to 9e03980f…) and its Step 2 is headed 'File the petition with the court and serve the Prosecutor' and its third bullet reads, verbatim, 'Mail or email the prosecutor copies of what you file'; the Self-Help Center number 888-583-0009 is printed in the same step. MASTER_QUEUE still records this obligation as FAILED for the 1,167-byte file; that record is stale. THE CONFLICT, recorded not resolved: two other held records say the opposite. The committed track registry's stage-two unit says 'The court sends the filing to the prosecuting attorney; the petitioner does not serve', the committed route census repeats it as this route's serviceRecipients and serviceMethod, and the committed packet-set manifest's serve_party says 'The petitioner does not effect service in the ordinary case … The Proof of Service form appears in the published packet only as an optional form, used where the prosecutor's office will not accept service.' So the repository holds one answer twice and the official publication holds the other. Under AGENTS.md's source hierarchy the official Utah source governs and the packet followed it, which is also the safer instruction to give a participant; the registry and census entries are the fidelity defect. I did not edit them."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The packet states what it will not do and carries no approval. It opens 'This is a review fixture built from exact held official Utah forms', closes with 'This is a prepared set of official Utah forms built for review. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement', and draws the ownership line explicitly: 'Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected.' It refuses to assert eligibility for the BCI waiver ('do not assume the court's $150 waiver covers BCI's fee, because they are two different offices'). approval-request.json is REQUESTED with grantedBy null, independentVisualReviewRequired and outputLegalApprovalRequired both true, and product-wiring.json carries generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0, createsFulfillmentRecord false. Cross-reference: the FEE_AND_WAIVER failure above is a place where the packet asserts an absence it should not have asserted, which cuts against the honesty this section claims, but the boundary this obligation measures is drawn correctly."
+    }
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>, run in this container at the base commit by FABLE-VT15; the disposition histogram behind the counters was reproduced read-only against scripts/rcap-packet-completeness/completeness-contract.mjs",
+    "whatAllZeroMeansHere": "Nothing was missing across what the committed reader can see — not nothing was measured. The run reported 38/444 written, so it enumerated 444 terminal rows out of this family's own nine-document field map and classified all 406 blanks against the closed vocabulary. I reproduced that classification here: NOT_APPLICABLE_ON_THIS_ROUTE 110, OPTIONAL_PARTICIPANT_CONTENT 134, PROTECTED_FIELD 64, PARTICIPANT_ELECTION_GENUINE 98. Zero rows land in any of the three defect dispositions.",
+    "oneOfTheNineZerosIsVacuousHere": "requiredFactsNotCollected 0 is a zero over an EMPTY SET on this family, and that is a reader gap rather than a packet fact. The field map declares its twelve required-before-filing blanks on the key `approvedBlankDisposition`; normalizeRow in verify-packet-completeness.mjs reads only `completenessDisposition` and `requiredBeforeFiling`, so declaredRequired is [] and the disclosure gate never executes. The rows say so themselves in a compatibilityNote: 'The committed completeness reader has no direct REQUIRED_BEFORE_FILING parser; the explicit disposition is authoritative.' The reader instead lands all twelve in OPTIONAL_PARTICIPANT_CONTENT, an allowed disposition either way, so the other eight zeros stand. I ran the disclosure test by hand instead; the result is under REQUIRED_BEFORE_FILING.",
+    "latentDefectThatGapHides": "If the reader DID read `approvedBlankDisposition`, one of the twelve would fail closed. The BCI application's GENDER blank (baselineY 622.6, x0 445.83) carries the label 'MAILING ADDRESS' inherited from the caption below it, and 'MAILING ADDRESS' is written elsewhere on the same document, so classifyBlank's factAvailable branch would return KNOWN_FACT_NOT_WRITTEN. The mislabel is what keeps the counter at zero. Recorded for the repairer; it does not change any score here because the fact itself IS disclosed to the participant in prose."
+   },
+   "proofObligationsScored": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+   ],
+   "openQuestionsForTheCaptain": [
+    "A2's whatCountsAsHeld and its answersVT8C4 ruling are written for FILING_DESTINATION, FEE_AND_WAIVER and SERVICE. I applied the same ask-the-repository-first test to REQUIRED_BEFORE_FILING, because the packet's own section is named after that obligation and the manifest's requiredBeforeFiling array is the repository answering the same question. I am flagging the extension rather than assuming it. If the Captain narrows A2 to the three named obligations, the finding survives as a recorded gap and this family's verdict still stands on FEE_AND_WAIVER alone.",
+    "The committed track registry and route census say the Utah petitioner does not serve the prosecutor; the held official BCI publication says to mail or email the prosecutor a copy. The packet follows the official source. This is a registry/census fidelity repair, not a packet repair, and it is shared across both Utah families and their siblings.",
+    "This family and ut_pet_conviction-set deliver byte-identical PDFs and byte-identical instructions, yet only this one has a free automatic-expungement alternative the registry says must be disclosed before payment. Sharing one instruction file across the two routes is what erased that difference; the repair is per-route instructions on the shared host, not a rewording."
+   ],
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/raster/ (38 committed PNGs, all rehashed)",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/ (all nine bound forms plus UT-BCI-EXP-INSTRUCTIONS, UT-BCI-INDIGENT-INSTRUCTIONS and 1305GE, rehashed)",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/00_GOVERNANCE/CHECKSUMS.sha256",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/STATE_MANIFEST.csv",
+    "data/record-clearing/legal-design-track-registry.json (tracks ut_pet_conviction and ut_pet_dismissed_with_prejudice)",
+    "data/record-clearing/legal-design-packet-set-manifests.json (packetSets for both Utah families)",
+    "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (read only)",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (read only)",
+    "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json (in full, including amendment and amendment2)",
+    "scripts/rcap-packet-completeness/completeness-contract.mjs and verify-packet-completeness.mjs (read, to establish what the counters do and do not measure)"
+   ],
+   "grantsNothing": "This row opens no commercial route, promotes no family and grants no approval. commercialRoutesOpened 0, productionTouched false, packetsModified 0, overlayDirectoriesModified 0."
   }
  ],
  "supersededLaneMembership": {
@@ -2002,5 +2170,39 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsNothing": "A verdict moves a family in the queue. It promotes nothing, opens no route, approves nothing and prepares no review package."
+ },
+ "vt15Read": {
+  "worker": "FABLE-VT15",
+  "branch": "fable/vt15",
+  "baseSha": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+  "read": "Independent second read of ut_pet_dismissed_with_prejudice-set, at base 7fcfb7d40aafe7bd7350fc735ea09d16524cb757. Every row appended by this worker carries its own verifiedAtBase; the document-level fields above were not written by this worker and are left as they were.",
+  "claimDiscipline": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert <LANE> <familyId> was run for each family, one at a time, before any artifact of that family was read. No --reissue and no --transfer. Every grant was released with --release after the row was written, and the ledger change is in this diff.",
+  "obligationSet": [
+   "ROUTE_IDENTITY",
+   "SOURCE_IDENTITY",
+   "COMPONENT_SET",
+   "KNOWN_PREFILLS",
+   "REQUIRED_BEFORE_FILING",
+   "ROUTE_OPTIONS",
+   "REPEATING_ROWS",
+   "PROTECTED_FIELDS",
+   "ARTIFACTS",
+   "PAGE_ORDER",
+   "CLIPPING_AND_OVERLAP",
+   "FILING_DESTINATION",
+   "FEE_AND_WAIVER",
+   "SERVICE",
+   "SELF_HELP_STOP"
+  ],
+  "corpus": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh mounted the Master Library Edition 1 in this container (archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, 51 jurisdictions / 499 files / 329 pdfs, governance checksums verified), so SOURCE_IDENTITY was measured against held bytes rather than inferred.",
+  "documentSummaryNote": "Any lane-level summary block above predates this append and counts only the rows it counted. It was deliberately not rewritten: it is another worker's tally.",
+  "overlayDirectoriesModified": 0,
+  "packetsModified": 0,
+  "buildScriptsModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "This append records verification verdicts. It promotes no family, opens no route and grants no approval.",
+  "amendmentA3": "Read from the captain head 913410b1c, where it was added after this row's verifiedAtBase; the determination file at the base commit carries only amendment and amendment2. Every fee, service and filing-destination finding in these rows was re-run against A3's per-fact test and the results are recorded in the rows themselves. Rows remain stamped at 7fcfb7d40aafe7bd7350fc735ea09d16524cb757, which is the commit the PACKETS were read at; they were not restamped to a commit whose packet bytes this worker did not read.",
+  "a3Outcome": "No verdict changed. A3 vindicated the West Virginia repair's sourcing choice and identified the concrete trap it avoided — the § 61-11-25 no-fee lines sitting in the same compiled profile as the § 61-11-26 route — confirmed the Arkansas fee PASS as route-addressing, and strengthened two Arkansas failures with further route-addressing facts the profile holds."
  }
 }

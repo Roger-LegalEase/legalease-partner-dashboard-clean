@@ -3957,6 +3957,170 @@
         "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
         "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json"
       ]
+    },
+    {
+      "itemId": "ar-arrest-seal-set",
+      "lane": "VF12",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill",
+      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+      "verifier": "FABLE-VT15 (independent; built none of these packets and edited none of them)",
+      "obligationsScored": 15,
+      "buildStatus": "state_built",
+      "buildStatusSource": "This family ships no build-status.json. MASTER_QUEUE records artifactStatus RENDERED, completenessStatus PASS_COMPLETE, allNineCountersZero true, legalInputStatus SETTLED, state VERIFY_PENDING; build-findings.json carries blocking [] and findingCount 0; product-wiring.json carries status DECLARED_NOT_INSTALLED with generationAllowed false.",
+      "rasterState": "RASTER_PASS",
+      "rasterStateDetail": "RASTER_QUEUE currentRasterState RASTER_PASS, receipt from workflow run 33497786539 (.github/workflows/rcap-packet-raster-acceptance-batch.yml) job 99824472374 at rendered commit 422ccb49e37966a14b5b4026a0054ce97c3af974, bound to canonical 78ef189e981b35fec69688cc6d3181df245b309e7405c954fcabd503e426bea5 and boundary fb32678b598155af6d1436eeb51098cb665fe2f1711bd826ec2b980b1c30a811. I recomputed all four fixtures here and every one hashes to its RASTER_QUEUE pin. All 12 committed raster PNGs rehash exactly. The workflow artifact PNGs are not fetchable from this container.",
+      "corpusMounted": true,
+      "composedFamily": false,
+      "repairClaimUnderTest": {
+        "claimed": "An amendment-A2 fee repair. The state profile says 'Sealing petition filing fee $0'. A prior lane also confirmed the dispositions now parse and that COMPONENT_SET measures 2/2 hash-bound where it once measured 0/0.",
+        "verifiedLanded": true,
+        "how": "All three of the profile's fee sentences are present verbatim in src/lib/rcap-engine/compiled/profiles/AR-arkansas.json and the route census names that profile as requiredSourceIds[0] for this route key, so the packet is stating what the repository establishes rather than naming an authority to ask. COMPONENT_SET is 2/2: both documents bound in source-receipt.json, both rehashed exact here against the corpus and the governance checksums, both rendered in canonical and boundary, requiredComponentsMissing 0. The dispositions parse: the run reported 15/66 written and the reproduction classifies all 51 blanks with zero in the three defect dispositions, and ten of them reach the declared REQUIRED_BEFORE_FILING path, so the disclosure gate genuinely executed. MASTER_QUEUE's recorded FEE_AND_WAIVER failure for this family is STALE.",
+        "butDidNotFix": "FILING_DESTINATION and SERVICE, both of which fail on the SAME A2 limb the fee repair was made under — the repository holds the answer and the packet defers to an authority instead. The repair fixed the instance A2 named and left two of the same shape beside it."
+      },
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "notMeasurableHere": [],
+      "standardApplied": "DET-FEE-AND-WAIVER-001 with amendment A1, amendment A2 and amendment A3, all read in full. A3 is not present at this row's verifiedAtBase; I read it from the captain head 913410b1c and applied its per-fact test to every fee, service and filing-destination finding below. The row stays stamped at the base I actually read the PACKET at.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One route key, obligation:track-pathway:AR:ar-arrest-seal:situation-a-non-convictions, declared identically in product-wiring.json (both as routeKey and in routeKeys), production-field-map.json, source-receipt.json and the MASTER_QUEUE family row, and present as the routeKey of the matching route in the committed route obligation census; familyId ar-arrest-seal-set agrees across all four. The instructions print the key verbatim in their footer — 'Route: obligation:track-pathway:AR:ar-arrest-seal:situation-a-non-convictions — Act 1460 of 2013; A.C.A. § 16-90-1401, et seq.; sealing ordered under A.C.A. § 16-90-1409' — and the route determination is on the paper's own face: the petition is captioned 'PETITION TO SEAL ARREST UNDER ACT 1460 OF 2013; A.C.A.16-90-1401, Et. Seq.' and its paragraph 2 states the situation-A condition, which I read out of the fixture bytes."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured from the mounted Master Library, and it needs a qualification the Captain should see. THE BYTES ARE EXACT. Both bound documents were rehashed here against the receipt and both match on SHA-256 and byte length: AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460 f77e17b669bd6e01cc3818329181bb378dd774b1facd9a15c4083d37d380194c at 350,326 B and AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460 5bd4ed5bd1b658295b50c2ea7126e276982fd705045f36adfc1f074923722581 at 250,709 B. Both hashes appear once in STATES/AR/STATE_MANIFEST.csv against those exact paths and document ids, and once in 00_GOVERNANCE/CHECKSUMS.sha256, which bootstrap verified before extracting. reports/rendered-artifacts.json separately records that every output hash was checked against the twelve hashes in data/rcap-grade-a/stale-artifact-block.json and matches none. THE QUALIFICATION. The MASTER_QUEUE row for this family carries sourceStatus SOURCE_IDENTITY_NOT_EXACT with sourceReadiness.ready false, boundCount 0 of 2 namedOfficialForms, and the reason 'official-form:ACIC-PETITION-TO-SEAL-ARREST: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding' for each; its sourceHashes name the right two files but bind them at tier token_subset_same_jurisdiction. The cause is an identifier mismatch, not a byte mismatch: the census names the forms official-form:ACIC-PETITION-TO-SEAL-ARREST and official-form:ACIC-ORDER-TO-SEAL-ARREST while the corpus index registers the same bytes as AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460 and AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460, so the exact-form-number resolver cannot prove the equivalence and falls back to a token-subset heuristic. I score the obligation PASS because the identity this obligation measures — that the packet is built from exactly the official bytes the corpus holds and that those bytes are provably the named forms — is established three ways. But the queue's own row says this family's sources are not exactly bound, and a route cannot honestly be promoted while its own queue row says that. The repair is a registry alias, not a rebuild."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Two components declared, two rendered, both hash-bound — the state the task said this family had reached, and I confirmed it rather than assumed it. source-receipt.json binds the petition (documentRole PETITION, 3 pages, 37 AcroForm fields) and the order (documentRole PROPOSED_ORDER, 3 pages, 29 fields); the committed packet-set manifest lists exactly those two components, primary_filing:ACIC-PETITION-TO-SEAL-ARREST and proposed_order:ACIC-ORDER-TO-SEAL-ARREST, both required; the route census names component:ar-arrest-seal-primary-filing-1 and component:ar-arrest-seal-proposed-order-2; product-wiring.json's proposed representation lists both with their output SHA-256s. Four fixtures exist, canonical and boundary for each document, all four hash-exact. requiredComponentsMissing is 0 in the fresh run, and the run reported 15/66 written, so the reader saw both documents' field sets (37 + 29 = 66) rather than zero."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Read back from the output bytes. reports/actual-writes.json is derived from the finished PDFs and records, per artifact, refusedFieldsWithInk empty, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and participantNameTokensOutsideTheNameAllowlist 0; because this family fills through AcroForm widgets rather than drawing into page content, the marks are counted as flattened widget appearances (37 on the petition, 29 on the order) and the report says so explicitly instead of leaving a bare zero unexplained. I confirmed the values on the paper with pdftotext over the canonical petition: 'Example County', '24-CR-001234', 'Jordan Avery Reyes' in the caption and again in the prayer line, 'Possession of a controlled substance' on the first offence line, and on page 3 '118 Maple Street', 'Springfield', 'XX', '01234'. knownRequiredFieldsMissing 0 and invisibleWrites 0 in the fresh run. The boundary fixture is the more informative one: it refuses three values as value_exceeds_widget_width_at_minimum_font rather than overdrawing the form's rule — a 36-character case number needing 118pt in a 109.08pt widget, a 69-character name needing 195.6pt in 179.16pt, and a 48-character county needing 143.6pt in 124.56pt — and the instructions tell the participant that is what happened and that completing such a blank by hand is theirs."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "Scored under A2, and the packet fails on the same limb as the fee defect it was repaired for: the section is right about the FORM and wrong about the REPOSITORY. What is right, and it is a lot: the family declares its blanks on the channel the contract wants, so requiredFactsNotCollected 0 is a REAL zero here rather than a vacuous one — ten blanks classify REQUIRED_BEFORE_FILING under the committed reader and the disclosure gate actually ran over all ten and found every one named in participant-instructions.md. The instructions go further than the map, giving a page-by-page table with the form, the page, the printed blank and what belongs in it, disclosing the Arrest Tracking Number and the FBI number that the map does not even flag, and explaining rather than dumping the one unnamed widget ('the ACIC form gives this blank no name of its own; inside the PDF it is called undefined_2'). WHAT FAILS. The committed packet-set manifest's requiredBeforeFiling array — a held source under A2, and the exact artefact A2's answersVT8C4 ruled on — opens with 'Obtain Fingerprint card. Have fingerprints taken and submit the card WITH THE PETITION. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them', carried as requiredBeforeFiling true and requirement required. The packet never mentions fingerprints. Its 'What you must do before you file' list has six numbered items and a fingerprint card is not among them, and the word does not appear anywhere in the 13,116-byte file. A participant who follows this packet exactly will file a petition without a document the repository says must accompany it. The second manifest item, 'Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information', is also requiredBeforeFiling true; the packet gets closer, mentioning 'the ACIC criminal-history record carries an ACIC fee' under costs, but it never tells the participant to obtain it or names the ACIC Authorization form to obtain it with. Repair: two bullets in the existing 'What you must do before you file' list."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing 0 in the fresh run, and no blank classifies ROUTE_OPTION_NOT_SELECTED in the reproduction — the seven unmarked checkboxes all classify PARTICIPANT_ELECTION_GENUINE, which is the contract agreeing they are the participant's and not the route's. That is the right answer on inspection: paragraph 1's felony/misdemeanour pair is the offence's class, paragraph 4's pair is whether the participant has a pending felony charge today, and paragraph 5's pair is whether they must register as a sex offender. None of the three is determined by choosing this route; each is a fact about the individual. The instructions carry a dedicated 'The choices that are yours' table naming all three with the reason each is the participant's, and the 'Where self-help ends' section escalates two of them — a pending felony charge, and a registration obligation — as questions the packet will not answer. On the proposed order, every recital box is left to the court."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows 0 in the fresh run and no half-filled row in the reproduction. This form's repeating structures are the two offence lines in paragraph 1, the two status lines in paragraph 4, and the two street lines of the defendant address block. In each the first cell is written from a held fact or is refused wholesale and the second is left blank with a named reason — 'and charged with the offenses of 2' as no_allowlisted_fact_matches, the paragraph 4 status lines as conditional on an election the participant has not made, and 'Defendant Address Street 2' with roleClass address_continuation_line. No row reads as finished when it is not, and the instructions name each second line explicitly."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "protectedWrites 0 in the fresh run, refusedFieldsWithInk empty in all four artifacts, and 27 blanks classify PROTECTED_FIELD in the reproduction. The line is drawn where it should be and drawn twice. On the petition the participant's own signature and its date are refused (roleClass participant_signature_date, 'Dating a signature before it is made is a false statement'), and the whole page-3 Certificate of Service is refused — the certifying name (roleClass certificate_of_service_attestation), the signature line and the date (roleClass certificate_of_service_date, 'Service has not happened'). On the order, which carries ownership court_issued_order and captionOnly true, the judge's signature line (roleClass court_only_signature) and its date (court_only_signature_date, 'The court dates its own order') are refused, and so is every recital and decree box below the caption: the build writes only the caption identity — case number, defendant name, DOB, county — and nothing else. The instructions state the same boundary in words the participant can act on: 'Leave the order alone below its caption. The findings, the paragraph boxes, the decree, the judge's signature and the date beside it are the court's.'"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed from the committed bytes here. All four fixtures hash exactly to reports/rendered-artifacts.json and to the RASTER_QUEUE documents block: petition-canonical-filled.pdf 78ef189e981b35fec69688cc6d3181df245b309e7405c954fcabd503e426bea5 (369,342 B), petition-boundary-filled.pdf fb32678b598155af6d1436eeb51098cb665fe2f1711bd826ec2b980b1c30a811 (368,991 B), order-canonical-filled.pdf 161971dca56b9292dac5a8bd9eda03e2deb910d0c1cfbecc98d017bbf17841bb (248,680 B), order-boundary-filled.pdf d633848fda999d95f9fa7e82284b82613af94d36512b1aa8b0914d36a13be194 (248,133 B). pdfinfo reads 3 pages from each. All 12 committed raster PNGs across the four raster directories rehash exactly to their recorded sha256. The RASTER_QUEUE coverage block is honest that this family ships two canonical documents with no assembled packet and that the row renders both."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Two three-page documents, each rendered from a single source form with its own pages in source order and no interleaving; pdfinfo confirms 3 pages in every fixture and the receipt records pageCount 3 for both sources. The petition's internal order is the one the form prescribes and I read it off the bytes — page 1 caption and paragraphs 1-4, page 2 the remainder of paragraph 4 through paragraph 6 and the identification block, page 3 the Certificate of Service and the defendant address block. The instructions state the order of the two documents for the filer: 'File the petition, with the proposed order behind it.' There is no ordering to get wrong here and none is wrong."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects 0 in the fresh run, and unlike the West Virginia pair this family's own report carries the number as a measured 0 rather than null: nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 on all four artifacts, read at each field's own /Rect with pdf-flattened-widgets.mjs. I measured independently as well: pdftotext -bbox over all three pages of all four fixtures found zero words outside the 612x792 page box and zero same-baseline word pairs overlapping by more than 1pt. The boundary fixture is the real test and it passes by refusing rather than by squeezing — the three unfittable values are declined at minimum font size with their required widths recorded, so no ink is drawn over a printed rule. A hash-bound central RASTER_PASS covers the exact current bytes."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "Scored under A1, and it fails the test A1 states: ask first whether the repository establishes the answer; if it does, the packet states it, and only where nothing establishes it may a named checkable authority stand in. THREE held records establish it, and they agree. The committed route census's destination for this exact route key is name 'Circuit or district court in the county of arrest', detail 'The county-of-arrest venue rule is separate from the general venue rule' — a record that goes out of its way to warn that this route's venue is NOT the ordinary one. The compiled Arkansas profile, named as a requiredSourceId for this route and the very record the fee repair correctly leaned on, carries the filing rule 'File in the circuit or district court that handled the case.' The committed packet-set manifest's file entry says 'File the ACIC arrest petition and order pair in the circuit or district court in the county of arrest.' WHAT THE PACKET SAYS INSTEAD. It never uses the words circuit or district as the answer set, never states the county-of-arrest venue rule, and hands the determination to the participant: 'the court blank is left to you… Write the court that handled the case — or, for an arrest that was never charged, the court that would have handled it — in the county named in the caption… If you are not certain which court that is for your arrest, ask the circuit clerk's office of the county named in the caption.' For a route whose defining fact is that no charges were ever filed, 'the court that would have handled it' is a guess, and the packet's fallback is a phone call about something the repository answers. This is A1's consequence paragraph almost word for word: naming an authority is what honesty requires when the record is empty; it is not a way to avoid stating what the record contains. WHAT THE PACKET DOES WELL, and the repair should keep: the county is prefilled, the clerk's office is named as where the filing is received, and the DIVISION blank is correctly explained as conditional. The repair is one sentence — say that the petition goes to the circuit or district court in the county of arrest, keep the clerk as the authority for the residual circuit-versus-district choice, which genuinely varies. SECOND ITEM FOR THE REPAIRER: the caption county is written from matter.county while two of the three records tie venue to the county of ARREST; if those can differ in the platform's data the prefill is on the wrong fact, and I could not settle that from the artifacts. STRENGTHENED UNDER A3, which I read from the captain head after this row's base. A3 sent me back to the profile to check per fact rather than per document, and the profile turns out to hold two further destination facts for this route that the packet also omits, both in packetGenerator.filingDestinationRules and neither keyed to a different statute: 'Sealing is filed in the court that handled the case; a person with cases in several courts files in each' and 'Venue is the court that handled the case — file separately in each county where the person has records.' A participant with records in more than one county is therefore owed a separate filing in each, and this packet never says so. A3 also sharpens why the census's rule is the operative one for THIS pathway: the profile's 'file in the circuit or district court that handled the case' is written for a case that WAS handled, while situation-a is defined by no charges ever having been filed, which is why the packet has to reach for 'the court that would have handled it'. The census entry keyed to this exact route key answers that directly — 'Circuit or district court in the county of arrest', with the explicit warning that 'the county-of-arrest venue rule is separate from the general venue rule'. That is the route-addressing record, and it is the one the packet does not state."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The A2 repair landed and it is correct. I checked the three quoted sentences against the bytes of the record the packet names rather than against the packet's account of them, and all three are in src/lib/rcap-engine/compiled/profiles/AR-arkansas.json verbatim: 'Act 1460 eliminated sealing filing fees'; 'Sealing petition filing fee $0 … Filing fees eliminated by the 2019 amendments'; and, in the filing rule, 'File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.' The committed route census names that profile as requiredSourceIds[0] for this exact route key, which is what makes it the repository under A2 rather than merely a file that exists. The packet states the answer outright — 'There is no filing fee for this petition' — instead of naming an authority to ask, which is exactly the correction A2 called for on this family. It then does something better than the standard requires: it reads the petition's paragraph 3, a sworn statement that fees 'mandated by A.C.A § 16-90-1419' have been paid, and explains why that averment is true as printed where no fee is required, so the participant is not left signing a sentence they do not understand; and it keeps a named checkable authority for the residual case ('If the clerk … nevertheless asks you to pay something … ask the clerk what the charge is for and whether a waiver or reduction is available, and settle it before you sign'). It also separates the costs that are not filing fees — the ACIC record fee, the clerk's copy fee for a Judgment and Commitment Order, counsel — and names the free legal-aid and clinic route. RECORDED, and it does not change the score: the committed packet-set manifest says 'The source review does not state a filing fee for this petition' and 'The source review does not address a fee waiver', so two held records disagree in strength. One is silent and one answers; A2's instruction is to state what the repository establishes, and the profile establishes it. Stating $0 is right. APPLIED A3 (read from the captain head; it postdates this row's base), because this PASS rests on a compiled state profile and A3 was written about precisely that. A3's test: name the fact and its route, then find the record that establishes THAT fact for THAT route, and refuse a line keyed to a different statutory section. The fact is the filing fee for a petition to seal an arrest under Act 1460 of 2013, A.C.A. § 16-90-1401 et seq. The Arkansas profile's packetGenerator.feeRules is a flat jurisdiction-wide list rather than a per-pathway table, so I checked it for the California shape and it does not have it: every fee line in it gives the SAME answer and attributes it to the SAME Act — feeRules[0] 'Act 1460 eliminated sealing filing fees', feeRules[1] 'Sealing petition filing fee $0 Filing fees eliminated by the 2019 amendments', and the filing rule 'Act 1460 eliminated filing fees for sealing'. There is no competing statutory section and no competing amount anywhere in the list, so there is no wrong line available to pick. The profile declares three pathways — situation-a-non-convictions, situation-b-misdemeanor-convictions, situation-c-felony-convictions — and Act 1460 is the Act all three arise under and the Act this packet's own petition is captioned to ('PETITION TO SEAL ARREST UNDER ACT 1460 OF 2013; A.C.A.16-90-1401, Et. Seq.'), which I read off the delivered fixture. The line addresses this route. The PASS stands under A3."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The recipients and the method are stated correctly and sourced; the DEADLINE is denied, and the repository holds it. WHAT IS RIGHT. The packet names both recipients — 'the Prosecuting Attorney for the County in which the Petition is filed, or the City Attorney — whichever office prosecuted, or would have prosecuted, the case' and 'the arresting agency' — and the method, 'by placing a copy in the United States mail, postage prepaid, or by hand delivering a copy'. I extracted page 3 of the canonical fixture and both come straight off the form's own Certificate of Service, word for word. It also gets the timing discipline right: complete the certificate 'after — and only after — you have actually served both', because 'a signed certificate of a mailing that never occurred is a false statement to the court'. WHAT FAILS. The packet then says: 'The form sets no separate service deadline: the certificate is part of the petition you file, so service belongs with filing.' The claim about the FORM is true. The claim it invites the reader to draw about the RULE is false, and this is A2's exact defect shape one obligation over. The committed packet-set manifest's serve_party entry for ar-arrest-seal-set reads: 'Serve the prosecuting attorney WITHIN THREE DAYS OF FILING. The prosecuting attorney has 30 days to object.' A2's answersVT8C4 settles that a committed manifest's participantActionRequired entries are a held source for SERVICE by name. So the repository sets a three-day service deadline and a thirty-day objection window, and the packet tells the participant there is no separate deadline and says nothing about the objection window at all — a participant who reads this will not know when to expect an objection or that one is coming. Repair: replace the no-deadline sentence with the three-day rule and add the thirty-day objection window; keep everything else, which is good. STRENGTHENED UNDER A3. Re-reading the profile per fact rather than per document turned up a second held record on the objection window, in packetGenerator.filingDestinationRules: 'Serve the prosecuting attorney. The prosecutor has 30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons.' So the repository holds the window twice — flatly as 30 days in the packet-set manifest, and class-dependent as 30 or 90 days in the profile — and the packet states neither. I do not resolve which figure governs an arrest that was never charged, because the packet's own paragraph 1 asks the participant for the offence class and the two records are keyed differently; that is a question for the repairer and, if the records genuinely conflict for this pathway, for counsel. What is measurable and what I score is that the participant is told nothing about an objection window at all, and is affirmatively told there is no service deadline when the manifest sets one at three days."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The strongest self-help boundary in my five families, and it is drawn in the participant's language rather than in the factory's. It has a dedicated 'Where self-help ends' section that names both escalation paths, 'a lawyer licensed in Arkansas' or 'the clerk of the court named in your caption, who can say what the court requires even though the clerk cannot give legal advice', and then lists five specific stop conditions rather than a general warning: the paragraph 2 statement not being true; a pending felony charge, with the honest admission that 'whether the petition can be granted while it is pending is a question this packet does not answer'; a registration obligation under the Sex Offender Registration Act, with the same admission; an arrest that ended in a conviction or diversion, with the note that a different ACIC form family covers each; and not knowing the offence, class or A.C.A. section, with where to get them. It states what it left blank and why in its own section, refuses to complete the court's instrument ('the order is the court's instrument, and paragraph 6's finding, the GRANTED decree, the judge's signature and its date may never carry anyone's ink but the court's'), and closes 'This is a prepared set of official ACIC forms. It is not legal advice, it is not filed for you, and it does not decide whether your arrest can be sealed.' approval-request.json is REQUESTED; product-wiring.json carries status DECLARED_NOT_INSTALLED, generationAllowed false, authorityCreated 'none' and six explicit non-grants including 'Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record.'"
+        }
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>, run in this container at the base commit by FABLE-VT15; the disposition histogram behind the counters was reproduced read-only against scripts/rcap-packet-completeness/completeness-contract.mjs",
+        "whatAllZeroMeansHere": "Nothing was missing, not nothing was measured, and on this family the zeros are stronger than on the other four. The run reported 15/66 written, so it enumerated all 66 AcroForm fields across both documents (37 + 29) and classified the 51 blanks against the closed vocabulary. The reproduction gives REQUIRED_BEFORE_FILING 10, PROTECTED_FIELD 27, OPTIONAL_PARTICIPANT_CONTENT 7, PARTICIPANT_ELECTION_GENUINE 7 — zero in the three defect dispositions. Because ten blanks actually reach the declared REQUIRED_BEFORE_FILING path, the disclosure gate ran over a non-empty set and requiredFactsNotCollected 0 means the packet was checked for disclosing all ten and passed, rather than being checked for nothing. visualDefects 0 is likewise a measured zero here: reports/actual-writes.json carries nonWhitespaceGlyphsOutsideMeasuredWriteBoxes as 0 on all four artifacts, not null."
+      },
+      "proofObligationsScored": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "openQuestionsForTheCaptain": [
+        "MASTER_QUEUE carries sourceStatus SOURCE_IDENTITY_NOT_EXACT and boundCount 0/2 for this family purely because the census's form ids (ACIC-PETITION-TO-SEAL-ARREST) do not match the corpus index's ids (AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460). The bytes are exact and provably the named forms. This is an identifier-alias repair in the source registry, and until it is made the family's own queue row contradicts its receipt.",
+        "The fee repair fixed the one A2 instance that was reported and left two of the same shape untouched on the same family. It may be worth sweeping every family A2 named for the pattern rather than the instance: for each of FILING_DESTINATION, FEE_AND_WAIVER and SERVICE, does the packet defer to an authority on something the compiled profile, the track registry, the route census or the packet-set manifest already answers?"
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/fixtures/ (all four PDFs, rehashed and text-extracted)",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/raster/ (12 committed PNGs, all rehashed)",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/ (both ACIC forms, rehashed)",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/STATE_MANIFEST.csv",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/00_GOVERNANCE/CHECKSUMS.sha256",
+        "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json (all three fee sentences and the filing rule, read at source)",
+        "data/record-clearing/legal-design-packet-set-manifests.json (packetSet ar-arrest-seal-set, participantActionRequired and requiredBeforeFiling)",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (this route key, destination and requiredSourceIds)",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (read only)",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (read only)",
+        "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json (in full, including amendment and amendment2)"
+      ],
+      "grantsNothing": "This row opens no commercial route, promotes no family and grants no approval. commercialRoutesOpened 0, productionTouched false, packetsModified 0, overlayDirectoriesModified 0."
     }
   ],
   "v5xAppend": {
@@ -3992,5 +4156,39 @@
     "commercialRoutesOpened": 0,
     "productionTouched": false,
     "grantsNothing": "A PASS_COMPLETE_INDEPENDENT here proves a packet is complete and independently measured. It approves no output, promotes no family and opens no commercial route."
+  },
+  "vt15Read": {
+    "worker": "FABLE-VT15",
+    "branch": "fable/vt15",
+    "baseSha": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+    "read": "Independent second read of ar-arrest-seal-set, at base 7fcfb7d40aafe7bd7350fc735ea09d16524cb757. Every row appended by this worker carries its own verifiedAtBase; the document-level fields above were not written by this worker and are left as they were.",
+    "claimDiscipline": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert <LANE> <familyId> was run for each family, one at a time, before any artifact of that family was read. No --reissue and no --transfer. Every grant was released with --release after the row was written, and the ledger change is in this diff.",
+    "obligationSet": [
+      "ROUTE_IDENTITY",
+      "SOURCE_IDENTITY",
+      "COMPONENT_SET",
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING",
+      "ROUTE_OPTIONS",
+      "REPEATING_ROWS",
+      "PROTECTED_FIELDS",
+      "ARTIFACTS",
+      "PAGE_ORDER",
+      "CLIPPING_AND_OVERLAP",
+      "FILING_DESTINATION",
+      "FEE_AND_WAIVER",
+      "SERVICE",
+      "SELF_HELP_STOP"
+    ],
+    "corpus": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh mounted the Master Library Edition 1 in this container (archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, 51 jurisdictions / 499 files / 329 pdfs, governance checksums verified), so SOURCE_IDENTITY was measured against held bytes rather than inferred.",
+    "documentSummaryNote": "Any lane-level summary block above predates this append and counts only the rows it counted. It was deliberately not rewritten: it is another worker's tally.",
+    "overlayDirectoriesModified": 0,
+    "packetsModified": 0,
+    "buildScriptsModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "This append records verification verdicts. It promotes no family, opens no route and grants no approval.",
+    "amendmentA3": "Read from the captain head 913410b1c, where it was added after this row's verifiedAtBase; the determination file at the base commit carries only amendment and amendment2. Every fee, service and filing-destination finding in these rows was re-run against A3's per-fact test and the results are recorded in the rows themselves. Rows remain stamped at 7fcfb7d40aafe7bd7350fc735ea09d16524cb757, which is the commit the PACKETS were read at; they were not restamped to a commit whose packet bytes this worker did not read.",
+    "a3Outcome": "No verdict changed. A3 vindicated the West Virginia repair's sourcing choice and identified the concrete trap it avoided — the § 61-11-25 no-fee lines sitting in the same compiled profile as the § 61-11-26 route — confirmed the Arkansas fee PASS as route-addressing, and strengthened two Arkansas failures with further route-addressing facts the profile holds."
   }
 }
