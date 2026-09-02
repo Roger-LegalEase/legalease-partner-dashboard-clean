@@ -10,7 +10,7 @@ The platform filled in what it holds about you: your name, your date of birth, y
 
 | Component | What it is |
 | --- | --- |
-| `wi_exp_certificate_of_discharge_followup-primary-filing-1` | the composed petition, on this route's own statutory ground (Ask for the certificate that completes your expungement) |
+| `wi_exp_certificate_of_discharge_followup-primary-filing-1` | the composed request letter to the supervising or detaining authority, on this route's own statutory ground (Ask for the certificate that completes your expungement) |
 | `wi_exp_certificate_of_discharge_followup-status-request-2` | the written status request to the supervising or detaining authority (Ask for the certificate that completes your expungement) |
 | `wi_exp_certificate_of_discharge_followup-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Ask for the certificate that completes your expungement) |
 
@@ -40,21 +40,18 @@ Each of these is carried here in the words of the committed record it comes from
 
 Each is printed on its page as a labelled dotted blank. Fill every one that belongs to the page you are using, from the record itself, never from memory.
 
-### wi_exp_certificate_of_discharge_followup-primary-filing-1 — Petition - Ask for the certificate that completes your expungement
+### wi_exp_certificate_of_discharge_followup-primary-filing-1 — Request to the supervising or detaining authority - Ask for the certificate that completes your expungement
 
 | The blank on the document | What to write |
 | --- | --- |
-| Item C1 - full legal name | What is your full legal name, and any other name the case was under? |
-| Item C2 - date of birth | What is your date of birth? |
-| Item C3 - return contact details | What postal address, phone number or email should the authority use to reply to you? |
-| Item C4 - case number and county | What is the case number, and which Wisconsin county was the case in? |
-| Item C5 - supervision identifier | What is your Department of Corrections or offender identification number, if you have one? (Asked where the sentence included probation or confinement, because it is how the supervising authority locates the file.) |
-| Item C6 - supervising authority | Which agency supervised your probation, or which facility held you? |
-| Item C7 - supervising agent name | Do you know the name of your probation agent or the office that supervised you? (Asked where the sentence included probation; it helps the authority route the request.) |
-| Item C8 - sentence completion date | On what date did you finish your sentence, including any probation? |
-| Item C9 - expungement ordered at sentencing | Did the judge order at your sentencing that the record would be expunged once you completed your sentence? |
-| Item C10 - court office confirmation that the certificate was not received | Have you asked the clerk of court whether they received a certificate of discharge, and what did they say? |
-| Item C11 - request type | Do you want to ask the authority to issue and forward the certificate, or only to tell you whether it has already been done? |
+| Item C1 - case number and county | What is the case number, and which Wisconsin county was the case in? |
+| Item C2 - supervision identifier | What is your Department of Corrections or offender identification number, if you have one? (Asked where the sentence included probation or confinement, because it is how the supervising authority locates the file.) |
+| Item C3 - supervising authority | Which agency supervised your probation, or which facility held you? |
+| Item C4 - supervising agent name | Do you know the name of your probation agent or the office that supervised you? (Asked where the sentence included probation; it helps the authority route the request.) |
+| Item C5 - sentence completion date | On what date did you finish your sentence, including any probation? |
+| Item C6 - expungement ordered at sentencing | Did the judge order at your sentencing that the record would be expunged once you completed your sentence? |
+| Item C7 - court office confirmation that the certificate was not received | Have you asked the clerk of court whether they received a certificate of discharge, and what did they say? |
+| Item C8 - request type | Do you want to ask the authority to issue and forward the certificate, or only to tell you whether it has already been done? |
 
 ### wi_exp_certificate_of_discharge_followup-status-request-2 — Status Request - Ask for the certificate that completes your expungement
 
