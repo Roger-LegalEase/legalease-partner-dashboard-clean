@@ -107,6 +107,8 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
+import { loadAppearanceSemantics, dispositionsForFamily }
+  from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS }
@@ -149,6 +151,9 @@ const FAMILY_ID = "rcap-tx-custom-pleading";
 const OUT = "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading";
 const BUILD_SCRIPT = "scripts/build-census-v1-rcap-tx-custom-pleading.mjs";
 const IMPLEMENTATION_STRATEGY = "custom_pleading";
+
+/* The appearance-meaning registry, read once. Keyed familyId:componentId. */
+const APPEARANCE_SEMANTICS = loadAppearanceSemantics();
 
 const ROUTE = Object.freeze({
   jurisdiction: "TX",
@@ -895,7 +900,22 @@ async function renderDocument(source, census, fixtureName) {
     census: censusForFinalizer,
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
-    title: source.title
+    title: source.title,
+    /*
+     * What this document's classified fields' appearances MEAN.
+     *
+     * Empty for a component with no registry entry, which is the structural
+     * default and what every other document here already gets. It matters for
+     * the Statement because the structural rule calls every unwritten /Tx
+     * appearance the court's own ink and preserves it, and this form ships its
+     * Option 1 declaration date field carrying the value 12/15/2022. That is a
+     * participant input on a perjury declaration, refused by this build's own
+     * field map as signature_or_date_participant_completion and promised blank
+     * by participant-instructions.md, so it must contribute nothing unless this
+     * run wrote it - which it never does.
+     */
+    appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS,
+      `${FAMILY_ID}:${source.componentId}`)
   });
   return { bytes, report };
 }

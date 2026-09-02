@@ -118,6 +118,25 @@
           "theOverlapItCarriesIsTheSourcesOwn": "'MC-031' and ').' share 16.17 square points on the unmodified pikepdf-unlocked source and 23.90 on the delivered page. That pair is a property of the official form, not of this build, and preserving the caption preserves it rather than introducing it."
         }
       }
+    },
+    "rcap-tx-custom-pleading:tx-expunction-fee-waiver-statement": {
+      "measuredAt": "2f9b289d8815cf11b498958c98a885f7800faf71",
+      "whyThisFamilyNeededClassifying": "The Texas Statement of Inability to Afford Payment of Court Costs (Misc. Docket No. 22-9090) ships with three of its own AcroForm values already set: /V \"0\" on \"Value / Valor 11\" (page 7), /V \"0\" on \"Amount Cantidad 15\" (page 8), and /V \"12/15/2022\" on \"Today\", the date line of the Option 1 sworn declaration on page 11. All three are /Tx text fields, so the structural rule calls every one of them the court's own ink and preserves it. It is not the court's ink: each is a participant input, and the one on the declaration date line is delivered on a document sworn under penalty of perjury, beside a signature rule the packet leaves blank.",
+      "howMeasured": "Each /V was read first-hand from the pinned source at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf (sha256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d), and each surviving flattened appearance was read from the Form XObject it became in fixtures/canonical.pdf and matched to its widget /Rect.",
+      "onlyTheDeclarationDateIsClassifiedHere": "The two page-7 and page-8 zeros survive into the delivered packet as well - they are drawn in Form XObjects FlatWidget-1812800957 and FlatWidget-4855138939 with /Arial, a font pdftotext cannot map, which is why a text extraction of those pages does not show them. They are participant financial entries, not protected fields, and no verdict has failed this family on them. Classifying them is a separate question and is deliberately not answered here.",
+      "fields": {
+        "Today": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "12/15/2022",
+          "rect": [
+            97.7522,
+            302.312,
+            247.752,
+            324.312
+          ],
+          "because": "This is the date part of the Option 1 declaration - \"I declare under penalty of perjury that the foregoing is true and correct\" - directly above the preprinted label \"Date (month, day, year) / Fecha (mes, dia, ano)\" and below an empty Signature rule. This family's own production-field-map.json refuses it with category signature_or_date_participant_completion and the reason \"signature or date field; never prefilled by this build\", reports/blanks-left-for-the-participant.json carries it among protectedBlanks, and participant-instructions.md tells the participant \"Your signature and the date\" are among the things deliberately left blank because \"You sign when you actually swear it.\" A date the participant did not enter, four years stale, on a perjury declaration, is ink no packet may carry, and the packet states in terms that it is not there."
+        }
+      }
     }
   }
 }
