@@ -2357,6 +2357,493 @@
         "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/03_INSTRUCTIONS/VT__INSTRUCTIONS__200-00130A__filing-a-petition-to-expunge-or-seal-a-criminal-record__REV-UNKNOWN__EN.pdf",
         "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/04_SUPPORTING_PROCESS"
       ]
+    },
+    {
+      "itemId": "ky_void_seal_marijuana_synthetic_salvia-set",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading",
+      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+      "verifier": "FABLE-VT14 (independent; built, repaired and rendered none of these packets)",
+      "obligationsScored": 15,
+      "corpusMounted": true,
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "33582245323",
+      "rasterReceiptBinding": "Bound to canonicalPdfSha256 695ecde15ad70d6155cd548f9a22b73b499e8fcded9734c7163af2e6845276ae and boundaryPdfSha256 1c5f49b9b7b83407afc3f0419ed32387743aff25a2dd68d921bd2cadc303d427, rendered at fe3ee78bfd56af1d5ab42cdab3017200d10db99f. Both recomputed on disk here and both equal the bound digests.",
+      "verdictCeilingApplied": null,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "sharedHostNote": "This family and ky_void_seal_controlled_substance-set are the two halves of one shared Kentucky repair and are built from the same host against the same official form. I verified them separately and did not carry a finding from one to the other. The thing worth reporting is that the repair did not carry text between them either: the two packets differ where the record differs — KRS 218A.276 against KRS 218A.275 in the motion title and the moving paragraph, 'The court of conviction, ordinarily District Court' against the CS entry's District-or-Circuit split in the venue bullet, and the destination detail sentence, which drops the CS entry's trailing 'the clerk delivers it to the judge who decided the case' clause exactly as the marijuana track's own registry entry does. A copy-paste repair would have shown the wrong state of that clause on one of the two, and it does not.",
+      "repairedFamilyReRead": {
+        "whatWasClaimedRepaired": "FILING_DESTINATION stated from the committed track registry, ROUTE_IDENTITY moved to the canonical track-only key, plus fee and service; fixture bytes changed and were re-rastered at fe3ee78bf.",
+        "whatIVerified": "Each limb from bytes. One route key appears in the family and it is the canonical track-only key; it prints on the rendered face. The destination, fee, waiver answer and service party are stated in the instructions and on the paper, and each traces to the marijuana track's own entry in the committed registry rather than to the controlled-substance entry.",
+        "fixtureBytesChanged": "Confirmed: the queue row's packetCommitSha is 89d29c164 while its receipt's renderedCommitSha is fe3ee78bf, and the receipt's bound digests equal the fixtures at this base."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_void_seal_marijuana_synthetic_salvia-set, run in this container at this base: PASS_COMPLETE, 13/39 written, all nine zero. Measured rather than vacuous: 39 terminal dispositions were audited across three documents and 13 came back written.",
+        "invisibleWritesSecondSource": "reports/actual-writes.json is derived from artifact bytes and carries nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 on both fixture documents."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Repaired and verified. Every obligation key anywhere in the family directory is obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia — seven occurrences across product-wiring.json, production-field-map.json and participant-instructions.md, and no other key of any shape. The same key prints as the Route: line on the rendered canonical and boundary fixtures. It is the key MASTER_QUEUE and the national route-obligation census both carry for this family. Statute agrees on the face as well: the motion is titled MOTION TO VOID CONVICTION AND SEAL RECORDS (KRS 218A.276) and moves under KRS 218A.276, which is this track's statute and not its sibling's. The official form prints both KRS 218A.275 and KRS 218A.276 in its own header, which is why one form serves both routes; the distinguishing statutory identity is carried by the composed motion, and it is correct.",
+          "evidence": {
+            "distinctRouteKeysInFamily": 1,
+            "canonicalKey": "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia",
+            "printedOnFaceOf": [
+              "fixtures/canonical.pdf",
+              "fixtures/boundary.pdf"
+            ],
+            "statuteOnTheFaceOfTheMotion": "KRS 218A.276",
+            "agreesWith": [
+              "MASTER_QUEUE family row",
+              "route-obligation-candidate.json route row",
+              "product-wiring.json",
+              "production-field-map.json"
+            ]
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Rehashed from source bytes in this container against the mounted Master Library (archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, governance checksums verified). The single bound binary, AOC-334 at STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-334__is-hereby-void-and-all-records-pertaining-thereto-that-are-in-custody-of-the-court-and-any__REV-UNKNOWN__EN.pdf, computes to 7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d at 252268 bytes — the same digest and length source-receipt.json declares, and the same one the census names as official-form:AOC-334 for this route. The two composed components bind no binary and the receipt claims none. This is the same official form the sibling Kentucky family binds, correctly declared by both rather than duplicated into either.",
+          "evidence": {
+            "corpusMounted": true,
+            "boundBinaries": 1,
+            "rehashed": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+            "byteLength": 252268,
+            "declaredEqualsComputed": true
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "requiredComponentsMissing 0, measured here. The census names component:ky_void_seal_marijuana_synthetic_salvia-proposed-order-2 as the route-required component; the committed packet-set manifest in the track registry declares three required roles — primary_filing, proposed_order (AOC-334) and certificate_of_service — and all three are delivered in one assembled 4-page packet whose pageManifest names them page by page, with the bound source sha carried on the proposed-order page record. Nothing declared is undelivered and nothing delivered is unroled.",
+          "evidence": {
+            "declaredRoles": 3,
+            "deliveredRoles": 3,
+            "routeRequiredComponents": [
+              "component:ky_void_seal_marijuana_synthetic_salvia-proposed-order-2"
+            ],
+            "pageManifest": "1:primary_filing | 2:primary_filing | 3:proposed_order | 4:certificate_of_service"
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing 0 measured here, and every write read back off the paper. Thirteen writes across three documents, all style-of-the-case: defendant name, case number, county and court on the composed motion and on the certificate; Case No, Court, County, Defendant and Defendant's Birthdate into AOC-334 through the field semantics' caption mode. reports/actual-writes.json records each drawn string against its expected value at the measured /Rect, and the boundary raster shows them on the page. Nothing the platform holds is withheld; every refusal is either a signature/date class or a value for which the packet holds no source.",
+          "evidence": {
+            "writtenOfTerminal": "13/39",
+            "documentsWrittenInto": 3,
+            "readBackFrom": [
+              "reports/actual-writes.json",
+              "raster/boundary/page-03/page.png"
+            ]
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "requiredFactsNotCollected 0 measured here and the label set reconciles exactly. production-field-map.json declares requiredBeforeFilingCount 20 with 20 entries in its array; participant-instructions.md prints 4 + 13 + 3 instruction rows and every disclosureLabel appears as the left cell of exactly one row, in order, with none unmatched in either direction. Each entry carries an identity, a printedContext read from the form's own content stream at the widget's normalized coordinates, and a participantMustSupply sentence. I checked the two entries whose AcroForm names are misleading — 'Text1' and the field literally named 'listed charges' — against the boundary raster rather than trusting the map, and both are correctly labelled as the first and the remaining agency lines, which is what the printed sentence above them asks for. The order form's own field naming is what is wrong there; the map does not inherit it.",
+          "evidence": {
+            "declaredCount": 20,
+            "arrayLength": 20,
+            "instructionRows": 20,
+            "labelsMatchedBothWays": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "requiredOptionsMissing 0 measured here. All three field maps declare selectionControls empty and routeSelectionsMade empty. The boundary raster confirms it on the paper: the only marks on AOC-334 are the two certification checkboxes inside the post-order agency CERTIFICATION block, which belong to an agency after entry rather than to the participant, and neither is touched. The route choice is expressed by which motion is filed — this one names KRS 218A.276 in its title and its moving paragraph — not by a control on the form.",
+          "evidence": {
+            "selectionControls": 0,
+            "routeSelectionsMade": 0,
+            "checkboxesOnTheForm": "2, both post-order agency certification, both untouched"
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "incompleteRows 0 measured here, over two real repeating regions rather than none. AOC-334 carries six CHARGE rules in two columns and three agency lines. All nine are declared REQUIRED_BEFORE_FILING with their own labels and all nine are blank on the boundary raster. There is no partially completed row because no row is written.",
+          "evidence": {
+            "repeatingRegions": 2,
+            "rowsInThem": 9,
+            "rowsPartiallyWritten": 0,
+            "confirmedOn": "raster/boundary/page-03/page.png"
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "protectedWrites 0 measured here and confirmed by eye, which matters because the official component is an order a judge signs. On the boundary raster of AOC-334 the 'So ORDERED this ___ day of ___, 2___' line, the Judge signature rule, and the entire agency CERTIFICATION block — certifying-agency line, both checkboxes, date, Agency Records Custodian rule — are blank. The composed motion carries an empty SIGNATURE OF DEFENDANT rule and an empty DATE rule and prints that the Defendant signs and dates it personally and that nothing on the page is signed or dated for the Defendant. The certificate of service is unfilled below its caption and says on its face that nothing on it is prefilled. The field map puts the signature and date rules on the signature_or_date_participant_completion refusal class rather than leaving them uncategorised, and the instructions add the affirmative rule: 'Do not sign the order. It is not yours to sign.'",
+          "evidence": {
+            "judgeSignatureBlank": true,
+            "orderingDateBlank": true,
+            "agencyCertificationBlockUntouched": true,
+            "participantSignatureAndDateBlank": true,
+            "confirmedOn": "raster/boundary/page-03/page.png"
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Every declared digest recomputes here and nothing declared is missing. Walking reports/rendered-artifacts.json and recomputing SHA-256 over each declared file — two assembled packet PDFs, two standalone proposed-order PDFs under their proposedOrderSha256 keys, eight raster page PNGs — gives 12 declared digests, 12 matched, 0 mismatched, 0 missing, with declared byteLength and pageCount agreeing. The two assembled fixtures are also the exact bytes the central RASTER_PASS receipt binds.",
+          "evidence": {
+            "declaredDigestsRecomputed": 12,
+            "matched": 12,
+            "mismatched": 0,
+            "missing": 0
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both fixtures declare a 4-page pageManifest running primary_filing, primary_filing, proposed_order, certificate_of_service, and the eight committed raster pages carry the same component label per page in the same order. That matches what the instructions describe — the motion, the tendered order that goes to the judge with it, then the certificate completed at the time of service — and reading the boundary pages in sequence shows that order with no page misplaced, duplicated or missing.",
+          "evidence": {
+            "declaredPages": 4,
+            "rasteredPagesPerFixture": 4,
+            "manifestOrderMatchesRasterOrder": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Measured two ways. The central visual gate returned RASTER_PASS in workflow run 33582245323, and that gate proves every page rendered, no page blank, expected dimensions at the requested scale, no clipped write, no overlapping participant text, no placeholder text and no protected-field ink; it is bound to the exact canonical and boundary digests I recomputed on disk, so it speaks about these bytes. I also read the boundary raster directly rather than resting on the receipt. The boundary fixture stresses the caption with 'Maria-Alejandra O'Shaughnessy-Whitfield', and on AOC-334 that name sits inside its rule with clear space at both ends, does not collide with the DEFENDANT label to its right, and does not overprint the birthdate row beneath. The case number, court and county writes each sit inside their own rules.",
+          "evidence": {
+            "centralGate": "RASTER_PASS run 33582245323 at fe3ee78bf, bound to both fixture digests",
+            "readDirectly": "raster/boundary/page-03/page.png",
+            "longestBoundaryValue": "Maria-Alejandra O'Shaughnessy-Whitfield",
+            "clippedOrOverlappingWritesFound": 0
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Fixed, on A1's test, and fixed from this track's own record. The repository establishes the answer: legal-design-track-registry.json, track ky_void_seal_marijuana_synthetic_salvia, holds destination.kind clerk, destination.name 'Office of the Circuit Court Clerk' and destination.detail 'Filed in the original criminal case in the county of conviction, as motion type SA with no summons issued.', and the national census carries the identical destination object for this route key. The packet states it: the instructions' 'Where you file, what it costs, and who gets a copy' section gives the destination and the venue verbatim and names the file they came from, step 4 repeats it as an instruction, and the composed motion prints 'It is filed with the Office of the Circuit Court Clerk, in the original criminal case in the county of conviction' on its own face. Worth noting because it is the thing a copied repair gets wrong: the detail sentence here ends at 'no summons issued' and does not carry the controlled-substance entry's extra clause about the clerk delivering it to the deciding judge — which is exactly how this track's registry entry reads.",
+          "evidence": {
+            "repositoryEstablishesIt": true,
+            "heldAt": "legal-design-track-registry.json track ky_void_seal_marijuana_synthetic_salvia destination",
+            "alsoInCensus": "route-obligation-candidate.json, same route key, identical destination object",
+            "statedInInstructions": true,
+            "statedOnTheFaceOfTheFiling": true,
+            "notCopiedFromTheSiblingTrack": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Scored under DETERMINATION_FEE_AND_WAIVER_STANDARD.json with A1 and A2 applied in order, asking first whether the repository establishes the answer across the whole A2 scope: the family's bound source, the compiled state profile, the committed track registry, the committed packet-set manifest, and every census requiredSourceId for this route. It does. The registry's rules.fees for this track is 'none. The Clerks' Manual records that there is no filing fee for this proceeding.' and rules.feeWaiver is 'not applicable; there is no fee.', carried again as pay_fee and apply_fee_waiver participantActionRequired entries. I also opened src/lib/rcap-engine/compiled/profiles/KY-kentucky.json, the shelf A2 was written about, and its packetGenerator.feeRules is an empty array, so it neither supplies nor contradicts an answer. The packet states the held answer rather than deflecting it: 'The filing fee. There is none.', then the registry's own two sentences quoted and attributed, and 'no filing fee is charged for it' printed on the face of the motion. That is the A2 outcome, not the A1-forbidden substitution of an office to ask about a figure the repository already holds.",
+          "evidence": {
+            "repositoryEstablishesIt": true,
+            "heldAt": "legal-design-track-registry.json track ky_void_seal_marijuana_synthetic_salvia rules.fees and rules.feeWaiver, plus its pay_fee / apply_fee_waiver entries",
+            "compiledStateProfileFeeRules": "empty array, checked",
+            "packetStatesTheAmount": "no fee, stated and sourced",
+            "waiverAnswerStated": true,
+            "alsoOnTheFaceOfTheFiling": true
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Same test, same result. The registry holds rules.service 'By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case.', rules.notice 'No summons issues. The movant serves the prosecuting attorney and files a certificate of service.', and the same sentence as a serve_party participantActionRequired entry. The packet states it in the instructions bullet 'Who must be served, and how', in the certificate-of-service instruction table, and on the printed certificate itself. What the record genuinely does not hold is that office's current name and address for the county of conviction, and the packet says precisely that and names the circuit court clerk for the county in the caption as the authority to ask — the named-checkable-authority limb used only where the record is actually silent. It refuses to invent a deadline on the same basis and names the same clerk.",
+          "evidence": {
+            "repositoryEstablishesTheServiceRule": true,
+            "heldAt": "legal-design-track-registry.json track ky_void_seal_marijuana_synthetic_salvia rules.service, rules.notice, serve_party entry",
+            "statedOnTheFaceOfTheCertificate": true,
+            "genuinelySilentPart": "the prosecuting office's current name and address for the county",
+            "namedAuthorityForThatPart": "the circuit court clerk for the county in the caption"
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Scored on the standard these four lanes have actually applied, where a packet passes when it states its scope and where it stops. It does, in the instructions and on the paper: the opening names the exact route the packet is prepared for, 'What this packet does not tell you' names the two things it refuses to supply and why, 'Things the platform deliberately left blank' names four more and gives a reason for each, and 'What this packet is not' states that it is not legal advice, is not filed for the participant, and does not decide whether the court will void the conviction or seal the records. The composed motion carries its own 'WHAT THIS MOTION DOES NOT DO' section on its face. That is the construction on which vt_seal_felony-set and rcap-oh-custom-pleading-clean-tracks were passed in these lanes.",
+          "advisory": "The committed track registry holds four named selfHelpStopConditions for this route that the packet does not carry: any dispute about whether this was a first offence; a participant choosing between void-and-seal and expungement, which the registry calls a lifetime-consequence strategy decision; any participant who is not a United States citizen, because a voided conviction may still be a conviction for immigration purposes; and a clerk who demands a filing fee. The same gap sits on the sibling Kentucky family, which holds five. Under A1's ordering — establish, then state — those would be stated. A1 and A2 confine that ordering to FILING_DESTINATION, FEE_AND_WAIVER and SERVICE, so I flag the boundary rather than extend it myself.",
+          "evidence": {
+            "scopeStatedInInstructions": true,
+            "limitsPrintedOnTheFilingItself": "WHAT THIS MOTION DOES NOT DO",
+            "registrySelfHelpStopConditionsHeld": 4,
+            "registrySelfHelpStopConditionsCarriedByThePacket": 0
+          }
+        }
+      },
+      "advisories": [
+        "build-status.json still records rasterState 'rendered_locally_pending_central_acceptance', which is stale against the central queue's RASTER_PASS receipt bound to the exact fixture digests on disk. A bookkeeping lag in a file no gate consults for the raster verdict; I did not change it.",
+        "The registry's four self-help stop conditions are not carried by the packet. Recorded under SELF_HELP_STOP as a Captain's question, not scored as a failure."
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "packetsModified": 0,
+      "grantsNothing": "This row is a verification reading. It promotes nothing, opens no route and grants no approval.",
+      "feeStandardAmendmentsApplied": "A1, A2 and A3. A3 was published after this base and I read it from commit 1df1b7a5a. It does not move this row, and this is the family in my set where A3's trap was most available, because the sibling controlled-substance track carries a word-for-word identical fee sentence and both routes share one official form. The answers here are taken from the registry entry for track ky_void_seal_marijuana_synthetic_salvia itself, keyed to KRS 218A.276, not from the sibling's entry — which is checkable from the destination detail, where this track's text ends at 'no summons issued' and the sibling's continues. Same fact, separately held for this route. The compiled Kentucky profile's feeRules is empty and offered nothing to misread."
+    },
+    {
+      "itemId": "ny_160_59_petition-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill",
+      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+      "verifier": "FABLE-VT14 (independent; built, repaired and rendered none of these packets)",
+      "obligationsScored": 15,
+      "corpusMounted": true,
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "33579500812",
+      "rasterReceiptBinding": "Bound to canonicalPdfSha256 d5c8fbc835385d9eb2bbc6d45cc8886a89330f170fa4d4b5fcabcb49d8af7021 (application-canonical.pdf) and boundaryPdfSha256 cda7142cd49f0dd4ed89f32e29227d7d440981371678411f82b3bb3f3ff84b6d (application-boundary.pdf), rendered at 58290e76623ff0b351d0b15fbf97af3665fee6b3. Both recomputed on disk here and both match. But read the coverage note below before treating this RASTER_PASS as covering the family: it does not, and the family's one visual defect is in a fixture the gate never opened.",
+      "verdictCeilingApplied": null,
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "CLIPPING_AND_OVERLAP",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "theThreeIWasAskedToConfirmOrRefute": {
+        "REQUIRED_BEFORE_FILING_off_by_one": "CONFIRMED, from the bytes, and it is worse than a labelling untidiness — it is systematic and it reaches the participant page. Detail under the obligation.",
+        "CLIPPING_AND_OVERLAP": "CONFIRMED by my own independent geometry measurement and then by eye on the committed raster. Four participant values are cut off mid-word at the right edge of a delivered page. Detail under the obligation.",
+        "SELF_HELP_STOP_absent": "CONFIRMED, with one limb of the earlier finding now spent: the A2 fee repair added a legal-aid sentence, so 'no referral to legal aid' is no longer true. The obligation still fails, on the limbs that matter. Detail under the obligation.",
+        "andOneMore": "SERVICE fails too, and no prior lane recorded it. The repository establishes in three places that the county district attorney must be served, and the packet never tells the participant that anyone must be served at all — it asks them to go and confirm 'service requirements' instead. That is the exact substitution A1 forbids. Detail under the obligation."
+      },
+      "theFeeRepairIsGood": {
+        "whatWasWrong": "The packet asserted that no held source establishes what a CPL 160.59 application costs, and named the clerk's office as the authority to ask — about a figure the repository holds. A2 was written partly about this family.",
+        "whatIVerified": "The repair is correct and I checked its sources rather than its prose. src/lib/rcap-engine/compiled/profiles/NY-new-york.json carries in packetGenerator.feeRules 'CPL 160.59 sealing application No separate filing fee Court motion; notarization needed', alongside 'Certificate of Disposition (outside NYC) $5 per case' and '(within NYC) $10 per case', and the narrative repeats it in sentences. The census names that exact profile as the first requiredSourceId for this route. The committed track registry agrees independently: rules.fees gives the same no-separate-fee answer with the $5/$10 certificate figures and the DCJS and notary costs, and rules.feeWaiver says 'not applicable. There is no separate filing fee to waive.' The packet now states all of it. Scored PASS below.",
+        "whyThatDoesNotSaveTheFamily": "A2's own text says this family 'returns to repair rather than standing as a fee-standard success'. The fee is repaired; the four other defects were never in the repair's scope and are still here."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_160_59_petition-set, run in this container at this base: PASS_COMPLETE, 34/148 written, all nine zero. The universe is the largest of my seven families — 148 terminal dispositions across four documents — so these zeros are measured, not vacuous.",
+        "butTheZerosAreMisleadingHere": "This family is the clearest case in my seven for why fifteen obligations are scored rather than nine counters. visualDefects reads 0 while four participant values are visibly cut off at the page edge of a delivered fixture, because the counter is derived from the build's own report and the build believes those values fit: reports/actual-writes.json records them as outcome 'shrunk', meaning the shrink-to-fit path ran, returned, and was believed. requiredFactsNotCollected reads 0 while a systematic label shift makes part of the required-before-filing list actively misleading, because the counter asks whether the facts were collected, not whether the participant was told the right name for them. Neither counter is wrong about what it measures. Both are silent about what is wrong with this packet."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "One route key, everywhere, and it resolves. obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59 appears once each in product-wiring.json, source-receipt.json, approval-request.json, build-findings.json and the participant instructions' 'Route scope' line, and in no variant form anywhere in the family. It is what the MASTER_QUEUE row carries and what the national route-obligation census carries for packetSetId ny_160_59_petition-set. The route is typed as a court motion and the family's shape matches: a Notice of Motion and Affidavit as the primary filing, the pro se packet as required instructions, the certificate-of-disposition request as the record-gathering companion.",
+          "evidence": {
+            "distinctRouteKeysInFamily": 1,
+            "recordsCarryingIt": 5,
+            "agreesWithQueueAndCensus": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "All four bound binaries rehash exactly from the mounted corpus (archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, governance checksums verified). The Notice of Motion and Affidavit computes to 73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4, the Criminal Certificate of Disposition Request Form to 68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774, the Pro Se Sealing Application Packet to cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298, and the Seal Verification request to 76c0c54ed0a80c8b5b5fddd64e2087b31f9615d5ebe7524ead803352fba3cca3 — each exactly as source-receipt.json declares, with byte lengths, page counts and AcroForm field counts agreeing. The receipt's own matchedBy field claims exact_path_sha256_and_byte_length on all four and that claim is true.",
+          "evidence": {
+            "corpusMounted": true,
+            "boundBinaries": 4,
+            "rehashedAndMatched": 4,
+            "mismatched": 0
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "requiredComponentsMissing 0, measured here. The five route-required components the MASTER_QUEUE row names are all accounted for: primary-filing-1 and sworn-prior-applications-statement-4 are the Notice of Motion and Affidavit, pro-se-instructions-2 is the pro se packet, certificate-of-disposition-request-3 is the COD request, and post-order-verification-7 is the Seal Verification document, which is held as exact source evidence and deliberately not rendered as a participant fixture — reports/rendered-artifacts.json declares it under componentsNotGenerated with the reason stated, which is a disclosure rather than an omission. Six fixtures are delivered across three documents at 6, 2 and 12 pages, matching the sources' own page counts.",
+          "advisory": "The census's participantFacingInstrument for this route names three further instruments the family does not publish in any form: record_verification, routing_comparison and, most consequentially, service_instructions. I do not fail COMPONENT_SET on them because this factory measures the obligation against the route-required components in the queue row and those are satisfied. The missing service_instructions is scored where it actually harms the participant, under SERVICE.",
+          "evidence": {
+            "routeRequiredComponents": 5,
+            "accountedFor": 5,
+            "fixturesDelivered": 6,
+            "pageCountsMatchSources": true,
+            "instrumentsNamedByCensusButNotPublished": [
+              "record_verification",
+              "routing_comparison",
+              "service_instructions"
+            ]
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing 0 measured here. Thirty-four writes across three generated documents, and reports/actual-writes.json reads each back out of the flattened appearance streams at its measured widget with exactValueObserved true — I spot-checked the long ones against the raster and they are the values declared, including the boundary email and the extension-bearing phone number. Nothing the platform holds is refused. The refusals are the 66 required-before-filing fields plus the owner-reserved ones. The prefills themselves are not this family's problem; what the packet then calls them is.",
+          "evidence": {
+            "writtenOfTerminal": "34/148",
+            "documentsWrittenInto": 3,
+            "exactValueObservedOnEveryWrite": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "detail": "CONFIRMED from the bytes, and the mechanism is visible on the page. The set reconciles perfectly — 66 requiredBeforeFiling entries in production-field-map.json against 65 instruction bullets, with no field in one and not the other in either direction (the difference is the field NYSID, required in both the application and the pro se packet, collapsing to one bullet). So nothing is missing. What is wrong is that a systematic off-by-one gives many of those blanks the name of a different blank, and it flows straight into participant-instructions.md, where the participant reads it. The field census names its own rule: nine fields on the pro se packet carry labelBasis 'printed_directly_above_in_the_same_column'. On this form the caption is printed BELOW each rule, not above it — I confirmed that by eye on raster/pro-se-packet-boundary/page-11.png, where the rules run Name of Applicant, Street Address, City State Zip, Phone, Email with each caption sitting under its own rule. So 'printed directly above' picks up the previous field's caption every time. The field census records the result in plain sight: field 'City State Zip' has effectiveLabel 'Street Address', and field 'Email' has effectiveLabel 'Phone'. Descending the certificate-of-disposition request's identifier stack, the same shift runs for nine consecutive fields and reaches the participant page as: 'Docket, Indictment, or SCI Number' for IDVNumber, 'IDV Number' for ArrestNumber, 'Arrest Number' for OrderofProtectionNumber, 'Order of Protection Number' for CertificateofDispositionNumber, 'Certificate of Disposition Number' for CriminalJusticeTrackingNumber(CJTN), 'Ticket Number' for NYSIDNumber, and 'NYSID Number' for PartialDocketNumber. A participant following that list writes their NYSID into the box captioned Partial Docket Number and their arrest number into the box captioned Order of Protection Number. Two further classes sit alongside it. Ten fields carry labelBasis 'no_printed_caption_within_reach' and reach the instruction page with no human label at all — 'Docket_Indictment_SCI_Number_2 (source field: Docket_Indictment_SCI_Number_2)', 'Sentence_Term_2', 'Release_Date_2', 'Conviction_Date_2', 'Server Address' — a raw AcroForm name presented to a participant as the words printed beside the blank. And several labels are nonsense caught mid-shift: 'Weight' for Conviction_Date, 'That' for Date_of_Service, 'By' for Court Name 2, 'I,' for Server Name, 'ATTACHMENT' for Court_Name_2, and the bare numerals 3, 4, 5, 6, 7, 8, 10 for Attachment_4 through Attachment_10 — themselves off by one and skipping 9. Three labels also carry raw control characters from a subsetted font, which print on the participant page as stray glyphs.",
+          "repair": "The off-by-one is one rule, not sixty-six edits: labelBasis 'printed_directly_above_in_the_same_column' is the wrong reading of this form's layout, where captions sit below their rules. Fix the caption resolver to read below-the-rule on these documents, re-derive the field census, and rebuild — then re-check the certificate-of-disposition identifier stack and the pro se packet's applicant block, which are where the shift is provable. Separately, the ten 'no_printed_caption_within_reach' fields need real labels rather than their AcroForm names, and the control characters need stripping. Do not hand-edit participant-instructions.md; it is generated from the census.",
+          "evidence": {
+            "fieldMapRequiredBeforeFiling": 66,
+            "instructionBullets": 65,
+            "setDifferenceBothWays": 0,
+            "fieldsWithTheOffByOneLabelBasis": 9,
+            "fieldsWithNoCaptionAtAll": 10,
+            "provenPairs": [
+              [
+                "City State Zip",
+                "labelled Street Address"
+              ],
+              [
+                "Email",
+                "labelled Phone"
+              ],
+              [
+                "NYSIDNumber",
+                "labelled Ticket Number"
+              ],
+              [
+                "PartialDocketNumber",
+                "labelled NYSID Number"
+              ]
+            ],
+            "confirmedVisuallyOn": "raster/pro-se-packet-boundary/page-11.png"
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "requiredOptionsMissing 0 measured here. The elections on these forms are all participant statements of fact rather than route determinations — the prior-application elections on the affidavit, the Type of Service selection on the affidavit of service, the document checkboxes on the pro se packet — and the packet marks none of them, which is right for elections that are sworn statements about the participant's own history and about service they have not yet performed. The instructions say so in terms: 'choose only legally applicable elections' and 'Prior-application elections, reasons, sworn dates, service facts, prosecutor information, and notary fields remain blank.' No election on any of the three generated documents determines which route this is; the route is fixed by the family.",
+          "evidence": {
+            "routeDeterminingElections": 0,
+            "electionsMarkedByTheBuild": 0
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "incompleteRows 0 measured here, over genuine repeating regions. The affidavit carries numbered conviction blocks — Docket_Indictment_SCI_Number_1 and _2, Conviction_Charge, Law_Section_Subsection, Conviction_Date, Sentence_Date, Sentence_Term and Release_Date each in a 1 and a 2 — and the pro se packet carries an Attachment_1 through Attachment_10 stack and a Document 1 through Document 10 stack. The canonical fixture writes only into the first conviction block's case number and leaves the whole of the second block and both attachment stacks empty, so no row is half-written. Every cell of every unwritten row is declared required before filing. Worth recording that the counter's cleanliness here is real, and that it sits beside a labelling defect that leaves the participant unsure which of those rows is which — the rows are structurally sound and verbally scrambled.",
+          "evidence": {
+            "repeatingRegions": 3,
+            "rowsPartiallyWritten": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "protectedWrites 0 measured here and confirmed on the raster. The instructions state the rule as a class rather than a list — 'Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners' — and the delivered pages bear it out: on raster/pro-se-packet-boundary/page-11.png the Signature of Applicant rule is empty, and the notary jurat beneath it ('Sworn to before me this ____ day of ________, 20____' over the Notary Public rule) is entirely untouched. Nothing is sworn or dated for the participant on a document whose whole legal force depends on being sworn. The affidavit's sworn dates are likewise left blank and named as left blank. The Seal Verification document is post-order and is not rendered as a participant artifact at all, which is the strongest form of this protection.",
+          "evidence": {
+            "applicantSignatureBlank": true,
+            "notaryJuratUntouched": true,
+            "swornDatesBlank": true,
+            "postOrderDocumentNotGenerated": true,
+            "confirmedOn": "raster/pro-se-packet-boundary/page-11.png"
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Every declared digest recomputes here. reports/rendered-artifacts.json declares six PDFs and six raster sets; I recomputed SHA-256 over all 52 declared files and got 52 matched, 0 mismatched, 0 missing, with declared byte lengths and page counts agreeing throughout (6, 6, 2, 2, 12, 12). The report also declares derivedFromBytes true and its componentsNotGenerated entry accurately describes the one source document for which no fixture exists. Nothing is asserted that cannot be checked, and nothing checked is false.",
+          "evidence": {
+            "declaredDigestsRecomputed": 52,
+            "matched": 52,
+            "mismatched": 0,
+            "missing": 0
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "This family ships three separate documents rather than one assembled packet, so page order is a question about each document keeping its source's own pagination, and each does: the application at 6 pages, the certificate-of-disposition request at 2 and the pro se packet at 12, matching the page counts source-receipt.json records for the pinned binaries. The committed rasters carry the same counts per fixture — six directories of 6, 2 and 12 pages for canonical and boundary alike — with no page dropped, duplicated or reordered. The pro se packet's internal sequence reads correctly as instructions first and the application block later, which is what its own page footers say.",
+          "evidence": {
+            "documents": 3,
+            "pageCounts": [
+              6,
+              2,
+              12
+            ],
+            "matchSourcePageCounts": true,
+            "rasterPagesPerFixtureMatch": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "FAIL",
+          "detail": "CONFIRMED independently, first by measurement and then by eye, and it is a participant-facing defect rather than a cosmetic one. I ran a word-geometry read with pdftotext -bbox over all six delivered fixtures and over the pristine source. Five of the six fixtures have zero words outside the page box. pro-se-packet-boundary.pdf has five, on pages 9 and 11: 'F' and 'Alban' at 1.99 and 2.61 points past the 612-point right edge on each of the two pages, and the email at 5.21 points past on page 11. The pristine NY-CPL-160.59-PRO-SE-PACKET from the mounted corpus reads 5049 words with zero outside the page box, against the boundary fixture's 5116 with five — so the overflow is this build's own writes and not the form's. Then I opened raster/pro-se-packet-boundary/page-11.png and the damage is plain: four participant values are cut off mid-word at the paper's edge — 'Alexandrina-Katharine Montgomery-Vandenberg-Oye', '12345 Southwest Grandview Boulevard Northeast, Bu', 'Unincorporated Township of Long Hollow Crossing ne', and 'alexandrina.montgomery.vandenberg.oyelaran.fitzwilli'. A participant's name, street address, city and email are all truncated on a page they would file. Measured against the widget the build itself recorded, the overflow is far larger than the page overhang suggests: the Email widget on page 11 has x 308.768 and width 263.544, so its right edge is 572.312, and the drawn email reaches 617.206 — 44.89 points past its own widget box. City State Zip and Applicant Name share that widget geometry and overrun it by comparable amounts. The build believes all three fit: reports/actual-writes.json records them as outcome 'shrunk' at font sizes 8, 7 and 7.5, so the shrink-to-fit path ran and returned success while under-shrinking by roughly a sixth of the box width.",
+          "whyNoGateCaughtIt": "The central RASTER_PASS receipt for this family, run 33579500812, lists documentsCovered as application-canonical.pdf, cod-request-canonical.pdf and pro-se-packet-canonical.pdf, with documentsNotCovered empty and coversTheWholeFamily true. Every covered document is a canonical fixture. The queue row's own documents array lists all six fixtures including the three boundary ones, and its coverage basis reads 'the family ships 3 canonical document(s) with no assembled packet, and the row renders all of them' — which is true of the canonicals and silently excludes the boundaries. The boundary fixtures are precisely the long-value stress fixtures where a shrink-to-fit failure shows up. So the gate declared complete coverage of a family while never opening the only fixture that carries the defect, and its receipt is nevertheless bound to application-boundary.pdf's digest, which makes the receipt look boundary-aware when its covered set is not. That is a fleet-level gap in the raster queue's coverage rule, not a New York defect, and a Captain should have it.",
+          "repair": "Fix the shrink-to-fit measurement for these widgets — it is under-shrinking, not failing to run — and rerender, then re-measure with a word-geometry read rather than trusting the write outcome. The three fields to check are Applicant Name, City State Zip and Email on pro se packet pages 9 and 11, which share one widget geometry.",
+          "evidence": {
+            "fixturesMeasured": 6,
+            "fixturesWithWordsOutsideThePageBox": 1,
+            "wordsOutsideThePageBox": 5,
+            "worstOverhangPoints": 5.21,
+            "worstOverrunOfItsOwnWidgetPoints": 44.89,
+            "pristineSourceWordsOutsideThePageBox": 0,
+            "buildRecordedOutcome": "shrunk",
+            "confirmedVisuallyOn": "raster/pro-se-packet-boundary/page-11.png"
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "It reaches the participant, so I score it met, but only just and not where it belongs. The repository establishes it plainly: the committed track registry's rules.filing for track ny_160_59_petition says to file the Notice of Motion and Affidavit in the court of conviction with a Certificate of Disposition for each case attached, and gives the venue rule for multiple eligible offences; its destination names 'The New York court of conviction'; and the census carries the same destination object. The packet states it inside the cost section, quoting the pro se packet: contact 'the clerk's office of the court where you will apply to seal your case, which is the court where you were convicted and sentenced', and file 'by mail or in person at the clerk's office of the appropriate courthouse'. Under A2's answersVT13B1 the obligation is satisfied at the packet level rather than the sentence level, and it is.",
+          "advisory": "Two things a repairer should fix while the family is open. First, the packet's own second bullet tells the participant to 'Confirm current revision, filing destination, local procedures, attachments, service, and proposed-order requirements before filing' — asking them to go and establish a destination the repository holds and the packet states four paragraphs later. That is the A1 pattern, surviving in a bullet the fee repair did not reach. Second, the registry's venue rule for a participant with several eligible offences — the court where the most serious offence was decided, or where the person was last convicted for offences of equal class — is held and is not carried anywhere. That is the case where a participant most needs telling, and it is the case the packet is silent on.",
+          "evidence": {
+            "repositoryEstablishesIt": true,
+            "heldAt": "legal-design-track-registry.json track ny_160_59_petition rules.filing and destination; identical destination in the census",
+            "statedInThePacket": true,
+            "statedInTheCostSectionRatherThanItsOwn": true,
+            "venueRuleForMultipleOffencesCarried": false
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "The A2 repair is good and I verified its sources rather than its prose. Asking first whether the repository establishes the answer across the whole A2 scope: it does, in two independent records. src/lib/rcap-engine/compiled/profiles/NY-new-york.json — which the census names as the first requiredSourceId for this exact route — carries 'CPL 160.59 sealing application No separate filing fee Court motion; notarization needed', with 'Certificate of Disposition (outside NYC) $5 per case' and '(within NYC) $10 per case' beside it and a narrative that repeats all of it in sentences. The committed track registry agrees: rules.fees gives the same no-separate-fee answer plus the $5/$10 certificate figures, the DCJS record-review fee and the notary cost, and rules.feeWaiver reads 'not applicable. There is no separate filing fee to waive.' The packet now states the held answer instead of denying it: it names the profile by path, quotes its line, and gives the full cost picture — the application free to file, so no waiver needed; the certificate of disposition at $5 outside New York City and $10 in the five boroughs, per case, with the note that a certificate is needed for each conviction being sealed and that the form itself tells the participant to ask the court about payment methods; the DCJS fee if a record review is ordered; and the notary charge, which the registry holds and which a participant would otherwise meet as a surprise at the last step. It adds that neither application source prints a fee on its face and that the silence is consistent with the rule rather than a gap in it, which I confirmed independently. This is the repair A2 asked for.",
+          "evidence": {
+            "repositoryEstablishesIt": true,
+            "heldAt": [
+              "src/lib/rcap-engine/compiled/profiles/NY-new-york.json packetGenerator.feeRules",
+              "legal-design-track-registry.json track ny_160_59_petition rules.fees and rules.feeWaiver"
+            ],
+            "namedAsRequiredSourceForThisRoute": true,
+            "packetStatesTheAmount": "no separate filing fee, stated, sourced and attributed by path",
+            "adjacentCostsAlsoStated": [
+              "$5/$10 certificate of disposition per case",
+              "DCJS record review fee",
+              "notary cost"
+            ],
+            "waiverAnswerStated": true
+          }
+        },
+        "SERVICE": {
+          "result": "FAIL",
+          "detail": "A failure no prior lane recorded, and the plainest A1 violation in my seven families. The repository establishes who must be served, three separate times. The committed track registry, track ny_160_59_petition, holds rules.service 'Service on the district attorney with proof of service.', rules.notice 'The county district attorney, who may consent or object.', and rules.filing which ends '...and serve the county district attorney.' The national census's destination detail says the motion is 'served on the county district attorney, who may consent or object', and the census's participantFacingInstrument for this route names a service_instructions instrument outright. The packet tells the participant none of it. I searched participant-instructions.md for every relevant word — serve, service, district attorney, prosecutor — and what exists is three lines that presuppose the rule without ever stating it: 'Complete service certificates only after service actually occurs', which is a timing rule for a service the participant has not been told to perform; a list of owner-reserved field classes that includes 'prosecutor'; and 'Prior-application elections, reasons, sworn dates, service facts, prosecutor information, and notary fields remain blank.' The one operative instruction is the second bullet, which tells the participant to 'Confirm current revision, filing destination, local procedures, attachments, service, and proposed-order requirements before filing.' That is the substitution A1 forbids in as many words — a question handed back to the participant that the repository has already answered — and A2's answersVT8C4 settles that a committed manifest answering a question means the packet must not ask it. The consequence is not abstract: this is a motion the district attorney may consent to or oppose, and the packet leaves the participant to discover on their own that anyone must be served at all, while giving them eight blank service and affidavit-of-service fields to fill in.",
+          "repair": "State it. 'Serve a copy of the motion and affidavit on the county district attorney for the county of conviction, and complete the affidavit of service after you have done so' is the held answer and costs one sentence. The census also names a service_instructions instrument this family does not publish; a Captain should say whether stating the rule in the instructions closes that or whether the instrument is separately owed.",
+          "evidence": {
+            "repositoryEstablishesIt": true,
+            "heldAt": [
+              "legal-design-track-registry.json track ny_160_59_petition rules.service, rules.notice, rules.filing",
+              "route-obligation-candidate.json destination.detail for this route"
+            ],
+            "packetNamesThePartyToBeServed": false,
+            "packetAsksTheParticipantToConfirmServiceRequirements": true,
+            "blankServiceFieldsGivenToTheParticipant": 8,
+            "serviceInstructionsInstrumentNamedByCensusButNotPublished": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "FAIL",
+          "detail": "CONFIRMED absent, with one limb of the earlier finding now spent and said so. participant-instructions.md is 92 lines and contains no self-help boundary addressed to a participant: no 'not legal advice', no statement that the packet is not filed for them, no statement that it does not decide whether the conviction can be sealed, no 'when to stop' section, and no referral to counsel. I searched for each of those. The nearest things are the opening line — 'These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets' — which is a build-status disclaimer addressed to a reviewer, and the closing line, which is about release blockers. The A2 fee repair did add one sentence that touches this ground: 'the compiled profile records that legal-aid organizations and county district attorney sealing units assist pro se applicants at no cost'. So the earlier finding's 'no referral to legal aid' limb is no longer accurate and I record that rather than repeating it. It does not close the obligation: that sentence sits inside 'What it costs to file' and is offered as a cost fact — free help exists — not as a boundary on what this packet can do for the participant. What makes the gap conspicuous is how much material the repository holds to close it. The committed track registry lists ten selfHelpStopConditions for this exact track, and they are the substantive ones: any conviction that might fall on the exclusion list, including attempt or conspiracy whose target offence must be analysed; any class A felony; any single-criminal-transaction argument; district attorney objection, which converts this into a contested hearing; any pending charge; more than two convictions or more than one felony; the rehabilitation and interests-of-justice showing; immigration exposure, with the registry's own note that sealing does not remove immigration consequences and sealed records remain reachable by immigration authorities; firearms licensing goals; and federal and out-of-state convictions, which New York sealing does not reach. CPL 160.59 relief is discretionary and the eligibility arithmetic is exactly where an unaided applicant goes wrong. Six of my seven families state a boundary; this is the one that states none.",
+          "repair": "Add a participant-facing boundary section carrying the registry's ten stop conditions, or a Captain-approved subset, and the ordinary three sentences the other families carry — not legal advice, not filed for you, does not decide whether the court will seal the record. The immigration condition and the district-attorney-objection condition are the two that most change what a participant should do.",
+          "evidence": {
+            "notLegalAdviceStatement": false,
+            "notFiledForYouStatement": false,
+            "doesNotDecideTheOutcomeStatement": false,
+            "whenToStopSection": false,
+            "counselReferral": false,
+            "legalAidMentionAddedByTheFeeRepair": "present, but as a cost fact inside the cost section",
+            "registrySelfHelpStopConditionsHeld": 10,
+            "registrySelfHelpStopConditionsCarriedByThePacket": 0
+          }
+        }
+      },
+      "whatARepairerNeedsToDo": [
+        "REQUIRED_BEFORE_FILING: the off-by-one is one rule. labelBasis 'printed_directly_above_in_the_same_column' misreads a form whose captions sit below their rules; nine pro se packet fields and the certificate-of-disposition identifier stack are captioned with the field above them. Fix the caption resolver, re-derive the field census, rebuild. Then give the ten 'no_printed_caption_within_reach' fields real labels instead of their AcroForm names, and strip the control characters that print as stray glyphs.",
+        "CLIPPING_AND_OVERLAP: shrink-to-fit under-shrinks on the shared widget at x 308.768 width 263.544 on pro se packet pages 9 and 11. Applicant Name, City State Zip and Email overrun it by up to 44.89 points and run off the paper. Fix the fit measurement, rerender, and re-measure with a word-geometry read rather than trusting the write outcome.",
+        "SERVICE: state that the county district attorney must be served, which the track registry and the census both hold, and stop asking the participant to confirm service requirements.",
+        "SELF_HELP_STOP: add a participant-facing boundary. The registry holds ten stop conditions for this track.",
+        "While open and cheap: the second bullet also asks the participant to confirm the filing destination, which the packet states elsewhere; and the registry's venue rule for multiple eligible offences is held and not carried."
+      ],
+      "forACaptain": {
+        "rasterCoverageGap": "The RASTER_QUEUE row for this family declares coversTheWholeFamily true and documentsNotCovered empty while its covered set is three canonical fixtures and the family's only visual defect is in a boundary fixture. The receipt is bound to application-boundary.pdf's digest, which makes it read as boundary-aware when its coverage rule is not. Boundary fixtures are the long-value stress fixtures; excluding them from the gate excludes the case the gate exists for. This is a queue-generator rule, so it is not New York's defect and it will not be fixed by repairing New York."
+      },
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "packetsModified": 0,
+      "grantsNothing": "This row is a verification reading. It promotes nothing, opens no route and grants no approval.",
+      "feeStandardAmendmentsApplied": "A1, A2 and A3. A3 was published after this base and I read it from commit 1df1b7a5a rather than skipping it. It does not disturb this row's FEE_AND_WAIVER pass, and I re-tested the sources against its per-fact rule rather than assuming, because the compiled New York profile is exactly the shared multi-route fee table A3 warns about. That table carries lines for automatic sealing under 160.50/160.55 and Clean Slate at $0, for MRTA marijuana destruction at $0, for the DCJS record review, for attorney fees — and, separately, 'CPL 160.59 sealing application No separate filing fee Court motion; notarization needed'. The packet took the line that names CPL 160.59, which is this route's own statutory section, and did not borrow the Clean Slate or MRTA zero, which would have been the sibling-route inference A3 forbids. The answer is then independently established for this same route by the committed track registry entry for track ny_160_59_petition, whose rules.fees and rules.feeWaiver say the same thing, so the fact is held twice for the route that must state it. The certificate-of-disposition figures the packet quotes are likewise keyed to this route's own companion document and are additionally printed on that form's face. A3 does bear on this family in one direction worth recording: it strengthens rather than weakens the SERVICE and SELF_HELP_STOP failures below, because both rest on records keyed to track ny_160_59_petition itself rather than to any neighbour."
     }
   ],
   "vt1Read": {

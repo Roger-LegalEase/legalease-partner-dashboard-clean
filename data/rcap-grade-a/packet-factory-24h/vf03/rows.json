@@ -2142,6 +2142,242 @@
       "reExaminedUnder": "DET-FEE-AND-WAIVER-001 and its amendment A1",
       "determinationInteraction": "DET-FEE-AND-WAIVER-001 listed this family under notReExamined as failing on true silence. This lane re-measured rather than assuming, as instructed, and reports that the verdict is confirmed but the premise is stale: the packet now names a checkable authority, so it no longer fails on silence; it fails because it asserts a repository silence that the compiled Wisconsin profile contradicts. A Captain may want to correct the determination's notReExamined note so the next reader is not looking for a defect that was repaired.",
       "repairIsShared": []
+    },
+    {
+      "itemId": "pa_pardon_expungement-set",
+      "lane": "VF03",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+      "verifier": "FABLE-VT14 (independent; built, repaired and rendered none of these packets)",
+      "obligationsScored": 15,
+      "corpusMounted": true,
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "33582245323",
+      "rasterReceiptBinding": "Bound to canonicalPdfSha256 fb5024c3acb10682ac4e167fdcac4e83e6064b86293a7aa1eb602b97e12425af and boundaryPdfSha256 bf36782337fd233e293784fe14bc08cd055f94e5bce8cfdc0d9eae212f66e368, rendered at fe3ee78bfd56af1d5ab42cdab3017200d10db99f. Both recomputed on disk here and both equal the bound digests, so the post-repair bytes are the rastered bytes.",
+      "verdictCeilingApplied": null,
+      "failedObligationNames": [
+        "ROUTE_IDENTITY",
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "theVermontContaminationIsGone": {
+        "howISearched": "Not by taking the repair's word. I ran a case-insensitive recursive grep over the whole family directory for Vermont and its tells — Vermont, V.S.A., the Vermont county unit names, VT — across every .json and .md, then a binary-inclusive grep over the same directory including the six PDFs, then extracted the decompressed text layer of both delivered packet PDFs with my own extractor and searched that. Zero hits in every pass. I then separately searched the field map for the fourteen 'State's Attorney' ownership reasons the repair record names: zero occurrences, against nineteen for 'Commonwealth'.",
+        "eachOfTheFourContaminatedRecordsReRead": {
+          "participant-instructions.md": "Now Pennsylvania throughout. 'Where you file this' names the Clerk of Courts of the judicial district where the charges were disposed and the Court of Common Pleas that decides it; the components table names PA-RCRIM-P-790-PETITION and PA-RCRIM-P-790-ORDER; the closing line says 'a prepared set of official Pennsylvania forms — the statewide Pa.R.Crim.P. 790 petition and blank expungement order'. The Vermont forms 200-00130, 200-00132 and 600-00228 appear nowhere, and neither does the State's Attorney stipulation route.",
+          "approval-request.json": "Both counsel questions were Vermont; there are now four and all four are genuine Pennsylvania questions — whether marking no box is right on these two forms, whether the quarterly Board of Pardons / AOPC cycle is the right criterion to give a participant, how the statewide fee range should be treated given the county schedule is an open item, and whether a certificate of service and in forma pauperis forms must be bound in. Counsel review would now be spent on this family rather than on Vermont's.",
+          "build-findings.json": "Six findings, all Pennsylvania. The three false ones are gone: it no longer says the family files the same three forms as the Vermont sealing families, no longer says the census records three routes (it says two, which is what the census records), and no longer says question 2 of 200-00130 is route-determined or that the packet marks 'I was not convicted'.",
+          "production-field-map.json": "The routeSelectionNote is now Pennsylvania and, more to the point, is now true about its own file: it says no box is marked on either form and routeSelectionsMade is empty in consequence, and routeSelectionsMade is in fact an empty array. The fifth defect the repair record describes — a note that contradicted its own file and generated a false counsel question — is closed."
+        },
+        "whatIVerifiedAboutTheReplacements": "Every Pennsylvania replacement I could test against a held record checks out. The filing destination and the venue match data/record-clearing/legal-design-track-registry.json track pa_pardon_expungement (destination 'Court of common pleas of the judicial district in which the charges were disposed', with the automatic/fallback split in its detail) and the identical destination object in the national route-obligation census. The service rule matches the registry's rules.service and rules.notice and is printed on the delivered petition's own face: 'When this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth.' The in forma pauperis statement matches the registry's rules.feeWaiver. The $132-$215 range is not invented — it is held at data/rcap-ledger/authority-ledger.json and data/rcap-ledger/session-a-evidence-packet.json, both recording the PA legal review's statewide range and both recording that no confirmed statewide schedule exists, which is exactly how the packet presents it. The 60-day criminal-history window, the 60-day Commonwealth response window and the 30-day stay are on the petition's own face or in the registry's notice rule."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set, run in this container at this base: PASS_COMPLETE, 17/109 written, all nine zero. Emphatically not vacuous — 109 terminal dispositions were audited across three documents and 17 came back written, so the counters had a large populated universe to be zero over. The two obligations this family fails are not counter-visible, which is the point of scoring fifteen obligations rather than nine counters.",
+        "invisibleWritesSecondSource": "reports/actual-writes.json is derived from artifact bytes and reports nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 on all four document records."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "FAIL",
+          "detail": "This is the defect the repair deliberately left alone, and it is still there. The packet declares obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement on its own face — as the footer of participant-instructions.md, as the sole entry in production-field-map.json's routeKeys, and printed as the last line of the process-guidance page that ships as pages 4-5 of both delivered PDFs, which I read out of the fixture bytes rather than out of the field map. That string occurs zero times in canonical-route-universe.json and zero times in route-obligation-candidate.json. I counted both directly. Its only occurrences anywhere in the repository are the builder script, the two records the builder writes, and verification and return records discussing this very defect. The canonical obligations for this track are the two keys product-wiring.json correctly carries — obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route and obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition — and those two appear in the census five times and are what the MASTER_QUEUE family row carries. So the family is internally split: its wiring is keyed to the real route universe and its participant-facing paper is keyed to a route that does not exist. A Grade-A record is keyed to an exact route and this one prints a key nothing can resolve. The Kentucky pair failed on exactly this shape and was repaired for it; the same standard applies here.",
+          "repair": "Re-key production-field-map.json, the builder's instruction footer and the builder's process-guidance footer to the canonical unit keys, and rerender so the printed Route: line resolves. Whether the paper should print one key or both is the product-identity question the repair correctly declined to answer alone: this family genuinely carries two routes, one of which files nothing, and the process-guidance page is the deliverable for that second route. A Captain should say which key the fallback petition prints and which the guidance page prints, because a single track-pathway string was standing in for both.",
+          "evidence": {
+            "printedOnPacketFace": "obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement",
+            "occurrencesInCanonicalRouteUniverse": 0,
+            "occurrencesInRouteObligationCandidate": 0,
+            "canonicalKeysForThisTrack": [
+              "obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route",
+              "obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition"
+            ],
+            "occurrencesOfThoseInCanonicalRouteUniverse": 5,
+            "recordsCarryingTheDeadKey": [
+              "participant-instructions.md",
+              "production-field-map.json",
+              "the process-guidance page printed into both fixtures"
+            ],
+            "recordCarryingTheRealKeys": "product-wiring.json"
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Both bound binaries rehash exactly from the mounted corpus. scripts/rcap-corpus/bootstrap-private-corpus.sh mounted the pinned Master Library here (archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, governance checksums verified). PA-RCRIM-P-790-PETITION at STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf computes to fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de, and PA-RCRIM-P-790-ORDER at PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf computes to 4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95 — both exactly as source-receipt.json declares, and both matching what the MASTER_QUEUE sourceReadiness row and the census requiredSourceIds name. The repair record's claim that the fixtures were never the defect holds: these are genuine Pennsylvania Rule 790 documents and the wrong-state text lived only in the composed layer.",
+          "evidence": {
+            "corpusMounted": true,
+            "boundBinaries": 2,
+            "rehashedAndMatched": 2,
+            "mismatched": 0
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "requiredComponentsMissing 0, measured here. The MASTER_QUEUE row names component:pa_pardon_expungement-primary-filing-2 and component:pa_pardon_expungement-proposed-order-3 as the route-required components, and the family delivers three roles — primary_filing (the Rule 790 petition), proposed_order (the Rule 790 blank order) and process_guidance (the composed page that carries the family's second, no-filing route). The pageManifest names each role page by page across five pages and reports/rendered-artifacts.json lists the same componentSet. Nothing route-required is undelivered. Recorded as an advisory rather than a failure, because it is a scope question rather than a missing declared component: approval-request.json's own fourth counsel question notes that the state legal review lists a certificate of service and in forma pauperis forms as further parts of a complete Pennsylvania filing, and neither is bound here. The packet describes both in prose and says the IFP form is not included, which is honest; whether a two-form packet is the right scope is a counsel question and the family raises it rather than hiding it.",
+          "evidence": {
+            "routeRequiredComponents": 2,
+            "rolesDelivered": 3,
+            "pageManifest": "1:primary_filing/PETITION | 2-3:proposed_order/ORDER | 4-5:process_guidance",
+            "advisory": "certificate of service and IFP forms are described in prose and not bound; raised by the family's own counsel question"
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing 0 measured here, and every write is read back off the paper. Seventeen writes across three documents: the petition takes full name, date of birth, defendant caption, county, three address lines and the docket number; the order takes county, petitioner name, date of birth, defendant caption and two docket fields; the guidance page takes petitioner name and case number. All are style-of-the-case or platform-held identity, and the boundary raster shows each in its cell — Maria-Alejandra O'Shaughnessy-Whitfield, 1968-12-31, Luzerne, CP-40-CR-0012760-2024, 1188 Upper Notch Crossing Road, Apartment 14B. Nothing the platform holds is refused; the 78 refusals are values the packet has no source for, plus the court's own fields.",
+          "evidence": {
+            "writtenOfTerminal": "17/109",
+            "documentsWrittenInto": 3,
+            "readBackFrom": [
+              "reports/actual-writes.json",
+              "raster/boundary/page-01/page.png"
+            ]
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "requiredFactsNotCollected 0 measured here and the label set reconciles exactly, which is the check that matters most on a family with 78 of them. production-field-map.json declares requiredBeforeFilingCount 78 and its array holds 78. participant-instructions.md prints two tables — 65 rows for the petition and 13 for the order — and 65 + 13 is 78, with each disclosureLabel appearing as one instruction row. The demanding ones are all named with the page and the printed words beside the blank: the presiding official and their court address, the affiant on the complaint and theirs, the Offense Tracking Number, the four docket segments, all seven columns of all five charge rows, the reason for expungement, and the reason no criminal history is attached. The boundary raster confirms those blanks are genuinely blank on the paper rather than silently filled.",
+          "evidence": {
+            "declaredCount": 78,
+            "arrayLength": 78,
+            "instructionRows": 78,
+            "labelsMatchedBothWays": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "Repaired, and the repair is the honest one. The recorded failure was that step 2 of the instructions told the participant to answer a three-way 'question 2' election that the Pennsylvania petition does not contain — Vermont form 200-00130's question, carried over. That sentence is gone. Step 2 now reads 'Tick the boxes that are true for you. This packet marks no box on either form,' which is true of the artifact: routeSelectionsMade is an empty array, the field map lists seven selection controls across the two forms and writes none of them, and the boundary raster shows all seven unmarked — the Yes/No fine-costs-restitution pair and the two criminal-history checkboxes on the petition, and the three on the order. requiredOptionsMissing is 0 measured here. The reason no box is marked is now stated rather than asserted: neither form asks the question that separates this family's two routes, so the family carries the second route as a composed guidance page instead of inventing an election to satisfy a counter, and it puts that reasoning in front of counsel as a question rather than settling it itself.",
+          "evidence": {
+            "selectionControls": 7,
+            "controlsWritten": 0,
+            "routeSelectionsMade": 0,
+            "routeSelectionNoteTrueOfItsOwnFile": true,
+            "confirmedOn": "raster/boundary/page-01/page.png"
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "incompleteRows 0 measured here over a real repeating region. The petition carries a five-row charge table with seven columns — PA Statute Title, Section, Subsection, Statute Description, Counts, Grade, Disposition — which is 35 cells, and the order carries three alias lines. Every one of those cells is declared REQUIRED_BEFORE_FILING with its own row-specific label ('the section of the third charge to be expunged, exactly as it appears on the charging document'), and the boundary raster shows the whole table empty. No row is partly written, because none is written.",
+          "evidence": {
+            "repeatingRegions": 2,
+            "cellsInTheChargeTable": 35,
+            "rowsPartiallyWritten": 0,
+            "confirmedOn": "raster/boundary/page-01/page.png"
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "protectedWrites 0 measured here and confirmed on the paper. The proposed order is treated as the court's document throughout: its six writes are caption only — county, petitioner name, date of birth, defendant caption and two docket fields — and the seven court-owned fields are refused with the reason 'signature or date field; never prefilled by this build': the Day, Month and Year of the order, what was Presented By, what the court considered, the Disposition, and CourtSignature. On the petition the Signature of Petitioner rule and the Date rule are both blank on the boundary raster. The instructions state the rule affirmatively and then go further than most: 'The whole of the proposed order. PA-RCRIM-P-790-ORDER is the order the judge signs... Do not fill it in and do not sign it,' and the process-guidance page repeats it on the paper the participant is holding.",
+          "evidence": {
+            "courtOwnedFieldsRefused": 7,
+            "orderWritesAreCaptionOnly": true,
+            "petitionSignatureAndDateBlank": true,
+            "confirmedOn": "raster/boundary/page-01/page.png"
+          }
+        },
+        "ARTIFACTS": {
+          "result": "FAIL",
+          "detail": "The render report is perfect and a second committed record in the same directory is not, so I score the obligation on both rather than only the convenient one. reports/rendered-artifacts.json is exact: I recomputed SHA-256 over every file it declares — two assembled 5-page packet PDFs and ten raster page PNGs — and got 12 declared digests, 12 matched, 0 mismatched, 0 missing, with declared byteLength and pageCount agreeing, and the two assembled fixtures are the exact bytes the central RASTER_PASS receipt binds. The failure is product-wiring.json. Its proposedRepresentation.components[0] names fixtures/canonical.pdf and declares sha256 4a7113112f29b05fdf21e6d6f6822d8ca41d3768c3ff2640cff72af6bbf308e0. That file computes to fb5024c3acb10682ac4e167fdcac4e83e6064b86293a7aa1eb602b97e12425af. 4a711311 is the pre-repair canonical, which the Vermont rebuild superseded; the record was not regenerated with the rest and now asserts a digest that is false about the bytes it names. The repair record disclosed this in terms rather than hiding it and left it for a Captain, which is the right posture — but a committed record carrying a false hash is a defect a repairer must close, not a note, so it is scored. Two lesser things, recorded as advisories rather than failures: the four per-document fixture PDFs on disk (canonical--PA-RCRIM-P-790-PETITION.pdf and its three siblings) are declared nowhere in the render report, so they are undeclared rather than misdeclared; and product-wiring.json's derivedFrom points at that same render report, so the two records disagree about the same file.",
+          "repair": "Regenerate product-wiring.json against the current render report so its declared canonical digest is fb5024c3ac..., or remove the digest if the wiring proposal does not need to pin one. Either way it must stop asserting 4a711311.",
+          "evidence": {
+            "renderReportDigestsRecomputed": 12,
+            "renderReportMatched": 12,
+            "renderReportMismatched": 0,
+            "falseDigestIn": "product-wiring.json proposedRepresentation.components[0].sha256",
+            "declared": "4a7113112f29b05fdf21e6d6f6822d8ca41d3768c3ff2640cff72af6bbf308e0",
+            "actual": "fb5024c3acb10682ac4e167fdcac4e83e6064b86293a7aa1eb602b97e12425af",
+            "undeclaredFilesOnDisk": 4
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both fixtures declare a 5-page pageManifest running primary_filing (the petition), proposed_order across two pages (the order and its Rule 790 information page), then process_guidance across two pages, and the ten committed raster pages carry the same component label per page in the same order. That is the order the participant needs: the petition first, the order tendered with it, then the page that tells them whether they need to file at all. Reading the boundary pages in sequence shows it with no page misplaced, duplicated or missing — and the guidance page genuinely sits last, after the documents it discusses.",
+          "evidence": {
+            "declaredPages": 5,
+            "rasteredPagesPerFixture": 5,
+            "manifestOrderMatchesRasterOrder": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Measured two ways. The central visual gate returned RASTER_PASS in run 33582245323, bound to the exact post-repair canonical and boundary digests I recomputed on disk, and that gate proves every page rendered, no page blank, expected dimensions at the requested scale, no clipped write, no overlapping participant text, no placeholder text and no protected-field ink. I also read the boundary raster directly. The boundary fixture stresses the form hard — 'Maria-Alejandra O'Shaughnessy-Whitfield' into the petition's Full Name cell, the v. caption and the order's petitioner line, and '1188 Upper Notch Crossing Road, Apartment 14B' into an address cell — and every one sits inside its cell with clear space, does not overrun the DOB cell to its right, and does not overprint the PETITIONER INFORMATION rules. Worth saying because it is the tell in this family's history: all ten raster PNGs are byte-identical across the Vermont repair, which is consistent with wrong-state text having lived in the composed instructions and the field map rather than on any rendered page.",
+          "evidence": {
+            "centralGate": "RASTER_PASS run 33582245323 at fe3ee78bf, bound to both fixture digests",
+            "readDirectly": "raster/boundary/page-01/page.png",
+            "longestBoundaryValue": "Maria-Alejandra O'Shaughnessy-Whitfield",
+            "clippedOrOverlappingWritesFound": 0
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Repaired, and repaired to the held answer rather than to a plausible one. The recorded failure was that the instructions sent a Pennsylvania petitioner to the Vermont Superior Court, Criminal Division. They now read: 'File the completed packet with the Clerk of Courts of the judicial district where the charges were disposed — the county named in the caption above. A Rule 790 expungement petition is decided by a judge of the Court of Common Pleas of that district, and it is decided there even if a magisterial district judge or a Philadelphia Municipal Court judge disposed of the case.' I checked that against the repository rather than accepting it: the committed track registry, track pa_pardon_expungement, holds destination.name 'Court of common pleas of the judicial district in which the charges were disposed' with the detail that on the fallback route the participant files the Rule 790 petition with the clerk of courts, and the national census carries the identical destination object. The instructions also tell the participant how to identify the district from the docket number and who can tell them. The process-guidance page carries the same destination on the paper, as it already did before the repair.",
+          "evidence": {
+            "repositoryEstablishesIt": true,
+            "heldAt": "legal-design-track-registry.json track pa_pardon_expungement destination",
+            "alsoInCensus": "route-obligation-candidate.json, identical destination object",
+            "statedInInstructions": true,
+            "statedOnTheFaceOfTheGuidancePage": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Scored under DETERMINATION_FEE_AND_WAIVER_STANDARD.json with A1 and A2 applied in order. Asking first whether the repository establishes the county figure across the whole A2 scope: it does not. src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json — the shelf A2 was written about — has an empty packetGenerator.feeRules; the track registry's rules.fees says only 'No fee on the automatic route. County filing fees apply to the fallback petition and vary'; and no census requiredSourceId supplies a figure. What the repository does hold, it states: the registry's feeWaiver answer appears as 'Pennsylvania publishes statewide in forma pauperis forms for the Court of Common Pleas; this packet does not include one,' and the statewide range held in data/rcap-ledger/authority-ledger.json and session-a-evidence-packet.json appears as 'roughly $132 to $215 ... treat that as a range to expect, not as your county's figure' — presented as a range, attributed as reported, and explicitly not passed off as the participant's number. Where the record is genuinely empty the packet takes the standard's third limb and names a specific reachable authority: 'Ask the Clerk of Courts of the judicial district where the charges were disposed for the current fee,' and the same office for how to file in forma pauperis. That is the whole obligation met — the participant can find out what filing costs, is told what is known, and is not handed an invented county figure.",
+          "advisory": "One held sentence is not carried: the registry's 'No fee on the automatic route.' The instructions do tell the participant that on the automatic route 'there is nothing here to file', from which nothing-to-pay follows, and the process-guidance page says the same, so the participant is not left uncertain. But A1's ordering would have it stated, and stating it costs one clause. Recorded for the repairer that has to open this family anyway.",
+          "evidence": {
+            "repositoryEstablishesTheCountyFigure": false,
+            "compiledStateProfileFeeRules": "empty array, checked",
+            "registryFeeRule": "county fees apply and vary",
+            "heldRangeStatedAsARange": "$132-$215, held in authority-ledger.json and session-a-evidence-packet.json",
+            "waiverAnswerStated": true,
+            "namedCheckableAuthority": "Clerk of Courts of the judicial district where the charges were disposed"
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Repaired, and to an answer that was on the packet's own paper the whole time. The recorded failure was that the instructions sent service questions to a Vermont clerk and told the participant to get a Vermont State's Attorney to sign a stipulation the packet does not contain. That is gone — 'State's Attorney' occurs zero times in the family now. The instructions state: 'After you file, the petition is served on the Commonwealth — the District Attorney, as the attorney for the Commonwealth — and the Commonwealth then has 60 days from service to consent, object, or do nothing,' followed by what happens after that window and the 30-day stay on an order granted without consent, and 'Keep your proof of service with your copy of the packet.' Three independent held records agree: the delivered petition prints 'When this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth' on its own face, which I read off the boundary raster; the track registry's rules.service says service on the attorney for the Commonwealth on the fallback route and none on the automatic route; and its rules.notice carries the 60-day Rule 790 response window. Nothing here rests on a named authority standing in for a missing rule, because the rule is not missing.",
+          "evidence": {
+            "repositoryEstablishesIt": true,
+            "heldAt": "legal-design-track-registry.json track pa_pardon_expungement rules.service and rules.notice",
+            "alsoPrintedOnTheDeliveredPetition": true,
+            "statedInInstructions": true,
+            "stateAttorneyOccurrencesRemaining": 0
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Repaired. The recorded failure was that the stop language existed but described the wrong state's packet — 'a prepared set of official Vermont forms' and 'whether the court will seal the record' on a Pennsylvania expungement family. It now reads 'This is a prepared set of official Pennsylvania forms — the statewide Pa.R.Crim.P. 790 petition and blank expungement order — and a process-guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will order expungement.' Both halves are now true of what the participant is holding: the forms are the two AOPC Rule 790 documents and the relief is expungement. The same stop is printed on the paper, as the closing section of the process-guidance page. This family also does something better than most: the guidance page opens with 'READ THIS BEFORE YOU FILE ANYTHING' and tells the participant that if the automatic route has already cleared the record there is nothing here to file, on the stated ground that a packet which only ever told you to file would be telling you to do work you may not need to do and to pay for it. And it refuses to state a timetable or a criterion it cannot source, saying so in terms. That is a real stop, not a disclaimer.",
+          "advisory": "The committed track registry holds three named selfHelpStopConditions for this track that the packet does not carry as such: the participant has not yet obtained a pardon, the pardon application itself being out of scope and a referral; whether the pardon is conditional or unconditional cannot be determined from the document; and the record still appearing after the quarterly cycle with the fallback route's availability unclear. The instructions do address the second in substance, distinguishing unconditional from conditional and leaving the determination to the participant, and the guidance page addresses the third in substance. The first — that this packet presupposes a pardon already granted and that the pardon application is a referral — I could not find stated anywhere. Recorded as a Captain's question in the same terms as the Kentucky families, since the same boundary is in play across many families.",
+          "evidence": {
+            "stopStatedInInstructions": true,
+            "stopPrintedOnTheGuidancePage": true,
+            "describesTheRightStateAndTheRightRelief": true,
+            "registryStopConditionsHeld": 3,
+            "registryStopConditionsAddressedInSubstance": 2
+          }
+        }
+      },
+      "whatARepairerNeedsToDo": [
+        "ROUTE_IDENTITY: stop printing obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement. It resolves to nothing in either census file. Re-key production-field-map.json, the instructions footer and the process-guidance footer in scripts/build-census-v1-pa_pardon_expungement-set.mjs, and rerender. A Captain should first say whether the fallback petition and the no-filing guidance page print different unit keys, because one string is currently doing both jobs.",
+        "ARTIFACTS: product-wiring.json declares canonical sha256 4a7113112f29b05fdf21e6d6f6822d8ca41d3768c3ff2640cff72af6bbf308e0 for a file that computes to fb5024c3acb10682ac4e167fdcac4e83e6064b86293a7aa1eb602b97e12425af. Regenerate it against the current render report.",
+        "Optional, cheap, while the family is open: state the registry's 'No fee on the automatic route' alongside the county-fee paragraph, and state that a participant who has not yet obtained a pardon is out of this packet's scope.",
+        "Note for whoever rerenders: the builder now pins its own FIXED_DATE, so a rerender should be byte-reproducible. Any rerender invalidates the RASTER_PASS receipt and owes a fresh central raster."
+      ],
+      "advisories": [
+        "The four per-document fixture PDFs on disk are declared in no report. Undeclared rather than misdeclared; recorded under ARTIFACTS.",
+        "The process-guidance page tells the participant it states no timetable 'because neither is established by the two forms this packet is built from'. That is a claim about the two forms, which is true, phrased in a place a reader will hear as a claim about the repository, which A2 warns against. The instructions do better and state the quarterly Board of Pardons / AOPC cycle the registry and the state legal review hold. Not scored — no obligation turns on it — but a repairer touching this page should align the two."
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "packetsModified": 0,
+      "grantsNothing": "This row is a verification reading. It promotes nothing, opens no route and grants no approval.",
+      "feeStandardAmendmentsApplied": "A1, A2 and A3. A3 was published after this base and I read it from commit 1df1b7a5a. It does not move this row's FEE_AND_WAIVER pass, and I re-checked each source against A3's per-fact test rather than assuming. The compiled Pennsylvania profile's packetGenerator.feeRules is an empty array, so there is no sibling line to misread. The statewide range is keyed to this route and not to a neighbour: data/rcap-ledger/authority-ledger.json records it as the county filing fee schedule for a Rule 790 expungement petition, which is this family's own filing. The waiver answer and the destination come from the registry entry for track pa_pardon_expungement itself. Nothing was inferred from a sibling remedy."
     }
   ],
   "supersededLaneMembership": {
