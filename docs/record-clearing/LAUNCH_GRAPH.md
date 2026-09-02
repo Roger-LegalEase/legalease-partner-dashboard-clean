@@ -5,7 +5,7 @@ packet family and packet set → owner-approved legal status → packet specific
 technical status → PDF status → renderer → public witness → payment result → artifact result →
 DTC result → RCAP result.
 
-**One denominator.** All 260 rows come from the `paid_packet_intended` set in
+**One denominator.** All 262 rows come from the `paid_packet_intended` set in
 `data/rcap-ledger/sellable-pathway-closure.json`. Every consumed ledger is required to describe
 exactly that set; one that adds or drops a pathway fails this generator rather than being
 reconciled quietly, so there is nothing here for a second denominator to disagree with.
@@ -14,17 +14,17 @@ reconciled quietly, so there is nothing here for a second denominator to disagre
 
 | | |
 |---|---:|
-| INTENDED PAID | 260 |
-| CORRECT-PATHWAY PUBLIC WITNESSES | 260 |
+| INTENDED PAID | 262 |
+| CORRECT-PATHWAY PUBLIC WITNESSES | 262 |
 | WRONG-PATHWAY WITNESSES | 0 |
 | NON-CONVERGING WITNESSES | 0 |
-| EXACT TRACK + PACKET SET | 220 |
+| EXACT TRACK + PACKET SET | 222 |
 | REGISTRY GAP + PATHWAY PACKET SET | 40 |
-| OWNER-APPROVED LEGAL | 93 |
-| FACTORY_V2 RESOLVED | 166 |
-| PAYMENT ALLOWED | 29 |
-| DETERMINISTICALLY RENDERED (complete packet) | 38 |
-| — composed text proven deterministic | 166 |
+| OWNER-APPROVED LEGAL | 95 |
+| FACTORY_V2 RESOLVED | 168 |
+| PAYMENT ALLOWED | 28 |
+| DETERMINISTICALLY RENDERED (complete packet) | 40 |
+| — composed text proven deterministic | 168 |
 | — official forms named but not held here | 128 |
 | OPERATIONALLY SELLABLE | 0 |
 
@@ -47,7 +47,7 @@ owner-authorized action through the consumer-delivery control under the all-51 l
 | `HANDOFF_READY` | 3 |
 | `MAINTENANCE_HOLD` | 19 |
 | `LEGAL_HOLD` | 1 |
-| `UNFINISHED` | 237 |
+| `UNFINISHED` | 239 |
 
 Per-state counts are carried in `availability.byState` of the JSON ledger.
 
@@ -55,7 +55,7 @@ Per-state counts are carried in `availability.byState` of the JSON ledger.
 
 | Unmet gate | Routes |
 |---|---:|
-| `paymentAllowed` | 231 |
+| `paymentAllowed` | 234 |
 | `deterministicArtifactProven` | 222 |
 | `technicalApprovalCurrent` | 192 |
 | `ownerApprovedLegalDesign` | 167 |

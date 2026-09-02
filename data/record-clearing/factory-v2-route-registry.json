@@ -8,19 +8,19 @@
   "inputs": {
     "canonicalGraph": {
       "path": "data/rcap-ledger/paid-pathway-legal-join.json",
-      "sha256": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f"
+      "sha256": "9d81244cdf97b7f71e502f981966d6c61ac8a660ce346c6c61b83486ce896a75"
     },
     "packetSetManifests": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa"
+      "sha256": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d"
     },
     "publicWitnessAnswerSets": {
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
-      "sha256": "d4b7096e7e1833cb2a032c75a79d610e6f1ad550b9d101ac5270c1d470d8f5ce"
+      "sha256": "120fd18ca819f5332a030913df9f9015e6ebf2ae7cd09c48f377f21097380862"
     },
     "sellablePathwayClosure": {
       "path": "data/rcap-ledger/sellable-pathway-closure.json",
-      "sha256": "cb36e6f3f9c94e219e36a15aff9bd03bf17b77b8c9572d48391edf2633c34b83"
+      "sha256": "2c0ebc42e12a21bb444519c8f9b0e4260c95034175364aac3e0b0cb6d88f5e6e"
     }
   },
   "legacyVerifiedJurisdictions": [
@@ -32,8 +32,8 @@
   ],
   "admissionIsNotSelection": "Admitted means the factory may build the route. Selected means the resolver chose it, after every suppression ahead of the factory branch had its turn. The launch graph reports selection.",
   "totals": {
-    "intendedPaidPathways": 260,
-    "factoryV2Admitted": 170,
+    "intendedPaidPathways": 262,
+    "factoryV2Admitted": 172,
     "notAdmitted": 90,
     "reasonsItIsNotAdmitted": {
       "sourceOrApprovedComposedDocument": 21,
@@ -41,9 +41,9 @@
       "exactPacketSet+sourceOrApprovedComposedDocument": 2,
       "legacy_generator_owns_this_jurisdiction": 36
     },
-    "ownerApprovedLegalDesign": 93,
-    "paymentAllowedAtTheEvaluator": 29,
-    "publicWitnessReachesItsOwnPathway": 260
+    "ownerApprovedLegalDesign": 95,
+    "paymentAllowedAtTheEvaluator": 28,
+    "publicWitnessReachesItsOwnPathway": 262
   },
   "routes": [
     {
@@ -4038,6 +4038,116 @@
         "openBlockerIds": [
           "gate_build",
           "legal_review_pending"
+        ]
+      }
+    },
+    {
+      "pathwayKey": "KS:municipal-arrest-record-expungement-under-12-4516a",
+      "jurisdiction": "KS",
+      "pathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+      "pathwayLabel": "Municipal arrest record expungement",
+      "registryTrackIds": [
+        "ks-12-4516a-municipal-arrest"
+      ],
+      "packetSetIds": [
+        "ks-12-4516a-municipal-arrest-set"
+      ],
+      "packetFamilies": [
+        "rcap-ks-custom-pleading"
+      ],
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "requiredInputIds": [
+        "case_outcome",
+        "charge",
+        "contact_information",
+        "county",
+        "court",
+        "financial_obligations",
+        "jurisdiction",
+        "offense_category",
+        "offense_level",
+        "participant_full_legal_name",
+        "pathway_id"
+      ],
+      "componentCount": 3,
+      "officialFormIds": [],
+      "buildInputs": {
+        "authoritativeProfile": true,
+        "authoritativePathway": true,
+        "exactPacketSet": true,
+        "packetSpecification": true,
+        "requiredParticipantFields": true,
+        "sourceOrApprovedComposedDocument": true,
+        "deterministicFixture": true
+      },
+      "unmetBuildInputs": [],
+      "factoryV2Resolves": true,
+      "legacyGeneratorOwnsThisJurisdiction": false,
+      "separateGates": {
+        "ownerApprovedLegalDesign": true,
+        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+        "paymentAllowedAtTheEvaluator": false,
+        "publicWitnessReachesThisPathway": true,
+        "closureCategory": "paid_packet_intended",
+        "openBlockerIds": [
+          "legal_review_pending",
+          "renderer_unavailable",
+          "route_metadata"
+        ]
+      }
+    },
+    {
+      "pathwayKey": "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+      "jurisdiction": "KS",
+      "pathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+      "pathwayLabel": "Municipal conviction or diversion expungement",
+      "registryTrackIds": [
+        "ks-12-4516-municipal"
+      ],
+      "packetSetIds": [
+        "ks-12-4516-municipal-set"
+      ],
+      "packetFamilies": [
+        "rcap-ks-custom-pleading"
+      ],
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "requiredInputIds": [
+        "case_outcome",
+        "charge",
+        "contact_information",
+        "county",
+        "court",
+        "financial_obligations",
+        "jurisdiction",
+        "offense_category",
+        "offense_level",
+        "participant_full_legal_name",
+        "pathway_id"
+      ],
+      "componentCount": 3,
+      "officialFormIds": [],
+      "buildInputs": {
+        "authoritativeProfile": true,
+        "authoritativePathway": true,
+        "exactPacketSet": true,
+        "packetSpecification": true,
+        "requiredParticipantFields": true,
+        "sourceOrApprovedComposedDocument": true,
+        "deterministicFixture": true
+      },
+      "unmetBuildInputs": [],
+      "factoryV2Resolves": true,
+      "legacyGeneratorOwnsThisJurisdiction": false,
+      "separateGates": {
+        "ownerApprovedLegalDesign": true,
+        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+        "paymentAllowedAtTheEvaluator": false,
+        "publicWitnessReachesThisPathway": true,
+        "closureCategory": "paid_packet_intended",
+        "openBlockerIds": [
+          "intake_fix",
+          "legal_review_pending",
+          "renderer_unavailable"
         ]
       }
     },
@@ -11357,10 +11467,12 @@
       "separateGates": {
         "ownerApprovedLegalDesign": true,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
+        "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": []
+        "openBlockerIds": [
+          "renderer_unavailable"
+        ]
       }
     },
     {

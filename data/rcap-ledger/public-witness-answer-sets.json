@@ -34,19 +34,19 @@
   },
   "changesNothing": "Records what the deployed public evaluator does today. No runtime change, no classification, no approval.",
   "totals": {
-    "pathways": 260,
-    "settledOnATerminalEvaluation": 260,
-    "landedOnTheirOwnPathway": 260,
+    "pathways": 262,
+    "settledOnATerminalEvaluation": 262,
+    "landedOnTheirOwnPathway": 262,
     "terminalResultCodes": {
       "packet_ready_with_caution": 35,
-      "guidance_only": 88,
+      "guidance_only": 89,
       "not_covered_yet": 22,
       "needs_review": 103,
       "likely_not_eligible": 5,
       "packet_ready": 1,
-      "needs_more_info": 6
+      "needs_more_info": 7
     },
-    "paymentAllowedAtTheEvaluator": 29
+    "paymentAllowedAtTheEvaluator": 28
   },
   "witnesses": [
     {
@@ -5651,6 +5651,162 @@
         "selectedTrackId": null,
         "reasonCodes": [
           "ks.waiting_rule_not_executed"
+        ],
+        "missingQuestionIds": []
+      },
+      "landedOnThisPathway": true,
+      "error": null
+    },
+    {
+      "pathwayKey": "KS:municipal-arrest-record-expungement-under-12-4516a",
+      "jurisdiction": "KS",
+      "pathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+      "pathwayLabel": "Municipal arrest record expungement",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/kansas",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "seedAnswers": {
+        "ownership_scope": "Yes",
+        "jurisdiction_scope": "State or local",
+        "state_exclusion_categories": [
+          "None of these"
+        ],
+        "pending_cases": "No",
+        "new_convictions_during_waiting_period": "No",
+        "sentence_completion_date": "Yes",
+        "financial_obligations": "Yes",
+        "court_requirements_completed": "yes",
+        "special_preconditions_confirmed": "Yes",
+        "trafficking_status": "No",
+        "pardon_status": "No",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "possible_pathway_context": "Municipal arrest record expungement"
+      },
+      "pathwayContextOffered": "Municipal arrest record expungement",
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "pardon_status",
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "case_outcome",
+            "offense_level"
+          ],
+          "supplied": {
+            "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+            "offense_level": "Misdemeanor"
+          }
+        }
+      ],
+      "finalAnswers": {
+        "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pending_cases": "No",
+        "possible_pathway_context": "Municipal arrest record expungement",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "terminalEvaluation": {
+        "resultCode": "guidance_only",
+        "pathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+        "pathwayLabel": "Municipal arrest record expungement",
+        "paymentAllowed": false,
+        "treatmentClassification": null,
+        "selectedTrackId": null,
+        "reasonCodes": [
+          "ks.guidance_only_no_user_filed_court_petition"
+        ],
+        "missingQuestionIds": []
+      },
+      "landedOnThisPathway": true,
+      "error": null
+    },
+    {
+      "pathwayKey": "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+      "jurisdiction": "KS",
+      "pathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+      "pathwayLabel": "Municipal conviction or diversion expungement",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/kansas",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "seedAnswers": {
+        "ownership_scope": "Yes",
+        "jurisdiction_scope": "State or local",
+        "state_exclusion_categories": [
+          "None of these"
+        ],
+        "pending_cases": "No",
+        "new_convictions_during_waiting_period": "No",
+        "sentence_completion_date": "Yes",
+        "financial_obligations": "Yes",
+        "court_requirements_completed": "yes",
+        "special_preconditions_confirmed": "Yes",
+        "trafficking_status": "No",
+        "pardon_status": "No",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "possible_pathway_context": "Municipal conviction or diversion expungement"
+      },
+      "pathwayContextOffered": "Municipal conviction or diversion expungement",
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "pardon_status",
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "case_outcome",
+            "offense_level"
+          ],
+          "supplied": {
+            "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+            "offense_level": "Misdemeanor"
+          }
+        }
+      ],
+      "finalAnswers": {
+        "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pending_cases": "No",
+        "possible_pathway_context": "Municipal conviction or diversion expungement",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "terminalEvaluation": {
+        "resultCode": "needs_more_info",
+        "pathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+        "pathwayLabel": "Municipal conviction or diversion expungement",
+        "paymentAllowed": false,
+        "treatmentClassification": null,
+        "selectedTrackId": null,
+        "reasonCodes": [
+          "ks.route_identified_packet_not_yet_available"
         ],
         "missingQuestionIds": []
       },
@@ -15564,7 +15720,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
         "pathwayLabel": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [

@@ -141,6 +141,23 @@ const DECISION_BASELINE = {
       decisionId: "NATIONAL-2026-08-28-C-NY-01",
       routeKeys: 1,
       reason: "N.Y. CPL § 160.55 automatic partial sealing, served as a correction workflow. New York carried no route contract of any kind before this."
+    },
+    // ---- Kansas municipal runtime representation ----
+    // Both routes are approved legal design that had no compiled runtime
+    // representation at all, so the census recorded them as
+    // missing_from_compiled_runtime with a null pathway and a null contract.
+    // These contracts add the representation and nothing else: both are held
+    // by a local filing configuration gate and an artifact review gate, and
+    // both declare a closed commercial posture.
+    {
+      decisionId: "LEGAL-DESIGN-2026-08-02-KS-01",
+      routeKeys: 1,
+      reason: "K.S.A. 12-4516 municipal conviction or diversion expungement, from the adopted Kansas legal-design memorandum of 2026-08-02. A new route: it is a municipal-court mechanism and no district-court § 21-6614 pathway may serve it."
+    },
+    {
+      decisionId: "LEGAL-DESIGN-2026-08-02-KS-02",
+      routeKeys: 1,
+      reason: "K.S.A. 12-4516a municipal arrest-record expungement, from the same memorandum. A separate route rather than a branch of § 12-4516: a different statute, a different record type and five statutory grounds of its own."
     }
   ]
 };
