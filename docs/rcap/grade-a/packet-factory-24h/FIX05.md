@@ -1,4 +1,4 @@
-# FIX04
+# FIX05
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
@@ -19,7 +19,7 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ca-1203-43-set \
+  --family ca-1203-4a-set \
   --codex-cloud \
   --minimum-captain-sha 8ba7f0a53264e0a86f1f1ed14f71b8e0f8086816
 ```
@@ -38,9 +38,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 <familyId>`
+- Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 <familyId>`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
-- Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release FIX04 <familyId>`, and leave that in your diff.
+- Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release FIX05 <familyId>`, and leave that in your diff.
 
 ## How to raster
 
@@ -56,12 +56,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 4 families
+## The 2 families
 
-- `ca-1203-43-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, requiredOptionsMissing, requiredComponentsMissing
-- `ri_nonconviction_sealing-set`
-- `ca-1203-42-set` — failing: requiredOptionsMissing
-- `wa_vac_misdemeanor_ordinary-set`
+- `ca-1203-4a-set` — failing: requiredOptionsMissing
+- `wa_vac_survivor_felony-set`
 
 ## What you receive
 
@@ -73,15 +71,11 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/packet-factory-24h/fix04/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ca-1203-43-set.mjs`
-- `scripts/build-census-v1-ri_nonconviction_sealing-set.mjs`
-- `scripts/build-census-v1-ca-1203-42-set.mjs`
-- `scripts/build-census-v1-wa_vac_misdemeanor_ordinary-set.mjs`
+- `data/rcap-grade-a/packet-factory-24h/fix05/**`
+- `data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ca-1203-4a-set.mjs`
+- `scripts/build-census-v1-wa_vac_survivor_felony-set.mjs`
 
 ## Never write here
 
@@ -112,7 +106,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 ## Required outputs
 
-- data/rcap-grade-a/packet-factory-24h/fix04/rows.json — one row per family: itemId, status, the obligation repaired, and the nine counters after
+- data/rcap-grade-a/packet-factory-24h/fix05/rows.json — one row per family: itemId, status, the obligation repaired, and the nine counters after
 
 ### Output schema
 

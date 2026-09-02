@@ -618,15 +618,35 @@ const pathIsActive = (p) => activePaths.some((x) => touches(p, x.path) || new Re
  * still describing this head -- the conservative reading, since the cost of
  * being wrong the other way is publishing a defect as unverified.
  */
+/*
+ * WHAT COUNTS AS THE FAMILY MOVING.
+ *
+ * Not everything in a family's directory is the family. `product-wiring.json`
+ * and `build-status.json` are written by this factory's own generators and are
+ * refreshed on any chain run that re-pins a digest -- and on the very first run
+ * after this test was added, exactly that refresh released two of FABLE-VA4's
+ * failures. A regenerated wiring digest cannot answer a FEE_AND_WAIVER finding
+ * about what a sentence says, or a SELF_HELP_STOP finding about a section that
+ * is not in the file. Counting it as a repair is how a defect gets closed by
+ * bookkeeping.
+ *
+ * What CAN answer such a verdict is what a repairer actually edits: the
+ * fixtures, the packet PDFs, participant-instructions.md, the field maps, the
+ * page manifests -- and the family's build script, which lives outside the
+ * directory and is where several of these repairs are made, gated behind a
+ * per-family flag.
+ */
+const GENERATED_BOOKKEEPING = ["product-wiring.json", "build-status.json"];
 const movedSinceCache = new Map();
-function familyMovedSinceVerdict(independentReturn, directory) {
+function familyMovedSinceVerdict(independentReturn, directory, buildScript) {
   const base = independentReturn?.verifiedAtBase;
   if (!base || !/^[0-9a-f]{7,40}$/.test(String(base))) return false;
   const key = `${base}\u0000${directory}`;
   if (movedSinceCache.has(key)) return movedSinceCache.get(key);
   let moved = false;
   try {
-    const r = spawnSync("git", ["diff", "--quiet", base, "HEAD", "--", directory], { cwd: ROOT });
+    const paths = [directory, buildScript, ...GENERATED_BOOKKEEPING.map((f) => `:(exclude)${directory}/${f}`)];
+    const r = spawnSync("git", ["diff", "--quiet", base, "HEAD", "--", ...paths], { cwd: ROOT });
     /* 0 = identical, 1 = differs. Anything else (an unknown base after a
      * shallow clone, a path git cannot resolve) is not an answer, and an
      * unanswered question must not release the family from FAIL. */
@@ -847,7 +867,7 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (independentFail
     && repairReleasedFamilies.has(familyId) && !repairLiveFamilies.has(familyId)
     && comp && nineZero
-    && familyMovedSinceVerdict(independentReturn, directory)) state = "VERIFY_PENDING";
+    && familyMovedSinceVerdict(independentReturn, directory, buildScript)) state = "VERIFY_PENDING";
   else if (independentFail) state = "FAIL_REPAIR_REQUIRED";
   else if (activeOwner && activeOwnerLane === "independent-verification") state = "VERIFYING";
   else if (activeOwner) state = "BUILD_IN_PROGRESS";
