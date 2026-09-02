@@ -9,7 +9,7 @@
   "identitiesGuessed": 0,
   "sourceBodiesCommitted": 0,
   "familiesActuallyReleasedNow": [],
-  "whyNoFamilyIsReleasedNow": "Release requires every remaining source of a family to bind. Identity settled here is not custody.",
+  "whyNoFamilyIsReleasedNow": "Release requires every remaining source of a family to bind. Identity settled here is not custody. Pass 2 adds: Release requires every source of a family to bind to exact bytes in custody. ia-901c3-set still has Form 2 unaddressed. For ia-12346-set, ia-901c2-set and ia-dci77-set the addresses are settled and the fetches succeeded, but no body is committed and no path in the committed corpus index holds those hashes, so this checkout cannot hand a builder a file. Identity settled is not custody.",
   "rows": [
     {
       "itemId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request::NO_DOCUMENT_SOURCE_NAMED",
@@ -136,6 +136,456 @@
       "reason": "NO_DOCUMENT_SOURCE_NAMED: the family names no document-shaped source, so there is no identity to settle and nothing for ACQ to fetch.",
       "hostThatOwnsTheNextStep": "the issuing court or agency in IL",
       "nextOperationThatOwnsIt": "legal design must name a document for this route, or record NO_OFFICIAL_DOCUMENT_REQUIRED"
+    },
+    {
+      "itemId": "ia-12346-set::official-form:Certification of Service by Mailing or Delivery",
+      "sourceId": "official-form:Certification of Service by Mailing or Delivery",
+      "jurisdiction": "IA",
+      "familyIds": [
+        "ia-12346-set"
+      ],
+      "status": "COMPLETED",
+      "registrySourceState": "EMBEDDED_SECTION",
+      "absenceClass": "label_does_not_identify_a_document",
+      "verdict": "NOT_A_DOCUMENT_NOTHING_TO_ACQUIRE",
+      "issuingAuthority": "Iowa Judicial Branch (form prescribed by Iowa R. Crim. P. 2.86, adopted by Iowa Supreme Court supervisory order)",
+      "officialTitle": "Certification of Service by Mailing or Delivery — a captioned section printed on the last page of Iowa R. Crim. P. 2.86 — Form 3 (Application to Expunge Public Intoxication Court Records under Iowa Code section 123.46), not a separate publication",
+      "formNumber": null,
+      "formNumberWhyNull": "A printed section carries no form number of its own. The only form number on the page is the containing application's.",
+      "revision": null,
+      "revisionWhyNull": "The section has no independent revision; it revises with the form it is printed inside.",
+      "officialUrl": null,
+      "officialUrlWhyNull": "There is no separate binary at any address. Acquiring the containing application acquires this section with it.",
+      "urlKind": "NO_SEPARATE_BINARY_EXISTS",
+      "intendedPacketRole": "certificate_of_service",
+      "statewideOrLocal": "statewide",
+      "handoffOperation": "NONE",
+      "whyNoHandoff": "ACQ has nothing to fetch. Dispatching this label would spend an acquisition on a document that is not published, and a returned 404 would be recorded as a missing source that is not missing.",
+      "satisfiedBy": {
+        "artifact": "Iowa R. Crim. P. 2.86 — Form 3 (Application to Expunge Public Intoxication Court Records under Iowa Code section 123.46)",
+        "how": "the section is printed inside it",
+        "familyScoped": true
+      },
+      "labelIsFamilySpecific": true,
+      "whyTheLabelIsFamilySpecific": "One label, five Iowa families, a different containing document in each: ia-12346-set files Form 3, ia-901c2-set files Form 1, ia-901c3-set files Form 2, ia-12347-set files Form 4 and ia-7251-set files Form 5. Held globally the label hands one family another family's application whenever only one half is held; withheld from the global map it binds correctly per family or not at all.",
+      "servesFamilies": [
+        "ia-12346-set"
+      ],
+      "namedInFamiliesAs": [
+        "Certification of Service by Mailing or Delivery"
+      ],
+      "identityConfidence": "confirmed_from_document_text_on_sibling_forms_and_corroborated_by_committed_extraction_of_this_form",
+      "identityEvidence": "pdftotext -layout line 92 of the held Rule 2.86—Form 4 prints the centred heading \"Certification of Service by Mailing or Delivery\", followed by \"I, ____, certify that on ____, 20__, I mailed or gave a copy of this Application to the county attorney at this address:\"; the footer at line 105 of the same extraction reads \"August 2024   Rule 2.86—Form 4   Page 2 of 2\". The heading is printed inside the application, on its own last page. There is no separate publication. The identical heading appears at line 92 of the held Rule 2.86—Form 5, whose footer at line 106 reads \"August 2024   Rule 2.86—Form 5   Page 2 of 2\". Two held documents satisfy the label identically, which is the second, independent reason it identifies no single document. For this family the same section is additionally printed in the committed extraction of Form 3 itself: src/lib/rcap-engine/compiled/profiles/IA-iowa.json sourceSections[1] (lines 245–318 of the compiled source corpus) prints \"Rule 2.86—Form 3: Application to Expunge Public Intoxication Court Records under Iowa Code section 123.46, continued\" and, on the next non-empty line, \"Certification of Service by Mailing or Delivery\" followed by \"This section to be completed only if filing in paper. This Application, if filed electronically, will automatically be served on the county attorney.\" That extraction comes from a DIFFERENT edition of Form 3 (sha256 d8f958c16fec8f9c831664c9a3122e2a062306a308c41275b3df049bcc18202e) than the edition this family's manifest entry pins, so it corroborates the section's presence and wording without being a read of the pinned bytes.",
+      "evidencePaths": [
+        "Expungement_AI_RCAP_Master_Library_Edition_1::STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+        "Expungement_AI_RCAP_Master_Library_Edition_1::STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "data/rcap-grade-a/source-verification/TOP20_EXTERNAL_VERIFICATION.json",
+        "src/lib/rcap-engine/compiled/profiles/IA-iowa.json"
+      ],
+      "documentsIOpenedForThis": [
+        {
+          "custody": "MASTER_LIBRARY",
+          "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+          "pathInArchive": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+          "sha256": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
+          "byteLength": 288751,
+          "pageCount": 2,
+          "structuralClassObserved": "flat_pdf",
+          "hashRecomputedBy": "FABLE-DISC03, sha256sum on the mounted file",
+          "inCommittedCorpusIndexAtThisPathAndHash": true
+        },
+        {
+          "custody": "MASTER_LIBRARY",
+          "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+          "pathInArchive": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
+          "sha256": "ed46614b0b182dca05020009f1add549e07ac7d0bbd7328bbd9cc7ae26934cef",
+          "byteLength": 288129,
+          "pageCount": 2,
+          "structuralClassObserved": "flat_pdf",
+          "hashRecomputedBy": "FABLE-DISC03, sha256sum on the mounted file",
+          "inCommittedCorpusIndexAtThisPathAndHash": true
+        }
+      ],
+      "whatIDidNotRead": "The face of Iowa R. Crim. P. 2.86 — Form 3 (Application to Expunge Public Intoxication Court Records under Iowa Code section 123.46) itself. It is not in the mounted corpus, so the section was confirmed on its two mounted siblings rather than on this family's own form."
+    },
+    {
+      "itemId": "ia-12346-set::official-form:Rule 2.86 Form 3",
+      "sourceId": "official-form:Rule 2.86 Form 3",
+      "jurisdiction": "IA",
+      "familyIds": [
+        "ia-12346-set"
+      ],
+      "status": "COMPLETED",
+      "registrySourceState": "CURRENTNESS_UNVERIFIED",
+      "verdict": "IDENTITY_AND_EXACT_BINARY_URL_ALREADY_SETTLED_IN_COMMITTED_INVENTORY",
+      "issuingAuthority": "Iowa Judicial Branch",
+      "officialTitle": "Application to Expunge Public Intoxication Court Records under Iowa Code section 123.46 — Iowa R. Crim. P. 2.86 Form 3",
+      "formNumber": "Iowa R. Crim. P. 2.86 Form 3",
+      "revision": "rev-2022-01",
+      "revisionCaveat": "This is the revision recorded against the pinned bytes in committed inventory. The printed revision on the face was not read here — the two Rule 2.86 forms I could open print \"August 2024\" and are Forms 4 and 5, a later revision cycle than the January 2022 pinned for Forms 1 and 3. Whether the publisher has since re-issued Form 3 on the August 2024 cycle is an open currentness question, not an identity question.",
+      "officialUrl": "https://www.iowacourts.gov/collections/721/files/1504/embedDocument",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "host": "www.iowacourts.gov",
+      "hostAllowed": true,
+      "hostAllowedCheckedWith": "hostAllowed() from scripts/lib/official-host-policy.mjs returned true",
+      "intendedPacketRole": "primary_filing",
+      "statewideOrLocal": "statewide",
+      "handoffOperation": "NONE_ALREADY_ACQUIRED",
+      "exactBinaryUrlEstablished": true,
+      "newManifestEntryNeeded": false,
+      "whyNoNewManifestEntry": "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json already carries sourceId \"ia-rule-2-86-form-3-application-to-expunge-public-intoxication-records-123-46-rev-2022-01\" at this exact address with expectedSha256 6f222685001373ba2e1ef63509e3b42e7e47d5067bfb0ed3b130b62040d80f01, and the hosted workflow already fetched it: run 33603361022 job 100161934717, HTTP 200, application/pdf, 263607 bytes, sha256 identical to the pin (\"expectedHashLine\": \"MATCHES\"), flat_pdf, 2 pages. Adding an entry would duplicate a settled address.",
+      "identityConfidence": "confirmed_from_committed_acquisition_receipt_and_pinned_hash_agreement",
+      "identityEvidence": "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json records issuingAuthority \"Iowa Judicial Branch\", formNumber \"Iowa R. Crim. P. 2.86 Form 3\" and officialTitle \"Application to Expunge Public Intoxication Records (Iowa Code § 123.46) — Iowa R. Crim. P. 2.86 Form 3\" against this address. data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json records the fetch that returned bytes hashing to the pin. Independently, the committed compiled profile prints the form's own running header: \"Rule 2.86—Form 3: Application to Expunge Public Intoxication Court Records under Iowa Code section 123.46, continued\" — the printed form number and printed statute agree with the recorded identity.",
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json",
+        "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "src/lib/rcap-engine/compiled/profiles/IA-iowa.json"
+      ],
+      "whatIDidNotRead": "The bytes. They are not in this checkout: the acquisition committed no body, the Nationwide custody that the registry names as holding them is not mounted, and the committed corpus index carries no IA row at that path or that hash. identityConfidence is graded accordingly and is NOT confirmed_from_document_text.",
+      "heldClaimICouldNotCorroborate": {
+        "claimedBy": "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "claimedPath": "private/Nationwide Record Clearing/LegalEase Iowa/forms/IA-RULE-2.86-FORM-3__application-to-expunge-public-intoxication-records-123-46__rev-2022-01.pdf",
+        "claimedSha256": "6f222685001373ba2e1ef63509e3b42e7e47d5067bfb0ed3b130b62040d80f01",
+        "whyNotCorroborated": "The path is not mounted and the committed corpus index does not contain it. The index holds exactly four IA rows, all of them Form 4 or Form 5."
+      }
+    },
+    {
+      "itemId": "ia-901c2-set::official-form:Certification of Service by Mailing or Delivery",
+      "sourceId": "official-form:Certification of Service by Mailing or Delivery",
+      "jurisdiction": "IA",
+      "familyIds": [
+        "ia-901c2-set"
+      ],
+      "status": "COMPLETED",
+      "registrySourceState": "EMBEDDED_SECTION",
+      "absenceClass": "label_does_not_identify_a_document",
+      "verdict": "NOT_A_DOCUMENT_NOTHING_TO_ACQUIRE",
+      "issuingAuthority": "Iowa Judicial Branch (form prescribed by Iowa R. Crim. P. 2.86, adopted by Iowa Supreme Court supervisory order)",
+      "officialTitle": "Certification of Service by Mailing or Delivery — a captioned section printed on the last page of Iowa R. Crim. P. 2.86 — Form 1 (Application to Expunge Court Record under Iowa Code section 901C.2), not a separate publication",
+      "formNumber": null,
+      "formNumberWhyNull": "A printed section carries no form number of its own. The only form number on the page is the containing application's.",
+      "revision": null,
+      "revisionWhyNull": "The section has no independent revision; it revises with the form it is printed inside.",
+      "officialUrl": null,
+      "officialUrlWhyNull": "There is no separate binary at any address. Acquiring the containing application acquires this section with it.",
+      "urlKind": "NO_SEPARATE_BINARY_EXISTS",
+      "intendedPacketRole": "certificate_of_service",
+      "statewideOrLocal": "statewide",
+      "handoffOperation": "NONE",
+      "whyNoHandoff": "ACQ has nothing to fetch. Dispatching this label would spend an acquisition on a document that is not published, and a returned 404 would be recorded as a missing source that is not missing.",
+      "satisfiedBy": {
+        "artifact": "Iowa R. Crim. P. 2.86 — Form 1 (Application to Expunge Court Record under Iowa Code section 901C.2)",
+        "how": "the section is printed inside it",
+        "familyScoped": true
+      },
+      "labelIsFamilySpecific": true,
+      "whyTheLabelIsFamilySpecific": "One label, five Iowa families, a different containing document in each: ia-12346-set files Form 3, ia-901c2-set files Form 1, ia-901c3-set files Form 2, ia-12347-set files Form 4 and ia-7251-set files Form 5. Held globally the label hands one family another family's application whenever only one half is held; withheld from the global map it binds correctly per family or not at all.",
+      "servesFamilies": [
+        "ia-901c2-set"
+      ],
+      "namedInFamiliesAs": [
+        "Certification of Service by Mailing or Delivery"
+      ],
+      "identityConfidence": "confirmed_from_document_text_on_sibling_forms",
+      "identityEvidence": "pdftotext -layout line 92 of the held Rule 2.86—Form 4 prints the centred heading \"Certification of Service by Mailing or Delivery\", followed by \"I, ____, certify that on ____, 20__, I mailed or gave a copy of this Application to the county attorney at this address:\"; the footer at line 105 of the same extraction reads \"August 2024   Rule 2.86—Form 4   Page 2 of 2\". The heading is printed inside the application, on its own last page. There is no separate publication. The identical heading appears at line 92 of the held Rule 2.86—Form 5, whose footer at line 106 reads \"August 2024   Rule 2.86—Form 5   Page 2 of 2\". Two held documents satisfy the label identically, which is the second, independent reason it identifies no single document. The committed compiled-profile extraction carries Form 1's page one but stops before its continued page, so Form 1's own certification section was not read here; the determination for this family rests on the two sibling reads and on the external verification of 2026-08-31.",
+      "evidencePaths": [
+        "Expungement_AI_RCAP_Master_Library_Edition_1::STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+        "Expungement_AI_RCAP_Master_Library_Edition_1::STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "data/rcap-grade-a/source-verification/TOP20_EXTERNAL_VERIFICATION.json",
+        "src/lib/rcap-engine/compiled/profiles/IA-iowa.json"
+      ],
+      "documentsIOpenedForThis": [
+        {
+          "custody": "MASTER_LIBRARY",
+          "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+          "pathInArchive": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+          "sha256": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
+          "byteLength": 288751,
+          "pageCount": 2,
+          "structuralClassObserved": "flat_pdf",
+          "hashRecomputedBy": "FABLE-DISC03, sha256sum on the mounted file",
+          "inCommittedCorpusIndexAtThisPathAndHash": true
+        },
+        {
+          "custody": "MASTER_LIBRARY",
+          "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+          "pathInArchive": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
+          "sha256": "ed46614b0b182dca05020009f1add549e07ac7d0bbd7328bbd9cc7ae26934cef",
+          "byteLength": 288129,
+          "pageCount": 2,
+          "structuralClassObserved": "flat_pdf",
+          "hashRecomputedBy": "FABLE-DISC03, sha256sum on the mounted file",
+          "inCommittedCorpusIndexAtThisPathAndHash": true
+        }
+      ],
+      "whatIDidNotRead": "The face of Iowa R. Crim. P. 2.86 — Form 1 (Application to Expunge Court Record under Iowa Code section 901C.2) itself. It is not in the mounted corpus, so the section was confirmed on its two mounted siblings rather than on this family's own form."
+    },
+    {
+      "itemId": "ia-901c2-set::official-form:Rule 2.86 Form 1",
+      "sourceId": "official-form:Rule 2.86 Form 1",
+      "jurisdiction": "IA",
+      "familyIds": [
+        "ia-901c2-set"
+      ],
+      "status": "COMPLETED",
+      "registrySourceState": "CURRENTNESS_UNVERIFIED",
+      "verdict": "IDENTITY_AND_EXACT_BINARY_URL_ALREADY_SETTLED_IN_COMMITTED_INVENTORY",
+      "issuingAuthority": "Iowa Judicial Branch",
+      "officialTitle": "Application to Expunge Court Record under Iowa Code section 901C.2 — Iowa R. Crim. P. 2.86 Form 1",
+      "formNumber": "Iowa R. Crim. P. 2.86 Form 1",
+      "revision": "rev-2022-01",
+      "revisionCaveat": "As for Form 3: the pinned revision, not a revision read off the face.",
+      "officialUrl": "https://www.iowacourts.gov/collections/738/files/1569/embedDocument",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "host": "www.iowacourts.gov",
+      "hostAllowed": true,
+      "hostAllowedCheckedWith": "hostAllowed() from scripts/lib/official-host-policy.mjs returned true",
+      "intendedPacketRole": "primary_filing",
+      "statewideOrLocal": "statewide",
+      "handoffOperation": "NONE_ALREADY_ACQUIRED",
+      "exactBinaryUrlEstablished": true,
+      "newManifestEntryNeeded": false,
+      "whyNoNewManifestEntry": "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json already carries sourceId \"ia-rule-2-86-form-1-application-to-expunge-court-record-901c-2-rev-2022-01\" at this exact address with expectedSha256 d3e68933c4ed878c72784c5b2b191281116f87d953fa6203aecb702584cb5053, and the hosted workflow already fetched it: run 33603361022 job 100161934613, HTTP 200, application/pdf, 268162 bytes, hash MATCHES the pin, flat_pdf, 3 pages.",
+      "identityConfidence": "confirmed_from_committed_acquisition_receipt_and_pinned_hash_agreement",
+      "identityEvidence": "The committed compiled profile prints this form's own first page from a copy of it: \"Rule 2.86—Form 1: Application to Expunge Court Record under Iowa Code section 901C.2\" over \"In the Iowa District Court for ____ County\" and \"Defendant respectfully applies to the court for an order expunging the court records in this case pursuant to Iowa Code section 901C.2.\" The printed form number and printed statute agree with the identity data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json records against this address.",
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json",
+        "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "src/lib/rcap-engine/compiled/profiles/IA-iowa.json"
+      ],
+      "whatIDidNotRead": "The pinned bytes. The profile text above comes from a DIFFERENT copy of Form 1 (sha256 983d13752a6c7569ae9a1d4fe2f88dfb58ee68c2b93ea2cc64bffd8f7ce91840, 292048 bytes) than the pinned edition (d3e68933…, 268162 bytes). Both are Form 1 by their printed face; they are not the same file.",
+      "heldClaimICouldNotCorroborate": {
+        "claimedBy": "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "claimedPath": "private/Nationwide Record Clearing/LegalEase Iowa/forms/IA-RULE-2.86-FORM-1__application-to-expunge-court-record-901c-2__rev-2022-01.pdf",
+        "claimedSha256": "d3e68933c4ed878c72784c5b2b191281116f87d953fa6203aecb702584cb5053",
+        "whyNotCorroborated": "Path not mounted; not in the committed corpus index."
+      }
+    },
+    {
+      "itemId": "ia-901c3-set::official-form:Certification of Service by Mailing or Delivery",
+      "sourceId": "official-form:Certification of Service by Mailing or Delivery",
+      "jurisdiction": "IA",
+      "familyIds": [
+        "ia-901c3-set"
+      ],
+      "status": "COMPLETED",
+      "registrySourceState": "EMBEDDED_SECTION",
+      "absenceClass": "label_does_not_identify_a_document",
+      "verdict": "NOT_A_DOCUMENT_NOTHING_TO_ACQUIRE",
+      "issuingAuthority": "Iowa Judicial Branch (form prescribed by Iowa R. Crim. P. 2.86, adopted by Iowa Supreme Court supervisory order)",
+      "officialTitle": "Certification of Service by Mailing or Delivery — a captioned section printed on the last page of Iowa R. Crim. P. 2.86 — Form 2 (Application to Expunge Misdemeanor Court Record under Iowa Code section 901C.3), not a separate publication",
+      "formNumber": null,
+      "formNumberWhyNull": "A printed section carries no form number of its own. The only form number on the page is the containing application's.",
+      "revision": null,
+      "revisionWhyNull": "The section has no independent revision; it revises with the form it is printed inside.",
+      "officialUrl": null,
+      "officialUrlWhyNull": "There is no separate binary at any address. Acquiring the containing application acquires this section with it.",
+      "urlKind": "NO_SEPARATE_BINARY_EXISTS",
+      "intendedPacketRole": "certificate_of_service",
+      "statewideOrLocal": "statewide",
+      "handoffOperation": "NONE",
+      "whyNoHandoff": "ACQ has nothing to fetch. Dispatching this label would spend an acquisition on a document that is not published, and a returned 404 would be recorded as a missing source that is not missing.",
+      "satisfiedBy": {
+        "artifact": "Iowa R. Crim. P. 2.86 — Form 2 (Application to Expunge Misdemeanor Court Record under Iowa Code section 901C.3)",
+        "how": "the section is printed inside it",
+        "familyScoped": true
+      },
+      "labelIsFamilySpecific": true,
+      "whyTheLabelIsFamilySpecific": "One label, five Iowa families, a different containing document in each: ia-12346-set files Form 3, ia-901c2-set files Form 1, ia-901c3-set files Form 2, ia-12347-set files Form 4 and ia-7251-set files Form 5. Held globally the label hands one family another family's application whenever only one half is held; withheld from the global map it binds correctly per family or not at all.",
+      "servesFamilies": [
+        "ia-901c3-set"
+      ],
+      "namedInFamiliesAs": [
+        "Certification of Service by Mailing or Delivery"
+      ],
+      "identityConfidence": "confirmed_from_document_text_on_sibling_forms_external_verification_for_this_form",
+      "identityEvidence": "pdftotext -layout line 92 of the held Rule 2.86—Form 4 prints the centred heading \"Certification of Service by Mailing or Delivery\", followed by \"I, ____, certify that on ____, 20__, I mailed or gave a copy of this Application to the county attorney at this address:\"; the footer at line 105 of the same extraction reads \"August 2024   Rule 2.86—Form 4   Page 2 of 2\". The heading is printed inside the application, on its own last page. There is no separate publication. The identical heading appears at line 92 of the held Rule 2.86—Form 5, whose footer at line 106 reads \"August 2024   Rule 2.86—Form 5   Page 2 of 2\". Two held documents satisfy the label identically, which is the second, independent reason it identifies no single document. Form 2 is the one containing document with no committed face text of any edition. data/rcap-grade-a/source-verification/TOP20_EXTERNAL_VERIFICATION.json row 12, verified 2026-08-31 by a reviewer with live publisher access, records disposition EMBEDDED_SECTION_PATTERN with the locator \"Embedded certification section; current Rule 2.86 Form 2 example appears on page 3\" and the note \"Not one standalone statewide binary. Map the embedded section in each applicable Rule 2.86 form.\" That is evidence consumed here, not derived here.",
+      "evidencePaths": [
+        "Expungement_AI_RCAP_Master_Library_Edition_1::STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+        "Expungement_AI_RCAP_Master_Library_Edition_1::STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "data/rcap-grade-a/source-verification/TOP20_EXTERNAL_VERIFICATION.json"
+      ],
+      "documentsIOpenedForThis": [
+        {
+          "custody": "MASTER_LIBRARY",
+          "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+          "pathInArchive": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+          "sha256": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
+          "byteLength": 288751,
+          "pageCount": 2,
+          "structuralClassObserved": "flat_pdf",
+          "hashRecomputedBy": "FABLE-DISC03, sha256sum on the mounted file",
+          "inCommittedCorpusIndexAtThisPathAndHash": true
+        },
+        {
+          "custody": "MASTER_LIBRARY",
+          "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+          "pathInArchive": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
+          "sha256": "ed46614b0b182dca05020009f1add549e07ac7d0bbd7328bbd9cc7ae26934cef",
+          "byteLength": 288129,
+          "pageCount": 2,
+          "structuralClassObserved": "flat_pdf",
+          "hashRecomputedBy": "FABLE-DISC03, sha256sum on the mounted file",
+          "inCommittedCorpusIndexAtThisPathAndHash": true
+        }
+      ],
+      "whatIDidNotRead": "The face of Iowa R. Crim. P. 2.86 — Form 2 (Application to Expunge Misdemeanor Court Record under Iowa Code section 901C.3) itself. It is not in the mounted corpus, so the section was confirmed on its two mounted siblings rather than on this family's own form."
+    },
+    {
+      "itemId": "ia-901c3-set::official-form:Rule 2.86 Form 2",
+      "sourceId": "official-form:Rule 2.86 Form 2",
+      "jurisdiction": "IA",
+      "familyIds": [
+        "ia-901c3-set"
+      ],
+      "status": "STOPPED",
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "verdict": "IDENTITY_SETTLED_EXACT_BINARY_URL_NOT_ESTABLISHED",
+      "issuingAuthority": "Iowa Judicial Branch",
+      "officialTitle": "Application to Expunge Misdemeanor Court Record under Iowa Code section 901C.3 — Iowa R. Crim. P. 2.86 Form 2",
+      "officialTitleConfidence": "reconstructed_from_publisher_filename_and_statute_text_not_read_from_a_face",
+      "formNumber": "Iowa R. Crim. P. 2.86 Form 2",
+      "revision": null,
+      "revisionWhyNull": "No revision is recorded for Form 2 anywhere in committed inventory and no face was read. Forms 1 and 3 are pinned at rev-2022-01 and Forms 4 and 5 print August 2024; Form 2 could be on either cycle and guessing between them would be an invented revision.",
+      "officialUrl": null,
+      "officialLandingPage": "https://www.iowacourts.gov/collections/499/files",
+      "secondaryLandingPage": "https://www.iowacourts.gov/for-the-public/court-forms/",
+      "urlKind": "OFFICIAL_LANDING_PAGE",
+      "host": "www.iowacourts.gov",
+      "hostAllowed": true,
+      "hostAllowedCheckedWith": "hostAllowed() from scripts/lib/official-host-policy.mjs returned true",
+      "exactBinaryUrlEstablished": false,
+      "whyNotEstablished": "The Iowa Judicial Branch serves each form from an opaque address of the shape https://www.iowacourts.gov/collections/<collectionId>/files/<fileId>/embedDocument. Form 1 is at collections/738/files/1569 and Form 3 at collections/721/files/1504; the two ids are unrelated to the form number and unrelated to each other, so Form 2's pair cannot be derived from them. Producing one would be a guessed address, and the stop condition on this lane forbids it.",
+      "intendedPacketRole": "primary_filing",
+      "statewideOrLocal": "statewide",
+      "handoffOperation": "ACQ",
+      "hostThatOwnsTheNextStep": "www.iowacourts.gov — the Iowa Judicial Branch forms collection",
+      "nextOperationThatOwnsIt": "ACQ fetches the landing page https://www.iowacourts.gov/collections/499/files, reads the entry whose printed link text names Rule 2.86 Form 2, and records the collections/<n>/files/<m>/embedDocument address it links to. One page fetch settles it; no clerk contact is justified.",
+      "identityConfidence": "established_from_publisher_download_filename_and_route_statute",
+      "identityEvidence": "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json and data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json record the judiciary download filename \"r286_f2_expngmisd901c3_6F5CCD02F88E6.pdf\" — the publisher's own stem encodes rule 2.86, form 2, expunge misdemeanor, 901C.3. data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json routeKey obligation:track-pathway:IA:ia-901c3:misdemeanor-901c3 records statuteOrAuthority \"Iowa Code § 901C.3\" and participantFacingInstrument \"primary_filing: Rule 2.86 Form 2\". The committed compiled profile carries two extracts of the 901C.3 eligibility recital — \"The misdemeanor criminal convictions covered by this application are eligible for expungement. NOTE: Convictions under Iowa Code sections 123.46, 123.47(3) … are ineligible.\" — which is Form 2's own item 4 and appears in no other Rule 2.86 form. The form number and the statute are settled; the address is not.",
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "src/lib/rcap-engine/compiled/profiles/IA-iowa.json",
+        "data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json"
+      ],
+      "whatIDidNotRead": "Any face of Form 2, of any edition. It is the one Rule 2.86 form with no committed extraction and no mounted copy.",
+      "contradictsCommittedRecord": "SOURCE_BACKLOG_CLASSIFICATION.json artifact IA-RULE-2.86-FORM-2 records identityConfidence confirmed_from_filename_encoding_components_inferred against sha256 df3380d9ff4ea9272be6cf12b58a3c6cbbab93dead855ed1c97280aa2dc24d12. A filename is not a face. The reconciler already refuses that grade, and I concur it must not bind."
+    },
+    {
+      "itemId": "ia-901c3-set::official-form:Rule 2.86 Form 2 attached sheet",
+      "sourceId": "official-form:Rule 2.86 Form 2 attached sheet",
+      "jurisdiction": "IA",
+      "familyIds": [
+        "ia-901c3-set"
+      ],
+      "status": "STOPPED",
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "verdict": "PROBABLY_NOT_A_DOCUMENT_BUT_UNCONFIRMED_BLOCKED_BEHIND_FORM_2",
+      "issuingAuthority": "Iowa Judicial Branch",
+      "officialTitle": null,
+      "officialTitleWhyNull": "No printed title is recorded anywhere and no face was read. The label is descriptive, not a title.",
+      "formNumber": null,
+      "revision": null,
+      "officialUrl": null,
+      "urlKind": "UNDETERMINED_PENDING_A_READ_OF_FORM_2",
+      "intendedPacketRole": "continuation",
+      "intendedPacketRoleEvidence": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json records participantFacingInstrument \"primary_filing: Rule 2.86 Form 2; attachment: ia-901c3-attachment-2; continuation: Rule 2.86 Form 2 attached sheet; certificate_of_service: Certification of Service by Mailing or Delivery\" — the census itself models this as a continuation OF Form 2, not as an independent filing.",
+      "statewideOrLocal": "statewide",
+      "handoffOperation": "ACQ",
+      "hostThatOwnsTheNextStep": "www.iowacourts.gov — blocked behind the same landing-page read as Form 2",
+      "nextOperationThatOwnsIt": "ACQ acquires Form 2 once. DISC then reads its faces and records whether the attached sheet is a numbered page of Form 2 (in which case this label resolves like the certification of service and should be dropped from the required-source list) or a separately published continuation sheet with its own address.",
+      "dispatchNothingSeparately": "Do not open a second acquisition for this label. Whatever it is, it is inside or beside Form 2, and one fetch answers both.",
+      "identityConfidence": "not_established_read_impossible",
+      "identityEvidence": "None that reaches the document. What is known bounds the question rather than answering it: on Rule 2.86 Form 4 and Form 5, both read here in full, there is no separate attached sheet — each is exactly two pages, the overflow content is printed inside the form, and the page footers read \"Page 1 of 2\" and \"Page 2 of 2\". Form 2 is longer than its siblings (331574 bytes against 288751 and 288129) and is the multiple-misdemeanor form, so an in-form continuation page listing further convictions is the natural reading. That is a prediction from siblings and file size, not a read, and it must not be recorded as an identity.",
+      "evidencePaths": [
+        "Expungement_AI_RCAP_Master_Library_Edition_1::STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+        "Expungement_AI_RCAP_Master_Library_Edition_1::STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json"
+      ],
+      "priorPredictionConcurredWith": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC7_SIBLING_DOCUMENT_READS.json records the same prediction and labels it a prediction. Two lanes predicting the same thing is not a read, and this row does not upgrade it."
+    },
+    {
+      "itemId": "ia-dci77-set::official-form:DCI-76 Criminal History Record Check Billing Form",
+      "sourceId": "official-form:DCI-76 Criminal History Record Check Billing Form",
+      "jurisdiction": "IA",
+      "familyIds": [
+        "ia-dci77-set"
+      ],
+      "status": "COMPLETED",
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "verdict": "BUNDLE_COMPONENT_IDENTITY_AND_EXACT_BINARY_URL_ALREADY_SETTLED",
+      "issuingAuthority": "Iowa Department of Public Safety, Division of Criminal Investigation",
+      "officialTitle": "Criminal History Billing and Request Forms (fillable) — the combined DCI-76 billing form and DCI-77 request form",
+      "formNumber": "DCI-76",
+      "formNumberNote": "DCI-76 and DCI-77 are two numbered forms published as one three-page fillable binary. The label is a component of the bundle, not a separate download.",
+      "revision": null,
+      "revisionWhyNull": "No revision is printed in any committed record and the bytes were not opened here.",
+      "officialUrl": "https://dps.iowa.gov/media/152/download?inline",
+      "urlKind": "DIRECT_OFFICIAL_BINARY_BUNDLE",
+      "host": "dps.iowa.gov",
+      "hostAllowed": true,
+      "hostAllowedCheckedWith": "hostAllowed() from scripts/lib/official-host-policy.mjs returned true",
+      "intendedPacketRole": "agency_billing_form",
+      "statewideOrLocal": "statewide",
+      "handoffOperation": "NONE_ALREADY_ACQUIRED",
+      "exactBinaryUrlEstablished": true,
+      "newManifestEntryNeeded": false,
+      "whyNoNewManifestEntry": "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json already carries sourceId \"dci-76-and-dci-77-criminal-history-record-check-billing-and-request-forms-fillable-source-\" at this address with expectedSha256 321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516, and its obligationKeys already name BOTH halves. The hosted workflow fetched it: run 33603361022 job 100161934628, HTTP 200, application/pdf, 1076864 bytes, hash MATCHES, acroform, 3 pages.",
+      "acquireTheBundleOnceNeverThePage": "One address serves both obligations. Dispatching DCI-76 and DCI-77 as two acquisitions fetches the same 1 MB binary twice and records two sources where one exists.",
+      "identityConfidence": "confirmed_from_committed_acquisition_receipt_and_pinned_hash_agreement",
+      "identityEvidence": "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json records issuingAuthority \"Iowa Department of Public Safety, Division of Criminal Investigation\", formNumber \"DCI-76 / DCI-77\" and officialTitle \"Criminal History Billing and Request Forms (fillable)\" against this exact address, with obligationKeys naming both the record-check request and \"The billing form that accompanies the DCI-77 request.\" data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json records the fetch returning a 3-page acroform whose sha256 equals the pin.",
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json",
+        "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json"
+      ],
+      "whatIDidNotRead": "The bytes. No body is committed and dps.iowa.gov is not reachable from this environment. The page on which DCI-76 rather than DCI-77 is printed is therefore unrecorded; a builder needs that page split before it can place either form.",
+      "openQuestionForTheNextLane": "Which of the three pages carries DCI-76 and which carries DCI-77. One read of the acquired binary settles it and it is not settled here."
+    },
+    {
+      "itemId": "ia-dci77-set::official-form:DCI-77 Criminal History Record Check Request Form",
+      "sourceId": "official-form:DCI-77 Criminal History Record Check Request Form",
+      "jurisdiction": "IA",
+      "familyIds": [
+        "ia-dci77-set"
+      ],
+      "status": "COMPLETED",
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "verdict": "BUNDLE_COMPONENT_IDENTITY_AND_EXACT_BINARY_URL_ALREADY_SETTLED",
+      "issuingAuthority": "Iowa Department of Public Safety, Division of Criminal Investigation",
+      "officialTitle": "Criminal History Billing and Request Forms (fillable) — the combined DCI-76 billing form and DCI-77 request form",
+      "formNumber": "DCI-77",
+      "formNumberNote": "The request half of the same three-page binary that carries DCI-76.",
+      "revision": null,
+      "revisionWhyNull": "No revision is printed in any committed record and the bytes were not opened here.",
+      "officialUrl": "https://dps.iowa.gov/media/152/download?inline",
+      "urlKind": "DIRECT_OFFICIAL_BINARY_BUNDLE",
+      "host": "dps.iowa.gov",
+      "hostAllowed": true,
+      "hostAllowedCheckedWith": "hostAllowed() from scripts/lib/official-host-policy.mjs returned true",
+      "intendedPacketRole": "agency_record_check_request",
+      "statewideOrLocal": "statewide",
+      "handoffOperation": "NONE_ALREADY_ACQUIRED",
+      "exactBinaryUrlEstablished": true,
+      "newManifestEntryNeeded": false,
+      "whyNoNewManifestEntry": "The same manifest entry serves this obligation; see the DCI-76 row.",
+      "sameBinaryAs": "ia-dci77-set::official-form:DCI-76 Criminal History Record Check Billing Form",
+      "identityConfidence": "confirmed_from_committed_acquisition_receipt_and_pinned_hash_agreement",
+      "identityEvidence": "Identical to the DCI-76 row: the manifest entry names both halves in its obligationKeys and resolves them to one address and one hash.",
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json",
+        "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json"
+      ],
+      "whatIDidNotRead": "The bytes, for the same reason.",
+      "openQuestionForTheNextLane": "The page split, as above."
     },
     {
       "itemId": "il-cannabis-vacate-set::official-form:CXP Additional Cannabis Convictions",
@@ -719,5 +1169,32 @@
     "theCostOfIt": "The claim ledger is one-shot per subject: a released subject cannot be re-asserted, so the re-assert returned ALREADY_RELEASED for all 43. DISC03 therefore holds no live claim while its rows stand. The ledger was NOT hand-edited to restore them; it still verifies as CLAIM_LEDGER_OK with 512 claims.",
     "whyThisIsRecordedRatherThanRepaired": "Editing the claim ledger by hand to un-release a spent grant would defeat the fail-closed mechanism it exists to provide. The irregularity is reported instead so Captain can decide whether DISC03 needs re-dispatch under fresh grants.",
     "rowsAreStillValid": "The resolution reads only committed inventory and does not depend on holding the claim at read time. Every row is reproducible from the evidencePaths it names."
-  }
+  },
+  "passes": [
+    {
+      "pass": 1,
+      "worker": "VF-SRC-A",
+      "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+      "itemsWorked": 43,
+      "roster": "the DISC03 roster as committed on 2026-09-01",
+      "outcome": "43 rows, all STOPPED, plus the claimLifecycleIrregularity recorded below."
+    },
+    {
+      "pass": 2,
+      "worker": "FABLE-DISC03",
+      "baseSha": "ff0878568",
+      "itemsWorked": 9,
+      "roster": "the nine Iowa obligations ACTIVE_ASSIGNMENTS.json names for DISC03 at captain HEAD ff0878568",
+      "outcome": "7 COMPLETED, 2 STOPPED.",
+      "fullReturn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC03_SOURCE_IDENTITY.json",
+      "whyBothPassesAreInOneFile": "The two rosters are disjoint — no itemId appears in both — and the lane contract names one rows.json per lane. Pass 1's rows are preserved byte-for-byte; pass 2 appends. Overwriting pass 1 would have destroyed 43 valid determinations to record 9 new ones.",
+      "theGrantsHadToBeReopened": "All nine of pass 2's grants had been released at 2026-09-01T07:58 as collateral to the pass 1 gate incident described in claimLifecycleIrregularity, without ever being worked. Each was re-opened with claim.mjs --reissue and a stated reason before any evidence was read; the reissues are on the ledger."
+    }
+  ],
+  "familiesAdvancedByPass2": [
+    "ia-12346-set",
+    "ia-901c2-set",
+    "ia-901c3-set",
+    "ia-dci77-set"
+  ]
 }
