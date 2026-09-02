@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `89d29c164c31233211765a41bf68695e1df700d0`
+**Minimum required ancestor:** `fee3944a416daba578eff788e76212df980cd4e5`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -181,8 +181,8 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### va_seal_petition_misdemeanor-set
 
-- canonical `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf` — `9cc63cbd647e477c8da08af8f67bd922953477c8ebc6d2608748724cf22b7eae`
-- boundary `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf` — `4dc94926306cddcdcedd28897a5db55dab2539170c6097bfa79e6a3f323350aa`
+- canonical `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf` — `adacb67024a0348404f830d3dc34a32b7be55c36df8c7672d9de5c6ce1c40101`
+- boundary `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf` — `2770eb7d85024a64a013efd54768cb4ae5924a172ba704b51bcb6936a6d1916b`
 - expected pages 8 · requested scale 2.5
 - built by (no builder lane recorded)
 
