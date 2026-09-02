@@ -1315,7 +1315,24 @@ const remaining = families.filter((f) => !f.activeOwner && f.state !== "LEGITIMA
 const sourceReady = remaining.filter((f) => f.state === "SOURCE_READY");
 const sourceBlocked = remaining.filter((f) => f.state === "SOURCE_BLOCKED" && f.legalInputStatus !== "OPEN_LEGAL_INPUT");
 const legalBlocked = remaining.filter((f) => f.legalInputStatus === "OPEN_LEGAL_INPUT");
-const verifyPending = remaining.filter((f) => f.state === "VERIFY_PENDING");
+/*
+ * A family the owner has ruled delivers the wrong instrument still owes a read.
+ *
+ * WRONG_DELIVERY_TYPE is not a resting place. The owner's ruling settles that
+ * the current artifact may not ship; what it does not settle is which of the
+ * treatments replaces it, and that is a question about the packet that only an
+ * independent read of the packet can answer. Leaving these out of the
+ * verification pool left rcap-sc-custom-pleading in the worst possible state --
+ * under an owner finding, out of the proven set, and grantable to nobody, so
+ * the read that would confirm and refine the finding could not be dispatched at
+ * all. A verifier sent anyway was refused NOT_GRANTED and correctly stopped.
+ *
+ * So they are dealt like any other family awaiting a verdict. The ruling stands
+ * whatever the read returns: a verdict cannot restore a family the owner has
+ * ruled against, because the ruling is about what the route may deliver and the
+ * verdict is about how good the delivery is.
+ */
+const verifyPending = remaining.filter((f) => f.state === "VERIFY_PENDING" || f.state === "WRONG_DELIVERY_TYPE");
 const repairRequired = remaining.filter((f) => f.state === "FAIL_REPAIR_REQUIRED");
 
 /*

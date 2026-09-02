@@ -165,6 +165,69 @@ function transfer(ledgerPath, fromLane, toLane, subjectId, reason) {
   console.log(`TRANSFERRED ${subjectId} ${from} -> ${toLane} (was released ${previouslyReleasedAt}) — ${reason}`);
 }
 
+/*
+ * Mint a grant where none has ever existed.
+ *
+ * Every other operation here moves an existing grant around, and grants
+ * themselves are minted by the dispatch packer in generate.mjs when it deals
+ * work to lanes. The packer only deals families that are VERIFY_PENDING or
+ * FAIL_REPAIR_REQUIRED, which is correct for a queue and leaves a hole exactly
+ * where it hurts: a COMPLETE_PACKET_PROVEN family can be granted to nobody.
+ *
+ * That hole has now cost three lanes. A verifier sent to re-read
+ * rcap-sc-custom-pleading after an owner-level finding got NOT_GRANTED and
+ * rightly stopped rather than reading unclaimed -- so a family under active
+ * suspicion was untestable by anyone. The per-route delivery lane got the same
+ * refusal on both first-cohort families and had to work unclaimed at Captain's
+ * direction. In each case the worker behaved correctly and the ledger had no
+ * way to say yes.
+ *
+ * --reissue cannot fill it: it re-opens a released grant and dies NOT_GRANTED
+ * when there is nothing to re-open. --transfer cannot: it moves a grant that
+ * exists. So this mints one, under the same discipline as those two rather than
+ * a weaker one:
+ *
+ *   - a reason is required, because a grant is how a worker is authorised to
+ *     write a family, and one that appears without a stated cause is
+ *     indistinguishable from a retry that quietly succeeded;
+ *   - it refuses when any claim already exists for that subject and kind, so it
+ *     can never create the duplicate that would make a family permanently
+ *     AMBIGUOUS_GRANT and unassertable by everyone;
+ *   - the lane must resolve to a known kind, so the minted grant's laneKind is
+ *     derived rather than asserted;
+ *   - and it is logged to ledger.grants with its author and cause, so a grant
+ *     that was minted rather than dealt is visible as such forever.
+ */
+function grant(ledgerPath, lane, subjectId, reason) {
+  const { absolute, ledger } = read(ledgerPath); validate(ledger);
+  if (!reason) die(10, `GRANT_NEEDS_REASON: minting a grant for ${subjectId} requires --reason "<why>"`);
+  const kind = LANE_KIND(lane);
+  if (kind === "unknown") die(4, `UNKNOWN_LANE: ${lane}`);
+  const subjectType = kind.startsWith("source-") ? "source-obligation" : "packet-family";
+  const existing = (ledger.claims ?? []).filter((c) => c.subjectType === subjectType && c.subjectId === subjectId && c.laneKind === kind);
+  if (existing.length) {
+    die(16, `ALREADY_GRANTED: ${subjectId} already has a ${kind} grant on ${existing[0].lane}`
+      + `${existing[0].released ? " (released — use --reissue to re-open it, or --transfer to move it)" : " and it is live"}`);
+  }
+  const claim = {
+    subjectType, subjectId, itemId: null,
+    familyId: subjectType === "packet-family" ? subjectId : null,
+    familyIds: subjectType === "packet-family" ? [subjectId] : [],
+    sourceId: subjectType === "source-obligation" ? subjectId : null,
+    operation: kind === "repair" ? "rapid-repair" : kind,
+    lane, laneKind: kind, released: false, releasedAt: null
+  };
+  ledger.claims = [...(ledger.claims ?? []), claim];
+  ledger.grants = [...(ledger.grants ?? []), {
+    lane, subjectType, subjectId, operation: claim.operation, laneKind: kind,
+    grantedAt: new Date().toISOString(), grantedBy: "Captain", reason,
+    whyThisWasMintedRatherThanDealt: "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+  }];
+  ledger.claimsDigest = claimsDigest(ledger.claims);
+  fs.writeFileSync(absolute, `${JSON.stringify(ledger, null, 2)}\n`);
+  console.log(`GRANTED ${lane} ${subjectId} (${kind}) — ${reason}`);
+}
+
 function status(ledgerPath, lane) {
   const { ledger } = read(ledgerPath); validate(ledger);
   const claims = ledger.claims.filter((c) => (!lane || c.lane === lane) && !c.released);
@@ -181,5 +244,6 @@ if (mode === "--assert" && lane && subjectId) assertClaim(ledgerPath, lane, subj
 else if (mode === "--release" && lane && subjectId) release(ledgerPath, lane, subjectId);
 else if (mode === "--reissue" && lane && subjectId) reissue(ledgerPath, lane, subjectId, reason);
 else if (mode === "--transfer" && lane && subjectId && args[3]) transfer(ledgerPath, lane, subjectId, args[3], reason);
+else if (mode === "--grant" && lane && subjectId) grant(ledgerPath, lane, subjectId, reason);
 else if (mode === "--status") status(ledgerPath, lane);
-else die(2, "usage: claim.mjs [--ledger path] --assert|--release <LANE> <familyId|itemId> | --reissue <LANE> <subjectId> --reason \"<why>\" | --transfer <FROM_LANE> <TO_LANE> <subjectId> --reason \"<why>\" | --status [LANE]");
+else die(2, "usage: claim.mjs [--ledger path] --assert|--release <LANE> <familyId|itemId> | --grant <LANE> <subjectId> --reason \"<why>\" | --reissue <LANE> <subjectId> --reason \"<why>\" | --transfer <FROM_LANE> <TO_LANE> <subjectId> --reason \"<why>\" | --status [LANE]");
