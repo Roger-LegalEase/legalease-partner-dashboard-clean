@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `4b1d36fd58326d33c2c5a65fbbccab754a7d1601`
+**Minimum required ancestor:** `c1eee0dfdc97ff8093ad19c42e17100ae531745d`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -219,7 +219,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf` — `d477bc4a7f18aaac153c56760fc11dca69a317dc49b2eff7362b1d41ba27b4e4`
 - boundary `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf` — `27ed521c46fc25fd8edb60501a47322db459aa2196b0b4fd54a6fd5182d12860`
 - expected pages 4 · requested scale 2.5
-- built by VF04
+- built by VF05
 
 ## What you check, per family
 

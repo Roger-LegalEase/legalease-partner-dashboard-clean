@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `4b1d36fd58326d33c2c5a65fbbccab754a7d1601` (or the newer dispatch base)
+**Minimum required ancestor:** `c1eee0dfdc97ff8093ad19c42e17100ae531745d` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family ca-1203-41-set \
   --codex-cloud \
-  --minimum-captain-sha 4b1d36fd58326d33c2c5a65fbbccab754a7d1601
+  --minimum-captain-sha c1eee0dfdc97ff8093ad19c42e17100ae531745d
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -60,7 +60,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 - `ca-1203-41-set` — failing: requiredOptionsMissing
 - `composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59`
-- `ri_nonconviction_sealing-set`
+- `vt_seal_pardon-set`
 
 ## What you receive
 
@@ -75,10 +75,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
 - `data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ca-1203-41-set.mjs`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59.mjs`
-- `scripts/build-census-v1-ri_nonconviction_sealing-set.mjs`
+- `scripts/build-census-v1-vt_seal_pardon-set.mjs`
 
 ## Never write here
 

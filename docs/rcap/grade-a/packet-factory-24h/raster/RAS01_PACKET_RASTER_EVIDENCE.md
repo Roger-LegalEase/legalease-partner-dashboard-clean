@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `4b1d36fd58326d33c2c5a65fbbccab754a7d1601`
+**Minimum required ancestor:** `c1eee0dfdc97ff8093ad19c42e17100ae531745d`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -153,17 +153,17 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### ri_nonconviction_sealing-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-canonical.pdf` — `e8ba4ef7f10b867113072a9f2febfaeb0a2d3f31b26a5d639636402b095633f2`
-- boundary `data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-boundary.pdf` — `49cdd9b2c6ad0bd2c0b0f6952486e4b3f6e61cc0986b7687d383f09ad6916358`
+- canonical `data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-canonical.pdf` — `e0af21e5c1f4b8014d4d2fb224e99940996328ef69aefd41153095e7166fdc6d`
+- boundary `data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-boundary.pdf` — `fd9ebb9561919129b40d75d20dd76fbaf777f94141fba0b3caee7220af2df923`
 - expected pages 4 · requested scale 2.5
-- built by FIX01
+- built by VF12
 
 ### ut_pet_conviction-set
 
 - canonical `data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/canonical.pdf` — `ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6`
 - boundary `data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/boundary.pdf` — `b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765`
 - expected pages 19 · requested scale 2.5
-- built by VF01
+- built by VF02
 
 ### ut_pet_no_charges-set
 
@@ -198,7 +198,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/canonical.pdf` — `39d9ac94bb59f196f4e236ca2a11f30507b7680a103ef95b6cbe060e5c1684f8`
 - boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/boundary.pdf` — `010b7fdedd026da5d014460185ecf1c17cf7801f51eea877feedddcae7d4ddf8`
 - expected pages 6 · requested scale 2.5
-- built by FIX02
+- built by FIX01
 
 ### wa_vac_domestic_violence-set
 
