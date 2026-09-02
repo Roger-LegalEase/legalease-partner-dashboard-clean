@@ -36,6 +36,14 @@ The bottom of page 2 has two boxes, one for each index finger. Page 1 calls legi
 
 > Time to process a request varies. If your request qualifies and the disposition has been reported to the Department of Justice your request will be processed promptly. If the disposition has not been submitted by the court, prosecutor or arresting agency, staff will need to obtain the disposition, make sure the disposition qualifies the removal of the record, update the criminal history and then process the request. If you have documentation regarding the dismissal of the offense(s) involved in your request, you should include copies with the request to speed processing.
 
+## What this costs
+
+**This packet does not know, and it will not guess.** Neither page of DJ-LE-250B says anything about a fee, a cost or a payment — not the Bureau's instruction page and not the request page — and no source held in this repository states a fee for a fingerprint record removal request, states that there is none, or describes a waiver. Silence on the form is not the same as a rule that the request is free, and writing an unsourced figure into a filing instruction would be worse than leaving it out.
+
+**Ask the office you are sending this to, before you send it.** That is the **Crime Information Bureau of the Wisconsin Department of Justice, Criminal History Unit** — the same office named above, whose mailing address the form prints for you in instruction 1 on page 1. Ask whether any fee applies to this request and, if one does, whether it can be waived. Instruction 1 also says this form may not be submitted by fax.
+
+The address and the fax sentence are on the paper in front of you rather than quoted here, because instruction 1 is set in the font this file cannot extract readably (see `reports/caption-evidence.json`) and this packet does not retype what it cannot quote. Read them off page 1.
+
 ## What you must do before you send this
 
 1. **Complete the arrest and conviction table** — every box of every row you use.

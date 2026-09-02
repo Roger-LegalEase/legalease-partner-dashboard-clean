@@ -875,6 +875,43 @@ function participantInstructions(maps, rbf, census) {
   out.push("> " + PLAIN_QUOTES.find((q) => q.where.includes("2b")).quote, "");
   out.push("> " + PLAIN_QUOTES.find((q) => q.where.includes("instruction 7")).quote, "");
 
+  /*
+   * What this costs.
+   *
+   * VF09 failed FEE_AND_WAIVER on true silence: this file carried no fee, cost,
+   * charge or payment statement anywhere, so a participant could not tell "no
+   * fee" from "not mentioned". The captain's determination
+   * (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json)
+   * settles what closes it: a sourced amount, a sourced statement that filing is
+   * free, or a statement that no held source establishes the fee plus a specific
+   * checkable authority the participant can actually reach.
+   *
+   * The third branch is the only honest one here. No held source in this
+   * repository states a fee, a no-fee rule or a waiver route for a DJ-LE-250B
+   * request, and the form's own two pages say nothing about cost. So this states
+   * the open question and names the office that answers it -- which is the same
+   * office the request is sent to, whose mailing address the form prints in
+   * instruction 1 on page 1. No amount is stated, and it is NOT claimed that the
+   * request is free: neither is established.
+   */
+  out.push("## What this costs", "");
+  out.push(
+    "**This packet does not know, and it will not guess.** Neither page of DJ-LE-250B says anything about a fee, a "
+    + "cost or a payment — not the Bureau's instruction page and not the request page — and no source held in this "
+    + "repository states a fee for a fingerprint record removal request, states that there is none, or describes a "
+    + "waiver. Silence on the form is not the same as a rule that the request is free, and writing an unsourced figure "
+    + "into a filing instruction would be worse than leaving it out.", ""
+  );
+  out.push(
+    "**Ask the office you are sending this to, before you send it.** That is the **Crime Information Bureau of the "
+    + "Wisconsin Department of Justice, Criminal History Unit** — the same office named above, whose mailing address "
+    + "the form prints for you in instruction 1 on page 1. Ask whether any fee applies to this request and, if one "
+    + "does, whether it can be waived. Instruction 1 also says this form may not be submitted by fax.", "",
+    "The address and the fax sentence are on the paper in front of you rather than quoted here, because instruction 1 "
+    + "is set in the font this file cannot extract readably (see `reports/caption-evidence.json`) and this packet does "
+    + "not retype what it cannot quote. Read them off page 1.", ""
+  );
+
   out.push("## What you must do before you send this", "");
   out.push("1. **Complete the arrest and conviction table** — every box of every row you use.");
   out.push("2. **Fill in every item in the table below.** Each names the section of the form and the box.");
