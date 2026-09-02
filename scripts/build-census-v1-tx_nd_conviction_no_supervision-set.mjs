@@ -801,6 +801,7 @@ const COMPOSED_COMPONENTS = {
       L.push("- Your sentence is not complete, or you are not sure of the completion date.");
       L.push("- You are not sure whether the misdemeanour was punishable by fine only, which decides whether you wait at all or wait two years.");
       L.push("- You have any other conviction or deferred adjudication other than a fine-only traffic offence, or you are not sure.");
+      L.push("- The prosecutor opposes the petition or requests a hearing.");
       L.push("- The court has made an affirmative finding of family violence, or any offence on the Sec. 411.074 exclusion list is in your history.");
       L.push("- You are not a United States citizen.", "");
       L.push("DOCUMENTS TO GET FIRST, AND WHO HAS THEM.");
@@ -916,6 +917,7 @@ const INSTRUCTIONS = {
     "- your sentence is not complete, or you are not sure of the completion date;",
     "- you are not sure whether the misdemeanour was punishable by fine only, which decides whether you wait at all or wait two years;",
     "- you have any other conviction or deferred adjudication other than a fine-only traffic offence, or you are not sure;",
+    "- **The prosecutor opposes the petition or requests a hearing.**",
     "- the court has made an affirmative finding of family violence, or any offence on the § 411.074 exclusion list is in your history;",
     "- you are not a United States citizen.",
     "",
