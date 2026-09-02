@@ -34,5 +34,52 @@
    ],
    "whatThisDoesNotChange": "Eleven of the fifteen obligations pass on measurement made in this lane, including every source digest recomputed from the Master Library bytes and both artifact hashes recomputed from the PDF bytes. The packet's fill is sound; its participant-facing instructions and two blank dispositions are not."
   }
- ]
+ ],
+ "fableVcAppend": {
+  "worker": "FABLE-VC",
+  "lane": "VF07",
+  "appendedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+  "appended": [],
+  "note": "FABLE-VC returned no FAIL_REPAIR_REQUIRED on VF07. ct-missed-erasure-set is BLOCKED_LEGAL_INPUT with three failing obligations, recorded below rather than in repairAssignments so no repair lane picks it up while its legal inputs are open; wv_conv_single_misdemeanor-set refused at the claim gate and was not read. Existing entries untouched.",
+  "blockedFamiliesWithActionableObligations": [
+   {
+    "itemId": "ct-missed-erasure-set",
+    "lane": "VF07",
+    "verdict": "BLOCKED_LEGAL_INPUT",
+    "notARepairAssignmentYet": "This family is blocked on two recorded legal inputs: DESPP's form and manner for a § 54-142t(g) submission (CT.memo.json unresolvedQuestions[0], impact build_blocker) and Connecticut's state legal-design review, recorded as missing_from_supplied_corpus and a release_blocker. Whether DESPP-0847-C governs this route cannot be answered without the second.",
+    "verifiedBy": "FABLE-VC",
+    "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-missed-erasure-set--official-pdf-fill",
+    "failedProofObligations": [
+     "SOURCE_IDENTITY",
+     "REQUIRED_BEFORE_FILING",
+     "ARTIFACTS"
+    ],
+    "perObligation": {
+     "SOURCE_IDENTITY": {
+      "measuredDetail": "source-receipt.json bindingMethod says the composed pages are grounded on the named legal-design records 'and nothing else', and documents is []. The delivered page now quotes 63 words from DESPP-0847-C and instructs the participant to act on them. That document is bound by SHA-256 nowhere in the packet. Its bytes are sound: 08658dc45d7d41c20a26dcab54fff8756302e85bef7f4d519d9c0a3d4e4fbcfc, equal to its committed corpus index entry, verified here.",
+      "whatRepairMustDo": "Record DESPP-0847-C in source-receipt.json with its digest, byte length and role, and stop saying 'and nothing else'. Compare vt_seal_pardon-set, which prints the digest of the instruction sheet it quotes in the instructions themselves."
+     },
+     "REQUIRED_BEFORE_FILING": {
+      "measuredDetail": "The delivered page tells the participant to TREAT AS A REQUIREMENT a rule the committed CT memo classifies as unresolved with impact release_blocker on participant_instructions (unresolvedQuestions[2]: 'Treat as unresolved rather than as a rule'), and takes that rule from a form captioned to Conn. Gen. Stat. § 54-142a Clean Slate erasure while this route is § 54-142t(g) — the sibling-section inference DET-FEE-AND-WAIVER-001 amendment3.theTest forbids. Separately, participant-instructions.md does not carry the date rule at all, so a participant working from the instructions file orders a record the delivered page says will get their request denied.",
+      "whatRepairMustDo": "Reconcile the packet with the memo rather than around it: either the memo's unresolvedQuestions[2] is amended by whoever is entitled to amend it, or the packet returns the point to 'unresolved, confirm with DESPP'. Either way the instructions file and the delivered page must say the same thing."
+     },
+     "ARTIFACTS": {
+      "measuredDetail": "product-wiring.json declares the primary_filing component at 814530c39586e9e52573eb081a3f262e559680d1f46fb29d20efde68041f0627; fixtures/canonical.pdf hashes 0872021341ca0755e2df874ebea40d601e3ffacbb4be6f5436b642548ffdcb82.",
+      "whatRepairMustDo": "The shared generator fix below; no packet byte moves."
+     }
+    },
+    "whatIsGoodAboutIt": "Twelve of fifteen obligations pass, the nine counters recompute zero, the DESPP-0847-C quotation is verbatim against the bytes, the removed 'ONE RUMOUR TO IGNORE' paragraph is genuinely gone, the fee figures and the self-help boundary come from the committed manifest, and the packet's own approval-request.json states the counsel question rather than burying it.",
+    "sharedGeneratorDefect": {
+     "sharedDefect": "PRODUCT_WIRING_PROPOSAL_DIGEST_IS_NEVER_REFRESHED",
+     "whereTheDefectLives": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+     "theLine": "In the branch that handles an existing product-wiring.json the generator rewrites only `binding` and states in its own comment: 'its identity, its proposal and its non-grants are untouched, and only the binding is rewritten from current evidence'. So proposedRepresentation.components[].sha256 keeps whatever the first write recorded, and any family whose fixtures moved afterwards carries a digest for bytes that no longer exist.",
+     "measuredScope": "80 census-v1 product-wiring.json files declare component digests at base 4f5af4e7. 70 agree with the bytes on disk; 10 do not: pa_pardon_expungement-set, composed-treatment AK set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085, ky_void_seal_marijuana_synthetic_salvia-set, ky_void_seal_controlled_substance-set, vt_seal_pardon-set, vt_seal_nonconviction-set, vt_seal_felony-set, vt_exp_decriminalized-set, ct-missed-erasure-set, va_seal_petition_misdemeanor-set.",
+     "whatRepairMustDo": "Refresh proposedRepresentation.components[].sha256 from reports/rendered-artifacts.json — the file product-wiring.json already names as its own derivedFrom — whenever an existing record is refreshed, or drop the digest from the proposal and let the binding carry it alone. No packet byte moves and no re-raster is needed.",
+     "whoMayNotDoIt": "Not this lane. FABLE-VC may not edit factory scripts or overlay directories; this is named, not repaired.",
+     "notAPacketDefect": "The delivered canonical and boundary bytes are correct and hash exactly to the raster receipt, the RASTER_QUEUE row and reports/rendered-artifacts.json in every one of the three families this lane scored."
+    }
+   }
+  ]
+ }
 }

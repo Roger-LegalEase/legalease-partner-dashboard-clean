@@ -4517,6 +4517,28 @@
           "evidence": "ALREADY_RELEASED exit 9."
         }
       }
+    },
+    {
+      "itemId": "pa_pardon_expungement-set",
+      "assignmentId": "VF12",
+      "laneKind": "independent-verification",
+      "worker": "FABLE-VC",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verdictNote": "BLOCKED_BEFORE_CLAIM is a statement about this LANE, not about this family. extract-verifier-returns.mjs excludes it from the current-verdict contest by name (NON_READING), so recording it here cannot displace the family's real verdict or drop it off a repair queue; it is carried as history so that a reader can see the family was offered to a lane that could not take it.",
+      "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+      "verifiedAtBaseMeans": "the commit this lane stood at when the claim was refused; nothing of this family was read at it",
+      "whyThisReaderIsIndependent": "Not applicable to a family this lane never opened. This row makes no claim about the packet.",
+      "claimAssertion": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF12 pa_pardon_expungement-set --reason \"independent second read\"",
+        "refusal": "GRANTED_ELSEWHERE",
+        "exitCode": 8,
+        "message": "GRANTED_ELSEWHERE: pa_pardon_expungement-set is granted to VF01, not VF12"
+      },
+      "grantState": "The live independent-verification grant is held by VF01 and is not released.",
+      "whatWasNotRead": "No artifact of this family was opened at this base or at any other commit. The assignment's claimRule makes a non-zero assert a full stop, and the brief that dispatched this lane repeats it: report the exact refusal and read none of its artifacts. This lane did not transfer a grant to itself and did not ask anyone to.",
+      "proofObligationsScored": 0,
+      "forCaptain": "No packet artifact of this family was opened: not its fixtures, not its field map, not its instructions, not its receipts, and no verdict is offered on it.",
+      "oneDisclosure": "The brief asked whether this family's product-wiring.json, its raster pin and its bytes now agree. That question was NOT answered for this family. What did happen is that a repository-wide integrity sweep of the product-wiring generator \u2014 run to establish whether the digest staleness found on the three families this lane DOES hold is a per-family defect or a generator defect \u2014 read every census-v1 product-wiring.json in the tree, this family's among them, and hashed the fixture path each names. pa_pardon_expungement-set appears in the resulting list of 10 files whose declared component digest does not equal the bytes, out of 80 that declare one. That is disclosed rather than withheld, because it was read; it is a statement about the generator's output across the tree and it is deliberately not written up as a finding about this family, whose verdict belongs to VF01."
     }
   ],
   "v5xAppend": {
@@ -4654,5 +4676,43 @@
       ]
     },
     "gatesLeftGreen": "verify.mjs 30/30, verify-lane-contracts.mjs 9/9 LANE_CONTRACTS_HELD, verify-claim-ledger.mjs CLAIM_LEDGER_OK, extract-verifier-returns.mjs exit 0."
+  },
+  "assignmentId": "VF12",
+  "arrayKey": "rows",
+  "itemKeyField": "itemId",
+  "whyThisReaderIsIndependent": "FABLE-VC read this lane's grant at base 4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7. It built none of the families it scored, repaired none of them, holds no PF or FIX lane in this dispatch, and had formed no prior view of any of them: no directory under data/rcap-grade-a/ carries a FABLE-VC row before this one. Every hash, page count, box measurement, obligation count and quotation in its rows was recomputed in its own container from the committed bytes and the mounted Master Library. Where a family already carried a verdict, that verdict was treated as evidence of nothing and the family was scored from zero \u2014 which mattered here, because all three families it could claim carried pre-repair FAILs recorded at bases this one descends from.",
+  "fableVcAppend": {
+    "lane": "VF12",
+    "worker": "FABLE-VC",
+    "appendedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+    "rowsAppended": [
+      "pa_pardon_expungement-set"
+    ],
+    "rowsAlreadyPresentAndUntouched": [
+      "vt_seal_dui-set",
+      "dc_seal_conviction-set",
+      "ga-fugitive-j5-set",
+      "md_second_chance_shielding-set",
+      "me-seal-prost-set",
+      "pa_790_nonconviction-set",
+      "ri_marijuana-set",
+      "sc_17_22_950_summary-set",
+      "vt_seal_nonconviction-set",
+      "pa_pardon_expungement-set",
+      "me-screening-set",
+      "va_exp_absolute_pardon-set",
+      "ar-arrest-seal-set",
+      "ca-prop64-set",
+      "ct-cleanslate-petition-set",
+      "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "oh_marijuana_expungement-set"
+    ],
+    "whyThisReaderIsIndependent": "FABLE-VC read this lane's grant at base 4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7. It built none of the families it scored, repaired none of them, holds no PF or FIX lane in this dispatch, and had formed no prior view of any of them: no directory under data/rcap-grade-a/ carries a FABLE-VC row before this one. Every hash, page count, box measurement, obligation count and quotation in its rows was recomputed in its own container from the committed bytes and the mounted Master Library. Where a family already carried a verdict, that verdict was treated as evidence of nothing and the family was scored from zero \u2014 which mattered here, because all three families it could claim carried pre-repair FAILs recorded at bases this one descends from.",
+    "note": "FABLE-VC claimed nothing on VF12: the single item ACTIVE_ASSIGNMENTS names for this lane is granted to VF01. One BLOCKED_BEFORE_CLAIM row was appended and no packet artifact of the family was opened; the one thing that was read is disclosed inside the row. Seventeen earlier rows are untouched.",
+    "overlayDirectoriesModified": 0,
+    "packetsModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "An independent verdict proves a packet is complete or names why it is not. It approves no output and opens no commercial route."
   }
 }

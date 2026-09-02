@@ -2338,6 +2338,284 @@
     "scripts/rcap-packet-completeness/completeness-contract.mjs and verify-packet-completeness.mjs (read, to establish what the counters do and do not measure)"
    ],
    "grantsNothing": "This row opens no commercial route, promotes no family and grants no approval. commercialRoutesOpened 0, productionTouched false, packetsModified 0, overlayDirectoriesModified 0."
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+   "assignmentId": "VF05",
+   "laneKind": "independent-verification",
+   "worker": "FABLE-VC",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+   "whyThisReaderIsIndependent": "FABLE-VC neither built nor repaired nor previously formed a view of this family. It holds no PF or FIX lane in this dispatch. Every number, hash, page count, box measurement and quotation below was recomputed in this container from the committed bytes and the mounted Master Library; nothing is carried over from the builder's, the repairer's, or any prior verifier's report, and the pre-repair FAIL this family carried was treated as stale and re-scored from zero.",
+   "claimAssertion": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF05 composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 --reason \"independent second read\" -> CLAIM_OK (independent-verification, grant set 1d7cdd63293718eb)",
+   "priorRowWasStale": "This family carried FAIL_REPAIR_REQUIRED from lane vf11 at base 7fcfb7d40aafe7bd7350fc735ea09d16524cb757, recorded BEFORE FIX04's repair landed at f998fe43b. That row was not read as evidence; every obligation below is measured afresh at this base.",
+   "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable (codex-cloud mode, --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json, --minimum-captain-sha 8d02a6310f56f1bb56da46c2ccb2af3168b41fa1).",
+   "nineCountersRecomputedHere": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "result": "PASS_COMPLETE, 10/32 written",
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "finding": "One route key, obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085, and it is the same string in product-wiring.json (routeKey and binding.routeKeys), production-field-map.json routeKeys, source-receipt.json routeKeys, and the footer printed on all eight pages of both fixtures.",
+     "evidence": "The key occurs 3 times in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json and 6 times in canonical-route-universe.json; the census row carries statuteOrAuthority 'AS 12.55.085(e)', currentOutputStrategy custom_pleading and requiresLegalReview false. The committed route contract at src/lib/legal-authority/routes/national-report-batch-b.json carries routeKey AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 with statute AS 12.55.085(e) and decisionId NATIONAL-2026-08-28-B-AK-01."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "finding": "Zero document binaries by design (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT); the two committed records the build binds both recompute byte-exact.",
+     "evidence": "sha256sum recomputed in this container: src/lib/legal-authority/routes/national-report-batch-b.json = 883d5bb82f9190dae66d78250e1dc9f1ee3055f580e43e6336ba36c1e30b4522, 25265 bytes; data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json = 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef, 184365 bytes. Both equal source-receipt.json's pinned digest and byteLength. Preflight family_sources_bind returns ok for the zero-source composition."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "finding": "All six declared components are rendered and present, and the three participant-supplied attachments the route contract also names are disclosed as documents to obtain.",
+     "evidence": "The route contract's deliveryGates[0].items names exactly six rendered items; production-field-map.json componentSet and reports/rendered-artifacts.json packets[canonical].documents both list primary_filing, subsection_f_exclusions_statement, compliance_at_discharge_statement, prosecutor_service, proposed_order, filing_instructions, and pdftotext page headings confirm all six on the delivered canonical.pdf. The contract's other packetComponents entries (discharge order and probation-completion record; judgment and sentencing documents; evidence of compliance and rehabilitation as of discharge) are participant attachments and are each named in participant-instructions.md under 'Documents you must obtain before filing'. The no-erasure instruction the contract requires is carried on the filing_instructions page and in the .md."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "finding": "Every fact the platform holds is written and legible on the page it belongs to; nothing else is asserted.",
+     "evidence": "pdftotext of canonical.pdf shows PRINTED NAME, DATE OF BIRTH, MAILING ADDRESS, TELEPHONE and EMAIL on the motion, the participant name in the motion caption and the proposed-order caption, 'For: <name>' on both statement pages, 'filed by <name>' on the service page and 'Prepared for: <name>' on the instructions page. Recomputed invisibleWrites 0. No case fact is prefilled: all five are dotted blanks."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "finding": "All eleven declared required-before-filing items are named in participant-instructions.md, checked against the file rather than counted.",
+     "evidence": "production-field-map.json declares requiredBeforeFilingCount 11 and eleven entries; each entry's printed label was normalized and searched in participant-instructions.md and all eleven matched verbatim (0 missing). The eleven are the five motion blanks, the (f) exclusions statement, the compliance statement and evidence list, the prosecuting-office address, and the two proposed-order caption blanks."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "finding": "The family has no route-determined election to select, and none is left unselected.",
+     "evidence": "production-field-map.json routeSelectionsMade is [] and routeSelectionNote records 'One route, one instrument set... No election control exists on any composed page and no route choice is left to the participant.' No map carries a selectionControls entry; recomputed requiredOptionsMissing 0. The composed pages carry no AcroForm widgets."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "finding": "The packet contains no repeating-row structure, so no row can carry written cells beside blank required cells.",
+     "evidence": "No map declares repeating rows; recomputed incompleteRows 0. Read against the delivered pages: every blank is a single labelled dotted line, not a grid cell."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "finding": "All eleven protected fields carry no ink, on the page as well as in the map.",
+     "evidence": "Eleven refusals across the six maps classed signature_or_date_participant_completion: the motion's signature and signature date, both statements' signature and date pairs, the service page's date-of-service and signature, and the proposed order's determination blank, court signature and court date. pdftotext confirms each renders as a dotted rule with no value, and the proposed order carries the printed caution that every decision on the page is the court's. Recomputed protectedWrites 0."
+    },
+    "ARTIFACTS": {
+     "result": "FAIL",
+     "finding": "The canonical and boundary bytes hash exactly to what the RASTER_QUEUE row, the raster receipt and the family's own reports/rendered-artifacts.json name — all recomputed here. One committed record inside the packet directory disagrees: product-wiring.json's proposedRepresentation.components[0].sha256 is 9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a, and the file it points at hashes 2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad. 9f00da8f07206909... is the PRE-REPAIR digest of that same path at db2585afb (the original build), confirmed by hashing that commit's blob, so the wiring names bytes that no longer exist while its own binding.acceptanceReceipt.boundToCanonicalSha256, three lines further down the same file, names the bytes that do.",
+     "evidence": "Root cause read from the generator: scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs, in the branch that refreshes an existing record, states in its own comment that 'its identity, its proposal and its non-grants are untouched, and only the binding is rewritten from current evidence' — so a family repaired after its wiring was first written keeps a proposal digest nobody refreshes. Repository-wide sweep at this base: 80 census-v1 product-wiring.json files declare component digests; 70 agree with the bytes and 10 do not — pa_pardon_expungement-set, this family, ky_void_seal_marijuana_synthetic_salvia-set, ky_void_seal_controlled_substance-set, vt_seal_pardon-set, vt_seal_nonconviction-set, vt_seal_felony-set, vt_exp_decriminalized-set, ct-missed-erasure-set and va_seal_petition_misdemeanor-set. The repair is one generator change plus a regeneration, not a packet rebuild, and no packet byte needs to move. SCORING CHOICE MADE VISIBLE: a reader who takes 'the record' to mean only the raster receipt and rendered-artifacts.json would score this obligation PASS. This lane takes it to mean every committed record in the packet directory that names the delivered artifact's digest, because that is the record a route would be installed from, and because Captain's dispatch asked in terms whether 'the wiring, the raster pin and the bytes now agree'. They do not. TIMELINE CORROBORATION: lane vf08 read this same family at base ebc44031ec7eab29058bfc79a7bc5e1cff089414 and returned PASS with no failing obligation. That is consistent rather than contradictory — at that base the fixtures still hashed 9f00da8f... and the wiring's proposal digest was correct. The disagreement was created by the repair at f998fe43b moving the bytes while the generator, by its own design, left the proposal alone."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "finding": "Rendered page order matches the packet manifest exactly, in both fixtures.",
+     "evidence": "Per-page first lines of canonical.pdf: p1-2 MOTION FOR BELATED DETERMINATION AND SET-ASIDE, p3 STATEMENT ADDRESSING THE EXCLUSIONS IN AS 12.55.085(F), p4 STATEMENT OF COMPLIANCE AND REHABILITATION AS OF DISCHARGE, p5 COPY FOR THE PROSECUTING ATTORNEY'S OFFICE, p6 PROPOSED ORDER, p7-8 FILING INSTRUCTIONS. That is reports/rendered-artifacts.json packets[].documents order for both fixtures. 8 pages in each fixture, matching RASTER_QUEUE expectedPages 8."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "finding": "No ink crosses a page edge and no two text runs on a line overlap, measured from the delivered bytes.",
+     "evidence": "pdftotext -bbox-layout over both fixtures: canonical 1548 words / boundary 1547 words, 0 page-edge-crossing runs and 0 same-line overlapping pairs in each. Per-page margins on 612x792: left exactly 72.0pt on all eight pages, right margin 69.3-93.0pt, top 64.5-79.0pt. Residual limit: this is text-run geometry from the content stream, not pixels; The receipt's PNG artifact was NOT downloaded and no pixel was read here: workflow-artifact downloads redirect to blob storage the egress proxy denies. What was independently confirmed is the binding: the queue's pinned canonical and boundary SHA-256 pair, the same pair inside the family's own reports/rendered-artifacts.json, the bytes on disk at this base, and the bytes at the receipt's own renderedCommitSha 92239810a4b96c6cffb87929a45cf56d8a20cbf5 are all one value per fixture."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "finding": "The packet names the destination the route records, in the words the record uses, and warns against the wrong proceeding.",
+     "evidence": "Delivered filing_instructions STEP FIVE: 'File in the ORIGINAL criminal case with the court that sentenced you - never as a new civil case.' The committed route contract's deliveryGate item is 'the custom motion, filed in the original sentencing criminal case and not as a new civil petition', and the compiled Alaska profile's filingDestinationRules[7] says 'file a motion in the criminal case asking the court to set aside the conviction under AS 12.55.085(e)'. Under A1 the repository was asked first: the census row records destination 'not recorded' at the level of a named courthouse, which is per-participant, and the packet requires the participant to write the court's name and location into both captions."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "finding": "Measured against DET-FEE-AND-WAIVER-001 theStandard.met[2]: the packet states that no held source establishes a fee for this route, quotes the only thing the repository does say, and names a reachable authority.",
+     "evidence": "A2 scope applied: the route obligation census names compiled-profile:src/lib/rcap-engine/compiled/profiles/AK-alaska.json as a requiredSourceId for this exact route, so the profile is held. Its fee table was read in full: the only row addressed to this route is feeRules[1] / feeRules[14] / sourceSections[8].text, 'SIS set-aside motion  Court motion fees may apply  Filed in the existing criminal case'. No amount for this route exists anywhere in the profile. A3 applied: the '$0' figure in the same table is keyed to Form TF-810 Courtview exclusion, a different mechanism, and was correctly not borrowed. The packet does not stop at the gesture — it discloses the gesture verbatim, says it is not an amount, and sends the participant to the office of the court that sentenced them, which the packet separately makes them identify by name and location. RESIDUAL LIMIT recorded rather than hidden: the determination's proven case named an office AND its telephone number; this packet names an office the participant can identify but no number, because the sentencing court differs per participant and the repository holds no roster."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "finding": "Who must be served is stated from the record; how, which the repository does not establish for this route, is delegated to a named authority.",
+     "evidence": "The route contract names 'Prosecutor service' as a packet component and 'prosecutor service instructions' as a delivery-gate item; the packet's service page is addressed 'To: the prosecuting attorney's office for the original criminal case'. On method, the compiled profile's serviceAndNoticeRules were read in full (8 entries): every one is keyed to AS 12.62.180(b) mistaken-identity sealing or to the TF-810/TF-805/TF-800 Courtview forms, none to the AS 12.55.085(e) motion, so under A3 none establishes this route's answer and none was borrowed. The packet says so on the page and directs the participant to ask the office of the sentencing court how service must be made. That is the SERVICE limb of the determination's appliesTo clause, met."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "finding": "The packet states where self-help ends, on the delivered page and in the instructions, and its list is a superset of the route contract's own.",
+     "evidence": "The contract's four failureDisposition entries all resolve to retained_counsel: probation violations alleged, set-aside previously denied, discharge disputed, offence may fall within the (f) exclusions. All four appear in the packet's 'WHEN TO STOP AND GET HELP INSTEAD OF FILING' list, with the contract's own reasoning carried on the first ('a contested compliance record is advocacy about the facts at discharge, not a form to fill in'), plus two further stops the packet adds — litigating constitutional or collateral consequences beyond the statutory set-aside, and any immigration question."
+    }
+   },
+   "repairerClaimsTested": [
+    {
+     "claim": "A false sentence saying no committed record states the certificate mechanic was replaced with what the compiled Alaska profile records in five structured fields.",
+     "tested": "CONFIRMED, and the count is exact. Searching the profile's parsed structure rather than its text, the certificate fact occurs in exactly five structured fields: packetGenerator.sourceFormStatements[15], packetGenerator.attachments[4], packetGenerator.attachments[12], packetGenerator.filingDestinationRules[7] and packetGenerator.postFilingRules[3]. Two carry 'For a conviction resolved through an SIS, the set-aside is sought by motion in the underlying criminal case once probation is complete; the court issues a certificate that the person can provide to the Department of Public Safety and the clerk.' Three carry 'If an SIS conviction: after successfully completing probation, file a motion in the criminal case asking the court to set aside the conviction under AS 12.55.085(e); obtain the court's certificate and provide copies to the Department of Public Safety and the clerk.'"
+    },
+    {
+     "claim": "Those five fields are keyed to THIS route rather than to a sibling Alaska remedy (the A3 test).",
+     "tested": "CONFIRMED. Three of the five name AS 12.55.085(e) in the sentence itself; the other two are scoped by 'For a conviction resolved through an SIS'. The profile's sibling remedies — TF-810 Courtview exclusion under AS 22.35.030, AS 12.62.180(b) mistaken-identity sealing, AS 47.12.300 juvenile sealing — each carry their own distinct sentences and none was imported."
+    },
+    {
+     "claim": "A STEP SEVEN was added covering the certificate the court issues to DPS and the clerk.",
+     "tested": "CONFIRMED on the delivered bytes. STEP SEVEN is on canonical.pdf page 7, quotes the profile in terms, names it as a required source for this route, and explains why it matters (DPS holds the criminal history record a background check draws on). A second passage under 'WHAT A SET-ASIDE IS, AND IS NOT' repeats the mechanic and ties it back to STEP SEVEN."
+    },
+    {
+     "claim": "FEE_AND_WAIVER still stands in a named sentencing-court office because 'court motion fees may apply' is the determination's own gesture example.",
+     "tested": "CONFIRMED and correct. The determination's notMet[1] is 'the packet gestures at a fee without naming who answers it'. This packet does not gesture: it quotes the gesture as the repository's whole answer, says it is not an amount, and names the office that answers it. That is met[2], not notMet[1]."
+    }
+   ],
+   "observationsNotScoredAsFailures": [
+    "Step numbering differs between the delivered page and the instructions file: the certificate step is STEP SEVEN of seven on canonical.pdf's filing_instructions page and item 8 of 8 in participant-instructions.md, because the .md carries an extra 'Keep the proposed order unsigned' step the page folds into its caution box. Both cover the certificate; no fact differs. Recorded so a reader is not surprised, not scored.",
+    "The build's own build-findings.json still reads 'The committed records name the prosecutor as the office served but record no delivery method, no filing fee and no local formatting rule.' Re-verified against the profile and the route contract at this base and it is accurate for this route; it is not stale."
+   ],
+   "rasterConfirmation": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "33596784162",
+    "jobId": "100142453389",
+    "jobConclusion": "success",
+    "receiptArtifactId": "9833842021",
+    "receiptArtifactName": "rcap-raster-composed-treatment_obligation_runtime-only_AK_set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085-33596784162",
+    "receiptZipSha256": "sha256:bf5095186c770524601faa19338bc9115bf7477b86974cc3f1f5efca87df1dce",
+    "pinnedCanonicalSha256": "2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad",
+    "pinnedBoundarySha256": "d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7",
+    "recomputedFromDiskAtThisBase": "canonical 2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad, boundary d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7 — both equal",
+    "recomputedAtRenderedCommit": "git show 92239810a4b96c6cffb87929a45cf56d8a20cbf5:<path> | sha256sum returns the same two values, so the receipt describes these bytes and not an earlier render",
+    "coverageComplete": true,
+    "coverageBasis": "the family ships one assembled packet, so rendering it covers the family; documentsCovered [canonical.pdf], documentsNotCovered []",
+    "pixelsNotRead": "The receipt's PNG artifact was NOT downloaded and no pixel was read here: workflow-artifact downloads redirect to blob storage the egress proxy denies. What was independently confirmed is the binding: the queue's pinned canonical and boundary SHA-256 pair, the same pair inside the family's own reports/rendered-artifacts.json, the bytes on disk at this base, and the bytes at the receipt's own renderedCommitSha 92239810a4b96c6cffb87929a45cf56d8a20cbf5 are all one value per fixture."
+   }
+  },
+  {
+   "itemId": "vt_seal_pardon-set",
+   "assignmentId": "VF05",
+   "laneKind": "independent-verification",
+   "worker": "FABLE-VC",
+   "verdict": "BLOCKED_LEGAL_INPUT",
+   "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+   "whyThisReaderIsIndependent": "FABLE-VC neither built nor repaired nor previously formed a view of this family. It holds no PF or FIX lane in this dispatch. Every number, hash, page count, box measurement and quotation below was recomputed in this container from the committed bytes and the mounted Master Library; nothing is carried over from the builder's, the repairer's, or any prior verifier's report, and the pre-repair FAIL this family carried was treated as stale and re-scored from zero.",
+   "claimAssertion": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF05 vt_seal_pardon-set --reason \"independent second read\" -> CLAIM_OK (independent-verification, grant set 1d7cdd63293718eb)",
+   "priorRowWasStale": "This family carried FAIL_REPAIR_REQUIRED from lane vf08 at base 36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8 and BLOCKED_LEGAL_INPUT in vf09/rows.json, both recorded before FIX04's repair landed. Neither was read as evidence; every obligation below is measured afresh at this base.",
+   "whyBlockedLegalInput": {
+    "decisive": "The route's own committed treatment says the law does not resolve when the participant may file, and the counsel question raised to resolve it has not returned. A packet that tells a participant how to file, while the record says it is unsettled whether they may file yet, is blocked on a legal input rather than defective in its instructions — and no instruction edit reaches it.",
+    "committedTreatment": "data/rcap-all50/terminalization-treatments/vt.json, trackId vt_seal_pardon: treatment 'exact_supported_deferral', treatmentBasis 'You file the sealing petition yourself in the Criminal Division and the mechanism is in scope, but the statute does not resolve whether a pardoned misdemeanour runs on the three-year clock at § 7602(c) or the seven-year clock at § 7602(d), and that timing question decides when you may file at all.' Its mechanism text adds that because the pardon route sits inside the qualifying-felony subsection the seven-year clock 'appears to apply even to a pardoned misdemeanour; whether a pardoned misdemeanour instead runs on the three-year clock at § 7602(c) is not resolved by the text.'",
+    "counselQuestionStillOpen": "data/rcap-grade-a/packet-factory-24h/VERMONT_REPAIR.json still carries assignment VTL01_VT_PARDON_CLOCK, lane 'counsel-question', requiredOutputs data/rcap-grade-a/codex-cloud/vtl01-vt-pardon-clock/question.json. That directory does not exist at this base: ls data/rcap-grade-a/codex-cloud/ returns seven directories and none of them is vtl01-vt-pardon-clock (nor vtr01/vtr02/vtr03). The question has not been stated, let alone answered.",
+    "andTheDispatchAgrees": "VERMONT_REPAIR.json pardonRoute.disposition reads 'counsel question VTL01; leaves the build and verification queues until answered', and whatHappensToThePacket reads 'vt_seal_pardon-set leaves the build and verification queues until counsel answers. Its rendered artifacts are preserved as review evidence and are not participant-deliverable.' That is the verdict this lane reaches independently and on the same record.",
+    "whyNotFail": "ROW STOP in the assignment: a family blocked by an open legal input is BLOCKED_LEGAL_INPUT, and that is neither a FAIL nor a PASS. The obligation-level failures below are recorded inside proofObligations anyway, so that whoever picks the family up when counsel answers has something to act on rather than prose."
+   },
+   "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed — family_sources_bind reports '3 source(s) do not resolve to exactly one committed index entry: official-form:200-00130, official-form:200-00132, official-form:600-00228'. Diagnosed below under SOURCE_IDENTITY; it is an index-shape defect, not a byte defect.",
+   "nineCountersRecomputedHere": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set",
+    "result": "PASS_COMPLETE, 24/165 written",
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "finding": "One route key, obligation:track-only:VT:vt_seal_pardon, and it is the same string in product-wiring.json, production-field-map.json routeKeys and the footer of participant-instructions.md.",
+     "evidence": "The key occurs once in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json and 3 times in canonical-route-universe.json. The census row carries trackId vt_seal_pardon, packetSetId vt_seal_pardon-set, statuteOrAuthority '13 V.S.A. § 7601(4)(B)(iv); § 7602(a)(2); § 7602(d); § 7602(c); § 7607' and currentOutputStrategy official_pdf_fill, which is the family's implementationStrategy."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "finding": "All four documents the packet relies on recompute byte-exact from the mounted Master Library, including the instruction sheet the fee and service paragraphs are quoted from. The preflight refusal is an index-shape defect and not a byte defect, and is named below so it is not mistaken for one.",
+     "evidence": "Recomputed here against the corpus: 200-00130 = ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed (1535506 bytes); 200-00132 = 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2 (1999317); 600-00228 = 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654 (2871072) — each equal to source-receipt.json's pin and byteLength. The instructions additionally cite 200-00130A at 8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078; that file hashes to exactly that value and matches the committed corpus index entry. NAMED RESIDUAL, RAISED NOT REPAIRED: verify-packet-build-environment.mjs refuses this family at family_sources_bind because each of the three form numbers matches TWO entries in data/rcap-all50/local-source-corpus-index.json — the Master Library path and the byte-identical rcap-d-source-packs-2026-08-12/D1 path, same SHA-256 — and familySources() requires exactly one. This is the id/index-shape class Captain already adjudicated for ar-arrest-seal-set (DET-FEE-AND-WAIVER-001 amendment4.alsoRecorded.arkansasQueueRow: 'the bytes hash exact... the row is wrong and the row is what a reader sees'). No route may promote while its own preflight says NOT_READY, and this lane cannot edit the index or the resolver."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "finding": "Every instrument the census names for this route is rendered and present, in its declared order.",
+     "evidence": "The census row's participantFacingInstrument reads 'petition: 200-00130; stipulation_and_proposed_order: 200-00132; fee_waiver_application: 600-00228; filing_and_expectation_instructions: vt_seal_pardon-filing-and-expectation-instructions-4'. reports/rendered-artifacts.json packets[canonical].documents is ['200-00130','200-00132','600-00228'] and the fourth instrument is participant-instructions.md, which carries the filing and expectation content. Recomputed requiredComponentsMissing 0."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "finding": "All twenty-four writes land, are legible, and sit fully inside the widget rectangle the field map declares for them.",
+     "evidence": "Geometric check run here: each canonicalWrite rect was converted from PDF space to page space and searched for contained text runs in the delivered canonical.pdf. 24 of 24 writes have their value fully inside their own declared rect and 0 have none — docket 123-4-21 Cncr, name, DOB, street, city/state/zip, phone and email across all three forms, including the adjacent 200-00132 pair 34e (street) and 34f (city/state/zip), which are correctly placed one line apart and not swapped. Recomputed invisibleWrites 0. Every case fact remains a blank."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "finding": "All 112 declared required-before-filing items are named in participant-instructions.md, checked item by item against the file.",
+     "evidence": "production-field-map.json declares requiredBeforeFilingCount 112 with 112 entries; each entry's disclosureLabel was normalized and searched in participant-instructions.md and all 112 matched (0 missing). The file names them in three tables keyed by form, page and the printed words beside the blank."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "finding": "No election on these forms is route-determined; all twenty are participant facts, and the packet leaves each to the participant and says so.",
+     "evidence": "All 20 selectionControls were read: 200-00130 has 12 (conviction/non-conviction, probation completion, restitution, arrest-without-charge branches, e-service consent), 200-00132 has 2 (e-service consent) and 600-00228 has 6 (employment, needs-based benefit, additional assets). None is determined by the pardon route; each states a fact about the participant's own record. Recomputed requiredOptionsMissing 0, and participant-instructions.md discloses 'Every checkbox... Read them and tick the ones that are true for you.' OBSERVATION, NOT SCORED AS A FAILURE: box 10, 'I was convicted of the offenses', is arguably determined for a pardon route, since 13 V.S.A. § 7601(4)(B)(iv) reaches an offence for which an unconditional pardon was granted. No committed record declares that box route-determined for this route, so selecting it would be this lane inventing a determination rather than reading one; it is raised for whoever answers VTL01."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "finding": "No repeating row carries written cells beside required cells left blank, because no row on any of the three forms carries platform ink at all.",
+     "evidence": "The offence tables on 200-00130 and 200-00132, the income/expense grid and the vehicle and real-property tables on 600-00228 are all entirely participant-supplied and are all declared REQUIRED_BEFORE_FILING; the 24 writes are identity and docket fields outside every grid. Recomputed incompleteRows 0."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "finding": "Eighteen protected fields, none inked.",
+     "evidence": "The field map's refusals class 12 as signature_or_date_participant_completion and 6 as court_prosecutor_clerk_or_agency_owned — the participant's signatures and dates, the State's Attorney's signature, date and printed name on the stipulation, and the court's order block on page 2 of the stipulation. pdftotext confirms each is an empty printed rule, and participant-instructions.md lists all four classes under 'Things the platform deliberately left blank'. Recomputed protectedWrites 0."
+    },
+    "ARTIFACTS": {
+     "result": "FAIL",
+     "finding": "The canonical and boundary bytes hash exactly to what the RASTER_QUEUE row, the raster receipt and reports/rendered-artifacts.json name — all recomputed here. One committed record inside the packet directory disagrees: product-wiring.json's proposedRepresentation.components[0].sha256 is 39d9ac94bb59f196f4e236ca2a11f30507b7680a103ef95b6cbe060e5c1684f8, and the file it points at, fixtures/canonical.pdf, hashes 81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942 — which is also what binding.acceptanceReceipt.boundToCanonicalSha256 in the same file says. The wiring therefore names, as the packet's primary_filing component, bytes that do not exist.",
+     "evidence": "Root cause read from the generator: scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs, in the branch that refreshes an existing record, states in its own comment that 'its identity, its proposal and its non-grants are untouched, and only the binding is rewritten from current evidence' — so a family repaired after its wiring was first written keeps a proposal digest nobody refreshes. Repository-wide sweep at this base: 80 census-v1 product-wiring.json files declare component digests; 70 agree with the bytes and 10 do not — pa_pardon_expungement-set, the Alaska SIS composed treatment, ky_void_seal_marijuana_synthetic_salvia-set, ky_void_seal_controlled_substance-set, vt_seal_pardon-set, vt_seal_nonconviction-set, vt_seal_felony-set, vt_exp_decriminalized-set, ct-missed-erasure-set and va_seal_petition_misdemeanor-set. The repair is one generator change plus a regeneration, not a packet rebuild, and no packet byte needs to move. SCORING CHOICE MADE VISIBLE: a reader who takes 'the record' to mean only the raster receipt and rendered-artifacts.json would score this obligation PASS. This lane takes it to mean every committed record in the packet directory that names the delivered artifact's digest, because that is the record a route would be installed from, and because Captain's dispatch asked in terms whether 'the wiring, the raster pin and the bytes now agree'."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "finding": "Rendered page order matches the manifest in both fixtures.",
+     "evidence": "Per-page footers of canonical.pdf: p1-2 '200-00130 – Petition to Seal Criminal History (07/2025)', p3-4 '200-00132 – Stipulation to Seal Criminal History Record + Order', p5-6 '600-00228 – Application to Waive Filing Fees & Service Costs'. That is packets[].documents order for both fixtures, and 6 pages each matches RASTER_QUEUE expectedPages 6."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "finding": "No ink outside a measured write box, no ink across a page edge, no overlapping runs.",
+     "evidence": "pdftotext -bbox-layout over both fixtures: canonical 1406 words / boundary 1423 words, 0 page-edge-crossing runs and 0 same-line overlapping pairs in each. Every one of the 24 writes was additionally tested for containment inside its own declared acroform_widget_rect and all 24 are contained. Page margins are the official forms' own (left 31.5-36.0pt, right 19.3-42.1pt, top 15.7-49.6pt on 612x792) with nothing at or past an edge. Residual limit: text-run geometry from the content stream, not pixels; The receipt's PNG artifact was NOT downloaded and no pixel was read here: workflow-artifact downloads redirect to blob storage the egress proxy denies. What was independently confirmed is the binding: the queue's pinned canonical and boundary SHA-256 pair, the same pair inside the family's own reports/rendered-artifacts.json, the bytes on disk at this base, and the bytes at the receipt's own renderedCommitSha 92239810a4b96c6cffb87929a45cf56d8a20cbf5 are all one value per fixture."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "finding": "The packet states the destination the census holds, and tells the participant how to identify their own unit.",
+     "evidence": "A1 applied — the repository was asked first, and it answers: the census row's destination is {kind: court, name: 'Criminal Division of the Vermont Superior Court, in the county that handled the case'}. participant-instructions.md, under 'Where you file this', states 'File the completed packet with the Vermont Superior Court, Criminal Division, in the unit where your case was decided', points at the SUPERIOR COURT CRIMINAL DIVISION heading and Unit box printed on page 1 of both 200-00130 and 200-00132, and adds that the docket number identifies the unit and any Superior Court clerk can resolve it. Nothing is delegated that the record already answers."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "finding": "The fee rule is stated with the amount and its condition, sourced and quoted, and the waiver route is not merely stated but shipped in the packet. This is theStandard.met[0] and met[1] together, not the named-authority fallback.",
+     "evidence": "The instructions quote form 200-00130A: 'There are no fees to file a petition to seal or expunge except for a $90 filing fee to seal convictions of violations of 23 V.S.A. Sec. 1201(a). If you are unable to pay this fee, you may complete and file an Application to Waive Filing fees.' A2's held-source test is satisfied and the quotation was READ, not taken on trust: pdftotext of the corpus-pinned 200-00130A (SHA-256 8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078, recomputed here) reproduces that sentence verbatim at instruction 3 on its page 5, and the page footer prints '200-00130A - Filing a Petition to Expunge or Seal a Criminal Record (07/2025)', confirming the revision the packet attributes. The packet then names 23 V.S.A. § 1201(a) as Vermont's DUI offence, says whether the participant's own conviction is one is a fact about their docket, and names the clerk of the unit as the authority who can tell them. The waiver step is guarded so it cannot imply a fee: 'File the fee waiver (600-00228) only if there is a fee AND you cannot pay it... for most routes there is no fee to waive.'"
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "finding": "Who receives a copy and how it gets to them are both stated, quoted from the same held instruction sheet, and the packet corrects the natural misreading that the stipulation signature is service.",
+     "evidence": "Quoted and independently re-read from 200-00130A's printed face at instruction 4: 'Once you file your petition, the court will provide a copy to the prosecutor who brough the criminal case. If your petition is already stipulated (or agreed to) by the prosecutor then the court will skip this step.' — the source's own typo 'brough' is reproduced, which is itself evidence the quotation was taken from the bytes. The packet states in terms 'You do not serve the petition yourself. The court does', names the recipient, carries the response/hearing consequence from instruction 5, and adds that the State's Attorney's signature on 200-00132 'is not service and does not substitute for it'."
+    },
+    "SELF_HELP_STOP": {
+     "result": "FAIL",
+     "finding": "The packet nowhere states where self-help ends. There is no stop-and-get-help section of any kind in participant-instructions.md — searching it for 'stop', 'get help', 'lawyer', 'attorney', 'eligib', 'wait', '7602', 'clock', 'three-year' and 'seven-year' returns only the § 7602 title line, the fee-waiver sentence 'you may stop after Section 1', and the route footer. The only boundary the packet draws is 'it is not legal advice' under 'What this packet is not'. Worse, the one boundary the repository does establish is the one omitted: the committed treatment records that the statute does not resolve whether a pardoned misdemeanour runs on § 7602(c)'s three-year clock or § 7602(d)'s seven-year clock, and that this 'decides when you may file at all'. A participant reads a filing-ready packet with no indication that whether they may file yet is unsettled.",
+     "evidence": "The repair to be made when counsel answers VTL01: state the governing clock, and state the stop conditions. Contrast the Alaska family verified on this same lane, whose delivered page carries six named stop conditions carrying the route contract's own reasoning. Scope note under DET-FEE-AND-WAIVER-001 amendment4.onTheWiderQuestion: this is the failure mode of a packet withholding something the repository establishes, so the repository was asked first and it answers — data/rcap-all50/terminalization-treatments/vt.json, trackId vt_seal_pardon. A3's guard is satisfied because that record addresses this exact track and no sibling. Also recorded: the family's own approval-request.json requests only 'visual review and counsel review' and raises no counsel question at all, while VTL01 is live against it."
+    }
+   },
+   "repairerClaimsTested": [
+    {
+     "claim": "The host already quoted form 200-00130A; one line was added so the waiver step cannot imply a fee.",
+     "tested": "CONFIRMED on both limbs. The two 200-00130A quotations are verbatim against the corpus bytes, which this lane read rather than trusted. The guard line is present and does the work claimed: step 4 now reads 'File the fee waiver (600-00228) only if there is a fee AND you cannot pay it. Read What it costs above first: for most routes there is no fee to waive, and filing a waiver you do not need is wasted effort rather than a safeguard.' No sentence in the packet implies a fee is charged on this route."
+    },
+    {
+     "claim": "The VTL01 counsel hold is open, no return directory exists for it, and VERMONT_REPAIR.json still lists it, so BLOCKED_LEGAL_INPUT may be the honest verdict on that ground alone.",
+     "tested": "CONFIRMED, and it is the honest verdict, decided here on the record rather than adopted. The absence of data/rcap-grade-a/codex-cloud/vtl01-vt-pardon-clock was checked directly; VERMONT_REPAIR.json still carries the assignment and its pardonRoute disposition; the treatment record still reads exact_supported_deferral. The instruction quality of this packet is high and the fee and service repairs are sound — which is exactly why the verdict must not be FAIL: nothing in the instructions is what blocks it."
+    }
+   ],
+   "rasterConfirmation": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "33596784162",
+    "jobId": "100142453368",
+    "jobConclusion": "success",
+    "receiptArtifactId": "9833825261",
+    "receiptArtifactName": "rcap-raster-vt_seal_pardon-set-33596784162",
+    "receiptZipSha256": "sha256:4325dae834e246e4a07151b4ec4a7362f2d28a3f4d19658dc285ec52b94fc554",
+    "pinnedCanonicalSha256": "81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942",
+    "pinnedBoundarySha256": "8f0058c992eaf6fec640b7519935f3e0d4c119348f90d7042dd1ee6b53501404",
+    "recomputedFromDiskAtThisBase": "canonical 81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942, boundary 8f0058c992eaf6fec640b7519935f3e0d4c119348f90d7042dd1ee6b53501404 — both equal",
+    "recomputedAtRenderedCommit": "git show 92239810a4b96c6cffb87929a45cf56d8a20cbf5:<path> | sha256sum returns the same two values",
+    "coverageComplete": true,
+    "coverageBasis": "documentsCovered [canonical.pdf], documentsNotCovered [], coversTheWholeFamily true",
+    "pixelsNotRead": "The receipt's PNG artifact was NOT downloaded and no pixel was read here: workflow-artifact downloads redirect to blob storage the egress proxy denies. What was independently confirmed is the binding: the queue's pinned canonical and boundary SHA-256 pair, the same pair inside the family's own reports/rendered-artifacts.json, the bytes on disk at this base, and the bytes at the receipt's own renderedCommitSha 92239810a4b96c6cffb87929a45cf56d8a20cbf5 are all one value per fixture."
+   },
+   "alsoRecorded": {
+    "buildStatusSchemaGap": "This family's build-status.json omits independentVerificationStatus, rasterState, renderedArtifacts, rasterPages, selfVerified, generationAllowed and runtimeSelectable, all of which the Alaska and Connecticut families on this lane carry. Not scored; raised for whoever owns the schema."
+   }
   }
  ],
  "supersededLaneMembership": {
@@ -2989,5 +3267,32 @@
   "whyItIsNotCaughtByTheGate": "claimsDigest covers only the claims array, so a claims/transfers divergence validates cleanly. verify-claim-ledger.mjs passes at this base.",
   "consequence": "Whoever reads only the transfer log will look for this family on VF11; whoever asserts will be told it belongs to VF05. Both are on the record and they do not agree.",
   "raisedNotDecided": "Reported, not repaired. This lane does not edit the ledger."
+ },
+ "fableVcAppend": {
+  "lane": "VF05",
+  "worker": "FABLE-VC",
+  "appendedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+  "rowsAppended": [
+   "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+   "vt_seal_pardon-set"
+  ],
+  "rowsAlreadyPresentAndUntouched": [
+   "ar-misdemeanor-dwi-seal-set",
+   "pa_pardon_expungement-set",
+   "vt_seal_dui-set",
+   "dc_seal_conviction-set",
+   "ut_pet_no_charges-set",
+   "ne-setaside-custodial-set",
+   "ca-prop64-set",
+   "ny_mrta_marijuana-set",
+   "ut_pet_conviction-set"
+  ],
+  "whyThisReaderIsIndependent": "FABLE-VC read this lane's grant at base 4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7. It built none of the families it scored, repaired none of them, holds no PF or FIX lane in this dispatch, and had formed no prior view of any of them: no directory under data/rcap-grade-a/ carries a FABLE-VC row before this one. Every hash, page count, box measurement, obligation count and quotation in its rows was recomputed in its own container from the committed bytes and the mounted Master Library. Where a family already carried a verdict, that verdict was treated as evidence of nothing and the family was scored from zero — which mattered here, because all three families it could claim carried pre-repair FAILs recorded at bases this one descends from.",
+  "note": "FABLE-VC appended two rows to this file at base 4f5af4e7: the Alaska AS 12.55.085(e) composed treatment and vt_seal_pardon-set. FABLE-VB's nine earlier rows and its claimGateRefusals, whyTheseAreNotRows, orphanedSecondReads and claimLedgerAnomaly blocks are untouched. VB's orphanedSecondReads is now answered on two of its three families: Captain reissued the grants and this lane took them.",
+  "overlayDirectoriesModified": 0,
+  "packetsModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "An independent verdict proves a packet is complete or names why it is not. It approves no output and opens no commercial route."
  }
 }

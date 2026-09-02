@@ -1937,6 +1937,48 @@
     "scripts/rcap-packet-completeness/completeness-contract.mjs and verify-packet-completeness.mjs (read, to establish what the counters do and do not measure)"
    ],
    "grantsNothing": "This row opens no commercial route, promotes no family and grants no approval. commercialRoutesOpened 0, productionTouched false, packetsModified 0, overlayDirectoriesModified 0."
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+   "assignmentId": "VF06",
+   "laneKind": "independent-verification",
+   "worker": "FABLE-VC",
+   "verdict": "BLOCKED_BEFORE_CLAIM",
+   "verdictNote": "BLOCKED_BEFORE_CLAIM is a statement about this LANE, not about this family. extract-verifier-returns.mjs excludes it from the current-verdict contest by name (NON_READING), so recording it here cannot displace the family's real verdict or drop it off a repair queue; it is carried as history so that a reader can see the family was offered to a lane that could not take it.",
+   "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+   "verifiedAtBaseMeans": "the commit this lane stood at when the claim was refused; nothing of this family was read at it",
+   "whyThisReaderIsIndependent": "Not applicable to a family this lane never opened. This row makes no claim about the packet.",
+   "claimAssertion": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF06 composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59 --reason \"independent second read\"",
+    "refusal": "ALREADY_RELEASED",
+    "exitCode": 9,
+    "message": "ALREADY_RELEASED: composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59 at 2026-09-02T06:30:32.149Z"
+   },
+   "grantState": "The claim ledger's independent-verification grant for this family sits on VF06 with released true at 2026-09-02T06:30:32.149Z. No live independent-verification grant exists for it on any lane, so no verifier can read it. FIX04 released its repair of this family at 2026-09-02T05:46:17.677Z, before that release.",
+   "whatWasNotRead": "No artifact of this family was opened at this base or at any other commit. The assignment's claimRule makes a non-zero assert a full stop, and the brief that dispatched this lane repeats it: report the exact refusal and read none of its artifacts. This lane did not transfer a grant to itself and did not ask anyone to.",
+   "proofObligationsScored": 0,
+   "forCaptain": "ACTIVE_ASSIGNMENTS.json still names this family as item 1 of VF06, and the file is the authority a worker is told to follow. A dispatch that names a family whose grant is spent sends a lane to a gate that must refuse it. Either the grant is reissued to a lane with no prior view of the family, or the item leaves the assignment."
+  },
+  {
+   "itemId": "wv_conv_multiple_misdemeanors-set",
+   "assignmentId": "VF06",
+   "laneKind": "independent-verification",
+   "worker": "FABLE-VC",
+   "verdict": "BLOCKED_BEFORE_CLAIM",
+   "verdictNote": "BLOCKED_BEFORE_CLAIM is a statement about this LANE, not about this family. extract-verifier-returns.mjs excludes it from the current-verdict contest by name (NON_READING), so recording it here cannot displace the family's real verdict or drop it off a repair queue; it is carried as history so that a reader can see the family was offered to a lane that could not take it.",
+   "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+   "verifiedAtBaseMeans": "the commit this lane stood at when the claim was refused; nothing of this family was read at it",
+   "whyThisReaderIsIndependent": "Not applicable to a family this lane never opened. This row makes no claim about the packet.",
+   "claimAssertion": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF06 wv_conv_multiple_misdemeanors-set --reason \"independent second read\"",
+    "refusal": "GRANTED_ELSEWHERE",
+    "exitCode": 8,
+    "message": "GRANTED_ELSEWHERE: wv_conv_multiple_misdemeanors-set is granted to VF10, not VF06"
+   },
+   "grantState": "The live independent-verification grant is held by VF10 and is not released. Two verifiers on one family is the collision the ledger's own whyOneClaimMechanism exists to prevent, so this lane stood down.",
+   "whatWasNotRead": "No artifact of this family was opened at this base or at any other commit. The assignment's claimRule makes a non-zero assert a full stop, and the brief that dispatched this lane repeats it: report the exact refusal and read none of its artifacts. This lane did not transfer a grant to itself and did not ask anyone to.",
+   "proofObligationsScored": 0,
+   "forCaptain": "The dispatching brief stated that every family in this grant carries a LIVE grant on the lane ACTIVE_ASSIGNMENTS names. For this family the ledger says otherwise, and the ledger is what the gate reads. The West Virginia once-per-lifetime silence question this lane was asked to score therefore stays unscored by FABLE-VC and belongs to VF10, which holds the family."
   }
  ],
  "supersededLaneMembership": {
@@ -2464,5 +2506,33 @@
   "why": "In each case the verification grant was spent BEFORE the repair landed, and no transfer or reissue reopened it afterwards. The other five were reopened onto VF10 and VF12 at 05:45 and 05:59; these three were not.",
   "consequence": "Each still carries a FAIL_REPAIR_REQUIRED from a pre-repair read, and no lane is able to assert it. The repair is real and nobody can look at it. A repair nobody has read is not a finished family — the transfer log's own words.",
   "whatCaptainMustDo": "Transfer each to an independent-verification lane that has neither built nor repaired nor already formed a view of it, with a stated reason, as was done for the other five. This lane will not transfer a grant to itself: VF05, VF06 and VF08 are the lanes whose directories already hold a prior view of these very families, so a reissue in place would put the second read back in front of the same eyes the independence rule excludes."
+ },
+ "fableVcAppend": {
+  "lane": "VF06",
+  "worker": "FABLE-VC",
+  "appendedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+  "rowsAppended": [
+   "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+   "wv_conv_multiple_misdemeanors-set"
+  ],
+  "rowsAlreadyPresentAndUntouched": [
+   "co_motion_seal_nonconviction-set",
+   "nj_ordinance-set",
+   "ri_nonconviction_sealing-set",
+   "vt_seal_felony-set",
+   "ga-fo-active-pre2026-set",
+   "ut_pet_traffic-set",
+   "composed-treatment:nd-nonconviction-auto-close-verify",
+   "ga-nonconv-post2013-set",
+   "wa_crop_certificate_of_restoration-set",
+   "ut_pet_dismissed_with_prejudice-set"
+  ],
+  "whyThisReaderIsIndependent": "FABLE-VC read this lane's grant at base 4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7. It built none of the families it scored, repaired none of them, holds no PF or FIX lane in this dispatch, and had formed no prior view of any of them: no directory under data/rcap-grade-a/ carries a FABLE-VC row before this one. Every hash, page count, box measurement, obligation count and quotation in its rows was recomputed in its own container from the committed bytes and the mounted Master Library. Where a family already carried a verdict, that verdict was treated as evidence of nothing and the family was scored from zero — which mattered here, because all three families it could claim carried pre-repair FAILs recorded at bases this one descends from.",
+  "note": "FABLE-VC claimed nothing on VF06: both items ACTIVE_ASSIGNMENTS names for this lane refused at the gate. Two BLOCKED_BEFORE_CLAIM rows were appended and no artifact of either family was opened. Ten earlier rows are untouched.",
+  "overlayDirectoriesModified": 0,
+  "packetsModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "An independent verdict proves a packet is complete or names why it is not. It approves no output and opens no commercial route."
  }
 }
