@@ -573,9 +573,25 @@ try {
  * row's CURRENT canonical/boundary hashes + no open legal input + a declared
  * product wiring. Anything less stays VERIFIED_PASS and says why by absence.
  */
+/*
+ * Families the raster queue DECLINED TO ENROL, and why in its own words.
+ *
+ * Not being queued is not the same as being queued and pending: a family the
+ * gate cannot even open has no path to a visual verdict at all, and calling it
+ * VERIFIED_PASS puts it in a state L4 counts as proven while nothing has ever
+ * measured its pixels. ca-prop64-set reached exactly that: fifteen obligations
+ * passed on an independent read, and eight of its twelve documents will not
+ * open in the parser that counts pages, so no row was ever written for it.
+ *
+ * L4 caught it, which is the gate working. The queue's own refusal is carried
+ * here so the state machine can hold the family with the reason attached
+ * instead of promoting it past a proof that does not exist.
+ */
+const rasterNotEligible = new Map();
 const rasterPassByFamily = new Map();
 try {
   const rq = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/RASTER_QUEUE.json`), "utf8"));
+  for (const n of rq.notEligible ?? []) if (n.familyId) rasterNotEligible.set(n.familyId, n.why ?? []);
   for (const r of rq.rows ?? []) {
     const rec = r.rasterReceipt;
     rasterPassByFamily.set(r.familyId,
@@ -681,6 +697,17 @@ for (const f of IN.scoreboard.familiesDetail) {
     && rasterPassByFamily.get(familyId) === true
     && !legalBlocked
     && fs.existsSync(path.join(ROOT, `${directory}/product-wiring.json`))) state = "COMPLETE_PACKET_PROVEN";
+  /*
+   * A family the visual gate declined to enrol is held at VERIFY_PENDING with
+   * the queue's own reason, not advanced to VERIFIED_PASS. VERIFIED_PASS is one
+   * of the states L4 reads as proven, and a family with no raster row has
+   * nothing for L4 to read. Enrolling it is real work with a named owner --
+   * the queue says which documents it could not open -- and until that is done
+   * the honest state is "read and passed, awaiting a visual gate it cannot yet
+   * enter".
+   */
+  else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
+    && rasterNotEligible.has(familyId)) state = "VERIFY_PENDING";
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT") state = "VERIFIED_PASS";
   else if (independentFail
     && repairReleasedFamilies.has(familyId) && !repairLiveFamilies.has(familyId)
@@ -723,6 +750,7 @@ for (const f of IN.scoreboard.familiesDetail) {
     sourceStatus,
     sourceBound,
     sourceReadiness: readiness,
+    rasterEnrolmentRefusal: rasterNotEligible.get(familyId) ?? null,
     legalInputStatus: legalBlocked ? "OPEN_LEGAL_INPUT" : "SETTLED",
     /* Where the hold came from, so a reader can tell a counsel-queue route key
      * from a lane that tried to build the family and hit a legal wall. */
