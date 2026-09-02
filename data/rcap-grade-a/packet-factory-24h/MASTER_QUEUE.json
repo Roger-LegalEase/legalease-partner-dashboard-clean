@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "552327fe9954e345d87506556efa5683f265ac1c",
+  "minimumCaptainSha": "b6a98fb29d414e896030620eaa78db57a5a42cf9",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -12019,16 +12019,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -17054,37 +17046,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "THE PACKET TELLS THE PARTICIPANT IT WROTE THEIR MAILING ADDRESS ONTO THE PETITION, AND IT DID NOT. Two participant-facing sentences say it did. The component table: 'the Massachusetts Probation Service Petition to Expunge itself, Rev. 10/11/2018, with your name, date of birth, MAILING ADDRESS and phone written in and every other blank left for you'. And the closing section: 'This is the official Massachusetts Probation Service Petition to Expunge with the FOUR facts the platform holds written into it'. There are three. reports/actual-writes.json reports 3 values in each fixture -- petitioner_name, date_of_birth, phone_number -- and I confirmed the absence on the delivered bytes rather than on the report: extracting page 1 of both fixtures with pdftotext -bbox-layout and reading the band that contains the mailing_address write box (field-map rect x=105 y=484 w=171 h=13, which is y_top 295-308 on a 792pt page), the only words present are the form's own printed captions 'Mailing Address:', 'City:', 'State:', 'Zip:' at x=28.42-100.93, 280.42, 415.42 and 514.42. The 171-point run from x=105 to x=276 is empty in the canonical fixture and empty in the boundary fixture. This is the A4 defect with its sign reversed -- the rule is that a packet may never tell a participant it does not state something it does state, and the harm here is the mirror image and worse in direction: a participant who reads the component table and believes the address is on the form will not transcribe it, and will file a petition with the Probation Service that has no address on it to answer. The packet contradicts itself three times over in the participant's favour -- 'Your address is not filled in, and that is deliberate', the street-address row in the items-to-supply table, and 'The whole address - street, city, state and zip' in the deliberately-left-blank list -- which is exactly why a reader cannot tell which sentence to believe. The fix is two words in two sentences, not a rebuild.",
-          "evidence": {
-            "measuredOnDeliveredBytes": "pdftotext -bbox-layout, page 1 of both fixtures, mailing_address band read directly",
-            "writeBoxEmpty": "x=105..276, y_top 295..308: no words in canonical, none in boundary",
-            "actualWritesReports": 3,
-            "instructionsClaim": "'mailing address ... written in' and 'the four facts'",
-            "standard": "DET-FEE-AND-WAIVER-001 A4 internal-consistency rule",
-            "readInThisLane": true
-          }
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "ONE OF THE FIVE STOP CONDITIONS THE REGISTRY HOLDS FOR THIS TRACK IS ABSENT FROM THE PACKET IN ANY FORM, AND IT IS THE ONE THAT COSTS A PARTICIPANT THE ROUTE. I compared data/record-clearing/legal-design-track-registry.json trackId ma-expunge-time selfHelpStopConditions against participant-instructions.md and the delivered bytes, condition by condition, then grepped each condition's distinguishing terms. (1) 'Any offence may fall on the Sec. 100J list, several entries of which turn on facts rather than charge titles' -- carried: the packet reproduces the whole exclusion list. (2) 'Whether every offence occurred before the 21st birthday is unclear' -- carried, first bullet in both the md and the delivered page. (4) 'The district attorney objects' -- carried. (5) 'The court sets a hearing on the best interests of justice' -- carried in substance; the guidance states the hearing rule and 'the determination that expungement is in the interests of justice'. (3) 'WHETHER OFFENCES AROSE FROM A SINGLE INCIDENT FOR COUNTING PURPOSES IS UNCLEAR' -- ABSENT. The words 'incident', 'arising from', 'arose', 'counting' and 'count as one' appear NOWHERE in participant-instructions.md and NOWHERE in the delivered canonical bytes; I grepped each. What the packet does say is 'your record shows more than two convictions, or more than two non-conviction records - the section limits it to two.' The same registry entry holds the rule that resolves it, in its exclusions: 'More than two records. MULTIPLE OFFENCES ARISING FROM THE SAME INCIDENT COUNT AS ONE.' So the repository establishes both the counting rule and that uncertainty about it is where self-help stops, and the packet publishes neither. The direction of the harm is specific and one-way: a participant with three charges from one arrest reads the two-record limit, counts three, and abandons a route they are eligible for -- and no bullet tells them this is the moment to ask. Under A2 a committed registry is a held source; under A4 as extended, an obligation whose failure mode is omitting a fact the repository establishes is an ask-the-repository-first obligation. Both limbs are met and the omission is the whole of the failure.",
-          "evidence": {
-            "comparedAgainst": "legal-design-track-registry.json trackId ma-expunge-time, selfHelpStopConditions, 5 conditions",
-            "conditionsCarried": "1, 2, 4, 5",
-            "conditionAbsent": "3 -- single-incident counting",
-            "grepped": "'incident', 'arising from', 'arose', 'counting', 'count as one' -- 0 hits in participant-instructions.md and 0 in the delivered canonical bytes",
-            "ruleHeldAt": "the same registry entry's exclusions: 'Multiple offences arising from the same incident count as one.'",
-            "standard": "DET-FEE-AND-WAIVER-001 A2 and A4",
-            "readInThisLane": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -26948,22 +26911,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "ROUTE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": "the family's own records disagree about which route it serves. source-receipt.json, production-field-map.json, reports/rendered-artifacts.json, product-wiring.json binding.routeKeys and the printed Route: line all carry the two current five-segment keys, which the census does carry. product-wiring.json top-level routeKey and routeKeys still carry obligation:track-only:KS:ks-12-4516-municipal and obligation:track-only:KS:ks-12-4516a-municipal-arrest, and each occurs ZERO times in the committed route-obligation census. Only 6 of 182 census-v1 product-wiring files disagree top-level against binding, so this is an anomaly and not the house style.",
-          "evidence": "grep of each key against data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (0 occurrences for both track-only keys, 1 each for both track-pathway keys); product-wiring.json routeKey/routeKeys compared against binding.routeKeys across all 182 census-v1 families"
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "the six artifact hashes recomputed here all equal what reports/rendered-artifacts.json names, but product-wiring.json names a different hash for the same bytes: binding.acceptanceReceipt claims RASTER_PASS coversTheWholeFamily bound to 6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8, and proposedRepresentation repeats it. That hash is the pre-repair canonical and no longer exists on disk; the canonical now hashes aca94f8f2ec3ae058e1a52b3d17cda4ffbabec5e6f8b087e5d58147f81a3f04f. Kansas is the only family of my nine whose acceptance receipt binds a hash that no artifact carries, and 0 of its 6 artifacts appear in RASTER_QUEUE.json. The five route-artifact acceptance records also still pin only pre-repair Kansas hashes: ROUTE_ARTIFACT_ACCEPTANCE 14 pre-repair hash lines and 0 post-repair, COMPLETENESS 4/0, DETERMINISM 9/0, RASTER_QUEUE 4/0, CENTRAL_RASTER_RUN 2/0.",
-          "evidence": "sha256 recomputed for all six fixtures and compared against reports/rendered-artifacts.json, product-wiring.json acceptanceReceipt and proposedRepresentation, RASTER_QUEUE.json and data/rcap-grade-a/route-artifact-acceptance/*.json"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -28330,33 +28279,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "COMPONENT_SET"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "The committed track registry's packetSet for wv_drug_conditional_discharge declares five components and marks every one requirement \"required\": wv_drug_conditional_discharge-primary-filing-1, -supporting-affidavit-2, -certificate-of-service-3, -records-checklist-4 (role records_checklist, outputStrategy process_guidance, order 4) and -filing-instructions-5 (order 5). The packet ships four. reports/rendered-artifacts.json componentSet, production-field-map.json componentSet and the 10-entry pageManifest all list the same four: primary-filing-1, supporting-affidavit-2, certificate-of-service-3 and filing-instructions-4. The records checklist is not a page of either fixture. What makes this decisive rather than arguable is the identifier: the shipped filing-instructions component carries the id ...-filing-instructions-4, not the registry's ...-filing-instructions-5. It has been renumbered into the missing component's ordinal, so the four shipped ids form an unbroken 1-2-3-4 run and nothing in the family's own records shows a gap. I searched build-findings.json, approval-request.json and product-wiring.json for any mention of a records checklist and found none — the omission and the renumbering are both unexplained. The consequence on the delivered pages is real: the packet's \"THE PAGES IN THIS SET\" list on the filing-instructions page names three components, and the only records guidance a participant reading the delivered PDF receives is a bullet under \"WHAT THE RECORD SAYS YOU MUST KNOW\" phrased to the builder rather than the reader — \"Tell the participant to obtain the conditional discharge order, the order of discharge and dismissal, and the probation office's written confirmation of the probation expiry date, and to attach them.\" The three documents are listed properly in participant-instructions.md, which is a repository review artifact and not a page of the packet.",
-          "evidence": {
-            "registryComponents": 5,
-            "registryAllRequired": true,
-            "shipped": 4,
-            "missing": {
-              "componentId": "wv_drug_conditional_discharge-records-checklist-4",
-              "role": "records_checklist",
-              "requirement": "required",
-              "outputStrategy": "process_guidance",
-              "order": 4
-            },
-            "renumbering": {
-              "registryId": "wv_drug_conditional_discharge-filing-instructions-5",
-              "shippedId": "wv_drug_conditional_discharge-filing-instructions-4"
-            },
-            "explanationInFamilyRecords": "none",
-            "deliveredPagesListOnlyThreeComponents": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",

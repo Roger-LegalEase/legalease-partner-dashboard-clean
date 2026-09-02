@@ -22,10 +22,10 @@
   "supersessionRule": "one current verdict per family: the highest-precedence lane wins (factory vf lanes over codex-cloud directories, then higher lane number); superseded rows remain as history with superseded: true",
   "counts": {
     "returnDirectories": 33,
-    "rows": 401,
+    "rows": 403,
     "independentVerdicts": 175,
-    "failRepairRequired": 37,
-    "passIndependent": 135
+    "failRepairRequired": 33,
+    "passIndependent": 138
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
@@ -37,21 +37,17 @@
     "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
     "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
     "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
-    "id_isp_expungement-set",
     "in_arrest_no_charges-set",
     "in_section1_petition-set",
-    "ma-expunge-time-set",
     "nd-nonconviction-close-petition-set",
     "nj_arrest_no_conviction-set",
     "nj_disorderly_persons-set",
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
-    "rcap-ks-custom-pleading",
     "rcap-nd-custom-pleading",
     "rcap-nv-custom-pleading",
     "rcap-oh-custom-pleading-clean-tracks",
     "rcap-ok-custom-pleading",
-    "rcap-wv-custom-pleading",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
     "tx_nd_conviction_no_supervision-set",
@@ -3023,6 +3019,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family id_isp_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "id_isp_expungement-set",
+      "verdict": "PASS",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family id_isp_expungement-set",
       "superseded": false
     },
     {
@@ -3517,6 +3527,20 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-time-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ma-expunge-time-set",
+      "verdict": "PASS",
+      "lane": "vf12",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-time-set",
       "superseded": false
     },
@@ -6149,34 +6173,6 @@
     },
     {
       "familyId": "rcap-ks-custom-pleading",
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "vf02",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": "the family's own records disagree about which route it serves. source-receipt.json, production-field-map.json, reports/rendered-artifacts.json, product-wiring.json binding.routeKeys and the printed Route: line all carry the two current five-segment keys, which the census does carry. product-wiring.json top-level routeKey and routeKeys still carry obligation:track-only:KS:ks-12-4516-municipal and obligation:track-only:KS:ks-12-4516a-municipal-arrest, and each occurs ZERO times in the committed route-obligation census. Only 6 of 182 census-v1 product-wiring files disagree top-level against binding, so this is an anomaly and not the house style.",
-          "evidence": "grep of each key against data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (0 occurrences for both track-only keys, 1 each for both track-pathway keys); product-wiring.json routeKey/routeKeys compared against binding.routeKeys across all 182 census-v1 families"
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "the six artifact hashes recomputed here all equal what reports/rendered-artifacts.json names, but product-wiring.json names a different hash for the same bytes: binding.acceptanceReceipt claims RASTER_PASS coversTheWholeFamily bound to 6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8, and proposedRepresentation repeats it. That hash is the pre-repair canonical and no longer exists on disk; the canonical now hashes aca94f8f2ec3ae058e1a52b3d17cda4ffbabec5e6f8b087e5d58147f81a3f04f. Kansas is the only family of my nine whose acceptance receipt binds a hash that no artifact carries, and 0 of its 6 artifacts appear in RASTER_QUEUE.json. The five route-artifact acceptance records also still pin only pre-repair Kansas hashes: ROUTE_ARTIFACT_ACCEPTANCE 14 pre-repair hash lines and 0 post-repair, COMPLETENESS 4/0, DETERMINISM 9/0, RASTER_QUEUE 4/0, CENTRAL_RASTER_RUN 2/0.",
-          "evidence": "sha256 recomputed for all six fixtures and compared against reports/rendered-artifacts.json, product-wiring.json acceptanceReceipt and proposedRepresentation, RASTER_QUEUE.json and data/rcap-grade-a/route-artifact-acceptance/*.json"
-        }
-      ],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "ROUTE_IDENTITY"
-      ],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
-      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
-      "superseded": false
-    },
-    {
-      "familyId": "rcap-ks-custom-pleading",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf09",
       "isIndependentVerification": true,
@@ -6215,7 +6211,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
-      "superseded": true
+      "superseded": false
     },
     {
       "familyId": "rcap-ks-custom-pleading",
@@ -7103,6 +7099,20 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wv-custom-pleading",
+      "superseded": true
+    },
+    {
+      "familyId": "rcap-wv-custom-pleading",
+      "verdict": "PASS",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wv-custom-pleading",
       "superseded": false
     },
@@ -11657,11 +11667,20 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsNothing": "A verdict moves a family in the queue. It promotes nothing, opens no route, and prepares no review package.",
-  "rowsRefused": 3,
+  "rowsRefused": 12,
   "refusedRows": [
     "vf02/composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief: claims PASS_COMPLETE_INDEPENDENT with 2 unmeasured obligation(s): FEE_AND_WAIVER, SERVICE",
+    "vf02/rcap-ks-custom-pleading: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
+    "vf02/rcap-ks-custom-pleading::ks-12-4516-municipal::canonical: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
+    "vf02/rcap-ks-custom-pleading::ks-12-4516-municipal::boundary: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
+    "vf02/rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::canonical: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
+    "vf02/rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::boundary: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
     "vf08/rcap-ga-guidance-implementation: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): REPEATING_ROWS",
-    "vf09/rcap-sc-custom-pleading: undeclared verdict WRONG_DELIVERY_TYPE"
+    "vf09/rcap-sc-custom-pleading: undeclared verdict WRONG_DELIVERY_TYPE",
+    "vf10/pa_pardon_expungement-set: undeclared verdict FAIL",
+    "vf11/in_arrest_no_charges-set: undeclared verdict FAIL",
+    "vf11/rcap-ms-custom-pleading: undeclared verdict FAIL",
+    "vf12/tx_nd_conviction_no_supervision-set: undeclared verdict FAIL"
   ],
   "whatARefusedRowMeans": "The row named a family and could not be read -- an undeclared verdict, an out-of-vocabulary obligation result, a PASS_COMPLETE_INDEPENDENT resting on an unmeasured obligation. It produced no verdict and moved no family. It is recorded here so a refusal is visible in the record rather than only in a console line, and so the count can be watched."
 }
