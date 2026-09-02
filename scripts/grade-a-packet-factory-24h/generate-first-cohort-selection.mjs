@@ -1,0 +1,146 @@
+#!/usr/bin/env node
+/**
+ * The first Grade-A route cohort: which routes qualify, and what each still owes.
+ *
+ * The cohort is an INTERSECTION, not a pick. A route enters only when all eight
+ * owner conditions hold, and the interesting result is how small that makes it:
+ * 112 families are COMPLETE_PACKET_PROVEN and 57 are inside the decision owner's
+ * completed-output legal approval, but only THREE are in both. The 57 approved
+ * families are largely the older guidance-implementation wave; the 112 proven
+ * ones are largely the newer census-v1 packet families. The overlap is the
+ * cohort, and the gap is the honest answer to "why not more".
+ *
+ * WHAT THIS RECORD DOES NOT DO. It creates no fulfilment record, opens no route
+ * and sets no price. It names the routes that could become sellable once the one
+ * genuinely human proof -- a page-by-page visual review by a named reviewer --
+ * is returned, and it records exactly which conditions each route already meets.
+ *
+ *   node scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs
+ */
+import fs from "node:fs";
+import path from "node:path";
+import crypto from "node:crypto";
+import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
+const OUT = "data/rcap-grade-a/FIRST_ROUTE_COHORT.json";
+
+const master = read("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json");
+const returns = read("data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json");
+const raster = read("data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json");
+const counsel = read("data/rcap-ledger/completed-output-counsel-manifest.json");
+const bundleIndex = (() => {
+  try { return JSON.parse(fs.readFileSync("/tmp/vrb-html/INDEX.json", "utf8")); } catch { return null; }
+})();
+
+const decision = counsel.ownerLegalDecision.records[0];
+const approvedFamilies = new Set(counsel.families.map((r) => r.familyId));
+const verdictOf = new Map();
+for (const r of returns.rows ?? []) if (r.isIndependentVerification && r.verdict && !r.superseded) verdictOf.set(r.familyId, r);
+const rasterOf = new Map(raster.rows.map((r) => [r.familyId, r]));
+const sha = (rel) => { try { return crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"); } catch { return null; } };
+
+const proven = master.families.filter((f) => f.state === "COMPLETE_PACKET_PROVEN");
+
+const evaluate = (f) => {
+  const v = verdictOf.get(f.familyId) ?? null;
+  const r = rasterOf.get(f.familyId) ?? null;
+  return {
+    packetProven: f.state === "COMPLETE_PACKET_PROVEN",
+    verdictCurrentAndDeclaresItsBase: v?.verdict === "PASS_COMPLETE_INDEPENDENT"
+      && /^[0-9a-f]{7,40}$/.test(String(v?.verifiedAtBase ?? "")),
+    rasterReceiptStillBindsTheBytes: r?.currentRasterState === "RASTER_PASS"
+      && r?.coverage?.complete === true
+      && r?.rasterReceipt?.boundToCanonicalSha256 === r?.canonicalPdfSha256
+      && r?.rasterReceipt?.boundToBoundarySha256 === r?.boundaryPdfSha256,
+    routeToFamilyBindingExact: (f.routeKeys ?? []).length > 0 && fs.existsSync(path.join(ROOT, f.directory, "product-wiring.json")),
+    sourceIdentityComplete: f.sourceBound === true || f.sourceReadiness?.ready === true,
+    coveredByAnExistingOwnerApproval: approvedFamilies.has(f.familyId),
+    noHoldApplies: f.legalInputStatus !== "OPEN_LEGAL_INPUT" && (f.holds ?? []).length === 0 && !f.laneReturnLegalHold
+  };
+};
+
+const rows = proven.map((f) => {
+  const checks = evaluate(f);
+  const unmet = Object.entries(checks).filter(([, ok]) => !ok).map(([k]) => k);
+  const row = counsel.families.find((x) => x.familyId === f.familyId) ?? null;
+  const v = verdictOf.get(f.familyId) ?? null;
+  return {
+    familyId: f.familyId,
+    jurisdiction: f.jurisdiction,
+    routeKeys: f.routeKeys ?? [],
+    routeCount: (f.routeKeys ?? []).length,
+    deliveryType: f.implementationStrategy ?? null,
+    checks,
+    unmetConditions: unmet,
+    inCohort: unmet.length === 0,
+    independentVerification: v ? { verdict: v.verdict, verifierId: v.lane, verifiedAtBase: v.verifiedAtBase } : null,
+    legalApproval: row ? {
+      legalApprovalResult: decision.legalApprovalResult,
+      legalDecisionRecordId: decision.recordId,
+      legalDecisionOwner: decision.decisionOwner,
+      legalDecisionEffectiveDate: decision.effectiveDate,
+      requiresSignature: counsel.requiresSignature === true,
+      adoptedLegalDesignRecord: row.adoptedLegalDesignRecord ?? null,
+      packetProofPath: row.packetProofPath ?? null,
+      packetProofSha256Recorded: row.packetProofSha256 ?? null,
+      packetProofSha256Now: row.packetProofPath ? sha(row.packetProofPath) : null,
+      legalDesignMemoSha256Recorded: row.legalDesignMemoSha256 ?? null,
+      legalDesignMemoSha256Now: row.legalDesignMemoPath ? sha(row.legalDesignMemoPath) : null
+    } : null
+  };
+});
+
+const cohort = rows.filter((r) => r.inCohort);
+const outsideApproval = rows.filter((r) => !r.checks.coveredByAnExistingOwnerApproval);
+
+const doc = {
+  schemaVersion: "rcap-first-route-cohort/v1",
+  generatedBy: "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
+  atCommit: (() => { try { return execFileSync("git", ["rev-parse", "HEAD"], { cwd: ROOT, encoding: "utf8" }).trim(); } catch { return null; } })(),
+  createsCommercialAuthority: false,
+  opensAnyRoute: false,
+  paymentRemainsFailClosed: true,
+  theEightConditions: [
+    "the packet family is COMPLETE_PACKET_PROVEN",
+    "its fifteen-obligation independent verdict is current and declares its review base",
+    "its packet bytes and raster receipt remain current, canonical and boundary alike",
+    "its route-to-family binding is exact and a wiring record exists",
+    "its source identity and currentness are complete",
+    "its legal design and output are covered by an existing decision-owner approval",
+    "no substantive legal change occurred after that approval",
+    "no repair, source, legal, problematic-PDF or maintenance hold applies"
+  ],
+  conditionSevenIsNotDecidedHere: "Whether a post-approval change was substantive is a reading of diffs against the decision record's own two lists (correctionsNotRequiringANewLegalDecision against requiresANewDecisionOwnerDecision), not something this script can compute. Each cohort row records that its packet proof and legal design memo are unchanged since the approval, which is necessary and not sufficient; the reading is carried separately and a row does not become a v2 record until it is returned.",
+  counts: {
+    completePacketProven: proven.length,
+    familiesInsideTheOwnerApproval: approvedFamilies.size,
+    provenAndApproved: rows.filter((r) => r.checks.coveredByAnExistingOwnerApproval).length,
+    inCohort: cohort.length,
+    cohortRoutes: cohort.reduce((n, r) => n + r.routeCount, 0),
+    provenButOutsideAnyExistingApproval: outsideApproval.length
+  },
+  whyTheCohortIsSmall: "The decision owner's completed-output approval covers 57 families, and 112 families are packet-proven, but they are largely different populations: the approval covers the earlier guidance-implementation wave, and the proof covers the later census-v1 packet wave. Only the overlap can enter a first cohort without a new legal decision.",
+  cohort: cohort.map((r) => ({ ...r, checks: undefined, unmetConditions: undefined })),
+  cohortRouteIds: cohort.flatMap((r) => r.routeKeys),
+  provenFamiliesNeedingANewLegalReview: outsideApproval.map((r) => ({
+    familyId: r.familyId, jurisdiction: r.jurisdiction, routeCount: r.routeCount,
+    whyNotInCohort: "packet-proven but not named in any existing decision-owner approval scope"
+  })),
+  visualReview: {
+    state: "awaiting_a_named_reviewer",
+    whyItCannotBeInferred: "Every other Grade-A condition is a measurement this factory can make. This one is not: it asks whether a human judges each rendered page fit to file. Nothing in the repository may set it to passed.",
+    bundles: bundleIndex?.bundles?.map((b) => ({ familyId: b.familyId, fixture: b.fixtureKind, pages: b.pages, fixtureSha256: b.fixtureSha })) ?? [],
+    totalPages: bundleIndex?.totalPages ?? null
+  },
+  remainingOwnerAction: "One page-by-page visual review of the cohort bundles by a named reviewer, and then the owner-controlled nationwide delivery flip. Neither is performed here.",
+  allRows: rows
+};
+
+fs.writeFileSync(path.join(ROOT, OUT), `${JSON.stringify(doc, null, 2)}\n`);
+console.log(`wrote ${OUT}`);
+console.log(`  proven ${doc.counts.completePacketProven} · approved ${doc.counts.familiesInsideTheOwnerApproval} · both ${doc.counts.provenAndApproved} · cohort ${doc.counts.inCohort} famil(ies) / ${doc.counts.cohortRoutes} route(s)`);
+for (const r of cohort) console.log(`    ${r.familyId.padEnd(28)} ${String(r.routeCount).padStart(2)} route(s)  verifier ${r.independentVerification.verifierId}`);
+console.log(`  proven but outside any existing approval: ${doc.counts.provenButOutsideAnyExistingApproval}`);
