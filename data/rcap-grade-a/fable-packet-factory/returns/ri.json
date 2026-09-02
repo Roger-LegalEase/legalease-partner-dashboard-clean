@@ -1,0 +1,220 @@
+{
+  "schemaVersion": "rcap-fable-repairer-return/v1",
+  "lane": "FIX06",
+  "worker": "FABLE-RI",
+  "branch": "fable/ri",
+  "baseSha": "3951ef3d4",
+  "baseShaNote": "Dispatched base was e3bc42eed. The grant this lane runs on is re-opened one commit later, in 3951ef3d4 'Re-open the Rhode Island grant on the owner's protected-field decision', which is the direct child of e3bc42eed on the captain branch. At e3bc42eed the required --assert answers ALREADY_RELEASED (2026-09-01T07:37:22.764Z) because the re-open is not yet in the tree. The branch was therefore started at e3bc42eed and the captain's own re-open commit applied unchanged on top; the resulting tree is byte-identical to 3951ef3d4 (git diff 3951ef3d4 HEAD is empty). No --reissue and no --transfer was used.",
+  "assignedFamilies": ["ri_nonconviction_sealing-set"],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "One shared-renderer correction and one family completed. No family is promoted, no route is bound, no approval is granted. Raster acceptance, independent verification, route binding and family closure are the captain's, not this lane's.",
+
+  "claim": {
+    "assert": "CLAIM_OK FIX06 ri_nonconviction_sealing-set (repair, grant set 14bcc2ff5aa93f1d)",
+    "release": "RELEASED FIX06 ri_nonconviction_sealing-set",
+    "ledgerVerifier": "CLAIM_LEDGER_OK 690 claims; DISC06 36/36 exercised (11 assertable, 25 already released)",
+    "ledgerNeverHandEdited": "claim-ledger.json was changed only through claim.mjs. MASTER_QUEUE, RASTER_QUEUE, ACTIVE_ASSIGNMENTS, VERIFIER_RETURNS and every vf*/rows.json were not touched, and no factory generator was run."
+  },
+
+  "theDefect": {
+    "familyId": "ri_nonconviction_sealing-set",
+    "assertion": "RI-DC-33/canonical: protected fields carry artifact-derived vector ink",
+    "field": "Group2 — the notary 'personally appeared' radio control, two widgets on page 4 of DC-33 at (72.409, 267.910) 12.223x9.911pt and (224.544, 268.295) 11.452x9.526pt",
+    "reproducedAtBase": "yes, before any edit: the owning script aborted on its own assertion before writing anything",
+    "rootCause": "addedPaintedPaths(sourceBytes, artifactBytes) asked what the finished artifact carries that the RAW source did not. For a protected text blank that is the right question; for a protected BUTTON it is not. The raw source keeps its radios and checkboxes as live widgets whose blank /Off face lives in an /AP appearance stream rather than in page content. The host's own normalization -- delete /V and /DV, force every button widget to /AS /Off, then flatten -- MOVES that untouched blank face into the page content, where a raw-source diff reads it as newly painted. The 25 reported paths were the control's own empty box and its hairlines.",
+    "bisectConfirmed": "FABLE-R11 established, and this lane did not contradict, that the family was un-rebuildable across both east-host states, so the recent host change did not cause it."
+  },
+
+  "sixConditions": {
+    "howProven": "Each condition is proven per protected field, per fixture, and the proof is published in reports/actual-writes.json under artifacts[].proof.protectedSourceOwnedAppearances. The values below are from the committed canonical and boundary fixtures; both carry identical condition records for Group2.",
+    "condition1_noParticipantValueWritten": {
+      "held": true,
+      "evidence": "buildWroteNoParticipantValue: true. Group2 appears in neither artifact's written[] list. Canonical writes 7 fields (Case Number, State of Rhode Island v Defendant, Date of Birth, 2 Charges 1, State of Rhode Island v Defendant_2, Case Number_2, Date of Birth_2); boundary writes 4. The config-level assertion that a protected field may never appear in the write allowlist is unchanged and still runs."
+    },
+    "condition2_fieldValueAbsentOrOffBeforeFlatten": {
+      "held": true,
+      "evidence": "preFlattenFieldValue: null — /V is absent from the Group2 field dictionary in the neutralized, not-yet-flattened bytes. Read from those bytes directly by choiceStateOfBytes(), not from a report about them. choiceNeutralization records sourceValuesRemoved: [] for Group2, so the source never carried a value either."
+    },
+    "condition3_widgetAppearanceStatesAbsentOrOffBeforeFlatten": {
+      "held": true,
+      "evidence": "preFlattenWidgetAppearanceStates: ['/Off', '/Off'] — both widgets of the radio group, read from the same pre-flatten bytes."
+    },
+    "condition4_samePathsFromZeroWriteNormalization": {
+      "held": true,
+      "evidence": "A zero-write baseline was produced by carrying the same source (sha256 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908) through the SAME finalizeEastOfficialForm -- the same sanitizer, the same choice neutralization, the same flatten -- with every one of the 77 census fields classified unwritable and facts {}. The baseline's own report.written is asserted empty. Baseline sha256 c6bf7c5adc6eb1796147bbe30cbbacccf6c246800f360f50fa63338f6ac22bf9. All 12 painted paths inside the two Group2 widgets are present in that baseline."
+    },
+    "condition5_nothingBeyondTheBlankBaseline": {
+      "held": true,
+      "evidence": "pathsBeyondNormalizedBaseline: 0 and drawnTextInsideProtectedWidget: [] for both fixtures. protectedInk and protectedVectorInk are both empty for the whole document. No text, no selected-state mark, no checkmark, no X and no additional vector path."
+    },
+    "condition6_focusedRasterIdentical": {
+      "held": true,
+      "evidence": "Both widget regions rendered from the completed artifact and from the zero-write baseline at 288 DPI (4x the inventoried 72 DPI, because a 12x10pt control is ten pixels wide at 72) with a one-pixel margin, cropped to the same window and compared greyscale pixel by pixel. Widget 0: 51x42 px at (288, 2055), 2142 px compared, 0 differing, region sha 6ff631421d79d47a6395c58995d73163920ed15b0d32ad1b159a4b60a9a785fd on both sides. Widget 1: 48x41 px at (897, 2055), 1968 px compared, 0 differing, region sha 3ff5a0b2b3d3eccd329c90d46c4ced433302d36d5537055b5229223a4c4ce3fd on both sides. 4110 px compared in total, 0 differing."
+    },
+    "verdict": "ALL SIX HELD. The decision's premise is true for Group2, so the correction it authorizes was implemented. Nothing was stopped on."
+  },
+
+  "whatChangedInTheHelper": {
+    "file": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+    "shape": "A change of BASELINE inside the existing protection helper, not a change of rule, and not a new renderer, registry or framework.",
+    "changes": [
+      "zeroWriteNormalizedBaseline(): new. Carries the same source through the same finalizeEastOfficialForm with facts {}, explicitMappings {}, exactFieldMap [] and every census field listed unwritable, asserts the result wrote nothing, and caches by source sha so one baseline serves both fixtures of a document.",
+      "finalizeEastOfficialForm() now also returns preparedSourceBytes -- the neutralized, not-yet-flattened bytes -- because conditions 2 and 3 are about the state that goes INTO the flatten and must be read from those bytes rather than from a report about them.",
+      "choiceStateOfBytes(): new. Reads /V and every widget /AS straight from the PDF objects.",
+      "focusedRegionIsIdentical(): new. Condition 6. Rasters one page of the artifact and one page of the baseline at 288 DPI, crops the widget rectangle with a one-pixel margin (converting bottom-left PDF space to top-left raster space through the measured page geometry), and compares greyscale pixels.",
+      "rasterizePdf() gained an optional dpi, defaulting to the inventoried RASTER_DPI and asserted to be non-standard only for a single focused diagnostic page. Every inventoried raster is unchanged.",
+      "evaluateProtectedFieldInk(): the protected loop, lifted out of proofFromArtifact and EXPORTED so its control drives the real gate rather than a copy of it. Behaviour for a protected field with no raw-source paths is unchanged. For a protected field that does show raw-source paths, the gate now computes the paths BEYOND the zero-write baseline and excuses the field only when all six conditions hold; every failure path records a named reason and the field still fails.",
+      "proofFromArtifact() takes preFlattenBytes and an async normalizedBaseline thunk, and publishes protectedSourceOwnedAppearances alongside the unchanged protectedInk and protectedVectorInk. The thunk is called only when a protected widget actually shows raw-source paths, so the fourteen other families pay nothing for a second finalization."
+    ],
+    "whyThisShape": "The decision's preferred implementation exactly: measure a zero-write source-normalized flattened baseline, compare protected-field appearances against it rather than against raw source page content, and treat only paths beyond it as artifact-added. It consults no family name and no field name; the excuse is earned by six proofs about the widget itself, and any protected field that fails any one of them still fails the gate.",
+    "notDone": [
+      "no whitelist of ri_nonconviction_sealing-set",
+      "no whitelist of Group2",
+      "the notary radio controls were not suppressed or removed",
+      "the notary field was not marked participant-completed",
+      "vector paths inside protected fields are not ignored generally",
+      "the protected-field assertion was not disabled or weakened; both assert.deepEqual(protectedInk, []) and assert.deepEqual(protectedVectorInk, []) still run at both call sites",
+      "no new renderer, registry or protection framework",
+      "no national architecture survey",
+      "no unrelated PDF cleanup"
+    ],
+    "determinismNote": "Independently corroborated by FABLE-D1, which measured the same host directly and found its two flagged documents were self-test scratch. The east host does NOT have the wall-clock /CreationDate defect. It carries the source's own CreationDate (Wed Feb 26 20:07:17 2025 UTC, identical to the source binary) and pins ModDate to a fixed 2026-01-01T00:00:00Z. Two consecutive full builds produced 21/21 byte-identical files. stampDeterministic was therefore NOT added, per instruction."
+  },
+
+  "focusedControl": {
+    "file": "scripts/verify-east-protected-blank-appearance-control.mjs",
+    "command": "MASTER_LIBRARY_SOURCE_DIR=... node scripts/verify-east-protected-blank-appearance-control.mjs",
+    "result": "PASS (4/4)",
+    "positive": [
+      {
+        "name": "the unchanged source-owned /Off appearance passes the gate",
+        "result": "ok",
+        "detail": "Group2: 12 paths, all matching the zero-write baseline; protectedVectorInk and protectedInk both empty"
+      },
+      {
+        "name": "all six of the decision's conditions are individually recorded",
+        "result": "ok",
+        "detail": "raster identical over 4110 px at 288 DPI, region hashes equal on both widgets"
+      }
+    ],
+    "negative": [
+      {
+        "name": "NEGATIVE A — a participant-like mark inside the protected widget still fails the gate",
+        "mutation": "two diagonal strokes (an X) drawn inside Group2 widget 0 on page 4 of the completed artifact, inset 2pt",
+        "result": "ok — the gate fired",
+        "detail": "reason painted_paths_beyond_the_zero_write_normalized_baseline, 2 paths beyond the baseline, and the field was NOT recorded as a source-owned blank appearance"
+      },
+      {
+        "name": "NEGATIVE B — an on-state surviving into the flatten still fails the gate",
+        "mutation": "Group2 /V and widget /AS set to the control's own on-state /Choice1 in the pre-flatten bytes, removing the neutralization that normally prevents this",
+        "result": "ok — the gate fired",
+        "detail": "reason pre_flatten_field_value_is_neither_absent_nor_off (/Choice1), and the field was NOT recorded as a source-owned blank appearance"
+      }
+    ],
+    "theControlWasProvedToFire": "Two mutations of the gate itself, applied and reverted, neither committed. (1) Forcing beyondBaseline to [] made NEGATIVE A fail with 'the gate fired for the wrong reason: focused_raster_of_the_protected_region_differs_from_the_zero_write_baseline' -- condition 6 caught the mark on its own. (2) Additionally disabling the raster comparison made NEGATIVE A fail with 'THE GATE DID NOT FIRE: an X drawn inside the protected notary control passed', which is the forbidden 'ignore every vector path inside protected fields' shape. So the control is load-bearing for the whole excuse and not a control that never fires.",
+    "scope": "One control script, two mutations of one widget -- the two the decision itself names. No broad mutation suite."
+  },
+
+  "rhodeIsland": {
+    "feeAndWaiver": {
+      "applied": "yes — the three paragraphs preserved in returns/r11.json, as a feeAndWaiver array on the ri_nonconviction_sealing-set entry in FAMILY. The rendering mechanism (feeAndWaiverSection + participantInstructions) already existed on this base and was not changed.",
+      "reVerifiedAgainstHeldSourcesBeforeCommitting": [
+        "DC-33's four pages were decoded here with pdftotext: the word 'fee' appears on its face only inside instruction 8's 'fines, fees, costs, restitution, and assessments' and inside the affidavit's 'court-related fines, fees, costs, assessments' lines. There is no filing fee, no statement that filing is free and no waiver anywhere on the form.",
+        "The held Rhode Island record-clearing legal review (STATES/RI/01_LEGAL_REVIEW/RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md) reads verbatim: 'Filing fee: unresolved. Not stated in the reference. Release blocker for cost copy.' and, one line above, 'Filing method: with the clerk of the court where the conviction occurred; the clerk fills in the hearing date.'",
+        "The four District Court divisions and their street addresses were read off the motion page and match the paragraph exactly: Murray/2nd/45 Washington Square/Newport 02840-2913; Noel/3rd/222 Quaker Lane/Warwick 02886-0107; McGrath/4th/4800 Tower Hill Road/Wakefield 02879-2239; Garrahy/6th/One Dorrance Plaza/Providence 02903-2719.",
+        "The census confirms the four divisions are checkbox controls on the motion page, so 'the division you check at the top of the motion' is accurate.",
+        "Instruction 8 was read verbatim and matches the third paragraph's quotation, including the three certified copies the clerk's office prepares."
+      ],
+      "noFigureInvented": "No dollar amount is stated for the filing fee. The packet says no held source establishes it and names the division clerk's office that answers it.",
+      "rendered": "participant-instructions.md now carries '## What it costs to file, and who answers that' with the three paragraphs, and the catch-all line no longer claims to cover fees: it now reads '...local procedures, attachments, service, and proposed-order requirements before filing. Cost is answered in its own section below.'",
+      "blockersUpdated": "build-findings.json blockers are now completed-output legal approval, commercial release and runtime selection remaining disabled, and revision/local-practice confirmation. The filing fee is no longer among them."
+    },
+    "rebuild": "Both fixtures rebuilt: BUILD PASS (2 PDFs; 8 page rasters), then CHECK PASS (2 PDFs; 8 rasters).",
+    "confirmations": {
+      "notaryRadioGroupRemainsBlank": "yes — Group2 /V absent, both widget /AS /Off before the flatten, 0 paths beyond the blank baseline, and the two widget regions pixel-identical to the zero-write baseline at 288 DPI",
+      "noProtectedParticipantValueWritten": "yes — protectedInk [] and protectedVectorInk [] on both fixtures; the completeness verifier's protectedWrites counter is 0",
+      "requiredParticipantFieldsCorrect": "yes — canonical writes 7 fields and boundary 4, missingWrittenInk 0, wrongWrittenValues 0, and every writtenProof row has exactValueObserved true. One measured route selection ('sealed') is drawn inside the court's own existing box: drewANewBox false, redrewTheCourtsBox false.",
+      "feeAndWaiverIncluded": "yes",
+      "deterministic": "yes — two consecutive full builds produced 21/21 byte-identical files across fixtures, rasters, contact sheets, reports, field map and instructions. No wall-clock date in the output.",
+      "familyCompletenessCheckPasses": "yes — verify-packet-completeness --family ri_nonconviction_sealing-set: PASS_COMPLETE, 8/77 written, all nine counters zero (knownRequiredFieldsMissing 0, requiredFactsNotCollected 0, unclassifiedBlanks 0, incompleteRows 0, requiredOptionsMissing 0, requiredComponentsMissing 0, invisibleWrites 0, protectedWrites 0, visualDefects 0)",
+      "pdfsOpenAndRenderOnEveryPage": "yes — both fixtures open unencrypted, 4 pages, 612x792 letter; 4/4 pages rastered for each fixture with zero blank pages"
+    },
+    "beforeAndAfterCompleteness": {
+      "before": "PASS_COMPLETE, 6/77 written, all nine counters zero — but measured on output that PREDATED both host states, because the family could not be rebuilt at all.",
+      "after": "PASS_COMPLETE, 8/77 written, all nine counters zero, measured on freshly rebuilt output.",
+      "whatMovedAndWhy": "The two new writes are Date of Birth and Date of Birth_2, bound to participant.date_of_birth through the shared exact terminal-name fact allowlist. That allowlist arrived in the host while this family was un-rebuildable; it is not this lane's change and it is not a protected field.",
+      "oneTrapWorthRecording": "The FIRST reproduction run destroyed the family's own carried classifications. buildOfficial() reads the prior production-field-map.json for installed classifications and only THEN calls resetOwnedOutput(), which rm -rf's the directory. When the base run aborted on the protected-field assertion, the reset had already happened and the map was gone, so the next build classified from scratch and lost the installed 'signature_or_date_participant_completion' on the notice-certification field 'notified of this motion and the court date is at least ten 10 days prior to the hearing date'. Rederived, it became a bare required-before-filing declaration on a field whose captured label reads 'the Office of the Attorney ', which the completeness contract correctly refuses as an ATTORNEY_BLOCK field, giving FAIL_MISSING_PREFILLS at unclassifiedBlanks 1. The fix was not to reclassify anything: the committed family output was restored from HEAD and rebuilt once so the carry-forward ran as designed. The committed map's classifications are intact in the rebuilt map. No family classification was invented or hand-edited."
+    }
+  },
+
+  "sharedHostSweep": {
+    "reach": "15 families, from IMPORT_GRAPH.json: build-census-v1-nj_arrest_no_conviction-set.mjs plus its 14 importers.",
+    "method": "Each family's own deterministic builder check (--check), which recomputes every artifact from source and asserts the recomputed bytes equal the stored artifact, without resetting or rewriting any output. Confirmed non-destructive: after the sweep the only modified paths in the tree were Rhode Island's. No family was manually re-reviewed and no family was sent through a new raster.",
+    "perFamily": [
+      { "familyId": "nj_arrest_no_conviction-set", "check": "CHECK_PASS", "bytesChanged": false, "rasterReceipt": "preserved" },
+      { "familyId": "nj_clean_slate-set", "check": "CHECK_PASS", "bytesChanged": false, "rasterReceipt": "preserved" },
+      { "familyId": "nj_disorderly_persons-set", "check": "CHECK_FAIL", "bytesChanged": "not reached", "preExisting": true, "detail": "cn-10557-canonical.pdf page 18: fresh Poppler PNG bytes differ from recorded raster. Fails IDENTICALLY with the host reverted to base, so it is not this lane's change. This is a raster-receipt defect, not a protected-field write." },
+      { "familyId": "nj_indictable_conviction-set", "check": "CHECK_PASS", "bytesChanged": false, "rasterReceipt": "preserved" },
+      { "familyId": "nj_ordinance-set", "check": "CHECK_PASS", "bytesChanged": false, "rasterReceipt": "preserved" },
+      { "familyId": "ny_160_59_petition-set", "check": "CHECK_PASS", "bytesChanged": false, "rasterReceipt": "preserved", "collisionNote": "FABLE-R14 is repairing this family concurrently. Its bytes did NOT move under this host change; nothing of its was touched or committed." },
+      { "familyId": "ny_mrta_marijuana-set", "check": "CHECK_PASS", "bytesChanged": false, "rasterReceipt": "preserved" },
+      { "familyId": "oh_marijuana_expungement-set", "check": "CHECK_FAIL", "bytesChanged": "not reached", "preExisting": true, "detail": "missing production-field-map.json. Fails IDENTICALLY at base. This family is mid-raster in another lane; nothing of its was touched or committed." },
+      { "familyId": "pa_490_nonconviction-set", "check": "CHECK_PASS", "bytesChanged": false, "rasterReceipt": "preserved" },
+      { "familyId": "pa_6308_underage-set", "check": "CHECK_PASS", "bytesChanged": false, "rasterReceipt": "preserved", "note": "source-bound STOP family; zero pleadings/PDFs" },
+      { "familyId": "pa_790_nonconviction-set", "check": "CHECK_PASS", "bytesChanged": false, "rasterReceipt": "preserved" },
+      { "familyId": "pa_9122_1_limited_access-set", "check": "CHECK_FAIL", "bytesChanged": "not reached", "preExisting": true, "detail": "rule-791-petition-boundary.pdf: deterministic live build does not match stored artifact. Fails IDENTICALLY at base." },
+      { "familyId": "pa_summary_conviction-set", "check": "CHECK_PASS", "bytesChanged": false, "rasterReceipt": "preserved" },
+      { "familyId": "rcap-oh-custom-pleading-clean-tracks", "check": "CHECK_FAIL", "bytesChanged": "not reached", "preExisting": true, "detail": "ENOENT on companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf, which is absent from the tree. Fails IDENTICALLY at base." },
+      { "familyId": "ri_nonconviction_sealing-set", "check": "CHECK_PASS", "bytesChanged": true, "rasterReceipt": "SUPERSEDED — fresh central raster owed", "detail": "this lane's own repair" }
+    ],
+    "summary": "11 of 15 CHECK_PASS. 10 of those 11 are byte-unchanged and keep their existing raster receipts. The 12th, Rhode Island, is this lane's repair and owes a fresh raster. The 4 failures were each re-run with the host reverted to its base content and each failed with the byte-identical assertion, so none is caused by this change and none exposes a protected-field write. No family's bytes moved because of the shared-host correction.",
+    "noFamilyExposedAProtectedFieldWrite": "true — no family failed on protectedInk, protectedVectorInk, or any protected-field assertion, at base or after."
+  },
+
+  "preExistingDefectsObservedNotRepaired": [
+    "The east host's own --self-test fails at base and after, identically: it expects refusal class 'signature_or_sworn_participant_act' where classifyRefusal now returns 'signature_or_date_participant_completion'. A stale self-test against a renamed vocabulary. Out of this lane's grant; recorded, not touched.",
+    "nj_disorderly_persons-set, pa_9122_1_limited_access-set, oh_marijuana_expungement-set and rcap-oh-custom-pleading-clean-tracks each fail their own deterministic builder check at base. Recorded, not touched.",
+    "buildOfficial() resets a family's output directory before it can finish, so an aborted build silently discards the installed completeness classifications the next build depends on carrying forward. This is what turned one failed reproduction run into a FAIL_MISSING_PREFILLS. Recorded as an observation about the host's ordering; not repaired, because repairing it is not this lane's grant."
+  ],
+
+  "rasterOwed": [
+    {
+      "familyId": "ri_nonconviction_sealing-set",
+      "why": "both fixtures were rebuilt: the protected-field gate now passes, the fee-and-waiver section is present, and the shared exact-fact allowlist now writes the two Date of Birth fields. The prior receipts are superseded.",
+      "artifacts": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-canonical.pdf",
+          "oldSha256": "e8ba4ef7f10b867113072a9f2febfaeb0a2d3f31b26a5d639636402b095633f2",
+          "newSha256": "e0af21e5c1f4b8014d4d2fb224e99940996328ef69aefd41153095e7166fdc6d",
+          "newByteLength": 282412
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-boundary.pdf",
+          "oldSha256": "49cdd9b2c6ad0bd2c0b0f6952486e4b3f6e61cc0986b7687d383f09ad6916358",
+          "newSha256": "fd9ebb9561919129b40d75d20dd76fbaf777f94141fba0b3caee7220af2df923",
+          "newByteLength": 281656
+        }
+      ]
+    }
+  ],
+  "rasterNotOwed": [
+    {
+      "familyIds": ["nj_arrest_no_conviction-set", "nj_clean_slate-set", "nj_indictable_conviction-set", "nj_ordinance-set", "ny_160_59_petition-set", "ny_mrta_marijuana-set", "pa_490_nonconviction-set", "pa_6308_underage-set", "pa_790_nonconviction-set", "pa_summary_conviction-set"],
+      "why": "each recomputes byte-identical to its stored artifacts under the corrected host, so its existing raster receipt still describes the bytes it was taken from"
+    }
+  ],
+
+  "stoppedOn": [],
+  "notMine": "Steps 4, 5 and 6 of the RI completion are the captain's: central raster acceptance of the changed Rhode Island fixture bytes, one fresh independent verifier, and route binding and family closure on a clean pass. This lane dispatched no raster workflow, verified none of its own work, bound no route and closed no family. No VF lane, no rows.json and no verifier return was touched.",
+
+  "hardRulesHeld": {
+    "gatesWeakened": "none — PASS_COMPLETE, RASTER_PASS, source-binding, legal-input, claim, payment, sponsorship, participant-ownership and cross-tenant gates are untouched. The protected-field assertions still run at both call sites and still fail on real ink.",
+    "productionSupabaseStripeSecretsMigrations": "not touched",
+    "commercialRoutesOpened": 0,
+    "familiesPromoted": 0,
+    "approvalsGranted": 0,
+    "forbiddenFilesWritten": "none — no vf*/rows.json, VERIFIER_RETURNS.json, MASTER_QUEUE.json, RASTER_QUEUE.json or ACTIVE_ASSIGNMENTS.json was written, and no factory generator was run",
+    "staging": "named paths only; no git add ., -A or --all"
+  }
+}

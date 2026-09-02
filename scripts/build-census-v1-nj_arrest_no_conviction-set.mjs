@@ -56,7 +56,7 @@ function rasterLooksBlank(stats) {
   return channel.max - channel.min <= 6;
 }
 
-async function rasterizePdf({ file, outDir, pages = null, prefix = "page" }) {
+async function rasterizePdf({ file, outDir, pages = null, prefix = "page", dpi = RASTER_DPI }) {
   assertPopplerAvailable();
   fs.mkdirSync(outDir, { recursive: true });
   const pageSelection = pages && pages.length
@@ -65,9 +65,14 @@ async function rasterizePdf({ file, outDir, pages = null, prefix = "page" }) {
   // All production calls raster every page in one pass. A page selection is
   // accepted only for a single page, for focused diagnostics.
   assert.ok(!pages || pages.length === 1, "Poppler raster helper accepts all pages or one diagnostic page");
+  // Every inventoried raster stays at RASTER_DPI. A higher DPI is accepted only
+  // for a single-page focused diagnostic, where a 12x10pt control is ten pixels
+  // wide at 72 DPI and a mark inside it could hide between samples.
+  assert.ok(dpi === RASTER_DPI || (pages && pages.length === 1),
+    "a non-standard raster DPI is accepted only for a single focused diagnostic page");
   const targetPrefix = path.join(outDir, `${prefix}-raw`);
   const run = spawnSync(POPPLER_PDFTOPPM,
-    ["-png", "-r", String(RASTER_DPI), ...pageSelection, file, targetPrefix],
+    ["-png", "-r", String(dpi), ...pageSelection, file, targetPrefix],
     { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
   assert.equal(run.status, 0, `Poppler raster failed for ${file}: ${run.stderr || run.stdout}`);
   const found = fs.readdirSync(outDir)
@@ -85,7 +90,7 @@ async function rasterizePdf({ file, outDir, pages = null, prefix = "page" }) {
     rows.push({
       page: row.page, file: output, widthPx: metadata.width, heightPx: metadata.height,
       attempts: 1, looksBlank, croppedToPage: true,
-      engine: "bundled_poppler_pdftoppm", dpi: RASTER_DPI,
+      engine: "bundled_poppler_pdftoppm", dpi,
     });
   }
   return rows;
@@ -638,7 +643,30 @@ Object.assign(FAMILY, {
         "State of Rhode Island v Defendant_2": "participant.full_legal_name", "Case Number_2": "matter.case_number",
         "2 Charges 1": "matter.charge" }, selections: ["sealed"],
     })],
-    notes: ["Only the measured existing SEAL control is marked. Courthouse, eligibility, notice/service, hearing, signature/date, and notary blocks remain blank."],
+    // The repository was asked first and answers plainly that it does not know.
+    // DC-33's own four pages were decoded: its first page carries the District
+    // Court's eight numbered filing instructions and says nothing about a filing
+    // fee, nothing about filing being free, and nothing about a waiver. The held
+    // Rhode Island record-clearing legal review says the same in as many words --
+    // "Filing fee: unresolved. Not stated in the reference. Release blocker for
+    // cost copy." -- and lists it again among its open questions and release
+    // blockers. No held source establishes the figure, so a NAMED CHECKABLE
+    // AUTHORITY stands in and no figure is invented. The authority comes from the
+    // held sources too: the legal review states the filing method ("with the clerk
+    // of the court where the conviction occurred; the clerk fills in the hearing
+    // date"), the motion page prints the four District Court divisions with their
+    // street addresses beside the division checkboxes, and instruction 2 confirms
+    // the clerk's office fills in the hearing date.
+    feeAndWaiver: [
+      "**No held source establishes what it costs to file this motion.** Form DC-33 — the District Court Motion, Affidavit and Instructions to Expunge or Seal Record — carries the court's own numbered filing instructions on its first page and says nothing about a filing fee, nothing about filing being free, and nothing about a waiver. The Rhode Island record-clearing legal review held in this repository records the same gap in as many words: \"Filing fee: unresolved. Not stated in the reference,\" and lists the filing fee for a Chapter 12-1.3 motion among its open questions and release blockers. This packet does not supply a figure it does not hold.",
+      "**Ask the clerk's office of the District Court division where your case was heard** — the division you check at the top of the motion, whose address the form itself prints: Murray Judicial Complex, 2nd Division, 45 Washington Square, Newport, Rhode Island 02840-2913; Noel Judicial Complex, 3rd Division, 222 Quaker Lane, Warwick, Rhode Island 02886-0107; McGrath Judicial Complex, 4th Division, 4800 Tower Hill Road, Wakefield, Rhode Island 02879-2239; Garrahy Judicial Complex, 6th Division, One Dorrance Plaza, Providence, Rhode Island 02903-2719. That clerk's office is where the motion is filed, and instruction 2 on the form says it is the office that fills in your hearing date. Put two questions to it before you file: what, if anything, the court charges to file a motion to expunge or seal, and whether any fee waiver or reduction is available to you.",
+      "**A cost the form does state, about a different thing.** DC-33's instruction 8 says that if your motion is granted, \"all financial obligations owed (fines, fees, costs, restitution, and assessments) must be paid in full to complete the expungement process,\" after which the clerk's office prepares three certified copies of the order for you to deliver. That is money already owed on your case, and the form states it about the expungement process; whether it bears on a sealing under G.L. 1956 § 12-1-12 is another question for the same clerk. It is not a charge for filing this motion.",
+    ],
+    notes: [
+      "Only the measured existing SEAL control is marked. Courthouse, eligibility, notice/service, hearing, signature/date, and notary blocks remain blank.",
+      "The notary \"personally appeared\" control on page 4 is left in its source-owned blank state; its unselected /Off appearance is proven against a zero-write source-normalized flattened baseline and is never a mark this build makes.",
+      "The filing fee is no longer among this family's release blockers: the fee-and-waiver section states that no held source establishes it and names the division clerk's office that answers it.",
+    ],
   },
 });
 
@@ -1358,10 +1386,14 @@ async function finalizeEastOfficialForm(options) {
       preparedSourceSha256: sha256(preparedSourceBytes),
       rule: "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer",
     };
-    return overlayExactMappedFacts({
+    const overlaid = await overlayExactMappedFacts({
       bytes: result.bytes, census: officialOptions.census,
       fieldMap: exactFieldMap, facts: officialOptions.facts, report: result.report,
     });
+    // The neutralized, not-yet-flattened bytes. Conditions 2 and 3 of the
+    // protected-field rule are about the state that goes INTO the flatten, so
+    // they are answered from these bytes rather than from a report about them.
+    return { ...overlaid, preparedSourceBytes };
   } finally {
     PDFRadioGroup.prototype.getSelected = original;
   }
@@ -1450,6 +1482,140 @@ async function addedPaintedPaths(beforeBytes, afterBytes) {
   });
 }
 
+/*
+ * ZERO-WRITE SOURCE-NORMALIZED BASELINE.
+ *
+ * addedPaintedPaths(sourceBytes, artifactBytes) answers "what paths does the
+ * finished artifact carry that the RAW source did not". For a protected TEXT
+ * blank that is the right question. For a protected BUTTON it is not, because
+ * the raw source keeps its checkboxes and radios as live widgets whose blank
+ * /Off face lives in an /AP appearance stream, not in the page content. The
+ * normalization this host already performs -- delete /V and /DV, force every
+ * button widget to /AS /Off, then flatten -- MOVES that untouched blank face
+ * into the page content. The box outline and hairlines then read as new paths
+ * even though the build painted nothing: they are the control's own unselected
+ * appearance, which the source owns.
+ *
+ * The baseline below carries the SAME source through the SAME neutralization,
+ * the SAME finalizer and the SAME flatten with every census field classified
+ * unwritable, so not one participant value is written. Paths present in both
+ * the artifact and this baseline are structure the source already owned. Paths
+ * present in the artifact and ABSENT from this baseline are ink this build's
+ * writes added, and they still fail the gate.
+ *
+ * This is a change of BASELINE, not a change of rule. No family name and no
+ * field name is consulted; a protected field that carries a selected state, a
+ * checkmark, an X, drawn text or any extra path fails exactly as before.
+ */
+const zeroWriteBaselineCache = new Map();
+
+export async function zeroWriteNormalizedBaseline({ sourceBytes, expectedSha256, census, documentTextLines }) {
+  const key = sha256(sourceBytes);
+  const cached = zeroWriteBaselineCache.get(key);
+  if (cached) return cached;
+  const baseline = await finalizeEastOfficialForm({
+    sourceBytes,
+    expectedSha256,
+    census,
+    facts: {},
+    explicitMappings: {},
+    exactFieldMap: [],
+    // Every field, by role, so the finalizer writes nothing at all. This is the
+    // one difference from the production call; the sanitizer, the choice
+    // neutralization and the flatten are identical.
+    unwritableFields: census.map((field) => ({ field: field.name, class: "zero_write_normalization_baseline" })),
+    documentTextLines,
+    title: "zero-write source normalization baseline",
+  });
+  assert.deepEqual(baseline.report.written, [],
+    "the zero-write normalization baseline must contain no participant write");
+  const row = { bytes: baseline.bytes, preparedSourceBytes: baseline.preparedSourceBytes,
+    sha256: sha256(baseline.bytes) };
+  zeroWriteBaselineCache.set(key, row);
+  return row;
+}
+
+/**
+ * /V and every widget /AS, read straight from the PDF objects, so conditions 2
+ * and 3 are answered from the bytes that go into the flatten rather than from
+ * the build's own account of them.
+ */
+async function choiceStateOfBytes(bytes) {
+  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+  const state = new Map();
+  for (const field of doc.getForm().getFields()) {
+    const value = field.acroField.dict.get(PDFName.of("V"));
+    state.set(field.getName(), {
+      value: value == null ? null : String(value),
+      widgetAppearanceStates: field.acroField.getWidgets().map((widget) => {
+        const as = widget.dict.get(PDFName.of("AS"));
+        return as == null ? null : String(as);
+      }),
+    });
+  }
+  return state;
+}
+
+const BLANK_STATES = new Set([null, "/Off", "Off"]);
+
+/**
+ * Condition 6: a focused raster of one protected widget region, taken from the
+ * completed artifact and from the zero-write baseline at the same DPI and the
+ * same crop, must be pixel-identical. A 12x10pt control is ten pixels wide at
+ * the inventoried 72 DPI, so the focused comparison is taken at 288 DPI.
+ */
+const FOCUSED_PROTECTED_REGION_DPI = 288;
+
+async function focusedRegionIsIdentical({ artifactFile, baselineBytes, page, rect, pageGeometry, label }) {
+  const geometry = pageGeometry.find((row) => row.page === page);
+  assert.ok(geometry, `${label}: page ${page} has no measured geometry`);
+  const scratch = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-protected-region-"));
+  try {
+    const baselineFile = path.join(scratch, "baseline.pdf");
+    fs.writeFileSync(baselineFile, baselineBytes);
+    const shot = async (file, prefix) => {
+      const rows = await rasterizePdf({ file, outDir: scratch, pages: [page], prefix,
+        dpi: FOCUSED_PROTECTED_REGION_DPI });
+      assert.equal(rows.length, 1, `${label}: focused raster did not produce one page`);
+      return rows[0];
+    };
+    const artifactShot = await shot(artifactFile, "artifact");
+    const baselineShot = await shot(baselineFile, "baseline");
+    assert.equal(artifactShot.widthPx, baselineShot.widthPx, `${label}: focused raster width differs`);
+    assert.equal(artifactShot.heightPx, baselineShot.heightPx, `${label}: focused raster height differs`);
+    const scale = FOCUSED_PROTECTED_REGION_DPI / 72;
+    // PDF user space is bottom-left origin; the raster is top-left origin. One
+    // pixel of margin each way so a mark painted hard against the control's own
+    // outline cannot fall outside the compared window.
+    const margin = 1;
+    const left = Math.max(0, Math.floor(rect.x * scale) - margin);
+    const top = Math.max(0, Math.floor((geometry.height - (rect.y + rect.height)) * scale) - margin);
+    const width = Math.min(artifactShot.widthPx - left, Math.ceil(rect.width * scale) + margin * 2);
+    const height = Math.min(artifactShot.heightPx - top, Math.ceil(rect.height * scale) + margin * 2);
+    assert.ok(width > 0 && height > 0, `${label}: protected region crops to nothing`);
+    const crop = (file) => sharp(file).extract({ left, top, width, height })
+      .greyscale().raw().toBuffer();
+    const [artifactRegion, baselineRegion] = await Promise.all([
+      crop(artifactShot.file), crop(baselineShot.file),
+    ]);
+    let differingPixels = 0;
+    for (let index = 0; index < artifactRegion.length; index += 1) {
+      if (artifactRegion[index] !== baselineRegion[index]) differingPixels += 1;
+    }
+    return {
+      dpi: FOCUSED_PROTECTED_REGION_DPI,
+      regionPx: { left, top, width, height },
+      comparedPixels: artifactRegion.length,
+      differingPixels,
+      identical: differingPixels === 0,
+      artifactRegionSha256: crypto.createHash("sha256").update(artifactRegion).digest("hex"),
+      baselineRegionSha256: crypto.createHash("sha256").update(baselineRegion).digest("hex"),
+    };
+  } finally {
+    fs.rmSync(scratch, { recursive: true, force: true });
+  }
+}
+
 function pathsInsideBox(paths, page, box) {
   const width = box.width ?? box.x1 - box.x0;
   const height = box.height ?? box.y1 - box.y0;
@@ -1472,8 +1638,126 @@ function pathsInsideBox(paths, page, box) {
   });
 }
 
+/**
+ * THE PROTECTED-FIELD INK GATE.
+ *
+ * Exported so its own control can drive the real gate rather than a copy of it.
+ * A protected widget carries ink when the completed artifact shows text inside
+ * it, or paths inside it that the ZERO-WRITE NORMALIZED BASELINE does not also
+ * carry. A widget whose only paths are its own unselected /Off appearance is
+ * excused, and only after all six proofs below hold; every other protected
+ * field, and every actually selected or written one, fails exactly as before.
+ */
+export async function evaluateProtectedFieldInk({
+  artifactFile, artifactBytes, appearances, census, fieldMap, report,
+  sourceBytes = null, normalizedBaseline = null, preFlattenBytes = null, label = "artifact",
+}) {
+  const protectedInk = [];
+  const sourceAddedPaths = sourceBytes ? await addedPaintedPaths(sourceBytes, artifactBytes) : [];
+  const protectedVectorInk = [];
+  // Protected widgets whose only paths are their own source-owned blank
+  // appearance, each carrying the six proofs that let it stand.
+  const protectedSourceOwnedAppearances = [];
+  let baseline = null;
+  let baselineAddedPaths = null;
+  let preFlattenChoiceState = null;
+  const writtenFieldNames = new Set((report.written ?? []).map((row) => row.field));
+  for (const field of census.fields) {
+    const mapEntry = fieldMap.find((row) => row.field === field.name);
+    const protection = protectedCensusField(field, mapEntry);
+    if (!protection.protected) continue;
+    const drawn = field.widgets.flatMap((widget) => drawnAt(appearances, {
+      page: widget.page, rect: widget.rect, tolerance: 3,
+    })).map((entry) => String(entry.text ?? "").trim()).filter(Boolean);
+    if (drawn.length) protectedInk.push({ field: field.name, category: protection.category, drawnText: drawn });
+    const vectorPaths = field.widgets.flatMap((widget) => pathsInsideBox(sourceAddedPaths, widget.page, widget.rect));
+    if (!vectorPaths.length) continue;
+    const fail = (reason, paths = vectorPaths, evidence = null) => protectedVectorInk.push({
+      field: field.name, category: protection.category, vectorPaths: paths, reason, evidence,
+    });
+    if (!normalizedBaseline) {
+      fail("no_zero_write_normalized_baseline_available_for_comparison");
+      continue;
+    }
+    if (baseline === null) {
+      baseline = await normalizedBaseline();
+      baselineAddedPaths = await addedPaintedPaths(baseline.bytes, artifactBytes);
+      preFlattenChoiceState = preFlattenBytes ? await choiceStateOfBytes(preFlattenBytes) : null;
+    }
+    // Condition 4 and condition 5, together: only paths the completed artifact
+    // carries BEYOND the zero-write normalized baseline are ink this build added.
+    const beyondBaseline = field.widgets
+      .flatMap((widget) => pathsInsideBox(baselineAddedPaths, widget.page, widget.rect));
+    if (beyondBaseline.length) {
+      fail("painted_paths_beyond_the_zero_write_normalized_baseline", beyondBaseline);
+      continue;
+    }
+    // Condition 5 again, for the other kind of mark: drawn text inside a
+    // protected widget is already recorded above and is never excused here.
+    if (drawn.length) {
+      fail("drawn_text_inside_a_protected_widget", vectorPaths, { drawnText: drawn });
+      continue;
+    }
+    // Condition 1: the build wrote no participant value to this field.
+    if (writtenFieldNames.has(field.name)) {
+      fail("the_build_reported_a_participant_write_to_this_protected_field");
+      continue;
+    }
+    // Conditions 2 and 3, read from the bytes that went into the flatten.
+    const preFlatten = preFlattenChoiceState?.get(field.name) ?? null;
+    if (!preFlatten) {
+      fail("pre_flatten_state_of_this_protected_field_could_not_be_read");
+      continue;
+    }
+    if (!BLANK_STATES.has(preFlatten.value)) {
+      fail("pre_flatten_field_value_is_neither_absent_nor_off", vectorPaths, preFlatten);
+      continue;
+    }
+    if (!preFlatten.widgetAppearanceStates.every((state) => BLANK_STATES.has(state))) {
+      fail("pre_flatten_widget_appearance_state_is_neither_absent_nor_off", vectorPaths, preFlatten);
+      continue;
+    }
+    // Condition 6: the protected region renders identically in the completed
+    // artifact and in the zero-write baseline.
+    const regionComparisons = [];
+    for (const widget of field.widgets) {
+      regionComparisons.push({ page: widget.page, rect: widget.rect,
+        ...await focusedRegionIsIdentical({
+          artifactFile, baselineBytes: baseline.bytes, page: widget.page, rect: widget.rect,
+          pageGeometry: census.pageGeometry, label: `${label}/${field.name}`,
+        }) });
+    }
+    const differing = regionComparisons.filter((row) => !row.identical);
+    if (differing.length) {
+      fail("focused_raster_of_the_protected_region_differs_from_the_zero_write_baseline",
+        vectorPaths, differing);
+      continue;
+    }
+    protectedSourceOwnedAppearances.push({
+      field: field.name, category: protection.category,
+      pathsMatchingNormalizedBaseline: vectorPaths.length,
+      conditions: {
+        buildWroteNoParticipantValue: true,
+        preFlattenFieldValue: preFlatten.value,
+        preFlattenWidgetAppearanceStates: preFlatten.widgetAppearanceStates,
+        zeroWriteNormalizedBaselineSha256: baseline.sha256,
+        pathsBeyondNormalizedBaseline: 0,
+        drawnTextInsideProtectedWidget: [],
+        focusedRegionRaster: regionComparisons,
+      },
+      rule: "a protected widget's own unselected /Off appearance is source-owned form"
+        + " structure, proven against a zero-write source-normalized flattened baseline",
+    });
+  }
+  return { protectedInk, protectedVectorInk, protectedSourceOwnedAppearances };
+}
+
 async function proofFromArtifact(file, census, fieldMap, report, facts, label,
-  { sourceBytes = null, preSelectionBytes = null } = {}) {
+  { sourceBytes = null, preSelectionBytes = null, preFlattenBytes = null,
+    // Async, and called only when a protected widget actually shows paths the
+    // raw source did not carry, so the fourteen families whose protected fields
+    // are quiet never pay for a second finalization.
+    normalizedBaseline = null } = {}) {
   const artifactBytes = fs.readFileSync(file);
   const appearances = await flattenedWidgets(file);
   /*
@@ -1563,20 +1847,11 @@ async function proofFromArtifact(file, census, fieldMap, report, facts, label,
     if (!drawn.length) missingWrittenInk.push(row);
     else if (!exactValueObserved) wrongWrittenValues.push(row);
   }
-  const protectedInk = [];
-  const sourceAddedPaths = sourceBytes ? await addedPaintedPaths(sourceBytes, artifactBytes) : [];
-  const protectedVectorInk = [];
-  for (const field of census.fields) {
-    const mapEntry = fieldMap.find((row) => row.field === field.name);
-    const protection = protectedCensusField(field, mapEntry);
-    if (!protection.protected) continue;
-    const drawn = field.widgets.flatMap((widget) => drawnAt(appearances, {
-      page: widget.page, rect: widget.rect, tolerance: 3,
-    })).map((entry) => String(entry.text ?? "").trim()).filter(Boolean);
-    if (drawn.length) protectedInk.push({ field: field.name, category: protection.category, drawnText: drawn });
-    const vectorPaths = field.widgets.flatMap((widget) => pathsInsideBox(sourceAddedPaths, widget.page, widget.rect));
-    if (vectorPaths.length) protectedVectorInk.push({ field: field.name, category: protection.category, vectorPaths });
-  }
+  const { protectedInk, protectedVectorInk, protectedSourceOwnedAppearances } =
+    await evaluateProtectedFieldInk({
+      artifactFile: file, artifactBytes, appearances, census, fieldMap, report,
+      sourceBytes, normalizedBaseline, preFlattenBytes, label,
+    });
   assert.deepEqual(missingWrittenInk, [], `${label}: finalizer reported writes that have no artifact appearance`);
   assert.deepEqual(wrongWrittenValues, [], `${label}: artifact appearance does not equal the expected field value`);
   assert.deepEqual(protectedInk, [], `${label}: protected fields carry artifact ink`);
@@ -1595,7 +1870,7 @@ async function proofFromArtifact(file, census, fieldMap, report, facts, label,
   return {
     artifactSha256: sha256(artifactBytes), artifactByteLength: artifactBytes.length,
     appearanceCount: appearances.length, writtenProof, missingWrittenInk, wrongWrittenValues,
-    protectedInk, protectedVectorInk, selectionProof,
+    protectedInk, protectedVectorInk, protectedSourceOwnedAppearances, selectionProof,
   };
 }
 
@@ -1806,6 +2081,11 @@ async function buildOfficial(familyId, config) {
       const proof = await proofFromArtifact(abs(file), census, map, report, facts, `${doc.documentId}/${fixture}`, {
         sourceBytes: sourceRow.bytes,
         preSelectionBytes,
+        preFlattenBytes: finalized.preparedSourceBytes,
+        normalizedBaseline: () => zeroWriteNormalizedBaseline({
+          sourceBytes: sourceRow.bytes, expectedSha256: doc.sha256,
+          census: census.fields, documentTextLines: census.documentTextLines,
+        }),
       });
       artifactReports.push({
         documentId: doc.documentId, documentKey: doc.key, fixture, file,
@@ -2080,7 +2360,13 @@ async function checkOfficial(familyId, config) {
       { written: artifact.written, selections: artifact.selections },
       fixtureFacts,
       `${artifact.documentId}/${artifact.fixture}/check`,
-      { sourceBytes: sourceRow.bytes, preSelectionBytes },
+      { sourceBytes: sourceRow.bytes,
+        preSelectionBytes,
+        preFlattenBytes: finalized.preparedSourceBytes,
+        normalizedBaseline: () => zeroWriteNormalizedBaseline({
+          sourceBytes: sourceRow.bytes, expectedSha256: doc.sha256,
+          census: liveCensus.fields, documentTextLines: liveCensus.documentTextLines,
+        }) },
     );
     assert.deepEqual(freshProof.protectedInk, [], `${artifact.file}: protected ink recorded`);
     assert.deepEqual(freshProof.protectedVectorInk, [], `${artifact.file}: protected vector ink recorded`);

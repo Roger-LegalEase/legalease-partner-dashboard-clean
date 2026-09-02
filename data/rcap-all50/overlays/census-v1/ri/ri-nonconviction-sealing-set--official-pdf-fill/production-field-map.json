@@ -13,7 +13,7 @@
           "field": "State of Rhode Island v Defendant",
           "decision": "candidate_write",
           "factId": "participant.full_legal_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -32,7 +32,7 @@
           "field": "Case Number",
           "decision": "candidate_write",
           "factId": "matter.case_number",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -49,10 +49,9 @@
         },
         {
           "field": "Date of Birth",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "participant.date_of_birth",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -326,7 +325,7 @@
           "field": "2 Charges 1",
           "decision": "candidate_write",
           "factId": "matter.charge",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -514,6 +513,8 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "not_a_filing_fact",
+          "blankTreatment": null,
+          "effectiveLabel": "Pursuant to GL 1956  12112 any fingerprints photographs physical measurements or",
           "reason": "Viewer UI control; not a filing fact and never written into the participant artifact.",
           "widgets": [
             {
@@ -527,8 +528,7 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ],
-          "effectiveLabel": "Pursuant to GL 1956  12112 any fingerprints photographs physical measurements or"
+          ]
         },
         {
           "field": "All records and records of conviction relating to the conviction of the abovereferenced",
@@ -718,7 +718,7 @@
           "field": "State of Rhode Island v Defendant_2",
           "decision": "candidate_write",
           "factId": "participant.full_legal_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -737,7 +737,7 @@
           "field": "Case Number_2",
           "decision": "candidate_write",
           "factId": "matter.case_number",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -754,10 +754,9 @@
         },
         {
           "field": "Date of Birth_2",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "participant.date_of_birth",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1761,7 +1760,5 @@
         }
       ]
     }
-  ],
-  "dispositionVocabulary": "rcap-packet-completeness/closed-blank-dispositions",
-  "requiredBeforeFilingCount": 51
+  ]
 }
