@@ -2212,6 +2212,193 @@
       "productionTouched": false,
       "packetBytesModified": 0,
       "overlayDirectoriesModified": 0
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+      "lane": "VF01",
+      "worker": "FABLE-VA1",
+      "verifiedAtBase": "f3c6ee4339f137798bba6d18ac8edc2f0693af88",
+      "verifiedAt": "2026-09-02T08:43:20Z",
+      "wave": "FABLE-VA1 / VF01 second wave",
+      "verdict": "STOPPED",
+      "verdictIfRasterPasses": "PASS_COMPLETE_INDEPENDENT",
+      "whyNotThePassVerdict": [
+        "Every one of the fifteen proof obligations was measured here and every one passes; no defect was found in this packet and it is NOT a FAIL, NOT BLOCKED_SOURCE and NOT BLOCKED_LEGAL_INPUT.",
+        "RASTER_QUEUE.json holds this family at currentRasterState RASTER_PENDING (nextOwner RAS01), and the queue's own builtRasterPending block states noPassCompleteWithout: RASTER_PASS. Its routing block states that RASTER_PASS is what sends a family TO independent verification; this family has not been through that gate at all.",
+        "So the strongest verdict in the vocabulary is not available to this family at this base, whatever a completeness read finds. This row records the completeness proof in full so that a single RASTER_PASS against the two hashes pinned below converts it to PASS_COMPLETE_INDEPENDENT with nothing left to re-measure.",
+        "visualDefects reads 0 here because nobody has looked, which is what the queue says that zero means. This row does not read it as 'nothing to see'."
+      ],
+      "verdictCeilingApplied": "BUILT_RASTER_PENDING",
+      "dispatchVocabularyNote": "ACTIVE_ASSIGNMENTS.json VF01.outputSchema.completionVocabulary offers only PASS_COMPLETE_INDEPENDENT, FAIL_REPAIR_REQUIRED, BLOCKED_SOURCE and BLOCKED_LEGAL_INPUT, and none of the four is true of a packet that is defect-free and ungated. STOPPED is taken from this worker's own closed vocabulary and is used deliberately rather than rounding a defect-free packet up to PASS or down to FAIL. 54 families sit at RASTER_PENDING in the queue, so this is a shape the VF vocabulary will meet again.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/agency-application-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-investigation-and-finding-request--official-pdf-fill",
+      "jurisdiction": "CO",
+      "implementationStrategy": "participant_agency_application",
+      "composedFamily": true,
+      "builtBy": "PF04 (data/rcap-grade-a/packet-factory-24h/pf04/rows.json carries the COMPLETED build row for this family)",
+      "independence": "FABLE-VA1 built none of these packets, repaired none, rendered none and produced none of the reports it reads. It asserted the claim at data/rcap-grade-a/packet-factory-24h/claim-ledger.json before opening any artifact of this family. Every counter, hash, geometry measurement and page of text below was recomputed in this container at the stated base.",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+        "result": "CLAIM_OK",
+        "exitCode": 0,
+        "grantSet": "1c690cb5fc4b4e0b",
+        "assertedAt": "2026-09-02T08:34:12Z"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId> run in this container at this base; it returned PASS_COMPLETE with 6/17 fields written",
+        "visualDefectsCaveat": "0 because no raster has been taken, not because a page was inspected"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "cross-record string comparison of familyId and routeKey over eight committed records",
+          "detail": "familyId and the single routeKey obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request agree across build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json, MASTER_QUEUE.json (families entry), RASTER_QUEUE.json and pf04/rows.json. The route string is also printed on the face of both components (canonical page 2 and page 4, 'Route: obligation:research-decision-route:CO:...'). The route is the agency-application branch, and the record it is built from names that branch in terms: 'If there is no agency finding, the first output should be a written request for investigation and finding, not the court petition.' The sibling court petition is a separate family (composed-treatment:...:participant_court_petition_after_90_days) and is not duplicated here."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "sha256sum recomputed from the committed bytes in this container",
+          "detail": "One bound source: data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json. Recomputed SHA-256 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef and byte length 184365, both exactly as source-receipt.json and pf04/rows.json name them. custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT with documents: [] — this family binds no Master Library binary, so no corpus binary needed rehashing; the corpus was nonetheless mounted and readable here (499 files, 329 PDFs) so this is not a corpus-absence pass. The seven anchor statements were read back from the bound record: record legal-decision:2026-08-28:research-track:co_mistaken_identity_expungement carries the 90-day agency duty, the arresting-agency-petitions rule, the participant fallback after the period, the 'No filing fee or other expungement cost may be charged' sentence, the actual-agency-finding precondition, the 'not a general vehicle for litigating innocence' limit, and the no-finding first-output rule. Every statement the packet attributes to the record is present in it verbatim."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "page-by-page text extraction from the delivered PDF bytes, compared to the declared component set",
+          "detail": "componentSet declares agency_request and agency_route_sheet. Both are rendered: canonical pages 1-2 carry the request (title 'REQUEST TO THE ARRESTING AGENCY FOR AN INVESTIGATION AND A MISTAKEN-IDENTITY FINDING', paragraphs 1-7, signature block) and pages 3-4 carry the route sheet (title 'WHERE THIS GOES, WHAT IT COSTS, AND WHAT YOU DO NOT FILE'). The boundary fixture carries the same two components over the same four pages. No component is mapped and unrendered."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "text extracted from the delivered PDF content streams and matched against reports/actual-writes.json, not read from that report",
+          "detail": "Six known writes are declared and all six were read back by this verifier from the bytes. Canonical: 'Jordan Avery Reyes' (requester_name, page 1 FROM block; and prepared_for, page 3), '1991-04-17', '42 Larkspur Street, Denver, CO 80202', '303-555-0142', 'jordan.reyes@example.org'. Boundary: 'Maria-Alejandra O'Shaughnessy-Whitfield', '1968-12-31', '1188 Upper Uncompahgre Crossing Road, Apartment 14B, Grand Junction, Colorado 81501-2214' (wrapped across two lines, both present), '(970) 555-0199 ext. 4417', 'maria.alejandra.oshaughnessy.whitfield@longmailexample.org'. Each is on the page of the component it belongs to. knownRequiredFieldsMissing=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "field-map declaration differenced against the printed page text and against participant-instructions.md line by line",
+          "detail": "Nine items declared (agency_address, agency_name, arrest_date, case_incident_number, identifiers_used, no_charges_basis, person_mistaken_for, what_i_was_accused_of, why_wrong_person). All nine print on the delivered page as a labelled caption above a dotted leader carrying no ink, and all nine appear by name in the 'The items you must supply' table of participant-instructions.md with what to write and where to get it. Checked and cleared, not a defect: production-field-map.json and reports/blanks-left-for-the-participant.json record page 1 for all nine, while person_mistaken_for and no_charges_basis in fact print on page 2 of the delivered PDF. That page value is not a per-family locator claim — every entry in both maps carries rectBasis composed_document_authored_by_this_build, and page 1 is the repository-wide structural constant for composed documents (confirmed against six other families' field maps at this base, all of which show a single distinct page value of 1 on composed entries). No participant-facing text prints a page number."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "routeSelectionsMade and both documents' selectionControls arrays, differenced against the printed page text",
+          "detail": "One route-determined election exists and it is made: routeSelectionsMade records selection 'instrument' = 'written request to the arresting agency for investigation and finding', determined by the bound record's own no-finding first-output rule. Both component maps carry selectionControls: [] — there is no checkbox, no alternative election and nothing left for a participant to choose. The pages state which instrument this is rather than leaving it ambiguous: 'THIS IS A WRITTEN REQUEST TO A LAW-ENFORCEMENT AGENCY. IT IS NOT A COURT FILING'. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "structural inspection of both component maps and of every extracted text run on all four pages",
+          "detail": "This family has no repeating structure: no case table, no offence table, no custodian list, no numbered row set. Neither map declares a repeating group and no page carries one. incompleteRows=0 measured here, and it is zero because there is no row to leave half-filled, which is stated rather than presented as a cleared risk."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "text extraction over all four pages of both fixtures, checking each protected region for ink",
+          "detail": "Two protected blanks are declared, both refusalClass signature_or_date_participant_completion: agency_request.requester_signature and agency_request.signature_date. On canonical page 2 and boundary page 2 the line reads 'DATE ............................ SIGNATURE OF REQUESTER ....................................' — dotted leaders only, no glyph of a name or a date in either position, in either fixture. The page says so itself: '(The requester signs and dates this request personally. Nothing on this page is signed or dated for the requester.)'. There is no certificate of mailing, no court-only and no prosecutor-only field in this family by design: it is an agency application and carries no proceeding. protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "sha256sum recomputed from the two committed fixtures, then a repository-wide grep for every record that names those digests",
+          "detail": "canonical.pdf recomputes to b4da2e74cfda874127ab81b22f4bc544d22ffcbcdd36e51a8c8336b1d47eae80 (12406 bytes, 4 pages) and boundary.pdf to 76f05a4a6392cdceb7281e6ce006b46ce0948bae64af955fed6f2f20089c3f7e (12755 bytes, 4 pages). FIVE committed records name these bytes and all five agree with the recomputation: reports/rendered-artifacts.json (both), product-wiring.json proposedRepresentation.components[0].sha256 (canonical), RASTER_QUEUE.json (canonicalPdfSha256 and boundaryPdfSha256), pf04/rows.json artifacts (both), and docs/rcap/grade-a/packet-factory-24h/raster/RAS01_PACKET_RASTER_EVIDENCE.md lines 23-24 (both). No record in this repository names a byte this family no longer has. There is no independent-visual-review.json for this family, which is consistent with its RASTER_PENDING state rather than a missing record."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "PDF page-tree order read from the /Pages /Kids array, matched against the packet manifest and against the extracted content of each page",
+          "detail": "reports/rendered-artifacts.json pageManifest declares packetPage 1-2 = agency_request (sourcePage 1,2) and packetPage 3-4 = agency_route_sheet (sourcePage 1,2). The canonical PDF's /Pages /Kids array is [6 0 R, 8 0 R, 11 0 R, 13 0 R] and the extracted text of those four page objects, in that order, is request page 1, request page 2, route sheet page 1, route sheet page 2. The boundary fixture matches. Manifest order and rendered order are the same order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "content-stream geometry: every Tj text run decoded from the FlateDecode content streams with its Tm origin and font size, glyph advance widths summed from the Adobe Times-Roman AFM metrics (the font is the non-embedded standard-14 /Times-Roman with /WinAnsiEncoding, so the AFM widths ARE the renderer's metrics), and each resulting word box tested against the MediaBox and against every other box on the page",
+          "detail": "Canonical: 118 text runs over four pages, 0 runs with any extent outside the 0 0 612 792 MediaBox, 0 horizontal overlaps on a shared baseline and 0 vertical collisions between adjacent baselines. Boundary: 121 text runs, same result. Extents stay well inside the paper: x from 72.0 to at most 544.0 of 612, lowest baseline 82 of 792. The boundary fixture is a genuine boundary — an 88-character address and a 58-character email — and it wraps onto a second line rather than running off the measure. WHAT THIS INSTRUMENT CANNOT SEE, stated rather than implied: it reads vector geometry, not pixels. It cannot see rasterisation or anti-aliasing artefacts, font substitution at render time, or the central gate's canary and negative controls. What narrows that gap for this family specifically is that all four content streams contain text operators only — decoded and checked: zero re, f, S, W, Do, cm, gs, Tz, Tc, Tw and BI operators in any of the four streams — so there is no vector rule, no image and no clipping path on any page, and every mark this packet makes is a glyph whose box was measured above. No pixel was inspected and this row claims none: RASTER_QUEUE.json holds the family at RASTER_PENDING, and no run id, job id, artifact id or zip digest exists for it to cite."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "printed page text of both components differenced against the destination the bound record names",
+          "detail": "The route is an agency application, and the destination the record names is the arresting agency. The packet names exactly that and nothing else: page 1 addresses 'TO: THE RECORDS UNIT OF THE LAW-ENFORCEMENT AGENCY NAMED BELOW'; page 3 says 'To the records unit of the agency that arrested you, or whatever office that agency names for written record enquiries'; participant-instructions.md says the same and adds that the arrest paperwork names the agency. The packet is equally explicit about the destination that is NOT used: 'you file NOTHING with any court. No petition, no motion, no proposed order, no certificate of service.' Which agency it is remains a REQUIRED_BEFORE_FILING blank, correctly, because no committed record holds the arresting agency of any particular participant. The court that would eventually see the matter is named for orientation only, and named correctly per the record — the district court of the judicial district where the arrest occurred, petitioned by the agency."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "the printed fee text of both components read against the bound record, against the compiled Colorado fee table, and against DETERMINATION_FEE_AND_WAIVER_STANDARD A3 and A4",
+          "detail": "A3, both directions, tested and clear. Direction one, borrowing an unheld figure: the compiled Colorado profile at src/lib/rcap-engine/compiled/profiles/CO-colorado.json does carry a fee table (packetGenerator.feeRules) and this verifier read all nine of its lines — every one is keyed to JDF 417 non-conviction sealing, JDF 612 conviction sealing, the CBI report attachment required for JDF 612, Clean Slate automatic sealing, or attorney fees. Not one addresses a C.R.S. Sec. 24-72-702 agency request. The packet refuses to borrow them and says so in terms: 'Colorado's published petition-sealing fees on forms JDF 417 and JDF 612 belong to a different statutory scheme and are not the price of anything here.' Direction two, delegating a held answer: the answer the repository DOES hold for this route is stated rather than delegated — the packet says nothing is asked of the participant anywhere in it and that a written request to an agency to look at its own record carries no filing fee, and it quotes the record's own 'No filing fee or other expungement cost may be charged' while saying precisely what that sentence covers (the expungement the route leads to, not this request). Where the repository genuinely holds nothing — whether a given agency charges for a records search or for copies — it refuses the figure and names who answers it: the records unit of the arresting agency, with 'ask what the charge is for before you pay it'. A4 tested: NO fee figure is printed anywhere in either fixture — this verifier checked every extracted text run on all eight pages and there is no currency symbol and no amount — so the packet's statement that no held source states a charge for this request is true of its own face. There is no waiver route to state because there is no fee on this route; the waiver that exists in Colorado (the JDF 612 fee-waiver motion) belongs to the scheme the packet correctly declines to borrow."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "printed page text of both components read against the bound record's service content",
+          "detail": "The bound record's serviceWorkflow section is empty, so no held record states any service requirement for this route, and an agency request has no opposing party. The packet answers rather than going silent: page 4 says 'Nobody. There is no opposing party, no district attorney to notify and no certificate of service, and no held record states any service requirement for this request. Send it to one place and keep dated proof that you did.' participant-instructions.md adds the practical form of it — send by a method that gives a dated receipt, keep a full copy, and if the agency asks for a copy to go anywhere else do that and keep proof. No certificate of mailing is rendered, which is correct for an instrument that serves nobody, and the absence is explained on the page rather than left to be noticed."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "instrument": "printed page text of both components read against the bound record's recorded escalation",
+          "detail": "The record's product disposition reads 'NO FINDING / DISPUTE: AGENCY REQUEST, THEN ATTORNEY HANDOFF', and the packet carries exactly that boundary. Canonical page 4 has a 'WHEN TO STOP AND GET HELP' block: the agency refuses to investigate or finds against you; anyone disputes what you say about the arrest; charges were filed arising from the arrest; you are trying to establish innocence of something you were actually arrested for; any immigration question is involved. It also states the escalation in terms: 'IF THE AGENCY REFUSES, FINDS AGAINST YOU, OR DISPUTES WHAT YOU SENT: stop. The recorded escalation for a no-finding or a dispute is a lawyer, not a self-help filing.' participant-instructions.md repeats the list and adds the route boundary the record draws — if the agency HAS made a finding, this request is not the instrument, and after 90 days the court-petition packet is. The packet also states what it is not: not a Colorado JDF form, not a court filing, not legal advice, not sent for you, and not a promise the agency will investigate or find anything."
+        }
+      },
+      "obligationTally": {
+        "scored": 15,
+        "PASS": 15,
+        "FAIL": 0,
+        "NOT_MEASURABLE_HERE": 0
+      },
+      "measuredHere": [
+        "the nine completeness counters, by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container rather than reading reports/completeness-counters.json",
+        "the SHA-256 of both delivered fixtures and of the one bound committed source, recomputed from the bytes",
+        "every record in the repository that names those digests, found by grep rather than by following the family's own links",
+        "the full text of all four pages of both fixtures, decoded from the FlateDecode content streams",
+        "word-box geometry for all 239 text runs across both fixtures, against the MediaBox and against each other",
+        "the operator census of all four canonical content streams, establishing that the pages carry text and nothing else",
+        "the nine required-before-filing declarations against the printed page and against participant-instructions.md",
+        "the compiled Colorado fee table, line by line, to test A3 in both directions",
+        "the seven anchor statements, read back from the bound legal-decision record"
+      ],
+      "notMeasuredHere": [
+        "any pixel. No raster exists for this family: RASTER_QUEUE.json holds it at RASTER_PENDING with nextOwner RAS01, so there is no run id, job id, artifact id or zip digest to cite and none is cited.",
+        "the builder's determinism claim. pf04/rows.json states the family was built twice in this container with byte-identical fixtures; this verifier did not re-run the build script, because a verification lane does not write into an overlay directory. The claim is recorded as the builder's, unconfirmed.",
+        "whether Colorado law-enforcement agencies in fact charge for records searches. That is outside the repository and the packet correctly refuses it rather than answering it."
+      ],
+      "findingsAgainstTheRecord": [
+        {
+          "finding": "RASTER_QUEUE.json names this family's builderAssignment as 'VF01', and docs/rcap/grade-a/packet-factory-24h/raster/RAS01_PACKET_RASTER_EVIDENCE.md line 26 prints 'built by VF01' under it. VF01 is an independent-verification lane and built nothing. The family was built by PF04, whose rows.json carries the COMPLETED build row, the build script, the source binding and the artifact hashes.",
+          "severity": "record accuracy, not a packet defect",
+          "whyItMatters": "The one field a raster receipt carries about provenance names the verifying lane as the builder. If anything downstream ever uses builderAssignment to test independence, this row would read as a lane verifying its own build. It is not: FABLE-VA1 built nothing, and pf04/rows.json is the evidence of who did.",
+          "notFixedHere": "A verifier does not edit the queue. This is reported to Captain, not repaired."
+        },
+        {
+          "finding": "This lane's own return file recorded, under fableVaRead, that an earlier FABLE-VA wave asserted and held pa_pardon_expungement-set on VF01 at base ee5bdb5b56d69c00750663087e5e8c5a6d144acf. At this base that family is granted to VF07 and VF01's assert refuses with exit 8 GRANTED_ELSEWHERE.",
+          "severity": "expected ledger movement, recorded so the two readings are not mistaken for a contradiction",
+          "whyItMatters": "The ledger is the authority and it has moved past both ACTIVE_ASSIGNMENTS.json and the earlier wave's snapshot. The earlier FABLE-VA row for pa_pardon_expungement-set stands on its own evidence and is untouched here; FABLE-VA1 formed no view of that family and opened none of its artifacts."
+        },
+        {
+          "finding": "ACTIVE_ASSIGNMENTS.json VF01 declares launchRule 'Launch now. Every seed family below is rendered at a3ac662...' and describes the seven seeds as 'the families already complete and awaiting verification at dispatch'. RASTER_QUEUE.json routing says RASTER_PASS is what sends a family to independent verification, and this seed is at RASTER_PENDING.",
+          "severity": "dispatch and queue disagree about whether this family had reached verification",
+          "whyItMatters": "It is why this row cannot carry the strongest verdict, and it is not this packet's fault. 54 of the 171 queued families are at RASTER_PENDING at this base, so a VF lane handed a RASTER_PENDING seed is a shape that will recur."
+        }
+      ],
+      "repairAssignment": null,
+      "rasterState": "RASTER_PENDING",
+      "whatWouldConvertThisRow": "One RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml against canonical b4da2e74cfda874127ab81b22f4bc544d22ffcbcdd36e51a8c8336b1d47eae80 and boundary 76f05a4a6392cdceb7281e6ce006b46ce0948bae64af955fed6f2f20089c3f7e, with coverage.complete true. Every other obligation is measured and passing in this row and would not need re-reading.",
+      "overlayDirectoriesModified": 0,
+      "packetBytesModified": 0,
+      "commercialRoutesOpened": 0,
+      "familiesPromoted": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row proves completeness measured independently. It approves no output, opens no commercial route and promotes nothing."
     }
   ],
   "supersededLaneMembership": {
@@ -2553,5 +2740,99 @@
     },
     "priorRowsPreserved": true,
     "priorRowsAreNotMine": "Every other row in this file was written by an earlier worker on this lane. FABLE-VA neither confirms nor disturbs them."
+  },
+  "fableVa1Read": {
+    "worker": "FABLE-VA1",
+    "verifier": "FABLE-VA1 (independent: built none of these packets, repaired none, rendered none, and produced none of the reports it reads)",
+    "wave": "FABLE-VA1 / VF01 second wave",
+    "readAtBase": "f3c6ee4339f137798bba6d18ac8edc2f0693af88",
+    "branch": "fable/va1",
+    "readAt": "2026-09-02T08:43:20Z",
+    "priorRowsPreserved": true,
+    "priorRowsAreNotMine": "Every row in this file except the FABLE-VA1 row named below was written by an earlier worker on this lane — VF-SRC-A, FABLE-VT1, FABLE-VT8 and FABLE-VA. FABLE-VA1 neither confirms nor disturbs any of them, and the document-level fields above (worker, laneMembership, verdictCeiling, summary, supersededLaneMembership) describe those earlier reads and were left exactly as found.",
+    "rowsAddedByThisWorker": [
+      "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request"
+    ],
+    "verdictsOnThisWave": {
+      "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request": "STOPPED (all fifteen obligations PASS; blocked from PASS_COMPLETE_INDEPENDENT only by RASTER_PENDING)"
+    },
+    "claimResults": {
+      "granted": [
+        {
+          "familyId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+          "result": "CLAIM_OK",
+          "exitCode": 0,
+          "grantSet": "1c690cb5fc4b4e0b",
+          "assertedAt": "2026-09-02T08:34:12Z"
+        }
+      ],
+      "refused": [
+        {
+          "familyId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+          "result": "BLOCKED_BEFORE_CLAIM",
+          "exitCode": 8,
+          "refusal": "GRANTED_ELSEWHERE: granted to VF06, not VF01",
+          "assertedAt": "2026-09-02T08:34:12Z"
+        },
+        {
+          "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+          "result": "BLOCKED_BEFORE_CLAIM",
+          "exitCode": 8,
+          "refusal": "GRANTED_ELSEWHERE: granted to VF06, not VF01",
+          "assertedAt": "2026-09-02T08:34:12Z"
+        },
+        {
+          "familyId": "in_arrest_no_charges-set",
+          "result": "BLOCKED_BEFORE_CLAIM",
+          "exitCode": 8,
+          "refusal": "GRANTED_ELSEWHERE: granted to VF08, not VF01",
+          "assertedAt": "2026-09-02T08:34:13Z"
+        },
+        {
+          "familyId": "pa_pardon_expungement-set",
+          "result": "BLOCKED_BEFORE_CLAIM",
+          "exitCode": 8,
+          "refusal": "GRANTED_ELSEWHERE: granted to VF07, not VF01",
+          "assertedAt": "2026-09-02T08:34:13Z"
+        },
+        {
+          "familyId": "rcap-wi-custom-pleading",
+          "result": "BLOCKED_BEFORE_CLAIM",
+          "exitCode": 8,
+          "refusal": "GRANTED_ELSEWHERE: granted to VF06, not VF01",
+          "assertedAt": "2026-09-02T08:34:13Z"
+        },
+        {
+          "familyId": "wv_conv_multiple_misdemeanors-set",
+          "result": "BLOCKED_BEFORE_CLAIM",
+          "exitCode": 8,
+          "refusal": "GRANTED_ELSEWHERE: granted to VF07, not VF01",
+          "assertedAt": "2026-09-02T08:34:13Z"
+        }
+      ],
+      "whatARefusalMeant": "Six of the seven families this lane was briefed on are held by other verification lanes at this base. No grant was transferred, no reissue was attempted, and not one artifact of those six families was opened. This return therefore carries NO verdict about any of them, and no lane should read one into its silence — in particular, nothing here confirms or disturbs the earlier FABLE-VA row for pa_pardon_expungement-set, which was written when VF01 still held that grant.",
+      "releases": [
+        {
+          "familyId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+          "releasedBy": "node scripts/grade-a-packet-factory-24h/claim.mjs --release VF01 <familyId>",
+          "reason": "FABLE-VA1 finished its independent read: all fifteen proof obligations measured and passing, verdict STOPPED at the BUILT_RASTER_PENDING ceiling because the family is RASTER_PENDING and the queue requires RASTER_PASS before PASS_COMPLETE."
+        }
+      ]
+    },
+    "corpus": "MOUNTED and readable at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (499 files, 329 PDFs). The one family read binds no corpus binary — custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT, documents: [] — so SOURCE_IDENTITY was recomputed from the committed legal-decision record it does bind. This is not a corpus-absence pass.",
+    "measuredBy": "the fifteen canonical proof obligations, each scored by name; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container rather than read from any builder report; source and artifact digests recomputed from the bytes on disk; page text and word-box geometry decoded from the FlateDecode content streams of the delivered PDFs; and a repository-wide search for every committed record that names the delivered bytes.",
+    "whatThisWorkerCouldNotMeasure": "Pixels. Artifact blobs sit behind proxy-denied storage and, for this family, no raster exists at all — RASTER_QUEUE.json holds it at RASTER_PENDING. No run id, job id, artifact id or zip digest is cited anywhere in this return because none exists for it.",
+    "gatesRun": {
+      "scripts/grade-a-packet-factory-24h/verify.mjs": "30/30 factory checks passed",
+      "scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs": "9/9 lane-contract checks passed; LANE_CONTRACTS_HELD",
+      "scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs": "CLAIM_LEDGER_OK 772 claims"
+    },
+    "overlayDirectoriesModified": 0,
+    "packetBytesModified": 0,
+    "buildScriptsModified": 0,
+    "manifestsModified": 0,
+    "commercialRoutesOpened": 0,
+    "familiesPromoted": 0,
+    "productionTouched": false
   }
 }
