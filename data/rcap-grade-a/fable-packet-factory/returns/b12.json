@@ -1,0 +1,193 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "worker": "FABLE-B12",
+  "lane": "PF01",
+  "branch": "fable/b12",
+  "returnedAt": "2026-09-02T00:00:00Z",
+  "mission": "composed-treatment backlog: classify first, then build — six MASTER_QUEUE rows, state SOURCE_READY, strategy custom_pleading, chosen for the clearest committed evidence across six different states",
+  "captainMergedThrough": "edf5ff14b (origin/claude/legalease-sprint-captain-utucnw, re-merged mid-shift on coordinator instruction; claim-ledger conflict resolved by taking the captain side and re-applying this lane's releases through claim.mjs so the digest stayed tool-maintained)",
+  "sharedDiscipline": {
+    "sourceBinding": "no Master Library binary exists for these rows by design (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT); each build binds its committed authority records — route contracts, controlling 2026-08-28 legal decisions, legal-design intake memos — by exact SHA-256 at build time and re-reads every relied-on statement as an anchor before composing, refusing on drift",
+    "familyGateNote": "verify-packet-build-environment.mjs --family fails family_sources_bind for every composed-treatment row with 'names no resolved document source... An official_pdf_fill family with no bound source is not dispatchable' — the check does not model CUSTOM_PLEADING_FROM_CODIFIED_TEXT families, whose MASTER_QUEUE rows are SOURCE_READY with directAttachment true and boundSources [] by design. Treated as a gate-modeling gap, not a source blocker; the committed-record SHA-256 binding above is the family-level source discipline in its place, and every source-receipt.json says so.",
+    "onlyHeldFactsWritten": "participant name, date of birth (where the pleading states it), mailing address, telephone, email — nothing else; every case fact is a labelled dotted REQUIRED_BEFORE_FILING blank disclosed in participant-instructions.md",
+    "protectedFields": "no signature, signature date, service date, judicial decision, court signature or clerk-assigned number is ever written; proposed orders render with every decision line blank",
+    "determinism": "deterministic stamping via scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs; every family built twice and the canonical and boundary PDFs matched byte-for-byte (sha256) across runs",
+    "verification": "builder's own nine counters computed with the repository contract functions, then the independent verifier scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family run per row: PASS_COMPLETE, all nine counters zero, on all six",
+    "raster": "every page rastered locally through scripts/raster/pdf-page-raster.mjs (calibrated Chromium at /opt/pw-browsers/chromium-1223, never Poppler); rasterState RASTER_LOCAL_PENDING_CENTRAL — the central workflow's RASTER_PASS is still required and nothing here is PASS_COMPLETE for launch purposes without it",
+    "commercial": "commercialRoutesOpened 0 on every row; no runtime, queue, or production surface touched; the only writes outside owned overlay directories and build scripts were claim.mjs's own ledger releases"
+  },
+  "rows": [
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "jurisdiction": "AK",
+      "classification": "custom_pleading",
+      "classificationEvidence": [
+        "src/lib/legal-authority/routes/national-report-batch-b.json — route contract (decision NATIONAL-2026-08-28-B-AK-01): 'the custom motion, filed in the original sentencing criminal case and not as a new civil petition'; 'pending: no Alaska Court System form specific to a post-discharge request was located'; names every packet component this build composed",
+        "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json — Alaska ak-set-aside product disposition: OUTPUT: CUSTOM ORIGINAL-CASE MOTION, destination sentencing court, service prosecutor, contested case attorney handoff"
+      ],
+      "disposition": "BUILT",
+      "status": "COMPLETED",
+      "directory": "data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading",
+      "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085.mjs",
+      "components": ["primary_filing", "subsection_f_exclusions_statement", "compliance_at_discharge_statement", "prosecutor_service", "proposed_order", "filing_instructions"],
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "independentVerifier": "PASS_COMPLETE",
+      "artifacts": [
+        { "fixture": "canonical", "sha256": "9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a", "pages": 8 },
+        { "fixture": "boundary", "sha256": "e898a0768afd9882932f581da66b04b99e2cc9494d9e218fff7e758f7b677e42", "pages": 8 }
+      ],
+      "rasterPages": 16,
+      "byteIdenticalRebuild": true,
+      "commits": ["db2585afb", "bd1971e49"],
+      "claimReleased": true
+    },
+    {
+      "itemId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "jurisdiction": "ND",
+      "classification": "custom_pleading",
+      "classificationEvidence": [
+        "src/lib/legal-authority/routes/national-report-2026-08-28.json — route contract for the automatic parent, whose nd_still_public_day_62 failure disposition records: 'First a written request to the clerk of the original court to implement the closure. If the clerk cannot correct it, a motion to enforce in the original criminal case.'",
+        "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json — LA-IMM-03: names both composed instruments and their required contents ('identify the case, disposition date, calculated deadline, statutory basis, and evidence of continuing public access'), records that no dedicated statewide enforcement form exists"
+      ],
+      "routesServed": [
+        "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:written_clerk_correction_request",
+        "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:original_case_enforcement_motion"
+      ],
+      "disposition": "BUILT",
+      "status": "COMPLETED",
+      "directory": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading",
+      "buildScript": "scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs",
+      "components": ["clerk_correction_request", "enforcement_motion", "proposed_order", "filing_instructions"],
+      "recordedNonGrants": ["the automatic branch files nothing", "pre-2025-08-01 dispositions remain on the official petition route (not carried here)", "BCI/originating-agency history correction is a separate challenge", "contested eligibility is attorney handoff"],
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "independentVerifier": "PASS_COMPLETE",
+      "artifacts": [
+        { "fixture": "canonical", "sha256": "61bedadea4d79733ae2903993d4525835e08df8f28d191bdb2b3b66fe2e78c96", "pages": 7 },
+        { "fixture": "boundary", "sha256": "6088a70b8bd9b67f92862393562c3a0dd9feadee39a4f445a7e56c740d7790b7", "pages": 7 }
+      ],
+      "rasterPages": 14,
+      "byteIdenticalRebuild": true,
+      "commits": ["dcc65105a", "b7909f770"],
+      "claimReleased": true
+    },
+    {
+      "itemId": "composed-treatment:sc_17_22_950_summary",
+      "jurisdiction": "SC",
+      "classification": "custom_pleading",
+      "classificationEvidence": [
+        "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json — Q-035: 'written implementation request to summary-court clerk/judge → motion in original summary case to enforce § 17-22-950(A) → attorney handoff for mandamus or disputed eligibility'; forbids repurposing SCCA 223E and opening a solicitor application; both instruments must identify docket, disposition, fingerprinted status, statutory deadline and requested order",
+        "data/record-clearing/legal-design-intake/SC.memo.json — track sc_17_22_950_summary: the (A) branch's automatic no-cost order, the § 17-22-950(C) window (no sooner than appeal expiration, no later than 30 days after), the (F) objection path, the statutory bars",
+        "covered-by-another-family check: the existing sc_17_22_950_summary-set official_pdf_fill family serves only the unit-a/unit-b routes; these two decision-branch routes are served nowhere else"
+      ],
+      "routesServed": [
+        "obligation:decision-branch:SC:sc_17_22_950_summary:written_implementation_request",
+        "obligation:decision-branch:SC:sc_17_22_950_summary:original_case_enforcement_motion"
+      ],
+      "disposition": "BUILT",
+      "status": "COMPLETED",
+      "directory": "data/rcap-all50/overlays/census-v1/sc/composed-treatment:sc-17-22-950-summary--custom-pleading",
+      "buildScript": "scripts/build-census-v1-composed-treatment:sc_17_22_950_summary.mjs",
+      "components": ["implementation_request", "enforcement_motion", "filing_instructions"],
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "independentVerifier": "PASS_COMPLETE",
+      "artifacts": [
+        { "fixture": "canonical", "sha256": "9742b771437d6bf34a3701e1a9838f35f49548f92e450011edf8622a31ce4c63", "pages": 6 },
+        { "fixture": "boundary", "sha256": "e5c37a603eff1af87cacc0f405aea4738aeb7f6ff65a7fb7d78527a7680f2cdb", "pages": 6 }
+      ],
+      "rasterPages": 12,
+      "byteIdenticalRebuild": true,
+      "commits": ["87be6bc91", "fc873065d"],
+      "claimReleased": true
+    },
+    {
+      "itemId": "composed-treatment:sd_sis_sealing",
+      "jurisdiction": "SD",
+      "classification": "custom_pleading",
+      "classificationEvidence": [
+        "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json — Q-044: sealing under SDCL § 23A-27-17 is the court's mandatory duty; escalation 'written implementation request in original case → motion to enforce § 23A-27-17 if not corrected → attorney handoff for refusal or mandamus'; 'an enforcement-motion template may be built'; 'Do not use a form designed for a separate arrest-expungement statute as a fallback'",
+        "data/record-clearing/legal-design-intake/SD.memo.json — track sd_sis_sealing: the statute's own recorded words on the mandatory sealing order, the DCI carve-out, the restoration/perjury effect, the teacher-licensing caveat; the memo's own release-blocker question (the remedy where sealing did not happen) is CLOSED by the Q-044 holding this build composes from — no legal hold remains"
+      ],
+      "routesServed": [
+        "obligation:decision-branch:SD:sd_sis_sealing:written_implementation_request",
+        "obligation:decision-branch:SD:sd_sis_sealing:original_case_enforcement_motion"
+      ],
+      "disposition": "BUILT",
+      "status": "COMPLETED",
+      "directory": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading",
+      "buildScript": "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
+      "components": ["implementation_request", "enforcement_motion", "filing_instructions"],
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "independentVerifier": "PASS_COMPLETE",
+      "artifacts": [
+        { "fixture": "canonical", "sha256": "d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32", "pages": 6 },
+        { "fixture": "boundary", "sha256": "0d845a2cc829dc75140b01bda7ae31ab1e5b8ab79b8b9d5f32cca607897f53f3", "pages": 6 }
+      ],
+      "rasterPages": 12,
+      "byteIdenticalRebuild": true,
+      "commits": ["f6ba7adb3", "e1daecf2a"],
+      "claimReleased": true
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "jurisdiction": "MS",
+      "classification": "custom_pleading",
+      "classificationEvidence": [
+        "src/lib/legal-authority/routes/mississippi.json — route contract (LD-MS-01, MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01): the twelve-month no-charge branch, elapsed clock anchored on arrest_date, exclusions Misdemeanor only / No charge or prosecution during the twelve months / Nothing pending, packet components Petition under § 99-15-59 + Arrest record + Proposed order, and 'The twelve-month clock applies to the no-charge branch only'",
+        "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json — the statute's recorded substance: a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest may apply to the court with jurisdiction for expungement",
+        "no MS.memo.json track exists for this branch and no committed record names an official form; the immediate-dismissal branch is a separate family; the retired legacy MS generator conveys nothing (ADR-0004)"
+      ],
+      "disposition": "BUILT",
+      "status": "COMPLETED",
+      "directory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading",
+      "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59.mjs",
+      "components": ["primary_filing", "proposed_order", "filing_instructions"],
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "independentVerifier": "PASS_COMPLETE",
+      "artifacts": [
+        { "fixture": "canonical", "sha256": "b624892f7883b610ed9ea40d18b0c03b8f2c5ebdbb81cdfe2940620a8218fd05", "pages": 4 },
+        { "fixture": "boundary", "sha256": "4869b6e9e45d6ef48ed9199def2ac8bec8ec9ebe02cac5b8e1ec2f962a90d6a9", "pages": 4 }
+      ],
+      "rasterPages": 8,
+      "byteIdenticalRebuild": true,
+      "commits": ["ce2dd6b66", "9a7119592"],
+      "claimReleased": true
+    },
+    {
+      "itemId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "jurisdiction": "CO",
+      "classification": "custom_pleading",
+      "classificationEvidence": [
+        "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json — research-track decision for co_mistaken_identity_expungement: C.R.S. § 24-72-702 agency-first mechanism; the participant may file in the same district court after the agency's 90-day deadline expires; 'No filing fee or other expungement cost may be charged'; product disposition CUSTOM NO-FEE DISTRICT-COURT PETITION with a listed set of required contents (agency finding, proof no charges filed, arrest identifiers, expired deadline, complete record-custodian list, proposed mandatory expungement order, post-order distribution and verification instructions)",
+        "recorded boundaries carried: not a general vehicle for litigating innocence; with no agency finding the first output is a written agency request (a different branch, not carried here)"
+      ],
+      "disposition": "BUILT",
+      "status": "COMPLETED",
+      "directory": "data/rcap-all50/overlays/census-v1/co/composed-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-court-petition-after-90-days--custom-pleading",
+      "buildScript": "scripts/build-census-v1-composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days.mjs",
+      "components": ["primary_filing", "proposed_order", "filing_instructions"],
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "independentVerifier": "PASS_COMPLETE",
+      "artifacts": [
+        { "fixture": "canonical", "sha256": "e6d926f76168b6ca6d5dbc2b7a13e6037be2b53203bb8eea6c93cc843e8e0e8d", "pages": 5 },
+        { "fixture": "boundary", "sha256": "d00acb23ed43217b68d466265ca30050baca432adb85e1d35f25452adbd0d7ea", "pages": 5 }
+      ],
+      "rasterPages": 10,
+      "byteIdenticalRebuild": true,
+      "commits": ["c095bf9db", "2ee0e57f3"],
+      "claimReleased": true
+    }
+  ],
+  "totals": {
+    "rowsTaken": 6,
+    "built": 6,
+    "guidanceOnlyDeterminations": 0,
+    "coveredByAnotherFamilyDeterminations": 0,
+    "legalHolds": 0,
+    "allNineCountersZeroOn": 6,
+    "independentPassComplete": 6,
+    "rasterPages": 72,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "packetsSelfVerified": 0
+  }
+}
