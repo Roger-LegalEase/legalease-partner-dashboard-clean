@@ -24,12 +24,15 @@ import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
 import { resolveFact } from "./rcap-official-forms/rcap-field-semantics.mjs";
 import { fitTextToWidget } from "./rcap-official-forms/rcap-text-fitting.mjs";
 import { scanBytesForActiveContent } from "./rcap-official-forms/rcap-active-content.mjs";
+import { loadAppearanceSemantics, dispositionsForFamily }
+  from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(rootDir);
 const require = createRequire(import.meta.url);
+const APPEARANCE_SEMANTICS = loadAppearanceSemantics();
 const { PDFDocument, PDFName, PDFRawStream, StandardFonts, decodePDFRawStream,
   pushGraphicsState, popGraphicsState, translate, drawObject } = require("pdf-lib");
 const sharp = require("sharp");
@@ -181,6 +184,29 @@ const FAMILIES = Object.freeze({
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-409",
     routeKeys: ["obligation:track-only:CA:ca-851-91"],
     formNumbers: ["CR-409", "CR-410", "CR-106", "MC-031"],
+    /*
+     * FIX06, CLIPPING_AND_OVERLAP on all four delivered primary filings.
+     *
+     * CR-409's AcroForm /Fields array holds ONE root, `CR-409[0]`, and its four
+     * footer pushbuttons hang five /Kids levels below it. The finalizer already
+     * classified all four as SUPPRESS_CONTROL_APPEARANCE and already called the
+     * detachment, but the detachment scanned only the flat /Fields array, found
+     * nothing to remove, and left the fields exactly where getFields() walks
+     * them from. updateFieldAppearances() then regenerated the Warning
+     * pushbutton's appearance from its /MK /CA caption -- 18 words, laid out on
+     * one line inside a 211-point-wide widget -- and flatten() stamped it: the
+     * word "protection" broke the left edge of the paper at x -3.442 and the
+     * caption's tail was drawn inside the Print button's own rectangle.
+     *
+     * This flag is set on THIS FAMILY ONLY. The other five California families
+     * on this host share the same nesting and the same defect, and each is
+     * another lane's to hold; flipping the default here would rewrite their
+     * bytes without a claim on them.
+     */
+    detachNestedControlFields: true,
+    // The one CR-409 pushbutton whose caption is the court's own text and not
+    // chrome is classified here, because nothing structural separates them.
+    appearanceSemanticsKey: "CA:ca-851-91-set:cr-409",
   },
   "ca-prop64-set": {
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-400",
@@ -3391,6 +3417,21 @@ async function buildCa(familyId, config) {
               captionOnly: false, documentAcceptsFill: true,
               documentTextLines: [], maxFontSize: 9, minFontSize: 6,
               title: CA_FORMS[config.primaryForm].documentId,
+              // Per-family, and only where the family's config asks for it.
+              detachNestedControlFields: config.detachNestedControlFields === true,
+              /*
+               * What this family's classified fields' appearances MEAN.
+               *
+               * Empty for every family that has no registry entry, which is the
+               * structural default and is what each of them already gets. It
+               * matters here because the structural rule calls every pushbutton
+               * chrome, and CR-409 carries one whose caption is the form number
+               * inside a sentence the court printed: "(form MC-031)." Suppress
+               * that one and the filing reads "(form )."
+               */
+              appearanceDispositions: config.appearanceSemanticsKey
+                ? dispositionsForFamily(APPEARANCE_SEMANTICS, config.appearanceSemanticsKey)
+                : new Map(),
             },
           });
           fs.mkdirSync(path.dirname(abs(document.file)), { recursive: true });

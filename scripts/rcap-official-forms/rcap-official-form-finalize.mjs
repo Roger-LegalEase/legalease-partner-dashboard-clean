@@ -526,7 +526,30 @@ export async function finalizeOfficialForm({
   // caller resolves it from the shared semantic registry; an empty map leaves
   // every field on the structural default, which is what every unclassified
   // family gets.
-  appearanceDispositions = new Map()
+  appearanceDispositions = new Map(),
+  /*
+   * Whether a suppressed control is also detached from a NESTED field tree.
+   *
+   * The suppression itself is not in question: a pushbutton is chrome and
+   * structuralDisposition has always called it SUPPRESS_CONTROL_APPEARANCE. The
+   * question is whether the detachment REACHES it. ISO 32000-1 8.6.1 lets a
+   * field tree nest, and on the California Judicial Council forms it does: the
+   * AcroForm's /Fields array holds one root and every terminal field hangs
+   * beneath it, so the flat scan removed nothing, updateFieldAppearances
+   * regenerated each pushbutton's appearance from its /MK /CA caption, and
+   * flatten() stamped it onto the page through the widget's own /P.
+   *
+   * Opt-in, on the same reasoning as evaluateDeclaredMinimumSize and
+   * alignWidgetFontSizeToFit above: the families sharing this finalizer are
+   * rebuilt by different workers at different times, and a repair lane holding
+   * one family does not get to decide what the others' next rebuild produces.
+   * A family whose controls sit directly in /Fields is unaffected either way.
+   *
+   * CAPTAIN DECISION: like those flags, this default should flip to true once
+   * every family can be rebuilt together. A control caption stamped off the
+   * edge of the paper is a defect wherever it occurs, not only here.
+   */
+  detachNestedControlFields = false
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -710,7 +733,8 @@ export async function finalizeOfficialForm({
     // What each classified field's appearance means. The caller resolves this
     // for the family it is rendering and hands over a plain field-name map, so
     // the finalizer never learns which family it is working on.
-    appearanceDispositions
+    appearanceDispositions,
+    detachNestedControlFields
   });
   report.sanitation = { ...sanitation, defaultAppearancesRepairedBeforeFill: defaultAppearancesRepaired };
 
