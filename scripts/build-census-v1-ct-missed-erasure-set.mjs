@@ -125,7 +125,8 @@ function composedBody(componentId, facts) {
   L.push("STEP FOUR. Decide whether there is a case. The records eligible to be deemed erased by operation of law are those Sec. 54-142a(e) describes, and the timing turns on dates you know: the date of the offense, and the date of your most recent judgment of conviction for any crime. If the record shows the information marked as erased, there is nothing to pursue - you are done, and that is a good outcome. If the conviction appears unmarked and you believe it was required to be deemed erased, stage two exists for exactly that.", "");
   L.push("STAGE TWO - THE DESPP SUBMISSION. THIS PACKET DOES NOT GENERATE IT, AND HERE IS WHY. Sec. 54-142t(g) requires the submission to be made to DESPP 'in a form and manner determined by the department'. That form and manner is not in the statute, it had not been located when the legal-design record was made, and the record classifies inventing a DESPP filing form as a design blocker. No submission document is generated, and none should be improvised: ask DESPP what form and manner it has determined for a Sec. 54-142t(g) submission, and use exactly that.", "");
   L.push("WHAT STAGE TWO LOOKS LIKE, SO YOU KNOW WHAT YOU ARE WALKING INTO. The submission includes a copy of your criminal history record search demonstrating that the information has not been marked as erased. DESPP then determines the matter FOLLOWING A CONTESTED HEARING, and that determination is a final decision under the Uniform Administrative Procedure Act (chapter 54). A contested administrative hearing against the state is a lawyer's proceeding: when you reach it, take a lawyer. This guidance is the whole of what self-help covers on this route.", "");
-  L.push("ONE RUMOUR TO IGNORE. A rule that the SPBI report itself must be 'dated on or after January 1, 2024' appears in older internal material and looks like a misreading - that date is when the Sec. 54-142t(g) remedy became available, and nothing found requires the report to bear a post-2024 date. The point is recorded as unresolved rather than as a rule; get a current report anyway, because a current report is simply better evidence.", "");
+  L.push("THE DATE ON YOUR CRIMINAL HISTORY RECORD - TREAT THIS AS A REQUIREMENT. A DESPP form held in the source library, DESPP-0847-C (New 01/01/2024), states on its printed face: 'You must submit a copy of your current criminal history record, which must be dated on or after 01/01/2024, demonstrating that such conviction has not been marked as erased. If the criminal history record is not submitted along with this form, your submission will be deemed incomplete and your request for a review and/or hearing will be denied.' Earlier internal material treated that date rule as a likely misreading of when the Sec. 54-142t(g) remedy became available. That earlier reading is withdrawn: a DESPP form does impose the date, and the stated consequence of breaching it is denial. So get a criminal history record dated on or after 01/01/2024 - a current report - and keep it with whatever you submit.", "");
+  L.push("Two honest limits on that. First, DESPP-0847-C is held under a currentness gate in the source library and Connecticut's controlling state legal review is not in the library at all, so this packet does not tell you that DESPP-0847-C is the form for your route, does not fill it, and does not reproduce it - the form and manner for a Sec. 54-142t(g) submission is still DESPP's to state. Second, because of that, confirm the date rule and the form with DESPP before you submit: the State Police Bureau of Identification answers criminal-history-record questions at (860) 685-8480 option 4, and DESPP's Legal Affairs Unit is at 1111 Country Club Road, Middletown, CT 06457. What this packet will not do is tell you the date rule can be disregarded.", "");
   L.push("WHEN TO STOP AND GET HELP.");
   L.push("- The DESPP submission stage itself: its form and manner is undetermined here, and the contested hearing that follows is a lawyer's proceeding.");
   L.push("- You have an immigration matter.");
@@ -240,12 +241,16 @@ const FINDINGS = [
   {
     finding:
       "The recorded SPBI fee figures come from a form dated 12/01/17 whose own face warns that information may "
-      + "change, and the 'report must be dated on or after January 1, 2024' rule in older internal material is "
-      + "recorded as a likely misreading, unresolved rather than a rule.",
+      + "change. Separately, the 'report must be dated on or after January 1, 2024' rule was previously recorded "
+      + "as a likely misreading; that reading is withdrawn. DESPP-0847-C (New 01/01/2024), held in the source "
+      + "library, prints the rule in mandatory terms with denial as the stated consequence of breaching it.",
     consequence:
-      "Every fee figure is printed with its date and a verify-with-DESPP-SPBI warning; the date-of-report point "
-      + "is presented as unresolved with the practical advice (get a current report) that does not depend on "
-      + "resolving it."
+      "Every fee figure is printed with its date and a verify-with-DESPP-SPBI warning. The date-of-report point "
+      + "is now stated to the participant as a requirement a held DESPP form imposes, quoted from that form's "
+      + "printed face, together with the two limits on it: DESPP-0847-C sits behind a currentness gate and "
+      + "Connecticut's controlling state legal review is absent from the corpus, so the packet neither maps that "
+      + "form to this route nor fills, binds or reproduces it, and it names SPBI and the DESPP Legal Affairs Unit "
+      + "as the authorities to confirm the rule with."
   },
   {
     finding:
@@ -261,7 +266,7 @@ const APPROVAL = {
   counselQuestionsRaised: [
     "DESPP's current form and manner for a § 54-142t(g) submission — the recorded true output blocker. Until it is located or determined, stage 2 remains unbuilt; no submission document should be approved from this packet because none exists in it.",
     "Current SPBI fees and process: the recorded figures are from DPS-0846-C Rev. 12/01/17. Verify before any participant-facing use.",
-    "Whether the SPBI report must be dated on or after 1 January 2024: recorded as a likely misreading and preserved as unresolved. Confirm or discharge.",
+    "Whether the SPBI report must be dated on or after 1 January 2024: no longer open on the facts. DESPP-0847-C (New 01/01/2024) prints the rule in mandatory terms with denial as the consequence, so the packet now states it as a requirement. What remains for counsel is whether DESPP-0847-C is the correct instrument for THIS route - it is titled for convictions after 1/1/2000 and is held behind a currentness gate - and that question cannot be answered until Connecticut's state legal-design review, recorded by the corpus as missing_from_supplied_corpus and a release_blocker, is supplied.",
     "Confirm the stage-1 guidance's account of § 54-142a(e) eligibility is pitched correctly — the guidance sends unclear eligibility to a lawyer rather than attempting the determination."
   ],
   mattersForTheReviewersAttention: [

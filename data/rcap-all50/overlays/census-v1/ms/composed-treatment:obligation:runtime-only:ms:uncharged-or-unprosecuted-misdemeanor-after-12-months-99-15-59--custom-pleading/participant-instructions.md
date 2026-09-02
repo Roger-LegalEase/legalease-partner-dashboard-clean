@@ -39,7 +39,6 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
-| Case number in the caption of the proposed order, if one was assigned | the case number, if the court assigned one at filing |
 | Court named in the caption of the proposed order, and its county or city | the same court name and county or city you wrote in the petition's caption |
 
 ## What you do, in order
@@ -55,7 +54,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 - **Your signature, and every date beside a signature.** A signature is yours alone, and a date written before you sign would be false.
 - **Every line of the proposed order that decides anything**, including the court's signature and date. The order is the court's to make.
-- **The case number of the petition itself.** If the court assigns one, it does so at filing.
+- **The case number, both in the petition's caption and in the proposed order's caption.** If the court assigns one, it does so at filing - and the proposed order is filed together with the petition, before any number exists, so neither caption can carry one when you file. Leave both blank; the clerk adds the number.
 
 ## What this packet does not tell you
 

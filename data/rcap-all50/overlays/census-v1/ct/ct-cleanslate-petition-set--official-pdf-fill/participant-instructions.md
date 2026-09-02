@@ -12,6 +12,12 @@ If that court location has since closed, **the chart on page 2 of this packet na
 
 **There is no filing fee for this petition.** C.G.S. § 54-142a provides for it and the compiled Connecticut profile records the fee as $0. A criminal-history record check from the State Police Bureau of Identification is a separate agency cost and is not a court filing fee.
 
+## Who must be served with a copy, and how
+
+**No held source states a service rule for this petition, so this packet states none — and it does not tell you that none exists.** The form itself carries no certificate of service, no service section and no service instruction among its 22 fields; its four printed instructions cover eligibility, swearing, venue and one-case-per-form only. The compiled Connecticut profile records no service or notice rules for this route. An absent record is not a finding that no service is required.
+
+**Ask the clerk of the Superior Court location where you file** — the same G.A. location named in _Where you file this_ above, or the receiving location from the page-2 chart if yours has closed — whether anyone must be served with a copy of this petition, in what manner, and by when. Ask when you file, and do what the clerk tells you. That clerk is the office that answers this question for this filing.
+
 ## One case per form
 
 Printed instruction 4 is strict, and the court enforces it: **if you have crimes from more than one case, file a separate form for each case.** The court cannot process a form carrying crimes from more than one case, and the docket box takes only one number. The docket number already on your packet is the case this copy covers.
