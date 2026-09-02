@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "tx_exp_acquittal-set",
+  "routeKey": "obligation:unit:TX:tx_exp_acquittal:tx-acquittal-in-window-request",
+  "routeKeys": [
+    "obligation:unit:TX:tx_exp_acquittal:tx-acquittal-in-window-request",
+    "obligation:unit:TX:tx_exp_acquittal:tx-acquittal-out-of-window-petition"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "tx_exp_acquittal-set",
+    "jurisdiction": "TX",
+    "routeKeys": [
+      "obligation:unit:TX:tx_exp_acquittal:tx-acquittal-in-window-request",
+      "obligation:unit:TX:tx_exp_acquittal:tx-acquittal-out-of-window-petition"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Ordinary ex parte petition where the window closed or the court did not act, art. 55A.251 (custom_pleading)",
+      "Request to the trial court within 30 days of acquittal, art. 55A.201 (custom_pleading)"
+    ],
+    "packetComponents": [
+      "component:tx_exp_acquittal-fee-waiver-statement-5"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-tx_exp_acquittal-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "tx_exp_acquittal-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "tx_exp_acquittal-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "40da6ac91f2aa86ccd3a3f524d81696b5cf00a203de5f088266592b5fe7fe290",
+        "requirement": "required"
+      }
+    ]
+  }
+}

@@ -1,22 +1,43 @@
 {
   "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
   "assignmentId": "PF09",
-  "workerId": "PF-C",
-  "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This lane carries one family, so it checkpoints once.",
+  "workerId": "FABLE-PB",
+  "shiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+  "checkpointRule": "return every five completed families, or every two hours, whichever comes first",
+  "howThisLaneCheckpointed": "this lane holds fourteen assigned items across six assignment ids and built them as one body of work, so checkpoints are recorded against the whole grant rather than per assignment id. Each landed as a commit on fable/pb before the next family was started.",
   "checkpoints": [
     {
       "checkpoint": 1,
-      "at": "2026-09-01T09:07:05Z",
-      "familiesCompletedSoFar": [
-        "me-seal-prost-set"
+      "landedAs": "commit on fable/pb: Build four composed-pleading families: WY felony, and three Mississippi",
+      "familiesCompleted": [
+        "ms-diversion-set"
       ],
-      "familiesStoppedSoFar": [],
-      "familiesRemaining": [],
-      "note": "CR-289 built to the builder contract: one official form, one page, primary_filing. Canonical and boundary fixtures rendered and rastered, every visible write read back from the finalized bytes, all nine counters zero by the builder's own count. A factual claim about pre-printed X marks was found wrong on visual review and corrected in the builder and in this lane's row. Not verified here."
+      "note": "the four zero-bound-source families. The fee obligation was answered per fact and per route: Wyoming and ms-fel state a figure the repository holds, ms-misd-addl and ms-diversion refuse to read the Sec. 99-19-72 $150 across to sections it does not reach and name the clerk instead."
     }
   ],
-  "laneComplete": true,
-  "familiesAssigned": 1,
-  "rowsReturned": 1,
-  "timestampBasis": "The checkpoint time is the modification time of the family's build-status.json on the build host, which is when the build that produced it finished."
+  "supersededShiftCheckpoints": {
+    "note": "the checkpoints this file held before this shift wrote its own, preserved verbatim",
+    "document": {
+      "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+      "assignmentId": "PF09",
+      "workerId": "PF-C",
+      "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This lane carries one family, so it checkpoints once.",
+      "checkpoints": [
+        {
+          "checkpoint": 1,
+          "at": "2026-09-01T09:07:05Z",
+          "familiesCompletedSoFar": [
+            "me-seal-prost-set"
+          ],
+          "familiesStoppedSoFar": [],
+          "familiesRemaining": [],
+          "note": "CR-289 built to the builder contract: one official form, one page, primary_filing. Canonical and boundary fixtures rendered and rastered, every visible write read back from the finalized bytes, all nine counters zero by the builder's own count. A factual claim about pre-printed X marks was found wrong on visual review and corrected in the builder and in this lane's row. Not verified here."
+        }
+      ],
+      "laneComplete": true,
+      "familiesAssigned": 1,
+      "rowsReturned": 1,
+      "timestampBasis": "The checkpoint time is the modification time of the family's build-status.json on the build host, which is when the build that produced it finished."
+    }
+  }
 }

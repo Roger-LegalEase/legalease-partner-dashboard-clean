@@ -1,35 +1,53 @@
 {
   "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
   "assignmentId": "PF12",
-  "workerId": "PF-C",
-  "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This lane carries two families, so it checkpoints per family rather than holding both back.",
+  "workerId": "FABLE-PB",
+  "shiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+  "checkpointRule": "return every five completed families, or every two hours, whichever comes first",
+  "howThisLaneCheckpointed": "this lane holds fourteen assigned items across six assignment ids and built them as one body of work, so checkpoints are recorded against the whole grant rather than per assignment id. Each landed as a commit on fable/pb before the next family was started.",
   "checkpoints": [
     {
-      "checkpoint": 1,
-      "at": "2026-09-01T07:45:53Z",
-      "familiesCompletedSoFar": [
-        "ak-tf800-set"
-      ],
-      "familiesStoppedSoFar": [],
-      "familiesRemaining": [
-        "ct-cleanslate-petition-set"
-      ],
-      "note": "TF-800 built to the builder contract: one official form, three pages, primary_filing. Canonical and boundary fixtures rendered and rastered, every visible write read back from the finalized bytes, all nine counters zero by the builder's own count. Not verified here."
-    },
-    {
-      "checkpoint": 2,
-      "at": "2026-09-01T08:02:53Z",
-      "familiesCompletedSoFar": [
-        "ak-tf800-set",
-        "ct-cleanslate-petition-set"
-      ],
-      "familiesStoppedSoFar": [],
-      "familiesRemaining": [],
-      "note": "JD-CR-202 brought to the builder contract. The family existed before this lane and could not be audited: its field map used a schema the completeness verifier refuses, and three of the participant's own facts were blank on the filing because the form prints its column headings a row above its inputs. Captions are now measured and re-checked against the pinned binary; the packet identifies its petitioner. PF12 returns two rows for two assigned families, both COMPLETED, neither self-verified."
+      "checkpoint": null,
+      "note": "no family in this assignment completed. All five of its items were refused at the claim gate with ALREADY_RELEASED, which is a full stop, so nothing was read, nothing was built and there was no work to checkpoint.",
+      "familiesCompleted": []
     }
   ],
-  "laneComplete": true,
-  "familiesAssigned": 2,
-  "rowsReturned": 2,
-  "timestampBasis": "Each checkpoint time is the modification time of that family's build-status.json on the build host, which is when the build that produced it finished. An earlier revision of this file carried times estimated rather than read; they were wrong by about five hours and are corrected here."
+  "supersededShiftCheckpoints": {
+    "note": "the checkpoints this file held before this shift wrote its own, preserved verbatim",
+    "document": {
+      "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+      "assignmentId": "PF12",
+      "workerId": "PF-C",
+      "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This lane carries two families, so it checkpoints per family rather than holding both back.",
+      "checkpoints": [
+        {
+          "checkpoint": 1,
+          "at": "2026-09-01T07:45:53Z",
+          "familiesCompletedSoFar": [
+            "ak-tf800-set"
+          ],
+          "familiesStoppedSoFar": [],
+          "familiesRemaining": [
+            "ct-cleanslate-petition-set"
+          ],
+          "note": "TF-800 built to the builder contract: one official form, three pages, primary_filing. Canonical and boundary fixtures rendered and rastered, every visible write read back from the finalized bytes, all nine counters zero by the builder's own count. Not verified here."
+        },
+        {
+          "checkpoint": 2,
+          "at": "2026-09-01T08:02:53Z",
+          "familiesCompletedSoFar": [
+            "ak-tf800-set",
+            "ct-cleanslate-petition-set"
+          ],
+          "familiesStoppedSoFar": [],
+          "familiesRemaining": [],
+          "note": "JD-CR-202 brought to the builder contract. The family existed before this lane and could not be audited: its field map used a schema the completeness verifier refuses, and three of the participant's own facts were blank on the filing because the form prints its column headings a row above its inputs. Captions are now measured and re-checked against the pinned binary; the packet identifies its petitioner. PF12 returns two rows for two assigned families, both COMPLETED, neither self-verified."
+        }
+      ],
+      "laneComplete": true,
+      "familiesAssigned": 2,
+      "rowsReturned": 2,
+      "timestampBasis": "Each checkpoint time is the modification time of that family's build-status.json on the build host, which is when the build that produced it finished. An earlier revision of this file carried times estimated rather than read; they were wrong by about five hours and are corrected here."
+    }
+  }
 }

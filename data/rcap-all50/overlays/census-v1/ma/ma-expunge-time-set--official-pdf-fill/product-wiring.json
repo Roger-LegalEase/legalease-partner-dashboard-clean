@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ma-expunge-time-set",
+  "routeKey": "obligation:unit:MA:ma-expunge-time:ma-expunge-time-commissioner-certification",
+  "routeKeys": [
+    "obligation:unit:MA:ma-expunge-time:ma-expunge-time-commissioner-certification",
+    "obligation:unit:MA:ma-expunge-time:ma-expunge-time-court-determination"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "ma-expunge-time-set",
+    "jurisdiction": "MA",
+    "routeKeys": [
+      "obligation:unit:MA:ma-expunge-time:ma-expunge-time-commissioner-certification",
+      "obligation:unit:MA:ma-expunge-time:ma-expunge-time-court-determination"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Petition to Expunge to the Commissioner of Probation (official_pdf_fill)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:ma-expunge-time-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:Massachusetts Probation Service Petition to Expunge",
+        "sha256": "5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ma-expunge-time-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "ma-expunge-time-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "ma-expunge-time-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "b41eb67d3173db1b57f982d15ebb5886eabda4801d1f23fb26ebf053eaa5e6af",
+        "requirement": "required"
+      }
+    ]
+  }
+}

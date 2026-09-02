@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ms-fel-set",
+  "worklistGroupId": "ms-fel-set",
+  "jurisdiction": "MS",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no source bytes are bound: the MASTER_QUEUE row for this family binds zero sources (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundCount 0, officialFormFamily NONE, forms []). Every composed page is grounded on the committed legal-design records named in groundingRecords, and nothing else.",
+  "routeKeys": [
+    "obligation:track-pathway:MS:ms-fel:eligible-felony-conviction-expungement-99-19-71"
+  ],
+  "routeSelectionId": "ms-fel-composed-set",
+  "statutoryAuthority": "Miss. Code Ann. § 99-19-71(2)",
+  "legalName": "Petition to Expunge One Felony Conviction (Miss. Code Ann. § 99-19-71(2), as amended by 2026 HB 1546)",
+  "allSourcesExact": true,
+  "allSourcesExactNote": "true vacuously: this family binds zero source binaries, so there is no source that is not bound by exact SHA-256. No official form exists for this route per the legal-design record, and none was invented.",
+  "documents": [],
+  "groundingRecords": [
+    {
+      "record": "data/record-clearing/legal-design-intake/MS.memo.json",
+      "track": "ms-fel"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "packetSetId": "ms-fel-set"
+    },
+    {
+      "record": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "read": "packetGenerator.feeRules[0], which states the § 99-19-72 $150 filing fee and keys it to § 99-19-71"
+    }
+  ],
+  "officialSourcesRecordedInIntake": [
+    {
+      "title": "2026 Mississippi House Bill 1546, As Sent to Governor (enrolled), Chapter 430, Laws of 2026, approved 30 March 2026, effective 1 July 2026 — amends Miss. Code Ann. § 99-19-71",
+      "url": "https://billstatus.ls.state.ms.us/2026/pdf/history/HB/HB1546.htm",
+      "retrievedOn": "2026-07-30"
+    },
+    {
+      "title": "Miss. Code Ann. § 99-19-71 — Expunction of criminal record (as amended by 2026 HB 1546, eff. 1 July 2026)",
+      "url": "https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/",
+      "retrievedOn": "2026-07-30"
+    },
+    {
+      "title": "Miss. Code Ann. § 99-19-72 — Filing fee levied on each petition to expunge an offense under § 99-19-71",
+      "url": "https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-72/",
+      "retrievedOn": "2026-07-30"
+    }
+  ],
+  "formIdentityNote": "No official form exists for a Miss. Code Ann. § 99-19-71(2) petition. Mississippi has no statewide expungement form and § 99-19-71 prescribes none. The four archived petition and order PDFs in the record are Fourth Circuit Court District models covering Leflore, Sunflower and Washington counties only, with a hardcoded three-county field, a hardcoded Fourth District DA address at Greenville and 2020 signature blocks. The committed record classifies them as DRAFTING REFERENCES ONLY and lists their defects as things not to inherit. None of them was used as a form and nothing was copied from them. The MASTER_QUEUE row agrees: officialFormFamily NONE, implementationStrategy custom_pleading, forms [], boundCount 0.",
+  "composedComponentsAuthoredByThisBuild": [
+    "ms-fel-primary-filing-1",
+    "ms-fel-proposed-order-2",
+    "ms-fel-certificate-of-service-3",
+    "ms-fel-attachment-4",
+    "ms-fel-instructions-5",
+    "ms-fel-notice-6"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that this participant is eligible under § 99-19-71(2) — the twelve-category exclusion list, the rehabilitation determination and the common-nucleus question are not encoded and are left to the participant, counsel and the court",
+    "whether the § 99-19-72 fee reaches a petition filed in justice or municipal court rather than circuit court — the collection mechanism names the circuit clerk and the committed record leaves the question open in terms",
+    "whether any pauper's-affidavit route is available for an expungement petition, which the committed record records as not established",
+    "whether notarization is required — the committed record records it as unresolved and a simple truth statement is used"
+  ]
+}
