@@ -594,3 +594,32 @@ Both records carry hashes, so the national answer was one arithmetic pass over
 two committed files. When a lane hands you a sample and a conclusion, the
 sample is usually sound and the conclusion is usually scoped to it — run the
 same comparison over the whole denominator before you plan around it.
+
+## A counter that cannot see something reports zero, and zero reads as proof
+
+FABLE-VA6 found three families where blanks a participant must fill — the court
+named in the caption — exist in no field map, no blanks report and no
+instruction table, and `unclassifiedBlanks` reports 0 on all three. It re-ran
+the completeness verifier itself and the verifier passed them too.
+
+Two halves make it. The caption rule writes "IN THE ...... COURT" as a
+hard-coded literal dot run while every registered blank goes through the
+`{{DOTS}}` placeholder; and the blank ledger is built only from field-map
+refusals, so a blank that never entered a field map cannot enter the ledger. A
+caption blank is invisible by construction, not by accident.
+
+Captain generalised it: **40 of 191 build scripts carry both halves, and all 40
+report `unclassifiedBlanks: 0`.** That counter is not evidence of absence on
+any of them. It is still evidence where it is non-zero, and still a true
+measurement of the blanks that did enter a field map.
+
+The instrument was deliberately not changed. Making the counter report
+NOT_MEASURED_ON_THIS_FAMILY rather than 0 is the right fix and it touches a
+measurement every family and several gates read; with verification lanes in
+flight measuring against it, changing it mid-run would invalidate their work.
+The list is at
+`data/rcap-grade-a/packet-completeness/UNCLASSIFIED_BLANKS_BLIND_SPOT.json`.
+
+The general form is worth more than the instance: when a lane reports "the
+counter says zero and I can see the defect", the counter is the finding. Ask
+what it is built from before treating a zero as an answer.
