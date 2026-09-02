@@ -60,6 +60,48 @@ const WAVE_ROWS = "data/rcap-grade-a/wave-2/p1-ut-petition-expunge-completeness/
  * and would silently invalidate two independent passes. Extending the repair is
  * one word per family once each is claimed, and it should happen: the sentence
  * is as false there as it is here.
+ *
+ * THE EXTENSION, TAKEN. A later independent read (vf11) failed all three
+ * remaining non-traffic families on the same two obligations, and the three
+ * grants were asserted before a byte of this host was written. Both flags are
+ * now set on ut_pet_dismissed_without_prejudice-set, ut_pet_limitations-set and
+ * ut_pet_no_charges-set. ut_pet_traffic-set is untouched: it delivers no BCI
+ * application and needs no certificate, so neither flag reaches it.
+ *
+ * `certificateIssuanceFeeHeldExempt` is the third flag and it is NOT set on all
+ * three, which is the whole point of it. The compiled Utah state profile
+ * (src/lib/rcap-engine/compiled/profiles/UT-utah.json) records BCI's published
+ * FAQ as saying "no certificate issuance fee is required for dismissals,
+ * acquittals, or declinations". Under DET-FEE-AND-WAIVER-001 amendment A3
+ * holding is per FACT and per ROUTE, so that sentence has to be read against
+ * each route separately:
+ *
+ *   - ut_pet_dismissed_without_prejudice-set IS a dismissal, and the exempting
+ *     limb names "dismissals" without qualification. Held.
+ *   - ut_pet_no_charges-set IS the declination case -- its own committed
+ *     manifest describes the evidence as "Any written declination or no-file
+ *     letter from the prosecutor". Held.
+ *   - ut_pet_limitations-set is a charge ended by the limitations period. It is
+ *     not a conviction, a plea in abeyance or a special certificate, and it is
+ *     not a dismissal, an acquittal or a declination either. NEITHER limb of
+ *     that sentence addresses this route, so nothing in the repository
+ *     establishes its certificate answer and the honest refusal stands. Setting
+ *     one flag across all three would have put a false no-fee statement into
+ *     the third packet, which is exactly the sibling-route inference A3 forbids.
+ *
+ * `declarationNameBoxClearsPrePrintedI` moves ONE write box and is likewise set
+ * only on the three claimed families. On packet page 18 the BCI Application's
+ * sworn declaration reads "I, ______ , declare under criminal penalty...". The
+ * pre-printed "I" occupies x=49.745-52.742 and the committed write box for
+ * "Name of Petitioner" starts at x=50.5, so the participant's name is drawn on
+ * top of the declaration's first-person subject and the committed raster shows
+ * the "I" destroyed. The nine counters read zero and are not wrong: every glyph
+ * is inside its own box. The box is in the wrong place. The flag exists because
+ * ut_pet_acquittal-set, ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set
+ * carry the identical defect and this lane holds no grant on them -- moving the
+ * box unconditionally would rewrite their delivered bytes. That defect is
+ * reported rather than repaired, and it should be repaired the moment one lane
+ * holds all seven.
  */
 const CONFIGS = Object.freeze({
   "ut_pet_acquittal-set": {
@@ -78,15 +120,24 @@ const CONFIGS = Object.freeze({
   },
   "ut_pet_dismissed_without_prejudice-set": {
     slug: "ut-pet-dismissed-without-prejudice-set", traffic: false, routeKind: "case",
-    dismissedWithoutPrejudice: true, chargeLabel: "Charge dismissed without prejudice"
+    dismissedWithoutPrejudice: true, chargeLabel: "Charge dismissed without prejudice",
+    statesBciApplicationFee: true, statesManifestPreFilingItems: true,
+    certificateIssuanceFeeHeldExempt: "a dismissal",
+    declarationNameBoxClearsPrePrintedI: true
   },
   "ut_pet_limitations-set": {
     slug: "ut-pet-limitations-set", traffic: false, routeKind: "case",
-    chargeLabel: "Charge ended by limitations period"
+    chargeLabel: "Charge ended by limitations period",
+    statesBciApplicationFee: true, statesManifestPreFilingItems: true,
+    certificateIssuanceFeeNotEstablished: "a charge ended by the limitations period",
+    declarationNameBoxClearsPrePrintedI: true
   },
   "ut_pet_no_charges-set": {
     slug: "ut-pet-no-charges-set", traffic: false, routeKind: "incident",
-    chargeLabel: "Arrest with no charges filed"
+    chargeLabel: "Arrest with no charges filed",
+    statesBciApplicationFee: true, statesManifestPreFilingItems: true,
+    certificateIssuanceFeeHeldExempt: "a declination",
+    declarationNameBoxClearsPrePrintedI: true
   },
   "ut_pet_traffic-set": {
     slug: "ut-pet-traffic-set", traffic: true, routeKind: "case",
@@ -125,6 +176,25 @@ const REQUIRED_BEFORE_FILING = Object.freeze([
 ]);
 
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
+
+/**
+ * The compiled Utah state profile, cited as a held record in its own right.
+ *
+ * DET-FEE-AND-WAIVER-001 amendment A2 settles that "the repository" is every
+ * committed record the family binds plus every record the route census names,
+ * and lists the compiled state profile for the family's jurisdiction expressly.
+ * It is not a corpus PDF, so it is not resolvable through the Master Library or
+ * the corpus index; it is read and hashed from the checkout.
+ *
+ * The exact sentence is asserted rather than quoted from memory. If the
+ * compiled profile is ever regenerated and this sentence changes, the build
+ * refuses instead of shipping a fee statement whose authority no longer says
+ * what the packet claims it says. This file only ever READS the compiled tree.
+ */
+const UT_PROFILE = "src/lib/rcap-engine/compiled/profiles/UT-utah.json";
+const UT_PROFILE_CERTIFICATE_SENTENCE =
+  "eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; "
+  + "no certificate issuance fee is required for dismissals, acquittals, or declinations";
 
 /**
  * The held publications the filing instructions quote, and nothing else.
@@ -212,6 +282,20 @@ function resolveCitedAuthorities(config) {
       sha256: digest, byteLength: bytes.length,
       supports: (config.traffic && authority.trafficSupports) ? authority.trafficSupports : authority.supports,
       verifiedBy: "re-hashed on this build against the committed corpus index"
+    });
+  }
+  if (config.certificateIssuanceFeeHeldExempt || config.certificateIssuanceFeeNotEstablished) {
+    const bytes = fs.readFileSync(path.join(rootDir, UT_PROFILE));
+    const text = bytes.toString("utf8");
+    assert.ok(text.includes(JSON.stringify(UT_PROFILE_CERTIFICATE_SENTENCE).slice(1, -1)),
+      `${UT_PROFILE}: the certificate-fee sentence this packet cites is no longer in the compiled profile`);
+    resolved.push({
+      id: "UT-COMPILED-STATE-PROFILE",
+      title: "Compiled Utah state profile (BCI expungement FAQ, as compiled into this repository)",
+      pathInArchive: UT_PROFILE,
+      sha256: sha256(bytes), byteLength: bytes.length,
+      supports: ["feeAndWaiver"],
+      verifiedBy: "read from the checkout on this build, with the cited sentence asserted present"
     });
   }
   return resolved;
@@ -410,7 +494,33 @@ function addCoverSheetPlans(plans, census, facts) {
     "participant.email", facts, { field: "First Plaintiff/Petitioner Email" });
 }
 
-function addBciPlans(plans, census, facts) {
+/**
+ * Where the sworn declaration's name goes on the BCI application, page 2.
+ *
+ * The printed line is: I, ______ , declare under criminal penalty of the State
+ * of Utah that the foregoing is true and correct.
+ *
+ * Measured on the delivered bytes with pdftotext -bbox, the pre-printed "I"
+ * occupies x=49.745-52.742 and the comma that closes the blank sits at
+ * x=194.626. The committed write box began at x=50.5, INSIDE the "I", so the
+ * participant's name was drawn over the declaration's first-person subject: the
+ * canonical raster reads as the name followed straight by ", declare under
+ * criminal penalty", with the I reduced to a stub. That is a sworn declaration
+ * that has lost its subject, and it is in the bytes the packet delivers.
+ *
+ * The repair moves the box right of the "I" and changes nothing else. x=55.5
+ * clears the glyph by 2.758pt. The width stays 136, so the box still ends at
+ * 191.5, left of the comma; fittedSize caps drawn text at width-20 = 116pt, and
+ * the widest fixture value (the boundary name, 114.05pt) therefore ends by
+ * 169.6 -- clear of the comma with 25pt to spare. Nothing else on the line
+ * moves, and no other field's geometry is touched.
+ */
+const DECLARATION_NAME_BOX = Object.freeze({
+  committed: { x: 50.5, y: 399, width: 136, height: 12 },
+  clearsPrePrintedI: { x: 55.5, y: 399, width: 136, height: 12 }
+});
+
+function addBciPlans(plans, census, facts, config) {
   const formNumber = "UT-BCI-EXP-APPLICATION";
   const fields = censusFields(census, formNumber);
   const byId = (id) => {
@@ -437,7 +547,9 @@ function addBciPlans(plans, census, facts) {
     measured: { x0: 49, x1: 188, baselineY: 397, width: 139 }, construction: "printed_blank"
   }, "participant.full_legal_name", facts, {
     field: "Name of Petitioner",
-    writeBox: { x: 50.5, y: 399, width: 136, height: 12 }
+    writeBox: config.declarationNameBoxClearsPrePrintedI
+      ? { ...DECLARATION_NAME_BOX.clearsPrePrintedI }
+      : { ...DECLARATION_NAME_BOX.committed }
   });
 }
 
@@ -449,7 +561,7 @@ function textPlansFor(config, census, fixture) {
   addPetitionPlans(plans, census, petition, facts);
   addOrderPlans(plans, census, order, facts);
   addCoverSheetPlans(plans, census, facts);
-  if (!config.traffic) addBciPlans(plans, census, facts);
+  if (!config.traffic) addBciPlans(plans, census, facts, config);
   const ids = plans.map((row) => `${row.formNumber}:${row.fieldId}`);
   assert.equal(new Set(ids).size, ids.length, "text plan disposes a field more than once");
   return plans;
@@ -1021,6 +1133,18 @@ async function rasterPacket(file, outDirRel) {
  * submitting your application"), and keeps the honest refusal for the
  * certificate price -- which is still not guessed.
  * See DET-FEE-AND-WAIVER-001 amendment A4.
+ *
+ * A further read applied amendment A3 to the certificate half, route by route,
+ * and the answer is not the same for every family on this host. The compiled
+ * Utah profile records BCI's FAQ exempting "dismissals, acquittals, or
+ * declinations" from the certificate issuance fee. For a dismissal route and
+ * for a declination route the repository therefore ANSWERS the certificate
+ * question, and A1 forbids sending the participant to ask about an answer the
+ * record holds -- so those packets state it. For the limitations route neither
+ * limb of that sentence addresses the disposition, so nothing establishes it and
+ * the named-authority refusal is the honest outcome rather than a defect; that
+ * packet says so and says WHY, so a reader can see the refusal is reasoned
+ * rather than lazy. Where a family sets neither flag the paragraph is unchanged.
  */
 function participantInstructions(config, authorities) {
   const items = REQUIRED_BEFORE_FILING.filter((item) => {
@@ -1059,7 +1183,25 @@ function participantInstructions(config, authorities) {
     out.push("**BCI charges two separate amounts. They are not the same thing, and only one of them is fixed.**", "");
     out.push("**The BCI application fee is $65.00, and it is non-refundable.** It is printed on the BCI *Application for Certificate of Eligibility* included in this packet: \"The application fee is $65.00 and non-refundable\", and again on the payment block, \"Application fee is $65.00\". Your application will not be processed unless it arrives with that fee. Checks and money orders are payable to \"BCI\"; the application also takes Visa, MasterCard, Discover or AMEX; cash is accepted only if you apply in person, and the form says in capitals not to send cash in the mail.", "");
     out.push("**If you cannot pay the $65.00, BCI has its own waiver and you must complete it before you apply.** The application's own instructions are explicit: if you check the box saying you believe you are indigent, you \"MUST complete the fee waiver form before submitting your application\", and BCI will not process the application until the completed waiver form arrives with it. BCI publishes the form and separate *Indigent Expungement Applicant Instructions* at bci.utah.gov/expungements, and returns your waiver form to you with your certificates if you are eligible.", "");
-    out.push("**The certificates themselves cost more than the application, and this packet does not state that amount because BCI sets it per applicant.** A certificate must be purchased for each eligible incident you want expunged, and BCI's instructions tell you to \"pay all associated fees as indicated in the BCI letter\" — that letter is where your own certificate price appears. Ask the Bureau of Criminal Identification what your certificates will cost. Do not assume the court's $150 waiver covers either BCI amount: the court and BCI are two different offices with two different waivers.", "");
+    if (config.certificateIssuanceFeeHeldExempt) {
+      // A1 as widened by A2 and narrowed by A3: the repository answers this
+      // route's certificate question, so the packet states the answer instead
+      // of sending the participant to ask for it. The route match is exact --
+      // the profile's exempting limb names dismissals and declinations, and
+      // this family is one of them -- not a read-across from a sibling route.
+      out.push(`**On this route, the held record says the certificate carries no issuance fee.** The compiled Utah state profile in this repository records BCI's published expungement FAQ as saying that "${UT_PROFILE_CERTIFICATE_SENTENCE}". This packet is built for ${config.certificateIssuanceFeeHeldExempt}, which is one of the dispositions that sentence exempts, so on the held record the $65.00 application fee above is the only BCI amount this route carries.`, "");
+      out.push("Two things are worth saying plainly rather than hiding. That sentence records what BCI's FAQ publishes, not a fee fixed by statute, and the general sequence described elsewhere in this packet's own materials is that BCI issues a certificate on payment of an issuance fee. So take the exemption as what the record holds and confirm it before you pay anything: ask the Bureau of Criminal Identification, at bci.utah.gov/expungements, what your certificates cost on a case like yours. Do not assume the court's $150 waiver covers any BCI amount — the court and BCI are two different offices with two different waivers.", "");
+    } else if (config.certificateIssuanceFeeNotEstablished) {
+      // A3, applied honestly against this lane's own interest. The exempting
+      // limb would have been convenient here and it does not reach this route,
+      // so the packet refuses the figure and names who answers it -- the
+      // outcome A1 calls complete, with the reasoning shown.
+      out.push("**The certificate itself may carry a further BCI charge, and no held source states an amount for this route.** A certificate must be purchased for each eligible incident you want expunged, and BCI's instructions tell you to \"pay all associated fees as indicated in the BCI letter\" — that letter is where your own certificate price appears.", "");
+      out.push(`This packet has checked, and says what it found rather than guessing. The compiled Utah state profile in this repository records BCI's published expungement FAQ as saying that "${UT_PROFILE_CERTIFICATE_SENTENCE}". Your route is ${config.certificateIssuanceFeeNotEstablished}. That is not a conviction, a plea in abeyance or a special certificate, and it is not a dismissal, an acquittal or a declination either, so neither half of that sentence is about your case and this packet will not read it across to you.`, "");
+      out.push("Ask the Bureau of Criminal Identification what a certificate will cost on your case, at bci.utah.gov/expungements, and ask at the same time whether its indigency waiver covers the issuance fee as well as the $65.00 application fee. Do not assume the court's $150 waiver covers either BCI amount: the court and BCI are two different offices with two different waivers.", "");
+    } else {
+      out.push("**The certificates themselves cost more than the application, and this packet does not state that amount because BCI sets it per applicant.** A certificate must be purchased for each eligible incident you want expunged, and BCI's instructions tell you to \"pay all associated fees as indicated in the BCI letter\" — that letter is where your own certificate price appears. Ask the Bureau of Criminal Identification what your certificates will cost. Do not assume the court's $150 waiver covers either BCI amount: the court and BCI are two different offices with two different waivers.", "");
+    }
   } else if (!config.traffic) {
     out.push("**The BCI certificate carries a separate fee, and this packet does not state an amount because BCI sets it per applicant.** BCI's instructions tell you to \"pay all associated fees as indicated in the BCI letter\", and a certificate must be purchased for each eligible incident you want expunged. BCI publishes separate *Indigent Expungement Applicant Instructions* under which BCI sends a fee waiver together with the certificate list. Ask the Bureau of Criminal Identification what your certificates cost and whether you qualify for its fee waiver; do not assume the court's $150 waiver covers BCI's fee, because they are two different offices.", "");
   }
@@ -1097,6 +1239,16 @@ function participantInstructions(config, authorities) {
     if (config.dismissedWithPrejudice) {
       out.push("- **A certified copy of the order of dismissal.** Ask the clerk of the court that handled the case. It carries the dismissal date and states whether the dismissal was with or without prejudice — which decides which track applies, and this packet is built for the *with prejudice* track.");
       out.push("- **The dismissal date, checked against that certified copy.** Correct the packet if the date you gave and the date on the order disagree.");
+    }
+    // The remaining manifest items are route-specific, so each is gated on the
+    // route it belongs to and quoted from that family's own manifest entry.
+    if (config.dismissedWithoutPrejudice) {
+      out.push("- **A certified copy of the order of dismissal without prejudice.** Ask the clerk for a certified copy of the dismissal order. It carries the dismissal date and confirms that the dismissal was *without* prejudice — which is what starts the 180-day clock this track runs on.");
+      out.push("- **The dismissal date, checked against that certified copy.** Correct the packet if the date you gave and the date on the order disagree.");
+      out.push("- **The prosecutor's written consent to the expungement, if one has been given.** You ask the prosecuting attorney's office directly. LegalEase does not seek, negotiate or obtain prosecutor consent, and never asserts that it has been given. If there is no consent that is fine — the 180-day route is the alternative — but check that against the answer recorded in this packet and correct it if they disagree.");
+    }
+    if (config.routeKind === "incident") {
+      out.push("- **Whatever shows how you know the prosecutor made a final decision not to file charges** — a written declination or no-file letter from the prosecutor if you have one, and otherwise a note of how you learned it, whether it was said in court or reached you another way. Check that against the answer recorded in this packet and correct it if they disagree.");
     }
     out.push("");
   }
@@ -1263,7 +1415,12 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
       "Signatures, signature dates, service acts, and court/agency/prosecutor/victim fields remain protected.",
       "The filing destination, the $150 court fee, the 1305GE waiver route and the prosecutor service step are stated in participant-instructions.md and quoted from the cited held publications, each re-hashed against the committed corpus index on this build.",
       ...(config.statesBciApplicationFee ? ["The BCI application fee of $65.00, and BCI's own indigency waiver and its before-you-apply sequencing rule, are stated in participant-instructions.md and quoted from the BCI Application for Certificate of Eligibility this packet delivers. The per-incident certificate price is still refused rather than guessed, and the refusal now says which of the two BCI amounts it applies to (DET-FEE-AND-WAIVER-001 amendment A4)."] : []),
+      ...(config.certificateIssuanceFeeHeldExempt ? [`The certificate issuance fee is STATED rather than refused on this route, because the repository establishes it: the compiled Utah state profile records BCI's published FAQ exempting dismissals, acquittals and declinations, and this route is ${config.certificateIssuanceFeeHeldExempt}. The profile is cited as an authority and its sentence is asserted present on every build. The residual - that the sentence records a published FAQ rather than a statutory schedule - is stated to the participant rather than smoothed over (DET-FEE-AND-WAIVER-001 amendments A1, A2 and A3).`] : []),
+      ...(config.certificateIssuanceFeeNotEstablished ? [`The certificate issuance fee is refused on this route and the refusal is reasoned on the packet's face: the compiled Utah profile's certificate sentence names conviction, plea-in-abeyance and special certificates on one side and dismissals, acquittals and declinations on the other, and ${config.certificateIssuanceFeeNotEstablished} is neither. Reading the exemption across to this route would be the sibling-route inference DET-FEE-AND-WAIVER-001 amendment A3 forbids, so the packet names BCI as the authority instead.`] : []),
+      ...(config.declarationNameBoxClearsPrePrintedI ? ["The BCI application's sworn declaration on packet page 18 no longer writes the participant's name over the pre-printed \"I\". The committed write box began at x=50.5 and the pre-printed glyph occupies x=49.745-52.742; the box now begins at x=55.5 and nothing else on the line moved. This is a geometry correction to a box, not a change to what is written or to any counter."] : []),
       ...(config.statesManifestPreFilingItems ? ["The requiredBeforeFiling items this family's committed packet-set manifest holds and the earlier instructions omitted - the paid-in-full bar on fines, fees, interest and restitution, and the all-states case list BCI reviews - are stated in participant-instructions.md, quoted from that manifest."] : []),
+      ...(config.statesManifestPreFilingItems && (config.dismissedWithoutPrejudice || config.routeKind === "incident")
+        ? ["This route's own manifest items beyond the two shared ones - the documentary proof the route turns on, and the answer-check the manifest pairs with it - are stated in participant-instructions.md and quoted from this family's manifest entry."] : []),
       ...(config.dismissedWithPrejudice ? ["The free alternative the committed track registry says must be disclosed before payment - automatic expungement 180 days after the dismissal under Utah Code 77-40a-206 - is stated in participant-instructions.md ahead of every amount the packet asks the participant to pay."] : []),
       "Blanks printed inside the form's own agency-use-only box are protected for the issuing agency rather than asked of the participant.",
       "Independent completeness and visual verification remain pending."
