@@ -1,39 +1,56 @@
 {
   "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
   "assignmentId": "PF13",
-  "workerId": "PF-C",
+  "workerId": "FABLE-PD",
+  "workerBranch": "fable/pd",
+  "engine": "Claude packet-build lane in an isolated git worktree, executing the FABLE-PD brief",
   "lane": "packet-build",
-  "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
-  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
-  "familiesAssigned": 2,
-  "preflight": {
-    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
-    "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed for each family; family_sources_bind 2/2 on both"
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "472444b86139bccc35dac4ee17cc01148f1064d6",
+  "minimumCaptainSha": "d69deaec80f308f48f8871b7d113243a99db95ba",
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha d69deaec80f308f48f8871b7d113243a99db95ba --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+    "note": "npm ci was run first: pdf_lib_importable failed on a checkout with no node_modules, which is an environment state rather than a lane finding."
   },
-  "selfVerification": "none. The builder does not verify its own packets; the counters below are the builder's own count using the repository's own contract functions, not a verdict.",
+  "laneNotes": [
+    "One family assigned, one row returned, completed.",
+    "The one agency treatment in this grant that binds a real form: the controlling decision names the published Request to Correct Criminal Justice Information, and the route census names it as this route's requiredSourceId. DPS Form CRI-103 is delivered as the Department issues it.",
+    "CRI-103 carries no AcroForm, so every write box is one horizontal stroke measured from the page content stream by its own y, start x and end x, with the box ceiling taken from the lowest printed baseline above it inside its own span. Twelve blanks measured, six written."
+  ],
+  "packetsSelfVerified": 0,
+  "otherPfPromptsExecutedInThisWorktree": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable, and this lane issues no verdict on its own packets.",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "familiesCompleted": [
+    "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record"
+  ],
+  "familiesStopped": [],
+  "blockedSource": [],
+  "blockedLegalInput": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "focusedCheck": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "result": "PASS_COMPLETE"
+  },
   "rows": [
     {
-      "itemId": "co_motion_seal_nonconviction-set",
+      "itemId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
       "status": "COMPLETED",
-      "jurisdiction": "CO",
-      "routeKey": "track:CO:co_motion_seal_nonconviction",
-      "statutoryAuthority": "C.R.S. § 24-72-705(2) and (3); Colorado Judicial Department forms JDF 477 and JDF 478",
-      "implementationStrategy": "official_pdf_fill",
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
-      "buildScript": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
-      "sourcesBound": [
-        {
-          "sourceId": "official-form:JDF-477",
-          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
-          "sha256": "b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643",
-          "byteLength": 605652
-        },
-        {
-          "sourceId": "official-form:JDF-478",
-          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
-          "sha256": "8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159",
-          "byteLength": 576543
-        }
+      "familyKind": "AGENCY_APPLICATION_TREATMENT",
+      "implementationStrategy": "participant_agency_application",
+      "directory": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record.mjs",
+      "routeKeys": [
+        "obligation:unattached-decision-route:AK:ak-correct-record"
+      ],
+      "componentSet": [
+        "agency_route_sheet",
+        "dps_correction_request",
+        "evidence_checklist"
       ],
       "counters": {
         "knownRequiredFieldsMissing": 0,
@@ -46,131 +63,89 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
-      "fields": {
-        "total": 75,
-        "written": 15,
-        "requiredBeforeFiling": 23,
-        "participantElections": 18
+      "allNineCountersZero": true,
+      "focusedCheck": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+        "result": "PASS_COMPLETE"
       },
-      "componentsRendered": [
-        "primary_filing",
-        "proposed_order"
-      ],
+      "sourcesBound": {
+        "committedRecords": [
+          {
+            "recordId": "legal-decision:2026-08-28:research-track:ak-correct-record",
+            "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+            "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+            "anchorStatementsVerified": 14
+          },
+          {
+            "recordId": "compiled-profile:AK-alaska",
+            "path": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+            "sha256": "d3703c445546caabbed5b5e498b706476c4668ed0104beb8079c9989ff07602f",
+            "anchorStatementsVerified": 3
+          }
+        ],
+        "officialDocuments": [
+          {
+            "documentId": "DPS-CRI-103",
+            "sourceIds": [
+              "official-form:Request to Correct Criminal Justice Information"
+            ],
+            "sha256": "b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259",
+            "custody": "master_library",
+            "renderStrategy": "measured_flat_overlay"
+          }
+        ]
+      },
       "artifacts": [
         {
           "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
-          "sha256": "6c3d8f4482dc4de44cb817f486cc2ad982aaf79b3d6f79cc75696d22facb07d7",
-          "byteLength": 325622,
+          "file": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "298452333a1bc813ccb8924fbbb0bf977aba13c36eb26152350b8c977cd1e3e4",
+          "byteLength": 160071,
           "pageCount": 5,
-          "rasterPages": 5
+          "documents": [
+            "agency_route_sheet",
+            "DPS-CRI-103",
+            "evidence_checklist"
+          ]
         },
         {
           "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
-          "sha256": "1fb4e7b9faeb8ee7f06837b94993c071629b47abb59138ceaa7efa1c2d43a6f4",
-          "byteLength": 325832,
+          "file": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "c709cc48b6019c276ca9cce7b66c5f20e737286d8947250b2b4fd0af5babb9ce",
+          "byteLength": 160235,
           "pageCount": 5,
-          "rasterPages": 5
+          "documents": [
+            "agency_route_sheet",
+            "DPS-CRI-103",
+            "evidence_checklist"
+          ]
         }
       ],
-      "findingsRaisedForOthers": [
-        "JDF 477 and JDF 478 interleave their glyph runs, so text extracted from the content stream is scrambled at the character level and no printed-caption check can be run on either form. The absence is recorded per field in reports/caption-evidence.json rather than papered over with a fuzzy match that would pass on anything.",
-        "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
-        "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
-      ],
-      "notableDecisions": [
-        "The five grounds for sealing in section 6 are a participant election, not a route-determined selection: C.R.S. § 24-72-705 is one simplified process covering all five, so ticking one would assert a disposition the platform does not hold.",
-        "Every agency name, number and address is declared REQUIRED_BEFORE_FILING rather than bundled into a protected class — the completeness contract refuses to let a court or clerk class excuse an agency fact, and is right to.",
-        "JDF 477 ships with the Colorado Bureau of Investigation box already ticked because the form marks that agency required. The census reads each control's value from the pinned source, so the byte proof records that tick as a documentAuthoredAppearance rather than as a protected write this build never made."
-      ],
-      "independentVerificationStatus": "PENDING",
-      "commercialRoutesOpened": 0,
-      "productionTouched": false,
-      "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
-      "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml."
-    },
-    {
-      "itemId": "pa_age70_deceased-set",
-      "status": "COMPLETED",
-      "jurisdiction": "PA",
-      "routeKey": "track:PA:pa_age70_deceased",
-      "statutoryAuthority": "18 Pa.C.S. § 9122(b); Pa.R.Crim.P. 790",
-      "implementationStrategy": "official_pdf_fill",
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill",
-      "buildScript": "scripts/build-census-v1-pa_age70_deceased-set.mjs",
-      "sourcesBound": [
-        {
-          "sourceId": "official-form:PA-RCRIM-P-790-PETITION",
-          "pathInArchive": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
-          "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
-          "byteLength": 87647
-        },
-        {
-          "sourceId": "official-form:PA-RCRIM-P-790-ORDER",
-          "pathInArchive": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
-          "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
-          "byteLength": 151853
-        }
-      ],
-      "counters": {
-        "knownRequiredFieldsMissing": 0,
-        "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
-        "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
-        "requiredComponentsMissing": 0,
-        "invisibleWrites": 0,
-        "protectedWrites": 0,
-        "visualDefects": 0
-      },
-      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
-      "fields": {
-        "total": 105,
-        "written": 16,
-        "requiredBeforeFiling": 77,
-        "participantElections": 5
-      },
-      "componentsRendered": [
-        "primary_filing",
-        "proposed_order",
-        "certificate_of_service"
-      ],
-      "certificateOfServiceNote": "Rule 790 does not put a certificate of service on either form. The petition states the service duty in its own printed words — when the petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth — and the packet carries that as a filing instruction rather than inventing a certificate the AOPC forms do not have.",
-      "artifacts": [
+      "byteProof": [
         {
           "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/fixtures/canonical.pdf",
-          "sha256": "f4f4b3ba5263fff23c409e8b8ffda95c2ee3e1cf6fea623af5ddb09ed181639e",
-          "byteLength": 314016,
-          "pageCount": 3,
-          "rasterPages": 3
+          "writesProvedFromOutputBytes": 8,
+          "addedGlyphsReadFromOutputBytes": 127,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
         },
         {
           "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/fixtures/boundary.pdf",
-          "sha256": "03aefe90a39c91ac577858abeadf09c215e261f3fcb12fbe97ae8f1c7c1c2ac1",
-          "byteLength": 314228,
-          "pageCount": 3,
-          "rasterPages": 3
+          "writesProvedFromOutputBytes": 8,
+          "addedGlyphsReadFromOutputBytes": 286,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
         }
       ],
-      "notableDecisions": [
-        "No cell of the petition's five-row, seven-column charge table is written. The form says the values are copied from the charging document, which the platform does not hold, and the fleet's existing pa_790_nonconviction-set shows the cost of half-filling it: it writes Statute DescriptionRow1 and refuses the other six cells of the same row, which is exactly the finished-looking incomplete row the completeness contract exists to catch.",
-        "The Social Security number is declared REQUIRED_BEFORE_FILING on both forms. The platform does not hold it and does not ask for it.",
-        "The four CP docket segments are declared rather than derived by splitting the docket string; the full docket number is written wherever the form takes it whole."
-      ],
-      "independentVerificationStatus": "PENDING",
-      "commercialRoutesOpened": 0,
-      "productionTouched": false,
-      "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
-      "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml.",
-      "findingsRaisedForOthers": [
-        "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
-        "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
-      ]
+      "requiredBeforeFilingDeclaredAndDisclosed": 21,
+      "determinism": {
+        "proof": "built twice in this container; every fixture SHA-256 identical across both builds",
+        "byteIdentical": true
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRule": "Rendering is the central workflow's, against the exact bytes these hashes pin. This lane rendered no page rasters and claims no visual verdict; visualDefects records that nobody has looked.",
+      "selfVerified": false,
+      "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable."
     }
-  ],
-  "laneNote": "The Captain rebased shiftBaseSha to 2e6ca51b at 09:51:26Z, after this lane's families were built on the previous base 09b741ad. The shared machinery this lane depends on is unchanged between the two: completeness-contract.mjs, the finalizer, the field semantics, the anchor capture, the rule lines and the corpus index are all identical, so the counters in these rows were computed against the same contract the new base carries. What DID change is that scripts/lib/pdf-page-raster.mjs moved; see findingsRaisedForOthers. This branch was not reset onto the new base, because resetting would discard five commits of finished, pushed returns and the rebase reason given in the shift file — verifiers rebasing onto a base missing the integration waves — does not apply to a builder whose preflight already reads 15/15."
+  ]
 }

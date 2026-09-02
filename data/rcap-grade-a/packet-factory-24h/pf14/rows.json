@@ -1,174 +1,148 @@
 {
   "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
   "assignmentId": "PF14",
-  "workerId": "PF-C",
+  "workerId": "FABLE-PD",
+  "workerBranch": "fable/pd",
+  "engine": "Claude packet-build lane in an isolated git worktree, executing the FABLE-PD brief",
   "lane": "packet-build",
-  "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
-  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
-  "familiesAssigned": 2,
-  "preflight": {
-    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
-    "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed for each family"
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "472444b86139bccc35dac4ee17cc01148f1064d6",
+  "minimumCaptainSha": "d69deaec80f308f48f8871b7d113243a99db95ba",
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha d69deaec80f308f48f8871b7d113243a99db95ba --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+    "note": "npm ci was run first: pdf_lib_importable failed on a checkout with no node_modules, which is an environment state rather than a lane finding."
   },
-  "selfVerification": "none. The counters below are the builder's own count using the repository's own contract functions, not a verdict.",
+  "laneNotes": [
+    "Five families assigned, five rows returned, all five stopped at the claim gate before anything was read.",
+    "Every one refuses with ALREADY_RELEASED. The grants are held by PF14 and marked released; the ledger's releases[] log records lane PF04 as the releaser, within a 0.3-second window on 2026-09-01.",
+    "None of the five has an overlay directory and none appears in any lane's rows.json, so five families were released without being built. That is a finding for whoever owns the dispatch and the ledger.",
+    "This lane wrote nothing for any of them and did not reopen a single grant."
+  ],
+  "packetsSelfVerified": 0,
+  "otherPfPromptsExecutedInThisWorktree": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable, and this lane issues no verdict on its own packets.",
+  "familiesAssigned": 5,
+  "rowsReturned": 5,
+  "familiesCompleted": [],
+  "familiesStopped": [
+    "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+    "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+    "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+    "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+    "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure"
+  ],
+  "blockedSource": [],
+  "blockedLegalInput": [],
+  "blockedBeforeClaim": [
+    "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+    "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+    "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+    "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+    "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure"
+  ],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "focusedCheck": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "result": "not run: no family in this lane was claimed, so none was read or built"
+  },
   "rows": [
     {
-      "itemId": "co_multiple_conviction_seal-set",
-      "status": "COMPLETED",
-      "jurisdiction": "CO",
-      "routeKey": "track:CO:co_multiple_conviction_seal",
-      "statutoryAuthority": "C.R.S. § 24-72-709; Colorado Judicial Department forms JDF 641 and JDF 642",
-      "implementationStrategy": "official_pdf_fill",
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill",
-      "buildScript": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
-      "sourcesBound": [
-        {
-          "sourceId": "official-form:JDF-641",
-          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-641__motion-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
-          "sha256": "6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02",
-          "byteLength": 721895
-        },
-        {
-          "sourceId": "official-form:JDF-642",
-          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-642__order-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
-          "sha256": "584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c",
-          "byteLength": 576543
-        }
-      ],
-      "counters": {
-        "knownRequiredFieldsMissing": 0,
-        "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
-        "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
-        "requiredComponentsMissing": 0,
-        "invisibleWrites": 0,
-        "protectedWrites": 0,
-        "visualDefects": 0
-      },
-      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
-      "fields": {
-        "total": 132,
-        "written": 13,
-        "requiredBeforeFiling": 84,
-        "participantElections": 21
-      },
-      "componentsRendered": [
-        "primary_filing",
-        "proposed_order"
-      ],
-      "artifacts": [
-        {
-          "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
-          "sha256": "3cb52dc501311af75b69ef7c8e339849b0fbb2d632bd16e0f6b3a4483e89a0cd",
-          "byteLength": 404458,
-          "pageCount": 7,
-          "rasterPages": 7
-        },
-        {
-          "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
-          "sha256": "204a36fd7f6f27ba2dd630afd90c7065e5521419c8c379ef095ead0883101d44",
-          "byteLength": 404748,
-          "pageCount": 7,
-          "rasterPages": 7
-        }
-      ],
-      "notableDecisions": [
-        "No cell of section 4's fifteen-row, four-column offence table is written. Which convictions a participant brings under § 24-72-709 is the substance of the motion and the platform does not hold them; the fourth column is the date supervision ended, which is the fact the statutory waiting period runs from, so a row with the charge filled and that date blank would read as finished and be missing what the court needs.",
-        "The `∆` field carries two widgets — the page-1 caption and the Print Your Name line in section 10 — so the name is written in both. Section 10 of JDF 641 is a plain signature block, not a verification under penalty of perjury, which is why the printed name is written here and left blank on JDF 477.",
-        "JDF 642 prints 'City, State, and Zip Code' and the shared descriptor matches /city\\s*state\\s*zip/, which the interposed 'and' defeats. The dictionary now carries a separate bindingLabel for the semantics and keeps the form's printed words as the participant-facing label, rather than rewording the caption to suit a regular expression."
-      ],
-      "findingsRaisedForOthers": [
-        "JDF 641 and JDF 642 interleave their glyph runs; no printed-caption check can be run on either, and the absence is recorded per field in reports/caption-evidence.json.",
-        "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
-        "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
-      ],
-      "independentVerificationStatus": "PENDING",
-      "commercialRoutesOpened": 0,
-      "productionTouched": false,
-      "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
-      "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml."
+      "itemId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "refusal": "ALREADY_RELEASED: agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge at 2026-09-01T19:14:26.451Z",
+      "exitCode": 9,
+      "why": "The grant for this family is held by PF14 and is already marked released. The claim gate refuses the assert, and a refused assert is a full stop: nothing of this family was read and nothing was written.",
+      "whatTheLedgerShows": "claim-ledger.json records the grant with lane PF14, laneKind packet-build, released true. The matching entry in the ledger's releases[] array records the release as made by lane PF04, not PF14. All five of this lane's PF14 families show the same shape and the same five release timestamps within 0.3 seconds of each other.",
+      "whatThatProbablyMeans": "The dispatch regenerates and these five families appear to have moved from PF04 to PF14 between generations, carrying the released flag forward while the append-only releases[] log kept the lane that actually released them. Reported rather than diagnosed: this lane does not own the ledger.",
+      "noBuildProductExists": "None of the five has an overlay directory at the path ACTIVE_ASSIGNMENTS gives it, and no rows.json in the factory records any of them. Whatever released them, nothing was built.",
+      "grantNotTransferred": "claim.mjs offers a --reopen path. This lane did not use it. A refused assert is a full stop and a lane does not transfer a grant to itself.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false
     },
     {
-      "itemId": "ak-tf805-set",
-      "status": "COMPLETED",
-      "jurisdiction": "AK",
-      "routeKey": "track:AK:ak-tf805",
-      "statutoryAuthority": "Alaska Court System form TF-805 (5/25); Alaska Administrative Rule 40(b) and 40(c)",
-      "implementationStrategy": "official_pdf_fill",
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill",
-      "buildScript": "scripts/build-census-v1-ak-tf805-set.mjs",
-      "sourcesBound": [
-        {
-          "sourceId": "official-form:TF-805",
-          "pathInArchive": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf",
-          "sha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54"
-        }
-      ],
-      "counters": {
-        "knownRequiredFieldsMissing": 0,
-        "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
-        "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
-        "requiredComponentsMissing": 0,
-        "invisibleWrites": 0,
-        "protectedWrites": 0,
-        "visualDefects": 0
-      },
-      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
-      "fields": {
-        "total": 17,
-        "written": 5,
-        "requiredBeforeFiling": 3,
-        "participantElections": 5,
-        "protected": 4
-      },
-      "componentsRendered": [
-        "primary_filing",
-        "certificate_of_service",
-        "proposed_order"
-      ],
-      "componentsNote": "TF-805 prints the request, the sworn verification, the certificate of service and the judge's order on its own two sheets; all three instrument kinds are in the one binary, and the certificate and the order are refused by class rather than filled.",
-      "whatChanged": "This family existed before this lane. Its production-field-map was written in a schema the completeness verifier refuses as unauditable, and it carried no participant-instructions.md, no byte-proof record and no build status. It now carries a contract-readable map, reports/actual-writes.json read back from the finalized bytes, participant instructions naming every required-before-filing item, page rasters through scripts/lib/pdf-page-raster.mjs, and the builder's own count of the nine counters.",
-      "supersededEvidenceRemoved": [
-        "build-record.json — it recorded the two fixture hashes of the previous build, which these bytes replace.",
-        "raster/tf805-{canonical,boundary}/page-0{1,2}.png — the previous build's page rasters, superseded by the calibrated per-page renders now written beside them."
-      ],
-      "artifacts": [
-        {
-          "fixture": "tf805-canonical",
-          "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/fixtures/tf805-canonical-filled.pdf",
-          "sha256": "bffda336fac95d0980e0a9130913c9189077e1fdc3f05b5a1d55065e5f5c9703",
-          "byteLength": 68920,
-          "pageCount": 2,
-          "rasterPages": 2
-        },
-        {
-          "fixture": "tf805-boundary",
-          "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/fixtures/tf805-boundary-filled.pdf",
-          "sha256": "5dd98fef218f8310a8e46e41a9ca83e53d5295507bac0c82fce77e44f96d0ff5",
-          "byteLength": 69035,
-          "pageCount": 2,
-          "rasterPages": 2
-        }
-      ],
-      "notableDecisions": [
-        "The choice between the Rule 40(b) ground and the Rule 40(c) ground is a participant election, not a route-determined selection: this packet is built for Rule 40, and which ground fits is a fact about the participant's own case.",
-        "The five-year limit on a 40(c) removal is carried into the instructions in the form's own terms, beside the election."
-      ],
-      "independentVerificationStatus": "PENDING",
-      "commercialRoutesOpened": 0,
-      "productionTouched": false,
-      "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
-      "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml.",
-      "findingsRaisedForOthers": [
-        "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
-        "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
-      ]
+      "itemId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "refusal": "ALREADY_RELEASED: agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement at 2026-09-01T19:14:26.516Z",
+      "exitCode": 9,
+      "why": "The grant for this family is held by PF14 and is already marked released. The claim gate refuses the assert, and a refused assert is a full stop: nothing of this family was read and nothing was written.",
+      "whatTheLedgerShows": "claim-ledger.json records the grant with lane PF14, laneKind packet-build, released true. The matching entry in the ledger's releases[] array records the release as made by lane PF04, not PF14. All five of this lane's PF14 families show the same shape and the same five release timestamps within 0.3 seconds of each other.",
+      "whatThatProbablyMeans": "The dispatch regenerates and these five families appear to have moved from PF04 to PF14 between generations, carrying the released flag forward while the append-only releases[] log kept the lane that actually released them. Reported rather than diagnosed: this lane does not own the ledger.",
+      "noBuildProductExists": "None of the five has an overlay directory at the path ACTIVE_ASSIGNMENTS gives it, and no rows.json in the factory records any of them. Whatever released them, nothing was built.",
+      "grantNotTransferred": "claim.mjs offers a --reopen path. This lane did not use it. A refused assert is a full stop and a lane does not transfer a grant to itself.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "refusal": "ALREADY_RELEASED: agency-application-treatment:obligation:track-only:CT:ct-destruction-request at 2026-09-01T19:14:26.593Z",
+      "exitCode": 9,
+      "why": "The grant for this family is held by PF14 and is already marked released. The claim gate refuses the assert, and a refused assert is a full stop: nothing of this family was read and nothing was written.",
+      "whatTheLedgerShows": "claim-ledger.json records the grant with lane PF14, laneKind packet-build, released true. The matching entry in the ledger's releases[] array records the release as made by lane PF04, not PF14. All five of this lane's PF14 families show the same shape and the same five release timestamps within 0.3 seconds of each other.",
+      "whatThatProbablyMeans": "The dispatch regenerates and these five families appear to have moved from PF04 to PF14 between generations, carrying the released flag forward while the append-only releases[] log kept the lane that actually released them. Reported rather than diagnosed: this lane does not own the ledger.",
+      "noBuildProductExists": "None of the five has an overlay directory at the path ACTIVE_ASSIGNMENTS gives it, and no rows.json in the factory records any of them. Whatever released them, nothing was built.",
+      "grantNotTransferred": "claim.mjs offers a --reopen path. This lane did not use it. A refused assert is a full stop and a lane does not transfer a grant to itself.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "refusal": "ALREADY_RELEASED: agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon at 2026-09-01T19:14:26.663Z",
+      "exitCode": 9,
+      "why": "The grant for this family is held by PF14 and is already marked released. The claim gate refuses the assert, and a refused assert is a full stop: nothing of this family was read and nothing was written.",
+      "whatTheLedgerShows": "claim-ledger.json records the grant with lane PF14, laneKind packet-build, released true. The matching entry in the ledger's releases[] array records the release as made by lane PF04, not PF14. All five of this lane's PF14 families show the same shape and the same five release timestamps within 0.3 seconds of each other.",
+      "whatThatProbablyMeans": "The dispatch regenerates and these five families appear to have moved from PF04 to PF14 between generations, carrying the released flag forward while the append-only releases[] log kept the lane that actually released them. Reported rather than diagnosed: this lane does not own the ledger.",
+      "noBuildProductExists": "None of the five has an overlay directory at the path ACTIVE_ASSIGNMENTS gives it, and no rows.json in the factory records any of them. Whatever released them, nothing was built.",
+      "grantNotTransferred": "claim.mjs offers a --reopen path. This lane did not use it. A refused assert is a full stop and a lane does not transfer a grant to itself.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "refusal": "ALREADY_RELEASED: agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure at 2026-09-01T19:14:26.729Z",
+      "exitCode": 9,
+      "why": "The grant for this family is held by PF14 and is already marked released. The claim gate refuses the assert, and a refused assert is a full stop: nothing of this family was read and nothing was written.",
+      "whatTheLedgerShows": "claim-ledger.json records the grant with lane PF14, laneKind packet-build, released true. The matching entry in the ledger's releases[] array records the release as made by lane PF04, not PF14. All five of this lane's PF14 families show the same shape and the same five release timestamps within 0.3 seconds of each other.",
+      "whatThatProbablyMeans": "The dispatch regenerates and these five families appear to have moved from PF04 to PF14 between generations, carrying the released flag forward while the append-only releases[] log kept the lane that actually released them. Reported rather than diagnosed: this lane does not own the ledger.",
+      "noBuildProductExists": "None of the five has an overlay directory at the path ACTIVE_ASSIGNMENTS gives it, and no rows.json in the factory records any of them. Whatever released them, nothing was built.",
+      "grantNotTransferred": "claim.mjs offers a --reopen path. This lane did not use it. A refused assert is a full stop and a lane does not transfer a grant to itself.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false
     }
-  ],
-  "laneNote": "The Captain rebased shiftBaseSha to 2e6ca51b at 09:51:26Z, after this lane's families were built on the previous base 09b741ad. The shared machinery this lane depends on is unchanged between the two: completeness-contract.mjs, the finalizer, the field semantics, the anchor capture, the rule lines and the corpus index are all identical, so the counters in these rows were computed against the same contract the new base carries. What DID change is that scripts/lib/pdf-page-raster.mjs moved; see findingsRaisedForOthers. This branch was not reset onto the new base, because resetting would discard five commits of finished, pushed returns and the rebase reason given in the shift file — verifiers rebasing onto a base missing the integration waves — does not apply to a builder whose preflight already reads 15/15."
+  ]
 }
