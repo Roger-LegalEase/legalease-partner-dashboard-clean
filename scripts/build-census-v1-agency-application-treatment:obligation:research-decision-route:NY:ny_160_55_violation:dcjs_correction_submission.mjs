@@ -930,9 +930,26 @@ async function auditOfficialInk(sourceBytes, outputBytes, boxes) {
   for (const t of added) {
     const glyphs = t.text.replace(/\s+/g, "").length;
     if (glyphs === 0) continue;
-    if (!written.some((b) => b.page === t.page && insideBox(t, b.rect))) {
-      glyphsOutsideMeasuredWriteBoxes += glyphs;
-    }
+    /*
+     * Ink is attributed to a WRITTEN box first, and ink a written box
+     * accounts for is never also charged to a neighbour.
+     *
+     * AOC-CR-287 is why. Its petitioner block stacks four widgets 13pt tall
+     * at 12pt intervals, so PetitionerAddr1 (y 667-680) and PetitionerAddr2
+     * (y 655-668) OVERLAP by a point, and the street address drawn correctly
+     * on line one has its origin inside line two's rectangle as well. Charged
+     * to both, that reported a refused field carrying ink on a page where
+     * nothing had gone wrong -- a false protected-write on a correct build,
+     * which is the worst kind of finding because it teaches a reader to
+     * distrust the counter.
+     *
+     * The real defect this test exists for survives the change intact: ink on
+     * a refused blank that NO written box explains is still ink nobody
+     * accounted for, and is still reported.
+     */
+    const explainedBy = written.filter((b) => b.page === t.page && insideBox(t, b.rect));
+    if (explainedBy.length > 0) continue;
+    glyphsOutsideMeasuredWriteBoxes += glyphs;
     for (const b of refused) {
       if (b.page === t.page && b.rect && insideBox(t, b.rect)) {
         refusedFieldsWithInk.push({ fieldId: b.key, drawnText: t.text, page: t.page });
@@ -1040,6 +1057,18 @@ function mapHelpers(componentId) {
       completenessClass: "participant_sworn_narrative_or_legal_election",
       class: "participant_sworn_narrative_or_legal_election",
       requiredBeforeFiling: false, routeDetermined: false, document: componentId, why
+    }),
+    /*
+     * An ATTORNEY block on a form a self-represented participant files.
+     * The platform holds no representation fact, and writing participant
+     * data into a block the court reads as counsel's would tell the court
+     * something untrue about who is appearing.
+     */
+    attorneyBlank: (id, label, why, page = 1) => ({
+      ...base(id, label, page),
+      reason: `attorney-only, and no representation fact is held for this participant: ${why}`,
+      category: null, completenessClass: null, class: null,
+      requiredBeforeFiling: false, document: componentId, why
     }),
     /*
      * A blank the FORM ITSELF marks optional or conditional: a second address
@@ -1340,6 +1369,48 @@ export async function runFamily(argv = process.argv.slice(2)) {
       familyId: SPEC.familyId, status: "BLOCKED_SOURCE", geometryDrift: allDrift,
       why: "a write box could not be measured from the official document's own rule strokes; nothing is drawn at a guessed rectangle",
       overlayDirectoryTouched: false
+    };
+  }
+
+  /*
+   * Every censused field of every AcroForm document appears in the field map
+   * exactly once, as a write or as a classified blank.
+   *
+   * The completeness audit reads the MAP, not the form: a field left out of
+   * the map is a field nothing asks about, and a hundred and nineteen-field
+   * petition could pass on nine declared rows. So the map is checked against
+   * the document's own census before anything is rendered, and a family that
+   * does not cover its own form stops rather than shipping a partial audit.
+   */
+  const coverageFailures = [];
+  for (const b of bound) {
+    if (b.doc.acroform !== true) continue;
+    const census = censusByComponent.get(b.componentId);
+    const { writes, refusals } = SPEC.mapFor(b.componentId, mapHelpers(b.componentId));
+    const prefix = `${b.componentId}.`;
+    const declared = [...writes, ...refusals].map((r) => String(r.field).slice(prefix.length));
+    const seen = new Set();
+    const twice = [];
+    for (const d of declared) { if (seen.has(d)) twice.push(d); seen.add(d); }
+    const censused = new Set(census.fields.map((f) => f.name));
+    const missing = [...censused].filter((n) => !seen.has(n));
+    const unknown = [...seen].filter((n) => !censused.has(n));
+    if (missing.length || unknown.length || twice.length) {
+      coverageFailures.push({
+        component: b.componentId, documentId: b.doc.documentId,
+        censusedFields: censused.size, declaredRows: declared.length,
+        censusedButNotDeclared: missing, declaredButNotOnTheForm: unknown, declaredTwice: twice
+      });
+    }
+  }
+  if (coverageFailures.length > 0) {
+    return {
+      familyId: SPEC.familyId, status: "STOPPED", stopClass: "FIELD_MAP_DOES_NOT_COVER_THE_FORM",
+      why:
+        "the completeness audit reads the field map rather than the form, so a censused field missing from "
+        + "the map is a blank nothing asks about; this family does not cover its own document and nothing was "
+        + "rendered",
+      coverageFailures, overlayDirectoryTouched: false
     };
   }
 

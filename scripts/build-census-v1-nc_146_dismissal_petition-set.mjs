@@ -1,197 +1,187 @@
 #!/usr/bin/env node
 /**
- * FABLE-PD official-form packet family — Arkansas, sealing a NON-CONVICTION
- * under Act 1460 of 2013 (A.C.A. Sec. 16-90-1401 et seq.).
+ * FABLE-PD official-form packet family — North Carolina, expunction of
+ * DISMISSED charges under G.S. 15A-146(a) or (a1).
  *
- *   node scripts/build-census-v1-ar-nonconviction-seal-set.mjs [--check] [--no-raster]
+ *   node scripts/build-census-v1-nc_146_dismissal_petition-set.mjs [--check] [--no-raster]
  *
  * One census-v1 family, one strategy, one route:
  *
- *   obligation:track-only:AR:ar-nonconviction-seal
+ *   obligation:track-only:NC:nc_146_dismissal_petition
  *
  * WHAT KIND OF FAMILY THIS IS
  *
- * An OFFICIAL-FORM packet family: implementationStrategy official_pdf_fill,
- * two ACIC forms bound by exact SHA-256 and delivered as the Arkansas Crime
- * Information Center publishes them.
+ * An OFFICIAL-FORM packet family. Three documents, all bound by exact SHA-256
+ * and delivered as the Administrative Office of the Courts publishes them:
  *
- *   * the ACIC Petition to Seal Records of Nolle Prosequi, Dismissals,
- *     Judgments of Acquittal, and Charges Not Filed -- what the participant
- *     files; and
- *   * the matching ACIC Order -- the proposed order the COURT signs. It is
- *     captionOnly: its findings, its decree, the judge's signature and the
- *     date beside it are the court's alone and this packet writes nothing
- *     there.
+ *   * AOC-CR-287 (Rev. 12/25) -- the Petition and Order of Expunction. Side
+ *     One is the petition; Side Two is FINDINGS OF FACT, the ORDER and the
+ *     CERTIFICATION BY CLERK, none of which this packet touches.
+ *   * AOC-CR-287 instructions -- the AOC's own instruction sheet, delivered
+ *     unmodified.
+ *   * AOC-CV-226 -- the Civil Affidavit of Indigency, which the packet-set
+ *     manifest carries CONDITIONALLY: a true dismissal costs nothing, and the
+ *     $175.00 fee applies only where the charge was dismissed pursuant to a
+ *     deferred prosecution agreement or a conditional discharge.
  *
- * THREE MIS-BINDINGS THIS FAMILY REFUSES BY ROLE
+ * THE SOURCE-IDENTITY DEFECT THIS FAMILY BINDS AROUND
  *
- * The shared semantics decide what MAY be written; this file supplies the
- * classification only a caller can supply, and on this form that classification
- * stops three writes that would otherwise be made and would each be wrong:
+ * The route census maps `official-form:AOC-CR-287` to the INSTRUCTIONS binary
+ * (sha fe222704...), not to the petition. The petition itself is held and is
+ * reachable only through its content hash, `source-sha256:a8762293...`. This
+ * build binds every document by its own SHA-256, so it delivers the right
+ * bytes; the alias is still wrong in the census and is reported in
+ * build-findings.json rather than left for a verifier to rediscover.
  *
- *   1. `Sex`, on the petition's identification block, BINDS
- *      participant.date_of_birth. Its own name matches no descriptor, so the
- *      binder falls back to the printed label -- and the caption capture on
- *      this page returns "DOB" for it, because the block prints
- *      "Sex ____ SID No." and "DOB ____ FBI No." one line apart. A date of
- *      birth in the sex box is a wrong answer to an identification question
- *      that the form says is required for the state and national record
- *      systems.
- *   2. `COUNTY/CITY`, the county in the caption "IN THE ______ COURT OF
- *      ________, ARKANSAS", BINDS participant.city. That is the county of the
- *      court where the order was entered, not where the participant lives, and
- *      the two are routinely different. On the ORDER the same field is stopped
- *      today only because a court-issued order takes caption facts only and
- *      participant.city is not one; a refusal that depends on another rule is
- *      not this family's refusal, so it is stated on both documents.
- *   3. `Petitioner`, in the petition's VERIFICATION block, carries TWO widgets:
- *      the blank inside "Comes the Petitioner, ____, under oath" AND the
- *      signature rule above the printed word "Petitioner" at the foot of the
- *      notarised jurat. Filling the field fills both, so a legitimate caption
- *      write would put the participant's name on a notarised signature line.
- *      One widget cannot be filled without the other, so the field is refused
- *      whole and the sentence blank becomes the participant's.
+ * THE OFFENCE TABLE IS DELIBERATELY EMPTY, AND THAT IS THE FINDING
+ *
+ * Side One's table repeats five columns ten times: File No., Offense
+ * Description, Date Of Arrest, Date Of Offense, Date Of Dismissal. Four of the
+ * five can be bound. THE FIFTH CANNOT: the shared descriptor list carries
+ * `matter.disposition_date` matching /disposition\s*date/ and nothing that
+ * matches "date of dismissal", so `DateOfDismissal1` binds nothing, and no
+ * explicit mapping can reach it because decideBinding consults explicitMappings
+ * only AFTER a descriptor has matched.
+ *
+ * Writing the other four would produce exactly the defect the completeness
+ * contract exists to catch: a row that carries written cells beside a required
+ * cell left blank, which reads as finished and is not. So the whole table is
+ * left to the participant, every column of row one is declared
+ * required-before-filing and disclosed, and the descriptor gap is reported.
+ * Closing it means adding a descriptor to
+ * scripts/rcap-official-forms/rcap-field-semantics.mjs, which is a shared host
+ * carrying 137 builders; a change there could move other families' bytes, and
+ * this lane may not make it. It is reported for a lane that owns that host.
  *
  * A built family is a built family. It is not verified, not approved, not
  * sellable, and this builder issues no verdict on its own packets.
  */
 
-const FAMILY_ID = "ar-nonconviction-seal-set";
+const FAMILY_ID = "nc_146_dismissal_petition-set";
+
+/* Row 1 of Side One's table, and the nine rows beneath it. Stated once here
+ * because the table is the substance of this family's finding. */
+const TABLE_COLUMNS = [
+  ["FileNumber", "File No. of the charge", "the file number of the dismissed charge, exactly as the clerk's record prints it"],
+  ["OffenseDescription", "Offense Description", "the offence description, copied from the clerk's record"],
+  ["DateOfArrest", "Date Of Arrest", "the date you were arrested on that charge"],
+  ["DateOfOffense", "Date Of Offense", "the date of the offence itself"],
+  ["DateOfDismissal", "Date Of Dismissal", "the date the charge was dismissed - check it against your SBI record or the clerk's file before you write it"]
+];
 
 const SPEC = {
   familyId: FAMILY_ID,
   worklistGroupId: FAMILY_ID,
-  buildScript: "scripts/build-census-v1-ar-nonconviction-seal-set.mjs",
-  outDir: "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
-  jurisdiction: "AR",
+  buildScript: "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
+  outDir: "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+  jurisdiction: "NC",
   custodyClass: "SOURCE_ALREADY_HELD",
   implementationStrategy: "official_pdf_fill",
   assembledPacketRole: "assembled_packet_of_official_forms",
-  legalName: "Petition and Order to Seal Records of Nolle Prosequi, Dismissals, Judgments of Acquittal, and Charges Not Filed Under Act 1460 of 2013 (A.C.A. Sec. 16-90-1401 et seq.)",
-  routeName: "sealing an Arkansas record that ended in a nolle prosequi, a dismissal, an acquittal, or charges never filed, under Act 1460 of 2013",
-  statutes: ["A.C.A. § 16-90-1401 et seq.", "A.C.A. § 16-90-1410", "A.C.A. § 16-90-1413", "A.C.A. § 16-90-1419"],
-  routes: [{ routeKey: "obligation:track-only:AR:ar-nonconviction-seal" }],
+  legalName: "Petition and Order of Expunction Under G.S. 15A-146(a) or G.S. 15A-146(a1) (Charges Dismissed)",
+  routeName: "expunging a North Carolina charge that was dismissed, under G.S. 15A-146(a) or (a1)",
+  statutes: ["G.S. 15A-146", "G.S. 15A-146(a)", "G.S. 15A-146(a1)", "G.S. 15A-150", "G.S. 15A-1008"],
+  routes: [{ routeKey: "obligation:track-only:NC:nc_146_dismissal_petition" }],
 
   records: [
     {
-      recordId: "packet-set-manifest:ar-nonconviction-seal-set",
+      recordId: "packet-set-manifest:nc_146_dismissal_petition-set",
       path: "data/record-clearing/legal-design-packet-set-manifests.json",
       role:
         "the committed packet-set manifest for this exact packet set. Under DETERMINATION_FEE_AND_WAIVER_"
         + "STANDARD amendment A2 its participantActionRequired entries are a held source, and here they settle "
-        + "the filing destination, the service rule and its three-day deadline, the prosecutor's objection "
-        + "window, and the two records steps that precede the petition",
+        + "the filing destination, the fee and when it applies, the indigency waiver, the service position, and "
+        + "the records the participant must obtain and keep",
       mustContain: [
-        "File the ACIC non-conviction petition and order pair in the court where the nolle prosequi or dismissal order was entered.",
-        "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
-        "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition.",
-        "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information.",
-        "The source review does not state a filing fee for this petition."
-      ]
-    },
-    {
-      recordId: "compiled-profile:AR-arkansas",
-      path: "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
-      role:
-        "the compiled Arkansas profile, a held source for this jurisdiction under amendment A2. Its fee lines "
-        + "are keyed to ACT 1460 SEALING, which is the act this petition is filed under and printed on the form's "
-        + "own face, so under amendment A3 they answer THIS route's fee question rather than a sibling's. It also "
-        + "records the opposition window class-dependently and the real, non-filing costs of the route",
-      mustContain: [
-        "Act 1460 eliminated sealing filing fees",
-        "Sealing petition filing fee $0 Filing fees eliminated by the 2019 amendments",
-        "File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.",
-        "ACIC criminal-history record ACIC fee To confirm offenses, classes, dispositions",
-        "30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons"
+        "File the AOC-approved form with the clerk of superior court in the county where the charge was brought. G.S. 15A-146(c) requires any petition under this section to be on a form approved by the Administrative Office of the Courts.",
+        "none for a true dismissal. $175 applies where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement. Separately, the costs of expunging the records required under G.S. 15A-150 are not taxed against the petitioner.",
+        "Indigency waiver available where a fee applies, on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.",
+        "none required by the AOC form for dismissals. A DNA expunction application under G.S. 15A-146(b1) is a separate matter and must be served on the district attorney not less than 20 days before the hearing.",
+        "Obtain Copies of the charging documents, dismissal orders and judgments. Obtain and keep permanent copies before filing. After an expunction, access to these records is restricted and you may be unable to obtain them if you later need to prove what actually happened, most acutely in an immigration proceeding.",
+        "Applies where the district attorney petitions rather than the participant. G.S. 15A-146 permits either."
       ]
     }
   ],
 
   officialComponents: {
     petition: {
-      sourceId: "official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION",
-      documentId: "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
-      formNumber: "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
-      officialTitle: "Petition to Seal Records of Nolle Prosequi, Dismissals, Judgments of Acquittal, and Charges Not Filed Under Act 1460 of 2013",
-      revision: "REV-2020-04-22",
+      sourceId: "source-sha256:a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+      documentId: "AOC-CR-287",
+      formNumber: "AOC-CR-287",
+      officialTitle: "Petition and Order of Expunction Under G.S. 15A-146(a) or G.S. 15A-146(a1) (Charge(s) Dismissed)",
+      revision: "REV-2025-12",
       instrumentKind: "primary_filing",
-      sha256: "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      sha256: "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
       acroform: true,
       captionOnly: false,
-      explicitMappings: {
-        "First Middle and Last name": "participant.full_legal_name",
-        1: "matter.charge"
-      },
+      explicitMappings: {},
       unwritable: [
-        { field: "Sex", class: "identification_block_descriptor",
-          why: "The identification block's SEX entry. Its own name matches no descriptor, so the binder falls back to the printed label, and the caption capture returns \"DOB\" for it — the block prints Sex and DOB one line apart. It therefore BINDS participant.date_of_birth, which would write a date of birth into the sex box of a block the form says is required for identification in the state and national record systems. The participant states their own sex here." },
-        { field: "COUNTY/CITY", class: "caption_venue_county",
-          why: "The county in the caption \"IN THE ______ COURT OF ________, ARKANSAS\". It BINDS participant.city, because the field name carries the word city and the caption capture offers nothing better. This blank is the county of the court where the nolle prosequi or dismissal order was entered; the participant's own city is a different fact and is written in the address block on page 2." },
-        { field: "Petitioner", class: "notarised_signature_line_shared_with_a_caption_blank",
-          why: "This ONE field carries TWO widgets: the blank inside \"Comes the Petitioner, ____, under oath and states\" and the signature rule above the printed word \"Petitioner\" at the foot of the notarised jurat. A field is filled as a whole, so writing the caption blank would also write the participant's name onto a notarised signature line. The field is refused entire, and the sentence blank is the participant's to complete." },
-        { field: "COUNTY OF", class: "notarial_jurat_county",
-          why: "The county in the VERIFICATION block's \"STATE OF ARKANSAS / COUNTY OF ____\". That is the county in which the oath is administered before the notary, not the county of the case; the platform does not know where the participant will be sworn." },
-        { field: "in violation of ACA", class: "statutory_section_of_the_offence",
-          why: "The \"in violation of A.C.A. § ______\" blank. Its printed caption carries the word violation, so it binds matter.charge — but the blank holds the Arkansas Code SECTION, not the name of the offence, and writing the charge there would state a section number that is not one. The participant copies the section from their own paperwork." },
-        { field: "ADDRESS 2", class: "address_continuation_line",
-          why: "The second printed rule of the two-line street block. The platform holds one street address and writes it on the first rule; filling both prints the same address twice. It is refused today by geometry as well, because the caption capture reaches the Defendant's Signature rule beside it — but that is a refusal for the wrong reason, and this is the right one." },
-        { field: "DAY 1", class: "arrest_date_component",
-          why: "Day component of paragraph 1's arrest date. The platform holds an arrest date as a whole and holds no day fact, so there is nothing correct to write here." },
-        { field: "MONTH 1", class: "arrest_date_component",
-          why: "Month component of the same date, on the same footing. This is the blank class that on the sibling arrest-seal form was proved to receive the participant's own name through the printed-label fallback; the shared binder now refuses a date-component name, and this states the family's own reason underneath it." },
-        { field: "YEAR 1", class: "arrest_date_component",
-          why: "Year component of the same date. The trio is one fact the platform does not hold in component form." },
-        { field: "DEFENDANT", class: "certificate_of_service_attestation",
-          why: "The certifying party's name in the page 4 Certificate of Service's \"I, ____, do hereby certify that a true and correct copy ... has been provided\". That is a sworn statement about an act of service, made after mailing, not a caption." },
-        { field: "Arrest Tracking Number", class: "agency_assigned_identifier",
-          why: "The ATN is assigned by Arkansas ACIC when an arrest is processed. It identifies the arrest through a system the platform has no knowledge of; the participant copies it from their arrest paperwork or their ACIC record." }
+        { field: "PetitionerAddr2", class: "address_continuation_line",
+          why: "The second printed line of the petitioner's address block. It BINDS participant.street_address exactly as line one does, so filling both prints the same street address twice on the face of the petition. The platform holds one street address and writes it once." },
+        { field: "FileNumber1", class: "offence_table_row_left_whole_to_the_participant",
+          why: "Side One's table has five columns and the fifth, Date Of Dismissal, cannot be bound by any family: no descriptor in the shared list matches \"date of dismissal\", and an explicit mapping cannot reach a field that matched no descriptor. Writing four of five would leave a row that carries written cells beside a required cell left blank, which reads as finished and is not. The whole row is therefore the participant's, and every column of it is disclosed." },
+        { field: "OffenseDescription1", class: "offence_table_row_left_whole_to_the_participant",
+          why: "The same row, the same reason: this table is completed as a row or not at all." },
+        { field: "DateOfArrest1", class: "offence_table_row_left_whole_to_the_participant",
+          why: "The same row, the same reason." },
+        { field: "DateOfOffense1", class: "offence_table_row_left_whole_to_the_participant",
+          why: "The same row, the same reason." }
       ]
     },
-    order: {
-      sourceId: "official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION",
-      documentId: "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
-      formNumber: "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
-      officialTitle: "Order to Seal Records of Nolle Prosequi, Dismissals, Judgments of Acquittal, and Charges Not Filed Under Act 1460 of 2013",
-      revision: "REV-2023-10-25",
-      instrumentKind: "proposed_order",
-      sha256: "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a",
+    instructions: {
+      sourceId: "official-form:AOC-CR-287-INSTRUCTIONS",
+      documentId: "AOC-CR-287-INSTRUCTIONS",
+      formNumber: "AOC-CR-287-INSTRUCTIONS",
+      officialTitle: "Instructions for Petition and Order of Expunction Under G.S. 15A-146(a) or G.S. 15A-146(a1)",
+      revision: "REV-2025-12",
+      instrumentKind: "instructions",
+      sha256: "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+      acroform: false
+    },
+    fee_waiver: {
+      sourceId: "official-form:AOC-CV-226",
+      documentId: "AOC-CV-226",
+      formNumber: "AOC-CV-226",
+      officialTitle: "Petition To Proceed As An Indigent / Civil Affidavit Of Indigency",
+      revision: "REV-2023-04",
+      instrumentKind: "fee_waiver",
+      sha256: "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
       acroform: true,
-      captionOnly: true,
-      explicitMappings: {
-        "First Middle and Last name": "participant.full_legal_name"
-      },
+      captionOnly: false,
+      explicitMappings: {},
       unwritable: [
-        { field: "COUNTY/CITY", class: "caption_venue_county",
-          why: "The county in the order's caption, on the same reasoning as the petition's. It binds participant.city, which is the wrong fact. On this document it is ALSO stopped because a court-issued order accepts caption facts only and participant.city is not one — but a refusal that depends on another rule is not this family's refusal, and the classification is stated here so it survives whatever that rule does next." },
-        { field: "Judge", class: "court_only_signature",
-          why: "The judge's signature line on the order. Court-only." },
-        { field: "Date", class: "court_only_signature_date",
-          why: "The date beside the judge's signature. The court dates its own order." },
-        { field: "DAY 1", class: "arrest_date_component",
-          why: "Day component of the arrest date in the court's own findings. The platform holds no day fact." },
-        { field: "MONTH 1", class: "arrest_date_component",
-          why: "Month component of the same finding, on the same footing." },
-        { field: "YEAR 1", class: "arrest_date_component",
-          why: "Year component of the same finding, on the same footing." },
-        { field: "ACA NO", class: "statutory_section_of_the_offence",
-          why: "The order's \"in violation of A.C.A. §\" blank, which binds matter.charge through its printed caption and holds a code section rather than an offence name — the same defect as on the petition, in the court's findings." },
-        { field: "Arrest Tracking Number", class: "agency_assigned_identifier",
-          why: "ACIC-assigned arrest identifier in the order's identification block; the agency's number to state." }
+        { field: "ApplicantFullPermanentMailingAddressAddr1", class: "if_different_than_above_block",
+          why: "The form marks this whole block \"Full Permanent Mailing Address Of Applicant (if different than above)\". The shared descriptors refuse an if-different block, but the ligature in this form's printed caption comes through as \"di(uerent\", so the refusal does not fire and the block BINDS participant.street_address — writing the participant's only address into the block that exists for a DIFFERENT one, while the Street Number And Street Name line above it stays empty." },
+        { field: "ApplicantFullPermanentMailingAddressAddr2", class: "if_different_than_above_block",
+          why: "The second line of the same if-different block, on the same reasoning." },
+        { field: "ApplicantFullPermanentMailingAddressCity", class: "if_different_than_above_block",
+          why: "The city of the same if-different block." },
+        { field: "ApplicantFullPermanentMailingAddressState", class: "if_different_than_above_block",
+          why: "The state of the same if-different block." },
+        { field: "ApplicantFullPermanentMailingAddressZip", class: "if_different_than_above_block",
+          why: "The ZIP of the same if-different block." }
       ]
     }
   },
 
   officialCells: {},
 
-  components: ["petition", "order"],
+  components: ["petition", "instructions", "fee_waiver"],
   componentTitles: {
-    petition: "ACIC Petition to Seal Records of Nolle Prosequi, Dismissals, Judgments of Acquittal, and Charges Not Filed",
-    order: "ACIC Order to Seal Records of Nolle Prosequi, Dismissals, Judgments of Acquittal, and Charges Not Filed"
+    petition: "AOC-CR-287 - Petition and Order of Expunction (Charges Dismissed)",
+    instructions: "AOC-CR-287 - The Administrative Office of the Courts' own instructions",
+    fee_waiver: "AOC-CV-226 - Civil Affidavit of Indigency"
   },
-  componentConditions: {},
+  componentConditions: {
+    fee_waiver:
+      "Conditional. A true dismissal carries no fee. The committed packet-set manifest records that the $175.00 "
+      + "fee applies only where the charge was dismissed pursuant to a deferred prosecution agreement or a "
+      + "conditional discharge, and that the indigency waiver is available on AOC-CV-226 where a fee applies."
+  },
   componentDescriptions: {
-    petition: "the ACIC petition you file, with a verification page for a notary and a certificate of service on its last page",
-    order: "the matching proposed order you hand the court to sign; every finding, the decree, the judge's signature and the date beside it are the court's alone"
+    petition: "the AOC-approved petition. Side One is yours; Side Two is the court's findings, order and the clerk's certification",
+    instructions: "the AOC's own instruction sheet for this form, delivered exactly as published and unmarked",
+    fee_waiver: "the indigency affidavit, needed ONLY if a fee applies to your case and you cannot pay it"
   },
 
   fixtures: {
@@ -199,227 +189,258 @@ const SPEC = {
       "participant.full_legal_name": "Jordan Avery Reyes",
       "participant.date_of_birth": "1991-04-17",
       "participant.street_address": "42 Larkspur Street",
-      "participant.city": "Little Rock",
-      "participant.state": "AR",
-      "participant.zip": "72201",
-      "matter.case_number": "60CR-19-1184",
-      "matter.charges": [{ charge: "Theft of property" }]
+      "participant.city": "Raleigh",
+      "participant.state": "NC",
+      "participant.zip": "27601",
+      "participant.phone": "919-555-0142",
+      "matter.case_number": "19CR001184",
+      "matter.county": "Wake"
     },
     boundary: {
       "participant.full_legal_name": "Maria-Alejandra O'Shaughnessy-Whitfield",
       "participant.date_of_birth": "1968-12-31",
-      "participant.street_address": "1188 Upper Ouachita Crossing Road, Apartment 14B",
-      "participant.city": "Fayetteville",
-      "participant.state": "AR",
-      "participant.zip": "72701-2214",
-      "matter.case_number": "72CR-2004-000000118844-A",
-      "matter.charges": [{ charge: "Breaking or entering a vehicle, and criminal mischief in the first degree" }]
+      "participant.street_address": "1188 Upper Yadkin River Crossing Road, Apartment 14B",
+      "participant.city": "Winston-Salem",
+      "participant.state": "NC",
+      "participant.zip": "27101-2214",
+      "participant.phone": "(336) 555-0199 ext. 4417",
+      "matter.case_number": "2004CR000000118844-A",
+      "matter.county": "New Hanover"
     }
   },
 
   composedFromNote: null,
 
   formIdentityNote:
-    "Both documents are the Arkansas Crime Information Center's own published forms, bound by exact SHA-256 "
-    + "through the committed corpus index and delivered as ACIC issues them. Nothing is composed, substituted or "
-    + "invented, and no page of this packet was authored by this build.",
+    "All three documents are the North Carolina Administrative Office of the Courts' own published forms, bound "
+    + "by exact SHA-256 through the committed corpus index and delivered as the AOC issues them. G.S. 15A-146(c) "
+    + "requires a petition under this section to be on a form approved by the AOC, so substituting or composing "
+    + "one would make the filing refusable on its face; nothing here is composed, substituted or invented.",
 
   agencyTreatmentNote: null,
 
   routeSelectionNote:
-    "The ROUTE is stated by the instrument: this is the ACIC non-conviction pair, and its own title names the "
-    + "four endings it serves. Which of those four ended the participant's case is NOT determined by the route — "
-    + "the committed packet-set manifest asks the participant that question in terms (\"How did the case end — "
-    + "nolle prosequi, dismissal, acquittal, or were charges never filed?\") and directs them to check the answer "
-    + "against their ACIC record. Paragraph 2's four boxes are therefore genuine participant elections about "
-    + "their own case, and so are paragraph 4's pending-felony pair and paragraph 5's sex-offender-registration "
-    + "pair. No box is marked, and no election on either document is one this route decides.",
+    "The ROUTE is stated by the instrument: AOC-CR-287 is the AOC's form for a G.S. 15A-146(a) or (a1) petition "
+    + "on dismissed charges, and its own title says so. Within that route the form carries three elections and "
+    + "none of them is one this route decides. Paragraph 3's a/b pair asks whether ALL of the participant's "
+    + "charges were dismissed or only some -- a fact about their own record, and the difference between "
+    + "subsection (a) and (a1). The civil-revocation box is a fact about their own driving record. And the "
+    + "District/Superior division boxes follow the court the charge was brought in. Nothing is marked, and every "
+    + "box is recorded as the participant's own election.",
 
   routeSelectionsMade: [
     {
       selection: "instrument set",
-      value: "the ACIC non-conviction petition and its matching order, filed as a pair",
+      value: "AOC-CR-287 with the AOC's own instructions, and AOC-CV-226 conditionally",
       determinedBy:
-        "the committed packet-set manifest's two components and its file entry: \"File the ACIC non-conviction "
-        + "petition and order pair in the court where the nolle prosequi or dismissal order was entered.\""
+        "the committed packet-set manifest's components, and its file entry: G.S. 15A-146(c) requires any "
+        + "petition under this section to be on a form approved by the Administrative Office of the Courts"
     }
   ],
 
-  instructionsHeading: "Filing instructions — sealing an Arkansas non-conviction under Act 1460 of 2013",
+  instructionsHeading: "Filing instructions — expunging a dismissed North Carolina charge (G.S. 15A-146)",
 
   instructionsIntro: [
-    "This packet is two ACIC forms, filed together: the **Petition to Seal Records of Nolle Prosequi, Dismissals, Judgments of Acquittal, and Charges Not Filed**, and the matching **Order**. The petition is what you file. The order is what you hand the court to sign — its findings, its decree, the judge's signature and the date beside it are the court's alone, and this packet writes nothing there.",
-    "**The petition's own paragraph 2 states the four situations this packet covers**, and you must tick exactly one: an Order of Nolle Prosequi entered more than one year ago that the prosecuting or city attorney has not refiled; an Order of Dismissal; a Judgment of Acquittal that was not for reason of mental disease or defect; or the prosecuting or city attorney never filing charges at all. If none of those is true of your case, this is the wrong packet.",
-    "The platform filled what it holds about you and your case: your name in the caption, in the prayer and in the order's decree; the case number; your street address, city, state and ZIP on the petition's address block; your date of birth in both identification blocks; and the first offence line on the petition. Every other blank is deliberate and every one is listed below.",
-    "**Three blanks are refused on purpose and are worth knowing about**, because each would otherwise be filled with a wrong answer rather than left empty. The identification block's **Sex** entry is refused because the form's own layout makes it bind a date of birth. The caption's **county** is refused because it binds the city you live in rather than the county of the court. And the verification block's **Petitioner** blank is refused because that one field also controls the notarised signature line above the word \"Petitioner\", and no packet may put your name on a signature line."
+    "This packet is the Administrative Office of the Courts' own **AOC-CR-287, Petition and Order of Expunction (Charge(s) Dismissed)**, its own instruction sheet for that form, and — only if a fee applies to your case — **AOC-CV-226, the Civil Affidavit of Indigency**. G.S. 15A-146(c) requires a petition under this section to be on a form the AOC has approved, which is why nothing here is a composed document.",
+    "**Side One of AOC-CR-287 is yours. Side Two is not.** Side Two carries the court's FINDINGS OF FACT, the ORDER and the CERTIFICATION BY CLERK; this packet writes nothing anywhere on it, and neither should you.",
+    "The platform filled what it holds: your name and address block on Side One, the county, and the file number in the caption. On AOC-CV-226 it filled your name, your address, your telephone number and your date of birth.",
+    "**The offence table on Side One is deliberately left entirely to you, and it is worth knowing why.** The table has five columns — File No., Offense Description, Date Of Arrest, Date Of Offense, Date Of Dismissal. The platform can bind four of them and cannot bind the fifth: nothing in the shared list of facts matches a \"date of dismissal\". Filling four columns and leaving the fifth blank would give you a row that looks finished and is not, which is worse than an empty one. So the row is yours, all five columns of it are listed below, and you copy each from the clerk's record.",
+    "**Two more blanks on the petition are empty for a reason worth stating.** Your ZIP code and your date of birth on Side One are both refused by the shared rules, because on that crowded row the caption capture reads the neighbouring \"Race\" and \"Full Social Security No.\" captions instead of their own. The platform holds both facts and writes them on AOC-CV-226; on the petition they are yours to write."
   ],
 
   whoDecides: [
-    "**The court decides, on your petition.** You file; the prosecuting attorney may object; the judge signs the order or does not.",
-    "**The order is the court's instrument and you complete nothing on it below the caption.** Its recitals mirror the petition's, and the caption facts — your name, the case number, your date of birth in the identification block — are filled to match. When you file, ask the clerk of the filing court whether that court wants the order's recital blanks completed to match your petition, and complete exactly those if the clerk says so.",
-    "**After the order is signed, the distribution is the CLERK's, not yours.** The order's own text directs it: the Clerk is directed to mail or transmit a certified copy of the order to the Arkansas Crime Information Center, the Administrative Office of the Courts, the prosecuting and/or city attorney as the case may be, the District Court Clerk if applicable, and the arresting agency, and each of those agencies must comply with A.C.A. § 16-90-1413 as it pertains to them. You do not have to serve the sealed order on the record-holders yourself."
+    "**The court decides, on your petition, and the clerk certifies first.** You file Side One with the clerk of superior court; the clerk completes the CERTIFICATION BY CLERK on Side Two; a judge makes the findings and signs the order.",
+    "**You may not be the only person who can petition.** The committed packet-set manifest records that G.S. 15A-146 permits either the petitioner or the district attorney to petition, and that where the district attorney petitions instead, the form is AOC-CR-295 rather than this one. That form is not in this packet. If the district attorney has told you they will petition, ask the clerk whether you should file this one as well.",
+    "**The clerk sends the order out, not you.** The form's own NOTE TO PETITIONER says the clerk of superior court will send a copy of the granted order to the agencies you list — and says in terms that **the clerk will not provide addresses for you**, which is why the agency blocks are yours to complete.",
+    "**Some agencies are notified automatically and must NOT be listed.** The same note says: do not list the courts, the State Bureau of Investigation, the Department of Adult Correction, or the Division of Motor Vehicles. Do not list any private entity either — a private entity required to expunge records is notified by the State or local agencies that distribute criminal justice information to it."
   ],
 
   filingDestination: [
-    "**File the petition and the unsigned order together in the court where the nolle prosequi or dismissal order was entered.** That is the committed packet-set manifest's own instruction for this packet, and it is the answer: you do not have to work out venue for yourself.",
-    "**Check the county printed in the caption before you file.** The caption's county blank is one this packet deliberately leaves to you, so write the county of the court that entered the order — not the county you live in.",
-    "**Which of the two Arkansas courts it is — circuit or district — is the one thing left open, and the clerk answers it.** The compiled Arkansas profile records the rule as \"File in the circuit or district court that handled the case\", and the order's own distribution paragraph contemplates both, directing certified copies to \"the District Court Clerk, if applicable\". **Ask the circuit clerk's office of the county where the order was entered which of the two takes an Act 1460 non-conviction petition**, and write the answer in the caption's \"IN THE ______ COURT OF\" blank.",
-    "**The DIVISION blank in the caption is yours too, and only if that court has divisions.** The same clerk's office can tell you."
+    "**File with the clerk of superior court in the county where the charge was brought.** That is the committed packet-set manifest's instruction for this packet, and it is the answer — you do not have to work venue out for yourself.",
+    "**Check the county the platform wrote into the caption against the county the charge was brought in.** They should be the same; if they are not, the caption is wrong and must be corrected before you file.",
+    "**The District / Superior division boxes in the caption are yours.** They follow the court the charge was brought in, and the clerk's office of that county can confirm which applies to your case."
   ],
 
   feeAndWaiver: [
-    "**There is no filing fee for this petition.** The compiled Arkansas profile records it three ways, and every one of them is keyed to ACT 1460 — the act printed on the face of both of these forms: \"Act 1460 eliminated sealing filing fees\"; \"Sealing petition filing fee $0 — Filing fees eliminated by the 2019 amendments\"; and, in its filing rule, \"File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.\"",
-    "**What that means for paragraph 3, which you are signing.** Paragraph 3 of the petition is a statement that you \"ha[ve] paid all filing fees required to be paid with the filing of this Petition mandated by A.C.A § 16-90-1419\". The printed form still recites that statute and prints no amount anywhere. Where no filing fee is required, there is none left to have paid, and the sentence is true as printed. So do not read paragraph 3 as a bill. **If the clerk of the court where you file nevertheless asks you to pay something, that is a question about that court's own practice rather than about this packet — ask the clerk of that court what the charge is for and whether it can be waived or reduced, and settle it before you sign, because paragraph 3 is part of what you sign.**",
-    "**There is no fee-waiver form in this packet because there is no filing fee to waive.** The committed packet-set manifest records the same thing from the other direction: its pay_fee entry says the source review does not state a filing fee for this petition, and its apply_fee_waiver entry says the review does not address a waiver.",
-    "**The costs this route does carry are records costs, not filing fees**, and the same compiled profile names them: the ACIC criminal-history record carries an ACIC fee, a copy of a Judgment and Commitment Order carries a small clerk fee from the sentencing court, and counsel costs whatever counsel costs — which is not required here, and which legal-aid organisations and sealing clinics assist with at no charge.",
-    "**One cost is not money.** The verification page must be sworn before a notary, and a notary may charge for the acknowledgement. Ask whoever notarises it."
+    "**For a true dismissal there is no fee.** The committed packet-set manifest states it: \"none for a true dismissal.\"",
+    "**There is one exception and it is $175.00.** The same record: \"$175 applies where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement.\" The form itself carries the switch — Side One has a box reading *No charge listed above was dismissed as the result of compliance with a deferred prosecution agreement or a conditional discharge and dismissal*, with a NOTE TO CLERK beside it: **if this box is checked, do not assess the $175.00 fee.** That box is a statement about your own case and this packet does not tick it for you.",
+    "**If the $175.00 does apply and you cannot pay it, AOC-CV-226 is in this packet for exactly that.** The manifest records the waiver as \"available where a fee applies, on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.\" The affidavit is a full financial statement and every money figure on it is yours; the platform writes none of them.",
+    "**A separate cost is expressly not yours.** The manifest records that the costs of expunging the records required under G.S. 15A-150 are not taxed against the petitioner. That is the cost of carrying the order out, and it is not charged to you.",
+    "**If the clerk asks you for anything else**, that is a question about that office's own practice: **ask the clerk of superior court of the county where the charge was brought**, who is the office that assesses it, before you pay."
   ],
 
   service: [
-    "**Serve the prosecuting attorney within THREE DAYS of filing.** That is the committed packet-set manifest's rule for this packet — \"Serve the prosecuting attorney within three days of filing\" — and nothing on the printed forms tells you to look for a deadline, because the certificate of service sits inside the petition and prints none. Three days from the day you file.",
-    "**Who you serve, and how, is on the petition's own last page.** The Certificate of Service states it in full: a true and correct copy of the petition goes to **either the Prosecuting Attorney for the county in which the petition has been filed or to the City Attorney, depending on which office prosecuted the case**, **and to the arresting agency** — by placing a copy in the United States mail, postage prepaid, or by hand delivering a copy to that office.",
-    "**Complete the Certificate of Service only after you have actually served both.** Your name in the \"I, ______\" line, the signature line and the date beside it are all left blank by this packet, because service has not happened yet and a signed certificate of a mailing that never occurred is a false statement to the court.",
-    "**Then expect an objection, or expect silence.** The committed manifest gives the prosecuting attorney **30 days to object**. The compiled Arkansas profile records the window class-dependently for Act 1460 sealing generally — \"30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons\" — so if the offence in paragraph 1 is a felony the longer window may apply to you. **Ask the clerk of the court where you file which window that court runs.** If no objection is filed, many Arkansas courts grant a sealing petition on the papers.",
-    "**You do not serve the signed order on anyone.** The clerk distributes it — see *Who decides this* above."
+    "**Nobody is served on this route.** The committed packet-set manifest records it in terms: \"none required by the AOC form for dismissals.\" There is no certificate of service on AOC-CR-287 and none is needed.",
+    "**One neighbouring matter is different, and it is easy to confuse with this one.** The same record says a DNA expunction application under G.S. 15A-146(b1) is a separate matter and **must be served on the district attorney not less than 20 days before the hearing**. That is not this petition. If what you want is a DNA record removed, this is not the instrument and that deadline is real.",
+    "**The distribution after the order is the clerk's.** You do not serve or deliver the granted order on any agency; the clerk sends it to the agencies you listed on Side One."
   ],
 
   documentsToObtain: [
-    ["A fingerprint card. The committed packet-set manifest requires it before filing: \"Have fingerprints taken and submit the card with the petition.\" LegalEase does not collect fingerprints and this packet contains no card", "a law enforcement agency or an authorised fingerprint vendor"],
-    ["Your Arkansas criminal history, obtained on the ACIC Authorization for Review of Criminal History Information. This is the records step that comes before the petition, and it is what you check the case against", "the Arkansas Crime Information Center; the compiled profile records that an ACIC fee applies"],
-    ["The order that ended the case — the nolle prosequi, the dismissal or the judgment of acquittal — or whatever shows charges were never filed", "the clerk of the court that entered it"],
-    ["Your arrest paperwork, for the arrest date, the offence, the Arkansas Code section and the arrest tracking number", "the arresting agency, or your ACIC record"]
+    ["Copies of the charging documents, the dismissal orders and any judgments — obtain and KEEP them permanently before you file", "the clerk of superior court in the county where the charge was brought. The committed manifest warns that after an expunction access to these records is restricted and you may be unable to obtain them if you later need to prove what actually happened, most acutely in an immigration proceeding"],
+    ["A right-to-review copy of your own North Carolina criminal history, to confirm the disposition and to check whether the case has already cleared automatically", "the North Carolina Department of Public Safety, State Bureau of Investigation"],
+    ["The court file or a certified copy of the disposition, if you need to confirm the file number, the offence description or the dismissal date", "the clerk of superior court in the county where the charge was brought"],
+    ["The name and full mailing address of the arresting agency, and of every other State or local government agency that holds a record of your case", "each agency itself. The form's own note says the clerk will not provide addresses for you"]
   ],
 
   steps: [
-    "**Check paragraph 2 against your own record.** Exactly one of its four boxes must be true of your case. The committed manifest asks the same question — how did the case end — and directs you to check your answer against your ACIC criminal history before you file.",
-    "**Obtain your ACIC criminal history and your fingerprint card.** Both come before filing; the card goes in with the petition.",
-    "**Fill in every blank listed in the table below**, on both documents, from the records rather than from memory.",
-    "**Tick exactly one box in paragraph 2, one in paragraph 4 and one in paragraph 5.** Each is a statement about your own record and this packet marks none of them.",
-    "**Take the petition to a notary and swear the verification on page 3.** The notary completes the jurat, the seal, the commission expiry and the notary signature; you complete your own name in \"Comes the Petitioner, ____\" and sign where the notary directs.",
-    "**Sign and date the petition on page 2.** Paragraph 6 makes the whole petition a statement that the information is true and correct to the best of your knowledge.",
-    "**File the petition, the fingerprint card and the UNSIGNED order** in the court where the nolle prosequi or dismissal order was entered. Pay nothing: Act 1460 eliminated the filing fee.",
-    "**Serve the prosecuting or city attorney and the arresting agency within three days of filing**, then complete and sign the Certificate of Service on the petition's last page.",
-    "**Wait out the objection window** — 30 days under the committed manifest, possibly 90 for a felony under the compiled profile. Ask the clerk which the court runs.",
-    "**If the order is signed, the clerk distributes it.** You do not have to deliver certified copies to ACIC, the Administrative Office of the Courts, the prosecutor, the district court clerk or the arresting agency; the order directs the clerk to do it."
+    "**Obtain and keep permanent copies of everything about the case before you file.** This is the step people skip and cannot undo: after an expunction, access to those records is restricted.",
+    "**Check the dismissal date against your SBI record or the clerk's file.** The committed manifest asks you to confirm that answer before filing.",
+    "**Complete the offence table on Side One, all five columns of the row.** File No., Offense Description, Date Of Arrest, Date Of Offense, Date Of Dismissal, copied from the clerk's record. If the case had more than one dismissed charge, use a further row for each.",
+    "**If there are more agencies or more charges than the form has room for, attach AOC-CR-285** and tick the box on Side One that says you have — the form provides for it. That attachment is not in this packet.",
+    "**List the arresting agency and every other State or local agency with a record of the case, with complete addresses.** Do NOT list the courts, the SBI, the Department of Adult Correction, the DMV, or any private entity.",
+    "**Answer paragraph 3 if you were charged with multiple offences**: box a if all of them were dismissed, box b if some resulted in a conviction on the day of dismissal or had not reached final disposition — and if box b, write the file numbers and offence descriptions of the charges that were NOT dismissed on the lines provided.",
+    "**Tick the civil-revocation box only if a civil revocation of your driver's licence resulted from the offence.**",
+    "**Read the deferred-prosecution box carefully.** Tick it only if no charge listed was dismissed as the result of compliance with a deferred prosecution agreement or a conditional discharge. Ticking it truthfully is what tells the clerk not to assess the $175.00 fee.",
+    "**Write your ZIP code and your date of birth on Side One yourself** — see the table below for why they are blank.",
+    "**Sign and date the petition where it says Signature Petitioner, and print your name beside it.**",
+    "**Only if a fee applies and you cannot pay it, complete AOC-CV-226 in full** — the whole financial statement is yours — and swear it before the officer named on its jurat.",
+    "**File with the clerk of superior court in the county where the charge was brought.** Write nothing on Side Two."
   ],
 
   deliberatelyBlank: [
-    "**Your signature on the petition and the date beside it**, and the whole Certificate of Service — name, signature and date. Service has not happened yet.",
-    "**Everything on the order below its caption.** The findings, the paragraph boxes, the decree, the judge's signature and the date are the court's.",
-    "**The entire notary block** — the jurat day, month and year, the seal, the notary's signature and the commission expiry. A notary completes it in your presence.",
-    "**The identification block's Sex entry**, refused because the form's own layout makes it bind a date of birth; **the caption's county**, refused because it binds the city you live in; and **the verification block's \"Comes the Petitioner, ____\" blank**, refused because that one field also controls the notarised signature line above it.",
-    "**The arrest date's day, month and year blanks.** The platform holds an arrest date as a whole and holds no day, month or year fact.",
-    "**Race, Arrest Tracking Number, SID and FBI number.** The form itself marks the FBI number \"if known\"; the rest are identification facts the platform does not hold."
+    "**Everything on Side Two of AOC-CR-287.** The FINDINGS OF FACT, the ORDER, the presiding judge's name, signature and date, and the CERTIFICATION BY CLERK all belong to the court and the clerk.",
+    "**The whole offence table on Side One**, for the reason set out above: four of its five columns can be bound and the fifth cannot, and a part-filled row reads as finished when it is not.",
+    "**Every agency name and address.** The form's own note makes these the petitioner's, and says the clerk will not provide addresses for you.",
+    "**Your ZIP code and date of birth on Side One**, refused by the shared rules on a caption-capture defect described in the table below. The platform holds both and writes them on AOC-CV-226.",
+    "**Your driver's licence number, your Social Security number, your race, your sex and your age at the time of the offence.** Government identifiers and personal descriptors the platform does not write onto any form.",
+    "**The petitioner's-attorney block.** No representation fact is held for you, and this build never writes participant data into a block the court reads as counsel's.",
+    "**Every figure on AOC-CV-226.** The affidavit is a sworn financial statement; the platform invents no number.",
+    "**Every signature and every date beside one, on both forms.**"
   ],
 
   notTold: [
-    "**Whether the circuit or the district court takes your petition.** The compiled profile records that Act 1460 sealing is filed \"in the circuit or district court that handled the case\", and which of the two varies by county. The circuit clerk's office of the county where the order was entered is the office that answers it.",
-    "**Whether the objection window on your case is 30 days or 90.** The committed manifest says 30; the compiled profile records 30 for a misdemeanour and 90 for a felony under Act 1460 generally. Both are held and they are keyed differently, so both are disclosed here rather than one being chosen for you. Ask the clerk of the court where you file which window that court runs.",
-    "**What the ACIC criminal-history record costs, and what a notary charges.** The compiled profile records that an ACIC fee applies and states no amount; ACIC publishes it. A notary's charge is the notary's.",
-    "**Whether your court has divisions.** The caption's DIVISION blank is completed only if it does, and the clerk's office of that court answers it."
+    "**The name and mailing address of any agency that holds a record of your case.** No held record establishes them, and the form's own note says the clerk will not provide them either. Each agency publishes its own address; the clerk of superior court of the county where the charge was brought can tell you which agencies are likely to hold a record.",
+    "**Whether your case was dismissed pursuant to a deferred prosecution agreement or a conditional discharge**, which is the only thing that turns the $175.00 fee on. Your own dismissal order says; the clerk of superior court can confirm it.",
+    "**Whether the district attorney intends to petition instead of you** on AOC-CR-295. Ask the district attorney's office for the county where the charge was brought.",
+    "**Whether the case has already cleared automatically.** An SBI right-to-review copy of your own record is how you find out."
   ],
 
   stopConditions: [
-    "none of paragraph 2's four situations is true of your case — this petition is for a nolle prosequi, a dismissal, an acquittal, or charges never filed, and a case that ended in a conviction or a diversion is a different ACIC form family;",
-    "the acquittal was for reason of mental disease or defect under A.C.A. § 5-2-301 et seq. — paragraph 2's acquittal box excludes it in terms;",
-    "you have a pending felony charge in any state or federal court, so paragraph 4's second box is yours — whether the petition can be granted while it is pending is a question this packet does not answer;",
-    "you are required to register under the Sex Offender Registration Act of 1997, so paragraph 5 reads IS — what that means for sealing this record is a question this packet does not answer;",
-    "the prosecuting attorney files a notice of opposition — the petition is contested from that point and goes to a hearing;",
-    "you cannot work out which offence, class or A.C.A. section to copy and your paperwork does not show them — your ACIC criminal-history record is where they are;",
-    "any immigration question is involved."
+    "the charge was dismissed under G.S. 15A-1008 for lack of capacity to proceed — paragraph 2 of the petition excludes that dismissal in terms;",
+    "what you want expunged is a conviction rather than a dismissal — this form is for dismissed charges and a different AOC form covers a conviction;",
+    "what you want is a DNA record removed — that is an application under G.S. 15A-146(b1), a separate matter with a 20-day service requirement on the district attorney before the hearing, and it is not this packet;",
+    "you were charged with multiple offences and are not sure whether all of them were dismissed — that is the difference between subsection (a) and (a1) and between paragraph 3's boxes a and b;",
+    "you may need these records later to prove what happened — most acutely in an immigration proceeding — and have not yet obtained and kept permanent copies of everything;",
+    "any immigration question is involved at all."
   ],
 
   whatThisIsNot:
-    "This is a prepared set of official Arkansas Crime Information Center forms, delivered as ACIC publishes "
-    + "them. It is not legal advice, it is not filed for you, and it does not decide whether your record can be "
-    + "sealed under A.C.A. Sec. 16-90-1401 et seq. It is not the ACIC form family for a conviction or a "
-    + "diversion, and it is not the ACIC arrest-sealing petition, which is a different route and a different "
-    + "packet.",
+    "This is a prepared set of official North Carolina Administrative Office of the Courts forms, delivered as "
+    + "the AOC publishes them. It is not legal advice, it is not filed for you, and it does not decide whether "
+    + "your charge can be expunged under G.S. 15A-146. It is not AOC-CR-295, the district attorney's petition; "
+    + "it is not AOC-CR-285, the continuation sheet for extra agencies or charges; and it is not an application "
+    + "to expunge a DNA record under G.S. 15A-146(b1).",
 
   receiptDoesNotEstablish: [
-    "that these are the current official editions of either ACIC form, or that neither has been superseded since the archive was assembled",
-    "that any particular Arkansas case ended in a nolle prosequi, a dismissal, an acquittal, or with no charges filed"
+    "that these are the current official editions of any of the three AOC forms, or that none has been superseded since the archive was assembled",
+    "that any particular North Carolina charge was dismissed, or how it was dismissed",
+    "that any fee does or does not apply to any particular case"
   ],
 
   buildFindings: [
     {
       finding:
-        "THREE writes the shared semantics would have made are refused by role, and each would have been wrong "
-        + "rather than merely unhelpful: `Sex` binds participant.date_of_birth through the printed-label "
-        + "fallback because the identification block prints Sex and DOB one line apart; `COUNTY/CITY` binds "
-        + "participant.city although it is the county of the filing court; and `Petitioner` carries two widgets, "
-        + "one of them the notarised signature rule at the foot of the jurat.",
+        "SOURCE IDENTITY. The route census maps `official-form:AOC-CR-287` to the INSTRUCTIONS binary "
+        + "(sha fe222704...), not to the petition. The petition itself is held and is reachable only through "
+        + "`source-sha256:a8762293...`. The family's own MASTER_QUEUE row carries custodyClass "
+        + "SOURCE_REVISION_STALE.",
       consequence:
-        "All three are declared unwritable with the reason stated, are classified required-before-filing, and "
-        + "are disclosed by name in participant-instructions.md — including a paragraph explaining to the "
-        + "participant why each is empty, so a refusal does not read as an oversight."
+        "This build binds every document by its own SHA-256 rather than by census alias, so the right bytes are "
+        + "delivered and the receipt records both the alias and the hash. The census alias is still wrong and is "
+        + "reported here for whoever owns the census, because a verifier reading the alias will fetch an "
+        + "instruction sheet where a petition should be."
     },
     {
       finding:
-        "The `COUNTY/CITY` mis-binding is stopped on the ORDER today by a different rule: a court-issued order "
-        + "accepts caption facts only, and participant.city is not one.",
+        "SHARED-SEMANTICS GAP, and the reason Side One's offence table ships empty. The table's fifth column is "
+        + "Date Of Dismissal. FACT_DESCRIPTORS carries matter.disposition_date matching /disposition\\s*date/ and "
+        + "carries nothing matching \"date of dismissal\", so DateOfDismissal1 returns no_allowlisted_fact_matches "
+        + "-- and an explicit mapping cannot reach it, because decideBinding consults explicitMappings only after "
+        + "a descriptor has already matched.",
       consequence:
-        "It is refused by role on both documents anyway. A refusal that depends on another rule is not this "
-        + "family's refusal and would disappear the moment that rule moved."
+        "The other four columns are refused by role rather than written. Writing them would leave a row carrying "
+        + "written cells beside a required cell left blank, which is the incompleteRows defect exactly. The whole "
+        + "row is the participant's, all five columns are declared required-before-filing and disclosed, and the "
+        + "instructions tell the participant why the table is empty. CLOSING THE GAP IS NOT THIS LANE'S TO DO: "
+        + "it needs a descriptor in scripts/rcap-official-forms/rcap-field-semantics.mjs, a shared host carrying "
+        + "137 builders, and a change there could move other families' bytes."
     },
     {
       finding:
-        "FEE_AND_WAIVER, tested against DETERMINATION_FEE_AND_WAIVER_STANDARD A1-A4. The compiled Arkansas "
-        + "profile is a held source under A2 and its three fee statements are keyed to ACT 1460 SEALING — the "
-        + "act printed on the face of both bound forms — so under A3 they answer this route rather than a "
-        + "sibling's, and A1 forbids substituting a named authority for an answer the repository holds.",
+        "CAPTION-CAPTURE DEFECT on Side One's crowded identifier row. PetitionerZip is refused as "
+        + "protected_category/race because the capture returns the neighbouring \"Race\" caption; DateOfBirth is "
+        + "refused as protected_category/government_identifier because the capture returns the blob \"Date Of "
+        + "BirthFull Social Security No.Age At Time Of Offense\". Both refusals are safe -- they withhold rather "
+        + "than mis-write -- but both are for the wrong reason, and the platform holds both facts and writes "
+        + "them on AOC-CV-226.",
       consequence:
-        "The packet states that there is no filing fee and quotes all three lines; explains what that means for "
-        + "paragraph 3's sworn fee averment, which the form still recites; names the clerk of the filing court "
-        + "for the residual question of a particular court's own practice; and separately names the records "
-        + "costs the same profile records, so that a participant does not read \"no filing fee\" as \"free\"."
+        "Both are declared required-before-filing with the true reason stated to the participant rather than "
+        + "presented as facts the platform lacks. Reported for the lane that owns the caption capture."
     },
     {
       finding:
-        "SERVICE is answered by two held records that agree on the recipients and differ on the objection "
-        + "window: the committed packet-set manifest sets three days to serve and 30 days to object, and the "
-        + "compiled profile records the window class-dependently as 30 for a misdemeanour and 90 for a felony.",
+        "TWO DUPLICATE-WRITE mis-bindings refused by role. PetitionerAddr2 on the petition binds "
+        + "participant.street_address exactly as line one does. On AOC-CV-226 the whole \"Full Permanent Mailing "
+        + "Address Of Applicant (if different than above)\" block binds the participant's address, because the "
+        + "form's printed ligature comes through as \"di(uerent\" and the shared if-different refusal therefore "
+        + "does not fire -- so the address would be written into the block that exists for a DIFFERENT one while "
+        + "the Street Number And Street Name line above it stayed empty.",
       consequence:
-        "Both are disclosed rather than one being chosen, with the clerk of the filing court named for which "
-        + "window that court runs. The recipients and the method are taken from the petition's own printed "
-        + "Certificate of Service."
+        "Both refused by role with the reason stated. On AOC-CV-226 that leaves the street line to the "
+        + "participant: it binds nothing either, since no descriptor matches \"Street Number And Street Name\"."
     },
     {
       finding:
-        "The order's own text directs the CLERK to distribute certified copies to ACIC, the Administrative "
-        + "Office of the Courts, the prosecuting or city attorney, the District Court Clerk if applicable, and "
-        + "the arresting agency.",
+        "FEE_AND_WAIVER, tested against A1-A4. The committed packet-set manifest is a held source under A2 and "
+        + "answers this route's fee question with a condition rather than a figure: none for a true dismissal, "
+        + "$175 where the dismissal followed a deferred prosecution agreement or a conditional discharge. The "
+        + "form itself carries the switch, in a box with a NOTE TO CLERK beside it.",
       consequence:
-        "The packet states that this step is the clerk's and not the participant's, in the order's own terms, "
-        + "so that nobody sets out to deliver sealed orders by hand."
+        "The packet states both limbs, points at the box on the form that turns the fee off, explains that "
+        + "AOC-CV-226 is in the packet for the case where the fee applies and cannot be paid, and separately "
+        + "states that G.S. 15A-150 expunction costs are not taxed against the petitioner. Per A4 nothing in the "
+        + "packet says it does not state an amount, because it does state one."
     },
     {
       finding:
-        "Paragraph 2's four boxes, paragraph 4's pair and paragraph 5's pair are elections about the "
-        + "participant's own record, and the committed packet-set manifest asks the participant paragraph 2's "
-        + "question in terms rather than resolving it.",
+        "SERVICE is a does-not-apply on this route and a real deadline on a neighbouring one: the manifest "
+        + "records \"none required by the AOC form for dismissals\", and separately that a DNA expunction "
+        + "application under G.S. 15A-146(b1) must be served on the district attorney not less than 20 days "
+        + "before the hearing.",
       consequence:
-        "All eight are recorded as genuine participant elections rather than as route-determined selections "
-        + "left unmade, with the reasoning in routeSelectionNote. No box is marked on either document."
+        "Both are stated, and the neighbouring matter is named as a stop condition so a participant who actually "
+        + "needs it is not left believing nothing is ever served."
+    },
+    {
+      finding:
+        "The packet-set manifest carries two components this build does NOT render as documents: a "
+        + "participant_instructions component with outputStrategy process_guidance, and a "
+        + "district_attorney_alternative_filing component naming AOC-CR-295, conditional on the district "
+        + "attorney petitioning instead. MASTER_QUEUE's packetComponents for this family lists neither.",
+      consequence:
+        "participant-instructions.md is the first; the second is covered in prose and named as a form this "
+        + "packet does not contain, because a document mapped and not rendered is a missing companion form. "
+        + "AOC-CR-295 is not bound by this family and no source for it is held."
     }
   ],
 
   counselQuestions: [
-    "The `Petitioner` field is refused whole because one of its two widgets is the notarised signature rule. That leaves the \"Comes the Petitioner, ____\" blank empty on a page the participant swears. Confirm that leaving it to the participant is right, against the alternative of a form-level repair.",
-    "The order is treated as captionOnly and this packet writes the participant's name into its decree sentence (\"the Petition of the Defendant, ____\") as a caption fact. Confirm that writing a name inside the court's ORDERED paragraph is acceptable, or say that the whole paragraph should be left blank.",
-    "The packet states there is no filing fee from the compiled profile's Act 1460 lines while paragraph 3 of the petition still recites A.C.A. § 16-90-1419. Confirm the reading that the averment is true as printed where no fee is required.",
-    "Two held records give different objection windows (manifest: 30 days; profile: 30 misdemeanour / 90 felony). The packet discloses both and names the clerk. Confirm, or settle which governs.",
-    "The identification block's Sex entry is refused because of a caption-capture defect rather than because it is the participant's to state. Confirm that leaving it to the participant is the right disposition."
+    "Side One's offence table ships empty because its Date Of Dismissal column cannot be bound. Confirm that an empty table with all five columns disclosed is preferable to a four-of-five row, or direct that the four be written.",
+    "The petition's ZIP and date-of-birth blanks are left to the participant because of a caption-capture defect, not because the platform lacks the facts. Confirm that disclosing the true reason to the participant is right.",
+    "AOC-CV-226 is delivered unconditionally in the packet although the manifest makes it conditional on a fee applying. Confirm that delivering it with the condition stated is better than omitting it.",
+    "The packet names AOC-CR-295 and AOC-CR-285 as forms the participant may need and does not contain. Confirm that naming without carrying is the right treatment for both.",
+    "The AOC instruction sheet is delivered unmodified as a packet component. Confirm that redistributing the AOC's own instructions inside a prepared packet is appropriate."
   ],
 
   reviewersAttention: [
-    "Three role refusals on this family stop writes that would have been WRONG, not merely absent. They are the substance of this build; please check each against the printed page.",
-    "The order is captionOnly. Everything below its caption is deliberately empty and must stay that way on the raster.",
-    "The petition's page 3 is a notarial jurat. Nothing in the whole block is filled, including the day, month and year of the oath."
+    "The offence table on Side One is EMPTY BY DECISION, not by omission. build-findings.json records why and names the shared-host change that would close it.",
+    "Side Two of AOC-CR-287 is deliberately untouched in full. Please check on the raster that nothing has landed in the FINDINGS OF FACT, the ORDER or the CERTIFICATION BY CLERK.",
+    "This family's census alias for official-form:AOC-CR-287 points at the instruction sheet rather than the petition. The build binds by hash and is unaffected; the census is not.",
+    "AOC-CV-226 is a sworn financial statement. Every money figure on it is blank by design."
   ],
 
   composedBody() {
-    throw new Error("this family composes no pages: every component is an official ACIC form");
+    throw new Error("this family composes no pages: every component is an official AOC form");
   },
 
   /* ---- field maps ------------------------------------------------------------- */
@@ -428,181 +449,312 @@ const SPEC = {
     const refusals = [];
     if (componentId === "petition") {
       writes.push(
-        h.write("First Middle and Last name", "Defendant named in the caption of the petition (First, Middle and Last name)", "participant.full_legal_name", 1),
-        h.write("Case No", "Case No. in the caption of the petition", "matter.case_number", 1),
-        h.write("1", "Paragraph 1 - the offence(s) the Defendant was charged with, first printed rule", "matter.charge", 1),
-        h.write("Defendant", "Defendant named in the WHEREFORE prayer on page 2", "participant.full_legal_name", 2),
-        h.write("ADDRESS 1", "Defendant's Address - street line", "participant.street_address", 2),
-        h.write("City", "Defendant's Address - City", "participant.city", 2),
-        h.write("State", "Defendant's Address - State", "participant.state", 2),
-        h.write("Zip code", "Defendant's Address - Zip code", "participant.zip", 2),
-        h.write("DOB", "DOB in the identification block on page 3", "participant.date_of_birth", 3)
+        h.write("PetitionerName", "Name Of Petitioner (type or print full name)", "participant.full_legal_name", 1),
+        h.write("PetitionerAddr1", "Address Of Petitioner - street line", "participant.street_address", 1),
+        h.write("PetitionerCity", "Address Of Petitioner - City", "participant.city", 1),
+        h.write("PetitionerState", "Address Of Petitioner - State", "participant.state", 1),
+        h.write("CountyName", "County named in the caption of the petition", "matter.county", 1),
+        h.write("FileNumber", "File No. in the caption of the petition", "matter.case_number", 1)
       );
       refusals.push(
-        h.rbf("COURT TYPE", "Caption - the type of court in \"IN THE ______ COURT OF\"",
-          "which Arkansas court takes an Act 1460 non-conviction petition where your order was entered - circuit or district; the circuit clerk's office of that county answers it",
-          "the compiled profile records that Act 1460 sealing is filed in the circuit or district court that handled the case, and which of the two varies by county", 1),
-        h.rbf("COUNTY/CITY", "Caption - the county in \"COURT OF ________, ARKANSAS\"",
-          "the county of the court where the nolle prosequi, dismissal or judgment of acquittal was entered - not the county you live in",
-          "this blank binds participant.city through its own field name, which is the wrong fact; the county of the filing court is a case fact the participant establishes", 1),
-        h.rbf("DAY 1", "Paragraph 1 - the DAY of the arrest date",
-          "the day of the month you were arrested, copied from your arrest paperwork",
-          "the platform holds an arrest date as a whole and holds no day fact", 1),
-        h.rbf("MONTH 1", "Paragraph 1 - the MONTH of the arrest date",
-          "the month you were arrested, copied from the same paperwork",
-          "the platform holds no month fact, and this blank class was proved on the sibling ACIC form to take a participant name through the printed-label fallback", 1),
-        h.rbf("YEAR 1", "Paragraph 1 - the YEAR of the arrest date",
-          "the year you were arrested, copied from the same paperwork",
-          "the platform holds no year fact", 1),
-        h.rbf("in violation of ACA", "Paragraph 1 - \"in violation of A.C.A. Sec. ______\"",
-          "the Arkansas Code section of the offence, copied from your arrest or court paperwork or from your ACIC record",
-          "this blank binds matter.charge through its printed caption, but it holds a code section rather than an offence name", 1),
-        h.rbf("Petitioner", "Verification - \"Comes the Petitioner, ______, under oath and states\"",
-          "your own name, written on the page you swear before the notary",
-          "this one field also controls the notarised signature rule at the foot of the jurat, and a packet may never put a name on a signature line, so the field is refused whole", 3),
-        h.rbf("COUNTY OF", "Verification - \"STATE OF ARKANSAS / COUNTY OF ______\"",
-          "the county in which you swear the verification before the notary - the notary can tell you, and it need not be the county of the court",
-          "the county of a notarial oath is where the participant happens to be sworn, which the platform does not know", 3),
-        h.rbf("Race", "Identification block - Race",
-          "your race, as the form asks; the form states this block is required for proper identification of the Defendant in the state and national record systems",
-          "the platform does not hold or write a race fact", 3),
-        h.rbf("Sex", "Identification block - Sex",
-          "your sex, as the form asks, in the same identification block",
-          "this blank binds participant.date_of_birth through the printed-label fallback, because the block prints Sex and DOB one line apart; a date of birth in the sex box is a wrong answer rather than a missing one", 3),
-        h.rbf("Arrest Tracking Number", "Identification block - Arrest Tracking Number",
-          "the ATN, copied from your arrest paperwork or your ACIC criminal-history record",
-          "the ATN is assigned by Arkansas ACIC when an arrest is processed and identifies the arrest through a system the platform has no knowledge of", 3),
-        h.rbf("SID", "Identification block - SID No.",
-          "your State Identification number, from your arrest paperwork or your ACIC criminal-history record",
-          "the platform holds no SID, and the shared semantics refuse a government identifier on any form", 3),
-        h.optional("DIVISION", "Caption - the DIVISION blank",
-          "completed only if the court you file in has divisions; the clerk's office of that court answers whether it does", 1),
-        h.optional("2", "Paragraph 1 - the second printed rule of the offence list",
-          "used only if the same arrest carried a further offence; the first rule is filled from what you gave", 1),
-        h.optional("CHARGES 1", "Paragraph 4 - status of pending felony charge(s), first printed rule",
-          "used only if you tick paragraph 4's second box: the court, case number and current status of each pending felony charge", 2),
-        h.optional("CHARGES 2", "Paragraph 4 - status of pending felony charge(s), second printed rule",
-          "used only if the first rule will not hold the answer", 2),
-        h.optional("ADDRESS 2", "Defendant's Address - second street line",
-          "used only if your address needs a second line; the platform holds one street address and writes it on the first rule", 2),
-        h.optional("FBI No if known", "Identification block - FBI No. (if known)",
-          "the form itself marks this blank \"(if known)\"; leave it empty if you do not know it", 3),
-        h.election("Check Box1", "Paragraph 2 - Order of Nolle Prosequi entered more than one year ago and not refiled",
-          "which of paragraph 2's four situations ended the case is a fact about the participant's own record; the committed packet-set manifest asks the participant that question in terms rather than resolving it", 1),
-        h.election("Check Box2", "Paragraph 2 - Order of Dismissal has been entered",
-          "the same election, second of four", 1),
-        h.election("Check Box3", "Paragraph 2 - Judgment of Acquittal, not for reason of mental disease or defect",
-          "the same election, third of four", 1),
-        h.election("Check Box4", "Paragraph 2 - the prosecuting or city attorney did not file charges",
-          "the same election, fourth of four", 1),
-        h.election("Check Box5", "Paragraph 4 - no pending felony charges in any state or federal court",
-          "a sworn statement about the participant's own record which the route does not determine", 2),
-        h.election("Check Box6", "Paragraph 4 - one or more pending felony charges",
-          "the other half of the same sworn election", 2),
-        h.election("Check Box7", "Paragraph 5 - IS required to register under the Sex Offender Registration Act of 1997",
-          "a sworn statement about the participant's own status which the route does not determine", 2),
-        h.election("Check Box8", "Paragraph 5 - IS NOT required to register",
-          "the other half of the same sworn election", 2),
-        h.protectedBlank("Defendants Signature", "Defendant's Signature on page 2",
-          "paragraph 6 makes the petition a statement that the information is true and correct; the participant signs it", 2),
-        h.protectedBlank("Date", "Date beside the Defendant's Signature on page 2",
-          "a date written before the petition is signed would be false", 2),
-        h.protectedBlank("DEFENDANT", "Certificate of Service - the certifying party's name in \"I, ______, do hereby certify\"",
-          "a sworn statement about an act of service, made after mailing and not before", 4),
-        h.protectedBlank("Defendant or Defendants Attorney", "Certificate of Service - signature line",
-          "signed by the participant, or their attorney, after service has actually happened", 4),
-        h.protectedBlank("Date_2", "Certificate of Service - date line",
-          "the date of service, written after service has happened", 4),
-        h.agencyBlank("Notary Public", "Verification - the Notary Public signature line",
-          "a notary signs their own jurat", 3),
-        h.agencyBlank("DAY 2", "Verification - the DAY of \"Subscribed and sworn to before me on this ___\"",
-          "the notary completes the jurat when the oath is administered", 3),
-        h.agencyBlank("MONTH 2", "Verification - the MONTH of the jurat",
-          "the notary completes the jurat when the oath is administered", 3),
-        h.agencyBlank("YEAR 2", "Verification - the YEAR of the jurat",
-          "the notary completes the jurat when the oath is administered", 3),
-        h.agencyBlank("EXPIRE DATE", "Verification - \"My Commission expires\"",
-          "the notary's own commission expiry, which only the notary knows", 3)
-      );
-    } else {
-      writes.push(
-        h.write("First Middle and Last name", "Defendant named in the caption of the order (First, Middle and Last name)", "participant.full_legal_name", 1),
-        h.write("Case No", "Case No. in the caption of the order", "matter.case_number", 1),
-        h.write("DEFENDANT NAME", "Defendant named in the order's decree sentence, matching the petition", "participant.full_legal_name", 2),
-        h.write("DOB", "DOB in the order's identification block", "participant.date_of_birth", 3)
-      );
-      refusals.push(
-        h.rbf("COURT TYPE", "Order caption - the type of court, which must match the petition's",
-          "the same court you wrote in the petition's caption",
-          "the order travels with the petition and carries the same caption the participant establishes", 1),
-        h.rbf("COUNTY/CITY", "Order caption - the county, which must match the petition's",
-          "the same county you wrote in the petition's caption - the county of the court where the order was entered",
-          "this blank binds participant.city through its own field name, which is the wrong fact", 1),
-        h.optional("DIVISION", "Order caption - the DIVISION blank",
-          "completed only if that court has divisions, to match the petition", 1),
-        h.agencyBlank("Judge", "The order's signature line, for the Judge",
-          "the court signs its own order, if and only if it grants the petition", 2),
-        h.agencyBlank("Date", "The date beside the Judge's signature",
-          "the court dates its own order", 2),
-        h.rbf("DAY 1", "Order paragraph 1 - the DAY of the arrest date in the court's findings",
-          "nothing unless the clerk asks you to complete the order's recitals to match your petition; then the day of the arrest, as on the petition",
-          "the platform holds no day fact, and the recitals below the caption are the court's", 1),
-        h.rbf("MONTH 1", "Order paragraph 1 - the MONTH of the arrest date in the court's findings",
-          "nothing unless the clerk asks you to complete the recitals; then the month, as on the petition",
-          "the platform holds no month fact, and the recitals below the caption are the court's", 1),
-        h.rbf("YEAR 1", "Order paragraph 1 - the YEAR of the arrest date in the court's findings",
-          "nothing unless the clerk asks you to complete the recitals; then the year, as on the petition",
-          "the platform holds no year fact, and the recitals below the caption are the court's", 1),
-        h.rbf("1", "Order paragraph 1 - the offence(s) in the court's findings, first printed rule",
-          "nothing unless the clerk asks you to complete the recitals; then the offence, as on the petition",
-          "the order is the court's instrument and accepts caption facts only; its findings are not caption facts", 1),
-        h.rbf("CLASS", "Order paragraph 1 - the \"A Class ______\" blank in the court's findings",
-          "nothing unless the clerk asks you to complete the recitals; then the class letter of the offence",
-          "the platform holds no offence-class fact, and the findings are the court's", 1),
-        h.rbf("ACA NO", "Order paragraph 1 - \"in violation of A.C.A. Sec.\" in the court's findings",
-          "nothing unless the clerk asks you to complete the recitals; then the Arkansas Code section, as on the petition",
-          "this blank binds matter.charge through its printed caption but holds a code section, and the findings are the court's", 1),
-        h.rbf("Race", "Order identification block - Race",
-          "the same race entry you wrote on the petition",
-          "the platform does not hold or write a race fact", 3),
-        h.rbf("Sex", "Order identification block - Sex",
-          "the same sex entry you wrote on the petition",
-          "the platform does not hold a sex fact", 3),
-        h.rbf("Arrest Tracking Number", "Order identification block - Arrest Tracking Number",
-          "the same ATN you wrote on the petition",
-          "the ATN is assigned by Arkansas ACIC and is the agency's identifier", 3),
-        h.rbf("SID", "Order identification block - SID No.",
-          "the same SID you wrote on the petition",
-          "the platform holds no SID, and the shared semantics refuse a government identifier", 3),
-        h.optional("2", "Order paragraph 1 - the second printed rule of the offence list in the court's findings",
-          "nothing unless the clerk asks you to complete the recitals and the same arrest carried a further offence", 1),
-        h.optional("CHARGES 1", "Order paragraph 4 - status of pending felony charge(s), first printed rule",
-          "nothing unless the clerk asks you to complete the recitals and paragraph 4's second box is yours", 2),
-        h.optional("CHARGES 2", "Order paragraph 4 - status of pending felony charge(s), second printed rule",
-          "nothing unless the first rule will not hold the answer", 2),
-        h.optional("FBI No if known", "Order identification block - FBI No. (if known)",
-          "the form itself marks this blank \"(if known)\"", 3),
-        h.election("Check BoxF", "Order paragraph 1 - felony box in the court's findings",
-          "the court makes its own findings; where a clerk asks for the recitals to be completed to match the petition, which box is true is read off the participant's own paperwork and the route does not determine it", 1),
-        h.election("Check BoxM", "Order paragraph 1 - misdemeanor box in the court's findings",
+        h.rbf("PetitionerZip", "Address Of Petitioner - Zip",
+          "your ZIP code. The platform holds it and writes it on AOC-CV-226, but it cannot write it here: on this crowded row the shared rules read the neighbouring \"Race\" caption instead of this blank's own and refuse the write",
+          "a caption-capture defect returns the printed word Race for this blank, so the shared semantics refuse it as a protected personal descriptor; the refusal withholds rather than mis-writes, but the reason is wrong and the participant is told so", 1),
+        h.rbf("DateOfBirth", "Date Of Birth on the petition",
+          "your date of birth. The platform holds it and writes it on AOC-CV-226; on this row the shared rules read the neighbouring \"Full Social Security No.\" caption and refuse the write as a government identifier",
+          "the caption capture returns the blob \"Date Of BirthFull Social Security No.Age At Time Of Offense\" for this blank, so the shared semantics refuse it; the fact is held and the refusal is a capture defect", 1),
+        h.rbf("DriversLicenseNumber", "Drivers License No.",
+          "your driver's licence number, from the licence itself",
+          "the shared semantics refuse a government identifier on any form", 1),
+        h.rbf("DriversLicenseState", "Drivers License State",
+          "the state that issued your driver's licence",
+          "part of the same government-identifier block", 1),
+        h.rbf("FullSocialSecurityNumber", "Full Social Security No.",
+          "your Social Security number, as the form asks",
+          "the shared semantics refuse a Social Security number on any form", 1),
+        h.rbf("Race", "Race",
+          "your race, as the form asks",
+          "the platform does not hold or write a race fact", 1),
+        h.rbf("Sex", "Sex",
+          "your sex, as the form asks",
+          "the platform does not hold or write a sex fact", 1),
+        h.rbf("AgeAtTimeOfOffense", "Age At Time Of Offense",
+          "your age when the offence happened",
+          "an age at a past date is computed from an offence date the platform does not hold for this matter", 1),
+        h.rbf("ArrestingAgencyName", "Name Of Arresting Agency",
+          "the name of the agency that arrested you. The form's own note says the clerk will not provide addresses for you",
+          "which agency arrested a participant, and its address, are case facts the platform has not seen", 1),
+        h.rbf("ArrestingAgencyAddr1", "Address Of Arresting Agency - street line",
+          "the arresting agency's street address, in full - the clerk sends the granted order to the address you write",
+          "no committed record holds the address of any particular North Carolina agency", 1),
+        h.rbf("ArrestingAgencyCity", "Address Of Arresting Agency - City",
+          "the arresting agency's city",
+          "no committed record holds it", 1),
+        h.rbf("ArrestingAgencyState", "Address Of Arresting Agency - State",
+          "the arresting agency's state",
+          "no committed record holds it", 1),
+        h.rbf("ArrestingAgencyZip", "Address Of Arresting Agency - Zip",
+          "the arresting agency's ZIP code",
+          "no committed record holds it", 1),
+        h.rbf("OtherAgency1Name", "Name Of Other Agency (if any) - first",
+          "the name of any other State or local government agency with a record of your case. Do NOT list the courts, the SBI, the Department of Adult Correction, the DMV, or any private entity",
+          "which further agencies hold a record of a particular case is a fact the platform has not seen", 1),
+        h.rbf("OtherAgency1Addr1", "Address Of Other Agency (if any) - first, street line",
+          "that agency's street address, in full",
+          "no committed record holds it", 1),
+        h.rbf("OtherAgency2Name", "Name Of Other Agency (if any) - second",
+          "the name of a further agency, if there is one; use AOC-CR-285 if there are more than the form has room for",
+          "which further agencies hold a record of a particular case is a fact the platform has not seen", 1),
+        h.rbf("OtherAgency2Addr1", "Address Of Other Agency (if any) - second, street line",
+          "that agency's street address, in full",
+          "no committed record holds it", 1),
+        h.rbf("ChargesLine1", "Paragraph 3(b) - file nos. and offence descriptions of charges that were NOT dismissed, first line",
+          "only if you tick paragraph 3's box b: the file numbers and offence descriptions of the charges that resulted in a conviction on the day of dismissal or had not reached final disposition",
+          "which of a participant's charges were not dismissed is a fact about their own record", 1),
+        h.optional("PetitionerAddr2", "Address Of Petitioner - second street line",
+          "used only if your address needs a second line; the platform holds one street address and writes it on the first", 1),
+        h.optional("ArrestingAgencyAddr2", "Address Of Arresting Agency - second street line",
+          "used only if that agency's address needs a second line", 1),
+        h.optional("OtherAgency1Addr2", "Address Of Other Agency (if any) - first, second street line",
+          "used only if that agency's address needs a second line", 1),
+        h.optional("OtherAgency1City", "Address Of Other Agency (if any) - first, City",
+          "that agency's city, if you list a first other agency", 1),
+        h.optional("OtherAgency1State", "Address Of Other Agency (if any) - first, State",
+          "that agency's state, if you list a first other agency", 1),
+        h.optional("OtherAgency1Zip", "Address Of Other Agency (if any) - first, Zip",
+          "that agency's ZIP code, if you list a first other agency", 1),
+        h.optional("OtherAgency2Addr2", "Address Of Other Agency (if any) - second, second street line",
+          "used only if that agency's address needs a second line", 1),
+        h.optional("OtherAgency2City", "Address Of Other Agency (if any) - second, City",
+          "that agency's city, if you list a second other agency", 1),
+        h.optional("OtherAgency2State", "Address Of Other Agency (if any) - second, State",
+          "that agency's state, if you list a second other agency", 1),
+        h.optional("OtherAgency2Zip", "Address Of Other Agency (if any) - second, Zip",
+          "that agency's ZIP code, if you list a second other agency", 1),
+        h.optional("ChargesLine2", "Paragraph 3(b) - second line for charges that were NOT dismissed",
+          "used only if the first line will not hold the answer", 1),
+        h.attorneyBlank("PetitionersAttorneyName", "Name Of Petitioner's Attorney For Expunction Petition",
+          "completed only where an attorney files the petition for you", 1),
+        h.attorneyBlank("PetitionersAttorneyAddr1", "Address Of Petitioner's Attorney - street line",
+          "part of the same attorney block", 1),
+        h.attorneyBlank("PetitionersAttorneyAddr2", "Address Of Petitioner's Attorney - second street line",
+          "part of the same attorney block", 1),
+        h.attorneyBlank("PetitionersAttorneyCity", "Address Of Petitioner's Attorney - City",
+          "part of the same attorney block", 1),
+        h.attorneyBlank("PetitionersAttorneyState", "Address Of Petitioner's Attorney - State",
+          "part of the same attorney block", 1),
+        h.attorneyBlank("PetitionersAttorneyZip", "Address Of Petitioner's Attorney - Zip",
+          "part of the same attorney block", 1),
+        h.election("SuperiorCourtCkBox", "Caption - Superior Court division",
+          "which division the charge was brought in is a fact about the participant's own case; the route covers both", 1),
+        h.election("DistrictCourtCkBox", "Caption - District Court division",
           "the other half of the same election", 1),
-        h.election("Check Box1", "Order paragraph 2 - Order of Nolle Prosequi entered more than one year ago and not refiled",
-          "the same election as the petition's paragraph 2, in the court's findings", 1),
-        h.election("Check Box2", "Order paragraph 2 - Order of Dismissal has been entered",
-          "the same election, second of four", 1),
-        h.election("Check Box3", "Order paragraph 2 - Judgment of Acquittal, not for reason of mental disease or defect",
-          "the same election, third of four", 1),
-        h.election("Check Box4", "Order paragraph 2 - the prosecuting or city attorney did not file charges",
-          "the same election, fourth of four", 1),
-        h.election("Check Box5", "Order paragraph 4 - no pending felony charges",
-          "the same sworn election as the petition's paragraph 4", 2),
-        h.election("Check Box6", "Order paragraph 4 - one or more pending felony charges",
-          "the other half of the same election", 2),
-        h.election("Check Box7", "Order paragraph 5 - IS required to register as a sex offender",
-          "the same sworn election as the petition's paragraph 5", 2),
-        h.election("Check Box8", "Order paragraph 5 - IS NOT required to register",
-          "the other half of the same election", 2)
+        h.election("CkBox_Attchmt", "Box indicating additional agencies and/or file nos. and offences are listed on an attached AOC-CR-285",
+          "whether a continuation sheet is attached depends on how many agencies and charges the participant has, which the platform does not know; AOC-CR-285 is not in this packet", 1),
+        h.election("ChargedWithMultipleAndAllDismissedCkBox", "Paragraph 3(a) - charged with multiple offences and ALL were dismissed",
+          "whether all of a participant's charges were dismissed is a fact about their own record, and it is the difference between G.S. 15A-146(a) and (a1)", 1),
+        h.election("ChargedWithMultipleNotAllDismissedCkBox", "Paragraph 3(b) - charged with multiple offences and some were not dismissed",
+          "the other half of the same election", 1),
+        h.election("ThereIsACivilRevocationRecordCkBox", "Paragraph 4 - there is a civil revocation record resulting from the offence(s)",
+          "whether a civil revocation of the participant's licence resulted is a fact about their own driving record", 1),
+        h.election("NoChargeDismissedDeferredProsecutionCkBox", "Box - no charge listed was dismissed as the result of a deferred prosecution agreement or conditional discharge",
+          "this box is the $175.00 fee switch and it is a sworn statement about how the participant's own case was dismissed; the NOTE TO CLERK beside it says that if it is checked the fee is not assessed, and no packet may make that statement for a participant", 1),
+        h.election("PetitionerCkBox", "Signature block - the signer is the Petitioner",
+          "who signs is the participant's own election between signing personally and signing by counsel", 1),
+        h.election("PetitionersAttorneyCkBox", "Signature block - the signer is the Petitioner's Attorney",
+          "the other half of the same election", 1),
+        h.protectedBlank("PetitionSignedDate", "Date beside the petitioner's signature",
+          "a date written before the petition is signed would be false", 1),
+        h.protectedBlank("PetitionSignedByName", "Name (type or print) beside the petitioner's signature",
+          "the printed name that accompanies a signature is part of the signature block and is made when the petition is signed", 1),
+        h.agencyBlank("ScanNumbers", "Scan No.(s) in the caption",
+          "assigned by the clerk of superior court when the petition is received", 1),
+        // ---- Side Two, entire. The court's and the clerk's, without exception.
+        h.agencyBlank("FindsAllDismissedCkBox", "FINDINGS OF FACT 3(a) - the court finds all charges were dismissed",
+          "a finding of fact is the court's", 2),
+        h.agencyBlank("FindsNotAllDismissedCkBox", "FINDINGS OF FACT 3(b) - the court finds some charges were not dismissed",
+          "a finding of fact is the court's", 2),
+        h.agencyBlank("FindsThereIsACivilRevocationRecordCkBox", "FINDINGS OF FACT 4 - the court finds there is a civil revocation record",
+          "a finding of fact is the court's", 2),
+        h.agencyBlank("FindsShouldBeGrantedCkBox", "FINDINGS OF FACT 5 - expunction should be granted",
+          "the decision is the court's", 2),
+        h.agencyBlank("FindsShouldNotBeGrantedCkBox", "FINDINGS OF FACT 5 - expunction should not be granted",
+          "the decision is the court's", 2),
+        h.agencyBlank("ReasonLine1", "FINDINGS OF FACT 5 - the court's reason, first line",
+          "the court states its own reason", 2),
+        h.agencyBlank("ReasonCont", "FINDINGS OF FACT 5 - the court's reason, continued",
+          "the court states its own reason", 2),
+        h.agencyBlank("PetitionIsGrantedCkBox", "ORDER - the petition is granted",
+          "the order is the court's", 2),
+        h.agencyBlank("PetitionIsDeniedCkBox", "ORDER - the petition is denied",
+          "the order is the court's", 2),
+        h.agencyBlank("PresidingJudgeName", "ORDER - Name Of Presiding Judge (type or print)",
+          "the presiding judge's own block", 2),
+        h.protectedBlank("OrderSignedDate", "ORDER - date beside the presiding judge's signature",
+          "the court dates its own order", 2),
+        h.agencyBlank("CertificationByClerkName", "CERTIFICATION BY CLERK - name of the certifying officer",
+          "the clerk of superior court certifies the record", 2),
+        h.agencyBlank("CertificationByClerkDate", "CERTIFICATION BY CLERK - date of the certification",
+          "the clerk of superior court certifies the record", 2),
+        h.agencyBlank("DeputyCSCCkBox", "CERTIFICATION BY CLERK - Deputy CSC",
+          "which officer of the clerk's office signs is that office's own", 2),
+        h.agencyBlank("AssistantCSCCkBox", "CERTIFICATION BY CLERK - Assistant CSC",
+          "which officer of the clerk's office signs is that office's own", 2),
+        h.agencyBlank("ClerkOfSuperiorCourtCkBox", "CERTIFICATION BY CLERK - Clerk Of Superior Court",
+          "which officer of the clerk's office signs is that office's own", 2)
       );
+      // The offence table: row one required-before-filing in every column,
+      // rows two to ten optional, because they exist for a case with more than
+      // one dismissed charge.
+      for (const [field, caption, what] of TABLE_COLUMNS) {
+        refusals.push(h.rbf(`${field}1`, `${caption}, table row 1`, what,
+          "Side One's table is completed as a ROW: its Date Of Dismissal column cannot be bound by any family, "
+          + "and a row carrying written cells beside a required cell left blank reads as finished when it is not", 1));
+        for (let n = 2; n <= 10; n += 1) {
+          refusals.push(h.optional(`${field}${n}`, `${caption}, table row ${n}`,
+            `used only if your case had ${n} or more dismissed charges; the form repeats this table ten times and `
+            + "the platform does not invent a charge you did not have", 1));
+        }
+      }
+    } else if (componentId === "fee_waiver") {
+      writes.push(
+        h.write("ApplicantName", "Name Of Applicant", "participant.full_legal_name", 1),
+        h.write("ApplicantCity", "City of the applicant", "participant.city", 1),
+        h.write("ApplicantState", "State of the applicant", "participant.state", 1),
+        h.write("ApplicantZip", "Zip Code of the applicant", "participant.zip", 1),
+        h.write("ApplicantTelephoneNumber", "Telephone Number Of Applicant", "participant.phone", 1),
+        h.write("ApplicantDateOfBirth", "Date Of Birth of the applicant", "participant.date_of_birth", 1),
+        h.write("CountyName", "County named in the caption of the affidavit", "matter.county", 1),
+        h.write("FileNumber", "File No. in the caption of the affidavit", "matter.case_number", 1)
+      );
+      refusals.push(
+        h.rbf("ApplicantStreetNumberAndStreetNameLine1", "Street Number And Street Name, Including Apartment Or Unit No.",
+          "your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption, and the block below it exists for a DIFFERENT address rather than this one",
+          "no descriptor in the shared list matches \"Street Number And Street Name\", and the if-different block beneath it is refused by role so the address is never written into the wrong one of the two", 1),
+        h.optional("ApplicantStreetNumberAndStreetNameLine2", "Street Number And Street Name - second line",
+          "used only if your street address needs a second line", 1),
+        h.optional("ApplicantFullPermanentMailingAddressAddr1", "Full Permanent Mailing Address Of Applicant (if different than above) - street line",
+          "used only if your permanent mailing address is DIFFERENT from the address above; leave the whole block empty if it is the same", 1),
+        h.optional("ApplicantFullPermanentMailingAddressAddr2", "Full Permanent Mailing Address Of Applicant (if different than above) - second street line",
+          "part of the same if-different block", 1),
+        h.optional("ApplicantFullPermanentMailingAddressCity", "Full Permanent Mailing Address Of Applicant (if different than above) - City",
+          "part of the same if-different block", 1),
+        h.optional("ApplicantFullPermanentMailingAddressState", "Full Permanent Mailing Address Of Applicant (if different than above) - State",
+          "part of the same if-different block", 1),
+        h.optional("ApplicantFullPermanentMailingAddressZip", "Full Permanent Mailing Address Of Applicant (if different than above) - Zip",
+          "part of the same if-different block", 1),
+        h.rbf("NumberOfDependents", "Number Of Dependents",
+          "how many dependents you have",
+          "a dependent count is a household fact the platform does not hold", 1),
+        h.rbf("ApplicantsEmployerNameAndAddress", "Name And Address Of Applicant's Employer (if not employed, state reason; if self-employed, state trade)",
+          "your employer's name and address, or the reason you are not employed, or your trade if you are self-employed",
+          "employment is a fact about the participant and a third party, and the platform holds neither", 1),
+        h.rbf("BankNameAndAccountType", "Cash on hand and in bank accounts - bank name and account type (do not list account no.)",
+          "the name of your bank and the type of account, without the account number",
+          "the platform holds no financial fact for any participant", 1),
+        h.rbf("MotorVehicles", "Motor Vehicles (list make, model, year)",
+          "the make, model and year of each vehicle you own",
+          "the platform holds no asset fact for any participant", 1),
+        h.rbf("LastIncomeTaxFiledYearLastTwoDigits", "Last Income Tax Filed 20__",
+          "the last two digits of the year you last filed income tax",
+          "the platform holds no tax fact for any participant", 1),
+        h.optional("OtherMonthlyExpensesDescription", "Other monthly expenses: (specify)",
+          "used only if you have a monthly expense the listed categories do not cover", 1),
+        h.rbf("GovernmentalAgenciesOrOtherEntitesAuthorizedToBeContactedAndOrToReleaseInformation",
+          "Governmental Agencies Or Other Entities Authorized To Be Contacted And/Or To Release Information",
+          "the agencies or entities you authorise to be contacted about, or to release, your financial information",
+          "an authorisation to release a participant's own information is theirs to give and is not a fact the platform holds", 1),
+        h.election("DistrictCourtDivisionCkBox", "Caption - District Court division",
+          "which division the matter is in follows the participant's own case", 1),
+        h.election("SuperiorCourtDivisionCkBox", "Caption - Superior Court division",
+          "the other half of the same election", 1),
+        h.election("ApplicantIsPlaintiffCkBox", "The applicant is the Plaintiff",
+          "which party the participant is in this matter is a fact about their own case", 1),
+        h.election("ApplicantIsDefendantCkBox", "The applicant is the Defendant",
+          "the other half of the same election", 1),
+        h.election("YesHaveServedInUnitedStatesArmedForcesCkBox", "Have you ever served in the United States Armed Forces? Yes",
+          "the form itself marks this question optional, and military service is a fact about the participant that the platform does not hold", 1),
+        h.election("NoHaveNotServedInUnitedStatesArmedForcesCkBox", "Have you ever served in the United States Armed Forces? No",
+          "the other half of the same optional question", 1),
+        h.election("BuyingShelterCkBox", "Shelter - Buying",
+          "whether the participant is buying or renting is a household fact the platform does not hold", 1),
+        h.election("RentingShelterCkBox", "Shelter - Renting",
+          "the other half of the same election", 1),
+        h.election("VehicleInstallmentPaymentsCkBox", "Installment Payments - Vehicle",
+          "what the participant's installment payments are for is a financial fact the platform does not hold", 1),
+        h.election("OtherInstallmentPaymentsCkBox", "Installment Payments - Other",
+          "the other half of the same election", 1),
+        h.election("LastIncomeTaxFiledRefundCkBox", "Last income tax filed - Refund",
+          "whether the participant was owed a refund or owed tax is a financial fact the platform does not hold", 1),
+        h.election("LastIncomeTaxFiledOweCkBox", "Last income tax filed - Owe",
+          "the other half of the same election", 1),
+        h.election("SigningApplicantIsPlaintiffCkBox", "Signature block - the signing applicant is the Plaintiff",
+          "which party the participant is, restated at the signature block", 2),
+        h.election("SigningApplicantIsDefendantCkBox", "Signature block - the signing applicant is the Defendant",
+          "the other half of the same election", 2),
+        h.protectedBlank("SignedByApplicantDate", "Date beside the applicant's signature",
+          "a date written before the affidavit is sworn would be false", 2),
+        h.protectedBlank("SignedByApplicantName", "Signature Of Applicant",
+          "the applicant swears and signs the affidavit personally", 2),
+        h.agencyBlank("JuratPersonAdministerOathsSignDate", "Jurat - date and signature of the person authorised to administer oaths",
+          "the officer who administers the oath completes the jurat", 2),
+        h.agencyBlank("JuratDeputyCSCCkBox", "Jurat - Deputy CSC",
+          "which officer administers the oath is that office's own", 2),
+        h.agencyBlank("JuratAssistantCSCCkBox", "Jurat - Assistant CSC",
+          "which officer administers the oath is that office's own", 2),
+        h.agencyBlank("JuratClerkOfSuperiorCourtCkBox", "Jurat - Clerk Of Superior Court",
+          "which officer administers the oath is that office's own", 2),
+        h.agencyBlank("JuratMagistrateCkBox", "Jurat - Magistrate",
+          "which officer administers the oath is that office's own", 2),
+        h.agencyBlank("JuratNotaryCkBox", "Jurat - Notary",
+          "which officer administers the oath is that office's own", 2),
+        h.agencyBlank("JuratCommissionExpiresDate", "Jurat - My Commission Expires",
+          "a notary's own commission expiry, which only the notary knows", 2),
+        h.agencyBlank("JuratCountyWhereNotarized", "Jurat - county where notarised",
+          "the county in which the oath is administered is stated by the officer who administers it", 2)
+      );
+      const MONEY = [
+        ["TotalAssets", "Total Assets"],
+        ["TotalLiabilities", "Total Liabilities"],
+        ["BondType", "Bond Type"],
+        ["BondAmount", "Bond Amount"],
+        ["ByWhomPosted", "Bond - By Whom Posted"],
+        ["ApplicantEmploymentIncomeMonthlyAmount", "Monthly income from the applicant's employment"],
+        ["SpouseEmploymentIncomeMonthlyAmount", "Monthly income from the spouse's employment"],
+        ["SpousesEmployerNameAndAddress", "Name And Address Of Spouse's Employer"],
+        ["OtherIncomeMonthlyAmount", "Other monthly income"],
+        ["TotalMonthlyIncome", "Total Monthly Income"],
+        ["ShelterMonthlyExpensesAmount", "Monthly expenses - Shelter"],
+        ["FoodMonthlyExpensesAmount", "Monthly expenses - Food"],
+        ["UtilitiesMonthlyExpensesAmount", "Monthly expenses - Utilities"],
+        ["HealthCareMonthlyExpensesAmount", "Monthly expenses - Health Care"],
+        ["InstallmentPaymentsMonthlyExpensesAmount", "Monthly expenses - Installment Payments"],
+        ["CarMonthlyExpensesAmount", "Monthly expenses - Car Expenses (gas, insurance, etc.)"],
+        ["SupportPaymentsMonthlyExpensesAmount", "Monthly expenses - Support Payments"],
+        ["OtherMonthlyExpensesAmount", "Monthly expenses - Other"],
+        ["TotalMonthlyExpenses", "Total Monthly Expenses"],
+        ["CashOnHandAndInBankAccountsAssetsAmount", "Assets - Cash on hand and in bank accounts"],
+        ["MoneyOwedToOrHeldForApplicantAssetsAmount", "Assets - Money owed to or held for the applicant"],
+        ["MotorVehiclesAssetsAmount", "Assets - Motor Vehicles (fair market value)"],
+        ["RealEstateAssetsAmount", "Assets - Real Estate"],
+        ["PersonalPropertyAssetsAmount", "Assets - Personal Property"],
+        ["IncomeTaxAssetsAmount", "Assets - Income Tax"],
+        ["OtherAssetsAmount", "Assets - Other"],
+        ["MotorVehiclesLiabilitiesAmount", "Liabilities - Motor Vehicles (balance owed)"],
+        ["RealEstateLiabilitiesAmount", "Liabilities - Real Estate"],
+        ["PersonalPropertyLiabilitiesAmount", "Liabilities - Personal Property"],
+        ["OtherDebtsLiabilitiesAmount", "Liabilities - Other Debts"],
+        ["IncomeTaxLiabilitiesAmount", "Liabilities - Income Tax"],
+        ["OtherLiabilitiesAmount", "Liabilities - Other"]
+      ];
+      for (const [field, caption] of MONEY) {
+        refusals.push(h.rbf(field, caption,
+          "your own figure, which you swear to. This affidavit is a sworn financial statement and the platform invents no number on it",
+          "the platform holds no financial fact for any participant, and a figure on a sworn affidavit may only come from the person swearing it", 1));
+      }
+    } else {
+      // The AOC's own instruction sheet, delivered exactly as published.
+      // Nothing is written on it and there is nothing on it to write.
     }
     return { writes, refusals };
   }
