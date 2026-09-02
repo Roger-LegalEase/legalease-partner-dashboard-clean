@@ -20,7 +20,7 @@ File this application with the **magistrate or municipal court where the charge 
 
 ## Service and notice
 
-**You do not serve anyone.** The form prints no certificate of service and the reviewed authority places no service step on the applicant. After the application, notice runs inside the court system: prosecution or law enforcement may object **within 30 days**, on limited grounds only (pending charges or an ineligible charge), on the court's own objection transmittal (SCCA 223D). If no objection is filed, the trial judge signs the order **no sooner than 31 and no later than 40 days** after notice.
+**You do not serve anyone.** The form prints no certificate of service and the reviewed authority places no service step on the applicant. After the application, notice runs inside the court system: prosecution or law enforcement may object **within 30 days**, on limited grounds only (pending charges or an ineligible charge), on the court's own objection transmittal (SCCA 223D). If no objection is filed, the order is the court's to issue, and the statute sets when: under **§ 17-22-950(C)** the expungement must occur **no sooner than the appeal expiration date and no later than thirty days after that date**. Ask the summary court that handled your charge what your appeal expiration date is if you need to know when to expect the order.
 
 ## Attachments
 
@@ -28,7 +28,7 @@ The printed form requires **no attachments**, and nothing in the reviewed source
 
 ## Deadline
 
-The reviewed sources state **no deadline for applying**: § 17-22-950 does not condition this expungement on how long ago the charge was resolved. The only clocks in the process run after you apply — the 30-day objection window, and the judge's signature between day 31 and day 40 after notice.
+The reviewed sources state **no deadline for applying**: § 17-22-950 does not condition this expungement on how long ago the charge was resolved. The only clocks in the process run after you apply — the 30-day objection window under § 17-22-950(F), and the signature window § 17-22-950(C) sets, which runs from the appeal expiration date rather than from the notice.
 
 ## Read this before you sign
 
@@ -88,7 +88,7 @@ These are the edges of what this packet can help with, and each is an exact stop
 1. **The charge was dismissed at a preliminary hearing** — the court should not issue the order and this application does not fit; the form's attestation excludes it.
 2. **Related charges from the same course of events are still pending** in summary court or general sessions — same stop, for the same reason.
 3. **Your dismissal came through a diversion program** (PTI, traffic or alcohol education, conditional discharge, or another solicitor-operated program) — apply at the solicitor's office; this form is the wrong one.
-4. **You were fingerprinted and the automatic order never issued**, or **an objection was filed**, or **no signed order appears within the 40-day window** — those are beyond this packet's self-help path. Contact the summary court that handled the charge; if that does not resolve it, the circuit solicitor's office or a South Carolina attorney is the next step.
+4. **You were fingerprinted and the automatic order never issued**, or **an objection was filed**, or **no signed order appears within the window § 17-22-950(C) allows** — those are beyond this packet's self-help path. Contact the summary court that handled the charge; if that does not resolve it, the circuit solicitor's office or a South Carolina attorney is the next step.
 
 ## What this packet is not
 

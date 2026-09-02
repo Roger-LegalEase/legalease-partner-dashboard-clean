@@ -2,7 +2,7 @@
 
 This packet is prepared for **Sealing of Records of an Offence Committed Before Age 25, 33 V.S.A. § 5119(g)**.
 
-The Vermont Judiciary publishes no form for a § 5119(g) application — none was located on 2026-08-06 — so the application in this packet is a composed, controlled pleading: the statute itself supplies the court, the vehicle, the three findings the Court must make, and the relief. This route sits outside chapter 230 and is unlike it: notice to all parties of record and a **hearing** are mandatory, the rehabilitation burden is yours, and the Court is obliged by § 5119(k) to provide assistance to applicants.
+The Vermont Judiciary publishes no form for a § 5119(g) application. That was checked against the Judiciary's own form set rather than assumed: none of its expungement and sealing forms mentions § 5119, and the general *Petition to Seal Criminal History* (200-00130) is published with instructions that define its grounds by 13 V.S.A. § 7602 — a different scheme, with none of the tests this route turns on. So the application in this packet is a composed, controlled pleading: the statute itself supplies the court, the vehicle, the three findings the Court must make, and the relief. This route sits outside chapter 230 and is unlike it: notice to all parties of record and a **hearing** are mandatory, the rehabilitation burden is yours, and the Court is obliged by § 5119(k) to provide assistance to applicants.
 
 The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every case fact is a labelled dotted blank listed below, and you fill it from the record itself, never from memory. **Your rehabilitation account is yours alone** — prompted, never written.
 

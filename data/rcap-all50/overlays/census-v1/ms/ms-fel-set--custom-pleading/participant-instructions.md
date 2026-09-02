@@ -18,7 +18,7 @@ The platform filled in what it holds about you: your name, your date of birth, y
 | `ms-fel-proposed-order-2` | the proposed Order of Expungement. It is unexecuted; its findings, its date, the judge's signature and the prosecuting authority's approval as to form are all blank |
 | `ms-fel-certificate-of-service-3` | the certificate of service on the district attorney, captioned for **this** petition, which is your evidence of the ten days' notice |
 | `ms-fel-attachment-4` | the six documents to obtain first, and which office holds each |
-| `ms-fel-instructions-5` | where to file, the $150 fee, who to serve, the ten-day rule, and the three things this order does **not** do |
+| `ms-fel-instructions-5` | where to file, the filing fee you confirm with the circuit clerk because this packet publishes no figure, who to serve, the ten-day rule, and the three things this order does **not** do |
 | `ms-fel-notice-6` | the ten days' written notice to the district attorney that § 99-19-71(2)(b) requires before any hearing |
 
 ## Documents you must obtain first
@@ -98,7 +98,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 2. **Obtain the six documents above.** The three-year clock runs from the date the last term was completed, and that date comes from the completion documentation, not memory.
 3. **Fill every dotted blank** on the petition, the certificate of service and the notice, from the record itself.
 4. **Make the three reserved statements yourself** — the exclusion-list determination, the rehabilitation showing, and, where more than one conviction is involved, the common-nucleus statement.
-5. **File the petition, the proposed order and the certificate of service with the circuit clerk of the county of conviction**, and pay the **$150.00** fee levied by § 99-19-72. Call that clerk first about that district's own requirements and to confirm the amount.
+5. **File the petition, the proposed order and the certificate of service with the circuit clerk of the county of conviction**, and pay the filing fee. **This packet publishes no fee amount** — § 99-19-72 levies a fee on a petition under § 99-19-71, but its current text was not retrieved for the record this packet is built from. **Ask that clerk for the current amount, and for any pauper's-affidavit route, before you file**, along with that district's own requirements.
 6. **Give the district attorney ten days' written notice** — the notice component — by United States mail or hand delivery, and file the certificate of service as your evidence. **At least ten days must pass between service and any hearing.** This is the one hard timing rule on this route.
 7. **Attend the hearing** if the court sets one. The court may grant if it determines, on the record or in writing, that you are rehabilitated from the offense.
 

@@ -2,7 +2,7 @@
 
 This packet is prepared for **Written Request to a County or Municipal Jail or Detention Center to Restrict Records of an Already-Restricted Offense (O.C.G.A. § 35-3-37(k)(2))**.
 
-This is a **written request to a government facility, not a court filing**. No official form exists for it; where the facility publishes its own request form, **that form governs** — ask the facility first.
+This is a **written request to a government facility, not a court filing**. Georgia publishes no official form for it — the two Georgia record-restriction forms that do exist are for different things: one is the GBI application for restricting an arrest record from before 1 July 2013, and the other is a court petition. Neither is a request to a jail. Where **the facility itself** publishes its own request form, **that form governs** — ask the facility first and use theirs if they have one.
 
 The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every case fact lives on records the platform has not seen, so every one of them is a labelled dotted blank listed below, and you fill it from the record itself, never from memory.
 

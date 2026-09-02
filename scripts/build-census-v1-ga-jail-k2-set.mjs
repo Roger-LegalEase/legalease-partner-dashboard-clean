@@ -24,6 +24,37 @@
  * exists; the route carries localFormOverride, so a facility's own published
  * form governs where one exists.
  *
+ * OWNER CORRECTION Q3, 2026-09-02: THE FORM STATUS IS NOW RESOLVED, AS FAR AS
+ * THIS REPOSITORY CAN RESOLVE IT, AND THE LIMIT IS STATED RATHER THAN HIDDEN.
+ *
+ * NO STATEWIDE MANDATORY FORM GOVERNS A § 35-3-37(k)(2) REQUEST. Searched:
+ *   - the mounted Master Library, STATES/GA, which holds NO forms at all for
+ *     Georgia — a legal review, a state manifest and a readme, and nothing
+ *     else;
+ *   - the partial Nationwide custody, LegalEase Georgia, which holds two
+ *     official Georgia instruments and four pages, and neither instrument is
+ *     for this subsection: the GBI/GCIC "Request to Restrict Arrest Record"
+ *     is a § 35-3-37(h) application for arrests PRIOR TO 07/01/2013, filed
+ *     with the ARRESTING AGENCY and routed to the prosecutor and GCIC, and
+ *     the SB 288 "Petition for Restriction & Sealing" is a § 35-3-37(j)(4)
+ *     COURT PETITION. Neither reaches a jail or detention center and neither
+ *     is this remedy;
+ *   - the official-source registry, which holds no Georgia entry.
+ * The statute itself prescribes no form: § 35-3-37(k)(2) authorises a written
+ * request and identifies the recipient, and that is the whole of the vehicle.
+ *
+ * WHAT IS NOT RESOLVED, AND WHY THAT IS NOT A GAP THIS BUILD CAN CLOSE.
+ * Whether some individual county or municipal jail publishes its own intake
+ * form is a question about 159 counties and their municipalities, and it is
+ * not answerable from held sources; outbound fetching is refused at CONNECT
+ * in this container. That is exactly what localFormOverride is for, and the
+ * packet's ask-the-facility-first instruction already carries it. The owner's
+ * decision is satisfied on the terms it was written: no mandatory official
+ * form is located, so the composed request stands as the output, and where a
+ * facility publishes its own it governs and the participant is told to use it.
+ *
+ * The composed instrument is RETAINED, not withdrawn.
+ *
  * This family is built SELF-CONTAINED. The b6 lane's shared Georgia host was
  * in progress at build time and is not touched or imported.
  *
@@ -242,7 +273,18 @@ const RECEIPT = {
     { title: "Record Restrictions/Expungement — Judicial Council of Georgia AOC, Access to Justice self-help resources", url: "https://georgiacourts.gov/a2j/self-help-resources/record-restrictions-expungement/", retrievedOn: "2026-08-02" }
   ],
   formIdentityNote:
-    "No official form exists for a § 35-3-37(k)(2) request. The legal-design record reclassified the route from "
+    "FORM STATUS RESOLVED, owner correction Q3 of 2026-09-02: no mandatory official form is located for a "
+    + "§ 35-3-37(k)(2) request, and the search is named so the absence is checkable rather than asserted. The "
+    + "Master Library's STATES/GA holds no Georgia forms at all (a legal review, a manifest and a readme). The "
+    + "partial Nationwide custody's LegalEase Georgia folder holds two official instruments, and neither is this "
+    + "remedy: the GBI/GCIC Request to Restrict Arrest Record is a § 35-3-37(h) application for arrests prior to "
+    + "07/01/2013 filed with the arresting agency and routed to the prosecutor and GCIC, and the SB 288 Petition "
+    + "for Restriction & Sealing is a § 35-3-37(j)(4) court petition. The official-source registry holds no "
+    + "Georgia entry. Section 35-3-37(k)(2) prescribes no form of its own. What remains unresolvable from held "
+    + "sources is whether an individual county or municipal facility publishes its own intake form; outbound "
+    + "fetching was refused at CONNECT in the build container, so that half is delegated to the participant by "
+    + "the ask-the-facility-first instruction rather than answered here. "
+    + "The legal-design record reclassified the route from "
     + "process_guidance to custom_pleading: the statute authorises a written request, names the recipient class, "
     + "and fixes the relief and the 30-day compliance period, and correspondence rather than a court filing is "
     + "not a reason to withhold a packet. The MASTER_QUEUE row agrees: officialFormFamily NONE, "
@@ -250,7 +292,7 @@ const RECEIPT = {
     + "facility's own published form governs where one exists, and the guidance directs the participant to ask "
     + "the facility. Built self-contained; the b6 lane's shared Georgia host was in progress and is not touched.",
   whatThisReceiptDoesNotEstablish: [
-    "that no Georgia facility publishes its own required form or intake route (localFormOverride: the participant asks the facility first)",
+    "that no individual Georgia county or municipal facility publishes its own required form or intake route — the statewide question is resolved (no mandatory official form is located; see formIdentityNote for the three sources searched), the per-facility question is not answerable from held sources and outbound fetching was refused at CONNECT, so localFormOverride stands and the participant asks the facility first",
     "that any output is approved for participant delivery",
     "that any offense is in fact restricted under O.C.G.A. § 35-3-37 — prior restriction is the statutory precondition and the participant proves it by enclosure",
     "whether the request may be sent immediately upon restriction or only after the § 35-3-37(k)(1) 30-day agency-notification period — recorded as unresolved and stated both ways in the guidance"
@@ -270,7 +312,7 @@ const INSTRUCTIONS = {
   introLines: [
     `This packet is prepared for **${ROUTE.legalName}**.`,
     "",
-    "This is a **written request to a government facility, not a court filing**. No official form exists for it; where the facility publishes its own request form, **that form governs** — ask the facility first.",
+    "This is a **written request to a government facility, not a court filing**. Georgia publishes no official form for it — the two Georgia record-restriction forms that do exist are for different things: one is the GBI application for restricting an arrest record from before 1 July 2013, and the other is a court petition. Neither is a request to a jail. Where **the facility itself** publishes its own request form, **that form governs** — ask the facility first and use theirs if they have one.",
     "",
     "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every case fact lives on records the platform has not seen, so every one of them is a labelled dotted blank listed below, and you fill it from the record itself, never from memory.",
     "",
@@ -356,7 +398,7 @@ const FINDINGS = [
 
 const APPROVAL = {
   counselQuestionsRaised: [
-    "Is the generated participant-signed § 35-3-37(k)(2) request letter the controlling output statewide, or must it yield to a facility's own published form where one exists? The route is modelled with localFormOverride and an ask-the-facility-first instruction.",
+    "FORM STATUS, RESOLVED FACTUALLY UNDER OWNER CORRECTION Q3. No mandatory official form governs a § 35-3-37(k)(2) request: the Master Library holds no Georgia forms, the partial Nationwide custody holds only a § 35-3-37(h) GBI/GCIC agency application for pre-07/01/2013 arrests and an SB 288 § 35-3-37(j)(4) court petition, the official-source registry holds no Georgia entry, and the subsection prescribes none. The composed request letter is therefore retained as the output. The remaining question is per-facility rather than statewide and is not answerable from held sources: whether a given county or municipal jail publishes its own intake form. The route keeps localFormOverride and the ask-the-facility-first instruction. Confirm that treatment.",
     "May the (k)(2) request be sent as soon as the record is restricted, or only after the (k)(1) 30-day agency-notification period has run? The guidance states both recorded readings and takes no position.",
     "Confirm the request's scope phrase — all records for the restricted offense maintained by the facility, including booking records and any booking photograph — matches the statutory reach.",
     "Confirm the § 35-3-37(u) caution as printed is sufficient to prevent the record's known consumer-harm error (participants being told they may deny the record exists)."
