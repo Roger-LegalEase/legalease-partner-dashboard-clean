@@ -4,7 +4,7 @@
  "branch": "fable/vt4",
  "lane": "VF08",
  "laneKind": "independent-verification",
- "mergedCaptainHead": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+ "mergedCaptainHead": "f1cb31429 (merge of origin/claude/legalease-sprint-captain-utucnw)",
  "subjects": 12,
  "claims": "All twelve --assert calls on VF08 returned CLAIM_OK (grant set 573bba8a85de8544); every subject was released with --reason \"independent verdict recorded\" after its row was written.",
  "method": "Per family: MASTER_QUEUE row and overlay directory located; scripts/rcap-packet-completeness/verify-packet-completeness.mjs run in this lane and its result read directly; source-receipt hashes recomputed against the Master Library bytes bootstrapped in this container (archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89) and repository-path sources against committed files; rendered-artifact hashes recomputed from disk; canonical fixture text extracted and checked for route/statute on the face, correct-state caption, populated participant fields and placeholder text; participant instructions read for destination, fee/waiver and service treatment; reports (actual-writes, completeness-counters, blanks-left, approval-request) read as the thing being checked. The two repaired families were re-proven against the exact prior failing obligations, not rubber-stamped.",
@@ -37,5 +37,22 @@
   "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
   "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
   "data/rcap-grade-a/fable-packet-factory/returns/vt4.json"
- ]
+ ],
+ "obligationSet": "the factory's canonical fifteen, scored individually by name: ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE, SELF_HELP_STOP",
+ "l9Rescore": {
+  "why": "The first revision of this lane scored a narrower seven-item obligation set, which lane contract L9 refuses for the strongest verdict. All ten PASS families were re-scored over the canonical fifteen; the OH FAIL and NY BLOCKED_LEGAL_INPUT rows were already the weaker verdicts and stand unchanged.",
+  "whatTheWiderReadAdded": "ROUTE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, PAGE_ORDER and CLIPPING_AND_OVERLAP were measured rather than assumed, and FILING_DESTINATION, FEE_AND_WAIVER, SERVICE and SELF_HELP_STOP were split out of the single filingInstructions obligation and scored one by one.",
+  "verdictChanges": "None. Every one of the ten still passes on all fifteen, so no PASS was preserved that the wider read could not support.",
+  "thingsTheWiderReadSurfaced": [
+   "co_pardoned_conviction_seal-set: reports/actual-writes.json records five boundary-fixture writes as matchesExpected false on the participant surname. Read on the bytes, fixtures/boundary.pdf carries 'Maria-Alejandra O’Shaughnessy-Whitfield' with U+2019 (e2 80 99) in place, so the page is correct and the report's own read-back extractor drops the apostrophe. Recorded because the family's byte-proof report contradicts its own artifact and leaves blockingFindings empty.",
+   "co_pardoned_conviction_seal-set and wi_nc_doj_challenge-set: the field map spells the route key 'track:XX:...' where product-wiring and the MASTER_QUEUE spell it 'obligation:track-only:XX:...'. Same track, same family, routeSelectionId agreeing everywhere, queue routeMappingStatus BOUND; twelve census families use the short spelling and twenty-three the long one, so it is a vocabulary alias rather than a disagreement.",
+   "va_exp_nonconviction-set: the page manifest names the CC-1473 pages by component and by documentId, and its five composed-page writes are outside the byte-proof report; this lane proved them directly on the fixture bytes (petitioner name on packet pages 3-6, date of birth on page 4).",
+   "ga-deaddocket-j3-set: the field map lists proposed_order.order_otn twice, so fifteen declared required-before-filing rows cover fourteen distinct fields; both are named in the instructions."
+  ]
+ },
+ "verification": {
+  "laneContracts": "node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs — 9/9 passed, LANE_CONTRACTS_HELD, L9 included",
+  "completenessVerifier": "re-run per family on the merged base; ten PASS_COMPLETE, oh_marijuana_expungement-set FAIL_COMPONENT_SET, ny_mrta_marijuana-set PASS_COMPLETE",
+  "extractor": "node scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs — 13 vf08 rows parsed, every PASS row with zero failed and zero unmeasured obligations"
+ }
 }
