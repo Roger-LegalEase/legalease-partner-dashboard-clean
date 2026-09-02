@@ -100,13 +100,18 @@ const SPEC = {
         "Is there any outstanding warrant for you, or is this case still being prosecuted?",
         "RCW 10.97.060 states no fee for the request itself. The WSP charges for the record products: approximately $11 for the W",
         "none. The request is submitted to the WSP.",
-        "Submit the request to the Washington State Patrol through its non-conviction deletion request process. This is separate "
+        "Submit the request to the Washington State Patrol through its non-conviction deletion request process. This is separate ",
+        "\"componentId\": \"wa_vac_post_probation_9_95_240-records-checklist-3\"",
+        "\"componentId\": \"wa_vac_post_probation_9_95_240-filing-instructions-4\"",
+        "\"componentId\": \"wa_del_nonconviction-records-checklist-2\"",
+        "\"componentId\": \"wa_del_nonconviction-expectation-setting-3\"",
+        "\"componentId\": \"wa_del_nonconviction-accuracy-remedy-guidance-4\""
       ]
     },
     {
       "recordId": "legal-design-specifications:wa_vac_post_probation_9_95_240+wa_del_nonconviction",
       "path": "data/record-clearing/legal-design-specifications.json",
-      "role": "the committed custom-pleading specifications: the component set this packet must contain, and the participant actions the record requires before filing",
+      "role": "the committed custom-pleading specifications: the custom-pleading components of this packet, and the participant actions the record requires before filing. The FULL component set of each packet set, including the process_guidance components, is declared by the committed track registry's packetSet and by the committed packet-set manifests, and it is that declaration this build ships",
       "mustContain": [
         "\"componentId\": \"wa_vac_post_probation_9_95_240-primary-filing-1\"",
         "\"componentId\": \"wa_vac_post_probation_9_95_240-proposed-order-2\"",
@@ -426,7 +431,56 @@ const SPEC = {
       ]
     },
     {
-      "id": "wa_vac_post_probation_9_95_240-filing-instructions-3",
+      "id": "wa_vac_post_probation_9_95_240-records-checklist-3",
+      "routeKey": "obligation:track-only:WA:wa_vac_post_probation_9_95_240",
+      "role": "records_checklist",
+      "title": "Records Checklist - Clear an older Washington conviction after you finished probation",
+      "description": "the records you must obtain before you file, where each one comes from, which answer on the petition each one confirms, and what you must complete by hand (Clear an older Washington conviction after you finished probation)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "WHAT THIS PAGE IS",
+        "",
+        "The committed record names three documents you must obtain before this motion is filed, and names the answer on the petition each one confirms. Work through them in order. Do not file until every one is in your hands and the petition agrees with it.",
+        "",
+        "RECORDS YOU MUST OBTAIN BEFORE FILING",
+        "",
+        "1. Washington State Patrol criminal history record. Required before filing. Where you get it: Washington State Patrol.",
+        "How to obtain it, as the record states it: The $11 WATCH name and date-of-birth check online gives conviction information immediately and is enough to start routing. The non-conviction record is a different and slower product: it needs a fingerprint card plus $12, or an in-person record review at no fee with fingerprints and limited inspection time. Read the WSP fee table live rather than relying on a stored figure.",
+        "Then do this: Check your answer to \"What were you convicted of, and which exact RCW or municipal ordinance was it under?\" against Washington State Patrol criminal history record, and correct the packet if they disagree.",
+        "",
+        "2. Court docket from the sentencing court. Required before filing. Where you get it: Clerk of the district, municipal or superior court that sentenced the participant.",
+        "How to obtain it, as the record states it: Ask the clerk of the sentencing court for the docket. It supplies the cause number, the exact RCW, the offence class, the sentencing date and the supervision and release dates. Every Washington waiting period runs from one of those dates and none of them is reliably on the $11 WATCH check.",
+        "Then do this: Check your answer to \"What is the sentencing date, the date you were released from any confinement, and the date any supervision or probation ended?\" against Court docket from the sentencing court, and correct the packet if they disagree.",
+        "",
+        "3. Probation papers and the order of discharge from probation. Required before filing. Where you get it: Clerk of the sentencing court, or the supervising probation office.",
+        "How to obtain it, as the record states it: Ask the clerk or the probation office for the probation papers and any order discharging you from probation. RCW 9.95.240(1) says the probationer is to be informed of this right in their probation papers, so the papers themselves often say so.",
+        "Then do this: Check your answer to \"Did you complete the whole period of probation, or were you discharged from probation early?\" against Probation papers and the order of discharge from probation, and correct the packet if they disagree.",
+        "",
+        "WHAT YOU MUST COMPLETE BY HAND",
+        "",
+        "- Signature - Motion, signature block. The applicant signs their own motion.",
+        "- Judge's signature and date - Proposed order. Prepared unsigned and undated for the judge.",
+        "- Cause number and caption styling - Motion, caption. Left blank where the participant is unsure how the clerk of that court styles a pre-1984 caption; no pattern form fixes it.",
+        "- Signing: The applicant signs as a declaration under penalty of perjury.",
+        "- Notarisation: none — the pattern forms use a declaration under penalty of perjury.",
+        "",
+        "WHERE THE COMPLETED SET GOES",
+        "",
+        "Clerk of the sentencing court. File the motion and proposed order in the sentencing court. The filing instructions page in this packet states this route's destination, its recorded fee and fee-waiver position, its service rule and its stop conditions in full, and you should read that page before you go."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "wa_vac_post_probation_9_95_240-filing-instructions-4",
       "routeKey": "obligation:track-only:WA:wa_vac_post_probation_9_95_240",
       "role": "filing_instructions",
       "title": "Filing Instructions - Clear an older Washington conviction after you finished probation",
@@ -482,7 +536,9 @@ const SPEC = {
         "THE PAGES IN THIS SET",
         "",
         "- wa_vac_post_probation_9_95_240-primary-filing-1: the composed petition, on this route's own statutory ground (Clear an older Washington conviction after you finished probation)",
-        "- wa_vac_post_probation_9_95_240-proposed-order-2: the proposed order the court may sign; every decision line is the court's and is left blank (Clear an older Washington conviction after you finished probation)"
+        "- wa_vac_post_probation_9_95_240-proposed-order-2: the proposed order the court may sign; every decision line is the court's and is left blank (Clear an older Washington conviction after you finished probation)",
+        "- wa_vac_post_probation_9_95_240-records-checklist-3: the records you must obtain before you file, and what you must complete by hand (Clear an older Washington conviction after you finished probation)",
+        "- wa_vac_post_probation_9_95_240-filing-instructions-4: this page (Clear an older Washington conviction after you finished probation)"
       ],
       "writes": [
         {
@@ -496,33 +552,30 @@ const SPEC = {
     {
       "id": "wa_del_nonconviction-primary-filing-1",
       "routeKey": "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060",
-      "title": "Petition - Ask the Washington State Patrol to delete a record of a case that did not end in conviction",
+      "title": "Request to the Washington State Patrol - Ask the Washington State Patrol to delete a record of a case that did not end in conviction",
       "role": "primary_filing",
-      "description": "the composed petition, on this route's own statutory ground (Ask the Washington State Patrol to delete a record of a case that did not end in conviction)",
+      "description": "the composed request to the Washington State Patrol, on this route's own statutory ground; it is an agency request and no court is asked for anything (Ask the Washington State Patrol to delete a record of a case that did not end in conviction)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
-        "(Washington State Patrol - see the filing instructions in this packet)",
+        "TO THE WASHINGTON STATE PATROL",
+        "(This request goes to the Washington State Patrol, which holds the criminal history record information. It is not a court filing: no court is involved, no order is sought, and no court assigns this request a case number. See the records checklist page in this packet for where to send it.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
-        "PETITIONER.",
-        "",
-        "Case number, if the court assigns one at filing:",
-        "{{DOTS}}",
+        "REQUESTER.",
         "",
         "REQUEST TO DELETE NON-CONVICTION CRIMINAL HISTORY RECORD INFORMATION, RCW 10.97.060",
         "",
-        "The petitioner, {{participant.full_legal_name}}, applies to this court under RCW 10.97.060; RCW 10.97.030(2); RCW 10.97.040; RCW 10.97.110 and states:",
+        "The requester, {{participant.full_legal_name}}, asks the Washington State Patrol under RCW 10.97.060; RCW 10.97.030(2); RCW 10.97.040; RCW 10.97.110 to delete the non-conviction criminal history record information described below, and states:",
         "",
-        "A. THE RELIEF THIS PETITION ASKS FOR, AS THE COMMITTED RECORD STATES IT",
+        "A. THE RELIEF THIS REQUEST ASKS FOR, AS THE COMMITTED RECORD STATES IT",
         "",
         "The only real deletion mechanism in Washington, and it does not touch convictions. Non-conviction criminal history record information is subject to deletion from generally searched criminal justice agency files where two years or more have passed since a favourable disposition, or three years from arrest, citation or warrant for an offence where no conviction was obtained. The request goes to the Washington State Patrol rather than to a court: it is an agency request, not a petition. Two bars apply outright, the person being a fugitive and the case remaining under active prosecution. Beyond those the agency retains discretion to refuse on three common grounds: the disposition was a deferred prosecution or similar diversion; the person has a prior felony or gross misdemeanour conviction; or the person has been arrested for or charged with another crime during the intervening period. WashingtonLawHelp states directly that it is hard for information to qualify as non-conviction data under the rules, which makes deletion hard to obtain, and that expectation must be set before anyone pays. Where deletion is refused there is a fallback: RCW 10.97.040 requires agencies to check with the WSP for the most current and complete information before reporting a conviction, and RCW 10.97.110 supports a suit, potentially with attorney fees, against an agency that violates the requirement.",
         "",
-        "B. THE PETITIONER",
+        "B. THE REQUESTER",
         "",
         "Date of birth: {{participant.date_of_birth}}",
         "",
-        "C. THE FACTS OF THIS MATTER, WHICH THE PETITIONER SUPPLIES FROM THE RECORD",
+        "C. THE FACTS OF THIS MATTER, WHICH THE REQUESTER SUPPLIES FROM THE RECORD",
         "",
         "Each item below is printed in the words the committed record uses for it. Fill each one from the record itself.",
         "",
@@ -560,11 +613,11 @@ const SPEC = {
         "",
         "D. THE REQUEST",
         "",
-        "The petitioner asks the court to grant the relief described in paragraph A, under RCW 10.97.060; RCW 10.97.030(2); RCW 10.97.040; RCW 10.97.110.",
+        "The requester asks the Washington State Patrol to delete the record described in paragraph A, under RCW 10.97.060; RCW 10.97.030(2); RCW 10.97.040; RCW 10.97.110. No court is asked to decide anything and no court order is sought: the agency decides.",
         "",
-        "DATE {{DOTS:30}}   SIGNATURE OF PETITIONER {{DOTS:36}}",
+        "DATE {{DOTS:30}}   SIGNATURE OF REQUESTER {{DOTS:36}}",
         "",
-        "(The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.)",
+        "(The requester signs and dates this request personally. Nothing on this page is signed or dated for the requester.)",
         "",
         "PRINTED NAME: {{participant.full_legal_name}}",
         "MAILING ADDRESS: {{participant.street_address}}",
@@ -574,12 +627,12 @@ const SPEC = {
       "writes": [
         {
           "id": "petitioner_name",
-          "label": "Person named in the caption of this document",
+          "label": "Person named at the head of this request",
           "factId": "participant.full_legal_name"
         },
         {
           "id": "date_of_birth",
-          "label": "Date of birth of the person named in the caption",
+          "label": "Date of birth of the person named at the head of this request",
           "factId": "participant.date_of_birth"
         },
         {
@@ -656,31 +709,25 @@ const SPEC = {
           "why": "the committed track registry records this as a required generation input for wa_del_nonconviction, and the platform holds no value for it"
         },
         {
-          "kind": "court",
-          "id": "case_number",
-          "label": "Case number of this filing, if the court assigns one at filing",
-          "why": "if a number is assigned, the court assigns it at filing"
-        },
-        {
           "kind": "protected",
           "id": "petition_signature",
-          "label": "Signature of the person named in the caption, on the petition",
+          "label": "Signature of the person named at the head of this request",
           "why": "the participant signs personally; this build never signs for anyone"
         },
         {
           "kind": "protected",
           "id": "petition_signature_date",
-          "label": "Date beside the signature on the petition",
+          "label": "Date beside the signature on the request",
           "why": "a date written before the document is signed would be false"
         }
       ]
     },
     {
-      "id": "wa_del_nonconviction-filing-instructions-2",
+      "id": "wa_del_nonconviction-records-checklist-2",
       "routeKey": "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060",
-      "role": "filing_instructions",
-      "title": "Filing Instructions - Ask the Washington State Patrol to delete a record of a case that did not end in conviction",
-      "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Ask the Washington State Patrol to delete a record of a case that did not end in conviction)",
+      "role": "records_checklist",
+      "title": "Records Checklist - Ask the Washington State Patrol to delete a record of a case that did not end in conviction",
+      "description": "where this request goes, the records you must obtain before you send it, what you must complete by hand, what it costs and who must be served (Ask the Washington State Patrol to delete a record of a case that did not end in conviction)",
       "condition": null,
       "body": [
         "This page is for {{participant.full_legal_name}}.",
@@ -689,13 +736,35 @@ const SPEC = {
         "",
         "Request to Delete Non-Conviction Criminal History Record Information, RCW 10.97.060.",
         "",
-        "The only real deletion mechanism in Washington, and it does not touch convictions. Non-conviction criminal history record information is subject to deletion from generally searched criminal justice agency files where two years or more have passed since a favourable disposition, or three years from arrest, citation or warrant for an offence where no conviction was obtained. The request goes to the Washington State Patrol rather than to a court: it is an agency request, not a petition. Two bars apply outright, the person being a fugitive and the case remaining under active prosecution. Beyond those the agency retains discretion to refuse on three common grounds: the disposition was a deferred prosecution or similar diversion; the person has a prior felony or gross misdemeanour conviction; or the person has been arrested for or charged with another crime during the intervening period. WashingtonLawHelp states directly that it is hard for information to qualify as non-conviction data under the rules, which makes deletion hard to obtain, and that expectation must be set before anyone pays. Where deletion is refused there is a fallback: RCW 10.97.040 requires agencies to check with the WSP for the most current and complete information before reporting a conviction, and RCW 10.97.110 supports a suit, potentially with attorney fees, against an agency that violates the requirement.",
-        "",
         "WHERE IT GOES",
         "",
         "Washington State Patrol",
         "Submit the deletion request to the WSP through its non-conviction deletion request process. No court is involved and no order is sought. The agency decides, and three of its refusal grounds are common.",
         "Venue: Not a court route. The request goes to the Washington State Patrol, which holds the criminal history record information.",
+        "Filing as recorded: Submit the request to the Washington State Patrol through its non-conviction deletion request process. This is separate from any court vacate order and no court is involved.",
+        "",
+        "WHAT THE RECORD SAYS YOU MUST KNOW",
+        "",
+        "- Non-conviction deletion is discretionary on three common grounds. Set expectations before anyone pays.",
+        "- Fallback where deletion is refused: the accuracy provisions at RCW 10.97.040 and the remedy at RCW 10.97.110.",
+        "- The non-conviction record requires a fingerprint card, not the $11 WATCH check.",
+        "",
+        "RECORDS YOU MUST OBTAIN BEFORE YOU SEND THIS REQUEST",
+        "",
+        "1. Washington State Patrol non-conviction criminal history record. Required before filing. Where you get it: Washington State Patrol.",
+        "How to obtain it, as the record states it: This route needs the non-conviction record, not the $11 WATCH check. The non-conviction record requires a fingerprint card plus $12, or an in-person record review at no fee with fingerprints and limited inspection time. Read the WSP fee table live rather than relying on a stored figure.",
+        "Then do this: Check your answer to \"How did the case end, and on what date — dismissed, acquitted, or no charges ever filed?\" against Washington State Patrol non-conviction criminal history record, and correct the packet if they disagree.",
+        "",
+        "2. Court record of the disposition. Conditional: where charges were filed and a court disposed of them. Not applicable where no charges were ever filed. Where you get it: Clerk of the court that handled the case.",
+        "How to obtain it, as the record states it: Ask the clerk for the docket or the order of dismissal, which fixes the favourable-disposition date the two-year period runs from.",
+        "Then do this: Check your answer to \"How did the case end, and on what date — dismissed, acquitted, or no charges ever filed?\" against Court record of the disposition, and correct the packet if they disagree.",
+        "",
+        "WHAT YOU MUST COMPLETE BY HAND",
+        "",
+        "- Signature - Request letter, signature block. The participant signs their own request.",
+        "- Fingerprint card - Attachment to the WSP non-conviction record request. Taken by a law-enforcement agency or an approved provider; LegalEase does not take or hold fingerprints.",
+        "- Signing: The participant signs the request.",
+        "- Notarisation: none required for the request itself. A notarised letter is an optional WSP record product at additional cost.",
         "",
         "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
         "",
@@ -705,13 +774,58 @@ const SPEC = {
         "",
         "Service as recorded: none. The request is submitted to the WSP. Notice as recorded: none. There is no notice or objection process; the agency decides.",
         "",
-        "WHAT THE RECORD SAYS YOU MUST KNOW",
+        "THE PAGES IN THIS SET",
         "",
-        "- Non-conviction deletion is discretionary on three common grounds. Set expectations before anyone pays.",
-        "- Fallback where deletion is refused: the accuracy provisions at RCW 10.97.040 and the remedy at RCW 10.97.110.",
-        "- The non-conviction record requires a fingerprint card, not the $11 WATCH check.",
+        "- wa_del_nonconviction-primary-filing-1: the composed request to the Washington State Patrol, on this route's own statutory ground (Ask the Washington State Patrol to delete a record of a case that did not end in conviction)",
+        "- wa_del_nonconviction-records-checklist-2: this page",
+        "- wa_del_nonconviction-expectation-setting-3: what the record says about how hard this relief is to obtain, and when to stop (Ask the Washington State Patrol to delete a record of a case that did not end in conviction)",
+        "- wa_del_nonconviction-accuracy-remedy-guidance-4: what the record says you can do if the agency refuses (Ask the Washington State Patrol to delete a record of a case that did not end in conviction)"
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "wa_del_nonconviction-expectation-setting-3",
+      "routeKey": "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060",
+      "role": "expectation_setting",
+      "title": "Read This Before You Pay - Ask the Washington State Patrol to delete a record of a case that did not end in conviction",
+      "description": "what the record says about how hard this relief is to obtain, the grounds on which the agency may refuse, and when to stop and get help instead (Ask the Washington State Patrol to delete a record of a case that did not end in conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
         "",
-        "WHEN TO STOP AND GET HELP INSTEAD OF FILING",
+        "READ THIS BEFORE YOU PAY FOR ANYTHING",
+        "",
+        "Non-conviction deletion is discretionary on three common grounds. Set expectations before anyone pays.",
+        "",
+        "WHAT THE COMMITTED RECORD SAYS ABOUT THIS ROUTE",
+        "",
+        "The only real deletion mechanism in Washington, and it does not touch convictions. Non-conviction criminal history record information is subject to deletion from generally searched criminal justice agency files where two years or more have passed since a favourable disposition, or three years from arrest, citation or warrant for an offence where no conviction was obtained. The request goes to the Washington State Patrol rather than to a court: it is an agency request, not a petition. Two bars apply outright, the person being a fugitive and the case remaining under active prosecution. Beyond those the agency retains discretion to refuse on three common grounds: the disposition was a deferred prosecution or similar diversion; the person has a prior felony or gross misdemeanour conviction; or the person has been arrested for or charged with another crime during the intervening period. WashingtonLawHelp states directly that it is hard for information to qualify as non-conviction data under the rules, which makes deletion hard to obtain, and that expectation must be set before anyone pays. Where deletion is refused there is a fallback: RCW 10.97.040 requires agencies to check with the WSP for the most current and complete information before reporting a conviction, and RCW 10.97.110 supports a suit, potentially with attorney fees, against an agency that violates the requirement.",
+        "",
+        "HOW LONG MUST HAVE PASSED",
+        "",
+        "- Favourable disposition: Two years or more since the favourable disposition.",
+        "- No conviction obtained: Three years from the arrest, citation or warrant for an offence where no conviction was obtained.",
+        "",
+        "WHAT THIS ROUTE DOES NOT REACH",
+        "",
+        "- Convictions of any kind. This route reaches non-conviction data only.",
+        "- Any person who is a fugitive.",
+        "- Any case remaining under active prosecution.",
+        "- Records that do not qualify as non-conviction data under RCW 10.97.030(2), which WashingtonLawHelp warns is a harder test than it looks.",
+        "- Not an exclusion but a discretion: the agency may refuse where the disposition was a deferred prosecution or similar diversion, where the person has a prior felony or gross misdemeanour conviction, or where the person was arrested for or charged with another crime in the intervening period.",
+        "",
+        "WHAT LEGALEASE CANNOT DO ON THIS ROUTE",
+        "",
+        "What LegalEase cannot complete: the agency's decision, which is discretionary on three common grounds.",
+        "",
+        "WHEN TO STOP AND GET HELP INSTEAD OF SENDING THIS REQUEST",
         "",
         "- The record may not qualify as non-conviction data under RCW 10.97.030(2).",
         "- The disposition was a deferred prosecution or similar diversion, which is a common refusal ground.",
@@ -720,11 +834,55 @@ const SPEC = {
         "- There is an outstanding warrant, or the case remains under active prosecution.",
         "- The agency refuses and the participant wants to challenge it; that is the RCW 10.97.110 remedy and needs a lawyer.",
         "- Immigration consequences.",
-        "- What LegalEase cannot complete: the agency's decision, which is discretionary on three common grounds.",
         "",
-        "THE PAGES IN THIS SET",
+        "IF THE AGENCY REFUSES",
         "",
-        "- wa_del_nonconviction-primary-filing-1: the composed petition, on this route's own statutory ground (Ask the Washington State Patrol to delete a record of a case that did not end in conviction)"
+        "Fallback where deletion is refused: the accuracy provisions at RCW 10.97.040 and the remedy at RCW 10.97.110. The accuracy-remedy guidance page in this packet states that fallback in full."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "wa_del_nonconviction-accuracy-remedy-guidance-4",
+      "routeKey": "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060",
+      "role": "accuracy_remedy_guidance",
+      "title": "If the Agency Refuses - Ask the Washington State Patrol to delete a record of a case that did not end in conviction",
+      "description": "the RCW 10.97.040 accuracy provision and the RCW 10.97.110 remedy the record names as the fallback where deletion is refused, and where self-help ends (Ask the Washington State Patrol to delete a record of a case that did not end in conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "WHAT THIS PAGE IS",
+        "",
+        "Fallback where deletion is refused: the accuracy provisions at RCW 10.97.040 and the remedy at RCW 10.97.110.",
+        "",
+        "WHAT THE COMMITTED RECORD SAYS THE FALLBACK IS",
+        "",
+        "Where deletion is refused there is a fallback: RCW 10.97.040 requires agencies to check with the WSP for the most current and complete information before reporting a conviction, and RCW 10.97.110 supports a suit, potentially with attorney fees, against an agency that violates the requirement.",
+        "",
+        "THE TWO PROVISIONS THIS RESTS ON",
+        "",
+        "- RCW 10.97.040, the accuracy provision: an agency must check with the Washington State Patrol for the most current and complete information before it reports a conviction.",
+        "- RCW 10.97.110, the remedy: it supports a suit, potentially with attorney fees, against an agency that violates that requirement.",
+        "",
+        "THERE IS NO APPEAL INSIDE THE DELETION ROUTE ITSELF",
+        "",
+        "Notice as recorded: none. There is no notice or objection process; the agency decides. The RCW 10.97.110 remedy is a separate proceeding against an agency that reported inaccurate information, not an appeal of the deletion decision, and this packet neither brings it nor drafts it.",
+        "",
+        "WHEN TO STOP AND GET HELP",
+        "",
+        "- The agency refuses and the participant wants to challenge it; that is the RCW 10.97.110 remedy and needs a lawyer.",
+        "- Immigration consequences.",
+        "",
+        "WHAT THE RECORD DOES NOT ESTABLISH",
+        "",
+        "RCW 10.97.060 and RCW 10.97.030(2) were not read at source, by the controlling review or on this pass; the route is stated from the review and from WashingtonLawHelp. The precise definition of non-conviction data, which the review and WashingtonLawHelp both flag as the hard part, is therefore described rather than reproduced."
       ],
       "writes": [
         {
@@ -849,11 +1007,11 @@ const SPEC = {
     ]
   ],
   "steps": [
-    "**Read the filing instructions page for your route.** It names the court or office this goes to, what the record says about cost and about service, and when to stop.",
+    "**Read the guidance pages for your route.** On the vacation route those are the records checklist and the filing instructions page; on the Washington State Patrol deletion route they are the records checklist, the read-this-before-you-pay page and the if-the-agency-refuses page. They name the court or office this goes to, what the record says about cost and about service, and when to stop.",
     "**Fill every labelled dotted blank on the pages for your route**, from the record itself. Do not guess a date, an offence wording, a case number or an office name.",
     "**Sign and date each page that carries a signing line, personally.** The platform never signs for you and never dates a signing line.",
     "**Do not sign or date any certificate or proof of delivery until the papers have actually been delivered.**",
-    "**File the pages for your route where the filing instructions page says they go**, and ask that office what it charges and how it accepts filings before you go.",
+    "**Send the pages for your route where the guidance pages for that route say they go** — the vacation motion and proposed order to the clerk of the sentencing court, and the deletion request to the Washington State Patrol — and read what those pages state about that route's recorded fee position before you go.",
     "**Leave every page that belongs to the court or the prosecuting attorney blank.** Those decisions are not yours to make."
   ],
   "deliberatelyBlank": [
@@ -921,7 +1079,7 @@ const SPEC = {
     "The agency refuses and the participant wants to challenge it; that is the RCW 10.97.110 remedy and needs a lawyer.",
     "What LegalEase cannot complete: the agency's decision, which is discretionary on three common grounds."
   ],
-  "whatThisIsNot": "This is a prepared set of composed pleadings. It is not an official WA form — no committed record names one for this route — and it is not legal advice, it is not filed for you, and it does not decide whether the court will grant what it asks for.",
+  "whatThisIsNot": "This is a prepared set of composed documents: a court pleading set for the vacation route, and an agency request with its guidance pages for the Washington State Patrol deletion route, which is not a court route at all. It is not an official WA form — no committed record names one for either route — and it is not legal advice, it is not filed or sent for you, and it does not decide whether the court will grant the vacation or whether the agency will grant the deletion.",
   "receiptDoesNotEstablish": [
     "that any particular record meets this route's recorded conditions",
     "that any Washington record is a non-conviction within the meaning of RCW 10.97.060 rather than a conviction reached by a different route"
@@ -936,8 +1094,8 @@ const SPEC = {
       "consequence": "The packet states the destination the registry holds, states each recorded rule in the registry's own words, and where the registry records a non-statement it names the specific office that answers the question rather than gesturing at the court."
     },
     {
-      "finding": "The committed specifications give the two routes DIFFERENT component sets: a petition and a proposed order for the RCW 9.95.240 vacation, and a petition alone for the RCW 10.97.060 non-conviction deletion.",
-      "consequence": "The packet ships exactly the components the record names for each route. No proposed order is invented for the deletion route, and none is omitted from the vacation route."
+      "finding": "The committed records give the two routes DIFFERENT component sets, and both the track registry's packetSet and the committed packet-set manifests declare eight components between them: for the RCW 9.95.240 vacation a primary filing, a proposed order, a records checklist and filing instructions; for the RCW 10.97.060 non-conviction deletion a primary filing, a records checklist, an expectation-setting page and accuracy-remedy guidance. The committed specifications separately declare only the three custom_pleading components, which is why an earlier build of this family shipped five components under two ids no held record declares.",
+      "consequence": "The packet ships exactly the eight components the records name, under exactly the componentIds and in exactly the orders they declare. No proposed order is invented for the deletion route, and no guidance component is folded into another page or dropped."
     }
   ],
   "counselQuestions": [
@@ -946,7 +1104,8 @@ const SPEC = {
   ],
   "reviewersAttention": [
     "source-receipt.json binds committed repository records rather than a Master Library binary — sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT; confirm that is legible to reviewers.",
-    "This family carries 2 statutory routes in one packet; each page states its own route and the instructions carry a which-pages-are-yours table."
+    "This family carries 2 statutory routes in one packet; each page states its own route and the instructions carry a which-pages-are-yours table.",
+    "The two routes are different in kind. The RCW 9.95.240 vacation is a court route and its primary filing is a pleading addressed to the sentencing court. The RCW 10.97.060 non-conviction deletion is not a court route at any point: the committed record records its destination as the Washington State Patrol, its venue as \"Not a court route\" and its service rule as \"none\", so its primary filing is addressed to the agency, asks the agency rather than a court, and carries no caption, no court and no case-number line."
   ]
 };
 

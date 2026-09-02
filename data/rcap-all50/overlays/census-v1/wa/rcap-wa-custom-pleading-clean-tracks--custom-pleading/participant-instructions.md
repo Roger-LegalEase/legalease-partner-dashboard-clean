@@ -23,9 +23,12 @@ Every page states its own route in its footer. If two routes could fit your reco
 | --- | --- |
 | `wa_vac_post_probation_9_95_240-primary-filing-1` | the composed petition, on this route's own statutory ground (Clear an older Washington conviction after you finished probation) |
 | `wa_vac_post_probation_9_95_240-proposed-order-2` | the proposed order the court may sign; every decision line is the court's and is left blank (Clear an older Washington conviction after you finished probation) |
-| `wa_vac_post_probation_9_95_240-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an older Washington conviction after you finished probation) |
-| `wa_del_nonconviction-primary-filing-1` | the composed petition, on this route's own statutory ground (Ask the Washington State Patrol to delete a record of a case that did not end in conviction) |
-| `wa_del_nonconviction-filing-instructions-2` | what this set is, where it goes, what it costs, who must be served, and when to stop (Ask the Washington State Patrol to delete a record of a case that did not end in conviction) |
+| `wa_vac_post_probation_9_95_240-records-checklist-3` | the records you must obtain before you file, where each one comes from, which answer on the petition each one confirms, and what you must complete by hand (Clear an older Washington conviction after you finished probation) |
+| `wa_vac_post_probation_9_95_240-filing-instructions-4` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an older Washington conviction after you finished probation) |
+| `wa_del_nonconviction-primary-filing-1` | the composed request to the Washington State Patrol, on this route's own statutory ground; it is an agency request and no court is asked for anything (Ask the Washington State Patrol to delete a record of a case that did not end in conviction) |
+| `wa_del_nonconviction-records-checklist-2` | where this request goes, the records you must obtain before you send it, what you must complete by hand, what it costs and who must be served (Ask the Washington State Patrol to delete a record of a case that did not end in conviction) |
+| `wa_del_nonconviction-expectation-setting-3` | what the record says about how hard this relief is to obtain, the grounds on which the agency may refuse, and when to stop and get help instead (Ask the Washington State Patrol to delete a record of a case that did not end in conviction) |
+| `wa_del_nonconviction-accuracy-remedy-guidance-4` | the RCW 10.97.040 accuracy provision and the RCW 10.97.110 remedy the record names as the fallback where deletion is refused, and where self-help ends (Ask the Washington State Patrol to delete a record of a case that did not end in conviction) |
 
 ## Where this is filed, what it costs, and who must be served
 
@@ -86,7 +89,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C12 - maximum punishment period | What was the maximum sentence the law allowed for this offence, and has that much time passed since sentencing? |
 | Item C13 - plea or verdict | Did the case end in a guilty plea, or in a verdict after a not guilty plea? |
 
-### wa_del_nonconviction-primary-filing-1 — Petition - Ask the Washington State Patrol to delete a record of a case that did not end in conviction
+### wa_del_nonconviction-primary-filing-1 — Request to the Washington State Patrol - Ask the Washington State Patrol to delete a record of a case that did not end in conviction
 
 | The blank on the document | What to write |
 | --- | --- |
@@ -101,11 +104,11 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 ## What you do, in order
 
-1. **Read the filing instructions page for your route.** It names the court or office this goes to, what the record says about cost and about service, and when to stop.
+1. **Read the guidance pages for your route.** On the vacation route those are the records checklist and the filing instructions page; on the Washington State Patrol deletion route they are the records checklist, the read-this-before-you-pay page and the if-the-agency-refuses page. They name the court or office this goes to, what the record says about cost and about service, and when to stop.
 2. **Fill every labelled dotted blank on the pages for your route**, from the record itself. Do not guess a date, an offence wording, a case number or an office name.
 3. **Sign and date each page that carries a signing line, personally.** The platform never signs for you and never dates a signing line.
 4. **Do not sign or date any certificate or proof of delivery until the papers have actually been delivered.**
-5. **File the pages for your route where the filing instructions page says they go**, and ask that office what it charges and how it accepts filings before you go.
+5. **Send the pages for your route where the guidance pages for that route say they go** — the vacation motion and proposed order to the clerk of the sentencing court, and the deletion request to the Washington State Patrol — and read what those pages state about that route's recorded fee position before you go.
 6. **Leave every page that belongs to the court or the prosecuting attorney blank.** Those decisions are not yours to make.
 
 ## Things the platform deliberately left blank
@@ -138,6 +141,6 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 ## What this packet is not
 
-This is a prepared set of composed pleadings. It is not an official WA form — no committed record names one for this route — and it is not legal advice, it is not filed for you, and it does not decide whether the court will grant what it asks for.
+This is a prepared set of composed documents: a court pleading set for the vacation route, and an agency request with its guidance pages for the Washington State Patrol deletion route, which is not a court route at all. It is not an official WA form — no committed record names one for either route — and it is not legal advice, it is not filed or sent for you, and it does not decide whether the court will grant the vacation or whether the agency will grant the deletion.
 
 _Route(s): obligation:track-only:WA:wa_vac_post_probation_9_95_240 · obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060_
