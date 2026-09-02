@@ -13,13 +13,13 @@
   "matchingIsConservative": "Only an exact content hash or a strong form-number match within the same jurisdiction counts as held. An unresolvable label is recorded as unresolved identity rather than as missing, because absence of a match is not evidence of absence -- and calling a held source missing wastes acquisition while calling a missing source held suppresses it.",
   "acquisitionTasks": 295,
   "counts": {
-    "SOURCE_ALREADY_HELD": 85,
+    "SOURCE_ALREADY_HELD": 93,
     "SOURCE_REVISION_STALE": 5,
     "SOURCE_IDENTITY_UNRESOLVED": 146,
-    "SOURCE_GENUINELY_MISSING": 59
+    "SOURCE_GENUINELY_MISSING": 51
   },
-  "commissionAcquisitionFor": 210,
-  "doNotCommissionAcquisitionFor": 85,
+  "commissionAcquisitionFor": 202,
+  "doNotCommissionAcquisitionFor": 93,
   "rows": [
     {
       "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
@@ -4573,22 +4573,27 @@
         "KY"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 5,
       "documentSources": [
         {
           "sourceId": "official-form:AOC-RU-009",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "The corpus stores it as \"AOC-009 / records unit\". pdftotext page 1 reads \"ADMINISTRATIVE OFFICE OF THE COURTS / RECORDS UNIT ... AOC-RU-009 / Rev. 12-22\". Also independently published at https://www.kycourts.gov/Legal-Forms/Legal%20Forms/RU-009.pdf.",
+          "heldAs": {
+            "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-009__records-unit__REV-UNKNOWN__EN.pdf",
+            "formNumber": "AOC-009",
+            "revision": "REV-UNKNOWN",
+            "sha256": "469835852a1d7427a2212403aacd3118e93d6adc07791653aab25cb93324f662"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "ky_nonconviction_expungement-set",
@@ -6838,22 +6843,27 @@
         "ND"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 5,
       "documentSources": [
         {
           "sourceId": "official-form:SFN-61663",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file reads \"NORTH DAKOTA PARDON ADVISORY BOARD APPLICATION TO PARDON ELIGIBLE MARIJUANA OFFENSES / NORTH DAKOTA DEPARTMENT OF CORRECTIONS AND REHABILITATION / SFN 61663 (02-2020)\". This corrects a likely mis-binding: the corpus filename is the generic \"north-dakota-pardon-advisory-board-application-to-pardon-eligible\", which reads like the general pardon application (SFN 14859) but is not.",
+          "heldAs": {
+            "path": "STATES/ND/04_SUPPORTING_PROCESS/ND__SUPPORT__ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA__north-dakota-pardon-advisory-board-application-to-pardon-eligible__REV-2020-02__EN.pdf",
+            "formNumber": "ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA",
+            "revision": "REV-2020-02",
+            "sha256": "c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "ne-expunge-le-error-set",
@@ -6892,44 +6902,8 @@
         "NE"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 1,
-      "nonDocumentSourceIds": 7,
-      "documentSources": [
-        {
-          "sourceId": "official-form:CC-6-12",
-          "kind": "form_label",
-          "resolved": true,
-          "tier": "exact_form_number",
-          "heldAs": {
-            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
-            "formNumber": "CC-6-12",
-            "revision": "REV-2024-06",
-            "sha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a"
-          }
-        },
-        {
-          "sourceId": "official-form:CC-6-12a",
-          "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
-        }
-      ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
-    },
-    {
-      "worklistGroupId": "ne-seal-pre2017-set",
-      "packetFamilyId": null,
-      "jurisdictions": [
-        "NE"
-      ],
-      "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
-      "documentSourcesNamed": 3,
       "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 7,
       "documentSources": [
@@ -6948,10 +6922,56 @@
         {
           "sourceId": "official-form:CC-6-12a",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "The held file's own page footer prints \"CC 6:12a Rev. 06/2024   Page 1 of 2   Seal Adult Criminal Record\"; page 1 is headed \"COMPLETING THE MOTION TO SEAL AN ADULT CRIMINAL RECORD\". Nebraska appends the letter a to the form number of the instruction sheet, exactly as the held CC 6:11a does for CC 6:11. The corpus index keys these bytes as CC-6-12, which is the number the accompanying motion prints (\"Nebraska State Court Form / CC 6:12 Rev. 04/2024\").",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
+            "formNumber": "CC-6-12",
+            "revision": "REV-2024-06",
+            "sha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a"
+          }
+        }
+      ],
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
+    },
+    {
+      "worklistGroupId": "ne-seal-pre2017-set",
+      "packetFamilyId": null,
+      "jurisdictions": [
+        "NE"
+      ],
+      "routeCount": 1,
+      "custodyClass": "SOURCE_ALREADY_HELD",
+      "documentSourcesNamed": 3,
+      "documentSourcesResolved": 3,
+      "nonDocumentSourceIds": 7,
+      "documentSources": [
+        {
+          "sourceId": "official-form:CC-6-12",
+          "kind": "form_label",
+          "resolved": true,
+          "tier": "exact_form_number",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
+            "formNumber": "CC-6-12",
+            "revision": "REV-2024-06",
+            "sha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a"
+          }
+        },
+        {
+          "sourceId": "official-form:CC-6-12a",
+          "kind": "form_label",
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "The held file's own page footer prints \"CC 6:12a Rev. 06/2024   Page 1 of 2   Seal Adult Criminal Record\"; page 1 is headed \"COMPLETING THE MOTION TO SEAL AN ADULT CRIMINAL RECORD\". Nebraska appends the letter a to the form number of the instruction sheet, exactly as the held CC 6:11a does for CC 6:11. The corpus index keys these bytes as CC-6-12, which is the number the accompanying motion prints (\"Nebraska State Court Form / CC 6:12 Rev. 04/2024\").",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
+            "formNumber": "CC-6-12",
+            "revision": "REV-2024-06",
+            "sha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a"
+          }
         },
         {
           "sourceId": "official-form:CC-6-15.1",
@@ -6966,8 +6986,8 @@
           }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "ne-setaside-custodial-set",
@@ -7303,9 +7323,9 @@
         "NH"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 3,
-      "documentSourcesResolved": 2,
+      "documentSourcesResolved": 3,
       "nonDocumentSourceIds": 10,
       "documentSources": [
         {
@@ -7335,14 +7355,19 @@
         {
           "sourceId": "official-form:NHJB-3124-DS",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "The held file's own page footer prints \"NHJB-3124-DS (01/01/2020)\"; page 1 reads \"PETITION OF ELIGIBILITY FOR ANNULMENT OF RECORD OF ARREST OR CONVICTION FOR PERSONAL POSSESSION OF MARIJUANA (3/4 oz. or less) / OFFENSE OCCURRING PRIOR TO SEPTEMBER 16, 2017\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3124__petition-of-eligibility-for-annulment-of-record-of-arrest-or__REV-2020-01__EN.pdf",
+            "formNumber": "NHJB-3124",
+            "revision": "REV-2020-01",
+            "sha256": "eee788220b7e624f0294d00b01024bff251d5d1dbfe61062c9a8f78fab58529c"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "nh_petition_nonconviction_pre2019-set",
@@ -7621,58 +7646,88 @@
         "NM"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 7,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 7,
       "nonDocumentSourceIds": 17,
       "documentSources": [
         {
           "sourceId": "official-form:4-222",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-222\" and the caption \"4-222. Application for free process and affidavit of indigency.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-222",
+            "revision": "REV-UNKNOWN",
+            "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
+          }
         },
         {
           "sourceId": "official-form:4-953",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-953\" and the caption \"4-953. Petition to expunge arrest records and public records; upon conviction.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-953__4-953-petition-to-expunge-arrest-records-and-public-records-upon-conviction__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-953",
+            "revision": "REV-UNKNOWN",
+            "sha256": "2ee3d41243e0a7e807ed52e77ac08fda9e0c55c7abdef3195a53de29a0f90c40"
+          }
         },
         {
           "sourceId": "official-form:4-956",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-956\" and the caption \"4-956. Certificate of service; expungement of records upon conviction.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-956__4-956-certificate-of-service-expungement-of-records-upon-conviction__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-956",
+            "revision": "REV-UNKNOWN",
+            "sha256": "a6a01d6853d6ae3199bf81a355065ecf40cf20e76a8d1131d9bc5b56527b4c0e"
+          }
         },
         {
           "sourceId": "official-form:4-960",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-960\" and the caption \"4-960. Notice of completion of briefing; upon conviction.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960__notice-of-completion-of-briefing-conviction__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-960",
+            "revision": "REV-UNKNOWN",
+            "sha256": "79c8556655ee6e36a5a5516309e869637401f753c70172ecd78bfa138655d4de"
+          }
         },
         {
           "sourceId": "official-form:4-960.1",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-960.1\" and the caption \"4-960.1. Notice of hearing.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-960.1",
+            "revision": "REV-UNKNOWN",
+            "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c"
+          }
         },
         {
           "sourceId": "official-form:4-960.3",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-960.3\" and the caption \"4-960.3. Affirmation in support of expungement; upon conviction.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.3__affirmation-in-support-of-expungement-upon-conviction__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-960.3",
+            "revision": "REV-UNKNOWN",
+            "sha256": "14d16b83fe55e3b872f233118305fecac27a7c48e839cba323db2d8bd48c2226"
+          }
         },
         {
           "sourceId": "official-form:NM-LOCAL-CONVICTION-ORDER",
@@ -7687,8 +7742,8 @@
           }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "nm_identity_theft-set",
@@ -7697,34 +7752,49 @@
         "NM"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 4,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 4,
       "nonDocumentSourceIds": 10,
       "documentSources": [
         {
           "sourceId": "official-form:4-222",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-222\" and the caption \"4-222. Application for free process and affidavit of indigency.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-222",
+            "revision": "REV-UNKNOWN",
+            "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
+          }
         },
         {
           "sourceId": "official-form:4-951",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-951\" and the caption \"4-951. Petition to expunge arrest records and public records; identity theft.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-951__4-951-petition-to-expunge-arrest-records-and-public-records-identity-theft__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-951",
+            "revision": "REV-UNKNOWN",
+            "sha256": "b8a0dba2cd21f9fed317ccea57e568a360345608782cea2a3f0e34b769ae67e4"
+          }
         },
         {
           "sourceId": "official-form:4-960.1",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-960.1\" and the caption \"4-960.1. Notice of hearing.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-960.1",
+            "revision": "REV-UNKNOWN",
+            "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c"
+          }
         },
         {
           "sourceId": "official-form:NM-LOCAL-IDENTITY-THEFT-ORDER",
@@ -7739,8 +7809,8 @@
           }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "nm_release_without_conviction-set",
@@ -7749,58 +7819,88 @@
         "NM"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 7,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 7,
       "nonDocumentSourceIds": 18,
       "documentSources": [
         {
           "sourceId": "official-form:4-222",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-222\" and the caption \"4-222. Application for free process and affidavit of indigency.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-222",
+            "revision": "REV-UNKNOWN",
+            "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
+          }
         },
         {
           "sourceId": "official-form:4-952",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-952\" and the caption \"4-952. Petition to expunge arrest records and public records; upon release without conviction.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-952__4-952-petition-to-expunge-arrest-records-and-public-records-upon-release-without__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-952",
+            "revision": "REV-UNKNOWN",
+            "sha256": "951e5b8114dc6c31fa05b6230e2fe45509fa9c8f9ef99e3e6f384270a40977ca"
+          }
         },
         {
           "sourceId": "official-form:4-955",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-955\" and the caption \"4-955. Certificate of service; expungement of records upon release without conviction.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-955__4-955-certificate-of-service-expungement-of-records-upon-release-without-conviction__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-955",
+            "revision": "REV-UNKNOWN",
+            "sha256": "99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11"
+          }
         },
         {
           "sourceId": "official-form:4-959",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-959\" and the caption \"4-959. Notice of completion of briefing; upon release without conviction.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-959__notice-of-completion-of-briefing-nonconviction__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-959",
+            "revision": "REV-UNKNOWN",
+            "sha256": "1ec4057eef1340456e65abe4708c9b174b5ffacd313e7b52c145989963b53148"
+          }
         },
         {
           "sourceId": "official-form:4-960.1",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-960.1\" and the caption \"4-960.1. Notice of hearing.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-960.1",
+            "revision": "REV-UNKNOWN",
+            "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c"
+          }
         },
         {
           "sourceId": "official-form:4-960.2",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"4-960.2\" and the caption \"4-960.2. Affirmation in support of expungement; upon release without conviction.\", followed by \"[For use with District Court Rule 1-077.1 NMRA]\". The Supreme Court approval line on the same page reads \"Supreme Court Approved October 31, 2025\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.2__affirmation-in-support-of-expungement-upon-release-without-conviction__REV-UNKNOWN__EN.pdf",
+            "formNumber": "NM-4-960.2",
+            "revision": "REV-UNKNOWN",
+            "sha256": "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e"
+          }
         },
         {
           "sourceId": "official-form:NM-SAN-JUAN-NONCONVICTION-PACKET",
@@ -7815,8 +7915,8 @@
           }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "nv_repository_removal-set",

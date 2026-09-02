@@ -167,6 +167,34 @@ for (const entry of corpus.entries) {
 function resolveFormLabel(label, jurisdictions) {
   const key = normalise(label);
   if (byFormNumber.has(key)) return { entry: byFormNumber.get(key), tier: "exact_form_number" };
+  /*
+   * TIER 3 IS CONSULTED BEFORE THE TOKEN FLOOR, not after it.
+   *
+   * The floor below exists to guard TIER 2: a two-token label like "CR-65"
+   * could satisfy almost any corpus entry by token subset, so a short label is
+   * refused rather than guessed at. Tier 3 does not use tokens at all — it
+   * matches a label to a document somebody opened and read — so the floor was
+   * never its guard, and placing the lookup after it silently threw away every
+   * read identity whose label is short.
+   *
+   * FABLE-A3 measured the cost: sixteen of its twenty-one confirmed identities
+   * could not bind despite satisfying all three admission conditions — all
+   * eleven New Mexico rule forms, Nebraska CC-6-12a, New Hampshire NHJB-3124-DS
+   * and two Kansas documents — and six families would resolve completely on the
+   * ordering alone. Two more from earlier lanes are the same shape:
+   * ky_expungement_certification-set, whose AOC-RU-009 tokenises to two, and
+   * nd-summary-marijuana-pardon-set's SFN-61663.
+   *
+   * Moving it above the floor admits nothing that did not already pass all
+   * three conditions: the finding must say the identity was confirmed from the
+   * document's own text, it must name an exact SHA-256, and the committed
+   * corpus index must hold that exact path at that exact hash.
+   */
+  const identifiedEarly = identityFindings.get(key);
+  if (identifiedEarly) {
+    const entry = corpus.entries.find((e) => e.path === identifiedEarly.path && e.sha256 === identifiedEarly.sha256);
+    if (entry) return { entry, tier: "exact_identity_confirmed_from_document_text", identityEvidence: identifiedEarly.identityEvidence };
+  }
   const labelTokens = tokens(label);
   if (labelTokens.length < 3) return null;
   const candidates = corpus.entries.filter((e) => e.formNumber
@@ -176,6 +204,8 @@ function resolveFormLabel(label, jurisdictions) {
     return labelTokens.every((t) => entryTokens.has(t));
   });
   if (matches.length === 1) return { entry: matches[0], tier: "token_subset_same_jurisdiction" };
+  /* Unreachable for a short label now that the lookup above runs first; kept
+   * so a long label whose token subset was ambiguous still reaches tier 3. */
   const identified = identityFindings.get(key);
   if (identified) {
     /* The corpus index is the arbiter, not the finding: the path must be held

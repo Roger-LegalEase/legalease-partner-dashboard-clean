@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `e315e17665379e98b738c4f63160ed39ec08ee97` (or the newer dispatch base)
+**Minimum required ancestor:** `d69deaec80f308f48f8871b7d113243a99db95ba` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC05 \
   --source-obligation 'census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED' \
   --codex-cloud \
-  --minimum-captain-sha e315e17665379e98b738c4f63160ed39ec08ee97
+  --minimum-captain-sha d69deaec80f308f48f8871b7d113243a99db95ba
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**10 obligations · 3 families this lane WOULD release if every one of them resolves · hosts: DE, MT, UT**
+**10 obligations · 3 families this lane WOULD release if every one of them resolves · hosts: MT, TX, UT**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -107,13 +107,13 @@ the issuing court or agency that publishes the document
 | --- | --- | --- | --- | --- | --- | --- |
 | `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | UT | `exact-source-identity` | `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement` | unresolved exact identity or URL | `ACQ` |
 | `census-pending-family:UT:path-m-juvenile-expungement::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | UT | `exact-source-identity` | `census-pending-family:UT:path-m-juvenile-expungement` | unresolved exact identity or URL | `ACQ` |
-| `de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | `official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | DE | `exact-source-identity` | `de_mandatory_expungement-set` | unresolved exact identity or URL | `ACQ` |
 | `mt_mmrta_completed-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX` | `official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX` | MT | `exact-source-identity` | `mt_mmrta_completed-set` | unresolved exact identity or URL | `ACQ` |
 | `mt_mmrta_completed-set::official-form:MT-FORM-B` | `official-form:MT-FORM-B` | MT | `exact-source-identity` | `mt_mmrta_completed-set` | unresolved exact identity or URL | `ACQ` |
 | `mt_mmrta_completed-set::official-form:MT-OCA-MMRTA` | `official-form:MT-OCA-MMRTA` | MT | `exact-source-identity` | `mt_mmrta_completed-set` | unresolved exact identity or URL | `ACQ` |
 | `mt_mmrta_serving-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX` | `official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX` | MT | `exact-source-identity` | `mt_mmrta_serving-set` | unresolved exact identity or URL | `ACQ` |
 | `mt_mmrta_serving-set::official-form:MT-FORM-A` | `official-form:MT-FORM-A` | MT | `exact-source-identity` | `mt_mmrta_serving-set` | unresolved exact identity or URL | `ACQ` |
 | `mt_mmrta_serving-set::official-form:MT-OCA-MMRTA` | `official-form:MT-OCA-MMRTA` | MT | `exact-source-identity` | `mt_mmrta_serving-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_dwi_conviction-set::official-form:OCA Model Order of Nondisclosure under Section 411.0736` | `official-form:OCA Model Order of Nondisclosure under Section 411.0736` | TX | `exact-source-identity` | `tx_nd_dwi_conviction-set` | unresolved exact identity or URL | `ACQ` |
 | `ut_pet_remove_link-set::official-form:1110GE or 1111GE` | `official-form:1110GE or 1111GE` | UT | `exact-source-identity` | `ut_pet_remove_link-set` | unresolved exact identity or URL | `ACQ` |
 
 Deterministically assert exactly the 10 committed itemIds (failures are recorded per row and do not terminate the loop):
@@ -134,7 +134,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source-obligation 'census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha e315e17665379e98b738c4f63160ed39ec08ee97
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source-obligation 'census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha d69deaec80f308f48f8871b7d113243a99db95ba
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -143,7 +143,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source
 
 ### Families this lane would release
 
-`census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement`, `census-pending-family:UT:path-m-juvenile-expungement`, `de_mandatory_expungement-set`
+`census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement`, `census-pending-family:UT:path-m-juvenile-expungement`, `tx_nd_dwi_conviction-set`
 
 
 ### Settle these first
@@ -153,7 +153,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
 | EXPUNGEMENTREMOVALREQUESTFORM.DOCX | MT | 4 |
-| DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION | DE | 1 |
+| OCA Model Order of Nondisclosure under Section 411.0736 | TX | 1 |
 | 1110GE or 1111GE | UT | 1 |
 | NO_DOCUMENT_SOURCE_NAMED | UT | 0 |
 | NO_DOCUMENT_SOURCE_NAMED | UT | 0 |

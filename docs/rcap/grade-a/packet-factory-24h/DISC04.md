@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `e315e17665379e98b738c4f63160ed39ec08ee97` (or the newer dispatch base)
+**Minimum required ancestor:** `d69deaec80f308f48f8871b7d113243a99db95ba` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC04 \
-  --source-obligation 'agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information' \
+  --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' \
   --codex-cloud \
-  --minimum-captain-sha e315e17665379e98b738c4f63160ed39ec08ee97
+  --minimum-captain-sha d69deaec80f308f48f8871b7d113243a99db95ba
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**10 obligations · 7 families this lane WOULD release if every one of them resolves · hosts: AK, AR, WA**
+**10 obligations · 7 families this lane WOULD release if every one of them resolves · hosts: AR, DE, WA**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -105,7 +105,6 @@ the issuing court or agency that publishes the document
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information` | `official-form:Request to Correct Criminal Justice Information` | AK | `exact-source-identity` | `agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record` | unresolved exact identity or URL | `ACQ` |
 | `ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | `official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | AR | `exact-source-identity` | `ar-act346-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-drug-court-set::official-form:ACIC-ORDER-DRUG-COURT` | `official-form:ACIC-ORDER-DRUG-COURT` | AR | `exact-source-identity` | `ar-drug-court-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-drug-court-set::official-form:ACIC-PETITION-DRUG-COURT` | `official-form:ACIC-PETITION-DRUG-COURT` | AR | `exact-source-identity` | `ar-drug-court-set` | unresolved exact identity or URL | `ACQ` |
@@ -115,6 +114,7 @@ the issuing court or agency that publishes the document
 | `ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | `official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | AR | `exact-source-identity` | `ar-misdemeanor-seal-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-veterans-court-set::official-form:ACIC-ORDER-VETERANS-COURT` | `official-form:ACIC-ORDER-VETERANS-COURT` | AR | `exact-source-identity` | `ar-veterans-court-set` | unresolved exact identity or URL | `ACQ` |
 | `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | WA | `exact-source-identity` | `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260` | unresolved exact identity or URL | `ACQ` |
+| `de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | `official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | DE | `exact-source-identity` | `de_mandatory_expungement-set` | unresolved exact identity or URL | `ACQ` |
 
 Deterministically assert exactly the 10 committed itemIds (failures are recorded per row and do not terminate the loop):
 
@@ -134,7 +134,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source-obligation 'agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information' --codex-cloud --minimum-captain-sha e315e17665379e98b738c4f63160ed39ec08ee97
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' --codex-cloud --minimum-captain-sha d69deaec80f308f48f8871b7d113243a99db95ba
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -143,7 +143,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source
 
 ### Families this lane would release
 
-`agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record`, `ar-act346-set`, `ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-veterans-court-set`, `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`
+`ar-act346-set`, `ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-veterans-court-set`, `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`, `de_mandatory_expungement-set`
 
 
 ### Settle these first
@@ -153,10 +153,10 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
 | ACIC-UNIFORM-ORDER-TO-SEAL | AR | 2 |
-| Request to Correct Criminal Justice Information | AK | 1 |
 | ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS | AR | 1 |
 | ACIC-ORDER-DRUG-COURT | AR | 1 |
 | ACIC-ORDER-VETERANS-COURT | AR | 1 |
+| DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION | DE | 1 |
 | NO_DOCUMENT_SOURCE_NAMED | WA | 0 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.

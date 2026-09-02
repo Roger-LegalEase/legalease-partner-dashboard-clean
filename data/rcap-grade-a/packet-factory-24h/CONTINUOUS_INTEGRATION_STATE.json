@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-02T06:53:01.933Z",
-  "captainHead": "e315e17665379e98b738c4f63160ed39ec08ee97",
+  "generatedAt": "2026-09-02T06:59:01.863Z",
+  "captainHead": "d69deaec80f308f48f8871b7d113243a99db95ba",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-02T07:13:01.933Z",
-    "nextSourceReleaseDeadline": "2026-09-02T07:23:01.933Z",
+    "nextIntegrationDeadline": "2026-09-02T07:19:01.863Z",
+    "nextSourceReleaseDeadline": "2026-09-02T07:29:01.863Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -62,9 +62,9 @@
           "PF23",
           "PF24"
         ],
-        "measured": 68,
+        "measured": 88,
         "threshold": 80,
-        "triggered": false
+        "triggered": true
       }
     ],
     "builderExpansionRule": "Assign a released family to an existing builder where ownership permits. Create PF17+ only when SOURCE_READY exceeds the capacity of the existing sixteen."
@@ -78,15 +78,15 @@
   },
   "liveCounts": {
     "liveFamilyDenominator": 346,
-    "sourceReady": 68,
-    "sourceBlocked": 139,
+    "sourceReady": 88,
+    "sourceBlocked": 119,
     "legalBlocked": 13,
     "verifyPending": 27,
     "repairRequired": 7,
     "byState": {
-      "SOURCE_READY": 68,
-      "SOURCE_BLOCKED": 139,
+      "SOURCE_READY": 88,
       "COMPLETE_PACKET_PROVEN": 83,
+      "SOURCE_BLOCKED": 119,
       "VERIFY_PENDING": 27,
       "VERIFIED_PASS": 5,
       "BUILD_IN_PROGRESS": 4,
