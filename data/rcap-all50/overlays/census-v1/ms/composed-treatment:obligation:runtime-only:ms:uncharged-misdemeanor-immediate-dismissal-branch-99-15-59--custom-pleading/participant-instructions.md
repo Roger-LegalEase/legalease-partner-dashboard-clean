@@ -18,7 +18,7 @@ The platform filled in what it holds about you: your name, your date of birth, y
 
 | Question | What the repository establishes, or the authority that answers it |
 | --- | --- |
-| FILING_DESTINATION | **The repository establishes this one.** The compiled Mississippi profile records that under § 99-15-59 a person "may apply to the court with jurisdiction for expungement", and that line names § 99-15-59 and reaches the dismissed-charge branch expressly. The census records the route's own destination field as not recorded; the compiled profile answers it for this section. Which court has jurisdiction over a particular matter is a fact of that matter, and the committed contract makes 'What venue or agency?' a required fact, so the court's identity is a labelled blank on the petition. |
+| FILING_DESTINATION | **The repository establishes this one.** The compiled Mississippi profile records that under § 99-15-59 a person "may apply to the court with jurisdiction for expungement", and that line names § 99-15-59 and reaches the dismissed-charge branch expressly. The census records the route's own destination field as not recorded; the compiled profile answers it for this section. Which court has jurisdiction over a particular matter is a fact of that matter, and the committed contract makes 'What venue or agency?' a required fact, so the court's identity is left blank for you. It is the caption rule at the head of the petition and the identical rule at the head of the proposed order, each printed above the line "(Write the name of the court with jurisdiction over the matter on the line above. This packet does not hold it and has left it blank.)", and each listed among the items you must supply below. |
 | FEE_AND_WAIVER | No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the clerk's office of the Mississippi court with jurisdiction over the matter, which is the court that handled the dismissed charge. Ask before you go, because a filing you cannot pay for is a filing you cannot make. |
 | SERVICE | No committed record this packet binds states who must be served on this route, or how. The office that answers it is the clerk's office of the Mississippi court with jurisdiction over the matter. |
 | SELF_HELP_STOP | **Stop and get help if:** no charge was ever filed — that is the twelve-month no-charge branch of the same section, and its instrument is not in this packet; **Stop and get help if:** the matter was anything other than a misdemeanor, which the committed contract records as a condition of this route; **Stop and get help if:** anything arising from the matter is pending, which the committed contract also records as a condition; **Stop and get help if:** there are related counts and you are unsure how they are treated, which the committed contract records as a fact this route must collect; **Stop and get help if:** any immigration question is involved. |
@@ -48,6 +48,13 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C3 - is anything pending | Is anything pending — copied from the record itself, not from memory |
 | Item C4 - what venue or agency | What venue or agency — copied from the record itself, not from memory |
 | Item C5 - are there related counts | Are there related counts — copied from the record itself, not from memory |
+| Caption of the petition - the court with jurisdiction over the matter | The name of the court with jurisdiction over the matter, written on the caption rule at the head of the petition |
+
+### ms-99-15-59-dismissal-branch-proposed-order-2 — Proposed Order - Petition under § 99-15-59
+
+| The blank on the document | What to write |
+| --- | --- |
+| Caption of the proposed order - the same court named on the petition | The name of the court with jurisdiction over the matter, written on the caption rule at the head of the proposed order, matching the petition |
 
 ## What you do, in order
 
