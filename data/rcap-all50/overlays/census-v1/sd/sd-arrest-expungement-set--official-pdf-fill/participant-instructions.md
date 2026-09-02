@@ -9,6 +9,10 @@ The canonical and boundary PDFs are review fixtures. Do not copy their sample va
 - **State's Attorney mailing address** (UJS-391): before service.
 - **Notice recipient name** (UJS-393, UJS-395): before mailing the notice.
 - **Notice recipient mailing address** (UJS-393, UJS-395): before mailing the notice.
+- **Order of dismissal, judgment of acquittal, or written proof that no accusatory instrument was filed** (UJS-391A): obtain it from the Clerk of Courts before filing; where no charging document was filed, ask the clerk to confirm in writing that no case exists.
+- **Route outcome checked against that proof** (UJS-391A): compare the selected no-accusatory-instrument basis with the clerk's proof and correct the packet if they disagree.
+- **Entire-case result checked against the court docket** (UJS-391A): if a case was opened, obtain its docket and confirm that every charge—not only some charges—was dismissed.
+- **Number of separate arrests checked against South Dakota criminal history** (UJS-391A): if the participant is unsure, request a DCI criminal-history record and correct the packet if the arrest count disagrees.
 
 ## Protected completion
 
@@ -16,13 +20,15 @@ The canonical and boundary PDFs are review fixtures. Do not copy their sample va
 - Do not complete a certificate or statement of mailing before mailing occurs.
 - Leave hearing dates, court orders, clerk, judge, prosecutor, agency, and other official-only fields blank for the authorized actor.
 
+**Selected route in these review fixtures:** packet page 3 marks the UJS-391A basis that one year has passed since the arrest and no accusatory instrument was filed. The basis is not unchosen. Use this packet only if the clerk's written proof confirms that selected route; if it does not, correct the route before signing or filing.
+
 ## Where you file this
 
 File with the **Clerk of Court of the circuit court for the county where the arrest record or case is filed** — UJS-391's own instruction sheet says the county you file in "will be the same county where the arrest record or case is filed in", and every caption in this packet reads "STATE OF SOUTH DAKOTA, IN CIRCUIT COURT". Enter that county and its Judicial Circuit number in each caption (the circuit number is the item listed above; the Clerk of Court can tell you the number for your county). **The case number will be provided to you by the Clerk of Court at the time of filing** — UJS-391 instruction 1(b) — so do not invent one. File the Motion for Expungement UJS-391A with the Clerk of Court **along with the Case Filing Statement UJS-232**.
 
 ## The filing fee
 
-UJS-391's instruction sheet states the fee: sign, date, and file the motion with the Clerk of Court along with the Case Filing Statement UJS-232 **and pay the $72 filing fee**. That figure is the form's own (UJS-391, rev. 07/2026); if the clerk quotes a different current amount, the clerk's figure governs. The forms state no fee-waiver route. **If you cannot afford the fee, ask the Clerk of Court whether any waiver or reduction is available** — this packet does not decide that, and the court staff cannot give legal advice, so a waiver question that turns on your circumstances belongs to an attorney or the Legal Form Helpline named below.
+UJS-391's instruction sheet and the committed route record state the fee: sign, date, and file the motion with the Clerk of Court along with the Case Filing Statement UJS-232 **and pay the $72 civil filing fee for each petition**. The committed route record also states that an **indigency waiver is available on a finding of indigency, requested from the court**. If you cannot afford the fee, ask the Clerk of Court for the current waiver request and filing procedure before filing. This packet does not decide indigency or complete the request for you.
 
 ## Who you serve, and how
 
@@ -40,7 +46,15 @@ The method throughout is **United States mail, postage prepaid** — the Stateme
 
 This packet prepares official UJS forms; it decides nothing. The forms' own instruction sheets state the boundary, and it is repeated here: **if you have any legal questions, it is highly recommended that you consult with an attorney. Court staff are unable to provide you with legal advice or assist you in completing these forms.** For questions about the forms themselves, the forms name the checkable authority: **the UJS Legal Form Helpline at 1-855-784-0004, or ujssrlhelp@ujs.state.sd.us**. Stop and take the question to an attorney — or the helpline, for form questions — before filing, if any of these is true:
 
-- you cannot say which basis on UJS-391A is truthfully yours — one year since arrest with no accusatory instrument filed, a formal dismissal of the entire case on the record (with its own one-year-or-compelling-necessity branch), or acquittal of all charges at trial — the basis is a statement of law about your own case, and this packet does not choose it;
-- the State's Attorney or the victim will not sign a Waiver of Hearing UJS-392, or you cannot identify the office that handled the case;
-- anything in the record was in a court other than a South Dakota circuit court, or you are not sure where the arrest record or case is filed;
-- you are asked at the hearing to argue eligibility under SDCL § 23A-3-27 — the statute the motion itself cites — beyond the facts already on your forms.
+The ten conditions below are carried word for word from `data/record-clearing/legal-design-track-registry.json`, track `sd_arrest_expungement`, `selfHelpStopConditions`:
+
+- Only some charges in the case were dismissed. A partial dismissal defeats this track; the statute requires the ENTIRE criminal case to have been formally dismissed on the record.
+- A compelling-necessity filing inside the one-year window, which is an argument rather than a fact.
+- Any victim who may object or whose waiver is needed.
+- Prosecutor opposition, or any contested hearing.
+- More than one arrest record, which means more than one civil action and more than one fee.
+- Arrests in more than one county.
+- Federal, tribal, military or out-of-state records. Tribal records are a live South Dakota issue given the number of reservations and concurrent-jurisdiction questions, and are an explicit escalation rather than a footnote.
+- Immigration exposure.
+- Any adult conviction that is not clearly SIS-based, pardon-based, diversion-based or minor-case automatic removal.
+- Any felony, DUI, domestic violence, sex offence, child-victim offence, violence, firearm or protection-order issue.
