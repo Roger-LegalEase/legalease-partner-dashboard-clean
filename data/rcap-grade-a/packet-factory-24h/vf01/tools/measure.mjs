@@ -9,14 +9,52 @@ const MAIN = "/home/user/legalease-partner-dashboard-clean";
 const rj = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
 const sha = (p) => crypto.createHash("sha256").update(fs.readFileSync(p)).digest("hex");
 const exists = (p) => fs.existsSync(p);
-const R = (rel) => { const a = path.join(ROOT, rel); return exists(a) ? a : path.join(MAIN, rel); };
+const ML = process.env.MASTER_LIBRARY_SOURCE_DIR || "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
+const R = (rel) => {
+  for (const c of [path.join(ROOT, rel), path.join(MAIN, rel), path.join(ML, rel), path.join(ML, "..", rel)]) if (exists(c)) return c;
+  return path.join(ROOT, rel);
+};
 const norm = (s) => String(s ?? "").replace(/\s+/g, " ").trim();
 const setOf = (a) => JSON.stringify([...new Set(a || [])].sort());
 const PAGEBREAK = "  ";
 
-const PROTECTED_CLASSES = new Set(["signature_or_date_participant_completion", "court_prosecutor_clerk_or_agency_owned", "prosecutor_owned", "court_owned", "clerk_owned", "agency_owned", "notary_owned", "certificate_of_mailing_owned"]);
-const classOf = (r) => r.refusalClass || r.class || r.completenessClass || r.category || null;
-const dispOf = (r) => r.disposition || r.completenessDisposition || (PROTECTED_CLASSES.has(classOf(r)) ? "PROTECTED_FIELD" : (classOf(r) === "participant_sworn_narrative_or_legal_election" ? "PARTICIPANT_ELECTION_GENUINE" : null));
+// One classifier over the several vocabularies the field maps use. A refusal counts as
+// classified when the record says WHY; it counts as PROTECTED when the reason is that the
+// blank belongs to a signature, a signature date, a mailing certificate, or to the court,
+// the clerk, the prosecutor, an agency, a notary or an attorney rather than to the participant.
+const PROTECTED_CLASSES = new Set([
+  "signature_or_date_participant_completion", "court_prosecutor_clerk_or_agency_owned",
+  "signature", "court", "prosecutor", "clerk", "agency", "attorney", "notary", "judge",
+  "service_block", "outside_party", "government_identifier", "agency_assigned_identifier",
+  "notary_only", "notary_jurat_county", "notary_jurat_date", "verification_signature_line",
+  "attorney_identifier", "attorney_identity", "attorney_signature", "attorney_representation",
+  "signature_and_date", "role", "protected_category",
+]);
+const PROTECTED_TEXT = /attorney-only|attorney\/ldp|never prefilled|never populated|court, clerk, prosecutor|court-owned|proof-of-service|mailing-certificate|certificate of mailing|signature and signature date|judge|notary|clerk completes|the court completes/i;
+const classOf = (r) => r.refusalClass || r.class || r.completenessClass || r.category || r.role || null;
+const dispOf = (r) => {
+  const explicit = r.disposition || r.completenessDisposition || r.approvedBlankDisposition;
+  if (explicit && explicit !== "REFUSE" && explicit !== "SELECT") return explicit;
+  if (r._origin === "protectedFields" || r._origin === "protectedRules") return "PROTECTED_FIELD";
+  const c = classOf(r);
+  if (c && PROTECTED_CLASSES.has(c)) return "PROTECTED_FIELD";
+  const why = [r.why, r.reason, r.reasonText, r.note].filter(Boolean).join(" ");
+  if (/REQUIRED_BEFORE_FILING/.test(why) || r.requiredBeforeFiling === true) return "REQUIRED_BEFORE_FILING";
+  if (c === "participant_sworn_narrative_or_legal_election" || /participant_sworn_narrative_or_legal_election/.test(why)) return "PARTICIPANT_ELECTION_GENUINE";
+  if (why && PROTECTED_TEXT.test(why)) return "PROTECTED_FIELD";
+  if (c === "unreadable_page_body" || /does not extract|cannot read the sentence/i.test(why)) return "UNREADABLE_CONTEXT";
+  if (c === "type_guard" || c === "non_text_field_type" || /viewer ui control/i.test(why)) return "NOT_A_FILING_BLANK";
+  if (c || why) return "CLASSIFIED_OTHER";
+  return null;
+};
+// The kinds trap 1 names, measured on their own: a signature, a signature date, a mailing
+// certificate, a court-only or a prosecutor-only field must carry no ink this build added.
+const SIGNATURE_LIKE = /signature|sign here|date signed|notar|jurat|verification|certificate of (mailing|service)|proof of service|declarant/i;
+const isProtectedKind = (r) => {
+  if (dispOf(r) === "PROTECTED_FIELD") return true;
+  const c = classOf(r) || ""; const t = [r._label, r.field, r.fieldName, r.sourceLabel, r.effectiveLabel, r.why, r.reason].filter(Boolean).join(" ");
+  return PROTECTED_CLASSES.has(c) || SIGNATURE_LIKE.test(t);
+};
 
 const famId = process.argv[2];
 const Q = rj(path.join(ROOT, "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"));
@@ -72,7 +110,8 @@ out.componentSet = { renderedArtifacts: setOf(ra?.componentSet), productionField
 out.componentSet.allAgree = new Set([out.componentSet.renderedArtifacts, out.componentSet.productionFieldMap, out.componentSet.fieldMapDocs, out.componentSet.sourceReceiptComposed].filter(v => v && v !== "[]")).size <= 1;
 
 // ---- PDF ink ----
-const pdfs = (ra?.pdfs || []).filter(p => p.file);
+const pdfs = [...(ra?.pdfs || []), ...(ra?.artifacts || [])].filter(p => p.file && /\.pdf$/i.test(p.file))
+  .filter((p, i, a) => a.findIndex(q => q.file === p.file) === i);
 const ink = {};
 for (const p of pdfs) { const abs = R(p.file); if (exists(abs)) { try { ink[p.file] = await readInk(abs); } catch (e) { ink[p.file] = { error: String(e) }; } } }
 const canonicalFile = (pdfs.find(p => p.fixture === "canonical") || pdfs[0] || {}).file;
@@ -104,43 +143,79 @@ for (const [docId, pages] of Object.entries(srcInk)) {
   }
 }
 out.documentPageOffsets = docOffsets;
-const packetPage = (docId, fx, localPage) => { const b = docOffsets[`${docId}|${fx}`]; return b && b.offset !== null && b.score >= 0.5 ? b.offset + localPage : null; };
+// Where a family renders one PDF per document, that PDF is the document: offset 0.
+const perDocFile = {};
+for (const p of pdfs) {
+  const ids = [p.documentId, p.document, p.formNumber].filter(Boolean).map(String);
+  for (const id of ids) perDocFile[`${id}|${p.fixture || "canonical"}`] = p.file;
+}
+out.perDocFile = perDocFile;
+const docFileFor = (docId, fx) => perDocFile[`${docId}|${fx}`] || perDocFile[`${docId}|canonical`] || fileFor(fx);
+const packetPageRaw = (docId, fx, localPage) => { const b = docOffsets[`${docId}|${fx}`]; return b && b.offset !== null && b.score >= 0.5 ? b.offset + localPage : null; };
+const packetPage = (docId, fx, localPage) => perDocFile[`${docId}|${fx}`] || perDocFile[`${docId}|canonical`] ? localPage : packetPageRaw(docId, fx, localPage);
 
 const pageOf = (fk, n) => Array.isArray(ink[fk]) ? ink[fk].find(x => x.page === n) : null;
 const pageText = (fk, n) => { const pg = pageOf(fk, n); return pg ? norm(pg.items.map(i => i.text).join(" ")) : null; };
 const allTextCache = {};
 const allText = (fk) => { if (!(fk in allTextCache)) allTextCache[fk] = Array.isArray(ink[fk]) ? norm(ink[fk].map(p => p.items.map(i => i.text).join(" ")).join(PAGEBREAK)) : null; return allTextCache[fk]; };
 
-// ---- KNOWN_PREFILLS: prove every declared write from the bytes ----
-const proofs = [];
-for (const doc of (aw?.documents || [])) {
-  const fk = fileFor(doc.fixture);
-  for (const w of (doc.actualWrites || [])) {
-    const t = norm(w.drawnText);
-    const rec = { kind: "build_write", fixture: doc.fixture, document: w.document, field: w.field, factId: w.factId ?? null, page: w.page ?? null, drawnText: t, declaredFound: w.foundInOutputBytes ?? null };
-    if (!t) { rec.result = "DECLARED_WRITE_WITH_NO_TEXT"; proofs.push(rec); continue; }
-    rec.onDeclaredPage = w.page ? (pageText(fk, w.page)?.includes(t) ?? null) : null;
-    rec.anywhereInPdf = allText(fk)?.includes(t) ?? null;
-    if (w.rect && w.page) { const pg = pageOf(fk, w.page);
-      rec.inDeclaredRect = pg ? pg.items.some(i => i.nonSpaceBytes > 0 && norm(i.text).includes(t.slice(0, 24)) && i.x >= w.rect.x - 3 && i.x <= w.rect.x + w.rect.width + 3 && i.y >= w.rect.y - 4 && i.y <= w.rect.y + w.rect.height + 6) : null; }
-    proofs.push(rec);
+// ---- normalise the five production-field-map shapes into one structure ----
+const rectOf = (o) => {
+  if (o?.rect && typeof o.rect.x === "number") return o.rect;
+  if (o?.writeBox && typeof o.writeBox.x === "number") return o.writeBox;
+  const w = Array.isArray(o?.widgets) ? o.widgets[0] : null;
+  if (w?.rect && Array.isArray(w.rect)) return { x: w.rect[0], y: w.rect[1], width: w.rect[2] - w.rect[0], height: w.rect[3] - w.rect[1] };
+  if (o?.measured && typeof o.measured.x0 === "number") {
+    const m = o.measured; const y = m.baselineY ?? m.y0 ?? 0;
+    return { x: m.x0, y: y - 2, width: (m.x1 ?? m.x0) - m.x0, height: (m.y1 ? m.y1 - m.y0 : 12) };
   }
-  for (const w of (doc.documentAuthoredAppearances || [])) {
-    const t = norm(w.drawnText);
-    proofs.push({ kind: "source_authored", fixture: doc.fixture, document: w.document, field: w.field, page: w.page ?? null, drawnText: t, sourceValue: w.sourceValue ?? null,
-      onDeclaredPage: w.page ? (pageText(fk, w.page)?.includes(t) ?? null) : null, anywhereInPdf: t ? (allText(fk)?.includes(t) ?? null) : null });
+  return null;
+};
+const pageOfEntry = (o) => o?.page ?? o?.sourcePage ?? (Array.isArray(o?.widgets) && typeof o.widgets[0]?.pageIndex === "number" ? o.widgets[0].pageIndex + 1 : null);
+const labelOf = (o) => o?.printedLabel ?? o?.effectiveLabel ?? o?.sourceLabel ?? o?.semanticLabel ?? o?.printedLine ?? o?.label ?? null;
+const fieldOf = (o) => o?.field ?? o?.fieldName ?? o?.fieldId ?? o?.anchor ?? null;
+const valueOf = (o) => o?.value ?? o?.drawnText ?? o?.expected ?? o?.textReadFromOutputBytes ?? null;
+
+const normDocs = [];
+const rawDocs = pfm ? (pfm.maps || pfm.documents || null) : null;
+if (Array.isArray(rawDocs) && rawDocs.length) {
+  for (const m of rawDocs) {
+    const docId = m.documentId || m.formNumber || m.documentRole || "document";
+    const writes = [...(m.canonicalWrites || []), ...(m.writeBoxes || []), ...(Array.isArray(m.explicitMappings) ? m.explicitMappings : [])];
+    const bwrites = [...(m.boundaryWrites || [])];
+    const refusals = [
+      ...(m.canonicalRefusals || []).map(x => ({ ...x, _origin: "canonicalRefusals" })),
+      ...(m.refused || []).map(x => ({ ...x, _origin: "refused" })),
+      ...(m.roleRefusals || []).map(x => ({ ...x, _origin: "roleRefusals" })),
+      ...(m.protectedFields || []).map(x => ({ ...x, _origin: "protectedFields" })),
+      ...(m.protectedRules || []).map(x => ({ ...x, _origin: "protectedRules" })),
+    ];
+    const brefusals = [...(m.boundaryRefusals || [])];
+    normDocs.push({ documentId: docId, structuralClass: m.structuralClass || m.ownership || null, documentPolicy: m.documentPolicy || null,
+      selectionControls: (m.selectionControls || []).length, fields: m.fields || null,
+      writes: writes.map(w => ({ ...w, _field: fieldOf(w), _page: pageOfEntry(w), _rect: rectOf(w), _value: valueOf(w), _fixture: "canonical" })),
+      boundaryWrites: bwrites.map(w => ({ ...w, _field: fieldOf(w), _page: pageOfEntry(w), _rect: rectOf(w), _value: valueOf(w), _fixture: "boundary" })),
+      refusals: refusals.map(r => ({ ...r, _field: fieldOf(r), _page: pageOfEntry(r), _rect: rectOf(r), _label: labelOf(r), _fixture: "canonical" })),
+      boundaryRefusals: brefusals.map(r => ({ ...r, _field: fieldOf(r), _page: pageOfEntry(r), _rect: rectOf(r), _label: labelOf(r), _fixture: "boundary" })) });
   }
+} else if (pfm && (pfm.writes || pfm.refusals)) {
+  const byDoc = new Map();
+  const put = (o, kind) => { const d = o.documentId || o.formNumber || pfm.primaryForm || pfm.familyId || "document";
+    if (!byDoc.has(d)) byDoc.set(d, { documentId: d, structuralClass: "official_acroform", documentPolicy: null, selectionControls: 0, fields: null, writes: [], boundaryWrites: [], refusals: [], boundaryRefusals: [] });
+    const rec = { ...o, _field: fieldOf(o), _page: pageOfEntry(o), _rect: rectOf(o), _value: valueOf(o), _label: labelOf(o), _fixture: "canonical" };
+    byDoc.get(d)[kind].push(rec); };
+  for (const w of (pfm.writes || [])) put(w, "writes");
+  for (const r of (pfm.refusals || [])) put({ ...r, _origin: "refusals" }, "refusals");
+  for (const sel of (pfm.selections || [])) put({ ...sel, _origin: "selections" }, "refusals");
+  for (const [, v] of byDoc) { v.selectionControls = (pfm.selections || []).length; normDocs.push(v); }
 }
-out.writeProofs = proofs;
-out.writeProofSummary = { total: proofs.length, buildWrites: proofs.filter(p => p.kind === "build_write").length, sourceAuthored: proofs.filter(p => p.kind === "source_authored").length,
-  notOnDeclaredPage: proofs.filter(p => p.kind === "build_write" && p.onDeclaredPage === false).length, notAnywhere: proofs.filter(p => p.kind === "build_write" && p.anywhereInPdf === false).length,
-  notInDeclaredRect: proofs.filter(p => p.inDeclaredRect === false).length, emptyDeclared: proofs.filter(p => p.result === "DECLARED_WRITE_WITH_NO_TEXT").length };
-out.writeProofFailures = proofs.filter(p => p.kind === "build_write" && (p.anywhereInPdf === false || p.result === "DECLARED_WRITE_WITH_NO_TEXT"));
+out.normalisedShape = { documents: normDocs.length, writes: normDocs.reduce((a, d) => a + d.writes.length, 0), refusals: normDocs.reduce((a, d) => a + d.refusals.length, 0),
+  boundaryWrites: normDocs.reduce((a, d) => a + d.boundaryWrites.length, 0), rectsOnWrites: normDocs.reduce((a, d) => a + d.writes.filter(w => w._rect).length, 0) };
 
 // ---- refusals, dispositions, PROTECTED_FIELDS ----
 const refusals = [];
-for (const m of (pfm?.maps || [])) for (const key of ["canonicalRefusals", "boundaryRefusals", "roleRefusals"]) for (const r of (m[key] || []))
-  refusals.push({ fixture: key.startsWith("boundary") ? "boundary" : "canonical", documentId: m.documentId, structuralClass: m.structuralClass, ...r });
+for (const d of normDocs) for (const r of [...d.refusals, ...d.boundaryRefusals])
+  refusals.push({ fixture: r._fixture, documentId: d.documentId, structuralClass: d.structuralClass, ...r });
 out.refusalDispositions = refusals.reduce((a, r) => { const d = dispOf(r) || "UNCLASSIFIED"; a[d] = (a[d] || 0) + 1; return a; }, {});
 out.unclassifiedRefusals = refusals.filter(r => !dispOf(r)).map(r => ({ document: r.documentId, field: r.field, fixture: r.fixture, class: classOf(r) })).slice(0, 20);
 out.unclassifiedRefusalCount = refusals.filter(r => !dispOf(r)).length;
@@ -165,20 +240,150 @@ const buildAddedInk = (docId, fx, localPage, rect, hits) => {
   const bag = blank.slice();
   return hits.filter(h => { const t = norm(h.text); if (!t) return false; const i = bag.indexOf(t); if (i >= 0) { bag.splice(i, 1); return false; } return true; });
 };
+
+// ---- KNOWN_PREFILLS: prove every declared write from the bytes ----
+// Schema-independent collector: the reports differ family to family, so walk the tree and
+// take any node that names a field and carries a value, with its nearest fixture and file.
+const collectedWrites = [];
+const walkWrites = (node, fixture, file, where) => {
+  if (!node || typeof node !== "object") return;
+  if (Array.isArray(node)) return node.forEach((n, i) => walkWrites(n, fixture, file, `${where}[${i}]`));
+  const fx = node.fixture || fixture;
+  const fl = node.file || node.outputFile || file;
+  const fieldName = node.field ?? node.fieldName ?? node.anchor ?? null;
+  const value = node.drawnText ?? node.expected ?? node.textReadFromOutputBytes ?? node.valueWritten ?? null;
+  const disp = node.disposition ?? null;
+  if (fieldName !== null && value !== null && disp !== "REFUSE")
+    collectedWrites.push({ where, fixture: fx || "canonical", file: fl || null, document: node.document ?? node.documentId ?? null,
+      field: String(fieldName), factId: node.factId ?? null, page: node.page ?? null, rect: node.rect ?? null,
+      value: norm(value), declaredFound: node.foundInOutputBytes ?? null });
+  for (const [k, v] of Object.entries(node)) if (v && typeof v === "object") walkWrites(v, fx, fl, `${where}.${k}`);
+};
+walkWrites(aw, null, null, "actual-writes");
+out.collectedWriteCount = collectedWrites.length;
+const proofs = [];
+for (const doc of (aw?.documents || [])) {
+  const fk = fileFor(doc.fixture);
+  for (const w of (doc.actualWrites || [])) {
+    const t = norm(w.drawnText) || norm(w.expected) || norm(w.value) || norm(w.textReadFromOutputBytes);
+    const dfk = docFileFor(w.document, doc.fixture);
+    const rec = { kind: "build_write", fixture: doc.fixture, document: w.document, field: w.field, factId: w.factId ?? null, page: w.page ?? null, drawnText: t, valueSource: norm(w.drawnText) ? "drawnText" : (norm(w.expected) ? "expected" : "other"), declaredFound: w.foundInOutputBytes ?? null };
+    if (!t) { rec.result = "DECLARED_WRITE_WITH_NO_VALUE"; proofs.push(rec); continue; }
+    rec.onDeclaredPage = w.page ? (pageText(dfk, w.page)?.includes(t) ?? null) : null;
+    rec.anywhereInPdf = (allText(dfk)?.includes(t) ?? null) || (allText(fk)?.includes(t) ?? null);
+    rec.inDocumentPdf = allText(dfk)?.includes(t) ?? null;
+    if (w.rect && w.page) { const pg = pageOf(dfk, w.page);
+      rec.inDeclaredRect = pg ? pg.items.some(i => i.nonSpaceBytes > 0 && norm(i.text).includes(t.slice(0, 24)) && i.x >= w.rect.x - 3 && i.x <= w.rect.x + w.rect.width + 3 && i.y >= w.rect.y - 4 && i.y <= w.rect.y + w.rect.height + 6) : null; }
+    proofs.push(rec);
+  }
+  for (const w of (doc.documentAuthoredAppearances || [])) {
+    const t = norm(w.drawnText);
+    proofs.push({ kind: "source_authored", fixture: doc.fixture, document: w.document, field: w.field, page: w.page ?? null, drawnText: t, sourceValue: w.sourceValue ?? null,
+      onDeclaredPage: w.page ? (pageText(fk, w.page)?.includes(t) ?? null) : null, anywhereInPdf: t ? (allText(fk)?.includes(t) ?? null) : null });
+  }
+}
+// every collected write must be readable in the bytes of the artifact it names
+for (const w of collectedWrites) {
+  const dfk = (w.file && ink[w.file]) ? w.file : docFileFor(w.document || "", w.fixture);
+  const t = w.value;
+  const rec = { kind: "collected_write", where: w.where, fixture: w.fixture, document: w.document, field: w.field, factId: w.factId, page: w.page, drawnText: t, declaredFound: w.declaredFound };
+  if (!t) { rec.result = "DECLARED_WRITE_WITH_NO_VALUE"; proofs.push(rec); continue; }
+  rec.anywhereInPdf = (allText(dfk)?.includes(t) ?? null) || Object.keys(ink).some(k => (allText(k) || "").includes(t));
+  rec.onDeclaredPage = w.page ? (pageText(dfk, w.page)?.includes(t) ?? null) : null;
+  if (w.rect && w.page) { const hits = inkInRect(dfk, w.page, w.rect); rec.inDeclaredRect = hits ? hits.some(h => norm(h.text) && t.includes(norm(h.text).slice(0, 12))) || hits.some(h => norm(h.text).includes(t.slice(0, 12))) : null; }
+  proofs.push(rec);
+}
+// and every declared write in the field map must have put ink on the page it claims
+const rectWriteProofs = [];
+for (const d of normDocs) for (const w of [...d.writes, ...d.boundaryWrites]) {
+    if (!w._rect || !w._page) continue;
+    const fx = w._fixture; const dfk = docFileFor(d.documentId, fx); const pp = packetPage(d.documentId, fx, w._page);
+    if (!pp || !Array.isArray(ink[dfk])) continue;
+    const all = inkInRect(dfk, pp, w._rect);
+    const added = buildAddedInk(d.documentId, fx, w._page, w._rect, all);
+    const val = norm(w._value);
+    rectWriteProofs.push({ document: d.documentId, field: w._field, fixture: fx, page: w._page, packetPage: pp, factId: w.factId ?? null, declaredValue: val || null,
+      inkInRect: (all || []).length, buildAddedInk: (added || []).map(h => h.text).filter(Boolean),
+      hasInk: !!(added && added.some(h => norm(h.text))),
+      valueMatches: val ? ((added || []).some(h => val.includes(norm(h.text)) || norm(h.text).includes(val.slice(0, 12))) || (pageText(dfk, pp) || "").includes(val)) : null });
+  }
+out.rectWriteProofs = rectWriteProofs;
+out.writesWithNoInkOnPage = rectWriteProofs.filter(r => r.hasInk === false);
+out.writeProofs = proofs;
+out.writeProofSummary = { total: proofs.length, collected: proofs.filter(p => p.kind === "collected_write").length, rectChecked: rectWriteProofs.length, rectNoInk: out.writesWithNoInkOnPage.length, buildWrites: proofs.filter(p => p.kind === "build_write").length, sourceAuthored: proofs.filter(p => p.kind === "source_authored").length,
+  notOnDeclaredPage: proofs.filter(p => p.kind !== "source_authored" && p.onDeclaredPage === false).length, notAnywhere: proofs.filter(p => p.kind !== "source_authored" && p.anywhereInPdf === false).length,
+  notInDeclaredRect: proofs.filter(p => p.inDeclaredRect === false).length, emptyDeclared: proofs.filter(p => p.result === "DECLARED_WRITE_WITH_NO_VALUE").length };
+out.writeProofFailures = proofs.filter(p => p.kind !== "source_authored" && (p.anywhereInPdf === false || p.result === "DECLARED_WRITE_WITH_NO_VALUE"));
+
 const sourceAuthoredKeys = new Set((aw?.documents || []).flatMap(d => (d.documentAuthoredAppearances || []).map(a => `${a.document} ${a.field}`)));
 const censusSourceValue = new Map();
 for (const d of (cen?.documents || [])) for (const r of (d.rows || [])) if (r.sourceValuePresentInBlankForm) censusSourceValue.set(`${d.documentId} ${r.field}`, r.sourceValuePresentInBlankForm);
 out.protectedFields = [];
 for (const r of refusals) {
-  if (dispOf(r) !== "PROTECTED_FIELD") continue;
+  if (!isProtectedKind(r)) continue;
   const key = `${r.documentId} ${(r.fieldName ?? String(r.field).split(".").pop())}`;
-  const pp = packetPage(r.documentId, r.fixture, r.page);
-  const allHits = r.rect && r.page && pp ? inkInRect(fileFor(r.fixture), pp, r.rect) : null;
-  const hits = allHits ? buildAddedInk(r.documentId, r.fixture, r.page, r.rect, allHits) : null;
-  if (hits && hits.length) out.protectedFields.push({ document: r.documentId, field: r.field, fixture: r.fixture, page: r.page, packetPage: pp, class: classOf(r), ink: hits,
+  const pp = packetPage(r.documentId, r.fixture, r._page);
+  const allHits = r._rect && r._page && pp ? inkInRect(docFileFor(r.documentId, r.fixture), pp, r._rect) : null;
+  const hits = allHits ? buildAddedInk(r.documentId, r.fixture, r._page, r._rect, allHits) : null;
+  if (hits && hits.length) out.protectedFields.push({ document: r.documentId, field: r.field, fixture: r.fixture, page: r._page, packetPage: pp, class: classOf(r), ink: hits,
       sourceAuthoredDeclared: sourceAuthoredKeys.has(key), sourceValueInBlankForm: censusSourceValue.get(key) ?? null });
 }
-out.protectedFieldCount = refusals.filter(r => dispOf(r) === "PROTECTED_FIELD").length;
+out.protectedFieldCount = refusals.filter(r => isProtectedKind(r)).length;
+out.protectedByDisposition = refusals.filter(r => dispOf(r) === "PROTECTED_FIELD").length;
+
+// A composed component has no widget rect, so measure it differently: no protected field may
+// be in the write set, and no fixture value may sit on the line a protected label opens.
+const writeFieldKeys = new Set((aw?.documents || []).flatMap(d => (d.actualWrites || []).map(w => `${w.document} ${w.field}`)));
+out.protectedFieldsInWriteSet = refusals.filter(r => isProtectedKind(r) && writeFieldKeys.has(`${r.documentId} ${r.field}`))
+  .map(r => ({ document: r.documentId, field: r.field, class: classOf(r) }));
+const fixtureValues = [...new Set((aw?.documents || []).flatMap(d => (d.actualWrites || []).map(w => norm(w.drawnText) || norm(w.expected)).filter(v => v && v.length >= 4)))];
+out.fixtureValues = fixtureValues;
+out.protectedLabelFollowedByValue = [];
+for (const r of refusals) {
+  if (!isProtectedKind(r)) continue;
+  if (r._rect) continue; // rect-bearing fields are measured by the rect test above
+  const lab = norm(r._label); if (!lab || lab.length < 6) continue;
+  const txt = allText(docFileFor(r.documentId, r.fixture)); if (!txt) continue;
+  let i = txt.indexOf(lab); const found = [];
+  while (i >= 0) { const after = txt.slice(i + lab.length, i + lab.length + 90);
+    for (const v of fixtureValues) if (after.includes(v)) found.push({ value: v, after: after.slice(0, 90) });
+    i = txt.indexOf(lab, i + 1); if (found.length) break; }
+  if (found.length) out.protectedLabelFollowedByValue.push({ document: r.documentId, field: r.field, fixture: r.fixture, class: classOf(r), label: lab, hits: found.slice(0, 2) });
+}
+
+// ---- PAGE_ORDER: component blocks in the bytes, in the declared order ----
+const declaredOrder = (ra?.componentSet || pfm?.componentSet || (pfm?.maps || []).map(m => m.documentId) || []);
+out.pageOrder = {};
+for (const fx of ["canonical", "boundary"]) {
+  const fk = fileFor(fx); const pk = ink[fk]; if (!Array.isArray(pk)) continue;
+  const pgTexts = pk.map(pg => norm(pg.items.map(i => i.text).join(" ")));
+  const blocks = [];
+  for (const docId of declaredOrder) {
+    if (perDocFile[`${docId}|${fx}`]) { blocks.push({ document: docId, ownFile: true, pages: null }); continue; }
+    const m = (pfm?.maps || []).find(m => m.documentId === docId);
+    const labels = [...new Set([...(m?.canonicalRefusals || []), ...(m?.canonicalWrites || [])].map(x => norm(x.printedLabel || x.effectiveLabel)).filter(l => l && l.length >= 12))].slice(0, 40);
+    const off = docOffsets[`${docId}|${fx}`];
+    if (off && off.offset !== null && off.score >= 0.5) { const n = (srcInk[docId] || []).length; blocks.push({ document: docId, pages: [off.offset + 1, off.offset + n], via: "source page match" }); continue; }
+    const hits = []; pgTexts.forEach((t, i) => { if (labels.length && labels.some(l => t.includes(l))) hits.push(i + 1); });
+    blocks.push({ document: docId, pages: hits.length ? [Math.min(...hits), Math.max(...hits)] : null, via: "printed label match", labelsTried: labels.length });
+  }
+  const withPages = blocks.filter(b => b.pages);
+  let ordered = true, overlaps = [];
+  for (let i = 1; i < withPages.length; i++) {
+    if (withPages[i].pages[0] < withPages[i - 1].pages[0]) ordered = false;
+    if (withPages[i].pages[0] <= withPages[i - 1].pages[1]) overlaps.push([withPages[i - 1].document, withPages[i].document]);
+  }
+  // Component boundaries read from the bytes: a page whose top line is a heading starts a component.
+  const heads = [];
+  pk.forEach(pg => { const its = pg.items.filter(i => i.nonSpaceBytes > 0); if (!its.length) return;
+    const top = its.slice(0, 4).filter(i => i.y > pg.height - 110);
+    const t = norm(top.map(i => i.text).join("")); if (t.length < 10) return;
+    const letters = t.replace(/[^A-Za-z]/g, ""); if (letters.length < 8) return;
+    const upper = (t.match(/[A-Z]/g) || []).length / letters.length;
+    const size = Math.max(...top.map(i => i.size || 0));
+    if (upper > 0.85 || size >= 13) heads.push({ page: pg.page, size: +size.toFixed(1), heading: t.slice(0, 90) }); });
+  out.pageOrder[fx] = { declaredOrder, headingsInBytes: heads, headingCount: heads.length, blocks, monotonic: ordered, blockOverlaps: overlaps, pageCount: pk.length, located: withPages.length, ofComponents: declaredOrder.length };
+}
 out.protectedWithUnexplainedInk = out.protectedFields.filter(p => !p.sourceAuthoredDeclared && !p.sourceValueInBlankForm);
 out.protectedNote = "ink[] lists only marks present in the packet rect that are NOT present in the same rect of the blank source; source-authored ink is reported separately and is not a defect.";
 out.refusedFieldsWithInkDeclared = (aw?.documents || []).flatMap(d => (d.refusedFieldsWithInk || []).map(x => ({ fixture: d.fixture, ...x })));
@@ -194,12 +399,12 @@ out.requiredBeforeFiling = { fieldMapCount: rbf.length, declaredCount: pfm?.requ
   refusalsMarkedRBFCanonical: refusals.filter(r => dispOf(r) === "REQUIRED_BEFORE_FILING" && r.fixture === "canonical").length };
 out.rbfWithInk = rbf.map(r => { const m = (pfm?.maps || []).find(m => m.documentId === r.document); const ref = (m?.canonicalRefusals || []).find(x => x.field === r.field);
   if (!ref?.rect || !ref?.page) return null; const pp = packetPage(r.document, "canonical", ref.page); if (!pp) return null;
-  const all = inkInRect(canonicalFile, pp, ref.rect); const hits = buildAddedInk(r.document, "canonical", ref.page, ref.rect, all);
+  const all = inkInRect(docFileFor(r.document, "canonical"), pp, ref.rect); const hits = buildAddedInk(r.document, "canonical", ref.page, ref.rect, all);
   return hits && hits.length ? { field: r.field, page: ref.page, packetPage: pp, ink: hits } : null; }).filter(Boolean);
 
 // ---- ROUTE_OPTIONS ----
 out.routeOptions = { routeSelectionsMade: pfm?.routeSelectionsMade ?? null, routeSelectionNote: pfm?.routeSelectionNote ?? null,
-  selectionControlsByDoc: (pfm?.maps || []).map(m => ({ documentId: m.documentId, selectionControls: (m.selectionControls || []).length, conditional: m.documentPolicy?.conditional ?? null, routeKey: m.documentPolicy?.routeKey ?? null, mode: m.documentPolicy?.mode ?? null })),
+  selectionControlsByDoc: normDocs.map(m => ({ documentId: m.documentId, selectionControls: m.selectionControls, conditional: m.documentPolicy?.conditional ?? null, routeKey: m.documentPolicy?.routeKey ?? null, mode: m.documentPolicy?.mode ?? null })),
   componentConditionsDeclared: Object.keys(ra?.componentConditions || {}).length, componentsDeclared: (ra?.componentSet || []).length,
   requiredOptionsMissingBuilder: cc?.counters?.requiredOptionsMissing ?? null };
 
