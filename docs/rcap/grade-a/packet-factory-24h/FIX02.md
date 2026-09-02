@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `2c7fe8c94be1f8521ef5308c100a4572592a6176` (or the newer dispatch base)
+**Minimum required ancestor:** `be53efe570c19274a054f605cf87464a0df95470` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family ar-act531-set \
   --codex-cloud \
-  --minimum-captain-sha 2c7fe8c94be1f8521ef5308c100a4572592a6176
+  --minimum-captain-sha be53efe570c19274a054f605cf87464a0df95470
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,15 +56,16 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 7 families
+## The 8 families
 
 - `ar-act531-set`
 - `ca-17b-reduction-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, requiredOptionsMissing, requiredComponentsMissing
 - `ct-missed-erasure-set`
+- `nc_146_dismissal_petition-set`
 - `rcap-oh-custom-pleading-clean-tracks`
 - `wa_vac_substance_use_disorder-set`
 - `ar-misdemeanor-dwi-seal-set`
-- `wv_conv_single_misdemeanor-set`
+- `wv_conv_multiple_misdemeanors-set`
 
 ## What you receive
 
@@ -80,17 +81,18 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ar/ar-act531-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ct/ct-missed-erasure-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ar-act531-set.mjs`
 - `scripts/build-census-v1-ca-17b-reduction-set.mjs`
 - `scripts/build-census-v1-ct-missed-erasure-set.mjs`
+- `scripts/build-census-v1-nc_146_dismissal_petition-set.mjs`
 - `scripts/build-census-v1-rcap-oh-custom-pleading-clean-tracks.mjs`
 - `scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs`
 - `scripts/build-census-v1-ar-misdemeanor-dwi-seal-set.mjs`
-- `scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs`
 
 ## Never write here
 

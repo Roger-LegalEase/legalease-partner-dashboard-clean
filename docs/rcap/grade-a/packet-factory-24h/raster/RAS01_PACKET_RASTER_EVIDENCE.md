@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `2c7fe8c94be1f8521ef5308c100a4572592a6176`
+**Minimum required ancestor:** `be53efe570c19274a054f605cf87464a0df95470`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -58,14 +58,14 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/canonical.pdf` — `4357f7181b06cd732c158bd529ffa200976a88f9222c8d73736b5992122d209a`
 - boundary `data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/boundary.pdf` — `6a33192824bf7fcecbb4d043d1c6daae4f84045cbb79a956d3cfb47781d69e34`
 - expected pages 4 · requested scale 2.5
-- built by VF07
+- built by (no builder lane recorded)
 
 ### composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief
 
 - canonical `data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/canonical.pdf` — `25f0c6a12204671455391f35dc7d1d801eef8266abdf08153190c960e7bd9426`
 - boundary `data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/boundary.pdf` — `c858109ebd5becf679a4029a3604b41cf3ca27e1b9cea913b3bf8fd1d227a2c6`
 - expected pages 4 · requested scale 2.5
-- built by VF11
+- built by (no builder lane recorded)
 
 ### composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59
 
@@ -79,7 +79,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/fixtures/canonical.pdf` — `ed70579671b2b948b32fdd2854bbf4082b9f5013e591164dd0a77c0387710f4e`
 - boundary `data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/fixtures/boundary.pdf` — `7609ccbb635efa704dd57886a3e773b7eca7534691561fc11d288e19780232a8`
 - expected pages 4 · requested scale 2.5
-- built by VF07
+- built by (no builder lane recorded)
 
 ### composed-treatment:sc_17_22_950_summary
 
@@ -93,7 +93,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/fixtures/canonical.pdf` — `089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955`
 - boundary `data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/fixtures/boundary.pdf` — `7afffea3a27b5527be354e8a14efcf1bc3639a7ea39d3925c79ec97dffdf5a73`
 - expected pages 4 · requested scale 2.5
-- built by VF11
+- built by (no builder lane recorded)
 
 ### ct-under18-misdemeanor-set
 
@@ -156,7 +156,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill/fixtures/canonical.pdf` — `b41eb67d3173db1b57f982d15ebb5886eabda4801d1f23fb26ebf053eaa5e6af`
 - boundary `data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill/fixtures/boundary.pdf` — `87befe2ef7be124aa20853cfba988cc229011337523035eb73b8a5e24be0b49a`
 - expected pages 4 · requested scale 2.5
-- built by VF10
+- built by FIX01
 
 ### me-seal-prost-set
 
@@ -240,7 +240,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `3f111978bb89b9d1bb6e000b8c100e250f1617194a710ade3c7db0526fc7e15f`
 - boundary `data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `58ccfe05e717ed4f5713db39cac40d07c30ace1ff12b882ccd61e642eabd9e9e`
 - expected pages 10 · requested scale 2.5
-- built by VF07
+- built by FIX06
 
 ### sd_arrest_expungement-set
 
@@ -317,7 +317,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf` — `dc8ec89cc5760e1a02d789216885c91bf477a264a000bd58f1c3608fdc0c0d21`
 - boundary `data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf` — `85462388778b3e78519e54169e981721ade269a7aeaf092ccdbc7fe1fb995d8d`
 - expected pages 9 · requested scale 2.5
-- built by FIX06
+- built by FIX05
 
 ## What you check, per family
 

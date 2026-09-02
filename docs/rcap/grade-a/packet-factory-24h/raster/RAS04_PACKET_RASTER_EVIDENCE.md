@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `2c7fe8c94be1f8521ef5308c100a4572592a6176`
+**Minimum required ancestor:** `be53efe570c19274a054f605cf87464a0df95470`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -58,7 +58,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/fixtures/canonical.pdf` — `b35a0f04979f25912049b4d2d39f27c0b23223b497f30b78b4f0afa7c9eca5de`
 - boundary `data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/fixtures/boundary.pdf` — `e3352f6da6302d0074372e3a9d3bab0adbe64b4e42096470cb3ade5ad2f45539`
 - expected pages 4 · requested scale 2.5
-- built by VF10
+- built by FIX07
 
 ### composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59
 
@@ -79,7 +79,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/canonical.pdf` — `5bda53316d7754e6c4b538aee582218516a0d50290aa5391346068f8d6d43880`
 - boundary `data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/boundary.pdf` — `0640a1b57e2480fb7d3f8fe473d04ec3c97cad788df7cfd4e9daf2c0b119071c`
 - expected pages 4 · requested scale 2.5
-- built by VF10
+- built by FIX08
 
 ### ct-cleanslate-petition-set
 
@@ -163,7 +163,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ms/ms-diversion-set--custom-pleading/fixtures/canonical.pdf` — `4d4923f05553c92b885056e5ba6e97cb631e04df3f55e0c45366351b6e8f7bcb`
 - boundary `data/rcap-all50/overlays/census-v1/ms/ms-diversion-set--custom-pleading/fixtures/boundary.pdf` — `7d39bd412a5db6dd80c54c2d3f6dcc06b4927221eb8aa54e753ba05b01cc7938`
 - expected pages 9 · requested scale 2.5
-- built by VF11
+- built by (no builder lane recorded)
 
 ### ms-nonadj-set
 
@@ -177,7 +177,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf` — `2211ad2f8597d79a79151bc5850b222a664ba1ab935abb2d916c43612dddea58`
 - boundary `data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf` — `7f178d4a93edc84c72ea8123715f51da16b7bc1c91d709f575451101052ae747`
 - expected pages 6 · requested scale 2.5
-- built by VF10
+- built by FIX03
 
 ### nj_arrest_no_conviction-set
 
@@ -219,7 +219,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `6baff02e7853275b0d98bc41d66a3e1a1144a8db621d76c547e317dc7f5cc703`
 - boundary `data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `4831082c06b563cba1760b6ec9543aac781624370adac848e0f754d460a81d11`
 - expected pages 34 · requested scale 2.5
-- built by VF11
+- built by FIX08
 
 ### rcap-sc-custom-pleading
 
@@ -247,7 +247,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/fixtures/canonical.pdf` — `880b229c9256b008b233faab73ea2a99083e14fa831fbab421a3d794ff31f61b`
 - boundary `data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/fixtures/boundary.pdf` — `6fbd66026eb2fb63eba0bbb0df7fa6c5ef20459a3daca74e5adf9fa73d5944d6`
 - expected pages 24 · requested scale 2.5
-- built by VF11
+- built by FIX01
 
 ### ut_pet_dismissed_without_prejudice-set
 
@@ -310,7 +310,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf` — `d477bc4a7f18aaac153c56760fc11dca69a317dc49b2eff7362b1d41ba27b4e4`
 - boundary `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf` — `27ed521c46fc25fd8edb60501a47322db459aa2196b0b4fd54a6fd5182d12860`
 - expected pages 4 · requested scale 2.5
-- built by FIX05
+- built by FIX04
 
 ## What you check, per family
 

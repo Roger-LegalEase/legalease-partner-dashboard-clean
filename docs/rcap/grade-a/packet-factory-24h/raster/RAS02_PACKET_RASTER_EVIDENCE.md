@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `2c7fe8c94be1f8521ef5308c100a4572592a6176`
+**Minimum required ancestor:** `be53efe570c19274a054f605cf87464a0df95470`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -177,7 +177,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/canonical.pdf` — `81d71db0020bdef1204898013cb9fd16a8cf3155c0f864c837a21945b1e40fb1`
 - boundary `data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/boundary.pdf` — `af582b143c3ef2da24ed5e769e7e1fbe240309186b8fc72dccbceeb3ecc6f251`
 - expected pages 5 · requested scale 2.5
-- built by VF07
+- built by FIX02
 
 ### ne-seal-enforcement-set
 
