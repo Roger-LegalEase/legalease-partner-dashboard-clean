@@ -243,8 +243,218 @@
         "Do not import another Utah route's self-help stop conditions. Use track ut_pet_conviction's own selfHelpStopConditions, per fact and per route.",
         "Do not open a commercial route, set generationAllowed or runtimeSelectable, or create a fulfillment record. This family remains BUILT_REVIEW_PENDING."
       ]
+    },
+  {
+   "wave": "packet-factory-24h/VF04-VF06/wave-4 (FABLE-RVB2, 2026-09-02)",
+   "itemId": "ca-1203-42-set",
+   "lane": "VF04",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+   "raisedBy": "FABLE-RVB2 (independent; built, repaired and rendered none of these packets)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill",
+   "nineCountersAtThisBase": "all zero, measured here with scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-42-set (no --write). Every defect below is one the counters do not measure.",
+   "decisiveDefect": "Two obligations fail and neither is visible to the nine counters, which are all zero. (1) REQUIRED_BEFORE_FILING: two read-only Judicial Council viewer-notice fields on MC-031 are declared as blanks the participant must fill before filing, and nine rows tell the participant the form prints a caption it does not print. (2) SELF_HELP_STOP: the packet carries 0 of the 5 stop conditions the committed track registry holds for track ca-1203-42.",
+   "failedProofObligations": [
+    {
+     "obligation": "REQUIRED_BEFORE_FILING",
+     "finding": "Two defects in the MC-031 section of participant-instructions.md, neither visible to any of the nine counters. They are a shared-host defect: exactly the three families in this set that enclose MC-031 carry it (ca-1203-42-set, ca-1203-4a-set, ca-851-91-set), field for field, and the two that do not enclose MC-031 (ca-1203-43-set, ca-prop64-set) are clean. Repair the host, not three copies.",
+     "defectOne": {
+      "what": "Two read-only viewer-notice fields are declared REQUIRED_BEFORE_FILING and listed to the participant as blanks to fill before filing.",
+      "provedHow": "Read first-hand from the pinned MC-031 AcroForm (CA__FORM__MC-031__attached-declaration__REV-2005-07-01__EN.pdf, sha256 defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075). Both fields carry /Ff 4097, which sets bit 1 (READ-ONLY) and bit 13 (MULTILINE), and both already hold a value.",
+      "fields": [
+       {
+        "field": "NoticeHeader1",
+        "rect": [
+         35.54,
+         753.98,
+         573.55,
+         790.35
+        ],
+        "page": 1,
+        "ff": 4097,
+        "readOnly": true,
+        "existingValue": "To keep other people from seeing what you entered on your form, please press the Clear This Form button at the end of the form when finished.",
+        "whatItActuallyIs": "The Judicial Council's Acrobat privacy banner across the top of page 1."
+       },
+       {
+        "field": "NoticeFooter1",
+        "rect": [
+         30.78,
+         2.21,
+         273.82,
+         26.89
+        ],
+        "page": 1,
+        "ff": 4097,
+        "readOnly": true,
+        "existingValue": "For your protection and privacy, please press the Clear This Form button after you have printed the form.",
+        "whatItActuallyIs": "The Judicial Council's Acrobat privacy notice at the foot of page 1."
+       }
+      ],
+      "whyItMatters": "The enclosed MC-031 is byte-identical to the SHA-bound official source, verified here, so it carries the read-only flags. The packet directs the participant to fill two fields the document they are given forbids filling, and that already contain the court's own text. The completeness contract's own vocabulary for a field like this is NOT_A_FILING_FACT, 'a viewer control, not a filing fact'.",
+      "repair": "Reclassify NoticeHeader1 and NoticeFooter1 as NOT_A_FILING_FACT / NOT_APPLICABLE_ON_THIS_ROUTE in the field map for every family that encloses MC-031, and remove their rows from the participant blanks table. Do not simply drop them from the table while leaving blankTreatment REQUIRED_BEFORE_FILING; the declaration is the defect."
+     },
+     "defectTwo": {
+      "what": "Nine rows in the blanks table state a printed caption that the form does not print — they echo the field's internal name back as the caption.",
+      "currentText": "Rows read 'the form prints `FillText10` beside it', and the same for FillText7, FillText8, FillText9, FillText11, FillText13, FillText14, NoticeHeader1 and NoticeFooter1. MC-031 prints none of those strings anywhere.",
+      "provedHow": "Measured from MC-031's own printed words with pdftotext -bbox word geometry against each widget rectangle read from the AcroForm.",
+      "realPrintedCaptions": [
+       {
+        "field": "FillText10",
+        "rect": [
+         162.03,
+         728.08,
+         404.44,
+         743.27
+        ],
+        "printedCaption": "PLAINTIFF/PETITIONER:"
+       },
+       {
+        "field": "FillText9",
+        "rect": [
+         162.03,
+         712,
+         404.44,
+         727
+        ],
+        "printedCaption": "DEFENDANT/RESPONDENT:"
+       },
+       {
+        "field": "FillText11",
+        "rect": [
+         408,
+         715,
+         573,
+         730
+        ],
+        "printedCaption": "CASE NUMBER:"
+       },
+       {
+        "field": "FillText7",
+        "rect": [
+         46.84,
+         123,
+         291.78,
+         138.19
+        ],
+        "printedCaption": "(TYPE OR PRINT NAME)"
+       },
+       {
+        "field": "FillText14",
+        "rect": [
+         74,
+         164,
+         187,
+         179
+        ],
+        "printedCaption": "Date:"
+       },
+       {
+        "field": "FillText13",
+        "rect": [
+         406,
+         60,
+         577,
+         75
+        ],
+        "printedCaption": "the party-role block: Petitioner / Plaintiff / Respondent / Other (Specify)"
+       },
+       {
+        "field": "FillText8",
+        "rect": [
+         34,
+         206,
+         576,
+         668
+        ],
+        "printedCaption": "the declaration body, under the heading DECLARATION and the note '(This form must be attached to another form or court paper before it can be filed in court.)'"
+       }
+      ],
+      "whyItMatters": "The obligation is that a required-before-filing blank is named to the participant with its page and the words the form prints beside it. A field name is not those words. The counter cannot catch it because the contract only tests that the label is non-empty, and a field name is non-empty.",
+      "repair": "Populate effectiveLabel for these seven MC-031 fields from the form's printed words rather than falling back to the field name, and regenerate the instructions table. Consider making the fallback itself fail closed: a label that equals the field name should raise UNCLASSIFIED_BLANK rather than pass, since it tells the participant nothing."
+     },
+     "scope": {
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill",
+      "requiredBeforeFilingRowsInThisFamily": 70,
+      "rowsAffected": 9
+     },
+     "doNotDo": "Do not clear this by deleting the nine rows from the table. Two of the nine must stop being required-before-filing at all, and seven must gain the caption the form actually prints."
+    },
+    {
+     "obligation": "SELF_HELP_STOP",
+     "finding": "Measured by diffing the packet against data/record-clearing/legal-design-track-registry.json (sha256 49d08b90a767d616ebea55b7493b3121c70eee91aa270babf4a66da83ff7ac58, 16469590 B, recomputed here) for track ca-1203-42, in the registry's own words, whitespace- and quote-normalised over the whole of participant-instructions.md. 5 selfHelpStopConditions are recorded and 0 are carried.",
+     "missingVerbatim": [
+      "The prosecutor objects or appears in opposition.",
+      "The court sets a contested hearing.",
+      "The realignment eligibility question cannot be answered from the participant's record.",
+      "The interests-of-justice showing needs argument.",
+      "The participant is not a United States citizen."
+     ],
+     "whyItMatters": "§ 1203.42 relief turns on a realignment eligibility question and on an interests-of-justice showing, and the registry records both as points where self-help ends. The packet's only stated boundary is a source boundary — fee, waiver, service and local filing practice come from the clerk — which is a different thing from a legal handoff. A participant told only that the clerk knows the fee is not told that an opposed petition needs a lawyer.",
+     "theStandardToRepairTo": "Two families in this same lane set already do it correctly and should be copied rather than re-invented: ca-851-91-set carries 6 of 6 and ca-prop64-set 3 of 3, each under an explicit heading that quotes the registry as the authority ('The registry draws one more line, and it is the one this list is easiest to misread. In its own words: …') rather than paraphrasing the boundary in the packet's own voice.",
+     "repair": "Add a self-help boundary section to participant-instructions.md carrying all 5 of this track's recorded stop conditions verbatim, attributed to the committed track registry, and bind the SELF_HELP_STOP record so the binding is auditable rather than a prose match."
     }
-  ],
+   ],
+   "notRepairedHere": "This lane verifies and does not repair. Nothing in the family directory was modified.",
+   "doNotDoInRepair": "Do not open a route, set a price, change checkout, or promote a build status. Do not run verify-packet-completeness.mjs --write. The nine counters are already zero and will stay zero through this repair; a counter run is not evidence that it was done."
+  },
+  {
+   "wave": "packet-factory-24h/VF04-VF06/wave-4 (FABLE-RVB2, 2026-09-02)",
+   "itemId": "ca-1203-43-set",
+   "lane": "VF04",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+   "raisedBy": "FABLE-RVB2 (independent; built, repaired and rendered none of these packets)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill",
+   "nineCountersAtThisBase": "all zero, measured here with scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-43-set (no --write). Every defect below is one the counters do not measure.",
+   "decisiveDefect": "SELF_HELP_STOP: the packet carries 0 of the 4 stop conditions the committed track registry holds for track ca-1203-43, and the missing one the registry states first is a routing rule rather than a caveat — a non-citizen on this track goes to an attorney. Everything else in this family measures clean, including the required-before-filing ledger, which carries no MC-031 caption defect because this family does not enclose MC-031.",
+   "failedProofObligations": [
+    {
+     "obligation": "SELF_HELP_STOP",
+     "finding": "Measured by diffing the packet against data/record-clearing/legal-design-track-registry.json (sha256 49d08b90a767d616ebea55b7493b3121c70eee91aa270babf4a66da83ff7ac58, 16469590 B, recomputed here) for track ca-1203-43, in the registry's own words, whitespace- and quote-normalised over the whole of participant-instructions.md. 4 selfHelpStopConditions are recorded and 0 are carried.",
+     "missingVerbatim": [
+      "The participant is not a United States citizen. This track goes to an attorney, not through self-help, because it turns on plea validity and immigration consequences.",
+      "The prosecutor objects or appears in opposition.",
+      "The court sets a contested hearing.",
+      "Whether the programme was completed and the charges dismissed cannot be established."
+     ],
+     "whyItMatters": "Penal Code § 1203.43 exists because the legislature found that the deferred-entry-of-judgment plea advisement was inaccurate about immigration consequences. It is the California route most likely to be sought by a non-citizen and the registry says in terms that this track goes to an attorney rather than through self-help for exactly that reason. A § 1203.43 packet that never says so is missing the stop the registry is most emphatic about, on the track where it is most consequential.",
+     "theStandardToRepairTo": "Two families in this same lane set already do it correctly and should be copied rather than re-invented: ca-851-91-set carries 6 of 6 and ca-prop64-set 3 of 3, each under an explicit heading that quotes the registry as the authority ('The registry draws one more line, and it is the one this list is easiest to misread. In its own words: …') rather than paraphrasing the boundary in the packet's own voice.",
+     "repair": "Add a self-help boundary section to participant-instructions.md carrying all 4 of this track's recorded stop conditions verbatim, attributed to the committed track registry, and bind the SELF_HELP_STOP record so the binding is auditable rather than a prose match."
+    }
+   ],
+   "notRepairedHere": "This lane verifies and does not repair. Nothing in the family directory was modified.",
+   "doNotDoInRepair": "Do not open a route, set a price, change checkout, or promote a build status. Do not run verify-packet-completeness.mjs --write. The nine counters are already zero and will stay zero through this repair; a counter run is not evidence that it was done."
+  },
+  {
+   "wave": "packet-factory-24h/VF04-VF06/wave-4 (FABLE-RVB2, 2026-09-02)",
+   "itemId": "wa_vac_homicide_victim_prostitution-set",
+   "lane": "VF04",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+   "raisedBy": "FABLE-RVB2 (independent; built, repaired and rendered none of these packets)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+   "nineCountersAtThisBase": "all zero, measured here with scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_homicide_victim_prostitution-set (no --write). Every defect below is one the counters do not measure.",
+   "decisiveDefect": "SELF_HELP_STOP: the packet carries 0 of the 4 stop conditions the committed track registry holds for track wa_vac_homicide_victim_prostitution. Three of the four are eligibility gates that decide whether this is the right packet at all, and the fourth is about how to treat the person rather than the paper.",
+   "failedProofObligations": [
+    {
+     "obligation": "SELF_HELP_STOP",
+     "finding": "Measured by diffing the packet against data/record-clearing/legal-design-track-registry.json (sha256 49d08b90a767d616ebea55b7493b3121c70eee91aa270babf4a66da83ff7ac58, 16469590 B, recomputed here) for track wa_vac_homicide_victim_prostitution, in the registry's own words, whitespace- and quote-normalised over the whole of participant-instructions.md. 4 selfHelpStopConditions are recorded and 0 are carried.",
+     "missingVerbatim": [
+      "The applicant is not a family member of the person who died.",
+      "The conviction may not be a RCW 9A.88.030 prostitution conviction.",
+      "The person whose record is at issue is living, in which case the survivor routes apply.",
+      "The applicant is distressed and needs a person rather than a packet. Ask only what is needed to route."
+     ],
+     "whyItMatters": "This is the one route in this set where the applicant is a bereaved family member applying on behalf of someone who was killed. Three of the missing conditions decide whether the applicant is eligible to bring this application at all — standing as a family member, the conviction actually being an RCW 9A.88.030 prostitution conviction, and the subject being deceased rather than living. The fourth is the registry's instruction on handling the person, and it is the one a packet is least able to supply if it is not written down.",
+     "theStandardToRepairTo": "Two families in this same lane set already do it correctly and should be copied rather than re-invented: ca-851-91-set carries 6 of 6 and ca-prop64-set 3 of 3, each under an explicit heading that quotes the registry as the authority ('The registry draws one more line, and it is the one this list is easiest to misread. In its own words: …') rather than paraphrasing the boundary in the packet's own voice.",
+     "repair": "Add a self-help boundary section to participant-instructions.md carrying all 4 of this track's recorded stop conditions verbatim, attributed to the committed track registry, and bind the SELF_HELP_STOP record so the binding is auditable rather than a prose match."
+    }
+   ],
+   "notRepairedHere": "This lane verifies and does not repair. Nothing in the family directory was modified.",
+   "doNotDoInRepair": "Do not open a route, set a price, change checkout, or promote a build status. Do not run verify-packet-completeness.mjs --write. The nine counters are already zero and will stay zero through this repair; a counter run is not evidence that it was done."
+  }
+ ],
   "supersededLaneMembership": {
     "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
     "lane": "VF04",
@@ -296,5 +506,17 @@
         ]
       }
     ]
-  }
+  },
+ "waveFour": {
+  "wave": "packet-factory-24h/VF04-VF06/wave-4 (FABLE-RVB2, 2026-09-02)",
+  "worker": "FABLE-RVB2 (independent; built, repaired and rendered none of these packets)",
+  "baseSha": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+  "whatThisMarkerIs": "A fourth reading appended repair assignments to this lane. Every assignment already here is preserved byte for byte; the assignments carrying this wave are this reading's.",
+  "assignmentsAddedHere": 3,
+  "familiesVerifiedThisWave": 4,
+  "familiesPassingThisWave": 1,
+  "noRepairPerformed": true,
+  "overlayDirectoriesModified": 0,
+  "packetsModified": 0
+ }
 }
