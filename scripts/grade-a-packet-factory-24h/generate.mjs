@@ -637,15 +637,66 @@ const pathIsActive = (p) => activePaths.some((x) => touches(p, x.path) || new Re
  * per-family flag.
  */
 const GENERATED_BOOKKEEPING = ["product-wiring.json", "build-status.json"];
+/*
+ * WHEN A VERDICT NAMES NO BASE, THE LEDGER STILL KNOWS WHEN IT ENDED.
+ *
+ * A verdict with no `verifiedAtBase` cannot be ordered against a repair by
+ * commit, so it kept its failure under the conservative rule. Nine live
+ * failures were in that state, and FABLE-FIX05 measured one of them:
+ * wa_vac_survivor_felony-set was failed by VF16 on all four of
+ * FEE_AND_WAIVER, FILING_DESTINATION, SELF_HELP_STOP and SERVICE for one
+ * reason -- that no participant-instructions.md existed -- and that file was
+ * created by FIX10 in commit 7c8970c44 at 12:46:38Z, three hours after VF16
+ * released its grant at 09:34:12Z. The verdict was true when it was written
+ * and describes a tree that no longer exists.
+ *
+ * `ledger.releases` carries the release time for exactly that lane, subject
+ * and operation, so it dates the verdict when the row does not. Recovering the
+ * thirty dropped log entries is what made this usable; without the log this
+ * fallback would silently answer for a fraction of the cases and look
+ * complete. A subject with no log entry either is still unorderable and keeps
+ * its failure.
+ */
+const releaseTimeOf = (() => {
+  let ledgerReleases = [];
+  try {
+    ledgerReleases = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8")).releases ?? [];
+  } catch { /* a dispatch must still be generatable before the ledger exists */ }
+  const byKey = new Map();
+  for (const r of ledgerReleases) {
+    const k = `${String(r.lane).toUpperCase()}\u0000${r.subjectId}\u0000${r.operation}`;
+    const prior = byKey.get(k);
+    /* The LAST release is the one this verdict ended at. */
+    if (!prior || String(r.releasedAt) > prior) byKey.set(k, String(r.releasedAt));
+  }
+  return (lane, subjectId) => byKey.get(`${String(lane).toUpperCase()}\u0000${subjectId}\u0000independent-verification`) ?? null;
+})();
+
 const movedSinceCache = new Map();
 function familyMovedSinceVerdict(independentReturn, directory, buildScript) {
   const base = independentReturn?.verifiedAtBase;
-  if (!base || !/^[0-9a-f]{7,40}$/.test(String(base))) return false;
+  const pathsOf = () => [directory, buildScript, ...GENERATED_BOOKKEEPING.map((f) => `:(exclude)${directory}/${f}`)];
+  if (!base || !/^[0-9a-f]{7,40}$/.test(String(base))) {
+    /* No base. Date the verdict from the ledger and ask git the same question
+     * in the time domain: did anything a repairer edits land after it? */
+    const at = releaseTimeOf(independentReturn?.lane, independentReturn?.familyId);
+    if (!at) return false;
+    const key = `since:${at}\u0000${directory}`;
+    if (movedSinceCache.has(key)) return movedSinceCache.get(key);
+    let moved = false;
+    try {
+      const out = spawnSync("git", ["log", "--format=%H", `--since=${at}`, "--", ...pathsOf()],
+        { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 });
+      moved = out.status === 0 && out.stdout.trim().length > 0;
+    } catch { moved = false; }
+    movedSinceCache.set(key, moved);
+    return moved;
+  }
   const key = `${base}\u0000${directory}`;
   if (movedSinceCache.has(key)) return movedSinceCache.get(key);
   let moved = false;
   try {
-    const paths = [directory, buildScript, ...GENERATED_BOOKKEEPING.map((f) => `:(exclude)${directory}/${f}`)];
+    const paths = pathsOf();
     const r = spawnSync("git", ["diff", "--quiet", base, "HEAD", "--", ...paths], { cwd: ROOT });
     /* 0 = identical, 1 = differs. Anything else (an unknown base after a
      * shallow clone, a path git cannot resolve) is not an answer, and an

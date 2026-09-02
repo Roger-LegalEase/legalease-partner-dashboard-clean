@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `e4e50519222d603de0c08e71c369a2a2fd4dcda9` (or the newer dispatch base)
+**Minimum required ancestor:** `d8309d8e15f033f0df29d4f879538c38489a84a4` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family ca-17b-reduction-set \
   --codex-cloud \
-  --minimum-captain-sha e4e50519222d603de0c08e71c369a2a2fd4dcda9
+  --minimum-captain-sha d8309d8e15f033f0df29d4f879538c38489a84a4
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -62,7 +62,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `rcap-oh-custom-pleading-clean-tracks`
 - `wa_vac_substance_use_disorder-set`
 - `ar-misdemeanor-dwi-seal-set`
-- `ut_pet_dismissed_with_prejudice-set`
+- `wv_conv_multiple_misdemeanors-set`
 
 ## What you receive
 
@@ -79,12 +79,11 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ca-17b-reduction-set.mjs`
 - `scripts/build-census-v1-rcap-oh-custom-pleading-clean-tracks.mjs`
 - `scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs`
 - `scripts/build-census-v1-ar-misdemeanor-dwi-seal-set.mjs`
-- `scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs`
 
 ## Never write here
 

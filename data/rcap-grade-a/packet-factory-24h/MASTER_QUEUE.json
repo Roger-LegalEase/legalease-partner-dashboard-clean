@@ -3,11 +3,11 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "e4e50519222d603de0c08e71c369a2a2fd4dcda9",
+  "minimumCaptainSha": "d8309d8e15f033f0df29d4f879538c38489a84a4",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
-    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
-    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "2ab03a1bfcd3cc99e631c467876ed77c478428d990bf36117655a19f25e54665",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2",
+    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "d70aad95c55043b9e13eaf2aab835b41dae6e2910a9ebfd9c457e96b491a4521",
     "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "53f5d176a93a97d0421e045576429d646b08079a1db4468e70c6651280f1c0e0",
     "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json": "fbb02da468ece257271b0004773f8ad86fe8f7698cf1e2314f0611437cb3bbbf",
     "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json": "cf15ce284dde2fbd2ce4525e1a797a9cbced9829a612bbc14ccc0cdf113748ea",
@@ -54,30 +54,30 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 2,
+    "activeFamiliesExcluded": 7,
     "guidanceOnly": 0,
-    "remaining": 344,
-    "sourceReady": 40,
-    "sourceBlocked": 113,
-    "legalBlocked": 29,
+    "remaining": 339,
+    "sourceReady": 42,
+    "sourceBlocked": 111,
+    "legalBlocked": 26,
     "verifyPending": 54,
-    "repairRequired": 29,
+    "repairRequired": 24,
     "sumsToDenominator": true
   },
   "byState": {
-    "SOURCE_READY": 40,
-    "VERIFY_PENDING": 54,
+    "SOURCE_READY": 42,
+    "VERIFY_PENDING": 59,
     "COMPLETE_PACKET_PROVEN": 92,
-    "SOURCE_BLOCKED": 113,
-    "FAIL_REPAIR_REQUIRED": 29,
+    "SOURCE_BLOCKED": 111,
+    "FAIL_REPAIR_REQUIRED": 24,
     "VERIFIED_PASS": 5,
     "LEGAL_BLOCKED": 13
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
-    "SOURCE_BOUND_BY_HELD_BYTES": 142,
+    "SOURCE_BOUND_BY_HELD_BYTES": 144,
     "SOURCE_GENUINELY_MISSING": 48,
-    "SOURCE_IDENTITY_UNRESOLVED": 50,
+    "SOURCE_IDENTITY_UNRESOLVED": 48,
     "SOURCE_IDENTITY_NOT_EXACT": 2,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 5,
@@ -101,37 +101,22 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
+      "sd_arrest_expungement-set",
+      "wa_vac_cannabis-set",
       "wa_vac_domestic_violence-set",
-      "wa_vac_felony-set"
+      "wa_vac_felony-set",
+      "wa_vac_misdemeanor_ordinary-set",
+      "wa_vac_survivor_felony-set",
+      "wa_vac_survivor_misdemeanor-set"
     ],
     "staleRosterFamilies": [
-      {
-        "familyId": "sd_arrest_expungement-set",
-        "roster": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
-      },
-      {
-        "familyId": "wa_vac_cannabis-set",
-        "roster": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION"
-      },
       {
         "familyId": "wa_vac_homicide_victim_prostitution-set",
         "roster": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
       },
       {
-        "familyId": "wa_vac_misdemeanor_ordinary-set",
-        "roster": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
-      },
-      {
         "familyId": "wa_vac_substance_use_disorder-set",
         "roster": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
-      },
-      {
-        "familyId": "wa_vac_survivor_felony-set",
-        "roster": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
-      },
-      {
-        "familyId": "wa_vac_survivor_misdemeanor-set",
-        "roster": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
       },
       {
         "familyId": "wa_vac_treaty_fishing-set",
@@ -143,11 +128,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 16,
-    "sourceReadyFamilies": 40,
-    "familiesPerBuilder": 2.5,
+    "sourceReadyFamilies": 42,
+    "familiesPerBuilder": 2.6,
     "targetPerBuilder": "15 to 25",
-    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 40 do, so a full roster of 16 builders averages 2.5 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 214 source obligations across 142 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 42 do, so a full roster of 16 builders averages 2.6 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 212 source obligations across 137 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -18450,16 +18435,18 @@
         "DOJ CRISS submission after an expungement order (official_pdf_fill)",
         "MMRTA Form B petition in the sentencing court, with certificate of service and proposed order (official_pdf_fill)"
       ],
-      "officialFormFamily": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX+MT-FORM-B+MT-OCA-MMRTA",
+      "officialFormFamily": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX+MT-FORM-B+MT-OCA-MMRTA-ORDER+MT-OCA-MMRTA-SERVICE",
       "forms": [
         "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
         "MT-FORM-B",
-        "MT-OCA-MMRTA"
+        "MT-OCA-MMRTA-ORDER",
+        "MT-OCA-MMRTA-SERVICE"
       ],
       "sourceIds": [
         "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
         "official-form:MT-FORM-B",
-        "official-form:MT-OCA-MMRTA",
+        "official-form:MT-OCA-MMRTA-ORDER",
+        "official-form:MT-OCA-MMRTA-SERVICE",
         "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
         "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
         "source-sha256:cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
@@ -18477,6 +18464,18 @@
           "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
           "sha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:MT-OCA-MMRTA-ORDER",
+          "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+          "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:MT-OCA-MMRTA-SERVICE",
+          "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+          "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+          "tier": "exact_identity_confirmed_from_document_text"
         },
         {
           "sourceId": "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
@@ -18503,13 +18502,11 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:MT-OCA-MMRTA: UNRESOLVED_FORM_IDENTITY — 2 corpus entries share this form number and no custody entry disambiguates"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
@@ -18524,6 +18521,20 @@
             "sha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index"
+          },
+          {
+            "sourceId": "official-form:MT-OCA-MMRTA-ORDER",
+            "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+            "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:MT-OCA-MMRTA-SERVICE",
+            "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+            "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           },
           {
             "sourceId": "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
@@ -18554,14 +18565,13 @@
             "resolvedBy": "custody_reconciliation"
           }
         ],
-        "namedOfficialForms": 3,
-        "boundCount": 6,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "namedOfficialForms": 4,
+        "boundCount": 8,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -18577,7 +18587,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mt_mmrta_completed-set.mjs",
@@ -18612,16 +18622,18 @@
         "Conditional DOJ CRISS submission, only where the court grants expungement (official_pdf_fill)",
         "MMRTA Form A petition in the sentencing court, with certificate of service and proposed order (official_pdf_fill)"
       ],
-      "officialFormFamily": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX+MT-FORM-A+MT-OCA-MMRTA",
+      "officialFormFamily": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX+MT-FORM-A+MT-OCA-MMRTA-ORDER+MT-OCA-MMRTA-SERVICE",
       "forms": [
         "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
         "MT-FORM-A",
-        "MT-OCA-MMRTA"
+        "MT-OCA-MMRTA-ORDER",
+        "MT-OCA-MMRTA-SERVICE"
       ],
       "sourceIds": [
         "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
         "official-form:MT-FORM-A",
-        "official-form:MT-OCA-MMRTA",
+        "official-form:MT-OCA-MMRTA-ORDER",
+        "official-form:MT-OCA-MMRTA-SERVICE",
         "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
         "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
         "source-sha256:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
@@ -18639,6 +18651,18 @@
           "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx",
           "sha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:MT-OCA-MMRTA-ORDER",
+          "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+          "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:MT-OCA-MMRTA-SERVICE",
+          "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+          "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+          "tier": "exact_identity_confirmed_from_document_text"
         },
         {
           "sourceId": "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
@@ -18665,13 +18689,11 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:MT-OCA-MMRTA: UNRESOLVED_FORM_IDENTITY — 2 corpus entries share this form number and no custody entry disambiguates"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
@@ -18686,6 +18708,20 @@
             "sha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index"
+          },
+          {
+            "sourceId": "official-form:MT-OCA-MMRTA-ORDER",
+            "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+            "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:MT-OCA-MMRTA-SERVICE",
+            "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+            "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           },
           {
             "sourceId": "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
@@ -18716,14 +18752,13 @@
             "resolvedBy": "custody_reconciliation"
           }
         ],
-        "namedOfficialForms": 3,
-        "boundCount": 6,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "namedOfficialForms": 4,
+        "boundCount": 8,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -18739,7 +18774,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mt_mmrta_serving-set.mjs",
@@ -26367,9 +26402,9 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "VERIFY_PENDING",
+      "activeOwner": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION",
+      "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ne-setaside-custodial-set.mjs",
@@ -26380,8 +26415,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "staleRosterOwner": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
+      "exclusiveScript": true
     },
     {
       "familyId": "tx_exp_acquittal-set",
@@ -31337,9 +31371,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "VERIFY_PENDING",
+      "activeOwner": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION",
+      "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_cannabis-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -31350,8 +31384,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "staleRosterOwner": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION"
+      "exclusiveScript": true
     },
     {
       "familyId": "wa_vac_domestic_violence-set",
@@ -31824,9 +31857,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "VERIFY_PENDING",
+      "activeOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION",
+      "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_misdemeanor_ordinary-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -31837,8 +31870,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "staleRosterOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
+      "exclusiveScript": true
     },
     {
       "familyId": "wa_vac_substance_use_disorder-set",
@@ -32102,9 +32134,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "VERIFY_PENDING",
+      "activeOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
+      "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_survivor_felony-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -32115,8 +32147,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "staleRosterOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
+      "exclusiveScript": true
     },
     {
       "familyId": "wa_vac_survivor_misdemeanor-set",
@@ -32241,9 +32272,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "VERIFY_PENDING",
+      "activeOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
+      "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_survivor_misdemeanor-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -32254,8 +32285,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "staleRosterOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
+      "exclusiveScript": true
     },
     {
       "familyId": "wa_vac_treaty_fishing-set",
@@ -33386,13 +33416,13 @@
     "verifiers": 12,
     "sourceLanes": 16,
     "repairLanes": 8,
-    "familiesAssignedToBuilders": 40,
-    "sourceObligationsAssigned": 214,
-    "actualPromotedAndReleased": 40,
+    "familiesAssignedToBuilders": 42,
+    "sourceObligationsAssigned": 212,
+    "actualPromotedAndReleased": 42,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 113,
+    "prospectiveReleasesAcrossSourceLanes": 111,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false

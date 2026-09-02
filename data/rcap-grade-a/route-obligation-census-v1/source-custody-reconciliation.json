@@ -146,13 +146,13 @@
   "whatAnAmbiguousFormNumberCosts": "The label is refused at tier 1, so any obligation naming it stays unresolved. Where the family also names the same documents by source-sha256 -- as Montana's two MMRTA families do -- nothing it holds changes; only the false claim that one label identified one of two required documents.",
   "acquisitionTasks": 295,
   "counts": {
-    "SOURCE_ALREADY_HELD": 104,
+    "SOURCE_ALREADY_HELD": 106,
     "SOURCE_REVISION_STALE": 0,
-    "SOURCE_IDENTITY_UNRESOLVED": 140,
+    "SOURCE_IDENTITY_UNRESOLVED": 138,
     "SOURCE_GENUINELY_MISSING": 51
   },
-  "commissionAcquisitionFor": 191,
-  "doNotCommissionAcquisitionFor": 104,
+  "commissionAcquisitionFor": 189,
+  "doNotCommissionAcquisitionFor": 106,
   "rows": [
     {
       "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
@@ -6313,9 +6313,9 @@
         "MT"
       ],
       "routeCount": 2,
-      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
-      "documentSourcesNamed": 7,
-      "documentSourcesResolved": 6,
+      "custodyClass": "SOURCE_ALREADY_HELD",
+      "documentSourcesNamed": 8,
+      "documentSourcesResolved": 8,
       "nonDocumentSourceIds": 10,
       "documentSources": [
         {
@@ -6343,12 +6343,30 @@
           }
         },
         {
-          "sourceId": "official-form:MT-OCA-MMRTA",
+          "sourceId": "official-form:MT-OCA-MMRTA-ORDER",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "word/document.xml of the held DOCX prints the title 'Proposed Order Granting / ☐ Expungement of Conviction / ☐ Resentencing of Conviction / ☐ Redesignation of Conviction' beneath the caption 'In re the Expungement, Resentencing, or Redesignation of the Marijuana-Related Conviction of', and the decree 'IT IS THEREFORE ORDERED: Pursuant to § 16-12-113(6), MCA, this Court GRANTS the Petition as follows:'. STATES/MT/STATE_MANIFEST.csv files these bytes as document_role ORDER, workflow_key MT:MT-OCA-MMRTA:ORDER:EN.",
+          "heldAs": {
+            "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+            "formNumber": "MT-OCA-MMRTA",
+            "revision": null,
+            "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e"
+          }
+        },
+        {
+          "sourceId": "official-form:MT-OCA-MMRTA-SERVICE",
+          "kind": "form_label",
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "word/document.xml of the held DOCX prints the title 'CERTIFICATE OF SERVICE' and the certification 'The undersigned hereby certifies that true and correct copies of the foregoing document were, this day, served upon the following individuals by U.S. Mail and/or e-mail and addressed as follows:', over a recipient block labelled 'Name of County Attorney'. STATES/MT/STATE_MANIFEST.csv files these bytes as document_role SERVICE, workflow_key MT:MT-OCA-MMRTA:SERVICE:EN.",
+          "heldAs": {
+            "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+            "formNumber": "MT-OCA-MMRTA",
+            "revision": null,
+            "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9"
+          }
         },
         {
           "sourceId": "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
@@ -6399,8 +6417,8 @@
           }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "This family names no document-shaped source, or names one that cannot be resolved to a corpus identity. Resolve the identity before commissioning anything: absence of a match is not evidence of absence."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "mt_mmrta_serving-set",
@@ -6409,9 +6427,9 @@
         "MT"
       ],
       "routeCount": 2,
-      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
-      "documentSourcesNamed": 7,
-      "documentSourcesResolved": 6,
+      "custodyClass": "SOURCE_ALREADY_HELD",
+      "documentSourcesNamed": 8,
+      "documentSourcesResolved": 8,
       "nonDocumentSourceIds": 9,
       "documentSources": [
         {
@@ -6439,12 +6457,30 @@
           }
         },
         {
-          "sourceId": "official-form:MT-OCA-MMRTA",
+          "sourceId": "official-form:MT-OCA-MMRTA-ORDER",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "word/document.xml of the held DOCX prints the title 'Proposed Order Granting / ☐ Expungement of Conviction / ☐ Resentencing of Conviction / ☐ Redesignation of Conviction' beneath the caption 'In re the Expungement, Resentencing, or Redesignation of the Marijuana-Related Conviction of', and the decree 'IT IS THEREFORE ORDERED: Pursuant to § 16-12-113(6), MCA, this Court GRANTS the Petition as follows:'. STATES/MT/STATE_MANIFEST.csv files these bytes as document_role ORDER, workflow_key MT:MT-OCA-MMRTA:ORDER:EN.",
+          "heldAs": {
+            "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+            "formNumber": "MT-OCA-MMRTA",
+            "revision": null,
+            "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e"
+          }
+        },
+        {
+          "sourceId": "official-form:MT-OCA-MMRTA-SERVICE",
+          "kind": "form_label",
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "word/document.xml of the held DOCX prints the title 'CERTIFICATE OF SERVICE' and the certification 'The undersigned hereby certifies that true and correct copies of the foregoing document were, this day, served upon the following individuals by U.S. Mail and/or e-mail and addressed as follows:', over a recipient block labelled 'Name of County Attorney'. STATES/MT/STATE_MANIFEST.csv files these bytes as document_role SERVICE, workflow_key MT:MT-OCA-MMRTA:SERVICE:EN.",
+          "heldAs": {
+            "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+            "formNumber": "MT-OCA-MMRTA",
+            "revision": null,
+            "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9"
+          }
         },
         {
           "sourceId": "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
@@ -6495,8 +6531,8 @@
           }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "This family names no document-shaped source, or names one that cannot be resolved to a corpus identity. Resolve the identity before commissioning anything: absence of a match is not evidence of absence."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "nc_145_5_felony-set",
