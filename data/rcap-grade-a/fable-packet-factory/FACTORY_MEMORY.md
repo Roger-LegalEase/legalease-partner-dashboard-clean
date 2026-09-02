@@ -509,3 +509,27 @@ catch a dispatch naming a subject another lane holds live — a hole that cost
 two verification lanes half their runs in exit-8 refusals. It was confirmed by
 injecting exactly that condition into a scratch copy of the ledger, watching
 F24 go red, and restoring. Green-before and green-after is not evidence.
+
+## Look for the repository's tool before writing your own
+
+`scripts/grade-a-packet-factory-24h/resolve-claim-ledger-merge.mjs` is the
+ledger merge resolver, and its header says it was moved out of a scratchpad
+into the repository precisely because it kept being lost. It was then not used
+for four integrations, because a scratchpad resolver was written from scratch
+instead — and that one, rederived under time pressure, had to learn the same
+lessons in the same order: that a union resurrects grants Captain withdrew,
+and that a stale release closes a repair that was deliberately re-opened. Both
+rules were already written down, with the incidents that produced them.
+
+It still missed the fourth rule. `ledger.releases` and `ledger.reissues` are
+logs beside the claims, and taking `ours` wholesale for every top-level key
+kept the released flags while dropping thirty release and eighteen reissue
+entries the merged lanes had written. The claims said released and the log did
+not say when or by whom. The committed resolver merges both logs by key and
+re-sorts them; the entries were recovered afterwards by applying that same
+rule late.
+
+Before writing a tool for an integration step, grep `scripts/` for one. The
+scratchpad is for probes and measurements, not for the mechanisms an
+integration depends on — anything the next Captain will need belongs in the
+repository, which is the whole reason that file is there.
