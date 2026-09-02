@@ -26,10 +26,10 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 32,
-  "rows": 36,
+  "families": 33,
+  "rows": 37,
   "PASS_COMPLETE_INDEPENDENT": 24,
-  "FAIL_REPAIR_REQUIRED": 10,
+  "FAIL_REPAIR_REQUIRED": 11,
   "BLOCKED_SOURCE": 0,
   "BLOCKED_LEGAL_INPUT": 0,
   "PASS": 1,
@@ -7595,6 +7595,146 @@
     "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/raster",
     "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/reports/contact-sheets",
     "MASTER_LIBRARY_SOURCE_DIR/STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/stale-artifact-block.json"
+   ]
+  },
+  {
+   "itemId": "id_isp_expungement-set",
+   "lane": "VF01",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill",
+   "readAtBase": "247b790b6",
+   "rasterState": "RASTER_PASS",
+   "rasterWorkflowRunId": "33605354695",
+   "verdictCeilingApplied": null,
+   "decisiveDefect": "On the boundary fixture the application names no charge. Both charge lines - 'I was charged for the crime of' and 'Charge(s) applicant seeks to have expunged' - are empty printed rules, because the held matter.charge value needs 367.8 pt at the six-point floor and the two boxes are 304.8 and 245.04 pt wide. The build records the refusal in reports/rendered-artifacts.json under unfittable; nothing the participant reads says it. The canonical fixture writes both. The form's own page 2 says an incomplete application will not be processed and will be returned to the applicant, so this is the field whose absence returns the packet.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family id_isp_expungement-set, run in this worktree: PASS_COMPLETE, 13/17 written",
+    "whyTheCountersDoNotCatchThis": "the counters read the field map's decision, which says write, and the canonical fixture, which writes it. The drop is boundary-only and is recorded in a report the participant never sees, so no counter moves."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "one route key, obligation:track-pathway:ID:id_isp_expungement:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10, identical in the MASTER_QUEUE row, source-receipt.json, production-field-map.json, product-wiring.json and its binding. The delivered form is the Idaho State Police Bureau of Criminal Identification Expungement Application and prints Idaho Code Sec. 67-3004(10) on its own face, which is the statute the route names.",
+     "evidence": "MASTER_QUEUE.json; source-receipt.json; production-field-map.json; product-wiring.json; pdftotext of the delivered fixtures"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "one source, recomputed here: STATES/ID/05_SOURCE_GATED/ID__SOURCE-GATED__ISP-BCI__idaho-state-police-bureau-of-criminal-identification-expungement-application__REV-UNKNOWN__EN.pdf is 7442267d7799b9b117b20494b919a875974e8086f1317c7bc7532f038c131bcf at 145529 bytes, equal to source-receipt.json, MASTER_QUEUE sourceHashes and product-wiring sourceVersion. Reading it with pdf-lib gives 2 pages and 17 AcroForm fields, and the field map names exactly those 17 - no field in the map is absent from the source and no source field is missing from the map.",
+     "evidence": "SHA-256 recomputed over the pinned corpus binary; pdf-lib read of the source form against production-field-map.json; preflight family_sources_bind 1/1"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the route names one component, component:id_isp_expungement-primary-filing-1, and it is the application itself; both fixtures carry both of its pages, and every file rendered-artifacts.json names exists. There is no separate order, service form or instruction component to be missing - the receipt and the instructions both state this is an agency application with no petition, proposed order or hearing.",
+     "evidence": "product-wiring.json binding.packetComponents; reports/rendered-artifacts.json; page counts read from both fixtures"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "a held fact the canonical fixture prints is absent from the boundary fixture and nothing the participant reads says so. Measuring the added ink myself - pdftotext -bbox word boxes of each fixture minus the blank source, tested against the 17 write boxes the family's own field census holds - the canonical inks 13 boxes and the boundary 11. The two that lose their ink are the charge lines, and both carry factId matter.charge. Extracting the boundary text confirms it: line 20 reads 'I was charged for the crime of: ____' and line 27 'Charge(s) applicant seeks to have expunged: ____', both empty. reports/rendered-artifacts.json records the reason precisely - value_exceeds_widget_width_at_minimum_font, 367.8 pt required at a 6 pt floor against boxes 304.8 and 245.04 pt wide - so the refusal is deliberate and measured, and refusing was the right call rather than overflowing. What is missing is the disclosure. participant-instructions.md lists four blanks the participant must supply and neither charge line is among them; its 'What the platform deliberately left blank' section names the signature, the date, the acquittal date, the middle initial and the second charges rule, and not these. A fact the platform writes must be written, and a fact it does not write must be disclosed; on this fixture neither happened.",
+     "evidence": "pdftotext -bbox added-ink measurement against field-census.census-v1.json write boxes, both fixtures; pdftotext -layout of application-boundary-filled.pdf lines 20 and 27; reports/rendered-artifacts.json unfittable; participant-instructions.md"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "four blanks are declared for the participant and all four are named in participant-instructions.md, in a table that gives the page, the printed caption and the widget name inside the PDF for each: the date of acquittal or dismissal, the middle-initial box, the second charges rule, and the signature and date on page 2. Each is also explained - the platform holds a general disposition date and does not establish it is an acquittal or dismissal date; it holds a middle name and not an initial. None of the four carries ink on either fixture.",
+     "evidence": "reports/blanks-left-for-the-participant.json; participant-instructions.md; the added-ink measurement over the census write boxes"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the form carries no selection control - all 17 census fields are text and isSelectionControl is false for every one, which I confirmed by reading the field types out of the source with pdf-lib - so there is no route-determined election to select. requiredOptionsMissing is zero, measured here.",
+     "evidence": "pdf-lib field types of the pinned source; field-census.census-v1.json; production-field-map.json; the completeness verifier run here"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet declares no repeating row group. The charges block is two independent printed rules rather than a row of cells, and the second is deliberately left for a further charge from the same arrest. incompleteRows is zero, measured here.",
+     "evidence": "field-census.census-v1.json; production-field-map.json; the completeness verifier run here"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the one protected field, the date beside 'Signature of Requestor' on page 2, carries no ink on either fixture, and the signature rule itself is printed page furniture with no widget behind it and nothing written on it. Measuring which census boxes received ink: 13 on the canonical and 11 on the boundary, and not one of them is a box the field map refuses. No field is both written and refused, and protectedWrites is zero, measured here.",
+     "evidence": "added-ink measurement over all 17 census write boxes in both fixtures; production-field-map.json refusalClass; reports/actual-writes.json refusedFieldsWithInk; the completeness verifier run here"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both artifacts rehash to what the record names: canonical c68600571515ebf2132b7879ceea6f61ea18c30e0edecb9ee8405c36ec723da6 at 153714 bytes and boundary 48d435eaf962cf4020b4858038c7e5d45175a63534b31664d2afc002c8db57d9 at 153448 bytes, recomputed here and equal to rendered-artifacts.json and to RASTER_QUEUE.json. The central raster gate holds RASTER_PASS bound to that canonical hash. Neither is on the stale-artifact block. rendered-artifacts.json names no other file, and none is missing.",
+     "evidence": "SHA-256 recomputed over both fixtures; reports/rendered-artifacts.json; RASTER_QUEUE.json; data/rcap-grade-a/stale-artifact-block.json"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the delivered form is the two-page source in its own order. Both fixtures read two pages from the bytes, matching the source and the raster queue's expected page count, and comparing the leading text of each page against the blank source page by page gives no page whose lead text differs: nothing is reordered, dropped or duplicated, and the writes land below the headings rather than ahead of them.",
+     "evidence": "page-by-page text comparison of the pinned source against both fixtures; RASTER_QUEUE.json expectedPages"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "no ink outside a measured write box on either fixture, and this is the obligation the KNOWN_PREFILLS defect was traded against. Every added word sits inside one of the 17 census write boxes - 0 outside them on the canonical and 0 on the boundary - and no added word runs more than a point past the box it sits in. Nothing leaves the 612 by 792 page on either fixture. The build refused the two over-long charge values rather than overflowing them, which is why this obligation passes and KNOWN_PREFILLS does not.",
+     "evidence": "pdftotext -bbox word rectangles against field-census.census-v1.json write boxes and against each page's MediaBox, both fixtures; RASTER_QUEUE.json RASTER_PASS"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet names it exactly and says what kind of thing it is: this is an application to a state agency and not a court filing, sent to the Idaho State Police Bureau of Criminal Identification at 700 S. Stratford Dr., Ste. 120, Meridian, ID 83642, or by fax on 208-884-7193, with the 30-day processing note and the self-addressed stamped envelope the form's own page 2 asks for. The instructions state that the address is printed on page 2 of the enclosed form and that the committed route record gives the same one, and I found that address on page 2 of the delivered bytes.",
+     "evidence": "participant-instructions.md 'Where you send it'; pdftotext of the delivered fixtures page 2"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states a fee posture and states why it is a refusal rather than a gap: no held record and no line on the form states a fee for a Sec. 67-3004(10) expungement, and the no-fee statements the compiled Idaho profile does carry are about the Sec. 67-3004(11) Clean Slate shielding petition, which is a different subsection, a different remedy and a county court filing - so the packet declines to borrow them. It then names the office that answers it, the same Criminal History Unit and the same address the application goes to, and tells the participant to ask before sending because an incomplete application is returned.",
+     "evidence": "participant-instructions.md 'What it costs'; the delivered form text"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet answers the service question by establishing that there is nobody to serve - an agency application with no petition, no hearing and no opposing party - and then answers the question that actually stands in its place, what must be enclosed. It carries the form's own page 2 list: a copy of the citation, or the complaint and summons with proof of service, or an indictment, or an information; and a certified copy of the order of acquittal or of dismissal, with the form's own warning that an incomplete application will not be processed and will be returned. I read that list on page 2 of the delivered bytes.",
+     "evidence": "participant-instructions.md 'What you must send with it'; pdftotext of the delivered fixtures page 2"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states where self-help ends and names nine conditions, the first two quoted from the form's own bold text - a sex-offense conviction, for which page 2 says do not submit this form and do not contact the Criminal History Unit, and a conviction followed by a withheld judgment under Idaho Code Sec. 19-2604(1), which page 1 says the process does not apply to. The rest cover being charged within the year without acquittal or dismissal, being unable to obtain a certified order, a returned application, a Sec. 19-2604 dismissal already entered or contemplated (which the committed track registry records as a stop), unclear offense classification, federal, tribal or out-of-state records, and immigration, licensing, peace-officer employment or firearm consequences. It ends by stating that this is a prepared copy of the agency's own form, not legal advice, not sent for the participant, and not a decision on eligibility.",
+     "evidence": "participant-instructions.md 'Where self-help ends' and 'What this packet is not'; the delivered form text pages 1 and 2; data/record-clearing/legal-design-track-registry.json"
+    }
+   },
+   "failedProofObligations": [
+    "KNOWN_PREFILLS"
+   ],
+   "notMeasurableHere": [],
+   "whatThisFailDoesNotSay": "fourteen of the fifteen obligations are measured clear, and this is a well-built packet: it corrects three field-name traps the shared binder would have fallen into, and it explains each one to the participant. The single defect is that a value it holds and could not fit is dropped in silence.",
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/field-census.census-v1.json",
+    "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/fixtures/application-canonical-filled.pdf",
+    "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/fixtures/application-boundary-filled.pdf",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/ID/05_SOURCE_GATED/ID__SOURCE-GATED__ISP-BCI__idaho-state-police-bureau-of-criminal-identification-expungement-application__REV-UNKNOWN__EN.pdf",
     "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
     "data/rcap-grade-a/stale-artifact-block.json"

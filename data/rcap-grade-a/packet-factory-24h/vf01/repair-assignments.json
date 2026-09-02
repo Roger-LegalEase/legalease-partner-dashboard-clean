@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF01",
  "worker": "VF-SRC-A",
- "assignmentCount": 7,
+ "assignmentCount": 8,
  "assignments": [
   {
    "itemId": "ak-courtview-set",
@@ -186,6 +186,26 @@
    },
    "repairIsAvailableWithoutAcquisition": "The bytes are still held. The Master Library copy at STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf recomputes to the declared hash at the declared length in this environment, so this is a restoration and not a source acquisition.",
    "whatThisAssignmentDoesNotAuthorise": "Repairing this family proves nothing about its legal content, approves no output and opens no commercial route. Thirteen of the fifteen obligations were measured clear; only the two above failed."
+  },
+  {
+   "itemId": "id_isp_expungement-set",
+   "lane": "VF01",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedBy": "VF01",
+   "verifiedAtBase": "247b790b6",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill",
+   "decisiveDefect": "On the boundary fixture the Idaho application names no charge at all. Both charge lines are empty printed rules - page 1 line 20 'I was charged for the crime of: ____' and line 27 'Charge(s) applicant seeks to have expunged: ____' - because the held matter.charge value requires 367.8 pt at the six-point floor and the two boxes are 304.8 and 245.04 pt wide. The canonical fixture writes both. The build records the refusal in reports/rendered-artifacts.json under unfittable and nowhere the participant reads, and page 2 of the form itself says an incomplete application will not be processed and will be returned to the applicant.",
+   "failedProofObligations": [
+    "KNOWN_PREFILLS"
+   ],
+   "perObligation": {
+    "KNOWN_PREFILLS": {
+     "measuredDetail": "Measured from the bytes, not from the report: pdftotext -bbox word boxes of each fixture minus the blank pinned source give the ink this build added, tested against the 17 write boxes in field-census.census-v1.json. The canonical inks 13 boxes, the boundary 11, and the two that lose their ink are 'I was charged for the crime of' (rect x 223.68 y 424.56, 304.8 x 15.72) and 'Charges applicant seeks to have expunged' (rect x 291.48 y 357.24, 245.04 x 15.72), both bound to factId matter.charge. Text extraction of application-boundary-filled.pdf confirms both rules are empty. participant-instructions.md lists four blanks the participant must supply and neither charge line is among them; its 'What the platform deliberately left blank' section names the signature, the date, the acquittal-or-dismissal date, the middle initial and the second charges rule, and not these two. There is no held-but-not-printed disclosure anywhere in the family.",
+     "whatRepairMustDo": "Do not widen the box, do not shrink below the readable floor, and do not overflow: the refusal itself is correct and CLIPPING_AND_OVERLAP passes because of it. What is owed is disclosure. Name every value this build holds and could not print, with the field, the fact, the reason and the fixture it was measured on, in reports/actual-writes.json and in participant-instructions.md, so a participant whose own charge description is long is told to write it in by hand rather than sending an application with no charge on it. The Idaho form's own warning that an incomplete application is returned is already quoted in the instructions and is the sentence this disclosure belongs beside. scripts/build-census-v1-nj_arrest_no_conviction-set.mjs carries a heldButNotPrinted section that does exactly this and can be followed; that host is not this family's, so this is a same-shape repair rather than a shared-host change."
+    }
+   },
+   "whatIsAlreadyClear": "Fourteen of the fifteen obligations are measured clear here, including the source hash recomputed from the corpus, both artifact hashes, the two-page order against the blank source, the 17-field census against the source's own AcroForm, no ink outside any write box, no ink in the one protected field, and four participant blanks all disclosed. The packet also corrects three field-name traps the shared binder would have fallen into - county onto the charges line, surname into the middle-initial box, full name into the acquittal-date box - and explains each to the participant.",
+   "whatThisAssignmentDoesNotAuthorise": "Repairing this disclosure proves nothing about the family's legal content, approves no output and opens no commercial route."
   }
  ],
  "supersededLaneMembership": {
