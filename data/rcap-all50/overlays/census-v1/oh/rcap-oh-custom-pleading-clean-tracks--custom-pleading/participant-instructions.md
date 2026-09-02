@@ -4,29 +4,50 @@ This packet contains 4 statutory-content drafts and one unchanged official Ohio 
 
 ## What you must supply before filing
 
-- **Name of court and local caption.** The pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption the sentencing court uses and does not guess.
+- **Name of court and local caption.** The pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption used by the filing court the filing rule in these instructions names, and does not guess.
 - **Date of arrest.** The pleading prints “[ARREST DATE TO BE CONFIRMED]” because the packet holds no arrest date; the participant reads it off the certified record and does not guess.
 - **Date of disposition.** The pleading prints “[DISPOSITION DATE TO BE CONFIRMED]” because the packet holds no disposition date; the participant reads it off the certified record and does not guess.
 - **Arresting agency.** The pleading prints “[ARRESTING AGENCY MUST BE CONFIRMED]” because the packet holds no agency name; the participant reads it off the certified record and does not guess.
 - **Date of birth and Social Security Number, if the local court form requires them.** The pleading carries a note that these identifiers are added by the applicant where the local form or local rule requires them; the packet holds no value for either and writes neither.
+- **Charge as it appears on the certified disposition.** The pleading prints “[CHARGE MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION]” because the packet holds no charge for this matter; the participant copies the charge off the certified disposition and does not guess.
+- **Disposition as it appears on the certified disposition.** The pleading prints “[DISPOSITION MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION]” because the packet holds no disposition for this matter; the participant copies the disposition off the certified disposition and does not guess.
+- **Statutory basis alleged for eligibility.** The pleading prints “[STATUTORY ELIGIBILITY BASIS MUST BE CONFIRMED AGAINST THE CITED STATUTE AND THE CERTIFIED RECORD]” because this packet does not decide eligibility and must not put its own non-certification sentence into a pleading's eligibility allegation; the participant, or a lawyer, states the statutory basis after reading the cited statute against the certified record.
 
 ## What you must obtain
 
 - The certified disposition for the case, from the court that handled it.
 - Your Ohio BCI criminal-history record.
-- The current local application, caption and filing instructions from the Ohio court that handled the case.
+- The current local application, caption and filing instructions from the court the filing rule below sends you to.
 
 ## Where this is filed
 
-In the Ohio court that handled the case. No held source in this packet names a statewide Ohio filing office or a statewide application, so the sentencing court's own clerk is the office that tells you the caption, the form and the filing counter to use.
+The compiled Ohio profile this repository holds, `src/lib/rcap-engine/compiled/profiles/OH-ohio.json`, states the filing rule for each route in this packet, and this packet states it rather than sending you to ask for it:
+
+- **Ohio Rev. Code Sec. 2953.32.** File in the sentencing court for an Ohio conviction or in a court of common pleas for an out-of-state or federal conviction.
+- **Ohio Rev. Code Sec. 2953.33.** File in the court where the case was pending, dismissed, resulted in not guilty, or where the grand jury no bill was reported.
+- **Ohio Rev. Code Sec. 2953.35.** The application is filed in the sentencing court.
+
+Ohio has no single mandatory statewide form packet. Get the current application, caption and filing instructions from that court, which may keep different packets for convictions and for non-convictions.
 
 ## What this costs
 
-No held source in this packet states a filing fee, states that filing is free, or states a fee-waiver procedure. Ask the clerk of the Ohio court that handled the case what the current filing fee is and whether a waiver (an affidavit of indigency) is available, before you file. This packet does not state an amount because it holds no source for one.
+The same compiled Ohio profile carries a fee table keyed by statutory section, and this packet states the row for each route it carries:
+
+- **Ohio Rev. Code Sec. 2953.32.** $50 application fee unless indigent, plus possible local court fee up to $50.
+- **Ohio Rev. Code Sec. 2953.33.** Ohio Legal Help says no fee for dismissal, not-guilty and no-bill sealing.
+- **Ohio Rev. Code Sec. 2953.35.** $50 unless indigent.
+
+The waiver limb is indigency: where the applicant is indigent, the $50 application fee is not charged. The additional local court fee is permitted up to $50 and is not fixed by the statute, so ask the clerk of the filing court what that court charges and how it takes an indigency affidavit.
 
 ## Who is served
 
-No held source in this packet states who must be served or how. Ask the same clerk. These drafts generate no certificate of service, and you must not complete one before service has actually happened.
+You serve nobody. On this scheme the court notifies the prosecutor and sets the hearing, and the compiled Ohio profile states the mechanism for each route in this packet:
+
+- **Ohio Rev. Code Sec. 2953.32.** The court schedules a hearing, notifies the prosecutor at least 60 days before the hearing, and holds the hearing 45-90 days after filing. The prosecutor may object at least 30 days before the hearing, and victims may be heard if applicable.
+- **Ohio Rev. Code Sec. 2953.33.** The court holds a hearing 45-90 days after filing, and the prosecutor may object.
+- **Ohio Rev. Code Sec. 2953.35.** The court considers prosecutor objections and weighs the applicant's interest against government needs.
+
+These drafts generate no certificate of service and you must not complete one. There is no service step for you to perform, so do not go looking for one.
 
 ## You sign; nothing here is signed for you
 

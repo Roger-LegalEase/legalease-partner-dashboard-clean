@@ -321,6 +321,8 @@ const SPEC = {
     "what you want is a DNA record removed — that is an application under G.S. 15A-146(b1), a separate matter with a 20-day service requirement on the district attorney before the hearing, and it is not this packet;",
     "you were charged with multiple offences and are not sure whether all of them were dismissed — that is the difference between subsection (a) and (a1) and between paragraph 3's boxes a and b;",
     "you may need these records later to prove what happened — most acutely in an immigration proceeding — and have not yet obtained and kept permanent copies of everything;",
+    "the charge you want expunged is a **felony** that was dismissed **pursuant to a plea agreement** — the committed track registry names \"A felony charge dismissed pursuant to a plea agreement\" as a point where self-help stops, and whether a dismissal that came out of a plea agreement is a dismissal this section reaches is a legal characterization of your own disposition that this packet does not make. AOC-CR-287 carries certification entries about exactly that characterization, and they turn on the court record rather than on what you remember;",
+    "you may later need relief under **G.S. 15A-145.4 or G.S. 15A-145.6** — the committed track registry names that as a stop condition \"because sequencing matters\". Filing this petition first can spend relief a later petition under one of those sections would have needed. If a conviction of yours might one day be eligible under either section, ask a North Carolina lawyer which petition to file first, before you file this one;",
     "any immigration question is involved at all."
   ],
 

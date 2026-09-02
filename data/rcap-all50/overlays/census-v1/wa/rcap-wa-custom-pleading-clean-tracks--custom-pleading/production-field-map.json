@@ -26,17 +26,23 @@
   "componentSet": [
     "wa_vac_post_probation_9_95_240-primary-filing-1",
     "wa_vac_post_probation_9_95_240-proposed-order-2",
-    "wa_vac_post_probation_9_95_240-filing-instructions-3",
+    "wa_vac_post_probation_9_95_240-records-checklist-3",
+    "wa_vac_post_probation_9_95_240-filing-instructions-4",
     "wa_del_nonconviction-primary-filing-1",
-    "wa_del_nonconviction-filing-instructions-2"
+    "wa_del_nonconviction-records-checklist-2",
+    "wa_del_nonconviction-expectation-setting-3",
+    "wa_del_nonconviction-accuracy-remedy-guidance-4"
   ],
   "componentConditions": {},
   "componentRoutes": {
     "wa_vac_post_probation_9_95_240-primary-filing-1": "obligation:track-only:WA:wa_vac_post_probation_9_95_240",
     "wa_vac_post_probation_9_95_240-proposed-order-2": "obligation:track-only:WA:wa_vac_post_probation_9_95_240",
-    "wa_vac_post_probation_9_95_240-filing-instructions-3": "obligation:track-only:WA:wa_vac_post_probation_9_95_240",
+    "wa_vac_post_probation_9_95_240-records-checklist-3": "obligation:track-only:WA:wa_vac_post_probation_9_95_240",
+    "wa_vac_post_probation_9_95_240-filing-instructions-4": "obligation:track-only:WA:wa_vac_post_probation_9_95_240",
     "wa_del_nonconviction-primary-filing-1": "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060",
-    "wa_del_nonconviction-filing-instructions-2": "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060"
+    "wa_del_nonconviction-records-checklist-2": "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060",
+    "wa_del_nonconviction-expectation-setting-3": "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060",
+    "wa_del_nonconviction-accuracy-remedy-guidance-4": "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060"
   },
   "dispositionVocabulary": [
     "signature_or_date_participant_completion",
@@ -1398,9 +1404,9 @@
       ]
     },
     {
-      "formNumber": "wa_vac_post_probation_9_95_240-filing-instructions-3",
-      "documentId": "wa_vac_post_probation_9_95_240-filing-instructions-3",
-      "documentRole": "wa_vac_post_probation_9_95_240-filing-instructions-3",
+      "formNumber": "wa_vac_post_probation_9_95_240-records-checklist-3",
+      "documentId": "wa_vac_post_probation_9_95_240-records-checklist-3",
+      "documentRole": "wa_vac_post_probation_9_95_240-records-checklist-3",
       "documentPolicy": {
         "mode": "participant",
         "captionOnly": false,
@@ -1414,8 +1420,8 @@
       "selectionControls": [],
       "canonicalWrites": [
         {
-          "field": "wa_vac_post_probation_9_95_240-filing-instructions-3.petitioner_name",
-          "fieldName": "wa_vac_post_probation_9_95_240-filing-instructions-3.petitioner_name",
+          "field": "wa_vac_post_probation_9_95_240-records-checklist-3.petitioner_name",
+          "fieldName": "wa_vac_post_probation_9_95_240-records-checklist-3.petitioner_name",
           "page": 1,
           "printedLabel": "Person this page is prepared for",
           "printedLine": "Person this page is prepared for",
@@ -1425,14 +1431,14 @@
           "rectBasis": "composed_document_authored_by_this_build",
           "factId": "participant.full_legal_name",
           "kind": "composed_text",
-          "document": "wa_vac_post_probation_9_95_240-filing-instructions-3"
+          "document": "wa_vac_post_probation_9_95_240-records-checklist-3"
         }
       ],
       "canonicalRefusals": [],
       "boundaryWrites": [
         {
-          "field": "wa_vac_post_probation_9_95_240-filing-instructions-3.petitioner_name",
-          "fieldName": "wa_vac_post_probation_9_95_240-filing-instructions-3.petitioner_name",
+          "field": "wa_vac_post_probation_9_95_240-records-checklist-3.petitioner_name",
+          "fieldName": "wa_vac_post_probation_9_95_240-records-checklist-3.petitioner_name",
           "page": 1,
           "printedLabel": "Person this page is prepared for",
           "printedLine": "Person this page is prepared for",
@@ -1442,7 +1448,57 @@
           "rectBasis": "composed_document_authored_by_this_build",
           "factId": "participant.full_legal_name",
           "kind": "composed_text",
-          "document": "wa_vac_post_probation_9_95_240-filing-instructions-3"
+          "document": "wa_vac_post_probation_9_95_240-records-checklist-3"
+        }
+      ],
+      "boundaryRefusals": []
+    },
+    {
+      "formNumber": "wa_vac_post_probation_9_95_240-filing-instructions-4",
+      "documentId": "wa_vac_post_probation_9_95_240-filing-instructions-4",
+      "documentRole": "wa_vac_post_probation_9_95_240-filing-instructions-4",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-only:WA:wa_vac_post_probation_9_95_240"
+      },
+      "structuralClass": "composed_document",
+      "composedFrom": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
+      "explicitMappings": {},
+      "roleRefusals": [],
+      "selectionControls": [],
+      "canonicalWrites": [
+        {
+          "field": "wa_vac_post_probation_9_95_240-filing-instructions-4.petitioner_name",
+          "fieldName": "wa_vac_post_probation_9_95_240-filing-instructions-4.petitioner_name",
+          "page": 1,
+          "printedLabel": "Person this page is prepared for",
+          "printedLine": "Person this page is prepared for",
+          "effectiveLabel": "Person this page is prepared for",
+          "regionHeading": "Person this page is prepared for",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "wa_vac_post_probation_9_95_240-filing-instructions-4"
+        }
+      ],
+      "canonicalRefusals": [],
+      "boundaryWrites": [
+        {
+          "field": "wa_vac_post_probation_9_95_240-filing-instructions-4.petitioner_name",
+          "fieldName": "wa_vac_post_probation_9_95_240-filing-instructions-4.petitioner_name",
+          "page": 1,
+          "printedLabel": "Person this page is prepared for",
+          "printedLine": "Person this page is prepared for",
+          "effectiveLabel": "Person this page is prepared for",
+          "regionHeading": "Person this page is prepared for",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "wa_vac_post_probation_9_95_240-filing-instructions-4"
         }
       ],
       "boundaryRefusals": []
@@ -1467,10 +1523,10 @@
           "field": "wa_del_nonconviction-primary-filing-1.petitioner_name",
           "fieldName": "wa_del_nonconviction-primary-filing-1.petitioner_name",
           "page": 1,
-          "printedLabel": "Person named in the caption of this document",
-          "printedLine": "Person named in the caption of this document",
-          "effectiveLabel": "Person named in the caption of this document",
-          "regionHeading": "Person named in the caption of this document",
+          "printedLabel": "Person named at the head of this request",
+          "printedLine": "Person named at the head of this request",
+          "effectiveLabel": "Person named at the head of this request",
+          "regionHeading": "Person named at the head of this request",
           "sectionHeading": null,
           "rectBasis": "composed_document_authored_by_this_build",
           "factId": "participant.full_legal_name",
@@ -1481,10 +1537,10 @@
           "field": "wa_del_nonconviction-primary-filing-1.date_of_birth",
           "fieldName": "wa_del_nonconviction-primary-filing-1.date_of_birth",
           "page": 1,
-          "printedLabel": "Date of birth of the person named in the caption",
-          "printedLine": "Date of birth of the person named in the caption",
-          "effectiveLabel": "Date of birth of the person named in the caption",
-          "regionHeading": "Date of birth of the person named in the caption",
+          "printedLabel": "Date of birth of the person named at the head of this request",
+          "printedLine": "Date of birth of the person named at the head of this request",
+          "effectiveLabel": "Date of birth of the person named at the head of this request",
+          "regionHeading": "Date of birth of the person named at the head of this request",
           "sectionHeading": null,
           "rectBasis": "composed_document_authored_by_this_build",
           "factId": "participant.date_of_birth",
@@ -1728,31 +1784,13 @@
           "participantMustSupply": "Is there any outstanding warrant for you, or is this case still being prosecuted?"
         },
         {
-          "field": "wa_del_nonconviction-primary-filing-1.case_number",
-          "fieldName": "wa_del_nonconviction-primary-filing-1.case_number",
-          "page": 1,
-          "printedLabel": "Case number of this filing, if the court assigns one at filing",
-          "printedLine": "Case number of this filing, if the court assigns one at filing",
-          "effectiveLabel": "Case number of this filing, if the court assigns one at filing",
-          "regionHeading": "Case number of this filing, if the court assigns one at filing",
-          "sectionHeading": null,
-          "rectBasis": "composed_document_authored_by_this_build",
-          "reason": "court, clerk, prosecutor, agency, or hearing field; the court completes it",
-          "category": "court_prosecutor_clerk_or_agency_owned",
-          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
-          "class": "court_prosecutor_clerk_or_agency_owned",
-          "requiredBeforeFiling": false,
-          "document": "wa_del_nonconviction-primary-filing-1",
-          "why": "if a number is assigned, the court assigns it at filing"
-        },
-        {
           "field": "wa_del_nonconviction-primary-filing-1.petition_signature",
           "fieldName": "wa_del_nonconviction-primary-filing-1.petition_signature",
           "page": 1,
-          "printedLabel": "Signature of the person named in the caption, on the petition",
-          "printedLine": "Signature of the person named in the caption, on the petition",
-          "effectiveLabel": "Signature of the person named in the caption, on the petition",
-          "regionHeading": "Signature of the person named in the caption, on the petition",
+          "printedLabel": "Signature of the person named at the head of this request",
+          "printedLine": "Signature of the person named at the head of this request",
+          "effectiveLabel": "Signature of the person named at the head of this request",
+          "regionHeading": "Signature of the person named at the head of this request",
           "sectionHeading": null,
           "rectBasis": "composed_document_authored_by_this_build",
           "reason": "signature or date field; never prefilled by this build",
@@ -1767,10 +1805,10 @@
           "field": "wa_del_nonconviction-primary-filing-1.petition_signature_date",
           "fieldName": "wa_del_nonconviction-primary-filing-1.petition_signature_date",
           "page": 1,
-          "printedLabel": "Date beside the signature on the petition",
-          "printedLine": "Date beside the signature on the petition",
-          "effectiveLabel": "Date beside the signature on the petition",
-          "regionHeading": "Date beside the signature on the petition",
+          "printedLabel": "Date beside the signature on the request",
+          "printedLine": "Date beside the signature on the request",
+          "effectiveLabel": "Date beside the signature on the request",
+          "regionHeading": "Date beside the signature on the request",
           "sectionHeading": null,
           "rectBasis": "composed_document_authored_by_this_build",
           "reason": "signature or date field; never prefilled by this build",
@@ -1787,10 +1825,10 @@
           "field": "wa_del_nonconviction-primary-filing-1.petitioner_name",
           "fieldName": "wa_del_nonconviction-primary-filing-1.petitioner_name",
           "page": 1,
-          "printedLabel": "Person named in the caption of this document",
-          "printedLine": "Person named in the caption of this document",
-          "effectiveLabel": "Person named in the caption of this document",
-          "regionHeading": "Person named in the caption of this document",
+          "printedLabel": "Person named at the head of this request",
+          "printedLine": "Person named at the head of this request",
+          "effectiveLabel": "Person named at the head of this request",
+          "regionHeading": "Person named at the head of this request",
           "sectionHeading": null,
           "rectBasis": "composed_document_authored_by_this_build",
           "factId": "participant.full_legal_name",
@@ -1801,10 +1839,10 @@
           "field": "wa_del_nonconviction-primary-filing-1.date_of_birth",
           "fieldName": "wa_del_nonconviction-primary-filing-1.date_of_birth",
           "page": 1,
-          "printedLabel": "Date of birth of the person named in the caption",
-          "printedLine": "Date of birth of the person named in the caption",
-          "effectiveLabel": "Date of birth of the person named in the caption",
-          "regionHeading": "Date of birth of the person named in the caption",
+          "printedLabel": "Date of birth of the person named at the head of this request",
+          "printedLine": "Date of birth of the person named at the head of this request",
+          "effectiveLabel": "Date of birth of the person named at the head of this request",
+          "regionHeading": "Date of birth of the person named at the head of this request",
           "sectionHeading": null,
           "rectBasis": "composed_document_authored_by_this_build",
           "factId": "participant.date_of_birth",
@@ -2048,31 +2086,13 @@
           "participantMustSupply": "Is there any outstanding warrant for you, or is this case still being prosecuted?"
         },
         {
-          "field": "wa_del_nonconviction-primary-filing-1.case_number",
-          "fieldName": "wa_del_nonconviction-primary-filing-1.case_number",
-          "page": 1,
-          "printedLabel": "Case number of this filing, if the court assigns one at filing",
-          "printedLine": "Case number of this filing, if the court assigns one at filing",
-          "effectiveLabel": "Case number of this filing, if the court assigns one at filing",
-          "regionHeading": "Case number of this filing, if the court assigns one at filing",
-          "sectionHeading": null,
-          "rectBasis": "composed_document_authored_by_this_build",
-          "reason": "court, clerk, prosecutor, agency, or hearing field; the court completes it",
-          "category": "court_prosecutor_clerk_or_agency_owned",
-          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
-          "class": "court_prosecutor_clerk_or_agency_owned",
-          "requiredBeforeFiling": false,
-          "document": "wa_del_nonconviction-primary-filing-1",
-          "why": "if a number is assigned, the court assigns it at filing"
-        },
-        {
           "field": "wa_del_nonconviction-primary-filing-1.petition_signature",
           "fieldName": "wa_del_nonconviction-primary-filing-1.petition_signature",
           "page": 1,
-          "printedLabel": "Signature of the person named in the caption, on the petition",
-          "printedLine": "Signature of the person named in the caption, on the petition",
-          "effectiveLabel": "Signature of the person named in the caption, on the petition",
-          "regionHeading": "Signature of the person named in the caption, on the petition",
+          "printedLabel": "Signature of the person named at the head of this request",
+          "printedLine": "Signature of the person named at the head of this request",
+          "effectiveLabel": "Signature of the person named at the head of this request",
+          "regionHeading": "Signature of the person named at the head of this request",
           "sectionHeading": null,
           "rectBasis": "composed_document_authored_by_this_build",
           "reason": "signature or date field; never prefilled by this build",
@@ -2087,10 +2107,10 @@
           "field": "wa_del_nonconviction-primary-filing-1.petition_signature_date",
           "fieldName": "wa_del_nonconviction-primary-filing-1.petition_signature_date",
           "page": 1,
-          "printedLabel": "Date beside the signature on the petition",
-          "printedLine": "Date beside the signature on the petition",
-          "effectiveLabel": "Date beside the signature on the petition",
-          "regionHeading": "Date beside the signature on the petition",
+          "printedLabel": "Date beside the signature on the request",
+          "printedLine": "Date beside the signature on the request",
+          "effectiveLabel": "Date beside the signature on the request",
+          "regionHeading": "Date beside the signature on the request",
           "sectionHeading": null,
           "rectBasis": "composed_document_authored_by_this_build",
           "reason": "signature or date field; never prefilled by this build",
@@ -2104,9 +2124,9 @@
       ]
     },
     {
-      "formNumber": "wa_del_nonconviction-filing-instructions-2",
-      "documentId": "wa_del_nonconviction-filing-instructions-2",
-      "documentRole": "wa_del_nonconviction-filing-instructions-2",
+      "formNumber": "wa_del_nonconviction-records-checklist-2",
+      "documentId": "wa_del_nonconviction-records-checklist-2",
+      "documentRole": "wa_del_nonconviction-records-checklist-2",
       "documentPolicy": {
         "mode": "participant",
         "captionOnly": false,
@@ -2120,8 +2140,8 @@
       "selectionControls": [],
       "canonicalWrites": [
         {
-          "field": "wa_del_nonconviction-filing-instructions-2.petitioner_name",
-          "fieldName": "wa_del_nonconviction-filing-instructions-2.petitioner_name",
+          "field": "wa_del_nonconviction-records-checklist-2.petitioner_name",
+          "fieldName": "wa_del_nonconviction-records-checklist-2.petitioner_name",
           "page": 1,
           "printedLabel": "Person this page is prepared for",
           "printedLine": "Person this page is prepared for",
@@ -2131,14 +2151,14 @@
           "rectBasis": "composed_document_authored_by_this_build",
           "factId": "participant.full_legal_name",
           "kind": "composed_text",
-          "document": "wa_del_nonconviction-filing-instructions-2"
+          "document": "wa_del_nonconviction-records-checklist-2"
         }
       ],
       "canonicalRefusals": [],
       "boundaryWrites": [
         {
-          "field": "wa_del_nonconviction-filing-instructions-2.petitioner_name",
-          "fieldName": "wa_del_nonconviction-filing-instructions-2.petitioner_name",
+          "field": "wa_del_nonconviction-records-checklist-2.petitioner_name",
+          "fieldName": "wa_del_nonconviction-records-checklist-2.petitioner_name",
           "page": 1,
           "printedLabel": "Person this page is prepared for",
           "printedLine": "Person this page is prepared for",
@@ -2148,7 +2168,107 @@
           "rectBasis": "composed_document_authored_by_this_build",
           "factId": "participant.full_legal_name",
           "kind": "composed_text",
-          "document": "wa_del_nonconviction-filing-instructions-2"
+          "document": "wa_del_nonconviction-records-checklist-2"
+        }
+      ],
+      "boundaryRefusals": []
+    },
+    {
+      "formNumber": "wa_del_nonconviction-expectation-setting-3",
+      "documentId": "wa_del_nonconviction-expectation-setting-3",
+      "documentRole": "wa_del_nonconviction-expectation-setting-3",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060"
+      },
+      "structuralClass": "composed_document",
+      "composedFrom": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
+      "explicitMappings": {},
+      "roleRefusals": [],
+      "selectionControls": [],
+      "canonicalWrites": [
+        {
+          "field": "wa_del_nonconviction-expectation-setting-3.petitioner_name",
+          "fieldName": "wa_del_nonconviction-expectation-setting-3.petitioner_name",
+          "page": 1,
+          "printedLabel": "Person this page is prepared for",
+          "printedLine": "Person this page is prepared for",
+          "effectiveLabel": "Person this page is prepared for",
+          "regionHeading": "Person this page is prepared for",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "wa_del_nonconviction-expectation-setting-3"
+        }
+      ],
+      "canonicalRefusals": [],
+      "boundaryWrites": [
+        {
+          "field": "wa_del_nonconviction-expectation-setting-3.petitioner_name",
+          "fieldName": "wa_del_nonconviction-expectation-setting-3.petitioner_name",
+          "page": 1,
+          "printedLabel": "Person this page is prepared for",
+          "printedLine": "Person this page is prepared for",
+          "effectiveLabel": "Person this page is prepared for",
+          "regionHeading": "Person this page is prepared for",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "wa_del_nonconviction-expectation-setting-3"
+        }
+      ],
+      "boundaryRefusals": []
+    },
+    {
+      "formNumber": "wa_del_nonconviction-accuracy-remedy-guidance-4",
+      "documentId": "wa_del_nonconviction-accuracy-remedy-guidance-4",
+      "documentRole": "wa_del_nonconviction-accuracy-remedy-guidance-4",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060"
+      },
+      "structuralClass": "composed_document",
+      "composedFrom": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
+      "explicitMappings": {},
+      "roleRefusals": [],
+      "selectionControls": [],
+      "canonicalWrites": [
+        {
+          "field": "wa_del_nonconviction-accuracy-remedy-guidance-4.petitioner_name",
+          "fieldName": "wa_del_nonconviction-accuracy-remedy-guidance-4.petitioner_name",
+          "page": 1,
+          "printedLabel": "Person this page is prepared for",
+          "printedLine": "Person this page is prepared for",
+          "effectiveLabel": "Person this page is prepared for",
+          "regionHeading": "Person this page is prepared for",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "wa_del_nonconviction-accuracy-remedy-guidance-4"
+        }
+      ],
+      "canonicalRefusals": [],
+      "boundaryWrites": [
+        {
+          "field": "wa_del_nonconviction-accuracy-remedy-guidance-4.petitioner_name",
+          "fieldName": "wa_del_nonconviction-accuracy-remedy-guidance-4.petitioner_name",
+          "page": 1,
+          "printedLabel": "Person this page is prepared for",
+          "printedLine": "Person this page is prepared for",
+          "effectiveLabel": "Person this page is prepared for",
+          "regionHeading": "Person this page is prepared for",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "wa_del_nonconviction-accuracy-remedy-guidance-4"
         }
       ],
       "boundaryRefusals": []

@@ -143,6 +143,86 @@ function composedMap(componentId) {
   return composedMapShell(componentId, writes, refusals);
 }
 
+/*
+ * THE ONE SOURCE THIS PACKET QUOTES BUT DOES NOT RENDER.
+ *
+ * The date paragraph in the process guidance reproduces a sentence printed on
+ * DESPP-0847-C and raises it to a participant-facing requirement with denial as
+ * the stated consequence. VF02 measured the resulting defect: the quotation is
+ * verbatim and the fact is correct, but source-receipt.json -- the artifact
+ * whose declared job is to enumerate what the packet rests on -- did not name
+ * that document anywhere, bound no digest for it, and still recorded the
+ * withdrawn "unresolved, not a rule" position as live. A participant-facing
+ * requirement resting on unnamed, unhashed, gated bytes is a binding failure
+ * even when the sentence it rests on is quoted correctly.
+ *
+ * It is named and bound here, with its gate carried rather than hidden. It is
+ * still not rendered, not filled and not reproduced: the CT STATE_MANIFEST
+ * classes it source_gated / disabled_pending_release_gates /
+ * source_or_currentness_gate_open, and nothing here promotes it.
+ */
+const QUOTED_SOURCE_GATED_DOCUMENT = {
+  documentId: "DESPP-0847-C",
+  officialTitle: "Hearing for Clean Slate Erasure, Convictions After 1/1/2000",
+  revisionRecordedByManifest: "REV-2001-01",
+  printedEditionOnTheFace: "New 01/01/2024",
+  pathInArchive: "STATES/CT/05_SOURCE_GATED/CT__SOURCE-GATED__DESPP-0847-C__hearing-for-clean-slate-erasure-convictions-after-1-1-2000__REV-2001-01__EN.pdf",
+  sha256: "08658dc45d7d41c20a26dcab54fff8756302e85bef7f4d519d9c0a3d4e4fbcfc",
+  byteLength: 373186,
+  manifestClassification: {
+    tier: "source_gated",
+    runtime: "runtime_disabled",
+    releaseStatus: "release_gated_source",
+    gate: "disabled_pending_release_gates",
+    currentness: "source_or_currentness_gate_open",
+    manifestRow: "STATES/CT/STATE_MANIFEST.csv, key CT:DESPP-0847-C:INSTRUCTIONS:EN"
+  },
+  relianceInThisPacket: "quoted only. One sentence of its printed face is reproduced verbatim in the process guidance and stated to the participant as a requirement. The document is not rendered, not filled, not reproduced and not shipped, and this packet does not tell the participant that DESPP-0847-C is the form for their route.",
+  quotedSentence:
+    "You must submit a copy of your current criminal history record, which must be dated on or after 01/01/2024, "
+    + "demonstrating that such conviction has not been marked as erased. If the criminal history record is not "
+    + "submitted along with this form, your submission will be deemed incomplete and your request for a review "
+    + "and/or hearing will be denied.",
+  whatRemainsOpen:
+    "whether DESPP-0847-C is the correct instrument for THIS route. It is titled for convictions after 1/1/2000 "
+    + "and is held behind a currentness gate, and the question cannot be closed until Connecticut's state "
+    + "legal-design review, recorded by the corpus as missing_from_supplied_corpus and a release_blocker, is supplied."
+};
+
+/*
+ * Bind the quoted document by exact SHA-256 where the Master Library is
+ * mounted, and say plainly when it is not. This family renders no source
+ * binary and must stay buildable without the corpus, so the digest is pinned
+ * from the CT STATE_MANIFEST row and re-read from the bytes whenever they are
+ * reachable; a mismatch stops the build rather than being recorded as a match.
+ */
+function bindQuotedSourceGatedDocument() {
+  const roots = [
+    process.env.MASTER_LIBRARY_SOURCE_DIR,
+    path.join(ROOT, "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1")
+  ].filter(Boolean);
+  for (const root of roots) {
+    const abs = path.join(root, QUOTED_SOURCE_GATED_DOCUMENT.pathInArchive);
+    if (!fs.existsSync(abs)) continue;
+    const bytes = fs.readFileSync(abs);
+    const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
+    assert.equal(sha256, QUOTED_SOURCE_GATED_DOCUMENT.sha256,
+      `${QUOTED_SOURCE_GATED_DOCUMENT.documentId}: the mounted library bytes do not hash to the pinned digest`);
+    assert.equal(bytes.length, QUOTED_SOURCE_GATED_DOCUMENT.byteLength,
+      `${QUOTED_SOURCE_GATED_DOCUMENT.documentId}: the mounted library bytes are not the pinned byte length`);
+    return {
+      ...QUOTED_SOURCE_GATED_DOCUMENT,
+      digestBasis: "recomputed in this build from the mounted Master Library bytes and equal to the digest the CT STATE_MANIFEST row records",
+      verifiedAtBuildFromLibraryBytes: true
+    };
+  }
+  return {
+    ...QUOTED_SOURCE_GATED_DOCUMENT,
+    digestBasis: "the digest the CT STATE_MANIFEST row records. The Master Library was not mounted for this build, so the bytes were not re-read here",
+    verifiedAtBuildFromLibraryBytes: false
+  };
+}
+
 const RECEIPT = {
   groundingRecords: [
     { record: "data/record-clearing/legal-design-intake/CT.memo.json", track: "ct-missed-erasure", reviewedAsOf: "2026-07-30" },
@@ -164,7 +244,7 @@ const RECEIPT = {
   whatThisReceiptDoesNotEstablish: [
     "DESPP's current form and manner for a § 54-142t(g) submission — the recorded true output blocker; no submission document exists in this packet",
     "current SPBI fees and process — the recorded figures are from a form dated 12/01/17 and must be verified",
-    "whether the SPBI report must bear any particular date — recorded as unresolved, not as a rule",
+    "that DESPP-0847-C is the correct instrument for this route — it is titled for convictions after 1/1/2000 and is held behind a currentness gate, and the packet neither fills it nor tells the participant it is their form. What the packet DOES state, and what this receipt now binds under quotedButNotRenderedSources, is that DESPP-0847-C prints the on-or-after-01/01/2024 date rule on its face with denial as the stated consequence. The earlier position that the date rule was unresolved rather than a rule is withdrawn, and this receipt no longer records it",
     "that any output is approved for participant delivery, or that any record was required to be deemed erased under § 54-142a(e)"
   ]
 };
@@ -689,16 +769,22 @@ export async function runFamily(argv = process.argv.slice(2)) {
     jurisdiction: ROUTE.jurisdiction, implementationStrategy: IMPLEMENTATION_STRATEGY,
     custodyClass: "CUSTOM_PLEADING_FROM_CODIFIED_TEXT", acquisitionCommissioned: false,
     bindingMethod:
-      "no source bytes are bound: the MASTER_QUEUE row for this family binds zero sources (sourceStatus "
-      + "CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundCount 0, officialFormFamily NONE, forms []). Every composed "
-      + "page is grounded on the committed legal-design records named in groundingRecords, and nothing else.",
+      "no source bytes are RENDERED: the MASTER_QUEUE row for this family binds zero sources (sourceStatus "
+      + "CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundCount 0, officialFormFamily NONE, forms []), and this build "
+      + "fills and ships none. Every composed page is grounded on the committed legal-design records named in "
+      + "groundingRecords, with one exception this receipt names rather than leaves silent: the process guidance "
+      + "quotes one sentence off the printed face of the source-gated DESPP-0847-C and states it to the "
+      + "participant as a requirement. That document is enumerated under quotedButNotRenderedSources and bound "
+      + "there by exact SHA-256, with its gate classification carried.",
     routeKeys: ROUTE.routeKeys, routeSelectionId: ROUTE.routeSelectionId,
     statutoryAuthority: ROUTE.statute, legalName: ROUTE.legalName,
     allSourcesExact: true,
     allSourcesExactNote:
-      "true vacuously: this family binds zero source binaries, so there is no source that is not bound by exact "
-      + "SHA-256. No official form exists for this route per the legal-design record, and none was invented.",
+      "true: this family RENDERS zero source binaries, and the one source binary it quotes from — the "
+      + "source-gated DESPP-0847-C — is bound by exact SHA-256 under quotedButNotRenderedSources. No official "
+      + "form exists for this route per the legal-design record, and none was invented.",
     documents: [],
+    quotedButNotRenderedSources: [bindQuotedSourceGatedDocument()],
     groundingRecords: RECEIPT.groundingRecords,
     officialSourcesRecordedInIntake: RECEIPT.officialSourcesRecordedInIntake,
     formIdentityNote: RECEIPT.formIdentityNote,

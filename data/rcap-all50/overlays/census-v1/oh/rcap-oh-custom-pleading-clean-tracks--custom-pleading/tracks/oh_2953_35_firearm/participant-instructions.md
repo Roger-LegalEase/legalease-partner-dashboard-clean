@@ -4,7 +4,7 @@ This is a statutory-content draft and review artifact. It is not a statewide Ohi
 
 ## Required local-form step
 
-Obtain the current application, caption, filing instructions, fee information, and any proposed-order requirement from the Ohio court that handled the case. Transfer only reviewed content to that form. The absence of a catalogued local form is an explicit release blocker.
+Obtain the current application, caption, filing instructions, fee information, and any proposed-order requirement from the sentencing court. Transfer only reviewed content to that form. The absence of a catalogued local form is an explicit release blocker.
 
 ## Hard stops
 
