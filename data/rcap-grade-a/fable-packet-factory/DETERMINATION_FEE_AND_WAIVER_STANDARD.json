@@ -7,13 +7,11 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsNothing": "This settles how one proof obligation is scored. It promotes no family, opens no route, and overrides no legal decision.",
-
   "whyThisWasNeeded": {
     "observation": "Two verification teams scored FEE_AND_WAIVER differently on packets whose fee paragraphs are the same words.",
     "provenCase": "dc_seal_fugitive-set passed FEE_AND_WAIVER on one lane while dc_innocence_expungement-set and dc_correct_misattributed_arrest-set failed it on another. All three are built by the same District of Columbia host and all three carry the identical sentence: 'Any filing fee or fee-waiver answer. No held source states a fee, that filing is free, or a waiver procedure - ask the Criminal Division clerk's office (202-879-1373) before filing.'",
     "whyItMatters": "A family's terminal state would then depend on which verifier read it rather than on what the participant receives. This is the same divergence class lane contract L9 was written for, recurring one level down: L9 makes every lane score the same OBLIGATIONS, and this makes them score one obligation by the same STANDARD."
   },
-
   "theStandard": {
     "met": [
       "the packet states the fee amount, sourced",
@@ -27,11 +25,8 @@
     "theReasoning": "The obligation is that the participant can find out what filing costs, not that the repository knows the figure. Where no held source establishes a fee, naming the office that answers it is a complete deliverable: the participant can act. Demanding a figure the repository does not have would force exactly the invention every other rule in this factory forbids, and would punish the honest refusal it requires. Silence is different in kind - a participant cannot tell from silence whether filing is free, whether a fee exists, or whom to ask, and that is a real gap in the deliverable.",
     "worksBothWays": "This is not a relaxation. wi_nc_doj_fingerprint_removal-set correctly FAILS under it: its instructions carry no amount, no no-fee statement and no office to ask, and a verifier decoded the form's own subsetted font to confirm nothing on its face answers the question either."
   },
-
   "appliesTo": "Every lane scoring FEE_AND_WAIVER, and by the same reasoning SERVICE, where a named checkable authority stands in for a rule no held source establishes. An obligation that genuinely cannot be measured in the lane's environment stays NOT_MEASURABLE_HERE and caps the verdict at PASS; that is unchanged and is a different question from this one.",
-
   "actionTaken": "The six FEE_AND_WAIVER failures recorded against the fuller re-score are returned to their verifier to re-examine against this standard. The verifier keeps every failure where no checkable authority is named, and only those. Verdicts remain the verifier's; this fixes the yardstick, not the reading.",
-
   "familiesToReExamine": [
     "ga-fo-active-pre2026-set",
     "ga-fo-discharged-pre2026-set",
@@ -43,5 +38,18 @@
   "notReExamined": {
     "wi_nc_doj_fingerprint_removal-set": "fails on true silence; the standard confirms that verdict rather than disturbing it",
     "ky route-key defects": "the Kentucky pair also fails ROUTE_IDENTITY and FILING_DESTINATION on a route-key mismatch that is a genuine defect independent of the fee question"
+  },
+  "amendment": {
+    "amendmentId": "DET-FEE-AND-WAIVER-001-A1",
+    "decidedAt": "2026-09-02T00:55:00Z",
+    "question": "A verifier asked whether the same reasoning extends to FILING_DESTINATION, since the Kentucky packets name a clerk to ask about the fee and service but say nothing about where the motion is filed.",
+    "answer": "No. It does not extend, and FILING_DESTINATION stays a real failure on those two families.",
+    "why": "The fee standard rests on one fact: the repository does not hold the figure, so naming who does is the most the packet can honestly say. That fact is absent here. The verifier established that the committed track registry HOLDS the filing destination for these families \u2014 so the packet is silent about something the repository already knows, and 'ask the clerk where to file' would substitute a question for an answer we have. Naming an authority is what honesty requires when the record is empty; it is not a way to avoid stating what the record contains.",
+    "theTest": "Ask first whether the repository establishes the answer. If it does, the packet states it. Only where no held source establishes it may a named checkable authority stand in \u2014 and then it must be named, not gestured at.",
+    "consequence": "ky_void_seal_controlled_substance-set and ky_void_seal_marijuana_synthetic_salvia-set remain FAIL_REPAIR_REQUIRED. Their repair is to state the filing destination the track registry already holds, which is one shared fix across both families' shared host.",
+    "raisedNotAssumed": "The verifier flagged this boundary rather than deciding it, which is why it is answered here instead of resolved inconsistently in two lanes."
+  },
+  "alsoRecorded": {
+    "me-nonconv-set": "The verifier reported, unprompted, that applying this standard consistently corrected its own earlier classification of that family: it had recorded the fee obligation as NOT_MEASURABLE_HERE when the packet in fact states that no figure is published and names the Maine SBI with address and online service. NOT_MEASURABLE_HERE is reserved for what a lane's environment cannot measure, not for a does-not-apply call. The family moved to the strongest verdict and the verifier flagged the upgrade rather than letting it ride in quietly."
   }
 }

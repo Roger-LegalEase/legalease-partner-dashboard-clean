@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `2f5cd5b7e8e57a914c0532a211526a3c06fda505` (or the newer dispatch base)
+**Minimum required ancestor:** `2f1fcef3eb012c8b0b49ea9c39c0cf3eb2f7e924` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family dc_correct_misattributed_arrest-set \
+  --family ky_void_seal_controlled_substance-set \
   --codex-cloud \
-  --minimum-captain-sha 2f5cd5b7e8e57a914c0532a211526a3c06fda505
+  --minimum-captain-sha 2f1fcef3eb012c8b0b49ea9c39c0cf3eb2f7e924
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,9 +56,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 3 families
+## The 2 families
 
-- `dc_correct_misattributed_arrest-set`
 - `ky_void_seal_controlled_substance-set`
 - `wi_nc_doj_fingerprint_removal-set`
 
@@ -73,10 +72,8 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix04/**`
-- `data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/**`
-- `scripts/build-census-v1-dc_correct_misattributed_arrest-set.mjs`
 - `scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs`
 
 ## Never write here

@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `2f5cd5b7e8e57a914c0532a211526a3c06fda505` (or the newer dispatch base)
+**Minimum required ancestor:** `2f1fcef3eb012c8b0b49ea9c39c0cf3eb2f7e924` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family ca-1203-4a-set \
   --codex-cloud \
-  --minimum-captain-sha 2f5cd5b7e8e57a914c0532a211526a3c06fda505
+  --minimum-captain-sha 2f1fcef3eb012c8b0b49ea9c39c0cf3eb2f7e924
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,10 +56,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 3 families
+## The 2 families
 
 - `ca-1203-4a-set` — failing: requiredOptionsMissing
-- `ga-fo-discharged-pre2026-set`
 - `vt_seal_felony-set`
 
 ## What you receive
@@ -74,10 +73,8 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix03/**`
 - `data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ca-1203-4a-set.mjs`
-- `scripts/build-census-v1-ga-fo-discharged-pre2026-set.mjs`
 - `scripts/build-census-v1-vt_seal_felony-set.mjs`
 
 ## Never write here
