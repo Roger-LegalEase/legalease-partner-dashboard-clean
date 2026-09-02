@@ -465,6 +465,25 @@ try {
   for (const r of d.decisions ?? []) if (r.refused === true && r.familyId) ownerDeliveryTypeRefusals.set(r.familyId, r);
 } catch { /* no owner delivery-type decisions recorded */ }
 
+/*
+ * Owner holds pending a NAMED correction.
+ *
+ * A refusal above says the packet is the wrong thing; a hold here says it is
+ * the right thing and is not yet correct. The owner answered eight questions
+ * over the excluded families and every answer withheld something -- an
+ * unconfirmed fee the design refuses to publish, a timing rule with no source
+ * anywhere, a required component deliberately unbuilt, a corrected waiting rule
+ * counsel has not reconfirmed, a form whose mandatory status is unresolved.
+ * Each names what would lift it, so each is carried as an open legal input
+ * rather than a note somebody has to remember: the family cannot be proven and
+ * cannot enter a cohort until the correction is made and re-read.
+ */
+const ownerCorrectionsRequired = new Map();
+try {
+  const d = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json"), "utf8"));
+  for (const r of d.corrections ?? []) if (r.live !== false && r.familyId) ownerCorrectionsRequired.set(r.familyId, r);
+} catch { /* no owner corrections recorded */ }
+
 const laneReturnLegalHolds = new Map();
 try {
   const stale = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/STALE_LANE_RETURNS.json`), "utf8"));
@@ -1008,9 +1027,11 @@ for (const f of IN.scoreboard.familiesDetail) {
       }
     : laneHold;
   const wave2Legal = wave2LegalBlockSuperseded(familyId);
+  const ownerCorrection = ownerCorrectionsRequired.get(familyId) ?? null;
   const legalBlocked = routes.some((r) => openCounselRoutes.has(r.routeKey))
     || (verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" && wave2Legal?.superseded !== true)
-    || Boolean(laneHold);
+    || Boolean(laneHold)
+    || Boolean(ownerCorrection);
   const guidanceOnly = routes.length > 0 && routes.every((r) => confirmBRoutes.has(r.routeKey));
   const notAFamily = routes.length === 0;
   const routeMappingOpen = notAFamily;
@@ -1032,6 +1053,13 @@ for (const f of IN.scoreboard.familiesDetail) {
    * precedes every question about how good the instrument is. */
   const deliveryTypeRefusal = ownerDeliveryTypeRefusals.get(familyId) ?? null;
   if (deliveryTypeRefusal) state = "WRONG_DELIVERY_TYPE";
+  /* An owner withholding outranks a passing verdict for the same reason a
+   * delivery-type refusal does: the verdict says the packet is well made, and
+   * the withholding says it may not ship as made. Left below the PASS branch
+   * these nine families sat at VERIFIED_PASS, which L4 and F30 read as proven —
+   * so a family the owner had expressly not approved would have counted among
+   * the proven ones. */
+  else if (ownerCorrection) state = "LEGAL_BLOCKED";
   else if (guidanceOnly) state = "LEGITIMATE_GUIDANCE_ONLY";
   /*
    * A returned verdict outranks an active-owner claim.
@@ -1193,13 +1221,15 @@ for (const f of IN.scoreboard.familiesDetail) {
       : null,
     /* Where the hold came from, so a reader can tell a counsel-queue route key
      * from a lane that tried to build the family and hit a legal wall. */
-    legalInputBasis: laneHold ? "LANE_RETURN_BLOCKED_LEGAL_INPUT"
+    legalInputBasis: ownerCorrection ? "OWNER_CORRECTION_REQUIRED"
+      : laneHold ? "LANE_RETURN_BLOCKED_LEGAL_INPUT"
       : routes.some((r) => openCounselRoutes.has(r.routeKey)) ? "OPEN_COUNSEL_QUESTION"
         : (verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" && wave2Legal?.superseded !== true) ? "LEGAL_APPROVAL_VERDICT" : null,
     /* Present on every family the wave-2 ledger blocked, whether or not a later
      * read outranked it, so the reason a block stands is as readable as the
      * reason one lifted. */
     wave2LegalBlock: wave2Legal,
+    ownerCorrectionRequired: ownerCorrection,
     laneReturnLegalHold: laneHoldNarrowed,
     routeMappingStatus: routeMappingOpen ? "UNBOUND_TO_A_PACKET_FAMILY" : "BOUND",
     artifactStatus: artifactPresent ? "RENDERED" : "NOT_RENDERED",
