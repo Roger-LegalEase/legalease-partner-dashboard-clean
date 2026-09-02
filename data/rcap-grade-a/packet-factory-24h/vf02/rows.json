@@ -4705,14 +4705,126 @@
     {
       "itemId": "rcap-ks-custom-pleading",
       "lane": "VF02",
-      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading",
-      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
-      "worker": "VT-B",
-      "verifiedBy": "VT-B independent verification, measured in this container against the committed bytes",
-      "rasterState": "BUILT_RASTER_PENDING",
+      "verifiedAtBase": "d74ac4c1279c92d94be307b6d2542b9d4292427d",
+      "worker": "KSVER",
+      "verifiedBy": "KSVER independent verification; every hash recomputed in this container from the committed bytes, never read back from a record",
+      "rasterState": "BUILT_RASTER_PENDING - local repairing-lane manifest only; no central RASTER_PASS binds these bytes",
       "rasterWorkflowRunId": null,
-      "verdictCeilingApplied": null,
+      "verdictCeilingApplied": "BUILT_RASTER_PENDING",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the family carries both current five-segment track-pathway keys and neither superseded track-only key. product-wiring.json top-level routeKey/routeKeys, binding.routeKeys, source-receipt.json and rendered-artifacts.json now agree, so the exact disagreement VF02 failed this family on at base a0d49e1a is repaired (correctedBy FIX03).",
+          "evidence": "grep of all four keys against route-obligation-candidate.json: 1 occurrence each for both track-pathway keys, 0 for both track-only keys"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "3/3 committedRecords recomputed from git objects: sha256 AND byteLength matched on all three. Anchor presence tested separately and independently of the pin: both route slugs are textually present in every source that binds them.",
+          "evidence": "sha256 recompute of legal-design-track-registry.json (49d08b90…, 16469590B), legal-design-specifications.json (cc0c7959…, 16829383B), route-obligation-candidate.json (09368333…, 2599752B); anchor grep: ks-12-4516-municipal present 1x in registry, 5x in specifications, key present 1x in census"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the assembly carries all six components, three per route, none missing and none duplicated across routes. It is build and review evidence, not a participant deliverable.",
+          "evidence": "12-page canonical = route1 pp1-6 then route2 pp7-12; 13-page boundary = route1 pp1-7 then route2 pp8-13. Per-page headings confirm the split; componentSet declares exactly the six ids observed."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "every written value read back from this component's own pages in the saved bytes; no invisible or out-of-box writes",
+          "evidence": "reports/actual-writes.json derivedFromArtifactBytes:true, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes:0, flattenedWidgetAppearances:0; counters invisibleWrites:0"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "every blank classified and disclosed with the reason and what the participant must supply",
+          "evidence": "blanks-left-for-the-participant.json; blankDispositions REQUIRED_BEFORE_FILING:28, PROTECTED_FIELD:14; unclassifiedBlanks:0"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "this route's options carried per route in the instructions",
+          "evidence": "participant-instructions.md section 'The items you must supply' has a dedicated ks-12-4516-municipal-primary-filing-1 block; requiredOptionsMissing:0"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no incomplete repeating row",
+          "evidence": "completeness-counters incompleteRows:0"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no write into a protected field; 14 protected blanks left unwritten",
+          "evidence": "completeness-counters protectedWrites:0; blankDispositions PROTECTED_FIELD:14"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both family fixtures exist and hash to their declared digests at their declared page counts",
+          "evidence": "sha256 006811cc (12pp) and 3f903f57 (13pp) both recomputed MATCH"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "strict route-major concatenation: the whole conviction route, then the whole arrest route, with no interleaving",
+          "evidence": "per-page headings across all 12 and 13 pages"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "the only raster evidence in Kansas is a LOCAL manifest produced by the repairing lane (FIX03, fable/kspath) covering the family assembly, whose own currentRasterState reads RASTER_PENDING. It is the repairing lane attesting to its own output, the same self-vouching structure as a pageManifest vouching for itself, and it is not the central hash-bound RASTER_PASS that the builder own record says PASS_COMPLETE requires. No participant-deliverable artifact in this family has been rastered by anyone.",
+          "evidence": "fix03-kansas/FAMILY_ASSEMBLY_RASTER_MANIFEST.json rows[0].unitOfDelivery=family_assembly, currentRasterState=RASTER_PENDING, coverage.basis concedes the route artifacts are the deliverables; rendered-artifacts.json rasterSkipped:true, rasterEngine:null, rasterPages:[], routeArtifactRasterPending:true"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "destination recorded per route: the convicting Kansas municipal court, with the charter-ordinance caveat named",
+          "evidence": "participant-instructions.md FILING_DESTINATION row for this route; K.S.A. 12-4516(a)(1)"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "fee recorded as court-prescribed under 12-4516(g)(2) with no statewide figure; absence of a statutory waiver stated rather than left blank",
+          "evidence": "participant-instructions.md FEE_AND_WAIVER row for this route"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the court causes notice; the participant does not serve — stated explicitly",
+          "evidence": "participant-instructions.md SERVICE row; K.S.A. 12-4516(g)(1)"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "seven route-specific stop conditions including prosecutor opposition, contested hearing, Wichita charter ordinance and offender registration",
+          "evidence": "participant-instructions.md SELF_HELP_STOP row and 'When to stop and get help instead of filing'"
+        }
+      },
+      "participantFacingRouteIdLeak": false,
+      "carriesForeignRouteComponent": false,
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "artifacts": [
+        {
+          "file": "fixtures/canonical.pdf",
+          "sha256": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
+          "pageCount": 12,
+          "recomputed": "MATCH"
+        },
+        {
+          "file": "fixtures/boundary.pdf",
+          "sha256": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2",
+          "pageCount": 13,
+          "recomputed": "MATCH"
+        }
+      ],
+      "familyAssemblyIsAParticipantDeliverable": false,
       "nineCounters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -4724,108 +4836,19 @@
         "protectedWrites": 0,
         "visualDefects": 0,
         "allZero": true,
-        "measuredHere": true,
-        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading, run without --write in this container on the committed bytes"
+        "measuredHere": false,
+        "measuredBy": "read from reports/completeness-counters.json, which is the BUILDER own count. visualDefects:0 is not independently corroborated here because no raster of these bytes exists; verify-packet-completeness.mjs was not run with --write, per lane rules."
       },
-      "proofObligations": {
-        "ROUTE_IDENTITY": {
-          "measured": true,
-          "result": "FAIL",
-          "finding": "the family's own records disagree about which route it serves. source-receipt.json, production-field-map.json, reports/rendered-artifacts.json, product-wiring.json binding.routeKeys and the printed Route: line all carry the two current five-segment keys, which the census does carry. product-wiring.json top-level routeKey and routeKeys still carry obligation:track-only:KS:ks-12-4516-municipal and obligation:track-only:KS:ks-12-4516a-municipal-arrest, and each occurs ZERO times in the committed route-obligation census. Only 6 of 182 census-v1 product-wiring files disagree top-level against binding, so this is an anomaly and not the house style.",
-          "evidence": "grep of each key against data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (0 occurrences for both track-only keys, 1 each for both track-pathway keys); product-wiring.json routeKey/routeKeys compared against binding.routeKeys across all 182 census-v1 families"
-        },
-        "SOURCE_IDENTITY": {
-          "measured": true,
-          "result": "PASS",
-          "finding": "3/3 committedRecords recomputed byte-for-byte here and every sha256 and byteLength matched, including the census re-pin the repair made (0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 bytes). Both declared five-segment routeKeys are textually PRESENT in the census bytes the receipt binds, which is the exact check Kansas previously failed.",
-          "evidence": "sha256 recomputed for data/record-clearing/legal-design-track-registry.json, data/record-clearing/legal-design-specifications.json and the route-obligation census; each declared routeKey grepped against the census bytes"
-        },
-        "COMPONENT_SET": {
-          "measured": true,
-          "result": "PASS",
-          "finding": "all six declared components appear in the 13-row family pageManifest, and each route artifact carries only its own three components: the ks-12-4516-municipal artifacts contain 3 conviction-route component headings and 0 arrest-route headings, the ks-12-4516a-municipal-arrest artifacts the reverse, and each route artifact prints only its own route key",
-          "evidence": "extracted page text of all four fixtures/routes/*.pdf counted for the other route's component headings and route keys; reports/rendered-artifacts.json routeArtifacts pageManifests read against componentSet"
-        },
-        "KNOWN_PREFILLS": {
-          "measured": true,
-          "result": "PASS",
-          "finding": "knownRequiredFieldsMissing=0 measured here",
-          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading, run without --write in this container on the committed bytes"
-        },
-        "REQUIRED_BEFORE_FILING": {
-          "measured": true,
-          "result": "PASS",
-          "finding": "25 declared required-before-filing items, all 25 named in participant-instructions.md by normalised string match against the file",
-          "evidence": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/production-field-map.json requiredBeforeFiling checked against participant-instructions.md"
-        },
-        "ROUTE_OPTIONS": {
-          "measured": true,
-          "result": "PASS",
-          "finding": "requiredOptionsMissing=0 measured here",
-          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading, run without --write in this container on the committed bytes"
-        },
-        "REPEATING_ROWS": {
-          "measured": true,
-          "result": "PASS",
-          "finding": "incompleteRows=0 measured here",
-          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading, run without --write in this container on the committed bytes"
-        },
-        "PROTECTED_FIELDS": {
-          "measured": true,
-          "result": "PASS",
-          "finding": "0 of 28 declared write entries carry a protected label, and the extracted text shows the DATE / SIGNATURE OF PETITIONER lines blank on both petitions",
-          "evidence": "production-field-map.json write entries scanned for signature, notary, clerk, judge, prosecutor and certificate-of-service labels; pdftotext -layout of fixtures/canonical.pdf"
-        },
-        "ARTIFACTS": {
-          "measured": true,
-          "result": "FAIL",
-          "finding": "the six artifact hashes recomputed here all equal what reports/rendered-artifacts.json names, but product-wiring.json names a different hash for the same bytes: binding.acceptanceReceipt claims RASTER_PASS coversTheWholeFamily bound to 6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8, and proposedRepresentation repeats it. That hash is the pre-repair canonical and no longer exists on disk; the canonical now hashes aca94f8f2ec3ae058e1a52b3d17cda4ffbabec5e6f8b087e5d58147f81a3f04f. Kansas is the only family of my nine whose acceptance receipt binds a hash that no artifact carries, and 0 of its 6 artifacts appear in RASTER_QUEUE.json. The five route-artifact acceptance records also still pin only pre-repair Kansas hashes: ROUTE_ARTIFACT_ACCEPTANCE 14 pre-repair hash lines and 0 post-repair, COMPLETENESS 4/0, DETERMINISM 9/0, RASTER_QUEUE 4/0, CENTRAL_RASTER_RUN 2/0.",
-          "evidence": "sha256 recomputed for all six fixtures and compared against reports/rendered-artifacts.json, product-wiring.json acceptanceReceipt and proposedRepresentation, RASTER_QUEUE.json and data/rcap-grade-a/route-artifact-acceptance/*.json"
-        },
-        "PAGE_ORDER": {
-          "measured": true,
-          "result": "PASS",
-          "finding": "every pageManifest is contiguous and every declared pageCount equals the pdfinfo page count: family 13/13, ks-12-4516-municipal 7/7, ks-12-4516a-municipal-arrest 6/6, on both fixtures. The added page in the canonical family assembly and in the canonical ks-12-4516-municipal artifact is declared in the manifest as page 4 of ks-12-4516-municipal-primary-filing-1.",
-          "evidence": "pdfinfo page counts against reports/rendered-artifacts.json pageCount and pageManifest for all six artifacts"
-        },
-        "CLIPPING_AND_OVERLAP": {
-          "measured": true,
-          "result": "PASS",
-          "finding": "0 words outside the page box on any page of any of the six artifacts (3356, 3364, 1701, 1705, 1655 and 1659 words measured). The wrapped route key is fully on the page: it breaks mid-token as expungement-und / er-12-4516 and, on the canonical family assembly and the canonical ks-12-4516-municipal artifact, the Route: label is orphaned at the foot of page 3 while its value occupies a page of its own. That is a page-composition question for visual review, not ink outside a box.",
-          "evidence": "pdftotext -bbox-layout over the committed fixture bytes: every word rectangle compared against that page's own MediaBox; per-page text of post-repair page 4 read in full"
-        },
-        "FILING_DESTINATION": {
-          "measured": true,
-          "result": "PASS",
-          "finding": "both routes name the destination the committed track registry records: the convicting Kansas municipal court, and the municipal court where the ordinance charge was brought, each with the charter-ordinance caveat the registry carries",
-          "evidence": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/participant-instructions.md FILING_DESTINATION rows checked against data/record-clearing/legal-design-track-registry.json destination and venue for ks-12-4516-municipal and ks-12-4516a-municipal-arrest"
-        },
-        "FEE_AND_WAIVER": {
-          "measured": true,
-          "result": "PASS",
-          "finding": "both routes state the fee position and the waiver position as the registry records them, including the K.S.A. 21-6107 identity-theft fee exemption on the arrest route and the absence of any discretionary waiver",
-          "evidence": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/participant-instructions.md FEE_AND_WAIVER rows against the track registry"
-        },
-        "SERVICE": {
-          "measured": true,
-          "result": "PASS",
-          "finding": "both routes state that the court causes notice to be given to the prosecuting attorney and the arresting agency and that the participant does not serve, as the registry records",
-          "evidence": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/participant-instructions.md SERVICE rows against the track registry"
-        },
-        "SELF_HELP_STOP": {
-          "measured": true,
-          "result": "PASS",
-          "finding": "all 12 registry self-help stop conditions across the two tracks are carried in the packet, including immigration consequences",
-          "evidence": "registry selfHelpStopConditions for both tracks compared term-by-term against participant-instructions.md: 12 of 12 covered"
-        }
-      },
-      "repairAssignmentId": "VTB-REPAIR-KS-PRODUCT-WIRING",
-      "rePointingClaimIndependentlyChecked": {
-        "claim": "FIXKS recorded in KANSAS_ROUTE_KEY_REPAIR.json that the only textual change anywhere in the six artifacts is the trailing Route: line, and that two artifacts gained a page because the longer key wraps.",
-        "howVTBCheckedIt": "the six pre-repair artifacts were recovered with git show 6c9fac8dd^ and the post-repair artifacts read from disk; page text was extracted from all twelve with pdftotext -layout, whitespace was collapsed and only the two route-key strings were replaced by tokens, and the whole normalised documents were compared",
-        "result": "CLAIM HOLDS. All six normalised documents are character-identical pre and post, at identical lengths (23408, 23006, 12346, 12145, 11062 and 10861 characters), with the same number of route-key occurrences on each side. participant-instructions.md differs by exactly one line, the trailing _Route(s):_ footer.",
-        "pageGrowthCause": "CONFIRMED AND MORE SPECIFIC THAN THE CLAIM. Page counts moved exactly as recorded: canonical family 12 to 13, canonical ks-12-4516-municipal 6 to 7, the other four held. The cause is not a three-line wrap absorbed in place: the whole key value was pushed off page 3 onto a new page 4 that contains nothing but the key, hard-wrapped mid-token as expungement-und / er-12-4516, leaving the bare label Route: alone at the foot of page 3. Both halves of that split sit inside the page box.",
-        "whatTheClaimDidNotCover": "the repair record disclosed that product-wiring.json still carries the superseded keys and left it to another lane. VT-B measured the consequence and found a second stale limb in the same file that the repair record did not name: the acceptance receipt and proposedRepresentation still bind the pre-repair canonical hash."
+      "localRasterReceiptsAdequate": false,
+      "notes": [
+        "The printed participant label is correct and the machine route id appears on NO participant-facing page: 0 hits across all six PDFs by text extraction and 0 hits in participant-instructions.md.",
+        "The exact Route(s) line the dispatch specifies is the closing line of participant-instructions.md. The PDF pages instead print a per-route Route: label line, which is correct for a route-scoped deliverable, because a combined two-route line on a single-route packet would name the other route statute.",
+        "Family assembly is explicitly not a participant deliverable, so its verdict carries no commercial weight."
+      ],
+      "supersedes": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+        "worker": "VT-B"
       }
     },
     {
