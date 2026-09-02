@@ -2,7 +2,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { execFileSync } from "node:child_process";
 import { readInk } from "./pdfink.mjs";
+const pdfinfoPages = (abs) => { try { const o = execFileSync("pdfinfo", [abs], { encoding: "utf8" }); const m = o.match(/^Pages:\s+(\d+)/m); return m ? +m[1] : null; } catch { return null; } };
 
 const ROOT = "/home/user/legalease-partner-dashboard-clean/.claude/worktrees/rva2";
 const MAIN = "/home/user/legalease-partner-dashboard-clean";
@@ -117,15 +119,25 @@ for (const p of pdfs) { const abs = R(p.file); if (exists(abs)) { try { ink[p.fi
 const canonicalFile = (pdfs.find(p => p.fixture === "canonical") || pdfs[0] || {}).file;
 const boundaryFile = (pdfs.find(p => p.fixture === "boundary") || {}).file;
 const fileFor = (fx) => fx === "boundary" ? (boundaryFile || canonicalFile) : canonicalFile;
-out.pdfs = pdfs.map(p => ({ file: p.file, fixture: p.fixture, declaredPageCount: p.pageCount ?? null, observedPageCount: Array.isArray(ink[p.file]) ? ink[p.file].length : null, present: exists(R(p.file)), inkError: (ink[p.file] && ink[p.file].error) || null }));
+out.pdfs = pdfs.map(p => ({ file: p.file, fixture: p.fixture, declaredPageCount: p.pageCount ?? null, observedPageCount: Array.isArray(ink[p.file]) ? ink[p.file].length : pdfinfoPages(R(p.file)), pageCountBy: Array.isArray(ink[p.file]) ? "content stream reader" : "pdfinfo", present: exists(R(p.file)), inkError: (ink[p.file] && ink[p.file].error) || null }));
 
 // ---- document page offsets inside the assembled packet ----
 // Field-map rects carry DOCUMENT-LOCAL page numbers; the packet is an assembly.
 // Locate each official form's page block by matching its own bytes against the packet.
-const srcInk = {};
+const srcInk = {}; const srcInkVia = {};
 for (const d of [...(sr?.documents || []), ...(sr?.sources || [])]) { const rel = d.pathInArchive || d.pathInCorpus; if (!rel) continue; const abs = R(rel); if (!exists(abs)) continue;
   const key = d.documentId || d.formNumber || d.sourceId; if (!key) continue;
-  try { srcInk[key] = await readInk(abs); } catch (e) { srcInk[key] = { error: String(e) }; } }
+  try { srcInk[key] = await readInk(abs); } catch (e) {
+    let done = false; const dd = path.join(D, "derived-sources");
+    if (exists(dd)) for (const f of fs.readdirSync(dd)) {
+      if (!/\.pdf$/i.test(f)) continue;
+      const tag = String(d.formNumber || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+      if (tag && !f.toLowerCase().replace(/[^a-z0-9.]/g, "").includes(tag)) continue;
+      try { srcInk[key] = await readInk(path.join(dd, f)); srcInkVia[key] = `derived-sources/${f}`; done = true; break; } catch {}
+    }
+    if (!done) srcInk[key] = { error: String(e) }; } }
+out.sourceInkVia = srcInkVia;
+out.sourcesUnreadable = Object.entries(srcInk).filter(([, v]) => !Array.isArray(v)).map(([k, v]) => ({ document: k, error: v.error }));
 const toks = (t) => new Set(norm(t).toLowerCase().replace(/[^a-z0-9 ]+/g, " ").split(" ").filter(w => w.length > 3));
 const jac = (a, b) => { if (!a.size || !b.size) return 0; let n = 0; for (const x of a) if (b.has(x)) n++; return n / a.size; };
 const docOffsets = {};
@@ -479,9 +491,15 @@ out.censusDeclared = (cen?.documents || []).map(d => ({ documentId: d.documentId
 
 // ---- CLIPPING_AND_OVERLAP ----
 const clip = [], overlap = [];
+// the blank form's own printing is not this build's defect: index it and subtract it
+const sourceRunKeys = new Set();
+for (const [docId, pages] of Object.entries(srcInk)) { if (!Array.isArray(pages)) continue;
+  for (const pg of pages) for (const it of pg.items) if (it.nonSpaceBytes > 0)
+    sourceRunKeys.add(`${Math.round(it.x)}|${Math.round(it.y)}|${norm(it.text).slice(0, 24)}`); }
+out.sourceRunsIndexed = sourceRunKeys.size;
 for (const [fk, pages] of Object.entries(ink)) { if (!Array.isArray(pages)) continue;
   for (const pg of pages) {
-    const its = pg.items.filter(i => i.nonSpaceBytes > 0);
+    const its = pg.items.filter(i => i.nonSpaceBytes > 0 && !sourceRunKeys.has(`${Math.round(i.x)}|${Math.round(i.y)}|${norm(i.text).slice(0, 24)}`));
     for (const it of its) { const right = it.x + it.advance;
       if (it.x < -2 || it.y < -2 || it.y > pg.height + 2 || it.x > pg.width + 2) clip.push({ file: fk, page: pg.page, why: "origin outside media box", x: it.x, y: it.y, text: it.text.slice(0, 50) });
       else if (right > pg.width + 1) clip.push({ file: fk, page: pg.page, why: "text runs past the page edge", x: it.x, right: +right.toFixed(1), pageWidth: pg.width, text: it.text.slice(0, 70) }); }
@@ -492,7 +510,30 @@ for (const [fk, pages] of Object.entries(ink)) { if (!Array.isArray(pages)) cont
           const ruleChars = (c.match(/[_.\u2024\u2026\-:\u00b7]/g) || []).length; return ruleChars / c.length >= 0.8; };
         if (ov > 2 && norm(s[i].text) && norm(s[i - 1].text) && !isRule(s[i].text) && !isRule(s[i - 1].text)) overlap.push({ file: fk, page: pg.page, y, overlapPts: +ov.toFixed(1), a: s[i - 1].text.slice(0, 40), b: s[i].text.slice(0, 40) }); } }
   } }
-out.clipping = { count: clip.length, sample: clip.slice(0, 20) };
+// Poppler is an independent renderer and is the arbiter for anything running off the page:
+// the content-stream reader can mis-transform a run inside a nested XObject.
+const popplerWords = (abs) => {
+  try {
+    const xml = execFileSync("pdftotext", ["-bbox", abs, "-"], { encoding: "utf8", maxBuffer: 1 << 28 });
+    const out = []; let page = 0, pw = 612, ph = 792;
+    for (const line of xml.split("\n")) {
+      const pm = line.match(/<page width="([\d.]+)" height="([\d.]+)"/);
+      if (pm) { page++; pw = +pm[1]; ph = +pm[2]; }
+      const m = line.match(/<word xMin="([\d.]+)" yMin="([\d.]+)" xMax="([\d.]+)" yMax="([\d.]+)">([^<]*)<\/word>/);
+      if (m) out.push({ page, x: +m[1], y: +m[2], x2: +m[3], y2: +m[4], t: m[5], pw, ph });
+    }
+    return out;
+  } catch { return null; }
+};
+const popplerClip = [];
+let popplerChecked = 0;
+for (const p of pdfs) { const abs = R(p.file); if (!exists(abs)) continue;
+  const ws = popplerWords(abs); if (!ws) continue; popplerChecked++;
+  for (const w of ws) if (w.x < -0.5 || w.x2 > w.pw + 0.5 || w.y < -0.5 || w.y2 > w.ph + 0.5)
+    popplerClip.push({ file: p.file, page: w.page, word: w.t, box: [w.x, w.y, w.x2, w.y2], pageSize: [w.pw, w.ph] }); }
+out.clippingByPoppler = { filesChecked: popplerChecked, count: popplerClip.length, sample: popplerClip.slice(0, 20) };
+out.clippingByContentReader = { count: clip.length, sample: clip.slice(0, 8) };
+out.clipping = { count: popplerChecked ? popplerClip.length : clip.length, measuredBy: popplerChecked ? "poppler word boxes" : "content stream reader", sample: (popplerChecked ? popplerClip : clip).slice(0, 15) };
 out.overlap = { count: overlap.length, sample: overlap.slice(0, 20) };
 
 
