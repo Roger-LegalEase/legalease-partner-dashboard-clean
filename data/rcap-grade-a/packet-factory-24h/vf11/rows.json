@@ -2374,6 +2374,166 @@
      }
     }
    }
+  },
+  {
+   "itemId": "pa_age70_deceased-set",
+   "lane": "VF11",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill",
+   "verifier": "FABLE-VT7 (independent — built none of these packets, and neither built nor repaired any family scored here)",
+   "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+   "supersedes": [
+    {
+     "lane": "vf01",
+     "verdict": "PASS_COMPLETE_INDEPENDENT",
+     "declaredBase": null,
+     "why": "same conclusion, now with SOURCE_IDENTITY actually measured rather than assumed"
+    },
+    {
+     "lane": "vf04",
+     "verdict": "BLOCKED_SOURCE",
+     "declaredBase": null,
+     "why": "the block was SOURCE_IDENTITY unmeasured in a lane without the corpus; the corpus is mounted here and both sources rehash exactly, so the block is closed on evidence"
+    }
+   ],
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "rasterState": "RASTER_PASS",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Coherent at both levels. source-receipt.json, production-field-map.json and the instructions footer declare the track 'track:PA:pa_age70_deceased', which is a real identifier carried eight times in canonical-route-universe.json; product-wiring.json declares the two canonical pathway obligations beneath it, 'obligation:track-pathway:PA:pa_age70_deceased:path-e-age-70-expungement' and ':path-f-deceased-person-expungement', both present in the canonical obligation census. familyId agrees across all six committed records. The statute on the packet's face, 18 Pa.C.S. § 9122(b) with Pa.R.Crim.P. 790, is the statute the route names.",
+     "evidence": {
+      "trackDeclared": "track:PA:pa_age70_deceased",
+      "inCanonicalUniverse": true,
+      "pathwayObligations": [
+       "obligation:track-pathway:PA:pa_age70_deceased:path-e-age-70-expungement",
+       "obligation:track-pathway:PA:pa_age70_deceased:path-f-deceased-person-expungement"
+      ],
+      "bothInCanonicalCensus": true
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Measured against the mounted Master Library. Both AOPC forms rehash from the library bytes to the recorded SHA-256 at the recorded byte lengths.",
+     "evidence": [
+      {
+       "form": "PA-RCRIM-P-790-PETITION",
+       "recordedSha": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+       "rehashMatches": true,
+       "byteLenMatches": true
+      },
+      {
+       "form": "PA-RCRIM-P-790-ORDER",
+       "recordedSha": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+       "rehashMatches": true,
+       "byteLenMatches": true
+      }
+     ]
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredComponentsMissing 0. Two components, the petition and the order with its Rule 790 information page, three pages, and the instructions open by naming both and saying what each is for."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "knownRequiredFieldsMissing 0, measured here. 16 of 105 fields written; the instructions state exactly what was filled — name, date of birth, address, county and docket number, on both forms — and everything else is listed as the participant's."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredFactsNotCollected 0. Every blank is named by the section it sits in and the words printed above it, including all thirty-five charge-table cells and all fourteen numbered items on the Rule 790 information page. The instructions go further than the counter requires and explain WHY the charge table is left wholly empty: the values come from the charging document, which the platform does not hold, and a part-filled row would read as a finished one."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredOptionsMissing 0. The two § 9122(b) situations — reaching 70 with ten arrest-free years since final release, and a person dead three years — are set out under 'Which route this is' and the election is left to the participant in the reason box, in their own words with dates. The packet states it does not decide whether the participant qualifies."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows 0. The five charge rows across seven columns are left entirely blank and every cell is named; the instructions say the form's own answer for a sixth charge is to attach another sheet."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites 0 and invisibleWrites 0. reports/actual-writes.json is derivedFromArtifactBytes true with no blocking findings, and the instructions state the rule the bytes keep: the whole of the Order above the signature line — the date, the recitals, the disposition, which of the three expungement paragraphs applies, and the signature — is the court's and is untouched."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures rehash from their committed bytes to reports/rendered-artifacts.json and to the hash-bound RASTER_PASS receipt.",
+     "evidence": {
+      "rasterWorkflowRunId": "33495068504",
+      "canonicalMatchesReceipt": true,
+      "boundaryMatchesReceipt": true
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Declared pageCount 3 = pageManifest length 3 = the pages I read from the delivered PDF, for both fixtures: petition, order page 1, Rule 790 information page."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects 0 on my own run, over bytes holding a RASTER_PASS receipt bound to those hashes. The family additionally carries reports/independent-visual-review.json."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Stated affirmatively and sourced to the paper: 'File the petition with the Clerk of Courts of the Court of Common Pleas in the county already filled in for you.' The county is prefilled, so the destination is not left as a blank the participant must resolve.",
+     "evidence": {
+      "destination": "Clerk of Courts, Court of Common Pleas, county prefilled",
+      "instructionsLine": 18
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Met on the third limb of DET-FEE-AND-WAIVER-001. I applied the amendment's test first and asked whether the repository establishes the figure: it does not. src/lib/rcap/state-packs/pennsylvania/fee-notes.ts records only 'Petition filing fees vary by county and are often about $132-$215' — a hedged range that by its own terms does not establish the fee for any particular county, which is exactly the unsourced figure this factory refuses to print. So the honest-refusal route is open, and the packet takes it correctly: 'Ask the Clerk of Courts what filing fee applies. It is not stated here, because no source this packet holds establishes it and an unsourced figure in a filing instruction is worse than none.' The authority is named and reachable — the Clerk of Courts of the Court of Common Pleas in a county already printed on the participant's own packet. Recorded for the repair queue rather than scored against it: the sentence answers the fee and is silent on the waiver, and the PA pack does hold that an in forma pauperis request may be available; one clause naming the same clerk for the waiver would close the obligation's second half explicitly.",
+     "evidence": {
+      "standard": "DET-FEE-AND-WAIVER-001",
+      "limb": "no held source establishes the fee; a specific checkable authority is named",
+      "repositoryEstablishesTheFigure": false,
+      "authorityNamed": "Clerk of Courts of the Court of Common Pleas, county prefilled",
+      "waiverClauseNotedForImprovement": true
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Stated, and quoted from the delivered petition's own printed text rather than asserted: 'when this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth. Do that.' It is then repeated as step 4 of what the participant must do. I confirmed the quoted sentence appears verbatim on the canonical fixture's page 1. Item 14 of the Rule 790 information page — the criminal justice agencies to be served with certified copies of the order — is separately named in the item table with an explanation of who belongs there.",
+     "evidence": {
+      "source": "the petition's own printed text",
+      "recipient": "the attorney for the Commonwealth",
+      "verifiedOnFixtureBytes": true
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Present, correct and specific to this packet: 'This is a prepared set of official AOPC forms. It is not legal advice, it is not filed for you, and it does not decide whether your record can be expunged under 18 Pa.C.S. § 9122(b).' The instructions also state in terms that the packet does not decide whether the participant qualifies under either § 9122(b) situation."
+    }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": [],
+   "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_age70_deceased-set"
   }
  ],
  "determination": {
@@ -2381,5 +2541,19 @@
   "path": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
   "appliedAt": "6d26f6b5508f860f6ae1e168eca9b1faf545a48b",
   "effect": "FEE_AND_WAIVER and SERVICE re-examined on the six families the determination names. Reversals are recorded in the findings themselves; no other obligation was reopened and no artifact was re-measured, because the determination changes the yardstick and not the bytes."
- }
+ },
+ "laneReads": [
+  {
+   "verifier": "FABLE-VT7 (independent — built none of these packets, and neither built nor repaired any family scored here)",
+   "itemId": "pa_age70_deceased-set",
+   "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+   "note": "Per-row base, deliberately not stamped on the document. This file is shared with other lanes and a document-level base would land on rows whose authors never read at this commit.",
+   "corpusMounted": true,
+   "corpusMountedHow": "scripts/rcap-corpus/bootstrap-private-corpus.sh — archive SHA-256 and all three governance checksums verified; 51 jurisdictions, 499 files, 329 PDFs",
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false
+  }
+ ]
 }

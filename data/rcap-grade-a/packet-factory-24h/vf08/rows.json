@@ -4273,7 +4273,192 @@
     "filingObligations": "FILING_DESTINATION, FEE_AND_WAIVER and SERVICE are met when the packet states the destination, the fee AND a waiver route, and who must be served and how. Where a figure or mechanic is established by no committed source, a dedicated instruction line naming the checkable authority (the clerk of the specific named court, or the named agency) meets the obligation, following the PASS standard vf18 recorded on ak-courtview-set; a catch-all line naming nobody does not. VERMONT_REPAIR.json records the FILING_DESTINATION divergence between lanes; the standard applied here is stated so the difference is legible rather than silent.",
     "selfHelpStop": "Met when the packet states where the platform stops and the participant or a lawyer takes over: which facts it will not supply, which fields it will not sign, and that the artifact carries no approval."
    }
+  },
+  {
+   "itemId": "vt_seal_pardon-set",
+   "lane": "VF08",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
+   "verifier": "FABLE-VT7 (independent — built none of these packets, and neither built nor repaired any family scored here)",
+   "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+   "supersedes": [
+    {
+     "lane": "vf09",
+     "verdict": "BLOCKED_LEGAL_INPUT",
+     "declaredBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+     "why": "that row already listed FILING_DESTINATION and SERVICE as failed while returning a block; three obligations are measurable here and fail, so the verdict is a repair. The genuine legal question is carried forward separately and is not cleared by this repair."
+    }
+   ],
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "rasterState": "RASTER_PASS",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "product-wiring.json, production-field-map.json and the instructions footer all declare 'obligation:track-only:VT:vt_seal_pardon'; source-receipt.json and the field map agree on routeSelectionId 'vt-seal-pardon-200-00130-complete-set'; familyId agrees across every committed record. The relief and the authority are on the packet's face — Petition to Seal Criminal History under 13 V.S.A. § 7602, printed over SUPERIOR COURT / CRIMINAL DIVISION.",
+     "evidence": {
+      "routeKey": "obligation:track-only:VT:vt_seal_pardon",
+      "routeSelectionId": "vt-seal-pardon-200-00130-complete-set",
+      "statute": "13 V.S.A. § 7602"
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Measured against the mounted Master Library. All three bound sources rehash to the recorded SHA-256 at the recorded byte lengths.",
+     "evidence": [
+      {
+       "form": "200-00130",
+       "recordedSha": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+       "rehashMatches": true,
+       "byteLenMatches": true
+      },
+      {
+       "form": "200-00132",
+       "recordedSha": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+       "rehashMatches": true,
+       "byteLenMatches": true
+      },
+      {
+       "form": "600-00228",
+       "recordedSha": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+       "rehashMatches": true,
+       "byteLenMatches": true
+      }
+     ]
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredComponentsMissing 0. Petition 200-00130, stipulation-and-order 200-00132 and fee-waiver application 600-00228, six pages, all three named in the instructions and all three present in the delivered bytes."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "knownRequiredFieldsMissing 0, measured here. 24 of 165 fields written; the instructions state exactly what the platform filled — name, date of birth, address, phone, email, docket number — and leave the rest."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredFactsNotCollected 0. All 78 required-before-filing blanks across the three forms, including the whole financial affidavit on 600-00228, are named by page and by the words printed beside them. The labels are well-formed: no truncation, no mojibake, no control characters."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredOptionsMissing 0. The stipulation route and the contested-petition route are both set out and the election is left with the participant and the prosecutor; no checkbox is marked on the participant's behalf."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows 0. The three offence rows on 200-00130 and the new-charge rows are each named cell by cell and none is part-filled."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites 0 and invisibleWrites 0. reports/actual-writes.json is derivedFromArtifactBytes true with no findings, and the instructions state the rule the bytes keep: the State's Attorney's signature block and the court's order on page 2 of the stipulation are left to the prosecutor and the judge."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures rehash from their committed bytes to reports/rendered-artifacts.json and to the hash-bound RASTER_PASS receipt.",
+     "evidence": {
+      "rasterWorkflowRunId": "33488713831",
+      "canonicalMatchesReceipt": true,
+      "boundaryMatchesReceipt": true
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Declared pageCount 6 = pageManifest length 6 = the pages in the delivered bytes, for both fixtures, in the declared order."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects 0 on my own run, over bytes holding a hash-bound RASTER_PASS receipt."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The repository holds the destination and the packet never states it. src/lib/rcap/state-packs/vermont/filing-instructions.ts records: 'File in the Criminal Division of the Vermont Superior Court for the county/court that handled the case.' The family's own treatment record in VERMONT_REPAIR.json says the same thing in its first clause — 'You file the sealing petition yourself in the Criminal Division'. The packet has no 'Where you file this' section at all: its only references to a Superior Court unit are blank-completion guidance for the Unit box, which tells a participant what to write, not where to take the paper. Amendment A1 governs — where the record holds the answer, the packet states it — and this is not a case where a named authority may stand in, because there is nothing to stand in for.",
+     "evidence": {
+      "heldSource": "src/lib/rcap/state-packs/vermont/filing-instructions.ts",
+      "establishedDestination": "Criminal Division of the Vermont Superior Court for the county/court that handled the case",
+      "statedInPacket": false,
+      "whatThePacketHasInstead": "blank-completion guidance for the Unit box"
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Worse than silence: the packet implies a fee the held source says this route does not carry. src/lib/rcap/state-packs/vermont/fee-notes.ts establishes the answer — 'General rule: there is generally no filing fee to ask to seal or expunge a Vermont criminal record', with a single exception for DUI sealing under 23 V.S.A. § 1201(a) at $90 under 32 V.S.A. § 1431, which the note says expressly 'does not apply to other motions to seal or expunge criminal history'. This is a pardon route, not the DUI route, so the held source establishes: no fee. The packet states no amount, states no no-fee position, names no office to ask, and ships form 600-00228 with the direction 'File the fee waiver (600-00228) only if you cannot pay' — which tells a participant who cannot pay to file a waiver for a fee the repository says they do not owe. Under DET-FEE-AND-WAIVER-001 the honest-refusal route is not available where the record holds the answer, and here the packet contradicts the record rather than merely omitting it. Recorded alongside: the VT pack names 600-00229 as the waiver form for that exception while this packet ships 600-00228; both are real Vermont forms and 600-00228 is bound to the corpus by exact hash, so this is a state-pack fidelity note rather than a source defect.",
+     "evidence": {
+      "heldSource": "src/lib/rcap/state-packs/vermont/fee-notes.ts",
+      "establishedAnswer": "generally no filing fee for sealing or expungement; DUI sealing is the only exception and it is not this route",
+      "statedInPacket": false,
+      "packetImpliesAFee": true,
+      "instructionsLine": 12,
+      "formNumberDiscrepancyNoted": "pack names 600-00229; packet ships 600-00228"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The repository holds the service and notice rule and the packet states none of it. src/lib/rcap/state-packs/vermont/filing-instructions.ts records both halves: on filing, 'the court notifies the prosecutor, the prosecutor notifies any victim, and a hearing is scheduled if the prosecutor opposes'; on a grant, 'the court sends the order to the person and notifies VCIC, the arresting agency, the Restitution Unit, and any other entity that may have a record'. The packet says nothing about who is served or how. What it does say — step 3, get the State's Attorney to sign the stipulation — is a signature, not service, and a participant could easily read it as one. No office is named for the question either, so neither limb of the standard is met.",
+     "evidence": {
+      "heldSource": "src/lib/rcap/state-packs/vermont/filing-instructions.ts",
+      "establishedAnswer": "the court notifies the prosecutor; the prosecutor notifies any victim; on grant the court notifies VCIC, the arresting agency and the Restitution Unit",
+      "statedInPacket": false,
+      "authorityNamed": null
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Present, correct for this state and this relief: 'This is a prepared set of official Vermont forms. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant sealing.' The forms are Vermont's and the relief is sealing, so the sentence describes what the participant is actually holding."
+    }
+   },
+   "failedProofObligations": [
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE"
+   ],
+   "notMeasurableHere": [],
+   "standingLegalHold": {
+    "holds": true,
+    "question": "VTL01 — whether a pardoned misdemeanour runs on the three-year clock at 13 V.S.A. § 7602(c) or the seven-year clock at § 7602(d), which decides when the participant may file at all.",
+    "record": "data/rcap-grade-a/packet-factory-24h/VERMONT_REPAIR.json pardonRoute",
+    "whyItIsNotTheVerdict": "The hold is real and it is a genuine counsel question, but it is not why this row fails. The three failures above are measured against held sources and would stand whatever answer VTL01 returns. A packet whose filing destination, fee and service are unstated needs repair now; the hold decides separately whether the repaired packet may go live. VERMONT_REPAIR.json also records the contradiction that produced this family — its treatment record said deferral while the queue said SETTLED, and the builder followed the queue.",
+    "clearedByThisRepair": false
+   },
+   "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set"
   }
  ],
- "obligationSet": "the factory's canonical fifteen (L9)"
+ "obligationSet": "the factory's canonical fifteen (L9)",
+ "laneReads": [
+  {
+   "verifier": "FABLE-VT7 (independent — built none of these packets, and neither built nor repaired any family scored here)",
+   "itemId": "vt_seal_pardon-set",
+   "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+   "note": "Per-row base, deliberately not stamped on the document. This file is shared with other lanes and a document-level base would land on rows whose authors never read at this commit.",
+   "corpusMounted": true,
+   "corpusMountedHow": "scripts/rcap-corpus/bootstrap-private-corpus.sh — archive SHA-256 and all three governance checksums verified; 51 jurisdictions, 499 files, 329 PDFs",
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false
+  }
+ ]
 }

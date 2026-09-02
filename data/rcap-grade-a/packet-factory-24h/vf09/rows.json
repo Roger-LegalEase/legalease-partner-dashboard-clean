@@ -2013,6 +2013,194 @@
     "FEE_AND_WAIVER"
    ],
    "notMeasurableHere": []
+  },
+  {
+   "itemId": "ny_mrta_marijuana-set",
+   "lane": "VF09",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill",
+   "verifier": "FABLE-VT7 (independent — built none of these packets, and neither built nor repaired any family scored here)",
+   "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+   "supersedes": [
+    {
+     "lane": "vf08",
+     "verdict": "BLOCKED_LEGAL_INPUT",
+     "declaredBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+     "why": "that lane scored six obligations under a non-canonical vocabulary and blocked on a fee question the packet's own official source answers on its face; the obligation is measurable and it fails"
+    }
+   ],
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "rasterState": "RASTER_PASS",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "source-receipt.json and product-wiring.json both declare the single route key 'obligation:unit:NY:ny_mrta_marijuana:ny-mrta-destruction-request', which is the destruction-request branch of the two the census records for this track; familyId agrees across every committed record. The relief and the authority are on the delivered form's own face: APPLICATION TO DESTROY EXPUNGED MARIHUANA CONVICTION RECORD, citing CPL 160.50(3)(k), 160.50(5)(a), 440.46-a and 1.20(45).",
+     "evidence": {
+      "routeKey": "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-destruction-request",
+      "statutesOnTheFace": [
+       "CPL 160.50(3)(k)",
+       "CPL 160.50(5)(a)",
+       "CPL 440.46-a",
+       "CPL 1.20(45)"
+      ]
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Measured against the mounted Master Library: the single bound source rehashes to the recorded SHA-256 at the recorded byte length.",
+     "evidence": [
+      {
+       "form": "NY-MRTA-DESTRUCTION-REQUEST",
+       "recordedSha": "55c8ec044ecd2adf30508b6a2403c690fc441419d6fba0ccc657eba182298544",
+       "rehashMatches": true,
+       "byteLenMatches": true
+      }
+     ]
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredComponentsMissing 0. One official form, one page, and the delivered bytes are that form."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "knownRequiredFieldsMissing 0, measured here. 12 of 33 fields written and I read each of them off the canonical bytes in its correct slot: name split across first/middle/last, date of birth, county of conviction, docket number, street address, city, state, ZIP, cell phone and email."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The counter is 0 and the obligation still fails, which is precisely the gap the counter cannot see: it checks that a blank's label appears in the instructions text, not that the label is the right one or that the field is the participant's at all. Three separate defects, all participant-facing. (1) MIS-MAPPED LABELS: the field map gives Town_Court_Specify the label 'Village Court, Village o' — the town-court blank carrying the village-court caption — and gives CJTN_Unknown the label 'NYSID/New York State Identification N', the wrong tracking number entirely. Docket_Case_Number_Unknown carries '______________________________', which is not a label. (2) A MOJIBAKE LABEL: File_Copy's effectiveLabel is undecoded subsetted-font bytes with embedded control characters, and it is printed verbatim into the participant's instructions as '4. SAo]Destru]}vction S...'. I counted 22 control characters in the delivered participant-instructions.md. (3) COURT-ONLY FIELDS SURFACED AS PARTICIPANT OBLIGATIONS: Application_Complete, File_Copy and Copies_Sent are items 1, 4 and 5 of the block the form prints under '***FOR COURT USE ONLY - DO NOT WRITE BELOW THIS LINE***'. All three are marked requiredBeforeFiling true and listed to the participant under 'Exact facts still required before filing' — while line 32 of the same file states that every control below the COURT USE ONLY line remains blank. The file contradicts itself and, read at face value, directs the participant to write where the form forbids it. Sibling checklist controls (Proper_ID, Charge_Sealed, Comment_Entered) are refused without that flag, so the treatment is not even internally consistent.",
+     "evidence": {
+      "mislabelled": [
+       {
+        "field": "Town_Court_Specify",
+        "label": "Village Court, Village o",
+        "shouldBe": "Town Court, Town of"
+       },
+       {
+        "field": "CJTN_Unknown",
+        "label": "NYSID/New York State Identification N",
+        "shouldBe": "the CJTN unknown election"
+       },
+       {
+        "field": "Docket_Case_Number_Unknown",
+        "label": "______________________________"
+       }
+      ],
+      "mojibake": {
+       "field": "File_Copy",
+       "controlCharsInDeliveredInstructions": 22
+      },
+      "courtOnlyFieldsSurfacedToParticipant": [
+       "Application_Complete",
+       "File_Copy",
+       "Copies_Sent"
+      ],
+      "selfContradiction": "instructions line 32 says every control below the COURT USE ONLY line stays blank"
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredOptionsMissing 0. The court-of-conviction election (Supreme, County, District, City, Town, Village) and the three 'unknown' elections are all left to the participant and none is guessed; the packet also states in terms that it covers only the explicitly requested irreversible-destruction branch and grants no runtime permission to select it."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows 0. This form has no repeating row structure; nothing is part-filled."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites 0 and invisibleWrites 0. Nothing is written below the form's COURT USE ONLY line and no affirmation date or signature is written — I confirmed both from the canonical bytes. The surfacing of three court-only fields as participant obligations is a labelling defect, not a write, and is scored under REQUIRED_BEFORE_FILING where it belongs."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures rehash from their committed bytes to reports/rendered-artifacts.json and to the boundToCanonicalSha256 / boundToBoundarySha256 of the family's RASTER_PASS receipt.",
+     "evidence": {
+      "rasterWorkflowRunId": "33531491985",
+      "canonical": "37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff",
+      "boundary": "5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457",
+      "bothMatchReceipt": true
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Declared pageCount 1 for both fixtures and one page in the delivered bytes; a single-page form has no order to get wrong and it is not gotten wrong."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects 0 on my own run, over bytes holding a hash-bound RASTER_PASS receipt."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The held source states the destination on its own printed face and the packet tells the participant to go find it out. Printed instruction 1 of the delivered form reads: 'Submit your application to the Court where you were convicted.' participant-instructions.md line 12 instead reads: 'Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.' Amendment A1 is exactly on point — ask first whether the repository establishes the answer, and if it does, the packet states it. Substituting a question for an answer already printed on the paper in the packet is the defect the amendment names.",
+     "evidence": {
+      "onTheDeliveredFormsFace": "Submit your application to the Court where you were convicted.",
+      "inTheInstructions": "Confirm ... filing destination ... before filing",
+      "instructionsLine": 12
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Same defect, and this one has been carried as a legal blocker for the whole sprint. The delivered form's printed instruction 1 states, in a parenthesis on its own face: '(NOTE: There is no application fee.)' The packet does not say so anywhere; line 12 tells the participant to confirm fees before filing. WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json records this family's decisive obligation as 'fee and waiver treatment' with the blocker 'The review instructions require current local fees to be confirmed' — that is, the blocker is manufactured by the packet's own catch-all sentence, not by any unanswered question, and the assignment's four evidence paths are all this family's own records. MASTER_QUEUE carries legalInputStatus OPEN_LEGAL_INPUT on that basis and the prior lane returned BLOCKED_LEGAL_INPUT on it. The fee question for this route is answered by the held source. This is a packet-content defect, not an open legal input, and the correct verdict is a repair rather than a block. I record the disagreement with MASTER_QUEUE rather than editing it; that file is not this lane's to touch.",
+     "evidence": {
+      "onTheDeliveredFormsFace": "(NOTE: There is no application fee.)",
+      "inTheInstructions": "Confirm ... fees ... before filing",
+      "masterQueueLegalInputStatus": "OPEN_LEGAL_INPUT",
+      "whyThatStatusIsWrong": "the held source establishes the fee on its face; the recorded blocker quotes the packet's own catch-all sentence back as the obstacle"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Silence dressed as a checklist item. The delivered form allocates service to the court: item 6 of its processing checklist reads 'Copies of application sent to prosecutor, law enforcement agencies and DCJS as applicable for further processing', and the form carries no certificate of service and no participant service block among its 33 fields. The packet states none of that. It offers instead two generic template lines — 'Complete service certificates only after service actually occurs', for certificates this form does not have, and 'Confirm ... service ... before filing'. Under DET-FEE-AND-WAIVER-001 as extended to SERVICE, gesturing without naming who answers is the not-met case, and here the repository answers it anyway.",
+     "evidence": {
+      "onTheDeliveredFormsFace": "checklist item 6 — the court sends copies to prosecutor, law enforcement and DCJS",
+      "certificateOfServiceOnForm": false,
+      "inTheInstructions": "Confirm ... service ... before filing",
+      "authorityNamed": null
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Present, though thinner than its siblings and carried substantially by the source. The instructions open 'These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets', and state that the artifact covers only an explicitly requested irreversible-destruction branch and grants no runtime permission to select it. The delivered form's own DISCLAIMER carries the consequence that matters most for an irreversible destruction — that DCJS will no longer be able to verify the conviction was vacated, 'it will appear that the events never occurred' — and tells the reader they may wish to consult an attorney. The obligation is met; recorded for the repair queue that a participant-facing packet should carry its own stop rather than lean on the form's.",
+     "evidence": {
+      "stopInInstructions": "not approved filing packets; destruction branch is irreversible and not runtime-selectable",
+      "stopOnSourceFace": "DCJS can no longer verify the vacatur; consider consulting an attorney"
+     }
+    }
+   },
+   "failedProofObligations": [
+    "REQUIRED_BEFORE_FILING",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE"
+   ],
+   "notMeasurableHere": [],
+   "legalInputNote": "This row closes rather than carries the BLOCKED_LEGAL_INPUT. The decisive obligation recorded against the family — fee and waiver treatment for a named court — is answered by the delivered form's own printed face ('There is no application fee'), so it was never a question for counsel or for a fee schedule. Nothing here asks for a legal input; the four failures are repairs to the packet's own text and field map.",
+   "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_mrta_marijuana-set"
   }
  ],
  "obligationSet": [
@@ -2032,5 +2220,19 @@
   "SERVICE",
   "SELF_HELP_STOP"
  ],
- "obligationSetNote": "Lane contract L9: a PASS_COMPLETE_INDEPENDENT verdict scores the canonical fifteen, each by its own name. A row carrying any NOT_MEASURABLE_HERE is capped at PASS."
+ "obligationSetNote": "Lane contract L9: a PASS_COMPLETE_INDEPENDENT verdict scores the canonical fifteen, each by its own name. A row carrying any NOT_MEASURABLE_HERE is capped at PASS.",
+ "laneReads": [
+  {
+   "verifier": "FABLE-VT7 (independent — built none of these packets, and neither built nor repaired any family scored here)",
+   "itemId": "ny_mrta_marijuana-set",
+   "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+   "note": "Per-row base, deliberately not stamped on the document. This file is shared with other lanes and a document-level base would land on rows whose authors never read at this commit.",
+   "corpusMounted": true,
+   "corpusMountedHow": "scripts/rcap-corpus/bootstrap-private-corpus.sh — archive SHA-256 and all three governance checksums verified; 51 jurisdictions, 499 files, 329 PDFs",
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false
+  }
+ ]
 }

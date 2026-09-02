@@ -22,9 +22,9 @@
   "supersessionRule": "one current verdict per family: the highest-precedence lane wins (factory vf lanes over codex-cloud directories, then higher lane number); superseded rows remain as history with superseded: true",
   "counts": {
     "returnDirectories": 33,
-    "rows": 150,
+    "rows": 154,
     "independentVerdicts": 97,
-    "failRepairRequired": 20,
+    "failRepairRequired": 24,
     "passIndependent": 73
   },
   "failRepairRequiredFamilies": [
@@ -32,14 +32,18 @@
     "ar-misdemeanor-dwi-seal-set",
     "ca-1203-42-set",
     "ca-851-91-set",
+    "ct-cleanslate-petition-set",
     "ky_void_seal_controlled_substance-set",
     "ky_void_seal_marijuana_synthetic_salvia-set",
     "ny_160_59_petition-set",
+    "ny_mrta_marijuana-set",
     "oh_marijuana_expungement-set",
+    "pa_pardon_expungement-set",
     "rcap-oh-custom-pleading-clean-tracks",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
     "vt_seal_felony-set",
+    "vt_seal_pardon-set",
     "wa_vac_cannabis-set",
     "wa_vac_homicide_victim_prostitution-set",
     "wa_vac_misdemeanor_ordinary-set",
@@ -573,15 +577,33 @@
     },
     {
       "familyId": "ct-cleanslate-petition-set",
-      "verdict": "PASS",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf24",
       "isIndependentVerification": true,
-      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
-      "failedObligations": [],
-      "failedObligationNames": [],
-      "unmeasuredObligations": [
+      "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+      "failedObligations": [
+        {
+          "obligation": "SERVICE",
+          "finding": "Measurable here, and it is silence. I reproduced everything the prior read of this lane found and reach a different conclusion about what it means. No held source establishes the rule — the family's own reports/local-filing-variation.json records serviceMethod, serviceRecipients, serviceTiming and certificateOfService as recorded false, and says in terms 'an absent record is not a finding that no service is required'; the worklist deliverable records the same four as not_recorded; the compiled CT profile's serviceAndNoticeRules is empty; and I confirmed the delivered form carries no service section and no certificate of service among its 22 fields. That is the situation DET-FEE-AND-WAIVER-001 addresses head-on: where no held source establishes the answer, a named reachable authority may stand in, and it must be named rather than gestured at. This packet names none. It raises service nowhere at all — not as a rule, not as an open question, not as an office to ask — and surfaces the gap only in a report the participant never sees. Silence always fails, and NOT_MEASURABLE_HERE is reserved for what a lane's environment cannot measure rather than for a question the packet declines to put. My environment can measure it: the file is here and it says nothing. The repair is one sentence, and the packet already names the right office twice for other purposes — the clerk of the Superior Court location where the petition is filed.",
+          "evidence": {
+            "heldSourcesConsulted": [
+              "reports/local-filing-variation.json serviceMethod/serviceRecipients/serviceTiming/certificateOfService",
+              "packet-family-build-worklist.json reusableFamilyDeliverable",
+              "compiled CT profile serviceAndNoticeRules"
+            ],
+            "anyEstablishesTheRule": false,
+            "serviceBlockOnDeliveredForm": "none among 22 fields",
+            "statedInPacket": false,
+            "authorityNamed": null,
+            "standard": "DET-FEE-AND-WAIVER-001 as extended to SERVICE",
+            "repair": "one sentence naming the clerk of the G.A. location where the petition is filed as the office that answers who must be served"
+          }
+        }
+      ],
+      "failedObligationNames": [
         "SERVICE"
       ],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf24/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-cleanslate-petition-set",
@@ -1364,6 +1386,87 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_mrta_marijuana-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ny_mrta_marijuana-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The counter is 0 and the obligation still fails, which is precisely the gap the counter cannot see: it checks that a blank's label appears in the instructions text, not that the label is the right one or that the field is the participant's at all. Three separate defects, all participant-facing. (1) MIS-MAPPED LABELS: the field map gives Town_Court_Specify the label 'Village Court, Village o' — the town-court blank carrying the village-court caption — and gives CJTN_Unknown the label 'NYSID/New York State Identification N', the wrong tracking number entirely. Docket_Case_Number_Unknown carries '______________________________', which is not a label. (2) A MOJIBAKE LABEL: File_Copy's effectiveLabel is undecoded subsetted-font bytes with embedded control characters, and it is printed verbatim into the participant's instructions as '4. SAo]Destru]}vction S...'. I counted 22 control characters in the delivered participant-instructions.md. (3) COURT-ONLY FIELDS SURFACED AS PARTICIPANT OBLIGATIONS: Application_Complete, File_Copy and Copies_Sent are items 1, 4 and 5 of the block the form prints under '***FOR COURT USE ONLY - DO NOT WRITE BELOW THIS LINE***'. All three are marked requiredBeforeFiling true and listed to the participant under 'Exact facts still required before filing' — while line 32 of the same file states that every control below the COURT USE ONLY line remains blank. The file contradicts itself and, read at face value, directs the participant to write where the form forbids it. Sibling checklist controls (Proper_ID, Charge_Sealed, Comment_Entered) are refused without that flag, so the treatment is not even internally consistent.",
+          "evidence": {
+            "mislabelled": [
+              {
+                "field": "Town_Court_Specify",
+                "label": "Village Court, Village o",
+                "shouldBe": "Town Court, Town of"
+              },
+              {
+                "field": "CJTN_Unknown",
+                "label": "NYSID/New York State Identification N",
+                "shouldBe": "the CJTN unknown election"
+              },
+              {
+                "field": "Docket_Case_Number_Unknown",
+                "label": "______________________________"
+              }
+            ],
+            "mojibake": {
+              "field": "File_Copy",
+              "controlCharsInDeliveredInstructions": 22
+            },
+            "courtOnlyFieldsSurfacedToParticipant": [
+              "Application_Complete",
+              "File_Copy",
+              "Copies_Sent"
+            ],
+            "selfContradiction": "instructions line 32 says every control below the COURT USE ONLY line stays blank"
+          }
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "The held source states the destination on its own printed face and the packet tells the participant to go find it out. Printed instruction 1 of the delivered form reads: 'Submit your application to the Court where you were convicted.' participant-instructions.md line 12 instead reads: 'Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.' Amendment A1 is exactly on point — ask first whether the repository establishes the answer, and if it does, the packet states it. Substituting a question for an answer already printed on the paper in the packet is the defect the amendment names.",
+          "evidence": {
+            "onTheDeliveredFormsFace": "Submit your application to the Court where you were convicted.",
+            "inTheInstructions": "Confirm ... filing destination ... before filing",
+            "instructionsLine": 12
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Same defect, and this one has been carried as a legal blocker for the whole sprint. The delivered form's printed instruction 1 states, in a parenthesis on its own face: '(NOTE: There is no application fee.)' The packet does not say so anywhere; line 12 tells the participant to confirm fees before filing. WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json records this family's decisive obligation as 'fee and waiver treatment' with the blocker 'The review instructions require current local fees to be confirmed' — that is, the blocker is manufactured by the packet's own catch-all sentence, not by any unanswered question, and the assignment's four evidence paths are all this family's own records. MASTER_QUEUE carries legalInputStatus OPEN_LEGAL_INPUT on that basis and the prior lane returned BLOCKED_LEGAL_INPUT on it. The fee question for this route is answered by the held source. This is a packet-content defect, not an open legal input, and the correct verdict is a repair rather than a block. I record the disagreement with MASTER_QUEUE rather than editing it; that file is not this lane's to touch.",
+          "evidence": {
+            "onTheDeliveredFormsFace": "(NOTE: There is no application fee.)",
+            "inTheInstructions": "Confirm ... fees ... before filing",
+            "masterQueueLegalInputStatus": "OPEN_LEGAL_INPUT",
+            "whyThatStatusIsWrong": "the held source establishes the fee on its face; the recorded blocker quotes the packet's own catch-all sentence back as the obstacle"
+          }
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "Silence dressed as a checklist item. The delivered form allocates service to the court: item 6 of its processing checklist reads 'Copies of application sent to prosecutor, law enforcement agencies and DCJS as applicable for further processing', and the form carries no certificate of service and no participant service block among its 33 fields. The packet states none of that. It offers instead two generic template lines — 'Complete service certificates only after service actually occurs', for certificates this form does not have, and 'Confirm ... service ... before filing'. Under DET-FEE-AND-WAIVER-001 as extended to SERVICE, gesturing without naming who answers is the not-met case, and here the repository answers it anyway.",
+          "evidence": {
+            "onTheDeliveredFormsFace": "checklist item 6 — the court sends copies to prosecutor, law enforcement and DCJS",
+            "certificateOfServiceOnForm": false,
+            "inTheInstructions": "Confirm ... service ... before filing",
+            "authorityNamed": null
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_mrta_marijuana-set",
       "superseded": false
     },
     {
@@ -1581,6 +1684,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_age70_deceased-set",
+      "superseded": true
+    },
+    {
+      "familyId": "pa_age70_deceased-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_age70_deceased-set",
       "superseded": false
     },
     {
@@ -1636,6 +1753,106 @@
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf12",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "The route key the packet declares on its own face does not exist in the route census. production-field-map.json, the participant-instructions.md footer and the process-guidance page that is printed as pages 4-5 of the delivered PDF all declare 'obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement'. That string appears nowhere in canonical-route-universe.json or route-obligation-candidate.json; its only four occurrences in the repository are the builder script, the two records the builder wrote, and the builder's own pf04 return row. The canonical obligations for this track are the two keys product-wiring.json correctly carries, 'obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route' and ':pa_pardon_fallback_petition'. The prior lane checked the wiring against the queue, which agrees, and did not check the key the packet prints against the census, which does not.",
+          "evidence": {
+            "declaredOnPacketFace": "obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement",
+            "inCanonicalRouteUniverse": false,
+            "canonicalObligationsForThisTrack": [
+              "obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route",
+              "obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition"
+            ],
+            "familyIdAgreesAcrossAllSixRecords": true
+          }
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The instructions direct the participant to make an election that neither PA form offers, and assert a fact about the packet that is not true of it. Step 2 reads: 'Say which non-conviction ending applies to your case. Question 2 of the petition offers three: you were cited or arrested but no charge was filed, a charge was filed and the court found no probable cause, or a charge was filed and the court dismissed it... The packet has already stated that you were not convicted.' I read both delivered forms: the PA Rule 790 petition has no Question 2 and offers no such three-way election, and nothing in the packet states the petitioner was not convicted. It could not: this is the route for expungement FOLLOWING AN UNCONDITIONAL PARDON, which presupposes a conviction. The sentence is Vermont form 200-00130's Question 2, carried over from the non-conviction sealing family. requiredOptionsMissing counts options absent from a packet and cannot see an option invented for it.",
+          "evidence": {
+            "instructionsLine": 29,
+            "electionDescribed": "Question 2, three non-conviction endings",
+            "presentOnPAForms": false,
+            "routeIsPostPardon": true,
+            "sourceOfTheSentence": "vt-seal-nonconviction-set participant-instructions.md line 30, byte-identical"
+          }
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "The packet tells a Pennsylvania petitioner to file in Vermont. participant-instructions.md line 9: 'File the completed packet with the Vermont Superior Court, Criminal Division, in the unit where your case was decided.' Line 11 explains the 'Unit' box on Vermont forms 200-00130 and 200-00132, neither of which is in this packet. This is not silence and it is not a gap the fee-and-waiver standard reaches: the repository holds the destination, the packet's OWN process-guidance page states it correctly on page 4 of the delivered PDF ('File the petition with the Clerk of Courts'), and the participant-facing instruction contradicts it with another state's court. Amendment A1 applies directly — where the record holds the answer the packet states it.",
+          "evidence": {
+            "instructionsLines": [
+              9,
+              11
+            ],
+            "directsTo": "Vermont Superior Court, Criminal Division",
+            "correctDestinationOnThePacketsOwnFace": "Clerk of Courts of the Court of Common Pleas",
+            "contradictionInternal": true
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Fails under DET-FEE-AND-WAIVER-001 on the not-met limb, and worse. Line 15 states no amount and no no-fee statement, directs the participant to 'the clerk of the unit above' — a Vermont Superior Court unit, an office that cannot answer a Pennsylvania filing fee — and then asserts 'The waiver form is included', referring to Vermont form 600-00228. It is not included: this packet ships two documents, the PA Rule 790 petition and the PA Rule 790 order. Step 5 repeats the error: 'File the fee waiver (600-00228) only if you cannot pay.' The authority named is not reachable for this filing and the document named is not in the packet, so the honest-refusal route the standard allows is not open here.",
+          "evidence": {
+            "instructionsLines": [
+              15,
+              32
+            ],
+            "authorityNamed": "clerk of the Vermont unit",
+            "authorityReachableForThisFiling": false,
+            "waiverFormClaimed": "600-00228",
+            "waiverFormPresent": false
+          }
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "Line 16 directs service questions to 'the same clerk' — the Vermont unit's — and adds that 'The State's Attorney's signature on the stipulation is not service', naming a Vermont prosecutor and a stipulation document this packet does not contain. Step 4 tells the participant to get the State's Attorney to sign the stipulation (200-00132). Meanwhile the actual rule is printed on the delivered petition's own face and the instructions never repeat it: 'When this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth.' The repository holds the answer, on the packet's own paper, and the packet substitutes another state's officers for it.",
+          "evidence": {
+            "instructionsLines": [
+              16,
+              31,
+              127
+            ],
+            "ruleOnTheDeliveredPetitionFace": "serve a copy upon the attorney for the Commonwealth",
+            "statedInInstructions": false
+          }
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The stop language exists and describes the wrong state's packet. Line 132: 'This is a prepared set of official Vermont forms and a process-guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will seal the record.' The forms are Pennsylvania AOPC forms and the relief is expungement, not sealing. A stop that misdescribes what the participant is holding does not do the work a stop is for.",
+          "evidence": {
+            "instructionsLine": 132,
+            "saysVermontForms": true,
+            "actualForms": [
+              "PA-RCRIM-P-790-PETITION",
+              "PA-RCRIM-P-790-ORDER"
+            ],
+            "saysSeal": true,
+            "actualRelief": "expungement"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set",
       "superseded": false
     },
@@ -3023,6 +3240,57 @@
     },
     {
       "familyId": "vt_seal_pardon-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "The repository holds the destination and the packet never states it. src/lib/rcap/state-packs/vermont/filing-instructions.ts records: 'File in the Criminal Division of the Vermont Superior Court for the county/court that handled the case.' The family's own treatment record in VERMONT_REPAIR.json says the same thing in its first clause — 'You file the sealing petition yourself in the Criminal Division'. The packet has no 'Where you file this' section at all: its only references to a Superior Court unit are blank-completion guidance for the Unit box, which tells a participant what to write, not where to take the paper. Amendment A1 governs — where the record holds the answer, the packet states it — and this is not a case where a named authority may stand in, because there is nothing to stand in for.",
+          "evidence": {
+            "heldSource": "src/lib/rcap/state-packs/vermont/filing-instructions.ts",
+            "establishedDestination": "Criminal Division of the Vermont Superior Court for the county/court that handled the case",
+            "statedInPacket": false,
+            "whatThePacketHasInstead": "blank-completion guidance for the Unit box"
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Worse than silence: the packet implies a fee the held source says this route does not carry. src/lib/rcap/state-packs/vermont/fee-notes.ts establishes the answer — 'General rule: there is generally no filing fee to ask to seal or expunge a Vermont criminal record', with a single exception for DUI sealing under 23 V.S.A. § 1201(a) at $90 under 32 V.S.A. § 1431, which the note says expressly 'does not apply to other motions to seal or expunge criminal history'. This is a pardon route, not the DUI route, so the held source establishes: no fee. The packet states no amount, states no no-fee position, names no office to ask, and ships form 600-00228 with the direction 'File the fee waiver (600-00228) only if you cannot pay' — which tells a participant who cannot pay to file a waiver for a fee the repository says they do not owe. Under DET-FEE-AND-WAIVER-001 the honest-refusal route is not available where the record holds the answer, and here the packet contradicts the record rather than merely omitting it. Recorded alongside: the VT pack names 600-00229 as the waiver form for that exception while this packet ships 600-00228; both are real Vermont forms and 600-00228 is bound to the corpus by exact hash, so this is a state-pack fidelity note rather than a source defect.",
+          "evidence": {
+            "heldSource": "src/lib/rcap/state-packs/vermont/fee-notes.ts",
+            "establishedAnswer": "generally no filing fee for sealing or expungement; DUI sealing is the only exception and it is not this route",
+            "statedInPacket": false,
+            "packetImpliesAFee": true,
+            "instructionsLine": 12,
+            "formNumberDiscrepancyNoted": "pack names 600-00229; packet ships 600-00228"
+          }
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The repository holds the service and notice rule and the packet states none of it. src/lib/rcap/state-packs/vermont/filing-instructions.ts records both halves: on filing, 'the court notifies the prosecutor, the prosecutor notifies any victim, and a hearing is scheduled if the prosecutor opposes'; on a grant, 'the court sends the order to the person and notifies VCIC, the arresting agency, the Restitution Unit, and any other entity that may have a record'. The packet says nothing about who is served or how. What it does say — step 3, get the State's Attorney to sign the stipulation — is a signature, not service, and a participant could easily read it as one. No office is named for the question either, so neither limb of the standard is met.",
+          "evidence": {
+            "heldSource": "src/lib/rcap/state-packs/vermont/filing-instructions.ts",
+            "establishedAnswer": "the court notifies the prosecutor; the prosecutor notifies any victim; on grant the court notifies VCIC, the arresting agency and the Restitution Unit",
+            "statedInPacket": false,
+            "authorityNamed": null
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
       "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf09",
       "isIndependentVerification": true,
@@ -3065,7 +3333,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_under_25-set",
