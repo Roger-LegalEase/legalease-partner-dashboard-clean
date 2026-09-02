@@ -5663,6 +5663,268 @@
         "checkedAnyway": "This family is official_pdf_fill rather than a composed pleading, so its caption blanks are AcroForm widgets on the OCA petition rather than a hard-coded dot run. Both are declared refusals with widget rects read first-hand from the pinned binary, both appear in the blanks report, and both are disclosed in the instructions table — 'Court the petition is filed in, named in the caption' with 'the court that sentenced you or placed you on community supervision, exactly as its own paperwork names it', and 'County of that court, named in the caption'. No participant is left to supply a court nobody told them to."
       },
       "whatThisFailDoesNotDisturb": "Thirteen of the fifteen obligations pass on measurement made in this lane at this base, including all three source digests rehashed byte-exact in two independent custodies, both artifact digests recomputed from the PDF bytes, 13 rect-bearing prefills verified geometrically inside their own widget boxes despite the family's own report being unable to prove them, all 67 same-baseline overlap pairs classified with zero value-on-value and zero overruns, and the strongest fee-and-waiver treatment in this roster. Neither failure touches the official forms' fidelity: the bound bytes are exact and correct, and the source-identity chain is the best-evidenced in the roster."
+    },
+    {
+      "itemId": "in_arrest_no_charges-set",
+      "lane": "VF11",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+      "verifiedBy": "FABLE-RVD (RV-D; independent — built, repaired and rastered none of this family)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
+      "stateAtRead": "VERIFY_PENDING",
+      "artifactBytesMovedByThisLane": 0,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 14,
+        "incompleteRows": 14,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": false,
+        "measuredHere": true
+      },
+      "failedObligations": [
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Single route key, present in the source that binds it. obligation:track-pathway:IN:in_arrest_no_charges:non-conviction-arrest-or-criminal-charge-expungement occurs 4 times in data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json and once in MASTER_QUEUE.json, and matches the trackId in_arrest_no_charges in the legal-design track registry. I.C. § 35-38-9-1 non-conviction expungement.",
+          "evidence": {
+            "routeKeyInCanonicalUniverse": true,
+            "occurrencesInUniverse": 4,
+            "registryTrackId": "in_arrest_no_charges"
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both bound documents rehash exactly from the pinned Master Library bytes; byte lengths agree. No acquisition was needed and none is claimed.",
+          "evidence": [
+            {
+              "documentId": "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE",
+              "recordedSha": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+              "rehashedFromLibraryBytes": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+              "rehashMatches": true,
+              "recordedByteLength": 2946894,
+              "actualByteLength": 2946894
+            },
+            {
+              "documentId": "IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS",
+              "recordedSha": "65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707",
+              "rehashedFromLibraryBytes": "65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707",
+              "rehashMatches": true,
+              "recordedByteLength": 2904076,
+              "actualByteLength": 2904076
+            }
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredComponentsMissing 0. The registry packetSet declares five components (primary filing, proposed order, three attachments) and MASTER_QUEUE declares the same five. All five are delivered as the five parts of one 15-page published binary — Appearance pp.1-2, Verified Petition pp.3-6, Form ACR p.7, Confidential Information Form p.8, Findings and Order pp.9-15 — and the rendered bundle is 15 pages. The insert document adds the Facts, Findings and Exhibit A pages the bundle directs the petitioner to insert, at 4 pages. No ordinal is skipped and no component is declared but absent.",
+          "evidence": {
+            "componentsDeclared": 5,
+            "componentsDelivered": 5,
+            "bundlePages": 15,
+            "insertPages": 4,
+            "onePublishedBinaryCarriesFiveComponents": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Proven from the artifact bytes, not from a decision column. Both fixtures are fully flattened — no AcroForm, no /Annots, zero widget objects — so every value was read by decoding page content streams. Canonical carries exactly five distinct values (cap-COUNTY 'Example County', cap-PetitionerFullName 'Jordan Avery Reyes', Address '118 Maple Street', Email, Phone) and boundary exactly three (name, email, phone), matching the declared 5 and 3. Diffing the canonical fixture against the pinned official source yields those five values and nothing else, so there is no constant or baked extra write. The two boundary refusals are disclosed in an unfittable array with rect, minimum font size and required width.",
+          "evidence": {
+            "canonicalDeclaredWrites": 5,
+            "canonicalProvenFromBytes": 5,
+            "boundaryDeclaredWrites": 3,
+            "boundaryProvenFromBytes": 3,
+            "unfittableDisclosed": 2,
+            "extraValuesFoundVsSource": 0,
+            "note": "cap-PetitionerFullName is one field carrying 14 widgets across pages 1,3,5,7,8,9,13 and cap-COUNTY one field with 8 widgets across pages 1,3,7,9, so five field-level writes correctly produce ink on seven pages."
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "unclassifiedBlanks 14. blanks-left-for-the-participant.json declares 140 blanks and 14 of them carry category null and why null, so the packet does not say whose blank they are or what fact belongs in them. Six of the fourteen are Caption1 through Caption6, every one of them labelled only 'Caption' — a caption repeating across six rows takes a different fact per row, and no row names its own. One further row, AdditionalInformation on page 2, carries the literal string 'null' as its effectiveLabel, and three more are labelled from truncated form text ('b', 'd', 'I hereby certify that o'). Separately, the participant text tells the reader to hand-copy the caption across every document because 'none of them has boxes for it', which the bytes contradict: the caption is already printed on pages 3, 5, 7, 8, 9 and 13.",
+          "evidence": {
+            "blanksDeclared": 140,
+            "blanksWithNullCategory": 14,
+            "blanksWithNullWhy": 44,
+            "captionRowsSharingOneLabel": 6,
+            "labelLiterallyNull": [
+              "AdditionalInformation p2"
+            ],
+            "truncatedLabels": [
+              "LEA1 p12 = 'b'",
+              "LEA2 p12 = 'd'",
+              "Date4 p6 = 'I hereby certify that o'"
+            ],
+            "instructionContradictedByBytes": "participant-instructions.md line 43 'this packet filled in, on the Appearance only' and line 45 'none of them has boxes for it'; the canonical fixture prints cap-PetitionerFullName on pages 1,3,5,7,8,9,13 and cap-COUNTY on pages 1,3,7,9."
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing 0. The one genuine election on this route — the Appearance caption's court-type dropdown DD-cap-CourtType — is deliberately left to the participant and is named as such in the instructions, which direct the reader to the clerk of the county in the caption to learn which court holds the case. The registry records no other participant election for this track.",
+          "evidence": {
+            "electionsLeftOpen": [
+              "DD-cap-CourtType"
+            ],
+            "namedInInstructions": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The repeating structures are the count grids (Ct1..Ct4 on the Facts and Findings pages, Ct5..Ct7 on Exhibit A) and the offence/level/disposition columns beside them. Nothing is written into any of them in either fixture, so no row carries another row's fact. The instructions enumerate the grid field by field and assign every cell to the participant.",
+          "evidence": {
+            "repeatingGridsWritten": 0,
+            "gridCellsEnumeratedInInstructions": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites 0, measured rather than accepted. Ten blanks are withheld as protected_category (prosecutor, government_identifier, agency, clerk) and three as protected_page_region (the certificate-of-service dates on pages 2, 6 and 7). Diffing the canonical fixture against the pinned source shows ink at exactly five values and none of them lands in a protected blank; refusedFieldsWithInk is empty and I confirmed it from the bytes. On page 13's 'Notice to be given by' distribution block the family writes the participant's own notice line and withholds Prosecutor, ProsecutorMailingAddress and MailAddressSheriff, which is a coherent boundary rather than a leak. The full Social Security number on page 8 and the last-four on page 3 are both withheld.",
+          "evidence": {
+            "protectedCategoryBlanks": 10,
+            "protectedPageRegionBlanks": 3,
+            "protectedFieldsCarryingInk": 0,
+            "ssnWithheld": true
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Four artifacts declared, four present on disk, four SHA-256 recomputed and matching, four byte lengths matching. The two insert fixtures are byte-identical to each other, which is the expected consequence of writing nothing on that document.",
+          "evidence": [
+            {
+              "file": "fixtures/packet-canonical-filled.pdf",
+              "present": true,
+              "declaredSha": "a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271",
+              "recomputedSha": "a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271",
+              "match": true
+            },
+            {
+              "file": "fixtures/packet-boundary-filled.pdf",
+              "present": true,
+              "declaredSha": "4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23",
+              "recomputedSha": "4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23",
+              "match": true
+            },
+            {
+              "file": "fixtures/inserts-canonical-filled.pdf",
+              "present": true,
+              "declaredSha": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9",
+              "recomputedSha": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9",
+              "match": true
+            },
+            {
+              "file": "fixtures/inserts-boundary-filled.pdf",
+              "present": true,
+              "declaredSha": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9",
+              "recomputedSha": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9",
+              "match": true
+            }
+          ]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The bundle renders 15 pages in the published order the source-receipt records part by part, and the insert document renders 4 pages — Facts pp.1-2, Findings p.3, Exhibit A p.4 — which is the order the bundle's page 4 and the order's pages 10 and 11 direct the petitioner to insert them in. No page is dropped, duplicated or reordered against the pinned source.",
+          "evidence": {
+            "bundlePagesSource": 15,
+            "bundlePagesRendered": 15,
+            "insertPagesSource": 4,
+            "insertPagesRendered": 4
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects 0 as measured here. Every value that would not fit its widget at the minimum font size is refused rather than clipped, and the boundary fixture proves the refusal path fires: a 48-character county and a 75-character street address are both refused with their rect, minimum font size and required width recorded. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 in both fixtures and I found no page-content ink beyond the five measured values. Central page rasterisation has not run for this family, so a raster-level visual defect is not excluded by this row.",
+          "evidence": {
+            "clippedValues": 0,
+            "refusedForWidth": 2,
+            "glyphsOutsideWriteBoxes": 0,
+            "rasterState": "BUILT_RASTER_PENDING"
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Stated and faithful to the record. The instructions direct filing in a circuit or superior court in the county where the charges or allegation were filed, or the county of arrest if none were filed, which is the registry's venue field in substance. They also tell the reader that the county is already printed in the caption and must be checked, and that the court type is theirs to choose from the clerk.",
+          "evidence": {
+            "registryVenue": "A circuit or superior court in the county where the charges or allegation were filed, or where the arrest occurred if none were filed.",
+            "statedInInstructions": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both limbs answered from the registry's own words. The registry records rules.fees as 'None. Section 1 petitions carry no filing fee.' and the waiver position as 'Not applicable. There is no fee.'; both strings appear verbatim in the participant text. Because there is no fee there is no waiver to seek, and the instructions say so and add a practical check if a clerk asks for payment.",
+          "evidence": {
+            "feeQuoteInRegistry": true,
+            "waiverQuoteInRegistry": true,
+            "quotedVerbatim": true
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Answered on both limbs and quoted from the record. The registry records that the court serves the prosecuting attorney under § 35-38-9-1(f) and that the CCA appearance form nonetheless carries a certificate of service; both strings appear verbatim. All four certificates of service are left wholly blank, including the prosecutor's address, on the stated ground that service has not happened when the packet is produced. The instructions say plainly that no held record states a service deadline and send the reader to the clerk for it.",
+          "evidence": {
+            "certificatesOfService": 4,
+            "allLeftBlank": true,
+            "registryQuotesVerbatim": true,
+            "deadlineGapDisclosed": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The eleven added stop conditions are sound: each of them is the registry's own sentence for track in_arrest_no_charges, reproduced verbatim but for sentence-case and a trailing semicolon, and twelve of the registry's thirteen conditions appear verbatim in the packet (the thirteenth, 'Charges are pending anywhere, or the person is in a pretrial diversion programme.', is present reworded into the second person). No sentence anywhere in the document tells the participant to attend or appear at a hearing; 'The court sets a hearing.' is quoted as a stop and paired with an instruction to get advice. The failure is a different sentence. Under 'less than a year has passed' the packet states that the committed record 'records one exception: early filing is permitted on the written agreement of the prosecuting attorney'. The registry records no such exception. Its waitingPeriods array holds exactly one entry — condition 'The arrest, with no charges pending', duration 'One year' — and the strings 'agreement', 'consent' and 'earlier' do not occur anywhere in the track. The nearest text is an exclusion about pretrial diversion ('Persons currently in a pretrial diversion programme unless the prosecuting attorney authorises'), which is not an early-filing exception. This is a composed legal proposition attributed to the committed record, and it invites the participant to file before the statutory year on an agreement the record never authorises.",
+          "evidence": {
+            "registryStopConditions": 13,
+            "appearingVerbatimInPacket": 12,
+            "addedConditionsVerified": 11,
+            "addedConditionsQuotedNotComposed": true,
+            "tellsParticipantToAttendAHearing": false,
+            "fabricatedClaim": "early filing is permitted on the written agreement of the prosecuting attorney",
+            "registryWaitingPeriods": [
+              {
+                "condition": "The arrest, with no charges pending",
+                "duration": "One year"
+              }
+            ],
+            "stringsAbsentFromTrack": [
+              "agreement",
+              "consent",
+              "earlier"
+            ]
+          }
+        }
+      },
+      "namedRepairChecked": {
+        "repair": "An insert form was bound as a second document, 4 pages rendered, and nothing is written on it because its widgets share names across the petition's Facts pages, the order's Findings page and Exhibit A.",
+        "holds": true,
+        "howProven": "The insert document renders 4 pages. Its canonical and boundary fixtures are byte-identical, which alone rules out any participant-dependent write. Decoding its page content streams and comparing them against the pinned official source shows the page text is identical line for line; the only difference is that flattening removed the source's 78 widget appearance streams, which drew dropdown placeholder underscores and unticked checkbox glyphs. Zero values are written. The shared-name hazard is real and not assumed: of 77 distinct field names on the insert form, 33 carry widgets on more than one page, including County, ArrestDate, ArrestingAgency, AssignedCaseNumber, CauseNumber, LEACaseNumber and the whole OffenseDescript / DD-LevelChoice / DD-ChargeLevel / DD-Misd-Felony count grid, each present on the Facts pages (1-2), the Findings page (3) and in several cases Exhibit A (4). One value written to any of those names would print simultaneously as the petitioner's allegation and as the court's finding.",
+        "sharedNameHazardMeasured": {
+          "distinctFieldNames": 77,
+          "namesWithWidgetsOnMoreThanOnePage": 33
+        }
+      },
+      "blindSpotAnswered": "A flattened fixture defeats an AcroForm reader: getForm() returns zero fields on both of this family's documents, so a verifier that reads field values would have concluded nothing was written anywhere, including on the 15-page bundle. Every value reported here was decoded from page content streams instead. The bundle's fonts carry no ToUnicode CMap, so the text was recovered by simple-font byte decoding rather than by a mapped extractor.",
+      "whatThisFailDoesNotDisturb": "This FAIL is a verdict and a repair assignment. This lane wrote into no overlay directory, ran no build script, moved no artifact byte, opened no route and changed no queue state. The family's source binding, component set, prefill counts, protected-field discipline, artifact hashes, page order, filing destination, fee and service obligations all pass and are undisturbed by the two failures."
     }
   ],
   "determination": {
