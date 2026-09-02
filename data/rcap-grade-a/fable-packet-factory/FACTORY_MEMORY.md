@@ -147,3 +147,22 @@ paid for once already.
 - **VT corpusRoot() defect class**: an env-var path joined onto ROOT made
   on-disk sources report BLOCKED_SOURCE. When a lane reports BLOCKED_SOURCE
   on bytes that exist, check path resolution before believing it.
+- **A merge resolver that fails leaves the wreckage staged.** The claim-ledger
+  union resolver crashed on one integration; `git add -u` then staged the file
+  with `<<<<<<<` markers still in it and it was committed. Nothing downstream
+  reads a broken ledger silently -- `verify-claim-ledger.mjs` refuses it with a
+  JSON parse error at the marker line -- but that check has to actually be run.
+  Read the resolver's last line before staging, and run the ledger verifier
+  after every resolution, not just at the end of the gate sweep.
+- **Recover a conflicted ledger by comparing both sides, never by picking one
+  blind.** Both parents are still reachable after the merge commit
+  (`git show <parent>:<path>`). Compare claim counts, check that every claim on
+  one side exists on the other, and check that no claim released on one side is
+  unreleased on the other. When one side is a strict superset with no missing
+  releases, taking it whole is provably lossless; when it is not, the releases
+  have to be re-applied through `claim.mjs`.
+- **A document-level base does not belong to the rows under it.** Lane
+  `rows.json` files are appended to by successive teams, so reading `baseSha`
+  from the document stamps a later team's commit onto older rows it never read
+  -- a stale verdict wearing a current timestamp, which then outranks the fresh
+  read that superseded it. Only a base a row states about itself can order it.
