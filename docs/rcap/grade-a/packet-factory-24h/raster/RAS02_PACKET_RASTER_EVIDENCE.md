@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `1dfaaaeeb6bc4d84bd667b3c9e781cb7cd58e228`
+**Minimum required ancestor:** `868deaa3dd1a277966f674b56ac902fa10fe2571`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -37,14 +37,14 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf` — `b2b487cc7dd10b3ce9e7f5b41a115859bb3d1ac6be6932ea1f6503219d6c530e`
 - boundary `data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf` — `046fbedea2db1dc1afa4895b13f279e7fabf626a1e0172e705a676fc769bc6f8`
 - expected pages 5 · requested scale 2.5
-- built by VF03
+- built by FIX01
 
 ### az_wrongful_arrest_clearance-set
 
 - canonical `data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/canonical.pdf` — `ae9d2adfcc34c4aa45012493466e0b86e49ace944aa552998ffec4c2a36166ee`
 - boundary `data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/boundary.pdf` — `9ff414dfc5ee70776d55cf44400479680d1b3043789d189232c879e0e8eb36f9`
 - expected pages 4 · requested scale 2.5
-- built by VF03
+- built by (no builder lane recorded)
 
 ### composed-treatment:nd-nonconviction-auto-close-verify
 
@@ -135,7 +135,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/canonical.pdf` — `7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc`
 - boundary `data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/boundary.pdf` — `69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f`
 - expected pages 4 · requested scale 2.5
-- built by VF03
+- built by (no builder lane recorded)
 
 ### in_section1_petition-set
 

@@ -6,7 +6,7 @@
   "checkpointNumber": 0,
   "checkpointMeans": "checkpoint 0 is the dispatch: the state the first two-hour checkpoint is measured against.",
   "liveFamilyDenominator": 346,
-  "completePacketProven": 84,
+  "completePacketProven": 88,
   "states": {
     "SOURCE_BLOCKED": 115,
     "SOURCE_READY": 38,
@@ -15,14 +15,14 @@
     "BUILD_IN_PROGRESS": 0,
     "BUILT_RASTER_PENDING": 0,
     "PASS_COMPLETE": 0,
-    "VERIFY_PENDING": 80,
+    "VERIFY_PENDING": 69,
     "VERIFYING": 0,
-    "FAIL_REPAIR_REQUIRED": 11,
+    "FAIL_REPAIR_REQUIRED": 18,
     "VERIFIED_PASS": 5,
     "LEGAL_REVIEW_READY": 0,
     "LEGAL_APPROVED": 0,
     "PRODUCT_PATH_PENDING": 0,
-    "COMPLETE_PACKET_PROVEN": 84,
+    "COMPLETE_PACKET_PROVEN": 88,
     "LEGITIMATE_GUIDANCE_ONLY": 0
   },
   "sourceReady": 38,
@@ -34,8 +34,8 @@
   "codex": {
     "activeTasks": 0,
     "queuedTasks": 48,
-    "lanesWithWorkAtDispatch": 41,
-    "lanesProvisionedEmpty": 7,
+    "lanesWithWorkAtDispatch": 40,
+    "lanesProvisionedEmpty": 8,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
@@ -844,6 +844,12 @@
       "nextAction": "await the counsel determination; do not research it here"
     },
     {
+      "family": "sd_arrest_expungement-set",
+      "exactBlocker": "an open legal input on one of its routes",
+      "owner": "counsel",
+      "nextAction": "await the counsel determination; do not research it here"
+    },
+    {
       "family": "ut_pet_no_charges-set",
       "exactBlocker": "an open legal input on one of its routes",
       "owner": "counsel",
@@ -862,7 +868,19 @@
       "nextAction": "await the counsel determination; do not research it here"
     },
     {
+      "family": "wa_vac_misdemeanor_ordinary-set",
+      "exactBlocker": "an open legal input on one of its routes",
+      "owner": "counsel",
+      "nextAction": "await the counsel determination; do not research it here"
+    },
+    {
       "family": "wa_vac_substance_use_disorder-set",
+      "exactBlocker": "an open legal input on one of its routes",
+      "owner": "counsel",
+      "nextAction": "await the counsel determination; do not research it here"
+    },
+    {
+      "family": "wa_vac_survivor_felony-set",
       "exactBlocker": "an open legal input on one of its routes",
       "owner": "counsel",
       "nextAction": "await the counsel determination; do not research it here"

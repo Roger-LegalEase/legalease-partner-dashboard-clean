@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "1dfaaaeeb6bc4d84bd667b3c9e781cb7cd58e228",
+  "minimumCaptainSha": "868deaa3dd1a277966f674b56ac902fa10fe2571",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
@@ -54,23 +54,23 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 7,
+    "activeFamiliesExcluded": 2,
     "guidanceOnly": 0,
-    "remaining": 339,
+    "remaining": 344,
     "sourceReady": 38,
     "sourceBlocked": 115,
-    "legalBlocked": 26,
-    "verifyPending": 75,
-    "repairRequired": 11,
+    "legalBlocked": 29,
+    "verifyPending": 69,
+    "repairRequired": 18,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 38,
-    "VERIFY_PENDING": 80,
-    "COMPLETE_PACKET_PROVEN": 84,
+    "VERIFY_PENDING": 69,
+    "COMPLETE_PACKET_PROVEN": 88,
     "SOURCE_BLOCKED": 115,
+    "FAIL_REPAIR_REQUIRED": 18,
     "VERIFIED_PASS": 5,
-    "FAIL_REPAIR_REQUIRED": 11,
     "LEGAL_BLOCKED": 13
   },
   "bySourceStatus": {
@@ -102,22 +102,37 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
-      "sd_arrest_expungement-set",
-      "wa_vac_cannabis-set",
       "wa_vac_domestic_violence-set",
-      "wa_vac_felony-set",
-      "wa_vac_misdemeanor_ordinary-set",
-      "wa_vac_survivor_felony-set",
-      "wa_vac_survivor_misdemeanor-set"
+      "wa_vac_felony-set"
     ],
     "staleRosterFamilies": [
+      {
+        "familyId": "sd_arrest_expungement-set",
+        "roster": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
+      },
+      {
+        "familyId": "wa_vac_cannabis-set",
+        "roster": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION"
+      },
       {
         "familyId": "wa_vac_homicide_victim_prostitution-set",
         "roster": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
       },
       {
+        "familyId": "wa_vac_misdemeanor_ordinary-set",
+        "roster": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
+      },
+      {
         "familyId": "wa_vac_substance_use_disorder-set",
         "roster": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
+      },
+      {
+        "familyId": "wa_vac_survivor_felony-set",
+        "roster": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
+      },
+      {
+        "familyId": "wa_vac_survivor_misdemeanor-set",
+        "roster": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
       },
       {
         "familyId": "wa_vac_treaty_fishing-set",
@@ -133,7 +148,7 @@
     "familiesPerBuilder": 2.4,
     "targetPerBuilder": "15 to 25",
     "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 38 do, so a full roster of 16 builders averages 2.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 234 source obligations across 141 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 234 source obligations across 144 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -2174,11 +2189,38 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The section exists and covers seven conditions including the one the committed record calls explicit, but one of the four conditions data/record-clearing/legal-design-track-registry.json holds for track ar-cs-possession-seal is absent from the packet entirely: 'Immigration, licensing or firearm consequences are in play.' The whole participant-instructions.md returns 0 case-insensitive hits for 'immigrat', 0 for 'firearm' and 0 for 'gun'; the only 'licens' hit is 'a lawyer licensed in Arkansas'. This is not a wording difference. Every sibling family in this lane that has an immigration stop condition carries it - AK, AZ, ID, NE and SC all do, and SC carries all 110 of its ten tracks' conditions verbatim. The repository establishes the answer for this route and the packet does not state it, which is the same failure shape DET-FEE-AND-WAIVER-001 amendment A1 names: an answer held here and left out of the packet.",
+          "evidence": {
+            "registry": "data/record-clearing/legal-design-track-registry.json",
+            "trackId": "ar-cs-possession-seal",
+            "conditionsHeld": 4,
+            "conditionsCarried": 3,
+            "missingCondition": "Immigration, licensing or firearm consequences are in play.",
+            "carriedConditions": [
+              "the prosecuting attorney objects, or the court sets a contested hearing",
+              "pre-sentencing predicate unclear -> route to the ordinary felony track or an attorney",
+              "a paragraph on pages 1-2 the participant cannot answer"
+            ],
+            "greps": {
+              "immigrat": 0,
+              "firearm": 0,
+              "gun": 0,
+              "licens": "1 hit, and it is 'a lawyer licensed in Arkansas'"
+            },
+            "file": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/participant-instructions.md",
+            "section": "## Where self-help ends (line 103)"
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-cs-possession-seal-set.mjs",
@@ -3665,7 +3707,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs",
@@ -10985,7 +11027,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-id_set_aside_dismissal-set.mjs",
@@ -20227,97 +20269,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "FEE_AND_WAIVER",
-        "FILING_DESTINATION",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Packet page 4 is unreadable, and this build made it so. The page is Nebraska form DC 1:15, whose caption block is a set of alternate captions the form's own script shows one at a time. In the delivered packet all of them are printed on top of each other: \"IN RE NAME CHANGE OF\", \"IN THE MATTER OF THE ADOPTION OF:\", \"IN RE EMANCIPATION OF:\", \"IN THE MATTER OF THE ESTATE OF:\" and the Plaintiff/Petitioner caption are superimposed in one block, together with \"Petitioner. / Decedent. / A Minor child. / Minor Child(ren) / Defendant/Respondent.\" and the red box the form itself says \"The items in this box will NOT print on your form.\" Measured geometrically: 47 same-baseline text-on-text overlaps in each fixture, up to 91pt wide, all on page 4. Traced to its cause rather than asserted: the corpus source DC-1-15 was measured the same way in this lane and carries 0 text-on-text overlaps across its two pages, and its rendered page reads as a single clean caption. The defect is introduced by the build's flattening of hidden widget appearances, not inherited from the source. Separately, ten underscore rules run past the right page edge (x1 = 613 on a 612pt page) on packet pages 4 and 5, where the source has one. The family holds a RASTER_PASS receipt; the raster gate proves the pages render, not that they can be read.",
-          "evidence": {
-            "method": "pdftotext -bbox word geometry per page, plus a visual read of the committed raster pages 4 and 5 and of the corpus source rendered in this lane",
-            "packet": {
-              "textOnTextOverlaps": 47,
-              "wordsOutsidePageBox": 10,
-              "worstExamples": [
-                {
-                  "page": 4,
-                  "a": "EMANCIPATION",
-                  "b": "CHANGE",
-                  "overlapPt": 49.86
-                },
-                {
-                  "page": 4,
-                  "a": "EMANCIPATION",
-                  "b": "MATTER",
-                  "overlapPt": 49.33
-                },
-                {
-                  "page": 4,
-                  "a": "EMANCIPATION",
-                  "b": "NAME",
-                  "overlapPt": 35.33
-                }
-              ]
-            },
-            "corpusSource": {
-              "file": "STATES/NE/02_PACKET_FORMS/NE__FORM__DC-1-15__notice-of-hearing__REV-UNKNOWN__EN.pdf",
-              "textOnTextOverlaps": 0,
-              "wordsOutsidePageBox": 1
-            },
-            "rasterPagesRead": [
-              "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-04.png",
-              "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-05.png"
-            ]
-          }
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": "The packet does not say where it is filed. participant-instructions.md is a list of blank field identifiers with no filing section of any kind; the packet's own pages carry the caption \"IN THE ______ COURT OF ______ COUNTY, NEBRASKA\" with both blanks empty, so not even a court type is fixed on the face. Amendment A1's test is answered yes: the committed track registry holds \"Clerk of the sentencing court ... filed in the existing criminal case, in person, by mail, or by fax for a self-represented filer. In district court the participant obtains a hearing date from the judge's bailiff and then files DC 1:15 and gives a copy to the prosecutor; in county court the clerk schedules and mails notice.\" The repository establishes the destination and the packet is silent about it.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/participant-instructions.md",
-            "captionBlanksOnTheFace": "IN THE ______ COURT OF ______ COUNTY, NEBRASKA, both blanks empty in both fixtures",
-            "trackRegistryDestination": "Clerk of the sentencing court",
-            "registry": "data/record-clearing/legal-design-track-registry.json"
-          }
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "Silence. Searched in this lane across the full extracted text of both fixtures and the whole of participant-instructions.md: no amount, no statement that filing is free, no waiver or in-forma-pauperis procedure, and no office named to ask. That is the standard's first not-met clause exactly — a participant cannot tell from this packet whether filing is free, whether a fee exists, or whom to ask.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/participant-instructions.md",
-            "searchedFor": [
-              "$",
-              "fee",
-              "waiver",
-              "indigent",
-              "in forma pauperis",
-              "cost",
-              "pauper"
-            ],
-            "hitsInPacketOrInstructions": 0,
-            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
-            "standardClause": "theStandard.notMet[0]"
-          }
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "The packet names no recipient, no method and no authority to ask. participant-instructions.md says only that \"a certificate of mailing is completed after mailing has happened\" — a timing rule, not a service rule. The DC 1:15 certificate of service page carries blank \"Name\" and \"Address\" rules with no recipient identified, and the caption block that would identify the proceeding is the illegible one. The committed track registry holds the rule: the participant obtains a hearing date from the judge's bailiff, files DC 1:15 and gives a copy to the prosecutor in district court, while in county court the clerk schedules and mails notice. The repository establishes it, the packet does not state it, and no named checkable authority stands in its place.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/participant-instructions.md",
-            "whatTheInstructionsSayAboutService": "a certificate of mailing is completed after mailing has happened",
-            "trackRegistryService": "district court: bailiff sets the hearing, participant files DC 1:15 and gives a copy to the prosecutor; county court: the clerk schedules and mails notice",
-            "registry": "data/record-clearing/legal-design-track-registry.json",
-            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json"
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
@@ -24941,7 +24897,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-sc-custom-pleading.mjs",
@@ -26213,9 +26169,9 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION",
-      "activeOwnerLane": "independent-verification",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ne-setaside-custodial-set.mjs",
@@ -26226,7 +26182,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "staleRosterOwner": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     },
     {
       "familyId": "tx_exp_acquittal-set",
@@ -28415,110 +28372,55 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING"
+        "SELF_HELP_STOP"
       ],
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Measured geometrically in this lane and then confirmed against the committed raster. Every word box in both fixtures was extracted with pdftotext -bbox: 0 words fall outside the page box in either fixture, and every same-line pair was classified rather than counted, separating a written value sitting on its own form rule or a mark inside its own bracket from a true text-on-text collision. One true collision remains, and it is in the DELIVERED canonical fixture, not only in the boundary stress fixture. On packet page 18, the BCI Application for Certificate of Eligibility declaration line reads \"I, ______ , declare under criminal penalty of the State of Utah that the foregoing is true and correct.\" The committed write box for \"Name of Petitioner\" begins at x=50.5, but the pre-printed \"I\" occupies x=49.745-52.742, so the participant's name is written on top of it, overlapping by 2.24pt on a shared baseline band. raster/canonical/page-18.png was read visually in this lane at high magnification and the \"I,\" is effectively destroyed: the line reads as the participant's name followed directly by \", declare under criminal penalty\", with only a stub of the I visible beneath the J. A sworn declaration that has lost its first-person subject is a participant-facing defect, and it is in the bytes the packet delivers.",
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The packet does not state where self-help ends, and on one point it states the opposite. data/record-clearing/legal-design-track-registry.json holds nine selfHelpStopConditions for trackId ut_pet_dismissed_without_prejudice. participant-instructions.md has no section for them: its headings are Where you file this, What it costs and how to ask for a waiver, Who must receive a copy and how, The facts you must supply before filing, What this packet is not, and Where these directions come from. Every sibling family in this lane that has stop conditions carries them - AZ 4 of 4 verbatim, ID 5 of 5 verbatim, SC 110 of 110 verbatim, NE 14 of 14 in substance, AK carries its controlling record's attorney handoff. This one carries none. The registry's first condition is marked in its own words as 'a hard stop, not a caveat': the participant is not a US citizen, and the Utah Courts self-help page itself tells non-citizens to consult an immigration lawyer before expunging because the FBI may retain records of an expunged case. The whole file returns 0 case-insensitive hits for 'citizen' and 0 for 'immigra'. And the registry's second condition - the prosecutor or a victim objects, or the court schedules a hearing - is contradicted: line 36 reads 'The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it.' The repository records that circumstance as the end of self-help and the packet sends the participant into it alone.",
           "evidence": {
-            "wordsOutsidePageBox": {
-              "canonical": 0,
-              "boundary": 0
-            },
-            "trueTextOnTextCollisions": {
-              "canonical": 1,
-              "boundary": 1
-            },
-            "sameLinePairsBeforeClassification": {
-              "canonical": 33,
-              "boundary": 47
-            },
-            "collision": {
-              "packetPage": 18,
-              "component": "UT-BCI-EXP-APPLICATION",
-              "formLine": "I, ______ , declare under criminal penalty of the State of Utah that the foregoing is true and correct.",
-              "prePrintedWord": "I",
-              "prePrintedWordBoxX": [
-                49.745,
-                52.742
-              ],
-              "writtenValueCanonical": "Jordan Avery Reyes",
-              "writtenValueBoxX": [
-                50.5,
-                86.14
-              ],
-              "overlapPt": 2.24,
-              "committedWriteBox": {
-                "field": "Name of Petitioner",
-                "x": 50.5,
-                "y": 399,
-                "width": 136,
-                "height": 12
-              },
-              "rasterRead": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/raster/canonical/page-18.png"
-            },
-            "classifiedAsLegitimateAndNotCounted": {
-              "valueOnItsOwnFormRule": {
-                "canonical": 23,
-                "boundary": 37
-              },
-              "markInsideItsOwnBracket": {
-                "canonical": 9,
-                "boundary": 9
-              },
-              "why": "A written value overlapping the underscore rule that receives it, and an X overlapping the bracket pair it marks, are the intended rendering, not a collision."
-            },
-            "calibrationOfThisDetector": "Run unchanged against ut_pet_traffic-set, which holds a PASS on this obligation from FABLE-VT5 in this same file, the detector reports a 26.67pt collision of the participant's name over the pre-printed word \"Petitioner\" in the page 1 court caption, and its committed raster/canonical/page-01.png renders as \"JPeetaitoicoAnvery Reyes\". That family is not this lane's to score, and the observation is recorded under crossFamilyObservations rather than as a verdict. It is reported so this FAIL is not read as a stricter yardstick than the one already applied on this host: the same yardstick applied there finds a larger defect."
-          }
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The packet tells the participant that it does not state an amount that its own delivered pages print. participant-instructions.md carries, in bold: \"The BCI certificate carries a separate fee, and this packet does not state an amount because BCI sets it per applicant.\" The canonical fixture this family ships prints \"$65.00\" three times on packet pages 17 and 18, on the BCI Application for Certificate of Eligibility the packet itself delivers. Confirmed in this lane with pdftotext against this family's own committed bytes (SHA-256 8efb78f3f885af303bc74f461172d319f63b60bb747720329e401c1bd4d417f4), not taken from any brief or report. DET-FEE-AND-WAIVER-001 amendment A4 states the rule in one line: a packet may never tell a participant that it does not state something it does state. A SECOND and independent limb fails here, and it is the A1/A2/A3 one rather than A4's internal-consistency rule. The compiled Utah state profile (src/lib/rcap-engine/compiled/profiles/UT-utah.json, SHA-256 73dd7ea988d0673dca3b8bf657f2df090d062c0821f8c0662a57ccfac8e7660d) states: \"eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations.\" This route is a dismissal without prejudice. Applying A3's per-fact, per-route test rather than reading the document as a whole: the exempting limb names \"dismissals\" without qualification, and the limb that does carry a charge names conviction, plea-in-abeyance and special certificates, none of which is this route. A dismissal without prejudice is a dismissal and is not a plea in abeyance, so the exemption reaches it. The repository therefore establishes that the certificate issuance fee for this route is nil, and A2 lists the compiled state profile for the family's jurisdiction as a held source in its own right. The packet nonetheless tells the participant that it cannot state the amount and sends them to ask BCI — which is precisely what A1 forbids where the record already answers. The residual ambiguity is stated rather than resolved: the profile's word is \"dismissals\", unqualified, and a lane wanting certainty should read the BCI FAQ the profile cites before publishing $0. What passes on this obligation is not in dispute and is recorded so the repair does not disturb it: the court filing fee of $150 is stated and sourced to the row the packet fills on 1044XX page 2, and the court waiver route is named as Utah form 1305GE under Utah Code 78A-2-302 and CJA Rule 4-508.",
-          "evidence": {
-            "participantInstructionsSha256": "d11ba889207735fb413c6ab7d719e194e3a6d3e2a2ca96351e2eca4a5dd319f5",
-            "theSentence": "**The BCI certificate carries a separate fee, and this packet does not state an amount because BCI sets it per applicant.** BCI's instructions tell you to \"pay all associated fees as indicated in the BCI letter\", and a certificate must be purchased for each eligible incident you want expunged. BCI publishes separate *Indigent Expungement Applicant Instructions* under which BCI sends a fee waiver together with the certificate list. Ask the Bureau of Criminal Identification what your certificates cost and whether you qualify for its fee waiver; do not assume the court's $150 waiver covers BCI's fee, because they are two different offices.",
-            "printedInDeliveredCanonicalPdf": [
-              "p17: \"4. The application fee is $65.00 and non-refundable. Select a method of payment by making a check mark in the\"",
-              "p18: \"a non-refundable $65.00 application fee.\"",
-              "p18: \"METHOD OF PAYMENT (Only to be filled out if application is mailed in. Check appropriate box for payment) Application fee is $65.00\""
+            "registry": "data/record-clearing/legal-design-track-registry.json",
+            "trackId": "ut_pet_dismissed_without_prejudice",
+            "conditionsHeld": 9,
+            "conditionsCarried": 0,
+            "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/participant-instructions.md",
+            "sectionsPresent": [
+              "Where you file this",
+              "What it costs, and how to ask for a waiver",
+              "Who must receive a copy, and how",
+              "The facts you must supply before filing",
+              "What this packet is not",
+              "Where these directions come from"
             ],
-            "dollar65OccurrencesInCanonical": 3,
-            "dollar65OccurrencesInBoundary": 3,
-            "measuredWith": "pdftotext -layout, page by page, against the committed fixture bytes in this lane",
-            "whatTheAmountActuallyIs": "the BCI APPLICATION fee, flat and printed on the form the participant must submit; distinct from the per-incident CERTIFICATE price the sentence is describing",
-            "courtFilingFeeStated": "$150, sourced to 1044XX page 2",
-            "courtWaiverRouteNamed": "Utah form 1305GE, Motion to Waive Fees for Expungement - Criminal, Utah Code 78A-2-302 and CJA Rule 4-508",
-            "repairAlreadyExistsOnThisHost": "scripts/build-census-v1-ut_pet_acquittal-set.mjs gates the corrected text behind the per-family config flag statesBciApplicationFee, set true for ut_pet_acquittal-set, ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set by FABLE-R17 and absent from this family's CONFIGS entry. This lane did not set it and wrote no line of that host."
-          }
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The packet omits pre-filing requirements this family's own committed packet-set manifest holds, and one of them is a bar the manifest says defeats the petition. The instructions' list under \"The facts you must supply before filing\" is scoped entirely to blanks on paper. data/record-clearing/legal-design-packet-set-manifests.json, at packetSetId ut_pet_dismissed_without_prejudice-set, additionally holds requiredBeforeFiling entries scoped to what the participant must have IN HAND, and 6 of them appear nowhere in participant-instructions.md — searched case-insensitively for their distinguishing terms, with zero hits. A committed manifest is the repository answering the question, which DET-FEE-AND-WAIVER-001 amendment A2 settled expressly, and A4 extends the ask-the-repository-first test to REQUIRED_BEFORE_FILING for exactly this failure mode: the packet omitting a fact the repository establishes. This is not a fee-style audit of every fact a participant might want; each item below is quoted from this family's own manifest entry for this exact route, which satisfies A3. The counters do not see it and are recorded so the gap in the instrument is on the record too: the fresh completeness run measured requiredFactsNotCollected 0 and unclassifiedBlanks 0, because those counters test blanks on the forms and these obligations are not blanks.",
-          "evidence": {
-            "manifestPath": "data/record-clearing/legal-design-packet-set-manifests.json",
-            "packetSetId": "ut_pet_dismissed_without_prejudice-set",
-            "itemsHeldByManifestAndAbsentFromInstructions": [
-              "\"Obtain Proof that fines, fees, interest and restitution are paid in full. Ask the clerk of the sentencing court for a current balance on the case, and check with the Office of State Debt Collection if any balance was entered as a civil judgment and transferred. An unpaid balance defeats the petition and will also defeat the BCI certificate.\"",
-              "\"Check your answer to \\\"List every criminal case you have ever had, in any state, including cases that were already expunged. BCI reviews all of them when it decides your certificate.\\\" against The participant's own case history for every case in every state, including previously expunged cases, and correct the packet if they disagree.\"",
-              "\"Obtain Certified copy of the order of dismissal without prejudice. Ask the clerk for a certified copy of the dismissal order. It carries the dismissal date and confirms that the dismissal was without prejudice, which starts the 180-day clock.\"",
-              "\"Check your answer to \\\"What is the date of the dismissal?\\\" against Certified copy of the order of dismissal without prejudice, and correct the packet if they disagree.\"",
-              "\"Obtain The prosecutor's written consent to expungement, where one has been given. The participant asks the prosecuting attorney's office directly. LegalEase does not seek, negotiate or obtain prosecutor consent, and never asserts that it has been given.\"",
-              "\"Check your answer to \\\"Has the prosecutor given you written consent to the expungement? If not, that is fine - the 180-day route is the alternative.\\\" against The prosecutor's written consent to expungement, where one has been given, and correct the packet if they disagree.\""
-            ],
-            "searchMethod": "case-insensitive grep of participant-instructions.md for the distinguishing terms of each item (\"paid in full\", \"restitution\", \"every criminal case\", and the family-specific terms); 0 hits",
-            "requiredFactsNotCollected": 0,
-            "unclassifiedBlanks": 0,
-            "whyCountersAreZeroAnyway": "requiredFactsNotCollected fires when a required-before-filing BLANK is not named in the instructions. These obligations are documents and money states the participant must hold, not blanks on the forms, so no counter reaches them.",
-            "repairAlreadyExistsOnThisHost": "The same host gates this behind the per-family config flag statesManifestPreFilingItems, set true for ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set by FABLE-R17 and absent from this family's CONFIGS entry. Verified by grep: ut_pet_conviction-set's instructions carry the paid-in-full and all-states-case-list text; this family's carry neither."
+            "sectionAbsent": "any where-self-help-ends / when-to-stop section",
+            "contradiction": {
+              "line": 36,
+              "packetText": "The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it.",
+              "registryCondition": "The prosecutor or a victim objects, or the court schedules a hearing."
+            },
+            "hardStopOmitted": "The participant is not a US citizen. The Utah Courts self-help page itself tells non-citizens to consult an immigration lawyer before expunging, because the FBI may retain records of an expunged case. This is a hard stop, not a caveat.",
+            "greps": {
+              "citizen": 0,
+              "immigra": 0,
+              "protective order": 0,
+              "refile": 0,
+              "appellate": 0
+            },
+            "alsoOmitted": [
+              "BCI offers a special certificate instead of a certificate of eligibility, because the court rather than BCI then decides eligibility.",
+              "The public-interest showing has to be argued rather than simply stated.",
+              "Any conviction-counting question near the 77-40a-303(4) or (5) limits, including out-of-state and previously expunged convictions.",
+              "An active protective order or stalking injunction.",
+              "The participant is asking to expunge appellate records.",
+              "The prosecutor asserts an intent to refile. That turns the matter into a contested proceeding under 77-40a-306(2) and is outside self-help.",
+              "Charges have been refiled, or the participant has reason to believe they are about to be."
+            ]
           }
         }
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
@@ -31333,9 +31235,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION",
-      "activeOwnerLane": "independent-verification",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_cannabis-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -31346,7 +31248,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "staleRosterOwner": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION"
     },
     {
       "familyId": "wa_vac_domestic_violence-set",
@@ -31819,9 +31722,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION",
-      "activeOwnerLane": "independent-verification",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_misdemeanor_ordinary-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -31832,7 +31735,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "staleRosterOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
     },
     {
       "familyId": "wa_vac_substance_use_disorder-set",
@@ -32096,9 +32000,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
-      "activeOwnerLane": "independent-verification",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_survivor_felony-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -32109,7 +32013,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "staleRosterOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
     },
     {
       "familyId": "wa_vac_survivor_misdemeanor-set",
@@ -32234,9 +32139,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
-      "activeOwnerLane": "independent-verification",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_survivor_misdemeanor-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -32247,7 +32152,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "staleRosterOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
     },
     {
       "familyId": "wa_vac_treaty_fishing-set",

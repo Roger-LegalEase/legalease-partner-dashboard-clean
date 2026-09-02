@@ -73,6 +73,20 @@ const PASSING = new Set(["PASS_COMPLETE_INDEPENDENT", "PASS"]);
 // in their environment: it is not a packet defect, and it is not a pass — a
 // row claiming PASS_COMPLETE_INDEPENDENT while carrying one is refused below.
 const UNMEASURED = new Set(["NOT_MEASURABLE_HERE", "BLOCKED_LEGAL_INPUT"]);
+/*
+ * Spellings of "no measurement exists here" that lanes actually wrote.
+ *
+ * This is a reading aid, not an extension of the vocabulary: the canonical
+ * token this file emits is still NOT_MEASURABLE_HERE, and a token outside both
+ * sets is still unreadable. Seven rows across VF02 and VF03 recorded
+ * "UNMEASURED" -- FABLE-VA3's Alaska row, for one, where CLIPPING_AND_OVERLAP
+ * cannot be scored because the family is RASTER_PENDING and nobody has
+ * rendered it yet. The distinction that matters is the one both spellings
+ * keep: it is NOT a pass, and the PASS_COMPLETE_INDEPENDENT guard below
+ * refuses any verdict resting on one.
+ */
+const UNMEASURED_SPELLINGS = new Map([["UNMEASURED", "NOT_MEASURABLE_HERE"], ["NOT_MEASURED", "NOT_MEASURABLE_HERE"]]);
+const canonicalResult = (r) => UNMEASURED_SPELLINGS.get(r) ?? r;
 
 /* The factory's canonical proof obligations, kept identical to the list lane
  * contract L9 enforces in verify-lane-contracts.mjs. The strongest verdict is
@@ -83,12 +97,13 @@ const PROOF_OBLIGATIONS = [
   "ARTIFACTS", "PAGE_ORDER", "CLIPPING_AND_OVERLAP", "FILING_DESTINATION",
   "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP",
 ];
-const obligationFailed = (r) => {
+const obligationFailed = (raw) => {
+  const r = canonicalResult(raw);
   if (r === "PASS" || r === true || UNMEASURED.has(r)) return false;
   if (r === "FAIL" || r === false) return true;
   throw new Error(`unreadable obligation result ${JSON.stringify(r)}; the vocabulary is "PASS"/"FAIL"/"NOT_MEASURABLE_HERE"/"BLOCKED_LEGAL_INPUT" or a boolean and nothing else`);
 };
-const obligationUnmeasured = (r) => UNMEASURED.has(r);
+const obligationUnmeasured = (r) => UNMEASURED.has(canonicalResult(r));
 
 /*
  * A failing verdict that names no obligation is a verdict no repairer can act
@@ -339,10 +354,28 @@ const doc = {
   grantsNothing: "A verdict moves a family in the queue. It promotes nothing, opens no route, and prepares no review package."
 };
 
+/*
+ * A BAD ROW COSTS ITS OWN FAMILY, NOT EVERY OTHER LANE'S WORK.
+ *
+ * Every `problems.push` above is already followed by `continue`, so the
+ * offending row is skipped and contributes no verdict. Refusing to write the
+ * file on top of that discarded the GOOD rows too: six VF02 rows with one
+ * out-of-vocabulary token froze the whole extraction, and when FABLE-VA3
+ * returned seven families, its six readable verdicts -- four passes and two
+ * genuine SELF_HELP_STOP failures -- could not reach the queue either. The
+ * factory stopped moving on a spelling.
+ *
+ * So the refusals are carried IN the document, where they are durable and
+ * auditable, instead of in a console line that scrolls away, and the good
+ * verdicts land. A refused row still yields nothing: no verdict, no state
+ * change, no repair assignment.
+ */
+doc.rowsRefused = problems.length;
+doc.refusedRows = problems;
+doc.whatARefusedRowMeans = "The row named a family and could not be read -- an undeclared verdict, an out-of-vocabulary obligation result, a PASS_COMPLETE_INDEPENDENT resting on an unmeasured obligation. It produced no verdict and moved no family. It is recorded here so a refusal is visible in the record rather than only in a console line, and so the count can be watched.";
 if (problems.length) {
-  console.error(`REFUSED verifier-return extraction — ${problems.length} problem(s):`);
+  console.error(`${problems.length} row(s) refused and carried into ${OUT}:`);
   for (const p of problems.slice(0, 10)) console.error(`  ${p}`);
-  process.exit(1);
 }
 
 const text = `${JSON.stringify(doc, null, 2)}\n`;

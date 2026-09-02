@@ -20,7 +20,7 @@ import fs from "node:fs";
 import { preflightDenominator, denominatorForCommand } from "./preflight-denominator.mjs";
 import path from "node:path";
 import crypto from "node:crypto";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { makeEmitter } from "../lib/generator-emit.mjs";
 import { preferOfficialForm, nonFormCandidatesSetAside } from "../lib/official-form-asset-class.mjs";
@@ -608,6 +608,35 @@ const rootOf = (p) => p.replace(/\/?\*+$/, "");
 const touches = (a, b) => { const ra = rootOf(a); const rb = rootOf(b); return ra === rb || ra.startsWith(`${rb}/`) || rb.startsWith(`${ra}/`); };
 const pathIsActive = (p) => activePaths.some((x) => touches(p, x.path) || new RegExp(`^${x.path.replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*\*/g, ".*").replace(/\*/g, "[^/]*")}$`).test(p));
 
+/*
+ * Did this family's own artefacts change between the base a verdict was read
+ * at and the current head? Answers the one question the claim ledger cannot:
+ * whether a released repair came before or after the verdict it is being
+ * asked to supersede.
+ *
+ * A verdict that names no base cannot be ordered at all, and is treated as
+ * still describing this head -- the conservative reading, since the cost of
+ * being wrong the other way is publishing a defect as unverified.
+ */
+const movedSinceCache = new Map();
+function familyMovedSinceVerdict(independentReturn, directory) {
+  const base = independentReturn?.verifiedAtBase;
+  if (!base || !/^[0-9a-f]{7,40}$/.test(String(base))) return false;
+  const key = `${base}\u0000${directory}`;
+  if (movedSinceCache.has(key)) return movedSinceCache.get(key);
+  let moved = false;
+  try {
+    const r = spawnSync("git", ["diff", "--quiet", base, "HEAD", "--", directory], { cwd: ROOT });
+    /* 0 = identical, 1 = differs. Anything else (an unknown base after a
+     * shallow clone, a path git cannot resolve) is not an answer, and an
+     * unanswered question must not release the family from FAIL. */
+    if (r.status === 1) moved = true;
+    else if (r.status !== 0) moved = false;
+  } catch { moved = false; }
+  movedSinceCache.set(key, moved);
+  return moved;
+}
+
 /* ---------------------------------------------------------------- *
  * Build one record per family
  * ---------------------------------------------------------------- */
@@ -789,9 +818,36 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
     && rasterNotEligible.has(familyId)) state = "VERIFY_PENDING";
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT") state = "VERIFIED_PASS";
+  /*
+   * AND THE REPAIR HAS TO POSTDATE THE VERDICT.
+   *
+   * The ordering caveat named above was real and it cost a legal-safety
+   * defect. FABLE-VA3 failed ut_pet_dismissed_without_prejudice-set on
+   * SELF_HELP_STOP -- nine stop conditions held in the track registry, none
+   * carried by the packet, and line 36 telling a participant to attend the
+   * very hearing the registry records as the end of self-help. That verdict
+   * was read at base 9c2b39327, which already CONTAINS the repair 2b88bb70b
+   * whose release triggers this downgrade, and nothing in the family's
+   * directory has changed since. So the repair demonstrably did not fix what
+   * the verdict found, and sending the family to VERIFY_PENDING on the
+   * strength of that release published the defect as merely unverified.
+   * VA3's own words for the history: the gap survived a fail, a repair and a
+   * pass.
+   *
+   * The ordering the ledger could not give is measured instead, against the
+   * only thing that decides it: whether the family's own artefacts moved
+   * between the base the verdict was read at and this head. If they did, the
+   * verdict is about a tree that no longer exists and re-verification is the
+   * honest next step. If they did not, the verdict describes THIS head, and
+   * an older repair does not answer it.
+   *
+   * Unmeasurable falls to FAIL, because a defect nobody can show was fixed is
+   * a defect.
+   */
   else if (independentFail
     && repairReleasedFamilies.has(familyId) && !repairLiveFamilies.has(familyId)
-    && comp && nineZero) state = "VERIFY_PENDING";
+    && comp && nineZero
+    && familyMovedSinceVerdict(independentReturn, directory)) state = "VERIFY_PENDING";
   else if (independentFail) state = "FAIL_REPAIR_REQUIRED";
   else if (activeOwner && activeOwnerLane === "independent-verification") state = "VERIFYING";
   else if (activeOwner) state = "BUILD_IN_PROGRESS";

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "1dfaaaeeb6bc4d84bd667b3c9e781cb7cd58e228",
+  "generatedAtCommit": "868deaa3dd1a277966f674b56ac902fa10fe2571",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -164,10 +164,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T09:06:20.664Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -372,11 +371,11 @@
         "ar-cs-possession-seal-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF03",
-      "laneKind": "independent-verification",
+      "operation": "packet-build",
+      "lane": "PF03",
+      "laneKind": "packet-build",
       "released": true,
-      "releasedAt": "2026-09-02T09:06:20.760Z"
+      "releasedAt": "2026-09-02T07:39:43.822Z"
     },
     {
       "subjectType": "packet-family",
@@ -387,11 +386,11 @@
         "ar-cs-possession-seal-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF03",
-      "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-02T07:39:43.822Z"
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -526,21 +525,6 @@
       "laneKind": "repair",
       "released": false,
       "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "az_wrongful_arrest_clearance-set",
-      "familyId": "az_wrongful_arrest_clearance-set",
-      "itemId": null,
-      "familyIds": [
-        "az_wrongful_arrest_clearance-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF03",
-      "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T09:06:20.835Z"
     },
     {
       "subjectType": "packet-family",
@@ -2393,21 +2377,6 @@
         "id_set_aside_dismissal-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF03",
-      "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T09:06:20.912Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "id_set_aside_dismissal-set",
-      "familyId": "id_set_aside_dismissal-set",
-      "itemId": null,
-      "familyIds": [
-        "id_set_aside_dismissal-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
@@ -3414,7 +3383,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T09:06:20.989Z"
@@ -4338,21 +4307,6 @@
         "rcap-sc-custom-pleading"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF03",
-      "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T09:06:21.064Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "rcap-sc-custom-pleading",
-      "familyId": "rcap-sc-custom-pleading",
-      "itemId": null,
-      "familyIds": [
-        "rcap-sc-custom-pleading"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
@@ -4594,7 +4548,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T05:46:17.499Z"
@@ -4874,7 +4828,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T09:06:21.151Z"
@@ -4891,8 +4845,7 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T06:48:02.942Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -5486,7 +5439,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX10",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T05:46:07.018Z"
@@ -5591,7 +5544,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX10",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T05:46:15.640Z"
@@ -5636,7 +5589,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX10",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T05:46:25.356Z"
@@ -5651,7 +5604,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX10",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T05:46:25.282Z"
@@ -11255,7 +11208,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "c5e5291d14628654748d3366495b0f4f68d0e1fa860f7b6c66f581f0ceae7c63",
+  "claimsDigest": "58deab87af5e65d12c367be8080e9fff5a2ece374ace2f6c68003b617f1815eb",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -11270,6 +11223,7 @@
     "releasedAt"
   ],
   "revocationIsVisibleHow": "the digest changes whenever a grant is added or withdrawn; generatedAtCommit is a declared floor and does not",
+  "whatTheReleaseLogsLaneMeans": "releases[].lane is the lane that HELD the grant when it was released — claim.mjs refuses any other lane from releasing it (exit 8 GRANTED_ELSEWHERE). claims[].lane is the CURRENT dispatch packing, and this generator re-packs released claims freely because a released claim's lane is history. The two differing after a repack is expected; it is not a cross-lane release, and a cross-lane release cannot happen through claim.mjs at all.",
   "releases": [
     {
       "lane": "VF01",
@@ -19188,6 +19142,66 @@
       "familyState": "VERIFY_PENDING",
       "reissuedAt": "2026-09-02T09:02:18Z",
       "reason": "the current dispatch names VF02 for this family, the family is VERIFY_PENDING and owes independent-verification, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-02T09:14:04Z",
+      "reason": "the current dispatch names VF01 for this family, the family is VERIFY_PENDING and owes independent-verification, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-cs-possession-seal-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "dispatchNames": "VF02",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-02T09:14:04Z",
+      "reason": "the current dispatch names VF02 for this family, the family is VERIFY_PENDING and owes independent-verification, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_wrongful_arrest_clearance-set",
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "dispatchNames": "VF03",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-02T09:14:04Z",
+      "reason": "the current dispatch names VF03 for this family, the family is VERIFY_PENDING and owes independent-verification, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "id_set_aside_dismissal-set",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "dispatchNames": "VF04",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-02T09:14:04Z",
+      "reason": "the current dispatch names VF04 for this family, the family is VERIFY_PENDING and owes independent-verification, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-sc-custom-pleading",
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "dispatchNames": "VF06",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-02T09:14:04Z",
+      "reason": "the current dispatch names VF06 for this family, the family is VERIFY_PENDING and owes independent-verification, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_dismissed_without_prejudice-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "dispatchNames": "FIX01",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-02T09:18:11Z",
+      "reason": "the current dispatch names FIX01 for this family, the family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -21419,7 +21433,38 @@
       "lane": "FIX10",
       "withdrawnAt": "2026-09-02T08:50:35Z",
       "reason": "lane retired: FIX10 is not in the current dispatch, so no worker can ever assert this grant — claim.mjs answers GRANTED_ELSEWHERE to every lane that exists. The subject is still dispatched and is re-dealt to a lane that does exist."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-cs-possession-seal-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "withdrawnAt": "2026-09-02T09:15:39Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_wrongful_arrest_clearance-set",
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "withdrawnAt": "2026-09-02T09:15:39Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "id_set_aside_dismissal-set",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "withdrawnAt": "2026-09-02T09:15:39Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-sc-custom-pleading",
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "withdrawnAt": "2026-09-02T09:15:39Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
-  ],
-  "whatTheReleaseLogsLaneMeans": "releases[].lane is the lane that HELD the grant when it was released — claim.mjs refuses any other lane from releasing it (exit 8 GRANTED_ELSEWHERE). claims[].lane is the CURRENT dispatch packing, and this generator re-packs released claims freely because a released claim's lane is history. The two differing after a repack is expected; it is not a cross-lane release, and a cross-lane release cannot happen through claim.mjs at all."
+  ]
 }

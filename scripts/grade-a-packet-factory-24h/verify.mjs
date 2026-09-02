@@ -687,6 +687,37 @@ function run() {
     const granted = new Set((ledger.claims ?? []).map((c) => `${c.subjectType}::${c.subjectId}::${c.operation}`));
     for (const d of dispatched) if (!granted.has(d)) ledgerProblems.push(`${d} is dispatched and not granted`);
     /*
+     * AND GRANTED TO THE LANE THAT WAS TOLD TO DO IT.
+     *
+     * The keys above carry subject and operation but not the lane, so a
+     * dispatch that names a subject another lane holds LIVE satisfies every
+     * one of them: the grant exists, just to somebody else. FABLE-VA3 walked
+     * into that. Six of the thirteen families ACTIVE_ASSIGNMENTS listed for
+     * VF03 were live to VF08, VF09 and VF10; all six refused at the gate with
+     * exit 8 GRANTED_ELSEWHERE, and nothing in the tree had said so first.
+     * Nearly half a verification lane's run was spent discovering it.
+     *
+     * A RELEASED grant elsewhere is not this: finished work does not stop a
+     * lane, and the dispatch legitimately re-lists a subject for a new pass.
+     * Only a LIVE grant to another lane is the collision, and it is fatal,
+     * because two lanes told to hold one subject is the exact condition the
+     * ledger exists to prevent.
+     */
+    const liveHolder = new Map();
+    for (const c of ledger.claims ?? []) {
+      if (c.released === true) continue;
+      liveHolder.set(`${c.subjectType}::${c.subjectId}::${c.operation}`, c.lane);
+    }
+    for (const x of a) {
+      const isSource = x.itemKind === "sourceObligation";
+      for (const id of x.items ?? []) {
+        const held = liveHolder.get(`${isSource ? "source-obligation" : "packet-family"}::${id}::${isSource ? x.operation : x.lane}`);
+        if (held && held !== x.assignmentId) {
+          ledgerProblems.push(`${x.assignmentId} is dispatched ${id} and ${held} holds it live`);
+        }
+      }
+    }
+    /*
      * A RELEASED grant is finished work, and finished work does not need a live
      * dispatch row. This required a strict bijection, so the moment the
      * generator stopped dispatching nine completed packet-build families --
@@ -723,7 +754,7 @@ function run() {
     else if (ledger.claimsDigest !== digest) ledgerProblems.push(`the ledger declares grant set ${ledger.claimsDigest} and its grants hash to ${digest}`);
     if (!/claimsDigest/.test(fs.readFileSync(path.join(ROOT, CLAIM), "utf8"))) ledgerProblems.push("the claim mechanism does not check the grant-set identity");
   }
-  check("F24", "one claim ledger grants every dispatched family exactly once, to one lane of each kind",
+  check("F24", "one claim ledger grants every dispatched family exactly once, to the lane the dispatch names",
     ledgerProblems.length === 0,
     `${(ledger?.claims ?? []).length} grant(s); ${ledgerProblems.length} problem(s): ${ledgerProblems.slice(0, 2).join(" | ")}`);
 
