@@ -25,17 +25,18 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 26,
+  "families": 36,
   "PASS_COMPLETE_INDEPENDENT": 15,
   "PASS": 0,
-  "FAIL_REPAIR_REQUIRED": 12,
+  "FAIL_REPAIR_REQUIRED": 16,
   "BLOCKED_SOURCE": 1,
-  "BLOCKED_LEGAL_INPUT": 0,
+  "BLOCKED_LEGAL_INPUT": 2,
   "STOPPED": 1,
   "tallyRecomputedOverEveryRowInThisFile": true,
   "onlyFableVaRowsAreFableVaDeterminations": [
    "ca-851-91-set"
-  ]
+  ],
+  "BLOCKED_BEFORE_CLAIM": 1
  },
  "rows": [
   {
@@ -6518,6 +6519,1602 @@
     "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
     "data/rcap-grade-a/packet-factory-24h/RT2_REPAIR_RECORD.json"
    ]
+  },
+  {
+   "itemId": "dc_yra_set_aside-set",
+   "lane": "VF03",
+   "wave": "VF03-W3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading",
+   "buildStatus": "state_built",
+   "rasterState": "RASTER_PASS receipt in RASTER_QUEUE.json, hash-bound to both fixtures; build-status.json still says BUILT_RASTER_PENDING with rasterPages 0",
+   "independentOfBuilder": "VF03 holds no packet-build, repair or shared-host-repair claim on this family, wrote no byte inside its overlay directory, and produced none of the reports it reads. Every hash, counter, page count, word box and rendered value below was recomputed in this container.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_yra_set_aside-set, run in this container: PASS_COMPLETE, 6/13 written",
+    "whyZeroCountersAreNotAPass": "The nine counters ask whether every write the packet's own field map owed was made. They do not ask whether every item the committed registry declares required-before-filing reached the participant, and that is the obligation this family fails."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId dc_yra_set_aside-set agrees across build-status.json, source-receipt.json, reports/rendered-artifacts.json, product-wiring.json and the RASTER_QUEUE.json row. The single route key obligation:track-only:DC:dc_yra_set_aside is printed at the foot of both the petition and the filing-instructions page in the rendered bytes, and is the same key the committed track registry holds at tracks[81] and the route-obligation census holds at routes[155] with packetSetId dc_yra_set_aside-set.",
+     "evidence": {
+      "routeKeysDeclared": 1,
+      "routeKeyPrintedOnPages": 2,
+      "recordsAgreeing": 5
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "This is a zero-document-source composition (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT), so the sources that bind are committed repository records. All three were rehashed from the bytes on disk in this container and every one equals the receipt to the byte.",
+     "evidence": {
+      "recomputedHere": [
+       {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "sha256": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6",
+        "byteLength": 16555956,
+        "matchesReceipt": true
+       },
+       {
+        "path": "data/record-clearing/legal-design-specifications.json",
+        "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+        "byteLength": 16829383,
+        "matchesReceipt": true
+       },
+       {
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+        "byteLength": 2599752,
+        "matchesReceipt": true
+       }
+      ],
+      "sourcesMismatching": 0,
+      "masterLibraryMounted": "499 files, 329 PDFs, 51 jurisdictions; this family binds none of them and the receipt says so"
+     }
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The committed registry's packetSet names one component, dc_yra_set_aside-primary-filing-1, role primary_filing, requirement required. It is rendered and present on packet pages 1 and 2. The build adds dc_yra_set_aside-filing-instructions-2 on pages 3 and 4, which the registry does not name and which carries no filing content of its own. No named component is missing and no conditional component is unrendered.",
+     "evidence": {
+      "componentsNamedByRoute": 1,
+      "componentsRendered": 2,
+      "requiredComponentsMissing": 0,
+      "conditionalComponents": 0
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every known participant fact is written and visible on the page it belongs to. Each value was grepped out of the text extracted from canonical.pdf in this container, not read from reports/actual-writes.json.",
+     "evidence": {
+      "readBackFromRenderedText": [
+       {
+        "fact": "participant.full_legal_name",
+        "value": "Jordan Avery Reyes",
+        "occurrencesInRenderedText": 4
+       },
+       {
+        "fact": "participant.date_of_birth",
+        "value": "1991-04-17",
+        "occurrencesInRenderedText": 1
+       },
+       {
+        "fact": "participant.street_address",
+        "value": "42 Magnolia Street, Springfield 62704",
+        "occurrencesInRenderedText": 1
+       },
+       {
+        "fact": "participant.phone",
+        "value": "555-0142",
+        "occurrencesInRenderedText": 1
+       },
+       {
+        "fact": "participant.email",
+        "value": "jordan.reyes@example.org",
+        "occurrencesInRenderedText": 1
+       }
+      ],
+      "knownFactsMissingFromTheRenderedPage": 0
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The committed track registry holds four items in packetSet.requiredBeforeFiling for track dc_yra_set_aside. Three reach the participant; the fourth does not. 'The source review does not state a notarization requirement for this motion.' — declared with requirement 'required' and requiredBeforeFiling true — is named nowhere in participant-instructions.md and nowhere in the rendered packet. Case-insensitive grep for 'notar' returns 0 hits in participant-instructions.md and 0 hits in the text extracted from canonical.pdf.",
+     "evidence": {
+      "declaredByRegistry": [
+       "The youth offender signs their own motion.",
+       "The source review does not state a notarization requirement for this motion.",
+       "The source review does not state a filing fee for this motion.",
+       "The source review does not address a fee waiver."
+      ],
+      "namedInParticipantInstructions": [
+       "The youth offender signs their own motion. — carried as step 3, 'Sign and date each page that carries a signing line, personally.'",
+       "The source review does not state a filing fee for this motion. — carried verbatim in the FEE_AND_WAIVER row",
+       "The source review does not address a fee waiver. — carried verbatim in the FEE_AND_WAIVER row"
+      ],
+      "absent": [
+       "The source review does not state a notarization requirement for this motion."
+      ],
+      "notarGrepHitsInParticipantInstructions": 0,
+      "notarGrepHitsInRenderedCanonicalText": 0,
+      "whyThisMatters": "The build's own pattern for a recorded non-statement is to print it and name the office that answers it, and it applied that pattern to the fee and to the fee waiver from the same array. A participant reading this packet therefore learns what the record does not say about cost, and learns nothing at all about whether the motion must be notarized before it is filed."
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The route determines no election. The registry records units [] and exclusions [], the packet carries no checkbox and no alternative-relief selection, and the completeness run measured requiredOptionsMissing 0. There is no unselected election because there is no election.",
+     "evidence": {
+      "electionsDeclaredByRoute": 0,
+      "electionsSelected": 0,
+      "requiredOptionsMissing": 0
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet contains no repeating row structure: no offence table, no charge grid, no multi-count schedule. The four participant items C1 to C4 are single labelled dotted blanks, each on its own, and none is a cell in a row. incompleteRows measured 0 here.",
+     "evidence": {
+      "repeatingRowStructures": 0,
+      "incompleteRows": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No protected field carries ink, read from the rendered bytes rather than from the builder's refusal list. The field map classifies four fields signature_or_date_participant_completion and two court_prosecutor_clerk_or_agency_owned. In the extracted text the petition's signing line reads 'DATE .............................. SIGNATURE OF PETITIONER ....................................' with dots only, and the caption reads 'Case number, if the court assigns one at filing:' followed by a dotted rule with no value. The page states in its own words that nothing on it is signed or dated for the petitioner.",
+     "evidence": {
+      "protectedFieldsInMap": 6,
+      "protectedFieldsCarryingInk": 0,
+      "signatureLineAsRendered": "DATE .............................. SIGNATURE OF PETITIONER ....................................",
+      "caseNumberLineAsRendered": "Case number, if the court assigns one at filing: (dotted rule, no value)",
+      "certificateOfMailingPresent": false
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures hash to what every record naming them says. Recomputed here with sha256sum and pdfinfo: canonical.pdf = 302ebea7e9fb4dd9944fc786e33e190117a5fee31dac7bab3e28a063b855b9fc (10525 bytes, 4 pages), boundary.pdf = 3fb8f39c556160cf1c099a706d7e54215ca57336e01c6d67da8f65e56a20f848 (10709 bytes, 4 pages). reports/rendered-artifacts.json carries each hash twice (artifacts[] and pdfs[]) and both agree; product-wiring.json's binding.acceptanceReceipt.boundToCanonicalSha256 and proposedRepresentation.components[0].sha256 both carry the canonical hash unchanged, so the wiring digest is current and not stale; the RASTER_QUEUE.json receipt binds to both hashes.",
+     "evidence": {
+      "canonicalSha256": "302ebea7e9fb4dd9944fc786e33e190117a5fee31dac7bab3e28a063b855b9fc",
+      "boundarySha256": "3fb8f39c556160cf1c099a706d7e54215ca57336e01c6d67da8f65e56a20f848",
+      "claimedHashRecordsChecked": 4,
+      "claimedHashMismatches": 0,
+      "wiringDigestsChecked": 2,
+      "wiringDigestsNotMatchingAFixture": 0
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures carry a 4-entry pageManifest numbered 1..4 with no gap, and both PDFs load to exactly 4 pages measured with pdfinfo here. Source pages are sequential within each component.",
+     "evidence": {
+      "manifestPages": 4,
+      "measuredPages": 4,
+      "sequential": true,
+      "order": "1:primary-filing p1, 2:primary-filing p2, 3:filing-instructions p1, 4:filing-instructions p2"
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The central raster gate has run for this family and its receipt binds to the exact bytes this container hashed. RASTER_QUEUE.json holds verdict RASTER_PASS from workflow run 33605354695 of .github/workflows/rcap-packet-raster-acceptance-batch.yml at pinned commit 7edb05f621e6209c3660c66fd60e4f4b283faf1f, boundToCanonicalSha256 and boundToBoundarySha256 equal to the two hashes recomputed above, 2 documents and 8 pages measured, 0 problems, coversTheWholeFamily true, and the canary and negative controls passed in the same run. Independently of that receipt, word geometry over both delivered fixtures returns 0 words outside the page box and 0 text-on-text collisions.",
+     "evidence": {
+      "rasterVerdict": "RASTER_PASS",
+      "rasterBindsToTheBytesHashedHere": true,
+      "pagesMeasuredCentrally": 8,
+      "problemsFound": 0,
+      "instrumentRunHere": "pdftotext -bbox-layout word geometry over both fixtures; it measures text boxes only and cannot see raster ink, vector rules, field borders or images, which is why the central receipt is what carries this obligation",
+      "wordsOutsidePageBoxCanonical": 0,
+      "textOnTextCollisionsCanonical": 0,
+      "wordsOutsidePageBoxBoundary": 0,
+      "textOnTextCollisionsBoundary": 0,
+      "wordsExamined": 1899,
+      "buildStatusIsStaleHere": "build-status.json still records rasterState BUILT_RASTER_PENDING and rasterPages 0 while the queue carries a passing receipt bound to these bytes. The queue is the authority for the gate; this is noted, not scored, and it is not part of the repair below."
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions name the court the route names. The registry's destination for track dc_yra_set_aside is 'Superior Court of the District of Columbia, Criminal Division' and its venue is 'District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed.' The filing-instructions page and participant-instructions.md both carry that court and that venue verbatim, and the route-obligation census records the same destination. The packet also states, in its own words, that the registry records the filing VEHICLE as unresolved and that the clerk's office is the office that says which paper it accepts.",
+     "evidence": {
+      "registryDestination": "Superior Court of the District of Columbia, Criminal Division",
+      "printedDestination": "Superior Court of the District of Columbia, Criminal Division",
+      "censusDestinationAgrees": true,
+      "filingVehicleRecordedUnresolved": "rules.filing = 'Blocked pending confirmation of Superior Court form or standing practice for YRA set-aside motions.', and the packet says so rather than implying a form exists"
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both are stated. The registry records rules.fees as 'The source review does not state a filing fee for this motion.' and rules.feeWaiver as 'The source review does not address a fee waiver.' The packet prints each non-statement in the record's own words, on the filing-instructions page and in participant-instructions.md, and names the specific office that answers each — the clerk's office of Superior Court of the District of Columbia, Criminal Division — rather than gesturing at the court.",
+     "evidence": {
+      "feeStated": true,
+      "waiverRouteStated": true,
+      "statedAsRecordedNonStatement": true,
+      "officeNamed": "clerk's office of Superior Court of the District of Columbia, Criminal Division"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "Who must be served, and how, is not answerable from the committed record, and the record says so twice over. The registry holds rules.service and rules.notice both as 'Unresolved. Service and response mechanics are among the items counsel must confirm.', and it separately carries a buildBlockers entry whose question is 'Service and response mechanics for a YRA set-aside motion', impact build_blocker, affectedElement notice_or_service, provenance LegalEase-DC-Legal-Review.md heading 'District of Columbia operational amendments / True blockers retained', sourceStatement DC-8. The packet handles it honestly: it prints the non-statement verbatim and names the clerk's office as the office that answers it. This is recorded as blocked on an open legal input rather than as a pass, because no committed record states the requirement, and rather than as a failure, because no repairer can supply from this repository an answer the repository does not hold.",
+     "evidence": {
+      "registryService": "Unresolved. Service and response mechanics are among the items counsel must confirm.",
+      "registryNotice": "Unresolved. Service and response mechanics are among the items counsel must confirm.",
+      "buildBlockerAffectedElement": "notice_or_service",
+      "buildBlockerProvenance": "LegalEase-DC-Legal-Review.md, 'True blockers retained', DC-8",
+      "packetStatesTheNonStatement": true,
+      "officeNamed": "clerk's office of Superior Court of the District of Columbia, Criminal Division",
+      "whoCanClearIt": "counsel, not a repair lane"
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet states where self-help ends, completely. The registry holds four selfHelpStopConditions for this track and all four appear verbatim, twice: under 'WHEN TO STOP AND GET HELP INSTEAD OF FILING' on the rendered filing-instructions page, and in the SELF_HELP_STOP row and the closing section of participant-instructions.md. None is dropped and none is softened.",
+     "evidence": {
+      "conditionsInRegistry": 4,
+      "conditionsOnRenderedPage": 4,
+      "conditionsInParticipantInstructions": 4,
+      "conditionsMissing": 0
+     }
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/reports/completeness-counters.json",
+    "data/record-clearing/legal-design-track-registry.json (tracks[81], trackId dc_yra_set_aside)",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (routes[155])",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the dc_yra_set_aside-set row and its receipt)"
+   ],
+   "grantsNothing": "This verdict approves no output and opens no commercial route, and a PASS on fourteen obligations is not a PASS on the family."
+  },
+  {
+   "itemId": "ny_mrta_marijuana-set",
+   "lane": "VF03",
+   "wave": "VF03-W3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill",
+   "routeKey": "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-destruction-request",
+   "rasterState": "RASTER_PASS receipt in RASTER_QUEUE.json bound to both fixture hashes; committed raster pages present and read as pixels here",
+   "independentOfBuilder": "VF03 holds no packet-build, repair or shared-host-repair claim on this family, wrote no byte inside its overlay directory, and produced none of the reports it reads. Every hash, counter, page count, word box, field classification and rendered mark below was recomputed or read first-hand in this container.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_mrta_marijuana-set, run in this container: PASS_COMPLETE, 12/33 written",
+    "whyZeroCountersAreNotAPass": "The counters clear a blank as soon as its declared refusal class is in the closed vocabulary. Both classes at issue on this family clear it: court_prosecutor_clerk_or_agency_owned clears it as PROTECTED_FIELD and participant_sworn_narrative_or_legal_election clears it as PARTICIPANT_ELECTION_GENUINE. The counters therefore cannot see the defect below, and would read identically after it is repaired."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId ny_mrta_marijuana-set agrees across source-receipt.json, reports/rendered-artifacts.json, reports/actual-writes.json, product-wiring.json and the RASTER_QUEUE.json row. The single route key obligation:track-only equivalent for this family is obligation:unit:NY:ny_mrta_marijuana:ny-mrta-destruction-request, printed in participant-instructions.md as the route scope and held identically at routes[652] of the route-obligation census, whose packetSetId is ny_mrta_marijuana-set and whose trackId is ny_mrta_marijuana, the registry track at tracks[328]. The packet is built for the destruction-request unit and says so; it does not present itself as the automatic-expungement stage, which the same track records as requiring no participant document at all.",
+     "evidence": {
+      "routeKeysDeclared": 1,
+      "recordsAgreeing": 6,
+      "unitScopeStatedInPacket": true
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The one bound document source was rehashed from the Master Library bytes in this container and equals the receipt exactly. This is a first-hand recomputation from the official binary, not a cross-record consistency check.",
+     "evidence": {
+      "documentId": "NY-MRTA-DESTRUCTION-REQUEST",
+      "pathInArchive": "STATES/NY/02_PACKET_FORMS/NY__FORM__MRTA-DESTRUCTION-REQUEST__application-to-destroy-marijuana-conviction-record__REV-UNKNOWN__EN.pdf",
+      "sha256RecomputedHere": "55c8ec044ecd2adf30508b6a2403c690fc441419d6fba0ccc657eba182298544",
+      "byteLengthRecomputedHere": 272798,
+      "matchesReceipt": true,
+      "alsoCarriedBy": "product-wiring.json binding.sourceVersion[0].sha256, which carries the same source digest unchanged",
+      "sourcesMismatching": 0,
+      "custodyClass": "SOURCE_ALREADY_HELD",
+      "revisionCaveatCarriedByThePacket": "The receipt records revision REV-UNKNOWN and states that it does not establish that an unknown-revision source remains current; the packet carries that as a self-help stop condition in the participant's own words."
+     }
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The route names one participant-facing instrument and it is rendered. routes[652].requiredSourceIds names component:ny_mrta_marijuana-destruction-request-instructions-2 and official-form:MRTA-DESTRUCTION-REQUEST; the family renders that component from that form, in canonical and boundary fixtures. The registry's packetSet holds five components for the whole track, but the other four are process_guidance for the automatic stage and are not this unit route's instruments; the packet states its own scope rather than implying it covers them.",
+     "evidence": {
+      "componentsNamedByTheRoute": 1,
+      "componentsRendered": 1,
+      "requiredComponentsMissing": 0,
+      "trackLevelComponentsNotInThisUnitRoute": 4
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every known fact is written and visible on the page it belongs to, confirmed by reading the committed raster page as pixels rather than by trusting the write log. The canonical page shows Jordan / Avery / Reyes on the Name on Docket/Case rule, 1991-04-17 on Date of Birth, ALBANY on County where convicted, 24-CR-001234 on Court Docket/Case Number, 118 Maple Street / Albany / NY / 12207 across the address row, 518-555-0142 on Cell Phone and jordan.reyes@example.com on Email Address. Each value sits on its own rule and none has drifted into a neighbouring one.",
+     "evidence": {
+      "valuesReadFromTheRasterPage": 12,
+      "knownFactsMissingFromTheRenderedPage": 0,
+      "boundaryFixtureBehaviour": "The boundary fixture writes 9 of the 12 and refuses 3, each for a stated structural reason: Court_County value_not_among_field_options, City_Town and Email value_exceeds_widget_width_at_minimum_font. That is the boundary fixture doing its job — refusing rather than clipping or overflowing an unfittable value — and the raster confirms those three rules are simply empty, with no truncated or overrunning text."
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All eight items the registry declares in packetSet.requiredBeforeFiling for track ny_mrta_marijuana are named in participant-instructions.md: the DCJS Record Review cross-check, the automatic stage producing no participant document, signing and dating and submitting the request, a separate application per court of conviction, the defendant signing personally with no agent-signed version, notarization following the submission method, the absence of an application fee with the DCJS review's separate fee, and the fee waiver being inapplicable because there is no fee to waive.",
+     "evidence": {
+      "declaredItems": 8,
+      "itemsNamed": 8,
+      "itemsAbsent": 0,
+      "oneItemSoftened": "Item 1, 'Check your answer ... against DCJS Record Review, and correct the packet if they disagree', is declared requirement 'required' with requiredBeforeFiling true. participant-instructions.md names the DCJS Record Review three times, including 'to confirm what is on your own record - which you may want before you apply', which states the purpose but presents the check as optional. It is named, so this obligation is met; the softened requirement strength is recorded here as an observation for the Captain rather than scored as a failure, and it is not part of the repair below. It is worth a look because the platform itself prefills the two identifiers that check is meant to guard — County where convicted and Court Docket/Case Number — and the form's own face warns that the application cannot be processed if any required information is incorrect."
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The route determines no election, and every election on the form is left to the participant with nothing pre-selected. 'Court where convicted (Check one only)' turns on which court entered the conviction, which is a case fact and not a route determination; it is refused and listed to the participant by name. The build also neutralised the source form's own default choice values before flattening, so no inherited default is baked into the delivered bytes and presented as a selection the participant made.",
+     "evidence": {
+      "electionsDeclaredByTheRoute": 0,
+      "requiredOptionsMissing": 0,
+      "selectionProof": "empty in both fixtures — no selection was written",
+      "choiceNeutralizationPerformedBeforeFlatten": true,
+      "confirmedOnTheRaster": "all six Court-where-convicted radios and all three 'Unknown' boxes are empty on both the canonical and the boundary page"
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The form carries no repeating row structure: no offence table, no charge grid, no multi-count schedule. The APPLICATION PROCESSING CHECKLIST is a fixed six-row block owned by the court, not a participant row set. incompleteRows measured 0 here.",
+     "evidence": {
+      "repeatingRowStructures": 0,
+      "incompleteRows": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "No protected field carries ink — that part holds, measured on the bytes. What fails is the protected set itself: three of the six controls the form places below its own '***FOR COURT USE ONLY - DO NOT WRITE BELOW THIS LINE***' rule are classified in production-field-map.json as participant_sworn_narrative_or_legal_election, whose disposition in the completeness contract is PARTICIPANT_ELECTION_GENUINE, not PROTECTED_FIELD. Proper_ID (item 1), Charge_Sealed (item 3) and Comment_Entered (item 4) carry that class with the generic default reason 'No write is authorized for this field in this family build.' and no captionBasis. Their three siblings in the identical YES column of the identical block — Application_Complete (item 2), File_Copy (item 5), Copies_Sent (item 6) — carry court_prosecutor_clerk_or_agency_owned, an effectiveLabel quoted from the form, and the reason \"This control is printed below the form's own COURT USE ONLY line and is completed by the court, not by the participant\", with captionBasis 'read from the form's printed face'. All six are page-1 widgets at x=44.657 in one contiguous vertical block, y=118.412, 104.817, 78.793, 53.933, 40.338 and 27.132, so no geometric or structural distinction separates the three that are right from the three that are wrong. The record therefore asserts that a participant genuinely elects whether the eligible charge is sealed in the court's case management system and whether the 'Application for Destruction Submitted' docket comment is entered in it, which are clerk acts inside ADBM, CRMS, CRIM, DCRIMS and SAMS, and whether the clerk found the applicant's ID or notarization sufficient. The packet's own reviewer note states the rule and then names only half the controls it governs: 'The three checklist controls this build once listed as participant blanks - Application_Complete, File_Copy and Copies_Sent - are refused as court-owned, which is what the form's own COURT USE ONLY rule makes them.'",
+     "evidence": {
+      "controlsBelowTheCourtUseOnlyRule": 6,
+      "classifiedCourtOwned": [
+       "Application_Complete",
+       "File_Copy",
+       "Copies_Sent"
+      ],
+      "classifiedParticipantElection": [
+       "Proper_ID",
+       "Charge_Sealed",
+       "Comment_Entered"
+      ],
+      "geometry": "page 1, YES column x=44.657 for all six; y = 118.412 (Proper_ID), 104.817 (Application_Complete), 78.793 (Charge_Sealed), 53.933 (Comment_Entered), 40.338 (File_Copy), 27.132 (Copies_Sent)",
+      "inkMeasuredHere": {
+       "protectedFieldsCarryingInkCanonical": 0,
+       "protectedFieldsCarryingInkBoundary": 0,
+       "howInkWasMeasured": "the committed raster page for each fixture was read as an image in this container; all six YES/NO controls are empty on both, the DEFENDANT'S AFFIRMATION day/month/year rules are empty on both, and the Defendant Signature rule is empty on both. reports/actual-writes.json carries protectedInk [] and protectedVectorInk [] for both fixtures, which agrees with what was read.",
+       "signatureLineBlank": true,
+       "affirmationDateBlank": true,
+       "certificateOfMailingPresent": false
+      },
+      "whyThisIsScoredAFailureAnyway": "The obligation is that no court-only field carries ink, and a record that denies three court-only fields are court-only has removed them from the set the obligation is measured over. Nothing is written into them today because PARTICIPANT_ELECTION_GENUINE also happens to refuse the write; the protection is accidental rather than declared, and any later build or runtime that decides to collect genuine participant elections would be entitled by this map to put a mark in three boxes the form says no one but the court may touch.",
+      "whatIsNotClaimed": "No delivered byte is wrong. No counter changes. This is a defect in a committed record of the family, not in the packet a participant would receive today."
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures hash to what every record naming them says. Recomputed here with sha256sum and pdfinfo: mrta-destruction-request-canonical.pdf = 37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff (247978 bytes, 1 page), mrta-destruction-request-boundary.pdf = 5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457 (247265 bytes, 1 page). reports/rendered-artifacts.json, reports/actual-writes.json, product-wiring.json's binding.acceptanceReceipt.boundToCanonicalSha256 and the RASTER_QUEUE.json receipt all carry those hashes unchanged, so the wiring digest is current and not stale. The only other 64-hex digest in product-wiring.json is the source binary's, which also verifies.",
+     "evidence": {
+      "canonicalSha256": "37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff",
+      "boundarySha256": "5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457",
+      "claimedHashRecordsChecked": 6,
+      "claimedHashMismatches": 0
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "A single-page document in both fixtures. pdfinfo reads exactly 1 page from each, letter 612x792 pts, and reports/rendered-artifacts.json declares pageCount 1 for each. There is no multi-page manifest to disagree with and no page is out of sequence.",
+     "evidence": {
+      "declaredPages": 1,
+      "measuredPages": 1,
+      "pageSize": "612 x 792 pts (letter)"
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The central raster gate has run and its receipt binds to the exact bytes this container hashed: RASTER_QUEUE.json holds verdict RASTER_PASS from workflow run 33531491985 of .github/workflows/rcap-packet-raster-acceptance-batch.yml at pinned commit 38ce8244dac5a3c2fbd6522232eb275693d142e7, jobConclusion success, boundToCanonicalSha256 and boundToBoundarySha256 equal to the two hashes recomputed above, coversTheWholeFamily true. Independently, this lane read the committed raster page for both fixtures as pixels and saw no ink outside a rule, no value overrunning its neighbour and no overlap, including in the boundary fixture where the longest values sit; and word geometry over both fixtures returns 0 words outside the page box and 0 text-on-text collisions across 1320 words.",
+     "evidence": {
+      "rasterVerdict": "RASTER_PASS",
+      "rasterBindsToTheBytesHashedHere": true,
+      "rasterPagesReadAsPixelsHere": 2,
+      "wordsOutsidePageBoxCanonical": 0,
+      "textOnTextCollisionsCanonical": 0,
+      "wordsOutsidePageBoxBoundary": 0,
+      "textOnTextCollisionsBoundary": 0,
+      "wordsExamined": 1320,
+      "boundaryLongestValuesLandCleanly": "the 57-character street address, the 37-character docket number and the 30-character middle name all sit inside their rules; where a value could not fit at minimum font the build refused it rather than clipping it, and the raster shows an empty rule rather than a truncated one"
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions name the court the route names, and name it in the only way this route can be named. The registry and the census both record the destination as 'The New York court in which the person was convicted', with the detail that the Office of Court Administration publishes the form and does not receive it and that there is no statewide address, mailbox or portal. participant-instructions.md says exactly that, adds the form's own printed first instruction, states that an application sent to any other court cannot be processed, states one application per court where there are convictions in more than one, and names the three submission channels: EDDS, first-class mail, in person.",
+     "evidence": {
+      "registryDestination": "The New York court in which the person was convicted",
+      "printedDestination": "the court where you were convicted",
+      "censusDestinationAgrees": true,
+      "noStatewideAddressStated": true,
+      "onePerCourtStated": true,
+      "submissionChannelsStated": 3
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both are stated, and the packet separates the three money questions that are easy to confuse. The registry records rules.fees as 'None identified for the destruction request. The DCJS Record Review carries its own fee.' and rules.feeWaiver as 'not applicable.' participant-instructions.md states there is no application fee and quotes the form's own printed sentence saying so; states that the DCJS Record Review is a separate request to a separate agency with its own fee and is not a charge for this application; states that a notary may charge where submission is by EDDS or mail and that nothing in the held sources sets that figure; and states that no fee waiver is recorded because there is no fee to waive.",
+     "evidence": {
+      "feeStated": true,
+      "waiverRouteStated": true,
+      "waiverStatedAsInapplicableAndWhy": true,
+      "adjacentCostsDistinguished": [
+       "DCJS Record Review fee",
+       "notary charge"
+      ]
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Who must be served, and how, is answered and the answer is nobody. The registry records rules.notice as 'none by the participant.' and rules.service as 'none.' participant-instructions.md says the participant serves no one, names the prosecutor, the police agencies and DCJS as the parties who do receive it, and shows from the form's own face why: item 6 of the court-use checklist reads 'Copies of application sent to prosecutor, law enforcement agencies and DCJS as applicable for further processing', which is the court's step. It then explains that this is why the form carries no certificate of service and the packet contains none, and says what the participant should get back and whom to ask if nothing arrives.",
+     "evidence": {
+      "registryService": "none.",
+      "registryNotice": "none by the participant.",
+      "packetStatesWhoServes": "the court, not the participant",
+      "certificateOfServiceCorrectlyAbsent": true,
+      "whoAnswersAStatusQuestion": "the clerk of the court of conviction that received the application"
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet states where self-help ends, completely and in the record's own words. The registry holds 14 selfHelpStopConditions for this track and every one is carried into participant-instructions.md; a word-level check for the distinctive terms of each condition found none missing. The packet also says openly that some of those conditions name a step LegalEase or the implementation owner takes rather than one the participant takes, and carries them unchanged anyway so the reader can see the whole of what is unsettled — including that no live fetch of the issuer's binary was obtained, so a newer edition cannot be ruled out. The immigration condition is restated as a hard stop rather than a caveat.",
+     "evidence": {
+      "conditionsInRegistry": 14,
+      "conditionsCarried": 14,
+      "conditionsWithAnyDistinctiveWordAbsent": 0
+     }
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/raster/mrta-destruction-request-canonical/page-01.png",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/raster/mrta-destruction-request-boundary/page-01.png",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/actual-writes.json",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/NY/02_PACKET_FORMS/NY__FORM__MRTA-DESTRUCTION-REQUEST__application-to-destroy-marijuana-conviction-record__REV-UNKNOWN__EN.pdf",
+    "data/record-clearing/legal-design-track-registry.json (tracks[328], trackId ny_mrta_marijuana)",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (routes[652])",
+    "scripts/rcap-packet-completeness/completeness-contract.mjs (REFUSAL_CLASSES dispositions)",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the ny_mrta_marijuana-set row and its receipt)"
+   ],
+   "grantsNothing": "This verdict approves no output and opens no commercial route, and a PASS on fourteen obligations is not a PASS on the family."
+  },
+  {
+   "itemId": "wv_conv_single_misdemeanor-set",
+   "lane": "VF03",
+   "wave": "VF03-W3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
+   "routeSelectionId": "wv-sca-c906-single-misdemeanor",
+   "rasterState": "RASTER_PENDING in RASTER_QUEUE.json with no receipt at all, nextOwner RAS02; 18 raster pages are committed under the family and were read as pixels here, but the central gate has not run",
+   "independentOfBuilder": "VF03 holds no packet-build, repair or shared-host-repair claim on this family, wrote no byte inside its overlay directory, and produced none of the reports it reads. Every hash, counter, page count, word box, rendered mark and quoted line below was recomputed or read first-hand in this container.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_single_misdemeanor-set, run in this container: PASS_COMPLETE, 21/166 written",
+    "whyZeroCountersAreNotAPass": "requiredComponentsMissing counts components the route names that are absent. It has no counter for a component the route does not name that is present anyway, which is exactly this family's defect, so the counters read zero over a packet carrying four pages the committed records say must not reach a participant."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId wv_conv_single_misdemeanor-set agrees across source-receipt.json, build-status.json, reports/rendered-artifacts.json, reports/actual-writes.json, product-wiring.json and the RASTER_QUEUE.json row, and the route selection the packet is built for, routeSelectionId wv-sca-c906-single-misdemeanor, is the selection actually marked on the delivered page. The registry track wv_conv_single_misdemeanor and its packetSetId wv_conv_single_misdemeanor-set carry the same identity.",
+     "evidence": {
+      "recordsAgreeing": 6,
+      "routeSelectionIdDeclared": "wv-sca-c906-single-misdemeanor",
+      "routeSelectionMarkedOnThePage": true
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both bound document sources were rehashed from the Master Library bytes in this container and each equals the receipt to the byte. This is a first-hand recomputation from the official binaries.",
+     "evidence": {
+      "recomputedHere": [
+       {
+        "formNumber": "SCA-C906",
+        "revision": "REV-2019-06-04",
+        "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+        "byteLength": 176072,
+        "matchesReceipt": true
+       },
+       {
+        "formNumber": "SCA-C900",
+        "revision": null,
+        "sha256": "89ff7d2d911406465bd39da947737a3ee262edbcbc98db9a3cedda952598864e",
+        "byteLength": 204715,
+        "matchesReceipt": true
+       }
+      ],
+      "sourcesMismatching": 0,
+      "note": "The bytes bind. Whether the SECOND of these two documents belongs in this packet at all is a different question, and it is the one COMPONENT_SET answers below. A source that verifies is not thereby a source the route names."
+     }
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The delivered packet contains an official-PDF component the route does not name, and the committed records single that component out as one that must not reach a participant. The registry's packetSet for wv_conv_single_misdemeanor-set names five components: primary_filing, verification and certificate_of_service, all three on SCA-C906, plus service_package and filing_instructions, both process_guidance with officialFormId null. SCA-C900 is named by no component. The packet nonetheless binds the whole of SCA-C900 as packet pages 5 to 9, and pages 6 to 9 are its embedded petition, verification and certificate of service — a second, complete, blank petition sitting directly behind the correct one. Read out of the delivered bytes, that embedded petition carries the repealed pre-2019 law the registry's release blocker enumerates: page 6 states 'was between eighteen and twenty-six years of age' and 'have no prior or subsequent convictions other than minor traffic violations', and cross-references exclusions to 'W. Va. Code §61-11-26(i)', a subsection the section in force no longer uses. Separately, delivered page 5 prints 'you will be notified and will then have ten (10) days of being served of such notice to reply', and the committed authority decision NATIONAL-2026-08-28-C-WV-02 records in terms that 'The reply period after an opposition is thirty days under subsection (g)(3), not the ten days the SCA-C900 instruction sheet prints against subsection (e).' So the packet states a reply deadline on its own face that this repository's own authority record says is wrong, on a once-per-lifetime remedy.",
+     "evidence": {
+      "componentsNamedByTheRoute": 5,
+      "componentsNamingSCAC900": 0,
+      "packetPagesFromSCAC906": [
+       1,
+       2,
+       3,
+       4
+      ],
+      "packetPagesFromSCAC900": [
+       5,
+       6,
+       7,
+       8,
+       9
+      ],
+      "staleTextQuotedFromTheDeliveredBytes": [
+       "page 5: 'you will be notified and will then have ten (10) days of being served of such notice to reply.'",
+       "page 6: ', was between eighteen and twenty-six years of age.'",
+       "page 6: 'have no prior or subsequent convictions other than minor traffic violations'",
+       "page 6: 'ineligible under W. Va. Code §61-11-26(i)'"
+      ],
+      "whatTheRecordSays": "legal-design-track-registry.json releaseBlockers for this track: 'That embedded petition is materially stale ... The packet must not generate the SCA-C900 embedded petition.', affectedElement correct_form. The route-obligation census carries authority decision NATIONAL-2026-08-28-C-WV-02 with output-mode 'PETITION ON SCA-C906, WITH THREE SELF-HELP BOUNDARIES' and the ten-days-versus-thirty-days correction quoted above.",
+      "whatTheBuildDidMitigate": "participant-instructions.md carries one sentence: 'The included SCA-C900 is an instructions/reference component only; do not complete or file its embedded outdated petition instead of SCA-C906.' That addresses the wrong-petition risk and says nothing about the wrong reply period, and it lives in a separate markdown file rather than on the four pages themselves, which carry no marking of any kind.",
+      "whatIsNotClaimed": "The correct petition, SCA-C906, is complete and correctly filled. Nothing is missing from the component set; the defect is what has been added to it."
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every known fact is written and visible on the page it belongs to, read from the committed raster pages as pixels rather than from the write log. Page 1 shows Kanawha as the county in the caption, Circuit Court Case No. 24-CR-001234, Conviction Date 2019-11-02, Jordan Avery Reyes as petitioner, 118 Maple Street and Charleston, WV 25301 in the address block, DOB 04 / 17 / 1991, Phone 304-555-0142, and the charge row carrying 'Eligible West Virginia misdemeanor conviction' against case 24-CR-001234. Page 2 shows the current name, the address history seed, the arrest date 2019-03-08 and the charge line. Page 3 shows the petitioner's name in the verification. Nineteen writes are reported per fixture and every one was found on its page.",
+     "evidence": {
+      "writesReported": 19,
+      "knownFactsMissingFromTheRenderedPage": 0,
+      "dobRenderedAs": "04 / 17 / 1991, month first, which is the conventional reading and the only coherent one since 17 is not a month",
+      "sourceFieldNamingQuirkNoted": "The source AcroForm names its first DOB box PetDOBDay and its second PetDOBMonth, while the build writes the month into the first (x=330.49) and the day into the second (x=362.45). The build mapped by widget geometry rather than by the form's field names and produced the conventional MM/DD/YYYY on the page. Recorded as an observation about the official form's own naming, not as a defect.",
+      "ssnLine": "'SSN: XXX-XX-' is the source form's own printed text, confirmed against the pristine SCA-C906; the last four digits are left for the participant and are listed in participant-instructions.md."
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every item the registry declares required before filing is named in participant-instructions.md, and the file goes further than naming them. It lists each blank the participant must complete with its internal PDF field name, states the fee, the waiver position and the five service recipients, and it explains at length the one trap on this form: paragraph c offers four eligibility branches each with its own date line, and the file says which one this packet has ticked, tells the participant to write the date on that line only, explains why the internal field name says 'Felony' on a misdemeanour petition, and tells them to find the blank by the printed sentence rather than by that name.",
+     "evidence": {
+      "declaredItems": 10,
+      "itemsNamed": 10,
+      "itemsAbsent": 0,
+      "instructionsAlsoState": [
+       "the participant signature, signature date, verification and notary block and the whole certificate of service are left blank and protected",
+       "the certificate of service is completed only after service has actually happened",
+       "do not complete or file the SCA-C900 embedded petition"
+      ]
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The one election the route determines is selected, and nothing else is. reports/actual-writes.json records a selection mark on SingleFelonyCB with factId route.selection and expected value 'single-misdemeanor standard waiting-period route', and the committed raster of page 1 shows that first of four eligibility boxes ticked and the other three empty — the ticked branch being the single-misdemeanor one-year branch this route is built for. The only other mark on the packet is ExpungementCB2, the 'No' answer to item m on page 3, backed by factId screening.prior_relief, which is a fact the platform holds from screening rather than an election the build invented; it sits above a verification the participant must swear to and the instructions tell them to check every page before signing.",
+     "evidence": {
+      "electionsDeterminedByTheRoute": 1,
+      "electionsSelected": 1,
+      "requiredOptionsMissing": 0,
+      "otherMarks": 1,
+      "otherMarksBackedByAHeldFact": true,
+      "unselectedBranchesLeftClean": "the other three eligibility branches are unticked and their three date lines are blank, which is what the instructions tell the participant to keep",
+      "buildFindingsContradictsTheBytes": "build-findings.json observes 'No checkbox or radio election is made by this builder; an election the route determines is named as unmade rather than described as the participant's.' Two selection marks are in fact written and visible. The bytes are right and the observation is stale; noted for the Captain, not scored, and not part of the repair."
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "SCA-C906 carries one repeating structure, the four CHARGE / CASE NO. rows on page 1. Row 1 has both of its cells written — 'Eligible West Virginia misdemeanor conviction' and '24-CR-001234' — and rows 2, 3 and 4 are entirely empty in both cells. No row carries a written cell beside a required cell left blank. incompleteRows measured 0 here.",
+     "evidence": {
+      "repeatingRowStructures": 1,
+      "rowsWithAnyCellWritten": 1,
+      "rowsWithAPartialWrite": 0,
+      "incompleteRows": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No protected field carries ink, read from the committed raster pages rather than from the builder's refusal list. Page 3: the signature rule beneath the prayer for relief is empty, the verification signature and date rules are empty, and the notarial block — the sworn-before line, the day, month and year, the Notary Public/Other Official rule and the commission expiry — is entirely empty. Page 4, the whole CERTIFICATE OF SERVICE, is blank: no certifying name, no date, none of the eight recipient address lines, none of the three delivery-method boxes, no signature. reports/actual-writes.json carries protectedFieldsWithInk [] for both fixtures and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0, which agrees with what was read.",
+     "evidence": {
+      "certificateOfServiceEntirelyBlank": true,
+      "verificationAndNotaryBlockBlank": true,
+      "signatureRulesBlank": 2,
+      "protectedFieldsCarryingInk": 0,
+      "sourceControlSuppression": "728 source ink pixels are removed on page 1 and 747 across the SCA-C900 pages, with sourceInkPixelsRemovedOutsideSuppressedControlRects 0 — the form's own Select County, Print Form and Reset Form interactive controls, correctly suppressed on a copy meant to be printed and filed, and the removal is confined to those control rects."
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures hash to what every record naming them says. Recomputed here with sha256sum and pdfinfo: canonical.pdf = ea49da395c632c7f028e67c68c95659b376a18ce512c1c8c08205462c6f0dafa (391770 bytes, 9 pages), boundary.pdf = 375d0fb687b73da9b5f74f7506424e75c7421a4e8e9eb620ffcc6ecca7e56f40 (391993 bytes, 9 pages). reports/rendered-artifacts.json, reports/actual-writes.json, product-wiring.json and the RASTER_QUEUE.json row's canonicalPdfSha256, boundaryPdfSha256 and per-document digests all carry those hashes unchanged; every 64-hex digest in product-wiring.json resolves either to a fixture or to a bound source.",
+     "evidence": {
+      "canonicalSha256": "ea49da395c632c7f028e67c68c95659b376a18ce512c1c8c08205462c6f0dafa",
+      "boundarySha256": "375d0fb687b73da9b5f74f7506424e75c7421a4e8e9eb620ffcc6ecca7e56f40",
+      "claimedHashRecordsChecked": 8,
+      "claimedHashMismatches": 0,
+      "wiringDigestsNotMatchingAFixtureOrSource": 0
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The rendered page order matches the manifest exactly. Both fixtures declare a 9-entry pageManifest numbered 1..9 with no gap, and pdfinfo reads exactly 9 pages from each. Source pages run 1..4 of SCA-C906 then 1..5 of SCA-C900, sequential within each document, and each manifest entry carries the sourceSha256 of the document it came from, both of which verify. The order is the order the manifest states; that the manifest states a document the route does not name is scored under COMPONENT_SET, not here.",
+     "evidence": {
+      "manifestPages": 9,
+      "measuredPages": 9,
+      "sequential": true,
+      "order": "1-4: SCA-C906 pages 1-4; 5-9: SCA-C900 pages 1-5"
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": false,
+     "result": "NOT_MEASURABLE_HERE",
+     "finding": "The obligation's instrument is the central raster gate, and it has not run for this family. RASTER_QUEUE.json holds currentRasterState RASTER_PENDING with no rasterReceipt of any kind and nextOwner RAS02, so there is no hash-bound RASTER_PASS to read. What this lane could measure, it measured, and all of it is clean — but none of it is the obligation, and it is recorded as unmeasured rather than as a pass. Word geometry over both fixtures returns 0 words outside the page box and 151 text-on-text collisions; the collisions were then differenced against the pristine official sources, which return 56 and 95 for a total of exactly 151, at identical coordinates and with identical overlap depths of about 1.87 points. Every collision the packet shows is the official forms' own tight line leading, present in the untouched binaries, and the overlay introduces none. reports/actual-writes.json's own pixel diff against the pristine sources at 72dpi records addedInkPixelsOutsideMeasuredWidgetRects 0 on every page. The nine committed raster pages of the canonical fixture and the boundary fixture were also read as images here and show no value overrunning its rule and no ink outside a write box.",
+     "evidence": {
+      "rasterVerdict": null,
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS02",
+      "wordsOutsidePageBoxCanonical": 0,
+      "wordsOutsidePageBoxBoundary": 0,
+      "textOnTextCollisionsCanonical": 151,
+      "textOnTextCollisionsBoundary": 151,
+      "sameCollisionsInThePristineSources": "SCA-C906 56 + SCA-C900 95 = 151, identical coordinates and overlap depths",
+      "collisionsIntroducedByTheOverlay": 0,
+      "rasterPagesReadAsPixelsHere": 18,
+      "whyThisIsNotAPass": "Lane contract L4 is that no family is proven without a hash-bound RASTER_PASS from the central workflow. A text-box instrument cannot see raster ink, vector rules, field borders or images, and reading committed pages by eye is not the gate. This obligation is owed a central run and does not have one."
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions name the court the route names. The registry's destination is 'Clerk of the circuit court of the county of conviction' and its venue is 'The circuit court in which the conviction occurred.' participant-instructions.md opens by saying to file the verified SCA-C906 petition with the clerk of the circuit court of the county of conviction, and adds the two preconditions the registry's filing rule states: the page 3 verification sworn before a notary, and the page 4 certificate of service completed.",
+     "evidence": {
+      "registryDestination": "Clerk of the circuit court of the county of conviction",
+      "printedDestination": "clerk of the circuit court of the county of conviction",
+      "venueAgrees": true,
+      "filingPreconditionsCarried": [
+       "verification notarised",
+       "certificate of service completed"
+      ]
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both are stated, with the two fees kept apart and the waiver position stated honestly rather than guessed. The instructions state the § 59-1-11(a)(1) civil-action filing fee at $200 charged by the circuit clerk, tied to § 61-11-26(n); state the further $100 payable to the West Virginia State Police records division only if the petition is granted; and state that no held source establishes a waiver route for this filing, that the $100 waiver exists only on the different § 61-11-26a route, and that any relief from the $200 fee would be under the circuit court's ordinary civil indigency practice, which the controlling review did not establish. It then names the office to ask rather than naming a form it does not hold. Each of those matches the registry's rules.fees and rules.feeWaiver.",
+     "evidence": {
+      "filingFeeStated": "$200",
+      "onGrantFeeStated": "$100",
+      "waiverRouteStated": true,
+      "waiverStatedAsUnestablishedAndWhy": true,
+      "officeNamed": "clerk of the circuit court of the county of conviction"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Who must be served, and how, is stated and matches the statute the registry cites. The instructions state that § 61-11-26(e) requires the petitioner to serve five recipients and enumerate them — the Superintendent of the State Police, the prosecuting attorney of the county of conviction, the chief law-enforcement officer of the arresting agency, the superintendent, warden or Commissioner of Corrections of any institution of confinement, and the disposing circuit, magistrate or municipal court. They then state that identified victims are served by the prosecuting attorney under § 61-11-26(f) and that the participant must not serve a victim, and that the certificate of service is completed only after service has actually happened because a certificate dated before service is a false statement.",
+     "evidence": {
+      "recipientsInStatuteAsTheRegistryStatesIt": 5,
+      "recipientsEnumeratedInTheInstructions": 5,
+      "victimServiceCorrectlyExcluded": true,
+      "certificateTimingStated": true,
+      "knownDivergenceNoted": "The SCA-C906 certificate of service printed on page 4 lists eight recipient lines, because the form was revised 06/04/2019 and predates S.B. 562 (2020), which cut the list to five. The registry records this as a nonblocking_research_note and says serving the extra recipient is harmless. The instructions state the statute's five. Noted, not scored."
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet states where self-help ends, completely. The registry holds 10 selfHelpStopConditions for this track and every one appears in participant-instructions.md; a word-level check for the distinctive terms of each found none missing. The file also singles out the immigration item as a hard stop rather than a caveat, and separately explains that two of the conditions — an opposition being filed and the court setting a hearing under § 61-11-26(i)(3) — happen after filing, that the matter is contested from that point, and that the statute's clock rather than the participant's runs on the reply.",
+     "evidence": {
+      "conditionsInRegistry": 10,
+      "conditionsCarried": 10,
+      "conditionsWithAnyDistinctiveWordAbsent": 0
+     }
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/raster/canonical/page-01.png through page-09.png",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/raster/boundary/page-01.png through page-09.png",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/reports/actual-writes.json",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__...__REV-2019-06-04__EN.pdf",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/WV/03_INSTRUCTIONS/WV__INSTRUCTIONS__SCA-C900__...__SOURCE-2026-05__EN.pdf",
+    "data/record-clearing/legal-design-track-registry.json (track wv_conv_single_misdemeanor: packetSet, rules, destination, selfHelpStopConditions, releaseBlockers, openLegalQuestions)",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (authority decision NATIONAL-2026-08-28-C-WV-02)",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the wv_conv_single_misdemeanor-set row)"
+   ],
+   "grantsNothing": "This verdict approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "rcap-ok-custom-pleading",
+   "lane": "VF03",
+   "wave": "VF03-W3",
+   "verdict": "BLOCKED_LEGAL_INPUT",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading",
+   "shape": "one composed family covering 16 route keys across 8 Oklahoma tracks, 53 components, 80 pages per fixture",
+   "rasterState": "RASTER_PENDING in RASTER_QUEUE.json with no receipt, nextOwner RAS04; build-status.json records rasterPages 0 and no raster pages are committed",
+   "independentOfBuilder": "VF03 holds no packet-build, repair or shared-host-repair claim on this family, wrote no byte inside its overlay directory, and produced none of the reports it reads. Every hash, counter, page count, word box, component id and quoted line below was recomputed or read first-hand in this container.",
+   "whyBlockedAndNotFailed": "Nothing measurable about this packet is wrong. The pages are well made, the component set is exact, and every declared instruction reaches the participant. What is missing is the governing statutory text: 22 O.S. §§ 18 and 19 as amended by Senate Bill 2030 (2026) was never obtained, and the registry classifies that as a build blocker on eligibility_branch for seven of the eight tracks and carries a release blocker on output_strategy saying that until the amended text is read a petition cannot be recommended without risking a paid petition for someone entitled to a free route. No repair lane can close that from this repository. It is counsel's and an acquisition matter, so the row is blocked rather than failed, and blocked is not a pass.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading, run in this container: PASS_COMPLETE, 85/254 written",
+    "whyZeroCountersAreNotAPass": "The counters ask whether the packet is internally complete against its own field map. They cannot ask whether the statute the eligibility branches were composed from is the statute in force, which is the question this family is blocked on."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId rcap-ok-custom-pleading agrees across build-status.json, source-receipt.json, reports/rendered-artifacts.json, reports/actual-writes.json, product-wiring.json and the RASTER_QUEUE.json row. The receipt declares 16 route keys across 8 tracks and every page of the packet prints its own route key at the foot; the 53 rendered components partition cleanly across those 8 tracks with no component belonging to a track the receipt does not name.",
+     "evidence": {
+      "routeKeysDeclared": 16,
+      "tracksCovered": 8,
+      "componentsRendered": 53,
+      "routeKeyPrintedPerPage": true,
+      "recordsAgreeing": 6
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "This is a zero-document-source composition (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT), so the sources that bind are committed repository records. All three were rehashed from the bytes on disk in this container and every one equals the receipt to the byte, across 148 anchor statements the receipt says were re-read before composing.",
+     "evidence": {
+      "recomputedHere": [
+       {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "sha256": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6",
+        "byteLength": 16555956,
+        "anchorStatementsVerified": 116,
+        "matchesReceipt": true
+       },
+       {
+        "path": "data/record-clearing/legal-design-specifications.json",
+        "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+        "byteLength": 16829383,
+        "anchorStatementsVerified": 16,
+        "matchesReceipt": true
+       },
+       {
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+        "byteLength": 2599752,
+        "anchorStatementsVerified": 16,
+        "matchesReceipt": true
+       }
+      ],
+      "sourcesMismatching": 0,
+      "theSourceThatIsNotHere": "The records that bind are the repository's own, and they bind exactly. The statutory text those records themselves say is missing — SB 2030 (2026) as it amended 22 O.S. §§ 18 and 19 — is not a source this family failed to bind. It is a source nobody has, which is why this row is BLOCKED_LEGAL_INPUT and not BLOCKED_SOURCE."
+     }
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Exact, across all eight tracks. The registry's packetSets name 53 components in total for these tracks — 7 each for ok_identity_theft, ok_18_19_deferred_dismissal, ok_18_19_felony_conviction, ok_18_19_misdemeanor_conviction, ok_18_19_nonconviction, ok_18_19_pardon and ok_vpo_60_18, and 4 for ok_991c_deferred — every one of them required, none conditional. The packet renders exactly those 53 componentIds. No required component is missing and no component is rendered that no registry component names.",
+     "evidence": {
+      "componentsNamedByTheRoutes": 53,
+      "componentsRendered": 53,
+      "requiredComponentsMissing": 0,
+      "componentsRenderedButNamedByNoComponent": 0,
+      "conditionalComponents": 0
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every known fact is written and visible on the page it belongs to. 85 writes are reported per fixture across 80 pages; the five distinct participant facts were each grepped out of the text extracted from canonical.pdf in this container and each appears 8 times, once per track. addedGlyphsReadFromOutputBytes is 1448 with nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0.",
+     "evidence": {
+      "writesReported": 85,
+      "readBackFromRenderedText": [
+       {
+        "fact": "participant.full_legal_name",
+        "value": "Jordan Avery Reyes",
+        "occurrences": 69
+       },
+       {
+        "fact": "participant.date_of_birth",
+        "value": "1991-04-17",
+        "occurrences": 8
+       },
+       {
+        "fact": "participant.street_address",
+        "value": "42 Magnolia Street, Springfield 62704",
+        "occurrences": 8
+       },
+       {
+        "fact": "participant.phone",
+        "value": "555-0142",
+        "occurrences": 8
+       },
+       {
+        "fact": "participant.email",
+        "value": "jordan.reyes@example.org",
+        "occurrences": 8
+       }
+      ],
+      "knownFactsMissingFromTheRenderedPage": 0
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every declared item reaches the participant, across all eight tracks. The registry declares 87 requiredBeforeFiling items in total — 11 on each of seven tracks and 10 on ok_991c_deferred — and a word-level check of each item's distinctive terms against participant-instructions.md and the extracted packet text found none absent or weakly covered. reports/blanks-left-for-the-participant.json carries 113 entries, more than the declared items, because the packet also surfaces each composed pleading's own labelled blanks.",
+     "evidence": {
+      "declaredItemsAcrossEightTracks": 87,
+      "itemsWeaklyCoveredOrAbsent": 0,
+      "blanksSurfacedToTheParticipant": 113
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No route-determined election is left unselected, because the composed pleadings carry no election controls at all: each track's pages are composed for that track's own statutory ground and print that ground rather than offering a choice between grounds. requiredOptionsMissing measured 0. The one question the packet does put to the reader is deliberately not an election it may answer — the free-route screen asks whether they would like the free route checked first, and leaves the line blank.",
+     "evidence": {
+      "electionControlsInThePacket": 0,
+      "requiredOptionsMissing": 0,
+      "questionsLeftToTheParticipant": "the free-route screen's own question line, left as a dotted blank"
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The composed pleadings carry no repeating row structure: no offence table, no charge grid, no multi-count schedule. Participant items are single labelled dotted blanks, each on its own. incompleteRows measured 0 here.",
+     "evidence": {
+      "repeatingRowStructures": 0,
+      "incompleteRows": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No protected field carries ink, read from the rendered bytes. All 8 signing lines extract as 'DATE .............................. SIGNATURE OF PETITIONER ....................................' with dots only and no exception. The 8 proposed-order pages are the strongest case: each carries 'ORDERS that ........................................................', a blank DATED line and a blank judicial signature rule, under a printed statement in the packet's own voice that 'EVERY DECISION ON THIS PAGE IS THE COURT'S. This proposed order travels with the petition for the Court's convenience; nothing on it is completed, decided, signed or dated by the petitioner or by this packet.' Every case-number caption is a dotted blank. refusedFieldsWithInk is empty for both fixtures.",
+     "evidence": {
+      "signatureLines": 8,
+      "signatureLinesCarryingInk": 0,
+      "proposedOrderPages": 8,
+      "proposedOrderPagesCarryingAnyDecisionOrDate": 0,
+      "caseNumberCaptionsPrefilled": 0,
+      "certificateOfMailingPresent": false
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures hash to what every record naming them says. Recomputed here with sha256sum and pdfinfo: canonical.pdf = 833444e3e39b2232b4e8c10cdd37cf948f2dd148a31edcc64aa86516fb953f60 (205937 bytes, 80 pages), boundary.pdf = 5cdd5a6ae9461f42cda28c64fc93e5d4c5d2fc9df9415c8033be29f396bb2bcb (208554 bytes, 80 pages). Every claimed hash across rendered-artifacts.json, actual-writes.json, product-wiring.json and the RASTER_QUEUE.json row agrees, and every 64-hex digest in product-wiring.json resolves to a fixture or a bound record.",
+     "evidence": {
+      "canonicalSha256": "833444e3e39b2232b4e8c10cdd37cf948f2dd148a31edcc64aa86516fb953f60",
+      "boundarySha256": "5cdd5a6ae9461f42cda28c64fc93e5d4c5d2fc9df9415c8033be29f396bb2bcb",
+      "claimedHashMismatches": 0,
+      "wiringDigestsNotMatchingAFixtureOrSource": 0
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures declare an 80-entry pageManifest numbered 1..80 with no gap, and pdfinfo reads exactly 80 pages from each. The order is coherent as well as sequential: each track's block runs free-route screen, primary filing, proposed order, record-gathering instructions, fee disclosure, hearing instructions, effect disclosure, in that order, and source pages are sequential within each component.",
+     "evidence": {
+      "manifestPages": 80,
+      "measuredPages": 80,
+      "sequential": true,
+      "trackBlocks": 8,
+      "orderWithinEachTrack": "free-route screen first, effect disclosure last"
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": false,
+     "result": "NOT_MEASURABLE_HERE",
+     "finding": "The obligation's instrument is the central raster gate and it has not run for this family. RASTER_QUEUE.json holds RASTER_PENDING with no receipt and nextOwner RAS04, build-status.json records rasterState BUILT_RASTER_PENDING with rasterPages 0, and unlike the West Virginia family there are no committed raster pages to read as pixels either. What this lane could measure is clean and is recorded as measurement rather than as a pass: word geometry over both fixtures returns 0 words outside the page box and 0 text-on-text collisions across 20268 and 20271 words, and reports/actual-writes.json's own read of the output bytes records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0.",
+     "evidence": {
+      "rasterVerdict": null,
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS04",
+      "committedRasterPages": 0,
+      "wordsOutsidePageBoxCanonical": 0,
+      "textOnTextCollisionsCanonical": 0,
+      "wordsOutsidePageBoxBoundary": 0,
+      "textOnTextCollisionsBoundary": 0,
+      "wordsExamined": 40539,
+      "whyThisIsNotAPass": "A text-box instrument cannot see raster ink, vector rules, field borders or images, and lane contract L4 is that no family is proven without a hash-bound RASTER_PASS from the central workflow. This family is owed one and does not have one."
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions name the court each route names. Seven tracks record the destination as 'Oklahoma district court for the county where the arrest information is located' and the packet prints exactly that under the caption of every petition and every proposed order on those tracks, 14 times in the extracted text. ok_991c_deferred records a different destination, 'The Oklahoma district court that entered the deferred sentence', and its pages carry that one instead rather than inheriting the county rule.",
+     "evidence": {
+      "distinctDestinationsAcrossTheEightTracks": 2,
+      "destinationsPrintedCorrectlyPerTrack": true,
+      "countyRuleOccurrencesInTheText": 14,
+      "the991cExceptionCarriedSeparately": true
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "The packet states everything the record holds, and the record does not hold the fee a participant would actually pay to file. Its dedicated 'WHAT THIS COSTS' page states, quoted from the registry, that OSBI treats expunging a court record as free and charges $150 to expunge an arrest record, that local law-enforcement fees may accompany it, that OSBI takes cashier's cheques or money orders and not personal cheques, and — in terms — that 'The district court filing fee is not established and is recorded as an open question', with the waiver recorded as 'Not established.' That is the honest and complete statement of a record that does not answer the question. It is recorded as blocked rather than as a pass because a participant still cannot learn what filing costs, and rather than as a failure because the registry itself carries this as a release_blocker on participant_instructions — 'The district court filing fee, which the review records as unresolved and which the packet therefore cannot state' — so no repairer can supply it from this repository.",
+     "evidence": {
+      "osbiArrestRecordFeeStated": "$150",
+      "courtRecordExpungementStated": "free",
+      "districtCourtFilingFee": "not established; recorded as an open question, and the packet says so",
+      "waiverRouteStated": "Not established. The district court filing fee position is an open question.",
+      "registryClassification": "release_blocker / participant_instructions",
+      "whoCanClearIt": "counsel or a source acquisition, not a repair lane"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Who must be served, and how, is stated, and the answer for seven of the eight tracks is that the court does it. The registry records notice as the court setting a hearing and giving 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records, and service as 'By the court's notice. The proposed order must identify every agency to which it applies.' The packet carries both, and carries the consequence the registry attaches to it as a packet instruction in the registry's own words — that the proposed order must name every agency it applies to — alongside the plain statement that the participant files and the court sets the hearing. ok_991c_deferred records notice and service as not established for that motion and its pages say so rather than importing the other tracks' answer.",
+     "evidence": {
+      "registryService": "By the court's notice. The proposed order must identify every agency to which it applies.",
+      "participantServesAnyone": false,
+      "proposedOrderAgencyInstructionCarriedVerbatim": true,
+      "the991cExceptionCarriedSeparately": "notice and service recorded not established for the § 991c motion, and stated as such"
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet states where self-help ends, completely, and it does something stronger than that. The registry holds 52 selfHelpStopConditions across the eight tracks and a word-level check found none absent. More than that, the single most consequential stop condition — 'Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read' — is not left in a list at the back. It is the first page of every track, headed 'CHECK THE FREE ROUTE FIRST' and 'READ THIS PAGE BEFORE YOU PAY FOR ANYTHING', which quotes the review's warning verbatim, states that this packet does not decide whether the free route reaches the reader and that no committed record resolves the amended text, tells them to request their OSBI criminal history and ask the district court clerk whether the record is already sealed, and tells them that if either answer is yes or they are unsure, to stop and not file.",
+     "evidence": {
+      "conditionsAcrossEightTracks": 52,
+      "conditionsWeaklyCoveredOrAbsent": 0,
+      "freeRouteScreenIsPageOneOfEveryTrack": true,
+      "packetRefusesToDecideEligibility": true
+     }
+    }
+   },
+   "theOpenLegalInput": {
+    "what": "The text of 22 O.S. §§ 18 and 19 as amended by Senate Bill 2030 (2026).",
+    "asTheRecordStatesIt": "The registry's buildBlockers for seven of the eight tracks carry it with impact build_blocker and affectedElement eligibility_branch: retrieval was attempted at the Oklahoma Legislature on 2026-08-06, the bill information record was located, the enrolled text was not obtained, and section 18 was last amended by Chapter 259 O.S.L. 2024 and section 19 by Chapter 292 O.S.L. 2025 before SB 2030 amended both again, 'so any logic built on a pre-2024 reading is stale in three separate directions'.",
+    "theSecondBuildBlocker": "Whether any standard Oklahoma petition form exists, statewide or by district, recorded as a legal-design blocker with no form identified — which is why this family composes pleadings rather than filling one.",
+    "theEighthTrack": "ok_991c_deferred carries its own build blocker with affectedElement governing_mechanism: the text of 22 O.S. § 991c, including what the motion must contain, whether notice is required and whether a hearing is held, was not read at source.",
+    "theReleaseBlocker": "impact release_blocker, affectedElement output_strategy: 'Until the amended text is read, a petition cannot be recommended without the risk the review identifies: generating a paid petition for someone who could have used a free route.'",
+    "whoCanClearIt": "counsel and a source acquisition of the enrolled SB 2030 text and of 22 O.S. § 991c. No repair lane can close it from this repository.",
+    "whatThePacketDidInstead": "It refused to answer the question and put the refusal first. Every track opens on the free-route screen described under SELF_HELP_STOP. That is the right response to an open input and it is why this row is blocked rather than failed — but a packet that correctly says it cannot tell you whether you need it is still a packet nobody should be sold."
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/reports/completeness-counters.json",
+    "data/record-clearing/legal-design-track-registry.json (tracks ok_identity_theft, ok_18_19_deferred_dismissal, ok_18_19_felony_conviction, ok_18_19_misdemeanor_conviction, ok_18_19_nonconviction, ok_18_19_pardon, ok_991c_deferred, ok_vpo_60_18)",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the rcap-ok-custom-pleading row)"
+   ],
+   "grantsNothing": "A blocked row approves no output and opens no commercial route, and it is not a finding that the packet is good enough to sell once the block lifts — that is a fresh read's question."
+  },
+  {
+   "itemId": "sd_arrest_expungement-set",
+   "lane": "VF03",
+   "wave": "VF03-W3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
+   "rasterState": "RASTER_PASS receipt in RASTER_QUEUE.json bound to both fixture hashes; 28 raster pages committed and read as pixels here",
+   "independentOfBuilder": "VF03 holds no packet-build, repair or shared-host-repair claim on this family, wrote no byte inside its overlay directory, and produced none of the reports it reads. Every hash, counter, page count, word box, rendered mark and grep count below was recomputed or read first-hand in this container.",
+   "summaryOfTheDefect": "The pages are well made and the six official forms bind exactly. What fails is what reaches the participant beside them: six of the ten self-help stop conditions the registry holds for this track are absent from participant-instructions.md and from the packet text, including 'Immigration exposure.' and the whole felony/DUI/domestic-violence/sex-offence/firearm/protection-order condition; the fee-waiver position contradicts the record; three required-before-filing verifications are missing; and the packet marks a sworn statutory basis on the participant's behalf while telling them it has not.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family sd_arrest_expungement-set, run in this container: PASS_COMPLETE, 67/222 written",
+    "whyZeroCountersAreNotAPass": "Every counter here is about ink on the forms, and the ink is right. None of them reads participant-instructions.md against the registry's stop conditions, its fee-waiver rule or its required-before-filing list, which is where all four failures below live."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId sd_arrest_expungement-set agrees across source-receipt.json, build-status.json, reports/rendered-artifacts.json, reports/actual-writes.json, product-wiring.json and the RASTER_QUEUE.json row, and the registry track sd_arrest_expungement carries packetSetId sd_arrest_expungement-set. The packet is the arrest-expungement route and its captions and forms are that route's.",
+     "evidence": {
+      "recordsAgreeing": 6
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All six bound official forms were rehashed from the Master Library bytes in this container and every one equals the receipt to the byte, with page counts matching too. This is a first-hand recomputation from the official binaries.",
+     "evidence": {
+      "recomputedHere": [
+       {
+        "formNumber": "UJS-232",
+        "sha256": "308ed5e4386a9e223d510a1dfa6f49cb15b1c349a27db63e32dcf0164d6d7737",
+        "byteLength": 166791,
+        "pages": 1,
+        "matchesReceipt": true
+       },
+       {
+        "formNumber": "UJS-391",
+        "sha256": "ec51457f51583006c76af9bcfe6db03eaf92fdd15e7cfff184b5b4805f18e6a8",
+        "byteLength": 361152,
+        "pages": 4,
+        "matchesReceipt": true
+       },
+       {
+        "formNumber": "UJS-392",
+        "sha256": "08e44e091b60917fc4bb99ba1cf65a62eca4482d8517d43f6cbfd95aae9a2928",
+        "byteLength": 202256,
+        "pages": 2,
+        "matchesReceipt": true
+       },
+       {
+        "formNumber": "UJS-393",
+        "sha256": "933c600b4516628b60ca20545633cc3c225279bb87b90008780ff406d9e19310",
+        "byteLength": 256929,
+        "pages": 3,
+        "matchesReceipt": true
+       },
+       {
+        "formNumber": "UJS-394",
+        "sha256": "d6f2dab3ca32ca7fedd348635871d036dc90170c240ac416b4c9b770a7c7de3f",
+        "byteLength": 92135,
+        "pages": 1,
+        "matchesReceipt": true
+       },
+       {
+        "formNumber": "UJS-395",
+        "sha256": "4ff12868beb1f4904856ba2751d9d31e99973a18e5e6b38164286c7341dd8e20",
+        "byteLength": 295853,
+        "pages": 3,
+        "matchesReceipt": true
+       }
+      ],
+      "sourcesMismatching": 0
+     }
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every component the route names is rendered. The registry names seven: case_filing_statement UJS-232, primary_filing UJS-391, proposed_order UJS-394 and notice_of_entry UJS-395 all required; hearing_waiver UJS-392 and notice_of_hearing UJS-393 both conditional; and filing_instructions as process_guidance. All six official forms are in the packet at pages 1, 2-5, 6-7, 8-10, 11 and 12-14, and the process_guidance component is participant-instructions.md.",
+     "evidence": {
+      "componentsNamedByTheRoute": 7,
+      "officialFormComponentsRendered": 6,
+      "requiredComponentsMissing": 0,
+      "bothMutuallyExclusiveConditionalsAreRendered": "UJS-392 is conditioned 'only where the arrested person or defendant, the prosecutor and any victim will all waive the hearing' and UJS-393 'where a hearing is required because the three-party waiver is not obtained' — the two are alternatives and both are in the packet. For a review fixture that is reasonable branch coverage, and participant-instructions.md does introduce the waiver with 'If you seek to waive the hearing (UJS-392)'. It states the Notice of Hearing step unconditionally though, where the registry makes it conditional on the waiver not being obtained. Recorded as an observation for the Captain, not scored and not part of the repair."
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every known fact is written and visible on the page it belongs to, read from the committed raster pages as pixels. 65 writes on the canonical fixture across six forms: the UJS-232 case filing statement carries the participant's name, address, city, state, zip, phone and date of birth; the UJS-391 motion carries the date of birth, arrest date, charge, county in three captions, applicant name, case number and the petitioner contact block; UJS-392, UJS-393, UJS-394 and UJS-395 each carry their caption and, where the form has one, the petitioner contact block. Nothing is written that the participant must swear to beyond the basis dealt with under ROUTE_OPTIONS.",
+     "evidence": {
+      "writesOnCanonical": 65,
+      "formsCarryingWrites": 6,
+      "knownFactsMissingFromTheRenderedPage": 0
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The registry declares 13 items in packetSet.requiredBeforeFiling for this track. participant-instructions.md's 'Required before filing or service' section lists five, all of them caption and service details — Judicial Circuit number, State's Attorney name and mailing address, notice recipient name and mailing address. Three substantive verifications never reach the participant at all. Item 1, obtain the order of dismissal, the judgment of acquittal or proof that no accusatory instrument was filed and ask the Clerk of Courts for a copy, is the documentary proof the whole motion rests on; the words dismissal, acquittal and accusatory each appear exactly once in the file and all three are inside a single stop-condition bullet listing the three statutory bases, not an instruction to obtain anything. Item 3, check the answer to whether ALL charges were dismissed or only some against the court docket, is absent: 'docket' returns 0 hits. Item 4, check the answer to how many separate arrests are being cleared against the South Dakota criminal history record, is absent: 'criminal history' returns 0 hits. Item 13, the indigency fee waiver, is dealt with under FEE_AND_WAIVER below and is also absent.",
+     "evidence": {
+      "declaredItems": 13,
+      "itemsNamedAsActions": 5,
+      "itemsAbsentOrIncidental": 4,
+      "grepCountsInParticipantInstructions": {
+       "docket": 0,
+       "criminal history": 0,
+       "indigen": 0,
+       "dismissal": 1,
+       "acquittal": 1,
+       "accusatory": 1
+      },
+      "whyItMatters": "Item 3 guards the exact trap the registry's first stop condition names — a partial dismissal defeats this track because the statute requires the ENTIRE criminal case to have been dismissed — and item 4 guards a money consequence, since more than one arrest record means more than one civil action and more than one $72 fee."
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The election is made, it is the right one for the route, and the packet tells the participant it has not been made. On packet page 3 the first of the three statutory bases on UJS-391A is ticked — 'It has been one year from the date of the arrest and no accusatory instrument has been filed' — visible on the committed raster and recorded in reports/actual-writes.json as a selection with factId route.expungement_ground. The row in production-field-map.json that carries it says both things at once: disposition 'selected_route_option' and reason 'selection_requires_participant_or_authorized_official_choice', selectedBy SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR. And participant-instructions.md, in the self-help stop list, tells the reader that the basis 'is a statement of law about your own case, and this packet does not choose it'. It did choose it. A participant who cannot tell which basis is truthfully theirs is told nothing has been asserted yet, and the form in their hands already asserts one, above a signature line they are being asked to sign.",
+     "evidence": {
+      "electionsDeterminedByTheRoute": 1,
+      "electionsSelected": 1,
+      "requiredOptionsMissing": 0,
+      "otherBasesLeftUnmarked": 2,
+      "fieldMapReasonOnTheSelectedRow": "selection_requires_participant_or_authorized_official_choice",
+      "fieldMapDispositionOnTheSameRow": "selected_route_option",
+      "selectedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR",
+      "participantInstructionsSay": "the basis is a statement of law about your own case, and this packet does not choose it",
+      "whyThisIsScoredHere": "This is the packet's only election and the obligation is the election obligation. An election that the packet denies making is not a disclosed election, and the field map's own reason for the row says the choice belongs to the participant or an authorized official."
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "None of the six forms carries a repeating row structure: no offence table, no charge grid, no multi-count schedule. The UJS-232 case filing statement is a single-party block. incompleteRows measured 0 here.",
+     "evidence": {
+      "repeatingRowStructures": 0,
+      "incompleteRows": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No protected field carries ink, read from the committed raster pages. The UJS-394 Order on Motion for Expungement is the strongest case: its caption is filled, and its Granted and Denied boxes, its hearing date, its 'Dated this ___ day of ___, 20__' line, its Circuit Court Judge signature rule and its Clerk of Court and Deputy Clerk attest lines are all empty. The UJS-391C Statement of Mailing carries only the caption and the petitioner's own contact block: the mailing date, the State's Attorney name and address, the 'mailing ... from' line, the perjury declaration's date, month, year and place, and the Petitioner Signature rule are all blank, so nothing swears to a mailing that has not happened. Participant signature and signature-date rules are blank on every form that has one.",
+     "evidence": {
+      "proposedOrderDecisionBoxes": "Granted and Denied both empty",
+      "judgeSignature": "blank",
+      "clerkAttest": "blank",
+      "statementOfMailingDateAndSignature": "blank",
+      "participantSignatureRules": "blank on every form",
+      "protectedFieldsCarryingInk": 0
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures hash to what every record naming them says. Recomputed here with sha256sum and pdfinfo: canonical.pdf = 627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d (572296 bytes, 14 pages), boundary.pdf = 79b2e9ac4ca0cfadba32a9896f39fe82ae7d0dc543d3a7a42d2a338bf318a8ed (573828 bytes, 14 pages). Every claimed hash across rendered-artifacts.json, actual-writes.json, product-wiring.json and the RASTER_QUEUE.json receipt agrees, and every 64-hex digest in product-wiring.json resolves to a fixture or one of the six bound sources.",
+     "evidence": {
+      "canonicalSha256": "627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d",
+      "boundarySha256": "79b2e9ac4ca0cfadba32a9896f39fe82ae7d0dc543d3a7a42d2a338bf318a8ed",
+      "claimedHashMismatches": 0,
+      "wiringDigestsNotMatchingAFixtureOrSource": 0
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures declare a 14-entry pageManifest numbered 1..14 with no gap and pdfinfo reads exactly 14 pages from each. The order follows the registry's own component order: UJS-232 case filing statement, UJS-391 motion with its admission of service and statement of mailing, UJS-392 waiver, UJS-393 notice of hearing, UJS-394 proposed order, UJS-395 notice of entry, and source pages run sequentially within each form.",
+     "evidence": {
+      "manifestPages": 14,
+      "measuredPages": 14,
+      "sequential": true,
+      "matchesRegistryComponentOrder": true
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The central raster gate has run and its receipt binds to the exact bytes this container hashed: RASTER_QUEUE.json holds verdict RASTER_PASS from workflow run 33488713831 at pinned commit 71894f3f2dde0f5af34818a2fa8dc8bce84e0d24, jobConclusion success, boundToCanonicalSha256 and boundToBoundarySha256 equal to the two hashes recomputed above. Independently, word geometry over both fixtures returns 0 words outside the page box and 18 text-on-text collisions, and the collisions were differenced against the six pristine official sources, which carry 17 between them (15 on UJS-394 and 2 on UJS-392) at the same places. The single collision not inherited is on packet page 4, where the written case number 24-CR-001234 at y 249.9-259.1 sits inside the printed rule '____________________________,' at y 246.1-260.7 — a value seated on its own rule, which is where it belongs, and which the instrument counts only because that rule token carries a trailing comma. Overlay-introduced overlap is nil. The 28 committed raster pages were also read as images here.",
+     "evidence": {
+      "rasterVerdict": "RASTER_PASS",
+      "rasterBindsToTheBytesHashedHere": true,
+      "wordsOutsidePageBoxCanonical": 0,
+      "wordsOutsidePageBoxBoundary": 0,
+      "textOnTextCollisionsCanonical": 18,
+      "collisionsInherentToThePristineSources": 17,
+      "theEighteenth": "a written value correctly seated on its printed rule, not an overlap",
+      "rasterPagesReadAsPixelsHere": 28
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions name the court the route names, and they do it from the form's own words. The registry's destination is 'Clerk of Courts for the court with jurisdiction over the arrest or underlying case' and its venue is the court that would have jurisdiction over the crime for which the person was arrested. participant-instructions.md says to file with the Clerk of Court of the circuit court for the county where the arrest record or case is filed, quotes UJS-391's own instruction sheet saying the county 'will be the same county where the arrest record or case is filed in', tells the participant to enter that county and its Judicial Circuit number in each caption, and — usefully — says the case number will be provided by the Clerk of Court at filing under UJS-391 instruction 1(b), so do not invent one.",
+     "evidence": {
+      "registryDestination": "Clerk of Courts for the court with jurisdiction over the arrest or underlying case",
+      "printedDestination": "Clerk of Court of the circuit court for the county where the arrest record or case is filed",
+      "caseNumberCorrectlyNotInvented": true,
+      "oneConsequenceNotCarried": "The registry's filing rule adds that more than one arrest record requires a separate civil action for each. That is absent from the instructions and is scored under SELF_HELP_STOP, where the registry also carries it as a stop condition."
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The fee is stated correctly and the waiver is stated as unavailable when the record says it is available. participant-instructions.md gives the $72 figure from UJS-391's own instruction sheet, adds sensibly that if the clerk quotes a different current amount the clerk's figure governs, and then says: 'The forms state no fee-waiver route. If you cannot afford the fee, ask the Clerk of Court whether any waiver or reduction is available — this packet does not decide that'. The committed registry does decide it. rules.feeWaiver reads 'Available on a finding of indigency. The participant requests it from the court.', it is item 13 of that track's requiredBeforeFiling list, and the registry's destination detail says in terms 'Pay the $72 civil filing fee or request an indigency waiver.' The word 'indigen' returns 0 hits in participant-instructions.md. A participant who cannot afford $72 is told the forms name no waiver and sent to ask an open question, when the record establishes a waiver available on a finding of indigency that they request from the court.",
+     "evidence": {
+      "feeStated": "$72, from UJS-391's instruction sheet, with the clerk's current figure governing",
+      "registryFeeWaiver": "Available on a finding of indigency. The participant requests it from the court.",
+      "registryDestinationDetail": "Pay the $72 civil filing fee or request an indigency waiver.",
+      "packetSays": "The forms state no fee-waiver route.",
+      "indigencyMentionsInParticipantInstructions": 0,
+      "whyThisIsAFailureAndNotABlock": "Nothing here is unresolved. The record states the waiver; the packet states the opposite of the record, and a repairer can fix it from the record already in hand."
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Who must be served, and how, is stated in unusual and correct detail, step by step from the forms' own instruction sheets. The instructions say to serve the State's Attorney who handled the criminal case by mailing the motion, the partially completed Admission of Service UJS-391B and a self-addressed stamped envelope; that the State's Attorney signs and returns the admission and the participant files it; that the Statement of Mailing UJS-391C is sworn under penalty of perjury and completed only after the mailing has actually occurred; that a copy of the Notice of Hearing must be mailed to the State's Attorney at least 14 days before the hearing; that a waiver under UJS-392 must be agreed by the State's Attorney and any victim, each signing their own; and that after the judge rules the Notice of Entry UJS-395 and the order are mailed to the State's Attorney and filed with a statement of mailing. The method is stated as United States mail, postage prepaid, which is what the sworn statements themselves say. All of that matches the registry's rules.notice and rules.service.",
+     "evidence": {
+      "serviceStepsStated": 5,
+      "fourteenDayNoticeStated": true,
+      "threePartyWaiverStated": true,
+      "statementOfMailingTimingStated": true,
+      "matchesRegistryRules": true
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Six of the ten self-help stop conditions the registry holds for this track never reach the participant. participant-instructions.md carries four bullets under 'Where self-help ends', covering roughly the basis question, the waiver-signature question, records outside a South Dakota circuit court and being asked to argue eligibility at a hearing. Absent entirely, by direct case-insensitive grep of the file: 'Prosecutor opposition, or any contested hearing' — opposition 0 hits, contested 0 hits; 'More than one arrest record, which means more than one civil action and more than one fee' — 'more than one arrest' 0 hits; 'Arrests in more than one county' — 'more than one county' 0 hits, 'counties' 0 hits; 'Federal, tribal, military or out-of-state records', which the registry marks as an explicit escalation rather than a footnote given the number of reservations and concurrent-jurisdiction questions — tribal 0, federal 0, military 0, out-of-state 0; 'Immigration exposure.' — immigration 0 hits; 'Any adult conviction that is not clearly SIS-based, pardon-based, diversion-based or minor-case automatic removal' — conviction 0 hits; and 'Any felony, DUI, domestic violence, sex offence, child-victim offence, violence, firearm or protection-order issue' — felony 0, DUI 0, domestic 0, sex offence 0, firearm 0. The same words return 0 in the extracted packet text as well, so they are absent from the delivered pages too.",
+     "evidence": {
+      "conditionsInRegistry": 10,
+      "conditionsCarried": 4,
+      "conditionsAbsent": 6,
+      "grepCountsInParticipantInstructions": {
+       "opposition": 0,
+       "contested": 0,
+       "more than one arrest": 0,
+       "more than one county": 0,
+       "counties": 0,
+       "tribal": 0,
+       "federal": 0,
+       "military": 0,
+       "out-of-state": 0,
+       "immigration": 0,
+       "conviction": 0,
+       "felony": 0,
+       "DUI": 0,
+       "domestic": 0,
+       "sex offence": 0,
+       "firearm": 0
+      },
+      "sameWordsInTheDeliveredPacketText": "all 0 except 'protection' 1 and 'compelling necessity' 1, both inside the official forms' own printed text rather than as a stop",
+      "whyItMatters": "Immigration is the condition every other family in this wave restates as a hard stop, and it is missing here entirely. The tribal-records condition is one the registry itself flags as an escalation rather than a footnote, in South Dakota. And the missing arrest-count and county conditions each carry a direct cost consequence, since each additional arrest record is a separate civil action with its own $72 fee."
+     }
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/raster/canonical/page-01.png through page-14.png",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/raster/boundary/page-01.png through page-14.png",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/actual-writes.json",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/SD/02_PACKET_FORMS/ (UJS-232, UJS-391, UJS-392, UJS-393, UJS-394, UJS-395)",
+    "data/record-clearing/legal-design-track-registry.json (track sd_arrest_expungement: packetSet, rules, destination, selfHelpStopConditions, openLegalQuestions)",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the sd_arrest_expungement-set row and its receipt)"
+   ],
+   "grantsNothing": "This verdict approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+   "lane": "VF03",
+   "wave": "VF03-W3",
+   "verdict": "BLOCKED_LEGAL_INPUT",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading",
+   "routeKey": "obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+   "rasterState": "RASTER_PENDING in RASTER_QUEUE.json with no receipt, nextOwner RAS03; build-status.json records rasterState BUILT_RASTER_PENDING with rasterPages 0 and no raster pages are committed",
+   "independentOfBuilder": "VF03 holds no packet-build, repair or shared-host-repair claim on this family, wrote no byte inside its overlay directory, and produced none of the reports it reads. Every hash, counter, page count, word box and quoted line below was recomputed or read first-hand in this container.",
+   "whatStandsBetweenThisAndAPass": "Two things, and neither is a defect a repairer can fix. Who must be served on this route, and how, is answered by no committed record: the route contract carries no service or notice field at all, and the packet says so and names the clerk's office as the office that answers. And the central raster gate has not run, so the obligation that gate carries has no verdict. The first is why the row is BLOCKED_LEGAL_INPUT; the second is a queue item owned by RAS03, not a legal input, and is recorded as unmeasured rather than folded into the block.",
+   "notASingleRepairableDefectWasFound": "Thirteen obligations pass on measurement made here and no repair assignment is raised for this family.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26, run in this container: PASS_COMPLETE, 7/21 written"
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26 agrees across build-status.json, source-receipt.json, reports/rendered-artifacts.json, product-wiring.json and the RASTER_QUEUE.json row. The single route key obligation:runtime-only:MS:nonadjudication-under-99-15-26 is printed at the foot of all three components and is the key the route-obligation census holds at routes[66] with routeContractId MS:nonadjudication-under-99-15-26, which is the contract at routes[13] of src/lib/legal-authority/routes/mississippi.json. The packet is built for the post-completion petition and says so on its face.",
+     "evidence": {
+      "routeKeysDeclared": 1,
+      "routeKeyPrintedOnComponents": 3,
+      "recordsAgreeing": 5
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "This is a zero-document-source composition (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT). All three committed records it binds were rehashed from the bytes on disk in this container and every one equals the receipt to the byte, across 25 anchor statements.",
+     "evidence": {
+      "recomputedHere": [
+       {
+        "path": "src/lib/legal-authority/routes/mississippi.json",
+        "sha256": "1d533e72b993ce40bda1b7aa565a62d0585259280483ffccd9192395eeb00026",
+        "byteLength": 37570,
+        "anchorStatementsVerified": 18,
+        "matchesReceipt": true
+       },
+       {
+        "path": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+        "sha256": "d30c78bcdbcd4378d1d6e656dd65f8ebde3b6d231e7020add220e55d865ea689",
+        "byteLength": 416327,
+        "anchorStatementsVerified": 5,
+        "matchesReceipt": true
+       },
+       {
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+        "byteLength": 2599752,
+        "anchorStatementsVerified": 2,
+        "matchesReceipt": true
+       }
+      ],
+      "sourcesMismatching": 0,
+      "legacyGeneratorSeparation": "The receipt states in terms that the retired legacy Mississippi generator conveys no authority to this family, and build-findings.json records that nothing from it was used as authority. Nothing in the packet depends on it, consistent with ADR-0004."
+     }
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The route contract names three packet components: 'Petition under § 99-15-26(5)', 'Completion and closure proof' and 'Proposed order'. Two of the three are pleadings and both are composed and rendered — ms-post-nonadjudication-primary-filing-1 on pages 1-2 and ms-post-nonadjudication-proposed-order-2 on page 3. The third is a RECORD the participant obtains rather than a page anyone can compose, and the packet handles that correctly and explicitly: its filing-instructions component states that anything on the contract's component list that is a record rather than a pleading is a document the participant obtains and files with the petition, and 'Obtain the completion and closure proof' is one of the three things under WHAT YOU DO. The filing-instructions component itself is the third rendered component, on pages 4-5.",
+     "evidence": {
+      "componentsNamedByTheContract": 3,
+      "pleadingComponentsComposed": 2,
+      "recordComponentCorrectlyIdentifiedAsParticipantObtained": true,
+      "componentsRendered": 3,
+      "requiredComponentsMissing": 0
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every known fact is written and visible on the page it belongs to. Seven writes: the petitioner's name on all three components, and the date of birth, mailing address, telephone and email on the petition. Each value was grepped out of the text extracted from canonical.pdf in this container rather than read from the write log. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 and refusedFieldsWithInk is empty.",
+     "evidence": {
+      "writesReported": 7,
+      "readBackFromRenderedText": [
+       "Jordan Avery Reyes",
+       "1991-04-17",
+       "42 Magnolia Street, Springfield 62704",
+       "555-0142",
+       "jordan.reyes@example.org"
+      ],
+      "knownFactsMissingFromTheRenderedPage": 0
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The route contract declares no requiredBeforeFiling list; what it declares is seven requiredFacts, and all seven are printed on the petition as labelled items C1 to C7 in the contract's own words, each verified present by exact-string grep of the rendered text. Everything else the contract implies is stated as an action: confirm both timing anchors have passed, obtain the completion and closure proof, fill every labelled item from the court record, sign and date personally, file with the proposed order. The packet also states three things not to do, each traced to the contract — do not file while still on nonadjudication, because relief opens on the LATER of completion and the closure order; do not assume a second use is available, because the contract records 'Once only'; do not sign the proposed order.",
+     "evidence": {
+      "requiredFactsInTheContract": 7,
+      "requiredFactsPrintedOnThePetition": 7,
+      "eachVerifiedByExactStringMatch": true,
+      "recordComponentNamedAsSomethingToObtain": true
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The route determines no election. The contract records no alternative grounds and no branch to choose between, the packet carries no checkbox and no alternative-relief selection, and requiredOptionsMissing measured 0. There is no unselected election because there is no election.",
+     "evidence": {
+      "electionsDeclaredByTheRoute": 0,
+      "electionsSelected": 0,
+      "requiredOptionsMissing": 0
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet contains no repeating row structure. The seven participant items C1 to C7 are single labelled dotted blanks, each on its own, and none is a cell in a row. incompleteRows measured 0 here.",
+     "evidence": {
+      "repeatingRowStructures": 0,
+      "incompleteRows": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No protected field carries ink, read from the rendered bytes. The petition's signing line extracts as 'DATE .............................. SIGNATURE OF PETITIONER ....................................' with dots only, under the printed sentence that the petitioner signs and dates personally and that nothing on the page is signed or dated for them. The proposed order is blank throughout — 'ORDERS that ........................................................', a blank DATED line and a blank signature rule — under the printed statement that every decision on that page is the Court's and that nothing on it is completed, decided, signed or dated by the petitioner or by this packet, followed by 'The court signs here if, and only if, it grants the petition.' Both case-number captions are dotted blanks.",
+     "evidence": {
+      "signatureLinesCarryingInk": 0,
+      "proposedOrderDecisionOrDateOrSignature": "all blank",
+      "caseNumberCaptionsPrefilled": 0,
+      "certificateOfMailingPresent": false,
+      "refusedFieldsWithInk": 0
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures hash to what every record naming them says. Recomputed here with sha256sum and pdfinfo: canonical.pdf = b6c18f619f45fbd2cf9a80e805b7a8c6d428427cf88c77c2f05083c758e396b2 (13425 bytes, 5 pages), boundary.pdf = c31fa42374b4b6c83b8388d76e6ff556d6e62f7b2f2f2c617ec2bceba3e20e90 (13627 bytes, 5 pages). Every claimed hash across rendered-artifacts.json, actual-writes.json, product-wiring.json and the RASTER_QUEUE.json row agrees, and every 64-hex digest in product-wiring.json resolves to a fixture or a bound record.",
+     "evidence": {
+      "canonicalSha256": "b6c18f619f45fbd2cf9a80e805b7a8c6d428427cf88c77c2f05083c758e396b2",
+      "boundarySha256": "c31fa42374b4b6c83b8388d76e6ff556d6e62f7b2f2f2c617ec2bceba3e20e90",
+      "claimedHashMismatches": 0,
+      "wiringDigestsNotMatchingAFixtureOrSource": 0
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures declare a 5-entry pageManifest numbered 1..5 with no gap and pdfinfo reads exactly 5 pages from each. The order is petition pages 1-2, proposed order page 3, filing instructions pages 4-5, which is the contract's own component order with the instructions last, and source pages are sequential within each component.",
+     "evidence": {
+      "manifestPages": 5,
+      "measuredPages": 5,
+      "sequential": true,
+      "order": "1-2 primary filing, 3 proposed order, 4-5 filing instructions"
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": false,
+     "result": "NOT_MEASURABLE_HERE",
+     "finding": "The obligation's instrument is the central raster gate and it has not run for this family. RASTER_QUEUE.json holds RASTER_PENDING with no receipt and nextOwner RAS03, build-status.json records rasterState BUILT_RASTER_PENDING with rasterPages 0, and no raster pages are committed, so there is nothing to read as pixels either. What this lane could measure is clean and is recorded as measurement rather than as a pass: word geometry over both fixtures returns 0 words outside the page box and 0 text-on-text collisions across 1202 and 1206 words, and reports/actual-writes.json's read of the output bytes records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0.",
+     "evidence": {
+      "rasterVerdict": null,
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS03",
+      "committedRasterPages": 0,
+      "wordsOutsidePageBoxCanonical": 0,
+      "textOnTextCollisionsCanonical": 0,
+      "wordsOutsidePageBoxBoundary": 0,
+      "textOnTextCollisionsBoundary": 0,
+      "whyThisIsNotAPass": "Lane contract L4: no family is proven without a hash-bound RASTER_PASS from the central workflow. A text-box instrument cannot see raster ink, vector rules, field borders or images."
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet names the court the route names, in the only terms the record supports. The route-obligation census records the destination as 'court identified in exact route contract; exact filing destination not recorded', and the contract identifies the court by its role rather than by name, because which court it is depends on the matter. Both the petition and the proposed order carry the caption 'IN THE ............ COURT' with the parenthetical '(the Mississippi court that granted nonadjudication and entered the dismissal or closure order)', and the filing instructions repeat that description when naming the clerk's office to ask. The court line is left as a blank the participant completes, which is right: the platform does not hold which court granted nonadjudication in this matter, and the packet does not guess it.",
+     "evidence": {
+      "censusDestination": "court identified in exact route contract; exact filing destination not recorded",
+      "printedDestinationDescription": "the Mississippi court that granted nonadjudication and entered the dismissal or closure order",
+      "courtLineLeftBlankForTheParticipant": true,
+      "noVenueInvented": true
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both are stated, and the packet does something careful with a trap that would be easy to get wrong. It reports the $150 fee the compiled profile records, quoting it verbatim — '§ 99-19-72 sets a $150 filing fee for each petition to expunge an offense under 99-19-71' — and then states plainly, in capitals, that this petition is brought under § 99-15-26(5) and not under § 99-19-71. It does not stop at the distinction: it notes that the same profile records the operative expungement provision as appearing in both § 99-15-26(5) and § 99-19-71(4), says no record it binds settles whether the § 99-19-72 fee reaches a petition under § 99-15-26(5), and refuses to decide it in either direction — while telling the participant to expect to be asked for $150 and to ask the clerk's office what that court charges before going, 'because a filing you cannot pay for is a filing you cannot make'. On the waiver it says no record it binds states one and names the same clerk's office as the office that answers. That is the fee and the waiver route stated as far as the record reaches, with the reasoning shown.",
+     "evidence": {
+      "feeFigureStated": "$150, quoted from the compiled profile",
+      "statutoryBasisOfTheFeeDistinguishedFromThisRoute": true,
+      "packetRefusesToDecideWhetherTheFeeReachesThisRoute": true,
+      "waiverPositionStated": "no record binds one; the clerk's office is named as the office that answers",
+      "officeNamed": "the clerk's office of the Mississippi court that granted nonadjudication and entered the dismissal or closure order"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "Who must be served, and how, is not answerable from any committed record. The route contract at routes[13] of src/lib/legal-authority/routes/mississippi.json carries no service field, no notice field and no proof-of-service field — the question is not recorded as unresolved, it is simply not addressed anywhere in the record this route has. The packet states exactly that: 'No committed record this packet binds states who must be served on this route, or how. The office that answers it is the clerk's office of the Mississippi court that granted nonadjudication and entered the dismissal or closure order.' That is the honest thing to print, and it is not an answer to this obligation. It is recorded as blocked rather than as a pass because the packet does not say who must be served, and rather than as a failure because no repairer can supply from this repository an answer the repository does not hold.",
+     "evidence": {
+      "serviceFieldInTheRouteContract": "absent",
+      "noticeFieldInTheRouteContract": "absent",
+      "censusRequiresLegalReview": false,
+      "packetStatesTheAbsence": true,
+      "officeNamed": true,
+      "whoCanClearIt": "counsel, or a record that establishes the service rule for a § 99-15-26(5) petition. Not a repair lane."
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet states where self-help ends, and every stop it prints is traceable to the record it binds. Its five conditions are: still on nonadjudication or no dismissal or closure order entered, which is the contract's timing anchor read as a stop; prior use of nonadjudication, which is the contract's 'Once only'; a DUI, implied-consent or trafficking element, which is the contract's third exclusion; a court level the contract records as excluded, which is its first; and any immigration question. The route contract declares no selfHelpBoundaries list of its own, so these are composed from its exclusions and its timing rather than copied from a list, and nothing the contract records as an exclusion is missing.",
+     "evidence": {
+      "contractExclusions": [
+       "Court-level exclusions",
+       "Once only",
+       "No trafficking, implied-consent, or DUI misuse"
+      ],
+      "contractExclusionsCarried": 3,
+      "contractExclusionsMissing": 0,
+      "timingAnchorCarriedAsAStop": true,
+      "immigrationCarried": true,
+      "observationNotScored": "The compiled Mississippi profile — which this family also binds as authority — carries, at ruleClauses[13] of its nonadjudication-under-99-15-26 pathway and immediately after that pathway's own mechanism description, the sentence 'This may apply in felony and misdemeanor cases, but there are exclusions, especially crimes against the person, crimes of violence, and certain public corruption/abuse-of-office offenses.' None of violence, 'against the person', corruption or 'abuse of office' appears anywhere in this packet or its participant-instructions.md; all four return 0 hits. This lane did NOT score that a failure, and the reason is stated so the Captain can weigh it rather than take it on trust: that pathway record is demonstrably an aggregation across sections — its summary and its structured exclusionRules field are both plainly about the § 99-19-71 felony route, naming the general felony waiting period and the public-official bar — so a clause inside it is weaker authority than the route contract, which is the record the census marks as superseding and whose three exclusions the packet carries in full. It is recorded here because the omitted classes are serious ones and because the packet's own item C2 asks the participant 'What is the offense and does an exclusion apply?' without telling them which exclusions to check against."
+     }
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/reports/blanks-left-for-the-participant.json",
+    "src/lib/legal-authority/routes/mississippi.json (routes[13], MS:nonadjudication-under-99-15-26)",
+    "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json (pathway nonadjudication-under-99-15-26)",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (routes[66])",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the family's row)"
+   ],
+   "grantsNothing": "A blocked row approves no output and opens no commercial route."
   }
  ],
  "supersededLaneMembership": {
@@ -7178,5 +8775,20 @@
   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
   "rowsAdded": 4,
   "note": "Rows appended, not re-serialised. Earlier rows for the same itemId are left in place and are superseded by verifiedAtBase under this file's own supersession rule."
+ },
+ "waveThreeReDispatch": {
+  "what": "VF03's twelve earlier grants were all released when two verification waves were integrated; the lane recorded that refusal in checkpoint-blocked-before-claim.json and read nothing. Captain then re-dispatched six families to VF03, every one on a family no VF03 row had ever covered, chosen by reading every vf*/rows.json rather than the ledger alone.",
+  "captainBaseSha": "247b790b6decf4ab14924914b10ad16a6ab57400",
+  "containerHeadSha": "fa530fdbd192a41705d0e7c84a7c634ed9989e3f",
+  "containerHeadAddsOnly": "data/rcap-grade-a/packet-factory-24h/vf03/checkpoint-blocked-before-claim.json, which touches no family",
+  "measuredBy": "the fifteen proof obligations scored by name in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from any builder report; artifact bytes rehashed with sha256 and page counts read with pdfinfo; committed source records rehashed from the bytes on disk; word geometry read with pdftotext -bbox-layout over the delivered fixtures; and the rendered text read directly for every prefilled and every protected field.",
+  "familiesInThisWave": [
+   "dc_yra_set_aside-set",
+   "ny_mrta_marijuana-set",
+   "wv_conv_single_misdemeanor-set",
+   "rcap-ok-custom-pleading",
+   "sd_arrest_expungement-set",
+   "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26"
+  ]
  }
 }
