@@ -1,0 +1,3532 @@
+{
+  "schemaVersion": 1,
+  "question": "Does each family's committed output actually come from its own build script?",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/measure-build-reproducibility.mjs",
+  "measuredAt": "2026-09-02T06:44:13.302Z",
+  "baseSha": "4b1d36fd58326d33c2c5a65fbbccab754a7d1601",
+  "complete": false,
+  "method": {
+    "step1": "SHA-256 every committed file in the family's output directory",
+    "step2": "rebuild through the family's OWN owning script, invocation determined per script and confirmed empirically",
+    "step3": "hash again; a differing rebuild is rebuilt a second consecutive time to separate instability from drift",
+    "step4": "record which files differ, and whether the rebuild is richer or poorer in bytes and in lines",
+    "step5": "restore the working tree with `git checkout -- <path>` and verify byte-identical restoration before the next family",
+    "ordering": "every family in a proven state (COMPLETE_PACKET_PROVEN, VERIFIED_PASS) first, since those are the ones whose provenance is being relied on",
+    "repairsMade": 0,
+    "note": "this tool measures only; it repairs nothing it finds"
+  },
+  "denominator": {
+    "familiesInQueue": 346,
+    "withDirectoryAndOwningScript": 130,
+    "provenWithDirectoryAndOwningScript": 87,
+    "swept": 35,
+    "sweptProven": 35,
+    "actuallyRebuilt": 35,
+    "notSwept": 95,
+    "notSweptFamilies": [
+      {
+        "familyId": "ar-arrest-seal-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ar-misdemeanor-dwi-seal-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "az_marijuana_expungement_superior_court-set",
+        "state": "BUILD_IN_PROGRESS",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ca-1203-41-set",
+        "state": "FAIL_REPAIR_REQUIRED",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ca-1203-42-set",
+        "state": "FAIL_REPAIR_REQUIRED",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ca-1203-43-set",
+        "state": "BUILD_IN_PROGRESS",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ca-1203-4a-set",
+        "state": "FAIL_REPAIR_REQUIRED",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ca-17b-reduction-set",
+        "state": "BUILD_IN_PROGRESS",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ca-851-91-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ca-prop64-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "state": "FAIL_REPAIR_REQUIRED",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+        "state": "FAIL_REPAIR_REQUIRED",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ct-cleanslate-petition-set",
+        "state": "FAIL_REPAIR_REQUIRED",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ct-missed-erasure-set",
+        "state": "FAIL_REPAIR_REQUIRED",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ky_void_seal_controlled_substance-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ma-bmc-multi-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ma-expunge-mj-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "md_second_chance_shielding-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "me-nonconv-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "me-screening-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "me-seal-prost-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "mi_setaside_marihuana-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "mn_prosecutor_agreed-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ms-misd-1st-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ms-nonadj-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ms-nonconv-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "nd-deferred-imposition-records-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ne-expunge-le-error-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ne-seal-enforcement-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ne-setaside-custodial-set",
+        "state": "FAIL_REPAIR_REQUIRED",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ne-setaside-noncustodial-set",
+        "state": "LEGAL_BLOCKED",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ne-trafficking-setaside-and-seal-set",
+        "state": "LEGAL_BLOCKED",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "nj_arrest_no_conviction-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "nj_clean_slate-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "nj_disorderly_persons-set",
+        "state": "BUILD_IN_PROGRESS",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "nj_indictable_conviction-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "nj_ordinance-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "nv_repository_removal-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "nv_seal_probation_family-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ny_160_59_petition-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ny_mrta_marijuana-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "oh_marijuana_expungement-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "or_conviction_setaside-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "pa_490_nonconviction-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "pa_6308_underage-set",
+        "state": "LEGAL_BLOCKED",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "pa_790_nonconviction-set",
+        "state": "VERIFIED_PASS",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "pa_9122_1_limited_access-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "pa_age70_deceased-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "pa_pardon_expungement-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "pa_summary_conviction-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "rcap-oh-custom-pleading-clean-tracks",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ri_marijuana-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ri_nonconviction_sealing-set",
+        "state": "FAIL_REPAIR_REQUIRED",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "sc_17_22_950_summary-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "sd_arrest_expungement-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ut_pet_acquittal-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ut_pet_conviction-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ut_pet_dismissed_with_prejudice-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ut_pet_dismissed_without_prejudice-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ut_pet_limitations-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ut_pet_no_charges-set",
+        "state": "VERIFIED_PASS",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "ut_pet_traffic-set",
+        "state": "VERIFIED_PASS",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "va_exp_absolute_pardon-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "va_exp_identity_used_by_another-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "va_exp_nonconviction-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "va_seal_ancillary_matter_only-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "va_seal_enumerated_seven_year-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "va_seal_petition_felony-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "va_seal_petition_misdemeanor-set",
+        "state": "VERIFIED_PASS",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "vt_exp_decriminalized-set",
+        "state": "VERIFIED_PASS",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "vt_exp_deferred_sentence-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "vt_seal_18_to_21-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "vt_seal_dui-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "vt_seal_felony-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "vt_seal_misdemeanor-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "vt_seal_nonconviction-set",
+        "state": "VERIFIED_PASS",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "vt_seal_pardon-set",
+        "state": "FAIL_REPAIR_REQUIRED",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "vt_seal_under_25-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+        "state": "LEGAL_BLOCKED",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wa_crop_certificate_of_restoration-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wa_vac_cannabis-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wa_vac_domestic_violence-set",
+        "state": "VERIFIED_PASS",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wa_vac_felony-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wa_vac_homicide_victim_prostitution-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wa_vac_misdemeanor_ordinary-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wa_vac_substance_use_disorder-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wa_vac_survivor_felony-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wa_vac_survivor_misdemeanor-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wa_vac_treaty_fishing-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wi_nc_doj_challenge-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wi_nc_doj_fingerprint_removal-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wv_conv_multiple_misdemeanors-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wv_conv_single_misdemeanor-set",
+        "state": "VERIFY_PENDING",
+        "reason": "sweep bounded before reaching it"
+      },
+      {
+        "familyId": "wv_dui_deferral_expungement-set",
+        "state": "COMPLETE_PACKET_PROVEN",
+        "reason": "sweep bounded before reaching it"
+      }
+    ]
+  },
+  "counts": {
+    "DIVERGES": 18,
+    "REPRODUCES": 17
+  },
+  "provenFamiliesThatDoNotReproduce": [
+    {
+      "familyId": "ak-courtview-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 1 file(s); the rebuild is SAME_SIZE",
+      "environmentBounded": false,
+      "filesAffected": 1,
+      "direction": "SAME_SIZE"
+    },
+    {
+      "familyId": "ak-tf800-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 1 file(s); the rebuild is SAME_SIZE",
+      "environmentBounded": false,
+      "filesAffected": 1,
+      "direction": "SAME_SIZE"
+    },
+    {
+      "familyId": "ak-tf805-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 1 file(s); the rebuild is SAME_SIZE",
+      "environmentBounded": false,
+      "filesAffected": 1,
+      "direction": "SAME_SIZE"
+    },
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "queueState": "VERIFIED_PASS",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 4 file(s); the rebuild is POORER",
+      "environmentBounded": false,
+      "filesAffected": 4,
+      "direction": "POORER"
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 4 file(s); the rebuild is SAME_SIZE",
+      "environmentBounded": false,
+      "filesAffected": 4,
+      "direction": "SAME_SIZE"
+    },
+    {
+      "familyId": "co_multiple_conviction_seal-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 4 file(s); the rebuild is SAME_SIZE",
+      "environmentBounded": false,
+      "filesAffected": 4,
+      "direction": "SAME_SIZE"
+    },
+    {
+      "familyId": "co_pardoned_conviction_seal-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 4 file(s); the rebuild is SAME_SIZE",
+      "environmentBounded": false,
+      "filesAffected": 4,
+      "direction": "SAME_SIZE"
+    },
+    {
+      "familyId": "ct-nolle-auto-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 6 file(s); the rebuild is RICHER",
+      "environmentBounded": false,
+      "filesAffected": 6,
+      "direction": "RICHER"
+    },
+    {
+      "familyId": "ga-deaddocket-j3-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 14 file(s); the rebuild is RICHER",
+      "environmentBounded": false,
+      "filesAffected": 14,
+      "direction": "RICHER"
+    },
+    {
+      "familyId": "ga-felony-j1-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 18 file(s); the rebuild is RICHER",
+      "environmentBounded": false,
+      "filesAffected": 18,
+      "direction": "RICHER"
+    },
+    {
+      "familyId": "ga-fo-active-pre2026-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 14 file(s); the rebuild is RICHER",
+      "environmentBounded": false,
+      "filesAffected": 14,
+      "direction": "RICHER"
+    },
+    {
+      "familyId": "ga-fo-discharged-pre2026-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 14 file(s); the rebuild is RICHER",
+      "environmentBounded": false,
+      "filesAffected": 14,
+      "direction": "RICHER"
+    },
+    {
+      "familyId": "ga-fugitive-j5-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 14 file(s); the rebuild is RICHER",
+      "environmentBounded": false,
+      "filesAffected": 14,
+      "direction": "RICHER"
+    },
+    {
+      "familyId": "ga-misd-j4-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 20 file(s); the rebuild is RICHER",
+      "environmentBounded": false,
+      "filesAffected": 20,
+      "direction": "RICHER"
+    },
+    {
+      "familyId": "ga-nonconv-post2013-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 12 file(s); the rebuild is RICHER",
+      "environmentBounded": false,
+      "filesAffected": 12,
+      "direction": "RICHER"
+    },
+    {
+      "familyId": "ga-pardon-j7-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 16 file(s); the rebuild is RICHER",
+      "environmentBounded": false,
+      "filesAffected": 16,
+      "direction": "RICHER"
+    },
+    {
+      "familyId": "ga-seal-m-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 18 file(s); the rebuild is RICHER",
+      "environmentBounded": false,
+      "filesAffected": 18,
+      "direction": "RICHER"
+    },
+    {
+      "familyId": "ga-vacated-j2-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "classification": "DIVERGES",
+      "detail": "the rebuild is stable but differs from what is committed in 14 file(s); the rebuild is RICHER",
+      "environmentBounded": false,
+      "filesAffected": 14,
+      "direction": "RICHER"
+    }
+  ],
+  "environment": {
+    "masterLibrarySourceDir": "/home/user/legalease-partner-dashboard-clean/.claude/worktrees/agent-a0bdac70b4b24ae66/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "officialFormsSourceDir": null,
+    "unbuildableForEnvironmentReasons": 0,
+    "note": "an UNBUILDABLE marked environmentBounded is a fact about where the sweep ran, not about the builder"
+  },
+  "hostBleed": [],
+  "restoration": {
+    "everyFamilyRestored": true,
+    "unrestored": []
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "families": [
+    {
+      "familyId": "ak-courtview-set",
+      "jurisdiction": "AK",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ak-courtview-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-ak-courtview-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 16,
+      "buildSeconds": 23.3,
+      "detail": "the rebuild is stable but differs from what is committed in 1 file(s); the rebuild is SAME_SIZE",
+      "divergence": {
+        "fileCount": 1,
+        "direction": "SAME_SIZE",
+        "richerFiles": 0,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 2953,
+            "rebuiltBytes": 2956,
+            "byteDelta": 3,
+            "committedLines": 101,
+            "rebuiltLines": 101,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"rasterEngine\": \"scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)\","
+              ],
+              "onlyInCommittedCount": 1,
+              "onlyInRebuild": [
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\","
+              ],
+              "onlyInRebuildCount": 1
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 1
+      }
+    },
+    {
+      "familyId": "ak-tf800-set",
+      "jurisdiction": "AK",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ak-tf800-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-ak-tf800-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 20,
+      "buildSeconds": 68.1,
+      "detail": "the rebuild is stable but differs from what is committed in 1 file(s); the rebuild is SAME_SIZE",
+      "divergence": {
+        "fileCount": 1,
+        "direction": "SAME_SIZE",
+        "richerFiles": 0,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 6203,
+            "rebuiltBytes": 6206,
+            "byteDelta": 3,
+            "committedLines": 201,
+            "rebuiltLines": 201,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"rasterEngine\": \"scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)\","
+              ],
+              "onlyInCommittedCount": 1,
+              "onlyInRebuild": [
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\","
+              ],
+              "onlyInRebuildCount": 1
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 1
+      }
+    },
+    {
+      "familyId": "ak-tf805-set",
+      "jurisdiction": "AK",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ak-tf805-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-ak-tf805-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 27,
+      "buildSeconds": 46.2,
+      "detail": "the rebuild is stable but differs from what is committed in 1 file(s); the rebuild is SAME_SIZE",
+      "divergence": {
+        "fileCount": 1,
+        "direction": "SAME_SIZE",
+        "richerFiles": 0,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 4567,
+            "rebuiltBytes": 4570,
+            "byteDelta": 3,
+            "committedLines": 151,
+            "rebuiltLines": 151,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"rasterEngine\": \"scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)\","
+              ],
+              "onlyInCommittedCount": 1,
+              "onlyInRebuild": [
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\","
+              ],
+              "onlyInRebuildCount": 1
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 1
+      }
+    },
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "jurisdiction": "AZ",
+      "queueState": "VERIFIED_PASS",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 17,
+      "buildSeconds": 2.8,
+      "detail": "the rebuild is stable but differs from what is committed in 4 file(s); the rebuild is POORER",
+      "divergence": {
+        "fileCount": 4,
+        "direction": "POORER",
+        "richerFiles": 0,
+        "poorerFiles": 3,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/build-findings.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 1254,
+            "rebuiltBytes": 1098,
+            "byteDelta": -156,
+            "committedLines": 20,
+            "rebuiltLines": 20,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "    \"No printed bracket control is marked. No signature, signature date, prosecuting-agency, court-identity, clerk, or attorney field is offered as an anchor. The citing-or-arresting-agency blank is w..."
+              ],
+              "onlyInCommittedCount": 1,
+              "onlyInRebuild": [
+                "    \"No printed bracket control is marked. No signature, signature date, law-enforcement/prosecutor agency, court-identity, clerk, or attorney field is offered as an anchor.\","
+              ],
+              "onlyInRebuildCount": 1
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/participant-instructions.md",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 7106,
+            "rebuiltBytes": 584,
+            "byteDelta": -6522,
+            "committedLines": 69,
+            "rebuiltLines": 13,
+            "lineDelta": -56,
+            "direction": "POORER",
+            "sample": {
+              "onlyInCommitted": [
+                "# Filing instructions — petition to expunge marijuana records after an arrest with no charges filed",
+                "This packet is prepared for a **petition to expunge marijuana records where you were arrested or cited and no charge was ever filed**, on the Arizona Administrative Office of the Courts form **AOC-CRE...",
+                "The platform filled in what it knows about you: the person filing, your mailing address, your city, state and ZIP, your email, your telephone, the county, the defendant name, your date of birth, the a...",
+                "## Where you file this",
+                "The form prints its own destination across the caption of page 1: **In the Superior Court of Arizona for ______ County**. The county the platform wrote there is the county the packet was prepared for;...",
+                "Two things this packet does **not** tell you, because they are not established in this repository and writing an unsourced figure into a filing instruction would be worse than leaving it out:"
+              ],
+              "onlyInCommittedCount": 49,
+              "onlyInRebuild": [
+                "# Participant and reviewer instructions",
+                "Packet family: `az_marijuana_expungement_arrest_no_charges-set`",
+                "This is a review artifact and is not approved for filing or commercial use.",
+                "## Exact facts still required before filing",
+                "The platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.",
+                "- Name of prosecuting agency (source field: `prosecuting-agency`)"
+              ],
+              "onlyInRebuildCount": 7
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/production-field-map.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 50650,
+            "rebuiltBytes": 42091,
+            "byteDelta": -8559,
+            "committedLines": 1236,
+            "rebuiltLines": 1118,
+            "lineDelta": -118,
+            "direction": "POORER",
+            "sample": {
+              "onlyInCommitted": [
+                "      \"reason\": \"The arrest-no-charges route leaves the case number blank for the court to assign, as its route record states.\",",
+                "      \"completenessDisposition\": \"PROTECTED_FIELD\",",
+                "      \"routeDetermined\": false,",
+                "      \"refusalClass\": \"court_prosecutor_clerk_or_agency_owned\"",
+                "      \"reason\": \"The arrest-no-charges route leaves the case number blank for the court to assign, as its route record states.\",",
+                "      \"completenessDisposition\": \"PROTECTED_FIELD\","
+              ],
+              "onlyInCommittedCount": 142,
+              "onlyInRebuild": [
+                "      \"blankTreatment\": null,",
+                "      \"blankTreatment\": null,",
+                "      \"blankTreatment\": null,",
+                "      \"reason\": \"The arrest-no-charges route leaves the case number blank for the court to assign, as its route record states.\"",
+                "      \"blankTreatment\": null,",
+                "      \"reason\": \"The arrest-no-charges route leaves the case number blank for the court to assign, as its route record states.\""
+              ],
+              "onlyInRebuildCount": 45
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 5191,
+            "rebuiltBytes": 4929,
+            "byteDelta": -262,
+            "committedLines": 143,
+            "rebuiltLines": 139,
+            "lineDelta": -4,
+            "direction": "POORER",
+            "sample": {
+              "onlyInCommitted": [
+                "      \"finalizerRefusals\": 0,",
+                "      \"documentId\": \"AZ-AOC-CREM3F-PETITION-TO-EXPUNGE-MARIJUANA-RECORDS-SUPERIOR-COURT\",",
+                "      \"formNumber\": \"AOC-CREM3F-071221\"",
+                "      \"finalizerRefusals\": 1,",
+                "      \"documentId\": \"AZ-AOC-CREM3F-PETITION-TO-EXPUNGE-MARIJUANA-RECORDS-SUPERIOR-COURT\",",
+                "      \"formNumber\": \"AOC-CREM3F-071221\""
+              ],
+              "onlyInCommittedCount": 6,
+              "onlyInRebuild": [
+                "      \"finalizerRefusals\": 0",
+                "      \"finalizerRefusals\": 1"
+              ],
+              "onlyInRebuildCount": 2
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 4
+      }
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "jurisdiction": "CO",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 26,
+      "buildSeconds": 113.2,
+      "detail": "the rebuild is stable but differs from what is committed in 4 file(s); the rebuild is SAME_SIZE",
+      "divergence": {
+        "fileCount": 4,
+        "direction": "SAME_SIZE",
+        "richerFiles": 0,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 325832,
+            "rebuiltBytes": 325832,
+            "byteDelta": 0,
+            "committedLines": null,
+            "rebuiltLines": null,
+            "lineDelta": null,
+            "direction": "SAME_SIZE",
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 325622,
+            "rebuiltBytes": 325622,
+            "byteDelta": 0,
+            "committedLines": null,
+            "rebuiltLines": null,
+            "lineDelta": null,
+            "direction": "SAME_SIZE",
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/reports/independent-visual-review.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 4733,
+            "rebuiltBytes": 4733,
+            "byteDelta": 0,
+            "committedLines": 92,
+            "rebuiltLines": 92,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "      \"sha256\": \"6c3d8f4482dc4de44cb817f486cc2ad982aaf79b3d6f79cc75696d22facb07d7\",",
+                "      \"sha256\": \"1fb4e7b9faeb8ee7f06837b94993c071629b47abb59138ceaa7efa1c2d43a6f4\","
+              ],
+              "onlyInCommittedCount": 2,
+              "onlyInRebuild": [
+                "      \"sha256\": \"b4ccd69946b1976284aab0736161e74e4f992004de8574687db5d281efec597a\",",
+                "      \"sha256\": \"00c6dceec31aa6616d809ca24acd7cd5220ef5d1823934a50b5f37421821b2be\","
+              ],
+              "onlyInRebuildCount": 2
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 9651,
+            "rebuiltBytes": 9654,
+            "byteDelta": 3,
+            "committedLines": 305,
+            "rebuiltLines": 305,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "      \"sha256\": \"6c3d8f4482dc4de44cb817f486cc2ad982aaf79b3d6f79cc75696d22facb07d7\",",
+                "      \"sha256\": \"1fb4e7b9faeb8ee7f06837b94993c071629b47abb59138ceaa7efa1c2d43a6f4\",",
+                "  \"rasterEngine\": \"scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)\","
+              ],
+              "onlyInCommittedCount": 3,
+              "onlyInRebuild": [
+                "      \"sha256\": \"b4ccd69946b1976284aab0736161e74e4f992004de8574687db5d281efec597a\",",
+                "      \"sha256\": \"00c6dceec31aa6616d809ca24acd7cd5220ef5d1823934a50b5f37421821b2be\",",
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\","
+              ],
+              "onlyInRebuildCount": 3
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 4
+      }
+    },
+    {
+      "familyId": "co_multiple_conviction_seal-set",
+      "jurisdiction": "CO",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 30,
+      "buildSeconds": 159.9,
+      "detail": "the rebuild is stable but differs from what is committed in 4 file(s); the rebuild is SAME_SIZE",
+      "divergence": {
+        "fileCount": 4,
+        "direction": "SAME_SIZE",
+        "richerFiles": 0,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 404748,
+            "rebuiltBytes": 404748,
+            "byteDelta": 0,
+            "committedLines": null,
+            "rebuiltLines": null,
+            "lineDelta": null,
+            "direction": "SAME_SIZE",
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 404458,
+            "rebuiltBytes": 404458,
+            "byteDelta": 0,
+            "committedLines": null,
+            "rebuiltLines": null,
+            "lineDelta": null,
+            "direction": "SAME_SIZE",
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/reports/independent-visual-review.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 6200,
+            "rebuiltBytes": 6200,
+            "byteDelta": 0,
+            "committedLines": 117,
+            "rebuiltLines": 117,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "      \"sha256\": \"3cb52dc501311af75b69ef7c8e339849b0fbb2d632bd16e0f6b3a4483e89a0cd\",",
+                "      \"sha256\": \"204a36fd7f6f27ba2dd630afd90c7065e5521419c8c379ef095ead0883101d44\","
+              ],
+              "onlyInCommittedCount": 2,
+              "onlyInRebuild": [
+                "      \"sha256\": \"d6c1b0f4ae474290214ec98fab57e298c2aacd78f8d196d691843811110068cd\",",
+                "      \"sha256\": \"7325dd2f7f85b677fe5be33ee915bb924b17719a3ad4a04b96cb7219c6547471\","
+              ],
+              "onlyInRebuildCount": 2
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 12938,
+            "rebuiltBytes": 12941,
+            "byteDelta": 3,
+            "committedLines": 405,
+            "rebuiltLines": 405,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "      \"sha256\": \"3cb52dc501311af75b69ef7c8e339849b0fbb2d632bd16e0f6b3a4483e89a0cd\",",
+                "      \"sha256\": \"204a36fd7f6f27ba2dd630afd90c7065e5521419c8c379ef095ead0883101d44\",",
+                "  \"rasterEngine\": \"scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)\","
+              ],
+              "onlyInCommittedCount": 3,
+              "onlyInRebuild": [
+                "      \"sha256\": \"d6c1b0f4ae474290214ec98fab57e298c2aacd78f8d196d691843811110068cd\",",
+                "      \"sha256\": \"7325dd2f7f85b677fe5be33ee915bb924b17719a3ad4a04b96cb7219c6547471\",",
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\","
+              ],
+              "onlyInRebuildCount": 3
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 4
+      }
+    },
+    {
+      "familyId": "co_pardoned_conviction_seal-set",
+      "jurisdiction": "CO",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-co_pardoned_conviction_seal-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-co_pardoned_conviction_seal-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 23,
+      "buildSeconds": 93.2,
+      "detail": "the rebuild is stable but differs from what is committed in 4 file(s); the rebuild is SAME_SIZE",
+      "divergence": {
+        "fileCount": 4,
+        "direction": "SAME_SIZE",
+        "richerFiles": 0,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 229360,
+            "rebuiltBytes": 229360,
+            "byteDelta": 0,
+            "committedLines": null,
+            "rebuiltLines": null,
+            "lineDelta": null,
+            "direction": "SAME_SIZE",
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 229182,
+            "rebuiltBytes": 229182,
+            "byteDelta": 0,
+            "committedLines": null,
+            "rebuiltLines": null,
+            "lineDelta": null,
+            "direction": "SAME_SIZE",
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/reports/independent-visual-review.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 4469,
+            "rebuiltBytes": 4469,
+            "byteDelta": 0,
+            "committedLines": 82,
+            "rebuiltLines": 82,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "      \"sha256\": \"d285a03f788cb5e5b3a8d1f17babd379b199cd24c34d2e98b52363cd2c436bf7\",",
+                "      \"sha256\": \"407db19ec374b58b0e429b40ac6de54877510b47fe16db77739400e4edbada4c\","
+              ],
+              "onlyInCommittedCount": 2,
+              "onlyInRebuild": [
+                "      \"sha256\": \"3fb5c1f5fc481fdeb6183b2532927baef2c03deb68454f28615eab811213e180\",",
+                "      \"sha256\": \"033149183751524856b12dcb76d9874df7a66fbd00ec87fa7016d212674640b3\","
+              ],
+              "onlyInRebuildCount": 2
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 7988,
+            "rebuiltBytes": 7991,
+            "byteDelta": 3,
+            "committedLines": 255,
+            "rebuiltLines": 255,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "      \"sha256\": \"d285a03f788cb5e5b3a8d1f17babd379b199cd24c34d2e98b52363cd2c436bf7\",",
+                "      \"sha256\": \"407db19ec374b58b0e429b40ac6de54877510b47fe16db77739400e4edbada4c\",",
+                "  \"rasterEngine\": \"scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)\","
+              ],
+              "onlyInCommittedCount": 3,
+              "onlyInRebuild": [
+                "      \"sha256\": \"3fb5c1f5fc481fdeb6183b2532927baef2c03deb68454f28615eab811213e180\",",
+                "      \"sha256\": \"033149183751524856b12dcb76d9874df7a66fbd00ec87fa7016d212674640b3\",",
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\","
+              ],
+              "onlyInRebuildCount": 3
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 4
+      }
+    },
+    {
+      "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "jurisdiction": "ND",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 27,
+      "buildSeconds": 158,
+      "filesRewrittenByBuilder": 26,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 26 of 27 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "jurisdiction": "CO",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/co/composed-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-court-petition-after-90-days--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 23,
+      "buildSeconds": 113.1,
+      "filesRewrittenByBuilder": 22,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 22 of 23 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "composed-treatment:sc_17_22_950_summary",
+      "jurisdiction": "SC",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-composed-treatment:sc_17_22_950_summary.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/sc/composed-treatment:sc-17-22-950-summary--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-composed-treatment:sc_17_22_950_summary.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 25,
+      "buildSeconds": 135.4,
+      "filesRewrittenByBuilder": 24,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 24 of 25 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "composed-treatment:sd_sis_sealing",
+      "jurisdiction": "SD",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 25,
+      "buildSeconds": 134.8,
+      "filesRewrittenByBuilder": 24,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 24 of 25 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "ct-cannabis-petition-set",
+      "jurisdiction": "CT",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ct-cannabis-petition-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/ct/ct-cannabis-petition-set--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-ct-cannabis-petition-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 21,
+      "buildSeconds": 90.6,
+      "filesRewrittenByBuilder": 20,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 20 of 21 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "ct-nolle-auto-set",
+      "jurisdiction": "CT",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ct-nolle-auto-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/ct/ct-nolle-auto-set--custom-pleading",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-ct-nolle-auto-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 13,
+      "buildSeconds": 45.7,
+      "detail": "the rebuild is stable but differs from what is committed in 6 file(s); the rebuild is RICHER",
+      "divergence": {
+        "fileCount": 6,
+        "direction": "RICHER",
+        "richerFiles": 5,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ct/ct-nolle-auto-set--custom-pleading/build-status.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 690,
+            "rebuiltBytes": 693,
+            "byteDelta": 3,
+            "committedLines": 19,
+            "rebuiltLines": 19,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"rasterEngine\": \"not rendered in this run\",",
+                "  \"rasterPages\": 0,",
+                "  \"rasterState\": \"BUILT_RASTER_PENDING\","
+              ],
+              "onlyInCommittedCount": 3,
+              "onlyInRebuild": [
+                "  \"rasterEngine\": \"chromium_calibrated\",",
+                "  \"rasterPages\": 4,",
+                "  \"rasterState\": \"RASTER_LOCAL_PENDING_CENTRAL\","
+              ],
+              "onlyInRebuildCount": 3
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ct/ct-nolle-auto-set--custom-pleading/raster/boundary/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 436947,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ct/ct-nolle-auto-set--custom-pleading/raster/boundary/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 242961,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ct/ct-nolle-auto-set--custom-pleading/raster/canonical/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 430384,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ct/ct-nolle-auto-set--custom-pleading/raster/canonical/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 242961,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ct/ct-nolle-auto-set--custom-pleading/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 3043,
+            "rebuiltBytes": 5692,
+            "byteDelta": 2649,
+            "committedLines": 110,
+            "rebuiltLines": 191,
+            "lineDelta": 81,
+            "direction": "RICHER",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"everyPageRastered\": false,",
+                "  \"rasterEngine\": null,",
+                "  \"rasterSkipped\": true,",
+                "  \"rasterPages\": [],"
+              ],
+              "onlyInCommittedCount": 4,
+              "onlyInRebuild": [
+                "  \"everyPageRastered\": true,",
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\",",
+                "  \"rasterSkipped\": false,",
+                "  \"rasterPages\": [",
+                "      \"page\": 1,",
+                "      \"file\": \"data/rcap-all50/overlays/census-v1/ct/ct-nolle-auto-set--custom-pleading/raster/canonical/page-01/page.png\","
+              ],
+              "onlyInRebuildCount": 72
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 6
+      }
+    },
+    {
+      "familyId": "ct-pardon-erasure-set",
+      "jurisdiction": "CT",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ct-pardon-erasure-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/ct/ct-pardon-erasure-set--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-ct-pardon-erasure-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 13,
+      "buildSeconds": 0.3,
+      "filesRewrittenByBuilder": 12,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 12 of 13 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "dc_correct_misattributed_arrest-set",
+      "jurisdiction": "DC",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-dc_correct_misattributed_arrest-set.mjs",
+      "sharedBuildHost": "build-census-v1-dc_seal_nonconviction-set.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-dc_correct_misattributed_arrest-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 23,
+      "buildSeconds": 112.5,
+      "filesRewrittenByBuilder": 22,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 22 of 23 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "dc_innocence_expungement-set",
+      "jurisdiction": "DC",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-dc_innocence_expungement-set.mjs",
+      "sharedBuildHost": "build-census-v1-dc_seal_nonconviction-set.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-dc_innocence_expungement-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 23,
+      "buildSeconds": 112.9,
+      "filesRewrittenByBuilder": 22,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 22 of 23 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "dc_seal_conviction-set",
+      "jurisdiction": "DC",
+      "queueState": "VERIFIED_PASS",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-dc_seal_conviction-set.mjs",
+      "sharedBuildHost": "build-census-v1-dc_seal_nonconviction-set.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-dc_seal_conviction-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 34,
+      "buildSeconds": 224.8,
+      "filesRewrittenByBuilder": 34,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 34 of 34 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "dc_seal_fugitive-set",
+      "jurisdiction": "DC",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-dc_seal_fugitive-set.mjs",
+      "sharedBuildHost": "build-census-v1-dc_seal_nonconviction-set.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/dc/dc-seal-fugitive-set--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-dc_seal_fugitive-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 23,
+      "buildSeconds": 112.8,
+      "filesRewrittenByBuilder": 22,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 22 of 23 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "dc_seal_nonconviction-set",
+      "jurisdiction": "DC",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-dc_seal_nonconviction-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-dc_seal_nonconviction-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 23,
+      "buildSeconds": 113.2,
+      "filesRewrittenByBuilder": 22,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 22 of 23 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "ga-deaddocket-j3-set",
+      "jurisdiction": "GA",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ga-deaddocket-j3-set.mjs",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-ga-deaddocket-j3-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 13,
+      "buildSeconds": 137.8,
+      "detail": "the rebuild is stable but differs from what is committed in 14 file(s); the rebuild is RICHER",
+      "divergence": {
+        "fileCount": 14,
+        "direction": "RICHER",
+        "richerFiles": 13,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/build-status.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 756,
+            "rebuiltBytes": 760,
+            "byteDelta": 4,
+            "committedLines": 20,
+            "rebuiltLines": 20,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"rasterEngine\": \"not rendered in this run\",",
+                "  \"rasterPages\": 0,",
+                "  \"rasterState\": \"BUILT_RASTER_PENDING\","
+              ],
+              "onlyInCommittedCount": 3,
+              "onlyInRebuild": [
+                "  \"rasterEngine\": \"chromium_calibrated\",",
+                "  \"rasterPages\": 12,",
+                "  \"rasterState\": \"RASTER_LOCAL_PENDING_CENTRAL\","
+              ],
+              "onlyInRebuildCount": 3
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/raster/boundary/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 340065,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/raster/boundary/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 294629,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/raster/boundary/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 359524,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/raster/boundary/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 58853,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/raster/boundary/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 317776,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/raster/boundary/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 185642,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/raster/canonical/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 328984,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/raster/canonical/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 272202,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/raster/canonical/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 355047,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/raster/canonical/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 58853,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/raster/canonical/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 308813,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/raster/canonical/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 180114,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 6236,
+            "rebuiltBytes": 14123,
+            "byteDelta": 7887,
+            "committedLines": 208,
+            "rebuiltLines": 449,
+            "lineDelta": 241,
+            "direction": "RICHER",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"everyPageRastered\": false,",
+                "  \"rasterEngine\": null,",
+                "  \"rasterSkipped\": true,",
+                "  \"rasterPages\": [],"
+              ],
+              "onlyInCommittedCount": 4,
+              "onlyInRebuild": [
+                "  \"everyPageRastered\": true,",
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\",",
+                "  \"rasterSkipped\": false,",
+                "  \"rasterPages\": [",
+                "      \"page\": 1,",
+                "      \"file\": \"data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/raster/canonical/page-01/page.png\","
+              ],
+              "onlyInRebuildCount": 208
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 14
+      }
+    },
+    {
+      "familyId": "ga-felony-j1-set",
+      "jurisdiction": "GA",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ga-felony-j1-set.mjs",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-ga-felony-j1-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 13,
+      "buildSeconds": 181,
+      "detail": "the rebuild is stable but differs from what is committed in 18 file(s); the rebuild is RICHER",
+      "divergence": {
+        "fileCount": 18,
+        "direction": "RICHER",
+        "richerFiles": 17,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/build-status.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 748,
+            "rebuiltBytes": 752,
+            "byteDelta": 4,
+            "committedLines": 20,
+            "rebuiltLines": 20,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"rasterEngine\": \"not rendered in this run\",",
+                "  \"rasterPages\": 0,",
+                "  \"rasterState\": \"BUILT_RASTER_PENDING\","
+              ],
+              "onlyInCommittedCount": 3,
+              "onlyInRebuild": [
+                "  \"rasterEngine\": \"chromium_calibrated\",",
+                "  \"rasterPages\": 16,",
+                "  \"rasterState\": \"RASTER_LOCAL_PENDING_CENTRAL\","
+              ],
+              "onlyInRebuildCount": 3
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/boundary/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 382840,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/boundary/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 345722,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/boundary/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 364922,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/boundary/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 67795,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/boundary/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 341785,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/boundary/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 57409,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/boundary/page-07/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 156551,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/boundary/page-08/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 184105,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/canonical/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 382131,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/canonical/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 315045,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/canonical/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 360141,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/canonical/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 67795,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/canonical/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 333536,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/canonical/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 57409,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/canonical/page-07/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 151258,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/canonical/page-08/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 178889,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 7416,
+            "rebuiltBytes": 17875,
+            "byteDelta": 10459,
+            "committedLines": 245,
+            "rebuiltLines": 566,
+            "lineDelta": 321,
+            "direction": "RICHER",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"everyPageRastered\": false,",
+                "  \"rasterEngine\": null,",
+                "  \"rasterSkipped\": true,",
+                "  \"rasterPages\": [],"
+              ],
+              "onlyInCommittedCount": 4,
+              "onlyInRebuild": [
+                "  \"everyPageRastered\": true,",
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\",",
+                "  \"rasterSkipped\": false,",
+                "  \"rasterPages\": [",
+                "      \"page\": 1,",
+                "      \"file\": \"data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/raster/canonical/page-01/page.png\","
+              ],
+              "onlyInRebuildCount": 276
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 18
+      }
+    },
+    {
+      "familyId": "ga-fo-active-pre2026-set",
+      "jurisdiction": "GA",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ga-fo-active-pre2026-set.mjs",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-ga-fo-active-pre2026-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 13,
+      "buildSeconds": 134.7,
+      "detail": "the rebuild is stable but differs from what is committed in 14 file(s); the rebuild is RICHER",
+      "divergence": {
+        "fileCount": 14,
+        "direction": "RICHER",
+        "richerFiles": 13,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/build-status.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 764,
+            "rebuiltBytes": 768,
+            "byteDelta": 4,
+            "committedLines": 20,
+            "rebuiltLines": 20,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"rasterEngine\": \"not rendered in this run\",",
+                "  \"rasterPages\": 0,",
+                "  \"rasterState\": \"BUILT_RASTER_PENDING\","
+              ],
+              "onlyInCommittedCount": 3,
+              "onlyInRebuild": [
+                "  \"rasterEngine\": \"chromium_calibrated\",",
+                "  \"rasterPages\": 12,",
+                "  \"rasterState\": \"RASTER_LOCAL_PENDING_CENTRAL\","
+              ],
+              "onlyInRebuildCount": 3
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/raster/boundary/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 387030,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/raster/boundary/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 326811,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/raster/boundary/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 375642,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/raster/boundary/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 71887,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/raster/boundary/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 336182,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/raster/boundary/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 173845,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/raster/canonical/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 396278,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/raster/canonical/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 284928,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/raster/canonical/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 371294,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/raster/canonical/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 71887,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/raster/canonical/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 327617,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/raster/canonical/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 167811,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 6289,
+            "rebuiltBytes": 14230,
+            "byteDelta": 7941,
+            "committedLines": 208,
+            "rebuiltLines": 449,
+            "lineDelta": 241,
+            "direction": "RICHER",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"everyPageRastered\": false,",
+                "  \"rasterEngine\": null,",
+                "  \"rasterSkipped\": true,",
+                "  \"rasterPages\": [],"
+              ],
+              "onlyInCommittedCount": 4,
+              "onlyInRebuild": [
+                "  \"everyPageRastered\": true,",
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\",",
+                "  \"rasterSkipped\": false,",
+                "  \"rasterPages\": [",
+                "      \"page\": 1,",
+                "      \"file\": \"data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/raster/canonical/page-01/page.png\","
+              ],
+              "onlyInRebuildCount": 208
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 14
+      }
+    },
+    {
+      "familyId": "ga-fo-discharged-pre2026-set",
+      "jurisdiction": "GA",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ga-fo-discharged-pre2026-set.mjs",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-ga-fo-discharged-pre2026-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 13,
+      "buildSeconds": 134.9,
+      "detail": "the rebuild is stable but differs from what is committed in 14 file(s); the rebuild is RICHER",
+      "divergence": {
+        "fileCount": 14,
+        "direction": "RICHER",
+        "richerFiles": 13,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/build-status.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 772,
+            "rebuiltBytes": 776,
+            "byteDelta": 4,
+            "committedLines": 20,
+            "rebuiltLines": 20,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"rasterEngine\": \"not rendered in this run\",",
+                "  \"rasterPages\": 0,",
+                "  \"rasterState\": \"BUILT_RASTER_PENDING\","
+              ],
+              "onlyInCommittedCount": 3,
+              "onlyInRebuild": [
+                "  \"rasterEngine\": \"chromium_calibrated\",",
+                "  \"rasterPages\": 12,",
+                "  \"rasterState\": \"RASTER_LOCAL_PENDING_CENTRAL\","
+              ],
+              "onlyInRebuildCount": 3
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/raster/boundary/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 419518,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/raster/boundary/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 356617,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/raster/boundary/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 380768,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/raster/boundary/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 72950,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/raster/boundary/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 337902,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/raster/boundary/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 208327,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/raster/canonical/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 408612,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/raster/canonical/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 334668,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/raster/canonical/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 376555,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/raster/canonical/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 72950,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/raster/canonical/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 328646,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/raster/canonical/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 202231,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 6397,
+            "rebuiltBytes": 14402,
+            "byteDelta": 8005,
+            "committedLines": 208,
+            "rebuiltLines": 449,
+            "lineDelta": 241,
+            "direction": "RICHER",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"everyPageRastered\": false,",
+                "  \"rasterEngine\": null,",
+                "  \"rasterSkipped\": true,",
+                "  \"rasterPages\": [],"
+              ],
+              "onlyInCommittedCount": 4,
+              "onlyInRebuild": [
+                "  \"everyPageRastered\": true,",
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\",",
+                "  \"rasterSkipped\": false,",
+                "  \"rasterPages\": [",
+                "      \"page\": 1,",
+                "      \"file\": \"data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/raster/canonical/page-01/page.png\","
+              ],
+              "onlyInRebuildCount": 208
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 14
+      }
+    },
+    {
+      "familyId": "ga-fugitive-j5-set",
+      "jurisdiction": "GA",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ga-fugitive-j5-set.mjs",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-ga-fugitive-j5-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 13,
+      "buildSeconds": 135.8,
+      "detail": "the rebuild is stable but differs from what is committed in 14 file(s); the rebuild is RICHER",
+      "divergence": {
+        "fileCount": 14,
+        "direction": "RICHER",
+        "richerFiles": 13,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/build-status.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 752,
+            "rebuiltBytes": 756,
+            "byteDelta": 4,
+            "committedLines": 20,
+            "rebuiltLines": 20,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"rasterEngine\": \"not rendered in this run\",",
+                "  \"rasterPages\": 0,",
+                "  \"rasterState\": \"BUILT_RASTER_PENDING\","
+              ],
+              "onlyInCommittedCount": 3,
+              "onlyInRebuild": [
+                "  \"rasterEngine\": \"chromium_calibrated\",",
+                "  \"rasterPages\": 12,",
+                "  \"rasterState\": \"RASTER_LOCAL_PENDING_CENTRAL\","
+              ],
+              "onlyInRebuildCount": 3
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/raster/boundary/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 325251,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/raster/boundary/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 277304,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/raster/boundary/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 352916,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/raster/boundary/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 325679,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/raster/boundary/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 42738,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/raster/boundary/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 213872,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/raster/canonical/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 334301,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/raster/canonical/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 235227,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/raster/canonical/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 348311,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/raster/canonical/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 316855,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/raster/canonical/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 42738,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/raster/canonical/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 208154,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 6313,
+            "rebuiltBytes": 14202,
+            "byteDelta": 7889,
+            "committedLines": 208,
+            "rebuiltLines": 449,
+            "lineDelta": 241,
+            "direction": "RICHER",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"everyPageRastered\": false,",
+                "  \"rasterEngine\": null,",
+                "  \"rasterSkipped\": true,",
+                "  \"rasterPages\": [],"
+              ],
+              "onlyInCommittedCount": 4,
+              "onlyInRebuild": [
+                "  \"everyPageRastered\": true,",
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\",",
+                "  \"rasterSkipped\": false,",
+                "  \"rasterPages\": [",
+                "      \"page\": 1,",
+                "      \"file\": \"data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/raster/canonical/page-01/page.png\","
+              ],
+              "onlyInRebuildCount": 208
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 14
+      }
+    },
+    {
+      "familyId": "ga-jail-k2-set",
+      "jurisdiction": "GA",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ga-jail-k2-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/ga/ga-jail-k2-set--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-ga-jail-k2-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 23,
+      "buildSeconds": 112.2,
+      "filesRewrittenByBuilder": 22,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 22 of 23 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "ga-misd-j4-set",
+      "jurisdiction": "GA",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ga-misd-j4-set.mjs",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-ga-misd-j4-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 13,
+      "buildSeconds": 202.7,
+      "detail": "the rebuild is stable but differs from what is committed in 20 file(s); the rebuild is RICHER",
+      "divergence": {
+        "fileCount": 20,
+        "direction": "RICHER",
+        "richerFiles": 19,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/build-status.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 744,
+            "rebuiltBytes": 748,
+            "byteDelta": 4,
+            "committedLines": 20,
+            "rebuiltLines": 20,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"rasterEngine\": \"not rendered in this run\",",
+                "  \"rasterPages\": 0,",
+                "  \"rasterState\": \"BUILT_RASTER_PENDING\","
+              ],
+              "onlyInCommittedCount": 3,
+              "onlyInRebuild": [
+                "  \"rasterEngine\": \"chromium_calibrated\",",
+                "  \"rasterPages\": 18,",
+                "  \"rasterState\": \"RASTER_LOCAL_PENDING_CENTRAL\","
+              ],
+              "onlyInRebuildCount": 3
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/boundary/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 383903,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/boundary/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 365246,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/boundary/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 370264,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/boundary/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 75986,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/boundary/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 321353,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/boundary/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 159440,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/boundary/page-07/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 196631,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/boundary/page-08/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 191680,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/boundary/page-09/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 180932,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/canonical/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 371638,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/canonical/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 344405,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/canonical/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 366129,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/canonical/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 75986,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/canonical/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 312867,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/canonical/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 153378,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/canonical/page-07/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 190732,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/canonical/page-08/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 186532,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/canonical/page-09/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 175467,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 8644,
+            "rebuiltBytes": 20401,
+            "byteDelta": 11757,
+            "committedLines": 275,
+            "rebuiltLines": 636,
+            "lineDelta": 361,
+            "direction": "RICHER",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"everyPageRastered\": false,",
+                "  \"rasterEngine\": null,",
+                "  \"rasterSkipped\": true,",
+                "  \"rasterPages\": [],"
+              ],
+              "onlyInCommittedCount": 4,
+              "onlyInRebuild": [
+                "  \"everyPageRastered\": true,",
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\",",
+                "  \"rasterSkipped\": false,",
+                "  \"rasterPages\": [",
+                "      \"page\": 1,",
+                "      \"file\": \"data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/raster/canonical/page-01/page.png\","
+              ],
+              "onlyInRebuildCount": 310
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 20
+      }
+    },
+    {
+      "familyId": "ga-nonconv-post2013-set",
+      "jurisdiction": "GA",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ga-nonconv-post2013-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-ga-nonconv-post2013-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 13,
+      "buildSeconds": 113.6,
+      "detail": "the rebuild is stable but differs from what is committed in 12 file(s); the rebuild is RICHER",
+      "divergence": {
+        "fileCount": 12,
+        "direction": "RICHER",
+        "richerFiles": 11,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/build-status.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 702,
+            "rebuiltBytes": 706,
+            "byteDelta": 4,
+            "committedLines": 19,
+            "rebuiltLines": 19,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"rasterEngine\": \"not rendered in this run\",",
+                "  \"rasterPages\": 0,",
+                "  \"rasterState\": \"BUILT_RASTER_PENDING\","
+              ],
+              "onlyInCommittedCount": 3,
+              "onlyInRebuild": [
+                "  \"rasterEngine\": \"chromium_calibrated\",",
+                "  \"rasterPages\": 10,",
+                "  \"rasterState\": \"RASTER_LOCAL_PENDING_CENTRAL\","
+              ],
+              "onlyInRebuildCount": 3
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/raster/boundary/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 585981,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/raster/boundary/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 397138,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/raster/boundary/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 364265,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/raster/boundary/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 228142,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/raster/boundary/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 250879,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/raster/canonical/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 580411,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/raster/canonical/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 397138,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/raster/canonical/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 348595,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/raster/canonical/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 209415,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/raster/canonical/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 244808,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 4732,
+            "rebuiltBytes": 11309,
+            "byteDelta": 6577,
+            "committedLines": 169,
+            "rebuiltLines": 370,
+            "lineDelta": 201,
+            "direction": "RICHER",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"everyPageRastered\": false,",
+                "  \"rasterEngine\": null,",
+                "  \"rasterSkipped\": true,",
+                "  \"rasterPages\": [],"
+              ],
+              "onlyInCommittedCount": 4,
+              "onlyInRebuild": [
+                "  \"everyPageRastered\": true,",
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\",",
+                "  \"rasterSkipped\": false,",
+                "  \"rasterPages\": [",
+                "      \"page\": 1,",
+                "      \"file\": \"data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/raster/canonical/page-01/page.png\","
+              ],
+              "onlyInRebuildCount": 174
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 12
+      }
+    },
+    {
+      "familyId": "ga-pardon-j7-set",
+      "jurisdiction": "GA",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ga-pardon-j7-set.mjs",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-ga-pardon-j7-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 13,
+      "buildSeconds": 157.4,
+      "detail": "the rebuild is stable but differs from what is committed in 16 file(s); the rebuild is RICHER",
+      "divergence": {
+        "fileCount": 16,
+        "direction": "RICHER",
+        "richerFiles": 15,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/build-status.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 748,
+            "rebuiltBytes": 752,
+            "byteDelta": 4,
+            "committedLines": 20,
+            "rebuiltLines": 20,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"rasterEngine\": \"not rendered in this run\",",
+                "  \"rasterPages\": 0,",
+                "  \"rasterState\": \"BUILT_RASTER_PENDING\","
+              ],
+              "onlyInCommittedCount": 3,
+              "onlyInRebuild": [
+                "  \"rasterEngine\": \"chromium_calibrated\",",
+                "  \"rasterPages\": 14,",
+                "  \"rasterState\": \"RASTER_LOCAL_PENDING_CENTRAL\","
+              ],
+              "onlyInRebuildCount": 3
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/boundary/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 375449,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/boundary/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 304962,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/boundary/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 366443,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/boundary/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 318247,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/boundary/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 159182,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/boundary/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 163323,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/boundary/page-07/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 169007,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/canonical/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 364914,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/canonical/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 283322,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/canonical/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 362067,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/canonical/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 309609,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/canonical/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 153508,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/canonical/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 157886,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/canonical/page-07/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 162996,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 7362,
+            "rebuiltBytes": 16549,
+            "byteDelta": 9187,
+            "committedLines": 238,
+            "rebuiltLines": 519,
+            "lineDelta": 281,
+            "direction": "RICHER",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"everyPageRastered\": false,",
+                "  \"rasterEngine\": null,",
+                "  \"rasterSkipped\": true,",
+                "  \"rasterPages\": [],"
+              ],
+              "onlyInCommittedCount": 4,
+              "onlyInRebuild": [
+                "  \"everyPageRastered\": true,",
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\",",
+                "  \"rasterSkipped\": false,",
+                "  \"rasterPages\": [",
+                "      \"page\": 1,",
+                "      \"file\": \"data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/raster/canonical/page-01/page.png\","
+              ],
+              "onlyInRebuildCount": 242
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 16
+      }
+    },
+    {
+      "familyId": "ga-seal-m-set",
+      "jurisdiction": "GA",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ga-seal-m-set.mjs",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-ga-seal-m-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 13,
+      "buildSeconds": 180.1,
+      "detail": "the rebuild is stable but differs from what is committed in 18 file(s); the rebuild is RICHER",
+      "divergence": {
+        "fileCount": 18,
+        "direction": "RICHER",
+        "richerFiles": 17,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/build-status.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 742,
+            "rebuiltBytes": 746,
+            "byteDelta": 4,
+            "committedLines": 20,
+            "rebuiltLines": 20,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"rasterEngine\": \"not rendered in this run\",",
+                "  \"rasterPages\": 0,",
+                "  \"rasterState\": \"BUILT_RASTER_PENDING\","
+              ],
+              "onlyInCommittedCount": 3,
+              "onlyInRebuild": [
+                "  \"rasterEngine\": \"chromium_calibrated\",",
+                "  \"rasterPages\": 16,",
+                "  \"rasterState\": \"RASTER_LOCAL_PENDING_CENTRAL\","
+              ],
+              "onlyInRebuildCount": 3
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/boundary/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 333826,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/boundary/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 265414,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/boundary/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 361418,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/boundary/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 72542,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/boundary/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 321692,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/boundary/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 150390,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/boundary/page-07/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 181226,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/boundary/page-08/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 170282,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/canonical/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 324095,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/canonical/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 242532,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/canonical/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 356931,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/canonical/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 72542,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/canonical/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 311673,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/canonical/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 144117,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/canonical/page-07/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 175723,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/canonical/page-08/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 164329,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 7788,
+            "rebuiltBytes": 18229,
+            "byteDelta": 10441,
+            "committedLines": 252,
+            "rebuiltLines": 573,
+            "lineDelta": 321,
+            "direction": "RICHER",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"everyPageRastered\": false,",
+                "  \"rasterEngine\": null,",
+                "  \"rasterSkipped\": true,",
+                "  \"rasterPages\": [],"
+              ],
+              "onlyInCommittedCount": 4,
+              "onlyInRebuild": [
+                "  \"everyPageRastered\": true,",
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\",",
+                "  \"rasterSkipped\": false,",
+                "  \"rasterPages\": [",
+                "      \"page\": 1,",
+                "      \"file\": \"data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/raster/canonical/page-01/page.png\","
+              ],
+              "onlyInRebuildCount": 276
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 18
+      }
+    },
+    {
+      "familyId": "ct-under18-misdemeanor-set",
+      "jurisdiction": "CT",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ct-under18-misdemeanor-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/ct/ct-under18-misdemeanor-set--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-ct-under18-misdemeanor-set.mjs",
+      "invocationBasis": "runIfMain(FAMILY, import.meta.url): the composed host runs this family when the file is entered directly, with no argument",
+      "committedFileCount": 13,
+      "buildSeconds": 0.3,
+      "filesRewrittenByBuilder": 12,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 12 of 13 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "ga-vacated-j2-set",
+      "jurisdiction": "GA",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ga-vacated-j2-set.mjs",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading",
+      "classification": "DIVERGES",
+      "invocation": "node scripts/build-census-v1-ga-vacated-j2-set.mjs",
+      "invocationBasis": "direct-invocation guard enters this family id with no argument",
+      "committedFileCount": 13,
+      "buildSeconds": 135.6,
+      "detail": "the rebuild is stable but differs from what is committed in 14 file(s); the rebuild is RICHER",
+      "divergence": {
+        "fileCount": 14,
+        "direction": "RICHER",
+        "richerFiles": 13,
+        "poorerFiles": 0,
+        "files": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/build-status.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 750,
+            "rebuiltBytes": 754,
+            "byteDelta": 4,
+            "committedLines": 20,
+            "rebuiltLines": 20,
+            "lineDelta": 0,
+            "direction": "SAME_SIZE",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"rasterEngine\": \"not rendered in this run\",",
+                "  \"rasterPages\": 0,",
+                "  \"rasterState\": \"BUILT_RASTER_PENDING\","
+              ],
+              "onlyInCommittedCount": 3,
+              "onlyInRebuild": [
+                "  \"rasterEngine\": \"chromium_calibrated\",",
+                "  \"rasterPages\": 12,",
+                "  \"rasterState\": \"RASTER_LOCAL_PENDING_CENTRAL\","
+              ],
+              "onlyInRebuildCount": 3
+            }
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/raster/boundary/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 345040,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/raster/boundary/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 301858,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/raster/boundary/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 368518,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/raster/boundary/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 318557,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/raster/boundary/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 160492,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/raster/boundary/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 202136,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/raster/canonical/page-01/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 335273,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/raster/canonical/page-02/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 280052,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/raster/canonical/page-03/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 364302,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/raster/canonical/page-04/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 310680,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/raster/canonical/page-05/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 154739,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/raster/canonical/page-06/page.png",
+            "change": "NEW_IN_REBUILD",
+            "rebuiltBytes": 196156,
+            "rebuiltLines": null,
+            "sample": null
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/reports/rendered-artifacts.json",
+            "change": "CONTENT_DIFFERS",
+            "committedBytes": 6652,
+            "rebuiltBytes": 14549,
+            "byteDelta": 7897,
+            "committedLines": 215,
+            "rebuiltLines": 456,
+            "lineDelta": 241,
+            "direction": "RICHER",
+            "sample": {
+              "onlyInCommitted": [
+                "  \"everyPageRastered\": false,",
+                "  \"rasterEngine\": null,",
+                "  \"rasterSkipped\": true,",
+                "  \"rasterPages\": [],"
+              ],
+              "onlyInCommittedCount": 4,
+              "onlyInRebuild": [
+                "  \"everyPageRastered\": true,",
+                "  \"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\",",
+                "  \"rasterSkipped\": false,",
+                "  \"rasterPages\": [",
+                "      \"page\": 1,",
+                "      \"file\": \"data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/raster/canonical/page-01/page.png\","
+              ],
+              "onlyInRebuildCount": 208
+            }
+          }
+        ]
+      },
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 14
+      }
+    },
+    {
+      "familyId": "il-prostitution-j-vacate-set",
+      "jurisdiction": "IL",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-il-prostitution-j-vacate-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 19,
+      "buildSeconds": 68.2,
+      "filesRewrittenByBuilder": 18,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 18 of 19 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "in_infraction_nondisclosure-set",
+      "jurisdiction": "IN",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-in_infraction_nondisclosure-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-in_infraction_nondisclosure-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 13,
+      "buildSeconds": 0.3,
+      "filesRewrittenByBuilder": 12,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 12 of 13 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "ky_criminal_record_segregation-set",
+      "jurisdiction": "KY",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ky_criminal_record_segregation-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-ky_criminal_record_segregation-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 13,
+      "buildSeconds": 0.3,
+      "filesRewrittenByBuilder": 12,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 12 of 13 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    },
+    {
+      "familyId": "ky_felony_vacatur_expungement-set",
+      "jurisdiction": "KY",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "proven": true,
+      "buildScript": "scripts/build-census-v1-ky_felony_vacatur_expungement-set.mjs",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill",
+      "classification": "REPRODUCES",
+      "invocation": "node scripts/build-census-v1-ky_felony_vacatur_expungement-set.mjs",
+      "invocationBasis": "direct-invocation guard calls a no-argument entrypoint",
+      "committedFileCount": 17,
+      "buildSeconds": 0.9,
+      "filesRewrittenByBuilder": 16,
+      "detail": "rebuild is byte-identical to what is committed; the builder rewrote 16 of 17 file(s) and produced the same bytes",
+      "restored": {
+        "ok": true,
+        "familyDirectoryByteIdentical": true,
+        "worktreeClean": true,
+        "pathsTouchedByBuild": 0
+      }
+    }
+  ]
+}
