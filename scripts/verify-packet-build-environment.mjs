@@ -61,6 +61,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { execFileSync, spawnSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -776,15 +777,34 @@ check(
     const index = readJson(CORPUS_INDEX, env);
     if (!index?.entries?.length) return { ok: false, detail: `${CORPUS_INDEX} is missing or carries no entries` };
     if (filesUnder(root) === null) return { ok: false, detail: "the corpus root cannot be walked; nothing to compare the index against" };
+
+    /*
+     * The index carries more than one custody, and each writes its paths in its
+     * own namespace. Joining every entry onto the Master Library root would
+     * look for a human source return inside the library and report it absent —
+     * a corruption report about a file that is exactly where it belongs. The
+     * resolver follows what the index declares instead.
+     *
+     * A custody this container does not mount is a different answer again, and
+     * it is not a failure: the Master Library is the only corpus the pinned
+     * release carries, so a cloud worker legitimately holds no others. Those
+     * entries are excluded from the sample and named, so the check still says
+     * what it did and did not compare.
+     */
+    const corpusPaths = makeCorpusEntryResolver(index, { repoRoot: env, masterLibraryRoot: root });
+    const comparable = index.entries.filter((e) => corpusPaths.isMounted(e));
+    const notMounted = corpusPaths.unmountedCustodies(index.entries);
+    if (!comparable.length) return { ok: false, detail: "no custody named by the committed index is mounted here" };
+
     // A deterministic spread across states rather than the first N, so a corpus
     // recovered correctly for AK and truncated at TX is still caught.
-    const sorted = [...index.entries].sort((a, b) => a.path.localeCompare(b.path));
+    const sorted = [...comparable].sort((a, b) => a.path.localeCompare(b.path));
     const step = Math.max(1, Math.floor(sorted.length / 24));
     const sample = sorted.filter((_, i) => i % step === 0).slice(0, 24);
     const mismatched = [];
     const absent = [];
     for (const entry of sample) {
-      const p = path.join(root, entry.path);
+      const p = corpusPaths.resolve(entry);
       if (!fs.existsSync(p)) { absent.push(entry.path); continue; }
       if (sha256(p) !== entry.sha256) mismatched.push(entry.path);
     }
@@ -792,7 +812,10 @@ check(
     return {
       ok, sampled: sample.length, absent: absent.length, mismatched: mismatched.length,
       absentPaths: absent.slice(0, 5), mismatchedPaths: mismatched.slice(0, 5),
-      detail: ok ? `${sample.length} sampled entries verify byte-exact` : `${absent.length} absent, ${mismatched.length} mismatched of ${sample.length} sampled`
+      custodiesNotMountedHere: notMounted,
+      detail: ok
+        ? `${sample.length} sampled entries verify byte-exact${notMounted.length ? `; ${notMounted.join(", ")} not mounted here and not compared` : ""}`
+        : `${absent.length} absent, ${mismatched.length} mismatched of ${sample.length} sampled`
     };
   }
 );

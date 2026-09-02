@@ -32,6 +32,7 @@ import { execFileSync } from "node:child_process";
 import crypto from "node:crypto";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
+import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 register("./lib/ts-esm-loader.mjs", import.meta.url);
@@ -323,19 +324,31 @@ if (mounted) {
   // archive carry different archive identifiers; whether that is a packaging
   // difference or a content difference is exactly what the bytes settle, and
   // Lane C could not settle it because it had no bytes.
+  //
+  // The index now describes several custodies, each writing its paths in its
+  // own namespace, so each entry is resolved through its declared custody
+  // rather than joined onto the Master Library root. A custody that is not
+  // mounted here is unchecked rather than drifted -- the pinned release carries
+  // the Master Library and nothing else, so its absence is not a corruption --
+  // and the count says how many entries were actually compared.
+  const corpusPaths = makeCorpusEntryResolver(corpusIndex, { repoRoot: rootDir, masterLibraryRoot: abs(CORPUS_ROOT) });
+  const comparable = (corpusIndex.entries ?? []).filter((entry) => corpusPaths.isMounted(entry));
+  const unmountedCustodies = corpusPaths.unmountedCustodies(corpusIndex.entries ?? []);
   let indexVerified = 0;
   const indexDrift = [];
-  for (const entry of corpusIndex.entries ?? []) {
-    const file = abs(path.join(CORPUS_ROOT, entry.path));
-    if (!fs.existsSync(file)) { indexDrift.push(`${entry.path}: absent`); continue; }
+  for (const entry of comparable) {
+    const file = corpusPaths.resolve(entry);
+    if (!file || !fs.existsSync(file)) { indexDrift.push(`${entry.path}: absent`); continue; }
     const digest = sha256(fs.readFileSync(file));
     if (digest === entry.sha256) indexVerified += 1;
     else indexDrift.push(`${entry.path}: ${digest}`);
   }
   check(
     "C2-corpus: every binary the committed index describes is byte-identical in the mounted archive",
-    indexDrift.length === 0 && indexVerified === (corpusIndex.entries ?? []).length,
-    `${indexVerified}/${(corpusIndex.entries ?? []).length} identical; drift: ${indexDrift.slice(0, 3).join("; ")}`
+    indexDrift.length === 0 && indexVerified === comparable.length,
+    `${indexVerified}/${comparable.length} identical`
+    + (unmountedCustodies.length ? `; not mounted here and not compared: ${unmountedCustodies.join(", ")}` : "")
+    + `; drift: ${indexDrift.slice(0, 3).join("; ")}`
   );
 } else {
   check(
