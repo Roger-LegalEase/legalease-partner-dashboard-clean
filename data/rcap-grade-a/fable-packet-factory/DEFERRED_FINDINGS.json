@@ -65,7 +65,14 @@
       "relatedFinding": "VT10 also measured real footer damage in ca-prop64-set's filled CR-400: the official and derived-unlocked render it intact over two lines from x=36.00, while the filled artifact reflows it to one line, drops 'For' and 'your', truncates 'protection' to 'otection', and places it at x0 = -3.485, off the left page edge. The cause is in the family's own report — XFA form data stripped because pdf-lib cannot read or write it. source-fidelity.json cannot see it because it compares official to derived and stops there, and visualDefects reports 0. That damage is exactly what a visual gate exists to catch, and this family has never been through one.",
       "owner": "Captain (scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs)",
       "commercialRoutesOpened": 0,
-      "productionTouched": false
+      "productionTouched": false,
+      "corrections": {
+        "correctedAt": "2026-09-02T03:05:00Z",
+        "pdfCount": "This entry recorded 63 PDFs. FABLE-Q1 measured the real fixture count at 58; the five-PDF gap is one derived-sources unlocked file per family, which lives outside fixtures/ and correctly is not a fixture.",
+        "scope": "The finding is fixture-naming and queue enrolment across all seven California families, plus two Ohio families Q1 found by measuring. It is not, as I later summarised it, primarily an encryption problem.",
+        "encryption": "The encryption is real and is a SEPARATE blocker on the raster path only. Q1 established that 38 of the 58 fixture PDFs are untouched Judicial Council forms encrypted with objects in xref streams, which pdf-lib cannot open, and the batch renderer counts pages with that same parser. FABLE-R16 separately established that the BUILD path is unaffected because the host has a working pikepdf bridge. Both are true: the build can read these forms and the raster job cannot.",
+        "resolvedPortion": "Q1's fix admitted the two Ohio families. The seven California families remain out, and ca-1203-43-set and ca-17b-reduction-set are additionally blocked by their own build counters rather than by enrolment."
+      }
     },
     {
       "id": "DF-004",
@@ -88,7 +95,13 @@
       "captainPosition": "Recorded rather than quietly demoted. Demoting the family would change a number Roger is watching, and the honest sequence is to establish first whether the committed artifacts are correct-but-unreproducible or actually wrong, because those have different answers. Until that is established the family keeps its state and this finding travels with it.",
       "owner": "Captain",
       "commercialRoutesOpened": 0,
-      "productionTouched": false
+      "productionTouched": false,
+      "widened": {
+        "widenedAt": "2026-09-02T03:05:00Z",
+        "by": "FABLE-R16",
+        "finding": "The same host writes participant-instructions.md unconditionally, yet ca-1203-43-set and ca-17b-reduction-set have none committed. That is the same shape as the Arizona family: committed artifacts that do not match what the script produces, in the opposite direction.",
+        "consequence": "At least three families on one host diverge from their own builder. This is no longer a single anomaly, and it strengthens the case that the missing check is a rebuild-and-compare sweep across every family rather than any per-family repair."
+      }
     }
   ]
 }
