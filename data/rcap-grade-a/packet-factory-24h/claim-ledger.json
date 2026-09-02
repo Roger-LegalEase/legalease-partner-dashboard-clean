@@ -2598,8 +2598,8 @@
       "operation": "rapid-repair",
       "lane": "FIX05",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T01:04:29.175Z"
     },
     {
       "subjectType": "packet-family",
@@ -3139,7 +3139,7 @@
       "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-01T07:37:22.764Z"
+      "releasedAt": "2026-09-02T01:07:36.671Z"
     },
     {
       "subjectType": "packet-family",
@@ -9706,7 +9706,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "fe093f64878e8f6bc778ad4e096429a1cc08389a1093506bed1b4d412d2c98a2",
+  "claimsDigest": "40c58b05985bfd27539d8c6736c1308862c6f518d051cf6ac4da9f88bb02fe03",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -14521,6 +14521,22 @@
       "operation": "rapid-repair",
       "laneKind": "repair",
       "releasedAt": "2026-09-02T00:56:57.531Z"
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "ny_160_59_petition-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T01:04:29.175Z"
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "ri_nonconviction_sealing-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T01:07:36.671Z"
     }
   ],
   "reissues": [
@@ -14893,6 +14909,16 @@
       "previouslyReleasedAt": "2026-09-01T16:02:54.362Z",
       "reissuedAt": "2026-09-02T01:00:52.754Z",
       "reason": "FABLE-R11 dispatch: the FIX05 grant released 2026-09-01T16:02Z and the vf28 fresh read afterwards returned FAIL on FEE_AND_WAIVER; FIX05 is the dispatched repair lane for that failure, which is the case --reissue exists for"
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "ri_nonconviction_sealing-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T07:37:22.764Z",
+      "reissuedAt": "2026-09-02T01:04:52.182Z",
+      "reason": "FABLE-R11 dispatch: the FIX06 grant released 2026-09-01T07:37Z and the vf06 fresh read afterwards found the FEE_AND_WAIVER defect standing verbatim and unrepaired; FIX06 is the dispatched repair lane for it, which is the case --reissue exists for"
     }
   ],
   "transfers": [
