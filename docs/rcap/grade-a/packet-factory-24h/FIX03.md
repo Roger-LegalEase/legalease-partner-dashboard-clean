@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `a4cd6d1126454342173735988e8ae2fa7dfdf232` (or the newer dispatch base)
+**Minimum required ancestor:** `3a816d7bdd4e60dc76e8c8b11abe519252d4f2dc` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family ca-1203-4a-set \
   --codex-cloud \
-  --minimum-captain-sha a4cd6d1126454342173735988e8ae2fa7dfdf232
+  --minimum-captain-sha 3a816d7bdd4e60dc76e8c8b11abe519252d4f2dc
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,9 +56,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 1 family
+## The 2 families
 
 - `ca-1203-4a-set` — failing: requiredOptionsMissing
+- `vt_seal_felony-set`
 
 ## What you receive
 
@@ -72,7 +73,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix03/**`
 - `data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ca-1203-4a-set.mjs`
+- `scripts/build-census-v1-vt_seal_felony-set.mjs`
 
 ## Never write here
 

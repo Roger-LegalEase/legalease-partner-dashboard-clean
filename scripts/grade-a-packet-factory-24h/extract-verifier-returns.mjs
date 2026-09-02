@@ -200,7 +200,15 @@ const isAncestorOf = (a, b) => {
   ancestry.set(key, answer);
   return answer;
 };
-/** True when `r` is the later read of the two. */
+/*
+ * Only the base a lane DECLARES is used. The commit that last wrote a lane's
+ * rows file looks like the same signal and is not: a merge that touches an old
+ * lane's file incidentally makes a stale read look fresh, and using it put
+ * ak-courtview, co_motion_seal_nonconviction and mi_setaside_marihuana back on
+ * the failing list on the strength of reads nobody had redone. A lane that
+ * does not say when it read is a lane this cannot order, and lane precedence
+ * decides it — the same answer as before, rather than a confident wrong one.
+ */
 const supersedes = (r, prior) => {
   if (isAncestorOf(prior.verifiedAtBase, r.verifiedAtBase)) return true;
   if (isAncestorOf(r.verifiedAtBase, prior.verifiedAtBase)) return false;
