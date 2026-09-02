@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "MASTER_QUEUE classifies this family participant_agency_application, and unlike the other two agency treatments in this lane it binds a real document: the controlling decision names \"the published Request to Correct Criminal Justice Information form\" and the census names it as this route's requiredSourceId.",
+      "consequence": "DPS Form CRI-103 is bound by exact SHA-256 through the committed corpus index and delivered as the Department issues it. No form was invented for this route, and the route was not left in a missing-PDF state."
+    },
+    {
+      "finding": "CRI-103 is a flat page: the corpus index records 0 AcroForm fields on it, so there is no widget rectangle to write into and no appearance to flatten.",
+      "consequence": "Every write box is measured from the form's own content stream — one horizontal stroke, matched on its y, its start x and its end x, with the box ceiling taken from the lowest printed baseline above it inside its own span. Twelve blanks are measured; six carry a fact. A blank that failed to measure would stop the family rather than be drawn at a guessed rectangle."
+    },
+    {
+      "finding": "Two blanks the platform could technically fill are refused by the shared semantics as government identifiers: the driver's licence number and the SSN.",
+      "consequence": "Both are declared required-before-filing, disclosed by name in participant-instructions.md, and the refusal is explained to the participant rather than presented as an oversight."
+    },
+    {
+      "finding": "The form's five reasons are an election, and the route does not determine which is true.",
+      "consequence": "Each is recorded as a genuine participant election rather than as a route-determined selection left unmade, with the reason stated in routeSelectionNote. Nothing is marked on the form."
+    },
+    {
+      "finding": "FEE_AND_WAIVER, tested against DETERMINATION_FEE_AND_WAIVER_STANDARD A1-A3. The compiled Alaska profile is a held source under A2, and its fee table prices a TF-810 Courtview exclusion, an SIS set-aside motion, an AS 12.62.180(b) SEALING request and a DPS criminal history record. Under A3, none of the first three answers an AS 12.62.170 correction — they are different statutes and different instruments — while the fourth answers a document this route genuinely needs.",
+      "consequence": "The packet states that no held source establishes a charge for the request itself and names the Criminal Records and Identification Bureau with the address, telephone, fax and email the bound form prints on its own face; states that the DPS criminal history record carries a DPS fee whose amount the profile does not give, and names the same office for it; and says in terms that the TF-810, set-aside and sealing figures are not borrowed."
+    },
+    {
+      "finding": "SELF_HELP_STOP has two recorded limbs and they must not be collapsed. The decision draws a substantive boundary — a disagreement about whether an ACCURATE event should be sealed is not a correction claim — and a procedural one — a final adverse decision goes to the Superior Court by administrative appeal, which is expressly not an ordinary self-help packet. The bound form adds a third step the decision does not mention: an appeal to the Commissioner of Public Safety under 13 AAC 68.200.",
+      "consequence": "All three are stated, each attributed to the record it came from, and the packet prepares none of the appeals."
+    }
+  ]
+}

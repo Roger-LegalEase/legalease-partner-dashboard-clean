@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "va_exp_absolute_pardon-set",
+  "worklistGroupId": "va_exp_absolute_pardon-set",
+  "jurisdiction": "VA",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no binary source is bound, and none exists to bind: the MASTER_QUEUE row records sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT with officialFormFamily NONE and boundSources []. The build is grounded on two committed records, verified present and un-drifted before anything is composed: the legal-design intake track and the packet-set manifest.",
+  "routeKey": "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
+  "routeSelectionId": "va-exp-absolute-pardon-composed-set",
+  "statutoryAuthority": "Va. Code § 19.2-392.2(I)",
+  "legalName": "Expungement of Police and Court Records After an Absolute Pardon, Va. Code § 19.2-392.2(I)",
+  "allSourcesExact": true,
+  "formIdentityNote": "§ 19.2-392.2(I) prescribes no petition: the court's duty arises on receipt of the pardon copy transmitted under § 2.2-402 and the order is mandatory. The controlling review had assigned CC-1473 to this route; the legal-design record corrects that with provenance — CC-1473 is captioned to § 19.2-392.2(A) acquittal/dismissal alone and cannot be the subsection (I) vehicle — and resolves the strategy to custom_pleading: a written transmittal and request asking the court to enter the order it must enter. No form was substituted, none was invented, and no official binary is included or imitated.",
+  "codifiedGrounds": [
+    {
+      "record": "data/record-clearing/legal-design-intake/VA.memo.json",
+      "what": "track va_exp_absolute_pardon: controlling authority read at source 2026-08-06, mechanism, venue, rules, stop conditions, unresolved questions"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "what": "packetSetId va_exp_absolute_pardon-set: the three-component set and the required-before-filing items"
+    }
+  ],
+  "documents": [],
+  "composedComponentsAuthoredByThisBuild": [
+    "primary_filing",
+    "records_checklist",
+    "filing_instructions"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that no official instrument for § 19.2-392.2(I) has been published since 2026-08-06",
+    "that any output is approved for participant delivery",
+    "that any pardon satisfies § 19.2-392.2(I)"
+  ]
+}

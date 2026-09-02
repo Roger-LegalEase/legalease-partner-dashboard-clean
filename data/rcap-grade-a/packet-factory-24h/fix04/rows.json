@@ -1,0 +1,235 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "worker": "FABLE-FA",
+  "workerBranch": "fable/fa",
+  "laneKind": "repair",
+  "baseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+  "question": "Were exactly the failed proof obligations repaired, on exactly the families they failed on?",
+  "selfVerified": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "grantsNothing": "This is a repairer's return. It promotes no family, proves none, and opens no commercial route.",
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family <familyId>",
+    "result": "12/13 passed, 1 failed, 4 not applicable",
+    "theOneFailure": "family_sources_bind reported 9 of 9 sources do not bind. It is an instrument defect, not a packet defect, and it was not worked around. familySources() takes the custody row's path, which for these families is the repo-relative private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/... , and joins it onto masterLibraryRoot(); the join can never exist. Both copies of every source were hashed by hand in this lane and both bind: 1000EX hashes 401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611 under the Master Library and under the d_source_packs tree, which is the digest the receipt and the committed corpus index carry. The builder binds through MASTER_LIBRARY_SOURCE_DIR and its own re-hash, and it built. Reported for Captain rather than repaired: scripts/verify-packet-build-environment.mjs is not this lane's path.",
+    "rasterizer": "pdftoppm 22.12.0 via PATH. This host rasters at build time through Poppler, not a browser; no Chromium was needed and none was reached for."
+  },
+  "determinismProof": "Every family on this host was built at base BEFORE any edit and produced a zero-byte git diff, so the environment reproduces the committed bytes exactly. After the edit each repaired family was built twice and the second build reproduced the first byte for byte across both fixtures and participant-instructions.md.",
+  "theSharedHost": {
+    "host": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+    "familiesOnIt": 7,
+    "familiesThisLaneHolds": [
+      "ut_pet_dismissed_without_prejudice-set",
+      "ut_pet_limitations-set",
+      "ut_pet_no_charges-set"
+    ],
+    "familiesOutsideThisGrant": [
+      "ut_pet_acquittal-set",
+      "ut_pet_conviction-set",
+      "ut_pet_dismissed_with_prejudice-set",
+      "ut_pet_traffic-set"
+    ],
+    "howCollisionWasAvoided": "Every change is gated behind a per-family config flag that the four families outside this grant do not set. All four were rebuilt after the edit and every one produced a zero-byte diff - fixtures, rasters, participant-instructions.md, field maps and reports alike. One first attempt DID move two of them: rewording the shared statesManifestPreFilingItems observation string changed ut_pet_conviction-set's and ut_pet_dismissed_with_prejudice-set's build-findings.json. That was caught by the control rebuild, the wording was restored verbatim, the two files were restored from HEAD, and the new detail was moved into a separate route-gated observation. It is recorded here rather than quietly fixed, because the control catching it is the only reason it is not in the diff.",
+    "controlFamilyHashesUnchanged": {
+      "ut_pet_acquittal-set": {
+        "canonical": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+        "boundary": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+        "participantInstructions": "cc36d6cfd2cbf534430fcc22b922407bc861c270c94ee04fe8ceb370811dc869"
+      },
+      "ut_pet_conviction-set": {
+        "canonical": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+        "boundary": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+        "participantInstructions": "1e40d146e7b2ad3a1ae1188583d96582adfb17279523cb4415e8959dfa9f3697"
+      },
+      "ut_pet_dismissed_with_prejudice-set": {
+        "canonical": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+        "boundary": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+        "participantInstructions": "332d579373cc7b86440232f05c60e89170f556f789ab3b78ae885b511498cc08"
+      },
+      "ut_pet_traffic-set": {
+        "canonical": "b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909",
+        "boundary": "ef8b488fe1f78f87a47419ddf2123ad9909b88612931a8c031ade0299a8d6e03",
+        "participantInstructions": "3ecd87cebe9aeee9aad98e272abf9a737ae3b9fb3222f66a9239028ff4e26afe"
+      }
+    }
+  },
+  "reportedNotRepaired": {
+    "theSameClippingDefectOnThreeUnheldFamilies": "ut_pet_acquittal-set, ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set deliver the identical BCI application page 18 through the identical write box at x=50.5, so the participant's name is drawn over the pre-printed \"I\" of the sworn declaration in their delivered bytes too. This lane holds no grant on them and moving the box unconditionally would have rewritten their bytes, so the flag exists and they do not set it. Repairing them is one word per family for whichever lane holds them.",
+    "theCertificateAnswerOnTheAcquittalRoute": "ut_pet_acquittal-set is an acquittal, and the compiled profile's exempting limb names acquittals. Its shipped instructions still tell the participant the packet cannot state the certificate amount and to ask BCI - the same A1 defect this lane repaired on the dismissal and declination routes. Not this lane's family and not touched. Whoever holds it can set certificateIssuanceFeeHeldExempt: \"an acquittal\" and get the same repair.",
+    "aWordInTheExistingSharedText": "The paragraph the three already-flagged families ship says \"The certificates themselves cost more than the application\". The only held basis for a comparison is the profile's \"an additional $65 per case\" for conviction, plea-in-abeyance and special certificates. For a route in that class the sentence is supportable; this lane did not extend it to any route outside that class, which is why ut_pet_limitations-set got new wording rather than the existing paragraph. Flagged, not decided, and not edited on families this lane does not hold."
+  },
+  "whatCouldNotBeEstablished": [
+    "The per-incident BCI CERTIFICATE price for ut_pet_limitations-set. Nothing in the repository states it for a charge ended by the limitations period, and the one profile sentence that speaks to certificate pricing addresses other dispositions. The packet names BCI as the authority and says why; no figure was invented.",
+    "Whether BCI's published FAQ exemption for \"dismissals\" is meant to reach a dismissal WITHOUT prejudice specifically. The profile's word is unqualified and the charging limb names dispositions this route is not, so the exemption is stated as what the held record holds - and the packet tells the participant in the same breath to confirm it with BCI before paying, and says the record is a published FAQ rather than a statutory schedule. A lane wanting certainty should read the BCI FAQ the profile cites."
+  ],
+  "assignmentId": "FIX04",
+  "theCaliforniaFamilies": {
+    "what": "ca-1203-41-set (FIX01), ca-1203-42-set (FIX02) and ca-1203-4a-set (FIX03) each answered ALREADY_RELEASED at --assert: the grant sits on this lane but was closed by an earlier worker on 2026-09-01 at 23:56:32.720Z, 23:57:38.089Z and 23:58:22.837Z. A refused assert is a full stop, so nothing was read and nothing was written for any of them, and this lane did not reissue its own released grant to get around the refusal.",
+    "theSharedHostFixWasNotApplied": "The brief describes a known shared-host fix for the California clipping defect - detachFromAcroForm() scanning only the top level of /AcroForm /Fields, so a pushbutton's /MK /CA caption survives suppression on XFA-generated forms and pdf-lib redraws it off the page edge - and instructs that it be applied only if this grant covers every family whose bytes it moves. It does not, on two independent grounds, so nothing was applied to that host. First, all three grants are closed. Second, the fix is described as measured across twelve California fixtures, and this lane's assignments name three California families; ca-1203-43-set and ca-17b-reduction-set are on every one of these lanes' prohibitedPaths, and ca-prop64-set, ca-851-91-set and the rest were never granted here. The prior lane reverted the same fix for the same reason. Applying it would repeat that mistake with a larger blast radius.",
+    "onTheirFees": "Recorded because it was asked and can be answered without touching them: A3 settles that the California profile's \"1203.4 dismissal petition ~$60-$150 per case\" line does not answer a 1203.41, 1203.42 or 1203.4a route, because those are different statutory sections. If nothing else establishes their fee, naming a checkable authority is the complete deliverable and not a defect to repair away."
+  },
+  "laneSummary": "FIX04 repaired nothing because it was granted nothing. Both of its assigned families are held live by other lanes, both asserts were refused, and neither family's artifacts were read.",
+  "rows": [
+    {
+      "itemId": "ri_nonconviction_sealing-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "laneKind": "repair",
+      "claimAsserted": false,
+      "refusal": "GRANTED_ELSEWHERE: ri_nonconviction_sealing-set is granted to FIX06, not FIX04 (claim.mjs exit 8)",
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 ri_nonconviction_sealing-set",
+      "whatThisLaneDid": "Nothing. No artifact of this family was read and no byte of it or of its build host was written. The claim gate is the authority and a refused assert is a full stop; the ledger was not edited, no grant was reissued and no grant was transferred to this lane.",
+      "alsoRecorded": "FIX06's grant is live, reissued 2026-09-02T04:42:15.169Z after a fresh independent read failed it on FEE_AND_WAIVER. The EAST host's protected-field appearance rule was neither touched nor examined."
+    },
+    {
+      "itemId": "wa_vac_homicide_victim_prostitution-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "laneKind": "repair",
+      "claimAsserted": false,
+      "refusal": "GRANTED_ELSEWHERE: wa_vac_homicide_victim_prostitution-set is granted to FIX10, not FIX04 (claim.mjs exit 8)",
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 wa_vac_homicide_victim_prostitution-set",
+      "whatThisLaneDid": "Nothing. No artifact of this family was read and no byte of it or of its build host was written. The claim gate is the authority and a refused assert is a full stop; the ledger was not edited, no grant was reissued and no grant was transferred to this lane.",
+      "alsoRecorded": "FIX10's grant is live, reissued 2026-09-02T05:36:06.016Z. FABLE-R21 holds it at BLOCKED_LEGAL_INPUT."
+    },
+    {
+      "itemId": "ca-851-91-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "claimAsserted": true,
+      "claim": "CLAIM_OK FIX04 ca-851-91-set (repair, grant set 405be394ff80cc9c)",
+      "failedObligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "verifierRowRepairedFrom": "VF01, FABLE-VA12, verdict FAIL_REPAIR_REQUIRED, base 43e11ccd3, data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "buildScript": "scripts/build-census-v1-ca-851-91-set.mjs, via the shared WEST host scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "knownPrefills": "The build drew two 1.2pt diagonal strokes inside the item 3h DismissSection widget on all four delivered CR-409s. The mark is gone: decompressing the page-2 content streams of the delivered bytes returns zero lines carrying the election coordinates 411.44/416.44 or 364.85/369.85. The control is now a declared participant election in production-field-map.json -- refusal class participant_sworn_narrative_or_legal_election, requiredBeforeFiling true, routeDetermined false -- and both captions are disclosed as rows in participant-instructions.md.",
+      "whyRemovalRatherThanDisclosure": "Two held records forbid the mark. The packet's own page says \"The platform never marks a box on a sworn filing\", which A4's internal-consistency rule made false while the mark was drawn; and the committed packet-set manifest assigns item 3h to the participant as complete_field, requirement required, requiredBeforeFiling true, and a committed packet-set manifest is a held source under A2. The election is also not route-determined: both variants carry the same route key and which one is open turns on the section 851.91(c)(2)(A) pattern-offence bar, a fact about the participant's record the platform does not hold.",
+      "requiredBeforeFiling": "The manifest's own pre-filing acts are printed verbatim in a new section: the arrest report from the arresting agency, the police-report-number check, the court docket and the disposition check, the verification and signature under penalty of perjury, the item 3h election, the Notice of Court Hearing block, and the manifest's notarization statement. The conditional obtain_document entries are carried beside the confirm_answer entries that depend on them.",
+      "selfHelpStop": "All six conditions the committed track registry holds for trackId ca-851-91 are printed verbatim in a section of their own, before the field tables.",
+      "bytesMoved": true,
+      "bytesMovedDetail": {
+        "pdfs": {
+          "fixtures/pc-851-91-matter-of-right-canonical/cr-409-filled.pdf": "b9d2d145461e51bb -> 371d8890ba43c6b6",
+          "fixtures/pc-851-91-interests-of-justice-canonical/cr-409-filled.pdf": "906f4348cbfca616 -> 371d8890ba43c6b6",
+          "fixtures/pc-851-91-matter-of-right-boundary/cr-409-filled.pdf": "e972373596de7fe7 -> 89d6a489f5ba01bd",
+          "fixtures/pc-851-91-interests-of-justice-boundary/cr-409-filled.pdf": "fdd760246fa33ed5 -> 89d6a489f5ba01bd"
+        },
+        "rasters": "the four cr-409 page-02.png only; no other raster page changed",
+        "unchanged": "every cr-410, cr-106 and mc-031 copy in all four packets, and every other raster page",
+        "consequence": "This family is recorded notEligible in RASTER_QUEUE.json and holds no central raster receipt, so none is invalidated; its 24 local raster PNGs are re-rendered and four of them changed."
+      },
+      "twoVariantsNowIdenticalByDesign": "With the election withdrawn the only thing that ever differed between the two variants' primary filings is gone, so the canonical pair and the boundary pair are each byte-identical. The --check assertion that previously demanded they differ is inverted for this family rather than dropped: it now requires exactly one distinct hash per fixture, which is a positive proof that no election ink survived.",
+      "focusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-851-91-set -> PASS_COMPLETE, 14/131 written, all nine counters zero.",
+      "notTouched": "No fee or waiver sentence was changed. FEE_AND_WAIVER passed on this family and the repository holds no figure for this route; the packet names the clerk of the Superior Court in the county of the arrest and form FW-001, which is the standard's third met limb.",
+      "independentVerification": "PENDING. This lane wrote no verdict on its own work."
+    },
+    {
+      "itemId": "ut_pet_no_charges-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "claimAsserted": true,
+      "claim": "CLAIM_OK FIX04 ut_pet_no_charges-set (repair, grant set 405be394ff80cc9c)",
+      "failedObligationsRepaired": [
+        "PAGE_ORDER",
+        "SELF_HELP_STOP"
+      ],
+      "verifierRowRepairedFrom": "VF05, FABLE-VA12, verdict FAIL_REPAIR_REQUIRED, base 43e11ccd3, data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "buildScript": "scripts/build-census-v1-ut_pet_no_charges-set.mjs, via the shared host scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+      "pageOrder": "The assembler took its order from source-receipt.json rather than from the committed packet-set manifest, delivering component order 4,5,3,6,7,8,9,1,2 against a declared 1..10. It now reads the manifest's components[].order, and refuses the build if a delivered form is not placed there or is placed twice. Delivered order is now UT-BCI-EXP-APPLICATION(1) > UT-BCI-THIRD-PARTY-RELEASE(3) > 1044XX(4) > 1000EX(6) > 1020EX(8) > 1146XX(11) > 1148XX(12) > 1149XX(14) > 1169XX(17), 19 pages, read from the delivered page manifest.",
+      "whyItMattered": "This route's law is a two-stage sequence: BCI decides eligibility and issues a certificate, and paragraph 1 of the petition then asks for that certificate's identification number. The two BCI components sat on pages 17-19, behind every court document.",
+      "selfHelpStop": "All eight conditions the committed track registry holds for trackId ut_pet_no_charges are printed verbatim in a section of their own, and the inversion is corrected: the packet had said that if the court schedules a hearing the participant should attend it, where the registry records an objection or a scheduled hearing as the end of self-help. The replacement says both, and does not pretend the hearing date goes away.",
+      "bytesMoved": true,
+      "bytesMovedDetail": {
+        "fixtures/canonical.pdf": "ceb283f2899e0be8 -> 1ee8fad3cd777f6f",
+        "fixtures/boundary.pdf": "9a79316b95cec0ca -> 3686f4f02146dc1e",
+        "rasters": "all 38 raster pages re-rendered and changed",
+        "consequence": "This family's raster receipt (RASTER_PASS, workflow run 33600962986, bound to canonical ceb283f2... and boundary 9a79316b...) NO LONGER BINDS these bytes and the visual gate must be re-dispatched for this family."
+      },
+      "sharedHostSiblings": "The same inversion is in every sibling on this host. The reorder is behind a per-family flag; ut_pet_acquittal-set, ut_pet_conviction-set, ut_pet_dismissed_with_prejudice-set, ut_pet_dismissed_without_prejudice-set, ut_pet_limitations-set and ut_pet_traffic-set were all rebuilt after the edit and every one produced a zero-byte diff. They are reported unrepaired; this lane holds no grant on them and the repair is one word per family for whichever lane does.",
+      "focusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_no_charges-set -> PASS_COMPLETE, 38/444 written, all nine counters zero.",
+      "alsoChanged": "data/rcap-grade-a/wave-2/p1-ut-petition-expunge-completeness/rows.json, which this host writes on every build. The diff is four lines: this family's two fixture hashes and byte lengths. No other family's row moved.",
+      "notTouched": "No fee sentence was changed. FEE_AND_WAIVER passed on this family and A4 records this family as already carrying the repair the two siblings need. The SERVICE conflict the verifier raised for determination -- the census says the court serves and the packet says the participant does -- is a determination question, not a failed obligation, and was left exactly as the verifier left it.",
+      "independentVerification": "PENDING. This lane wrote no verdict on its own work."
+    },
+    {
+      "itemId": "vt_seal_pardon-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "claimAsserted": true,
+      "claim": "CLAIM_OK FIX04 vt_seal_pardon-set (repair, grant set 405be394ff80cc9c)",
+      "failedObligationsRepaired": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "verifierRowRepairedFrom": "VF06, FABLE-VA7, verdict FAIL_REPAIR_REQUIRED, base cd48fc14e, data/rcap-grade-a/packet-factory-24h/vf06/rows.json (the current non-superseded row for this family)",
+      "buildScript": "scripts/build-census-v1-vt_seal_pardon-set.mjs, via the shared host scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
+      "componentSet": "The registry's packetSet declares four components and three were delivered; the fourth, role filing_and_expectation_instructions, outputStrategy process_guidance, requirement required, was neither delivered nor listed as missing. reports/rendered-artifacts.json now carries a componentSet block declaring all four from the registry and saying how each is delivered -- the three forms as packet pages, the fourth as participant-instructions.md, which is what a process_guidance component is -- and the build refuses if a declared form component is absent from the resolved sources.",
+      "requiredBeforeFiling": "The four waiting periods and four exclusions the registry holds for this track, keyed to 13 V.S.A. sections 7601, 7602, 7604 and 7605, are printed verbatim in a new section. The conditional-pardon exclusion is called out separately because this is the pardon family.",
+      "selfHelpStop": "All ten registry stop conditions are printed verbatim before the closing disclaimer, and the inversion is corrected: the packet told the participant they must attend any hearing scheduled in their case, where the registry records a scheduled hearing as the end of self-help.",
+      "bytesMoved": false,
+      "bytesMovedDetail": {
+        "fixtures/canonical.pdf": "81525fd23e9489ce unchanged",
+        "fixtures/boundary.pdf": "8f0058c992eaf6fe unchanged",
+        "rasters": "all twelve local raster PNGs unchanged",
+        "consequence": "This family's raster receipt (RASTER_PASS, run 33596784162) STILL BINDS these bytes and the visual gate must NOT be re-dispatched for this family. The two files that changed are participant-instructions.md and reports/rendered-artifacts.json."
+      },
+      "focusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set -> PASS_COMPLETE, 24/165 written, all nine counters zero.",
+      "notTouched": "FEE_AND_WAIVER passed on this family and no fee or waiver sentence was changed. The receipt's under-declaration of 200-00130A, which the verifier recorded as a finding rather than a failure, was left alone.",
+      "independentVerification": "PENDING. This lane wrote no verdict on its own work."
+    },
+    {
+      "itemId": "ri_nonconviction_sealing-set",
+      "status": "NO_ACTIONABLE_DEFECT",
+      "laneKind": "repair",
+      "claimAsserted": true,
+      "claim": "CLAIM_OK FIX04 ri_nonconviction_sealing-set (repair, grant set 405be394ff80cc9c)",
+      "whatThisLaneDid": "Read the family's current non-superseded FAIL row and the committed bytes it names. Wrote nothing. No file of this family, and no file of the EAST host, was modified, and the family was not rebuilt.",
+      "theRow": "VF06, verdict FAIL_REPAIR_REQUIRED, base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666 (2026-09-01 23:40), one failed obligation: FEE_AND_WAIVER. Its exactDefect reads: 'no filing-fee statement and no waiver route anywhere in the packet; the catch-all line vf17 quoted is unchanged. Repair: add a dedicated fee item to participant-instructions.md naming the clerk of the District Court as the checkable authority and quoting the held legal review's finding that the Chapter 12-1.3 filing fee is unresolved in the reference.'",
+      "whyItIsNotActionable": "That repair is already in the committed bytes at this base. It landed at 389e17b5f, 2026-09-02 04:18, four and a half hours AFTER the read. participant-instructions.md now carries a dedicated section headed 'What it costs to file, and who answers that' which states that no held source establishes the fee, quotes the held Rhode Island legal review's 'Filing fee: unresolved. Not stated in the reference,' names the clerk's office of the District Court division with the four division addresses the form itself prints, and puts the fee and waiver questions to that clerk. The catch-all line the row quoted no longer contains the word 'fees' -- it reads '...local procedures, attachments, service, and proposed-order requirements before filing. Cost is answered in its own section below.'",
+      "a1a3CheckPerformed": "The compiled Rhode Island profile was read here for a fee answer keyed to this route and holds none. Its one 'without cost to the petitioner' line is keyed to the decriminalized-marijuana expungement route, a different route, and under A3 it was not read across. The packet's refusal to publish a figure, with a named reachable authority, is the standard's third met limb rather than a defect.",
+      "whatWouldChangeThis": "A fresh independent read at this base. This row is a repairer saying there is nothing left to repair on the obligation the standing row failed; it is not a verdict and it supersedes nothing."
+    },
+    {
+      "itemId": "ca-1203-43-set",
+      "status": "NO_ACTIONABLE_DEFECT",
+      "laneKind": "repair",
+      "claimAsserted": true,
+      "claim": "CLAIM_OK FIX04 ca-1203-43-set (repair, grant set 405be394ff80cc9c)",
+      "whatThisLaneDid": "Searched every verifier return for a row on this family and found none. Wrote nothing to the family. It was rebuilt twice only as a control on the shared WEST host, and both trees were restored to HEAD; it is not in this lane's diff.",
+      "theRow": "There is none. data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json carries 335 rows and not one names ca-1203-43-set; no vf* lane rows.json mentions it either. The family appears only in the dispatch item list, the claim ledger, MASTER_QUEUE.json, RASTER_QUEUE.json and other repair lanes' returns.",
+      "whyItIsNotActionable": "A repair lane repairs named defects. With no verifier row there is no failed obligation to repair, and inventing one would be widening. It needs an independent read, not a repairer.",
+      "recordedForTheCaptain": "This family's committed bytes do not reproduce at this base on this container with the unmodified WEST host: a plain rebuild moves its fixtures, field map, rasters, source receipt and reports, and emits derived-sources/, participant-instructions.md and two unchanged-official companions that are not committed at all. That is a build-reproducibility finding about the committed tree, not a defect this lane may repair without a row, and the rebuild output was discarded."
+    },
+    {
+      "itemId": "ca-prop64-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "laneKind": "repair",
+      "claimAsserted": false,
+      "refusal": "ALREADY_RELEASED: ca-prop64-set at 2026-09-02T05:44:41.356Z",
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 ca-prop64-set",
+      "whatThisLaneDid": "Nothing. No artifact of this family was read for repair and no byte of it was written. A refused assert is a full stop; no grant was reissued and none was transferred. The family was rebuilt once as a control on the shared WEST host and produced a zero-byte diff, and nothing of it is in this lane's diff.",
+      "alsoRecorded": "The WEST host change this lane made is gated on a per-family flag that ca-prop64-set does not set, so its two marked-checkbox variants are untouched. The same KNOWN_PREFILLS question is open on it -- it is the other family on this host whose variants turn on marked boxes -- and whichever lane holds it can set the same flag."
+    }
+  ],
+  "fix04SecondGrantSetAppend": {
+    "what": "The document above is an EARLIER FIX04 return, written 2026-09-02T06:50 for a grant set that had been closed before that worker read it. It is preserved byte-for-byte and nothing below is written over it. The rows below are a SECOND FIX04 dispatch, grant set 405be394ff80cc9c, asserted at base 647593771.",
+    "worker": "FIX04, second grant set",
+    "workerBranch": "fable/fix04",
+    "laneKind": "repair",
+    "baseSha": "647593771",
+    "selfVerified": false,
+    "verdictCeiling": "This is a repairer's return. It writes no verdict on its own work, promotes no family, proves none, and opens no commercial route.",
+    "productionTouched": false,
+    "commercialRoutesOpened": 0,
+    "queuesModified": "none. MASTER_QUEUE.json, VERIFIER_RETURNS.json and RASTER_QUEUE.json were read only.",
+    "determinismControl": "Every family was built at base BEFORE any edit. ca-851-91-set reproduced its committed bytes exactly (the only diff was product-wiring.json losing the binding block a later global generator adds; re-running scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs restored it with a zero-byte diff across all 182 records). ut_pet_no_charges-set and vt_seal_pardon-set both reproduced with a zero-byte diff.",
+    "sharedHostControls": "Each repair sits behind a per-family flag. For every shared host, EVERY other family on it was built twice -- once with the host at HEAD and once with the FIX04 edit -- and the two trees were hashed and compared file by file. WEST host (9 other families): identical. Utah host (6 other families): identical, and each also produced a zero-byte diff against its committed bytes. Vermont host (4 other families): identical.",
+    "preExistingIrreproducibilityReportedNotRepaired": "At this base, with the UNMODIFIED host, ca-1203-43-set, ca-17b-reduction-set and the three Arizona families do not reproduce their committed bytes on this container, and the four Vermont sibling families' committed participant-instructions.md do not either (their item 4 fee-waiver paragraph predates a host repair). None of this is caused by, or repaired by, this lane; every one of those trees was restored to HEAD and none is in this lane's diff."
+  }
+}

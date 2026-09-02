@@ -81,7 +81,7 @@ if (checkOnly && SOURCE_MODE.mode === "committed_promotion_proof") {
     for (const problem of problems) console.error(` - ${problem}`);
     process.exit(1);
   }
-  console.log("OK problematic PDF register — no configured source root is mounted, so the committed register was validated against the source-mounted promotion proof (52 reviewed outcomes, 0 unresolved, denominator 128, retained_problematic 0). No source-dependent outcome was rederived from an empty corpus, and nothing was written.");
+  console.log(`OK problematic PDF register — ${SOURCE_MODE.notMaterialized?.length ? `the reviewed sources for these families live in a corpus package that is not mounted here (${SOURCE_MODE.notMaterialized.length} source(s) identified and not materialised)` : "no configured source root is mounted"}, so the committed register was validated against the source-mounted promotion proof (52 reviewed outcomes, 0 unresolved, denominator 128, retained_problematic 0). No source-dependent outcome was rederived from an empty corpus, and nothing was written.`);
   process.exit(0);
 }
 

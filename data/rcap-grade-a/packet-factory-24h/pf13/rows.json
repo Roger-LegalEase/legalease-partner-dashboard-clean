@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF13",
+  "workerId": "FABLE-PD",
+  "workerBranch": "fable/pd",
+  "engine": "Claude packet-build lane in an isolated git worktree, executing the FABLE-PD brief",
+  "lane": "packet-build",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "472444b86139bccc35dac4ee17cc01148f1064d6",
+  "minimumCaptainSha": "d69deaec80f308f48f8871b7d113243a99db95ba",
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha d69deaec80f308f48f8871b7d113243a99db95ba --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+    "note": "npm ci was run first: pdf_lib_importable failed on a checkout with no node_modules, which is an environment state rather than a lane finding."
+  },
+  "laneNotes": [
+    "One family assigned, one row returned, completed.",
+    "The one agency treatment in this grant that binds a real form: the controlling decision names the published Request to Correct Criminal Justice Information, and the route census names it as this route's requiredSourceId. DPS Form CRI-103 is delivered as the Department issues it.",
+    "CRI-103 carries no AcroForm, so every write box is one horizontal stroke measured from the page content stream by its own y, start x and end x, with the box ceiling taken from the lowest printed baseline above it inside its own span. Twelve blanks measured, six written."
+  ],
+  "packetsSelfVerified": 0,
+  "otherPfPromptsExecutedInThisWorktree": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable, and this lane issues no verdict on its own packets.",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "familiesCompleted": [
+    "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record"
+  ],
+  "familiesStopped": [],
+  "blockedSource": [],
+  "blockedLegalInput": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "focusedCheck": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "result": "PASS_COMPLETE"
+  },
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+      "status": "COMPLETED",
+      "familyKind": "AGENCY_APPLICATION_TREATMENT",
+      "implementationStrategy": "participant_agency_application",
+      "directory": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record.mjs",
+      "routeKeys": [
+        "obligation:unattached-decision-route:AK:ak-correct-record"
+      ],
+      "componentSet": [
+        "agency_route_sheet",
+        "dps_correction_request",
+        "evidence_checklist"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "focusedCheck": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+        "result": "PASS_COMPLETE"
+      },
+      "sourcesBound": {
+        "committedRecords": [
+          {
+            "recordId": "legal-decision:2026-08-28:research-track:ak-correct-record",
+            "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+            "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+            "anchorStatementsVerified": 14
+          },
+          {
+            "recordId": "compiled-profile:AK-alaska",
+            "path": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+            "sha256": "d3703c445546caabbed5b5e498b706476c4668ed0104beb8079c9989ff07602f",
+            "anchorStatementsVerified": 3
+          }
+        ],
+        "officialDocuments": [
+          {
+            "documentId": "DPS-CRI-103",
+            "sourceIds": [
+              "official-form:Request to Correct Criminal Justice Information"
+            ],
+            "sha256": "b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259",
+            "custody": "master_library",
+            "renderStrategy": "measured_flat_overlay"
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "298452333a1bc813ccb8924fbbb0bf977aba13c36eb26152350b8c977cd1e3e4",
+          "byteLength": 160071,
+          "pageCount": 5,
+          "documents": [
+            "agency_route_sheet",
+            "DPS-CRI-103",
+            "evidence_checklist"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "c709cc48b6019c276ca9cce7b66c5f20e737286d8947250b2b4fd0af5babb9ce",
+          "byteLength": 160235,
+          "pageCount": 5,
+          "documents": [
+            "agency_route_sheet",
+            "DPS-CRI-103",
+            "evidence_checklist"
+          ]
+        }
+      ],
+      "byteProof": [
+        {
+          "fixture": "canonical",
+          "writesProvedFromOutputBytes": 8,
+          "addedGlyphsReadFromOutputBytes": 127,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "writesProvedFromOutputBytes": 8,
+          "addedGlyphsReadFromOutputBytes": 286,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        }
+      ],
+      "requiredBeforeFilingDeclaredAndDisclosed": 21,
+      "determinism": {
+        "proof": "built twice in this container; every fixture SHA-256 identical across both builds",
+        "byteIdentical": true
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRule": "Rendering is the central workflow's, against the exact bytes these hashes pin. This lane rendered no page rasters and claims no visual verdict; visualDefects records that nobody has looked.",
+      "selfVerified": false,
+      "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable."
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "composed-treatment:sc_17_22_950_summary",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The MASTER_QUEUE row binds no document source, and that is the recorded design: the § 17-22-950(A) order is the summary court's own act with no participant form, and the controlling Q-035 decision resolves the failure branch to a composed written request followed by a composed motion in the original summary case.",
+      "consequence": "Both instruments are composed from the committed records, each bound by SHA-256 and anchor-verified before composing. Each identifies the original docket, disposition, fingerprinted status, statutory deadline and requested order, exactly as the decision directs."
+    },
+    {
+      "finding": "The decision forbids the two available-looking substitutions: repurposing SCCA 223E, and opening a new solicitor application.",
+      "consequence": "Neither instrument references either path as usable, and the instructions carry both prohibitions as stop conditions. The existing sc_17_22_950_summary-set official_pdf_fill family serves the unit-a and unit-b routes; these two decision-branch routes are served only here."
+    },
+    {
+      "finding": "The fingerprinted-versus-not fork selects between § 17-22-950(A) and (B), and this family is built for the (A) branch alone.",
+      "consequence": "Both instruments state the fingerprinted ground as route-determined text on their face, no election control exists, and a participant who was not fingerprinted is told to stop. The (B) application is a different family's instrument."
+    },
+    {
+      "finding": "The § 17-22-950(F) objection path routes a contested matter to a General Sessions judge, and the recorded escalation ends at attorney handoff for mandamus or disputed eligibility.",
+      "consequence": "The instructions tell the participant to ask the summary court whether an objection was transmitted, and both the objection and the post-motion refusal are stop conditions naming counsel."
+    }
+  ]
+}

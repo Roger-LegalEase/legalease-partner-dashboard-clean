@@ -1,0 +1,659 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF04",
+  "workerId": "FABLE-PD",
+  "workerBranch": "fable/pd",
+  "engine": "Claude packet-build lane in an isolated git worktree, executing the FABLE-PD brief",
+  "lane": "packet-build",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "472444b86139bccc35dac4ee17cc01148f1064d6",
+  "minimumCaptainSha": "d69deaec80f308f48f8871b7d113243a99db95ba",
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha d69deaec80f308f48f8871b7d113243a99db95ba --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+    "note": "npm ci was run first: pdf_lib_importable failed on a checkout with no node_modules, which is an environment state rather than a lane finding."
+  },
+  "laneNotes": [
+    "Eight families assigned, eight rows returned. Five completed, three stopped.",
+    "Two of the three stops are one fact: both Texas nondisclosure families bind the same Statement of Inability binary, which lives in the human_source_returns custody that the corpus bootstrap does not install and no release carries.",
+    "The third stop is a builder stop, not a source or legal one. nm_conviction-set binds all seven of its sources exactly and its legal inputs are settled; six of its seven documents are flat pleading pages whose blanks are typed underscore runs, which needs a third measurement mode this lane did not build.",
+    "THREE FINDINGS THIS LANE FOUND AND DID NOT FIX, because each needs a shared host it does not own: the descriptor list carries nothing matching 'date of dismissal', so AOC-CR-287's offence table cannot be completed by any family; the caption capture on AOC-CR-287's identifier row returns neighbouring captions, falsely refusing the ZIP as a race field and the date of birth as a government identifier; and the flat-overlay path writes a single line, so a long address is refused in a cell the form draws 80 points deep for three lines.",
+    "ONE DEFECT THIS LANE FOUND IN ITS OWN WORK AND FIXED: a NUL byte in the byte-proof lookup key meant every official-document write was silently skipped, so four families reported zero values proved while their finalizers reported 13, 6, 11 and 8. The counters read zero throughout, because a proof of nothing trips no counter.",
+    "SOURCE-IDENTITY FINDING for the census: nc_146_dismissal_petition-set's alias official-form:AOC-CR-287 resolves to the INSTRUCTION SHEET (sha fe222704...) rather than to the petition (sha a8762293...). This lane binds by hash so it delivered the right bytes; a verifier following the alias will not."
+  ],
+  "packetsSelfVerified": 0,
+  "otherPfPromptsExecutedInThisWorktree": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable, and this lane issues no verdict on its own packets.",
+  "familiesAssigned": 8,
+  "rowsReturned": 8,
+  "familiesCompleted": [
+    "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+    "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+    "ak-mistaken-identity-set",
+    "ar-nonconviction-seal-set",
+    "nc_146_dismissal_petition-set"
+  ],
+  "familiesStopped": [
+    "nm_conviction-set",
+    "tx_nd_dwi_deferred-set",
+    "tx_nd_veterans_court-set"
+  ],
+  "blockedSource": [
+    "tx_nd_dwi_deferred-set",
+    "tx_nd_veterans_court-set"
+  ],
+  "blockedLegalInput": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "focusedCheck": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "result": "PASS_COMPLETE on all five completed families"
+  },
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+      "status": "COMPLETED",
+      "familyKind": "AGENCY_APPLICATION_TREATMENT",
+      "implementationStrategy": "participant_agency_application",
+      "directory": "data/rcap-all50/overlays/census-v1/co/agency-application-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-investigation-and-finding-request--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request.mjs",
+      "routeKeys": [
+        "obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request"
+      ],
+      "componentSet": [
+        "agency_request",
+        "agency_route_sheet"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "focusedCheck": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+        "result": "PASS_COMPLETE"
+      },
+      "sourcesBound": {
+        "committedRecords": [
+          {
+            "recordId": "legal-decision:2026-08-28:research-track:co_mistaken_identity_expungement",
+            "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+            "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+            "anchorStatementsVerified": 7
+          }
+        ],
+        "officialDocuments": []
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/co/agency-application-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-investigation-and-finding-request--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "b4da2e74cfda874127ab81b22f4bc544d22ffcbcdd36e51a8c8336b1d47eae80",
+          "byteLength": 12406,
+          "pageCount": 4,
+          "documents": [
+            "agency_request",
+            "agency_route_sheet"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/co/agency-application-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-investigation-and-finding-request--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "76f05a4a6392cdceb7281e6ce006b46ce0948bae64af955fed6f2f20089c3f7e",
+          "byteLength": 12755,
+          "pageCount": 4,
+          "documents": [
+            "agency_request",
+            "agency_route_sheet"
+          ]
+        }
+      ],
+      "byteProof": [
+        {
+          "fixture": "canonical",
+          "writesProvedFromOutputBytes": 6,
+          "addedGlyphsReadFromOutputBytes": 109,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "writesProvedFromOutputBytes": 6,
+          "addedGlyphsReadFromOutputBytes": 243,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        }
+      ],
+      "requiredBeforeFilingDeclaredAndDisclosed": 9,
+      "determinism": {
+        "proof": "built twice in this container; every fixture SHA-256 identical across both builds",
+        "byteIdentical": true
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRule": "Rendering is the central workflow's, against the exact bytes these hashes pin. This lane rendered no page rasters and claims no visual verdict; visualDefects records that nobody has looked.",
+      "selfVerified": false,
+      "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable."
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "status": "COMPLETED",
+      "familyKind": "AGENCY_APPLICATION_TREATMENT",
+      "implementationStrategy": "participant_agency_application",
+      "directory": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission.mjs",
+      "routeKeys": [
+        "obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission"
+      ],
+      "componentSet": [
+        "court_transmission_correction_request",
+        "dcjs_correction_submission",
+        "agency_route_sheet"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "focusedCheck": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+        "result": "PASS_COMPLETE"
+      },
+      "sourcesBound": {
+        "committedRecords": [
+          {
+            "recordId": "legal-decision:2026-08-28:research-track:ny_160_55_violation",
+            "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+            "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+            "anchorStatementsVerified": 12
+          },
+          {
+            "recordId": "compiled-profile:NY-new-york",
+            "path": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+            "sha256": "ee4926a11e1035c530f3e1cabd71783c260332c799726b175dc2f529f108fa1e",
+            "anchorStatementsVerified": 6
+          }
+        ],
+        "officialDocuments": []
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "addce736a67209bd19baa69fb0fda0c4db116f02f73c725c668e1dead9df5a40",
+          "byteLength": 14075,
+          "pageCount": 6,
+          "documents": [
+            "court_transmission_correction_request",
+            "dcjs_correction_submission",
+            "agency_route_sheet"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "ecfe03f16e3eceb6ba249c49593f179b829217394fb9d28135f3262befa54f71",
+          "byteLength": 14643,
+          "pageCount": 6,
+          "documents": [
+            "court_transmission_correction_request",
+            "dcjs_correction_submission",
+            "agency_route_sheet"
+          ]
+        }
+      ],
+      "byteProof": [
+        {
+          "fixture": "canonical",
+          "writesProvedFromOutputBytes": 11,
+          "addedGlyphsReadFromOutputBytes": 206,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "writesProvedFromOutputBytes": 11,
+          "addedGlyphsReadFromOutputBytes": 446,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        }
+      ],
+      "requiredBeforeFilingDeclaredAndDisclosed": 11,
+      "determinism": {
+        "proof": "built twice in this container; every fixture SHA-256 identical across both builds",
+        "byteIdentical": true
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRule": "Rendering is the central workflow's, against the exact bytes these hashes pin. This lane rendered no page rasters and claims no visual verdict; visualDefects records that nobody has looked.",
+      "selfVerified": false,
+      "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable."
+    },
+    {
+      "itemId": "ak-mistaken-identity-set",
+      "status": "COMPLETED",
+      "familyKind": "OFFICIAL_FORM_PACKET_FAMILY",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ak-mistaken-identity-set.mjs",
+      "routeKeys": [
+        "obligation:track-pathway:AK:ak-mistaken-identity:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180"
+      ],
+      "componentSet": [
+        "dps_seal_application"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "focusedCheck": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ak-mistaken-identity-set",
+        "result": "PASS_COMPLETE"
+      },
+      "sourcesBound": {
+        "committedRecords": [
+          {
+            "recordId": "packet-set-manifest:ak-mistaken-identity-set",
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa",
+            "anchorStatementsVerified": 7
+          },
+          {
+            "recordId": "compiled-profile:AK-alaska",
+            "path": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+            "sha256": "d3703c445546caabbed5b5e498b706476c4668ed0104beb8079c9989ff07602f",
+            "anchorStatementsVerified": 4
+          }
+        ],
+        "officialDocuments": [
+          {
+            "documentId": "DPS-SEAL-REQ-2-04",
+            "sourceIds": [
+              "official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO"
+            ],
+            "sha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+            "custody": "master_library",
+            "renderStrategy": "measured_flat_overlay"
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "29f4ca66e3be60cb84dd9a720100722ae3ec4823f15f3712913b500470ef62c6",
+          "byteLength": 35912,
+          "pageCount": 6,
+          "documents": [
+            "DPS-SEAL-REQ-2-04"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "758301c28be02067aa54a0903e04051cffe57fbee363ece5e33618e7e428c623",
+          "byteLength": 35915,
+          "pageCount": 6,
+          "documents": [
+            "DPS-SEAL-REQ-2-04"
+          ]
+        }
+      ],
+      "byteProof": [
+        {
+          "fixture": "canonical",
+          "writesProvedFromOutputBytes": 8,
+          "addedGlyphsReadFromOutputBytes": 128,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "writesProvedFromOutputBytes": 7,
+          "addedGlyphsReadFromOutputBytes": 183,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        }
+      ],
+      "requiredBeforeFilingDeclaredAndDisclosed": 21,
+      "determinism": {
+        "proof": "built twice in this container; every fixture SHA-256 identical across both builds",
+        "byteIdentical": true
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRule": "Rendering is the central workflow's, against the exact bytes these hashes pin. This lane rendered no page rasters and claims no visual verdict; visualDefects records that nobody has looked.",
+      "selfVerified": false,
+      "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable."
+    },
+    {
+      "itemId": "ar-nonconviction-seal-set",
+      "status": "COMPLETED",
+      "familyKind": "OFFICIAL_FORM_PACKET_FAMILY",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ar-nonconviction-seal-set.mjs",
+      "routeKeys": [
+        "obligation:track-only:AR:ar-nonconviction-seal"
+      ],
+      "componentSet": [
+        "petition",
+        "order"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "focusedCheck": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-nonconviction-seal-set",
+        "result": "PASS_COMPLETE"
+      },
+      "sourcesBound": {
+        "committedRecords": [
+          {
+            "recordId": "packet-set-manifest:ar-nonconviction-seal-set",
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa",
+            "anchorStatementsVerified": 5
+          },
+          {
+            "recordId": "compiled-profile:AR-arkansas",
+            "path": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+            "sha256": "640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470",
+            "anchorStatementsVerified": 5
+          }
+        ],
+        "officialDocuments": [
+          {
+            "documentId": "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+            "sourceIds": [
+              "official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION"
+            ],
+            "sha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+            "custody": "master_library",
+            "renderStrategy": "delivered_unmodified"
+          },
+          {
+            "documentId": "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+            "sourceIds": [
+              "official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION"
+            ],
+            "sha256": "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a",
+            "custody": "master_library",
+            "renderStrategy": "delivered_unmodified"
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "28436bb896bcf2e8ca414f6a0635af19df9cf2b07317dbd5fe4a2614a7d591e5",
+          "byteLength": 819258,
+          "pageCount": 7,
+          "documents": [
+            "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+            "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "8737d13ab5c420759139c2f880bb4785013753d356729464350cfe6fe4f3d871",
+          "byteLength": 819462,
+          "pageCount": 7,
+          "documents": [
+            "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+            "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION"
+          ]
+        }
+      ],
+      "byteProof": [
+        {
+          "fixture": "canonical",
+          "writesProvedFromOutputBytes": 13,
+          "addedGlyphsReadFromOutputBytes": 156,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "writesProvedFromOutputBytes": 13,
+          "addedGlyphsReadFromOutputBytes": 348,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        }
+      ],
+      "requiredBeforeFilingDeclaredAndDisclosed": 24,
+      "determinism": {
+        "proof": "built twice in this container; every fixture SHA-256 identical across both builds",
+        "byteIdentical": true
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRule": "Rendering is the central workflow's, against the exact bytes these hashes pin. This lane rendered no page rasters and claims no visual verdict; visualDefects records that nobody has looked.",
+      "selfVerified": false,
+      "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable."
+    },
+    {
+      "itemId": "nc_146_dismissal_petition-set",
+      "status": "COMPLETED",
+      "familyKind": "OFFICIAL_FORM_PACKET_FAMILY",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
+      "routeKeys": [
+        "obligation:track-only:NC:nc_146_dismissal_petition"
+      ],
+      "componentSet": [
+        "petition",
+        "instructions",
+        "fee_waiver"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "focusedCheck": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+        "result": "PASS_COMPLETE"
+      },
+      "sourcesBound": {
+        "committedRecords": [
+          {
+            "recordId": "packet-set-manifest:nc_146_dismissal_petition-set",
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa",
+            "anchorStatementsVerified": 6
+          }
+        ],
+        "officialDocuments": [
+          {
+            "documentId": "AOC-CR-287",
+            "sourceIds": [
+              "source-sha256:a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed"
+            ],
+            "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+            "custody": "master_library",
+            "renderStrategy": "delivered_unmodified"
+          },
+          {
+            "documentId": "AOC-CR-287-INSTRUCTIONS",
+            "sourceIds": [
+              "official-form:AOC-CR-287-INSTRUCTIONS"
+            ],
+            "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+            "custody": "master_library",
+            "renderStrategy": "delivered_unmodified"
+          },
+          {
+            "documentId": "AOC-CV-226",
+            "sourceIds": [
+              "official-form:AOC-CV-226"
+            ],
+            "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+            "custody": "master_library",
+            "renderStrategy": "delivered_unmodified"
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "81d71db0020bdef1204898013cb9fd16a8cf3155c0f864c837a21945b1e40fb1",
+          "byteLength": 766940,
+          "pageCount": 5,
+          "documents": [
+            "AOC-CR-287",
+            "AOC-CR-287-INSTRUCTIONS",
+            "AOC-CV-226"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "af582b143c3ef2da24ed5e769e7e1fbe240309186b8fc72dccbceeb3ecc6f251",
+          "byteLength": 767096,
+          "pageCount": 5,
+          "documents": [
+            "AOC-CR-287",
+            "AOC-CR-287-INSTRUCTIONS",
+            "AOC-CV-226"
+          ]
+        }
+      ],
+      "byteProof": [
+        {
+          "fixture": "canonical",
+          "writesProvedFromOutputBytes": 14,
+          "addedGlyphsReadFromOutputBytes": 121,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "writesProvedFromOutputBytes": 14,
+          "addedGlyphsReadFromOutputBytes": 252,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        }
+      ],
+      "requiredBeforeFilingDeclaredAndDisclosed": 62,
+      "determinism": {
+        "proof": "built twice in this container; every fixture SHA-256 identical across both builds",
+        "byteIdentical": true
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRule": "Rendering is the central workflow's, against the exact bytes these hashes pin. This lane rendered no page rasters and claims no visual verdict; visualDefects records that nobody has looked.",
+      "selfVerified": false,
+      "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable."
+    },
+    {
+      "itemId": "nm_conviction-set",
+      "status": "STOPPED",
+      "stopClass": "BUILDER_STOP_MEASUREMENT_MODE_NOT_BUILT",
+      "sourcesBind": "7 of 7 by exact SHA-256 (custody_reconciliation); the row gate returns PACKET_BUILD_ENVIRONMENT_READY 14/14",
+      "legalInputStatus": "SETTLED, and unusually complete",
+      "why": "Six of this family's seven documents are flat pleading pages whose participant blanks are TYPED UNDERSCORE RUNS, not drawn rules and not AcroForm widgets. Neither measurement mode this lane built reaches them: the four-stroke cell mode needs a ruled grid and the ruled-blank mode needs a drawn stroke. Measured on page 1 of each: 4-953 has 8 horizontal strokes and 0 verticals, 4-956 has 0 and 0, 4-960 has 2 and 0, 4-960.1 has 1 and 0, 4-960.3 has 0 and 0, and NM-LOCAL-CONVICTION-ORDER has 2 and 0. Only 4-222, the fee-waiver application, is an AcroForm (7 pages, 158 fields) and would build today on the path this lane already has.",
+      "whatAThirdModeWOULDHaveToDo": "Stitch contiguous underscore glyphs across text-item boundaries and split mixed items -- the extractor returns runs like \"_______________J\" and \" ________\" -- then attribute each reconstructed run to its own preceding caption, on lines that carry three captions and three blanks at once (\"City: State: Zip Code: _____\"). That is a third geometry mode across 19 flat pages, and building it in haste is how a family gets shipped on a guessed rectangle.",
+      "whyNotShippedPartially": "Delivering the seven documents unmodified with a prose list of blanks would produce a packet whose PRIMARY FILING carries no participant fact at all while reading as built. That is the failure the completeness contract exists to catch, one level up, and it is worse than an honest stop.",
+      "whatTheNextLaneStartsWith": [
+        "All 7 sources bind by exact SHA-256; nothing needs acquiring.",
+        "4-222 (7 pages, 158 AcroForm fields) builds today on the acroform path in this lane's builders.",
+        "The legal inputs are settled and rich: the committed packet-set manifest gives the $132.00 district court filing fee, $15.00 per DPS record check, Form 4-222 NMRA as the waiver, service by first-class mail on the district attorney for the county of conviction, the New Mexico Department of Public Safety and the arresting agency, Form 4-956 NMRA filed as the certificate of service, a sixty-day objection window, and a hearing in every case.",
+        "The proposed order (component 6, NM-LOCAL-CONVICTION-ORDER) is CONDITIONAL on the judicial district: the manifest records that every other district supplies its own order form.",
+        "The compiled New Mexico profile is named by the route census as a required source for this route."
+      ],
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false
+    },
+    {
+      "itemId": "tx_nd_dwi_deferred-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "failedSourceIdentity": {
+        "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+        "declaredPath": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+        "custody": "human_source_returns"
+      },
+      "sourcesThatDoBind": [
+        "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0726 (sha 0ef70a8afe2521b0173a210b8ac22eee503c6231c0cf71fcd3c6a91af82db27d)",
+        "official-form:OCA Model Order of Nondisclosure (Driving While Intoxicated) under Section 411.0726 (sha c2b4c3ecf0033ef5af21ae05eaf79f7be197228150c5d6e752d1d423736d2b06)"
+      ],
+      "why": "The fee-waiver statement is the family's third bound source and its bytes are not in this container. scripts/rcap-corpus/bootstrap-private-corpus.sh installs the Master Library and the D1/D2/D3 source packs and nothing else; the corpus index declares human_source_returns as a third custody rooted at private/human-source-returns, and the preflight's own corpus check says in terms that human_source_returns is 'not mounted here and not compared'. The committed receipt at data/rcap-grade-a/source-verification/human-source-returns/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.receipt.json records bodyCommitted: false and says the document is 'Held outside the Master Library and not carried by any release'.",
+      "whatWouldUnblockIt": "A release or bootstrap step that mounts the human_source_returns custody, or a decision that the fee-waiver component may be delivered by reference rather than by inclusion. The bytes exist and are hash-pinned; this container simply cannot reach them.",
+      "notALegalBlocker": "The route's legal inputs are settled and the committed packet-set manifest carries destination, fee and service for it. Nothing about the law stopped this family.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false
+    },
+    {
+      "itemId": "tx_nd_veterans_court-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "failedSourceIdentity": {
+        "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+        "declaredPath": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+        "custody": "human_source_returns"
+      },
+      "sourcesThatDoBind": [
+        "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0727 (sha 7c34e5f5aeee2ce9bb7e757f3c2c9aa9899d536c8917f5329f0d4dc28f6bfa9d)",
+        "official-form:OCA Model Order of Nondisclosure under Section 411.0727 (sha 2c9500206f032b2195a6d99ea04310d520413d8ecdc6978da4ba284c2d01189f)"
+      ],
+      "why": "The same unmounted fee-waiver source as tx_nd_dwi_deferred-set. Both Texas nondisclosure families bind the identical Statement of Inability binary, so both stop on one missing custody rather than on two separate defects.",
+      "whatWouldUnblockIt": "Mounting the human_source_returns custody unblocks both Texas families at once.",
+      "notALegalBlocker": "The route's legal inputs are settled; nothing about the law stopped this family.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false
+    }
+  ]
+}

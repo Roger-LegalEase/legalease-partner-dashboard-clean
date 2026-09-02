@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "rcap-rendered-artifacts/v1",
+  "familyId": "in_infraction_nondisclosure-set",
+  "renderedFresh": true,
+  "derivedFromBytes": true,
+  "componentSet": [
+    "in_infraction_nondisclosure-process-guidance-1",
+    "in_infraction_nondisclosure-primary-filing-2"
+  ],
+  "componentConditions": {
+    "in_infraction_nondisclosure-process-guidance-1": "Stage 1, always applicable: check whether the court already ordered non-disclosure before anything else.",
+    "in_infraction_nondisclosure-primary-filing-2": "Stage 2, used only where the stage-1 check shows the court entered no order, or where the route is the deferral or satisfied-judgment branch. Where the order was already entered, this petition is not filed."
+  },
+  "ownerCorrectionQ7": {
+    "componentId": "in_infraction_nondisclosure-primary-filing-2",
+    "unitId": "in_infraction_nondisclosure-stage-2",
+    "builtUnder": "OWNER_CORRECTIONS_REQUIRED.json, Q7-required-component-deliberately-absent, decided 2026-09-02",
+    "previouslyAbsentBecause": "the manifest makes the component conditional on 'once the form and MC case-type gates close'; the memo held the unit unavailable ('No statewide form has been identified and county handling of the MC case-type assignment is unconfirmed'), and the component's own dependency record stated drafted:false with dependencyKind unresolved_form_question.",
+    "whatChanged": "The form half of the gate is answered from held sources: no statewide form exists for an I.C. 34-28-5-15 infraction petition. Every Indiana PDF in the mounted Master Library and in the partial Nationwide custody was text-extracted and none contains '34-28-5-15' or 'infraction'; every Coalition for Court Access instrument held is an I.C. 35-38-9 expungement form. The registry's officialFormId and officialSourceUrl for this component are null. Outbound fetching of the CCA forms index was refused at CONNECT in this container, so the absence rests on held sources and is stated as such. The MC case-type half is a county-practice question that was never a drafting bar: it is a blank on the petition's caption, declared required before filing, with the clerk named as the authority — which is what the family's own records already direct.",
+    "dependencyRecord": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json"
+  },
+  "pdfs": [
+    {
+      "file": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading/fixtures/canonical.pdf",
+      "documentId": "assembled_packet",
+      "role": "assembled_packet_of_composed_pleadings",
+      "fixture": "canonical",
+      "sha256": "42561798f77784f77ff76defad21ebc6c867fbeafe1f724c9140b27937fd5a49",
+      "byteLength": 12874,
+      "pageCount": 4
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading/fixtures/boundary.pdf",
+      "documentId": "assembled_packet",
+      "role": "assembled_packet_of_composed_pleadings",
+      "fixture": "boundary",
+      "sha256": "4a6285024e1fa6e64604acab113d0b6f98dd2df04809fec4a75e244a36859e5a",
+      "byteLength": 12938,
+      "pageCount": 4
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "42561798f77784f77ff76defad21ebc6c867fbeafe1f724c9140b27937fd5a49",
+      "byteLength": 12874,
+      "pageCount": 4,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "in_infraction_nondisclosure-process-guidance-1",
+          "documentId": "in_infraction_nondisclosure-process-guidance-1",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 2,
+          "component": "in_infraction_nondisclosure-process-guidance-1",
+          "documentId": "in_infraction_nondisclosure-process-guidance-1",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 3,
+          "component": "in_infraction_nondisclosure-primary-filing-2",
+          "documentId": "in_infraction_nondisclosure-primary-filing-2",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 4,
+          "component": "in_infraction_nondisclosure-primary-filing-2",
+          "documentId": "in_infraction_nondisclosure-primary-filing-2",
+          "sourcePage": 2,
+          "sourceSha256": null
+        }
+      ],
+      "documents": [
+        "in_infraction_nondisclosure-process-guidance-1",
+        "in_infraction_nondisclosure-primary-filing-2"
+      ],
+      "components": [
+        "in_infraction_nondisclosure-process-guidance-1",
+        "in_infraction_nondisclosure-primary-filing-2"
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading/fixtures/boundary.pdf",
+      "sha256": "4a6285024e1fa6e64604acab113d0b6f98dd2df04809fec4a75e244a36859e5a",
+      "byteLength": 12938,
+      "pageCount": 4,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "in_infraction_nondisclosure-process-guidance-1",
+          "documentId": "in_infraction_nondisclosure-process-guidance-1",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 2,
+          "component": "in_infraction_nondisclosure-process-guidance-1",
+          "documentId": "in_infraction_nondisclosure-process-guidance-1",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 3,
+          "component": "in_infraction_nondisclosure-primary-filing-2",
+          "documentId": "in_infraction_nondisclosure-primary-filing-2",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 4,
+          "component": "in_infraction_nondisclosure-primary-filing-2",
+          "documentId": "in_infraction_nondisclosure-primary-filing-2",
+          "sourcePage": 2,
+          "sourceSha256": null
+        }
+      ],
+      "documents": [
+        "in_infraction_nondisclosure-process-guidance-1",
+        "in_infraction_nondisclosure-primary-filing-2"
+      ],
+      "components": [
+        "in_infraction_nondisclosure-process-guidance-1",
+        "in_infraction_nondisclosure-primary-filing-2"
+      ]
+    }
+  ],
+  "packets": [
+    {
+      "fixture": "canonical",
+      "documents": [
+        "in_infraction_nondisclosure-process-guidance-1",
+        "in_infraction_nondisclosure-primary-filing-2"
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "documents": [
+        "in_infraction_nondisclosure-process-guidance-1",
+        "in_infraction_nondisclosure-primary-filing-2"
+      ]
+    }
+  ],
+  "everyPageRastered": false,
+  "byteDerivedHashes": true,
+  "rasterEngine": null,
+  "rasterSkipped": true,
+  "rasterPages": [],
+  "rasterState": "BUILT_RASTER_PENDING",
+  "independentVerificationPending": true
+}

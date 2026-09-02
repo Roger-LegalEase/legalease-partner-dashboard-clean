@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "rcap-sc-custom-pleading",
+  "routeKey": "obligation:track-only:SC:sc_aep",
+  "routeKeys": [
+    "obligation:track-only:SC:sc_aep",
+    "obligation:track-only:SC:sc_conditional_discharge_44_53_450",
+    "obligation:track-only:SC:sc_tep",
+    "obligation:track-pathway:SC:sc_17_1_40_general_sessions:general-sessions-non-conviction-expungement",
+    "obligation:track-pathway:SC:sc_17_1_65_handgun:eligible-conviction-expungement",
+    "obligation:track-pathway:SC:sc_22_5_910:eligible-conviction-expungement",
+    "obligation:track-pathway:SC:sc_22_5_920_yoa:eligible-conviction-expungement",
+    "obligation:track-pathway:SC:sc_22_5_930_drug:eligible-conviction-expungement",
+    "obligation:track-pathway:SC:sc_34_11_90e_check:eligible-conviction-expungement",
+    "obligation:track-pathway:SC:sc_56_5_750f:eligible-conviction-expungement"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "rcap-sc-custom-pleading",
+    "jurisdiction": "SC",
+    "routeKeys": [
+      "obligation:track-only:SC:sc_aep",
+      "obligation:track-only:SC:sc_conditional_discharge_44_53_450",
+      "obligation:track-only:SC:sc_tep",
+      "obligation:track-pathway:SC:sc_17_1_40_general_sessions:general-sessions-non-conviction-expungement",
+      "obligation:track-pathway:SC:sc_17_1_65_handgun:eligible-conviction-expungement",
+      "obligation:track-pathway:SC:sc_22_5_910:eligible-conviction-expungement",
+      "obligation:track-pathway:SC:sc_22_5_920_yoa:eligible-conviction-expungement",
+      "obligation:track-pathway:SC:sc_22_5_930_drug:eligible-conviction-expungement",
+      "obligation:track-pathway:SC:sc_34_11_90e_check:eligible-conviction-expungement",
+      "obligation:track-pathway:SC:sc_56_5_750f:eligible-conviction-expungement"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "source-sha256:3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7",
+        "sha256": "3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33605354695",
+      "jobId": "100168607348",
+      "artifactId": 9837817388,
+      "boundToCanonicalSha256": "be6c8dd75e58feaff3d5049c3c4986b99fd39286bfd150855f2cd54eb9551f9b",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "lane": "vf07",
+      "verifiedAtBase": "19b6335bfdd5291f53ce90a36694130d62854c97"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-rcap-sc-custom-pleading.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "rcap-sc-custom-pleading",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "rcap-sc-custom-pleading-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "be6c8dd75e58feaff3d5049c3c4986b99fd39286bfd150855f2cd54eb9551f9b",
+        "requirement": "required"
+      }
+    ]
+  }
+}

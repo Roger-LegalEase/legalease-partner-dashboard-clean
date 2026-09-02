@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "rcap-rendered-artifacts/v1",
+  "familyId": "in_section1_petition-set",
+  "renderedFresh": true,
+  "citesNoBlockedHash": true,
+  "staleArtifactBlock": "data/rcap-grade-a/stale-artifact-block.json",
+  "note": "Rendered fresh from the pinned source bytes. Every output hash below was checked against the hashes in the stale-artifact block and matches none of them.",
+  "rasterisation": {
+    "performedHere": false,
+    "why": "This container resolves no browser, so no page raster is produced at build time. The render happens centrally in .github/workflows/rcap-packet-raster-acceptance-batch.yml against the exact bytes the hashes below pin. This family is BUILT_RASTER_PENDING and no visual obligation is waived by it.",
+    "rasters": []
+  },
+  "packets": [
+    {
+      "packetId": "in_section1_petition-set",
+      "documents": [
+        "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE (canonical)",
+        "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE (boundary)"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "document": "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+      "sha256": "f3cfeb3257e31a90b8f29f5bc264e9da1ad0e390f53e1d3c5950b20b4cbc0241",
+      "byteLength": 251386,
+      "fieldsWritten": 5,
+      "fieldsRefused": 63,
+      "unfittable": [],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    },
+    {
+      "document": "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+      "sha256": "a7b34ccf21175518b5deb609818af3b04feda9c3280d0aaa3862b24714d9df3d",
+      "byteLength": 250461,
+      "fieldsWritten": 2,
+      "fieldsRefused": 66,
+      "unfittable": [
+        {
+          "field": "cap-COUNTY",
+          "factId": "matter.county",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "Saint Bartholomew and the Northern Reaches County",
+          "rect": {
+            "x": 107.16,
+            "y": 679.92,
+            "width": 108,
+            "height": 13.08
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 143.6
+        },
+        {
+          "field": "cap-PetitionerFullName",
+          "factId": "participant.full_legal_name",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+          "rect": {
+            "x": 406.39,
+            "y": 449.66,
+            "width": 161.12,
+            "height": 13.08
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 195.6
+        },
+        {
+          "field": "Address",
+          "factId": "participant.street_address",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
+          "rect": {
+            "x": 180,
+            "y": 430.25,
+            "width": 216.12,
+            "height": 58.95
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 214.7
+        }
+      ],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    }
+  ]
+}

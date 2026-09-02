@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "ri_nonconviction_sealing-set",
+  "routeKeys": [
+    "obligation:unit:RI:ri_nonconviction_sealing:ri-nonconviction-motion-to-seal"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "fieldMap": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/production-field-map.json",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "intendedOverlayDestination": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/product-wiring.json",
+  "integrationStatus": "INSTALLED_BY_CAPTAIN",
+  "note": "Integration-ready repair payload only. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
+  "installedFrom": "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/ri_nonconviction_sealing-set/product-wiring.json",
+  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT",
+  "binding": {
+    "family": "ri_nonconviction_sealing-set",
+    "jurisdiction": "RI",
+    "routeKeys": [
+      "obligation:unit:RI:ri_nonconviction_sealing:ri-nonconviction-motion-to-seal",
+      "obligation:unit:RI:ri_nonconviction_sealing:ri-nonconviction-verify-automatic-sealing"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Motion to seal where automatic or administrative sealing does not apply (official_pdf_fill)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:ri_nonconviction_sealing-primary-filing-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:DC-33",
+        "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33590575410",
+      "jobId": "100124016790",
+      "artifactId": "9831687326",
+      "boundToCanonicalSha256": "e0af21e5c1f4b8014d4d2fb224e99940996328ef69aefd41153095e7166fdc6d",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf07",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ri_nonconviction_sealing-set.mjs",
+      "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "wa_vac_cannabis-set",
+  "routeKeys": [
+    "obligation:track-pathway:WA:wa_vac_cannabis:misdemeanor-cannabis-conviction-vacation"
+  ],
+  "routeSelectionId": "wa-vac-cannabis-crrlj-09-0800-rcw-9-96-060-5",
+  "routeSelectionBasis": "The route election is the form itself: CrRLJ 09.0800 (rev. 07/2022, sha256 260367f6930cacc89727fc8a48aa0591b07ad5c7183b6412aa247b1810503d7b) is the dedicated single-ground petition for misdemeanor cannabis conviction vacation and prints its statutory basis (RCW 9.96.060) on its face. Read first-hand for FIX10: the form face carries no ground checkbox and no blank naming an RCW ground, so there is no election on the form for the packet to mark; choosing CrRLJ 09.0800 over CrRLJ 09.0100 is the route-determined election, per CrRLJ 09.0300 section 2.a.",
+  "implementationStrategy": "official_pdf_fill",
+  "fieldMap": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/production-field-map.json",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "intendedOverlayDestination": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/product-wiring.json",
+  "integrationStatus": "INSTALLED_BY_CAPTAIN",
+  "note": "Integration-ready repair payload only. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
+  "installedFrom": "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/wa_vac_cannabis-set/product-wiring.json",
+  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT",
+  "binding": {
+    "family": "wa_vac_cannabis-set",
+    "jurisdiction": "WA",
+    "routeKeys": [
+      "obligation:track-pathway:WA:wa_vac_cannabis:misdemeanor-cannabis-conviction-vacation"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Washington Cannabis Vacation Application under RCW 9.96.060(5)"
+    ],
+    "packetComponents": [
+      "component:wa_vac_cannabis-primary-filing-1",
+      "component:wa_vac_cannabis-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CrRLJ-09.0800",
+        "sha256": "260367f6930cacc89727fc8a48aa0591b07ad5c7183b6412aa247b1810503d7b",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CrRLJ-09.0870",
+        "sha256": "a69335fbbf311f4c92357db5ecb38f931b3409e14f987810247faae2f6295cc3",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-wa_vac_cannabis-set.mjs",
+      "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

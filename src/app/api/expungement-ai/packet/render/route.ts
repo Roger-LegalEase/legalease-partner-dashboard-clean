@@ -22,6 +22,9 @@ export async function POST(request: NextRequest) {
   if (!auth.isAuthenticated || !auth.userId) {
     return NextResponse.json({ error: "Authentication is required." }, { status: 401 });
   }
+  if (auth.isVerified !== true) {
+    return NextResponse.json({ ok: false, status: "verified_account_required" }, { status: 403 });
+  }
 
   const body = (await request.json().catch(() => null)) as { briefcaseItemId?: string } | null;
   const briefcaseItemId = body?.briefcaseItemId?.trim();
@@ -70,6 +73,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "A recorded payment is required before rendering.", reason: outcome.reason },
         { status: 402 }
+      );
+    // The Grade-A authority refused the route or the participant. No job was
+    // enqueued and no provider saw participant data. The reason is not echoed:
+    // it can name a matter or an owner.
+    case "commercial_admission_denied":
+      return NextResponse.json(
+        { error: "This isn’t available yet. Your information is saved in your Briefcase.", status: outcome.status },
+        { status: 403 }
       );
     case "identity_unresolved":
     case "enqueue_failed":

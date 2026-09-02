@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "nv_seal_probation_family-set",
+  "worklistGroupId": "nv_seal_probation_family-set",
+  "jurisdiction": "NV",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no binary source is bound, and none exists to bind: the MASTER_QUEUE row records sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT with officialFormFamily NONE and boundSources []. The build is grounded on two committed records, verified present and un-drifted before anything is composed: the legal-design intake track and the packet-set manifest.",
+  "routeKey": "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+  "routeSelectionId": "nv-seal-probation-family-composed-set",
+  "statutoryAuthority": "NRS 176A.245, 176A.265 and 176A.295",
+  "legalName": "Sealing After a Treatment-Program Discharge, Conditional Dismissal or Set-Aside (NRS 176A.245, 176A.265 and 176A.295)",
+  "allSourcesExact": true,
+  "formIdentityNote": "The Nevada State Police Records, Communications and Compliance Division publishes no form for a petition under subsection 2 of NRS 176A.245, 176A.265 or 176A.295 — its complete sealing inventory is a General Information document, a statutory page and two sample Word petitions for the ordinary chapter 179 petition, and it records that procedures vary from county to county — and the sections prescribe none. The legal-design correction of 2026-08-08 read all three sections in full, resolved the strategy to custom_pleading with the petition, proposed order and declaration generated conditionally on the subsection 2 branch and the automatic subsection 1 branch carried as guidance. No form was substituted and none was invented.",
+  "codifiedGrounds": [
+    {
+      "record": "data/record-clearing/legal-design-intake/NV.memo.json",
+      "what": "track nv_seal_probation_family: the three sections read in full 2026-08-08, both branches, exclusions, waiting period, rules, stop conditions, open questions"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "what": "packetSetId nv_seal_probation_family-set: the eight-component set with its conditions and the required-before-filing items"
+    }
+  ],
+  "documents": [],
+  "composedComponentsAuthoredByThisBuild": [
+    "detection_and_routing",
+    "branch_screen",
+    "discharge_type_screen",
+    "primary_filing",
+    "proposed_order",
+    "declaration_and_verification",
+    "filing_and_service_instructions",
+    "referral_instructions"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that no official instrument for a subsection 2 petition has been published since 2026-08-08",
+    "that any output is approved for participant delivery",
+    "that any record is eligible for sealing under NRS 176A.245, 176A.265 or 176A.295"
+  ]
+}

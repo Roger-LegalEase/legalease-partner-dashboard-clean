@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(getExpungementAiBaseUrl()),
   title: "Expungement.ai | Free guided record-clearing check",
   description:
-    "Start a free guided check. If a supported self-help packet is available, review your information before paying $50 to generate it.",
+    "Start a free screening. If a supported self-help packet is available, review your information before paying $50 to generate it.",
   icons: {
     icon: [
       { url: "/expungement-ai/favicon.ico", sizes: "16x16 32x32 48x48" },
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Expungement.ai | Free guided record-clearing check",
     description:
-      "Start a free guided check. If a supported self-help packet is available, review your information before paying $50 to generate it.",
+      "Start a free screening. If a supported self-help packet is available, review your information before paying $50 to generate it.",
     type: "website",
     siteName: "Expungement.ai",
     images: ["/expungement-ai/hero/expungement-ai-hero-poster.jpg"]
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Expungement.ai | Free guided record-clearing check",
     description:
-      "Start a free guided check. If a supported self-help packet is available, review your information before paying $50 to generate it.",
+      "Start a free screening. If a supported self-help packet is available, review your information before paying $50 to generate it.",
     images: ["/expungement-ai/hero/expungement-ai-hero-poster.jpg"]
   }
 };

@@ -1,0 +1,903 @@
+{
+  "authorityVersion": "2026-08-24",
+  "sources": [
+    "LegalEase Mississippi Definitive Route Decisions (2026-08-24) - controls every Mississippi route",
+    "Record Clearing Implementation Authority Reconciled (2026-08-24), sheet: Completed Decision Matrix - controls the other 49 decisions",
+    "Record Clearing Implementation Authority Reconciled (2026-08-24), sheet: Mississippi Override Register - controls the thirteen Mississippi route categories",
+    "LEGALEASE_LEGAL_AUTHORITY_INGESTION_DIRECTIVE (2026-08-24)",
+    "National Record-Clearing Legal Decision Report, current through 2026-08-28 (sha256 84ef2b61126aa26cd66dec5dfb39a112d87c5a92397ab92efd452cc1e5ad1336)"
+  ],
+  "decisions": [
+    {
+      "id": "LD-AL-01",
+      "jurisdiction": "AL",
+      "priority": "P2",
+      "ruleId": "AL-15-27-1A8-15-27-2A8-TRAFFICKING-EVENT",
+      "outputMode": "COURT PETITION PACKET + CONTESTED-NEXUS REFERRAL",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "AL:human-trafficking-victim-expungement"
+      ],
+      "effectiveDateNote": "No operational delay identified; do not reuse general Alabama waiting tables."
+    },
+    {
+      "id": "LD-CT-02",
+      "jurisdiction": "CT",
+      "priority": "P2",
+      "ruleId": "CT-CANNABIS-AUTOMATIC-VS-PETITION-MAP",
+      "outputMode": "AUTOMATIC STATUS/CORRECTION GUIDANCE OR COURT PETITION PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "CT:cannabis-conviction-erasure"
+      ],
+      "effectiveDateNote": "Automatic and petition categories must never share a checkout path."
+    },
+    {
+      "id": "LD-DE-01",
+      "jurisdiction": "DE",
+      "priority": "P1",
+      "ruleId": "DE-10-DEL-C-1017-1017A-1018-JUVENILE-BRANCH-MAP",
+      "outputMode": "AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ],
+      "effectiveDateNote": "The 120-day Attorney General response period must be modeled only as post-filing procedure."
+    },
+    {
+      "id": "LD-FL-01",
+      "jurisdiction": "FL",
+      "priority": "P1",
+      "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+      "outputMode": "MIXED - AGENCY APPLICATION, COURT PACKET, OR AUTOMATIC STATUS GUIDANCE",
+      "affectedFlowCount": 6,
+      "routeKeys": [
+        "FL:administrative-expunction-mistaken-or-unlawful-arrest",
+        "FL:automatic-sealing-943-0595",
+        "FL:court-ordered-sealing-943-059",
+        "FL:human-trafficking-victim-expunction-943-0583",
+        "FL:juvenile-diversion-expunction-943-0582",
+        "FL:lawful-self-defense-expunction-943-0578"
+      ],
+      "effectiveDateNote": "Do not treat FDLE or prosecutor processing deadlines as prefiling waits."
+    },
+    {
+      "id": "LD-GA-01",
+      "jurisdiction": "GA",
+      "priority": "P0",
+      "ruleId": "GA-35-3-37-42-8-62.1-THREE-MECHANISM-MAP",
+      "outputMode": "MIXED - STATUS/CORRECTION GUIDANCE OR COURT PETITION PACKET",
+      "affectedFlowCount": 3,
+      "routeKeys": [
+        "GA:automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "GA:restriction-and-sealing-of-a-pardoned-felony",
+        "GA:youthful-first-offender-restriction-route"
+      ],
+      "effectiveDateNote": "The first-offender intake must explicitly branch on the July 1, 2026 statutory change."
+    },
+    {
+      "id": "LD-HI-01",
+      "jurisdiction": "HI",
+      "priority": "P0",
+      "ruleId": "HI-706-622.5-831-3.2-TWO-ROUTE-BRANCH-MAP",
+      "outputMode": "COURT/AGENCY APPLICATION PACKET BY ROUTE",
+      "affectedFlowCount": 3,
+      "routeKeys": [
+        "HI:first-time-drug-conviction",
+        "HI:nonconviction-arrest-expungement"
+      ],
+      "effectiveDateNote": "Model the July 1, 2025 one-step Attorney General procedure; do not treat agency processing time as a wait."
+    },
+    {
+      "id": "LD-IL-02",
+      "jurisdiction": "IL",
+      "priority": "P1",
+      "ruleId": "IL-20-ILCS-2630-5.2-CANNABIS-AUTOMATIC-PARDON-PETITION-SPLIT",
+      "outputMode": "AUTOMATIC STATUS/CORRECTION GUIDANCE, CLEMENCY REFERRAL, OR LIMITED PETITION PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "IL:cannabis-specific-automatic-or-petition-expungement"
+      ],
+      "effectiveDateNote": "A pardon application is not a routine court-expungement packet and must be labeled accordingly."
+    },
+    {
+      "id": "LD-IL-04",
+      "jurisdiction": "IL",
+      "priority": "P1",
+      "ruleId": "IL-MISTAKEN-IDENTITY-AND-PROSTITUTION-TWO-ROUTE-MAP",
+      "outputMode": "COURT CORRECTION PETITION OR PROSTITUTION VACATUR/EXPUNGEMENT PACKET",
+      "affectedFlowCount": 2,
+      "routeKeys": [
+        "IL:criminal-identity-theft-mistaken-identity-relief",
+        "IL:felony-prostitution-relief"
+      ],
+      "effectiveDateNote": "Do not route identity correction through the ordinary expungement eligibility engine."
+    },
+    {
+      "id": "LD-KS-02",
+      "jurisdiction": "KS",
+      "priority": "P1",
+      "ruleId": "KS-21-6614-SPECIALTY-COURT-COMPLETION-ACCELERATED",
+      "outputMode": "COURT PETITION PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "KS:specialty-court-accelerated"
+      ],
+      "effectiveDateNote": "Positive and negative tests must prove the ordinary three-year rule is bypassed only for the qualifying specialty-court branch."
+    },
+    {
+      "id": "LEGAL-DESIGN-2026-08-02-KS-01",
+      "jurisdiction": "KS",
+      "priority": "P1",
+      "ruleId": "KS-12-4516-MUNICIPAL-CONVICTION-OR-DIVERSION-EXPUNGEMENT",
+      "outputMode": "MUNICIPAL COURT PETITION PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "KS:municipal-conviction-or-diversion-expungement-under-12-4516"
+      ],
+      "effectiveDateNote": "K.S.A. 12-4516 is a municipal-court mechanism. It must never be served by the district-court K.S.A. 21-6614 pathway, and the three-year clock here must not be confused with the district-court clock of the same length."
+    },
+    {
+      "id": "LEGAL-DESIGN-2026-08-02-KS-02",
+      "jurisdiction": "KS",
+      "priority": "P1",
+      "ruleId": "KS-12-4516A-MUNICIPAL-ARREST-RECORD-EXPUNGEMENT",
+      "outputMode": "MUNICIPAL COURT PETITION PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "KS:municipal-arrest-record-expungement-under-12-4516a"
+      ],
+      "effectiveDateNote": "K.S.A. 12-4516a states no waiting period. A state-law arrest runs under K.S.A. 22-2410 in the district court, and a municipal conviction or fulfilled diversion runs under K.S.A. 12-4516; neither may be served here."
+    },
+    {
+      "id": "LD-KY-02",
+      "jurisdiction": "KY",
+      "priority": "P2",
+      "ruleId": "KY-610.330-AUTOMATIC-VS-TWO-YEAR-PETITION",
+      "outputMode": "AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET",
+      "affectedFlowCount": 2,
+      "routeKeys": [
+        "KY:juvenile-automatic-dismissal",
+        "KY:juvenile-petition-610330"
+      ],
+      "effectiveDateNote": "Do not present the two-year period to a user in the automatic dismissal/not-delinquent branch."
+    },
+    {
+      "id": "LD-LA-02",
+      "jurisdiction": "LA",
+      "priority": "P1",
+      "ruleId": "LA-CCRP-894B-977-SET-ASIDE-DISMISSAL-EVENT",
+      "outputMode": "COURT EXPUNGEMENT PACKET",
+      "affectedFlowCount": 2,
+      "routeKeys": [
+        "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement"
+      ],
+      "effectiveDateNote": "Do not attach the five-year alternative route or DWI-diversion arrest-date clock unless independently applicable."
+    },
+    {
+      "id": "LD-LA-03",
+      "jurisdiction": "LA",
+      "priority": "P1",
+      "ruleId": "LA-CCRP-978-FIRST-OFFENDER-PARDON-EVENT",
+      "outputMode": "COURT EXPUNGEMENT PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "LA:first-offender-pardon-felony-expungement"
+      ],
+      "effectiveDateNote": "The product must verify the pardon rather than infer it solely from a completion date."
+    },
+    {
+      "id": "LD-LA-04",
+      "jurisdiction": "LA",
+      "priority": "P1",
+      "ruleId": "LA-CCRP-893E-978-SET-ASIDE-DISMISSAL-EVENT",
+      "outputMode": "COURT EXPUNGEMENT PACKET",
+      "affectedFlowCount": 2,
+      "routeKeys": [
+        "LA:felony-article-893-e-set-aside-followed-by-expungement"
+      ],
+      "effectiveDateNote": "Do not reuse Article 978's alternative clean-period routes as a mandatory wait for an 893(E) dismissal."
+    },
+    {
+      "id": "LD-LA-05",
+      "jurisdiction": "LA",
+      "priority": "P2",
+      "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+      "outputMode": "MIXED - STATUS REQUEST, DERIVATIVE PACKET, CERTIFIED SURVIVOR PACKET, PROGRAM PACKET, OR INTERIM PACKET",
+      "affectedFlowCount": 5,
+      "routeKeys": [
+        "LA:automated-expungement-status-verification-art-985-2",
+        "LA:expungement-by-redaction-for-multi-person-records",
+        "LA:human-trafficking-survivor-expungement-fee-exempt-route",
+        "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
+        "LA:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction"
+      ],
+      "effectiveDateNote": "Article 985.2 must remain operationally gated if statutory funding or agency functionality is unavailable."
+    },
+    {
+      "id": "LD-MA-02",
+      "jurisdiction": "MA",
+      "priority": "P2",
+      "ruleId": "MA-276-100C-100K-100KQUARTER-THREE-PROCESS-MAP",
+      "outputMode": "AUTOMATIC STATUS/CORRECTION GUIDANCE OR COURT SEALING/EXPUNGEMENT PACKET",
+      "affectedFlowCount": 3,
+      "routeKeys": [
+        "MA:automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "MA:marijuana-only-expungement"
+      ],
+      "effectiveDateNote": "Never apply § 100A's conviction-sealing waits to § 100C nonconvictions or the special marijuana route."
+    },
+    {
+      "id": "LD-MD-03",
+      "jurisdiction": "MD",
+      "priority": "P1",
+      "ruleId": "MD-10-103-10-103.1-PREPOST-2007-POLICE-RECORD-MAP",
+      "outputMode": "AGENCY REQUEST OR AUTOMATIC STATUS/CORRECTION GUIDANCE",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "MD:police-record-expungement-when-no-charge-was-filed-under-10-103"
+      ],
+      "effectiveDateNote": "Do not display the 60-day agency processing period as a participant wait."
+    },
+    {
+      "id": "LD-ME-03",
+      "jurisdiction": "ME",
+      "priority": "P1",
+      "ruleId": "ME-15-MRS-3308C-AUTOMATIC-VS-THREE-YEAR-PETITION",
+      "outputMode": "AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE PETITION PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "ME:juvenile-sealing"
+      ],
+      "effectiveDateNote": "The statutory court-processing period for the automatic branch is not a prefiling wait."
+    },
+    {
+      "id": "LD-MI-02",
+      "jurisdiction": "MI",
+      "priority": "P2",
+      "ruleId": "MI-MCL-780.621D-TRAFFICKING-DIRECT-RESULT-NO-WAIT",
+      "outputMode": "COURT SET-ASIDE PACKET + NONCOVERED-OFFENSE REFERRAL",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "MI:human-trafficking-related-set-aside-application"
+      ],
+      "effectiveDateNote": "Do not broaden this route based on pending 2025-2026 legislation that has not become law."
+    },
+    {
+      "id": "LD-MN-01",
+      "jurisdiction": "MN",
+      "priority": "P1",
+      "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+      "outputMode": "MIXED - AGENCY DEMAND, AUTOMATIC STATUS GUIDANCE, BOARD REVIEW, AGREED-SEALING, OR COURT PETITION",
+      "affectedFlowCount": 6,
+      "routeKeys": [
+        "MN:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11",
+        "MN:automatic-clean-slate-expungement-under-609a-015",
+        "MN:automatic-mistaken-identity-expungement-under-609a-017",
+        "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+        "MN:petition-based-expungement-under-609a-02-03",
+        "MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025"
+      ],
+      "effectiveDateNote": "Explicitly label the ten-year § 299C.11 condition as a prior-conviction lookback, not a clock from arrest."
+    },
+    {
+      "id": "LD-MO-01",
+      "jurisdiction": "MO",
+      "priority": "P0",
+      "ruleId": "MO-311.326-AND-610.140-SEPARATE-CLOCKS",
+      "outputMode": "COURT PETITION PACKET BY STATUTE",
+      "affectedFlowCount": 3,
+      "routeKeys": [
+        "MO:first-minor-in-possession-alcohol-expungement-under-311-326",
+        "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140"
+      ],
+      "effectiveDateNote": "The age-21 clock and the § 610.140 completion clock must be separate rule objects."
+    },
+    {
+      "id": "LD-MO-03",
+      "jurisdiction": "MO",
+      "priority": "P0",
+      "ruleId": "MO-CONST-ART-XIV-AUTOMATIC-VS-INCARCERATED-PETITION",
+      "outputMode": "AUTOMATIC STATUS/CORRECTION GUIDANCE OR INCARCERATED-PERSON COURT PETITION",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "MO:marijuana-expungement-under-missouri-constitution-article-xiv"
+      ],
+      "effectiveDateNote": "Do not sell a routine § 610.140 packet for a constitutionally automatic marijuana record."
+    },
+    {
+      "id": "LD-MO-02",
+      "jurisdiction": "MO",
+      "priority": "P1",
+      "ruleId": "MO-610.105-610.122-610.145-THREE-CORRECTION-MECHANISMS",
+      "outputMode": "STATUS/CORRECTION GUIDANCE OR SPECIAL COURT PETITION",
+      "affectedFlowCount": 4,
+      "routeKeys": [
+        "MO:closed-record-outcome-under-rsmo-610-105",
+        "MO:false-information-or-qualifying-arrest-record-expungement-under-610-122-123",
+        "MO:stolen-or-mistaken-identity-expungement-under-610-145"
+      ],
+      "effectiveDateNote": "Do not activate the new August 28, 2026 automatic provision before its effective date."
+    },
+    {
+      "id": "LD-MS-01",
+      "jurisdiction": "MS",
+      "priority": "P1",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "outputMode": "THIRTEEN ROUTE-SPECIFIC PACKET / GUIDANCE / REFERRAL / AUTOMATIC OUTCOMES",
+      "affectedFlowCount": 10,
+      "routeKeys": [
+        "MS:dui-nonadjudication",
+        "MS:eligible-felony-conviction-expungement-99-19-71",
+        "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+        "MS:first-offense-controlled-substance-conditional-discharge-relief",
+        "MS:human-trafficking-survivor-vacatur-and-expungement",
+        "MS:intervention-court-completion-expungement",
+        "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "MS:nonadjudication-under-99-15-26",
+        "MS:pretrial-intervention-or-diversion-expungement"
+      ],
+      "effectiveDateNote": "The Mississippi Definitive Route Decisions report supersedes the general 50-row report and the original LD-MS-01 row wherever they conflict. Controlling corrections: 3-year felony rule effective 2026-07-01; no consumer packet for DUI nonadjudication; automatic intervention-court branch; general nonconviction relief at § 99-19-71(4)."
+    },
+    {
+      "id": "LD-MT-01",
+      "jurisdiction": "MT",
+      "priority": "P1",
+      "ruleId": "MT-46-18-204-DEFERRED-COMPLETION-DISMISSAL-EVENT",
+      "outputMode": "STATUS/CORRECTION GUIDANCE OR LIMITED COURT/AGENCY PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "MT:deferred-sentence-dismissal-or-confidentiality-route"
+      ],
+      "effectiveDateNote": "Do not add a general expungement clock after the deferred sentence terminates."
+    },
+    {
+      "id": "LD-MT-02",
+      "jurisdiction": "MT",
+      "priority": "P1",
+      "ruleId": "MT-DOJ-CORRECTION-VS-16-12-113-MARIJUANA-SPLIT",
+      "outputMode": "AGENCY CORRECTION REQUEST OR COURT MARIJUANA PETITION",
+      "affectedFlowCount": 2,
+      "routeKeys": [
+        "MT:doj-record-removal-update-request",
+        "MT:marijuana-related-redesignation-expungement-under-mmrta"
+      ],
+      "effectiveDateNote": "Do not send a record-correction user through the marijuana or general set-aside engine."
+    },
+    {
+      "id": "LD-MT-03",
+      "jurisdiction": "MT",
+      "priority": "P1",
+      "ruleId": "MT-44-5-202-NONCONVICTION-AUTOMATIC-CORRECTION",
+      "outputMode": "AUTOMATIC STATUS/CORRECTION GUIDANCE OR AGENCY REQUEST",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "MT:non-conviction-criminal-history-removal-through-criss"
+      ],
+      "effectiveDateNote": "The statutory court-to-CRISS reporting period is processing, not an applicant wait."
+    },
+    {
+      "id": "LD-NC-02",
+      "jurisdiction": "NC",
+      "priority": "P1",
+      "ruleId": "NC-15A-145.8A-COMPLETION-EVENT-NO-EXTRA-WAIT",
+      "outputMode": "COURT EXPUNCTION PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "NC:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes"
+      ],
+      "effectiveDateNote": "Do not borrow the waiting periods in §§ 15A-145 or 15A-145.5."
+    },
+    {
+      "id": "LD-NE-05",
+      "jurisdiction": "NE",
+      "priority": "P1",
+      "ruleId": "NE-29-3523-ERROR-VS-29-2264-SET-ASIDE",
+      "outputMode": "ERROR PETITION OR SET-ASIDE APPLICATION",
+      "affectedFlowCount": 3,
+      "routeKeys": [
+        "NE:law-enforcement-error-expungement",
+        "NE:set-aside-probation-fine-community-service"
+      ],
+      "effectiveDateNote": "Results copy must say that a set-aside does not erase the Nebraska record."
+    },
+    {
+      "id": "LD-NH-04",
+      "jurisdiction": "NH",
+      "priority": "P1",
+      "ruleId": "NH-RSA-651-5-VACATUR-PREPOST-2019-MAP",
+      "outputMode": "AUTOMATIC STATUS/CORRECTION GUIDANCE OR ANNULMENT PETITION",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "NH:annulment-of-a-vacated-conviction"
+      ],
+      "effectiveDateNote": "Require the actual vacatur order; a claimed appeal or collateral challenge is not enough."
+    },
+    {
+      "id": "LD-NJ-01",
+      "jurisdiction": "NJ",
+      "priority": "P1",
+      "ruleId": "NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP",
+      "outputMode": "AUTOMATIC STATUS GUIDANCE OR ROUTE-SPECIFIC COURT EXPUNGEMENT PACKET",
+      "affectedFlowCount": 4,
+      "routeKeys": [
+        "NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
+        "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+        "NJ:marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
+        "NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3"
+      ],
+      "effectiveDateNote": "Do not implement pending 2026 bills as enacted law; use current five- and ten-year statutes as of August 24, 2026."
+    },
+    {
+      "id": "LD-NM-02",
+      "jurisdiction": "NM",
+      "priority": "P1",
+      "ruleId": "NM-29-16-10-DNA-DISPOSITION-VS-ONE-YEAR-NO-CHARGE-BRANCH",
+      "outputMode": "AGENCY DNA EXPUNGEMENT REQUEST",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "NM:dna-sample-profile-expungement"
+      ],
+      "effectiveDateNote": "Agency 30- or 45-day processing periods must not be shown as prefiling waits."
+    },
+    {
+      "id": "LD-NV-04",
+      "jurisdiction": "NV",
+      "priority": "P1",
+      "ruleId": "NV-176.211-DEFERRED-EVENT-AND-179.247-TRAFFICKING-EVENT",
+      "outputMode": "COURT SEALING PACKET OR TRAFFICKING VACATUR/SEALING PACKET",
+      "affectedFlowCount": 2,
+      "routeKeys": [
+        "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+        "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247"
+      ],
+      "effectiveDateNote": "Do not transplant NRS 176A.245/.265/.295 timing into NRS 176.211."
+    },
+    {
+      "id": "LD-OK-01",
+      "jurisdiction": "OK",
+      "priority": "P1",
+      "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+      "outputMode": "ELEVEN ROUTE-SPECIFIC OUTPUTS - MANUAL PETITION, AUTOMATIC STATUS, SPECIAL PETITION, OR GUIDANCE",
+      "affectedFlowCount": 11,
+      "routeKeys": [
+        "OK:arrest-with-no-charges-filed",
+        "OK:clean-slate-automatic-expungement",
+        "OK:conviction-reversed-and-case-dismissed",
+        "OK:deferred-sentence-court-record-expungement-under-991-c",
+        "OK:dna-factual-innocence-expungement",
+        "OK:felony-reclassified-as-a-misdemeanor",
+        "OK:fine-only-misdemeanor-conviction-expungement",
+        "OK:human-trafficking-survivor-relief",
+        "OK:juvenile-record-expungement",
+        "OK:pardon-based-expungement",
+        "OK:victim-protective-order-record-relief"
+      ],
+      "effectiveDateNote": "Launch-critical: portal due November 1, 2026; automated identification due November 1, 2027; electronic backlog due November 1, 2029. Do not represent those systems as live before verified deployment."
+    },
+    {
+      "id": "LD-OR-01",
+      "jurisdiction": "OR",
+      "priority": "P1",
+      "ruleId": "OR-137.225-1C-1D-NONCONVICTION-COMPLETE-MAP",
+      "outputMode": "COURT SET-ASIDE PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ],
+      "effectiveDateNote": "The prior dismissed-branch hold is resolved by the current text: ordinary dismissal is any time after dismissal; the 60-day branch is limited to no accusatory instrument."
+    },
+    {
+      "id": "LD-OR-03",
+      "jurisdiction": "OR",
+      "priority": "P1",
+      "ruleId": "OR-475C.397-SPECIAL-MARIJUANA-VS-137.225-CLASS-MAP",
+      "outputMode": "SPECIAL MARIJUANA MOTION OR GENERAL SET-ASIDE PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "OR:marijuana-specific-set-aside-redesignation"
+      ],
+      "effectiveDateNote": "Offense class and date are mandatory intake facts for the fallback general route."
+    },
+    {
+      "id": "LD-PA-03",
+      "jurisdiction": "PA",
+      "priority": "P2",
+      "ruleId": "PA-ARD-9122-UNDERAGE-3019-TRAFFICKING-THREE-ROUTE-MAP",
+      "outputMode": "ROUTE-SPECIFIC COURT EXPUNGEMENT OR VACATUR PACKET",
+      "affectedFlowCount": 3,
+      "routeKeys": [
+        "PA:path-d-ard-expungement",
+        "PA:path-g-underage-drinking-conviction-expungement",
+        "PA:path-k-human-trafficking-vacatur-expungement"
+      ],
+      "effectiveDateNote": "ARD completion and dismissal are distinct facts and should both be captured."
+    },
+    {
+      "id": "LD-RI-03",
+      "jurisdiction": "RI",
+      "priority": "P1",
+      "ruleId": "RI-12-1-12-12.1-FOUR-NONCONVICTION-PROCEDURES",
+      "outputMode": "AUTOMATIC STATUS/CORRECTION, ADMINISTRATIVE REQUEST, OR COURT MOTION",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "RI:path-d-non-conviction-sealing-expungement"
+      ],
+      "effectiveDateNote": "All four numerical periods must be labeled as processing/notice periods except the separate domestic-violence retention condition."
+    },
+    {
+      "id": "LD-RI-06",
+      "jurisdiction": "RI",
+      "priority": "P1",
+      "ruleId": "RI-12-10-12-12-1.3-5-FILED-COMPLAINT-MARIJUANA-DECRIM-SPLIT",
+      "outputMode": "STATUS/CORRECTION GUIDANCE OR LIMITED COURT APPLICATION",
+      "affectedFlowCount": 3,
+      "routeKeys": [
+        "RI:path-e-filed-complaint-relief-under-12-10-12",
+        "RI:path-f-marijuana-possession-expungement",
+        "RI:path-g-decriminalized-offense-expungement"
+      ],
+      "effectiveDateNote": "Do not convert the court-set filing term into a generic fixed waitingPeriodRule."
+    },
+    {
+      "id": "LD-SC-01",
+      "jurisdiction": "SC",
+      "priority": "P1",
+      "ruleId": "SC-CONVICTION-OFFENSE-MAP-NONCONVICTION-JUVENILE-PARDON-SPLIT",
+      "outputMode": "OFFENSE-SPECIFIC PACKET, NONCONVICTION/JUVENILE PACKET, OR PARDON GUIDANCE ONLY",
+      "affectedFlowCount": 4,
+      "routeKeys": [
+        "SC:eligible-conviction-expungement",
+        "SC:general-sessions-non-conviction-expungement",
+        "SC:juvenile-expungement",
+        "SC:pardon-guidance-for-otherwise-ineligible-convictions"
+      ],
+      "effectiveDateNote": "Results copy must affirmatively disclose that a pardon does not erase or seal the South Carolina conviction."
+    },
+    {
+      "id": "LD-SD-01",
+      "jurisdiction": "SD",
+      "priority": "P1",
+      "ruleId": "SD-24-14-11-PARDON-EVENT-SEALING",
+      "outputMode": "AUTOMATIC/AGENCY SEALING STATUS GUIDANCE OR CORRECTION REQUEST",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "SD:pardon-based-sealing"
+      ],
+      "effectiveDateNote": "Out-of-chapter or out-of-state pardons require referral rather than automatic eligibility."
+    },
+    {
+      "id": "LD-SD-02",
+      "jurisdiction": "SD",
+      "priority": "P1",
+      "ruleId": "SD-26-7A-115.1-TRAFFICKING-AND-23A-27-13-SIS-SPLIT",
+      "outputMode": "JUVENILE TRAFFICKING PETITION OR SIS STATUS/CORRECTION GUIDANCE",
+      "affectedFlowCount": 2,
+      "routeKeys": [
+        "SD:juvenile-trafficking-expungement",
+        "SD:suspended-imposition-of-sentence-sealing"
+      ],
+      "effectiveDateNote": "Do not preserve the prior blanket attorney-referral treatment for an otherwise complete § 26-7A-115.1 intake."
+    },
+    {
+      "id": "LD-TX-02",
+      "jurisdiction": "TX",
+      "priority": "P2",
+      "ruleId": "TX-55A-PARDON-INNOCENCE-CLASSC-DISMISSAL-FOUR-BRANCH-MAP",
+      "outputMode": "EX PARTE EXPUNCTION PETITION OR ORDER/STATUS GUIDANCE",
+      "affectedFlowCount": 3,
+      "routeKeys": [
+        "TX:expunction-after-pardon-or-actual-innocence-relief",
+        "TX:expunction-after-qualifying-class-c-deferred-disposition",
+        "TX:expunction-after-qualifying-dismissal-or-quash"
+      ],
+      "effectiveDateNote": "The thirty-day court deadline and hearing notice period are procedural and must not be stored as eligibility waits."
+    },
+    {
+      "id": "LD-UT-02",
+      "jurisdiction": "UT",
+      "priority": "P1",
+      "ruleId": "UT-77-40A-AUTOMATIC-VS-PETITION-CLEAN-SLATE-MAP",
+      "outputMode": "AUTOMATIC STATUS/CORRECTION GUIDANCE OR PETITION PACKET",
+      "affectedFlowCount": 2,
+      "routeKeys": [
+        "UT:path-a-automatic-clean-slate-expungement",
+        "UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals"
+      ],
+      "effectiveDateNote": "Generic offense_level is insufficient; the flow must collect Utah Class A/B/C/infraction and the precise statutory category."
+    },
+    {
+      "id": "LD-UT-05",
+      "jurisdiction": "UT",
+      "priority": "P1",
+      "ruleId": "UT-TRAFFIC-PETITION-3-4-VS-AUTOMATIC-5-6",
+      "outputMode": "AUTOMATIC STATUS/CORRECTION GUIDANCE OR TRAFFIC PETITION PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "UT:path-i-traffic-offense-expungement-or-deletion"
+      ],
+      "effectiveDateNote": "A single 'traffic' answer cannot calculate eligibility; class is a mandatory rendered fact."
+    },
+    {
+      "id": "LD-UT-07",
+      "jurisdiction": "UT",
+      "priority": "P2",
+      "ruleId": "UT-CANNABIS-PARDON-TRAFFICKING-JUVENILE-FOUR-ROUTE-MAP",
+      "outputMode": "SPECIAL COURT PETITION, PARDON STATUS GUIDANCE, OR JUVENILE PETITION",
+      "affectedFlowCount": 4,
+      "routeKeys": [
+        "UT:path-j-cannabis-possession-petition-without-a-bci-certificate",
+        "UT:path-k-pardon-based-expungement",
+        "UT:path-l-vacatur-human-trafficking-related-expungement",
+        "UT:path-m-juvenile-expungement"
+      ],
+      "effectiveDateNote": "Remove the current contradictory guidance-only treatment from any special route that expressly authorizes a participant-filed petition."
+    },
+    {
+      "id": "LD-WA-02",
+      "jurisdiction": "WA",
+      "priority": "P1",
+      "ruleId": "WA-RCW-13.50.260-AUTOMATIC-IMMEDIATE-TWO-FIVE-YEAR-MAP",
+      "outputMode": "AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE SEALING MOTION",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "WA:juvenile-record-sealing-under-rcw-13-50-260"
+      ],
+      "effectiveDateNote": "A diversion and an adjudication must not share a generic juvenile waiting value without the exact branch facts."
+    },
+    {
+      "id": "LD-WA-05",
+      "jurisdiction": "WA",
+      "priority": "P1",
+      "ruleId": "WA-RCW-9.96.0605-CANNABIS-AND-9.96.080-VICTIM-SPLIT",
+      "outputMode": "SPECIAL CONVICTION-VACATION PACKET BY ROUTE",
+      "affectedFlowCount": 2,
+      "routeKeys": [
+        "WA:misdemeanor-cannabis-conviction-vacation",
+        "WA:victim-survivor-conviction-vacation-route"
+      ],
+      "effectiveDateNote": "The ordinary RCW 9.96.060 three-year rule must be bypassed only for the express cannabis subsection."
+    },
+    {
+      "id": "LD-WV-02",
+      "jurisdiction": "WV",
+      "priority": "P1",
+      "ruleId": "WV-60A-4-407-SIX-MONTH-FROM-PROBATION-EXPIRATION",
+      "outputMode": "COURT EXPUNGEMENT PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "WV:first-offense-drug-possession-conditional-discharge-relief"
+      ],
+      "effectiveDateNote": "The six-month duration must be added to the jurisdiction's structured waitingPeriodRules with the statutory source text."
+    },
+    {
+      "id": "LD-WV-04",
+      "jurisdiction": "WV",
+      "priority": "P1",
+      "ruleId": "WV-61-14-9-TRAFFICKING-DIRECT-RESULT-NO-WAIT",
+      "outputMode": "COURT VACATUR/EXPUNGEMENT PACKET + NONCOVERED-OFFENSE REFERRAL",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "WV:sex-trafficking-victim-vacatur-and-expungement"
+      ],
+      "effectiveDateNote": "Do not label the route as covering every trafficking-related West Virginia conviction."
+    },
+    {
+      "id": "LD-WY-03",
+      "jurisdiction": "WY",
+      "priority": "P2",
+      "ruleId": "WY-6-2-708-ANY-TIME-AFTER-CONVICTION-TRAFFICKING",
+      "outputMode": "COURT VACATUR PETITION PACKET",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "WY:human-trafficking-victim-vacatur-w-s-6-2-708"
+      ],
+      "effectiveDateNote": "The intake should permit alternative nexus evidence and not require a single certification form if the statute does not."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-LA-IMM-03",
+      "jurisdiction": "ND",
+      "priority": "P0",
+      "ruleId": "ND-12-60-1-05-AUTOMATIC-CLOSURE-VERIFY",
+      "outputMode": "AUTOMATIC CLOSURE GUIDANCE + CLERK AND ORIGINAL-CASE CORRECTION",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05"
+      ],
+      "effectiveDateNote": "The amendment governs dispositions entered on or after 2025-08-01. A disposition before that date takes the official petition and proposed order instead, which is a service branch on this route and is not built."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-LA-IMM-04",
+      "jurisdiction": "SC",
+      "priority": "P0",
+      "ruleId": "SC-17-22-150-PTI-SOLICITOR-ADMINISTERED",
+      "outputMode": "SOLICITOR-ADMINISTERED PROCESS GUIDANCE + RETAINED-COUNSEL HANDOFF ON DENIAL",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "SC:diversion-or-program-completion-expungement"
+      ],
+      "effectiveDateNote": "No operational delay. The rescinded $150 administrative figure must not appear; the controlling figure is $250. The fee schedule belongs to this route alone and must not be copied onto the other seven South Carolina routes."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-LA-IMM-02",
+      "jurisdiction": "MO",
+      "priority": "P0",
+      "ruleId": "MO-311-326-MERITS-PETITION-CLERK-CONFIGURATION-GATE",
+      "outputMode": "PARTICIPANT MERITS PETITION + RECEIVING-CLERK CONFIGURATION GATE",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "MO:first-minor-in-possession-alcohol-expungement-under-311-326"
+      ],
+      "effectiveDateNote": "No operational delay. Supersedes the LD-MO-01 contract for this route. The clerk-confirmation gate is operational configuration, not unresolved legal research, and this decision is scoped to § 311.326 alone."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-LA-IMM-01",
+      "jurisdiction": "GA",
+      "priority": "P0",
+      "ruleId": "GA-42-8-66-RETROACTIVE-FIRST-OFFENDER-CONSENT-GATED",
+      "outputMode": "CUSTOM PARTICIPANT PETITION GATED ON VERIFIED WRITTEN PROSECUTOR CONSENT",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "GA:retroactive-first-offender-treatment-under-42-8-66"
+      ],
+      "effectiveDateNote": "No operational delay. A qualifying order granted on or after 2026-07-01 moves to restriction and sealing implementation and tracking rather than a second petition. This is a new route: § 42-8-66 is a different mechanism from the § 42-8-62.1 first-offender restriction contracted under LD-GA-01, and the legacy pathway id is aliased rather than renamed."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-B-LA-01",
+      "jurisdiction": "LA",
+      "priority": "P1",
+      "ruleId": "LA-977D-998-POST-SUNSET-FEE-SCHEDULE",
+      "outputMode": "PARTICIPANT MOTION, HELD ON PARISH FEE PRACTICE",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "LA:first-offense-marijuana-expungement-after-90-days-art-998"
+      ],
+      "effectiveDateNote": "Report disposition CONDITIONAL — SOURCE GATE. Article 983(M)'s three-hundred-dollar schedule terminated 1 August 2026; whether every parish clerk stopped applying it is unknown, and so is whether any parish publishes a different collection practice for Article 977(D) motions."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-B-LA-02",
+      "jurisdiction": "LA",
+      "priority": "P1",
+      "ruleId": "LA-985-989-REDACTION-ELECTION",
+      "outputMode": "PARTICIPANT MOTION, HELD ON ARTIFACT REVIEW",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "LA:expungement-by-redaction-for-multi-person-records"
+      ],
+      "effectiveDateNote": "Report disposition ARTIFACT REVIEW STILL REQUIRED. Whether the Article 989 motion needs a distinct pleading or election for Article 985 redaction cannot be settled before a candidate artifact exists: the redaction paragraph appears in the Article 992 order rather than in the motion, while Article 985(A) speaks of petitioning the court."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-B-LA-03",
+      "jurisdiction": "LA",
+      "priority": "P1",
+      "ruleId": "LA-985-3-IMMEDIATE-COMPLETION-BRANCH",
+      "outputMode": "PARTICIPANT PACKET, CONTESTED TIMING TO COUNSEL",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "LA:immediate-expungement-after-successful-court-program-completion-art-985-3"
+      ],
+      "effectiveDateNote": "Report disposition RELEASE — PACKET; contested timing to counsel. Article 985.3 displaces the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waits for a person otherwise eligible who successfully completed a court-ordered programme. A contested displacement leaves the route for individualized advocacy."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-B-ME-01",
+      "jurisdiction": "ME",
+      "priority": "P1",
+      "ruleId": "ME-2264-3-PROSECUTOR-NOTICE-LOCAL-METHOD",
+      "outputMode": "PARTICIPANT MOTION, HELD ON NOTICE METHOD",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "ME:adult-conviction-sealing"
+      ],
+      "effectiveDateNote": "Report disposition CONDITIONAL — SOURCE GATE. Section 2264(3) directs notice to the prosecutorial office that represented the State but does not assign the act to the movant, and none of CR-218, CR-289 or CR-307 carries a certificate of service. The method is local."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-B-ME-02",
+      "jurisdiction": "ME",
+      "priority": "P1",
+      "ruleId": "ME-2264-7-CR-308-FORM-CONFLICT",
+      "outputMode": "PARTICIPANT MOTION, HELD ON A FORM THAT CONTRADICTS ITS STATUTE",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "ME:sex-trafficking-sexual-exploitation-survivor-sealing"
+      ],
+      "effectiveDateNote": "Report dispositions CONDITIONAL — FORM-CONFLICT GATE and CONDITIONAL — SOURCE GATE. CR-308 page 2 warns that a later conviction anywhere extinguishes the order, which is inconsistent with 15 M.R.S. § 2264(7) as amended by PL 2025, c. 513. The statute governs; what is unknown is what the court does in practice. The § 2264(3) notice question applies here too and is its own gate."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-B-ME-03",
+      "jurisdiction": "ME",
+      "priority": "P1",
+      "ruleId": "ME-703-2-DEFERRED-DISPOSITION-NOT-ESTABLISHED",
+      "outputMode": "GUIDANCE, WITH NO AUTOMATIC CONFIDENTIALITY PROMISE",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "ME:adult-non-conviction-record-relief"
+      ],
+      "effectiveDateNote": "Report disposition RELEASE — GUIDANCE. Whether a charge dismissed after a successful deferred disposition under 17-A M.R.S. ch. 67 subch. 4 is confidential criminal history record information under 16 M.R.S. § 703(2) is NOT ESTABLISHED against current official text. The guidance releases and may not promise that confidentiality follows automatically."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-B-AK-01",
+      "jurisdiction": "AK",
+      "priority": "P1",
+      "ruleId": "AK-12-55-085-E-BELATED-SET-ASIDE-MOTION",
+      "outputMode": "CUSTOM MOTION IN THE ORIGINAL CRIMINAL CASE",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085"
+      ],
+      "effectiveDateNote": "Where discharge occurred without a set-aside determination, Alaska appellate law permits a belated determination focused on the circumstances that existed at discharge. The vehicle is a custom motion in the original sentencing criminal case, not a new civil petition. No Alaska Court System form specific to a post-discharge request was located, so every component is custom."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-C-WV-01",
+      "jurisdiction": "WV",
+      "priority": "P1",
+      "ruleId": "WV-61-11-26A-JOB-READINESS-OR-TRIGGER",
+      "outputMode": "ACCELERATED PETITION, SINGLE MISDEMEANOUR ONLY",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a"
+      ],
+      "effectiveDateNote": "Report disposition RELEASE — PACKET. Section 61-11-26a(a)(1) makes ninety days of programme compliance and completion of an approved job readiness adult training course alternative triggers, so the course alone reaches the accelerated clock. The trigger is for a single misdemeanour only; a multiple-misdemeanour group keeps the § 61-11-26(b)(1) one-year wait."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-C-WV-02",
+      "jurisdiction": "WV",
+      "priority": "P1",
+      "ruleId": "WV-61-11-26-VENUE-SEVERANCE-FORM-AND-REPLY",
+      "outputMode": "PETITION ON SCA-C906, WITH THREE SELF-HELP BOUNDARIES",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "WV:eligible-conviction-expungement-under-w-va-code-61-11-26"
+      ],
+      "effectiveDateNote": "Four report decisions. No residence-county venue: subsections (a)(1) and (a)(2) both direct the petition to the circuit court in which the conviction occurred. No single receiving court for a multi-county group; with the subsection (d) grouping proviso this supports one petition per circuit court, and choosing wrongly on a once-per-lifetime remedy goes to counsel. An excluded conviction inside an eligible group is omitted or severed rather than carried. The reply period after an opposition is thirty days under subsection (g)(3), not the ten days the SCA-C900 instruction sheet prints against subsection (e)."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-C-WV-03",
+      "jurisdiction": "WV",
+      "priority": "P1",
+      "ruleId": "WV-61-11-25-SCA-C903-STALE-FORM",
+      "outputMode": "PETITION WITH A CURRENT-LAW SUPPLEMENT",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+      ],
+      "effectiveDateNote": "SCA-C903 recites § 61-11-25 (2000) and is dated 04/01/2010, predating the 2010, 2012, 2022, 2023 and 2024 amendments including H.B. 4399. Its operative paragraphs still track current subsection (a) for a straight acquittal or dismissal, so it is usable there with a supplement; for a deferred-adjudication dismissal it carries no same-transaction paragraph and no diversion paragraph, and a custom current-law civil petition is preferred."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-C-WV-04",
+      "jurisdiction": "WV",
+      "priority": "P1",
+      "ruleId": "WV-5-1-16A-NARROW-STATUTORY-EFFECT",
+      "outputMode": "GUIDANCE, NARROW EFFECT, NO UNIVERSAL NONDISCLOSURE",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "WV:pardon-based-expungement"
+      ],
+      "effectiveDateNote": "Section 5-1-16a(b) provides only that the expunged record may not be considered in an application to a West Virginia educational institution or for a licence required by a West Virginia professional organisation. Unlike §§ 61-11-25(e) and 61-11-26(l) it carries no general non-disclosure provision, so the guidance may not promise the record becomes generally undisclosable."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-C-OH-01",
+      "jurisdiction": "OH",
+      "priority": "P1",
+      "ruleId": "OH-2953-321-MARIJUANA-HASHISH-NOT-AGE-LIMITED",
+      "outputMode": "APPLICATION TO THE SENTENCING COURT",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "OH:marijuana-hashish-possession-expungement-under-2953-321"
+      ],
+      "effectiveDateNote": "Track identity corrected: R.C. 2953.321 is Expungement of Marijuana or Hashish Possession Offenses and is not limited to people under 21. Effective 2026-03-20 and reaching specified matters before that date under R.C. 2925.11(C)(3)(a), (C)(7)(a) or (b), and (C)(7)(c) or (d) involving no more than 15 grams of hashish. Application to the sentencing court at any time on or after the effective date; hearing 45 to 90 days after filing; fee $50 unless indigent. No statewide form located."
+    },
+    {
+      "id": "NATIONAL-2026-08-28-C-NY-01",
+      "jurisdiction": "NY",
+      "priority": "P1",
+      "ruleId": "NY-CPL-160-55-AUTOMATIC-PARTIAL-SEAL-CORRECTION",
+      "outputMode": "AUTOMATIC PARTIAL SEAL, SERVED AS A CORRECTION WORKFLOW",
+      "affectedFlowCount": 1,
+      "routeKeys": [
+        "NY:automatic-non-conviction-sealing-under-cpl-160-50-160-55"
+      ],
+      "effectiveDateNote": "CPL § 160.55 seals automatically on a qualifying violation or traffic-infraction termination unless the prosecutor or court timely establishes otherwise. For a post-1991-11-01 disposition the participant ordinarily files nothing and the clerk notifies DCJS. The service is the correction workflow when the seal does not appear. A pre-1991-11-01 case may require a motion under the legacy branch. CPL § 160.57 Clean Slate is separate and this route must not promise full court-file sealing."
+    }
+  ]
+}

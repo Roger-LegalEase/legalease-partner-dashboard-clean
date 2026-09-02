@@ -1,0 +1,194 @@
+{
+ "vtdReading": {
+  "reading": "packet-factory-24h/VF11 (VT-D, 2026-09-02)",
+  "whatThisMarkerIs": "VT-D read this lane's two remaining VERIFY_PENDING families at base a0d49e1ad49ad4397eac4b009225baf0b94bf03e and appended no repair assignment, because neither family failed. Everything already in this file was written by earlier workers on this lane and is preserved byte for byte; nothing in it is edited or withdrawn.",
+  "worker": "VT-D (independent; built, repaired and rendered none of these packets)",
+  "baseSha": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+  "familiesRead": [
+   "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+   "ut_pet_no_charges-set"
+  ],
+  "assignmentCountAddedHere": 0,
+  "familiesFailedHere": [],
+  "whyUtahIsNotHere": "ut_pet_no_charges-set is BLOCKED_LEGAL_INPUT, not FAIL_REPAIR_REQUIRED, so it takes no repair assignment. Its two earlier failed obligations, PAGE_ORDER and SELF_HELP_STOP, were re-measured at this base and are repaired: the packet now delivers the two BCI components first, in the packet-set manifest's declared order, and carries all eight registry stop conditions verbatim with the hearing inversion gone. What remains is an unlifted fee-and-waiver input hold: packet-family-build-worklist.json still records filingFee and feeWaiverTreatment as not_recorded for the ut_pet_no_charges-court-petition route. Recording that input in the controlling file, then re-verifying, is what clears it. See vf11/rows.json for the measurement.",
+  "grantsNothing": "No route opened, no price set, no promotion authorised."
+ },
+ "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+ "lane": "VF11",
+ "generatedAtBase": "09b741ad00be0d630bd73a72f66640294abab397",
+ "repairAssignments": [
+  {
+   "itemId": "vt_seal_18_to_21-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
+   "decisiveDefect": "A mapped known prefill is silently missing from the boundary artifact: participant.email is absent from 200-00132 page 1 on the boundary bytes while the same value is written on two other documents of the same artifact and the family's own report still counts it.",
+   "failedProofObligations": [
+    {
+     "obligation": "knownPrefills",
+     "finding": "One mapped known prefill is absent from the boundary artifact's bytes. participant.email is mapped to 200-00132 page 1 field \"34i\" (rect x395.69 y120.55 w174.74 h12.96) in both fixtures. The canonical artifact carries it: packet page 3 holds eight flattened widget appearances, the eighth reading \"jordan.reyes@example.org\". The boundary artifact carries only seven on the same page and the email is not among them, while the family's own report still records valuesReportedByFinalizer 8 for that document and fixture. The loss is silent — no refusal, no unfittable note, no finding. It is not a policy on long values either: the same boundary email, maria.alejandra.oshaughnessy.whitfield@longmailexample.org, is written and present on packet page 2 (200-00130) and packet page 5 (600-00228) of the same artifact."
+    },
+    {
+     "obligation": "feeAndWaiver",
+     "finding": "The fee is not stated and no waiver route is established. The instructions say so themselves: \"The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.\" The waiver form 600-00228 is in the packet and filled, which is more than nothing, but the packet does not establish that it applies to this filing, and an instruction to ask the clerk is not the fee being stated."
+    },
+    {
+     "obligation": "service",
+     "finding": "Who must be served, and how, is not stated. The instructions say: \"Who must be served, and how. Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.\" The packet correctly refuses to conflate the prosecutor's signature with service, and correctly declines to invent a rule, but neither a recipient nor a method is stated."
+    }
+   ],
+   "repairScope": "Two separable repairs, neither of them this lane's. (1) A packet repair lane on the shared Vermont host scripts/build-census-v1-vt_seal_misdemeanor-set.mjs finds why the 200-00132 field 34i write is dropped for the boundary participant and not for the canonical one, fixes it, and re-renders. The write is dropped without a refusal or an unfittable note, so the finalizer's own accounting is wrong as well as the artifact: valuesReportedByFinalizer stays 8 while seven writes reach the bytes. All five families that resolve to that host should be re-checked, not only these two. (2) feeAndWaiver and service are not a packet defect: the underlying facts are open source obligations already dispatched as vt_seal_18_to_21-set::filing-fee-and-waiver-route, vt_seal_18_to_21-set::service-recipient-and-method, vt_seal_dui-set::filing-fee-and-waiver-route and vt_seal_dui-set::service-recipient-and-method through VTR02_VT_FEE_AND_SERVICE_SOURCE. No packet lane should write a fee or a service rule the source lane has not returned.",
+   "notForThisLaneToInfer": [
+    "the Vermont filing fee for a petition to seal under 13 V.S.A. § 7602",
+    "the waiver route",
+    "the service recipient and method"
+   ],
+   "whatThisDoesNotChange": "Thirteen of the fifteen obligations pass on measurement made in this lane, including all three source digests recomputed from the Master Library bytes and both artifact hashes recomputed from the PDF bytes. filingDestination, which VF01 and VF02 failed on the earlier instruction text, passes on the text at this base."
+  },
+  {
+   "assignmentId": "VA11-ND-MJ-LEGAL-EFFECT-001",
+   "issuedBy": "FABLE-VA11",
+   "issuedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+   "itemId": "rcap-nd-custom-pleading",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading",
+   "decisiveDefect": "On the first-offence marijuana possession route the delivered packet omits the component four committed records mark required — nd-marijuana-first-offense-seal-legal-effect-explanation-3, role legal_effect_explanation, titled 'What sealing does, and what it does not do' — and ships nd-marijuana-first-offense-seal-filing-instructions-3 in its place. Two of the missing component's three specified sections are absent from the delivered bytes in any form, and the more important of them is the one that tells the participant what the order does NOT do.",
+   "failedProofObligations": [
+    {
+     "obligation": "COMPONENT_SET",
+     "finding": "The packet-set manifest (data/record-clearing/legal-design-packet-set-manifests.json), the track registry (data/record-clearing/legal-design-track-registry.json), the packet specification (data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json, as manifestComponentId) and the route obligation census (participantFacingInstrument for obligation:track-pathway:ND:nd-marijuana-first-offense-seal:first-offense-possession-sealing) all name nd-marijuana-first-offense-seal-legal-effect-explanation-3 as a required component. The family's own production-field-map.json line 110 names it too. The delivered componentSet does not contain it under any id. The specification gives it three static sections. 'What the order does' survives on the filing-instructions page. 'What it does not reach' does not survive at all: its required text is 'The order is directed at the court record. It does not by itself change records held by other agencies, and it is not a pardon. If you need a criminal-history record corrected as well, that is a separate request to the agency that holds it', and grepping this route's six delivered pages (canonical 29-34) returns 'other agencies' 0, 'not a pardon' 0, 'criminal history' 0, 'separate request' 0. 'This is not the general sealing chapter' survives only as the clause 'stronger than Chapter 12-60.1 sealing'; its required content — that 12-60.1's three- and five-year waiting periods, clear-and-convincing burden and 45-day hearing rule do not apply here — is absent from this route's pages. requiredComponentsMissing reports 0 because that counter compares the rendered set against the family's own componentSet rather than against the committed manifest, so no counter can see this."
+    }
+   ],
+   "whyItIsParticipantFacingAndNotCosmetic": "The same artifact tells the participant three separate times, on the three Chapter 12-60.1 routes, that sealing 'does not reach BCI criminal history record information or the criminal justice data system' and does not reach federal, tribal, military, out-of-state or private-database records. On the marijuana route it says only that this seal is irreversible and 'stronger than Chapter 12-60.1 sealing'. A participant comparing the two is invited to conclude that the stronger seal reaches at least as far, when the committed specification says it is directed at the court record alone and is not a pardon. The plainest reading available to them is the wrong one, and correcting a criminal-history record is a separate request they are never told to make.",
+   "repairScope": "A packet repair lane holding a grant on rcap-nd-custom-pleading works in scripts/build-census-v1-rcap-nd-custom-pleading.mjs. Restore the manifest-required component: emit nd-marijuana-first-offense-seal-legal-effect-explanation-3 with role legal_effect_explanation, carrying all three sections the packet specification names, in the specification's own words. Order 4 in the specification places it before the filing page. Whether the existing filing-instructions page is kept alongside it or folded into it is the repair lane's call, but the two absent sections must reach the participant, and the surviving fee, waiver, destination and stop content on the existing page must not be lost in the process. Re-render both fixtures, re-run scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nd-custom-pleading, and re-enrol for raster acceptance because the page count will change on both fixtures.",
+   "notForThisLaneToInfer": [
+    "whether the substitution was deliberate and the four committed records should instead be amended to name filing-instructions-3 — if that is the answer it is a records decision, not a packet edit, and it still leaves the two absent sections owed to the participant",
+    "any statement about what a North Dakota § 19-03.1-23(9) seal reaches beyond the words the committed packet specification already supplies"
+   ],
+   "doNotRepairThisBy": [
+    "deleting the marijuana filing-instructions page — it carries this route's only fee, waiver, destination and self-help-stop content, all of which passed",
+    "renaming the existing component to the manifest id without adding the two missing sections; the id is the smaller half of this defect"
+   ],
+   "whatThisDoesNotChange": "Fourteen of fifteen obligations pass on measurement made in this lane at this base: both artifact digests recomputed from the PDF bytes, 47 of 47 prefills read back from the bytes, 47 of 47 self-help stop conditions across five tracks present, zero same-baseline overlaps and zero out-of-box words across 69 pages, 44 protected fields blank on the bytes, and all five routes' fee, waiver, service and filing-destination statements traced to the committed record each cites. Four of the five routes match their manifests exactly. This is one missing component on one route.",
+   "alsoRecordedForCaptainNotPartOfThisRepair": "This family is on data/rcap-grade-a/packet-completeness/UNCLASSIFIED_BLANKS_BLIND_SPOT.json. Its build script does hard-code the caption dot run, so the shape Captain generalised is real here, but the caption defect is not: every one of the eighteen components' captions carries a parenthetical naming its destination on the next printed line, and three of the five routes register a court-type blank in the ledger as well. No participant is left to supply a court nobody told them to."
+  },
+  {
+   "assignmentId": "VA11-TX-DWI-STOPS-AND-SWORN-DATE-001",
+   "issuedBy": "FABLE-VA11",
+   "issuedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+   "itemId": "tx_nd_dwi_probation-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill",
+   "decisiveDefect": "Two independent defects. First, three of the eight self-help stop conditions the committed track registry establishes for tx_nd_dwi_probation are absent from the delivered packet and from participant-instructions.md, including the § 411.0735 violent-or-sexual court determination, which appears nowhere in the family at all. Second, a field the packet itself declares must be blank because filling it would make the document false — the sworn date on the Statement of Inability — is delivered carrying the date 12/15/2022 inside its own widget box, and nothing warns the participant.",
+   "failedProofObligations": [
+    {
+     "obligation": "SELF_HELP_STOP",
+     "finding": "The registry entry carries eight conditions, identically in selfHelpStopConditions and selfHelpBoundaries. The packet's stop list is not derived from them: it is seven bullets hard-coded at scripts/build-census-v1-tx_nd_dwi_probation-set.mjs lines 721-728, reproduced verbatim into participant-instructions.md. Comparing condition by condition and grepping distinguishing terms against BOTH fixtures and the instructions file, three are absent. (1) 'The prosecutor opposes the petition or requests a hearing' — 'opposes' returns 0 everywhere; the packet treats a State hearing request as procedural information, not as a stop. (2) 'Any dispute about whether the sentence, fines, costs or restitution were completed' — 'dispute' returns 0; the packet's only nearby statement runs the other way, reassuring that waiver of fines and costs does not disqualify. (3) 'Any question whether the offence was violent or sexual in nature, which is a court determination under Gov't Code 411.0735' — '411.0735' returns 0 in both fixtures and the md, 'violent' returns 0, 'sexual in nature' returns 0; the two 'sexual' hits in the artifact are offence titles inside the OCA form's own § 411.074 exclusion list, which answers a different question. Two further conditions are present only in narrowed form: the registry stops on a family violence FINDING OR ALLEGATION and the packet stops only on an affirmative finding; the registry stops on any accident ALLEGATION in the offence report and the packet stops only where the offence RESULTED IN a collision. A stop condition exists to catch the participant before the question is resolved against them, so narrowing from allegation to established fact is the wrong direction."
+    },
+    {
+     "obligation": "PROTECTED_FIELDS",
+     "finding": "tx_nd_dwi_probation-fee-waiver-statement-4.Today is declared with refusalClass signature_or_date_participant_completion and the reason 'a date written before the Statement is actually sworn would be false'. Its widget rect, read first-hand from the pinned binary, is x 97.75 y 302.31 w 150 h 22 on Statement page 11, which is packet page 20. Word geometry there returns '12/15/2022' at xMin 99.75 yMin 474.52 xMax 159.80 yMax 485.62 — inside that rectangle on every edge — directly above the printed caption 'Date (month, day, year) / Fecha (mes, día, año)' and beside the participant's signature line, on the page that is the declaration sworn under penalty of perjury. Present in both fixtures. The build did NOT write it: the same string is present in the byte-exact official source PDF at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf (SHA-256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d, rehashed byte-exact in this lane) as that form's own baked appearance for its 'Today' field. refusedFieldsWithInk reports empty because the finalizer counts ink it added, not ink the source carried. The defect is that the packet's own declaration and its own delivered bytes disagree about the same field and nothing tells the participant: 'Things the platform deliberately left blank' names the Statement's financial facts and its cause number and says nothing about a date already printed on the sworn declaration."
+    }
+   ],
+   "repairScope": "Two separable repairs for a lane holding a grant on tx_nd_dwi_probation-set, both in scripts/build-census-v1-tx_nd_dwi_probation-set.mjs. (1) The stop list at lines 721-728 should carry every condition the committed registry establishes. Add the three that are absent, in the registry's own words, and widen the two that were narrowed so they reach an allegation and not only an established finding. Prefer deriving the list from the registry rather than hard-coding it, so the next registry amendment reaches the packet; if it stays hard-coded, that is a choice to record. The same seven bullets are reproduced into participant-instructions.md from INSTRUCTIONS.stopsLines and will follow automatically. (2) The inherited sworn date needs a decision this lane must not make for you. Source fidelity forbids altering the official form's bound bytes, and this packet's whole source-identity chain — the best-evidenced in this roster, three digests rehashed byte-exact in two independent custodies — depends on not doing that. The honest options are to suppress or clear that inherited widget appearance on the delivered copy while leaving the bound source binary and its receipt untouched, or, at minimum, to state it: tell the participant on the instructions page and under 'Things the platform deliberately left blank' that the Statement's date line arrives with 12/15/2022 printed on it from the state's own PDF, that it is not their date, and that they must strike it and write the date they actually sign. Which of those is permitted under this factory's source-fidelity policy is Captain's or counsel's call, not a repair lane's and not this lane's.",
+   "notForThisLaneToInfer": [
+    "whether an official form's inherited widget appearance may be cleared on a delivered copy without breaking source fidelity — a policy question this defect raises and does not answer",
+    "any Texas rule about whether a stale printed date on a Rule 145 Statement invalidates it; the packet's duty here is to tell the participant, not to opine"
+   ],
+   "doNotRepairThisBy": [
+    "replacing the OCA '$280 typical, varying by county' range with a single county figure, or deleting the paragraph that names $28 as the figure belonging to the no-petition route under § 411.072(c) — that paragraph is a correct DET-FEE-AND-WAIVER-001-A3 refusal and the registry carries a releaseBlocker on the county figure precisely so it is not invented",
+    "editing the bound source PDFs; all three digests verify byte-exact in two custodies and must stay that way"
+   ],
+   "alsoRecordedNotAFailure": "reports/actual-writes.json records expected \"\" — an empty string — for all 13 AcroForm writes on this family, so its foundInOutputBytes: true proves nothing about them. The packet is correct: this lane located all 13 values geometrically inside their own widget rectangles in both fixtures. But the evidence file is not load-bearing as written and a later lane should not be asked to trust it. Worth fixing alongside, in the same script's write-reporting path.",
+   "whatThisDoesNotChange": "Thirteen of fifteen obligations pass on measurement made in this lane at this base, including all three source digests rehashed byte-exact in two independent custodies and agreeing with the committed corpus index, both artifact digests recomputed from the PDF bytes, all 67 same-baseline overlap pairs classified as a value on its own underscore rule with zero value-on-value and zero overruns, the five dependant rows wholly blank with incompleteRows 0, and a fee-and-waiver treatment that names both the figure that applies and the figure that does not. Neither failure touches source fidelity."
+  },
+    {
+      "itemId": "in_arrest_no_charges-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
+      "assignedBy": "FABLE-RVD (RV-D), lane VF11",
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+      "decisiveDefect": "Fourteen of the 140 declared blanks carry category null and why null, six of them captions sharing one label; and the packet attributes to the committed record an early-filing exception the registry does not contain.",
+      "failedProofObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "Under 'less than a year has passed' the packet states that the committed record 'records one exception: early filing is permitted on the written agreement of the prosecuting attorney'. The registry records no such exception. Track in_arrest_no_charges holds exactly one waitingPeriods entry — condition 'The arrest, with no charges pending', duration 'One year' — and the strings 'agreement', 'consent' and 'earlier' do not occur anywhere in the track. The nearest text is an exclusion about pretrial diversion, 'Persons currently in a pretrial diversion programme unless the prosecuting attorney authorises', which is not an early-filing exception. This is a composed legal proposition presented as a quotation from the record, and it invites filing before the statutory year on an agreement the record never authorises.",
+          "howToProve": "Read the track's waitingPeriods and exclusions in data/record-clearing/legal-design-track-registry.json and search the track for 'agreement'."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "unclassifiedBlanks 14. In reports/blanks-left-for-the-participant.json, 14 of 140 blanks carry category null and why null. Six are Caption1 through Caption6, every one labelled only 'Caption', so a caption repeating across six rows names no fact for any row. AdditionalInformation on page 2 carries the literal string 'null' as its effectiveLabel, and LEA1, LEA2 and Date4 are labelled from truncated form text as 'b', 'd' and 'I hereby certify that o'."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "participant-instructions.md tells the reader to hand-copy the caption across every document because 'none of them has boxes for it'. The bytes contradict this: cap-PetitionerFullName is one field with 14 widgets and prints on pages 1, 3, 5, 7, 8, 9 and 13, and cap-COUNTY is one field with 8 widgets and prints on pages 1, 3, 7 and 9. The instruction also says the packet filled in 'on the Appearance only'."
+        }
+      ],
+      "repairInstruction": "Give each of the 14 blanks a category and a why. For Caption1 through Caption6, read the printed caption at each widget's own measured position and record which fact each row takes, as id_isp_expungement-set does with its printedLabelCorrections; six rows sharing the label 'Caption' is the defect. Repair the label harvest that produced 'null', 'b', 'd' and 'I hereby certify that o'. Then correct the two participant sentences so they describe the artifact: the caption is already printed on pages 3, 5, 7, 8, 9 and 13 and the reader should check it rather than copy it. Finally, delete the prosecuting-attorney early-filing exception, or ground it in a committed record and cite that record.",
+      "notADefect": "The insert-form repair holds and needs no further work. The insert document renders 4 pages, its canonical and boundary fixtures are byte-identical, its page content is line-for-line identical to the pinned source, and the shared-name hazard it guards against is real: 33 of the form's 77 distinct field names carry widgets on more than one page, spanning the petition's Facts pages, the order's Findings page and Exhibit A. The eleven added stop conditions are the registry's own words and no sentence tells the participant to attend a hearing. Leave all of that alone.",
+      "obligationsAlreadyPassing": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "grantsNothing": "This assignment authorises a repair. It opens no route, sets no price and approves no output."
+    },
+    {
+      "itemId": "rcap-ms-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading",
+      "assignedBy": "FABLE-RVD (RV-D), lane VF11",
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+      "decisiveDefect": "requiredComponentsMissing 3. Each of the three Mississippi tracks is missing its required attachment-4 component, and the gap is hidden because the filing instructions were built under the id filing-instructions-4 and occupy the missing component's ordinal. This is the same ordinal collision that was repaired in rcap-wv-custom-pleading, unrepaired here and present on all three tracks at once.",
+      "failedProofObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "The registry packetSets for ms-drug-cd, ms-dui and ms-mip each declare five components, every one requirement 'required' with no conditional limb: primary-filing-1, proposed-order-2, certificate-of-service-3, attachment-4 (role attachment, process_guidance) and instructions-5 (role instructions, process_guidance). The rendered componentSet carries four per track, ending filing-instructions-4. So ordinals read 1,2,3,4 — unique and contiguous within each track — and an ordinal-based check sees a complete set while attachment-4 is absent from all three and no component exists under the id instructions-5.",
+          "howToProve": "Compare the rendered componentSet in reports/rendered-artifacts.json against each track's packetSet.components in data/record-clearing/legal-design-track-registry.json BY NAME, not by ordinal."
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "The missing component is substantive, not a formality. Mississippi's registry holds twelve participantFilingRequirements across the three tracks — four for ms-drug-cd, five for ms-dui, three for ms-mip, including the certified conditional discharge and discharge-and-dismissal orders, the blood or breath test result or documentation that no test was refused, the certified driving record and the clerk's zero-balance account sheet. None of the 26 delivered pages of the canonical fixture carries a records-to-obtain checklist. The list exists only in participant-instructions.md, which is not a delivered packet component.",
+          "howToProve": "Search all 26 delivered pages for the requirement names; they are absent."
+        }
+      ],
+      "repairInstruction": "Build the missing attachment-4 component for each of the three tracks and renumber the filing instructions to instructions-5, so the delivered componentSet matches each registry packetSet by name. Model it on the repair already made to rcap-wv-custom-pleading, whose records-checklist-4 renders as its own packet pages and reproduces that track's participantFilingRequirements verbatim — name, who holds it, how to obtain it, the condition where conditional, and which participant answer each record checks. Then re-render both fixtures, re-hash, and re-run the builder counters, which currently report requiredComponentsMissing 0.",
+      "checkTheOtherFamilies": "The collision is a class, not an incident. Any family whose delivered componentIds are compared to the registry by ordinal rather than by name can hide a missing component the same way. Worth a sweep of every custom_pleading family whose registry packetSet ends in a process_guidance pair.",
+      "notADefect": "FEE_AND_WAIVER passes and needs no change. The packet publishes no amount, reproduces each track's registry fee and waiver rules verbatim with § 99-19-72's limit intact, states each petition's own subsection, declines to decide the reach, and names the clerk — the circuit clerk on the DUI route. No rescinded figure appears anywhere in the family and nothing is read across from a sibling route. All fifteen registry stop conditions appear verbatim, including the DUI track's blanket mandatory-attorney-review stop. Leave all of that alone.",
+      "adr0004": "Mississippi's legacy commercial authority was retired on 2026-08-28. That retirement is not the defect recorded here and this assignment does not touch it. Completing this repair restores no authority, opens no route and sets no price.",
+      "obligationsAlreadyPassing": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "grantsNothing": "This assignment authorises a repair. It opens no route, sets no price and approves no output."
+    }
+  ],
+ "va11Note": {
+  "issuedBy": "FABLE-VA11",
+  "issuedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+  "whyThisFileHoldsMoreThanOneRoster": "This file already held VF11 lane work from an earlier roster when this lane arrived, and assignment ids are reused across shifts. The pre-existing entry and every top-level key were preserved byte-for-byte and these two assignments were written beside them, with ids prefixed VA11- so they cannot collide with another shift`s.",
+  "scopeOfTheseTwo": "Two of five subjects failed. The other three — the IL criminal-identity-theft mistaken-identity composed treatment, ct-decriminalized-set and ms-diversion-set — passed all fifteen obligations and need no repair; three positive DET-FEE-AND-WAIVER-001-A3 findings are recorded on their rows in vf11/rows.json and a repair lane must not undo them.",
+  "thisLaneEditedNothing": "No packet PDF, fixture, overlay, field map, build script, queue, route, price or production surface was modified. A defect here is a verdict and a repair assignment, never an edit."
+ }
+}

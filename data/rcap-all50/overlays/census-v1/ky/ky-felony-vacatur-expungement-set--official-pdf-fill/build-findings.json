@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ky_felony_vacatur_expungement-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "Every AcroForm field on both forms is named with a bare number (`1 Case Number`, `2` … `79`), including a field named `18a` on the order, and the order's `1 Case Number` is one field with a widget on each of its four pages.",
+      "consequence": "Every caption is read from the page's own content stream at a recorded coordinate and re-checked on every build; the shared semantics bind through the measured caption, never the number. The multi-page case number is one field, one value, four recorded rows."
+    },
+    {
+      "finding": "The application's text stream is scrambled in places — the Section 7(f) prompt extracts as spaced-out letters ('I f   e x p u n g e m e n t …') and several prompts interleave ('Since you have ed, been have releasyou participated in any').",
+      "consequence": "Captions are recorded as the stream carries them, so the drift check compares like with like."
+    },
+    {
+      "finding": "The phone line on each form is two widgets: a 26pt box inside printed parentheses for the area code, and the number line beside it.",
+      "consequence": "The full phone number, area code included, is written on the number line; the parentheses box is refused as a fragment of a value already on the page, and the refusal says so rather than inventing a second phone fact."
+    },
+    {
+      "finding": "Whether the applicant tenders AOC-496.4 or the clerk prepares it is an open question in the corpus legal review; clerk practice appears to control.",
+      "consequence": "The proposed order is prepared caption-complete either way, every court-side entry on it is refused as court-, clerk- or custodian-owned, and the instructions tell the participant to bring it and let the clerk say."
+    },
+    {
+      "finding": "The legal review's implementation limitation: automate (1)(a) and (1)(b) enumerated-offense applications only; route all (1)(d) applications to attorney review; never generate Section 7 narrative answers.",
+      "consequence": "No eligibility box is marked (the Section 2 election is carried to the participant with the (1)(d) warning in the instructions), Section 7 is left entirely to the participant as optional narrative with an attorney-review stop, and the self-help stop list is reproduced in the instructions verbatim in substance."
+    },
+    {
+      "finding": "Both forms carry live Reset Form and Print Form buttons.",
+      "consequence": "Both are classified viewer controls, never filing facts; flattening repaints their labels from the source document's own appearance streams, which the byte proof does not count as ink on a refused field."
+    }
+  ]
+}

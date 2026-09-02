@@ -1,0 +1,290 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF01",
+  "worker": "VF-SRC-A",
+  "assignmentCount": 6,
+  "assignments": [
+    {
+      "itemId": "ak-courtview-set",
+      "lane": "VF01",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill",
+      "decisiveDefect": "the packet never mentions who must be served or how at all",
+      "failedProofObligations": [
+        "SERVICE"
+      ],
+      "perObligation": {
+        "SERVICE": {
+          "measuredDetail": "the packet never mentions who must be served or how at all",
+          "whatRepairMustDo": "participant-instructions.md must state who must be served and by what method."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "mi_setaside_marihuana-set",
+      "lane": "VF01",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
+      "decisiveDefect": "the packet is built for the route the record names, but the family is spelled inconsistently across records, so a lookup keyed on familyId misses: expected \"mi_setaside_marihuana-set\" and product-wiring.json names \"mi-setaside-marihuana-set\"",
+      "failedProofObligations": [
+        "ROUTE_IDENTITY",
+        "SERVICE"
+      ],
+      "perObligation": {
+        "ROUTE_IDENTITY": {
+          "measuredDetail": "the packet is built for the route the record names, but the family is spelled inconsistently across records, so a lookup keyed on familyId misses: expected \"mi_setaside_marihuana-set\" and product-wiring.json names \"mi-setaside-marihuana-set\"",
+          "whatRepairMustDo": "Spell the familyId identically in every record. A lookup keyed on it misses the record that spells it differently."
+        },
+        "SERVICE": {
+          "measuredDetail": "the packet does not state who must be served or how. The closest it gets is a catch-all line that names it among other items without answering it or naming who to ask: \"The court's instruction sheet says: if the prosecuting agency files a response opposing your application, the court must set a hearing within 30 days and mail you notice of it, and you should appear. \"",
+          "whatRepairMustDo": "participant-instructions.md must state who must be served and by what method."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "ar-act531-set",
+      "lane": "VF01",
+      "assignedBy": "FABLE-VA5",
+      "foundAtBase": "cd48fc14e",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-act531-set--official-pdf-fill",
+      "decisiveDefect": "Two of the four selfHelpStopConditions the committed track registry records for trackId ar-act531 never reach the participant, and the packet asserts 'There is no filing fee for this petition' while delivering two forms that each recite, on their face, payment of the filing fees mandated by A.C.A. § 16-90-1419 — a recital the instructions never name.",
+      "failedProofObligations": [
+        "SELF_HELP_STOP",
+        "FEE_AND_WAIVER"
+      ],
+      "perObligation": {
+        "SELF_HELP_STOP": {
+          "measuredDetail": "data/record-clearing/legal-design-track-registry.json records four selfHelpStopConditions for trackId ar-act531. participant-instructions.md carries [0] the prosecuting attorney objects and [1] the court sets a contested hearing. It does not carry [2] 'Immigration, licensing or firearm consequences are in play' — a case-insensitive grep of the .md for immigra, firearm, licens and citizen returns only the phrase 'a lawyer licensed in Arkansas', and the same grep over the extracted text of all four fixtures returns nothing. It does not carry [3] 'Whether the participant falls in the covered historical population is unclear'; the nearest bullet is about paragraph 3's target-offence definition, which is a different question from whether the participant is inside the Act 531 historical cohort at all, and the registry's own destination detail explains the difference: 'A narrow historical population. Opening the route is gated on current eligibility-source review.'",
+          "whatRepairMustDo": "Carry both missing conditions into the 'Where self-help ends' section of participant-instructions.md in the registry's own terms, keeping the two already carried. Immigration, licensing and firearm consequences must be named explicitly, not folded into a general 'see a lawyer' line. The historical-population condition must be stated as its own bullet and must not be merged with the target-offence bullet, because they are different questions. Change nothing about the delivered ACIC forms: this is an instructions defect, not an overlay defect."
+        },
+        "FEE_AND_WAIVER": {
+          "measuredDetail": "participant-instructions.md states 'There is no filing fee for this petition', sourced three ways from the compiled Arkansas profile's Act 1460 lines. The delivered petition prints at paragraph 9, and the delivered proposed order at paragraph 10: 'The Defendant has paid all filing fees required to be paid with the filing of this Petition mandated by A.C.A §16-90-1419.' Grepping the .md for '16-90-1419', '1419' and 'paragraph 10' returns nothing. The participant is asked to sign a petition containing that assertion while being told no fee exists, and is told nothing about the paragraph.",
+          "whatRepairMustDo": "Name A.C.A. § 16-90-1419 and the two printed recitals in 'The filing fee' section, and state on this route's own terms how the Act 1460 no-fee lines and the form's § 16-90-1419 recital sit together — the same treatment the sibling ms-misd-addl-set packet gives Miss. Code Ann. § 99-19-72. Tell the participant what paragraph 9 of the petition asserts before they sign it. Do NOT alter the official ACIC form text: the recital is the agency's and stays as issued. Do not resolve the legal question of whether § 16-90-1419 fees survive Act 1460 by assertion; if the record does not settle it, say what the record does and does not settle and name the clerk."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "do not alter the ACIC petition or order source text; both forms rehash byte-exact to their declared SHA-256 and are correct as issued",
+        "this verification opens no commercial route, changes no live RCAP route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "lane": "VF01",
+      "assignedBy": "FABLE-VA5",
+      "foundAtBase": "cd48fc14e",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading",
+      "decisiveDefect": "The filing instructions page states that no committed record this packet binds states a filing fee or a fee waiver for this route, while the compiled Mississippi profile the source receipt binds by exact SHA-256 carries a section titled 'Filing Fee' recording the $150 levied by Miss. Code Ann. § 99-19-72 on petitions under § 99-19-71 — and the packet's own petition page tells the participant that this route's operative provision appears in both § 99-15-26(5) and § 99-19-71(4).",
+      "failedProofObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "perObligation": {
+        "FEE_AND_WAIVER": {
+          "measuredDetail": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json rehashes here to the receipt's declared d30c78bcdbcd4378…, so the binding holds. Its sourceSections[2] is titled 'Filing Fee', category 'fees': 'Mississippi Code 99-19-72 sets a $150 filing fee for each petition to expunge an offense under 99-19-71', with 'Expect at least a $150 statutory filing fee for many 99-19-71 petitions, but confirm with the clerk'; packetGenerator.feeRules repeats it. The rendered filing-instructions page says instead: 'No committed record this packet binds states a filing fee, or a fee waiver, for this route.' The packet's own petition page has already told the participant that the provision 'appears in both Sec. 99-15-26(5) and Sec. 99-19-71(4)'. The sibling ms-misd-addl-set packet, for sections with no such asserted overlap, names the $150 and § 99-19-72 and disposes of them explicitly; this packet names neither.",
+          "whatRepairMustDo": "Name Miss. Code Ann. § 99-19-72 and § 99-19-71 on the filing-instructions page and state, on this route's own terms, whether the $150 reaches a § 99-15-26(5) post-nonadjudication petition, and what the record does and does not settle. THE REPAIR IS NOT TO STATE THAT $150 APPLIES: DET-FEE-AND-WAIVER-001-A3 holds the answer per fact and per route, and a line keyed to § 99-19-71 does not answer § 99-15-26(5) by being nearby. The obligation is to walk around the trap and say so, in the shape ms-misd-addl-set already uses in this same jurisdiction. If the overlap the packet asserts on the petition page is not sound, that is a legal question for counsel and must be raised rather than resolved silently."
+        }
+      },
+      "repairMustNotDo": [
+        "do not state that the § 99-19-72 fee applies to this route; A3 forbids reading a sibling statute's answer across",
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval; the census records this route at currentServiceDisposition paid_packet_intended and nothing here changes that"
+      ]
+    },
+    {
+      "itemId": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
+      "lane": "VF01",
+      "assignedBy": "FABLE-VA5",
+      "foundAtBase": "cd48fc14e",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/official-form-treatment:obligation:research-decision-route:al:al-olr--official-pdf-fill",
+      "decisiveDefect": "Three committed records — the hash-bound legal decision research-track-decision:al-olr, the route-obligation census entry, and the packet-family build worklist — record this route's deliverable as the AOC Order of Limited Relief packet comprising the sworn petition AND a proposed order. The packet delivers the petition alone, and the absence is nowhere declared: build-findings.json carries findingCount 0, and participant-instructions.md asserts 'This packet is one form.'",
+      "failedProofObligations": [
+        "COMPONENT_SET",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "COMPONENT_SET": {
+          "measuredDetail": "The legal decision's Mechanism section (sha256 17ae635a4e434bc04fd65fc0bb7d6cda551922064d6dfb990fa240f437f7db29): 'Use the official Alabama AOC Order of Limited Relief packet, including the sworn petition and proposed order.' The census records participantFacingInstrument as 'official Alabama AOC Order of Limited Relief sworn petition and proposed order'. packet-family-build-worklist.json records deliverable.proposedOrder status 'recorded', entry 'official AOC proposed order'. Page-by-page extraction of petition-canonical-filled.pdf shows petition, Act notes and conviction list, RETURN ON SERVICE — no order page. Both custodies were searched and hold no AOC proposed-order document for Alabama: the Master Library's AL tree holds only C-94A, C-10-CRIMINAL and SBI-FORM-46, and the D source packs at D1/STATES/AL hold the same three.",
+          "whatRepairMustDo": "Either add the proposed-order component, or — since no such official document exists in either custody — declare the absence as a refusal on the record and tell the participant. That means a finding in build-findings.json naming the three records that call for a proposed order and the corpus search that found none; a line in source-receipt.json whatThisReceiptDoesNotEstablish; and a sentence in participant-instructions.md replacing the bare 'This packet is one form' with the fact that the record for this route calls for a proposed order as well, that no official AOC order form is held, and that the clerk of the circuit court is the office that says what that court expects to be lodged with the petition. Do not compose a proposed order out of nothing for an official-form route, and do not commission one under this assignment."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "The hash-bound legal decision's Self-help boundary section (sha256 9d5512ffee19a13a2229837abac4b0b664afc1066fc19555d080c6096e9d6f05), which the census names as this route's legalDecisionRecordIds entry, records six refer-to-counsel conditions. Five reach the participant. The sixth — 'the collateral consequence is not identified with specificity' — does not: grepping participant-instructions.md and both fixtures case-insensitively for 'specific' and 'with specificity' returns nothing. The packet carries instead the build worklist's condensed handoff sentence, which omits that limb. The omission matters on this route in particular: the relief is defined by which named collateral consequence is lifted, and the packet leaves that list wholly to the participant across five ruled lines.",
+          "whatRepairMustDo": "Carry the specificity condition into 'Where self-help ends' in the decision's own terms, beside the five already carried, and connect it to the five-rule list the participant fills so they can tell when their own entry is too vague. Keep the worklist sentence; add the missing limb rather than replacing it."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit the C-94A source or the filled fixture; the form rehashes byte-exact to e7ebe16d45d9… and is correct as issued",
+        "do not read AL Form C-10-CRIMINAL across as this route's payment-plan answer without counsel; whether Alabama's general substantial-hardship affidavit is the vehicle for a chapter 12-26 petition is a legal question no record here answers, and A3 forbids borrowing it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "ca-851-91-set",
+      "lane": "VF01",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedBy": "FABLE-VA12",
+      "verifiedAtBase": "43e11ccd3",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill",
+      "decisiveDefect": "The delivered CR-409 pre-marks the item 3h statutory election on a sworn petition, while participant-instructions.md tells the participant \"The platform never marks a box on a sworn filing\" and the committed packet-set manifest assigns that election to the participant as a required-before-filing act.",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "KNOWN_PREFILLS": {
+          "measuredDetail": "Two black 1.2pt diagonal strokes forming an X, read from the decompressed page-2 content stream of cr-409-filled.pdf, inset 2pt inside the li3h DismissSection[0] widget box (84.5, 409.44)-(93.5, 418.44) in the matter-of-right fixtures and inside DismissSection[1] at y 364.85/369.85 in the interests-of-justice fixtures. Text extraction from the two canonical CR-409s is identical (md5 9f49fb8a37a937c9), so the mark is the only difference between the variants and no text-only instrument can see it. legal-design-packet-set-manifests.json for ca-851-91-set carries participantActionRequired {kind: complete_field, description: \"Matter-of-right versus interests-of-justice election - CR-409 item 3h\", requirement: required, requiredBeforeFiling: true}.",
+          "whatRepairMustDo": "Resolve the three-way conflict, do not paper over it. Either the build stops marking item 3h and the two evidence variants are distinguished some other way, or participant-instructions.md stops claiming the platform never marks a box and instead states plainly which box this packet has marked, on which ground, and that the participant must check it against their own case before signing. If the second path is taken, the manifest's participantActionRequired entry for item 3h needs reconciling too, because it currently assigns that election to the participant."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measuredDetail": "Four of the manifest's ten required-before-filing items are absent from participant-instructions.md in any form. Grep of that file: \"obtain\" 0 hits, \"docket\" 0, \"disposition\" 0, \"correct the packet\" 0, \"penalty of perjury\" 0. The four are: obtain the arrest report or arresting-agency record showing the report number (requirement required, obtainedFrom \"The arresting law enforcement agency\"); check the police report number answer against it and correct the packet if they disagree; check the how-the-matter-ended answer against the court docket and correct the packet if they disagree; and the verification and signature under penalty of perjury at the CR-409 petitioner signature block.",
+          "whatRepairMustDo": "Add the two obtain-and-confirm steps and the verification step to participant-instructions.md, in the manifest's own words, in the \"What you must do before you file\" section. The arresting-agency step is the one with teeth: item 3d of the delivered CR-409 asks for the arrest or police report number and the packet currently lists it as a blank without telling the participant who has the answer."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "data/record-clearing/legal-design-track-registry.json holds six selfHelpStopConditions for trackId ca-851-91. Term-level grep of participant-instructions.md: domestic 0, \"child abuse\" 0, elder 0, pattern 0, \"statute of limitations\" 0, limitations 0, abscond 0, \"identity fraud\" 0, evasion 0, vacated 0, appeal 0, contested 0. Only \"opposes\" returns a hit, covering \"The prosecutor opposes\" and nothing else. The five absent conditions are the pattern-offence bar (domestic violence, child abuse or elder abuse - \"Route to an attorney\"), any contested hearing, a charge with no statute of limitations, any evasion allegation by absconding or identity fraud, and a conviction vacated on appeal.",
+          "whatRepairMustDo": "Add a stop-and-get-help section carrying all six conditions in the registry's own words. The pattern-offence condition must not be paraphrased away: section 851.91(c)(2)(A) makes matter-of-right relief unavailable on that ground, the delivered CR-409 prints the bar on its own face at item 3h, and the platform is currently marking the matter-of-right box for the participant in the canonical fixture. This repair and the KNOWN_PREFILLS repair have to be done together or the packet will still be electing a ground it never warned the participant about."
+        }
+      },
+      "sharedHostNote": "product-wiring.json records rebuiltFrom scripts/build-census-v1-ca-851-91-set.mjs with sharedBuildHost build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs. Whether the statutory-selection behaviour is shared was not measured by this lane; a repairer should check before changing the host.",
+      "notInheritedFromAnyPriorRow": "The family's binding carries lastIndependentVerification {FAIL_REPAIR_REQUIRED, lane vf03, base ee5bdb5b56d69c00750663087e5e8c5a6d144acf}, recorded before the AcroForm-field-tree repair moved the fixture bytes. Nothing here is carried from it; every finding above was measured on the bytes at base 43e11ccd3.",
+      "notADefect": [
+        "The absent raster receipt. ca-851-91-set is in RASTER_QUEUE.json notEligible because 12 of its 16 documents will not open in the page parser, which I confirmed from the bytes: CR-106 and CR-410 are AES-encrypted XFA and MC-031 is RC4-encrypted, all with an empty user password, and pdf-lib refuses all twelve while poppler reads them and confirms the declared page counts. Do not treat the missing receipt as a defect and do not re-render to manufacture one.",
+        "The 1.68pt overlap of \"MC-031\" and \").\" on CR-409 page 2. It is present at identical coordinates in the official source and is the Judicial Council's own typesetting."
+      ],
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "do not resolve the item 3h conflict by deleting the manifest's participantActionRequired entry",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    }
+  ],
+  "supersededLaneMembership": {
+    "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+    "lane": "VF01",
+    "worker": "VF-SRC-A",
+    "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+    "assignmentCount": 1,
+    "assignments": [
+      {
+        "itemId": "ne-setaside-custodial-set",
+        "lane": "VF01",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+        "decisiveDefect": "the instructions never name a court or agency to file with",
+        "failedProofObligations": [
+          "FILING_DESTINATION",
+          "FEE_AND_WAIVER",
+          "SERVICE",
+          "SELF_HELP_STOP"
+        ],
+        "perObligation": {
+          "FILING_DESTINATION": {
+            "measuredDetail": "the instructions never name a court or agency to file with",
+            "whatRepairMustDo": "participant-instructions.md must name the court or agency the route names, or name exactly who the participant must get it from. The Vermont felony and misdemeanor packets in this same wave do this under a 'Where you file this' heading and are the model."
+          },
+          "FEE_AND_WAIVER": {
+            "measuredDetail": "neither a filing fee nor a waiver route is stated",
+            "whatRepairMustDo": "participant-instructions.md must state the filing fee and any waiver route, or name the clerk to ask and say plainly that the amount is not stated. The Vermont packets do the latter and are the model."
+          },
+          "SERVICE": {
+            "measuredDetail": "the instructions never state who must be served or how",
+            "whatRepairMustDo": "participant-instructions.md must state who must be served and by what method. The Vermont felony and misdemeanor packets carry an explicit 'Who must be served, and how' bullet; this family does not."
+          },
+          "SELF_HELP_STOP": {
+            "measuredDetail": "the packet never states where self-help ends",
+            "whatRepairMustDo": "participant-instructions.md must state where self-help ends. The Vermont packets close with a 'What this packet is not' section and the Ohio composed drafts carry 'Hard stops'; this family states nothing."
+          }
+        },
+        "repairMustNotDo": [
+          "do not edit any artifact merely so a receipt matches it",
+          "this verification opens no commercial route and grants no approval"
+        ]
+      }
+    ]
+  },
+  "fableVa5Assignments": {
+    "worker": "FABLE-VA5",
+    "foundAtBase": "cd48fc14e",
+    "added": [
+      "ar-act531-set",
+      "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "official-form-treatment:obligation:research-decision-route:AL:al-olr"
+    ],
+    "note": "Three FAIL_REPAIR_REQUIRED verdicts from the FABLE-VA5 wave. Each names the decisive defect and the exact failed obligations. FABLE-VA5 repaired nothing: it modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface."
+  },
+  "fableVa12Assignments": {
+    "worker": "FABLE-VA12",
+    "appendedAtBase": "43e11ccd3",
+    "appendedAtBaseFull": "43e11ccd3a64c5048eb673b369cc365aa0786f94",
+    "rosterDerivedFromTheLedger": "The roster was derived from data/rcap-grade-a/packet-factory-24h/claim-ledger.json at this base (released !== true AND laneKind === \"independent-verification\"), not from the dispatch list. VF05 holds four live families, not five; the ledger governs and no fifth live grant exists. Every family was asserted with scripts/grade-a-packet-factory-24h/claim.mjs before it was opened, and all five assertions returned CLAIM_OK on grant set 5be13a33a3963f3b. No claim was refused, so no exit 8 or exit 9 case arose and data/rcap-grade-a/external-worker-control/EXTERNAL_ASSIGNMENTS.json needed no reissue check; it was read anyway and names none of these five.",
+    "preservation": "Every pre-existing row and every pre-existing top-level key in this file was preserved byte-for-byte. The writer proved that before writing by re-serialising the HEAD blob with this file's own indent and escaping profile and requiring byte equality; a git diff against HEAD:<path> shows additions only.",
+    "nothingWasRepaired": "FABLE-VA12 modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface, and no other lane's worktree. It edited no ledger by hand.",
+    "lane": "VF01",
+    "added": [
+      "ca-851-91-set"
+    ],
+    "note": "One FAIL_REPAIR_REQUIRED from the FABLE-VA12 wave. Existing assignments untouched.",
+    "assignmentCountUpdated": "assignmentCount moved 5 -> 6 so it keeps matching assignments.length, which is what the prior appending lane in this file did. No existing assignment object was altered."
+  },
+  "fableVtaAssignments": {
+    "worker": "VT-A",
+    "generatedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "whyASeparateBlock": "appended without touching the assignments this file already carries; those were written by other lanes at other bases and are preserved verbatim",
+    "assignmentCount": 1,
+    "assignments": [
+      {
+        "itemId": "rcap-oh-custom-pleading-clean-tracks",
+        "lane": "VF01",
+        "verifier": "VT-A",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading",
+        "decisiveDefect": "The packet's official Ohio BCI companion PDF does not exist at this base. reports/rendered-artifacts.json declares it at SHA-256 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb and 235789 bytes; companion/ contains only companion-guidance.md. All four of the route's declared packetComponents are the BCI transmission component, so every declared component of this family resolves to that one absent file, and participant-instructions.md tells the participant in as many words that the document 'is included unchanged'.",
+        "failedProofObligations": [
+          "ARTIFACTS",
+          "COMPONENT_SET"
+        ],
+        "perObligation": {
+          "ARTIFACTS": {
+            "measuredDetail": "Nine PDFs are declared. Eight were rehashed in this lane and every SHA-256 and byte length agrees. The ninth, companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf, is absent, so its declared hash cannot be recomputed from anything. The manifest also records a raster page and a contact sheet rendered from that same absent PDF, and both of those files are present -- the record therefore asserts a document that was rendered from bytes the tree no longer carries.",
+            "whatRepairMustDo": "Restore the companion PDF into companion/ from the held source and prove it: the bound source STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf is intact in the Master Library and rehashes to the declared 9234ec76... at 235789 bytes, and the file exists at that size in commit 36e7a6a59449692329a6e0c31ab74f33fff96564 on branch codex/c11-packet-factory-accelerator, which is not an ancestor of this base. Copy it unchanged, as the receipt's copiedWithoutModification flag requires, then rehash the restored file and confirm it matches the declared value."
+          },
+          "COMPONENT_SET": {
+            "measuredDetail": "product-wiring.json declares exactly four packetComponents and every one of them is a *-bci-transmission-5 component. The field map's fifth document, OH-BCI-SEALING-EXPUNGEMENT-REQUEST with documentRole POST_ORDER_COMPANION_SOURCE, is the companion those four deliver, and its artifact is missing. The four composed pleading documents are present and correct in both fixtures; no component of another route is carried.",
+            "whatRepairMustDo": "Once the companion is restored, re-resolve each of the four declared components to a file that exists and re-run scripts/rcap-packet-completeness/verify-packet-completeness.mjs for this family. If instead the decision is that this family ships without the companion, then the four packetComponents, the field map's fifth document, the rendered-artifacts entry, its two raster records and the sentence in participant-instructions.md that says the document is included must all be withdrawn together -- but do not take that path merely to make the manifest self-consistent."
+          }
+        },
+        "whatIsNotBroken": "SOURCE_IDENTITY passes: the single bound source rehashes exactly from the Master Library, and all four declared route keys are present in the committed route-obligation census. The eight composed pleading fixtures are correct, and the instructions are among the strongest in this lane's reading -- they state the filing court, the fee and its indigency waiver and the service position per statutory section, from the compiled Ohio profile, rather than sending the participant away.",
+        "repairMustNotDo": [
+          "do not edit an artifact merely so a receipt or a manifest matches it",
+          "do not weaken or delete the declaration this verification rests on",
+          "do not open a route, set a price or change checkout",
+          "this verification lane may not perform the repair",
+          "do not delete the companion declaration merely so the manifest becomes self-consistent; the participant-facing instruction that the document is included is the reason this matters"
+        ],
+        "reVerificationRequired": true,
+        "systemicCause": {
+          "whatMadeThisHappen": "Commit c01b87d1584bbb0b902b398b45c376f8fea22050, 'Integrate C11: 43 packet families built, 4 stopped, 59 corpus binaries excluded', deliberately excluded 59 committed PDFs from the tree. Its stated reasoning is sound for source binaries and this lane confirmed it holds: 'nothing is lost: each family's own source-receipt.json already records the exact SHA-256, byte length and path in corpus for every source it bound, and a verifier binds sources from MASTER_LIBRARY_SOURCE_DIR rather than from git.' SOURCE_IDENTITY for this family passes on exactly that basis. But the rule was written for source copies and it swept in two files that are not source copies: they are packet deliverables under companion/, declared as rendered packet PDFs and as the route's packetComponents, and promised to the participant. For those two, the exclusion removed a deliverable rather than a redundant copy of a source.",
+          "blastRadiusMeasuredHere": {
+            "excludedOverlayPdfsListedInC11ReturnReview": 59,
+            "ofThoseUnderCompanionAndThereforePacketDeliverables": 2,
+            "companionDeliverablesStillAbsentAtThisBase": 2,
+            "familiesAffected": [
+              "rcap-oh-custom-pleading-clean-tracks",
+              "oh-marijuana-expungement-set"
+            ],
+            "bothAreTheSameDocument": "the Ohio BCI Sealings and Expungements Request, SHA-256 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+            "theOtherAbsentExclusionsAreSourceCopies": "the remaining absent exclusions are source copies inside overlay directories, and their exclusion is harmless for the reason C11 gave -- this lane rehashed every bound source of every family it read from the Master Library and every one matched",
+            "oh-marijuana-expungement-setIsNotThisLanesFamily": "it is recorded here only because the same cause reaches it; it already carries a FAIL_REPAIR_REQUIRED from another lane",
+            "reviewRecord": "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json"
+          },
+          "theRuleThatShouldChange": "A binary that a family declares as a packet component or as a rendered packet artifact is a deliverable, not a corpus copy, and the corpus-exclusion rule should not reach it. If the governance that private bytes never enter the repository must hold for these two as well, then the packet cannot claim to include them: the components, the rendered-artifacts entry, the raster records and the participant instruction must be withdrawn together, and the companion must become a document the participant is told to obtain rather than one the packet ships."
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "ma-bmc-multi-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.further_records",
+      "page": 1,
+      "printedContext": "Further records, if any - division, docket number and disposition for each, in paragraph 2 of the petition",
+      "disclosureLabel": "Further records, if any - division, docket number and disposition for each, in paragraph 2 of the petition",
+      "identity": "primary_filing field further_records",
+      "why": "no case fact is held for records the platform has not seen",
+      "participantMustSupply": "every further qualifying BMC record, one per line, or leave blank if the three above are all"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.good_cause_narrative",
+      "page": 1,
+      "printedContext": "The petitioner's own good-cause statement in paragraph 3 of the petition",
+      "disclosureLabel": "The petitioner's own good-cause statement in paragraph 3 of the petition",
+      "identity": "primary_filing field good_cause_narrative",
+      "why": "the memo's manual-completion record makes the good-cause narrative participant-authored through structured prompts against the Pon factors",
+      "participantMustSupply": "your own words, against the Pon-standard questions on the instructions page: the specific problems these records have caused you, and what you have done since the cases ended"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.record_1",
+      "page": 1,
+      "printedContext": "Record 1 - division, docket number and disposition, in paragraph 2 of the petition",
+      "disclosureLabel": "Record 1 - division, docket number and disposition, in paragraph 2 of the petition",
+      "identity": "primary_filing field record_1",
+      "why": "no case fact is held for records the platform has not seen",
+      "participantMustSupply": "the first record's BMC division, docket number, and how the case ended, copied from your own CORI and court paperwork"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.record_2",
+      "page": 1,
+      "printedContext": "Record 2 - division, docket number and disposition, in paragraph 2 of the petition",
+      "disclosureLabel": "Record 2 - division, docket number and disposition, in paragraph 2 of the petition",
+      "identity": "primary_filing field record_2",
+      "why": "no case fact is held for records the platform has not seen",
+      "participantMustSupply": "the second record's BMC division, docket number, and how the case ended, from the same records"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.record_3",
+      "page": 1,
+      "printedContext": "Record 3 - division, docket number and disposition, in paragraph 2 of the petition",
+      "disclosureLabel": "Record 3 - division, docket number and disposition, in paragraph 2 of the petition",
+      "identity": "primary_filing field record_3",
+      "why": "no case fact is held for records the platform has not seen",
+      "participantMustSupply": "the third record's BMC division, docket number, and how the case ended - three records from two divisions are the threshold of this route"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.venue_division",
+      "page": 1,
+      "printedContext": "The BMC division named in the caption of the petition",
+      "disclosureLabel": "The BMC division named in the caption of the petition",
+      "identity": "primary_filing field venue_division",
+      "why": "venue turns on where the participant lives and where their records sit, neither of which the platform holds",
+      "participantMustSupply": "the division the Standing Order's venue rule identifies - where you live if you live in BMC territory, otherwise the division your most recent eligible record is from; the clerk of that division can confirm it"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.petitioner_signature",
+      "label": "Signature of the petitioner on the consolidated petition",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the petitioner signs the petition personally"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.signature_date",
+      "label": "Date beside the petitioner's signature on the consolidated petition",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the petition is signed would be false"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/participant-instructions.md"
+}

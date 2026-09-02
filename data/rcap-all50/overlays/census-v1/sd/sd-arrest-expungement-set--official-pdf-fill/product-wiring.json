@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "sd_arrest_expungement-set",
+  "routeKeys": [
+    "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet"
+  ],
+  "routeSelectionId": "sd-stage-2-ujs-232-391-through-395",
+  "implementationStrategy": "official_pdf_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "assignmentOwnedPath": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
+  "evidenceOutputPath": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
+  "note": "Review artifacts and maps create no authority. A route remains closed until exact output-level legal and independent visual approval exists in the separate control plane.",
+  "binding": {
+    "family": "sd_arrest_expungement-set",
+    "jurisdiction": "SD",
+    "routeKeys": [
+      "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-1-record-gathering",
+      "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet",
+      "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-3-filing-service-and-notice-of-entry"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "UJS motion packet",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:sd_arrest_expungement-case-filing-statement-1",
+      "component:sd_arrest_expungement-hearing-waiver-4",
+      "component:sd_arrest_expungement-notice-of-entry-6",
+      "component:sd_arrest_expungement-notice-of-hearing-5",
+      "component:sd_arrest_expungement-primary-filing-2",
+      "component:sd_arrest_expungement-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:UJS-232",
+        "sha256": "308ed5e4386a9e223d510a1dfa6f49cb15b1c349a27db63e32dcf0164d6d7737",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:UJS-391",
+        "sha256": "ec51457f51583006c76af9bcfe6db03eaf92fdd15e7cfff184b5b4805f18e6a8",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:UJS-392",
+        "sha256": "08e44e091b60917fc4bb99ba1cf65a62eca4482d8517d43f6cbfd95aae9a2928",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:UJS-393",
+        "sha256": "933c600b4516628b60ca20545633cc3c225279bb87b90008780ff406d9e19310",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:UJS-394",
+        "sha256": "d6f2dab3ca32ca7fedd348635871d036dc90170c240ac416b4c9b770a7c7de3f",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:UJS-395",
+        "sha256": "4ff12868beb1f4904856ba2751d9d31e99973a18e5e6b38164286c7341dd8e20",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33488713831",
+      "jobId": "99795497665",
+      "artifactId": "9793147090",
+      "boundToCanonicalSha256": "627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d",
+      "coversTheWholeFamily": false
+    },
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf15",
+      "verifiedAtBase": null
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
+      "sharedBuildHost": "build-census-v1-ne-setaside-custodial-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

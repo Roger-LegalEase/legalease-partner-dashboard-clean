@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "rcap-repair-record/v1",
+  "lane": "RT-2",
+  "lanes": [
+    "FIX06",
+    "FIX07"
+  ],
+  "baseSha": "2f9b289d8815cf11b498958c98a885f7800faf71",
+  "branch": "fable/rt2",
+  "whatThisIs": "A repairer's record of what changed and why, for a separate lane to verify. It is not a verdict. This lane did not verify its own repair, opened no route, set no price, touched no checkout and weakened no verifier assertion.",
+  "reRasterRequiredAfterRepair": "Every family below whose fixture bytes moved has a stale RASTER_PASS receipt and a stale product-wiring component digest. Both are left to the lanes that own them, per the precedent at 6c9fac8dd. Re-raster before the family is read for a visual obligation.",
+  "families": [
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "lane": "FIX07",
+      "failed": [
+        "ARTIFACTS"
+      ],
+      "outcome": "NO_CHANGE_NEEDED_AT_THIS_BASE",
+      "finding": "The defect was real at vf05's base 4f5af4e714 and was repaired before this one. Commit a8a69db29 re-pinned the ten stale wiring digests its ARTIFACTS failure exposed, and it is an ancestor of 2f9b289d8. product-wiring.json's proposedRepresentation.components[0].sha256 now equals the canonical bytes (2a7e3fa6). A sweep of every sha256 in every JSON record in the family directory found zero disagreements with the bytes on disk.",
+      "changed": []
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "lane": "FIX07",
+      "failed": [
+        "SOURCE_IDENTITY"
+      ],
+      "outcome": "NO_CHANGE_NEEDED_AT_THIS_BASE",
+      "finding": "Repaired before this base by a28b80d98, which re-pinned 31 source receipts whose committed-record hashes had drifted. All three bound records rehash exactly to source-receipt.json at this base. The re-pointing test the brief requires was run before accepting the pin: routeKey obligation:runtime-only:GA:youthful-first-offender-restriction-route is PRESENT in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json at the pinned hash, exactly once, so this is a re-pin and not a stale anchor.",
+      "changed": []
+    },
+    {
+      "familyId": "tx_nd_conviction_no_supervision-set",
+      "lane": "FIX07",
+      "failed": [
+        "SELF_HELP_STOP"
+      ],
+      "outcome": "REPAIRED",
+      "cause": "Six of the registry's seven stop conditions for track tx_nd_conviction_no_supervision were carried. The seventh, 'The prosecutor opposes the petition or requests a hearing.', was absent as a stop although the packet described the 45-day mechanism in its filing instructions.",
+      "change": "The registry's sentence is added, quoted, as a bullet in the composed filing-instructions component and in participant-instructions.md.",
+      "bytesMoved": true
+    },
+    {
+      "familyId": "id_isp_expungement-set",
+      "lane": "FIX07",
+      "failed": [
+        "SELF_HELP_STOP"
+      ],
+      "outcome": "REPAIRED",
+      "cause": "Two of five registry stop conditions for track id_isp_expungement were carried.",
+      "change": "Added, in the registry's own terms: unclear offense classification; federal, tribal or out-of-state records; and immigration, professional licensing, peace officer employment or firearm consequences. The Sec. 19-2604 bullet is extended to the registry's contemplated limb as well as the already-happened one. The two existing bullets, sourced to the ISP form's printed face, are untouched, and the packet's refusal to borrow the Sec. 67-3004(11) Clean Slate no-fee line survives.",
+      "bytesMoved": false,
+      "note": "This family's only PDF is the ISP application itself, so no fixture byte moved and no re-raster is owed."
+    },
+    {
+      "familyId": "in_arrest_no_charges-set",
+      "lane": "FIX07",
+      "failed": [
+        "COMPONENT_SET",
+        "SELF_HELP_STOP"
+      ],
+      "outcome": "REPAIRED",
+      "cause": "COMPONENT_SET: the CCA bundle printed three instructions to insert the non-conviction Facts, Findings and Exhibit pages; none was in the packet, and the packet told the participant LegalEase did not hold them when the mounted corpus did. SELF_HELP_STOP: two of thirteen registry conditions carried.",
+      "change": "The insert form is bound as this family's second document (sha256 65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707, 4 pages, 77 fields, already in the corpus index) and rendered into the packet. Nothing is written on it: its widgets are shared by name across the petition's Facts pages, the order's Findings page and Exhibit A, so one value would print as both the petitioner's allegation and the court's finding. All 77 fields are classified and the required-before-filing ones are disclosed by name in a new instructions table. The eleven missing stop conditions are added in the registry's own words.",
+      "bytesMoved": false,
+      "note": "The bundle's own fixture bytes did not move; the insert renders as two new fixture files. The family's rendered artifact set has grown, which the raster and wiring lanes need to know."
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "lane": "FIX06",
+      "failed": [
+        "FEE_AND_WAIVER"
+      ],
+      "outcome": "REPAIRED",
+      "cause": "The packet said no committed record it binds states a filing fee for this route. The compiled Mississippi profile, bound by exact SHA-256, states one: Sec. 99-19-72 sets a statutory filing fee for each petition to expunge an offence under Sec. 99-19-71, and this route is a petition under Sec. 99-19-71(4). DET-FEE-AND-WAIVER-001-A4.",
+      "change": "The denial is withdrawn and replaced with what the bound record says, plus the reason no amount is published: the owner's Q4 correction of 2026-09-02 permits a figure only on current primary authority or an official form, and neither is in hand. The record's own open question - whether the fee reaches a non-conviction petition on a dismissed case, and how it maps in a justice or municipal court - is carried rather than resolved. Two feeRules strings added to the compiled profile's mustContain anchors.",
+      "divergenceFromTheVerdict": "vf12 proposed stating the statutory figure as ms-fel-set then did. ms-fel-set no longer states it: the owner withdrew that figure. The later and higher authority is followed, and the A4 falsehood is fixed without publishing an unconfirmed fee.",
+      "bytesMoved": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "lane": "FIX06",
+      "failed": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "outcome": "REPAIRED",
+      "cause": "Section C of the petition printed the route contract's requiredFacts array as this route's fact set. That array is shared identically by all eleven Oklahoma routes under ruleId OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP: an analyst checklist, not a fact set. The petition never asked for the facts 10A O.S. Sec. 2-6-109 turns on.",
+      "change": "Section C is now the nine facts the compiled Oklahoma profile records the route as turning on, each blank naming the court or agency document to copy it from. The fourteen strings are removed from the route contract's mustContain anchors. route-splits.json is NOT touched: correcting the shared array is a change against eleven routes.",
+      "bytesMoved": true
+    },
+    {
+      "familyId": "rcap-wv-custom-pleading",
+      "lane": "FIX06",
+      "failed": [
+        "COMPONENT_SET"
+      ],
+      "outcome": "REPAIRED",
+      "cause": "The registry declares five required components for wv_drug_conditional_discharge and the packet shipped four, with the filing instructions renumbered into the missing records checklist's ordinal so no gap was visible.",
+      "change": "filing-instructions renumbered 4 -> 5; records-checklist-4 built at role records_checklist, outputStrategy process_guidance, quoting the registry's three obtain_document entries with their obtainedFrom and paired confirm_answer, and the court-costs receipt under the registry's own condition.",
+      "bytesMoved": true
+    },
+    {
+      "familyId": "rcap-ok-custom-pleading",
+      "lane": "FIX06",
+      "failed": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS"
+      ],
+      "outcome": "REPAIRED",
+      "cause": "53 registry components against 16 built, hidden by an ordinal collision at -filing-instructions-4; 16 declared routes against 8 named in footers, with one instrument row broader than the petition behind it; and 16 caption blanks invisible to the blank ledger because they were literal dot runs rather than {{DOTS}} tokens.",
+      "change": "37 components built from the registry's own text and the eight filing-instructions pages withdrawn into the roles the registry declares; every component carries its track's full pathway set and prints all of them in its footer; the instrument table gains a column naming the declared routes behind each row and the nonconviction row says all four are served by one set; 16 caption blanks registered with printed labels and REQUIRED_BEFORE_FILING dispositions; all 53 registry component ids added as mustContain anchors.",
+      "bytesMoved": true
+    },
+    {
+      "familyId": "nj_disorderly_persons-set",
+      "lane": "FIX06",
+      "failed": [],
+      "failingCounter": "knownRequiredFieldsMissing 88",
+      "outcome": "REPAIRED_BY_REBUILD_ONLY",
+      "cause": "Not a build problem and not 88 unfilled required fields. The committed artifacts were written at c01b87d15 and the shared EAST build host has been repaired three times since - 1b64e0aee, d47a67b72, 77324cb94 - each time for a New York or Ohio family sharing the host. The New Jersey families were never rebuilt behind those repairs. The stale field map carried all 179 rows with no effectiveLabel at all and gave 88 of them refusalClass not_supported_by_exact_participant_fact_map, which the completeness contract names untrusted and names this family in doing so.",
+      "change": "None to any source file. Running the family's own builder unchanged at this base gives PASS_COMPLETE with nine counters zero.",
+      "bytesMoved": true,
+      "worthALook": "The other four NJ families on the same host are almost certainly stale for the same reason and were not this lane's to rebuild."
+    }
+  ]
+}

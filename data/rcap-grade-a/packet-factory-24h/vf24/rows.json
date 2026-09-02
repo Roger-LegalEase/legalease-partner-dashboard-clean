@@ -1,0 +1,199 @@
+{
+ "schemaVersion": "rcap-independent-verification-rows/v1",
+ "lane": "VF24",
+ "laneKind": "independent-verification",
+ "generatedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+ "preflight": "verify-packet-completeness.mjs run per family in this container at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666; Master Library mounted and sources rehashed from bytes",
+ "overlayDirectoriesModified": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route. A FAIL is a verdict and a repair assignment, never an edit; this lane wrote into no overlay directory and no build script.",
+ "rows": [
+  {
+   "itemId": "ct-cleanslate-petition-set",
+   "lane": "VF24",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+   "verifier": "FABLE-VT7 (independent — built none of these packets, and neither built nor repaired any family scored here)",
+   "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+   "supersedes": [
+    {
+     "lane": "vf24",
+     "verdict": "PASS",
+     "declaredBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+     "why": "same lane, second read. That read recorded SERVICE as NOT_MEASURABLE_HERE and capped at PASS; the obligation is measurable in this environment and the packet's silence fails it. Every other finding in that row I reproduced and agree with."
+    }
+   ],
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "rasterState": "RASTER_PASS",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All four records that carry it — source-receipt, product-wiring, production-field-map and approval-request — declare the same route key, and the instructions footer repeats it. The form on its own face is JD-CR-202 Rev. 11-23, Petition for Clean Slate Erasure, Convictions Before 1/1/2000, citing C.G.S. § 54-142a and P.A. 23-134 § 1.",
+     "evidence": {
+      "routeKey": "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+      "agreementAcrossRecords": true
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Measured against the mounted Master Library: the single bound source rehashes to the recorded SHA-256 at the recorded byte length.",
+     "evidence": [
+      {
+       "form": "JD-CR-202",
+       "recordedSha": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+       "rehashMatches": true,
+       "byteLenMatches": true
+      }
+     ]
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredComponentsMissing 0. One form, two pages: the sworn petition on page 1, the court's order and the closed-location chart on page 2. I read both out of the delivered bytes."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "knownRequiredFieldsMissing 0, measured here. The caption values are each in their own slot on the delivered bytes — name, e-mail, phone, date of birth, address, docket number — which is the point worth checking on this family, because reports/caption-channel-defect.json records that the shared anchor-capture helper harvests a whole multi-cell header row and would have written the date of birth into all four caption fields. The build guided around a defect in shared infrastructure and the bytes prove it worked."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredFactsNotCollected 0. The three participant blanks — the crimes to erase, the address of court, the JD/GA number — are each named by the column heading printed above them, with the closed-court chart named as where to look for the address and the clerk named as who can read the JD/GA number off a docket number."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredOptionsMissing 0. The two elections on the form are the court's own Denied/Granted boxes on page 2, and both are correctly left untouched; there is no participant election on this form to miss."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows 0. The crimes box is a single free-text area, left wholly to the participant, with the one-case-per-form rule explained twice."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites 0 and invisibleWrites 0, and the packet is unusually careful about the boundary: the whole attestation row is left blank because the petition is sworn and not merely signed, the officer's jurat row is left to the officer, and the entire Order of the Court on page 2 is left to the judge. I confirmed each from the delivered bytes."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures rehash from their committed bytes to reports/rendered-artifacts.json and to the boundToCanonicalSha256 / boundToBoundarySha256 of the family's RASTER_PASS receipt.",
+     "evidence": {
+      "rasterWorkflowRunId": "33495068504",
+      "canonical": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
+      "boundary": "e190d7304260be94e84e46fb18710ee85e1f5a5314e7a7a5a5dd5eeb33b3d052",
+      "bothMatchReceipt": true
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Two pages in both fixtures, in the form's own order, matching the expectedPages of 2 the raster receipt is bound to."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects 0 on my own run over bytes holding a hash-bound RASTER_PASS receipt. The family carries reports/independent-visual-review.json naming what a human reviewer should look at, and build-findings.json records as an advisory that flattening bakes the Judicial Branch's own 'Print Form' and 'Reset Form' button captions into the page — correctly identified as the court's own labels rather than anything the build wrote, and disclosed to the participant in the instructions."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Stated from the form's own printed instruction 3 — the court location where the participant was sentenced — and then carried further than the obligation requires: the packet names the page-2 closed-location chart and lists all five redirects with their receiving court and street address. I confirmed the chart on the delivered page 2.",
+     "evidence": {
+      "basis": "printed instruction 3 plus the page-2 closed-location chart",
+      "verifiedOnFixtureBytes": true
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Met on the first limb of DET-FEE-AND-WAIVER-001 — the packet states that no fee is charged, sourced. 'There is no filing fee for this petition. C.G.S. § 54-142a provides for it and the compiled Connecticut profile records the fee as $0.' The family's own local-filing-variation.json records the same from the statute ('No fee shall be charged in any court with respect to any petition under § 54-142a'), and the packet separately distinguishes the State Police Bureau of Identification record-check cost as an agency cost that is not a court filing fee. Waiver treatment follows from the fee: there is nothing to waive.",
+     "evidence": {
+      "standard": "DET-FEE-AND-WAIVER-001",
+      "limb": "states that no fee is charged, sourced",
+      "fee": "$0",
+      "authority": "C.G.S. § 54-142a"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Measurable here, and it is silence. I reproduced everything the prior read of this lane found and reach a different conclusion about what it means. No held source establishes the rule — the family's own reports/local-filing-variation.json records serviceMethod, serviceRecipients, serviceTiming and certificateOfService as recorded false, and says in terms 'an absent record is not a finding that no service is required'; the worklist deliverable records the same four as not_recorded; the compiled CT profile's serviceAndNoticeRules is empty; and I confirmed the delivered form carries no service section and no certificate of service among its 22 fields. That is the situation DET-FEE-AND-WAIVER-001 addresses head-on: where no held source establishes the answer, a named reachable authority may stand in, and it must be named rather than gestured at. This packet names none. It raises service nowhere at all — not as a rule, not as an open question, not as an office to ask — and surfaces the gap only in a report the participant never sees. Silence always fails, and NOT_MEASURABLE_HERE is reserved for what a lane's environment cannot measure rather than for a question the packet declines to put. My environment can measure it: the file is here and it says nothing. The repair is one sentence, and the packet already names the right office twice for other purposes — the clerk of the Superior Court location where the petition is filed.",
+     "evidence": {
+      "heldSourcesConsulted": [
+       "reports/local-filing-variation.json serviceMethod/serviceRecipients/serviceTiming/certificateOfService",
+       "packet-family-build-worklist.json reusableFamilyDeliverable",
+       "compiled CT profile serviceAndNoticeRules"
+      ],
+      "anyEstablishesTheRule": false,
+      "serviceBlockOnDeliveredForm": "none among 22 fields",
+      "statedInPacket": false,
+      "authorityNamed": null,
+      "standard": "DET-FEE-AND-WAIVER-001 as extended to SERVICE",
+      "repair": "one sentence naming the clerk of the G.A. location where the petition is filed as the office that answers who must be served"
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Present and substantive. The packet states it does not decide eligibility, then carries the form's own NOTE in full — a crime for which the court could have sentenced the participant to more than five years is not eligible even if the sentence imposed was less, and a second § 14-227a violation within ten years, sexually violent crimes, nonviolent sexual crimes and the crimes at § 54-142a(e)(2)(C) are blocked outright — and tells the participant to read those paragraphs before swearing to them. It also carries the strict one-case-per-form rule the court enforces."
+    }
+   },
+   "failedProofObligations": [
+    "SERVICE"
+   ],
+   "notMeasurableHere": [],
+   "disagreementNote": "This is a single-obligation disagreement with a careful earlier read on the same lane, and it is worth stating plainly. That read identified the same gap and even observed that this family's siblings surface the same open question to the participant while this one surfaces it only in a report. It then classified the obligation as unmeasurable and capped at PASS. I take the opposite view of the same facts: the obligation is on the packet, not on the repository, and what cannot be measured is the RULE, not whether the packet answers the participant's question. Everything else in that row I reproduced and agree with, including its FILING_DESTINATION and FEE_AND_WAIVER passes.",
+   "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-cleanslate-petition-set"
+  }
+ ],
+ "obligationSet": [
+  "ROUTE_IDENTITY",
+  "SOURCE_IDENTITY",
+  "COMPONENT_SET",
+  "KNOWN_PREFILLS",
+  "REQUIRED_BEFORE_FILING",
+  "ROUTE_OPTIONS",
+  "REPEATING_ROWS",
+  "PROTECTED_FIELDS",
+  "ARTIFACTS",
+  "PAGE_ORDER",
+  "CLIPPING_AND_OVERLAP",
+  "FILING_DESTINATION",
+  "FEE_AND_WAIVER",
+  "SERVICE",
+  "SELF_HELP_STOP"
+ ],
+ "obligationSetNote": "Lane contract L9: a PASS_COMPLETE_INDEPENDENT verdict scores the canonical fifteen, each by its own name. A row carrying any NOT_MEASURABLE_HERE is capped at PASS.",
+ "laneReads": [
+  {
+   "verifier": "FABLE-VT7 (independent — built none of these packets, and neither built nor repaired any family scored here)",
+   "itemId": "ct-cleanslate-petition-set",
+   "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+   "note": "Per-row base, deliberately not stamped on the document. This file is shared with other lanes and a document-level base would land on rows whose authors never read at this commit.",
+   "corpusMounted": true,
+   "corpusMountedHow": "scripts/rcap-corpus/bootstrap-private-corpus.sh — archive SHA-256 and all three governance checksums verified; 51 jurisdictions, 499 files, 329 PDFs",
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false
+  }
+ ]
+}

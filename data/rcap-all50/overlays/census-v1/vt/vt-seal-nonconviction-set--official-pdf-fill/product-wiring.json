@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "vt_seal_nonconviction-set",
+  "routeKey": "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-automatic-and-verification",
+  "routeKeys": [
+    "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-automatic-and-verification",
+    "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-ordinary-petition",
+    "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-stipulated-petition"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "vt_seal_nonconviction-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "vt_seal_nonconviction-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "cafc3111e0c8d1669df9e9aae3d4d77a1847f9ead1ccbf70006155cee5703898",
+        "requirement": "required"
+      }
+    ]
+  },
+  "binding": {
+    "family": "vt_seal_nonconviction-set",
+    "jurisdiction": "VT",
+    "routeKeys": [
+      "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-automatic-and-verification",
+      "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-ordinary-petition",
+      "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-stipulated-petition"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Ordinary contested petition at any time, § 7603(g) (official_pdf_fill)",
+      "Stipulated sealing at any time, § 7603(a)(2) (official_pdf_fill)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:vt_seal_nonconviction-fee-waiver-application-5",
+      "component:vt_seal_nonconviction-petition-2",
+      "component:vt_seal_nonconviction-stipulation-and-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:200-00130",
+        "sha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:200-00132",
+        "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:600-00228",
+        "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

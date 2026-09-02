@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "ny_160_59_petition-set",
+  "routeKeys": [
+    "obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "fieldMap": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/production-field-map.json",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "intendedOverlayDestination": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/product-wiring.json",
+  "integrationStatus": "INSTALLED_BY_CAPTAIN",
+  "note": "Integration-ready repair payload only. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
+  "installedFrom": "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/ny_160_59_petition-set/product-wiring.json",
+  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT",
+  "binding": {
+    "family": "ny_160_59_petition-set",
+    "jurisdiction": "NY",
+    "routeKeys": [
+      "obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "certificate_of_disposition_request",
+      "post_order_verification",
+      "primary_filing",
+      "pro_se_instructions",
+      "record_verification",
+      "routing_comparison",
+      "service_instructions",
+      "sworn_prior_applications_statement"
+    ],
+    "packetComponents": [
+      "component:ny_160_59_petition-certificate-of-disposition-request-3",
+      "component:ny_160_59_petition-post-order-verification-7",
+      "component:ny_160_59_petition-primary-filing-1",
+      "component:ny_160_59_petition-pro-se-instructions-2",
+      "component:ny_160_59_petition-sworn-prior-applications-statement-4"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CPL-160.59-APPLICATION",
+        "sha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CPL-160.59-COD-REQUEST",
+        "sha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CPL-160.59-PRO-SE-PACKET",
+        "sha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CPL-160.59-SEAL-VERIFICATION",
+        "sha256": "76c0c54ed0a80c8b5b5fddd64e2087b31f9615d5ebe7524ead803352fba3cca3",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33598433649",
+      "jobId": "100147214112",
+      "artifactId": "9834529157",
+      "boundToCanonicalSha256": "d5c8fbc835385d9eb2bbc6d45cc8886a89330f170fa4d4b5fcabcb49d8af7021",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf10",
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ny_160_59_petition-set.mjs",
+      "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

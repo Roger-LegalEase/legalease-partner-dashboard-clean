@@ -14,7 +14,7 @@ import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances
 import { detectNonFilingNotice } from "./rcap-source-notice.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFTextField, PDFDropdown, PDFName, StandardFonts, rgb } = require("pdf-lib");
+const { PDFDocument, PDFTextField, PDFDropdown, PDFName, PDFString, PDFHexString, StandardFonts, rgb } = require("pdf-lib");
 
 // A fixed instant: a fresh document otherwise stamps the wall clock into its
 // info dictionary, and every render of the same facts would differ.
@@ -162,6 +162,76 @@ export function sourceMetadataFingerprint(doc) {
   return crypto.createHash("sha256").update(parts.join("\u0000"), "utf8").digest("hex");
 }
 
+/** How far inside a control's own bounds the mark is drawn, in points. */
+export const SELECTION_INSET = 2;
+/** The mark's stroke. Heavier than the court's 0.72pt box, so it reads as a mark. */
+export const SELECTION_LINE_WIDTH = 1.2;
+
+/**
+ * Marks selection controls the document already draws.
+ *
+ * A form that offers "check one option only" is answered by marking the box the
+ * court printed. Two things this does NOT do, and the distinction is the whole
+ * point:
+ *
+ *   * It never draws a box. Adding a control to a court's form changes the form
+ *     rather than completing it, and a reader cannot tell a drawn box from a
+ *     printed one.
+ *   * It never redraws, thickens or moves the existing box. The two diagonals
+ *     are struck strictly INSIDE the measured bounds, inset far enough that the
+ *     court's own stroke is untouched.
+ *
+ * Every box passed here must have been MEASURED off the document. A derived
+ * coordinate -- one inferred from where a label sits -- is how a mark ends up
+ * in the margin next to nothing, so a selection carrying `measured: false` is
+ * refused rather than drawn.
+ */
+function markSelections({ pages, selections, protectedRules, ink, report }) {
+  report.selections = [];
+  report.selectionsRefused = [];
+  for (const selection of selections ?? []) {
+    const page = pages[selection.page - 1];
+    const refuse = (reason, detail = null) =>
+      report.selectionsRefused.push({ control: selection.label ?? null, reason, ...(detail ? { detail } : {}) });
+    if (!page) { refuse("selection_page_not_in_document"); continue; }
+    if (selection.measured !== true) { refuse("selection_box_was_not_measured_off_the_document"); continue; }
+    const box = selection.box ?? {};
+    const { x0, y0, x1, y1 } = box;
+    if (![x0, y0, x1, y1].every((n) => typeof n === "number" && Number.isFinite(n))) { refuse("selection_box_is_not_a_rectangle"); continue; }
+    const width = x1 - x0, height = y1 - y0;
+    const inset = selection.inset ?? SELECTION_INSET;
+    // Inset twice over, so a control too small to mark inside its own stroke is
+    // refused rather than marked over the court's line.
+    if (!(width > inset * 2 + 1 && height > inset * 2 + 1)) {
+      refuse("selection_box_is_too_small_to_mark_inside_its_own_bounds", `${width}x${height}pt with a ${inset}pt inset`);
+      continue;
+    }
+    const { width: pageWidth, height: pageHeight } = page.getSize();
+    if (x0 < 0 || y0 < 0 || x1 > pageWidth + 0.5 || y1 > pageHeight + 0.5) {
+      refuse("selection_box_falls_outside_the_page", `${x0},${y0} to ${x1},${y1} on a ${pageWidth}x${pageHeight} page`);
+      continue;
+    }
+    const trespass = (selection.protectedRules ?? protectedRules).find((r) =>
+      r.page === selection.page && r.y >= y0 - PROTECTED_RULE_BAND && r.y <= y1 + PROTECTED_RULE_BAND
+      && x0 < r.endX && x1 > r.x);
+    if (trespass) {
+      refuse("selection_box_lands_on_a_rule_the_court_owns",
+        `the rule at page ${trespass.page} y=${trespass.y} is owned by ${JSON.stringify(trespass.caption ?? trespass.category ?? "the court")}`);
+      continue;
+    }
+    const a = { x: x0 + inset, y: y0 + inset }, b = { x: x1 - inset, y: y1 - inset };
+    const lineWidth = selection.lineWidth ?? SELECTION_LINE_WIDTH;
+    page.drawLine({ start: a, end: b, thickness: lineWidth, color: ink });
+    page.drawLine({ start: { x: a.x, y: b.y }, end: { x: b.x, y: a.y }, thickness: lineWidth, color: ink });
+    report.selections.push({
+      control: selection.label ?? null, page: selection.page,
+      box: { x0, y0, x1, y1 }, inset, lineWidth,
+      mark: "two_diagonal_strokes_inset",
+      drewANewBox: false, redrewTheCourtsBox: false
+    });
+  }
+}
+
 /**
  * Finalizes a flat printed form by drawing values at measured anchors.
  *
@@ -175,7 +245,14 @@ export async function finalizeFlatOverlay({
   sourceBytes,
   expectedSha256,
   anchors,
+  // Existing selection controls the court already drew, and which of them this
+  // configuration marks. Never a new box: see markSelections below.
+  selections = [],
   protectedRules = [],
+  // fieldName -> factId. The only way a descriptor marked
+  // `requiresExplicitMapping` can bind, and it can override nothing: a protect
+  // rule, a type guard and a caption-only document all still refuse.
+  explicitMappings = {},
   facts,
   nonFilingNotice = null,
   // The document's own printed text. Passed so this path can hold for itself
@@ -252,7 +329,11 @@ export async function finalizeFlatOverlay({
     // around them.
     const decision = decideBinding(
       { name: anchor.label, pdfType: "text", effectiveLabel: anchor.label },
-      { captionOnly: anchor.captionOnly === true, availableChargeRows: Array.isArray(facts?.["matter.charges"]) ? facts["matter.charges"].length : 0 }
+      {
+        explicitMappings,
+        captionOnly: anchor.captionOnly === true,
+        availableChargeRows: Array.isArray(facts?.["matter.charges"]) ? facts["matter.charges"].length : 0
+      }
     );
     if (!decision.writable) {
       report.refused.push({ anchor: anchor.label, reason: decision.reason, category: decision.category ?? null });
@@ -313,6 +394,8 @@ export async function finalizeFlatOverlay({
     report.expectedValues.push(String(value));
   }
 
+  markSelections({ pages, selections, protectedRules, ink, report });
+
   const { clean, report: sanitation } = await sanitizeAndFlatten(pdfDoc);
   report.sanitation = sanitation;
   report.sourceMetadataFingerprint = sourceMetadataFingerprint(pdfDoc);
@@ -350,6 +433,75 @@ export class NonFilingHoldError extends Error {
  * protected field, an unfittable value, a charge row with no charge -- are
  * returned, never worked around.
  */
+/*
+ * Rewrites the size token of each widget's own /DA to the measured fit.
+ *
+ * Only the size changes. The font resource name and every other operator in the
+ * widget's own default-appearance string are preserved exactly, because the
+ * appearance generator resolves that name against the AcroForm /DR and
+ * substituting a different font would change the drawn glyphs as well as their
+ * size. A widget with no /DA of its own already follows the field and is left
+ * untouched. A widget whose declared size already equals the fit is left
+ * untouched too, so this can never move bytes it does not need to move.
+ */
+function alignWidgetDefaultAppearanceSizes(handle, fontSize) {
+  const aligned = [];
+  const widgets = (() => { try { return handle.acroField.getWidgets(); } catch { return []; } })();
+  widgets.forEach((widget, index) => {
+    const entry = widget.dict.get(PDFName.of("DA"));
+    if (!(entry instanceof PDFString || entry instanceof PDFHexString)) return;
+    const before = entry.decodeText();
+    const after = before.replace(/(^|\s)(\d*\.?\d+)(\s+Tf\b)/,
+      (whole, lead, size, tail) => (Number(size) === Number(fontSize) ? whole : `${lead}${fontSize}${tail}`));
+    if (after === before) return;
+    widget.dict.set(PDFName.of("DA"), PDFString.of(after));
+    aligned.push({ widgetIndex: index, before, after });
+  });
+  return aligned;
+}
+
+/*
+ * Writes a SIZE OF ITS OWN into every widget of one field.
+ *
+ * alignWidgetDefaultAppearanceSizes above stamps ONE size -- the field's single
+ * measured fit -- onto every widget that already carries a /DA. That is the
+ * right repair when a field's widgets are the same shape, and the wrong one
+ * when they are not. CN-10557 carries `DefName` across twenty widgets from
+ * 208.23 to 366.15 points wide, and the fit is measured against widgets[0]
+ * alone: the boundary name fitted at 6.5pt in a 228.92pt box, and at 6.5pt it
+ * needs 219.5pt, which is 15 points more than the narrowest widget can hold. So
+ * four widgets overflowed, and on four pages a word left the 612-point page
+ * altogether and was cut mid-word -- a cover letter to a court carrying a
+ * truncated name and a truncated address.
+ *
+ * A widget is a place on paper. One measurement cannot describe twenty of them,
+ * so this writes each widget's own measured size into that widget's own /DA,
+ * and leaves the field-level /DA at the SMALLEST of them so a widget with no
+ * /DA of its own inherits a size that is safe everywhere. Only the size token
+ * moves; the font resource name and the colour operators are preserved exactly,
+ * for the reason given above. A widget with no /DA and no field /DA to copy is
+ * left alone -- it is already covered by the field-level minimum.
+ */
+function applyPerWidgetDefaultAppearanceSizes(handle, sizes, fieldDefaultAppearance) {
+  const applied = [];
+  const widgets = (() => { try { return handle.acroField.getWidgets(); } catch { return []; } })();
+  widgets.forEach((widget, index) => {
+    const size = sizes[index];
+    if (!(size > 0)) return;
+    const own = widget.dict.get(PDFName.of("DA"));
+    const before = (own instanceof PDFString || own instanceof PDFHexString)
+      ? own.decodeText()
+      : (typeof fieldDefaultAppearance === "string" ? fieldDefaultAppearance : null);
+    if (before == null) return;
+    const after = before.replace(/(^|\s)(\d*\.?\d+)(\s+Tf\b)/,
+      (whole, lead, current, tail) => (Number(current) === Number(size) ? whole : `${lead}${size}${tail}`));
+    if (after === before && (own instanceof PDFString || own instanceof PDFHexString)) return;
+    widget.dict.set(PDFName.of("DA"), PDFString.of(after));
+    applied.push({ widgetIndex: index, fontSize: size, before, after });
+  });
+  return applied;
+}
+
 export async function finalizeOfficialForm({
   sourceBytes,
   expectedSha256,
@@ -375,12 +527,101 @@ export async function finalizeOfficialForm({
   documentTextLines = [],
   maxFontSize,
   minFontSize = MIN_READABLE_FONT_SIZE,
+  // Passed straight through to the fitter. See its own comment: the descending
+  // ladder can step past the declared minimum without ever trying it, and a
+  // value that fits there is refused. Opt-in, because the families sharing this
+  // finalizer are rebuilt by different workers at different times.
+  evaluateDeclaredMinimumSize = false,
+  /*
+   * Whether a fitted font size is also written onto the field's own WIDGETS.
+   *
+   * applyFitToTextField sets the size on the FIELD's /DA. A widget annotation
+   * may carry its own /DA, and where it does the widget's entry is the one the
+   * appearance generator uses -- so the field-level size is discarded and the
+   * value renders at whatever size the widget declares.
+   *
+   * That is not cosmetic. On the CPL 160.59 pro se packet every widget of
+   * "Applicant Name", "Street Address", "City State Zip", "Phone" and "Email"
+   * carries `/Arial 11 Tf 0 0 0 rg` while the field-level entry is `/Helv 0 Tf`.
+   * The fitter measured the boundary values down to 7.5, 9.5, 7 and 8 points and
+   * reported outcome "shrunk"; the bytes drew all five at 11 and three of them
+   * ran off the right edge of a 612-point page. The report was true about the
+   * fit and false about the ink, which is the worst shape a report can take.
+   *
+   * The alignment rewrites ONLY the size token inside each widget's existing
+   * /DA, preserving its font resource name and its colour operators, so a value
+   * whose fit is the widget's declared size is a no-op and no family's canonical
+   * bytes move on that account.
+   *
+   * Opt-in, on the same reasoning as evaluateDeclaredMinimumSize above: the
+   * families sharing this finalizer are rebuilt by different workers at
+   * different times, and a repair lane holding a few families does not get to
+   * decide what the others' next rebuild produces.
+   *
+   * CAPTAIN DECISION: like the flag above, this default should flip to true once
+   * every family can be rebuilt together. A shrunk fit that the bytes ignore is
+   * a defect wherever it occurs, not only here.
+   */
+  alignWidgetFontSizeToFit = false,
+  /*
+   * Whether each WIDGET of a multi-widget text field is fitted on its own
+   * rectangle instead of all of them on widgets[0].
+   *
+   * `const rect = field.widgets?.[0]?.rect` below is the whole of the current
+   * measurement. Where a field's widgets are the same shape that is exact; where
+   * they are not it is a measurement of one box applied to boxes it never saw.
+   * On CN-10557 it put participant text off the right edge of a 612-point page
+   * on four pages of the delivered boundary filing while the build report called
+   * the same writes "fit" and "shrunk".
+   *
+   * With this on, every widget is fitted on its own rectangle. The field's VALUE
+   * -- and, for a multiline field, its line breaks -- comes from the most
+   * constraining widget, because a field holds one string however many places it
+   * appears; each widget's own /DA then carries that widget's own size. If ANY
+   * widget cannot hold the value at a readable size the whole field is refused,
+   * which is the existing behaviour of this module extended to every box rather
+   * than to the first one: a value half of whose appearances are legible is not
+   * a written field.
+   *
+   * Opt-in on the same reasoning as the two flags above: forty-odd builders
+   * share this module and a repair lane does not get to decide what the other
+   * families' next rebuild produces. A single-widget field measures identically
+   * either way, so a family whose fields carry one widget each is byte-identical
+   * with it on.
+   *
+   * CAPTAIN DECISION: this default should flip to true once every family can be
+   * rebuilt together.
+   */
+  fitTextPerWidget = false,
   title = null,
   // Field name -> appearance disposition, for the family being rendered. The
   // caller resolves it from the shared semantic registry; an empty map leaves
   // every field on the structural default, which is what every unclassified
   // family gets.
-  appearanceDispositions = new Map()
+  appearanceDispositions = new Map(),
+  /*
+   * Whether a suppressed control is also detached from a NESTED field tree.
+   *
+   * The suppression itself is not in question: a pushbutton is chrome and
+   * structuralDisposition has always called it SUPPRESS_CONTROL_APPEARANCE. The
+   * question is whether the detachment REACHES it. ISO 32000-1 8.6.1 lets a
+   * field tree nest, and on the California Judicial Council forms it does: the
+   * AcroForm's /Fields array holds one root and every terminal field hangs
+   * beneath it, so the flat scan removed nothing, updateFieldAppearances
+   * regenerated each pushbutton's appearance from its /MK /CA caption, and
+   * flatten() stamped it onto the page through the widget's own /P.
+   *
+   * Opt-in, on the same reasoning as evaluateDeclaredMinimumSize and
+   * alignWidgetFontSizeToFit above: the families sharing this finalizer are
+   * rebuilt by different workers at different times, and a repair lane holding
+   * one family does not get to decide what the others' next rebuild produces.
+   * A family whose controls sit directly in /Fields is unaffected either way.
+   *
+   * CAPTAIN DECISION: like those flags, this default should flip to true once
+   * every family can be rebuilt together. A control caption stamped off the
+   * edge of the paper is a defect wherever it occurs, not only here.
+   */
+  detachNestedControlFields = false
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -406,7 +647,13 @@ export async function finalizeOfficialForm({
     refused: [],
     unfittable: [],
     protectedFields: [],
-    expectedValues: []
+    expectedValues: [],
+    // Widgets whose own /DA size was brought into line with the measured fit.
+    // Empty unless alignWidgetFontSizeToFit is on; empty then too when no widget
+    // carries its own /DA, or the fit already equals what that /DA declares.
+    widgetFontSizeAligned: [],
+    // Widgets fitted on their own rectangle. Empty unless fitTextPerWidget is on.
+    widgetFittedIndividually: []
   };
 
   // Deciding and writing used to happen in one pass, which cannot see that two
@@ -497,25 +744,73 @@ export async function finalizeOfficialForm({
       continue;
     }
 
-    const fit = fitTextToWidget({
+    const rects = fitTextPerWidget
+      ? (field.widgets ?? []).map((w) => w?.rect).filter((r) => r)
+      : [];
+    const perWidgetFits = rects.map((widgetRect) => fitTextToWidget({
       font: helvetica,
       text,
-      rect,
+      rect: widgetRect,
       multiline: field.multiline === true,
       maxFontSize,
-      minFontSize
-    });
+      minFontSize,
+      evaluateDeclaredMinimumSize
+    }));
+    // The most constraining widget decides the string that is stored and, for a
+    // multiline field, where its lines break; a field holds one value however
+    // many places it is printed.
+    const fit = perWidgetFits.length > 0
+      ? (perWidgetFits.find((f) => f.outcome === "refused")
+        ?? perWidgetFits.reduce((tightest, candidate) => (candidate.fontSize < tightest.fontSize ? candidate : tightest)))
+      : fitTextToWidget({
+        font: helvetica,
+        text,
+        rect,
+        multiline: field.multiline === true,
+        maxFontSize,
+        minFontSize,
+        evaluateDeclaredMinimumSize
+      });
 
     if (fit.outcome === "refused") {
-      report.unfittable.push({ field: field.name, factId: decision.factId, ...fit });
-      report.refused.push({ field: field.name, reason: fit.reason, category: "unfittable" });
+      const refusedWidget = perWidgetFits.findIndex((f) => f.outcome === "refused");
+      report.unfittable.push({
+        field: field.name, factId: decision.factId, ...fit,
+        ...(refusedWidget >= 0 ? { refusedAtWidgetIndex: refusedWidget, widgetsMeasured: perWidgetFits.length } : {})
+      });
+      report.refused.push({
+        field: field.name, reason: fit.reason, category: "unfittable",
+        ...(refusedWidget >= 0 ? { refusedAtWidgetIndex: refusedWidget, widgetsMeasured: perWidgetFits.length } : {})
+      });
       continue;
     }
 
     applyFitToTextField(handle, fit);
+    const perWidgetSizes = perWidgetFits.map((f) => f.fontSize);
+    const fittedIndividually = perWidgetFits.length > 1
+      ? applyPerWidgetDefaultAppearanceSizes(handle, perWidgetSizes,
+        (() => { try { return handle.acroField.getDefaultAppearance(); } catch { return null; } })())
+      : [];
+    if (fittedIndividually.length) {
+      report.widgetFittedIndividually.push({
+        field: field.name, fontSizes: perWidgetSizes, widgets: fittedIndividually
+      });
+    }
+    // The blanket alignment is the fallback for a family that has not opted into
+    // per-widget fitting; running both would stamp one size over the individual
+    // ones this field just measured.
+    const widgetsAligned = (alignWidgetFontSizeToFit && fittedIndividually.length === 0)
+      ? alignWidgetDefaultAppearanceSizes(handle, fit.fontSize)
+      : [];
+    if (widgetsAligned.length) {
+      report.widgetFontSizeAligned.push({ field: field.name, fontSize: fit.fontSize, widgets: widgetsAligned });
+    }
     report.written.push({
       field: field.name, factId: decision.factId, kind: "text",
-      fontSize: fit.fontSize, outcome: fit.outcome, lines: fit.lines.length
+      fontSize: fit.fontSize, outcome: fit.outcome, lines: fit.lines.length,
+      ...(perWidgetFits.length > 1 ? { widgetFontSizes: perWidgetSizes } : {}),
+      ...(fittedIndividually.length ? { widgetsFittedIndividually: fittedIndividually.length } : {}),
+      ...(widgetsAligned.length ? { widgetFontSizeAligned: widgetsAligned.length } : {})
     });
     report.expectedValues.push(text);
   }
@@ -552,7 +847,8 @@ export async function finalizeOfficialForm({
     // What each classified field's appearance means. The caller resolves this
     // for the family it is rendering and hands over a plain field-name map, so
     // the finalizer never learns which family it is working on.
-    appearanceDispositions
+    appearanceDispositions,
+    detachNestedControlFields
   });
   report.sanitation = { ...sanitation, defaultAppearancesRepairedBeforeFill: defaultAppearancesRepaired };
 

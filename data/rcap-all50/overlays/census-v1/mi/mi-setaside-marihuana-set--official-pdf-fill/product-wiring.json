@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "mi_setaside_marihuana-set",
+  "worklistGroupId": "mi_setaside_marihuana-set",
+  "routeKeys": [
+    "obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "renderStrategy": "acroform_fill",
+  "fieldMap": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/production-field-map.json",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "createsFulfilmentRecord": false,
+  "opensCommercialRoute": false,
+  "wiringIsNotApproval": "This record names the artifacts a runtime would read if this family were ever enabled. It enables nothing. generationAllowed and runtimeSelectable are both false, no payment, sponsorship or fulfilment record is touched, no route identity is created or changed, and no legal eligibility rule is written. Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else.",
+  "blockersBeforeThisCouldEverBeEnabled": [
+    "OUTPUT_LEGAL_APPROVAL_REQUIRED — not addressed by this build; requested in approval-request.json.",
+    "An independent visual review. The review recorded by this build was performed by the worker that produced the artifacts and is therefore not independent.",
+    "Source currency for MC 227a REV-2024-07.",
+    "The form is not substantially fillable by the shared binder: the applicant's own name/address block, the caption case number and the entire conviction listing are unreachable. A participant would receive an application carrying one value. See reports/blanks-left-for-the-participant.json."
+  ],
+  "pathsThisFamilyOwns": [
+    "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
+    "scripts/build-census-v1-mi-setaside-marihuana-set.mjs"
+  ],
+  "pathsThisFamilyDidNotTouch": [
+    "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+    "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+    "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+    "data/rcap-grade-a/** (shared manifests, census records and the stale-artifact block)",
+    "any other packet family's overlay path"
+  ],
+  "binding": {
+    "family": "mi_setaside_marihuana-set",
+    "jurisdiction": "MI",
+    "routeKeys": [
+      "obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "primary_filing"
+    ],
+    "packetComponents": [
+      "component:mi_setaside_marihuana-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:MC 227a",
+        "sha256": "d361c2082ecc761fe4e9eadda0cabd307f2d6bb3c7af9a3917a9afecad698757",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33495068504",
+      "jobId": "99815920377",
+      "artifactId": "9795511539",
+      "boundToCanonicalSha256": "c1506f35f448464374ad7d080c9b71cde24a4902d90a15259248b3962995737b",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf09",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-mi_setaside_marihuana-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ky_criminal_record_segregation-set",
+  "routeKey": "obligation:unit:KY:ky_criminal_record_segregation:ky_seg_agency_written_request",
+  "routeKeys": [
+    "obligation:unit:KY:ky_criminal_record_segregation:ky_seg_agency_written_request",
+    "obligation:unit:KY:ky_criminal_record_segregation:ky_seg_court_application"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "ky_criminal_record_segregation-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "ky_criminal_record_segregation-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "688787fb65152b5bb91ee9677012709e808db28da9dccb7599f85a631ac97970",
+        "requirement": "required"
+      }
+    ]
+  },
+  "binding": {
+    "family": "ky_criminal_record_segregation-set",
+    "jurisdiction": "KY",
+    "routeKeys": [
+      "obligation:unit:KY:ky_criminal_record_segregation:ky_seg_agency_written_request",
+      "obligation:unit:KY:ky_criminal_record_segregation:ky_seg_court_application"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Apply to the court for an order of segregation (custom_pleading)",
+      "Send a written request to each agency holding the records (custom_pleading)"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33549186956",
+      "jobId": "99994820923",
+      "artifactId": "9816908335",
+      "boundToCanonicalSha256": "688787fb65152b5bb91ee9677012709e808db28da9dccb7599f85a631ac97970",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf08",
+      "verifiedAtBase": "f1cb31429"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ky_criminal_record_segregation-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

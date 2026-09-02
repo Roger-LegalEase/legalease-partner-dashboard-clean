@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "fable-packet-factory-verifier-return/v1",
+  "verifier": "FABLE-VT5",
+  "branch": "fable/vt5",
+  "lanes": [
+    "VF10",
+    "VF11"
+  ],
+  "grantSet": "573bba8a85de8544",
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "rescoreNote": "An earlier pass by this verifier scored a seven-item subset and awarded PASS_COMPLETE_INDEPENDENT to ten families on that narrower reading. Lane contract L9 forbids exactly that, so all twelve subjects were re-scored against the canonical fifteen by name. The result is materially different and is not a relabelling: six families fail, four pass, and two carry the strongest verdict. Git history preserves the superseded rows.",
+  "corpusMeasured": false,
+  "corpusNote": "private/ does not exist in this container, so no Master Library byte could be rehashed. SOURCE_IDENTITY is therefore NOT_MEASURABLE_HERE for the nine families that bind corpus bytes, and each of those rows stops at PASS rather than claiming an exact-source pass it did not measure. Three families - vt_exp_deferred_sentence-set, vt_seal_under_25-set and me-nonconv-set - bind no corpus bytes at all (their receipts record that the MASTER_QUEUE row binds none), so every source they do bind is a committed repository record; all of those were rehashed here and matched on both SHA-256 and byte length, and those families carry a measured SOURCE_IDENTITY pass.",
+  "method": "Independent second reads of twelve families this verifier did not build, at the base sha recorded in each lane's rows.json. Per family: claim asserted through claim.mjs before any artifact was read and released after the verdict; verify-packet-completeness.mjs run fresh; artifact bytes rehashed; page counts read from the PDF bytes with pdfinfo and compared against the artifact record and the page manifest; every recorded write value searched for in text extracted from that fixture's own bytes; word geometry extracted with pdftotext -bbox and checked against the page box and against every same-baseline word pair; route keys compared across field map, wiring, MASTER_QUEUE and the canonical route universe; and participant-instructions.md plus the packet faces read for destination, fee, service and stop. No counter was copied from a builder self-report.",
+  "standardApplied": {
+    "FILING_DESTINATION": "Met when the instructions, or a participant-facing page, name the court, clerk or agency the route names. A prefilled caption identifying a court type is evidence, not the instructions naming a destination.",
+    "FEE_AND_WAIVER": "Met when the packet states the filing fee AND a waiver route. A fee printed on a form the packet fills and selects counts; a statute stating no fee is payable counts, and where no fee is payable there is no waiver to name. An instruction to ask someone what the fee is does not count.",
+    "SERVICE": "Met when the packet states who must be served and by what method. A rule that the participant serves nobody, stated affirmatively with the mechanism that replaces it, counts. An instruction to ask the clerk who must be served does not.",
+    "consistencyNote": "This is the standard already recorded in this factory - the VF10 row on ut_pet_traffic-set and the VERMONT_REPAIR evidence for VF01/VF02 both apply it. VERMONT_REPAIR.json records that FILING_DESTINATION was once scored FAIL by two verifiers and PASS by a third on identical bytes; the standard is therefore stated here rather than left implicit."
+  },
+  "verdicts": [
+    {
+      "familyId": "vt_exp_deferred_sentence-set",
+      "lane": "VF10",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "failedObligations": [],
+      "unmeasuredObligations": [],
+      "notes": "All fifteen measured, all fifteen pass. Binds no corpus bytes, so SOURCE_IDENTITY was fully rehashed here (VT.memo.json and the packet-set manifest, both exact). 13 V.S.A. Sec. 7041(e) confirmation route: the court owes the expungement and the participant petitions for nothing. Destination named (Criminal Division of the Superior Court that entered the deferred sentence, existing docket); fee stated as zero on the statute's own words, so no waiver to name; service correctly inverted - after the order issues the court sends copies to the named agencies, not the participant."
+    },
+    {
+      "familyId": "vt_seal_under_25-set",
+      "lane": "VF11",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "failedObligations": [],
+      "unmeasuredObligations": [],
+      "notes": "All fifteen measured, all fifteen pass. Binds no corpus bytes, so SOURCE_IDENTITY was fully rehashed here (VT.memo.json and the packet-set manifest, both exact). 33 V.S.A. Sec. 5119(g) application with the before-age-25 ground pleaded; destination named on the packet's own face (Criminal Division of the Superior Court in the county that handled the case); no filing fee payable under 32 V.S.A. Sec. 1431(e); notice to all parties is the Court's step under the section, stated affirmatively rather than invented."
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "lane": "VF10",
+      "verdict": "PASS",
+      "failedObligations": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "notes": "Fourteen of fifteen measured and passing; SOURCE_IDENTITY unmeasurable without the corpus (all nine bound source hashes are present in the committed corpus index, which records a hash rather than recomputing one). The repair from FIX01 holds on a fresh read: the SID#R&F bureau-use blank is PROTECTED_FIELD with the agency-use geometry recorded, and destination, fee, waiver and service are each stated and bound to a named source hash. Recorded, not waived: page 18 prints a non-refundable $65.00 BCI application fee on its face while the instructions say BCI sets it per applicant - an internal inconsistency worth tightening, not a missing fee statement. One boundary-fixture-only word contact of 2.24 points on page 18 is recorded under CLIPPING_AND_OVERLAP; the value reads back complete and nothing leaves the page box."
+    },
+    {
+      "familyId": "ut_pet_traffic-set",
+      "lane": "VF11",
+      "verdict": "PASS",
+      "failedObligations": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "notes": "Fourteen of fifteen measured and passing; SOURCE_IDENTITY unmeasurable without the corpus. The repair from FIX02 holds on a fresh read: the caption-table rule 1002EX p1-y296.76-x65.88 is re-dispositioned NOT_APPLICABLE_ON_THIS_ROUTE with the geometric reason recorded, and destination, $150 fee, waiver form 1305GE and prosecutor service by mail or email are each stated. The artifact bytes are unchanged from the failed read, which is consistent rather than suspicious: all four defects lived in the field map and instructions, which is where the repair landed."
+    },
+    {
+      "familyId": "ky_felony_vacatur_expungement-set",
+      "lane": "VF11",
+      "verdict": "PASS",
+      "failedObligations": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "notes": "Fourteen of fifteen measured and passing; SOURCE_IDENTITY unmeasurable without the corpus (both AOC hashes are in the committed index). The strongest instructions of the twelve on the narrative obligations: destination named, $50 filing fee and $250 post-order fee both quoted from the form's own printed page with KRS 431.073(10)-(11), in forma pauperis under KRS 453.190 named as the waiver route with the honest note that the $50 portion's waivability is unresolved, a stated conflict where a clerk's public page quotes $300 against the statute, and service correctly inverted - the clerk serves the prosecutor, the participant serves nobody."
+    },
+    {
+      "familyId": "me-nonconv-set",
+      "lane": "VF11",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "failedObligations": [],
+      "unmeasuredObligations": [],
+      "notes": "Upgraded, and flagged because it is an upgrade to the strongest verdict. Not among the six returned and never a failure, but my NOT_MEASURABLE_HERE on FEE_AND_WAIVER was a doesnt-apply call, and the determination reserves that result for what the lane environment cannot measure. On the settled standard the obligation is met: the packet states it publishes no figure and names the Maine State Police State Bureau of Identification, with its mailing address and its online request service, as the office that answers. SOURCE_IDENTITY was already fully rehashed here because this family binds no corpus bytes, so all fifteen are now measured and passing."
+    },
+    {
+      "familyId": "ga-fo-active-pre2026-set",
+      "lane": "VF10",
+      "verdict": "PASS",
+      "failedObligations": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "notes": "FEE_AND_WAIVER reversed: the packet states no statutory filing fee is identified for a filing in an existing criminal case, records the clerk-fee and O.C.G.A. 9-15-2 questions as unresolved, and names one determinate reachable office for both - the clerk of the court that ordered the First Offender sentence. SERVICE already passed."
+    },
+    {
+      "familyId": "ga-fo-discharged-pre2026-set",
+      "lane": "VF11",
+      "verdict": "PASS",
+      "failedObligations": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "notes": "Same paragraph as the sibling Georgia family with the clerk changed to match the route (the court that granted the discharge). FEE_AND_WAIVER reversed."
+    },
+    {
+      "familyId": "dc_correct_misattributed_arrest-set",
+      "lane": "VF10",
+      "verdict": "PASS",
+      "failedObligations": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "notes": "FEE_AND_WAIVER and SERVICE reversed under DET-FEE-AND-WAIVER-001: the packet carries the exact sentence the determination names as its proven case, and names the Criminal Division clerk office (202-879-1373, 500 Indiana Avenue NW Room 4001) and the Seal Team as the authorities who answer the fee, the prosecuting-office routing and the service address. Fourteen of fifteen measured and passing; SOURCE_IDENTITY unmeasurable without the corpus."
+    },
+    {
+      "familyId": "dc_innocence_expungement-set",
+      "lane": "VF11",
+      "verdict": "PASS",
+      "failedObligations": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "notes": "Same host, same sentences, same reversal as the sibling DC family. Fourteen of fifteen measured and passing."
+    },
+    {
+      "familyId": "ky_void_seal_controlled_substance-set",
+      "lane": "VF10",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligations": [
+        "ROUTE_IDENTITY",
+        "FILING_DESTINATION"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "smallestExactRepair": "(1) Re-key production-field-map.json and participant-instructions.md to the canonical obligation:track-only:KY:<track> that product-wiring.json and the MASTER_QUEUE row already carry, and rerender so the printed Route: line matches. (2) State the filing destination on the participant-facing page; the committed track registry already holds it (Office of the Circuit Court Clerk, in the original criminal case in the county of conviction).",
+      "notes": "FEE_AND_WAIVER and SERVICE reversed - the circuit court clerk for the county in the caption is named as the authority for the fee, the deadline, the service recipient and the method. Still FAIL on ROUTE_IDENTITY (the field map and the printed Route: line carry a key with zero occurrences in the canonical route universe while the wiring and MASTER_QUEUE carry the canonical one) and on FILING_DESTINATION (no line names where the motion is filed, though the committed track registry holds the answer). Two repairs, both in the field map and instructions."
+    },
+    {
+      "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
+      "lane": "VF11",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligations": [
+        "ROUTE_IDENTITY",
+        "FILING_DESTINATION"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "smallestExactRepair": "(1) Re-key production-field-map.json and participant-instructions.md to the canonical obligation:track-only:KY:<track> that product-wiring.json and the MASTER_QUEUE row already carry, and rerender so the printed Route: line matches. (2) State the filing destination on the participant-facing page; the committed track registry already holds it (Office of the Circuit Court Clerk, in the original criminal case in the county of conviction).",
+      "notes": "Identical to the sibling Kentucky family in every respect; one repair reaches both."
+    }
+  ],
+  "crossFamilyReconciliation": [
+    "Twelve families. After the determination, two defects remain across two families, and both sit in the same pair: the Kentucky void-and-seal route-key mismatch and the unstated Kentucky filing destination. Two FAIL rows are one repair, because the pair shares a build host.",
+    "The Kentucky route-key defect is the only place in these two lanes where a packet contradicts itself rather than declining to answer a question no source settles: the field map and the printed face carry a route key that does not exist in the canonical route universe while the wiring and the MASTER_QUEUE row carry the one that does.",
+    "FEE_AND_WAIVER was the most common failure in my previous pass, six of twelve. After DET-FEE-AND-WAIVER-001 it fails nowhere in these two lanes. That is the yardstick moving, not the packets: the bytes are unchanged and no artifact was re-measured.",
+    "Three families now carry PASS_COMPLETE_INDEPENDENT and all three share one trait - they bind no Master Library corpus bytes, so SOURCE_IDENTITY was fully measurable in this container. The six PASS families are held below the strongest verdict by that one obligation alone, and a verifier with the corpus mounted should be able to close them out."
+  ],
+  "supersessions": [
+    "This verifier seven-obligation rows are superseded by the fifteen-obligation rows, which are in turn re-examined here under DET-FEE-AND-WAIVER-001. Git history preserves both earlier readings.",
+    "The stale VF10 FAIL row for ut_pet_traffic-set is not carried forward; the family current verdict is this verifier VF11 row.",
+    "The vf11 FAIL row for vt_seal_18_to_21-set is not this verifier subject and was left untouched."
+  ],
+  "gatesRun": {
+    "verify-lane-contracts.mjs": "9/9 LANE_CONTRACTS_HELD, L9 included, run after the determination was applied",
+    "extract-verifier-returns.mjs": "parses; all twelve rows read back with the verdict, failed and unmeasured obligations as scored; wi_nc_doj_fingerprint_removal-set confirmed still FAIL_REPAIR_REQUIRED, as the determination says it should be"
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "overlayDirectoriesModified": 0,
+  "grantsNothing": "A PASS_COMPLETE_INDEPENDENT verdict proves a packet is complete. It approves no output, opens no commercial route, and promotes nothing past state_built; approved_for_live and live remain gated on visual and counsel review, and on a hash-bound RASTER_PASS this lane did not run.",
+  "determinationApplied": {
+    "id": "DET-FEE-AND-WAIVER-001",
+    "path": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+    "whatChanged": "Six families were returned to this lane after two lanes split on FEE_AND_WAIVER over identical text. Re-examined against the settled standard, four move from FAIL_REPAIR_REQUIRED to PASS and two keep FAIL on grounds independent of the fee question. A seventh family, me-nonconv-set, was not returned and was not a failure, but applying the same standard consistently corrected this lane own NOT_MEASURABLE_HERE classification on FEE_AND_WAIVER and moved it to PASS_COMPLETE_INDEPENDENT.",
+    "whatIAcceptWasWrongInMyReading": "My earlier FAILs demanded a fee figure the repository does not hold. That punished the honest refusal this factory requires everywhere else, and it made a family terminal state depend on which verifier read it: dc_seal_fugitive-set passed on the very sentence I failed, word for word. The obligation is that the participant can find out what filing costs, not that the repository knows the figure.",
+    "failuresKept": "Both Kentucky void-and-seal families. Their FEE_AND_WAIVER and SERVICE findings are reversed, and they remain FAIL_REPAIR_REQUIRED on ROUTE_IDENTITY and FILING_DESTINATION, which the determination itself records as independent of the fee question.",
+    "boundaryFlagged": "The determination extends its named-authority reasoning to FEE_AND_WAIVER and SERVICE and does not reach FILING_DESTINATION. The two Kentucky packets do name the circuit court clerk for the county in the caption as an authority to ask - about service and the fee, not about where to file - so if Captain extends the same reasoning to FILING_DESTINATION, those two findings should be revisited. Flagged rather than decided here."
+  }
+}

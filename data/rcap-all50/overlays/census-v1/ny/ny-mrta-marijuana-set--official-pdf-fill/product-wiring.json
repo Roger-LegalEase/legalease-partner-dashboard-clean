@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "ny_mrta_marijuana-set",
+  "routeKeys": [
+    "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-destruction-request"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "fieldMap": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/production-field-map.json",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "intendedOverlayDestination": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/product-wiring.json",
+  "integrationStatus": "INSTALLED_BY_CAPTAIN",
+  "note": "Integration-ready repair payload only. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
+  "installedFrom": "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/ny_mrta_marijuana-set/product-wiring.json",
+  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT",
+  "binding": {
+    "family": "ny_mrta_marijuana-set",
+    "jurisdiction": "NY",
+    "routeKeys": [
+      "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-automatic-expungement",
+      "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-destruction-request"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Participant-signed request to the court of conviction that the expunged records be destroyed (official_pdf_fill)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:ny_mrta_marijuana-destruction-request-instructions-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:MRTA-DESTRUCTION-REQUEST",
+        "sha256": "55c8ec044ecd2adf30508b6a2403c690fc441419d6fba0ccc657eba182298544",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33531491985",
+      "jobId": "99936307286",
+      "artifactId": "9810053788",
+      "boundToCanonicalSha256": "37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf08",
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ny_mrta_marijuana-set.mjs",
+      "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

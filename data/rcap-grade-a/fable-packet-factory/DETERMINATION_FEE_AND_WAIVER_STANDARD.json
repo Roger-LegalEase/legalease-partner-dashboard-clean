@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "rcap-captain-determination/v1",
+  "determinationId": "DET-FEE-AND-WAIVER-001",
+  "decidedAt": "2026-09-02T00:45:00Z",
+  "decidedBy": "Captain",
+  "subject": "What satisfies the FEE_AND_WAIVER proof obligation",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "This settles how one proof obligation is scored. It promotes no family, opens no route, and overrides no legal decision.",
+  "whyThisWasNeeded": {
+    "observation": "Two verification teams scored FEE_AND_WAIVER differently on packets whose fee paragraphs are the same words.",
+    "provenCase": "dc_seal_fugitive-set passed FEE_AND_WAIVER on one lane while dc_innocence_expungement-set and dc_correct_misattributed_arrest-set failed it on another. All three are built by the same District of Columbia host and all three carry the identical sentence: 'Any filing fee or fee-waiver answer. No held source states a fee, that filing is free, or a waiver procedure - ask the Criminal Division clerk's office (202-879-1373) before filing.'",
+    "whyItMatters": "A family's terminal state would then depend on which verifier read it rather than on what the participant receives. This is the same divergence class lane contract L9 was written for, recurring one level down: L9 makes every lane score the same OBLIGATIONS, and this makes them score one obligation by the same STANDARD."
+  },
+  "theStandard": {
+    "met": [
+      "the packet states the fee amount, sourced",
+      "the packet states that no fee is charged, sourced",
+      "the packet states that no held source establishes the fee AND names a specific checkable authority the participant can ask - an office, desk or clerk identified well enough to actually reach"
+    ],
+    "notMet": [
+      "the packet says nothing about cost anywhere: no amount, no statement that filing is free, and no office to ask",
+      "the packet gestures at a fee without naming who answers it ('fees may apply', 'check with the court')"
+    ],
+    "theReasoning": "The obligation is that the participant can find out what filing costs, not that the repository knows the figure. Where no held source establishes a fee, naming the office that answers it is a complete deliverable: the participant can act. Demanding a figure the repository does not have would force exactly the invention every other rule in this factory forbids, and would punish the honest refusal it requires. Silence is different in kind - a participant cannot tell from silence whether filing is free, whether a fee exists, or whom to ask, and that is a real gap in the deliverable.",
+    "worksBothWays": "This is not a relaxation. wi_nc_doj_fingerprint_removal-set correctly FAILS under it: its instructions carry no amount, no no-fee statement and no office to ask, and a verifier decoded the form's own subsetted font to confirm nothing on its face answers the question either."
+  },
+  "appliesTo": "Every lane scoring FEE_AND_WAIVER, and by the same reasoning SERVICE, where a named checkable authority stands in for a rule no held source establishes. An obligation that genuinely cannot be measured in the lane's environment stays NOT_MEASURABLE_HERE and caps the verdict at PASS; that is unchanged and is a different question from this one.",
+  "actionTaken": "The six FEE_AND_WAIVER failures recorded against the fuller re-score are returned to their verifier to re-examine against this standard. The verifier keeps every failure where no checkable authority is named, and only those. Verdicts remain the verifier's; this fixes the yardstick, not the reading.",
+  "familiesToReExamine": [
+    "ga-fo-active-pre2026-set",
+    "ga-fo-discharged-pre2026-set",
+    "dc_correct_misattributed_arrest-set",
+    "dc_innocence_expungement-set",
+    "ky_void_seal_controlled_substance-set",
+    "ky_void_seal_marijuana_synthetic_salvia-set"
+  ],
+  "notReExamined": {
+    "wi_nc_doj_fingerprint_removal-set": "fails on true silence; the standard confirms that verdict rather than disturbing it",
+    "ky route-key defects": "the Kentucky pair also fails ROUTE_IDENTITY and FILING_DESTINATION on a route-key mismatch that is a genuine defect independent of the fee question"
+  },
+  "amendment": {
+    "amendmentId": "DET-FEE-AND-WAIVER-001-A1",
+    "decidedAt": "2026-09-02T00:55:00Z",
+    "question": "A verifier asked whether the same reasoning extends to FILING_DESTINATION, since the Kentucky packets name a clerk to ask about the fee and service but say nothing about where the motion is filed.",
+    "answer": "No. It does not extend, and FILING_DESTINATION stays a real failure on those two families.",
+    "why": "The fee standard rests on one fact: the repository does not hold the figure, so naming who does is the most the packet can honestly say. That fact is absent here. The verifier established that the committed track registry HOLDS the filing destination for these families — so the packet is silent about something the repository already knows, and 'ask the clerk where to file' would substitute a question for an answer we have. Naming an authority is what honesty requires when the record is empty; it is not a way to avoid stating what the record contains.",
+    "theTest": "Ask first whether the repository establishes the answer. If it does, the packet states it. Only where no held source establishes it may a named checkable authority stand in — and then it must be named, not gestured at.",
+    "consequence": "ky_void_seal_controlled_substance-set and ky_void_seal_marijuana_synthetic_salvia-set remain FAIL_REPAIR_REQUIRED. Their repair is to state the filing destination the track registry already holds, which is one shared fix across both families' shared host.",
+    "raisedNotAssumed": "The verifier flagged this boundary rather than deciding it, which is why it is answered here instead of resolved inconsistently in two lanes."
+  },
+  "alsoRecorded": {
+    "me-nonconv-set": "The verifier reported, unprompted, that applying this standard consistently corrected its own earlier classification of that family: it had recorded the fee obligation as NOT_MEASURABLE_HERE when the packet in fact states that no figure is published and names the Maine SBI with address and online service. NOT_MEASURABLE_HERE is reserved for what a lane's environment cannot measure, not for a does-not-apply call. The family moved to the strongest verdict and the verifier flagged the upgrade rather than letting it ride in quietly."
+  },
+  "amendment2": {
+    "amendmentId": "DET-FEE-AND-WAIVER-001-A2",
+    "decidedAt": "2026-09-02T02:30:00Z",
+    "question": "What counts as the REPOSITORY when A1 says to ask first whether the repository establishes the answer?",
+    "answer": "Every committed record the family binds, plus every record the route census names as a required source for that route. Not merely the family's own bound source PDFs.",
+    "whyThisWasNeeded": {
+      "observation": "Three separate lanes reached the same wrong place independently, which makes it a defect in the standard's wording rather than in three packets.",
+      "provenCase": "FABLE-VT9 found that ar-arrest-seal-set, wi_nc_doj_fingerprint_removal-set and ny_160_59_petition-set each tell the participant that no held source establishes the filing fee. In all three the compiled state profile answers it outright -- Arkansas 'Sealing petition filing fee $0', Wisconsin 'no fee is required', New York 'No separate filing fee' -- and the route census names that profile as a requiredSourceId for that exact route. The verifier confirmed all three from source bytes.",
+      "theDistinction": "Each packet's claim about its own bound FORMS was correct. Its claim about the REPOSITORY was false. The repair lanes searched the family's source PDFs, found nothing, and stopped -- a reasonable reading of words I chose badly.",
+      "itCostUsARepair": "ny_160_59_petition-set was repaired under this misreading and integrated on this branch. It now names the clerk's office of the court of conviction as the authority to ask about a figure the repository already holds, which is exactly what A1 forbids. The repair was careful, sourced and well-reasoned; it searched the wrong shelf. That family returns to repair rather than standing as a fee-standard success."
+    },
+    "whatCountsAsHeld": [
+      "the family's own bound source documents",
+      "the compiled state profile for the family's jurisdiction",
+      "the committed track registry (already settled by A1)",
+      "the committed packet-set manifest, including its participantActionRequired entries",
+      "any record the route obligation census names as a requiredSourceId for this route"
+    ],
+    "whatDoesNotCount": [
+      "a figure a lane believes to be true but cannot point at in a committed record",
+      "a fee published on a website the repository does not hold",
+      "a rule inferred from a neighbouring jurisdiction or a sibling route"
+    ],
+    "answersVT8C4": {
+      "raisedBy": "FABLE-VT8, which flagged rather than assumed, and stated exactly what turned on the answer",
+      "question": "Do a committed packet-set manifest's participantActionRequired entries count as a held source for FILING_DESTINATION, FEE_AND_WAIVER and SERVICE, as A1 settled the track registry does?",
+      "answer": "Yes. A1's reasoning was never about which file the fact lives in; it was that the packet must not ask a question the repository has already answered. A committed manifest is the repository answering it.",
+      "consequence": "ca-851-91-set's repair is the short instruction edit the verifier described, and ar-misdemeanor-dwi-seal-set's SERVICE failure stands alongside its COMPONENT_SET failure."
+    },
+    "answersVT13B1": {
+      "raisedBy": "FABLE-VT13, on ga-jail-k2-set",
+      "question": "Must the named checkable authority appear in the same statement as the fee refusal, or does naming it elsewhere in the packet satisfy the obligation?",
+      "answer": "The obligation is satisfied at the PACKET level, as the standard's own words say -- 'the packet states'. It is not a sentence-level test, and ga-jail-k2-set's PASS stands.",
+      "butNotWithoutQualification": "The determination's proven case named the office and its phone number in the same breath, and that is better. A participant who reads the money statement and has to search backwards for the authority is worse served than one who does not. This is guidance to builders, not a scoring rule: prefer proximity, and never let a fee refusal sit further from its authority than a reader will carry it.",
+      "whyNotTightened": "Turning proximity into a pass/fail rule would fail packets that answer the participant's question honestly, purely on layout. That trades a real defect class for a cosmetic one, and the obligation exists so the participant can find out what filing costs -- which, in Georgia's packet, they can."
+    },
+    "alsoCorrected": {
+      "staleWisconsinNote": "This determination's original text records that wi_nc_doj_fingerprint_removal-set fails on true silence with 'no office to ask'. FABLE-VT9 established that FIX04 added one 94 seconds after this determination was decided. The FAIL stands, but on the other limb: the repository holds the fee answer and the packet denies it. The repair that note implies is already done and is not what Wisconsin needs."
+    },
+    "actionTaken": "The three families VT9 named return to repair with the corrected scope: state the fee the repository holds, rather than naming an authority to ask about it. Verdicts remain the verifiers'; this fixes the yardstick, not the reading.",
+    "familiesAffected": [
+      "ar-arrest-seal-set",
+      "wi_nc_doj_fingerprint_removal-set",
+      "ny_160_59_petition-set",
+      "ca-851-91-set",
+      "ar-misdemeanor-dwi-seal-set"
+    ],
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "This settles how one obligation is scored. It promotes no family, opens no route, and overrides no legal decision."
+  },
+  "amendment3": {
+    "amendmentId": "DET-FEE-AND-WAIVER-001-A3",
+    "decidedAt": "2026-09-02T03:05:00Z",
+    "question": "A2 lists the compiled state profile as a held source without qualification. Does every line in a held document answer THIS route's question?",
+    "answer": "No. Holding is per FACT, not per document. A record counts as establishing an answer only for the route it actually addresses. A line keyed to a different statutory section is a sibling-route inference, which A2's own whatDoesNotCount already forbids — and the unqualified listing of the document was the error.",
+    "whyThisWasNeeded": {
+      "raisedBy": "FABLE-R16, which refused all six of its assigned families at the claim gate because none was granted, then did read-only work anyway and raised this rather than deciding it.",
+      "theTrap": "California's compiled profile carries one fee table covering several routes at once. It says 'Prop 64 marijuana relief $0' and 'Automatic relief and Prop 64 cost nothing' — a real answer for ca-prop64-set. In the same table it says '1203.4 dismissal petition ~$60–$150 per case'. Section 1203.4 is not 1203.41, 1203.42, 1203.43, 1203.4a or 17(b), so for those five siblings that line answers a different statute's question.",
+      "whatA2WouldHaveLicensed": "Read literally, A2 made the whole profile held for all seven families, so a repairer applying it faithfully would have published a 1203.4 figure as the fee for 1203.41 — the sibling-route inference A2 itself lists under whatDoesNotCount. The two limbs contradicted each other and a lane hit the contradiction within the hour.",
+      "sameShapeAsBefore": "A1 fixed where to look. A2 fixed how wide to look. A3 fixes how narrowly to read what is found. Each was written after a lane applied the previous one faithfully and arrived somewhere wrong."
+    },
+    "theTest": [
+      "Name the fact the packet must state, and the route it belongs to.",
+      "Find the record that establishes THAT fact for THAT route.",
+      "If the record addresses a different statutory section, a different remedy, or a different filing, it does not establish this route's answer, however close the sibling looks.",
+      "If nothing establishes it, a named checkable authority may stand in, per A1 as widened by A2."
+    ],
+    "consequences": {
+      "ca-prop64-set": "Its no-fee answer IS held — 'Prop 64 marijuana relief $0' addresses this exact route. But it lives in the compiled profile, not in the packet-set manifest, whose pay_fee entry records only that the source review does not state a fee for the CR-400 series. R14's caHeldParticipantActions() reads the manifest alone, so flipping the opt-in flag would publish a statement of NON-establishment as the answer, inverting A1. This family needs a mechanism that can reach the profile, not a flag.",
+      "the four 1203.4x families and ca-17b-reduction-set": "The profile's 1203.4 line does not answer their fee question. If nothing else establishes it, a named authority stands in — and that is the honest outcome, not a defect to repair away.",
+      "ca-1203-43-set and ca-17b-reduction-set": "These ship no participant-instructions.md at all and never have on this branch. That is the determination's silence limb, not its delegation limb, and no opt-in flag reaches it. They were mis-scoped in my brief as one-line changes."
+    },
+    "whatIGotWrong": "I briefed FABLE-R16 that ca-prop64-set's manifest holds an explicit no-fee finding. It does not; the manifest records non-establishment and the answer is in the compiled profile. I had taken that from a prior lane's summary without reading the manifest myself, and repeated it to the owner. The worker read the bytes and corrected it.",
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "This settles how one obligation is scored. It promotes no family, opens no route, and overrides no legal decision."
+  },
+  "amendment4": {
+    "amendmentId": "DET-FEE-AND-WAIVER-001-A4",
+    "decidedAt": "2026-09-02T04:35:00Z",
+    "question": "FABLE-VT15 asked whether A2's ask-the-repository-first test extends to REQUIRED_BEFORE_FILING. Four of its five failures rested on applying it to a fourth obligation, and it flagged that rather than assuming it.",
+    "answer": "Yes, but narrowly, and the Utah families do not need it. A2 governs any obligation whose failure mode is the packet DENYING or OMITTING a fact the repository establishes. It does not convert REQUIRED_BEFORE_FILING into a fee-style audit of every fact a participant might want.",
+    "theNarrowerRuleThatActuallyDecidesUtah": {
+      "rule": "A packet may never tell a participant that it does not state something it does state. This is not an obligation-scoping question and does not depend on A1, A2 or A3 at all: it is internal consistency, and it fails under whichever obligation carries the false sentence.",
+      "theEvidence": "ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set tell the participant, in bold, that 'this packet does not state an amount because BCI sets it per applicant.' Their own delivered canonical PDF prints '$65.00' three times: 'The application fee is $65.00 and non-refundable', 'a non-refundable $65.00 application fee', and 'Application fee is $65.00' on the payment-method block. Confirmed by Captain with pdftotext against the committed bytes, not taken from the verifier's report.",
+      "theHonestNuance": "The $65.00 is the BCI APPLICATION fee; the instructions are describing the per-incident CERTIFICATE cost, which may genuinely be set per applicant. So the sentence is not necessarily false about certificates. It is still a defect, and a participant-facing one: a reader is told the packet states no amount, then finds $65.00 three times on the form they must submit and cannot tell whether they have missed something. The repair is to state the $65.00 application fee and distinguish it from per-certificate costs, not to delete the certificate paragraph.",
+      "whyThisMattersBeyondUtah": "A verifier can establish this without resolving any question about what the repository holds. Reading the delivered artifact against its own instructions is cheaper than a source hunt and catches a class the source hunt cannot see."
+    },
+    "onTheWiderQuestion": {
+      "extends": "REQUIRED_BEFORE_FILING, FILING_DESTINATION, SERVICE and FEE_AND_WAIVER all share one failure mode: the packet withholds or denies something the repository establishes, and the participant cannot act. Where that is the failure, ask the repository first.",
+      "doesNotExtend": "An obligation failing for a structural reason — a missing component, a field drawn outside its box, a page out of order — is not an A2 question and must not be argued as one.",
+      "theGuard": "A2 as widened is still bounded by A3: holding is per fact, and a record answers only the route it addresses."
+    },
+    "a3WasValidatedInTheField": {
+      "what": "VT15 found the sign-flipped twin of the California trap A3 was written for. West Virginia's compiled profile carries three 'no filing fees or costs are charged' lines keyed to section 61-11-25, while the route in hand is a section 61-11-26 petition that costs $200.",
+      "consequence": "A per-document reading — which A2, before A3, literally licensed — would have published 'no filing fee' for a $200 filing and sent participants to the clerk's counter with nothing. The repair did not walk into it, and A3 is why the next lane will not either."
+    },
+    "alsoRecorded": {
+      "wvFailureIsIndependentOfThisAmendment": "Both West Virginia families fail REQUIRED_BEFORE_FILING on a ground that needs no amendment: the instructions contradict the family's own field map. Narrowing A2 would not save them.",
+      "arkansasQueueRow": "ar-arrest-seal-set's own queue row reads SOURCE_IDENTITY_NOT_EXACT with boundCount 0/2 on what is purely an id-alias mismatch between the census and the corpus index, while the bytes hash exact. No route may promote while its own row says that; the row is wrong and the row is what a reader sees.",
+      "onceInALifetime": "Neither West Virginia packet mentions the once-per-lifetime bar in any form — not 61-11-26(o), not 17C-5-2b, not 60A-4-407, not the words 'only once'. The textual question of whether the bar reaches these tracks is unsettled and stays a counsel question; that the packets are silent about a bar their own tracks list as an exclusion is not."
+    },
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "This settles how obligations are scored. It promotes no family, opens no route, and overrides no legal decision."
+  }
+}

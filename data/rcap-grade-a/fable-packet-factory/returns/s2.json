@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "lane": "SOURCE-2",
+  "branch": "fable/s2",
+  "returnedOn": "2026-09-01",
+  "wave": "data/rcap-grade-a/launch-control/next-waves/SOURCE_RELATIONSHIP_REPAIR_WAVE.json",
+  "registryWritten": "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+  "rowsResolved": [
+    "SRR-002",
+    "SRR-007",
+    "SRR-008",
+    "SRR-009",
+    "SRR-015",
+    "SRR-026",
+    "SRR-057",
+    "SRR-061",
+    "SRR-064"
+  ],
+  "rowsStopped": [
+    {
+      "rowId": "SRR-025",
+      "whatTheHeldFileActuallyIs": "DE Form 281E, the Family Court of Delaware charge-sheet continuation (header prints 'Form 281E Dev 9/18'; its own text says the charges listed are a continuation of the list on the Petition for Expungement of Adult Record to which it is attached). It is not Form 281, the petition itself; no held bytes in this corpus print Form 281. The prior bind of these bytes to the FORM-281 identity was the known Delaware collision and is withdrawn; the FORM-281 record is now MISSING_SOURCE_BINARY."
+    },
+    {
+      "rowId": "SRR-013",
+      "whatTheHeldFileActuallyIs": "two distinct MT instruments sharing the constructed identifier MT-OCA-MMRTA: a Certificate of Service for the MMRTA petition (sha256 d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9) and a Proposed Order granting expungement/resentencing/redesignation of a marijuana-related conviction (sha256 2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e). Neither prints MT-OCA-MMRTA; a single bind is refused, per-instrument digests and printed identities are recorded under the record's components; the identity needs a per-instrument split (queue/census work outside this lane)."
+    },
+    {
+      "rowId": "SRR-063",
+      "whatTheHeldFileActuallyIs": "the two name-collision candidates for NM 4-960 print '4-960.1. Notice of hearing.' and '4-960.2. Affirmation in support of expungement; upon release without conviction.' respectively — different forms already bound under their own identities. No held bytes print 4-960; the record is now MISSING_SOURCE_BINARY."
+    }
+  ],
+  "familiesNowFullyBound": [
+    "nh_conviction_standard-set",
+    "nh_conviction_streamlined-set",
+    "nh_marijuana_annulment-set",
+    "nh_petition_nonconviction_pre2019-set",
+    "nh_petition_vacated-set"
+  ],
+  "familiesNowFullyBoundBasis": "each of these families' only unresolved source identities (NHJB-2317-DSe, NHJB-3057-DSe, NHJB-3124-DS) now carry canonicalRelationship binds with SHA-256 recomputed from bytes and the printed face read; the digests equal the committed corpus-index entries under STATES/NH/02_PACKET_FORMS, so the census/custody regeneration can bind them from the governed index. This return asserts registry-level binding only — it opens no route and promotes nothing.",
+  "familiesAdvancedButNotReleased": {
+    "de_discretionary_family_court-set": "FORM-281E is bound; FORM-281 is genuinely missing (the SRR-025 stop) — an ACQ target once DISC settles the official address",
+    "mo-575-120-identity-theft-correction-set / mo-610-122-arrest-expungement-set / mo-610-140-arrest-set / mo-610-140-conviction-set": "GN10 bound; FI-05 bytes absent in this container and CR310/CR143/CR370 have no wave rows",
+    "nm_conviction-set / nm_identity_theft-set / nm_release_without_conviction-set": "4-960.1, 4-955, 4-960.2 bound; 4-222/4-953/4-956/4-960.3 remain, and 4-960 is genuinely missing (SRR-063 stop)",
+    "in_arrest_no_charges-set / in_section1_petition-set": "the CCA Section 1 petition is bound; the same bundle bytes also contain the Section 1 order (not a wave row — the bind note records the component so DISC can close it), and GF-0120-3016 / XP-0120-7002 / Confidential Information Form remain",
+    "mt_mmrta_completed-set / mt_mmrta_serving-set": "both MMRTA instrument digests are settled with printed identities under components; release needs the identity split plus the remaining MT-FORM-A/B and EXPUNGEMENTREMOVALREQUESTFORM sources"
+  },
+  "rowsNotWorkableInThisContainer": {
+    "reason": "the operational inventory private/Nationwide Record Clearing is NOT mounted in this container (only private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 is), and for these rows no byte-identical copy of the held bytes exists anywhere in the container, so the printed face cannot be read and no bind or stop can be recorded without guessing — which the wave forbids",
+    "rows": [
+      "SRR-001", "SRR-003", "SRR-004", "SRR-005", "SRR-006", "SRR-010", "SRR-011",
+      "SRR-016", "SRR-024", "SRR-027", "SRR-028", "SRR-031", "SRR-032", "SRR-033",
+      "SRR-034", "SRR-035", "SRR-036", "SRR-037", "SRR-038", "SRR-039", "SRR-043",
+      "SRR-044", "SRR-045", "SRR-047", "SRR-049", "SRR-050", "SRR-052", "SRR-053",
+      "SRR-058", "SRR-059", "SRR-060", "SRR-062", "SRR-065", "SRR-066", "SRR-067"
+    ],
+    "noteOnPartials": "SRR-050 (MI MC 227): the two present candidates print MC-227a and MC-227b — neither is MC 227 — but the mc227.pdf bytes (sha 9fec3899...) are absent, so which document the route requires cannot be settled. SRR-052 (MN EXP101): the three present candidates are the Hmong/Somali/Spanish translations of the petitioner's instructions; the English EXP101 bytes are absent.",
+    "highestValueAbsentRow": "SRR-001 (MO FI-05) would release mo-art-xiv-marijuana-set on its own; SRR-016 (WV SCA-C907) would release wv_conv_nonviolent_felony-set"
+  },
+  "rowsOutOfScopeForThisLane": {
+    "reason": "all 53 priority-2 rows carry empty affectedFamilies and require lane re-routing ('route to DISC, not ACQ' and variants) — a change to the conveyor/queue dispatch files this lane is barred from writing; they release nothing at registry level",
+    "rows": "SRR-068 through SRR-120"
+  },
+  "rowsNotWorkedByScopeRule": "rows whose resolution cures no reason in any SOURCE_BLOCKED affected family (e.g. SRR-012 MO CR360, SRR-003 MD CC-DC-089, SRR-014 NE CC-6-12, SRR-017/018 AR, SRR-019-021 AZ, SRR-022/023 CO, SRR-029/030 IA, SRR-040-042 IN, SRR-046 MD, SRR-048 ME, SRR-051 MI, SRR-054-056 MO, SRR-065 UT) were skipped per the wave's own instruction to work only rows that move a family toward SOURCE_READY",
+  "verifiers": {
+    "verify-source-relationship-model.mjs": "11/11 HOLD after every batch",
+    "verify-source-conveyor.mjs": "23/23 after every batch (claim ledger OK, 558 claims)"
+  },
+  "commits": [
+    "7d8156a68 SOURCE-2 batch A: bind NH NHJB-2317-DSe/NHJB-3057-DSe/NHJB-3124-DS and DE FORM-281E; stop DE FORM-281 wrong bind",
+    "478704dbb SOURCE-2 batch B: bind MO GN10, NM 4-960.1/4-955/4-960.2, IN CCA Section 1 petition; stop MT MT-OCA-MMRTA and NM 4-960",
+    "(this return file is committed on fable/s2 immediately after the above)"
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "packetArtifactsChanged": 0
+}

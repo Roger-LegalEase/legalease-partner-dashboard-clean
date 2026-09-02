@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "ne-setaside-custodial-set",
+  "routeKeys": [
+    "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less"
+  ],
+  "routeSelectionId": "ne-custodial-cc-6-11-complete-set",
+  "implementationStrategy": "official_pdf_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "assignmentOwnedPath": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+  "evidenceOutputPath": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+  "note": "Review artifacts and maps create no authority. A route remains closed until exact output-level legal and independent visual approval exists in the separate control plane.",
+  "binding": {
+    "family": "ne-setaside-custodial-set",
+    "jurisdiction": "NE",
+    "routeKeys": [
+      "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "fee_waiver",
+      "instructions",
+      "local_rules_check",
+      "notice_and_certificate_of_service",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:ne-setaside-custodial-instructions-4",
+      "component:ne-setaside-custodial-notice-and-certificate-of-service-3",
+      "component:ne-setaside-custodial-primary-filing-1",
+      "component:ne-setaside-custodial-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CC-6-11",
+        "sha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CC-6-11.2",
+        "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:DC-1-15",
+        "sha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CC-6-11a",
+        "sha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33596784162",
+      "jobId": "100142453332",
+      "artifactId": "9833818158",
+      "boundToCanonicalSha256": "bb911faba3cc5ba120432976c9545688e29d335b83adf2dfa9d115ec0856aeb7",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

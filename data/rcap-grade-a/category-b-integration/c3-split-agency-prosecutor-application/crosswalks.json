@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "1.0.0",
+  "assignmentId": "C3_SPLIT_AGENCY_PROSECUTOR_APPLICATION",
+  "baseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+  "rule": "Every assignment row marked REUSE_AS_IS is recorded here. Reuse binds only the supported route and instrument scope; it does not prove a packet, create a family, or open commerce.",
+  "summary": {
+    "reuseAsIsRouteCount": 2,
+    "confirmedCount": 0,
+    "stoppedUnresolvedCount": 2,
+    "newRoutesCreatedForReuseRows": 0
+  },
+  "crosswalks": [
+    {
+      "jurisdiction": "MD",
+      "fromBStageRouteKey": "obligation:track-only:MD:md_10112_dpscs_cannabis",
+      "toExistingABranchRouteKey": "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105",
+      "reuseDecision": "REUSE_AS_IS",
+      "status": "STOPPED_UNRESOLVED",
+      "confirmed": false,
+      "newRouteCreated": false,
+      "generatedMatch": {
+        "matchedForm": "CR-072A",
+        "canonicalPrimaryInstrument": "CC-DC-CR-072A",
+        "packetSetId": "md_10105_favorable-set",
+        "basis": "The generator found the same-jurisdiction Category A route by form token."
+      },
+      "confirmedScope": "The existing route and committed compiled profile identify the CC-DC-CR-072A court petition for favorable or non-conviction matters.",
+      "unresolvedScope": [
+        "The composite participant branch also requires a DPSCS/CJIS correction request, but no committed document identity or existing-route binding covers that submission.",
+        "The participant actor includes a person convicted, while the committed cannabis-specific conviction route uses CC-DC-CR-072D, not CC-DC-CR-072A."
+      ],
+      "conflictingExistingRoute": {
+        "routeKey": "obligation:track-pathway:MD:md_cannabis_petition:cannabis-specific-expungement",
+        "primaryInstrument": "CC-DC-CR-072D",
+        "packetSetId": "md_cannabis_petition-set"
+      },
+      "stopReason": "The form-token match is narrower than the proposed participant branch, so the full REUSE_AS_IS crosswalk cannot be confirmed from current committed records.",
+      "evidence": [
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#rows[18].existingCanonicalMatch",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#pairs[18]",
+        "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#rows[18]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#obligation:track-pathway:MD:md_cannabis_petition:cannabis-specific-expungement"
+      ]
+    },
+    {
+      "jurisdiction": "NY",
+      "fromBStageRouteKey": "obligation:track-pathway:NY:ny_clean_slate_convictions:automatic-clean-slate-sealing-under-cpl-160-57",
+      "toExistingABranchRouteKey": "obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
+      "reuseDecision": "REUSE_AS_IS",
+      "status": "STOPPED_UNRESOLVED",
+      "confirmed": false,
+      "newRouteCreated": false,
+      "partialMatch": {
+        "matchedForm": "CPL-160.59",
+        "matchedPrimaryInstrument": "CPL-160.59-APPLICATION",
+        "packetSetId": "ny_160_59_petition-set",
+        "scope": "The separately eligible CPL 160.59 discretionary court-filing component only."
+      },
+      "partialMatchEvidence": [
+        "The integration delta records an exact same-jurisdiction match to the existing CPL 160.59 route and says no new route is required.",
+        "The census route requires CPL-160.59-APPLICATION and its pro se, certificate-of-disposition, and verification companions.",
+        "The official source registry identifies committed corpus records for all four named CPL 160.59 documents.",
+        "The canonical universe records a direct runtime representation for the target track and pathway."
+      ],
+      "unresolvedScope": [
+        "The existing CPL 160.59 packet does not perform CPL 160.57(e) Clean Slate manual review.",
+        "The existing CPL 160.59 packet does not perform a DCJS criminal-history record challenge.",
+        "No committed form ID was found for either excluded process, so this crosswalk makes no claim about them."
+      ],
+      "stopReason": "The form-token match is narrower than the assigned composite participant instrument, so the full REUSE_AS_IS crosswalk cannot be confirmed from current committed records.",
+      "commercialTreatment": "The B stage is never sellable. The proposed reused A route remains LAUNCH_GRAPH_CLOSED, and the unresolved participant actions authorize no new route or commerce.",
+      "evidence": [
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#rows[40].existingCanonicalMatch",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#pairs[37]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
+        "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json#obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
+        "data/rcap-grade-a/official-source-registry.json#CPL-160.59-APPLICATION"
+      ]
+    }
+  ]
+}

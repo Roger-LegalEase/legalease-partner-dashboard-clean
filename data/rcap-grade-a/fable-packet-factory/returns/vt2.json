@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "rcap-fable-verifier-return/v1",
+  "worker": "FABLE-VT2",
+  "role": "independent packet verifier",
+  "lanes": [
+    "VF04",
+    "VF05",
+    "VF06"
+  ],
+  "builtNoneOfThesePackets": true,
+  "claims": "all ten subjects asserted through claim.mjs before any artifact was read (grant set 573bba8a85de8544); all ten released after the verdicts were recorded",
+  "environment": {
+    "corpus": "the pinned Master Library was recovered with scripts/rcap-corpus/bootstrap-private-corpus.sh (51 jurisdictions, 499 files, governance checksums verified), so SOURCE_IDENTITY was measured from bytes in every row — the measurement most prior VF04-VF06 reads could not make",
+    "completeness": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs run per family in this container and read directly",
+    "raster": "every RASTER_QUEUE pin re-hashed against the current fixture bytes; all nine queue-listed subjects carry hash-bound central RASTER_PASS receipts that bind to current bytes"
+  },
+  "verdicts": [
+    {
+      "lane": "VF04",
+      "itemId": "ga-vacated-j2-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "oneLine": "O.C.G.A. § 35-3-37(j)(2) petition set complete: nine counters zero, 3/3 sources and 4/4 artifacts re-hashed equal, destination/fee/service/certificate all stated, raster receipt binds."
+    },
+    {
+      "lane": "VF04",
+      "itemId": "nd-deferred-imposition-records-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "oneLine": "Rule 32.1 verification unit + § 12.1-32-07.1 fallback motion complete; fee and service statements match the family's own held legal record (no fee identified; no service duty stated by rule or statute)."
+    },
+    {
+      "lane": "VF04",
+      "itemId": "nj_clean_slate-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "oneLine": "CN-10557 kit fill complete and hash-bound; kit's own pages state destination, no-fee rule and service steps. Observation recorded: fixtures are byte-identical to nj_ordinance-set — the face alone does not distinguish the routes."
+    },
+    {
+      "lane": "VF04",
+      "itemId": "pa_summary_conviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "oneLine": "490/790 branch set complete; the 490 petition's own face states the service rule, fee delegated to the named clerk in a dedicated line (vf18/vf20 standard), 3/3 corpus hashes equal."
+    },
+    {
+      "lane": "VF04",
+      "itemId": "rcap-oh-custom-pleading-clean-tracks",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "oneLine": "Repair did not land: all eight render-report text hashes still mismatch the committed bytes (recomputation equals vf03's, byte for byte), no production-field-map.json so the completeness verifier returns FAIL_COMPONENT_SET, and no commit has touched the family directory since Wave 2."
+    },
+    {
+      "lane": "VF04",
+      "itemId": "vt_seal_18_to_21-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "oneLine": "Repair holds: FIX03's fee (200-00130A $90/§1201(a) rule), service (court serves prosecutor) and text-fitting (boundary email now on the stipulation page) all verified from bytes and the held source hash."
+    },
+    {
+      "lane": "VF05",
+      "itemId": "vt_seal_dui-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "oneLine": "Repair holds: FIX04 verified from bytes — boundary email present on all three forms, sourced fee rule names this route's own § 1201(a) $90 fee, service rule quoted from held 200-00130A (hash recomputed equal)."
+    },
+    {
+      "lane": "VF06",
+      "itemId": "nj_ordinance-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "oneLine": "Same measured completeness as its clean-slate sibling; same byte-identity observation recorded for reviewers deciding commercial scope."
+    },
+    {
+      "lane": "VF06",
+      "itemId": "ri_nonconviction_sealing-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "oneLine": "Repair does not reach the failed obligation: FIX01 fixed refusal classes and counters (verified, 49→0), but vf17's FEE_AND_WAIVER defect stands verbatim — the only word on fees is still the catch-all line vf17 quoted, and the held RI legal review records the fee as unresolved."
+    },
+    {
+      "lane": "VF06",
+      "itemId": "vt_seal_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "oneLine": "Repair reached only the siblings: VTR01's filing destination landed, but the FIX03/FIX04 fee, service and text-fitting repairs never did — instructions still claim the fee is 'not established here' while held 200-00130A establishes it, and the boundary fixture's stipulation email appearance is still empty in the bytes."
+    }
+  ],
+  "summary": {
+    "PASS_COMPLETE_INDEPENDENT": 6,
+    "FAIL_REPAIR_REQUIRED": 4,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0,
+    "STOPPED": 0
+  },
+  "captainAttention": [
+    {
+      "issue": "the ancestry fix cannot order my VT passes unless the competing lanes also declare a base",
+      "detail": "My ten rows now declare verifiedAtBase edf5ff14b. But vf11, vf12, vf17 and vf03 declare no base at all - no top-level baseSha and no per-row verifiedAtBase. If the ordering rule needs a base on BOTH sides to compare ancestry, it will still fall back to lane number for exactly the pairs that matter: vf11 vs my VF04 vt_seal_18_to_21-set, vf12 vs my VF05 vt_seal_dui-set, and vf17 vs my VF06 ri_nonconviction_sealing-set. Those three families would keep the stale verdict on lane number alone. A read with no declared base should not outrank one that declares a descendant base; how that is resolved is the captain to decide - I have stated my side truthfully and did not touch the script.",
+      "familiesStillAtRisk": [
+        "vt_seal_18_to_21-set",
+        "vt_seal_dui-set",
+        "ri_nonconviction_sealing-set"
+      ],
+      "lanesDeclaringNoBase": [
+        "vf03",
+        "vf11",
+        "vf12",
+        "vf17"
+      ]
+    },
+    {
+      "issue": "counters can go stale against bytes",
+      "detail": "vt_seal_felony-set reads knownRequiredFieldsMissing=0 while its boundary fixture bytes demonstrably drop the mapped 200-00132 email write — the counter measures the committed reports, which predate the shared-fitter fix. A counter is not a substitute for reading the bytes on families whose reports predate a shared-host repair."
+    },
+    {
+      "issue": "byte-identical fixtures across route families",
+      "detail": "nj_clean_slate-set and nj_ordinance-set ship byte-identical canonical and boundary fixtures (canonical 343407a3…, boundary 6256ba7f…). The measured contract accepts it — the route election is declared, refused with reason and disclosed — but the face alone cannot distinguish the two routes. Recorded as an observation in both rows for whoever decides commercial scope."
+    }
+  ],
+  "prohibitionsHonored": {
+    "overlayDirectoriesModified": 0,
+    "buildScriptsModified": 0,
+    "ledgersHandEdited": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
+  "verifiedAtBase": {
+    "sha": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+    "subject": "Re-open verification grants for the 25 repaired families",
+    "appliesTo": "all ten FABLE-VT2 reads",
+    "howEstablished": "the worktree reflog: fast-forward to edf5ff14b at 2026-09-01 23:42:24, branch fable/vt2 created at that same commit at 23:42:29, the first claim assertion and every artifact read after it, and nothing committed until 00:07:09. One base, ten reads, no back-fill.",
+    "recordedPerRow": "verifiedAtBase on each of the ten rows; NOT as a document-level baseSha, because each of the three documents also holds rows written by VF-SRC-A at a base FABLE-VT2 cannot state. vf06 in particular still carries VF-SRC-A stale co_motion_seal_nonconviction-set FAIL, one of the three rows the captain saw wrongly resurrected when bases were inferred; a document-level baseSha would stamp the FABLE-VT2 base onto it and beat vf23 PASS.",
+    "ancestryChecked": "edf5ff14b is a descendant of vf23 declared base 321650b5 and of the VF-SRC-A superseded base 09b741ad, so ancestry orders the FABLE-VT2 reads later than both."
+  }
+}

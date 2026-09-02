@@ -1,0 +1,755 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF07",
+  "workerId": "FABLE-PB",
+  "lane": "packet-build",
+  "engine": "Claude Code Remote worker; commits and pushes to fable/pb, no PR",
+  "shiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+  "familiesAssigned": 3,
+  "preflight": {
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable (codex-cloud mode)",
+    "corpusMounted": "THREE custodies. The Master Library and the D source packs were already resolved in this container and were verified rather than re-downloaded: 51 jurisdictions, 499 files, 329 PDFs, all 498 governance checksums verifying, and the pinned OR/ND sources matching byte-for-byte. The human_source_returns custody, which the bootstrap script does not install, was mounted separately after verifying the Statement of Inability against the committed index digest.",
+    "whyNotBootstrapped": "scripts/rcap-corpus/bootstrap-private-corpus.sh failed on curl exit 23 with the container disk at 99% full. The corpus already present was verified against its own governance checksums and the committed index instead of being re-fetched. No corpus byte was written into this worktree and no corpus byte is committed."
+  },
+  "selfVerification": "none. This lane does not verify its own packets. The counters below are the builder's own count using the repository's own contract functions, and every one of the fifteen obligations is returned BUILT_RASTER_PENDING because a builder verdict is not a verdict.",
+  "rasterRule": "no page raster was produced in this container. Every fixture SHA-256 is reported so the central raster workflow can render the exact bytes. No family here is PASS_COMPLETE and none may become so without a hash-bound RASTER_PASS.",
+  "rows": [
+    {
+      "itemId": "ma-expunge-time-set",
+      "status": "COMPLETED",
+      "familyKind": "packet_family",
+      "whyThisIsAPacketFamilyAndNotAnAgencyTreatment": "it fills or delivers an official court form the repository holds by exact SHA-256, and the participant files it with a court",
+      "jurisdiction": "MA",
+      "routeKeys": [
+        "obligation:unit:MA:ma-expunge-time:ma-expunge-time-commissioner-certification",
+        "obligation:unit:MA:ma-expunge-time:ma-expunge-time-court-determination"
+      ],
+      "statutoryAuthority": "G.L. c. 276, §§ 100F, 100G, 100H, 100I, 100J and 100N",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ma-expunge-time-set.mjs",
+      "componentSet": [
+        "ma-expunge-time-primary-filing-1",
+        "ma-expunge-time-process-guidance-2"
+      ],
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:Massachusetts Probation Service Petition to Expunge",
+          "formNumber": "MA-PROBATION-SERVICE",
+          "custody": "master_library",
+          "pathInArchive": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf",
+          "sha256": "5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1"
+        }
+      ],
+      "fieldMapArithmetic": {
+        "terminalFields": 21,
+        "written": 4,
+        "blank": 17,
+        "requiredBeforeFiling": 11,
+        "checks": "4 written + 17 blank = 21 terminal fields; every blank carries an approved disposition from the closed vocabulary and an undeclared blank fails the build"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "participantFacingObligations": {
+        "FILING_DESTINATION": {
+          "state": "HELD, and stated outright",
+          "answer": "the Office of the Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108",
+          "readIn": [
+            "the pinned form's OWN page 2: 'Where to file (mail) this Petition? Office of the Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108'",
+            "the same form's page-1 TO: line",
+            "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json packetGenerator.serviceAndNoticeRules[1], keyed to time-based expungement",
+            "data/record-clearing/legal-design-intake/MA.memo.json track ma-expunge-time rules.filing"
+          ]
+        },
+        "FEE_AND_WAIVER": {
+          "state": "NOT ESTABLISHED, and a checkable authority is named",
+          "answer": "no held source establishes a filing fee or a waiver route. The authority named is the Office of the Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108 - the same office the petition is sent to",
+          "readIn": [
+            "MA.memo track ma-expunge-time rules.fees = 'None identified in the review' and rules.feeWaiver = 'None identified'",
+            "the packet-set manifest's pay_fee and apply_fee_waiver entries, which say the same",
+            "the pinned form's own two pages, which state no fee",
+            "the compiled MA profile, searched in full: its ONLY dollar figure anywhere is a $50 threshold for minor motor-vehicle offences under Sec. 100A, a different section answering a different question, and it was NOT read onto this route"
+          ],
+          "whereNothingWasFound": "the compiled MA profile holds no fee for Sec. 100F/100G/100H; the form is silent; the intake record records non-establishment twice"
+        },
+        "SERVICE": {
+          "state": "HELD, and the answer is that the participant serves nobody",
+          "answer": "the Commissioner of Probation's office notifies the District Attorney's Office in the county where the offence was prosecuted, if it determines the criteria are met. The participant serves no one.",
+          "readIn": [
+            "the pinned form's OWN page 2, under 'Will the District Attorney's Office be notified of this Petition?'",
+            "MA.memo rules.notice"
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "answer": "eight named stops including the under-21 requirement, the two-record limit, any additional offence anywhere, an active criminal investigation, and the form's own nine-item excluded-offence list; the Office of the Commissioner of Probation is named as the office that answers",
+          "readIn": [
+            "the form's fourteen certification statements printed above the signature line",
+            "MA.memo track exclusions",
+            "the form's page-2 direction that other circumstances need a different petition"
+          ]
+        }
+      },
+      "fifteenObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "production-field-map.json carries routeKeys [\"obligation:unit:MA:ma-expunge-time:ma-expunge-time-commissioner-certification\",\"obligation:unit:MA:ma-expunge-time:ma-expunge-time-court-determination\"] and the statute G.L. c. 276, §§ 100F, 100G, 100H, 100I, 100J and 100N; every composed page prints the route keys on its own last line"
+        },
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "1 source(s) bound by exact SHA-256 against three records that must agree: the committed corpus index entry, the bytes mounted in the custody that index declares, and the pin in the builder"
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "componentSet [\"ma-expunge-time-primary-filing-1\",\"ma-expunge-time-process-guidance-2\"]; every component appears in both rendered fixtures and in the page manifest"
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "4 write(s) declared, each read back from the assembled packet bytes and recorded in reports/actual-writes.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "11 item(s) declared REQUIRED_BEFORE_FILING, every one disclosed in participant-instructions.md and listed in reports/blanks-left-for-the-participant.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "no route election is made by the build; the field map's routeSelectionNote states why for this family"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "no repeating table carries a written cell, so no row reads as finished when it is not; the builder's incompleteRows counter is 0"
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "every signature, signature date and court-, clerk- or prosecutor-owned field is refused with a typed refusal class, and the byte proof asserts no refused field carries ink"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "two fixtures rendered, 4 pages each, hashes recorded in reports/rendered-artifacts.json and reported to Captain for the raster batch"
+        },
+        {
+          "obligation": "PAGE_ORDER",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the page manifest records every packet page against its component and source page, in the component order the packet-set manifest declares"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "not measurable in this container without a browser; no page raster was produced here, which is exactly what BUILT_RASTER_PENDING records"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the Office of the Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "no held source establishes a filing fee or a waiver route. The authority named is the Office of the Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108 - the same office the petition is sent to"
+        },
+        {
+          "obligation": "SERVICE",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the Commissioner of Probation's office notifies the District Attorney's Office in the county where the offence was prosecuted, if it determines the criteria are met. The participant serves no one."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "eight named stops including the under-21 requirement, the two-record limit, any additional offence anywhere, an active criminal investigation, and the form's own nine-item excluded-offence list; the Office of the Commissioner of Probation is named as the office that answers"
+        }
+      ],
+      "artifactsForTheRasterBatch": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "b41eb67d3173db1b57f982d15ebb5886eabda4801d1f23fb26ebf053eaa5e6af",
+          "pageCount": 4,
+          "byteLength": 25978
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "87befe2ef7be124aa20853cfba988cc229011337523035eb73b8a5e24be0b49a",
+          "pageCount": 4,
+          "byteLength": 26030
+        }
+      ],
+      "inkPerFixture": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 3,
+          "glyphs": 38,
+          "appearances": 0
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 3,
+          "glyphs": 69,
+          "appearances": 0
+        }
+      ],
+      "determinism": {
+        "proof": "built twice in this container; the WHOLE overlay tree hashed byte-for-byte identical, not only the fixtures",
+        "creationDatePinned": "stampDeterministic() from scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs is applied to every document this build creates, including the assembled packet, because pdf-lib stamps the wall clock into PDFDocument.create() and save({updateMetadata:false}) does not remove a stamp already there"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ms-fel-set",
+      "status": "COMPLETED",
+      "familyKind": "packet_family",
+      "whyThisIsAPacketFamilyAndNotAnAgencyTreatment": "it is a court filing the participant makes; the state publishes no form for it, so every page is composed from codified text and the committed legal-design record. It is not an agency application: a court receives it and a judge decides it",
+      "jurisdiction": "MS",
+      "routeKeys": [
+        "obligation:track-pathway:MS:ms-fel:eligible-felony-conviction-expungement-99-19-71"
+      ],
+      "statutoryAuthority": "Miss. Code Ann. § 99-19-71(2)",
+      "implementationStrategy": "custom_pleading",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-fel-set--custom-pleading",
+      "buildScript": "scripts/build-census-v1-ms-fel-set.mjs",
+      "componentSet": [
+        "ms-fel-primary-filing-1",
+        "ms-fel-proposed-order-2",
+        "ms-fel-certificate-of-service-3",
+        "ms-fel-attachment-4",
+        "ms-fel-instructions-5",
+        "ms-fel-notice-6"
+      ],
+      "sourcesBound": [],
+      "fieldMapArithmetic": {
+        "terminalFields": 59,
+        "written": 13,
+        "blank": 46,
+        "requiredBeforeFiling": 36,
+        "checks": "13 written + 46 blank = 59 terminal fields; every blank carries an approved disposition from the closed vocabulary and an undeclared blank fails the build"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "participantFacingObligations": {
+        "FILING_DESTINATION": {
+          "state": "HELD, and stated outright",
+          "answer": "the circuit clerk of the county of conviction - the court in which the conviction was had",
+          "readIn": [
+            "MS.memo track ms-fel rules.filing and destination.detail",
+            "the packet-set manifest's file entry"
+          ]
+        },
+        "FEE_AND_WAIVER": {
+          "state": "HELD, and stated outright, in a deliberate departure from one committed record on the strength of two others",
+          "answer": "$150.00, levied by Miss. Code Ann. Sec. 99-19-72 on each petition to expunge an offense under Sec. 99-19-71, collected by the circuit clerk and distributed $100 Judicial System Operation Fund / $40 District Attorneys Operation Fund / $10 retained by the clerk. No waiver procedure specific to expungement is established; the circuit clerk of the county of conviction is named as the authority for a pauper's affidavit and for any local addition.",
+          "readIn": [
+            "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json packetGenerator.feeRules[0], which states the figure and keys it to Sec. 99-19-71",
+            "MS.memo track ms-fel unresolvedQuestions[0], which QUOTES the statute verbatim with its distribution and amendment history",
+            "MS.memo rules.fees and the manifest pay_fee entry, both of which say no amount is published"
+          ],
+          "tensionRaised": "the manifest and the memo's rules block record non-establishment while the compiled profile states the figure outright and the memo itself quotes the statute. A packet may not tell a participant that no held source establishes what the repository establishes. The memo's recorded uncertainties concern Sec. 99-19-71(4) NON-conviction petitions and justice or municipal venue - neither reaches this Sec. 99-19-71(2) conviction petition filed with the circuit clerk. Raised as a counsel question in approval-request.json rather than decided."
+        },
+        "SERVICE": {
+          "state": "HELD, and it is the one hard timing rule on this route",
+          "answer": "the district attorney, by United States mail or hand delivery, evidenced by the certificate of service, with TEN DAYS' written notice before any hearing under Sec. 99-19-71(2)(b)",
+          "readIn": [
+            "MS.memo track ms-fel rules.notice and rules.service",
+            "the manifest serve_party entry"
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "answer": "ALWAYS on this route - the committed record makes attorney review before filing mandatory for every felony conviction - plus seven further named stops; the circuit clerk answers filing mechanics and the Mississippi Criminal Information Center issues the criminal history",
+          "readIn": [
+            "MS.memo track ms-fel selfHelpStopConditions"
+          ]
+        }
+      },
+      "fifteenObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "production-field-map.json carries routeKeys [\"obligation:track-pathway:MS:ms-fel:eligible-felony-conviction-expungement-99-19-71\"] and the statute Miss. Code Ann. § 99-19-71(2); every composed page prints the route keys on its own last line"
+        },
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "zero source binaries bound (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); allSourcesExact is true vacuously and the source receipt says so in terms"
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "componentSet [\"ms-fel-primary-filing-1\",\"ms-fel-proposed-order-2\",\"ms-fel-certificate-of-service-3\",\"ms-fel-attachment-4\",\"ms-fel-instructions-5\",\"ms-fel-notice-6\"]; every component appears in both rendered fixtures and in the page manifest"
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "13 write(s) declared, each read back from the assembled packet bytes and recorded in reports/actual-writes.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "36 item(s) declared REQUIRED_BEFORE_FILING, every one disclosed in participant-instructions.md and listed in reports/blanks-left-for-the-participant.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "no route election is made by the build; the field map's routeSelectionNote states why for this family"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "no repeating table carries a written cell, so no row reads as finished when it is not; the builder's incompleteRows counter is 0"
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "every signature, signature date and court-, clerk- or prosecutor-owned field is refused with a typed refusal class, and the byte proof asserts no refused field carries ink"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "two fixtures rendered, 10 pages each, hashes recorded in reports/rendered-artifacts.json and reported to Captain for the raster batch"
+        },
+        {
+          "obligation": "PAGE_ORDER",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the page manifest records every packet page against its component and source page, in the component order the packet-set manifest declares"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "not measurable in this container without a browser; no page raster was produced here, which is exactly what BUILT_RASTER_PENDING records"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the circuit clerk of the county of conviction - the court in which the conviction was had"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "$150.00, levied by Miss. Code Ann. Sec. 99-19-72 on each petition to expunge an offense under Sec. 99-19-71, collected by the circuit clerk and distributed $100 Judicial System Operation Fund / $40 District Attorneys Operation Fund / $10 retained by the clerk. No waiver procedure specific to expungement is established; the circuit clerk of the county of conviction is named as the authority for a pauper's affidavit and for any local addition."
+        },
+        {
+          "obligation": "SERVICE",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the district attorney, by United States mail or hand delivery, evidenced by the certificate of service, with TEN DAYS' written notice before any hearing under Sec. 99-19-71(2)(b)"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "ALWAYS on this route - the committed record makes attorney review before filing mandatory for every felony conviction - plus seven further named stops; the circuit clerk answers filing mechanics and the Mississippi Criminal Information Center issues the criminal history"
+        }
+      ],
+      "artifactsForTheRasterBatch": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ms/ms-fel-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "6df57f2d7aca4742e1314a3278efb6fbd184d4ea7d6d50c35ab056979dde20c9",
+          "pageCount": 10,
+          "byteLength": 26630
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ms/ms-fel-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "77b0c2fddc7b9f2c24242382d3f02654e0dfd3940fe5950a5b850282b6aa75e9",
+          "pageCount": 10,
+          "byteLength": 27108
+        }
+      ],
+      "inkPerFixture": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 13,
+          "glyphs": 250,
+          "appearances": 0
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 13,
+          "glyphs": 542,
+          "appearances": 0
+        }
+      ],
+      "determinism": {
+        "proof": "built twice in this container; the WHOLE overlay tree hashed byte-for-byte identical, not only the fixtures",
+        "creationDatePinned": "stampDeterministic() from scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs is applied to every document this build creates, including the assembled packet, because pdf-lib stamps the wall clock into PDFDocument.create() and save({updateMetadata:false}) does not remove a stamp already there"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "tx_nd_dwi_probation-set",
+      "status": "COMPLETED",
+      "familyKind": "packet_family",
+      "whyThisIsAPacketFamilyAndNotAnAgencyTreatment": "it fills or delivers an official court form the repository holds by exact SHA-256, and the participant files it with a court",
+      "jurisdiction": "TX",
+      "routeKeys": [
+        "obligation:track-pathway:TX:tx_nd_dwi_probation:first-offense-dwi-nondisclosure"
+      ],
+      "statutoryAuthority": "Tex. Gov't Code §§ 411.0731, 411.0745 and 411.074",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-tx_nd_dwi_probation-set.mjs",
+      "componentSet": [
+        "tx_nd_dwi_probation-petition-1",
+        "tx_nd_dwi_probation-proposed-order-2",
+        "tx_nd_dwi_probation-proof-of-delivery-to-prosecutor-3",
+        "tx_nd_dwi_probation-fee-waiver-statement-4",
+        "tx_nd_dwi_probation-filing-and-after-order-instructions-5"
+      ],
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0731",
+          "formNumber": "TX-GC-411.0731-PETITION",
+          "custody": "master_library",
+          "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0731__petition-for-order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
+          "sha256": "51f747e27d6f2b64e545991f242964dad77c0c69702278acb2b43565b0da62ee"
+        },
+        {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0731",
+          "formNumber": "TX-GC-411.0731-ORDER",
+          "custody": "master_library",
+          "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0731__order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
+          "sha256": "f085cd5c03edc67671c4aaab3210c76c33325e45fabdd6b818782e87cf413bd4"
+        },
+        {
+          "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+          "formNumber": "TX-SCT-22-9090-STATEMENT-OF-INABILITY",
+          "custody": "human_source_returns",
+          "pathInArchive": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d"
+        }
+      ],
+      "fieldMapArithmetic": {
+        "terminalFields": 171,
+        "written": 15,
+        "blank": 156,
+        "requiredBeforeFiling": 113,
+        "checks": "15 written + 156 blank = 171 terminal fields; every blank carries an approved disposition from the closed vocabulary and an undeclared blank fails the build"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "participantFacingObligations": {
+        "FILING_DESTINATION": {
+          "state": "HELD",
+          "answer": "the clerk of the court that sentenced the person or placed the person on community supervision, who forwards it to the court; Gov't Code Sec. 411.0745(a) allows filing in person, electronically or by mail, and OCA instructions say most courts want the proposed order submitted with the petition",
+          "readIn": [
+            "TX.memo track tx_nd_dwi_probation rules.filing",
+            "the manifest file entry"
+          ]
+        },
+        "FEE_AND_WAIVER": {
+          "state": "HELD, and the honest answer is that there is NO FLAT STATUTORY FIGURE",
+          "answer": "Sec. 411.0745(b) requires a fee that generally applies to the filing of a CIVIL CASE. Read at source on 2026-08-06, the subsection sets the TYPE of fee and not an amount, so county civil filing fee schedules govern; OCA describes the total as typically about $280, varying by county. The clerk of the filing court is named as the authority. Waiver: a Statement of Inability under Tex. R. Civ. P. 145 on the Misc. Docket No. 22-9090 form, which the clerk must make available without charge or request - and which this family ships as a bound component so the petition's own paragraph-6 election is real.",
+          "readIn": [
+            "TX.memo track tx_nd_dwi_probation rules.fees and rules.feeWaiver",
+            "the manifest pay_fee and apply_fee_waiver entries"
+          ],
+          "trapAvoided": "the committed record warns the $28 figure belongs ONLY to the no-petition route under Sec. 411.072(c) and is not a filing fee. The packet names it in order to exclude it, because a participant who read it elsewhere otherwise arrives at the clerk's window with the wrong money."
+        },
+        "SERVICE": {
+          "state": "HELD, and the answer is that the COURT notifies the State",
+          "answer": "under Sec. 411.0745(e) the court provides notice to the State and an opportunity for a hearing on receipt of the petition, and the filer should not be charged for it. A hearing is required unless the State does not request one before the 45th day and the court makes the two findings. OCA instructions separately direct proof that the district attorney received a copy, so that page ships CONDITIONAL on local practice.",
+          "readIn": [
+            "TX.memo track tx_nd_dwi_probation rules.notice and rules.service",
+            "the manifest serve_party entry"
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "answer": "seven named stops, led by the Sec. 411.0731(e) collision bar - the court may not issue the order if the State shows the offence resulted in a motor vehicle collision involving another person, including a passenger - plus the 0.15 alcohol concentration assertion, any other conviction or deferred adjudication, revocation, family violence, waiting-period uncertainty and non-citizenship",
+          "readIn": [
+            "TX.memo track tx_nd_dwi_probation controllingAuthority.summary and the manifest participantActionRequired entries"
+          ]
+        }
+      },
+      "fifteenObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "production-field-map.json carries routeKeys [\"obligation:track-pathway:TX:tx_nd_dwi_probation:first-offense-dwi-nondisclosure\"] and the statute Tex. Gov't Code §§ 411.0731, 411.0745 and 411.074; every composed page prints the route keys on its own last line"
+        },
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "3 source(s) bound by exact SHA-256 against three records that must agree: the committed corpus index entry, the bytes mounted in the custody that index declares, and the pin in the builder"
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "componentSet [\"tx_nd_dwi_probation-petition-1\",\"tx_nd_dwi_probation-proposed-order-2\",\"tx_nd_dwi_probation-proof-of-delivery-to-prosecutor-3\",\"tx_nd_dwi_probation-fee-waiver-statement-4\",\"tx_nd_dwi_probation-filing-and-after-order-instructions-5\"]; every component appears in both rendered fixtures and in the page manifest"
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "15 write(s) declared, each read back from the assembled packet bytes and recorded in reports/actual-writes.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "113 item(s) declared REQUIRED_BEFORE_FILING, every one disclosed in participant-instructions.md and listed in reports/blanks-left-for-the-participant.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "no route election is made by the build; the field map's routeSelectionNote states why for this family"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "no repeating table carries a written cell, so no row reads as finished when it is not; the builder's incompleteRows counter is 0"
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "every signature, signature date and court-, clerk- or prosecutor-owned field is refused with a typed refusal class, and the byte proof asserts no refused field carries ink"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "two fixtures rendered, 24 pages each, hashes recorded in reports/rendered-artifacts.json and reported to Captain for the raster batch"
+        },
+        {
+          "obligation": "PAGE_ORDER",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the page manifest records every packet page against its component and source page, in the component order the packet-set manifest declares"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "not measurable in this container without a browser; no page raster was produced here, which is exactly what BUILT_RASTER_PENDING records"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the clerk of the court that sentenced the person or placed the person on community supervision, who forwards it to the court; Gov't Code Sec. 411.0745(a) allows filing in person, electronically or by mail, and OCA instructions say most courts want the proposed order submitted with the petition"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "Sec. 411.0745(b) requires a fee that generally applies to the filing of a CIVIL CASE. Read at source on 2026-08-06, the subsection sets the TYPE of fee and not an amount, so county civil filing fee schedules govern; OCA describes the total as typically about $280, varying by county. The clerk of the filing court is named as the authority. Waiver: a Statement of Inability under Tex. R. Civ. P. 145 on the Misc. Docket No. 22-9090 form, which the clerk must make available without charge or request - and which this family ships as a bound component so the petition's own paragraph-6 election is real."
+        },
+        {
+          "obligation": "SERVICE",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "under Sec. 411.0745(e) the court provides notice to the State and an opportunity for a hearing on receipt of the petition, and the filer should not be charged for it. A hearing is required unless the State does not request one before the 45th day and the court makes the two findings. OCA instructions separately direct proof that the district attorney received a copy, so that page ships CONDITIONAL on local practice."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "seven named stops, led by the Sec. 411.0731(e) collision bar - the court may not issue the order if the State shows the offence resulted in a motor vehicle collision involving another person, including a passenger - plus the 0.15 alcohol concentration assertion, any other conviction or deferred adjudication, revocation, family violence, waiting-period uncertainty and non-citizenship"
+        }
+      ],
+      "artifactsForTheRasterBatch": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "880b229c9256b008b233faab73ea2a99083e14fa831fbab421a3d794ff31f61b",
+          "pageCount": 24,
+          "byteLength": 1181421
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "6fbd66026eb2fb63eba0bbb0df7fa6c5ef20459a3daca74e5adf9fa73d5944d6",
+          "pageCount": 24,
+          "byteLength": 1181788
+        }
+      ],
+      "inkPerFixture": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 13,
+          "glyphs": 262,
+          "appearances": 15
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 13,
+          "glyphs": 590,
+          "appearances": 15
+        }
+      ],
+      "determinism": {
+        "proof": "built twice in this container; the WHOLE overlay tree hashed byte-for-byte identical, not only the fixtures",
+        "creationDatePinned": "stampDeterministic() from scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs is applied to every document this build creates, including the assembled packet, because pdf-lib stamps the wall clock into PDFDocument.create() and save({updateMetadata:false}) does not remove a stamp already there"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "supersededShiftReturn": {
+    "note": "the return this file held before this shift wrote its own, preserved verbatim",
+    "document": {
+      "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+      "assignmentId": "PF07",
+      "workerId": "PF-C",
+      "lane": "packet-build",
+      "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
+      "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+      "takenAfter": "the static queue PF12-PF16, as the Captain's nextLaneByWorker assignment for PF-C",
+      "familiesAssigned": 1,
+      "preflight": {
+        "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
+        "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed"
+      },
+      "selfVerification": "none. The counters below are the builder's own count using the repository's own contract functions, not a verdict.",
+      "rows": [
+        {
+          "itemId": "md_second_chance_shielding-set",
+          "status": "STOPPED",
+          "stopClass": "shared_machinery_gap",
+          "stopReason": "Two route-determined selections on MDJ-008 are left unmarked because finalizeOfficialForm — the AcroForm path every form-filling family in this factory uses — has no channel for marking a selection control. finalizeFlatOverlay, in the same file, does. Shared machinery is not this lane's to edit.",
+          "overlayBytesWritten": true,
+          "whyOverlayBytesWereStillWritten": "This is not a source or legal row stop. Both sources bound by exact SHA-256, the route is established, and the packet renders. The defect is two unmarked boxes on rendered paper, and the rendered paper is the evidence of it.",
+          "jurisdiction": "MD",
+          "routeKey": "track:MD:md_second_chance_shielding",
+          "statutoryAuthority": "Md. Criminal Procedure §§ 10-301 through 10-306; Md. Rule 16-941; Md. Rule 20-201.1; Md. Rule 16-914(k)(2); Judiciary forms CC-DC-CR-148 and MDJ-008 (Rev. 07/2026)",
+          "implementationStrategy": "official_pdf_fill",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-md_second_chance_shielding-set.mjs",
+          "sourcesBound": [
+            {
+              "sourceId": "official-form:CC-DC-CR-148",
+              "pathInArchive": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-CR-148__petition-for-shielding-under-the-maryland-second-chance-act__REV-2026-07__EN.pdf",
+              "sha256": "abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f",
+              "byteLength": 238823,
+              "instrumentKind": "primary_filing"
+            },
+            {
+              "sourceId": "official-form:MDJ-008",
+              "pathInArchive": "STATES/MD/02_PACKET_FORMS/MD__FORM__MDJ-008__notice-regarding-restricted-information-pursuant-to-rule-20-201-1__REV-2026-07__EN.pdf",
+              "sha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+              "byteLength": 248175,
+              "instrumentKind": "attachment"
+            }
+          ],
+          "counters": {
+            "knownRequiredFieldsMissing": 0,
+            "requiredFactsNotCollected": 0,
+            "unclassifiedBlanks": 0,
+            "incompleteRows": 0,
+            "requiredOptionsMissing": 2,
+            "requiredComponentsMissing": 0,
+            "invisibleWrites": 0,
+            "protectedWrites": 0,
+            "visualDefects": 0
+          },
+          "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
+          "theTwoDefects": [
+            {
+              "field": "MDJ-008/Restricted Document - The entire document is not subject to inspection",
+              "disposition": "ROUTE_OPTION_NOT_SELECTED",
+              "whatDeterminesIt": "CC-DC-CR-148 prints \"This form contains Restricted Information\" at the head of page 1 and asserts in paragraph 6 that \"This petition is to be shielded by the clerk\"."
+            },
+            {
+              "field": "MDJ-008/Sealing or Shielding Motion",
+              "disposition": "ROUTE_OPTION_NOT_SELECTED",
+              "whatDeterminesIt": "The petition is filed under Md. Rule 16-941, printed in the opening sentence of CC-DC-CR-148, and this line of MDJ-008 reads \"Sealing or Shielding Motion: while pending, but not to exceed five (5) business days. Rule 16-941 & 16-914(k)(2)\" — the same rule."
+            }
+          ],
+          "fields": {
+            "total": 113,
+            "CC-DC-CR-148": 56,
+            "MDJ-008": 57,
+            "written": 16,
+            "requiredBeforeFiling": 30,
+            "participantElections": 48,
+            "routeDeterminedAndUnmarked": 2,
+            "protected": 5,
+            "attorney": 10,
+            "viewerControls": 2
+          },
+          "componentsRendered": [
+            "primary_filing",
+            "attachment"
+          ],
+          "artifacts": [
+            {
+              "fixture": "canonical",
+              "file": "data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill/fixtures/canonical.pdf",
+              "sha256": "d76372b57f83fa271a7476151b5968895cf86bcf24b62d4ee5ac1e8b0c3f2670",
+              "byteLength": 465389,
+              "pageCount": 2,
+              "rasterPages": 2
+            },
+            {
+              "fixture": "boundary",
+              "file": "data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill/fixtures/boundary.pdf",
+              "sha256": "7254d3af9c751897af56e082ea502d8b93e3047683f0e2eeefe9352f36cc6dac",
+              "byteLength": 465616,
+              "pageCount": 2,
+              "rasterPages": 2
+            }
+          ],
+          "notableDecisions": [
+            "The two MDJ-008 controls are declared route-determined and counted as defects rather than relabelled participant elections. Calling a box the route determines a genuine participant election would have zeroed the counters and misdescribed the packet, and it is the exact substitution the closed disposition vocabulary exists to catch.",
+            "MDJ-008 is carried as an attachment rather than as a separate optional form because CC-DC-CR-148 says so on its face: \"You must file a Notice Regarding Restricted Information Pursuant to Rule 20-201.1 (form MDJ-008) with this submission.\"",
+            "Both Maryland forms extract clean text and Maryland authored its AcroForm field names as the printed captions, so every caption claim here is checked against the paper. reports/caption-evidence.json records per field whether the caption was found verbatim on its own page — 23 of 56 on CC-DC-CR-148 and 47 of 57 on MDJ-008 — and records the printed line at the widget coordinate where it was not, rather than explaining the misses away.",
+            "None of the twelve shieldable offences in paragraph 1 is ticked and none of the seventeen case-number lines is written. Which of the twelve applies is a fact about the participant's record; a ticked box with no case number beside it would be an incomplete allegation. All seventeen lines are declared required before filing and named individually in the instructions.",
+            "The CC-DC-CR-148 signature block prints the same five captions twice — the attorney's column at x=72 and the petitioner's at x=319. Every left-hand field is refused as attorney-only and every right-hand field is written; a drift between the columns would file a petition asserting counsel who is the petitioner, so it is the first item put to the visual reviewer.",
+            "The MDJ-008 plaintiff line is refused rather than filled. The form pre-prints STATE OF MARYLAND above it followed by \"OR\", so on a criminal shielding petition nothing goes in it.",
+            "The boundary fixture reports three unfittable values on CC-DC-CR-148 — a 31-character case number, a phone with an extension and a 58-character e-mail, each wider than its widget at the minimum font. They are reported as refusals rather than drawn small or clipped."
+          ],
+          "findingsRaisedForOthers": [
+            "BLOCKING, owner scripts/rcap-official-forms/rcap-official-form-finalize.mjs: finalizeOfficialForm accepts no `selections` argument and never calls markSelections; finalizeFlatOverlay, defined in the same file and sharing the same ink, protected-rule set and page list, does. An AcroForm family therefore cannot mark a selection control at all, so every official_pdf_fill family in this factory with a route-determined checkbox is structurally unable to zero its counters. The fix is the same parameter and the same call, after the widgets are flattened. The measured rectangles this family needs are already in its field map under routeDeterminedSelections, read first-hand from the pinned binary.",
+            "ADVISORY, owner scripts/rcap-packet-completeness/completeness-contract.mjs: BLANK_DISPOSITIONS carries NOT_APPLICABLE_ON_THIS_ROUTE, but the only reasons that reach it are a viewer control and an attorney block. A field genuinely not applicable for a third reason — here, a caption line the form pre-prints for this case type — has no channel to say so, and is filed under a protected class instead.",
+            "ADVISORY: a selection control can never be declared REQUIRED_BEFORE_FILING. classifyField returns PARTICIPANT_ELECTION for any selection control, and PARTICIPANT_ELECTION is not in PARTICIPANT_COMPLETABLE_REQUIREMENTS, so the declaration returns UNCLASSIFIED_BLANK. That is the right default for a service-method checkbox and the wrong one for a dropdown of counties, which is what MDJ-008 and CC-DC-CR-148 both use for City/County.",
+            "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
+            "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
+          ],
+          "independentVerificationStatus": "PENDING",
+          "commercialRoutesOpened": 0,
+          "productionTouched": false,
+          "artifactReproducibility": "byte-reproducible: rebuilt and compared, identical SHA-256. The PDF creation and modification dates are pinned to the Unix epoch so the artifact is a function of its inputs.",
+          "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
+          "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml."
+        }
+      ],
+      "laneNote": "The Captain rebased shiftBaseSha to 2e6ca51b at 09:51:26Z, after this lane's families were built on the previous base 09b741ad. The shared machinery this lane depends on is unchanged between the two: completeness-contract.mjs, the finalizer, the field semantics, the anchor capture, the rule lines and the corpus index are all identical, so the counters in these rows were computed against the same contract the new base carries. What DID change is that scripts/lib/pdf-page-raster.mjs moved; see findingsRaisedForOthers. This branch was not reset onto the new base, because resetting would discard five commits of finished, pushed returns and the rebase reason given in the shift file — verifiers rebasing onto a base missing the integration waves — does not apply to a builder whose preflight already reads 15/15."
+    }
+  }
+}

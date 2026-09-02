@@ -1,0 +1,1465 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "scripts/generate-renderer-gap-decomposition.mjs",
+  "question": "The closure ledger holds 68 pathways open on renderer_unavailable. How many of them actually need a renderer?",
+  "lineageDecision": {
+    "decision": "factory_v2 is the successor renderer. The packet engines on feat/record-clearing-production-integration are its predecessor and are not ported.",
+    "evidence": [
+      "src/lib/rcap/documents/packet-document-renderer.ts and factory-v2-registry.ts landed in mainline on 2026-08-10 and were wired into the authoritative resolver on 2026-08-19.",
+      "The branch's src/lib/rcap/packets/engines was last touched on 2026-08-09, one day before factory_v2 landed.",
+      "The branch carries no factory_v2 at all, so it forked before the successor existed.",
+      "The engines were never present in mainline history, so nothing was removed from mainline to make room for factory_v2."
+    ],
+    "consequence": "Porting the engines would move the renderer backwards. The remaining renderer work is wiring routes to the shared factory_v2 renderer."
+  },
+  "total": 63,
+  "counts": {
+    "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID": 21,
+    "NO_TRACK_TO_RENDER_FROM": 34,
+    "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED": 3,
+    "PACKET_INTENDED_BUT_ROUTE_RESOLVES_TO_GUIDANCE": 2,
+    "LEGACY_GENERATOR_OWNS_THIS_JURISDICTION": 3
+  },
+  "rendererWorkRemaining": 2,
+  "rows": [
+    {
+      "pathwayKey": "AK:executive-pardon-backstop",
+      "jurisdiction": "AK",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "ak-pardon"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "AK:juvenile-record-sealing-as-47-12-300",
+      "jurisdiction": "AK",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "ak-juvenile"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "jurisdiction": "AK",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "AR:situation-b-misdemeanor-convictions",
+      "jurisdiction": "AR",
+      "routeKind": "exact_supported_deferral",
+      "rendererKind": "none",
+      "trackIds": [
+        "ar-misdemeanor-dwi-seal"
+      ],
+      "memoOutputStrategies": [
+        "composed"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=exact_supported_deferral).",
+      "suppressedBy": "exact_supported_deferral",
+      "factoryV2": {
+        "resolves": true,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": []
+      },
+      "classification": "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED",
+      "reason": "factory_v2 admits this route and a recorded treatment suppresses it: exact_supported_deferral. The renderer is not missing; the route is held closed on purpose.",
+      "remedy": "None as renderer work. Revisit only if the treatment that suppresses it is lifted."
+    },
+    {
+      "pathwayKey": "CA:tool-3-petition-based-felony-sealing",
+      "jurisdiction": "CA",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "CA:tool-4-arrest-record-sealing",
+      "jurisdiction": "CA",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "ca-851-8"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "CO:juvenile-expungement-19-1-306",
+      "jurisdiction": "CO",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+      "jurisdiction": "CO",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "co_motion_seal_conviction"
+      ],
+      "memoOutputStrategies": [
+        "official_pdf_fill"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "PACKET_INTENDED_BUT_ROUTE_RESOLVES_TO_GUIDANCE",
+      "reason": "The memo records outputStrategy official_pdf_fill, which is packet-capable, while the runtime resolver reports routeKind=guidance_only, and no treatment suppresses it. Memo and runtime disagree.",
+      "remedy": "Wire the route to the shared factory_v2 renderer for its packet strategy. This is the real renderer work."
+    },
+    {
+      "pathwayKey": "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
+      "jurisdiction": "CO",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "co_petition_seal_arrest"
+      ],
+      "memoOutputStrategies": [
+        "official_pdf_fill"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "PACKET_INTENDED_BUT_ROUTE_RESOLVES_TO_GUIDANCE",
+      "reason": "The memo records outputStrategy official_pdf_fill, which is packet-capable, while the runtime resolver reports routeKind=guidance_only, and no treatment suppresses it. Memo and runtime disagree.",
+      "remedy": "Wire the route to the shared factory_v2 renderer for its packet strategy. This is the real renderer work."
+    },
+    {
+      "pathwayKey": "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a",
+      "jurisdiction": "DE",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "GA:retroactive-first-offender-treatment-under-42-8-66",
+      "jurisdiction": "GA",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "ga-rfo"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "ID:human-trafficking-survivor-vacatur-and-expungement",
+      "jurisdiction": "ID",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "ID:juvenile-expungement",
+      "jurisdiction": "ID",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "ID:withheld-judgment-idaho-code-19-2604-review-branch",
+      "jurisdiction": "ID",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "KY:felony-conviction-431073",
+      "jurisdiction": "KY",
+      "routeKind": "exact_supported_deferral",
+      "rendererKind": "none",
+      "trackIds": [
+        "ky_felony_expungement_after_pardon",
+        "ky_felony_vacatur_expungement"
+      ],
+      "memoOutputStrategies": [
+        "official_pdf_fill"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=exact_supported_deferral).",
+      "suppressedBy": "exact_supported_deferral",
+      "factoryV2": {
+        "resolves": true,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": []
+      },
+      "classification": "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED",
+      "reason": "factory_v2 admits this route and a recorded treatment suppresses it: exact_supported_deferral. The renderer is not missing; the route is held closed on purpose.",
+      "remedy": "None as renderer work. Revisit only if the treatment that suppresses it is lifted."
+    },
+    {
+      "pathwayKey": "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "jurisdiction": "LA",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "la-985-3-immediate-expungement"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "MD:juvenile-expungement",
+      "jurisdiction": "MD",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "jurisdiction": "MD",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "md_10103_legacy_police"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "ME:juvenile-sealing",
+      "jurisdiction": "ME",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "ME:pardon-route",
+      "jurisdiction": "ME",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "jurisdiction": "MN",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "mn_auto_cannabis_nonfelony"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
+      "jurisdiction": "MS",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": true,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "jurisdiction": "MS",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": true,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "jurisdiction": "MS",
+      "routeKind": "packet_correction_required",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=packet_correction_required).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": true,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+      "jurisdiction": "ND",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "NE:juvenile-petition-backstop",
+      "jurisdiction": "NE",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "ne-juvenile-sealing-routing"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "NH:annulment-after-dismissal-acquittal-or-nonprosecution",
+      "jurisdiction": "NH",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "nh_auto_nonconviction"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "NH:annulment-of-a-vacated-conviction",
+      "jurisdiction": "NH",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "nh_auto_vacated"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "NM:cannabis-sentence-dismissal-incarcerated-person-pathway",
+      "jurisdiction": "NM",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "nm_cannabis_sentence"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "NV:controlled-substance-possession-sealing-under-nrs-453-3365",
+      "jurisdiction": "NV",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+      "jurisdiction": "NV",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "nv_seal_deferred"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "jurisdiction": "NV",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "NY:conditional-treatment-sealing-under-cpl-160-58",
+      "jurisdiction": "NY",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "OH:human-trafficking-survivor-conviction-expungement-under-2953-36",
+      "jurisdiction": "OH",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "oh_2953_36_trafficking"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "OH:human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+      "jurisdiction": "OH",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "oh_2953_521_trafficking_nonconviction"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "OH:juvenile-sealing-and-expungement",
+      "jurisdiction": "OH",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "OK:human-trafficking-survivor-relief",
+      "jurisdiction": "OK",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "OK:juvenile-record-expungement",
+      "jurisdiction": "OK",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "RI:path-e-filed-complaint-relief-under-12-10-12",
+      "jurisdiction": "RI",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "ri_filed_complaints"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "RI:path-h-commercial-sexual-activity-related-expungement",
+      "jurisdiction": "RI",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "ri_commercial_sexual_activity"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "SC:human-trafficking-survivor-expungement",
+      "jurisdiction": "SC",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "SD:controlled-substance-deferred-disposition-route",
+      "jurisdiction": "SD",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "SD:diversion-expungement",
+      "jurisdiction": "SD",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "sd_diversion"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "SD:juvenile-delinquency-sealing",
+      "jurisdiction": "SD",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "SD:juvenile-trafficking-expungement",
+      "jurisdiction": "SD",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "SD:suspended-imposition-of-sentence-sealing",
+      "jurisdiction": "SD",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "sd_sis_sealing"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+      "jurisdiction": "TN",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "tn_acquittal_immediate"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a",
+      "jurisdiction": "TX",
+      "routeKind": "exact_supported_deferral",
+      "rendererKind": "none",
+      "trackIds": [
+        "tx_exp_acquittal"
+      ],
+      "memoOutputStrategies": [
+        "composed"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=exact_supported_deferral).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": true,
+        "unmetBuildInputs": []
+      },
+      "classification": "LEGACY_GENERATOR_OWNS_THIS_JURISDICTION",
+      "reason": "Every factory_v2 build input is met (unmetBuildInputs is empty) and factory_v2 declines this route solely because a preserved legacy generator owns TX. AGENTS.md requires those generators be preserved, so this is the intended division of work.",
+      "remedy": "None as renderer work. The legacy generator renders this jurisdiction and must not be broken."
+    },
+    {
+      "pathwayKey": "TX:expunction-after-qualifying-class-c-deferred-disposition",
+      "jurisdiction": "TX",
+      "routeKind": "exact_supported_deferral",
+      "rendererKind": "none",
+      "trackIds": [
+        "tx_exp_dismissed"
+      ],
+      "memoOutputStrategies": [
+        "custom_pleading"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=exact_supported_deferral).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": true,
+        "unmetBuildInputs": []
+      },
+      "classification": "LEGACY_GENERATOR_OWNS_THIS_JURISDICTION",
+      "reason": "Every factory_v2 build input is met (unmetBuildInputs is empty) and factory_v2 declines this route solely because a preserved legacy generator owns TX. AGENTS.md requires those generators be preserved, so this is the intended division of work.",
+      "remedy": "None as renderer work. The legacy generator renders this jurisdiction and must not be broken."
+    },
+    {
+      "pathwayKey": "TX:expunction-after-qualifying-dismissal-or-quash",
+      "jurisdiction": "TX",
+      "routeKind": "exact_supported_deferral",
+      "rendererKind": "none",
+      "trackIds": [
+        "tx_exp_dismissed"
+      ],
+      "memoOutputStrategies": [
+        "custom_pleading"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=exact_supported_deferral).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": true,
+        "unmetBuildInputs": []
+      },
+      "classification": "LEGACY_GENERATOR_OWNS_THIS_JURISDICTION",
+      "reason": "Every factory_v2 build input is met (unmetBuildInputs is empty) and factory_v2 declines this route solely because a preserved legacy generator owns TX. AGENTS.md requires those generators be preserved, so this is the intended division of work.",
+      "remedy": "None as renderer work. The legacy generator renders this jurisdiction and must not be broken."
+    },
+    {
+      "pathwayKey": "UT:path-l-vacatur-human-trafficking-related-expungement",
+      "jurisdiction": "UT",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "UT:path-m-juvenile-expungement",
+      "jurisdiction": "UT",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "VT:juvenile-sealing",
+      "jurisdiction": "VT",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "WA:juvenile-record-sealing-under-rcw-13-50-260",
+      "jurisdiction": "WA",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "WI:adult-conviction-expungement-under-wis-stat-973-015",
+      "jurisdiction": "WI",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "wi_exp_942_08_mandatory"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "WI:executive-pardon-guidance",
+      "jurisdiction": "WI",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "WI:human-trafficking-prostitution-relief-under-973-015-2m",
+      "jurisdiction": "WI",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "wi_exp_trafficking_2m"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
+      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
+      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+      "jurisdiction": "WI",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "jurisdiction": "WV",
+      "routeKind": "exact_supported_deferral",
+      "rendererKind": "none",
+      "trackIds": [
+        "wv_common_conv_procedure",
+        "wv_conv_multiple_misdemeanors",
+        "wv_conv_nonviolent_felony",
+        "wv_conv_single_misdemeanor"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance",
+        "official_pdf_fill"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=exact_supported_deferral).",
+      "suppressedBy": "exact_supported_deferral",
+      "factoryV2": {
+        "resolves": true,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": []
+      },
+      "classification": "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED",
+      "reason": "factory_v2 admits this route and a recorded treatment suppresses it: exact_supported_deferral. The renderer is not missing; the route is held closed on purpose.",
+      "remedy": "None as renderer work. Revisit only if the treatment that suppresses it is lifted."
+    },
+    {
+      "pathwayKey": "WV:juvenile-record-relief",
+      "jurisdiction": "WV",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "WV:sex-trafficking-victim-vacatur-and-expungement",
+      "jurisdiction": "WV",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "jurisdiction": "WY",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "WY:juvenile-minor-expungement-w-s-14-6-241",
+      "jurisdiction": "WY",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    }
+  ]
+}

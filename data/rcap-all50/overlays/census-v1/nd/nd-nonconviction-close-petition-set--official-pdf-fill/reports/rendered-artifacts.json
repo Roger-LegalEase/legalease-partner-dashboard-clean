@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "rcap-rendered-artifacts/v1",
+  "familyId": "nd-nonconviction-close-petition-set",
+  "renderedFresh": true,
+  "citesNoBlockedHash": true,
+  "staleArtifactBlock": "data/rcap-grade-a/stale-artifact-block.json",
+  "note": "Rendered fresh from the pinned source bytes. Every output hash below was checked against the hashes in the stale-artifact block and matches none of them.",
+  "rasterisation": {
+    "performedHere": false,
+    "why": "This container resolves no browser, so no page raster is produced at build time. The render happens centrally in .github/workflows/rcap-packet-raster-acceptance-batch.yml against the exact bytes the hashes below pin. This family is BUILT_RASTER_PENDING and no visual obligation is waived by it.",
+    "rasters": []
+  },
+  "packets": [
+    {
+      "packetId": "nd-nonconviction-close-petition-set",
+      "documents": [
+        "ND-PETITION-AND-ORDER-CLOSE-NONCONVICTION (canonical)",
+        "ND-PETITION-AND-ORDER-CLOSE-NONCONVICTION (boundary)"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "document": "ND-PETITION-AND-ORDER-CLOSE-NONCONVICTION",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+      "sha256": "2211ad2f8597d79a79151bc5850b222a664ba1ab935abb2d916c43612dddea58",
+      "byteLength": 180315,
+      "fieldsWritten": 9,
+      "fieldsRefused": 11,
+      "unfittable": [],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    },
+    {
+      "document": "ND-PETITION-AND-ORDER-CLOSE-NONCONVICTION",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+      "sha256": "7f178d4a93edc84c72ea8123715f51da16b7bc1c91d709f575451101052ae747",
+      "byteLength": 180211,
+      "fieldsWritten": 6,
+      "fieldsRefused": 14,
+      "unfittable": [
+        {
+          "field": "Defendant",
+          "factId": "participant.full_legal_name",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+          "rect": {
+            "x": 69.81,
+            "y": 581.56,
+            "width": 150,
+            "height": 22
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 195.6,
+          "usableWidth": 146,
+          "horizontalPadding": 4,
+          "widthBasis": "the value is measured against the widget rectangle less the fitter's horizontal padding, so 195.6pt at 6pt font is compared with 146pt of usable width inside a 150pt widget, not with the 150pt rectangle itself",
+          "exceedsUsableWidth": true,
+          "exceedsWidgetRectangle": true
+        },
+        {
+          "field": "City State Zip Code",
+          "factId": "participant.city_state_zip",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "Unincorporated Township of Long Hollow Crossing, XX 01234-9999",
+          "rect": {
+            "x": 356.85,
+            "y": 297.12,
+            "width": 181.35,
+            "height": 28.2
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 179,
+          "usableWidth": 177.35,
+          "horizontalPadding": 4,
+          "widthBasis": "the value is measured against the widget rectangle less the fitter's horizontal padding, so 179pt at 6pt font is compared with 177.35pt of usable width inside a 181.35pt widget, not with the 181.35pt rectangle itself",
+          "exceedsUsableWidth": true,
+          "exceedsWidgetRectangle": false
+        },
+        {
+          "field": "County",
+          "factId": "matter.county",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "Saint Bartholomew and the Northern Reaches County",
+          "rect": {
+            "x": 126.6,
+            "y": 678.78,
+            "width": 135.6,
+            "height": 22
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 143.6,
+          "usableWidth": 131.6,
+          "horizontalPadding": 4,
+          "widthBasis": "the value is measured against the widget rectangle less the fitter's horizontal padding, so 143.6pt at 6pt font is compared with 131.6pt of usable width inside a 135.6pt widget, not with the 135.6pt rectangle itself",
+          "exceedsUsableWidth": true,
+          "exceedsWidgetRectangle": true
+        }
+      ],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    }
+  ]
+}

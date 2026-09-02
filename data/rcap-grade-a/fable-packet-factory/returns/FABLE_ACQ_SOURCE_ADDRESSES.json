@@ -1,0 +1,1121 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "worker": "FABLE-ACQ",
+  "lane": "source-acquisition-addressing",
+  "branch": "fable/acq",
+  "base": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+  "mission": "For each form named by the 24 NOT_IN_THE_PACKS families, establish the exact official binary URL on a host the policy admits, or say in those words that no exact binary URL could be established and record what was found instead.",
+  "theOneThingToReadFirst": {
+    "finding": "No URL in this return was exercised from this container, and none is recorded as exercised.",
+    "why": "The egress proxy answers 403 to CONNECT for every state judiciary host tried: www.courts.ri.gov, www.mdcourts.gov and www.courts.michigan.gov, through curl and through the fetch tool alike. This is not a fact about any form. It is the same class of fact as ENV-RAS01's missing Chromium, and the factory already assumes it: generate.mjs describes ACQ as a 'no-egress agent' and puts the fetch on GitHub Actions.",
+    "whatEstablishedMeansHere": "A public search index returned the exact URL AND returned, from the document body at that address, the form number and revision printed on the document. That is the identity question -- is this URL that form -- which is the expensive one to get wrong, because a mis-paired entry fetches a real PDF from a real court and files a receipt binding those bytes to a form number they do not belong to. Reachability and the SHA-256 remain the runner's, and a 404 there is a cheap, loud, self-correcting failure.",
+    "whatItIsNot": "It is not a substitute for exercising the URL, and no entry in the manifest claims otherwise: every one carries verification.urlExercisedByThisLane = false with this reason."
+  },
+  "grants": {
+    "asserted": 38,
+    "claimOk": 18,
+    "refused": 20,
+    "refusalKind": "ALREADY_RELEASED",
+    "whatThatMeans": "A prior lane read the subject and released the grant. Re-opening it is --reissue, which is a deliberate act with a stated cause and is not mine to perform on my own behalf. No grant was transferred and none was minted.",
+    "couldNotClaim": [
+      "SRC02 de_discretionary_family_court-set::official-form:FORM-281E",
+      "SRC02 md_10105_early-set::official-form:CC-DC-CR-072C",
+      "SRC02 md_10110_conviction-set::official-form:CC-DC-CR-072B",
+      "SRC02 md_cannabis_petition-set::official-form:CC-DC-CR-072D",
+      "SRC02 md_pardon_expungement-set::official-form:CC-DC-CR-072B",
+      "SRC04 me-seal-survivor-set::official-form:CR-308",
+      "DISC06 mi_setaside_application-set::official-form:MC 227",
+      "DISC06 mi_setaside_application-set::official-form:MC 227 page 3 Proof of Service",
+      "DISC06 mi_setaside_trafficking-set::official-form:Proof of Service",
+      "SRC03 mt_deferred_dismissal-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "SRC03 mt_misdemeanor_expungement-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "DISC05 mt_mmrta_completed-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "DISC05 mt_mmrta_completed-set::official-form:MT-FORM-B",
+      "DISC05 mt_mmrta_completed-set::official-form:MT-OCA-MMRTA",
+      "DISC05 mt_mmrta_serving-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "DISC05 mt_mmrta_serving-set::official-form:MT-FORM-A",
+      "DISC05 mt_mmrta_serving-set::official-form:MT-OCA-MMRTA",
+      "SRC04 ri_decriminalized-set::official-form:DC-33-AFFIDAVIT",
+      "SRC01 wv_acc_treatment_job_readiness-set::official-form:SCA-C907",
+      "DISC04 census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::NO_DOCUMENT_SOURCE_NAMED"
+    ],
+    "whatWasStillDone": "All twenty were researched. Researching an address and recording it as a finding is not a write against a family, and none of the twenty is written into the manifest's obligationKeys. Where the address is good, it is recorded below for the lane that holds the grant to promote."
+  },
+  "jurisdictions": {
+    "RI": {
+      "familiesBlocked": 5,
+      "answer": "Two documents cover all five families, both established, both in the manifest.",
+      "keyFinding": "TWO LABELS, ONE BINARY. The census carries DC-33-ORDER and DC-33-AFFIDAVIT as separate obligations. Rhode Island publishes one document under the single number DC-33 containing filing instructions, the motion, the affidavit in support (Parts One to Three) and the order. Superior-55 is the same shape for felonies (affidavit Parts One to Four). There is no standalone order PDF: the instructions direct the petitioner to bring the Order for Expungement or Sealing of Record to the hearing, and the clerk prepares three certified copies after it is signed. Do not go looking for a separate order form; it does not exist as a published binary.",
+      "forms": [
+        {
+          "namedAs": [
+            "DC-33-ORDER",
+            "DC-33-AFFIDAVIT"
+          ],
+          "formNumber": "DC-33",
+          "officialTitle": "Motion to Expunge or Seal Record and Affidavit in Support",
+          "issuingAuthority": "Rhode Island Judiciary, District Court",
+          "statute": "R.I. Gen. Laws 12-1.3; 12-1-12",
+          "exactBinaryUrl": "https://www.courts.ri.gov/Courts/districtcourt/Documents/Motion%20to%20Expunge%20or%20Seal%20and%20Affidavit.pdf",
+          "host": "www.courts.ri.gov",
+          "hostPolicy": "ALLOWED (.gov)",
+          "edition": "revised February 2025",
+          "exactBinaryUrlEstablished": true,
+          "manifestEntry": "ri-dc-33-motion-to-expunge-or-seal-and-affidavit-rev-2025-02",
+          "releases": [
+            "ri_decriminalized-set",
+            "ri_deferred_sentence-set",
+            "ri_first_offender_misdemeanor-set",
+            "ri_multiple_misdemeanors-set"
+          ],
+          "notInManifestObligationKeys": "ri_decriminalized-set::official-form:DC-33-AFFIDAVIT -- same binary, but the grant is released to SRC04. The holder can add the key without changing the address."
+        },
+        {
+          "namedAs": [
+            "Superior-55-ORDER"
+          ],
+          "formNumber": "Superior-55",
+          "officialTitle": "Motion and Affidavit to Expunge or Seal Record - Felony",
+          "issuingAuthority": "Rhode Island Judiciary, Superior Court",
+          "statute": "R.I. Gen. Laws 12-1.3-2",
+          "exactBinaryUrl": "https://www.courts.ri.gov/Forms/Motion%20and%20Affidavit%20to%20Expunge%20or%20Seal%20Record%20-%20Felony.pdf",
+          "host": "www.courts.ri.gov",
+          "hostPolicy": "ALLOWED (.gov)",
+          "edition": "revised February 2025",
+          "exactBinaryUrlEstablished": true,
+          "manifestEntry": "ri-superior-55-motion-and-affidavit-to-expunge-or-seal-record-felony-rev-2025-02",
+          "releases": [
+            "ri_first_offender_felony-set"
+          ]
+        }
+      ],
+      "translatedEditionTrap": {
+        "url": "https://www.courts.ri.gov/Forms/Motion%20to%20Expunge%20-%20Seal%20Record.pdf",
+        "finding": "The index titles this 'estado de rhode island - tribunal superior'. It is the SPANISH edition of the Superior Court motion, on the official host, at a plausible-looking address, one directory from the English one. It is NOT the source. Recorded so a later lane that finds it does not promote it.",
+        "doNotPromote": true
+      },
+      "adjacentFormsSeenAndNotPromoted": [
+        "Superior-27 (Motion and Affidavit to Expunge or Seal Record - Misdemeanor). Published at TWO addresses in TWO editions: /Forms/...-Misdemeanor-superior.pdf revised July 2025, and /Courts/districtcourt/Documents/...-Misdemeanor.pdf revised February 2025. No family in this cohort names Superior-27, so neither is promoted -- but the pair is the reason nobody should assume one form has one address on this host.",
+        "DC-107 Affidavit in Support of Motion to Seal (revised May 2024); DC-99 Request to Seal Record - Case Dismissed 48(a) (revised February 2025)."
+      ]
+    },
+    "MD": {
+      "familiesBlocked": 4,
+      "answer": "All three forms located as exact binaries on an allowed host. NONE promoted to the manifest: every Maryland grant is released, and the address family is genuinely ambiguous in a way a holder should settle rather than inherit.",
+      "identityResolved": {
+        "CC-DC-CR-072B": "Petition for Expungement of Records - GUILTY DISPOSITION. Fits md_10110_conviction-set (Md. Crim. Proc. 10-110) and md_pardon_expungement-set (a pardon follows a guilty disposition). Filing fee $30.",
+        "CC-DC-CR-072C": "Petition for Expungement of Records - ACQUITTAL, DISMISSAL, NOT GUILTY OR NOLLE PROSEQUI, LESS THAN 3 YEARS SINCE DISPOSITION. Fits md_10105_early-set (Md. Crim. Proc. 10-105) exactly: it is the petition to expunge BEFORE the automatic 3-year expungement.",
+        "CC-DC-CR-072D": "Petition for Expungement of Records - MARIJUANA/CANNABIS RELATED OFFENSES. Fits md_cannabis_petition-set.",
+        "conflictNoted": "One search snippet described 072B as the acquittal/dismissal form and 072C as the conviction form, i.e. exactly inverted. It is contradicted by the form titles returned at both exact URLs and by the fee structure, and by the statutes the families name. The inverted reading is recorded so it is not rediscovered as if it were new, and it is not adopted."
+      },
+      "addressAmbiguity": {
+        "finding": "Maryland serves the same form from at least three path shapes on two allowed hostnames, and this cohort's own committed evidence uses a fourth.",
+        "shapes": [
+          "SHORT, index-confirmed for C and D: https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072c.pdf and .../ccdccr072d.pdf",
+          "SHORT on the sibling hostname, in committed evidence for 072A: https://www.mdcourts.gov/sites/default/files/court-forms/ccdccr072a.pdf",
+          "DOUBLED, index-confirmed for A and B: https://www.mdcourts.gov/sites/default/files/court-forms/courtforms/joint/ccdccr072A.pdf/ccdccr072A.pdf and https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf",
+          "LEGACY /import/: http://mdcourts.gov/sites/default/files/import/courtforms/joint/ccdccr072br.pdf -- note this is HTTP, and note 072bR is the eligibility INFORMATION sheet, not the petition"
+        ],
+        "whyThisMatters": "072B was index-confirmed only on the doubled path; 072C and 072D only on the short path. Deriving the missing combinations by pattern would be inventing a URL, which is the one thing this lane may not do. A holder with egress should exercise all four and record which the publisher actually serves."
+      },
+      "forms": [
+        {
+          "namedAs": [
+            "CC-DC-CR-072B"
+          ],
+          "families": [
+            "md_10110_conviction-set",
+            "md_pardon_expungement-set"
+          ],
+          "exactBinaryUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf",
+          "host": "www.courts.state.md.us",
+          "hostPolicy": "ALLOWED (.gov)",
+          "edition": "revised 10/01/2025 per the index; the family names no edition",
+          "exactBinaryUrlEstablished": true,
+          "promotedToManifest": false,
+          "whyNotPromoted": "grant released to SRC02, and the short-path variant is unconfirmed for this form number"
+        },
+        {
+          "namedAs": [
+            "CC-DC-CR-072C"
+          ],
+          "families": [
+            "md_10105_early-set"
+          ],
+          "exactBinaryUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072c.pdf",
+          "host": "www.courts.state.md.us",
+          "hostPolicy": "ALLOWED (.gov)",
+          "edition": "not printed in anything returned; not asserted",
+          "exactBinaryUrlEstablished": true,
+          "promotedToManifest": false,
+          "whyNotPromoted": "grant released to SRC02"
+        },
+        {
+          "namedAs": [
+            "CC-DC-CR-072D"
+          ],
+          "families": [
+            "md_cannabis_petition-set"
+          ],
+          "exactBinaryUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072d.pdf",
+          "host": "www.courts.state.md.us",
+          "hostPolicy": "ALLOWED (.gov)",
+          "edition": "not printed in anything returned; not asserted",
+          "exactBinaryUrlEstablished": true,
+          "promotedToManifest": false,
+          "whyNotPromoted": "grant released to SRC02"
+        }
+      ],
+      "refusedHostsSeen": [
+        "www.pdffiller.com",
+        "www.dochub.com",
+        "www.templateroller.com",
+        "ezel.ai",
+        "princegeorgescourts.org"
+      ]
+    },
+    "MT": {
+      "familiesBlocked": 4,
+      "answer": "Montana does not publish these as fillable PDFs. Two of the four named documents are Word files by design, and the third is a PDF but on a different agency and under a different name than the family records.",
+      "forms": [
+        {
+          "namedAs": [
+            "MT-FORM-A"
+          ],
+          "families": [
+            "mt_mmrta_serving-set"
+          ],
+          "officialTitle": "MMRTA Form A - Petition for Expungement, Resentencing or Redesignation (currently serving a sentence)",
+          "issuingAuthority": "Montana Office of the Court Administrator",
+          "exactBinaryUrl": "https://courts.mt.gov/external/forms/mmrta/form-a.docx",
+          "host": "courts.mt.gov",
+          "hostPolicy": "ALLOWED (.gov)",
+          "format": "DOCX, not PDF",
+          "edition": "Rev. 12/21 per an off-allowlist county copy; not confirmed on the official host and not asserted",
+          "exactBinaryUrlEstablished": true,
+          "promotedToManifest": false,
+          "whyNotPromoted": "grant released to DISC05, and the overlay pipeline expects a fillable PDF. A DOCX source is a COMPOSE_FROM_AUTHORITY input, not an official_pdf_fill target.",
+          "corroboration": "carried in committed evidence"
+        },
+        {
+          "namedAs": [
+            "MT-FORM-B"
+          ],
+          "families": [
+            "mt_mmrta_completed-set"
+          ],
+          "officialTitle": "MMRTA Form B - Petition for Expungement, Resentencing or Redesignation (sentence completed)",
+          "issuingAuthority": "Montana Office of the Court Administrator",
+          "exactBinaryUrl": "https://courts.mt.gov/external/forms/mmrta/form-b.docx",
+          "host": "courts.mt.gov",
+          "hostPolicy": "ALLOWED (.gov)",
+          "format": "DOCX, not PDF",
+          "exactBinaryUrlEstablished": true,
+          "promotedToManifest": false,
+          "whyNotPromoted": "same as Form A",
+          "corroboration": "carried in committed evidence"
+        },
+        {
+          "namedAs": [
+            "MT-OCA-MMRTA"
+          ],
+          "families": [
+            "mt_mmrta_serving-set",
+            "mt_mmrta_completed-set"
+          ],
+          "finding": "This label is not a form. It is the authority that prescribes the forms: Montana Supreme Court order AF 22-0129, dated 2022-03-15, adopting the Temporary Rules for Expungement, Resentencing, or Redesignation of a Conviction under the MMRTA.",
+          "exactBinaryUrl": "https://courts.mt.gov/external/forms/mmrta/af22-0129order.pdf",
+          "host": "courts.mt.gov",
+          "hostPolicy": "ALLOWED (.gov)",
+          "exactBinaryUrlEstablished": true,
+          "disposition": "COMPOSE_FROM_AUTHORITY -- this is rule text, and an overlay cannot be built on it. It is the source a composed pleading cites.",
+          "promotedToManifest": false,
+          "corroboration": "carried in committed evidence AND index-confirmed"
+        },
+        {
+          "namedAs": [
+            "EXPUNGEMENTREMOVALREQUESTFORM.DOCX"
+          ],
+          "families": [
+            "mt_deferred_dismissal-set",
+            "mt_misdemeanor_expungement-set",
+            "mt_mmrta_serving-set",
+            "mt_mmrta_completed-set"
+          ],
+          "finding": "EDITION AND FORMAT BOTH DIFFER FROM WHAT THE FAMILY NAMES. The family names a .DOCX. The issuing authority is not the judiciary at all -- it is the Montana Department of Justice, Division of Criminal Investigation -- and it publishes the current edition as a PDF: '2023 Updated'.",
+          "officialTitle": "Expungement/Removal Request Form",
+          "issuingAuthority": "Montana Department of Justice, Division of Criminal Investigation",
+          "exactBinaryUrl": "https://dojmt.gov/wp-content/uploads/2023-Updated-ExpungementRemovalRequestForm.pdf",
+          "host": "dojmt.gov",
+          "hostPolicy": "ALLOWED (.gov)",
+          "editionFound": "2023 Updated (PDF)",
+          "editionTheFamilyNames": "an unversioned .DOCX",
+          "bothRecordedNeitherSubstituted": true,
+          "exactBinaryUrlEstablished": true,
+          "promotedToManifest": false,
+          "whyNotPromoted": "all four grants are released (SRC03 x2, DISC05 x2)",
+          "note": "This is a post-order agency filing: the participant sends it to DOJ WITH a copy of the signed court order. It is not the court petition, and a family blocked on it is blocked on the wrong document if what it needs is the petition."
+        }
+      ],
+      "refusedHostsSeen": [
+        "montanacourts.org -- .org, mirrors courts.mt.gov/forms/mmrta, refused",
+        "rosebudcountymt.gov -- a county copy of MMRTA Form A; .gov and therefore admissible by policy, but it is a copy and courts.mt.gov is the first-party publisher, so it is not the address to record",
+        "www.mtlsa.org, montanalawhelp.org, ccresourcecenter.org -- advocacy publishers, refused"
+      ],
+      "landingPagesOnly": [
+        "https://courts.mt.gov/Forms/mmrta",
+        "https://courts.mt.gov/forms/misexpconpage"
+      ]
+    },
+    "IN": {
+      "familiesBlocked": 3,
+      "answer": "NO EXACT BINARY URL COULD BE ESTABLISHED, and the reason is that the form does not exist as a statewide PDF.",
+      "exactBinaryUrlEstablished": false,
+      "forms": [
+        {
+          "namedAs": [
+            "CCA conviction expungement petition",
+            "CCA conviction expungement order"
+          ],
+          "families": [
+            "in_conviction_d6-set",
+            "in_conviction_felony-set",
+            "in_conviction_misd-set"
+          ],
+          "exactBinaryUrlEstablished": false,
+          "whatWasFoundInstead": "Indiana publishes no statewide CCA conviction-expungement petition or order as a PDF. What exists on in.gov is (a) the self-service landing page already in the manifest, (b) IOCS guidance publications -- pubs-trial-court-courtmgmt-expungement-detailed.pdf, -statutes.pdf, -digest-on-orders.pdf, -digest-for-judges.pdf, -digest-for-courtstaffandclerks.pdf -- which are explanatory text and not fillable forms, and (c) Word documents published by other bodies: www.in.gov/ipdc/files/Expungement-Sealing-PetitionFiled-WORD-FORM.docx (Indiana Public Defender Council) and a county clerk's Petition-for-Expungement-form-fill.docx.",
+          "corroboratingHardEvidence": "The manifest already carries sourceId 'convictionpetitionorder0320fillable' pointed at the landing page https://www.in.gov/courts/iocs/self-service/expungement/. FABLE-ACQ1's return records that this returned HTTP 404 in all six hosted acquisition runs. Six failed fetches against the only recorded Indiana address, plus no PDF anywhere in the index, is not a gap in the search; it is the answer.",
+          "disposition": "COMPOSE_FROM_AUTHORITY, from IC 35-38-9. The order is drafted per the IOCS Digest on Orders; the petition per IC 35-38-9-8's required contents.",
+          "landingPageInManifest": "left as it is. It is honestly labelled OFFICIAL_LANDING_PAGE and repointing it at a PDF that does not exist would be worse than leaving it."
+        }
+      ],
+      "promotionCandidatesChecked": {
+        "instruction": "Three Indiana and one Michigan candidate already sit in SOURCE_URL_PROMOTION_CANDIDATES.json; check whether they are the forms the families name.",
+        "verdict": "None of the four is. All four are refused for promotion.",
+        "rows": [
+          {
+            "url": "https://docs.legis.wisconsin.gov/2015/related/acts/366.pdf",
+            "candidateSaysJurisdiction": "IN",
+            "actually": "Wisconsin Act 366. The candidate generator infers jurisdiction from the host name, and 'wisconsin' contains the letters in. This is a mis-inference, not an Indiana document.",
+            "promote": false
+          },
+          {
+            "url": "https://docs.legis.wisconsin.gov/1995/related/acts/448.pdf",
+            "candidateSaysJurisdiction": "IN",
+            "actually": "Wisconsin Act 448. Same mis-inference.",
+            "promote": false
+          },
+          {
+            "url": "https://www.in.gov/courts/iocs/files/pubs-trial-court-courtmgmt-expungement-detailed.pdf",
+            "candidateSaysJurisdiction": "IN",
+            "actually": "'Detailed Information on Criminal Case Expungement', an IOCS guidance publication, updated 7/1/2026. Genuinely Indiana and genuinely official. It is not a petition and not an order, so it is not either form the families name.",
+            "promote": false,
+            "usefulAs": "authority input for the COMPOSE_FROM_AUTHORITY treatment above"
+          },
+          {
+            "url": "https://www.courts.michigan.gov/4a7f97/siteassets/forms/scao-approved/mc235.pdf",
+            "candidateSaysJurisdiction": "MI",
+            "actually": "SCAO form MC 235. The families name MC 227. A different form number is a different form.",
+            "promote": false
+          }
+        ]
+      }
+    },
+    "MI": {
+      "familiesBlocked": 2,
+      "answer": "The exact binary was found, and it fixes a manifest entry that has been failing. Not promoted: the grants are released.",
+      "forms": [
+        {
+          "namedAs": [
+            "MC 227",
+            "MC 227 page 3 Proof of Service"
+          ],
+          "families": [
+            "mi_setaside_application-set"
+          ],
+          "formNumber": "MC 227",
+          "officialTitle": "Application to Set Aside Conviction(s)",
+          "issuingAuthority": "Michigan State Court Administrative Office (SCAO)",
+          "exactBinaryUrl": "https://www.courts.michigan.gov/4a4951/siteassets/forms/scao-approved/mc227.pdf",
+          "host": "www.courts.michigan.gov",
+          "hostPolicy": "ALLOWED (.gov)",
+          "exactBinaryUrlEstablished": true,
+          "promotedToManifest": false,
+          "whyNotPromoted": "both MC 227 grants are released to DISC06",
+          "whatThisFixes": "The manifest's existing sourceId 'mc227' points at https://www.courts.michigan.gov/administration/court-programs/state-court-administrative-office/scao-forms/, a landing page, and FABLE-ACQ1 records it as a hosted-acquisition failure. The holder should REPOINT that entry rather than add a second one -- C6 refuses a duplicate source id, and a second entry would leave the broken one live.",
+          "editionAmbiguity": "Three editions are in circulation: (1/22) on a municipal copy, (3/25) on an ICLE copy. Neither is on an allowed host and neither is asserted. courts.michigan.gov also publishes an 'Explanation of Changes for MC 227' at https://www.courts.michigan.gov/4931c3/siteassets/forms/scao-approved/recent-revisions/eoc_mc227.pdf, which is where the current revision can be read.",
+          "pathShapeWarning": "Michigan inserts an opaque hash segment before /siteassets/ -- 4a4951 for mc227, 4a7f97 for mc235, 4931c3 for the explanation-of-changes, 49bf50 for one mc227a copy. The index ALSO returns an unhashed https://www.courts.michigan.gov/siteassets/forms/scao-approved/mc227a.pdf. Two shapes serve this collection and neither can be derived from the other by pattern.",
+          "pageThreeLabel": "'MC 227 page 3 Proof of Service' is not a separate publication. It is page 3 of MC 227. One binary answers both obligations."
+        },
+        {
+          "namedAs": [
+            "Proof of Service"
+          ],
+          "families": [
+            "mi_setaside_trafficking-set"
+          ],
+          "exactBinaryUrlEstablished": false,
+          "whatWasFoundInstead": "A bare label with no form number, no issuing authority and no statute in the row. SCAO publishes many proof-of-service forms and nothing in the family identifies which. If the intent is the MC 227 proof of service, it is page 3 of MC 227 above; if the intent is a trafficking-specific set-aside under MCL 780.621621, the applicable application is a different SCAO number that this row does not name. This is an identity defect in the census row, not a missing address.",
+          "disposition": "back to DISC to name the document before any address is trusted"
+        }
+      ],
+      "adjacentFormNotSubstituted": "MC 227a, Application to Set Aside Marihuana Conviction(s), is a genuinely different form for a different statute. It is not a later edition of MC 227 and must not be substituted for it."
+    },
+    "HI": {
+      "familiesBlocked": 2,
+      "answer": "The publisher and a binary are established. The form-number binding is not, and that gap is the finding.",
+      "forms": [
+        {
+          "namedAs": [
+            "HCJDC-159B"
+          ],
+          "families": [
+            "hi_nonconviction_expungement-set",
+            "rcap-hi-custom-pleading"
+          ],
+          "officialTitle": "Expungement Application",
+          "issuingAuthority": "Hawaii Criminal Justice Data Center, Department of the Attorney General",
+          "candidateBinaryUrl": "https://ag.hawaii.gov/hcjdc/files/2019/11/REVISED-EXP-APPLICATION-2019-11.pdf",
+          "host": "ag.hawaii.gov",
+          "hostPolicy": "ALLOWED (.gov)",
+          "edition": "REVISED 2019-11, from the publisher's own path",
+          "exactBinaryUrlEstablished": false,
+          "whyNot": "The address is on the first-party official host and is the Hawaii expungement application. What could NOT be established is that the document at it prints the number HCJDC-159B. Every source that binds that number to this title -- uslegalforms.com, pdffiller.com -- is a host the policy explicitly refuses, and the official host publishes the file under a name carrying no form number at all. Promoting it would file a receipt binding these bytes to a form number no admissible source puts on them, which is the exact failure the corroboration rule exists to prevent.",
+          "whatWouldSettleIt": "one read of the document's face, which needs the bytes and therefore the runner",
+          "promotedToManifest": false,
+          "landingPages": [
+            "https://ag.hawaii.gov/hcjdc/hcjdc-forms/",
+            "https://ag.hawaii.gov/hcjdc/expungements/"
+          ]
+        }
+      ],
+      "coordinatorQuestion": {
+        "asked": "whether hi_nonconviction_expungement-set (participant_agency_application) and rcap-hi-custom-pleading (custom_pleading) are blocked on a document that is not a form at all",
+        "answer": "No -- this one IS a real published binary, so it is an acquisition and not COMPOSE_FROM_AUTHORITY. It is an AGENCY application, not a court form: the participant sends it to HCJDC with a fee ($35 first-time, $50 otherwise), a government ID copy and a self-addressed stamped envelope, and processing takes 120 days. That is consistent with participant_agency_application and it is the reason no court publishes it."
+      }
+    },
+    "DE": {
+      "familiesBlocked": 1,
+      "answer": "NO EXACT BINARY URL COULD BE ESTABLISHED. This confirms the manifest's own discPending entry rather than overturning it.",
+      "forms": [
+        {
+          "namedAs": [
+            "FORM-281",
+            "FORM-281E"
+          ],
+          "families": [
+            "de_discretionary_family_court-set"
+          ],
+          "exactBinaryUrlEstablished": false,
+          "identityResolved": {
+            "Form 281": "Petition for Expungement of an Adult Record (Delaware Family Court)",
+            "Form 281E": "Adult Expungement Charge Extension Sheet -- the continuation sheet for charges that do not fit on Form 281",
+            "note": "This settles the identity question FACTORY_MEMORY flagged: the held 'FORM-281' bytes printing Form 281E is consistent with 281E being a continuation of 281, not a variant of it. They are two documents and both are named, not one picked over the other."
+          },
+          "whatWasFoundInstead": "Delaware Courts serves every form through an opaque numeric endpoint, https://courts.delaware.gov/forms/download.aspx?id=NNNNN, with no form number anywhere in the address. The expungement one indexed as 'EXPUNGEMENT OF AN ADULT RECORD' is id=46698, but nothing admissible binds that id to Form 281 rather than to its instruction sheet, and adjacent ids in the same collection are plainly other documents (id=90008 is the juvenile expungement FAQ, id=116568 is the schedule of assessed costs).",
+          "confirms": "SOURCE_ACQUISITION_MANIFEST.json discPending: 'no URL containing 281 on any Delaware host'. That remains true, and now the reason is known: the publisher does not put form numbers in URLs.",
+          "landingPages": [
+            "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records",
+            "https://courts.delaware.gov/forms/list.aspx?ag=Family+Court&sec=Forms"
+          ],
+          "whatWouldSettleIt": "exercising the download.aspx ids from the expungement list page and reading which returns Form 281 -- an egress-bearing runner's job, not a research one",
+          "promotedToManifest": false,
+          "grantHeld": "FORM-281 asserted CLAIM_OK on SRC03; FORM-281E is released to SRC02. Nothing is written for either, because there is nothing established to write."
+        }
+      ],
+      "refusedHostsSeen": [
+        "forms.justia.com",
+        "dcadv.org"
+      ]
+    },
+    "ME": {
+      "familiesBlocked": 1,
+      "answer": "Address established. The finding is that the form is the ORDER, not the motion the family probably needs.",
+      "forms": [
+        {
+          "namedAs": [
+            "CR-308"
+          ],
+          "families": [
+            "me-seal-survivor-set"
+          ],
+          "formNumber": "CR-308",
+          "officialTitle": "Order on Motion to Seal Conviction of Criminal History for Victims of Sex Trafficking or Sexual Exploitation",
+          "issuingAuthority": "Maine Judicial Branch",
+          "exactBinaryUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-308",
+          "host": "mjbportal.courts.maine.gov",
+          "hostPolicy": "ALLOWED (.gov)",
+          "urlKind": "OFFICIAL_DOWNLOAD_ENDPOINT -- a query-parameter endpoint keyed by form number, not a static filename. It returns the binary, but its address carries no extension and no edition.",
+          "edition": "effective 07/29/2026",
+          "editionTheFamilyNames": "none",
+          "exactBinaryUrlEstablished": true,
+          "promotedToManifest": false,
+          "whyNotPromoted": "grant released to SRC04",
+          "theRealFinding": "CR-308 is the ORDER the court signs. The participant-filed motion is a different number, and committed evidence already carries the sibling endpoint for CR-307 at .../DownloadForm?strFormNumber=CR-307. A family whose participant must FILE something needs CR-307 as well as CR-308. Both are named here rather than one being picked.",
+          "statute": "15 M.R.S. ch. 310-A (sealing for victims of sex trafficking); see also the Judicial Branch guidance at https://www.courts.maine.gov/help/criminal/sealing-victims.html"
+        }
+      ]
+    },
+    "CA": {
+      "familiesBlocked": 1,
+      "answer": "Three of four established and promoted. The fourth could not be established.",
+      "forms": [
+        {
+          "namedAs": [
+            "CR-430"
+          ],
+          "exactBinaryUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr430.pdf",
+          "host": "courts.ca.gov",
+          "hostPolicy": "ALLOWED (.gov)",
+          "exactBinaryUrlEstablished": true,
+          "manifestEntry": "ca-cr-430-petition-for-dismissal-incarcerated-individual-hand-crew-2024-11"
+        },
+        {
+          "namedAs": [
+            "CR-430-INFO"
+          ],
+          "exactBinaryUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr430info.pdf",
+          "host": "courts.ca.gov",
+          "hostPolicy": "ALLOWED (.gov)",
+          "exactBinaryUrlEstablished": true,
+          "manifestEntry": "ca-cr-430-info-information-on-filing-a-petition-to-dismiss-2024-11"
+        },
+        {
+          "namedAs": [
+            "CR-431"
+          ],
+          "exactBinaryUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr431.pdf",
+          "host": "courts.ca.gov",
+          "hostPolicy": "ALLOWED (.gov)",
+          "exactBinaryUrlEstablished": true,
+          "manifestEntry": "ca-cr-431-court-cover-letter-and-agency-certification-2024-11"
+        },
+        {
+          "namedAs": [
+            "CR-432"
+          ],
+          "officialTitle": "Order on Petition - Incarcerated Individual Hand Crew or Institutional Firehouse Participant",
+          "exactBinaryUrlEstablished": false,
+          "whyNot": "The index returned CR-432's title and role but never returned a URL for it. Its three siblings all sit at /sites/default/files/courts/default/2024-11/cr43N.pdf, so cr432.pdf at that path is the obvious guess -- and a guess is exactly what this lane may not record. It is left unestablished on purpose.",
+          "promotedToManifest": false
+        }
+      ],
+      "statute": "Cal. Penal Code 1203.4b -- dismissal for incarcerated individual hand crew and institutional firehouse participants, with early termination of supervision where the petitioner is still supervised",
+      "refusedHostsSeen": [
+        "www.formsworkflow.com (publishes a CR-431 copy)",
+        "forms.justia.com"
+      ],
+      "countyCopiesNotSubstituted": "saccourt.ca.gov, sb-court.org and lafla.org publish 1203.4b packets. Two are .gov county courts and therefore admissible by host policy, but the Judicial Council is the prescribing authority and its own address is the one recorded."
+    },
+    "WV": {
+      "familiesBlocked": 1,
+      "coordinatorAddition": true,
+      "answer": "It is a real published binary, so this is an acquisition and NOT compose-from-authority. Two editions exist and both are recorded.",
+      "forms": [
+        {
+          "namedAs": [
+            "SCA-C907"
+          ],
+          "families": [
+            "wv_acc_treatment_job_readiness-set"
+          ],
+          "formNumber": "SCA-C907",
+          "officialTitle": "Petition for Expungement of Felony Violations",
+          "issuingAuthority": "Supreme Court of Appeals of West Virginia",
+          "statute": "W. Va. Code 61-11-26a",
+          "exactBinaryUrlEstablished": true,
+          "editionsFound": [
+            {
+              "edition": "2026-04",
+              "url": "https://www.courtswv.gov/sites/default/pubfilesmnt/2026-04/SCA-C907.pdf",
+              "source": "committed evidence",
+              "host": "www.courtswv.gov",
+              "hostPolicy": "ALLOWED (.gov)"
+            },
+            {
+              "edition": "2023-06",
+              "url": "https://www.courtswv.gov/sites/default/pubfilesmnt/2023-06/SCA-C907-PetitionforExpungmentFelony.pdf",
+              "source": "search index, which also returned the title from the document",
+              "host": "www.courtswv.gov",
+              "hostPolicy": "ALLOWED (.gov)"
+            }
+          ],
+          "editionTheFamilyNames": "none -- the row names only SCA-C907",
+          "neitherSubstituted": "Both are recorded. The publisher's own path dates them, so 2026-04 is the later; it is not asserted as current because nothing exercised either address. The holder should acquire the 2026-04 address first and fall back to 2023-06.",
+          "landingPage": "https://www.courtswv.gov/node/599",
+          "promotedToManifest": false,
+          "whyNotPromoted": "grant released to SRC01",
+          "treatmentQuestionNotMine": "The coordinator classifies this family as custom_pleading. SCA-C907 is a felony expungement petition under 61-11-26a; whether an 'ACC treatment / job readiness' route should be filling it is a treatment question for a later lane. What is established is that the document exists, is published by the issuing court, and is reachable at the two addresses above."
+        }
+      ]
+    },
+    "WA": {
+      "familiesBlocked": 1,
+      "coordinatorAddition": true,
+      "question": "confirm or overturn NON_PACKET_TREATMENT for census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260, from the statute",
+      "answer": "CONFIRMED. The named form is a category error, not a gap.",
+      "fromTheStatute": {
+        "cite": "RCW 13.50.260, 'Sealing hearings -- Sealing of records'",
+        "text": "https://app.leg.wa.gov/rcw/default.aspx?cite=13.50.260",
+        "mechanism": "At the DISPOSITION hearing the court itself schedules an administrative sealing hearing, set for the first regularly scheduled sealing hearing after the latest of the respondent's 18th birthday, the anticipated end of probation, or anticipated release from JRA confinement or completion of parole. The court then holds regular sealing hearings and administratively seals the record, entering a written order on a preponderance finding that the respondent is off supervision and has paid victim restitution in full. Only if an objection is received, or the court notes a compelling reason not to seal, is a contested hearing set -- and even then the court sets it, on notice to the juvenile, the victim and counsel.",
+        "whoInitiates": "the court",
+        "whatTheParticipantFiles": "nothing"
+      },
+      "verdict": "NON_PACKET_TREATMENT is correct. There is no participant-filed petition under this route because the participant does not petition. The only document is JU 10.0320, Order re Sealing Records of Juvenile Offender, which is the ORDER THE COURT ENTERS, published by the Washington courts as a Word file at https://www.courts.wa.gov/FORMS/documents/JU10_0320_OR%20re%20Sealing%20Records%20of%20Juvenile%20Offender.doc.",
+      "corroboratingHardEvidence": "SOURCE_ACQUISITION_MANIFEST.json's own refused list already carries ju-10-0320-order-re-sealing-records-of-juvenile-offender-2022-01 twice, refused for 'no jurisdiction'. It was refused for a bookkeeping reason; it should never have been queued at all, because it is a court-entered order on a route where the participant files nothing.",
+      "honestDeliverable": "a guidance treatment telling the participant that sealing is automatic and court-initiated, what the three timing triggers are, that unpaid victim restitution is the one thing that stops it, and how to check whether it happened -- not a packet.",
+      "promotedToManifest": false,
+      "grantHeld": false
+    }
+  },
+  "manifestEntriesAdded": {
+    "count": 15,
+    "sourceIds": [
+      "ri-dc-33-motion-to-expunge-or-seal-and-affidavit-rev-2025-02",
+      "ri-superior-55-motion-and-affidavit-to-expunge-or-seal-record-felony-rev-2025-02",
+      "ca-cr-430-petition-for-dismissal-incarcerated-individual-hand-crew-2024-11",
+      "ca-cr-430-info-information-on-filing-a-petition-to-dismiss-2024-11",
+      "ca-cr-431-court-cover-letter-and-agency-certification-2024-11",
+      "md-cc-dc-cr-072b-petition-for-expungement-conviction-or-pardon",
+      "md-cc-dc-cr-072c-petition-for-expungement-early",
+      "md-cc-dc-cr-072d-petition-for-expungement-cannabis",
+      "mt-mmrta-form-a-petition-currently-serving",
+      "mt-mmrta-form-b-petition-sentence-completed",
+      "mt-af-22-0129-order-adopting-the-mmrta-temporary-rules",
+      "mt-doj-dci-expungement-removal-request-form-2023-updated",
+      "mi-mc227-application-to-set-aside-convictions",
+      "me-cr-308-order-on-motion-to-seal-trafficking-victim",
+      "wv-sca-c907-petition-for-expungement-of-felony-violations-2026-04"
+    ],
+    "rule": "An entry was added only where the exact binary URL is on an allowed host, the index confirmed the form number at that address, AND this lane holds an unreleased grant for the obligation it names. Twelve further addresses are established below that standard on one leg or another and are recorded as findings for the lane that holds them.",
+    "familiesReleasedIfTheseAcquire": [
+      "ri_decriminalized-set",
+      "ri_deferred_sentence-set",
+      "ri_first_offender_misdemeanor-set",
+      "ri_multiple_misdemeanors-set",
+      "ri_first_offender_felony-set",
+      "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b (3 of its 4 forms)"
+    ],
+    "entries": [
+      {
+        "sourceId": "ri-dc-33-motion-to-expunge-or-seal-and-affidavit-rev-2025-02",
+        "jurisdiction": "RI",
+        "formNumber": "DC-33",
+        "officialTitle": "Motion to Expunge or Seal Record and Affidavit in Support (District Court)",
+        "issuingAuthority": "Rhode Island Judiciary, District Court",
+        "officialUrl": "https://www.courts.ri.gov/Courts/districtcourt/Documents/Motion%20to%20Expunge%20or%20Seal%20and%20Affidavit.pdf",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "www.courts.ri.gov",
+        "commitBody": false,
+        "edition": "revised February 2025, printed on the document and returned by the index",
+        "editionTheFamilyNames": "the family names no edition; it names the label DC-33-ORDER",
+        "oneBinaryTwoLabels": "The census carries DC-33-ORDER and DC-33-AFFIDAVIT as two obligations. The publisher issues ONE document: filing instructions, the motion, the affidavit in support (Parts One to Three) and the order, under the single number DC-33. Both labels resolve here. Only the four DC-33-ORDER obligations are listed below, because DC-33-AFFIDAVIT is granted to a lane that has already released it.",
+        "statute": "R.I. Gen. Laws 12-1.3 (expungement) and 12-1-12 (sealing of records of non-conviction)",
+        "obligationKeys": [
+          "ri_decriminalized-set::official-form:DC-33-ORDER",
+          "ri_deferred_sentence-set::official-form:DC-33-ORDER",
+          "ri_first_offender_misdemeanor-set::official-form:DC-33-ORDER",
+          "ri_multiple_misdemeanors-set::official-form:DC-33-ORDER"
+        ],
+        "corroboration": {
+          "committedFiles": 1,
+          "indexConfirmedFormNumberAtThisUrl": "DC-33 (revised February 2025) District Court",
+          "note": "One committed file carries this URL, which is below the 2-file evidence-sweep bar on its own. The index confirmation of the printed form number at this exact address is what carries it, not the file count."
+        },
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        },
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
+      },
+      {
+        "sourceId": "ri-superior-55-motion-and-affidavit-to-expunge-or-seal-record-felony-rev-2025-02",
+        "jurisdiction": "RI",
+        "formNumber": "Superior-55",
+        "officialTitle": "Motion and Affidavit to Expunge or Seal Record - Felony (Superior Court)",
+        "issuingAuthority": "Rhode Island Judiciary, Superior Court",
+        "officialUrl": "https://www.courts.ri.gov/Forms/Motion%20and%20Affidavit%20to%20Expunge%20or%20Seal%20Record%20-%20Felony.pdf",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "www.courts.ri.gov",
+        "commitBody": false,
+        "edition": "revised February 2025, printed on the document and returned by the index",
+        "editionTheFamilyNames": "the family names no edition; it names the label Superior-55-ORDER",
+        "oneBinaryTwoLabels": "As with DC-33, the Superior Court issues one document carrying instructions, motion, affidavit (Parts One to Four) and order under the single number Superior-55. The family's Superior-55-ORDER label resolves here.",
+        "statute": "R.I. Gen. Laws 12-1.3-2 (first offender felony expungement)",
+        "obligationKeys": [
+          "ri_first_offender_felony-set::official-form:Superior-55-ORDER"
+        ],
+        "corroboration": {
+          "committedFiles": 1,
+          "indexConfirmedFormNumberAtThisUrl": "Superior-55 (revised February 2025) Superior Court",
+          "note": "Same basis as DC-33."
+        },
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        },
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
+      },
+      {
+        "sourceId": "ca-cr-430-petition-for-dismissal-incarcerated-individual-hand-crew-2024-11",
+        "jurisdiction": "CA",
+        "formNumber": "CR-430",
+        "officialTitle": "Petition for Dismissal - Incarcerated Individual Hand Crew or Institutional Firehouse Participant",
+        "issuingAuthority": "Judicial Council of California",
+        "officialUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr430.pdf",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "courts.ca.gov",
+        "commitBody": false,
+        "edition": "the publisher's path segment dates the posting 2024-11; the revision printed on the face of the form was not returned by the index and is not asserted here",
+        "statute": "Cal. Penal Code 1203.4b",
+        "obligationKeys": [
+          "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-430"
+        ],
+        "corroboration": {
+          "committedFiles": 0,
+          "indexConfirmedFormNumberAtThisUrl": "CR-430 Petition for Dismissal-Incarcerated Individual Hand Crew",
+          "note": "No committed file carries this URL. The index returned the form number and title from the document at this exact address."
+        },
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        },
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
+      },
+      {
+        "sourceId": "ca-cr-430-info-information-on-filing-a-petition-to-dismiss-2024-11",
+        "jurisdiction": "CA",
+        "formNumber": "CR-430-INFO",
+        "officialTitle": "Information on Filing a Petition for Dismissal - Incarcerated Individual Hand Crew or Institutional Firehouse Participant",
+        "issuingAuthority": "Judicial Council of California",
+        "officialUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr430info.pdf",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "courts.ca.gov",
+        "commitBody": false,
+        "edition": "posting path 2024-11; face revision not returned by the index and not asserted",
+        "statute": "Cal. Penal Code 1203.4b",
+        "obligationKeys": [
+          "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-430-INFO"
+        ],
+        "corroboration": {
+          "committedFiles": 0,
+          "indexConfirmedFormNumberAtThisUrl": "CR-430-INFO Information on Filing a Petition to Dismiss",
+          "note": "This is an instruction sheet, not a fillable petition. It is named by the family and is acquired as itself, never as a substitute for CR-430."
+        },
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        },
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
+      },
+      {
+        "sourceId": "ca-cr-431-court-cover-letter-and-agency-certification-2024-11",
+        "jurisdiction": "CA",
+        "formNumber": "CR-431",
+        "officialTitle": "Court Cover Letter and Agency Certification - Incarcerated Individual Hand Crew or Institutional Firehouse Participant",
+        "issuingAuthority": "Judicial Council of California",
+        "officialUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr431.pdf",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "courts.ca.gov",
+        "commitBody": false,
+        "edition": "posting path 2024-11; the index separately describes CR-431 as last updated January 1, 2024. The two do not agree and neither is asserted as the face revision.",
+        "statute": "Cal. Penal Code 1203.4b",
+        "obligationKeys": [
+          "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-431"
+        ],
+        "corroboration": {
+          "committedFiles": 0,
+          "indexConfirmedFormNumberAtThisUrl": "CR-431 - California Courts",
+          "note": "A copy of this form is also published by www.formsworkflow.com, which the host policy explicitly refuses. That copy is named here so a reviewer sees it was considered and refused, and it is not the address recorded."
+        },
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        },
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
+      },
+      {
+        "sourceId": "md-cc-dc-cr-072b-petition-for-expungement-conviction-or-pardon",
+        "jurisdiction": "MD",
+        "formNumber": "CC-DC-CR-072B",
+        "officialTitle": "Petition for Expungement of Records (conviction or pardon)",
+        "issuingAuthority": "Maryland Judiciary, District Court and Circuit Court (joint form)",
+        "officialUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "www.courts.state.md.us",
+        "commitBody": false,
+        "edition": "revised 10/01/2025 per the index; the families name no edition",
+        "obligationKeys": [
+          "md_10110_conviction-set::official-form:CC-DC-CR-072B",
+          "md_pardon_expungement-set::official-form:CC-DC-CR-072B"
+        ],
+        "pathShape": "The publisher's own path repeats the filename segment (.../ccdccr072B.pdf/ccdccr072B.pdf). That is how it is published and it is recorded verbatim; ACQ separately noted that a shortened variant is unconfirmed for this form number, so the short path is NOT guessed here.",
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        }
+      },
+      {
+        "sourceId": "md-cc-dc-cr-072c-petition-for-expungement-early",
+        "jurisdiction": "MD",
+        "formNumber": "CC-DC-CR-072C",
+        "officialTitle": "Petition for Expungement of Records (early, on good cause)",
+        "issuingAuthority": "Maryland Judiciary, District Court and Circuit Court (joint form)",
+        "officialUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072c.pdf",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "www.courts.state.md.us",
+        "commitBody": false,
+        "edition": "not printed in anything the index returned; not asserted",
+        "obligationKeys": [
+          "md_10105_early-set::official-form:CC-DC-CR-072C"
+        ],
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        }
+      },
+      {
+        "sourceId": "md-cc-dc-cr-072d-petition-for-expungement-cannabis",
+        "jurisdiction": "MD",
+        "formNumber": "CC-DC-CR-072D",
+        "officialTitle": "Petition for Expungement of Records (cannabis)",
+        "issuingAuthority": "Maryland Judiciary, District Court and Circuit Court (joint form)",
+        "officialUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072d.pdf",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "www.courts.state.md.us",
+        "commitBody": false,
+        "edition": "not printed in anything the index returned; not asserted",
+        "obligationKeys": [
+          "md_cannabis_petition-set::official-form:CC-DC-CR-072D"
+        ],
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        }
+      },
+      {
+        "sourceId": "mt-mmrta-form-a-petition-currently-serving",
+        "jurisdiction": "MT",
+        "formNumber": "MT-FORM-A",
+        "officialTitle": "MMRTA Form A — Petition for Expungement, Resentencing or Redesignation (currently serving a sentence)",
+        "issuingAuthority": "Montana Office of the Court Administrator",
+        "officialUrl": "https://courts.mt.gov/external/forms/mmrta/form-a.docx",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "courts.mt.gov",
+        "commitBody": false,
+        "format": "DOCX, not PDF. The acquisition script reads the magic bytes rather than the header, writes a non-PDF as .bin and records observedStructuralClass not_a_pdf, so this acquires honestly. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+        "edition": "Rev. 12/21 appears on an off-allowlist county copy; not confirmed on the official host and not asserted",
+        "obligationKeys": [
+          "mt_mmrta_serving-set::official-form:MT-FORM-A"
+        ],
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        }
+      },
+      {
+        "sourceId": "mt-mmrta-form-b-petition-sentence-completed",
+        "jurisdiction": "MT",
+        "formNumber": "MT-FORM-B",
+        "officialTitle": "MMRTA Form B — Petition for Expungement, Resentencing or Redesignation (sentence completed)",
+        "issuingAuthority": "Montana Office of the Court Administrator",
+        "officialUrl": "https://courts.mt.gov/external/forms/mmrta/form-b.docx",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "courts.mt.gov",
+        "commitBody": false,
+        "format": "DOCX, not PDF — same treatment as Form A.",
+        "obligationKeys": [
+          "mt_mmrta_completed-set::official-form:MT-FORM-B"
+        ],
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        }
+      },
+      {
+        "sourceId": "mt-af-22-0129-order-adopting-the-mmrta-temporary-rules",
+        "jurisdiction": "MT",
+        "formNumber": "MT-OCA-MMRTA",
+        "officialTitle": "Montana Supreme Court order AF 22-0129 adopting the Temporary Rules for Expungement, Resentencing, or Redesignation of a Conviction under the MMRTA",
+        "issuingAuthority": "Montana Supreme Court",
+        "officialUrl": "https://courts.mt.gov/external/forms/mmrta/af22-0129order.pdf",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "courts.mt.gov",
+        "commitBody": false,
+        "edition": "dated 2022-03-15",
+        "thisLabelIsNotAForm": "MT-OCA-MMRTA is the authority that prescribes the two MMRTA forms, not a form itself. An overlay cannot be built on rule text; this is the source a composed pleading cites, and acquiring it settles what that pleading must say.",
+        "obligationKeys": [
+          "mt_mmrta_serving-set::official-form:MT-OCA-MMRTA",
+          "mt_mmrta_completed-set::official-form:MT-OCA-MMRTA"
+        ],
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        }
+      },
+      {
+        "sourceId": "mt-doj-dci-expungement-removal-request-form-2023-updated",
+        "jurisdiction": "MT",
+        "formNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "officialTitle": "Expungement/Removal Request Form (2023 Updated)",
+        "issuingAuthority": "Montana Department of Justice, Division of Criminal Investigation",
+        "officialUrl": "https://dojmt.gov/wp-content/uploads/2023-Updated-ExpungementRemovalRequestForm.pdf",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "dojmt.gov",
+        "commitBody": false,
+        "editionFound": "2023 Updated, published as a PDF",
+        "editionTheFamiliesName": "an unversioned .DOCX",
+        "bothRecordedNeitherSubstituted": "The families name a .DOCX from the judiciary. The issuing authority is not the judiciary at all — it is the Department of Justice — and the current edition it publishes is a PDF. Both facts are recorded; neither is substituted for the other, and the acquired bytes settle which document this is.",
+        "whatThisDocumentActuallyIs": "A post-order agency filing: the participant sends it to DOJ together with a copy of the signed court order. It is not the court petition. A family blocked on this label and needing a petition is blocked on the wrong document, and acquiring this will show that rather than hide it.",
+        "obligationKeys": [
+          "mt_deferred_dismissal-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "mt_misdemeanor_expungement-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "mt_mmrta_serving-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "mt_mmrta_completed-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX"
+        ],
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        }
+      },
+      {
+        "sourceId": "mi-mc227-application-to-set-aside-convictions",
+        "jurisdiction": "MI",
+        "formNumber": "MC 227",
+        "officialTitle": "Application to Set Aside Conviction(s)",
+        "issuingAuthority": "Michigan State Court Administrative Office (SCAO)",
+        "officialUrl": "https://www.courts.michigan.gov/4a4951/siteassets/forms/scao-approved/mc227.pdf",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "www.courts.michigan.gov",
+        "commitBody": false,
+        "supersedesSourceId": "mc227",
+        "whyItSupersedes": "The queued entry `mc227` addressed the SCAO forms index page, not the form, and the hosted fetch failed there. This is the direct binary. It replaces that entry rather than joining it: a second entry would leave the broken address live and would trip the one-source-id-once rule.",
+        "editionAmbiguity": "Three editions circulate — (1/22) on a municipal copy, (3/25) on an ICLE copy. Neither host is allowlisted and neither edition is asserted. SCAO publishes an Explanation of Changes for MC 227 at https://www.courts.michigan.gov/4931c3/siteassets/forms/scao-approved/recent-revisions/eoc_mc227.pdf, which is where the current revision can be read once the binary is in hand.",
+        "obligationKeys": [
+          "mi_setaside_application-set::MC 227",
+          "mi_setaside_application-set::official-form:MC 227"
+        ],
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        }
+      },
+      {
+        "sourceId": "me-cr-308-order-on-motion-to-seal-trafficking-victim",
+        "jurisdiction": "ME",
+        "formNumber": "CR-308",
+        "officialTitle": "Order on Motion to Seal Conviction of Criminal History for Victims of Sex Trafficking or Sexual Exploitation",
+        "issuingAuthority": "Maine Judicial Branch",
+        "officialUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-308",
+        "urlKind": "OFFICIAL_DOWNLOAD_ENDPOINT",
+        "expectedSha256": null,
+        "host": "mjbportal.courts.maine.gov",
+        "commitBody": false,
+        "edition": "effective 07/29/2026 per the publisher; the family names none",
+        "addressShape": "A query-parameter endpoint keyed by form number, not a static filename. It returns the binary, but its address carries no extension and no edition, so the acquired bytes are the only edition evidence.",
+        "theRealFinding": "CR-308 is the ORDER the court signs. A participant who must FILE something needs the motion, which is a different number; committed evidence already carries the sibling endpoint at .../DownloadForm?strFormNumber=CR-307. Acquiring CR-308 does not by itself complete this family.",
+        "obligationKeys": [
+          "me-seal-survivor-set::official-form:CR-308"
+        ],
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        }
+      },
+      {
+        "sourceId": "wv-sca-c907-petition-for-expungement-of-felony-violations-2026-04",
+        "jurisdiction": "WV",
+        "formNumber": "SCA-C907",
+        "officialTitle": "Petition for Expungement of Felony Violations",
+        "issuingAuthority": "Supreme Court of Appeals of West Virginia",
+        "officialUrl": "https://www.courtswv.gov/sites/default/pubfilesmnt/2026-04/SCA-C907.pdf",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "www.courtswv.gov",
+        "commitBody": false,
+        "statute": "W. Va. Code 61-11-26a",
+        "edition": "the publisher's own path dates this posting 2026-04",
+        "theOtherEdition": "A 2023-06 posting of the same number exists at https://www.courtswv.gov/sites/default/pubfilesmnt/2023-06/SCA-C907-PetitionforExpungmentFelony.pdf. Both are recorded and neither is substituted; 2026-04 is the later by the publisher's path and is queued first. If it 404s, 2023-06 is the fallback and is not a different document decision.",
+        "obligationKeys": [
+          "wv_acc_treatment_job_readiness-set::official-form:SCA-C907",
+          "wv_conv_nonviolent_felony-set::official-form:SCA-C907"
+        ],
+        "exactBinaryUrlEstablished": true,
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+          "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        }
+      }
+    ],
+    "whyTheEntriesAreHere": "The manifest is regenerated by generate-source-conveyor.mjs on every chain run, so an entry written into the manifest by hand is erased on the next run -- which is exactly what happened to these five. The entry bodies live here, in the lane return, and the generator reads them from here. The return is the record; the manifest is a function of it.",
+    "promotedByCaptain": {
+      "count": 10,
+      "why": "ACQ established these ten addresses and refused to write them, because every grant that names the obligation had already been released to another lane and reopening one is --reissue, which ACQ correctly said was not its own act to perform. Twenty grants answered ALREADY_RELEASED for that reason.",
+      "whyNoReissueWasMinted": "A grant governs who may write a family's artifacts. Queuing a fetch job writes no family artifact, creates no binding, and promotes nothing: the acquisition manifest is a list of addresses to try. Minting twenty grants on lanes that are not running, purely to license a queue entry, would have produced a ledger full of claims nobody exercises. Captain owns central state and promotes these as Captain.",
+      "whatThisDoesNotEstablish": "Nothing about reachability, content type or the exact SHA-256 — none of these addresses was exercised anywhere. It does not bind any source to any family, does not release any family from SOURCE_BLOCKED, and does not open any route. The hosted runner settles the bytes; PROMO settles custody.",
+      "promotedAt": "2026-09-02"
+    }
+  },
+  "promotionCandidatesPromoted": {
+    "count": 0,
+    "why": "All four candidates in this cohort's jurisdictions were checked and none is a form the families name. Two are Wisconsin statutes mis-inferred as Indiana, one is Indiana guidance rather than a form, one is MC 235 where the family needs MC 227."
+  },
+  "notPublishedAsAPdfAtAll": [
+    {
+      "jurisdiction": "IN",
+      "forms": [
+        "CCA conviction expungement petition",
+        "CCA conviction expungement order"
+      ],
+      "disposition": "COMPOSE_FROM_AUTHORITY from IC 35-38-9"
+    },
+    {
+      "jurisdiction": "MT",
+      "forms": [
+        "MT-FORM-A",
+        "MT-FORM-B"
+      ],
+      "disposition": "published as DOCX by the Office of the Court Administrator; not an official_pdf_fill target"
+    },
+    {
+      "jurisdiction": "MT",
+      "forms": [
+        "MT-OCA-MMRTA"
+      ],
+      "disposition": "not a form -- it is Supreme Court order AF 22-0129 and its temporary rules; COMPOSE_FROM_AUTHORITY"
+    },
+    {
+      "jurisdiction": "WA",
+      "forms": [
+        "the named form for RCW 13.50.260"
+      ],
+      "disposition": "NON_PACKET_TREATMENT confirmed; the participant files nothing"
+    }
+  ],
+  "publishedOnlyOnARefusedHost": {
+    "count": 0,
+    "finding": "No form in this cohort is reachable ONLY from a host the policy refuses. Every one is either on an allowed government host or is not published as a binary at all.",
+    "refusedCopiesSeenAndNotPromoted": [
+      "www.uslegalforms.com and www.pdffiller.com -- both publish the Hawaii expungement application and are the only sources binding it to the number HCJDC-159B. Explicitly refused hosts. This is why HI is recorded as not established.",
+      "www.formsworkflow.com -- publishes California CR-431. Explicitly refused. The Judicial Council address is recorded instead.",
+      "www.dochub.com, www.templateroller.com, ezel.ai -- Maryland 072-series copies.",
+      "forms.justia.com -- Rhode Island, Delaware, California and West Virginia copies.",
+      "d2l2jhoszs7d12.cloudfront.net -- a bulk mirror of the Rhode Island Judiciary forms collection. A CDN bucket, not a government name, and not on the exact-host list; refused for the same reason othertenant.blob.core.windows.net is.",
+      "montanacourts.org -- an .org mirror of courts.mt.gov/forms/mmrta.",
+      "rhodeislandcourts.us, mainecourtrecords.us, montanacourtrecords.us, hawaiipublicrecords.us -- open-registration .us lookalikes carrying state-court names. These are exactly the shape C13 used to walk a poisoned entry through the gate, and the policy refuses them."
+    ]
+  },
+  "editionsFoundVersusEditionsNamed": [
+    {
+      "form": "RI DC-33",
+      "named": "no edition",
+      "found": "revised February 2025"
+    },
+    {
+      "form": "RI Superior-55",
+      "named": "no edition",
+      "found": "revised February 2025"
+    },
+    {
+      "form": "MD CC-DC-CR-072B",
+      "named": "no edition",
+      "found": "revised 10/01/2025"
+    },
+    {
+      "form": "ME CR-308",
+      "named": "no edition",
+      "found": "effective 07/29/2026"
+    },
+    {
+      "form": "MT EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "named": "a .DOCX, unversioned",
+      "found": "a PDF, '2023 Updated', and published by the Department of Justice rather than the judiciary"
+    },
+    {
+      "form": "MT MMRTA Form A",
+      "named": "no edition",
+      "found": "Rev. 12/21, but only on an off-allowlist county copy, so not asserted"
+    },
+    {
+      "form": "MI MC 227",
+      "named": "no edition",
+      "found": "(1/22) and (3/25) both in circulation, neither on an allowed host; not asserted"
+    },
+    {
+      "form": "WV SCA-C907",
+      "named": "no edition",
+      "found": "TWO on the official host -- 2026-04 and 2023-06. Both recorded, neither substituted for the other."
+    },
+    {
+      "form": "CA CR-430 / CR-430-INFO / CR-431",
+      "named": "no edition",
+      "found": "posting path 2024-11; CR-431 separately described as updated 2024-01-01. The disagreement is recorded and no face revision is asserted."
+    }
+  ],
+  "whatThisDoesNotEstablish": [
+    "That any URL here resolves. None was exercised; the hosted fetcher settles that.",
+    "That any document here is legally correct, current, or the right instrument for the family that names it. This lane establishes addresses and identities, not treatments.",
+    "Any packet family's readiness. No family was claimed, no build grant was minted, and no family status changed.",
+    "Any commercial authority. No route was opened and no fulfillment record was created."
+  ],
+  "bodiesCommitted": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

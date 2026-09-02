@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ga-misd-j4-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "No statewide Georgia judiciary form exists for this filing, and the MASTER_QUEUE row binds no official form: officialFormFamily NONE, forms [], boundSources [], sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT.",
+      "consequence": "The packet is a controlled custom pleading composed from the pinned Georgia legal review's Part 3 specification, the adopted legal-design intake record and the packet-set manifest — caption in the existing criminal case styled State of Georgia v. Defendant, the specified pleading title, the specified citations and nothing else, the proposed order that names GCIC, the OTN and the arrest date, and the certificate of service naming the specified recipients. No form was substituted and none was invented."
+    },
+    {
+      "finding": "The court level is data: a state-law offense may have been tried in a State, Superior, Magistrate, Probate or Municipal court, and the engine must not default to Superior Court.",
+      "consequence": "The caption's court-and-county blank asks for the court's name AND level, its printed label lists the five levels, and nothing defaults to Superior Court."
+    },
+    {
+      "finding": "Fee, fee waiver and e-filing for a filing in an existing Georgia criminal case are unresolved and county-specific in the controlling review (a release blocker there), and no held source states a figure.",
+      "consequence": "The packet quotes no figure, states the unresolved status in terms, and delegates both questions to the clerk of the named court by name. The unresolved questions travel to counsel review in approval-request.json."
+    },
+    {
+      "finding": "Georgia terminology discipline is consumer-harm-grade: the statute says restriction and sealing, neither remedy destroys the record, § 35-3-37(u) lets a restriction still be used in the same manner as a first offender discharge under § 42-8-63.1, and nothing gives a person the right to deny a restricted record.",
+      "consequence": "The composed pages never use the removal vocabulary (asserted over the output bytes on every build), the instructions state the § 35-3-37(u) qualification in terms, and no page tells the participant they may say the record does not exist."
+    },
+    {
+      "finding": "The motion combines restriction under § 35-3-37(j)(4)(A) with clerk sealing under § 35-3-37(m) in one instrument, as the adopted legal-design record and the leading Georgia pro se practice direct, while (m)(1) on its face reads sequentially.",
+      "consequence": "The combined instrument is rendered as the record directs, and the sequencing question travels to counsel review as an express ratification request in approval-request.json."
+    }
+  ]
+}

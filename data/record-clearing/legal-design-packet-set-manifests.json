@@ -4653,14 +4653,41 @@
           "componentId": "ca-diversion-seal-primary-filing-2",
           "role": "primary_filing",
           "requirement": "conditional",
-          "conditionDescription": "Only in counties where LegalEase has collected and approved the current local petition and order set. No county qualifies yet.",
+          "conditionDescription": "San Diego County only. SDSC form CRM-307 is a local form of the Superior Court of California, County of San Diego. It is used when the diversion or deferred entry of judgment was handled in San Diego County, and it is not used in any other county.",
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "SDSC-CRM-307",
           "officialSourceUrl": "https://www.sdcourt.ca.gov/sites/default/files/sdcourt/generalinformation/forms/criminalforms/crm307.pdf",
-          "order": 2
+          "order": 2,
+          "countyScope": "SAN_DIEGO_ONLY",
+          "statutorySection": "Cal. Penal Code § 851.90",
+          "doNotUseOutsideCountyScope": "Do not file CRM-307 in any court other than the Superior Court of California, County of San Diego. A county's local form has no effect in another county's court."
+        },
+        {
+          "componentId": "ca-diversion-seal-primary-filing-4",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Every county other than San Diego. Used when the diversion or deferred entry of judgment was handled outside San Diego County. Where LegalEase has collected and approved that county's own local petition and order set, that set is used; where it has not, and where a participant-created pleading is authorised for the route, the participant's own pleading is used with court-specific guidance. No county's local set is approved yet.",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "countyScope": "ALL_COUNTIES_OTHER_THAN_SAN_DIEGO",
+          "statutorySection": "Cal. Penal Code § 851.90",
+          "order": 4
         }
       ],
       "participantActionRequired": [
+        {
+          "kind": "confirm_answer",
+          "description": "Confirm which county handled the diversion or deferred entry of judgment. SDSC form CRM-307 is a San Diego Superior Court local form and is used only there; every other county uses its own local petition and order set, or a pleading you prepare where that is authorised. Ask the clerk or self-help centre of the superior court that handled the case.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Confirm which statute your sealing is brought under. This packet set is Penal Code § 851.90, sealing after drug diversion or deferred entry of judgment. Penal Code § 851.91, sealing an arrest that did not result in a conviction, is a different statute with its own statewide Judicial Council forms CR-409 and CR-410, and neither route's forms or answers carry across to the other.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
         {
           "kind": "obtain_document",
           "description": "Obtain Proof of programme completion. Ask the court or the programme provider for documentation that you completed the programme. LegalEase does not obtain, receive or inspect it.",
@@ -4726,6 +4753,8 @@
         }
       ],
       "requiredBeforeFiling": [
+        "Confirm which county handled the diversion or deferred entry of judgment. SDSC form CRM-307 is a San Diego Superior Court local form and is used only there; every other county uses its own local petition and order set, or a pleading you prepare where that is authorised. Ask the clerk or self-help centre of the superior court that handled the case.",
+        "Confirm which statute your sealing is brought under. This packet set is Penal Code § 851.90, sealing after drug diversion or deferred entry of judgment. Penal Code § 851.91, sealing an arrest that did not result in a conviction, is a different statute with its own statewide Judicial Council forms CR-409 and CR-410, and neither route's forms or answers carry across to the other.",
         "Obtain Proof of programme completion. Ask the court or the programme provider for documentation that you completed the programme. LegalEase does not obtain, receive or inspect it.",
         "Check your answer to \"Did you successfully complete the programme?\" against Proof of programme completion, and correct the packet if they disagree.",
         "Obtain The county's own petition and order forms. Ask the county clerk or self-help centre which local form applies to a § 851.90 sealing. There is no statewide Judicial Council form for this route.",
@@ -4996,6 +5025,45 @@
           "officialFormId": "JDF-417-ORDER",
           "officialSourceUrl": null,
           "order": 2
+        },
+        {
+          "componentId": "co_petition_seal_arrest-jdf-419-3",
+          "role": "required_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": null,
+          "requiredOfficialFormId": "JDF-419",
+          "sourceStatus": "absent_from_verified_corpus",
+          "sourceStatusBasis": "The official JDF-416 filing guide lists JDF-419 among the documents that must be filed. The verified corpus contains JDF-417 and JDF-418 only.",
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "co_petition_seal_arrest-jdf-435-4",
+          "role": "required_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": null,
+          "requiredOfficialFormId": "JDF-435",
+          "sourceStatus": "absent_from_verified_corpus",
+          "sourceStatusBasis": "The official JDF-416 filing guide lists JDF-435 among the documents that must be filed. The verified corpus contains JDF-417 and JDF-418 only.",
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "co_petition_seal_arrest-jdf-205-206-fee-waiver-5",
+          "role": "conditional_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Filed only where the participant seeks a filing-fee waiver.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": null,
+          "requiredOfficialFormId": "JDF-205/JDF-206",
+          "sourceStatus": "absent_from_verified_corpus",
+          "sourceStatusBasis": "The JDF-416 guide names the conditional JDF-205/JDF-206 fee-waiver process. Neither form is in the verified corpus.",
+          "officialSourceUrl": null,
+          "order": 5
         }
       ],
       "participantActionRequired": [
@@ -5066,7 +5134,13 @@
         "The source review does not state a notarization requirement.",
         "The filing fee for this petition remains unresolved.",
         "The source review does not address a fee waiver for this petition."
-      ]
+      ],
+      "packetSetCompleteness": {
+        "state": "incomplete",
+        "basis": "The official JDF-416 filing guide requires JDF-417, JDF-418, JDF-419 and JDF-435, plus the conditional JDF-205/JDF-206 fee-waiver process. The verified corpus holds JDF-417 and JDF-418. Two required filings and the conditional fee-waiver pair have no source, so this set cannot produce a complete filing.",
+        "recordedBy": "Captain A, integrating the Lane G Colorado audit",
+        "recordedOn": "2026-08-29"
+      }
     },
     {
       "jurisdiction": "CO",
@@ -5347,6 +5421,32 @@
           "officialFormId": "JDF-615",
           "officialSourceUrl": null,
           "order": 2
+        },
+        {
+          "componentId": "co_motion_seal_conviction-notice-3",
+          "role": "required_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": null,
+          "requiredOfficialFormId": null,
+          "sourceStatus": "identity_unresolved",
+          "sourceStatusBasis": "The official JDF-611 guide requires a notice. Its exact form number is NOT established: the guide renders those digits as vector glyphs, and guessing a JDF number would be fabricating an official identity. Resolving it requires inspecting the guide as page images or obtaining a current official source that names it.",
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "co_motion_seal_conviction-second-order-4",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": null,
+          "requiredOfficialFormId": null,
+          "sourceStatus": "identity_unresolved",
+          "sourceStatusBasis": "The official JDF-611 guide requires a second order. Its exact form number is NOT established, for the same reason as the notice above, and is not inferred.",
+          "officialSourceUrl": null,
+          "order": 4
         }
       ],
       "participantActionRequired": [
@@ -5434,7 +5534,13 @@
         "The source review does not state a notarization requirement.",
         "The source review does not state a filing fee for this motion.",
         "The source review does not address a fee waiver."
-      ]
+      ],
+      "packetSetCompleteness": {
+        "state": "incomplete",
+        "basis": "The official JDF-611 guide requires a motion, an order, a notice and a second order. The verified corpus holds JDF-612 and JDF-615. The notice and the second order are absent AND their official form numbers are unresolved, so neither the documents nor their identities are established.",
+        "recordedBy": "Captain A, integrating the Lane G Colorado audit",
+        "recordedOn": "2026-08-29"
+      }
     },
     {
       "jurisdiction": "CO",

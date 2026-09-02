@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "rcap-ga-guidance-implementation",
+  "worklistGroupId": "rcap-ga-guidance-implementation",
+  "jurisdiction": "GA",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "committed repository records bound by exact SHA-256 at build time, with every relied-on statement re-read from the committed bytes as an anchor before composing",
+  "routeKeys": [
+    "obligation:track-pathway:GA:ga-rfo:retroactive-first-offender-treatment-under-42-8-66"
+  ],
+  "statutoryAuthority": [
+    "O.C.G.A. § 42-8-66",
+    "O.C.G.A. § 42-8-66(h)"
+  ],
+  "legalName": "Georgia retroactive First Offender treatment, O.C.G.A. § 42-8-66 — process guidance and participant factual record",
+  "allSourcesExact": true,
+  "formIdentityNote": "No committed record names an official participant form for this route, and no petition is composed here — the committed guidance specification records that no participant document is generated on this route as currently offered, and the committed route contract records that the § 42-8-66 petition family DOES NOT EXIST YET and that this guidance family must not be used to close that gate. This packet composes the participant's factual record and a process-guidance page, which is what the committed record describes.",
+  "committedRecords": [
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-specifications.json"
+      ],
+      "recordId": "legal-design-specifications:processGuidance#ga-rfo",
+      "pathInRepository": "data/record-clearing/legal-design-specifications.json",
+      "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+      "byteLength": 16829383,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed process-guidance specification for this route: that nothing is filed without the prosecuting attorney's advance consent, that no participant document is generated, that the statute prohibits a filing fee, that nothing is served, the required participant inputs, the self-help stop conditions and the named Georgia referral desks",
+      "anchorStatementsVerified": 16
+    },
+    {
+      "sourceIds": [
+        "committed-record:src/lib/legal-authority/routes/national-report-2026-08-28.json"
+      ],
+      "recordId": "route-contract:GA:retroactive-first-offender-treatment-under-42-8-66",
+      "pathInRepository": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+      "sha256": "918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b",
+      "byteLength": 37333,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed route contract: that written prosecutorial consent is a filing prerequisite rather than the relief, that absence is never satisfaction, that the statute imposes no filing fee, and that this route names its own petition family which the guidance family does not become",
+      "anchorStatementsVerified": 6
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      ],
+      "recordId": "route-obligation-census:GA-rfo",
+      "pathInRepository": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+      "byteLength": 2599752,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed route-obligation census: this route's exact key and its recorded destination, the prosecuting attorney first and then the convicting court",
+      "anchorStatementsVerified": 3
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [
+    "ga-rfo-participant-factual-record-1",
+    "ga-rfo-process-guidance-2"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that any record is eligible for the relief this family composes for",
+    "that any Georgia conviction is eligible for retroactive First Offender treatment",
+    "that any prosecuting attorney will give written consent — the committed record makes consent a precondition that must exist before filing, and this packet neither seeks it nor supplies it",
+    "that the § 42-8-66 PETITION family exists — the committed route contract records that it does not, and that this guidance family must not be used to close that gate"
+  ]
+}

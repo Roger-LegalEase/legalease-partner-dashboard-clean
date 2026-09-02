@@ -1,0 +1,2343 @@
+{
+  "schemaVersion": "rcap-nationwide-residual-execution/v1",
+  "generatedBy": "scripts/rcap-corpus/generate-nationwide-residual-execution.mjs",
+  "generatedOn": "2026-09-02",
+  "derivedFrom": {
+    "residualList": "data/rcap-all50/NATIONWIDE_RESIDUAL_ACQUISITION.json",
+    "residualListOutcome": "NATIONWIDE_CORPUS_RESIDUAL_HASHES_REQUIRED",
+    "evidenceRecords": [
+      "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "data/rcap-grade-a/official-source-registry.json",
+      "data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json",
+      "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+      "data/rcap-grade-a/fable-packet-factory/SOURCE_ATTACH_COHORT.json",
+      "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json",
+      "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+      "data/record-clearing/source-artifact-registry.json",
+      "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json"
+    ]
+  },
+  "question": "Of the 66 unrecovered Nationwide manifest paths, which actually block a live deliverable, and what is each of the rest?",
+  "answer": "Fifteen do. Thirteen are packet components of source-blocked families and two are the current authority a composed family is measured against. The other fifty-one are settled: four are already held at their exact hash, eleven are earlier printings whose current edition the repository already holds or has already fetched, twenty-four are background the deliverables do not use, and sixteen have no route at all. Colorado, the biggest block at twenty-two paths, contributes nothing to the blocking set: its one source-blocked family needs JDF 684, and JDF 684 is not among the twenty-two.",
+  "theEvidenceRule": {
+    "rule": "A jurisdiction's source-blocked family count is an upper bound, never a per-file dependency. Nothing here is classified from it.",
+    "whatCountsAsADependency": "A record that names the file itself -- its exact SHA-256 in a route's requiredSourceIds, or its exact path in the Nationwide archive in a binding record. Anything less is ORPHANED_FROM_LIVE_ROUTES, and the search that produced that answer is printed on the row.",
+    "whatWasSearched": [
+      "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+      "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+      "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+      "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+      "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+      "source-custody-reconciliation.json documentSources, all resolution tiers",
+      "official-source-registry.json by form number",
+      "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+      "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+    ]
+  },
+  "counts": {
+    "LIVE_PACKET_COMPONENT": 13,
+    "CURRENT_AUTHORITY_OR_INSTRUCTION": 2,
+    "SUPERSEDED_SOURCE": 11,
+    "REFERENCE_ONLY": 24,
+    "ORPHANED_FROM_LIVE_ROUTES": 16,
+    "ALREADY_HELD_OTHER_CUSTODY": 4
+  },
+  "countsAreOverPaths": "66 acquisition-task paths plus the 4 already-held paths, 70 rows in total. Two Wisconsin paths share one SHA-256.",
+  "acquisitionOutcome": {
+    "attempted": true,
+    "acquired": 0,
+    "why": "Every outbound host was refused at CONNECT with a 403 from this container's egress gateway, including https://example.com/, and the WebFetch tool returned EGRESS_BLOCKED for every judiciary and agency host tried. This is a blanket egress denial in this container, not a per-judiciary block, so no binary could be fetched, hashed or verified from here. Web search was reachable and was used only to fix official identity and current addresses.",
+    "hostsRefused": [
+      "prb.illinois.gov",
+      "www.iowacourts.gov",
+      "dps.iowa.gov",
+      "mjbportal.courts.maine.gov",
+      "gbi.georgia.gov",
+      "www.courts.mo.gov",
+      "www.kansasjudicialcouncil.org",
+      "www.kscourts.gov",
+      "www.kjc.ks.gov",
+      "example.com (control)"
+    ],
+    "whatWasEstablishedInstead": [
+      "Seven of the fifteen packet-critical files already have a hosted-runner acquisition receipt observing the SAME SHA-256 the restore manifest records, at HTTP 200. For those the recorded old hash IS the current official edition and no fetch is owed -- what remains is the reviewed custody commit the acquisition workflow reserves to a human.",
+      "The Kansas Judicial Council has migrated from kansasjudicialcouncil.org to www.kjc.ks.gov. The old host was refused by the acquisition lane as off-allowlist; the new one is a .gov host inside the allowlist. Four Kansas packet-critical files become fetchable on that basis alone once an exact binary URL is fixed.",
+      "Missouri publishes CR360 as a direct binary at https://www.courts.mo.gov/file.jsp?id=56341 off the expungement forms index at https://www.courts.mo.gov/page.jsp?id=191585, on the allowlisted courts.mo.gov host. CR370 has an analogous file.jsp id on the same host; fixing it is a DISC step and no address is guessed here."
+    ]
+  },
+  "packetCriticalUnresolved": [
+    {
+      "relativePath": "LegalEase Florida/2026_07-JAN-Criminal-Procedure-Rules-1-1-2026.pdf",
+      "sha256": "794119a4aa9e7f731941609922658963b5e1146c434ccf2fa03b2ecf46b7031c",
+      "jurisdiction": "FL",
+      "classification": "CURRENT_AUTHORITY_OR_INSTRUCTION",
+      "artifactId": "FL-RULE-3.989-FORMS",
+      "familyIds": [
+        "fl-expunction-set",
+        "fl-10yr-bridge-set",
+        "fl-sealing-set"
+      ],
+      "routes": [
+        "obligation:track-only:FL:fl-expunction",
+        "obligation:track-pathway:FL:fl-10yr-bridge:court-ordered-expunction-943-0585",
+        "obligation:track-pathway:FL:fl-sealing:court-ordered-sealing-943-059"
+      ],
+      "obligation": "official-form:FL-RULE-3.989-PETITION, official-form:FL-RULE-3.989-ORDER and official-form:FL-RULE-3.989-SWORN-STATEMENT -- the three rule-prescribed instruments the owner determined are COMPOSE_FROM_AUTHORITY",
+      "officialSourceIdentity": {
+        "officialTitle": "Florida Rules of Criminal Procedure, effective 1 January 2026 -- the publication carrying Fla. R. Crim. P. 3.989 (Affidavit, Petition and Order to Expunge or Seal)",
+        "issuingAuthority": "Supreme Court of Florida, as published in the Florida Bar rules volume",
+        "authority": "Fla. R. Crim. P. 3.989; ss 943.0585 and 943.059, Fla. Stat."
+      },
+      "currentOfficialUrl": null,
+      "acquisitionPath": "This is an EXTRACTION from a rules publication, not a search for a form: the registry's own externally verified note records that no separate fillable Rule 3.989 PDF exists. The rule text is addressable through the Supreme Court of Florida rules publication; the Nationwide copy is the only edition the repository records, and its Rule 3.989 text is presently an EMBEDDED_SECTION with artifactSha256 and heldPath both null.",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The document is itself dated 1 January 2026 and is the current rules edition; the owner determination of 2026-09-02 rests on it. Nothing later is recorded anywhere in the repository."
+    },
+    {
+      "relativePath": "LegalEase Georgia/reference-only/GBI-Time-Expired-Restrictions__georgia-law-regarding-time-expired-restrictions__source-2013-10-08.pdf",
+      "sha256": "0e2f11700b8793c13f848b4837f9a5c56a7e15429f04aa3d41467835bf913f4d",
+      "jurisdiction": "GA",
+      "classification": "CURRENT_AUTHORITY_OR_INSTRUCTION",
+      "artifactId": "GA-GBI-TIME-EXPIRED-RESTRICTIONS",
+      "familyIds": [
+        "ga-time-expired-set",
+        "rcap-ga-guidance-implementation"
+      ],
+      "routes": [
+        "obligation:track-only:GA:ga-time-expired"
+      ],
+      "obligation": "source-sha256:0e2f11700b8793c13f848b4837f9a5c56a7e15429f04aa3d41467835bf913f4d -- named directly in the requiredSourceIds of obligation:track-only:GA:ga-time-expired",
+      "officialSourceIdentity": {
+        "officialTitle": "Georgia law regarding time-expired restriction notifications",
+        "issuingAuthority": "Georgia Bureau of Investigation, Georgia Crime Information Center",
+        "authority": "O.C.G.A. s 35-3-37(h)(1)(A)(ii); O.C.G.A. s 35-3-39.1"
+      },
+      "currentOfficialUrl": "https://gbi.georgia.gov/document/document/georgia-law-regarding-time-expired-restriction-notifications/download",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on the allowlisted gbi.georgia.gov host, recorded in the route's own requiredSourceIds.",
+      "recordedHashIsCurrentEdition": null,
+      "editionEvidence": "Unverified. The recorded capture is dated 2013-10-08 and the GBI publishes this document at a stable address, so the current edition should be re-hashed at acquisition and compared rather than assumed identical."
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+      "sha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+      "jurisdiction": "IL",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "IL-PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-ACKNOWLEDGEMENT",
+      "familyIds": [
+        "il-prb-cert-set"
+      ],
+      "routes": [
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-certificate-application",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-court-petition",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-military-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-nonmilitary-expungement-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-sealing-branch"
+      ],
+      "obligation": "official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement -- a named component of the Illinois Prisoner Review Board certificate packet",
+      "officialSourceIdentity": {
+        "officialTitle": "Certificate of Expungement for Military Eligibility Acknowledgement (2024)",
+        "issuingAuthority": "Illinois Prisoner Review Board",
+        "authority": "730 ILCS 5/5-5.5-25 (certificate of sealing); 20 ILCS 2630/5.2 (military expungement)"
+      },
+      "currentOfficialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/military-expungement-docs/certificate-of-expugnement-for-military-eligibility-acknowledgement.pdf",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on prb.illinois.gov, already recorded in SOURCE_ACQUISITION_MANIFEST.json",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The hosted acquisition runner fetched this exact URL and observed the SAME SHA-256 the restore manifest records (expectedSha256 === lastAcquisition.sha256, HTTP 200). The recorded old hash is the current official edition; nothing about this form changed."
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Application__military-certificate-of-expungement-application__rev-2024-09-18.pdf",
+      "sha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+      "jurisdiction": "IL",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "IL-PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-APPLICATION",
+      "familyIds": [
+        "il-prb-cert-set"
+      ],
+      "routes": [
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-certificate-application",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-court-petition",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-military-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-nonmilitary-expungement-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-sealing-branch"
+      ],
+      "obligation": "official-form:PRB Certificate of Expungement for Military Application -- a named component of the Illinois Prisoner Review Board certificate packet",
+      "officialSourceIdentity": {
+        "officialTitle": "Certificate of Expungement for Military Application (rev. 2024-09-18)",
+        "issuingAuthority": "Illinois Prisoner Review Board",
+        "authority": "730 ILCS 5/5-5.5-25 (certificate of sealing); 20 ILCS 2630/5.2 (military expungement)"
+      },
+      "currentOfficialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/military-expungement-docs/Certificate%20of%20Expungement%20for%20Military%20application%20v9.18.24.pdf",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on prb.illinois.gov, already recorded in SOURCE_ACQUISITION_MANIFEST.json",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The hosted acquisition runner fetched this exact URL and observed the SAME SHA-256 the restore manifest records (expectedSha256 === lastAcquisition.sha256, HTTP 200). The recorded old hash is the current official edition; nothing about this form changed."
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+      "sha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+      "jurisdiction": "IL",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "IL-PRB-CERTIFICATE-OF-SEALING-ACKNOWLEDGEMENT",
+      "familyIds": [
+        "il-prb-cert-set"
+      ],
+      "routes": [
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-certificate-application",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-court-petition",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-military-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-nonmilitary-expungement-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-sealing-branch"
+      ],
+      "obligation": "official-form:PRB Certificate of Sealing Eligibility Acknowledgement -- a named component of the Illinois Prisoner Review Board certificate packet",
+      "officialSourceIdentity": {
+        "officialTitle": "Certificate of Sealing Eligibility Acknowledgement (2024)",
+        "issuingAuthority": "Illinois Prisoner Review Board",
+        "authority": "730 ILCS 5/5-5.5-25 (certificate of sealing); 20 ILCS 2630/5.2 (military expungement)"
+      },
+      "currentOfficialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/sealing-docs/certificate-of-sealing-eligibility-acknowledgement.pdf",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on prb.illinois.gov, already recorded in SOURCE_ACQUISITION_MANIFEST.json",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The hosted acquisition runner fetched this exact URL and observed the SAME SHA-256 the restore manifest records (expectedSha256 === lastAcquisition.sha256, HTTP 200). The recorded old hash is the current official edition; nothing about this form changed."
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Application__certificate-of-sealing-application__rev-2024-09-18.pdf",
+      "sha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+      "jurisdiction": "IL",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "IL-PRB-CERTIFICATE-OF-SEALING-APPLICATION",
+      "familyIds": [
+        "il-prb-cert-set"
+      ],
+      "routes": [
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-certificate-application",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-court-petition",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-military-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-nonmilitary-expungement-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-sealing-branch"
+      ],
+      "obligation": "official-form:PRB Certificate of Sealing Application -- a named component of the Illinois Prisoner Review Board certificate packet",
+      "officialSourceIdentity": {
+        "officialTitle": "Certificate of Sealing Application (rev. 2024-09-18)",
+        "issuingAuthority": "Illinois Prisoner Review Board",
+        "authority": "730 ILCS 5/5-5.5-25 (certificate of sealing); 20 ILCS 2630/5.2 (military expungement)"
+      },
+      "currentOfficialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/sealing-docs/Certificate%20of%20Sealing%20application%209.18.24.pdf",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on prb.illinois.gov, already recorded in SOURCE_ACQUISITION_MANIFEST.json",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The hosted acquisition runner fetched this exact URL and observed the SAME SHA-256 the restore manifest records (expectedSha256 === lastAcquisition.sha256, HTTP 200). The recorded old hash is the current official edition; nothing about this form changed."
+    },
+    {
+      "relativePath": "LegalEase Iowa/forms/DCI-76-and-DCI-77__criminal-history-record-check-billing-and-request-forms-fillable__source-2026.pdf",
+      "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+      "jurisdiction": "IA",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "IA-DCI-76-AND-77",
+      "familyIds": [
+        "ia-dci77-set"
+      ],
+      "routes": [
+        "obligation:track-only:IA:ia-dci77"
+      ],
+      "obligation": "official-form:DCI-77 Criminal History Record Check Request Form and official-form:DCI-76 Criminal History Record Check Billing Form -- two named forms that resolve to one combined fillable document",
+      "officialSourceIdentity": {
+        "officialTitle": "DCI-76 Criminal History Record Check Billing Form and DCI-77 Criminal History Record Check Request Form (single fillable document)",
+        "issuingAuthority": "Iowa Department of Public Safety, Division of Criminal Investigation",
+        "authority": "Iowa Code ch. 692; Iowa Code s 901C.3"
+      },
+      "currentOfficialUrl": "https://dps.iowa.gov/media/152/download?inline",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on dps.iowa.gov, already recorded in SOURCE_ACQUISITION_MANIFEST.json",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The hosted runner fetched this URL at HTTP 200 and observed the SAME SHA-256 the restore manifest records."
+    },
+    {
+      "relativePath": "LegalEase Iowa/forms/IA-RULE-2.86-FORM-1__application-to-expunge-court-record-901c-2__rev-2022-01.pdf",
+      "sha256": "d3e68933c4ed878c72784c5b2b191281116f87d953fa6203aecb702584cb5053",
+      "jurisdiction": "IA",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "IA-RULE-2.86-FORM-1",
+      "familyIds": [
+        "ia-901c2-set"
+      ],
+      "routes": [
+        "obligation:track-pathway:IA:ia-901c2:nonconviction-901c2"
+      ],
+      "obligation": "official-form:Rule 2.86 Form 1 -- the application the section 901C.2 route files, and the Certification of Service printed inside it",
+      "officialSourceIdentity": {
+        "officialTitle": "Iowa R. Crim. P. 2.86 - Form 1: Application to Expunge Court Record under Iowa Code s 901C.2",
+        "issuingAuthority": "Iowa Judicial Branch",
+        "authority": "Iowa Code s 901C.2; Iowa R. Crim. P. 2.86"
+      },
+      "currentOfficialUrl": "https://www.iowacourts.gov/collections/738/files/1569/embedDocument",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on iowacourts.gov, already recorded in SOURCE_ACQUISITION_MANIFEST.json",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The hosted runner fetched this URL at HTTP 200 and observed the SAME SHA-256 the restore manifest records. Rev. 2022-01 is current."
+    },
+    {
+      "relativePath": "LegalEase Iowa/forms/IA-RULE-2.86-FORM-3__application-to-expunge-public-intoxication-records-123-46__rev-2022-01.pdf",
+      "sha256": "6f222685001373ba2e1ef63509e3b42e7e47d5067bfb0ed3b130b62040d80f01",
+      "jurisdiction": "IA",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "IA-RULE-2.86-FORM-3",
+      "familyIds": [
+        "ia-12346-set"
+      ],
+      "routes": [
+        "obligation:track-pathway:IA:ia-12346:public-intoxication-12346"
+      ],
+      "obligation": "official-form:Rule 2.86 Form 3 -- the application the section 123.46 public-intoxication route files",
+      "officialSourceIdentity": {
+        "officialTitle": "Iowa R. Crim. P. 2.86 - Form 3: Application to Expunge Public Intoxication Records under Iowa Code s 123.46",
+        "issuingAuthority": "Iowa Judicial Branch",
+        "authority": "Iowa Code s 123.46; Iowa R. Crim. P. 2.86"
+      },
+      "currentOfficialUrl": "https://www.iowacourts.gov/collections/721/files/1504/embedDocument",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on iowacourts.gov, already recorded in SOURCE_ACQUISITION_MANIFEST.json",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The hosted runner fetched this URL at HTTP 200 and observed the SAME SHA-256 the restore manifest records. Rev. 2022-01 is current."
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+      "sha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+      "jurisdiction": "KS",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "KSJC-ORDER-ARREST-COVER-SHEET",
+      "familyIds": [
+        "ks-22-2410-arrest-set"
+      ],
+      "routes": [
+        "obligation:track-only:KS:ks-22-2410-arrest"
+      ],
+      "obligation": "source-sha256:d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5, named directly by obligation:track-only:KS:ks-22-2410-arrest, and official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+      "officialSourceIdentity": {
+        "officialTitle": "Order of Expungement of Arrest Record - Cover Sheet (rev. 2016-12)",
+        "issuingAuthority": "Kansas Judicial Council",
+        "authority": "K.S.A. 22-2410"
+      },
+      "currentOfficialUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/arrest-record-only",
+      "acquisitionPath": "OFFICIAL_LANDING_PAGE on the migrated www.kjc.ks.gov host; exact binary URL still needs DISC.",
+      "recordedHashIsCurrentEdition": null,
+      "editionEvidence": "Not verified here: no byte could be fetched. Recorded as CURRENTNESS_UNVERIFIED."
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+      "sha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+      "jurisdiction": "KS",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "KSJC-ORDER-REGISTRATION-RELIEF-COVER-SHEET",
+      "familyIds": [
+        "ks-22-4908-registration-relief-set"
+      ],
+      "routes": [
+        "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-combined-expungement",
+        "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-registration-relief-petition"
+      ],
+      "obligation": "source-sha256:0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd, named directly by both ks-22-4908 obligation units, and official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+      "officialSourceIdentity": {
+        "officialTitle": "Order of Relief from Offender Registration - Cover Sheet (rev. 2022-06)",
+        "issuingAuthority": "Kansas Judicial Council",
+        "authority": "K.S.A. 22-4908"
+      },
+      "currentOfficialUrl": "https://www.kjc.ks.gov/legal-forms/drug-offender-registration-relief/-folder-468-431",
+      "acquisitionPath": "OFFICIAL_LANDING_PAGE on the migrated www.kjc.ks.gov host; exact binary URL still needs DISC.",
+      "recordedHashIsCurrentEdition": null,
+      "editionEvidence": "Not verified here: no byte could be fetched."
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+      "sha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+      "jurisdiction": "KS",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "KSJC-PETITION-ARREST-RECORD",
+      "familyIds": [
+        "ks-22-2410-arrest-set"
+      ],
+      "routes": [
+        "obligation:track-only:KS:ks-22-2410-arrest"
+      ],
+      "obligation": "source-sha256:bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d, named directly by obligation:track-only:KS:ks-22-2410-arrest, and official-form:KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+      "officialSourceIdentity": {
+        "officialTitle": "Petition for Expungement of Arrest Record (rev. 2013-02)",
+        "issuingAuthority": "Kansas Judicial Council",
+        "authority": "K.S.A. 22-2410"
+      },
+      "currentOfficialUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/arrest-record-only",
+      "acquisitionPath": "OFFICIAL_LANDING_PAGE. The Kansas Judicial Council has moved from kansasjudicialcouncil.org to www.kjc.ks.gov, which IS inside the .gov allowlist that refused the old host. The exact binary URL under that page still needs DISC; the host obstacle is gone.",
+      "recordedHashIsCurrentEdition": null,
+      "editionEvidence": "Not verified here: no byte could be fetched. The Kansas Judicial Council still publishes this set at the recorded revisions (arrest petition 02/2013, registration relief 06/2022, conviction or diversion 08/2022), so no supersession is indicated, but currency is UNVERIFIED and the relationship registry records it as CURRENTNESS_UNVERIFIED."
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+      "sha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+      "jurisdiction": "KS",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "KSJC-PETITION-REGISTRATION-RELIEF",
+      "familyIds": [
+        "ks-22-4908-registration-relief-set"
+      ],
+      "routes": [
+        "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-combined-expungement",
+        "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-registration-relief-petition"
+      ],
+      "obligation": "source-sha256:9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396, named directly by both ks-22-4908 obligation units, and official-form:KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022",
+      "officialSourceIdentity": {
+        "officialTitle": "Petition for Relief from Offender Registration (rev. 2022-06)",
+        "issuingAuthority": "Kansas Judicial Council",
+        "authority": "K.S.A. 22-4908"
+      },
+      "currentOfficialUrl": "https://www.kjc.ks.gov/legal-forms/drug-offender-registration-relief/-folder-468-431",
+      "acquisitionPath": "OFFICIAL_LANDING_PAGE on the migrated www.kjc.ks.gov host; exact binary URL still needs DISC.",
+      "recordedHashIsCurrentEdition": null,
+      "editionEvidence": "Not verified here: no byte could be fetched. The Council still publishes 'Petition for registration relief (6-2022)', which matches the recorded revision, so no supersession is indicated."
+    },
+    {
+      "relativePath": "LegalEase Maine/forms/ME-CR-308__order-on-motion-to-seal-criminal-history-victims-of-sex-trafficking-or-sexual-exploitation__rev-2026-06.pdf",
+      "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+      "jurisdiction": "ME",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "ME-CR-308",
+      "familyIds": [
+        "me-seal-survivor-set"
+      ],
+      "routes": [
+        "obligation:track-pathway:ME:me-seal-survivor:sex-trafficking-sexual-exploitation-survivor-sealing"
+      ],
+      "obligation": "official-form:CR-308 -- the order the survivor-sealing route submits with its motion",
+      "officialSourceIdentity": {
+        "officialTitle": "Order on Motion to Seal Criminal History Record Information (victims of sex trafficking or sexual exploitation), Form CR-308 (rev. 2026-06)",
+        "issuingAuthority": "Maine Judicial Branch",
+        "authority": "16 M.R.S. s 2802 et seq."
+      },
+      "currentOfficialUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-308",
+      "acquisitionPath": "OFFICIAL_DOWNLOAD_ENDPOINT on courts.maine.gov. The hosted runner has ALREADY fetched it at HTTP 200; the bytes sit in a workflow artifact behind storage this container's proxy denies. What remains is the reviewed custody commit the acquisition workflow reserves to a human, not another fetch.",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The runner observed SHA-256 b2e78f24cb33... -- identical to the restore-manifest hash. The recorded old hash IS the current edition."
+    },
+    {
+      "relativePath": "LegalEase Missouri/Judgment and Order of Expungement - Section 610.140 RSMo CR370.pdf",
+      "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+      "jurisdiction": "MO",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "MO-CR370",
+      "familyIds": [
+        "mo-610-140-arrest-set",
+        "mo-610-140-conviction-set"
+      ],
+      "routes": [
+        "obligation:track-only:MO:mo-610-140-arrest",
+        "obligation:track-pathway:MO:mo-610-140-conviction:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140"
+      ],
+      "obligation": "official-form:CR370 -- the judgment and order counterpart to the CR360 petition under RSMo 610.140",
+      "officialSourceIdentity": {
+        "officialTitle": "Judgment and Order of Expungement - Section 610.140, RSMo (Form CR370)",
+        "issuingAuthority": "Missouri Office of State Courts Administrator",
+        "authority": "s 610.140, RSMo"
+      },
+      "currentOfficialUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+      "acquisitionPath": "OFFICIAL_LANDING_PAGE (the Missouri Courts expungement forms index) on the allowlisted courts.mo.gov host. Its sibling CR360 is published there as a direct binary at https://www.courts.mo.gov/file.jsp?id=56341, so CR370 has an analogous file.jsp id on the same host; establishing that exact id is a DISC step, and no address is guessed here.",
+      "recordedHashIsCurrentEdition": null,
+      "editionEvidence": "Unverified, and this is the weakest custody position in the residual set. SOURCE_RELATIONSHIP_REGISTRY records CR370 as MISSING_SOURCE_BINARY with artifactSha256 null: the repository names the document, points at this Nationwide path, and holds no digest for it at all."
+    }
+  ],
+  "whatThisDoesNotEstablish": [
+    "That any file classified LIVE_PACKET_COMPONENT is now held. Nothing was acquired and nothing was mounted.",
+    "That any family may be built, promoted or sold. This record creates no approval and opens no commercial route.",
+    "That a recorded hash marked recordedHashIsCurrentEdition true is the byte on the issuing authority's server right now. It says a receipt observed that digest at that address, which is a past observation and not a live check.",
+    "That a SUPERSEDED_SOURCE row's current edition has itself been visually or legally reviewed. It says the repository holds a later edition of that form number, and nothing more."
+  ],
+  "claimDiscipline": "No packet-family claim was asserted or released. MASTER_QUEUE.json, VERIFIER_RETURNS.json, claim-ledger.json and every vf/fix lane directory were not touched. No second source registry and no parallel restore manifest was created. No source body was committed.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "relativePath": "LegalEase Colorado/guide-sealing-conviction-records-multiple-cases.html",
+      "sha256": "3a28cafa4bf3f79c7461d6870405a2028790d57a7222371d431b3959156fe227",
+      "byteLength": 60043,
+      "jurisdiction": "CO",
+      "manifestClassification": "reference",
+      "classification": "REFERENCE_ONLY",
+      "reason": "An HTML capture of a Colorado Judicial self-help page, not an official form. Where the page describes a filing, the corresponding JDF form and its JDF instruction sheet are already CORROBORATED in the Master Library, so the capture adds background and no deliverable depends on it.",
+      "nationwideTreatment": {
+        "artifactId": "guide-sealing-conviction-records-multiple-cases",
+        "sourceTreatment": "unclassified_pre_batch_1_import",
+        "packageTier": null,
+        "reliefTracksUsing": []
+      }
+    },
+    {
+      "relativePath": "LegalEase Colorado/how-expunge-juvenile-delinquency-records.html",
+      "sha256": "dfdd6af6b2c34c37dcd8fdbb4128dacd2458b009026e52208dab4ac2961cb2c7",
+      "byteLength": 60480,
+      "jurisdiction": "CO",
+      "manifestClassification": "reference",
+      "classification": "REFERENCE_ONLY",
+      "reason": "An HTML capture of a Colorado Judicial self-help page, not an official form. Where the page describes a filing, the corresponding JDF form and its JDF instruction sheet are already CORROBORATED in the Master Library, so the capture adds background and no deliverable depends on it.",
+      "nationwideTreatment": {
+        "artifactId": "how-expunge-juvenile-delinquency-records",
+        "sourceTreatment": "unclassified_pre_batch_1_import",
+        "packageTier": null,
+        "reliefTracksUsing": []
+      }
+    },
+    {
+      "relativePath": "LegalEase Colorado/how-seal-criminal-records-non-convictions.html",
+      "sha256": "815c34baa1c35141ddd79d56d6d2a9f8da802a0052f59246d4ba303646e9808e",
+      "byteLength": 60001,
+      "jurisdiction": "CO",
+      "manifestClassification": "reference",
+      "classification": "REFERENCE_ONLY",
+      "reason": "An HTML capture of a Colorado Judicial self-help page, not an official form. Where the page describes a filing, the corresponding JDF form and its JDF instruction sheet are already CORROBORATED in the Master Library, so the capture adds background and no deliverable depends on it.",
+      "nationwideTreatment": {
+        "artifactId": "how-seal-criminal-records-non-convictions",
+        "sourceTreatment": "unclassified_pre_batch_1_import",
+        "packageTier": null,
+        "reliefTracksUsing": []
+      }
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF302.pdf",
+      "sha256": "53459fde5fcd0d22ca4b93766fe7f2bc6c6c8a578b5044f46bc0317be2b702c5",
+      "byteLength": 121346,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "No route, family or obligation anywhere in the census names this Colorado form number. Colorado's obligations name JDF-417, 417-ORDER, 418, 477, 478, 612, 615, 641, 642, 680, 681, 683, 684, 2363, 2371 and 2374 -- and not this one.",
+      "isTranslation": false,
+      "doNotQueueForAcquisition": true,
+      "formLabel": "JDF-302",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF302.spanish.pdf",
+      "sha256": "e11492a29e5edcfe17269cbb4282b08ad747f4b10545715397e343b74f3a1eeb",
+      "byteLength": 165950,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "A Spanish translation of a Colorado form number that no obligation names. Every Colorado packet family is EN, so this is not a participant deliverable and must not be queued for acquisition.",
+      "isTranslation": true,
+      "doNotQueueForAcquisition": true,
+      "formLabel": "JDF-302",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF304.pdf",
+      "sha256": "64bd7f9879719bb257b9a794cd1022d27e6c94b5e18ac102cc203064d8109eba",
+      "byteLength": 1083204,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "No route, family or obligation anywhere in the census names this Colorado form number. Colorado's obligations name JDF-417, 417-ORDER, 418, 477, 478, 612, 615, 641, 642, 680, 681, 683, 684, 2363, 2371 and 2374 -- and not this one.",
+      "isTranslation": false,
+      "doNotQueueForAcquisition": true,
+      "formLabel": "JDF-304",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF324.pdf",
+      "sha256": "fa436ee1561713cad238b33fd761b0a97afbe0e9c0f8b70bdc6662990d7852fa",
+      "byteLength": 30539,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "No route, family or obligation anywhere in the census names this Colorado form number. Colorado's obligations name JDF-417, 417-ORDER, 418, 477, 478, 612, 615, 641, 642, 680, 681, 683, 684, 2363, 2371 and 2374 -- and not this one.",
+      "isTranslation": false,
+      "doNotQueueForAcquisition": true,
+      "formLabel": "JDF-324",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF324.spanish.pdf",
+      "sha256": "14c2de516ad4c4d159fa941b114e1bce01f67c85c47b7b480c4fa4ac81f4c795",
+      "byteLength": 37438,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "A Spanish translation of a Colorado form number that no obligation names. Every Colorado packet family is EN, so this is not a participant deliverable and must not be queued for acquisition.",
+      "isTranslation": true,
+      "doNotQueueForAcquisition": true,
+      "formLabel": "JDF-324",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF326.pdf",
+      "sha256": "7abccec3a4e65e227661f2716f8e61c4e88e6c33c8c5ded4dd8140bab84b23cd",
+      "byteLength": 91947,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "No route, family or obligation anywhere in the census names this Colorado form number. Colorado's obligations name JDF-417, 417-ORDER, 418, 477, 478, 612, 615, 641, 642, 680, 681, 683, 684, 2363, 2371 and 2374 -- and not this one.",
+      "isTranslation": false,
+      "doNotQueueForAcquisition": true,
+      "formLabel": "JDF-326",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF326.spanish.pdf",
+      "sha256": "ee6cb8c259ee0c683a927878bd09d890ef977e8566677c32cdeaf811f9546dd1",
+      "byteLength": 154831,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "A Spanish translation of a Colorado form number that no obligation names. Every Colorado packet family is EN, so this is not a participant deliverable and must not be queued for acquisition.",
+      "isTranslation": true,
+      "doNotQueueForAcquisition": true,
+      "formLabel": "JDF-326",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF418.pdf",
+      "sha256": "1fae098394b532e45c85ac04019ce3ecff54be2a8382badba4749f25527a5e9d",
+      "byteLength": 596551,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "SUPERSEDED_SOURCE",
+      "artifactId": "CO-JDF-418",
+      "familyIds": [],
+      "reason": "The obligation that names this form number is already satisfied by a CORROBORATED Master Library edition whose SHA-256 differs from the Nationwide copy. Two different byte-streams of one form number means the Nationwide capture is not the edition of record.",
+      "currentOfficialEdition": {
+        "formNumber": "JDF-418",
+        "status": "corroborated",
+        "heldAt": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-418__order-to-seal-arrest-and-criminal-records__REV-2024-03-20__EN.pdf",
+        "officialSourcePage": "https://www.coloradojudicial.gov/self-help/forms (Colorado Judicial Department JDF forms index)",
+        "currentSha256": "b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993",
+        "currentByteLength": 542987
+      },
+      "doNotHuntTheOldBytes": true,
+      "formLabel": "JDF-418",
+      "recordedHashIsCurrentEdition": false
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF477.pdf",
+      "sha256": "9bb822f0163adefb1da1748b50b7323f027b90e32a759e737c0a321c8b47404d",
+      "byteLength": 666230,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "SUPERSEDED_SOURCE",
+      "artifactId": "CO-JDF-477",
+      "familyIds": [],
+      "reason": "The obligation that names this form number is already satisfied by a CORROBORATED Master Library edition whose SHA-256 differs from the Nationwide copy. Two different byte-streams of one form number means the Nationwide capture is not the edition of record.",
+      "currentOfficialEdition": {
+        "formNumber": "JDF-477",
+        "status": "corroborated",
+        "heldAt": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+        "officialSourcePage": "https://www.coloradojudicial.gov/self-help/forms (Colorado Judicial Department JDF forms index)",
+        "currentSha256": "b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643",
+        "currentByteLength": 605652
+      },
+      "doNotHuntTheOldBytes": true,
+      "formLabel": "JDF-477",
+      "recordedHashIsCurrentEdition": false
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF478.pdf",
+      "sha256": "cbe8ed7ce129cc35a1af1ba778507c771265e326ea0e3c9d94940e3cabeed096",
+      "byteLength": 652768,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "SUPERSEDED_SOURCE",
+      "artifactId": "CO-JDF-478",
+      "familyIds": [],
+      "reason": "The obligation that names this form number is already satisfied by a CORROBORATED Master Library edition whose SHA-256 differs from the Nationwide copy. Two different byte-streams of one form number means the Nationwide capture is not the edition of record.",
+      "currentOfficialEdition": {
+        "formNumber": "JDF-478",
+        "status": "corroborated",
+        "heldAt": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+        "officialSourcePage": "https://www.coloradojudicial.gov/self-help/forms (Colorado Judicial Department JDF forms index)",
+        "currentSha256": "8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159",
+        "currentByteLength": 576543
+      },
+      "doNotHuntTheOldBytes": true,
+      "formLabel": "JDF-478",
+      "recordedHashIsCurrentEdition": false
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF493.pdf",
+      "sha256": "3dbd29f70847fc488fdba00b0a549b2276ea335bcfd1e72eb19ac2dd220d68d9",
+      "byteLength": 552269,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "No route, family or obligation anywhere in the census names this Colorado form number. Colorado's obligations name JDF-417, 417-ORDER, 418, 477, 478, 612, 615, 641, 642, 680, 681, 683, 684, 2363, 2371 and 2374 -- and not this one.",
+      "isTranslation": false,
+      "doNotQueueForAcquisition": true,
+      "formLabel": "JDF-493",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF493.spanish.pdf",
+      "sha256": "037c41260cd352b7b20a8a3ed909e4bffedb1de5ee1e0b174bfbb2f59421f476",
+      "byteLength": 1027753,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "A Spanish translation of a Colorado form number that no obligation names. Every Colorado packet family is EN, so this is not a participant deliverable and must not be queued for acquisition.",
+      "isTranslation": true,
+      "doNotQueueForAcquisition": true,
+      "formLabel": "JDF-493",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF611.pdf",
+      "sha256": "8f7983af4346e8ccfdc218d01622263af4e783e24a3d7654772d502a74d44fc5",
+      "byteLength": 631473,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "SUPERSEDED_SOURCE",
+      "artifactId": "CO-JDF-611",
+      "familyIds": [],
+      "reason": "The obligation that names this form number is already satisfied by a CORROBORATED Master Library edition whose SHA-256 differs from the Nationwide copy. Two different byte-streams of one form number means the Nationwide capture is not the edition of record.",
+      "currentOfficialEdition": {
+        "formNumber": "JDF-611",
+        "status": "corroborated",
+        "heldAt": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf",
+        "officialSourcePage": "https://www.coloradojudicial.gov/self-help/forms (Colorado Judicial Department JDF forms index)",
+        "currentSha256": "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
+        "currentByteLength": 606173
+      },
+      "doNotHuntTheOldBytes": true,
+      "formLabel": "JDF-611",
+      "recordedHashIsCurrentEdition": false
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF612.pdf",
+      "sha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
+      "byteLength": 737628,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "SUPERSEDED_SOURCE",
+      "artifactId": "CO-JDF-612",
+      "familyIds": [],
+      "reason": "The obligation that names this form number is already satisfied by a CORROBORATED Master Library edition whose SHA-256 differs from the Nationwide copy. Two different byte-streams of one form number means the Nationwide capture is not the edition of record.",
+      "currentOfficialEdition": {
+        "formNumber": "JDF-612",
+        "status": "corroborated",
+        "heldAt": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf",
+        "officialSourcePage": "https://www.coloradojudicial.gov/self-help/forms (Colorado Judicial Department JDF forms index)",
+        "currentSha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+        "currentByteLength": 682994
+      },
+      "doNotHuntTheOldBytes": true,
+      "formLabel": "JDF-612",
+      "recordedHashIsCurrentEdition": false
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF613.pdf.html",
+      "sha256": "5099d021a5cd9f17962d53e112b2ec938bc78080101182c6b7bb9e33efb88df7",
+      "byteLength": 58186,
+      "jurisdiction": "CO",
+      "manifestClassification": "reference",
+      "classification": "REFERENCE_ONLY",
+      "reason": "An HTML capture of a Colorado Judicial self-help page, not an official form. Where the page describes a filing, the corresponding JDF form and its JDF instruction sheet are already CORROBORATED in the Master Library, so the capture adds background and no deliverable depends on it.",
+      "nationwideTreatment": {
+        "artifactId": "jdf613-pdf",
+        "sourceTreatment": "unclassified_pre_batch_1_import",
+        "packageTier": null,
+        "reliefTracksUsing": []
+      }
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF615.pdf",
+      "sha256": "184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26",
+      "byteLength": 1054204,
+      "jurisdiction": "CO",
+      "manifestClassification": "pdf",
+      "classification": "SUPERSEDED_SOURCE",
+      "artifactId": "CO-JDF-615",
+      "familyIds": [],
+      "reason": "The obligation that names this form number is already satisfied by a CORROBORATED Master Library edition whose SHA-256 differs from the Nationwide copy. Two different byte-streams of one form number means the Nationwide capture is not the edition of record.",
+      "currentOfficialEdition": {
+        "formNumber": "JDF-615",
+        "status": "corroborated",
+        "heldAt": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
+        "officialSourcePage": "https://www.coloradojudicial.gov/self-help/forms (Colorado Judicial Department JDF forms index)",
+        "currentSha256": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+        "currentByteLength": 565158
+      },
+      "doNotHuntTheOldBytes": true,
+      "formLabel": "JDF-615",
+      "recordedHashIsCurrentEdition": false
+    },
+    {
+      "relativePath": "LegalEase Colorado/motion-seal-conviction-record-pardoned.html",
+      "sha256": "91410ea5959e8a741bc78774d5f57de81ee86fe14d4a6b21363249affcb3c401",
+      "byteLength": 60593,
+      "jurisdiction": "CO",
+      "manifestClassification": "reference",
+      "classification": "REFERENCE_ONLY",
+      "reason": "An HTML capture of a Colorado Judicial self-help page, not an official form. Where the page describes a filing, the corresponding JDF form and its JDF instruction sheet are already CORROBORATED in the Master Library, so the capture adds background and no deliverable depends on it.",
+      "nationwideTreatment": {
+        "artifactId": "motion-seal-conviction-record-pardoned",
+        "sourceTreatment": "unclassified_pre_batch_1_import",
+        "packageTier": null,
+        "reliefTracksUsing": []
+      }
+    },
+    {
+      "relativePath": "LegalEase Colorado/order-seal-pardoned-conviction-records.html",
+      "sha256": "52fd67da32b7c561fd8775f728951c419411e16dd16a96c6ce39f3c62a698b76",
+      "byteLength": 59975,
+      "jurisdiction": "CO",
+      "manifestClassification": "reference",
+      "classification": "REFERENCE_ONLY",
+      "reason": "An HTML capture of a Colorado Judicial self-help page, not an official form. Where the page describes a filing, the corresponding JDF form and its JDF instruction sheet are already CORROBORATED in the Master Library, so the capture adds background and no deliverable depends on it.",
+      "nationwideTreatment": {
+        "artifactId": "order-seal-pardoned-conviction-records",
+        "sourceTreatment": "unclassified_pre_batch_1_import",
+        "packageTier": null,
+        "reliefTracksUsing": []
+      }
+    },
+    {
+      "relativePath": "LegalEase Colorado/request-hearing-automatic-sealing.html",
+      "sha256": "02f72b5a7a5b5789f89d5fda6352a30a38f22672fbd5d02b136287b7d10d5e98",
+      "byteLength": 59977,
+      "jurisdiction": "CO",
+      "manifestClassification": "reference",
+      "classification": "REFERENCE_ONLY",
+      "reason": "An HTML capture of a Colorado Judicial self-help page, not an official form. Where the page describes a filing, the corresponding JDF form and its JDF instruction sheet are already CORROBORATED in the Master Library, so the capture adds background and no deliverable depends on it.",
+      "nationwideTreatment": {
+        "artifactId": "request-hearing-automatic-sealing",
+        "sourceTreatment": "unclassified_pre_batch_1_import",
+        "packageTier": null,
+        "reliefTracksUsing": []
+      }
+    },
+    {
+      "relativePath": "LegalEase Florida/2026_07-JAN-Criminal-Procedure-Rules-1-1-2026.pdf",
+      "sha256": "794119a4aa9e7f731941609922658963b5e1146c434ccf2fa03b2ecf46b7031c",
+      "byteLength": 2036583,
+      "jurisdiction": "FL",
+      "manifestClassification": "pdf",
+      "classification": "CURRENT_AUTHORITY_OR_INSTRUCTION",
+      "artifactId": "FL-RULE-3.989-FORMS",
+      "familyIds": [
+        "fl-expunction-set",
+        "fl-10yr-bridge-set",
+        "fl-sealing-set"
+      ],
+      "obligation": "official-form:FL-RULE-3.989-PETITION, official-form:FL-RULE-3.989-ORDER and official-form:FL-RULE-3.989-SWORN-STATEMENT -- the three rule-prescribed instruments the owner determined are COMPOSE_FROM_AUTHORITY",
+      "officialSourceIdentity": {
+        "officialTitle": "Florida Rules of Criminal Procedure, effective 1 January 2026 -- the publication carrying Fla. R. Crim. P. 3.989 (Affidavit, Petition and Order to Expunge or Seal)",
+        "issuingAuthority": "Supreme Court of Florida, as published in the Florida Bar rules volume",
+        "authority": "Fla. R. Crim. P. 3.989; ss 943.0585 and 943.059, Fla. Stat."
+      },
+      "currentOfficialUrl": null,
+      "acquisitionPath": "This is an EXTRACTION from a rules publication, not a search for a form: the registry's own externally verified note records that no separate fillable Rule 3.989 PDF exists. The rule text is addressable through the Supreme Court of Florida rules publication; the Nationwide copy is the only edition the repository records, and its Rule 3.989 text is presently an EMBEDDED_SECTION with artifactSha256 and heldPath both null.",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The document is itself dated 1 January 2026 and is the current rules edition; the owner determination of 2026-09-02 rests on it. Nothing later is recorded anywhere in the repository.",
+      "whyItBlocks": "OWNER_DETERMINATION FL-RULE-3989 made the sworn statement, petition and order COMPOSE_FROM_AUTHORITY. Composition needs held authority text with a hash. This file is the held authority: SOURCE_ATTACH_COHORT binds artifact FL-RULE-3.989-FORMS to this exact Nationwide path at this exact SHA-256. The determination's own record says one acquisition of addressable Rule 3.989 text releases four families.",
+      "acquisitionAttempt": {
+        "attempted": true,
+        "attemptedOn": "2026-09-02",
+        "transport": "curl through this container's egress proxy, and the WebFetch tool",
+        "observed": "curl: (56) CONNECT tunnel failed, response 403 -- and WebFetch EGRESS_BLOCKED",
+        "scope": "Every host was refused at CONNECT, including https://example.com/, so this is a blanket egress denial in this container and not a per-judiciary block. No binary could be fetched, hashed or verified here. Web search was reachable and was used only to fix official identity and current addresses.",
+        "urls": []
+      },
+      "attachCohortArtifact": {
+        "artifactId": "FL-RULE-3.989-FORMS",
+        "servesFamilies": [
+          "fl-10yr-bridge-set",
+          "fl-expunction-set"
+        ],
+        "namedInFamiliesAs": [
+          "FL-RULE-3.989-PETITION",
+          "FL-RULE-3.989-ORDER",
+          "FL-RULE-3.989-SWORN-STATEMENT"
+        ]
+      },
+      "sourceBacklog": {
+        "artifactId": "FL-RULE-3.989-FORMS",
+        "officialTitle": "Fla. R. Crim. P. 3.989 - Affidavit, Petition and Order to Expunge or Seal",
+        "issuingAuthority": "Supreme Court of Florida (rule-prescribed forms)",
+        "officialUrl": null,
+        "identityConfidence": "authority_held_no_official_fillable_pdf_exists",
+        "servesFamilies": [
+          "fl-10yr-bridge-set",
+          "fl-expunction-set"
+        ],
+        "sha256": "794119a4aa9e7f731941609922658963b5e1146c434ccf2fa03b2ecf46b7031c"
+      },
+      "sourceBacklogClassOfFamily": [
+        "COMPOSE_FROM_AUTHORITY",
+        "EXACT_EXTERNAL_SOURCE_HOLD"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Florida/se (1).pdf",
+      "sha256": "457f7af43bc3cffbab3abce2e63df0655175a70502a92dc03fcf5613c3fc7c08",
+      "byteLength": 26597,
+      "jurisdiction": "FL",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "An untitled download-numbered capture with no form number, no issuing authority and no recorded identity beyond its filename; the Nationwide artifact registry leaves it unclassified_pre_batch_1_import. No Florida obligation names it by hash or by label. Every Florida family's named components are accounted for elsewhere: the four FDLE applications are held or addressed, and the Rule 3.989 instruments are COMPOSE_FROM_AUTHORITY off the rules publication. There is nothing to trace this file to, and a file that cannot be traced to a named obligation is not a packet component.",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Florida/se (2).pdf",
+      "sha256": "8bc405aae745a8d21a14944be00ecb322a26ffe64a2d8af89d89a4463a1227df",
+      "byteLength": 22449,
+      "jurisdiction": "FL",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "An untitled download-numbered capture with no form number, no issuing authority and no recorded identity beyond its filename; the Nationwide artifact registry leaves it unclassified_pre_batch_1_import. No Florida obligation names it by hash or by label. Every Florida family's named components are accounted for elsewhere: the four FDLE applications are held or addressed, and the Rule 3.989 instruments are COMPOSE_FROM_AUTHORITY off the rules publication. There is nothing to trace this file to, and a file that cannot be traced to a named obligation is not a packet component.",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Florida/se (3).pdf",
+      "sha256": "16c6d2afa3e7a94a00d30466637ef2de3f3aa4c673ea96f90a654f6e1af95023",
+      "byteLength": 23982,
+      "jurisdiction": "FL",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "An untitled download-numbered capture with no form number, no issuing authority and no recorded identity beyond its filename; the Nationwide artifact registry leaves it unclassified_pre_batch_1_import. No Florida obligation names it by hash or by label. Every Florida family's named components are accounted for elsewhere: the four FDLE applications are held or addressed, and the Rule 3.989 instruments are COMPOSE_FROM_AUTHORITY off the rules publication. There is nothing to trace this file to, and a file that cannot be traced to a named obligation is not a packet component.",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Florida/se (4).pdf",
+      "sha256": "e8efa1cae99d3463a099d2ed60d4070a195afb24e932f4e0e68113f469634358",
+      "byteLength": 21700,
+      "jurisdiction": "FL",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "An untitled download-numbered capture with no form number, no issuing authority and no recorded identity beyond its filename; the Nationwide artifact registry leaves it unclassified_pre_batch_1_import. No Florida obligation names it by hash or by label. Every Florida family's named components are accounted for elsewhere: the four FDLE applications are held or addressed, and the Rule 3.989 instruments are COMPOSE_FROM_AUTHORITY off the rules publication. There is nothing to trace this file to, and a file that cannot be traced to a named obligation is not a packet component.",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Florida/se (5).pdf",
+      "sha256": "5ee3bca6ad7814c92c69255e447a51a8b6a498bdf6fca7199edc0bf16e825006",
+      "byteLength": 26593,
+      "jurisdiction": "FL",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "An untitled download-numbered capture with no form number, no issuing authority and no recorded identity beyond its filename; the Nationwide artifact registry leaves it unclassified_pre_batch_1_import. No Florida obligation names it by hash or by label. Every Florida family's named components are accounted for elsewhere: the four FDLE applications are held or addressed, and the Rule 3.989 instruments are COMPOSE_FROM_AUTHORITY off the rules publication. There is nothing to trace this file to, and a file that cannot be traced to a named obligation is not a packet component.",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Georgia/reference-only/GBI-Time-Expired-Restrictions__georgia-law-regarding-time-expired-restrictions__source-2013-10-08.pdf",
+      "sha256": "0e2f11700b8793c13f848b4837f9a5c56a7e15429f04aa3d41467835bf913f4d",
+      "byteLength": 167750,
+      "jurisdiction": "GA",
+      "manifestClassification": "pdf",
+      "classification": "CURRENT_AUTHORITY_OR_INSTRUCTION",
+      "artifactId": "GA-GBI-TIME-EXPIRED-RESTRICTIONS",
+      "familyIds": [
+        "ga-time-expired-set",
+        "rcap-ga-guidance-implementation"
+      ],
+      "obligation": "source-sha256:0e2f11700b8793c13f848b4837f9a5c56a7e15429f04aa3d41467835bf913f4d -- named directly in the requiredSourceIds of obligation:track-only:GA:ga-time-expired",
+      "officialSourceIdentity": {
+        "officialTitle": "Georgia law regarding time-expired restriction notifications",
+        "issuingAuthority": "Georgia Bureau of Investigation, Georgia Crime Information Center",
+        "authority": "O.C.G.A. s 35-3-37(h)(1)(A)(ii); O.C.G.A. s 35-3-39.1"
+      },
+      "currentOfficialUrl": "https://gbi.georgia.gov/document/document/georgia-law-regarding-time-expired-restriction-notifications/download",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on the allowlisted gbi.georgia.gov host, recorded in the route's own requiredSourceIds.",
+      "recordedHashIsCurrentEdition": null,
+      "editionEvidence": "Unverified. The recorded capture is dated 2013-10-08 and the GBI publishes this document at a stable address, so the current edition should be re-hashed at acquisition and compared rather than assumed identical.",
+      "whyItBlocks": "ga-time-expired is a process_guidance route: nothing is filed, and the deliverable IS the explanation of when the centre restricts the record automatically. The route names this document by content hash, which makes it the source that proves the legal design. It is filed under reference-only/ in the Nationwide tree, and that folder name is exactly the trap this lane exists to catch: the folder says reference, the route says required.",
+      "acquisitionAttempt": {
+        "attempted": true,
+        "attemptedOn": "2026-09-02",
+        "transport": "curl through this container's egress proxy, and the WebFetch tool",
+        "observed": "curl: (56) CONNECT tunnel failed, response 403 -- and WebFetch EGRESS_BLOCKED",
+        "scope": "Every host was refused at CONNECT, including https://example.com/, so this is a blanket egress denial in this container and not a per-judiciary block. No binary could be fetched, hashed or verified here. Web search was reachable and was used only to fix official identity and current addresses.",
+        "urls": [
+          "https://gbi.georgia.gov/document/document/georgia-law-regarding-time-expired-restriction-notifications/download"
+        ]
+      },
+      "tracedRoutes": [
+        {
+          "routeKey": "obligation:track-only:GA:ga-time-expired",
+          "packetSetId": "ga-time-expired-set",
+          "packetFamilyId": "rcap-ga-guidance-implementation",
+          "currentOutputStrategy": "process_guidance",
+          "currentCommercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP"
+        }
+      ]
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+      "sha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+      "byteLength": 84623,
+      "jurisdiction": "IL",
+      "manifestClassification": "pdf",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "IL-PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-ACKNOWLEDGEMENT",
+      "familyIds": [
+        "il-prb-cert-set"
+      ],
+      "obligation": "official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement -- a named component of the Illinois Prisoner Review Board certificate packet",
+      "officialSourceIdentity": {
+        "officialTitle": "Certificate of Expungement for Military Eligibility Acknowledgement (2024)",
+        "issuingAuthority": "Illinois Prisoner Review Board",
+        "authority": "730 ILCS 5/5-5.5-25 (certificate of sealing); 20 ILCS 2630/5.2 (military expungement)"
+      },
+      "currentOfficialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/military-expungement-docs/certificate-of-expugnement-for-military-eligibility-acknowledgement.pdf",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on prb.illinois.gov, already recorded in SOURCE_ACQUISITION_MANIFEST.json",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The hosted acquisition runner fetched this exact URL and observed the SAME SHA-256 the restore manifest records (expectedSha256 === lastAcquisition.sha256, HTTP 200). The recorded old hash is the current official edition; nothing about this form changed.",
+      "whyItBlocks": "il-prb-cert-set is SOURCE_BLOCKED and its class is ACQUIRE_EXACT_SOURCE: no Prisoner Review Board paper exists in any Illinois pack or in the Master Library. The four PRB documents are the entire source basis for the family.",
+      "formLabel": "PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+      "sourceBacklogClassOfFamily": [
+        "ACQUIRE_EXACT_SOURCE"
+      ],
+      "acquisitionReceipts": [
+        {
+          "sourceId": "prb-certificate-of-expungement-for-military-acknowledgement-eligibility-acknowledgement-so",
+          "formNumber": "Certificate of Expungement for Military Eligibility Acknowledgement",
+          "officialTitle": "Certificate of Expungement for Military Eligibility Acknowledgement",
+          "issuingAuthority": "Illinois Prisoner Review Board",
+          "officialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/military-expungement-docs/certificate-of-expugnement-for-military-eligibility-acknowledgement.pdf",
+          "urlKind": "DIRECT_OFFICIAL_BINARY",
+          "outcome": "acquired_bytes",
+          "httpStatus": 200,
+          "obligationKeys": [
+            "il-prb-cert-set::PRB Certificate of Expungement for Military Eligibility Acknowledgement"
+          ]
+        }
+      ],
+      "routesNamingThisForm": [
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-certificate-application",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-court-petition",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-military-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-nonmilitary-expungement-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-sealing-branch"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Application__military-certificate-of-expungement-application__rev-2024-09-18.pdf",
+      "sha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+      "byteLength": 222490,
+      "jurisdiction": "IL",
+      "manifestClassification": "pdf",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "IL-PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-APPLICATION",
+      "familyIds": [
+        "il-prb-cert-set"
+      ],
+      "obligation": "official-form:PRB Certificate of Expungement for Military Application -- a named component of the Illinois Prisoner Review Board certificate packet",
+      "officialSourceIdentity": {
+        "officialTitle": "Certificate of Expungement for Military Application (rev. 2024-09-18)",
+        "issuingAuthority": "Illinois Prisoner Review Board",
+        "authority": "730 ILCS 5/5-5.5-25 (certificate of sealing); 20 ILCS 2630/5.2 (military expungement)"
+      },
+      "currentOfficialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/military-expungement-docs/Certificate%20of%20Expungement%20for%20Military%20application%20v9.18.24.pdf",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on prb.illinois.gov, already recorded in SOURCE_ACQUISITION_MANIFEST.json",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The hosted acquisition runner fetched this exact URL and observed the SAME SHA-256 the restore manifest records (expectedSha256 === lastAcquisition.sha256, HTTP 200). The recorded old hash is the current official edition; nothing about this form changed.",
+      "whyItBlocks": "il-prb-cert-set is SOURCE_BLOCKED and its class is ACQUIRE_EXACT_SOURCE: no Prisoner Review Board paper exists in any Illinois pack or in the Master Library. The four PRB documents are the entire source basis for the family.",
+      "formLabel": "PRB Certificate of Expungement for Military Application",
+      "sourceBacklogClassOfFamily": [
+        "ACQUIRE_EXACT_SOURCE"
+      ],
+      "acquisitionReceipts": [
+        {
+          "sourceId": "prb-certificate-of-expungement-for-military-application-military-certificate-of-expungemen",
+          "formNumber": "Certificate of Expungement for Military Application",
+          "officialTitle": "Certificate of Expungement for Military Application",
+          "issuingAuthority": "Illinois Prisoner Review Board",
+          "officialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/military-expungement-docs/Certificate%20of%20Expungement%20for%20Military%20application%20v9.18.24.pdf",
+          "urlKind": "DIRECT_OFFICIAL_BINARY",
+          "outcome": "acquired_bytes",
+          "httpStatus": 200,
+          "obligationKeys": [
+            "il-prb-cert-set::PRB Certificate of Expungement for Military Application"
+          ]
+        }
+      ],
+      "routesNamingThisForm": [
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-certificate-application",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-court-petition",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-military-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-nonmilitary-expungement-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-sealing-branch"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+      "sha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+      "byteLength": 89530,
+      "jurisdiction": "IL",
+      "manifestClassification": "pdf",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "IL-PRB-CERTIFICATE-OF-SEALING-ACKNOWLEDGEMENT",
+      "familyIds": [
+        "il-prb-cert-set"
+      ],
+      "obligation": "official-form:PRB Certificate of Sealing Eligibility Acknowledgement -- a named component of the Illinois Prisoner Review Board certificate packet",
+      "officialSourceIdentity": {
+        "officialTitle": "Certificate of Sealing Eligibility Acknowledgement (2024)",
+        "issuingAuthority": "Illinois Prisoner Review Board",
+        "authority": "730 ILCS 5/5-5.5-25 (certificate of sealing); 20 ILCS 2630/5.2 (military expungement)"
+      },
+      "currentOfficialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/sealing-docs/certificate-of-sealing-eligibility-acknowledgement.pdf",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on prb.illinois.gov, already recorded in SOURCE_ACQUISITION_MANIFEST.json",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The hosted acquisition runner fetched this exact URL and observed the SAME SHA-256 the restore manifest records (expectedSha256 === lastAcquisition.sha256, HTTP 200). The recorded old hash is the current official edition; nothing about this form changed.",
+      "whyItBlocks": "il-prb-cert-set is SOURCE_BLOCKED and its class is ACQUIRE_EXACT_SOURCE: no Prisoner Review Board paper exists in any Illinois pack or in the Master Library. The four PRB documents are the entire source basis for the family.",
+      "formLabel": "PRB Certificate of Sealing Eligibility Acknowledgement",
+      "sourceBacklogClassOfFamily": [
+        "ACQUIRE_EXACT_SOURCE"
+      ],
+      "acquisitionReceipts": [
+        {
+          "sourceId": "prb-certificate-of-sealing-acknowledgement-eligibility-acknowledgement-source-2024",
+          "formNumber": "Certificate of Sealing Eligibility Acknowledgement",
+          "officialTitle": "Certificate of Sealing Eligibility Acknowledgement",
+          "issuingAuthority": "Illinois Prisoner Review Board",
+          "officialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/sealing-docs/certificate-of-sealing-eligibility-acknowledgement.pdf",
+          "urlKind": "DIRECT_OFFICIAL_BINARY",
+          "outcome": "acquired_bytes",
+          "httpStatus": 200,
+          "obligationKeys": [
+            "il-prb-cert-set::PRB Certificate of Sealing Eligibility Acknowledgement"
+          ]
+        }
+      ],
+      "routesNamingThisForm": [
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-certificate-application",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-court-petition",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-military-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-nonmilitary-expungement-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-sealing-branch"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Application__certificate-of-sealing-application__rev-2024-09-18.pdf",
+      "sha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+      "byteLength": 226488,
+      "jurisdiction": "IL",
+      "manifestClassification": "pdf",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "IL-PRB-CERTIFICATE-OF-SEALING-APPLICATION",
+      "familyIds": [
+        "il-prb-cert-set"
+      ],
+      "obligation": "official-form:PRB Certificate of Sealing Application -- a named component of the Illinois Prisoner Review Board certificate packet",
+      "officialSourceIdentity": {
+        "officialTitle": "Certificate of Sealing Application (rev. 2024-09-18)",
+        "issuingAuthority": "Illinois Prisoner Review Board",
+        "authority": "730 ILCS 5/5-5.5-25 (certificate of sealing); 20 ILCS 2630/5.2 (military expungement)"
+      },
+      "currentOfficialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/sealing-docs/Certificate%20of%20Sealing%20application%209.18.24.pdf",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on prb.illinois.gov, already recorded in SOURCE_ACQUISITION_MANIFEST.json",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The hosted acquisition runner fetched this exact URL and observed the SAME SHA-256 the restore manifest records (expectedSha256 === lastAcquisition.sha256, HTTP 200). The recorded old hash is the current official edition; nothing about this form changed.",
+      "whyItBlocks": "il-prb-cert-set is SOURCE_BLOCKED and its class is ACQUIRE_EXACT_SOURCE: no Prisoner Review Board paper exists in any Illinois pack or in the Master Library. The four PRB documents are the entire source basis for the family.",
+      "formLabel": "PRB Certificate of Sealing Application",
+      "sourceBacklogClassOfFamily": [
+        "ACQUIRE_EXACT_SOURCE"
+      ],
+      "acquisitionReceipts": [
+        {
+          "sourceId": "prb-certificate-of-sealing-application-certificate-of-sealing-application-rev-2024-09-18",
+          "formNumber": "Certificate of Sealing Application",
+          "officialTitle": "Certificate of Sealing Application",
+          "issuingAuthority": "Illinois Prisoner Review Board",
+          "officialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/sealing-docs/Certificate%20of%20Sealing%20application%209.18.24.pdf",
+          "urlKind": "DIRECT_OFFICIAL_BINARY",
+          "outcome": "acquired_bytes",
+          "httpStatus": 200,
+          "obligationKeys": [
+            "il-prb-cert-set::PRB Certificate of Sealing Application"
+          ]
+        }
+      ],
+      "routesNamingThisForm": [
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-certificate-application",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-court-petition",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-military-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-nonmilitary-expungement-branch",
+        "obligation:unit:IL:il-prb-cert:il-prb-cert-sealing-branch"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Illinois/reference-only/PRB-Guidelines-for-Certificate-of-Expungement-for-Military__guidelines__rev-2024-09-18.pdf",
+      "sha256": "cd9f2e021e7ad90b167d8c9477527896edd7e103fe66cbd9aed05cc5c21bb9c2",
+      "byteLength": 123508,
+      "jurisdiction": "IL",
+      "manifestClassification": "pdf",
+      "classification": "REFERENCE_ONLY",
+      "reason": "Filed reference_only in the Nationwide artifact registry at packageTier reference-only, and no il-prb-cert-set obligation names it. il-prb-cert-set names exactly four PRB documents -- the two applications and the two eligibility acknowledgements -- and all four are classified LIVE_PACKET_COMPONENT here. The guidelines and the sealable-convictions list inform eligibility screening; they are not components of the filing.",
+      "nationwideTreatment": {
+        "artifactId": "prb-guidelines-for-certificate-of-expungement-for-military-guidelines-rev-2024-09-18",
+        "sourceTreatment": "reference_only",
+        "packageTier": "reference-only",
+        "reliefTracksUsing": []
+      },
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Illinois/reference-only/PRB-Guidelines-for-Certificate-of-Sealing__guidelines__rev-2024-09-18.pdf",
+      "sha256": "b3ad8e361eb51ce05c4ecb917efe59f084add596e4cf1c91d2a2cdca45820e86",
+      "byteLength": 123555,
+      "jurisdiction": "IL",
+      "manifestClassification": "pdf",
+      "classification": "REFERENCE_ONLY",
+      "reason": "Filed reference_only in the Nationwide artifact registry at packageTier reference-only, and no il-prb-cert-set obligation names it. il-prb-cert-set names exactly four PRB documents -- the two applications and the two eligibility acknowledgements -- and all four are classified LIVE_PACKET_COMPONENT here. The guidelines and the sealable-convictions list inform eligibility screening; they are not components of the filing.",
+      "nationwideTreatment": {
+        "artifactId": "prb-guidelines-for-certificate-of-sealing-guidelines-rev-2024-09-18",
+        "sourceTreatment": "reference_only",
+        "packageTier": "reference-only",
+        "reliefTracksUsing": []
+      },
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Illinois/reference-only/PRB-Sealable-Convictions-List__offences-eligible-for-certificate-of-sealing__source-undated.pdf",
+      "sha256": "dc2b2c63688ee8028d1d11154f43e7a2aa517fd4d3cd153f320abd8af696f40b",
+      "byteLength": 85779,
+      "jurisdiction": "IL",
+      "manifestClassification": "pdf",
+      "classification": "REFERENCE_ONLY",
+      "reason": "Filed reference_only in the Nationwide artifact registry at packageTier reference-only, and no il-prb-cert-set obligation names it. il-prb-cert-set names exactly four PRB documents -- the two applications and the two eligibility acknowledgements -- and all four are classified LIVE_PACKET_COMPONENT here. The guidelines and the sealable-convictions list inform eligibility screening; they are not components of the filing.",
+      "nationwideTreatment": {
+        "artifactId": "prb-sealable-convictions-list-offences-eligible-for-certificate-of-sealing-source-undated",
+        "sourceTreatment": "reference_only",
+        "packageTier": "reference-only",
+        "reliefTracksUsing": []
+      },
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Indiana/forms/IN-FORM-ACR__notice-of-exclusion-of-confidential-information-from-public-access__source-2026-08.docx",
+      "sha256": "21001a1265eb8ff2872f0771ef6e7e75b6b0ad664b2d43aaed912f4e0f4c76c3",
+      "byteLength": 27518,
+      "jurisdiction": "IN",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "Form ACR looks like a live dependency and is not one. official-form:CCA-XP-0120-7002 Form ACR and official-form:Confidential Information Form are BOTH already RESOLVED in the custody reconciliation at tier exact_identity_confirmed_from_document_text, against the Coalition for Court Access Section 1 petition-and-order bundle held in the Master Library. No route depends on this separate .docx. The three SOURCE_BLOCKED Indiana families need the CCA CONVICTION petition and order, which this is not. Worth holding as a currency refresh of the ACR page; not a blocker.",
+      "formLabel": "CCA-XP-0120-7002 Form ACR",
+      "resolvedElsewhereAs": {
+        "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+        "formNumber": "CCA-SECTION1-PETITION-ORDER",
+        "revision": null,
+        "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5"
+      }
+    },
+    {
+      "relativePath": "LegalEase Indiana/reference-only/CCA-XP-0320-7000B__conviction-petition-instructions__rev-2020-03.pdf",
+      "sha256": "9ca0d41ef75a99e6ae9da9fc67c79dc521794b6b9923bcf1669b5c3c42281429",
+      "byteLength": 493853,
+      "jurisdiction": "IN",
+      "manifestClassification": "pdf",
+      "classification": "REFERENCE_ONLY",
+      "reason": "Filed reference_only at packageTier reference-only. The three SOURCE_BLOCKED Indiana families name the CCA conviction expungement PETITION and ORDER, not these instruction and explainer documents, and neither is named by any obligation.",
+      "nationwideTreatment": {
+        "artifactId": "cca-xp-0320-7000b-conviction-petition-instructions-rev-2020-03",
+        "sourceTreatment": "reference_only",
+        "packageTier": "reference-only",
+        "reliefTracksUsing": []
+      },
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Indiana/reference-only/IOCS__detailed-information-on-criminal-case-expungement__rev-2026-07-01.pdf",
+      "sha256": "9c3485e666aa7baaa051e30302b1da39072f97817f076f4b04b3a3e681003510",
+      "byteLength": 294237,
+      "jurisdiction": "IN",
+      "manifestClassification": "pdf",
+      "classification": "REFERENCE_ONLY",
+      "reason": "Filed reference_only at packageTier reference-only. The three SOURCE_BLOCKED Indiana families name the CCA conviction expungement PETITION and ORDER, not these instruction and explainer documents, and neither is named by any obligation.",
+      "nationwideTreatment": {
+        "artifactId": "iocs-detailed-information-on-criminal-case-expungement-rev-2026-07-01",
+        "sourceTreatment": "reference_only",
+        "packageTier": "reference-only",
+        "reliefTracksUsing": []
+      },
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Iowa/forms/DCI-76-and-DCI-77__criminal-history-record-check-billing-and-request-forms-fillable__source-2026.pdf",
+      "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+      "byteLength": 1076864,
+      "jurisdiction": "IA",
+      "manifestClassification": "pdf",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "IA-DCI-76-AND-77",
+      "familyIds": [
+        "ia-dci77-set"
+      ],
+      "obligation": "official-form:DCI-77 Criminal History Record Check Request Form and official-form:DCI-76 Criminal History Record Check Billing Form -- two named forms that resolve to one combined fillable document",
+      "officialSourceIdentity": {
+        "officialTitle": "DCI-76 Criminal History Record Check Billing Form and DCI-77 Criminal History Record Check Request Form (single fillable document)",
+        "issuingAuthority": "Iowa Department of Public Safety, Division of Criminal Investigation",
+        "authority": "Iowa Code ch. 692; Iowa Code s 901C.3"
+      },
+      "currentOfficialUrl": "https://dps.iowa.gov/media/152/download?inline",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on dps.iowa.gov, already recorded in SOURCE_ACQUISITION_MANIFEST.json",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The hosted runner fetched this URL at HTTP 200 and observed the SAME SHA-256 the restore manifest records.",
+      "whyItBlocks": "ia-dci77-set names both DCI forms and no Iowa agency form of any kind exists in the D source packs; the Nationwide copy is the only recorded custody.",
+      "formLabel": "DCI-77 Criminal History Record Check Request Form",
+      "sourceBacklog": {
+        "artifactId": "IA-DCI-76-AND-77",
+        "officialTitle": "DCI-76 Criminal History Record Check Billing Form and DCI-77 Criminal History Record Check Request Form (single fillable document)",
+        "issuingAuthority": "Iowa Department of Public Safety, Division of Criminal Investigation",
+        "officialUrl": "https://dps.iowa.gov/media/152/download?inline",
+        "identityConfidence": "confirmed_from_recorded_title",
+        "servesFamilies": [
+          "ia-dci77-set"
+        ],
+        "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516"
+      },
+      "sourceBacklogClassOfFamily": [
+        "ATTACH_HELD_SOURCE"
+      ],
+      "acquisitionReceipts": [
+        {
+          "sourceId": "dci-76-and-dci-77-criminal-history-record-check-billing-and-request-forms-fillable-source-",
+          "formNumber": "DCI-76 / DCI-77",
+          "officialTitle": "Criminal History Billing and Request Forms (fillable)",
+          "issuingAuthority": "Iowa Department of Public Safety, Division of Criminal Investigation",
+          "officialUrl": "https://dps.iowa.gov/media/152/download?inline",
+          "urlKind": "DIRECT_OFFICIAL_BINARY",
+          "outcome": "acquired_bytes",
+          "httpStatus": 200,
+          "obligationKeys": [
+            "ia-dci77-set::The Iowa criminal history record check request the section 901C.3 route requires.",
+            "ia-dci77-set::The billing form that accompanies the DCI-77 request."
+          ]
+        }
+      ],
+      "routesNamingThisForm": [
+        "obligation:track-only:IA:ia-dci77"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Iowa/forms/IA-RULE-2.86-FORM-1__application-to-expunge-court-record-901c-2__rev-2022-01.pdf",
+      "sha256": "d3e68933c4ed878c72784c5b2b191281116f87d953fa6203aecb702584cb5053",
+      "byteLength": 268162,
+      "jurisdiction": "IA",
+      "manifestClassification": "pdf",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "IA-RULE-2.86-FORM-1",
+      "familyIds": [
+        "ia-901c2-set"
+      ],
+      "obligation": "official-form:Rule 2.86 Form 1 -- the application the section 901C.2 route files, and the Certification of Service printed inside it",
+      "officialSourceIdentity": {
+        "officialTitle": "Iowa R. Crim. P. 2.86 - Form 1: Application to Expunge Court Record under Iowa Code s 901C.2",
+        "issuingAuthority": "Iowa Judicial Branch",
+        "authority": "Iowa Code s 901C.2; Iowa R. Crim. P. 2.86"
+      },
+      "currentOfficialUrl": "https://www.iowacourts.gov/collections/738/files/1569/embedDocument",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on iowacourts.gov, already recorded in SOURCE_ACQUISITION_MANIFEST.json",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The hosted runner fetched this URL at HTTP 200 and observed the SAME SHA-256 the restore manifest records. Rev. 2022-01 is current.",
+      "whyItBlocks": "ia-901c2-set names Rule 2.86 Form 1 and the Nationwide copy is the only custody the repository records for it; the D source packs hold only Forms 4 and 5.",
+      "formLabel": "Rule 2.86 Form 1",
+      "sourceRelationship": {
+        "canonicalArtifactId": "Rule 2.86 Form 1",
+        "canonicalArtifactTitle": "IA-RULE-2.86-FORM-1__application-to-expunge-court-record-901c-2__rev-2022-01.pdf",
+        "sourceState": "CURRENTNESS_UNVERIFIED",
+        "officialArtifactUrl": null,
+        "officialSourcePage": null,
+        "artifactSha256": "d3e68933c4ed878c72784c5b2b191281116f87d953fa6203aecb702584cb5053",
+        "families": [
+          "ia-901c2-set"
+        ]
+      },
+      "acquisitionReceipts": [
+        {
+          "sourceId": "ia-rule-2-86-form-1-application-to-expunge-court-record-901c-2-rev-2022-01",
+          "formNumber": "Iowa R. Crim. P. 2.86 Form 1",
+          "officialTitle": "Application to Expunge Court Record (Iowa Code § 901C.2) — Iowa R. Crim. P. 2.86 Form 1",
+          "issuingAuthority": "Iowa Judicial Branch",
+          "officialUrl": "https://www.iowacourts.gov/collections/738/files/1569/embedDocument",
+          "urlKind": "DIRECT_OFFICIAL_BINARY",
+          "outcome": "acquired_bytes",
+          "httpStatus": 200,
+          "obligationKeys": [
+            "ia-901c2-set::The Iowa expungement application prescribed as Iowa R. Crim. P. 2.86 Form 1."
+          ]
+        }
+      ],
+      "routesNamingThisForm": [
+        "obligation:track-pathway:IA:ia-901c2:nonconviction-901c2"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Iowa/forms/IA-RULE-2.86-FORM-3__application-to-expunge-public-intoxication-records-123-46__rev-2022-01.pdf",
+      "sha256": "6f222685001373ba2e1ef63509e3b42e7e47d5067bfb0ed3b130b62040d80f01",
+      "byteLength": 263607,
+      "jurisdiction": "IA",
+      "manifestClassification": "pdf",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "IA-RULE-2.86-FORM-3",
+      "familyIds": [
+        "ia-12346-set"
+      ],
+      "obligation": "official-form:Rule 2.86 Form 3 -- the application the section 123.46 public-intoxication route files",
+      "officialSourceIdentity": {
+        "officialTitle": "Iowa R. Crim. P. 2.86 - Form 3: Application to Expunge Public Intoxication Records under Iowa Code s 123.46",
+        "issuingAuthority": "Iowa Judicial Branch",
+        "authority": "Iowa Code s 123.46; Iowa R. Crim. P. 2.86"
+      },
+      "currentOfficialUrl": "https://www.iowacourts.gov/collections/721/files/1504/embedDocument",
+      "acquisitionPath": "DIRECT_OFFICIAL_BINARY on iowacourts.gov, already recorded in SOURCE_ACQUISITION_MANIFEST.json",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The hosted runner fetched this URL at HTTP 200 and observed the SAME SHA-256 the restore manifest records. Rev. 2022-01 is current.",
+      "whyItBlocks": "ia-12346-set names Rule 2.86 Form 3 and the Nationwide copy is the only custody the repository records for it.",
+      "formLabel": "Rule 2.86 Form 3",
+      "sourceRelationship": {
+        "canonicalArtifactId": "Rule 2.86 Form 3",
+        "canonicalArtifactTitle": "IA-RULE-2.86-FORM-3__application-to-expunge-public-intoxication-records-123-46__rev-2022-01.pdf",
+        "sourceState": "CURRENTNESS_UNVERIFIED",
+        "officialArtifactUrl": null,
+        "officialSourcePage": null,
+        "artifactSha256": "6f222685001373ba2e1ef63509e3b42e7e47d5067bfb0ed3b130b62040d80f01",
+        "families": [
+          "ia-12346-set"
+        ]
+      },
+      "acquisitionReceipts": [
+        {
+          "sourceId": "ia-rule-2-86-form-3-application-to-expunge-public-intoxication-records-123-46-rev-2022-01",
+          "formNumber": "Iowa R. Crim. P. 2.86 Form 3",
+          "officialTitle": "Application to Expunge Public Intoxication Records (Iowa Code § 123.46) — Iowa R. Crim. P. 2.86 Form 3",
+          "issuingAuthority": "Iowa Judicial Branch",
+          "officialUrl": "https://www.iowacourts.gov/collections/721/files/1504/embedDocument",
+          "urlKind": "DIRECT_OFFICIAL_BINARY",
+          "outcome": "acquired_bytes",
+          "httpStatus": 200,
+          "obligationKeys": [
+            "ia-12346-set::The Iowa expungement application prescribed as Iowa R. Crim. P. 2.86 Form 3."
+          ]
+        }
+      ],
+      "routesNamingThisForm": [
+        "obligation:track-pathway:IA:ia-12346:public-intoxication-12346"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__order-for-expungement-of-conviction-or-diversion__rev-2022-08.pdf",
+      "sha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+      "byteLength": 124641,
+      "jurisdiction": "KS",
+      "manifestClassification": "pdf",
+      "classification": "ALREADY_HELD_OTHER_CUSTODY",
+      "artifactId": null,
+      "familyIds": [],
+      "obligation": null,
+      "reason": "The exact recorded SHA-256 is present in this checkout's mounted Master Library custody at the path the residual list names. Nothing is owed.",
+      "heldAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KSJC__order-for-expungement-of-conviction-or-diversion__REV-2022-08__EN.pdf"
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+      "sha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+      "byteLength": 55112,
+      "jurisdiction": "KS",
+      "manifestClassification": "pdf",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "KSJC-ORDER-ARREST-COVER-SHEET",
+      "familyIds": [
+        "ks-22-2410-arrest-set"
+      ],
+      "obligation": "source-sha256:d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5, named directly by obligation:track-only:KS:ks-22-2410-arrest, and official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+      "officialSourceIdentity": {
+        "officialTitle": "Order of Expungement of Arrest Record - Cover Sheet (rev. 2016-12)",
+        "issuingAuthority": "Kansas Judicial Council",
+        "authority": "K.S.A. 22-2410"
+      },
+      "currentOfficialUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/arrest-record-only",
+      "acquisitionPath": "OFFICIAL_LANDING_PAGE on the migrated www.kjc.ks.gov host; exact binary URL still needs DISC.",
+      "recordedHashIsCurrentEdition": null,
+      "editionEvidence": "Not verified here: no byte could be fetched. Recorded as CURRENTNESS_UNVERIFIED.",
+      "whyItBlocks": "The cover sheet is what the Kansas Bureau of Investigation receives; without it the arrest packet is not deliverable.",
+      "acquisitionAttempt": {
+        "attempted": true,
+        "attemptedOn": "2026-09-02",
+        "transport": "curl through this container's egress proxy, and the WebFetch tool",
+        "observed": "curl: (56) CONNECT tunnel failed, response 403 -- and WebFetch EGRESS_BLOCKED",
+        "scope": "Every host was refused at CONNECT, including https://example.com/, so this is a blanket egress denial in this container and not a per-judiciary block. No binary could be fetched, hashed or verified here. Web search was reachable and was used only to fix official identity and current addresses.",
+        "urls": [
+          "https://www.kansasjudicialcouncil.org/legal-forms/expungement"
+        ]
+      },
+      "tracedRoutes": [
+        {
+          "routeKey": "obligation:track-only:KS:ks-22-2410-arrest",
+          "packetSetId": "ks-22-2410-arrest-set",
+          "packetFamilyId": null,
+          "currentOutputStrategy": "official_pdf_fill",
+          "currentCommercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP"
+        }
+      ],
+      "sourceBacklog": {
+        "artifactId": "KSJC-ORDER-ARREST-COVER-SHEET",
+        "officialTitle": "Order of Expungement of Arrest Record - Cover Sheet (rev. 2016-12)",
+        "issuingAuthority": "Kansas Judicial Council / Kansas Judicial Branch",
+        "officialUrl": null,
+        "identityConfidence": "confirmed_from_recorded_title",
+        "servesFamilies": [
+          "ks-22-2410-arrest-set"
+        ],
+        "sha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5"
+      },
+      "sourceBacklogClassOfFamily": [
+        "ATTACH_HELD_SOURCE"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+      "sha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+      "byteLength": 217564,
+      "jurisdiction": "KS",
+      "manifestClassification": "pdf",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "KSJC-ORDER-REGISTRATION-RELIEF-COVER-SHEET",
+      "familyIds": [
+        "ks-22-4908-registration-relief-set"
+      ],
+      "obligation": "source-sha256:0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd, named directly by both ks-22-4908 obligation units, and official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+      "officialSourceIdentity": {
+        "officialTitle": "Order of Relief from Offender Registration - Cover Sheet (rev. 2022-06)",
+        "issuingAuthority": "Kansas Judicial Council",
+        "authority": "K.S.A. 22-4908"
+      },
+      "currentOfficialUrl": "https://www.kjc.ks.gov/legal-forms/drug-offender-registration-relief/-folder-468-431",
+      "acquisitionPath": "OFFICIAL_LANDING_PAGE on the migrated www.kjc.ks.gov host; exact binary URL still needs DISC.",
+      "recordedHashIsCurrentEdition": null,
+      "editionEvidence": "Not verified here: no byte could be fetched.",
+      "whyItBlocks": "The order cover sheet is the second half of the registration-relief filing; the family names both.",
+      "acquisitionAttempt": {
+        "attempted": true,
+        "attemptedOn": "2026-09-02",
+        "transport": "curl through this container's egress proxy, and the WebFetch tool",
+        "observed": "curl: (56) CONNECT tunnel failed, response 403 -- and WebFetch EGRESS_BLOCKED",
+        "scope": "Every host was refused at CONNECT, including https://example.com/, so this is a blanket egress denial in this container and not a per-judiciary block. No binary could be fetched, hashed or verified here. Web search was reachable and was used only to fix official identity and current addresses.",
+        "urls": [
+          "https://www.kansasjudicialcouncil.org/legal-forms/expungement"
+        ]
+      },
+      "tracedRoutes": [
+        {
+          "routeKey": "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-combined-expungement",
+          "packetSetId": "ks-22-4908-registration-relief-set",
+          "packetFamilyId": null,
+          "currentOutputStrategy": "official_pdf_fill",
+          "currentCommercialState": "NO_UNIT_LEVEL_GRADE_A_FULFILLMENT_RECORD"
+        },
+        {
+          "routeKey": "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-registration-relief-petition",
+          "packetSetId": "ks-22-4908-registration-relief-set",
+          "packetFamilyId": null,
+          "currentOutputStrategy": "official_pdf_fill",
+          "currentCommercialState": "NO_UNIT_LEVEL_GRADE_A_FULFILLMENT_RECORD"
+        }
+      ],
+      "sourceBacklog": {
+        "artifactId": "KSJC-ORDER-REGISTRATION-RELIEF-COVER-SHEET",
+        "officialTitle": "Order of Relief from Offender Registration - Cover Sheet (rev. 2022-06)",
+        "issuingAuthority": "Kansas Judicial Council / Kansas Judicial Branch",
+        "officialUrl": null,
+        "identityConfidence": "confirmed_from_recorded_title",
+        "servesFamilies": [
+          "ks-22-4908-registration-relief-set"
+        ],
+        "sha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd"
+      },
+      "sourceBacklogClassOfFamily": [
+        "ATTACH_HELD_SOURCE"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+      "sha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+      "byteLength": 51084,
+      "jurisdiction": "KS",
+      "manifestClassification": "pdf",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "KSJC-PETITION-ARREST-RECORD",
+      "familyIds": [
+        "ks-22-2410-arrest-set"
+      ],
+      "obligation": "source-sha256:bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d, named directly by obligation:track-only:KS:ks-22-2410-arrest, and official-form:KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+      "officialSourceIdentity": {
+        "officialTitle": "Petition for Expungement of Arrest Record (rev. 2013-02)",
+        "issuingAuthority": "Kansas Judicial Council",
+        "authority": "K.S.A. 22-2410"
+      },
+      "currentOfficialUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/arrest-record-only",
+      "acquisitionPath": "OFFICIAL_LANDING_PAGE. The Kansas Judicial Council has moved from kansasjudicialcouncil.org to www.kjc.ks.gov, which IS inside the .gov allowlist that refused the old host. The exact binary URL under that page still needs DISC; the host obstacle is gone.",
+      "recordedHashIsCurrentEdition": null,
+      "editionEvidence": "Not verified here: no byte could be fetched. The Kansas Judicial Council still publishes this set at the recorded revisions (arrest petition 02/2013, registration relief 06/2022, conviction or diversion 08/2022), so no supersession is indicated, but currency is UNVERIFIED and the relationship registry records it as CURRENTNESS_UNVERIFIED.",
+      "whyItBlocks": "The route names this file by its own SHA-256. No Kansas family had any custody row at all before the Nationwide inventory, and none of the three Kansas D-pack files is an arrest-record form.",
+      "acquisitionAttempt": {
+        "attempted": true,
+        "attemptedOn": "2026-09-02",
+        "transport": "curl through this container's egress proxy, and the WebFetch tool",
+        "observed": "curl: (56) CONNECT tunnel failed, response 403 -- and WebFetch EGRESS_BLOCKED",
+        "scope": "Every host was refused at CONNECT, including https://example.com/, so this is a blanket egress denial in this container and not a per-judiciary block. No binary could be fetched, hashed or verified here. Web search was reachable and was used only to fix official identity and current addresses.",
+        "urls": [
+          "https://www.kansasjudicialcouncil.org/legal-forms/expungement",
+          "https://www.kscourts.gov/Public/Court-Forms"
+        ]
+      },
+      "tracedRoutes": [
+        {
+          "routeKey": "obligation:track-only:KS:ks-22-2410-arrest",
+          "packetSetId": "ks-22-2410-arrest-set",
+          "packetFamilyId": null,
+          "currentOutputStrategy": "official_pdf_fill",
+          "currentCommercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP"
+        }
+      ],
+      "sourceBacklog": {
+        "artifactId": "KSJC-PETITION-ARREST-RECORD",
+        "officialTitle": "Petition for Expungement of Arrest Record (rev. 2013-02)",
+        "issuingAuthority": "Kansas Judicial Council / Kansas Judicial Branch",
+        "officialUrl": null,
+        "identityConfidence": "confirmed_from_recorded_title",
+        "servesFamilies": [
+          "ks-22-2410-arrest-set"
+        ],
+        "sha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d"
+      },
+      "sourceBacklogClassOfFamily": [
+        "ATTACH_HELD_SOURCE"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+      "sha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+      "byteLength": 401878,
+      "jurisdiction": "KS",
+      "manifestClassification": "pdf",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "KSJC-PETITION-REGISTRATION-RELIEF",
+      "familyIds": [
+        "ks-22-4908-registration-relief-set"
+      ],
+      "obligation": "source-sha256:9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396, named directly by both ks-22-4908 obligation units, and official-form:KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022",
+      "officialSourceIdentity": {
+        "officialTitle": "Petition for Relief from Offender Registration (rev. 2022-06)",
+        "issuingAuthority": "Kansas Judicial Council",
+        "authority": "K.S.A. 22-4908"
+      },
+      "currentOfficialUrl": "https://www.kjc.ks.gov/legal-forms/drug-offender-registration-relief/-folder-468-431",
+      "acquisitionPath": "OFFICIAL_LANDING_PAGE on the migrated www.kjc.ks.gov host; exact binary URL still needs DISC.",
+      "recordedHashIsCurrentEdition": null,
+      "editionEvidence": "Not verified here: no byte could be fetched. The Council still publishes 'Petition for registration relief (6-2022)', which matches the recorded revision, so no supersession is indicated.",
+      "whyItBlocks": "No registration-relief form exists in any pack; the Nationwide copy is the only recorded custody.",
+      "acquisitionAttempt": {
+        "attempted": true,
+        "attemptedOn": "2026-09-02",
+        "transport": "curl through this container's egress proxy, and the WebFetch tool",
+        "observed": "curl: (56) CONNECT tunnel failed, response 403 -- and WebFetch EGRESS_BLOCKED",
+        "scope": "Every host was refused at CONNECT, including https://example.com/, so this is a blanket egress denial in this container and not a per-judiciary block. No binary could be fetched, hashed or verified here. Web search was reachable and was used only to fix official identity and current addresses.",
+        "urls": [
+          "https://www.kansasjudicialcouncil.org/legal-forms/expungement"
+        ]
+      },
+      "tracedRoutes": [
+        {
+          "routeKey": "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-combined-expungement",
+          "packetSetId": "ks-22-4908-registration-relief-set",
+          "packetFamilyId": null,
+          "currentOutputStrategy": "official_pdf_fill",
+          "currentCommercialState": "NO_UNIT_LEVEL_GRADE_A_FULFILLMENT_RECORD"
+        },
+        {
+          "routeKey": "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-registration-relief-petition",
+          "packetSetId": "ks-22-4908-registration-relief-set",
+          "packetFamilyId": null,
+          "currentOutputStrategy": "official_pdf_fill",
+          "currentCommercialState": "NO_UNIT_LEVEL_GRADE_A_FULFILLMENT_RECORD"
+        }
+      ],
+      "sourceBacklog": {
+        "artifactId": "KSJC-PETITION-REGISTRATION-RELIEF",
+        "officialTitle": "Petition for Relief from Offender Registration (rev. 2022-06)",
+        "issuingAuthority": "Kansas Judicial Council / Kansas Judicial Branch",
+        "officialUrl": null,
+        "identityConfidence": "confirmed_from_recorded_title",
+        "servesFamilies": [
+          "ks-22-4908-registration-relief-set"
+        ],
+        "sha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396"
+      },
+      "sourceBacklogClassOfFamily": [
+        "ATTACH_HELD_SOURCE"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-987__motion-to-set-aside-conviction-rule-to-show-cause-and-order-of-dismissal-forms__source-2026-08.html",
+      "sha256": "6f1498a70bc0cbc7f88e721ea24a9d08ab37d757d0c884feeb6db615844fd850",
+      "byteLength": 44421,
+      "jurisdiction": "LA",
+      "manifestClassification": "reference",
+      "classification": "REFERENCE_ONLY",
+      "artifactId": "LA-CCRP-STATUTORY-FORMS",
+      "reason": "Covered by OWNER_DETERMINATION LA-STATUTORY-FORMS, which puts La. C.Cr.P. arts. 987 through 995 and 998 uniformly under COMPOSE_FROM_AUTHORITY with authorityHeld true. All six of these files fall inside the numbered range the determination names. The composition authority is the codified article text carried by the compiled Louisiana profile, and the determination says in terms that existing renderings of the articles are references rather than a different product class. Acquiring this statutory HTML solely to rebuild the old private tree would buy nothing the determination has not already settled.",
+      "ownerDetermination": "LA-STATUTORY-FORMS",
+      "determinationCoversThisArticle": true,
+      "formLabel": "LA-CCRP-ART-987",
+      "ownerDeterminationId": "LA-STATUTORY-FORMS"
+    },
+    {
+      "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-988__motion-for-fee-exemption-certification-of-fee-waiver-form__source-2026-08.html",
+      "sha256": "efa0a8631a1c26122dc6f6ac26777eb53e4077e188bc0b5adc54ace5cd6defe7",
+      "byteLength": 52058,
+      "jurisdiction": "LA",
+      "manifestClassification": "reference",
+      "classification": "REFERENCE_ONLY",
+      "artifactId": "LA-CCRP-STATUTORY-FORMS",
+      "reason": "Covered by OWNER_DETERMINATION LA-STATUTORY-FORMS, which puts La. C.Cr.P. arts. 987 through 995 and 998 uniformly under COMPOSE_FROM_AUTHORITY with authorityHeld true. All six of these files fall inside the numbered range the determination names. The composition authority is the codified article text carried by the compiled Louisiana profile, and the determination says in terms that existing renderings of the articles are references rather than a different product class. Acquiring this statutory HTML solely to rebuild the old private tree would buy nothing the determination has not already settled.",
+      "ownerDetermination": "LA-STATUTORY-FORMS",
+      "determinationCoversThisArticle": true,
+      "formLabel": "LA-CCRP-ART-988",
+      "ownerDeterminationId": "LA-STATUTORY-FORMS"
+    },
+    {
+      "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-989__motion-for-expungement-form__source-2026-08.html",
+      "sha256": "4c593e60f5c0c67366cab929359e9002a731b7a32523d3b8e24a9299e4a24365",
+      "byteLength": 145325,
+      "jurisdiction": "LA",
+      "manifestClassification": "reference",
+      "classification": "REFERENCE_ONLY",
+      "artifactId": "LA-CCRP-STATUTORY-FORMS",
+      "reason": "Covered by OWNER_DETERMINATION LA-STATUTORY-FORMS, which puts La. C.Cr.P. arts. 987 through 995 and 998 uniformly under COMPOSE_FROM_AUTHORITY with authorityHeld true. All six of these files fall inside the numbered range the determination names. The composition authority is the codified article text carried by the compiled Louisiana profile, and the determination says in terms that existing renderings of the articles are references rather than a different product class. Acquiring this statutory HTML solely to rebuild the old private tree would buy nothing the determination has not already settled.",
+      "ownerDetermination": "LA-STATUTORY-FORMS",
+      "determinationCoversThisArticle": true,
+      "formLabel": "LA-CCRP-ART-989",
+      "ownerDeterminationId": "LA-STATUTORY-FORMS"
+    },
+    {
+      "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-991__order-form__source-2026-08.html",
+      "sha256": "a6872580f648c33f766c43c41771a0c1b3f9d91a50e9d0d77bdf4919bf2a79c2",
+      "byteLength": 30784,
+      "jurisdiction": "LA",
+      "manifestClassification": "reference",
+      "classification": "REFERENCE_ONLY",
+      "artifactId": "LA-CCRP-STATUTORY-FORMS",
+      "reason": "Covered by OWNER_DETERMINATION LA-STATUTORY-FORMS, which puts La. C.Cr.P. arts. 987 through 995 and 998 uniformly under COMPOSE_FROM_AUTHORITY with authorityHeld true. All six of these files fall inside the numbered range the determination names. The composition authority is the codified article text carried by the compiled Louisiana profile, and the determination says in terms that existing renderings of the articles are references rather than a different product class. Acquiring this statutory HTML solely to rebuild the old private tree would buy nothing the determination has not already settled.",
+      "ownerDetermination": "LA-STATUTORY-FORMS",
+      "determinationCoversThisArticle": true,
+      "formLabel": "LA-CCRP-ART-991",
+      "ownerDeterminationId": "LA-STATUTORY-FORMS"
+    },
+    {
+      "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-992__order-of-expungement-form__source-2026-08.html",
+      "sha256": "fc715f0eea69f2ad56f1c3245ac9570a85e274b7743fc6b488dc8fac763c3bf4",
+      "byteLength": 79503,
+      "jurisdiction": "LA",
+      "manifestClassification": "reference",
+      "classification": "REFERENCE_ONLY",
+      "artifactId": "LA-CCRP-STATUTORY-FORMS",
+      "reason": "Covered by OWNER_DETERMINATION LA-STATUTORY-FORMS, which puts La. C.Cr.P. arts. 987 through 995 and 998 uniformly under COMPOSE_FROM_AUTHORITY with authorityHeld true. All six of these files fall inside the numbered range the determination names. The composition authority is the codified article text carried by the compiled Louisiana profile, and the determination says in terms that existing renderings of the articles are references rather than a different product class. Acquiring this statutory HTML solely to rebuild the old private tree would buy nothing the determination has not already settled.",
+      "ownerDetermination": "LA-STATUTORY-FORMS",
+      "determinationCoversThisArticle": true,
+      "formLabel": "LA-CCRP-ART-992",
+      "ownerDeterminationId": "LA-STATUTORY-FORMS"
+    },
+    {
+      "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-994__motion-for-interim-expungement-form__source-2026-08.html",
+      "sha256": "07b0ad437bcd4fceb8fbfd7235d0729ee404f58c342640d399e46f05aa9d1ef3",
+      "byteLength": 82688,
+      "jurisdiction": "LA",
+      "manifestClassification": "reference",
+      "classification": "REFERENCE_ONLY",
+      "artifactId": "LA-CCRP-STATUTORY-FORMS",
+      "reason": "Covered by OWNER_DETERMINATION LA-STATUTORY-FORMS, which puts La. C.Cr.P. arts. 987 through 995 and 998 uniformly under COMPOSE_FROM_AUTHORITY with authorityHeld true. All six of these files fall inside the numbered range the determination names. The composition authority is the codified article text carried by the compiled Louisiana profile, and the determination says in terms that existing renderings of the articles are references rather than a different product class. Acquiring this statutory HTML solely to rebuild the old private tree would buy nothing the determination has not already settled.",
+      "ownerDetermination": "LA-STATUTORY-FORMS",
+      "determinationCoversThisArticle": true,
+      "formLabel": "LA-CCRP-ART-994",
+      "ownerDeterminationId": "LA-STATUTORY-FORMS"
+    },
+    {
+      "relativePath": "LegalEase Maine/forms/ME-CR-308__order-on-motion-to-seal-criminal-history-victims-of-sex-trafficking-or-sexual-exploitation__rev-2026-06.pdf",
+      "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+      "byteLength": 162514,
+      "jurisdiction": "ME",
+      "manifestClassification": "pdf",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "ME-CR-308",
+      "familyIds": [
+        "me-seal-survivor-set"
+      ],
+      "obligation": "official-form:CR-308 -- the order the survivor-sealing route submits with its motion",
+      "officialSourceIdentity": {
+        "officialTitle": "Order on Motion to Seal Criminal History Record Information (victims of sex trafficking or sexual exploitation), Form CR-308 (rev. 2026-06)",
+        "issuingAuthority": "Maine Judicial Branch",
+        "authority": "16 M.R.S. s 2802 et seq."
+      },
+      "currentOfficialUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-308",
+      "acquisitionPath": "OFFICIAL_DOWNLOAD_ENDPOINT on courts.maine.gov. The hosted runner has ALREADY fetched it at HTTP 200; the bytes sit in a workflow artifact behind storage this container's proxy denies. What remains is the reviewed custody commit the acquisition workflow reserves to a human, not another fetch.",
+      "recordedHashIsCurrentEdition": true,
+      "editionEvidence": "The runner observed SHA-256 b2e78f24cb33... -- identical to the restore-manifest hash. The recorded old hash IS the current edition.",
+      "whyItBlocks": "me-seal-survivor-set is the only Maine family naming CR-308, the reconciliation records official-form:CR-308 as named_form_number_not_in_corpus, and no other custody holds it.",
+      "formLabel": "CR-308",
+      "sourceRelationship": {
+        "canonicalArtifactId": "CR-308",
+        "canonicalArtifactTitle": "ME-CR-308__order-on-motion-to-seal-criminal-history-victims-of-sex-trafficking-or-sexual-exploitation__rev-2026-06.pdf",
+        "sourceState": "CURRENTNESS_UNVERIFIED",
+        "officialArtifactUrl": null,
+        "officialSourcePage": null,
+        "artifactSha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+        "families": [
+          "me-seal-survivor-set"
+        ]
+      },
+      "acquisitionReceipts": [
+        {
+          "sourceId": "me-cr-308-order-on-motion-to-seal-trafficking-victim",
+          "formNumber": "CR-308",
+          "officialTitle": "Order on Motion to Seal Conviction of Criminal History for Victims of Sex Trafficking or Sexual Exploitation",
+          "issuingAuthority": "Maine Judicial Branch",
+          "officialUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-308",
+          "urlKind": "OFFICIAL_DOWNLOAD_ENDPOINT",
+          "outcome": "acquired_bytes",
+          "httpStatus": 200,
+          "obligationKeys": [
+            "me-seal-survivor-set::official-form:CR-308"
+          ]
+        }
+      ],
+      "routesNamingThisForm": [
+        "obligation:track-pathway:ME:me-seal-survivor:sex-trafficking-sexual-exploitation-survivor-sealing"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Maryland/dccr071.pdf",
+      "sha256": "d81027ee0dd84ceac09ce9a1dff0195143e225cdcafa7d953530b7fa8c161e8a",
+      "byteLength": 426706,
+      "jurisdiction": "MD",
+      "manifestClassification": "pdf",
+      "classification": "SUPERSEDED_SOURCE",
+      "artifactId": "MD-DC-CR-071",
+      "familyIds": [],
+      "reason": "No Maryland obligation anywhere in the census names form 071. Every current Maryland petition obligation names the CC-DC-CR-072 series (072A expungement petition, 072B conviction or pardon, 072C early, 072D cannabis), and 072B, 072C and 072D have already been fetched at HTTP 200 with recorded digests. The 071 capture is the predecessor printing of that petition and is not the edition any route asks for.",
+      "currentOfficialEdition": {
+        "formNumber": "CC-DC-CR-072A / 072B / 072C / 072D",
+        "status": "acquired_bytes_recorded_for_072B_072C_072D",
+        "officialSourcePage": "https://www.mdcourts.gov/courtforms (Maryland Judiciary court forms index)"
+      },
+      "identityConfidence": "inferred_from_filename_and_from_the_absence_of_any_071_obligation",
+      "doNotHuntTheOldBytes": true,
+      "formLabel": "CC-DC-CR-071",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Minnesota/EXP103_Current.pdf",
+      "sha256": "8dd66a22329559fd434f014814dd2895ea434e60f17d652a9816e8f65dae2fd4",
+      "byteLength": 10256,
+      "jurisdiction": "MN",
+      "manifestClassification": "pdf",
+      "classification": "ORPHANED_FROM_LIVE_ROUTES",
+      "reason": "Minnesota's obligations name EXP101, EXP102, EXP104, EXP105 and EXP106. Not EXP103. The official source registry has no EXP103 entry at all, and at 10,256 bytes this is not one of the substantive petition or order forms.",
+      "formLabel": "EXP103",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Mississippi/reference-only/MS-HB-1546-2026__enrolled-act-chapter-430-laws-of-2026-expunction-waiting-period__source-2026-08.pdf",
+      "sha256": "d5d7169a9553f5c6126602e34165f9ac290773c05800c27e1536bcf86c7a02e4",
+      "byteLength": 101784,
+      "jurisdiction": "MS",
+      "manifestClassification": "pdf",
+      "classification": "REFERENCE_ONLY",
+      "reason": "Named inside the Mississippi custom-pleading family adoption record with sourceRole explicitly 'reference_only', beside four authority_source documents that carry the actual petition and order text. Mississippi has no source-blocked family. The enrolled act matters legally -- it moved the expunction waiting period -- but its declared role in the family that would use it is reference, and no packet component is built from it.",
+      "declaredSourceRole": "reference_only",
+      "declaredIn": "data/record-clearing/template-families/ADOPT-01-custom-pleading-family-adoption.json",
+      "nationwideTreatment": {
+        "artifactId": "ms-hb-1546-2026-enrolled-act-chapter-430-laws-of-2026-expunction-waiting-period-source-202",
+        "sourceTreatment": "reference_only",
+        "packageTier": null,
+        "reliefTracksUsing": []
+      }
+    },
+    {
+      "relativePath": "LegalEase Missouri/forms/CR145__petition-for-expungement-of-arrest-records__rev-2024-04.pdf",
+      "sha256": "7c527bf351e9ab08658f901abc9be15e12e5beb2afe7ded14a8c5e2f0d6eb641",
+      "byteLength": 1256968,
+      "jurisdiction": "MO",
+      "manifestClassification": "pdf",
+      "classification": "ALREADY_HELD_OTHER_CUSTODY",
+      "artifactId": null,
+      "familyIds": [],
+      "obligation": null,
+      "reason": "The exact recorded SHA-256 is present in this checkout's mounted Master Library custody at the path the residual list names. Nothing is owed.",
+      "heldAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR145__petition-for-expungement-of-arrest-records__REV-2024-04__EN.pdf"
+    },
+    {
+      "relativePath": "LegalEase Missouri/forms/CR360__petition-for-expungement-under-section-610.140__rev-2024-10.pdf",
+      "sha256": "6bfbf26a54f374f7c6bd6dcb59bc199bfe897890c1b3265513b2e7df43990745",
+      "byteLength": 707097,
+      "jurisdiction": "MO",
+      "manifestClassification": "pdf",
+      "classification": "ALREADY_HELD_OTHER_CUSTODY",
+      "artifactId": null,
+      "familyIds": [],
+      "obligation": null,
+      "reason": "The exact recorded SHA-256 is present in this checkout's mounted Master Library custody at the path the residual list names. Nothing is owed.",
+      "heldAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR360__petition-for-expungement-section-610-140-rsmo__REV-2024-10__EN.pdf"
+    },
+    {
+      "relativePath": "LegalEase Missouri/forms/CR375__petition-for-expungement-marijuana-related-offenses__rev-2024-10.pdf",
+      "sha256": "2cfca7e9bea55d27de82b9aed2875db02872345592cc69af7a5aab400e4b0780",
+      "byteLength": 694722,
+      "jurisdiction": "MO",
+      "manifestClassification": "pdf",
+      "classification": "ALREADY_HELD_OTHER_CUSTODY",
+      "artifactId": null,
+      "familyIds": [],
+      "obligation": null,
+      "reason": "The exact recorded SHA-256 is present in this checkout's mounted Master Library custody at the path the residual list names. Nothing is owed.",
+      "heldAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR375__petition-for-expungement-marijuana-related-offense-s__REV-2024-10__EN.pdf"
+    },
+    {
+      "relativePath": "LegalEase Missouri/Judgment and Order of Expungement - Section 610.140 RSMo CR370.pdf",
+      "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+      "byteLength": 103658,
+      "jurisdiction": "MO",
+      "manifestClassification": "pdf",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "artifactId": "MO-CR370",
+      "familyIds": [
+        "mo-610-140-arrest-set",
+        "mo-610-140-conviction-set"
+      ],
+      "obligation": "official-form:CR370 -- the judgment and order counterpart to the CR360 petition under RSMo 610.140",
+      "officialSourceIdentity": {
+        "officialTitle": "Judgment and Order of Expungement - Section 610.140, RSMo (Form CR370)",
+        "issuingAuthority": "Missouri Office of State Courts Administrator",
+        "authority": "s 610.140, RSMo"
+      },
+      "currentOfficialUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+      "acquisitionPath": "OFFICIAL_LANDING_PAGE (the Missouri Courts expungement forms index) on the allowlisted courts.mo.gov host. Its sibling CR360 is published there as a direct binary at https://www.courts.mo.gov/file.jsp?id=56341, so CR370 has an analogous file.jsp id on the same host; establishing that exact id is a DISC step, and no address is guessed here.",
+      "recordedHashIsCurrentEdition": null,
+      "editionEvidence": "Unverified, and this is the weakest custody position in the residual set. SOURCE_RELATIONSHIP_REGISTRY records CR370 as MISSING_SOURCE_BINARY with artifactSha256 null: the repository names the document, points at this Nationwide path, and holds no digest for it at all.",
+      "whyItBlocks": "Both 610.140 families name CR370 alongside CR360, and the queue reports SOURCE_NAMED_BUT_NOT_HELD. CR360 itself is already held in this checkout, so CR370 is the single form standing between these two families and a complete component set.",
+      "formLabel": "CR370",
+      "acquisitionAttempt": {
+        "attempted": true,
+        "attemptedOn": "2026-09-02",
+        "transport": "curl through this container's egress proxy, and the WebFetch tool",
+        "observed": "curl: (56) CONNECT tunnel failed, response 403 -- and WebFetch EGRESS_BLOCKED",
+        "scope": "Every host was refused at CONNECT, including https://example.com/, so this is a blanket egress denial in this container and not a per-judiciary block. No binary could be fetched, hashed or verified here. Web search was reachable and was used only to fix official identity and current addresses.",
+        "urls": [
+          "https://www.courts.mo.gov/page.jsp?id=191585"
+        ]
+      },
+      "sourceRelationship": {
+        "canonicalArtifactId": "CR370",
+        "canonicalArtifactTitle": "Judgment and Order of Expungement - Section 610.140 RSMo CR370.pdf",
+        "sourceState": "MISSING_SOURCE_BINARY",
+        "officialArtifactUrl": null,
+        "officialSourcePage": null,
+        "artifactSha256": null,
+        "families": [
+          "mo-610-140-arrest-set",
+          "mo-610-140-conviction-set"
+        ]
+      },
+      "routesNamingThisForm": [
+        "obligation:track-only:MO:mo-610-140-arrest",
+        "obligation:track-pathway:MO:mo-610-140-conviction:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140"
+      ]
+    },
+    {
+      "relativePath": "LegalEase North Carolina/cr287_1.pdf",
+      "sha256": "d686847a6f824de9c5f34058f23d2e4fded5ee97961a1e7fd57ff5c94196e742",
+      "byteLength": 255132,
+      "jurisdiction": "NC",
+      "manifestClassification": "pdf",
+      "classification": "SUPERSEDED_SOURCE",
+      "artifactId": "NC-AOC-CR-287",
+      "familyIds": [],
+      "reason": "The current edition is held at an EXACT CONTENT HASH in the D1 source packs and that hash is not this file's. The North Carolina AOC republishes these forms on a rolling revision, and the Nationwide capture is an earlier printing.",
+      "currentOfficialEdition": {
+        "formNumber": "AOC-CR-287",
+        "status": "resolved_at_exact_content_hash",
+        "heldAt": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+        "officialSourcePage": "https://www.nccourts.gov/documents/forms (North Carolina AOC forms index)",
+        "currentSha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+        "currentRevision": "REV-2025-12",
+        "resolutionTier": "exact_form_number"
+      },
+      "doNotHuntTheOldBytes": true,
+      "formLabel": "AOC-CR-287",
+      "recordedHashIsCurrentEdition": false
+    },
+    {
+      "relativePath": "LegalEase North Carolina/cr297-instr_2.pdf",
+      "sha256": "ea47d3aca9de38a1ce61a1de3ab5eb0bccc736553759b0eebba122558778da9b",
+      "byteLength": 202667,
+      "jurisdiction": "NC",
+      "manifestClassification": "pdf",
+      "classification": "SUPERSEDED_SOURCE",
+      "artifactId": "NC-AOC-CR-297-INSTRUCTIONS",
+      "familyIds": [],
+      "reason": "The current edition is held at an EXACT CONTENT HASH in the D1 source packs and that hash is not this file's. The North Carolina AOC republishes these forms on a rolling revision, and the Nationwide capture is an earlier printing.",
+      "currentOfficialEdition": {
+        "formNumber": "AOC-CR-297-INSTRUCTIONS",
+        "status": "resolved_at_exact_content_hash",
+        "heldAt": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-297__aoc-cr-297-instructions__REV-2025-06__EN.pdf",
+        "officialSourcePage": "https://www.nccourts.gov/documents/forms (North Carolina AOC forms index)",
+        "currentSha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+        "currentRevision": "REV-2025-06",
+        "resolutionTier": "exact_identity_confirmed_from_document_text"
+      },
+      "doNotHuntTheOldBytes": true,
+      "formLabel": "AOC-CR-297-INSTRUCTIONS",
+      "recordedHashIsCurrentEdition": false
+    },
+    {
+      "relativePath": "LegalEase North Carolina/cr297.pdf",
+      "sha256": "1dcfc4594a9dc7e1adc2211d18ec655c885d7728926b77d68c660cd5c4a9f9b6",
+      "byteLength": 277150,
+      "jurisdiction": "NC",
+      "manifestClassification": "pdf",
+      "classification": "SUPERSEDED_SOURCE",
+      "artifactId": "NC-AOC-CR-297",
+      "familyIds": [],
+      "reason": "The current edition is held at an EXACT CONTENT HASH in the D1 source packs and that hash is not this file's. The North Carolina AOC republishes these forms on a rolling revision, and the Nationwide capture is an earlier printing.",
+      "currentOfficialEdition": {
+        "formNumber": "AOC-CR-297",
+        "status": "resolved_at_exact_content_hash",
+        "heldAt": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-297__aoc-cr-297-petition-and-order-of-expunction__REV-2025-06__EN.pdf",
+        "officialSourcePage": "https://www.nccourts.gov/documents/forms (North Carolina AOC forms index)",
+        "currentSha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+        "currentRevision": "REV-2025-06",
+        "resolutionTier": "exact_form_number"
+      },
+      "doNotHuntTheOldBytes": true,
+      "formLabel": "AOC-CR-297",
+      "recordedHashIsCurrentEdition": false
+    },
+    {
+      "relativePath": "LegalEase North Carolina/cr298_1.pdf",
+      "sha256": "af50c33a8d0e8844919bc8a2aaf043953e9ba1ed4b014a49615ea304c3a64ac4",
+      "byteLength": 295511,
+      "jurisdiction": "NC",
+      "manifestClassification": "pdf",
+      "classification": "SUPERSEDED_SOURCE",
+      "artifactId": "NC-AOC-CR-298",
+      "familyIds": [],
+      "reason": "The current edition is held at an EXACT CONTENT HASH in the D1 source packs and that hash is not this file's. The North Carolina AOC republishes these forms on a rolling revision, and the Nationwide capture is an earlier printing.",
+      "currentOfficialEdition": {
+        "formNumber": "AOC-CR-298",
+        "status": "resolved_at_exact_content_hash",
+        "heldAt": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-298__aoc-cr-298-petition-and-order-of-expunction__REV-2025-07__EN.pdf",
+        "officialSourcePage": "https://www.nccourts.gov/documents/forms (North Carolina AOC forms index)",
+        "currentSha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+        "currentRevision": "REV-2025-07",
+        "resolutionTier": "exact_form_number"
+      },
+      "doNotHuntTheOldBytes": true,
+      "formLabel": "AOC-CR-298",
+      "recordedHashIsCurrentEdition": false
+    },
+    {
+      "relativePath": "LegalEase Oklahoma/Facets of Expungement of Criminal Records in Oklahoma - Oklahoma Bar Association.html",
+      "sha256": "189922562fb855c91a674e4f556fd2a598807619948e2d573bec5ff0f408c0c9",
+      "byteLength": 103570,
+      "jurisdiction": "OK",
+      "manifestClassification": "reference",
+      "classification": "REFERENCE_ONLY",
+      "reason": "A bar-association article capture. Not an official form, not an issuing authority's instruction, and Oklahoma has no source-blocked family. The Oklahoma state pack files it under resourcePacketInventory with classification 'reference'.",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Wisconsin/CR-266_summary.pdf",
+      "sha256": "6ea76724d0295ad87b0a474850d0fb9ef2988cb9250f6eb1360ba007d02591a1",
+      "byteLength": 248786,
+      "jurisdiction": "WI",
+      "manifestClassification": "pdf",
+      "classification": "REFERENCE_ONLY",
+      "reason": "A form SUMMARY sheet, not the form. official-form:CR-266 and official-form:CR-267 are both CORROBORATED in the Master Library at digests the Wisconsin production overlays already pin, so the obligations these summaries sit next to are satisfied. Two of these three paths are byte-identical, which is why 66 paths carry 65 hashes.",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Wisconsin/CR-267_summary.pdf",
+      "sha256": "1c6481cc584bd09196de6122ab5b84572fcabe42d1acc2ee24130e417e5f6342",
+      "byteLength": 69889,
+      "jurisdiction": "WI",
+      "manifestClassification": "pdf",
+      "classification": "REFERENCE_ONLY",
+      "reason": "A form SUMMARY sheet, not the form. official-form:CR-266 and official-form:CR-267 are both CORROBORATED in the Master Library at digests the Wisconsin production overlays already pin, so the obligations these summaries sit next to are satisfied. Two of these three paths are byte-identical, which is why 66 paths carry 65 hashes.",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Wisconsin/forms-download/CR-266_summary_en.pdf",
+      "sha256": "6ea76724d0295ad87b0a474850d0fb9ef2988cb9250f6eb1360ba007d02591a1",
+      "byteLength": 248786,
+      "jurisdiction": "WI",
+      "manifestClassification": "pdf",
+      "classification": "REFERENCE_ONLY",
+      "reason": "A form SUMMARY sheet, not the form. official-form:CR-266 and official-form:CR-267 are both CORROBORATED in the Master Library at digests the Wisconsin production overlays already pin, so the obligations these summaries sit next to are satisfied. Two of these three paths are byte-identical, which is why 66 paths carry 65 hashes.",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    },
+    {
+      "relativePath": "LegalEase Wyoming/Wyoming Expungement-Handout_05.01.25.pdf",
+      "sha256": "0ad46f3b216f77af4fc571b24042a2b4c57bdd794b14818c5e6975170be3108d",
+      "byteLength": 136787,
+      "jurisdiction": "WY",
+      "manifestClassification": "pdf",
+      "classification": "REFERENCE_ONLY",
+      "reason": "A self-help handout, not a filing component. Wyoming has no source-blocked family and no Wyoming obligation names it.",
+      "searched": [
+        "route-obligation-candidate.json requiredSourceIds, both source-sha256: and official-form: forms, across all 703 obligations",
+        "SOURCE_RELATIONSHIP_REGISTRY.json heldPath and heldCandidates, across all 238 records",
+        "SOURCE_ATTACH_COHORT.json pathInArchive, both cohorts",
+        "SOURCE_BACKLOG_CLASSIFICATION.json held.pathInArchive and servesFamilies, across all 161 artifacts",
+        "SOURCE_ACQUISITION_MANIFEST.json expectedSha256, lastAcquisition.sha256 and obligationKeys",
+        "source-custody-reconciliation.json documentSources, all resolution tiers",
+        "official-source-registry.json by form number",
+        "source-artifact-registry.json sourceTreatment, packageTier and reliefTracksUsing",
+        "a full-text scan of every committed .json, .mjs, .ts and .md file in the repository for each of the 65 residual SHA-256 digests"
+      ]
+    }
+  ]
+}

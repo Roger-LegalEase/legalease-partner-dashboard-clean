@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ky_void_seal_marijuana_synthetic_salvia-set",
+  "routeKey": "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia",
+  "routeKeys": [
+    "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "ky_void_seal_marijuana_synthetic_salvia-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "ky_void_seal_marijuana_synthetic_salvia-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "695ecde15ad70d6155cd548f9a22b73b499e8fcded9734c7163af2e6845276ae",
+        "requirement": "required"
+      }
+    ]
+  },
+  "binding": {
+    "family": "ky_void_seal_marijuana_synthetic_salvia-set",
+    "jurisdiction": "KY",
+    "routeKeys": [
+      "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "certificate_of_service",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:ky_void_seal_marijuana_synthetic_salvia-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:AOC-334",
+        "sha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33582245323",
+      "jobId": "100099223125",
+      "artifactId": "9828884173",
+      "boundToCanonicalSha256": "695ecde15ad70d6155cd548f9a22b73b499e8fcded9734c7163af2e6845276ae",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ky_void_seal_marijuana_synthetic_salvia-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

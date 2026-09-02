@@ -1,0 +1,149 @@
+{
+  "schemaVersion": "rcap-grade-a-c11-stop-classification/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-c11-stop-classification.mjs",
+  "question": "C11 stopped four families and left twenty-three built families without a wiring record. What is each blocker, and who can actually resolve it?",
+  "derivedFrom": "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json",
+  "taxonomy": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "SOURCE_ACQUISITION",
+    "PACKET_COMPONENT_IDENTITY",
+    "COMPOSED_PLEADING_SPECIFICATION",
+    "LOCAL_VARIATION",
+    "ENGINEERING",
+    "ENVIRONMENT"
+  ],
+  "noNewLegalQuestion": {
+    "raised": 0,
+    "why": "None of the four stops needs a legal determination. Each names an actor, an instrument and a self-help boundary that the controlling records already answer; what is missing is a document identity, a worklist vehicle, or a packet component. A new legal question here would send Lawrence a question the tree can answer."
+  },
+  "counts": {
+    "stoppedFamilies": 4,
+    "byPrimaryClass": {
+      "COMPOSED_PLEADING_SPECIFICATION": 1,
+      "SOURCE_IDENTITY": 2,
+      "PACKET_COMPONENT_IDENTITY": 1
+    },
+    "builtFamiliesMissingWiring": 23,
+    "lanesInvolved": 3,
+    "newLegalQuestions": 0
+  },
+  "byLane": {
+    "R3_ROUTE_MAPPING_REMAINDER": [
+      "ne-setaside-noncustodial-set"
+    ],
+    "R4_SOURCE_IDENTITY_AND_ACQUISITION": [
+      "ne-trafficking-setaside-and-seal-set",
+      "wa_blake_vacatur_and_lfo_refund-set"
+    ],
+    "R7_PACKET_REPAIR": [
+      "pa_6308_underage-set",
+      "nj_arrest_no_conviction-set",
+      "nj_clean_slate-set",
+      "nj_disorderly_persons-set",
+      "nj_indictable_conviction-set",
+      "nj_ordinance-set",
+      "ny_160_59_petition-set",
+      "ny_mrta_marijuana-set",
+      "pa_490_nonconviction-set",
+      "pa_790_nonconviction-set",
+      "pa_9122_1_limited_access-set",
+      "pa_summary_conviction-set",
+      "ri_nonconviction_sealing-set",
+      "wa_vac_cannabis-set",
+      "wa_vac_domestic_violence-set",
+      "wa_vac_felony-set",
+      "wa_vac_homicide_victim_prostitution-set",
+      "wa_vac_misdemeanor_ordinary-set",
+      "wa_vac_substance_use_disorder-set",
+      "wa_vac_survivor_felony-set",
+      "wa_vac_survivor_misdemeanor-set",
+      "wa_vac_treaty_fishing-set",
+      "oh_marijuana_expungement-set",
+      "rcap-oh-custom-pleading-clean-tracks"
+    ]
+  },
+  "stops": [
+    {
+      "familyId": "ne-setaside-noncustodial-set",
+      "stopArtifact": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-noncustodial-set--custom-pleading/vehicle-conflict-stop.json",
+      "primary": "COMPOSED_PLEADING_SPECIFICATION",
+      "secondary": [
+        "ROUTE_IDENTITY"
+      ],
+      "lane": "R3_ROUTE_MAPPING_REMAINDER",
+      "why": "The worklist labels this family custom_pleading while the controlling Nebraska legal-design evidence resolves the route to the same official CC-6-11 packet and expressly does not authorise a composed pleading. The exact source is held and byte-exact, so nothing is missing: the assignment's implementation strategy is wrong, and correcting a mapping is R3's work.",
+      "mustNotDo": "No custom pleading may be invented from the conflict.",
+      "resolution": "Correct the shared assignment vehicle to official_pdf_fill, or record an approved exact hybrid design."
+    },
+    {
+      "familyId": "ne-trafficking-setaside-and-seal-set",
+      "stopArtifact": "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill/vehicle-conflict-stop.json",
+      "primary": "SOURCE_IDENTITY",
+      "secondary": [
+        "ROUTE_IDENTITY",
+        "COMPOSED_PLEADING_SPECIFICATION"
+      ],
+      "lane": "R4_SOURCE_IDENTITY_AND_ACQUISITION",
+      "why": "Two blockers, and the source one comes first: the only held CC-6-12 identity is a two-page instructions PDF rather than either named motion, so no vehicle decision can be acted on until the actual set-aside motion and sealing motion are identified. The duplicate incompatible worklist rows are real and are recorded as a dependency on R3.",
+      "mustNotDo": "No packet may be authored or filled against an instructions PDF standing in for a motion.",
+      "resolution": "Bind the actual set-aside motion and sealing motion by exact identity, then resolve the duplicate vehicle rows."
+    },
+    {
+      "familyId": "pa_6308_underage-set",
+      "stopArtifact": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--custom-pleading/build-findings.json",
+      "primary": "PACKET_COMPONENT_IDENTITY",
+      "secondary": [
+        "COMPOSED_PLEADING_SPECIFICATION"
+      ],
+      "lane": "R7_PACKET_REPAIR",
+      "why": "The held Rule 490 petition and order match their pinned SHA-256 and byte lengths, so this is not a source problem. What is missing is a component: the court-status metadata that selects the correct official vehicle, and an approved source-backed custom service certificate. Both are packet-specification work on sources already in hand.",
+      "mustNotDo": "No pleading configuration, canonical or boundary pleading, filled PDF or runtime activation may be created from the gap.",
+      "resolution": "Record the court-status metadata that determines the official vehicle, and complete the exact service-certificate specification."
+    },
+    {
+      "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+      "stopArtifact": "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill/source-vehicle-stop.json",
+      "primary": "SOURCE_IDENTITY",
+      "secondary": [],
+      "lane": "R4_SOURCE_IDENTITY_AND_ACQUISITION",
+      "why": "The worklist assigns BLAKE-002 as a separate LFO-refund claim. First-hand inspection of the pinned bytes identifies it as the courts-of-limited-jurisdiction Blake motion to vacate and refund -- an alternate-jurisdiction motion, not a second component. The document was misidentified, which is exactly R4's question.",
+      "mustNotDo": "The alternate-jurisdiction motion must not be filled as though it were a separate refund claim.",
+      "resolution": "Correct the source role, and identify whether a separate LFO-refund instrument exists at all."
+    }
+  ],
+  "builtFamilyRecordGap": {
+    "classification": "ENGINEERING",
+    "lane": "R7_PACKET_REPAIR",
+    "families": [
+      "nj_arrest_no_conviction-set",
+      "nj_clean_slate-set",
+      "nj_disorderly_persons-set",
+      "nj_indictable_conviction-set",
+      "nj_ordinance-set",
+      "ny_160_59_petition-set",
+      "ny_mrta_marijuana-set",
+      "pa_490_nonconviction-set",
+      "pa_790_nonconviction-set",
+      "pa_9122_1_limited_access-set",
+      "pa_summary_conviction-set",
+      "ri_nonconviction_sealing-set",
+      "wa_vac_cannabis-set",
+      "wa_vac_domestic_violence-set",
+      "wa_vac_felony-set",
+      "wa_vac_homicide_victim_prostitution-set",
+      "wa_vac_misdemeanor_ordinary-set",
+      "wa_vac_substance_use_disorder-set",
+      "wa_vac_survivor_felony-set",
+      "wa_vac_survivor_misdemeanor-set",
+      "wa_vac_treaty_fishing-set",
+      "oh_marijuana_expungement-set",
+      "rcap-oh-custom-pleading-clean-tracks"
+    ],
+    "count": 23,
+    "why": "These families are built and their posture is closed by the fields they do write -- runtimeSelectable false, commercialAuthority false, approval requested and not granted. What is missing is product-wiring.json, so nothing in the tree states generationAllowed for them. An absent field is not a false one.",
+    "mustNotDo": "Do not rebuild these families. The artifacts are sound; the record is incomplete.",
+    "resolution": "Write the missing product-wiring.json for each, stating the family id, route keys, implementation strategy, field map, generationAllowed false, runtimeSelectable false and commercialRoutesOpened 0.",
+    "alsoRequires": "The next dispatch states the output schema, per WEC-5. Two schemas appeared inside one lane, which is what produced this gap."
+  }
+}

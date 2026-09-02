@@ -30,6 +30,18 @@ const SCALE = Number(flag("--scale") ?? 2.5);
 const RUN_ID = flag("--run-id") ?? null;
 const OUT = path.resolve(flag("--out") ?? "raster-out");
 
+/*
+ * The family id as a PATH segment. An artifact rejects a colon in a file path
+ * as firmly as in its own name, and composed-treatment ids carry several
+ * (composed-treatment:obligation:runtime-only:AK:...). Six families rendered,
+ * passed every measurement, and then lost their evidence at upload over
+ * raster-out/composed-treatment:sd_sis_sealing/boundary/page-001.png.
+ *
+ * Only the path spelling changes. Every receipt below still records the real
+ * familyId, which is what binds a verdict to a family.
+ */
+const FAMILY_PATH = String(FAMILY ?? "").replace(/[^A-Za-z0-9._-]/g, "_");
+
 const CSS_PX_PER_PT = 96 / 72;
 const fail = (why) => { console.error(`REFUSED raster batch — ${why}`); process.exit(1); };
 const sha256 = (p) => crypto.createHash("sha256").update(fs.readFileSync(p)).digest("hex");
@@ -45,7 +57,7 @@ if (!resolved.executablePath) {
   // An environment that cannot look at the packet has said nothing about the
   // packet. This is never RASTER_FAIL.
   fs.mkdirSync(OUT, { recursive: true });
-  fs.writeFileSync(path.join(OUT, `${FAMILY}.verdict.json`), `${JSON.stringify({
+  fs.writeFileSync(path.join(OUT, `${FAMILY_PATH}.verdict.json`), `${JSON.stringify({
     schemaVersion: "rcap-raster-family-verdict/v1", familyId: FAMILY,
     verdict: "RASTER_BLOCKED_ENVIRONMENT",
     why: "no executable Chromium on this runner; the packet was not examined and nothing is claimed about it",
@@ -90,30 +102,55 @@ fs.mkdirSync(OUT, { recursive: true });
 const artifacts = [];
 const problems = [];
 
-for (const kind of ["canonical", "boundary"]) {
-  const rel = kind === "canonical" ? row.canonicalPdfPath : row.boundaryPdfPath;
-  const expected = kind === "canonical" ? row.canonicalPdfSha256 : row.boundaryPdfSha256;
+/*
+ * Render every document the row names, not one canonical and one boundary.
+ *
+ * Eleven families ship several canonical documents with no assembled packet --
+ * Washington's vacate packets carry a petition AND the order a court signs,
+ * Arkansas the same. This loop rendered the first of each pair, and the order
+ * had never been through the visual gate on any of them; nine were carrying
+ * RASTER_PASS regardless. The job is still one per family and uploads one
+ * artifact, so this widens what a job proves without touching the workflow
+ * matrix or the receipt naming.
+ *
+ * `documents` is preferred and the old pair is the fallback, so a queue written
+ * before this change still renders exactly what it used to.
+ */
+const targets = (row.documents ?? []).length > 0
+  ? row.documents.map((d) => ({ kind: d.role, name: d.name, rel: d.path, expected: d.sha256, expectedPages: d.pageCount }))
+  : [
+      { kind: "canonical", name: "canonical", rel: row.canonicalPdfPath, expected: row.canonicalPdfSha256, expectedPages: row.expectedPages },
+      { kind: "boundary", name: "boundary", rel: row.boundaryPdfPath, expected: row.boundaryPdfSha256, expectedPages: null },
+    ];
+
+if (targets.some((t) => !t.rel)) fail(`${FAMILY}: a queued document names no path`);
+
+for (const target of targets) {
+  const { kind, rel, expected } = target;
   const abs = path.join(ROOT, rel);
-  if (!fs.existsSync(abs)) { problems.push(`${kind}: ${rel} is absent at this commit`); continue; }
+  if (!fs.existsSync(abs)) { problems.push(`${target.name}: ${rel} is absent at this commit`); continue; }
   const observed = sha256(abs);
   if (observed !== expected) {
     // The queue pinned these bytes. Different bytes are a different packet, and
     // rendering them would produce evidence about something nobody queued.
-    problems.push(`${kind}: ${rel} hashes ${observed} and the queue pinned ${expected}`);
+    problems.push(`${target.name}: ${rel} hashes ${observed} and the queue pinned ${expected}`);
     continue;
   }
   const pages = await pageCount(abs);
-  if (kind === "canonical" && row.expectedPages && pages !== row.expectedPages) {
-    problems.push(`canonical: ${pages} page(s) where the queue expected ${row.expectedPages}`);
+  if (target.expectedPages && pages !== target.expectedPages) {
+    problems.push(`${target.name}: ${pages} page(s) where the queue expected ${target.expectedPages}`);
   }
-  const dir = path.join(OUT, FAMILY, kind);
+  /* One directory per DOCUMENT. Keying on kind alone made two canonical
+   * documents of one family overwrite each other's PNGs. Both segments are
+   * slugged for the same reason FAMILY_PATH is. */
+  const dir = path.join(OUT, FAMILY_PATH, target.name.replace(/\.pdf$/, "").replace(/[^A-Za-z0-9._-]/g, "_"));
   fs.mkdirSync(dir, { recursive: true });
   for (let i = 0; i < pages; i += 1) {
     let render = null;
     try { render = await rasterizePageCalibrated({ file: abs, pageIndex: i, magnify: SCALE, keep: dir }); }
-    catch (e) { problems.push(`${kind} page ${i + 1}: the render failed: ${String(e.message).split("\n")[0]}`); continue; }
+    catch (e) { problems.push(`${target.name} page ${i + 1}: the render failed: ${String(e.message).split("\n")[0]}`); continue; }
     const png = render?.image;
-    if (!png || !fs.existsSync(png)) { problems.push(`${kind} page ${i + 1}: no PNG was written`); continue; }
+    if (!png || !fs.existsSync(png)) { problems.push(`${target.name} page ${i + 1}: no PNG was written`); continue; }
     const stable = path.join(dir, `page-${String(i + 1).padStart(3, "0")}.png`);
     fs.renameSync(png, stable);
     const ink = await inkFraction(stable, render.paper);
@@ -130,12 +167,12 @@ for (const kind of ["canonical", "boundary"]) {
       inkFractionInsidePaper: ink, nonblank: ink > 0.0005,
       croppedToThePage: Math.abs(render.paper.width - expectW) <= tol && Math.abs(render.paper.height - expectH) <= tol
     };
-    if (!measurement.nonblank) problems.push(`${kind} page ${i + 1}: blank (ink ${ink.toExponential(2)})`);
-    if (!measurement.croppedToThePage) problems.push(`${kind} page ${i + 1}: ${render.paper.width}x${render.paper.height}px does not match ${expectW.toFixed(0)}x${expectH.toFixed(0)}px for scale ${SCALE}`);
-    if (!(render.calibrationResidualPx <= 1.5)) problems.push(`${kind} page ${i + 1}: calibration residual ${render.calibrationResidualPx}px`);
-    artifacts.push({ kind, ...measurement });
+    if (!measurement.nonblank) problems.push(`${target.name} page ${i + 1}: blank (ink ${ink.toExponential(2)})`);
+    if (!measurement.croppedToThePage) problems.push(`${target.name} page ${i + 1}: ${render.paper.width}x${render.paper.height}px does not match ${expectW.toFixed(0)}x${expectH.toFixed(0)}px for scale ${SCALE}`);
+    if (!(render.calibrationResidualPx <= 1.5)) problems.push(`${target.name} page ${i + 1}: calibration residual ${render.calibrationResidualPx}px`);
+    artifacts.push({ kind, document: target.name, ...measurement });
   }
-  if (pages === 0) problems.push(`${kind}: the PDF reports zero pages`);
+  if (pages === 0) problems.push(`${target.name}: the PDF reports zero pages`);
 }
 
 const verdict = problems.length === 0 ? "RASTER_PASS" : "RASTER_FAIL";
@@ -150,11 +187,16 @@ const doc = {
     canonical: { path: row.canonicalPdfPath, pinned: row.canonicalPdfSha256 },
     boundary: { path: row.boundaryPdfPath, pinned: row.boundaryPdfSha256 }
   },
+  /* What this verdict actually covers, so a reader never has to infer it from
+   * the row it came from. */
+  documentsRendered: targets.map((t) => ({ role: t.kind, document: t.name, path: t.rel, pinned: t.expected })),
+  documentsDigest: row.documentsDigest ?? null,
+  coversTheWholeFamily: row.coverage?.complete ?? null,
   pagesMeasured: artifacts.length, measurements: artifacts, problems,
   whatThisDoesNotDecide: "This is one gate. RASTER_PASS does not make a family PASS_COMPLETE, promotes nothing, and opens no commercial route.",
   packetPdfsModified: 0, bodiesCommitted: 0, commercialRoutesOpened: 0, productionTouched: false
 };
-fs.writeFileSync(path.join(OUT, `${FAMILY}.verdict.json`), `${JSON.stringify(doc, null, 2)}\n`);
-console.log(`${verdict} ${FAMILY} — ${artifacts.length} page(s) measured, ${problems.length} problem(s)`);
+fs.writeFileSync(path.join(OUT, `${FAMILY_PATH}.verdict.json`), `${JSON.stringify(doc, null, 2)}\n`);
+console.log(`${verdict} ${FAMILY} — ${targets.length} document(s), ${artifacts.length} page(s) measured, ${problems.length} problem(s)`);
 for (const p of problems.slice(0, 10)) console.log(`  ${p}`);
 process.exit(verdict === "RASTER_PASS" ? 0 : 1);

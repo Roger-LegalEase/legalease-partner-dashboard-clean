@@ -40,12 +40,12 @@ is a legal question, and none of which this file answers.
 | `rcap-mn-custom-pleading` | MN | 1 | 0 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-mn-guidance-implementation` | MN | 7 | 1 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-mo-custom-pleading` | MO | 2 | 2 | complete | formal_visual_review_pending | approved_by_decision_owner |
-| `rcap-mo-guidance-implementation` | MO | 2 | 1 | complete | formal_visual_review_pending | approved_by_decision_owner |
-| `rcap-ms-custom-pleading` | MS | 3 | 4 | complete | formal_visual_review_pending | approved_by_decision_owner |
+| `rcap-mo-guidance-implementation` | MO | 2 | 0 | complete | formal_visual_review_pending | approved_by_decision_owner |
+| `rcap-ms-custom-pleading` | MS | 3 | 3 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-mt-guidance-implementation` | MT | 1 | 0 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-nc-guidance-implementation` | NC | 1 | 0 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-nd-custom-pleading` | ND | 5 | 2 | complete | formal_visual_review_pending | approved_by_decision_owner |
-| `rcap-nd-guidance-implementation` | ND | 5 | 1 | complete | formal_visual_review_pending | approved_by_decision_owner |
+| `rcap-nd-guidance-implementation` | ND | 5 | 0 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-ne-guidance-implementation` | NE | 7 | 1 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-nh-guidance-implementation` | NH | 3 | 2 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-nj-guidance-implementation` | NJ | 1 | 0 | complete | formal_visual_review_pending | approved_by_decision_owner |
@@ -57,10 +57,10 @@ is a legal question, and none of which this file answers.
 | `rcap-oh-guidance-implementation` | OH | 3 | 2 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-ok-custom-pleading` | OK | 8 | 15 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-ok-guidance-implementation` | OK | 2 | 0 | complete | formal_visual_review_pending | approved_by_decision_owner |
-| `rcap-pa-guidance-implementation` | PA | 3 | 2 | — | — | approved_by_decision_owner |
+| `rcap-pa-guidance-implementation` | PA | 3 | 0 | — | — | approved_by_decision_owner |
 | `rcap-ri-guidance-implementation` | RI | 2 | 2 | complete | formal_visual_review_pending | approved_by_decision_owner |
-| `rcap-sc-custom-pleading` | SC | 11 | 3 | complete | formal_visual_review_pending | approved_by_decision_owner |
-| `rcap-sd-guidance-implementation` | SD | 4 | 3 | complete | formal_visual_review_pending | approved_by_decision_owner |
+| `rcap-sc-custom-pleading` | SC | 11 | 2 | complete | formal_visual_review_pending | approved_by_decision_owner |
+| `rcap-sd-guidance-implementation` | SD | 4 | 2 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-tn-custom-pleading` | TN | 11 | 3 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-tn-guidance-implementation` | TN | 2 | 1 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-tx-custom-pleading` | TX | 8 | 4 | complete | formal_visual_review_pending | approved_by_decision_owner |
@@ -71,7 +71,7 @@ is a legal question, and none of which this file answers.
 | `rcap-wa-custom-pleading-clean-tracks` | WA | 2 | 1 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-wi-custom-pleading` | WI | 1 | 0 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-wi-guidance-implementation` | WI | 4 | 2 | complete | formal_visual_review_pending | approved_by_decision_owner |
-| `rcap-wv-custom-pleading` | WV | 2 | 2 | complete | formal_visual_review_pending | approved_by_decision_owner |
+| `rcap-wv-custom-pleading` | WV | 2 | 1 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-wv-guidance-implementation` | WV | 3 | 1 | complete | formal_visual_review_pending | approved_by_decision_owner |
 
 ## Exception annex
@@ -81,4 +81,4 @@ What the 2026-08-08 standing adoption never reached, and what the owner's decisi
 - Jurisdictions outside EXT-ADOPT-01's exact scope: AL (approved), AZ (approved), IA (approved), ID (approved), OR (approved), WY (approved)
 - Families with superseded technical evidence: `rcap-in-custom-pleading` (approved), `rcap-ms-custom-pleading` (approved), `rcap-nd-custom-pleading` (approved)
 - Named legal actions: `HI:deferred-acceptance-one-year` (approved), `HI:deferred-prostitution-three-year` (approved)
-- Intended-paid pathways with no packet-family bridge in this repository: 208 — a data gap, not a legal one, and no owner decision can close it.
+- Intended-paid pathways with no packet-family bridge in this repository: 192 — a data gap, not a legal one, and no owner decision can close it.

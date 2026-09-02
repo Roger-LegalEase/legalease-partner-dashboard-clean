@@ -1,0 +1,250 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "workerId": "FABLE-PA",
+  "workerBranch": "fable/pa",
+  "engine": "Claude packet-build lane in an isolated git worktree, executing the FABLE-PA brief over assignments PF02, PF03, PF05 and PF06",
+  "lane": "packet-build",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+  "minimumCaptainSha": "f34e391ecded9aafec9c51fc3d2af0862439cba0",
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha f34e391ecded9aafec9c51fc3d2af0862439cba0 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+    "note": "Ran once for the whole lane and again per family with --family. The Master Library was recovered by scripts/rcap-corpus/bootstrap-private-corpus.sh, archive SHA-256 a26e3ca7... verified before extraction. The D1/D2/D3 source packs failed on their first download (curl exit 23 on D3) and were installed on a retry, each archive digest verified against the release's own recorded value; no family in this lane binds a D-pack byte. No browser resolves in this container, so the three rasterizer checks are not applicable and every family is BUILT_RASTER_PENDING."
+  },
+  "rasterState": "BUILT_RASTER_PENDING",
+  "rasterNote": "No browser resolves here. Every canonical and boundary SHA-256 in these rows pins the exact bytes the central raster batch must render (.github/workflows/rcap-packet-raster-acceptance-batch.yml). visualDefects stays 0 because nothing has looked, not because there is nothing to see.",
+  "focusedCheck": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "result": "PASS_COMPLETE for every family this lane built; nine counters zero in each",
+    "note": "The audit's own matrix file was written during the run and restored, because data/rcap-grade-a/packet-completeness/ is not this lane's owned path."
+  },
+  "packetsSelfVerified": 0,
+  "neverSelfVerified": "This lane is the builder. Its verdict vocabulary is BUILT_RASTER_PENDING; it awards no PASS_COMPLETE_INDEPENDENT and no family here is verified.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A built family is a built family. It is not verified, not approved and not sellable.",
+  "assignmentId": "PF06",
+  "familiesAssigned": 2,
+  "rowsReturned": 2,
+  "familiesCompleted": [
+    "id_isp_expungement-set"
+  ],
+  "familiesStopped": [
+    "tx_nd_probation_misdemeanor-set"
+  ],
+  "blockedSource": [
+    "tx_nd_probation_misdemeanor-set"
+  ],
+  "blockedLegalInput": [],
+  "blockedBeforeClaim": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "everyFamilyGetsExactlyOneRow": "2 assigned, 2 rows, none missing and none twice",
+  "laneFindings": [
+    {
+      "title": "pdf-lib THROWS on a /MaxLen overflow and the shared finalizer does not catch it",
+      "where": "scripts/rcap-official-forms/rcap-text-fitting.mjs applyFitToTextField, calling PDFTextField.setText",
+      "what": "A text widget may declare /MaxLen. A value longer than it raises ExceededMaxLengthError, which nothing catches, so the build DIES rather than reporting a value that did not fit.",
+      "foundOn": "id_clean_slate_shield-set: five of the Idaho shielding petition's thirteen widgets declare /MaxLen (35, 35, 35, 16 and 30) and the corpus's standard boundary participant exceeds all five. The build wrote the canonical fixture and then crashed on the boundary one.",
+      "whatThisLaneDid": "Did NOT repair it — rcap-text-fitting.mjs is outside this lane's owned paths and every family shares it. Instead each build script in this lane asks the same question with the same binder BEFORE calling the finalizer, and refuses an over-length value by role, per fixture. Backporting the guard to the two Arkansas families left all eight of their fixture PDFs byte-identical.",
+      "whoShouldOwnIt": "a repair lane with rcap-official-forms in scope",
+      "severity": "A family with a /MaxLen widget and a long fixture value cannot be built at all until either the finalizer catches this or each builder guards it."
+    },
+    {
+      "title": "rowIndexOf reads any trailing digit as a charge-row index, including a page suffix",
+      "where": "scripts/rcap-official-forms/rcap-field-semantics.mjs rowIndexOf, /^(.*?)(\\d{1,2})$/",
+      "what": "A field named for its page or its position — Court Case Number_2, OFFENSE 3, CauseNumber1 — is read as row 1, 2 or 0 of a repeating charge table. Where the caller supplies that many charges the blank does not stay empty: it receives a DIFFERENT charge's value.",
+      "foundOn": [
+        "ar-act531-set: OFFENSE 3 is paragraph 2's 'convicted of the offense(s) of' line, and the boundary fixture drew 'Driving while license suspended' onto the conviction line of a petition about a controlled-substance offence.",
+        "the Alabama C-94A: the page 2 and page 3 Court Case Number headers would carry a different charge's case number.",
+        "the Indiana CCA bundle: CauseNumber1 wrote this matter's cause number into the Appearance's RELATED CASES table, so the filing would state that the case is related to itself."
+      ],
+      "whatThisLaneDid": "Refused every affected field by role and recorded why. On the Alabama family the two page headers are declared required-before-filing for a fact the platform HOLDS, and that declaration is listed in declaredRequiredBeforeFilingWithHeldFact on the field map so it is weighed rather than discovered.",
+      "whoShouldOwnIt": "a repair lane with rcap-official-forms in scope"
+    },
+    {
+      "title": "Widget names are shifted by one on four of this lane's forms, and the shift is not always harmless",
+      "what": "On the AR Act 531 pair, the AR CS-possession pair, the Idaho shielding petition and the Alabama C-94A, caption widgets are named after text that is not beside them. Three of the four produce a WRONG WRITE rather than an empty blank: Idaho would print the participant's state as a judicial district, Alabama would print the petitioner's own city, ZIP and telephone as the licensing board's service address, and Arkansas would leave the county unreachable.",
+      "whatThisLaneDid": "Introduced a narrow printed-label correction mechanism: it replaces the harvested caption of ONE named widget with the printed text read at that widget's own measured position, and records the correction, the value it replaced and the measured evidence on the field-map row. Used only for identity, contact and venue facts, never to reach an offence, charge or statute blank.",
+      "aCautionForWhoeverReusesIt": "A correction can itself cause a wrong write. On the Indiana bundle a correction reading \"Petitioner's fax number\" made the binder match its full-name descriptor on the word Petitioner and draw the participant's name into the fax box. The name-placement allowlist caught it and failed the build; the word came out of the label. Any lane adopting this mechanism should keep that guard on."
+    },
+    {
+      "title": "The Indiana CCA Section 1 bundle is missing three sets of pages, and says so on its own face",
+      "what": "Pages 5, 10 and 11 of the bound binary are placeholders reading 'Take out this page and insert your non-conviction Facts / Findings / Exhibit pages (from the Non Conviction Insert Forms)'. No bound source supplies them and nothing in this repository holds them.",
+      "affects": [
+        "in_arrest_no_charges-set",
+        "in_section1_petition-set"
+      ],
+      "consequence": "Both families return nine zero counters and neither is a filing. COMPONENT_SET is an open finding against both.",
+      "whatWouldCloseIt": "A source lane acquiring the Coalition for Court Access Non Conviction Insert Forms.",
+      "whoShouldOwnIt": "a source-acquisition lane"
+    },
+    {
+      "title": "One human-source-return custody blocks four Texas families at once",
+      "what": "All four Texas families in this lane bind official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond at private/human-source-returns/TX/, sha256 bd17a3fe43d6..., which the committed corpus index describes as 'Held outside the Master Library and not carried by any release'.",
+      "affects": [
+        "tx_nd_automatic_misdemeanor_deferred-set",
+        "tx_nd_deferred_other-set",
+        "tx_nd_veterans_reemployment-set",
+        "tx_nd_probation_misdemeanor-set"
+      ],
+      "whatThisLaneTried": "Mounted the Master Library and, after a failed first attempt, all three D source packs; neither custody carries it. Fetching it from the URL its own receipt records was refused by this container's egress proxy with a 403 CONNECT.",
+      "whatWouldCloseIt": "Carrying that one file in a release, or mounting the human-source-returns custody in the build container. One file unblocks four families.",
+      "whoShouldOwnIt": "whoever owns the corpus releases"
+    }
+  ],
+  "rows": [
+    {
+      "itemId": "id_isp_expungement-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:ID:id_isp_expungement:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10"
+      ],
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "completenessResult": "PASS_COMPLETE",
+      "totals": {
+        "terminalFields": 17,
+        "written": 13,
+        "blank": 4,
+        "blanksByDisposition": {
+          "OPTIONAL_PARTICIPANT_CONTENT": 1,
+          "REQUIRED_BEFORE_FILING": 2,
+          "PROTECTED_FIELD": 1
+        },
+        "fieldMapArithmetic": "13 written + 4 classified blanks = 17 terminal fields"
+      },
+      "writesByDocument": [
+        {
+          "documentId": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+          "written": 13,
+          "terminalFields": 17,
+          "refused": 4
+        }
+      ],
+      "sources": [
+        {
+          "documentId": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+          "sha256": "7442267d7799b9b117b20494b919a875974e8086f1317c7bc7532f038c131bcf",
+          "byteLength": 145529,
+          "revision": "REV-UNKNOWN",
+          "pathInArchive": "STATES/ID/05_SOURCE_GATED/ID__SOURCE-GATED__ISP-BCI__idaho-state-police-bureau-of-criminal-identification-expungement-application__REV-UNKNOWN__EN.pdf"
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "document": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/fixtures/application-canonical-filled.pdf",
+          "sha256": "c68600571515ebf2132b7879ceea6f61ea18c30e0edecb9ee8405c36ec723da6",
+          "byteLength": 153714,
+          "fieldsWritten": 13,
+          "fieldsRefused": 4
+        },
+        {
+          "document": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/fixtures/application-boundary-filled.pdf",
+          "sha256": "48d435eaf962cf4020b4858038c7e5d45175a63534b31664d2afc002c8db57d9",
+          "byteLength": 153448,
+          "fieldsWritten": 11,
+          "fieldsRefused": 6
+        }
+      ],
+      "inkReadBackFromOutputBytes": [
+        {
+          "fixture": "canonical",
+          "documentId": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+          "reported": 13,
+          "appearances": 17,
+          "outsideBoxes": 0,
+          "refusedWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "documentId": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+          "reported": 11,
+          "appearances": 17,
+          "outsideBoxes": 0,
+          "refusedWithInk": 0
+        }
+      ],
+      "determinism": {
+        "proved": true,
+        "how": "Built twice in this worktree and the fixture SHA-256s compared; identical. Nothing in this lane creates a PDF with PDFDocument.create(), so no wall-clock /CreationDate is stamped: every fixture is the pinned source loaded with updateMetadata:false and saved, and the source's own dates carry through.",
+        "rebuildsCompared": 2
+      },
+      "obligationsScored": {
+        "FILING_DESTINATION": {
+          "stated": true,
+          "answer": "Idaho State Police, Bureau of Criminal Identification, 700 S. Stratford Dr., Ste. 120, Meridian, ID 83642, or fax 208-884-7193. Allow 30 days.",
+          "heldBy": [
+            "the committed packet-set manifest (filingDestination, filingMethod)",
+            "page 2 of the pinned form, which prints the same address and fax"
+          ]
+        },
+        "FEE_AND_WAIVER": {
+          "stated": false,
+          "delegated": true,
+          "answer": "No held record and no printed line establishes a fee for a § 67-3004(10) expungement, so none is stated. The named checkable authority is the Idaho State Police Criminal History Unit, at the address and fax the form itself prints, in the same paragraph as the money question.",
+          "a3Basis": "The compiled Idaho profile's three no-fee statements are all keyed to § 67-3004(11) Clean Slate shielding — a different subsection, a different remedy, a county court rather than a state agency — so under A3 they do not answer this route. The packet does not borrow them.",
+          "heldBy": []
+        },
+        "SERVICE": {
+          "stated": true,
+          "answer": "There is nobody to serve; the route's processActor is an agency and no court is involved. What the form requires instead is enclosed documents, and page 2's list is stated in full together with its own warning that an incomplete application is returned.",
+          "heldBy": [
+            "the committed manifest records serviceRecipients/Method/Timing as not_recorded, which is structural on an agency route",
+            "page 2 of the pinned form"
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "stated": true,
+          "answer": "A sex-offense conviction (the form's own bold instruction not to submit the form or contact the unit), and a conviction followed by a withheld judgment under § 19-2604(1).",
+          "heldBy": [
+            "pages 1 and 2 of the pinned form"
+          ]
+        },
+        "whereNothingWasFound": [
+          "No record and no printed line states a deadline for the application, a fee, an appeal from a refusal, or what happens to the court file. None is stated; the same named office is given."
+        ]
+      },
+      "laneNotes": [
+        "Three blanks the shared binder would have filled wrong were refused: the applicant's name as the date of acquittal, the county on the charges line, and the surname in the middle-initial box.",
+        "The date of acquittal or dismissal is refused on its own merits as well: the platform holds a generic disposition date and does not establish it is a date of acquittal or dismissal, which on a § 67-3004(10) application is the fact the request turns on."
+      ]
+    },
+    {
+      "itemId": "tx_nd_probation_misdemeanor-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "overlayDirectoryTouched": false,
+      "claim": "CLAIM_OK PF06 tx_nd_probation_misdemeanor-set",
+      "rowGateResult": "FAIL family_sources_bind — 1 of 3 source(s) do not bind",
+      "sourceThatDidNotBind": {
+        "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+        "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+        "custody": "human_source_returns"
+      },
+      "why": "The same custody as the other three Texas families.",
+      "claimHeld": true,
+      "whyTheClaimIsHeld": "The source may be mounted in another environment; the family is not finished here."
+    }
+  ]
+}

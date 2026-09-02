@@ -1,0 +1,649 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "worker": "FABLE-DISC8",
+  "lane": "source-discovery",
+  "branch": "fable/disc8",
+  "base": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
+  "producedOn": "2026-09-02",
+  "mission": "For each of the fourteen SOURCE_BLOCKED families with no queued address for anything, turn each unbound form label into an exact official address on a host the policy admits, or say honestly that it could not be turned into one and name what was searched.",
+  "theOneThingToReadFirst": {
+    "finding": "Nothing in this return was fetched, and no address in it is reported as exercised.",
+    "why": "This lane has no usable outbound egress; the assignment records that the proxy answers 403 CONNECT for state judiciary hosts and forbids fetching. Reachability and the SHA-256 remain the hosted runner's to settle.",
+    "whatEstablishedMeansHere": "Either (a) the address is carried verbatim by two or more distinct non-candidate committed or held records AND the document's identity was read from a held copy of that document's own printed face, or (b) the document was read and found not to be separately published at all. Anything short of that is reported as not established, with the searches named so the next lane does not repeat them.",
+    "whatIsNew": "Three of the fourteen families are resolved without any acquisition or with a corrected one; five specific prior records in this repository are contradicted by evidence read here. See contradictionsWithTheRepository."
+  },
+  "hostPolicy": {
+    "module": "scripts/lib/official-host-policy.mjs",
+    "executed": "hostAllowed() was executed by node against every host named in this return; the results below are the module's output, not an assumption.",
+    "allowed": {
+      "dojmt.gov": true,
+      "courts.mt.gov": true,
+      "ag.hawaii.gov": true,
+      "www.courts.mo.gov": true,
+      "revisor.mo.gov": true,
+      "courts.delaware.gov": true,
+      "courts.state.de.us": true,
+      "www.courts.michigan.gov": true,
+      "www.in.gov": true,
+      "dsp.delaware.gov": true,
+      "app.mt.gov": true
+    },
+    "refused": {
+      "www.indianalegalhelp.org": false,
+      "indianalegalhelp.org": false,
+      "www.montanalawhelp.org": false,
+      "montanacourts.org": false,
+      "stlcountycourts.com": false,
+      "www.16thcircuit.org": false,
+      "clearmyrecordmo.org": false,
+      "archcitydefenders.org": false,
+      "mocleanslate.org": false,
+      "forms.justia.com": false,
+      "www.mtlsa.org": false,
+      "www.uslegalforms.com": false,
+      "www.pdffiller.com": false
+    },
+    "explicitlyOnTheRefusedList": [
+      "www.uslegalforms.com",
+      "www.pdffiller.com"
+    ],
+    "noteOnCourtsStateDeUs": "hostAllowed('courts.state.de.us') is true -- it sits under the delegated state.<code>.us namespace that the policy admits, and the Delaware Family Court prints it on its own instruction packet. It is allowed and it is still only a landing page, so it changes nothing here.",
+    "noExceptionRequested": "No exact-host exception is proposed by this lane."
+  },
+  "manifestEntriesAdded": {
+    "count": 1,
+    "sourceIds": [
+      "mt-doj-dci-expungement-removal-request-form-20240429-updated"
+    ],
+    "familiesFullyAddressedIfPromoted": [
+      "mt_deferred_dismissal-set",
+      "mt_misdemeanor_expungement-set"
+    ],
+    "howToPromote": "As a REPOINT, not an addition. This entry supersedes mt-doj-dci-expungement-removal-request-form-2023-updated, which carries the same obligationKeys; adding a second entry would leave the superseded edition live and would trip the one-source-id-once rule. Same treatment FABLE-ACQ prescribed for Michigan's mc227.",
+    "entries": [
+      {
+        "sourceId": "mt-doj-dci-expungement-removal-request-form-20240429-updated",
+        "jurisdiction": "MT",
+        "formNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "officialTitle": "Expungement/Removal Request Form",
+        "issuingAuthority": "Montana Department of Justice, Division of Criminal Investigation -- Criminal Records & Identification Services Section / Crime Information Bureau (CRISS)",
+        "officialUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+        "urlKind": "DIRECT_OFFICIAL_BINARY",
+        "expectedSha256": null,
+        "host": "dojmt.gov",
+        "hostAllowedExecuted": {
+          "module": "scripts/lib/official-host-policy.mjs",
+          "call": "hostAllowed(\"dojmt.gov\")",
+          "result": true,
+          "why": "closed .gov namespace; not on the refused list; not an exact-host case"
+        },
+        "commitBody": false,
+        "obligationKeys": [
+          "mt_deferred_dismissal-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "mt_misdemeanor_expungement-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX"
+        ],
+        "obligationKeyBasis": "Both families' sourceIds arrays are empty in MASTER_QUEUE.json, so each key is <familyId>::official-form:<exact string from that family's forms array>. These are byte-identical to the obligationKeys already carried by the manifest entry this one supersedes, so nothing new has to be matched.",
+        "exactBinaryUrlEstablished": true,
+        "format": "DOCX. This is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target. Both families are already implementationStrategy custom_pleading, so that is consistent, not a defect.",
+        "supersedesSourceId": "mt-doj-dci-expungement-removal-request-form-2023-updated",
+        "whyItSupersedes": "The manifest entry in place addresses https://dojmt.gov/wp-content/uploads/2023-Updated-ExpungementRemovalRequestForm.pdf and acquired it (HTTP 200, sha256 0362b43d05284210ec0aa0ca1a43e250351456c73880ec1581fbb78f467c99ee, 174304 bytes, flat_pdf, 1 page, run 33603361022 job 100161934870). That is a real document at a real address, but it is the SUPERSEDED 2023 edition. The Master Library holds the 2024-04-29 edition and the Montana legal review records the 2024-04-29 DOCX as the version linked from the DOJ conviction-expungement page, the non-conviction page and the OCA MMRTA instructions. Repoint rather than add: a second entry would leave the older edition live and would trip the one-source-id-once rule, which is exactly the treatment FABLE-ACQ prescribed for Michigan's mc227.",
+        "corroboration": {
+          "one": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/01_LEGAL_REVIEW/MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md, Part 2 source review, section '20240429-Updated-ExpungementRemovalRequestForm.docx': 'Official source URL: https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx', 'Current revision: 2024-04-29', 'Issuing authority: Montana Department of Justice, Division of Criminal Investigation'. The same URL is repeated in that document's authority table row 'Expungement/Removal Request Form | Montana DOJ, CRISS | ... | 2024-04-29'.",
+          "two": "The document at that address is HELD and its face was read here. private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx -- normalized from the publisher filename 20240429-Updated-ExpungementRemovalRequestForm.docx, the last path segment of the URL. Read out of word/header1.xml, word/header2.xml, word/footer1.xml and word/document.xml: 'STATE OF MONTANA / DEPARTMENT OF JUSTICE / DIVISION OF CRIMINAL INVESTIGATION / Crime Information Bureau'; 'Criminal Records & Identification Services Section'; title line 'Expungement/Removal Request Form'; 'Mail Requests to CRISS Expungement, 2225 11th Ave. PO Box 201403, Helena, MT 59620'; docProps/core.xml created 2024-04-30T17:56:00Z, modified 2024-05-03T18:18:00Z, Company 'DOJ-CSPD'.",
+          "three": "The path SHAPE on this host is not assumed -- it has been exercised. The sibling https://dojmt.gov/wp-content/uploads/2023-Updated-ExpungementRemovalRequestForm.pdf returned HTTP 200 from the hosted fetcher in run 33603361022 job 100161934870, recorded in data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json and in data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json. dojmt.gov serves these files from a FLAT /wp-content/uploads/ directory with no /YYYY/MM/ segment, and the only variable between the acquired sibling and this address is the filename, which custody supplies exactly.",
+          "four": "Relationship corroboration, from the same face read: the form's four request-type checkboxes are 'Misdemeanor Conviction Expungement- (One Time Privilege)- Per MCA Title 46, Chapter 18, Part 11', 'Marijuana Conviction Expungement- MCA Title 16, Chapter 12, Part 1', 'Non-Conviction Removal- MCA Title 44, Chapter 5, Part 2' and 'Deferred Imposition/Prosecution: Dismissed - Criminal Justice Record Sealing'. The last two are precisely mt_deferred_dismissal-set and the first is precisely mt_misdemeanor_expungement-set, so this document is the right document for both families and not merely a document they happen to name."
+        },
+        "whatThisDocumentIs": "A post-order agency submission. The participant sends it to DOJ CRISS with the signed court order and, for a misdemeanor conviction, an FD-258 fingerprint card. It is not the court petition. A family that needs a petition is not unblocked by this address, and the Montana legal review is explicit that every Montana conviction track needs this second participant-initiated DOJ submission after the court order.",
+        "verification": {
+          "urlExercisedByThisLane": false,
+          "whyNot": "This container has no usable outbound egress for state judiciary or state agency hosts; the assignment states the proxy answers 403 CONNECT for them and forbids fetching. Nothing in this return was fetched and nothing is reported as exercised.",
+          "whatWasEstablishedInstead": "The address is carried verbatim by committed or held first-party evidence, and the identity of the document at it was read from a held copy of that same document's own face.",
+          "whatRemainsForTheRunner": "HTTP reachability, content type and the exact SHA-256. A 404 there is a cheap, loud, self-correcting failure; the expensive failure -- binding real bytes to a form number they do not carry -- is what the face read above is against."
+        }
+      }
+    ]
+  },
+  "publishedOnARefusedHostOnly": {
+    "count": 6,
+    "note": "Six label-instances, three families, two distinct documents. This is a real finding rather than a gap: it tells the owner that the open question for Indiana is whether an exact-host exception for the Coalition for Court Access publisher is wanted, and separately whether these documents are forms at all.",
+    "INDIANA_SHARED_FINDING": {
+      "jurisdiction": "IN",
+      "families": [
+        "in_conviction_d6-set",
+        "in_conviction_felony-set",
+        "in_conviction_misd-set"
+      ],
+      "labels": [
+        "official-form:CCA conviction expungement petition",
+        "official-form:CCA conviction expungement order"
+      ],
+      "publisherHost": "www.indianalegalhelp.org",
+      "hostAllowedExecuted": {
+        "call": "hostAllowed(\"www.indianalegalhelp.org\")",
+        "result": false,
+        "why": ".org is outside the closed .gov / .uscourts.gov namespaces and outside the delegated state.<code>.us namespace; it is not on the exact-host list. It is not on the explicit REFUSED_HOSTS list either -- it is refused by falling through, which is the policy's default."
+      },
+      "howThePublisherWasEstablished": "Printed on the forms' own faces, read here with pdftotext -layout. Every page of the three held Coalition for Court Access conviction inserts carries a two-line footer: the form number and then 'www.indianalegalhelp.org'. Verified on all three: CCA-XP-0220-7008 at three page footers, CCA-XP-0220-7009 at three, CCA-XP-0220-7010 at three. The Section 1 instruction packet carries the same 'CCA-GF-0120-3016 / www.indianalegalhelp.org' pairing. Nine footers on three documents, all naming the same host.",
+      "whatInGovPublishesInstead": "www.in.gov publishes IOCS GUIDANCE about expungement, not the forms: pubs-trial-court-courtmgmt-expungement-detailed.pdf, -statutes.pdf, -digest-on-orders.pdf. The Master Library's Indiana legal review cites two of these directly (https://www.in.gov/courts/iocs/files/pubs-trial-court-courtmgmt-expungement-statutes.pdf and https://www.in.gov/judiciary/iocs/files/pubs-trial-court-courtmgmt-expungement-detailed.pdf) and cites https://indianalegalhelp.org for the forms themselves. The one Indiana address in SOURCE_ACQUISITION_MANIFEST.json, sourceId convictionpetitionorder0320fillable at https://www.in.gov/courts/iocs/self-service/expungement/, is honestly labelled OFFICIAL_LANDING_PAGE and returned no bytes in run 33603361022 job 100161934669.",
+      "andAlsoNotPublishedAsAPdf": "Even setting the host aside, no statewide conviction petition or order exists as a PDF. FABLE-ACQ established that from the index; this lane corroborates it from custody. The Master Library holds only the three conviction INSERTS (CCA-XP-0220-7008 for I.C. 35-38-9-2, -7009 for -9-3, -7010 for -9-4) and the Section 1 NON-conviction petition-and-order bundle. Each insert is three pages: petition-side findings, order-side findings, and a 'FINDINGS AND ORDER GRANTING PETITION FOR EXPUNGEMENT OF CONVICTION RECORDS' identification sheet -- all three pages footed with the SAME insert number, so none of them is the wrapper petition or the wrapper order. The wrappers are what the two labels name and they are held nowhere.",
+      "whyNoFormNumberIsInferredForTheWrappers": "The non-conviction wrappers are CCA-XP-0120-7000 (petition) and CCA-XP-0120-7006 (order), read from the held Section 1 bundle's page map; the instruction packet also references CCA-XP-0320-7000(A). It would be easy to write CCA-XP-0220-7000 and CCA-XP-0220-7006 for the conviction wrappers by analogy. That is arithmetic on a filename, not evidence, and it is exactly the guess this lane refuses.",
+      "disposition": "COMPOSE_FROM_AUTHORITY from I.C. 35-38-9, which is already the disposition FABLE-ACQ recorded. The three held inserts are the substantive content for all three families and they are ALREADY BOUND in MASTER_QUEUE.json -- 7008 to in_conviction_misd-set, 7009 to in_conviction_d6-set, 7010 to in_conviction_felony-set, each tier exact_form_number. What is missing is the wrapper, and the wrapper is where I.C. 35-38-9-8's required contents live.",
+      "theQuestionForTheOwner": "Is an exact-host entry for www.indianalegalhelp.org wanted? It is the first-party publisher of the statewide self-service forms that the Indiana judiciary's own self-service page points at, so it is not a reseller; but it is an .org, and the policy's whole shape is that a non-government name is admitted one hostname at a time and only with a required expectedSha256, as ilcourtsaudio.blob.core.windows.net is. This lane does not propose the exception; it names the question."
+    }
+  },
+  "notPublishedAsADocumentAtAll": [
+    {
+      "jurisdiction": "MI",
+      "family": "mi_setaside_trafficking-set",
+      "label": "official-form:Proof of Service",
+      "finding": "It is page 3 of form MC 227b, which the family already holds and already binds. Not a separate publication; no address exists because no separate document exists.",
+      "howEstablished": "Read from the held bytes with pdftotext -layout: MC 227b Rev. 7/24, four pages, footer 'Page 1 of 3' on the application, 'PROOF OF SERVICE' on page 3 under the notice of hearing, and the attached instruction sheet 'Form INST MC 227b, Rev. 7/24' step 13 reading 'fill in the Proof of Service on page 3'.",
+      "consequence": "Promoting nothing closes this family's last unbound label. It needs a census correction, not an acquisition."
+    }
+  ],
+  "notEstablished": {
+    "count": 8,
+    "labels": [
+      "de_discretionary_family_court-set::official-form:FORM-281",
+      "de_discretionary_family_court-set::official-form:FORM-281E",
+      "hi_nonconviction_expungement-set::official-form:HCJDC-159B (current edition)",
+      "rcap-hi-custom-pleading::official-form:HCJDC-159B (current edition)",
+      "MO official-form:CR310",
+      "MO official-form:CR143",
+      "MO official-form:CR370",
+      "MO official-form:FI-05",
+      "MO official-form:GN10"
+    ],
+    "note": "Counted as eight distinct DOCUMENTS across nine label-instances: Form 281, Form 281E, the current HCJDC 159(b) edition (one document, two families), CR310, CR143, CR370, FI-05, GN10.",
+    "theCommonShape": "Delaware and Missouri fail for the same structural reason and it is worth naming once: both publishers serve every document from an opaque numeric endpoint -- courts.delaware.gov/forms/download.aspx?id=NNNNN and www.courts.mo.gov/file.jsp?id=NNNNNN -- with no form number anywhere in the address. For these two states an address cannot be reasoned to; it can only be READ, either off a landing page or off a capture of one. Neither state prints its own address on its own forms, so the only route left is a capture, and the captures that would settle both live in private/Nationwide Record Clearing, which is not mounted here."
+  },
+  "missouriSharedFinding": {
+    "publisherSettled": "Missouri's expungement forms are published statewide by the Office of the State Courts Administrator from the index page https://www.courts.mo.gov/page.jsp?id=191585. hostAllowed('www.courts.mo.gov') executes true. This page is corroborated three ways in committed evidence: data/rcap-all50/terminalization-treatments/mo.json ('Forms CR360, CR370, FI-05 and GN10 are published by the Office of the State Courts Administrator at https://www.courts.mo.gov/page.jsp?id=191585', repeated across tracks), data/record-clearing/legal-design-intake/MO.memo.json, and data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json officialSourcePage for FI-05.",
+    "whyNoExactAddressExistsForAnyOfThem": "courts.mo.gov serves documents from an opaque endpoint, https://www.courts.mo.gov/file.jsp?id=NNNNNN, with no form number anywhere in the address -- structurally the same problem as Delaware's download.aspx. Exactly ONE such id appears anywhere in this repository: https://www.courts.mo.gov/file.jsp?id=116396, recorded in SOURCE_BACKLOG_CLASSIFICATION.json for CR301 with its own identityConfidence reading 'inferred_requires_one_byte_check'. One unverified id is not a mapping. FABLE-COMP1's Louisiana precedent required 6/6 agreement against ids printed in mounted PDFs before its mapping was trusted; Missouri offers 1, and that one is self-declared as unverified. No id is extrapolated here.",
+    "facesRead": "Every held Missouri form was opened and its footer read. CR375: 'SJRC (10-24) CR375 ... Mo. Const. art. XIV, s 2'. CR360: 'SJRC (10-24) CR360 ... 610.140, RSMo'. CR145: 'SJRC (04-24) CR145 ... Chapter 610, RSMo'. GN10: 'SJRC (07-15) GN10 PAGE 1 of 1 SCR 77.03, 514.040, RSMo'. Not one of them prints a URL. The publisher does not put its address on its forms, so method two cannot reach Missouri.",
+    "theSevenNumbersAreNotSevenAcquisitions": {
+      "question": "The assignment asks whether any of Missouri's named numbers is an instruction sheet, a fee waiver, or a general civil form shared across routes rather than its own acquisition.",
+      "answer": "Two of the five unbound numbers are general forms shared across routes, and the five families between them require at most five distinct documents, not sixteen label-instances.",
+      "alreadyBoundAndNotAtIssue": {
+        "CR300": "bound in mo-575-120-identity-theft-correction-set (primary_filing), sha256 0bdda44514ec4505d736c1648502bc768d48fab5cfc63d51635e57f9380aaf44",
+        "CR145": "bound in mo-610-122-arrest-expungement-set (primary_filing), sha256 7c527bf351e9ab08658f901abc9be15e12e5beb2afe7ded14a8c5e2f0d6eb641",
+        "CR360": "bound in both 610.140 families (primary_filing and continuation), sha256 6bfbf26a54f374f7c6bd6dcb59bc199bfe897890c1b3265513b2e7df43990745",
+        "CR375": "bound in mo-art-xiv-marijuana-set (primary_filing), sha256 2cfca7e9bea55d27de82b9aed2875db02872345592cc69af7a5aab400e4b0780",
+        "whyThisMatters": "The assignment's summary table says the five Missouri families have empty sourceIds arrays because nothing resolved. MASTER_QUEUE.json says something narrower: each family's sourceIds array is empty, but its sourceReadiness.boundSources is NOT empty -- every one of the five already binds its own primary filing to held bytes by exact form number. What is unbound is the proposed order, the cover sheet and the fee waiver, never the petition."
+      },
+      "genuinelyUnbound": {
+        "FI-05": {
+          "officialTitle": "Confidential Case Filing Information Sheet -- Non-Domestic Relations, with Case Types List",
+          "printedRevision": "SJRC (04-23), Case Types List SJRC (07-23)",
+          "issuingAuthority": "Supreme Court of Missouri, State Judicial Records Committee; published statewide by the Office of the State Courts Administrator",
+          "role": "cover_sheet",
+          "sharedAcrossRoutes": true,
+          "howShared": "Not an expungement form at all. It is the confidential cover sheet mandatory with EVERY new case filing under Missouri Supreme Court Operating Rule 4.07, carrying the full SSN and the case type code (X5 for a s 610.140 expungement, XG for the associate-division arrest routes). It is named by all five families here and by mo-610-145-mistaken-identity-set: SIX families, ONE document, ONE acquisition.",
+          "scopeQuestionAlreadySettled": "SOURCE_RELATIONSHIP_REGISTRY.json d1ScopeResolution settled 2026-09-01 that FI-05 is statewide and that the 7th Circuit's 'FI-50' is a local analog identifier, not a different statewide instrument; the stlcountycourts.com page previously recorded as its publisher is a circuit copy, and hostAllowed('stlcountycourts.com') executes false. Nothing here reopens that.",
+          "heldButNotMounted": "sha256 53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e at 'private/Nationwide Record Clearing/LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf', 298649 bytes. The Nationwide tree is not mounted in this container and the Master Library has no byte-identical copy, so the face was not re-read here."
+        },
+        "GN10": {
+          "officialTitle": "Motion and Affidavit in Support of Request to Proceed As a Poor Person",
+          "printedRevision": "SJRC (07-15)",
+          "printedAuthority": "SCR 77.03, 514.040 RSMo",
+          "role": "fee_waiver",
+          "sharedAcrossRoutes": true,
+          "howShared": "A general civil fee-waiver form, not an expungement form. Named by four of the five families; one acquisition serves all four, and it would serve every other Missouri civil route the factory ever builds.",
+          "faceReadHere": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx -- word/footer1.xml prints 'SJRC (07-15) GN10 PAGE 1 of 1 SCR 77.03, 514.040, RSMo'; the caption line in word/document.xml is the generic 'IN THE _____ JUDICIAL CIRCUIT, __________________________ COUNTY, MISSOURI'; docProps/app.xml Template is 'GN 10 Motion and Affidavit in Support of Request to Proceed As a Poor Person.dotx'."
+        },
+        "CR310": {
+          "officialTitle": "not recorded on any committed face; role is proposed_order to CR300",
+          "role": "proposed_order",
+          "family": "mo-575-120-identity-theft-correction-set",
+          "sharedAcrossRoutes": false,
+          "registryState": "MISSING_CANONICAL_RELATIONSHIP_METADATA -- no publisher, address or component locator recorded"
+        },
+        "CR143": {
+          "officialTitle": "not recorded on any committed face; role is proposed_order to CR145",
+          "role": "proposed_order",
+          "family": "mo-610-122-arrest-expungement-set",
+          "sharedAcrossRoutes": false,
+          "registryState": "MISSING_CANONICAL_RELATIONSHIP_METADATA"
+        },
+        "CR370": {
+          "officialTitle": "Judgment and Order of Expungement - Section 610.140 RSMo",
+          "role": "proposed_order",
+          "families": [
+            "mo-610-140-arrest-set",
+            "mo-610-140-conviction-set"
+          ],
+          "sharedAcrossRoutes": "across the two 610.140 families only",
+          "registryState": "MISSING_SOURCE_BINARY -- the artifact registry expects the document and the bytes are absent"
+        }
+      },
+      "netEffect": "Five documents -- CR310, CR143, CR370, FI-05, GN10 -- close all five Missouri families. FI-05 alone gates all five (and a sixth outside this cohort), so it is the single highest-leverage Missouri acquisition in the factory. None of the five has an address, and none is guessed here."
+    },
+    "searchesRun": [
+      "grep -rio for any URL containing cr300|cr310|cr143|cr145|cr360|cr370|cr375|fi-05|fi05|gn10 across the entire repository -- ZERO hits",
+      "grep -rho for every courts.mo.gov URL in the repository: page.jsp?id=191585 (266), page.jsp?id=525 (28), casenet/base/welcome.do (28), page.jsp?id=200212 (9), page.jsp?id=172712 (3), file.jsp?id=116396 (2). Six distinct addresses, five of them landing pages and the sixth an unverified CR301 inference.",
+      "read data/record-clearing/legal-design-intake/MO.memo.json officialSources -- revisor.mo.gov statute pages, courts.mo.gov landing pages, casenet, machs.mo.gov, mshp.dps.missouri.gov, plus 16thcircuit.org and archcitydefenders.org (both hostAllowed false). No form artifact URL.",
+      "read the whole Missouri legal review in the Master Library (STATES/MO/01_LEGAL_REVIEW) including its Part 2 source-form review and its Part 4 authority table -- it carries no courts.mo.gov artifact URL for any CR form, and its own instruction is 'pull the current CR360 from courts.mo.gov', which is the same open question",
+      "read every held Missouri form face for a printed address (CR300, CR145, CR360, CR375, GN10)"
+    ],
+    "candidatesExcluded": [
+      "https://www.courts.mo.gov/file.jsp?id=<any id> -- refused for every one of the five. There is no committed id for any of them and the one id that exists is self-declared unverified.",
+      "https://www.stlcountycourts.com/... -- hostAllowed('stlcountycourts.com') executes false; and it is a circuit copy of a statewide form, so it is not the canonical publisher even if it were allowed.",
+      "https://www.16thcircuit.org/miscellaneous-forms -- hostAllowed false; cited by the Missouri legal review as the circuit forms page listing CR300 and CR301. A circuit copy, and off-allowlist.",
+      "https://clearmyrecordmo.org/... and https://www.archcitydefenders.org/... -- hostAllowed false; advocacy publishers.",
+      "https://www.mocleanslate.org/ -- hostAllowed false; advocacy."
+    ]
+  },
+  "perFamily": [
+    {
+      "familyId": "de_discretionary_family_court-set",
+      "jurisdiction": "DE",
+      "labels": [
+        {
+          "obligationKey": "de_discretionary_family_court-set::official-form:FORM-281",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "Delaware Family Court serves every form through an opaque courts.delaware.gov/forms/download.aspx?id=NNNNN endpoint and no committed or held record binds any id to Form 281.",
+          "identitySettled": {
+            "formNumber": "Form 281",
+            "officialTitle": "Petition for Expungement of an Adult Record",
+            "issuingAuthority": "The Family Court of the State of Delaware",
+            "printedRevision": "Rev 9/22",
+            "readFrom": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/DE/03_INSTRUCTIONS/DE__INSTRUCTIONS__FORM-1021IP__adult-expungement-instruction-packet__REV-2023-10__EN.pdf, read with pdftotext -layout. The packet prints, in its own numbered instructions, 'Obtain the Expungement filing forms ... a. The Petition (Form 281) b. Proposed Order (Form 283)' and 'Required Forms for Adult Expungement: Petition for Expungement of an Adult Record (Form 281); Order Granting Expungement of an Adult Record (Form 283)'.",
+            "authority": "10 Del. C. s 1025 and 11 Del. C. s 4374, quoted on the face of the petition"
+          },
+          "searchesRun": [
+            "grep for '281' across data/rcap-all50/, data/record-clearing/, data/rcap-grade-a/, src/lib/rcap/state-packs/ and src/lib/rcap-engine/compiled/profiles/",
+            "grep -o for every courts.delaware.gov and courts.state.de.us URL in the repository: the whole set is courts.delaware.gov/superior/expungement.aspx (17), courts.delaware.gov/forms/ (16), courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records (12), courts.delaware.gov/forms/list.aspx?ag=Superior%20Court&cat=Expungement (4), courts.state.de.us/family (4), courts.delaware.gov/family (6), courts.delaware.gov/forms/list.aspx?ag=Family+Court&sec=Forms (1), courts.delaware.gov/family/faqs (1). Every one is a landing page.",
+            "grep for 'download.aspx' and for the id '46698' that FABLE-ACQ reported: the only hits are Nationwide capture FILENAMES in src/lib/rcap-engine/compiled/profiles/DE-delaware.json and src/lib/rcap/state-packs/delaware/all50-build-metadata.ts -- 'download.aspx.pdf', '2download.aspx', '3download.aspx'. The query string, and therefore the id, was discarded when those captures were named. No id survives anywhere in the repository.",
+            "read all three held Delaware instruction PDFs for a printed form address"
+          ],
+          "candidatesExcluded": [
+            "https://courts.delaware.gov/forms/download.aspx?id=46698 -- FABLE-ACQ reported this id as the one indexed under 'EXPUNGEMENT OF AN ADULT RECORD'. Nothing in this repository binds it to Form 281 rather than to the instruction packet, and adjacent ids in the same collection are plainly other documents. Excluded as a guess.",
+            "https://courts.state.de.us/family -- printed on the face of the held instruction packet and hostAllowed('courts.state.de.us') is true under the delegated state.<code>.us namespace, but it is a landing page, not a binary.",
+            "forms.justia.com -- hostAllowed false.",
+            "dcadv.org -- hostAllowed false."
+          ],
+          "confirmsRatherThanOverturns": "SOURCE_ACQUISITION_MANIFEST.json discPending, 'no URL containing 281 on any Delaware host', and FABLE-ACQ's DE finding."
+        },
+        {
+          "obligationKey": "de_discretionary_family_court-set::official-form:FORM-281E",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "Same publisher, same opaque endpoint; identity is now settled from the held bytes' own header but no address exists.",
+          "identitySettled": {
+            "formNumber": "Form 281E",
+            "printedIdentity": "word/header1.xml prints exactly: 'Form 281E' / 'Dev 9/18'",
+            "officialTitle": "Petition for Expungement of Adult Record Charge Sheet",
+            "issuingAuthority": "The Family Court of the State of Delaware (docProps/core.xml creator and lastModifiedBy: 'Morett, William (Courts)'; docProps/app.xml Company: 'Courts')",
+            "readFrom": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx",
+            "role": "continuation charge sheet, not a variant of Form 281. Its own body reads 'The charges listed below are a continuation of the Petitioner's list of charges on the Petition for Expungement of Adult Record to which this form is attached', and Form 281's body reads 'any additional charges are listed on Form 281E'. Two documents, both named; neither substitutes for the other."
+          },
+          "settlesAPriorWarning": "FACTORY_MEMORY warned that the held 'FORM-281' bytes print Form 281E and that the identity itself needed DISC. The header read above settles it: the held DOCX is 281E, it is the continuation sheet, and 281 is a separate document."
+        }
+      ],
+      "familyDisposition": "Still SOURCE_BLOCKED on address. But see contradictionsWithTheRepository: the FACE of Form 281 and of Form 283 is held, inside the instruction packet."
+    },
+    {
+      "familyId": "hi_nonconviction_expungement-set",
+      "jurisdiction": "HI",
+      "labels": [
+        {
+          "obligationKey": "hi_nonconviction_expungement-set::official-form:HCJDC-159B",
+          "outcome": "NOT_ESTABLISHED_FOR_THE_CURRENT_EDITION",
+          "oneLine": "One exact address is corroborated but it serves the 2019-11 edition, which a committed determination says may never be selected as current; the current 2026-06-03 edition's address is recorded nowhere.",
+          "theSupersededAddress": {
+            "officialUrl": "https://ag.hawaii.gov/hcjdc/files/2019/11/REVISED-EXP-APPLICATION-2019-11.pdf",
+            "host": "ag.hawaii.gov",
+            "hostAllowedExecuted": {
+              "call": "hostAllowed(\"ag.hawaii.gov\")",
+              "result": true,
+              "why": "closed .gov namespace"
+            },
+            "corroboration": "Stated verbatim in two distinct committed non-candidate files: data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json artifactIndex HI-HCJDC-159B officialUrl, and data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json jurisdictions.HI candidateBinaryUrl. Custody agrees: data/rcap-all50/nationwide-source-inventory.json records 'LegalEase Hawaii/REVISED-EXP-APPLICATION-2019-11.pdf', sha256 e9b084cea6c7b0bf27aae1c03937e28b33f7b3a8e4afe8173c766bc379b747f9, 137157 bytes -- the last path segment of the URL, byte for byte.",
+            "whyItIsNotPromoted": "data/record-clearing/legal-design-intake/HI.memo.json says of this identity: 'current revision REV-2026-06-03 printed on the face as \"HCJDC 159(b) Rev. 06/03/2026\" ... The Rev. 11/15/2019 copy is superseded and may never be selected as current.' Promoting this address would pin the factory to bytes a committed determination forbids selecting. That is a worse outcome than an absent address, so it is recorded here and kept out of manifestEntriesAdded."
+          },
+          "whatIsNowSettledThatACQCouldNot": "FABLE-ACQ recorded HI as not established because 'what could NOT be established is that the document at it prints the number HCJDC-159B' and because the only sources binding the number to the title were uslegalforms.com and pdffiller.com, both hostAllowed false and both on the explicit refused list. That gap is closed from committed evidence, not from a refused host: HI.memo.json records the number as PRINTED ON THE FACE -- 'HCJDC 159(b) Rev. 06/03/2026' -- and states that this is one document and not two, the '(b)' having previously been misread as a form variant. The binding is real; it is the EDITION that is unaddressed.",
+          "alsoSettledAndLoadBearing": "HI.memo.json records the document as measured: 'no /AcroForm in the document catalog, zero logical fields, zero terminal fields and no /Annots array at all'. There is no field map to build and acroform_fill is impossible against it. That is consistent with implementationStrategy participant_agency_application and it means an address alone will never make this an official_pdf_fill target.",
+          "searchesRun": [
+            "grep for 'HCJDC' and '159B' across data/, src/, scripts/, docs/",
+            "grep -o for every ag.hawaii.gov URL in the repository: the complete set is ag.hawaii.gov/hcjdc/, ag.hawaii.gov/hcjdc/hcjdc-forms/, ag.hawaii.gov/hcjdc/expungements/ and the single 2019/11 artifact URL above",
+            "grep for 'EXPUNGEMENT_APPLICATION_Rev-2026-06' -- it appears in src/lib/rcap-engine/compiled/profiles/HI-hawaii.json, src/lib/rcap/state-packs/hawaii/all50-build-metadata.ts and a field-map draft under tmp/review-inbox/, always as a Nationwide relativePath and never with a URL",
+            "read data/record-clearing/legal-design-intake/HI.memo.json officialSources for every HI route: they carry only https://ag.hawaii.gov/hcjdc/, a landing page"
+          ],
+          "candidatesExcluded": [
+            "https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf -- the obvious extrapolation from one WordPress /files/YYYY/MM/ example whose month segment happens to match its own filename suffix. ONE example is not a verified mapping. FABLE-COMP1's Louisiana d= mapping was trusted only after it verified 6/6 against ids printed in mounted PDFs; this is 1/1 and is a guess. Excluded.",
+            "www.uslegalforms.com and www.pdffiller.com -- hostAllowed false, both on the explicit REFUSED_HOSTS list."
+          ],
+          "whatWouldSettleIt": "The Nationwide capture 'LegalEase Hawaii/hcjdc-forms.html' -- a capture of https://ag.hawaii.gov/hcjdc/hcjdc-forms/, recorded in src/lib/rcap-engine/compiled/profiles/HI-hawaii.json with sha256 ee37bf85dbc620b7dd22d540aa3d86ddbfe8d9ae9412a97b35dab2f067bb3172 -- prints the publisher's own href to the current PDF. That file is in private/Nationwide Record Clearing, which is NOT mounted in this container (private/source-corpus-environment.txt leaves OFFICIAL_FORMS_SOURCE_DIR commented out and the directory does not exist). One grep of that one held HTML file on a container that mounts the Nationwide tree settles Hawaii outright, with no egress and no guessing."
+        }
+      ],
+      "familyDisposition": "SOURCE_BLOCKED on the CURRENT edition's address only. The publisher, the issuing authority, the printed form number, the printed revision and the structural class are all settled."
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading",
+      "jurisdiction": "HI",
+      "labels": [
+        {
+          "obligationKey": "rcap-hi-custom-pleading::official-form:HCJDC-159B",
+          "outcome": "NOT_ESTABLISHED_FOR_THE_CURRENT_EDITION",
+          "oneLine": "Identical to hi_nonconviction_expungement-set: same single document, same superseded-edition address, same unaddressed current edition.",
+          "sameFindingAs": "hi_nonconviction_expungement-set::official-form:HCJDC-159B",
+          "familySpecificNote": "This family is implementationStrategy custom_pleading, and the Hawaii pleading configs already committed at data/rcap-all50/pleadings/hawaii/*/pleading-config.json record the HCJDC application as a STAGE-TWO component deliberately outside the custom pleading: 'stage_two_hcjdc_application -- status blocked_dependency ... Lane C2 does not draft official-form replicas'. So the custom pleading itself is not waiting on these bytes; only the stage-two attachment is, and stage two cannot be sent until the participant holds a signed stage-one order."
+        }
+      ]
+    },
+    {
+      "familyId": "in_conviction_d6-set",
+      "jurisdiction": "IN",
+      "labels": [
+        {
+          "obligationKey": "in_conviction_d6-set::official-form:CCA conviction expungement petition",
+          "outcome": "PUBLISHED_ON_A_REFUSED_HOST_ONLY",
+          "oneLine": "The Coalition for Court Access conviction forms are published from www.indianalegalhelp.org, printed on the forms' own footers; hostAllowed('www.indianalegalhelp.org') executes false and no .gov publishes them as a PDF."
+        },
+        {
+          "obligationKey": "in_conviction_d6-set::official-form:CCA conviction expungement order",
+          "outcome": "PUBLISHED_ON_A_REFUSED_HOST_ONLY",
+          "oneLine": "Same publisher and same refusal; the order is a separate document from the petition and neither address stands for the other."
+        }
+      ],
+      "sharedIndianaFinding": "INDIANA_SHARED_FINDING"
+    },
+    {
+      "familyId": "in_conviction_felony-set",
+      "jurisdiction": "IN",
+      "labels": [
+        {
+          "obligationKey": "in_conviction_felony-set::official-form:CCA conviction expungement petition",
+          "outcome": "PUBLISHED_ON_A_REFUSED_HOST_ONLY",
+          "oneLine": "Same as in_conviction_d6-set; the petition is published from the refused host www.indianalegalhelp.org."
+        },
+        {
+          "obligationKey": "in_conviction_felony-set::official-form:CCA conviction expungement order",
+          "outcome": "PUBLISHED_ON_A_REFUSED_HOST_ONLY",
+          "oneLine": "Same as in_conviction_d6-set; the order is a distinct document and is published from the same refused host."
+        }
+      ],
+      "sharedIndianaFinding": "INDIANA_SHARED_FINDING"
+    },
+    {
+      "familyId": "in_conviction_misd-set",
+      "jurisdiction": "IN",
+      "labels": [
+        {
+          "obligationKey": "in_conviction_misd-set::official-form:CCA conviction expungement petition",
+          "outcome": "PUBLISHED_ON_A_REFUSED_HOST_ONLY",
+          "oneLine": "Same as in_conviction_d6-set; the petition is published from the refused host www.indianalegalhelp.org."
+        },
+        {
+          "obligationKey": "in_conviction_misd-set::official-form:CCA conviction expungement order",
+          "outcome": "PUBLISHED_ON_A_REFUSED_HOST_ONLY",
+          "oneLine": "Same as in_conviction_d6-set; the order is a distinct document and is published from the same refused host."
+        }
+      ],
+      "sharedIndianaFinding": "INDIANA_SHARED_FINDING"
+    },
+    {
+      "familyId": "mi_setaside_trafficking-set",
+      "jurisdiction": "MI",
+      "labels": [
+        {
+          "obligationKey": "mi_setaside_trafficking-set::official-form:Proof of Service",
+          "outcome": "NOT_PUBLISHED_AS_A_DOCUMENT_AT_ALL",
+          "oneLine": "The Proof of Service is page 3 of form MC 227b, which this family already holds and already binds; it is not a separate publication and needs no address.",
+          "howThisWasEstablished": "Read from the held bytes, not inferred. private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf, pdfinfo Pages: 4, read with pdftotext -layout. The form's own footer reads 'Form MC 227b, Rev. 7/24 ... Page 1 of 3'; the third page carries, in this order, 'NOTICE OF HEARING' and then 'PROOF OF SERVICE' with the certification 'I certify that copies of this application and certified record of conviction and notice of hearing were served on the ...' and 'I declare under the penalties of perjury that this proof of service has been examined by me and that its contents are true'. The fourth page is the instruction sheet, 'Form INST MC 227b, Rev. 7/24, Page 1 of 1', whose step 13 reads 'On both remaining copies of the application, fill in the Proof of Service on page 3.'",
+          "theBindingThatAlreadyExists": "MASTER_QUEUE.json already records this family's boundSources as official-form:MC 227b -> that same path, sha256 1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6, tier exact_form_number, resolvedBy custody_reconciliation. One binary answers both of this family's obligations.",
+          "whatThisSettles": "FABLE-ACQ recorded this label as 'a bare label with no form number, no issuing authority and no statute in the row', asked whether the intent was MC 227's proof of service or a trafficking-specific SCAO number this row does not name, and sent it 'back to DISC to name the document before any address is trusted'. It is named here, and the answer is neither of ACQ's two branches: the trafficking-specific application IS MC 227b, MC 227b carries its own proof of service on page 3, and the bytes are already held. No acquisition is required and no address should be recorded, because recording one would create a second identity for a page of a document the family already holds.",
+          "noAddressAsserted": "No URL is proposed for MC 227b. courts.michigan.gov inserts an opaque hash segment before /siteassets/ (4a4951 for mc227, 4a7f97 for mc235, 4931c3 for eoc_mc227, 49bf50 for one mc227a copy) and also serves an unhashed shape; FABLE-ACQ records that neither can be derived from the other by pattern, and the mc227 fetch redirected to a THIRD segment, 48f784. Any mc227b path built by analogy would be a guess."
+        }
+      ],
+      "familyDisposition": "This family is not source-blocked on discovery. It is source-blocked on a census row that names a page of a form as though it were a form."
+    },
+    {
+      "familyId": "mo-575-120-identity-theft-correction-set",
+      "jurisdiction": "MO",
+      "obligationKeyBasis": "This family's sourceIds array is empty in MASTER_QUEUE.json, so every key is <familyId>::official-form:<exact string from its forms array>.",
+      "labels": [
+        {
+          "obligationKey": "mo-575-120-identity-theft-correction-set::official-form:CR300",
+          "outcome": "NOT_AT_ISSUE_ALREADY_BOUND_TO_HELD_BYTES",
+          "oneLine": "CR300 is already bound by exact form number in MASTER_QUEUE.json sourceReadiness.boundSources; no address is needed and none is proposed."
+        },
+        {
+          "obligationKey": "mo-575-120-identity-theft-correction-set::official-form:CR310",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "CR310: the publisher and role are settled but courts.mo.gov serves forms only from opaque file.jsp?id= endpoints and no committed record binds an id to CR310.",
+          "seeSharedFinding": "missouriSharedFinding"
+        },
+        {
+          "obligationKey": "mo-575-120-identity-theft-correction-set::official-form:FI-05",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "FI-05: the publisher and role are settled but courts.mo.gov serves forms only from opaque file.jsp?id= endpoints and no committed record binds an id to FI-05.",
+          "seeSharedFinding": "missouriSharedFinding"
+        },
+        {
+          "obligationKey": "mo-575-120-identity-theft-correction-set::official-form:GN10",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "GN10: the publisher and role are settled but courts.mo.gov serves forms only from opaque file.jsp?id= endpoints and no committed record binds an id to GN10.",
+          "seeSharedFinding": "missouriSharedFinding"
+        }
+      ],
+      "seeSharedFinding": "missouriSharedFinding"
+    },
+    {
+      "familyId": "mo-610-122-arrest-expungement-set",
+      "jurisdiction": "MO",
+      "obligationKeyBasis": "This family's sourceIds array is empty in MASTER_QUEUE.json, so every key is <familyId>::official-form:<exact string from its forms array>.",
+      "labels": [
+        {
+          "obligationKey": "mo-610-122-arrest-expungement-set::official-form:CR143",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "CR143: the publisher and role are settled but courts.mo.gov serves forms only from opaque file.jsp?id= endpoints and no committed record binds an id to CR143.",
+          "seeSharedFinding": "missouriSharedFinding"
+        },
+        {
+          "obligationKey": "mo-610-122-arrest-expungement-set::official-form:CR145",
+          "outcome": "NOT_AT_ISSUE_ALREADY_BOUND_TO_HELD_BYTES",
+          "oneLine": "CR145 is already bound by exact form number in MASTER_QUEUE.json sourceReadiness.boundSources; no address is needed and none is proposed."
+        },
+        {
+          "obligationKey": "mo-610-122-arrest-expungement-set::official-form:FI-05",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "FI-05: the publisher and role are settled but courts.mo.gov serves forms only from opaque file.jsp?id= endpoints and no committed record binds an id to FI-05.",
+          "seeSharedFinding": "missouriSharedFinding"
+        },
+        {
+          "obligationKey": "mo-610-122-arrest-expungement-set::official-form:GN10",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "GN10: the publisher and role are settled but courts.mo.gov serves forms only from opaque file.jsp?id= endpoints and no committed record binds an id to GN10.",
+          "seeSharedFinding": "missouriSharedFinding"
+        }
+      ],
+      "seeSharedFinding": "missouriSharedFinding"
+    },
+    {
+      "familyId": "mo-610-140-arrest-set",
+      "jurisdiction": "MO",
+      "obligationKeyBasis": "This family's sourceIds array is empty in MASTER_QUEUE.json, so every key is <familyId>::official-form:<exact string from its forms array>.",
+      "labels": [
+        {
+          "obligationKey": "mo-610-140-arrest-set::official-form:CR360",
+          "outcome": "NOT_AT_ISSUE_ALREADY_BOUND_TO_HELD_BYTES",
+          "oneLine": "CR360 is already bound by exact form number in MASTER_QUEUE.json sourceReadiness.boundSources; no address is needed and none is proposed."
+        },
+        {
+          "obligationKey": "mo-610-140-arrest-set::official-form:CR370",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "CR370: the publisher and role are settled but courts.mo.gov serves forms only from opaque file.jsp?id= endpoints and no committed record binds an id to CR370.",
+          "seeSharedFinding": "missouriSharedFinding"
+        },
+        {
+          "obligationKey": "mo-610-140-arrest-set::official-form:FI-05",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "FI-05: the publisher and role are settled but courts.mo.gov serves forms only from opaque file.jsp?id= endpoints and no committed record binds an id to FI-05.",
+          "seeSharedFinding": "missouriSharedFinding"
+        },
+        {
+          "obligationKey": "mo-610-140-arrest-set::official-form:GN10",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "GN10: the publisher and role are settled but courts.mo.gov serves forms only from opaque file.jsp?id= endpoints and no committed record binds an id to GN10.",
+          "seeSharedFinding": "missouriSharedFinding"
+        }
+      ],
+      "seeSharedFinding": "missouriSharedFinding"
+    },
+    {
+      "familyId": "mo-610-140-conviction-set",
+      "jurisdiction": "MO",
+      "obligationKeyBasis": "This family's sourceIds array is empty in MASTER_QUEUE.json, so every key is <familyId>::official-form:<exact string from its forms array>.",
+      "labels": [
+        {
+          "obligationKey": "mo-610-140-conviction-set::official-form:CR360",
+          "outcome": "NOT_AT_ISSUE_ALREADY_BOUND_TO_HELD_BYTES",
+          "oneLine": "CR360 is already bound by exact form number in MASTER_QUEUE.json sourceReadiness.boundSources; no address is needed and none is proposed."
+        },
+        {
+          "obligationKey": "mo-610-140-conviction-set::official-form:CR370",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "CR370: the publisher and role are settled but courts.mo.gov serves forms only from opaque file.jsp?id= endpoints and no committed record binds an id to CR370.",
+          "seeSharedFinding": "missouriSharedFinding"
+        },
+        {
+          "obligationKey": "mo-610-140-conviction-set::official-form:FI-05",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "FI-05: the publisher and role are settled but courts.mo.gov serves forms only from opaque file.jsp?id= endpoints and no committed record binds an id to FI-05.",
+          "seeSharedFinding": "missouriSharedFinding"
+        },
+        {
+          "obligationKey": "mo-610-140-conviction-set::official-form:GN10",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "GN10: the publisher and role are settled but courts.mo.gov serves forms only from opaque file.jsp?id= endpoints and no committed record binds an id to GN10.",
+          "seeSharedFinding": "missouriSharedFinding"
+        }
+      ],
+      "seeSharedFinding": "missouriSharedFinding"
+    },
+    {
+      "familyId": "mo-art-xiv-marijuana-set",
+      "jurisdiction": "MO",
+      "obligationKeyBasis": "This family's sourceIds array is empty in MASTER_QUEUE.json, so every key is <familyId>::official-form:<exact string from its forms array>.",
+      "labels": [
+        {
+          "obligationKey": "mo-art-xiv-marijuana-set::official-form:CR375",
+          "outcome": "NOT_AT_ISSUE_ALREADY_BOUND_TO_HELD_BYTES",
+          "oneLine": "CR375 is already bound by exact form number in MASTER_QUEUE.json sourceReadiness.boundSources; no address is needed and none is proposed."
+        },
+        {
+          "obligationKey": "mo-art-xiv-marijuana-set::official-form:FI-05",
+          "outcome": "NOT_ESTABLISHED",
+          "oneLine": "FI-05: the publisher and role are settled but courts.mo.gov serves forms only from opaque file.jsp?id= endpoints and no committed record binds an id to FI-05.",
+          "seeSharedFinding": "missouriSharedFinding"
+        }
+      ],
+      "seeSharedFinding": "missouriSharedFinding"
+    },
+    {
+      "familyId": "mt_deferred_dismissal-set",
+      "jurisdiction": "MT",
+      "obligationKeyBasis": "This family's sourceIds array is empty in MASTER_QUEUE.json, so the key is <familyId>::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX, taken from its forms array.",
+      "labels": [
+        {
+          "obligationKey": "mt_deferred_dismissal-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "outcome": "ADDRESS_ESTABLISHED",
+          "oneLine": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx -- corroborated by the Montana legal review, by custody of the exact filename, and by an exercised sibling at the identical path shape on the same host; it supersedes the 2023 PDF the manifest currently addresses.",
+          "manifestEntry": "mt-doj-dci-expungement-removal-request-form-20240429-updated",
+          "formatCaveat": "DOCX. COMPOSE_FROM_AUTHORITY input, never an official_pdf_fill target.",
+          "substantiveCaveat": "This document is the DOJ post-order agency submission, not the court petition. Acquiring it closes the label; it does not by itself make either family filable, because neither family's court-stage instrument comes from this document."
+        }
+      ]
+    },
+    {
+      "familyId": "mt_misdemeanor_expungement-set",
+      "jurisdiction": "MT",
+      "obligationKeyBasis": "This family's sourceIds array is empty in MASTER_QUEUE.json, so the key is <familyId>::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX, taken from its forms array.",
+      "labels": [
+        {
+          "obligationKey": "mt_misdemeanor_expungement-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "outcome": "ADDRESS_ESTABLISHED",
+          "oneLine": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx -- corroborated by the Montana legal review, by custody of the exact filename, and by an exercised sibling at the identical path shape on the same host; it supersedes the 2023 PDF the manifest currently addresses.",
+          "manifestEntry": "mt-doj-dci-expungement-removal-request-form-20240429-updated",
+          "formatCaveat": "DOCX. COMPOSE_FROM_AUTHORITY input, never an official_pdf_fill target.",
+          "substantiveCaveat": "This document is the DOJ post-order agency submission, not the court petition. Acquiring it closes the label; it does not by itself make either family filable, because neither family's court-stage instrument comes from this document."
+        }
+      ]
+    }
+  ],
+  "contradictionsWithTheRepository": [
+    {
+      "what": "The classification says the two Montana families have no address queued for anything. SOURCE_ACQUISITION_MANIFEST.json says they do.",
+      "where": "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json entry mt-doj-dci-expungement-removal-request-form-2023-updated carries obligationKeys 'mt_deferred_dismissal-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX' and 'mt_misdemeanor_expungement-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX', and its lastAcquisition records outcome acquired_bytes, HTTP 200, 174304 bytes, sha256 0362b43d05284210ec0aa0ca1a43e250351456c73880ec1581fbb78f467c99ee, run 33603361022 job 100161934870.",
+      "consequence": "These two families were never address-blocked. They were EDITION-blocked and nobody had said so.",
+      "severity": "affects the cohort's own denominator"
+    },
+    {
+      "what": "That queued Montana address serves a superseded edition.",
+      "evidence": "The manifest addresses the 2023 PDF. The Master Library holds the 2024-04-29 DOCX, and the Montana legal review records the 2024-04-29 DOCX as 'the version linked from both the DOJ conviction-expungement page path and the non-conviction page, and from the OCA MMRTA instructions'.",
+      "consequence": "A Grade-A fulfillment record built on the acquired 2023 bytes would be keyed to a document the publisher has replaced. Repoint before any packet is built on it.",
+      "severity": "would produce a wrong-edition packet"
+    },
+    {
+      "what": "The only exact Hawaii address in this repository is one a committed determination forbids selecting as current.",
+      "evidence": "SOURCE_BACKLOG_CLASSIFICATION.json artifactIndex HI-HCJDC-159B and FABLE_ACQ_SOURCE_ADDRESSES.json both carry https://ag.hawaii.gov/hcjdc/files/2019/11/REVISED-EXP-APPLICATION-2019-11.pdf. data/record-clearing/legal-design-intake/HI.memo.json says the current revision is 'HCJDC 159(b) Rev. 06/03/2026' printed on the face and that 'The Rev. 11/15/2019 copy is superseded and may never be selected as current.'",
+      "consequence": "If a later lane promotes the one Hawaii URL it can find, it will pin the factory to a forbidden edition and the pin will look green. Recorded here so it cannot happen quietly.",
+      "severity": "would produce a forbidden-edition pin that passes every gate"
+    },
+    {
+      "what": "SOURCE_RELATIONSHIP_REGISTRY.json says HCJDC-159B has no printed title and no issuing body recorded 'in any committed record'. HI.memo.json records both.",
+      "evidence": "The registry row reads canonicalArtifactTitle 'REQUIRES_LOOKUP -- no printed title is recorded' and canonicalPublisher 'REQUIRES_LOOKUP -- no issuing body is recorded for this identity in any committed record'. HI.memo.json records the title 'Expungement Application', the issuer 'Hawaii Criminal Justice Data Center of the State of Hawaii Department of the Attorney General', the printed revision, and the measured structural class (flat PDF, no /AcroForm, zero fields).",
+      "consequence": "The registry understates what is known and points DISC at a lookup that is already done. The open Hawaii question is the current edition's ADDRESS, nothing else.",
+      "severity": "misdirects a lane"
+    },
+    {
+      "what": "The Missouri legal review warns that the held GN10 is a Jackson County variant that 'cannot be generated statewide' and instructs 'Obtain the generic statewide version'. The Master Library copy IS the generic statewide version.",
+      "evidence": "The legal review describes an OSCA (10-06) copy captioned 'IN THE CIRCUIT COURT OF JACKSON COUNTY, MISSOURI'. The Master Library copy read here is a different, later edition: word/footer1.xml prints 'SJRC (07-15) GN10' and word/document.xml's caption is the generic 'IN THE _____ JUDICIAL CIRCUIT, __________________________ COUNTY, MISSOURI'. Two different documents are being discussed under one form number.",
+      "consequence": "A recorded Missouri build blocker is already retired by bytes the Master Library holds. It still needs an address for currentness, but the 'Jackson County variant' objection does not apply to the held copy.",
+      "severity": "a blocker recorded as open that is partly closed"
+    },
+    {
+      "what": "The Delaware family is classed ACQUIRE_EXACT_SOURCE, but the FACE of Form 281 -- and of Form 283, the order it does not even name -- is held.",
+      "evidence": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/DE/03_INSTRUCTIONS/DE__INSTRUCTIONS__FORM-1021IP__adult-expungement-instruction-packet__REV-2023-10__EN.pdf contains, after its FAQ, the complete printed face of 'Form 281 / Rev 9/22, The Family Court of the State of Delaware ... PETITION FOR EXPUNGEMENT OF ADULT RECORD' and then 'Form 283 / Rev 6/20 ... ORDER GRANTING EXPUNGEMENT OF ADULT RECORD', both with their full field structure, both quoting 10 Del. C. s 1025 and 11 Del. C. s 4374.",
+      "consequence": "This is a possible ATTACH_HELD_SOURCE or COMPOSE_FROM_AUTHORITY route for Delaware that the ACQUIRE_EXACT_SOURCE classification forecloses. It is bundled inside an instruction packet rather than published standalone, so it is Captain's call whether that satisfies the family; this lane only records that the bytes exist. Separately: the family names FORM-281 and FORM-281E and does NOT name Form 283, the proposed order, which the publisher's own instruction packet lists as a required form.",
+      "severity": "a possible reclassification, and a possibly incomplete census row"
+    },
+    {
+      "what": "FABLE-ACQ sent the Michigan Proof of Service 'back to DISC to name the document', offering two possibilities. Neither was right.",
+      "evidence": "ACQ asked whether the intent was MC 227's page-3 proof of service or 'a trafficking-specific set-aside under MCL 780.621621' whose 'applicable application is a different SCAO number that this row does not name'. The row DOES name it: the family's other form is MC 227b, Application by Human Trafficking Victim to Set Aside Conviction(s), already bound to held bytes, and MC 227b carries its own proof of service on its own page 3.",
+      "consequence": "No acquisition and no address. A census correction closes the family.",
+      "severity": "resolves a family"
+    }
+  ],
+  "familiesThatWouldBecomeFullyAddressed": {
+    "byPromotingTheOneManifestEntry": {
+      "count": 0,
+      "why": "Both Montana families already carry an address for their only named form, so promoting this entry does not newly ADDRESS them -- it corrects the edition they are addressed at. Reporting it as two newly-addressed families would overstate the gain and would leave the real defect, a superseded pin, unnamed."
+    },
+    "byActingOnTheNonAcquisitionFindings": {
+      "count": 1,
+      "families": [
+        "mi_setaside_trafficking-set"
+      ],
+      "why": "Its last unbound label is a page of a form it already holds. A census correction, not an acquisition, and it needs no address."
+    },
+    "honestTotal": "One of the fourteen closes outright. Two are corrected rather than closed. Eleven remain source-blocked, and for eight of the eleven this return names the specific, cheap thing that would settle them.",
+    "theCheapestNextSteps": [
+      "Hawaii, both families: grep the held Nationwide capture 'LegalEase Hawaii/hcjdc-forms.html' (sha256 ee37bf85dbc620b7dd22d540aa3d86ddbfe8d9ae9412a97b35dab2f067bb3172) for the publisher's href. No egress needed; it needs a container that mounts private/Nationwide Record Clearing.",
+      "Delaware, both labels: the Nationwide Delaware folder holds 'download.aspx.pdf', '2download.aspx' and '3download.aspx' -- captures whose query-string ids were discarded at naming time. If the capture tooling kept any sidecar, header or index recording which id each came from, Delaware is settled from custody rather than from egress.",
+      "Missouri, all five documents: one fetch of https://www.courts.mo.gov/page.jsp?id=191585 by the hosted runner yields the file.jsp ids for CR310, CR143, CR370, FI-05 and GN10 in a single page. That one landing-page fetch is the highest-leverage acquisition in this cohort -- FI-05 alone gates six families.",
+      "Indiana, all three families: this is an owner decision about an exact-host entry for www.indianalegalhelp.org, not more research."
+    ]
+  },
+  "whatThisDoesNotEstablish": [
+    "No URL in this return was exercised. Reachability, content type and the SHA-256 remain the hosted runner's, and every entry says so.",
+    "The one manifest entry carries expectedSha256 null. This lane holds no bytes from that address; the held Master Library DOCX is byte-evidence of the DOCUMENT, not of what the address serves today, and inventing a pin from it would be worse than leaving it null.",
+    "No claim was asserted, released, transferred or reissued. No grant was touched.",
+    "No family was promoted, no route was opened, no commercial posture changed, no generator or overlay was edited, and no manifest, classification, queue, corpus index or claim ledger was written. Captain promotes.",
+    "No PDF and nothing from private/ was committed. Held documents were read in place and quoted; none was copied into the repository.",
+    "Nothing here settles whether a document is legally the right instrument for its family. It settles what the document IS and where, if anywhere, it is published."
+  ],
+  "bodiesCommitted": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

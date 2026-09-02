@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ma-bmc-multi-set",
+  "worklistGroupId": "ma-bmc-multi-set",
+  "jurisdiction": "MA",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no binary source is bound, and none exists to bind: the MASTER_QUEUE row records sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT with officialFormFamily NONE and boundSources []. The build is grounded on two committed records, verified present and un-drifted before anything is composed: the legal-design intake track (including its localFormOverride flag) and the packet-set manifest.",
+  "routeKey": "obligation:track-only:MA:ma-bmc-multi",
+  "routeSelectionId": "ma-bmc-multi-composed-set",
+  "statutoryAuthority": "G.L. c. 276, § 100C; BMC Amended Standing Order No. 1-09; Commonwealth v. Pon, 469 Mass. 296 (2014)",
+  "legalName": "Consolidated Multi-Record Sealing Petition in the Boston Municipal Court Department",
+  "allSourcesExact": true,
+  "formIdentityNote": "FORM STATUS RESOLVED, owner correction Q3 of 2026-09-02. No BMC form for the consolidated multi-record petition exists in any source this repository holds: the Master Library's STATES/MA carries two PDFs (the Probation Service §§ 100F/100G/100H expungement petition and TC0021) and no BMC form; the partial Nationwide custody's Massachusetts folder carries six PDFs and no BMC form; the official-source registry carries one Massachusetts entry, TC0021. The statewide per-case form IS located and is named here: TC0057 (2/24), Petition to Seal Criminal Records for Nolle Prosequi or Dismissal, footer 'Standardized (Multi - BMC, DC, JC, SC) - Criminal', held in the Nationwide custody at sha256 f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0. The controlling review treats TC0057 as mandatory and records that in BMC a consolidated petition supplements rather than replaces it, so this composed petition is retained as that supplement and the packet names TC0057 to the participant. BMC Amended Standing Order No. 1-09 prescribes the consolidated procedure's contents; the adopted Batch 2 resolution directs that where no current BMC form is published, a counsel-approved custom consolidated petition may be used, only for qualifying BMC records, and that the consolidated petition supplements rather than replaces the statewide per-case form. The composed petition is drafted against the Standing Order's required contents and the Pon standard. No form was substituted and none was invented.",
+  "codifiedGrounds": [
+    {
+      "record": "data/record-clearing/legal-design-intake/MA.memo.json",
+      "what": "track ma-bmc-multi: the Standing Order procedure, the three-record two-division threshold, the venue rule, the counsel limitations, the open form question"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "what": "packetSetId ma-bmc-multi-set: the two-component set and the required-before-filing items"
+    }
+  ],
+  "documents": [],
+  "composedComponentsAuthoredByThisBuild": [
+    "primary_filing",
+    "instructions"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that TC0057 is or is not additionally required in the file alongside this consolidated petition — the controlling review says the consolidated petition supplements rather than replaces it and does not say how the division wants both presented, so the packet sends the participant to the venue division's clerk with the form named",
+    "that any output is approved for participant delivery",
+    "that any record qualifies for sealing under G.L. c. 276, § 100C"
+  ]
+}

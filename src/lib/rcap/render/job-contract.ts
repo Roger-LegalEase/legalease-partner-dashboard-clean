@@ -15,6 +15,7 @@ import { PDFDocument } from "pdf-lib";
 import { packetRouteCanRender, resolvePacketRoute, type PacketRouteResolution } from "@/lib/rcap/documents/packet-route-resolver";
 import { PACKET_RENDERER_KIND, PACKET_RENDERER_VERSION } from "@/lib/rcap/documents/packet-document-renderer";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
+import routeRatificationRegistry from "@/../data/record-clearing/legal-decisions/route-ratification-registry.json";
 
 export const RENDER_JOB_STATUSES = [
   "queued",
@@ -298,6 +299,36 @@ export function computeInputHash(input: {
  * The version has to come from the object the route came from, so the two can
  * never describe different profiles.
  */
+/*
+ * COUNSEL'S RATIFICATION, PROJECTED ONTO THE RENDER PATH.
+ *
+ * The evaluator already treats
+ * data/record-clearing/legal-decisions/route-ratification-registry.json as the
+ * authority: "the registry is the authority and both structures are
+ * projections of it". The render path was not a projection of it. It never
+ * consulted the registry at all, so a route counsel had explicitly NOT ratified
+ * still built a real job.
+ *
+ * Measured over the registry's own 201 rows, before this gate: 15 of the 24
+ * `intentional_unsupported` routes built a job, 15 of 31 `held_guidance`, 31 of
+ * 42 `hard_gate_pending` and 2 of 4 `corrected_awaiting_reconfirmation` -- 63
+ * routes counsel has not cleared for packet delivery, against 49 ratified ones
+ * that legitimately did. "Deliberately out of scope." and "Not a packet route."
+ * are counsel's own words for two of those statuses.
+ *
+ * A LISTED route that is not `ratified_deployable` is refused here. A route the
+ * registry does not list at all keeps its previous behaviour: counsel has made
+ * no decision about it, and inventing a refusal on counsel's behalf would be
+ * the same error in the opposite direction as inventing an authorisation. Those
+ * routes are a separate, open question and are not answered here.
+ */
+const ROUTE_RATIFICATION = routeRatificationRegistry as {
+  routes: Array<{ routeKey: string; status: string }>;
+};
+const RATIFICATION_STATUS_OF = new Map<string, string>(
+  ROUTE_RATIFICATION.routes.map((entry) => [entry.routeKey, entry.status])
+);
+
 export function buildRenderJobSpec(input: {
   packetId: string;
   state?: string | null;
@@ -317,6 +348,39 @@ export function buildRenderJobSpec(input: {
   // No job for a deferred route, so there is no artifact finalization and no
   // path into partner-credit accounting.
   if (route.routeKind === "component_deferral" || route.routeKind === "exact_supported_deferral" || !packetRouteCanRender(route)) {
+    return { spec: null, route };
+  }
+  /*
+   * A RETIRED LEGACY ROUTE MAY NOT OPEN A NEW RENDER JOB.
+   *
+   * ADR-0004 retired the commercial authority of MS, IL, DC, PA and TX-Harris
+   * on 2026-08-28: their renderers are kept so an ALREADY-GENERATED artifact
+   * stays reachable, and "what they no longer do is authorize anything". This
+   * function was authorizing something. It refused only the two deferral kinds
+   * and rendererKind "none", never consulting routeKind, so seven retired
+   * routes -- three DC sealing motions under 16-806 and four PA legacy paths --
+   * still built a real RenderJobSpec with rendererKind packet_document_v1. An
+   * independent read of the terminal treatments found it; the terminal record
+   * had asserted "no render job opens" of these routes and was wrong.
+   *
+   * The distinction the retirement draws is preserved exactly: BUILDING a job
+   * is authorizing new delivery and is refused here; RETRIEVING an artifact
+   * that already exists goes through the owner-authorized path and is
+   * untouched by this branch.
+   *
+   * Note what this deliberately does NOT do. It does not gate on `sellable`,
+   * which is the obvious-looking fix and would be a system-wide outage: every
+   * route in the corpus is `sellable: false` today, so that gate would refuse
+   * every render, including the packets this factory exists to deliver.
+   * Retirement is a decision about a route's authority; sellability is a
+   * measurement of its readiness, and only the first one belongs here.
+   */
+  if (route.routeKind === "legacy_retired") {
+    return { spec: null, route };
+  }
+  /* And counsel's ratification, for any route counsel has actually ruled on. */
+  const ratification = RATIFICATION_STATUS_OF.get(`${route.jurisdiction}:${route.pathwayId}`);
+  if (ratification !== undefined && ratification !== "ratified_deployable") {
     return { spec: null, route };
   }
 

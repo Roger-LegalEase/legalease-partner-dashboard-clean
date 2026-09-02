@@ -99,6 +99,63 @@
           "because": "an official case-caption line the court printed inside the field."
         }
       }
+    },
+    "CA:ca-851-91-set:cr-409": {
+      "measuredAt": "e4e50519222d603de0c08e71c369a2a2fd4dcda9",
+      "whyThisFamilyNeededClassifying": "CR-409's AcroForm /Fields array holds a single root and every terminal field hangs beneath it, so the finalizer's flat detachment never reached the five pushbuttons it had already classified as chrome. Once FIX06 made the detachment walk the field tree, all five were correctly removed - and that removed one whose caption is not chrome at all. The structural rule cannot tell them apart, which is exactly what this registry is for.",
+      "howMeasured": "Each caption was read from its widget's /MK /CA in data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/derived-sources/cr-409-pikepdf-unlocked.pdf, matched to its own /Rect, and compared against the surrounding page-content word boxes extracted with pdftotext -bbox.",
+      "fields": {
+        "CR-409[0].Page2[0].LI3-2[0].li3h[0].#field[3]": {
+          "disposition": "preserve_source_appearance",
+          "sourceAppearance": "MC-031",
+          "rect": [
+            325.137,
+            168.634,
+            362.418,
+            179.634
+          ],
+          "because": "This is structurally a pushbutton, and it is not chrome. Its caption supplies the form number inside a sentence the court printed on the page: the page content stream draws 'should be submitted on the Attached Declaration (form' ending at x 322.581 and ').' beginning at x 360.740, and this widget's caption fills the gap between them. Suppressing it leaves the filed document reading '(form ).', which loses the court's own cross-reference to Judicial Council form MC-031 - a form this very packet delivers as a component. Being wrong towards preservation leaves the court's text on the filing; being wrong the other way removes it.",
+          "theOverlapItCarriesIsTheSourcesOwn": "'MC-031' and ').' share 16.17 square points on the unmodified pikepdf-unlocked source and 23.90 on the delivered page. That pair is a property of the official form, not of this build, and preserving the caption preserves it rather than introducing it."
+        }
+      }
+    },
+    "rcap-tx-custom-pleading:tx-expunction-fee-waiver-statement": {
+      "measuredAt": "2f9b289d8815cf11b498958c98a885f7800faf71",
+      "whyThisFamilyNeededClassifying": "The Texas Statement of Inability to Afford Payment of Court Costs (Misc. Docket No. 22-9090) ships with three of its own AcroForm values already set: /V \"0\" on \"Value / Valor 11\" (page 7), /V \"0\" on \"Amount Cantidad 15\" (page 8), and /V \"12/15/2022\" on \"Today\", the date line of the Option 1 sworn declaration on page 11. All three are /Tx text fields, so the structural rule calls every one of them the court's own ink and preserves it. It is not the court's ink: each is a participant input, and the one on the declaration date line is delivered on a document sworn under penalty of perjury, beside a signature rule the packet leaves blank.",
+      "howMeasured": "Each /V was read first-hand from the pinned source at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf (sha256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d), and each surviving flattened appearance was read from the Form XObject it became in fixtures/canonical.pdf and matched to its widget /Rect.",
+      "onlyTheDeclarationDateIsClassifiedHere": "The two page-7 and page-8 zeros survive into the delivered packet as well - they are drawn in Form XObjects FlatWidget-1812800957 and FlatWidget-4855138939 with /Arial, a font pdftotext cannot map, which is why a text extraction of those pages does not show them. They are participant financial entries, not protected fields, and no verdict has failed this family on them. Classifying them is a separate question and is deliberately not answered here.",
+      "fields": {
+        "Today": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "12/15/2022",
+          "rect": [
+            97.7522,
+            302.312,
+            247.752,
+            324.312
+          ],
+          "because": "This is the date part of the Option 1 declaration - \"I declare under penalty of perjury that the foregoing is true and correct\" - directly above the preprinted label \"Date (month, day, year) / Fecha (mes, dia, ano)\" and below an empty Signature rule. This family's own production-field-map.json refuses it with category signature_or_date_participant_completion and the reason \"signature or date field; never prefilled by this build\", reports/blanks-left-for-the-participant.json carries it among protectedBlanks, and participant-instructions.md tells the participant \"Your signature and the date\" are among the things deliberately left blank because \"You sign when you actually swear it.\" A date the participant did not enter, four years stale, on a perjury declaration, is ink no packet may carry, and the packet states in terms that it is not there."
+        }
+      }
+    },
+    "tx_nd_dwi_probation-set:tx_nd_dwi_probation-fee-waiver-statement-4": {
+      "measuredAt": "2f9b289d8815cf11b498958c98a885f7800faf71",
+      "whyThisFamilyNeededClassifying": "The same Texas Statement of Inability to Afford Payment of Court Costs (Misc. Docket No. 22-9090) that rcap-tx-custom-pleading delivers, enclosed here as component 4 of the nondisclosure packet. Its Today field ships with /V \"12/15/2022\" set by the official source. Today is a /Tx text field, so the structural rule calls it the court's own ink and preserves it onto the sworn declaration date line at packet page 20.",
+      "howMeasured": "The /V was read first-hand from the pinned source at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf (sha256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d) and its flattened appearance was read from the Form XObject it became in fixtures/canonical.pdf, matched to widget /Rect [97.7522, 302.312, 247.752, 324.312] on source page 11.",
+      "theSameFieldOnTheSameFormIsClassifiedForRcapTxCustomPleading": "This is a per-family registry, so a form enclosed by two families is classified once per family. The disposition and the reason are the same because the field and the form are the same; neither entry was read across from the other, and each was measured against its own family's delivered bytes and its own family's field map.",
+      "fields": {
+        "Today": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "12/15/2022",
+          "rect": [
+            97.7522,
+            302.312,
+            247.752,
+            324.312
+          ],
+          "because": "This family's production-field-map.json refuses tx_nd_dwi_probation-fee-waiver-statement-4.Today with refusalClass signature_or_date_participant_completion and the stated reason \"a date written before the Statement is actually sworn would be false\". The delivered page carried the date anyway, beside the participant's own signature line, on the page headed by the declaration under penalty of perjury, and the instructions said nothing about it. A packet that states a date the participant did not enter, on a document they will swear years later, is stating something false on their behalf."
+        }
+      }
     }
   }
 }

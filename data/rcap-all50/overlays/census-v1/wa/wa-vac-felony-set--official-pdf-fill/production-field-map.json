@@ -1,0 +1,1383 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "wa_vac_felony-set",
+  "mappingScope": "Washington-only source-specific participant and case facts",
+  "explicitSafetyPolicy": {
+    "writesAllowed": [
+      "caption court, county/city, plaintiff, defendant name, and case number",
+      "participant print name, date of birth, mailing address, and email",
+      "conviction date and measured count, offense, and RCW cells",
+      "CR-08 caption-band county with recorded suffix normalization"
+    ],
+    "possibleParticipantContactWrites": "Only a separately captioned participant contact blank outside declarations/signature blocks; none is inferred from layout alone.",
+    "neverWritten": [
+      "legal elections or checkboxes, other than the route-determined election(s) recorded under routeElections",
+      "participant-authored narratives",
+      "signatures",
+      "signature and execution dates",
+      "service certifications",
+      "prosecutor or attorney fields",
+      "court findings or judicial reasons",
+      "money or refund amounts"
+    ],
+    "courtOrdersAcceptKnownCaseFactsOnly": true
+  },
+  "routeElections": {
+    "routeSelectionId": "wa-vac-felony-cr-08-0900-rcw-9-94a-640",
+    "basis": "Route-determined elections read first-hand from the pinned form face and marked with two diagonal strokes inside the printed control's measured bounds (FIX10). Case-dependent elections are never marked.",
+    "marks": [
+      {
+        "formNumber": "CR-08.0900",
+        "controlId": "p1-selection-1",
+        "page": 1,
+        "geometry": {
+          "x0": 72,
+          "y0": 419.6,
+          "x1": 85.45,
+          "y1": 431.58,
+          "width": 13.45,
+          "height": 11.98
+        },
+        "printedContext": "[ ] Defendant [ ] Prosecutor asks the court for an order vacating the record of the",
+        "why": "On this self-help route the movant is the defendant; the prosecutor box is the alternative movant the route never uses (CR 08.0900 section I)."
+      },
+      {
+        "formNumber": "CR-08.0900",
+        "controlId": "p2-selection-1",
+        "page": 2,
+        "geometry": {
+          "x0": 114.09,
+          "y0": 568.6,
+          "x1": 126.34,
+          "y1": 580.58,
+          "width": 12.25,
+          "height": 11.98
+        },
+        "printedContext": "3. I [ ] was [ ] was not discharged under RCW 9.94A.637, for the offenses listed in",
+        "why": "The ordinary RCW 9.94A.640 route requires discharge under RCW 9.94A.637 for class B and class C alike (CR 08.0930 eligibility table), so 'was discharged' is route-invariant; 'was not' belongs to the victim route."
+      },
+      {
+        "formNumber": "CR-08.0900",
+        "controlId": "p2-selection-3",
+        "page": 2,
+        "geometry": {
+          "x0": 107.98,
+          "y0": 518.7,
+          "x1": 120.23,
+          "y1": 530.68,
+          "width": 12.25,
+          "height": 11.98
+        },
+        "printedContext": "[ ] There are no criminal charges pending against me in any state court or federal court",
+        "why": "RCW 9.94A.640(2)(a) requires no pending charges on this route; the alternative box (prostitution charge pending) exists only for the victim-of-certain-crimes route."
+      }
+    ]
+  },
+  "valueNormalization": {
+    "matter.county": "For CR-08 caption blanks following the source text 'County of', strip a trailing 'County' designator from the fact before rendering so 'King County' prints as 'County of King', not 'County of King County'."
+  },
+  "documents": [
+    {
+      "formNumber": "CR-08.0900",
+      "role": "participant_filing",
+      "sourceSha256": "ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e",
+      "writableAnchors": [
+        {
+          "blankId": "p1-y556.20-x330.66",
+          "printedCaption": "Superior Court of Washington, County of",
+          "label": "County [p1-y556.20-x330.66]",
+          "factId": "matter.county",
+          "page": 1,
+          "writeBox": {
+            "x": 335.66,
+            "y": 558.2,
+            "width": 165.56,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 330.66,
+            "x1": 515.22,
+            "baselineY": 556.2
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y533.90-x320.52",
+          "printedCaption": "State of Washington, Plaintiff, No",
+          "label": "Case No. [p1-y533.90-x320.52]",
+          "factId": "matter.case_number",
+          "page": 1,
+          "writeBox": {
+            "x": 322.02,
+            "y": 533.9,
+            "width": 180.19,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 320.52,
+            "x1": 516.21,
+            "baselineY": 533.9
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y496.60-x83.76",
+          "printedCaption": "Defendant",
+          "label": "Full Legal Name [p1-y496.60-x83.76]",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "writeBox": {
+            "x": 85.26,
+            "y": 496.6,
+            "width": 180.21,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 83.76,
+            "x1": 279.47,
+            "baselineY": 496.6
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y318.78-x310.50",
+          "printedCaption": "Print Name",
+          "label": "Print Name [p1-y318.78-x310.50]",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "writeBox": {
+            "x": 312,
+            "y": 320.78,
+            "width": 196,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 310.5,
+            "x1": 522,
+            "baselineY": 318.78
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y268.86-x81.18",
+          "printedCaption": "I",
+          "label": "Declarant Name [p1-y268.86-x81.18]",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "writeBox": {
+            "x": 82.68,
+            "y": 270.86,
+            "width": 227.32,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 81.18,
+            "x1": 324,
+            "baselineY": 268.86
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y233.50-x143.46",
+          "printedCaption": "Count",
+          "label": "Count 1 [p1-y233.50-x143.46]",
+          "factId": "matter.charges[0].count",
+          "page": 1,
+          "writeBox": {
+            "x": 144.21,
+            "y": 233.5,
+            "width": 27.83,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 143.46,
+            "x1": 174.04,
+            "baselineY": 233.5
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y233.50-x304.28",
+          "printedCaption": "Offense (include degree)",
+          "label": "Offense 1 [p1-y233.50-x304.28]",
+          "factId": "matter.charges[0].charge",
+          "page": 1,
+          "writeBox": {
+            "x": 305.78,
+            "y": 233.5,
+            "width": 112.93,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 304.28,
+            "x1": 432.71,
+            "baselineY": 233.5
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y233.50-x462.05",
+          "printedCaption": "RCW",
+          "label": "Statute 1 [p1-y233.50-x462.05]",
+          "factId": "matter.charges[0].statute",
+          "page": 1,
+          "writeBox": {
+            "x": 466.05,
+            "y": 233.5,
+            "width": 61.28,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 462.05,
+            "x1": 529.33,
+            "baselineY": 233.5
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y214.80-x143.46",
+          "printedCaption": "Count",
+          "label": "Count 2 [p1-y214.80-x143.46]",
+          "factId": "matter.charges[1].count",
+          "page": 1,
+          "writeBox": {
+            "x": 144.21,
+            "y": 214.8,
+            "width": 27.83,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 143.46,
+            "x1": 174.04,
+            "baselineY": 214.8
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y214.80-x304.28",
+          "printedCaption": "Offense (include degree)",
+          "label": "Offense 2 [p1-y214.80-x304.28]",
+          "factId": "matter.charges[1].charge",
+          "page": 1,
+          "writeBox": {
+            "x": 305.78,
+            "y": 214.8,
+            "width": 112.93,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 304.28,
+            "x1": 432.71,
+            "baselineY": 214.8
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y214.80-x462.05",
+          "printedCaption": "RCW",
+          "label": "Statute 2 [p1-y214.80-x462.05]",
+          "factId": "matter.charges[1].statute",
+          "page": 1,
+          "writeBox": {
+            "x": 466.05,
+            "y": 214.8,
+            "width": 61.28,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 462.05,
+            "x1": 529.33,
+            "baselineY": 214.8
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y196.20-x143.46",
+          "printedCaption": "Count",
+          "label": "Count 3 [p1-y196.20-x143.46]",
+          "factId": "matter.charges[2].count",
+          "page": 1,
+          "writeBox": {
+            "x": 144.21,
+            "y": 196.2,
+            "width": 27.83,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 143.46,
+            "x1": 174.04,
+            "baselineY": 196.2
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y196.20-x304.28",
+          "printedCaption": "Offense (include degree)",
+          "label": "Offense 3 [p1-y196.20-x304.28]",
+          "factId": "matter.charges[2].charge",
+          "page": 1,
+          "writeBox": {
+            "x": 305.78,
+            "y": 196.2,
+            "width": 112.93,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 304.28,
+            "x1": 432.71,
+            "baselineY": 196.2
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y196.20-x462.05",
+          "printedCaption": "RCW",
+          "label": "Statute 3 [p1-y196.20-x462.05]",
+          "factId": "matter.charges[2].statute",
+          "page": 1,
+          "writeBox": {
+            "x": 466.05,
+            "y": 196.2,
+            "width": 61.28,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 462.05,
+            "x1": 529.33,
+            "baselineY": 196.2
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y177.60-x143.46",
+          "printedCaption": "Count",
+          "label": "Count 4 [p1-y177.60-x143.46]",
+          "factId": "matter.charges[3].count",
+          "page": 1,
+          "writeBox": {
+            "x": 144.21,
+            "y": 177.6,
+            "width": 27.83,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 143.46,
+            "x1": 174.04,
+            "baselineY": 177.6
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y177.60-x304.28",
+          "printedCaption": "Offense (include degree)",
+          "label": "Offense 4 [p1-y177.60-x304.28]",
+          "factId": "matter.charges[3].charge",
+          "page": 1,
+          "writeBox": {
+            "x": 305.78,
+            "y": 177.6,
+            "width": 112.93,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 304.28,
+            "x1": 432.71,
+            "baselineY": 177.6
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y177.60-x462.05",
+          "printedCaption": "RCW",
+          "label": "Statute 4 [p1-y177.60-x462.05]",
+          "factId": "matter.charges[3].statute",
+          "page": 1,
+          "writeBox": {
+            "x": 466.05,
+            "y": 177.6,
+            "width": 61.28,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 462.05,
+            "x1": 529.33,
+            "baselineY": 177.6
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y365.46-x310.50",
+          "printedCaption": "Defendant Print Name",
+          "label": "Print Name [p3-y365.46-x310.50]",
+          "factId": "participant.full_legal_name",
+          "page": 3,
+          "writeBox": {
+            "x": 312,
+            "y": 367.46,
+            "width": 205,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 310.5,
+            "x1": 531,
+            "baselineY": 365.46
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y334.14-x118.44",
+          "printedCaption": "Address",
+          "label": "Mailing Address [p3-y334.14-x118.44]",
+          "factId": "participant.full_mailing_address",
+          "page": 3,
+          "writeBox": {
+            "x": 119.94,
+            "y": 336.14,
+            "width": 397.06,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 118.44,
+            "x1": 531,
+            "baselineY": 334.14
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y315.48-x105.60",
+          "printedCaption": "Email",
+          "label": "Email [p3-y315.48-x105.60]",
+          "factId": "participant.email",
+          "page": 3,
+          "writeBox": {
+            "x": 107.1,
+            "y": 317.48,
+            "width": 409.9,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 105.6,
+            "x1": 531,
+            "baselineY": 315.48
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        }
+      ],
+      "withheldBlankCount": 16,
+      "withheld": [
+        {
+          "blankId": "p1-y356.10-x107.46",
+          "page": 1,
+          "printedCaption": "Dated",
+          "sourcePrintedCaption": "Dated",
+          "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p1-y356.10-x310.50",
+          "page": 1,
+          "printedCaption": "Signature WSBA No",
+          "sourcePrintedCaption": "Signature WSBA No",
+          "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p1-y80.70-x385.32",
+          "page": 1,
+          "printedCaption": "• Driving under the influence (RCW 46.61.592)",
+          "sourcePrintedCaption": "• Driving under the influence (RCW 46.61.592)",
+          "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p3-y707.76-x144.00",
+          "page": 3,
+          "printedCaption": "",
+          "sourcePrintedCaption": "",
+          "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+        },
+        {
+          "blankId": "p3-y689.10-x144.00",
+          "page": 3,
+          "printedCaption": "",
+          "sourcePrintedCaption": "",
+          "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+        },
+        {
+          "blankId": "p3-y670.50-x144.00",
+          "page": 3,
+          "printedCaption": "",
+          "sourcePrintedCaption": "",
+          "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+        },
+        {
+          "blankId": "p3-y651.84-x144.00",
+          "page": 3,
+          "printedCaption": "7. Rehabilitation and Mitigation",
+          "sourcePrintedCaption": "7. Rehabilitation and Mitigation",
+          "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+        },
+        {
+          "blankId": "p3-y614.52-x483.06",
+          "page": 3,
+          "printedCaption": "[ ] The following facts are evidence of my rehabilitation since my conviction",
+          "sourcePrintedCaption": "[ ] The following facts are evidence of my rehabilitation since my conviction",
+          "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+        },
+        {
+          "blankId": "p3-y595.86-x126.00",
+          "page": 3,
+          "printedCaption": "[ ] The following facts are evidence of my rehabilitation since my conviction",
+          "sourcePrintedCaption": "[ ] The following facts are evidence of my rehabilitation since my conviction",
+          "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+        },
+        {
+          "blankId": "p3-y577.20-x126.00",
+          "page": 3,
+          "printedCaption": "",
+          "sourcePrintedCaption": "",
+          "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+        },
+        {
+          "blankId": "p3-y558.60-x126.00",
+          "page": 3,
+          "printedCaption": "[ ] The following is mitigating evidence related to this case",
+          "sourcePrintedCaption": "[ ] The following is mitigating evidence related to this case",
+          "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+        },
+        {
+          "blankId": "p3-y539.94-x400.56",
+          "page": 3,
+          "printedCaption": "[ ] The following is mitigating evidence related to this case",
+          "sourcePrintedCaption": "[ ] The following is mitigating evidence related to this case",
+          "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+        },
+        {
+          "blankId": "p3-y521.28-x126.00",
+          "page": 3,
+          "printedCaption": "[ ] The following is mitigating evidence related to this case",
+          "sourcePrintedCaption": "[ ] The following is mitigating evidence related to this case",
+          "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+        },
+        {
+          "blankId": "p3-y502.62-x126.00",
+          "page": 3,
+          "printedCaption": "",
+          "sourcePrintedCaption": "",
+          "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+        },
+        {
+          "blankId": "p3-y483.96-x126.00",
+          "page": 3,
+          "printedCaption": "",
+          "sourcePrintedCaption": "",
+          "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+        },
+        {
+          "blankId": "p3-y392.00-x124.61",
+          "page": 3,
+          "printedCaption": "Signed on",
+          "sourcePrintedCaption": "Signed on",
+          "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
+        }
+      ],
+      "explicitGeometryRefusals": []
+    },
+    {
+      "formNumber": "CR-08.0920",
+      "role": "court_order",
+      "sourceSha256": "e5ccd2e0847fc9b0c2b54ef4ff75fd8d500b7b2af5a9eed963dd3855bb0226db",
+      "writableAnchors": [
+        {
+          "blankId": "p1-y556.20-x350.94",
+          "printedCaption": "Superior Court of Washington, County of",
+          "label": "County [p1-y556.20-x350.94]",
+          "factId": "matter.county",
+          "page": 1,
+          "writeBox": {
+            "x": 355.94,
+            "y": 558.2,
+            "width": 125.06,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 350.94,
+            "x1": 495,
+            "baselineY": 556.2
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y533.90-x334.26",
+          "printedCaption": "State of Washington, Plaintiff, No",
+          "label": "Case No. [p1-y533.90-x334.26]",
+          "factId": "matter.case_number",
+          "page": 1,
+          "writeBox": {
+            "x": 335.76,
+            "y": 533.9,
+            "width": 186.33,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 334.26,
+            "x1": 536.09,
+            "baselineY": 533.9
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y496.60-x83.76",
+          "printedCaption": "Defendant",
+          "label": "Full Legal Name [p1-y496.60-x83.76]",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "writeBox": {
+            "x": 85.26,
+            "y": 496.6,
+            "width": 180.21,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 83.76,
+            "x1": 279.47,
+            "baselineY": 496.6
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y344.10-x157.50",
+          "printedCaption": "2. On (date)",
+          "label": "Offense Date [p1-y344.10-x157.50]",
+          "factId": "matter.conviction_date",
+          "page": 1,
+          "writeBox": {
+            "x": 159,
+            "y": 346.1,
+            "width": 110.5,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 157.5,
+            "x1": 283.5,
+            "baselineY": 344.1
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y327.40-x143.46",
+          "printedCaption": "Count",
+          "label": "Count 1 [p1-y327.40-x143.46]",
+          "factId": "matter.charges[0].count",
+          "page": 1,
+          "writeBox": {
+            "x": 144.21,
+            "y": 327.4,
+            "width": 21.72,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 143.46,
+            "x1": 167.93,
+            "baselineY": 327.4
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y327.40-x298.16",
+          "printedCaption": "Offense (include degree)",
+          "label": "Offense 1 [p1-y327.40-x298.16]",
+          "factId": "matter.charges[0].charge",
+          "page": 1,
+          "writeBox": {
+            "x": 299.66,
+            "y": 327.4,
+            "width": 112.94,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 298.16,
+            "x1": 426.6,
+            "baselineY": 327.4
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y327.40-x455.87",
+          "printedCaption": "RCW",
+          "label": "Statute 1 [p1-y327.40-x455.87]",
+          "factId": "matter.charges[0].statute",
+          "page": 1,
+          "writeBox": {
+            "x": 459.87,
+            "y": 327.4,
+            "width": 55.23,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 455.87,
+            "x1": 517.1,
+            "baselineY": 327.4
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y308.70-x143.46",
+          "printedCaption": "Count",
+          "label": "Count 2 [p1-y308.70-x143.46]",
+          "factId": "matter.charges[1].count",
+          "page": 1,
+          "writeBox": {
+            "x": 144.21,
+            "y": 308.7,
+            "width": 21.72,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 143.46,
+            "x1": 167.93,
+            "baselineY": 308.7
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y308.70-x298.16",
+          "printedCaption": "Offense (include degree)",
+          "label": "Offense 2 [p1-y308.70-x298.16]",
+          "factId": "matter.charges[1].charge",
+          "page": 1,
+          "writeBox": {
+            "x": 299.66,
+            "y": 308.7,
+            "width": 112.94,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 298.16,
+            "x1": 426.6,
+            "baselineY": 308.7
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y308.70-x455.87",
+          "printedCaption": "RCW",
+          "label": "Statute 2 [p1-y308.70-x455.87]",
+          "factId": "matter.charges[1].statute",
+          "page": 1,
+          "writeBox": {
+            "x": 459.87,
+            "y": 308.7,
+            "width": 55.23,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 455.87,
+            "x1": 517.1,
+            "baselineY": 308.7
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y290.00-x143.46",
+          "printedCaption": "Count",
+          "label": "Count 3 [p1-y290.00-x143.46]",
+          "factId": "matter.charges[2].count",
+          "page": 1,
+          "writeBox": {
+            "x": 144.21,
+            "y": 290,
+            "width": 21.72,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 143.46,
+            "x1": 167.93,
+            "baselineY": 290
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y290.00-x298.16",
+          "printedCaption": "Offense (include degree)",
+          "label": "Offense 3 [p1-y290.00-x298.16]",
+          "factId": "matter.charges[2].charge",
+          "page": 1,
+          "writeBox": {
+            "x": 299.66,
+            "y": 290,
+            "width": 112.94,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 298.16,
+            "x1": 426.6,
+            "baselineY": 290
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y290.00-x455.87",
+          "printedCaption": "RCW",
+          "label": "Statute 3 [p1-y290.00-x455.87]",
+          "factId": "matter.charges[2].statute",
+          "page": 1,
+          "writeBox": {
+            "x": 459.87,
+            "y": 290,
+            "width": 55.23,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 455.87,
+            "x1": 517.1,
+            "baselineY": 290
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y271.40-x143.46",
+          "printedCaption": "Count",
+          "label": "Count 4 [p1-y271.40-x143.46]",
+          "factId": "matter.charges[3].count",
+          "page": 1,
+          "writeBox": {
+            "x": 144.21,
+            "y": 271.4,
+            "width": 21.72,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 143.46,
+            "x1": 167.93,
+            "baselineY": 271.4
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y271.40-x298.16",
+          "printedCaption": "Offense (include degree)",
+          "label": "Offense 4 [p1-y271.40-x298.16]",
+          "factId": "matter.charges[3].charge",
+          "page": 1,
+          "writeBox": {
+            "x": 299.66,
+            "y": 271.4,
+            "width": 112.94,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 298.16,
+            "x1": 426.6,
+            "baselineY": 271.4
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y271.40-x455.87",
+          "printedCaption": "RCW",
+          "label": "Statute 4 [p1-y271.40-x455.87]",
+          "factId": "matter.charges[3].statute",
+          "page": 1,
+          "writeBox": {
+            "x": 459.87,
+            "y": 271.4,
+            "width": 55.23,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 455.87,
+            "x1": 517.1,
+            "baselineY": 271.4
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y678.40-x143.46",
+          "printedCaption": "Count",
+          "label": "Count 1 [p3-y678.40-x143.46]",
+          "factId": "matter.charges[0].count",
+          "page": 3,
+          "writeBox": {
+            "x": 144.21,
+            "y": 678.4,
+            "width": 21.72,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 143.46,
+            "x1": 167.93,
+            "baselineY": 678.4
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y678.40-x298.16",
+          "printedCaption": "Offense (include degree)",
+          "label": "Offense 1 [p3-y678.40-x298.16]",
+          "factId": "matter.charges[0].charge",
+          "page": 3,
+          "writeBox": {
+            "x": 299.66,
+            "y": 678.4,
+            "width": 112.94,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 298.16,
+            "x1": 426.6,
+            "baselineY": 678.4
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y678.40-x455.88",
+          "printedCaption": "RCW",
+          "label": "Statute 1 [p3-y678.40-x455.88]",
+          "factId": "matter.charges[0].statute",
+          "page": 3,
+          "writeBox": {
+            "x": 459.88,
+            "y": 678.4,
+            "width": 55.22,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 455.88,
+            "x1": 517.1,
+            "baselineY": 678.4
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y659.80-x143.46",
+          "printedCaption": "Count",
+          "label": "Count 2 [p3-y659.80-x143.46]",
+          "factId": "matter.charges[1].count",
+          "page": 3,
+          "writeBox": {
+            "x": 144.21,
+            "y": 659.8,
+            "width": 21.72,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 143.46,
+            "x1": 167.93,
+            "baselineY": 659.8
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y659.80-x298.16",
+          "printedCaption": "Offense (include degree)",
+          "label": "Offense 2 [p3-y659.80-x298.16]",
+          "factId": "matter.charges[1].charge",
+          "page": 3,
+          "writeBox": {
+            "x": 299.66,
+            "y": 659.8,
+            "width": 112.94,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 298.16,
+            "x1": 426.6,
+            "baselineY": 659.8
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y659.80-x455.88",
+          "printedCaption": "RCW",
+          "label": "Statute 2 [p3-y659.80-x455.88]",
+          "factId": "matter.charges[1].statute",
+          "page": 3,
+          "writeBox": {
+            "x": 459.88,
+            "y": 659.8,
+            "width": 55.22,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 455.88,
+            "x1": 517.1,
+            "baselineY": 659.8
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y641.10-x143.46",
+          "printedCaption": "Count",
+          "label": "Count 3 [p3-y641.10-x143.46]",
+          "factId": "matter.charges[2].count",
+          "page": 3,
+          "writeBox": {
+            "x": 144.21,
+            "y": 641.1,
+            "width": 21.72,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 143.46,
+            "x1": 167.93,
+            "baselineY": 641.1
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y641.10-x298.16",
+          "printedCaption": "Offense (include degree)",
+          "label": "Offense 3 [p3-y641.10-x298.16]",
+          "factId": "matter.charges[2].charge",
+          "page": 3,
+          "writeBox": {
+            "x": 299.66,
+            "y": 641.1,
+            "width": 112.94,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 298.16,
+            "x1": 426.6,
+            "baselineY": 641.1
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y641.10-x455.88",
+          "printedCaption": "RCW",
+          "label": "Statute 3 [p3-y641.10-x455.88]",
+          "factId": "matter.charges[2].statute",
+          "page": 3,
+          "writeBox": {
+            "x": 459.88,
+            "y": 641.1,
+            "width": 55.22,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 455.88,
+            "x1": 517.1,
+            "baselineY": 641.1
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y622.50-x143.46",
+          "printedCaption": "Count",
+          "label": "Count 4 [p3-y622.50-x143.46]",
+          "factId": "matter.charges[3].count",
+          "page": 3,
+          "writeBox": {
+            "x": 144.21,
+            "y": 622.5,
+            "width": 21.72,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 143.46,
+            "x1": 167.93,
+            "baselineY": 622.5
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y622.50-x298.16",
+          "printedCaption": "Offense (include degree)",
+          "label": "Offense 4 [p3-y622.50-x298.16]",
+          "factId": "matter.charges[3].charge",
+          "page": 3,
+          "writeBox": {
+            "x": 299.66,
+            "y": 622.5,
+            "width": 112.94,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 298.16,
+            "x1": 426.6,
+            "baselineY": 622.5
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y622.50-x455.88",
+          "printedCaption": "RCW",
+          "label": "Statute 4 [p3-y622.50-x455.88]",
+          "factId": "matter.charges[3].statute",
+          "page": 3,
+          "writeBox": {
+            "x": 459.88,
+            "y": 622.5,
+            "width": 55.22,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 455.88,
+            "x1": 517.1,
+            "baselineY": 622.5
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p3-y144.42-x306.00",
+          "printedCaption": "Print Name Print Name",
+          "label": "Defendant Print Name [p3-y144.42-x306.00]",
+          "factId": "participant.full_legal_name",
+          "page": 3,
+          "writeBox": {
+            "x": 307.5,
+            "y": 146.42,
+            "width": 200.5,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 306,
+            "x1": 522,
+            "baselineY": 144.42
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        }
+      ],
+      "withheldBlankCount": 17,
+      "withheld": [
+        {
+          "blankId": "p1-y443.58-x77.04",
+          "page": 1,
+          "printedCaption": "Clerk’s Action Required: 15",
+          "sourcePrintedCaption": "Clerk’s Action Required: 15",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p1-y83.16-x385.32",
+          "page": 1,
+          "printedCaption": "o Assault in the second degree (RCW 9A.36.021)",
+          "sourcePrintedCaption": "o Assault in the second degree (RCW 9A.36.021)",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p2-y650.10-x108.00",
+          "page": 2,
+          "printedCaption": "for the offenses listed in section 2",
+          "sourcePrintedCaption": "for the offenses listed in section 2",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p2-y367.14-x174.54",
+          "page": 2,
+          "printedCaption": "[ ] Other",
+          "sourcePrintedCaption": "[ ] Other",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p2-y145.08-x335.10",
+          "page": 2,
+          "printedCaption": "[ ] persuasive [ ] not persuasive because",
+          "sourcePrintedCaption": "[ ] persuasive [ ] not persuasive because",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p2-y126.42-x126.00",
+          "page": 2,
+          "printedCaption": "[ ] The defendant presented no mitigating evidence or evidence of rehabilitation",
+          "sourcePrintedCaption": "[ ] The defendant presented no mitigating evidence or evidence of rehabilitation",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p2-y83.16-x228.96",
+          "page": 2,
+          "printedCaption": "The Court Orders",
+          "sourcePrintedCaption": "The Court Orders",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p2-y83.16-x385.32",
+          "page": 2,
+          "printedCaption": "[ ] The defendant presented no mitigating evidence or evidence of rehabilitation",
+          "sourcePrintedCaption": "[ ] The defendant presented no mitigating evidence or evidence of rehabilitation",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p3-y313.56-x275.52",
+          "page": 3,
+          "printedCaption": "Court Order Recipient Designated by Clerk",
+          "sourcePrintedCaption": "to (local law enforcement agency)",
+          "reason": "Court or clerk field naming an order recipient; completed by the court after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p3-y213.00-x107.46",
+          "page": 3,
+          "printedCaption": "Dated",
+          "sourcePrintedCaption": "Dated",
+          "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p3-y213.00-x306.00",
+          "page": 3,
+          "printedCaption": "Judge",
+          "sourcePrintedCaption": "Judge",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p3-y175.68-x72.00",
+          "page": 3,
+          "printedCaption": "Prosecuting Attorney WSBA No. Defendant/Defendant's Attorney WSBA No",
+          "sourcePrintedCaption": "Prosecuting Attorney WSBA No. Defendant/Defendant's Attorney WSBA No",
+          "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p3-y175.68-x306.00",
+          "page": 3,
+          "printedCaption": "Prosecuting Attorney WSBA No. Defendant/Defendant's Attorney WSBA No",
+          "sourcePrintedCaption": "Prosecuting Attorney WSBA No. Defendant/Defendant's Attorney WSBA No",
+          "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p3-y144.42-x72.00",
+          "page": 3,
+          "printedCaption": "Print Name Print Name",
+          "sourcePrintedCaption": "Print Name Print Name",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p3-y83.16-x72.00",
+          "page": 3,
+          "printedCaption": "RCW 9.94A.640, .648 Or. on Mt. to Vacate Record of",
+          "sourcePrintedCaption": "RCW 9.94A.640, .648 Or. on Mt. to Vacate Record of",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p3-y83.16-x228.96",
+          "page": 3,
+          "printedCaption": "RCW 9.94A.640, .648 Or. on Mt. to Vacate Record of",
+          "sourcePrintedCaption": "RCW 9.94A.640, .648 Or. on Mt. to Vacate Record of",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
+        },
+        {
+          "blankId": "p3-y83.16-x385.32",
+          "page": 3,
+          "printedCaption": "",
+          "sourcePrintedCaption": "",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
+        }
+      ],
+      "explicitGeometryRefusals": []
+    }
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

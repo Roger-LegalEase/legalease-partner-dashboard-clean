@@ -1,6 +1,17 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": []
+  },
   "jurisdiction": {
     "code": "MA",
     "name": "Massachusetts",
@@ -567,11 +578,12 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
+        "status": "intentional_unsupported",
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "lawrence_review": "intentional_unsupported",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -646,24 +658,7 @@
       "routeType": "automatic",
       "suggestedResultCode": "guidance_only",
       "waitingRules": [
-        "Misdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request",
-        "Felony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request",
-        "Sex offense 15 years or longer 15 years after disposition/supervision/incarceration, or as long as registration duty continues, whichever is longer",
-        "Offense no longer a crime Immediate / forthwith Unless the same conduct remains criminal under a different designation",
-        "Subsequent not guilty, dismissal, nolle prosequi, no bill Does not interrupt the waiting period",
-        "Waiting period 3 years after court appearance/disposition, including supervision, probation, commitment, or parole, terminated",
-        "New Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses",
-        "Custody/commitment No imprisonment under sentence or juvenile commitment in Massachusetts during preceding 3 years",
-        "Waiting period - misdemeanor-only At least 3 years before petition, including incarceration, custody, or probation",
-        "Waiting period - any felony At least 7 years before petition, including incarceration, custody, or probation",
-        "Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable",
-        "Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole",
-        "Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition",
-        "Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition",
-        "Route Wait Clock starts / runs from Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition Non-time-based expungement No standard time wait Must prove false ID, identity theft, decriminalized offense, error, or fraud Not guilty / no bill / no probable cause sealing No ordinary wait Should be sealed under 100C Dismissal / nolle prosequi sealing No fixed statutory wait in 100C Court decides substantial justice",
-        "Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available.",
-        "For Massachusetts, train Wilma like this: Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available.",
-        "If no likely not time-based expungement.If yes check 100J exclusions, waiting period, no other records, no active investigation."
+        "sealed through § 100C's automatic disposition mechanism without an elapsed wait"
       ],
       "exclusionRules": [
         "Level 2 or Level 3 sex offender classification Not eligible to seal sex offenses",
@@ -678,12 +673,34 @@
         "matchedResult": "guidance_only",
         "paymentAllowed": false
       },
-      "lawrenceRatification": {
-        "status": "hold_guidance",
-        "packet_capable": false,
-        "payment_allowed_when_engine_confirms": false,
-        "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+      "legalAuthority": {
+        "decisionId": "LD-MA-02",
+        "ruleId": "MA-276-100C-100K-100KQUARTER-THREE-PROCESS-MAP",
+        "mechanism": "Automatic nonconviction sealing for a not-guilty finding, no bill, or no probable cause",
+        "statute": "Mass. Gen. Laws ch. 276, § 100C",
+        "stage": "automatic",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "sealed through § 100C's automatic disposition mechanism without an elapsed wait"
+        },
+        "requiredFacts": [
+          "Disposition type/date?",
+          "Automatic-seal status?",
+          "Dismissal/nolle substantial-justice facts?",
+          "Marijuana statute, conduct, date, and quantity?",
+          "Other charges in the record?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact § 100C disposition or qualifying marijuana record",
+          "Use § 100A periods only for the separate conviction-sealing route"
+        ],
+        "packetFamily": null,
+        "notes": "Never apply § 100A's three- or seven-year conviction-sealing periods to a § 100C nonconviction."
       }
     },
     {
@@ -761,24 +778,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Misdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request",
-        "Felony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request",
-        "Sex offense 15 years or longer 15 years after disposition/supervision/incarceration, or as long as registration duty continues, whichever is longer",
-        "Offense no longer a crime Immediate / forthwith Unless the same conduct remains criminal under a different designation",
-        "Subsequent not guilty, dismissal, nolle prosequi, no bill Does not interrupt the waiting period",
-        "Waiting period 3 years after court appearance/disposition, including supervision, probation, commitment, or parole, terminated",
-        "New Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses",
-        "Custody/commitment No imprisonment under sentence or juvenile commitment in Massachusetts during preceding 3 years",
-        "Out-of-state/federal No disqualifying adjudication, guilty finding, imprisonment, or commitment in another state, U.S. possession, or federal court during preceding 3 years",
-        "Waiting period - misdemeanor-only At least 3 years before petition, including incarceration, custody, or probation",
-        "Waiting period - any felony At least 7 years before petition, including incarceration, custody, or probation",
-        "Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody",
-        "Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody",
-        "Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable",
-        "Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole",
-        "Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition",
-        "Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition",
-        "Route Wait Clock starts / runs from Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition Non-time-based expungement No standard time wait Must prove false ID, identity theft, decriminalized offense, error, or fraud Not guilty / no bill / no probable cause sealing No ordinary wait Should be sealed under 100C Dismissal / nolle prosequi sealing No fixed statutory wait in 100C Court decides substantial justice"
+        "the separate court-requested substantial-justice process, available on the dismissal or nolle prosequi without an elapsed wait"
       ],
       "exclusionRules": [
         "Level 2 or Level 3 sex offender classification Not eligible to seal sex offenses",
@@ -798,7 +798,43 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "lawrence_review": "hold_guidance",
+        "projectedFrom": "route-ratification-registry"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MA-02",
+        "ruleId": "MA-276-100C-100K-100KQUARTER-THREE-PROCESS-MAP",
+        "mechanism": "Court-requested sealing for a dismissal or nolle prosequi",
+        "statute": "Mass. Gen. Laws ch. 276, § 100C",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "disposition_date",
+          "anchorText": "the separate court-requested substantial-justice process, available on the dismissal or nolle prosequi without an elapsed wait"
+        },
+        "requiredFacts": [
+          "Disposition type/date?",
+          "Automatic-seal status?",
+          "Dismissal/nolle substantial-justice facts?",
+          "Marijuana statute, conduct, date, and quantity?",
+          "Other charges in the record?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact § 100C disposition or qualifying marijuana record",
+          "Use § 100A periods only for the separate conviction-sealing route"
+        ],
+        "packetFamily": "Massachusetts § 100C Court-Requested Sealing Packet",
+        "packetComponents": [
+          "Request to seal under § 100C",
+          "Substantial-justice statement",
+          "Disposition record"
+        ],
+        "notes": "Never apply § 100A's conviction-sealing waits here."
       }
     },
     {
@@ -906,11 +942,12 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
+        "status": "intentional_unsupported",
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "lawrence_review": "intentional_unsupported",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1015,11 +1052,12 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
+        "status": "intentional_unsupported",
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "lawrence_review": "intentional_unsupported",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1123,7 +1161,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "lawrence_review": "hold_guidance",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1197,20 +1236,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Misdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request",
-        "Felony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request",
-        "Offense no longer a crime Immediate / forthwith Unless the same conduct remains criminal under a different designation",
-        "Subsequent not guilty, dismissal, nolle prosequi, no bill Does not interrupt the waiting period",
-        "New Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses",
-        "Out-of-state/federal No disqualifying adjudication, guilty finding, imprisonment, or commitment in another state, U.S. possession, or federal court during preceding 3 years",
-        "Waiting period - misdemeanor-only At least 3 years before petition, including incarceration, custody, or probation",
-        "Waiting period - any felony At least 7 years before petition, including incarceration, custody, or probation",
-        "Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable",
-        "Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition",
-        "Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition",
-        "Route Wait Clock starts / runs from Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition Non-time-based expungement No standard time wait Must prove false ID, identity theft, decriminalized offense, error, or fraud Not guilty / no bill / no probable cause sealing No ordinary wait Should be sealed under 100C Dismissal / nolle prosequi sealing No fixed statutory wait in 100C Court decides substantial justice",
-        "Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available.",
-        "For Massachusetts, train Wilma like this: Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available."
+        "eligibility under the marijuana-expungement statute for conduct that is no longer criminal or falls within the statutory marijuana category; no general conviction-sealing period applies"
       ],
       "exclusionRules": [
         "Level 2 or Level 3 sex offender classification Not eligible to seal sex offenses",
@@ -1230,7 +1256,42 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "lawrence_review": "hold_guidance",
+        "projectedFrom": "route-ratification-registry"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MA-02",
+        "ruleId": "MA-276-100C-100K-100KQUARTER-THREE-PROCESS-MAP",
+        "mechanism": "Marijuana-only expungement",
+        "statute": "Mass. Gen. Laws ch. 276, §§ 100K, 100K¼",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "eligibility under the marijuana-expungement statute for conduct that is no longer criminal or falls within the statutory marijuana category; no general conviction-sealing period applies"
+        },
+        "requiredFacts": [
+          "Disposition type/date?",
+          "Automatic-seal status?",
+          "Dismissal/nolle substantial-justice facts?",
+          "Marijuana statute, conduct, date, and quantity?",
+          "Other charges in the record?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Exact § 100C disposition or qualifying marijuana record",
+          "Use § 100A periods only for the separate conviction-sealing route"
+        ],
+        "packetFamily": "Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼",
+        "packetComponents": [
+          "Petition to expunge",
+          "Offense record showing the marijuana category"
+        ],
+        "notes": "A special route; no general conviction-sealing period applies."
       }
     }
   ],
@@ -1903,22 +1964,10 @@
       "when": {
         "backendPathwayId": "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "financial_obligations",
-          "age_at_offense",
-          "identity_error",
-          "record_type"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "financial_obligations",
-          "age_at_offense",
-          "identity_error",
-          "record_type"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -1928,7 +1977,7 @@
           "convicted_other",
           "juvenile"
         ],
-        "sourceConditionText": "Automatic non-conviction sealing for not-guilty, no-bill, or no-probable-cause outcomes (§ 100C)"
+        "sourceConditionText": "sealed through § 100C's automatic disposition mechanism without an elapsed wait"
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -1938,7 +1987,13 @@
       "sourceRef": "corpus-unit:10; section:7-26; section:230-287; section:218-229; section:288-290; summary:288-290; corpus-unit:75; corpus-unit:79",
       "candidatePathwayIds": [
         "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MA-02",
+        "ruleId": "MA-276-100C-100K-100KQUARTER-THREE-PROCESS-MAP",
+        "statute": "Mass. Gen. Laws ch. 276, § 100C",
+        "mechanism": "Automatic nonconviction sealing for a not-guilty finding, no bill, or no probable cause"
+      }
     },
     {
       "id": "route-court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
@@ -1947,22 +2002,10 @@
       "when": {
         "backendPathwayId": "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "financial_obligations",
-          "age_at_offense",
-          "identity_error",
-          "record_type"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "financial_obligations",
-          "age_at_offense",
-          "identity_error",
-          "record_type"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -1972,7 +2015,8 @@
           "convicted_other",
           "juvenile"
         ],
-        "sourceConditionText": "Court-requested sealing for dismissal or nolle prosequi (§ 100C)"
+        "sourceConditionText": "the separate court-requested substantial-justice process, available on the dismissal or nolle prosequi without an elapsed wait",
+        "timingAnchorFactId": "disposition_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -1982,7 +2026,13 @@
       "sourceRef": "section:218-229; waiting_periods:218-229; corpus-unit:75; section:7-26; section:69-83; section:180-191; section:192-202; section:288-290",
       "candidatePathwayIds": [
         "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MA-02",
+        "ruleId": "MA-276-100C-100K-100KQUARTER-THREE-PROCESS-MAP",
+        "statute": "Mass. Gen. Laws ch. 276, § 100C",
+        "mechanism": "Court-requested sealing for a dismissal or nolle prosequi"
+      }
     },
     {
       "id": "route-juvenile-record-sealing-under-100b",
@@ -2123,22 +2173,12 @@
       "when": {
         "backendPathwayId": "marijuana-only-expungement",
         "requiredFields": [
-          "offense_category",
-          "financial_obligations",
           "case_outcome",
-          "offense_level",
-          "age_at_offense",
-          "identity_error",
-          "record_type"
+          "offense_level"
         ],
         "fieldsReferenced": [
-          "offense_category",
-          "financial_obligations",
           "case_outcome",
-          "offense_level",
-          "age_at_offense",
-          "identity_error",
-          "record_type"
+          "offense_level"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2148,7 +2188,7 @@
           "convicted_other",
           "juvenile"
         ],
-        "sourceConditionText": "Marijuana-only expungement"
+        "sourceConditionText": "eligibility under the marijuana-expungement statute for conduct that is no longer criminal or falls within the statutory marijuana category; no general conviction-sealing period applies"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2158,7 +2198,13 @@
       "sourceRef": "section:170-179; overview:7-26; section:7-26; section:180-191; section:192-202; corpus-unit:10; corpus-unit:55; corpus-unit:57",
       "candidatePathwayIds": [
         "marijuana-only-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MA-02",
+        "ruleId": "MA-276-100C-100K-100KQUARTER-THREE-PROCESS-MAP",
+        "statute": "Mass. Gen. Laws ch. 276, §§ 100K, 100K¼",
+        "mechanism": "Marijuana-only expungement"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",

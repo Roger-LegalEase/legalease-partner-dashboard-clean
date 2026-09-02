@@ -1,0 +1,2573 @@
+{
+  "schemaVersion": "rcap-source-acquisition-manifest/v1",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
+  "what": "Every exact official URL this repository already records, as one batch acquisition job each.",
+  "whatItIsNot": "It is not the whole source backlog. An obligation with no recorded official URL is DISC work; putting a guessed address here would send ACQ to fetch it.",
+  "consumedBy": ".github/workflows/rcap-official-source-acquisition-batch.yml",
+  "hostAllowlistAuthority": "scripts/rcap-acquire-official-source.mjs",
+  "allowedHostSuffixes": [
+    ".gov",
+    ".uscourts.gov",
+    "state.<code>.us (the delegated state-government namespace; bare .us is open registration and is refused)"
+  ],
+  "allowedExactHosts": [
+    "ilcourtsaudio.blob.core.windows.net"
+  ],
+  "exactHostRule": "An exact host is matched by full equality and never by suffix. ilcourtsaudio.blob.core.windows.net is allowed; *.blob.core.windows.net is not, because that suffix belongs to every tenant of the service. An entry on this list requires official judiciary provenance, is restricted to its own jurisdiction, and requires an exact SHA-256 at dispatch.",
+  "refusedHosts": [
+    "www.docketbird.com",
+    "www.formsworkflow.com",
+    "www.pdffiller.com",
+    "www.scribd.com",
+    "www.uslegalforms.com"
+  ],
+  "rules": [
+    "HTTPS only.",
+    "An approved official government host only.",
+    "A jurisdiction on every entry.",
+    "A form number or an official title on every entry.",
+    "One URL once. One source id once.",
+    "No entry may request that a source body be committed."
+  ],
+  "maxParallel": 20,
+  "bodiesCommitted": 0,
+  "evidenceSweep": {
+    "rule": "A URL enters from committed evidence only when at least 2 distinct non-candidate files carry it. One file is a guess with a filename.",
+    "roots": [
+      "data/rcap-all50",
+      "data/rcap-grade-a",
+      "data/record-clearing"
+    ],
+    "distinctUrlsSeen": 288,
+    "corroborated": 219,
+    "candidateOnly": 9,
+    "topCorroborated": [
+      {
+        "url": "https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
+        "corroboration": 34,
+        "alreadyInManifest": true
+      },
+      {
+        "url": "https://www.txcourts.gov/media/1454270/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+        "corroboration": 19,
+        "alreadyInManifest": true
+      },
+      {
+        "url": "https://legacy.utcourts.gov/howto/criminallaw/docs/1501CR_Motion_to_Remove_Link_to_Personal_Identifying_Information.pdf",
+        "corroboration": 19,
+        "alreadyInManifest": true
+      },
+      {
+        "url": "https://www.txcourts.gov/media/1454256/petition-for-nondisclosure-under-section-411-0729.pdf",
+        "corroboration": 17,
+        "alreadyInManifest": true
+      },
+      {
+        "url": "https://www.txcourts.gov/media/1454257/order-of-nondisclosure-sec-411-0729.pdf",
+        "corroboration": 17,
+        "alreadyInManifest": true
+      },
+      {
+        "url": "https://www.txcourts.gov/media/1454269/2nd-final-petition-for-nondisclosure-under-section-411-0736.pdf",
+        "corroboration": 14,
+        "alreadyInManifest": true
+      },
+      {
+        "url": "https://www.txcourts.gov/media/1454245/04-20-2022-petition-for-nondisclosure-under-section-411-0726-2022.pdf",
+        "corroboration": 14,
+        "alreadyInManifest": true
+      },
+      {
+        "url": "https://www.txcourts.gov/media/1454246/order-of-nondisclosure-sec-411-0726-dwi-2022.pdf",
+        "corroboration": 14,
+        "alreadyInManifest": true
+      },
+      {
+        "url": "https://www.txcourts.gov/media/1454285/04-26-2022-petition-for-nondisclosure-under-section-411-073-2022.pdf",
+        "corroboration": 14,
+        "alreadyInManifest": true
+      },
+      {
+        "url": "https://www.txcourts.gov/media/1454286/order-of-nondisclosure-under-section-4110725-411073-or-4110735-2022.pdf",
+        "corroboration": 14,
+        "alreadyInManifest": true
+      }
+    ],
+    "whyThisExists": "The Texas statement of inability gates ten families, has an exact txcourts.gov address in dozens of committed records, and was never queued because the manifest read only the two acquisition-receipt files."
+  },
+  "counts": {
+    "entries": 62,
+    "refused": 7,
+    "urlRecordsRead": 69,
+    "sourceObligationsTotal": 178,
+    "obligationsCoveredByARecordedUrl": 93,
+    "obligationsNeedingDiscoveryFirst": 85
+  },
+  "entries": [
+    {
+      "sourceId": "ca-cr-430-info-information-on-filing-a-petition-to-dismiss-2024-11",
+      "jurisdiction": "CA",
+      "formNumber": "CR-430-INFO",
+      "officialTitle": "Information on Filing a Petition for Dismissal - Incarcerated Individual Hand Crew or Institutional Firehouse Participant",
+      "issuingAuthority": "Judicial Council of California",
+      "officialUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr430info.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "6bee01e04b1f8ceb05776e07b90b92a4e9048777c41c78760e381348d4d287c0",
+      "host": "courts.ca.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-430-INFO"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934569,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr430info.pdf",
+        "redirected": false,
+        "observedByteLength": 132046,
+        "sha256": "6bee01e04b1f8ceb05776e07b90b92a4e9048777c41c78760e381348d4d287c0",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 4,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161934569. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
+      "edition": "posting path 2024-11; face revision not returned by the index and not asserted",
+      "statute": "Cal. Penal Code 1203.4b",
+      "corroboration": {
+        "committedFiles": 0,
+        "indexConfirmedFormNumberAtThisUrl": "CR-430-INFO Information on Filing a Petition to Dismiss",
+        "note": "This is an instruction sheet, not a fillable petition. It is named by the family and is acquired as itself, never as a substitute for CR-430."
+      },
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "ca-cr-430-petition-for-dismissal-incarcerated-individual-hand-crew-2024-11",
+      "jurisdiction": "CA",
+      "formNumber": "CR-430",
+      "officialTitle": "Petition for Dismissal - Incarcerated Individual Hand Crew or Institutional Firehouse Participant",
+      "issuingAuthority": "Judicial Council of California",
+      "officialUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr430.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "5a47ecd78553bb4b23b85b1298baba1286b7c39b02f154ce96de96e5582360e5",
+      "host": "courts.ca.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-430"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934556,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr430.pdf",
+        "redirected": false,
+        "observedByteLength": 110688,
+        "sha256": "5a47ecd78553bb4b23b85b1298baba1286b7c39b02f154ce96de96e5582360e5",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": null,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161934556. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
+      "edition": "the publisher's path segment dates the posting 2024-11; the revision printed on the face of the form was not returned by the index and is not asserted here",
+      "statute": "Cal. Penal Code 1203.4b",
+      "corroboration": {
+        "committedFiles": 0,
+        "indexConfirmedFormNumberAtThisUrl": "CR-430 Petition for Dismissal-Incarcerated Individual Hand Crew",
+        "note": "No committed file carries this URL. The index returned the form number and title from the document at this exact address."
+      },
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "ca-cr-431-court-cover-letter-and-agency-certification-2024-11",
+      "jurisdiction": "CA",
+      "formNumber": "CR-431",
+      "officialTitle": "Court Cover Letter and Agency Certification - Incarcerated Individual Hand Crew or Institutional Firehouse Participant",
+      "issuingAuthority": "Judicial Council of California",
+      "officialUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr431.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "928c47f1b8263dbb4918bca79f0890c30569b10bcb7e24e5500670ec7b1aedb5",
+      "host": "courts.ca.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-431"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934518,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr431.pdf",
+        "redirected": false,
+        "observedByteLength": 74493,
+        "sha256": "928c47f1b8263dbb4918bca79f0890c30569b10bcb7e24e5500670ec7b1aedb5",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 1,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161934518. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
+      "edition": "posting path 2024-11; the index separately describes CR-431 as last updated January 1, 2024. The two do not agree and neither is asserted as the face revision.",
+      "statute": "Cal. Penal Code 1203.4b",
+      "corroboration": {
+        "committedFiles": 0,
+        "indexConfirmedFormNumberAtThisUrl": "CR-431 - California Courts",
+        "note": "A copy of this form is also published by www.formsworkflow.com, which the host policy explicitly refuses. That copy is named here so a reviewer sees it was considered and refused, and it is not the address recorded."
+      },
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "convictionpetitionorder0320fillable",
+      "jurisdiction": "IN",
+      "formNumber": "CCA conviction expungement petition",
+      "officialTitle": "CCA conviction expungement petition",
+      "issuingAuthority": "Indiana Coalition for Court Access",
+      "officialUrl": "https://www.in.gov/courts/iocs/self-service/expungement/",
+      "urlKind": "OFFICIAL_LANDING_PAGE",
+      "expectedSha256": "999fdf4a3f23c96e5a7e93bbbb3b48cd098041f21757ab6e99cd10e9394abec3",
+      "host": "www.in.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "in_conviction_d6-set::CCA conviction expungement petition",
+        "in_conviction_felony-set::CCA conviction expungement petition",
+        "in_conviction_misd-set::CCA conviction expungement petition"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934669,
+        "outcome": "no_bytes_retrieved",
+        "httpStatus": null,
+        "contentType": null,
+        "finalResolvedUrl": null,
+        "redirected": null,
+        "observedByteLength": null,
+        "sha256": null,
+        "observedStructuralClass": null,
+        "observedPageCount": null,
+        "looksLikePdf": null,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "addressDidNotReturnADocument": "HTTP ? — the job exited 0 because RCAP_TOLERATE_FAILURE is set on every matrix job, and no bytes were retrieved. This address needs DISC before it is fetched again."
+    },
+    {
+      "sourceId": "cxp-additional-cannabis-convictions",
+      "jurisdiction": "IL",
+      "formNumber": "EXC-AA 4706.2",
+      "officialTitle": "Additional Cannabis Convictions",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/85296a2c-ee02-41c9-b962-6fb1f797dc8e/CXP%20Additional%20Cannabis%20Convictions.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Additional Cannabis Convictions."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934647,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/85296a2c-ee02-41c9-b962-6fb1f797dc8e/CXP%20Additional%20Cannabis%20Convictions.pdf",
+        "redirected": false,
+        "observedByteLength": 396270,
+        "sha256": "32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 2,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "cxp-additional-notice-of-court-date",
+      "jurisdiction": "IL",
+      "formNumber": "EXC-AM 4705.2",
+      "officialTitle": "Additional Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62d19ea4-46a8-423b-9e42-b975974fc77b/CXP%20Additional%20Notice%20of%20Court%20Date.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "4a6dde5541b6531f99a4294e07a28ea85096ea5c982ee76e46cf3e8dd00b0afa",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Additional Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934673,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62d19ea4-46a8-423b-9e42-b975974fc77b/CXP%20Additional%20Notice%20of%20Court%20Date.pdf",
+        "redirected": false,
+        "observedByteLength": 283605,
+        "sha256": "4a6dde5541b6531f99a4294e07a28ea85096ea5c982ee76e46cf3e8dd00b0afa",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": null,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "cxp-getting-started-motion-to-vacate-and-expunge",
+      "jurisdiction": "IL",
+      "formNumber": "EXC-G 4700.2",
+      "officialTitle": "Getting Started Motion to Vacate & Expunge Eligible Cannabis Convictions",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/da1fc04d-1770-4e40-8a5c-527bd52ca7f9/CXP%20Getting%20Started%20Motion%20to%20Vacate%20and%20Expunge.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "52ce3880f8d813ca7ebebb1654da5a04f4d70dca538868f7094163a7199eb0b2",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Getting Started Motion to Vacate & Expunge Eligible Cannabis Convictions."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934632,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/da1fc04d-1770-4e40-8a5c-527bd52ca7f9/CXP%20Getting%20Started%20Motion%20to%20Vacate%20and%20Expunge.pdf",
+        "redirected": false,
+        "observedByteLength": 150220,
+        "sha256": "52ce3880f8d813ca7ebebb1654da5a04f4d70dca538868f7094163a7199eb0b2",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 1,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "cxp-motion-to-vacate-and-expunge",
+      "jurisdiction": "IL",
+      "formNumber": "EXC-M 4702.2",
+      "officialTitle": "Motion to Vacate & Expunge Eligible Cannabis Convictions",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/8562a938-0296-4236-9030-3217460e8b5c/CXP%20Motion%20to%20Vacate%20and%20Expunge.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "728ad50c5db068d3d3a6bc68901c79431e865f8e2eaa94c37c38a086d9815acf",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Motion to Vacate & Expunge Eligible Cannabis Convictions."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934541,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/8562a938-0296-4236-9030-3217460e8b5c/CXP%20Motion%20to%20Vacate%20and%20Expunge.pdf",
+        "redirected": false,
+        "observedByteLength": 227699,
+        "sha256": "728ad50c5db068d3d3a6bc68901c79431e865f8e2eaa94c37c38a086d9815acf",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": null,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "cxp-notice-of-court-date-for-motion",
+      "jurisdiction": "IL",
+      "formNumber": "EXC-N 4703.2",
+      "officialTitle": "Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/a9f72f2b-0bc7-482d-a301-9dc73e64e4b7/CXP%20Notice%20of%20Court%20Date%20for%20Motion.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "56179412256e2c98b0f535a328801e4cf012ae3d179848c3a1efe7df6377b041",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934534,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/a9f72f2b-0bc7-482d-a301-9dc73e64e4b7/CXP%20Notice%20of%20Court%20Date%20for%20Motion.pdf",
+        "redirected": false,
+        "observedByteLength": 370872,
+        "sha256": "56179412256e2c98b0f535a328801e4cf012ae3d179848c3a1efe7df6377b041",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": null,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "cxp-order-granting-or-denying-motion",
+      "jurisdiction": "IL",
+      "formNumber": "EXC-O 4704.2",
+      "officialTitle": "Order Granting or Denying Motion to Vacate & Expunge Eligible Cannabis Convictions",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/0c788d57-5951-47d9-9946-dfc36b7d1d50/CXP%20Order%20Granting%20or%20Denying%20Motion.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "ca0fdef8909a3ef134c562d09a89dcc24de22036c7b8238902443892c3ac77cc",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Order Granting or Denying Motion to Vacate & Expunge Eligible Cannabis Convictions."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934521,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/0c788d57-5951-47d9-9946-dfc36b7d1d50/CXP%20Order%20Granting%20or%20Denying%20Motion.pdf",
+        "redirected": false,
+        "observedByteLength": 332731,
+        "sha256": "ca0fdef8909a3ef134c562d09a89dcc24de22036c7b8238902443892c3ac77cc",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": null,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "dci-76-and-dci-77-criminal-history-record-check-billing-and-request-forms-fillable-source-",
+      "jurisdiction": "IA",
+      "formNumber": "DCI-76 / DCI-77",
+      "officialTitle": "Criminal History Billing and Request Forms (fillable)",
+      "issuingAuthority": "Iowa Department of Public Safety, Division of Criminal Investigation",
+      "officialUrl": "https://dps.iowa.gov/media/152/download?inline",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+      "host": "dps.iowa.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "ia-dci77-set::The Iowa criminal history record check request the section 901C.3 route requires.",
+        "ia-dci77-set::The billing form that accompanies the DCI-77 request."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934628,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://dps.iowa.gov/media/152/download?inline",
+        "redirected": false,
+        "observedByteLength": 1076864,
+        "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 3,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "exp-ad-additional-cases-expungement",
+      "jurisdiction": "IL",
+      "formNumber": "ATJ 2903.5",
+      "officialTitle": "Additional Arrests or Cases for Expungement",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/9cb2130f-056d-4962-a6e7-a592b4f4b4bb/EXP-AD%20Additional%20Cases%20Expungement.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-exp-nonconv-set::The EXP-AD continuation sheet for additional expungement cases."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934530,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/9cb2130f-056d-4962-a6e7-a592b4f4b4bb/EXP-AD%20Additional%20Cases%20Expungement.pdf",
+        "redirected": false,
+        "observedByteLength": 821758,
+        "sha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 1,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "exp-ad-case-list-request-to-expunge-seal-records",
+      "jurisdiction": "IL",
+      "formNumber": "ATJ 2902.1",
+      "officialTitle": "Case List for Request to Expunge and/or Seal Criminal Records",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-exp-nonconv-set::The Illinois EXP-AD case list that accompanies the request to expunge or seal.",
+        "il-exp-pardon-set::The Illinois EXP-AD case list that accompanies the pardon-based request to expunge.",
+        "il-exp-precompletion-set::EXP-AD Case List",
+        "il-exp-qualprob-set::EXP-AD Case List",
+        "il-exp-supervision-set::EXP-AD Case List",
+        "il-seal-2yr-set::EXP-AD Case List",
+        "il-seal-3yr-set::EXP-AD Case List",
+        "il-seal-edu-set::EXP-AD Case List",
+        "il-seal-nonconv-set::EXP-AD Case List"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934820,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf",
+        "redirected": false,
+        "observedByteLength": 744328,
+        "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 1,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "fdle40-025-application-for-juvenile-diversion-expunction-rev-2022-07",
+      "jurisdiction": "FL",
+      "formNumber": "FDLE 40-025",
+      "officialTitle": "Application for Juvenile Diversion Expunction",
+      "issuingAuthority": "Florida Department of Law Enforcement",
+      "officialUrl": "https://www.fdle.state.fl.us/seal-and-expunge-process/juvenile-diversion-expunction",
+      "urlKind": "OFFICIAL_LANDING_PAGE",
+      "expectedSha256": "6a853dc106d33f5d298a40608171ce0edffc3e5214c930f7c7fccc10f66ae2d8",
+      "host": "www.fdle.state.fl.us",
+      "commitBody": false,
+      "obligationKeys": [
+        "fl-juvenile-diversion-set::The FDLE application for juvenile diversion expunction under section 943.0582, Fla. Stat."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934622,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "text/html; charset=utf-8",
+        "finalResolvedUrl": "https://www.fdle.state.fl.us/seal-and-expunge-process/juvenile-diversion-expunction",
+        "redirected": false,
+        "observedByteLength": 31596,
+        "sha256": "a514b0d50a5bb0b7016a629f296d2978e4b17c4f85a67abec1b04693c35b4307",
+        "observedStructuralClass": "not_a_pdf",
+        "observedPageCount": null,
+        "looksLikePdf": false,
+        "pinAgrees": false,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "landingPageReturnedAPageNotADocument": "text/html; charset=utf-8 of 31596 bytes. The address did what OFFICIAL_LANDING_PAGE says it does; it did not yield the form. DISC reads the page for the binary behind it — this is not an acquisition failure and must not be re-queued as one.",
+      "pinDisagreedWithTheBytes": "the manifest pins 6a853dc106d3 on a LANDING PAGE and the runner hashed a514b0d50a5b. A pin on a landing page names the page, and pages change for reasons that have nothing to do with the form — a navigation edit moves this hash. The disagreement says the page moved, and says nothing at all about the document. Pinning a landing page was the mistake; the pin is left in place rather than refreshed, because refreshing it would restate the mistake with today's date."
+    },
+    {
+      "sourceId": "fdle40-028-application-for-early-juvenile-expunction-rev-2019-10",
+      "jurisdiction": "FL",
+      "formNumber": "FDLE 40-028",
+      "officialTitle": "Application for Early Juvenile Expunction",
+      "issuingAuthority": "Florida Department of Law Enforcement",
+      "officialUrl": "https://www.fdle.state.fl.us/seal-and-expunge-process/early-juvenile-expungement",
+      "urlKind": "OFFICIAL_LANDING_PAGE",
+      "expectedSha256": "82a9600b102e7fd77cbfcd340fd74ff77e7cd49fd81b43d46299ecb353ae212a",
+      "host": "www.fdle.state.fl.us",
+      "commitBody": false,
+      "obligationKeys": [
+        "fl-early-juvenile-set::The FDLE application for early juvenile expunction under section 943.0515, Fla. Stat."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934583,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "text/html; charset=utf-8",
+        "finalResolvedUrl": "https://www.fdle.state.fl.us/seal-and-expunge-process/early-juvenile-expungement",
+        "redirected": false,
+        "observedByteLength": 30797,
+        "sha256": "bccb40ff993d152f59ab93808a0ca53301494882bbeb1de70d95f9ba715fb1f6",
+        "observedStructuralClass": "not_a_pdf",
+        "observedPageCount": null,
+        "looksLikePdf": false,
+        "pinAgrees": false,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "landingPageReturnedAPageNotADocument": "text/html; charset=utf-8 of 30797 bytes. The address did what OFFICIAL_LANDING_PAGE says it does; it did not yield the form. DISC reads the page for the binary behind it — this is not an acquisition failure and must not be re-queued as one.",
+      "pinDisagreedWithTheBytes": "the manifest pins 82a9600b102e on a LANDING PAGE and the runner hashed bccb40ff993d. A pin on a landing page names the page, and pages change for reasons that have nothing to do with the form — a navigation edit moves this hash. The disagreement says the page moved, and says nothing at all about the document. Pinning a landing page was the mistake; the pin is left in place rather than refreshed, because refreshing it would restate the mistake with today's date."
+    },
+    {
+      "sourceId": "fillable-jud-mps-petition-to-seal",
+      "jurisdiction": "MA",
+      "formNumber": "Petition to Seal (Office of the Commissioner of Probation)",
+      "officialTitle": "Petition to Seal (Office of the Commissioner of Probation)",
+      "issuingAuthority": "Massachusetts Trial Court, Office of the Commissioner of Probation (Massachusetts Probation Service)",
+      "officialUrl": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms",
+      "urlKind": "OFFICIAL_LANDING_PAGE",
+      "expectedSha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+      "host": "www.mass.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "ma-seal-admin-set::Petition to Seal (Office of the Commissioner of Probation)"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934592,
+        "outcome": "no_bytes_retrieved",
+        "httpStatus": null,
+        "contentType": null,
+        "finalResolvedUrl": null,
+        "redirected": null,
+        "observedByteLength": null,
+        "sha256": null,
+        "observedStructuralClass": null,
+        "observedPageCount": null,
+        "looksLikePdf": null,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "addressDidNotReturnADocument": "HTTP ? — the job exited 0 because RCAP_TOLERATE_FAILURE is set on every matrix job, and no bytes were retrieved. This address needs DISC before it is fetched again."
+    },
+    {
+      "sourceId": "ia-rule-2-86-form-1-application-to-expunge-court-record-901c-2-rev-2022-01",
+      "jurisdiction": "IA",
+      "formNumber": "Iowa R. Crim. P. 2.86 Form 1",
+      "officialTitle": "Application to Expunge Court Record (Iowa Code § 901C.2) — Iowa R. Crim. P. 2.86 Form 1",
+      "issuingAuthority": "Iowa Judicial Branch",
+      "officialUrl": "https://www.iowacourts.gov/collections/738/files/1569/embedDocument",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "d3e68933c4ed878c72784c5b2b191281116f87d953fa6203aecb702584cb5053",
+      "host": "www.iowacourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "ia-901c2-set::The Iowa expungement application prescribed as Iowa R. Crim. P. 2.86 Form 1."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934613,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf;charset=UTF-8",
+        "finalResolvedUrl": "https://www.iowacourts.gov/collections/738/files/1569/embedDocument",
+        "redirected": false,
+        "observedByteLength": 268162,
+        "sha256": "d3e68933c4ed878c72784c5b2b191281116f87d953fa6203aecb702584cb5053",
+        "observedStructuralClass": "flat_pdf",
+        "observedPageCount": 3,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "ia-rule-2-86-form-3-application-to-expunge-public-intoxication-records-123-46-rev-2022-01",
+      "jurisdiction": "IA",
+      "formNumber": "Iowa R. Crim. P. 2.86 Form 3",
+      "officialTitle": "Application to Expunge Public Intoxication Records (Iowa Code § 123.46) — Iowa R. Crim. P. 2.86 Form 3",
+      "issuingAuthority": "Iowa Judicial Branch",
+      "officialUrl": "https://www.iowacourts.gov/collections/721/files/1504/embedDocument",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "6f222685001373ba2e1ef63509e3b42e7e47d5067bfb0ed3b130b62040d80f01",
+      "host": "www.iowacourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "ia-12346-set::The Iowa expungement application prescribed as Iowa R. Crim. P. 2.86 Form 3."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934717,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf;charset=UTF-8",
+        "finalResolvedUrl": "https://www.iowacourts.gov/collections/721/files/1504/embedDocument",
+        "redirected": false,
+        "observedByteLength": 263607,
+        "sha256": "6f222685001373ba2e1ef63509e3b42e7e47d5067bfb0ed3b130b62040d80f01",
+        "observedStructuralClass": "flat_pdf",
+        "observedPageCount": 2,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "la-ccrp-art-987-statutory-form-print-view",
+      "jurisdiction": "LA",
+      "formNumber": "LA-CCRP-ART-987",
+      "officialTitle": "La. C.Cr.P. Art. 987 - Motion to set aside conviction and dismiss prosecution; rule to show cause; order of dismissal forms to be used",
+      "issuingAuthority": "Louisiana State Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919680",
+      "urlKind": "OFFICIAL_STATUTE_TEXT",
+      "expectedSha256": null,
+      "host": "www.legis.la.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "la-987-set-aside-and-dismiss-set::official-form:LA-CCRP-ART-987"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json",
+      "interactiveViewUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919680",
+      "statute": "La. C.Cr.P. art. 986 makes arts. 987-995 and 998 themselves the prescribed forms, so the article text IS the form. There is no separate fillable PDF to look for and the owner determination says not to wait for one.",
+      "format": "HTML print view, not a PDF. That is not a defect here: for a statutory form the codified text IS the document, and this is the publisher own print rendering of it. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "intervalLocked": false,
+      "identityBasis": "The d= id comes from LA.memo.json article-to-id mapping, which was verified 6/6 against ids printed in the footers of the six mounted article PDFs. It is NOT interval-locked, so the one-line check on acquisition is: confirm the fetched page heading names this article.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "No egress: the proxy answers 403 CONNECT for state hosts from this container. Nothing here was fetched.",
+        "whatWasEstablishedInstead": [
+          "PRIMARY, and the reason these are addresses and not guesses: data/record-clearing/legal-design-intake/LA.memo.json records an officialSourceUrl of the form https://www.legis.la.gov/legis/Law.aspx?d=<id> for every article from 972 to 999.1. For the six articles whose print view is mounted here, I read the PDF with pdftotext and compared the id the memo assigns against the id the PDF prints in its own page footer. Six of six match exactly: 984/919676, 990/919685, 993/919688, 995/919691, 998/1335832, 999.1/1386723. The memo's article-to-id mapping is therefore verified against six documents whose bytes I read, and the six ids it assigns to the missing articles come from that same verified mapping.",
+          "SECOND: the Master Library's own Louisiana legal review, STATES/LA/01_LEGAL_REVIEW/...ASOF-2026-07-30__EN.md, states in Part 2: 'Official source: https://www.legis.la.gov, Law.aspx by article. All uploaded HTML files are print views from that site.' That is the publisher and the URL scheme asserted by a document shipped inside the source archive itself.",
+          "THIRD: three further committed records carry the same six ids independently of the memo -- data/rcap-grade-a/source-acquisition/wave-1/acquired.json (as uniqueOfficialTargets with obligationKeys), data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json (as officialSourceUrl per obligation), and data/record-clearing/legal-design-track-source-relationships.json.",
+          "FOURTH, structural: 991=919686 and 992=919687 fall in a fully closed interval between two independently PDF-verified ids, 990=919685 and 993=919688 -- exactly two slots for exactly two articles, with no room for error. Those two are interval-locked."
+        ],
+        "whatRemainsForTheRunner": "HTTP reachability, the page heading naming this exact article, and the SHA-256. For the four articles that are not interval-locked the heading check is what settles identity, and it is one line."
+      }
+    },
+    {
+      "sourceId": "la-ccrp-art-988-statutory-form-print-view",
+      "jurisdiction": "LA",
+      "formNumber": "LA-CCRP-ART-988",
+      "officialTitle": "La. C.Cr.P. Art. 988 - Motion for fee exemption / certification of fee waiver form to be used",
+      "issuingAuthority": "Louisiana State Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919681",
+      "urlKind": "OFFICIAL_STATUTE_TEXT",
+      "expectedSha256": null,
+      "host": "www.legis.la.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "la-976-arrest-no-conviction-set::official-form:LA-CCRP-ART-988",
+        "la-977-misdemeanor-conviction-set::official-form:LA-CCRP-ART-988",
+        "la-977d-marijuana-first-offense-set::official-form:LA-CCRP-ART-988",
+        "la-978-felony-conviction-set::official-form:LA-CCRP-ART-988",
+        "la-985-1-interim-expungement-set::official-form:LA-CCRP-ART-988",
+        "la-985-expungement-by-redaction-set::official-form:LA-CCRP-ART-988"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json",
+      "interactiveViewUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919681",
+      "statute": "La. C.Cr.P. art. 986 makes arts. 987-995 and 998 themselves the prescribed forms, so the article text IS the form. There is no separate fillable PDF to look for and the owner determination says not to wait for one.",
+      "format": "HTML print view, not a PDF. That is not a defect here: for a statutory form the codified text IS the document, and this is the publisher own print rendering of it. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "intervalLocked": false,
+      "identityBasis": "The d= id comes from LA.memo.json article-to-id mapping, which was verified 6/6 against ids printed in the footers of the six mounted article PDFs. It is NOT interval-locked, so the one-line check on acquisition is: confirm the fetched page heading names this article.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "No egress: the proxy answers 403 CONNECT for state hosts from this container. Nothing here was fetched.",
+        "whatWasEstablishedInstead": [
+          "PRIMARY, and the reason these are addresses and not guesses: data/record-clearing/legal-design-intake/LA.memo.json records an officialSourceUrl of the form https://www.legis.la.gov/legis/Law.aspx?d=<id> for every article from 972 to 999.1. For the six articles whose print view is mounted here, I read the PDF with pdftotext and compared the id the memo assigns against the id the PDF prints in its own page footer. Six of six match exactly: 984/919676, 990/919685, 993/919688, 995/919691, 998/1335832, 999.1/1386723. The memo's article-to-id mapping is therefore verified against six documents whose bytes I read, and the six ids it assigns to the missing articles come from that same verified mapping.",
+          "SECOND: the Master Library's own Louisiana legal review, STATES/LA/01_LEGAL_REVIEW/...ASOF-2026-07-30__EN.md, states in Part 2: 'Official source: https://www.legis.la.gov, Law.aspx by article. All uploaded HTML files are print views from that site.' That is the publisher and the URL scheme asserted by a document shipped inside the source archive itself.",
+          "THIRD: three further committed records carry the same six ids independently of the memo -- data/rcap-grade-a/source-acquisition/wave-1/acquired.json (as uniqueOfficialTargets with obligationKeys), data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json (as officialSourceUrl per obligation), and data/record-clearing/legal-design-track-source-relationships.json.",
+          "FOURTH, structural: 991=919686 and 992=919687 fall in a fully closed interval between two independently PDF-verified ids, 990=919685 and 993=919688 -- exactly two slots for exactly two articles, with no room for error. Those two are interval-locked."
+        ],
+        "whatRemainsForTheRunner": "HTTP reachability, the page heading naming this exact article, and the SHA-256. For the four articles that are not interval-locked the heading check is what settles identity, and it is one line."
+      }
+    },
+    {
+      "sourceId": "la-ccrp-art-989-statutory-form-print-view",
+      "jurisdiction": "LA",
+      "formNumber": "LA-CCRP-ART-989",
+      "officialTitle": "La. C.Cr.P. Art. 989 - Motion for expungement forms to be used",
+      "issuingAuthority": "Louisiana State Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919682",
+      "urlKind": "OFFICIAL_STATUTE_TEXT",
+      "expectedSha256": null,
+      "host": "www.legis.la.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "la-976-arrest-no-conviction-set::official-form:LA-CCRP-ART-989",
+        "la-977-misdemeanor-conviction-set::official-form:LA-CCRP-ART-989",
+        "la-978-felony-conviction-set::official-form:LA-CCRP-ART-989",
+        "la-985-expungement-by-redaction-set::official-form:LA-CCRP-ART-989"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json",
+      "interactiveViewUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919682",
+      "statute": "La. C.Cr.P. art. 986 makes arts. 987-995 and 998 themselves the prescribed forms, so the article text IS the form. There is no separate fillable PDF to look for and the owner determination says not to wait for one.",
+      "format": "HTML print view, not a PDF. That is not a defect here: for a statutory form the codified text IS the document, and this is the publisher own print rendering of it. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "intervalLocked": false,
+      "identityBasis": "The d= id comes from LA.memo.json article-to-id mapping, which was verified 6/6 against ids printed in the footers of the six mounted article PDFs. It is NOT interval-locked, so the one-line check on acquisition is: confirm the fetched page heading names this article.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "No egress: the proxy answers 403 CONNECT for state hosts from this container. Nothing here was fetched.",
+        "whatWasEstablishedInstead": [
+          "PRIMARY, and the reason these are addresses and not guesses: data/record-clearing/legal-design-intake/LA.memo.json records an officialSourceUrl of the form https://www.legis.la.gov/legis/Law.aspx?d=<id> for every article from 972 to 999.1. For the six articles whose print view is mounted here, I read the PDF with pdftotext and compared the id the memo assigns against the id the PDF prints in its own page footer. Six of six match exactly: 984/919676, 990/919685, 993/919688, 995/919691, 998/1335832, 999.1/1386723. The memo's article-to-id mapping is therefore verified against six documents whose bytes I read, and the six ids it assigns to the missing articles come from that same verified mapping.",
+          "SECOND: the Master Library's own Louisiana legal review, STATES/LA/01_LEGAL_REVIEW/...ASOF-2026-07-30__EN.md, states in Part 2: 'Official source: https://www.legis.la.gov, Law.aspx by article. All uploaded HTML files are print views from that site.' That is the publisher and the URL scheme asserted by a document shipped inside the source archive itself.",
+          "THIRD: three further committed records carry the same six ids independently of the memo -- data/rcap-grade-a/source-acquisition/wave-1/acquired.json (as uniqueOfficialTargets with obligationKeys), data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json (as officialSourceUrl per obligation), and data/record-clearing/legal-design-track-source-relationships.json.",
+          "FOURTH, structural: 991=919686 and 992=919687 fall in a fully closed interval between two independently PDF-verified ids, 990=919685 and 993=919688 -- exactly two slots for exactly two articles, with no room for error. Those two are interval-locked."
+        ],
+        "whatRemainsForTheRunner": "HTTP reachability, the page heading naming this exact article, and the SHA-256. For the four articles that are not interval-locked the heading check is what settles identity, and it is one line."
+      }
+    },
+    {
+      "sourceId": "la-ccrp-art-991-statutory-form-print-view",
+      "jurisdiction": "LA",
+      "formNumber": "LA-CCRP-ART-991",
+      "officialTitle": "La. C.Cr.P. Art. 991 - Order form to be used",
+      "issuingAuthority": "Louisiana State Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919686",
+      "urlKind": "OFFICIAL_STATUTE_TEXT",
+      "expectedSha256": null,
+      "host": "www.legis.la.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "la-976-arrest-no-conviction-set::official-form:LA-CCRP-ART-991",
+        "la-977-misdemeanor-conviction-set::official-form:LA-CCRP-ART-991",
+        "la-977d-marijuana-first-offense-set::official-form:LA-CCRP-ART-991",
+        "la-978-felony-conviction-set::official-form:LA-CCRP-ART-991",
+        "la-985-expungement-by-redaction-set::official-form:LA-CCRP-ART-991"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json",
+      "interactiveViewUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919686",
+      "statute": "La. C.Cr.P. art. 986 makes arts. 987-995 and 998 themselves the prescribed forms, so the article text IS the form. There is no separate fillable PDF to look for and the owner determination says not to wait for one.",
+      "format": "HTML print view, not a PDF. That is not a defect here: for a statutory form the codified text IS the document, and this is the publisher own print rendering of it. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "intervalLocked": true,
+      "identityBasis": "The d= id is bracketed between two ids read from mounted PDFs (990=919685 and 993=919688), so it cannot be any other article.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "No egress: the proxy answers 403 CONNECT for state hosts from this container. Nothing here was fetched.",
+        "whatWasEstablishedInstead": [
+          "PRIMARY, and the reason these are addresses and not guesses: data/record-clearing/legal-design-intake/LA.memo.json records an officialSourceUrl of the form https://www.legis.la.gov/legis/Law.aspx?d=<id> for every article from 972 to 999.1. For the six articles whose print view is mounted here, I read the PDF with pdftotext and compared the id the memo assigns against the id the PDF prints in its own page footer. Six of six match exactly: 984/919676, 990/919685, 993/919688, 995/919691, 998/1335832, 999.1/1386723. The memo's article-to-id mapping is therefore verified against six documents whose bytes I read, and the six ids it assigns to the missing articles come from that same verified mapping.",
+          "SECOND: the Master Library's own Louisiana legal review, STATES/LA/01_LEGAL_REVIEW/...ASOF-2026-07-30__EN.md, states in Part 2: 'Official source: https://www.legis.la.gov, Law.aspx by article. All uploaded HTML files are print views from that site.' That is the publisher and the URL scheme asserted by a document shipped inside the source archive itself.",
+          "THIRD: three further committed records carry the same six ids independently of the memo -- data/rcap-grade-a/source-acquisition/wave-1/acquired.json (as uniqueOfficialTargets with obligationKeys), data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json (as officialSourceUrl per obligation), and data/record-clearing/legal-design-track-source-relationships.json.",
+          "FOURTH, structural: 991=919686 and 992=919687 fall in a fully closed interval between two independently PDF-verified ids, 990=919685 and 993=919688 -- exactly two slots for exactly two articles, with no room for error. Those two are interval-locked."
+        ],
+        "whatRemainsForTheRunner": "HTTP reachability, the page heading naming this exact article, and the SHA-256. For the four articles that are not interval-locked the heading check is what settles identity, and it is one line."
+      }
+    },
+    {
+      "sourceId": "la-ccrp-art-992-statutory-form-print-view",
+      "jurisdiction": "LA",
+      "formNumber": "LA-CCRP-ART-992",
+      "officialTitle": "La. C.Cr.P. Art. 992 - Order of expungement form to be used",
+      "issuingAuthority": "Louisiana State Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919687",
+      "urlKind": "OFFICIAL_STATUTE_TEXT",
+      "expectedSha256": null,
+      "host": "www.legis.la.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "la-976-arrest-no-conviction-set::official-form:LA-CCRP-ART-992",
+        "la-977-misdemeanor-conviction-set::official-form:LA-CCRP-ART-992",
+        "la-977d-marijuana-first-offense-set::official-form:LA-CCRP-ART-992",
+        "la-978-felony-conviction-set::official-form:LA-CCRP-ART-992",
+        "la-985-expungement-by-redaction-set::official-form:LA-CCRP-ART-992"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json",
+      "interactiveViewUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919687",
+      "statute": "La. C.Cr.P. art. 986 makes arts. 987-995 and 998 themselves the prescribed forms, so the article text IS the form. There is no separate fillable PDF to look for and the owner determination says not to wait for one.",
+      "format": "HTML print view, not a PDF. That is not a defect here: for a statutory form the codified text IS the document, and this is the publisher own print rendering of it. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "intervalLocked": true,
+      "identityBasis": "The d= id is bracketed between two ids read from mounted PDFs (990=919685 and 993=919688), so it cannot be any other article.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "No egress: the proxy answers 403 CONNECT for state hosts from this container. Nothing here was fetched.",
+        "whatWasEstablishedInstead": [
+          "PRIMARY, and the reason these are addresses and not guesses: data/record-clearing/legal-design-intake/LA.memo.json records an officialSourceUrl of the form https://www.legis.la.gov/legis/Law.aspx?d=<id> for every article from 972 to 999.1. For the six articles whose print view is mounted here, I read the PDF with pdftotext and compared the id the memo assigns against the id the PDF prints in its own page footer. Six of six match exactly: 984/919676, 990/919685, 993/919688, 995/919691, 998/1335832, 999.1/1386723. The memo's article-to-id mapping is therefore verified against six documents whose bytes I read, and the six ids it assigns to the missing articles come from that same verified mapping.",
+          "SECOND: the Master Library's own Louisiana legal review, STATES/LA/01_LEGAL_REVIEW/...ASOF-2026-07-30__EN.md, states in Part 2: 'Official source: https://www.legis.la.gov, Law.aspx by article. All uploaded HTML files are print views from that site.' That is the publisher and the URL scheme asserted by a document shipped inside the source archive itself.",
+          "THIRD: three further committed records carry the same six ids independently of the memo -- data/rcap-grade-a/source-acquisition/wave-1/acquired.json (as uniqueOfficialTargets with obligationKeys), data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json (as officialSourceUrl per obligation), and data/record-clearing/legal-design-track-source-relationships.json.",
+          "FOURTH, structural: 991=919686 and 992=919687 fall in a fully closed interval between two independently PDF-verified ids, 990=919685 and 993=919688 -- exactly two slots for exactly two articles, with no room for error. Those two are interval-locked."
+        ],
+        "whatRemainsForTheRunner": "HTTP reachability, the page heading naming this exact article, and the SHA-256. For the four articles that are not interval-locked the heading check is what settles identity, and it is one line."
+      }
+    },
+    {
+      "sourceId": "la-ccrp-art-994-statutory-form-print-view",
+      "jurisdiction": "LA",
+      "formNumber": "LA-CCRP-ART-994",
+      "officialTitle": "La. C.Cr.P. Art. 994 - Motion for interim expungement form to be used",
+      "issuingAuthority": "Louisiana State Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919690",
+      "urlKind": "OFFICIAL_STATUTE_TEXT",
+      "expectedSha256": null,
+      "host": "www.legis.la.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "la-985-1-interim-expungement-set::official-form:LA-CCRP-ART-994"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json",
+      "interactiveViewUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919690",
+      "statute": "La. C.Cr.P. art. 986 makes arts. 987-995 and 998 themselves the prescribed forms, so the article text IS the form. There is no separate fillable PDF to look for and the owner determination says not to wait for one.",
+      "format": "HTML print view, not a PDF. That is not a defect here: for a statutory form the codified text IS the document, and this is the publisher own print rendering of it. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "intervalLocked": false,
+      "identityBasis": "The d= id comes from LA.memo.json article-to-id mapping, which was verified 6/6 against ids printed in the footers of the six mounted article PDFs. It is NOT interval-locked, so the one-line check on acquisition is: confirm the fetched page heading names this article.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "No egress: the proxy answers 403 CONNECT for state hosts from this container. Nothing here was fetched.",
+        "whatWasEstablishedInstead": [
+          "PRIMARY, and the reason these are addresses and not guesses: data/record-clearing/legal-design-intake/LA.memo.json records an officialSourceUrl of the form https://www.legis.la.gov/legis/Law.aspx?d=<id> for every article from 972 to 999.1. For the six articles whose print view is mounted here, I read the PDF with pdftotext and compared the id the memo assigns against the id the PDF prints in its own page footer. Six of six match exactly: 984/919676, 990/919685, 993/919688, 995/919691, 998/1335832, 999.1/1386723. The memo's article-to-id mapping is therefore verified against six documents whose bytes I read, and the six ids it assigns to the missing articles come from that same verified mapping.",
+          "SECOND: the Master Library's own Louisiana legal review, STATES/LA/01_LEGAL_REVIEW/...ASOF-2026-07-30__EN.md, states in Part 2: 'Official source: https://www.legis.la.gov, Law.aspx by article. All uploaded HTML files are print views from that site.' That is the publisher and the URL scheme asserted by a document shipped inside the source archive itself.",
+          "THIRD: three further committed records carry the same six ids independently of the memo -- data/rcap-grade-a/source-acquisition/wave-1/acquired.json (as uniqueOfficialTargets with obligationKeys), data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json (as officialSourceUrl per obligation), and data/record-clearing/legal-design-track-source-relationships.json.",
+          "FOURTH, structural: 991=919686 and 992=919687 fall in a fully closed interval between two independently PDF-verified ids, 990=919685 and 993=919688 -- exactly two slots for exactly two articles, with no room for error. Those two are interval-locked."
+        ],
+        "whatRemainsForTheRunner": "HTTP reachability, the page heading naming this exact article, and the SHA-256. For the four articles that are not interval-locked the heading check is what settles identity, and it is one line."
+      }
+    },
+    {
+      "sourceId": "md-cc-dc-cr-072b-petition-for-expungement-conviction-or-pardon",
+      "jurisdiction": "MD",
+      "formNumber": "CC-DC-CR-072B",
+      "officialTitle": "Petition for Expungement of Records (conviction or pardon)",
+      "issuingAuthority": "Maryland Judiciary, District Court and Circuit Court (joint form)",
+      "officialUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+      "host": "www.courts.state.md.us",
+      "commitBody": false,
+      "obligationKeys": [
+        "md_10110_conviction-set::official-form:CC-DC-CR-072B",
+        "md_pardon_expungement-set::official-form:CC-DC-CR-072B"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934785,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf",
+        "redirected": false,
+        "observedByteLength": 764936,
+        "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 1,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161934785. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
+      "edition": "revised 10/01/2025 per the index; the families name no edition",
+      "pathShape": "The publisher's own path repeats the filename segment (.../ccdccr072B.pdf/ccdccr072B.pdf). That is how it is published and it is recorded verbatim; ACQ separately noted that a shortened variant is unconfirmed for this form number, so the short path is NOT guessed here.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "md-cc-dc-cr-072c-petition-for-expungement-early",
+      "jurisdiction": "MD",
+      "formNumber": "CC-DC-CR-072C",
+      "officialTitle": "Petition for Expungement of Records (early, on good cause)",
+      "issuingAuthority": "Maryland Judiciary, District Court and Circuit Court (joint form)",
+      "officialUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072c.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+      "host": "www.courts.state.md.us",
+      "commitBody": false,
+      "obligationKeys": [
+        "md_10105_early-set::official-form:CC-DC-CR-072C"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934798,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072c.pdf",
+        "redirected": false,
+        "observedByteLength": 888008,
+        "sha256": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 1,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161934798. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
+      "edition": "not printed in anything the index returned; not asserted",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "md-cc-dc-cr-072d-petition-for-expungement-cannabis",
+      "jurisdiction": "MD",
+      "formNumber": "CC-DC-CR-072D",
+      "officialTitle": "Petition for Expungement of Records (cannabis)",
+      "issuingAuthority": "Maryland Judiciary, District Court and Circuit Court (joint form)",
+      "officialUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072d.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147",
+      "host": "www.courts.state.md.us",
+      "commitBody": false,
+      "obligationKeys": [
+        "md_cannabis_petition-set::official-form:CC-DC-CR-072D"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934609,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072d.pdf",
+        "redirected": false,
+        "observedByteLength": 166429,
+        "sha256": "6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 1,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161934609. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
+      "edition": "not printed in anything the index returned; not asserted",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "me-cr-308-order-on-motion-to-seal-trafficking-victim",
+      "jurisdiction": "ME",
+      "formNumber": "CR-308",
+      "officialTitle": "Order on Motion to Seal Conviction of Criminal History for Victims of Sex Trafficking or Sexual Exploitation",
+      "issuingAuthority": "Maine Judicial Branch",
+      "officialUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-308",
+      "urlKind": "OFFICIAL_DOWNLOAD_ENDPOINT",
+      "expectedSha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+      "host": "mjbportal.courts.maine.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "me-seal-survivor-set::official-form:CR-308"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934778,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-308",
+        "redirected": false,
+        "observedByteLength": 162514,
+        "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 2,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161934778. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
+      "edition": "effective 07/29/2026 per the publisher; the family names none",
+      "addressShape": "A query-parameter endpoint keyed by form number, not a static filename. It returns the binary, but its address carries no extension and no edition, so the acquired bytes are the only edition evidence.",
+      "theRealFinding": "CR-308 is the ORDER the court signs. A participant who must FILE something needs the motion, which is a different number; committed evidence already carries the sibling endpoint at .../DownloadForm?strFormNumber=CR-307. Acquiring CR-308 does not by itself complete this family.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "mi-mc227-application-to-set-aside-convictions",
+      "jurisdiction": "MI",
+      "formNumber": "MC 227",
+      "officialTitle": "Application to Set Aside Conviction(s)",
+      "issuingAuthority": "Michigan State Court Administrative Office (SCAO)",
+      "officialUrl": "https://www.courts.michigan.gov/4a4951/siteassets/forms/scao-approved/mc227.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+      "host": "www.courts.michigan.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "mi_setaside_application-set::MC 227",
+        "mi_setaside_application-set::official-form:MC 227"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934662,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.courts.michigan.gov/48f784/siteassets/forms/scao-approved/mc227.pdf",
+        "redirected": true,
+        "observedByteLength": 374474,
+        "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 4,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161934662. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
+      "redirectedTo": "https://www.courts.michigan.gov/48f784/siteassets/forms/scao-approved/mc227.pdf — the recorded address is not where the bytes came from. Same allowlisted host, different path, so expect the recorded address to move again.",
+      "supersedesSourceId": "mc227",
+      "whyItSupersedes": "The queued entry `mc227` addressed the SCAO forms index page, not the form, and the hosted fetch failed there. This is the direct binary. It replaces that entry rather than joining it: a second entry would leave the broken address live and would trip the one-source-id-once rule.",
+      "editionAmbiguity": "Three editions circulate — (1/22) on a municipal copy, (3/25) on an ICLE copy. Neither host is allowlisted and neither edition is asserted. SCAO publishes an Explanation of Changes for MC 227 at https://www.courts.michigan.gov/4931c3/siteassets/forms/scao-approved/recent-revisions/eoc_mc227.pdf, which is where the current revision can be read once the binary is in hand.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "mt-af-22-0129-order-adopting-the-mmrta-temporary-rules",
+      "jurisdiction": "MT",
+      "formNumber": "MT-OCA-MMRTA",
+      "officialTitle": "Montana Supreme Court order AF 22-0129 adopting the Temporary Rules for Expungement, Resentencing, or Redesignation of a Conviction under the MMRTA",
+      "issuingAuthority": "Montana Supreme Court",
+      "officialUrl": "https://courts.mt.gov/external/forms/mmrta/af22-0129order.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "0d6b527686f0050f476fe19be871285fada12e74c9bb418fec72bcc622b73c56",
+      "host": "courts.mt.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "mt_mmrta_serving-set::official-form:MT-OCA-MMRTA",
+        "mt_mmrta_completed-set::official-form:MT-OCA-MMRTA"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934745,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://courts.mt.gov/external/forms/mmrta/af22-0129order.pdf",
+        "redirected": false,
+        "observedByteLength": 380679,
+        "sha256": "0d6b527686f0050f476fe19be871285fada12e74c9bb418fec72bcc622b73c56",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 2,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161934745. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
+      "edition": "dated 2022-03-15",
+      "thisLabelIsNotAForm": "MT-OCA-MMRTA is the authority that prescribes the two MMRTA forms, not a form itself. An overlay cannot be built on rule text; this is the source a composed pleading cites, and acquiring it settles what that pleading must say.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "mt-doj-dci-expungement-removal-request-form-20240429-updated",
+      "jurisdiction": "MT",
+      "formNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "officialTitle": "Expungement/Removal Request Form",
+      "issuingAuthority": "Montana Department of Justice, Division of Criminal Investigation -- Criminal Records & Identification Services Section / Crime Information Bureau (CRISS)",
+      "officialUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
+      "host": "dojmt.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "mt_deferred_dismissal-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "mt_misdemeanor_expungement-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC8_SOURCE_ADDRESSES.json",
+      "hostAllowedExecuted": {
+        "module": "scripts/lib/official-host-policy.mjs",
+        "call": "hostAllowed(\"dojmt.gov\")",
+        "result": true,
+        "why": "closed .gov namespace; not on the refused list; not an exact-host case"
+      },
+      "obligationKeyBasis": "Both families' sourceIds arrays are empty in MASTER_QUEUE.json, so each key is <familyId>::official-form:<exact string from that family's forms array>. These are byte-identical to the obligationKeys already carried by the manifest entry this one supersedes, so nothing new has to be matched.",
+      "exactBinaryUrlEstablished": true,
+      "format": "DOCX. This is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target. Both families are already implementationStrategy custom_pleading, so that is consistent, not a defect.",
+      "supersedesSourceId": "mt-doj-dci-expungement-removal-request-form-2023-updated",
+      "whyItSupersedes": "The manifest entry in place addresses https://dojmt.gov/wp-content/uploads/2023-Updated-ExpungementRemovalRequestForm.pdf and acquired it (HTTP 200, sha256 0362b43d05284210ec0aa0ca1a43e250351456c73880ec1581fbb78f467c99ee, 174304 bytes, flat_pdf, 1 page, run 33603361022 job 100161934870). That is a real document at a real address, but it is the SUPERSEDED 2023 edition. The Master Library holds the 2024-04-29 edition and the Montana legal review records the 2024-04-29 DOCX as the version linked from the DOJ conviction-expungement page, the non-conviction page and the OCA MMRTA instructions. Repoint rather than add: a second entry would leave the older edition live and would trip the one-source-id-once rule, which is exactly the treatment FABLE-ACQ prescribed for Michigan's mc227.",
+      "corroboration": {
+        "one": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/01_LEGAL_REVIEW/MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md, Part 2 source review, section '20240429-Updated-ExpungementRemovalRequestForm.docx': 'Official source URL: https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx', 'Current revision: 2024-04-29', 'Issuing authority: Montana Department of Justice, Division of Criminal Investigation'. The same URL is repeated in that document's authority table row 'Expungement/Removal Request Form | Montana DOJ, CRISS | ... | 2024-04-29'.",
+        "two": "The document at that address is HELD and its face was read here. private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx -- normalized from the publisher filename 20240429-Updated-ExpungementRemovalRequestForm.docx, the last path segment of the URL. Read out of word/header1.xml, word/header2.xml, word/footer1.xml and word/document.xml: 'STATE OF MONTANA / DEPARTMENT OF JUSTICE / DIVISION OF CRIMINAL INVESTIGATION / Crime Information Bureau'; 'Criminal Records & Identification Services Section'; title line 'Expungement/Removal Request Form'; 'Mail Requests to CRISS Expungement, 2225 11th Ave. PO Box 201403, Helena, MT 59620'; docProps/core.xml created 2024-04-30T17:56:00Z, modified 2024-05-03T18:18:00Z, Company 'DOJ-CSPD'.",
+        "three": "The path SHAPE on this host is not assumed -- it has been exercised. The sibling https://dojmt.gov/wp-content/uploads/2023-Updated-ExpungementRemovalRequestForm.pdf returned HTTP 200 from the hosted fetcher in run 33603361022 job 100161934870, recorded in data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json and in data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json. dojmt.gov serves these files from a FLAT /wp-content/uploads/ directory with no /YYYY/MM/ segment, and the only variable between the acquired sibling and this address is the filename, which custody supplies exactly.",
+        "four": "Relationship corroboration, from the same face read: the form's four request-type checkboxes are 'Misdemeanor Conviction Expungement- (One Time Privilege)- Per MCA Title 46, Chapter 18, Part 11', 'Marijuana Conviction Expungement- MCA Title 16, Chapter 12, Part 1', 'Non-Conviction Removal- MCA Title 44, Chapter 5, Part 2' and 'Deferred Imposition/Prosecution: Dismissed - Criminal Justice Record Sealing'. The last two are precisely mt_deferred_dismissal-set and the first is precisely mt_misdemeanor_expungement-set, so this document is the right document for both families and not merely a document they happen to name."
+      },
+      "whatThisDocumentIs": "A post-order agency submission. The participant sends it to DOJ CRISS with the signed court order and, for a misdemeanor conviction, an FD-258 fingerprint card. It is not the court petition. A family that needs a petition is not unblocked by this address, and the Montana legal review is explicit that every Montana conviction track needs this second participant-initiated DOJ submission after the court order.",
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "This container has no usable outbound egress for state judiciary or state agency hosts; the assignment states the proxy answers 403 CONNECT for them and forbids fetching. Nothing in this return was fetched and nothing is reported as exercised.",
+        "whatWasEstablishedInstead": "The address is carried verbatim by committed or held first-party evidence, and the identity of the document at it was read from a held copy of that same document's own face.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type and the exact SHA-256. A 404 there is a cheap, loud, self-correcting failure; the expensive failure -- binding real bytes to a form number they do not carry -- is what the face read above is against."
+      }
+    },
+    {
+      "sourceId": "mt-mmrta-certificate-of-service-on-county-attorney",
+      "jurisdiction": "MT",
+      "formNumber": "MT-OCA-MMRTA",
+      "officialTitle": "Certificate of Service — MMRTA Petition (service on the county attorney)",
+      "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+      "officialUrl": "https://courts.mt.gov/external/forms/mmrta/cert-service.docx",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+      "host": "courts.mt.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "mt_mmrta_serving-set::official-form:MT-OCA-MMRTA",
+        "mt_mmrta_completed-set::official-form:MT-OCA-MMRTA"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json",
+      "expectedSha256Basis": "Recomputed by this lane with sha256sum from private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx. A pin on the held edition.",
+      "hostAllowedExecuted": {
+        "module": "scripts/lib/official-host-policy.mjs",
+        "call": "hostAllowed(\"courts.mt.gov\")",
+        "result": true,
+        "why": "closed .gov namespace; not on the refused list; not an exact-host case"
+      },
+      "format": "DOCX. A COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "obligationKeyBasis": "Same two committed itemIds. This instrument and the proposed order are the two documents the single label covers.",
+      "exactBinaryUrlEstablished": true,
+      "corroboration": {
+        "one": "The exact URL is carried verbatim by the held Montana legal review, same table: '| MMRTA Certificate of Service | **Required** by § 16-12-113(5)(b) and marked required on both Form A and Form B | https://courts.mt.gov/external/forms/mmrta/cert-service.docx |'.",
+        "two": "data/record-clearing/source-artifact-registry.json, artifactId mt-oca-mmrta-certificate-of-service-source-2022-03, provenance.originalFilename 'cert-service.docx', inventorySha256 and measuredSha256 both d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9, hashState 'match'; officialTitle recorded as 'Certificate of Service - MMRTA Petition'. data/rcap-all50/nationwide-source-inventory.json carries the same originalFilename.",
+        "three": "Same exercised path shape: three HTTP 200 siblings in /external/forms/mmrta/ in run 33603361022.",
+        "four": "Face read in this lane from word/document.xml: 'CERTIFICATE OF SERVICE / The undersigned hereby certifies that true and correct copies of the foregoing document were, this day, served upon the following individuals by U.S. Mail and/or e-mail and addressed as follows:' followed by a 'Name of County Attorney' block, a date line and a signature block. It is a certificate of service and it is not a proposed order.",
+        "five": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-certificate-of-service-2/dependency.json carries officialFormId MT-OCA-MMRTA, officialFormDocumentRole SERVICE, sourceBinary.sha256 d9096c17..., requirement 'required', and profileCorroboration 'The petition must be served on the county attorney for the county where the petition is filed. Under the Judicial Branch instructions, the county attorney has 21 days to oppose the petition.' data/record-clearing/legal-design-track-registry.json carries mt_mmrta_completed-certificate-of-service-2 identically."
+      },
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "no usable egress; fetching is forbidden here",
+        "whatRemainsForTheRunner": "HTTP reachability, content type and the SHA-256 at the address."
+      }
+    },
+    {
+      "sourceId": "mt-mmrta-form-a-petition-currently-serving",
+      "jurisdiction": "MT",
+      "formNumber": "MT-FORM-A",
+      "officialTitle": "MMRTA Form A — Petition for Expungement, Resentencing or Redesignation (currently serving a sentence)",
+      "issuingAuthority": "Montana Office of the Court Administrator",
+      "officialUrl": "https://courts.mt.gov/external/forms/mmrta/form-a.docx",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+      "host": "courts.mt.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "mt_mmrta_serving-set::official-form:MT-FORM-A"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934918,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "finalResolvedUrl": "https://courts.mt.gov/external/forms/mmrta/form-a.docx",
+        "redirected": false,
+        "observedByteLength": 23777,
+        "sha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+        "observedStructuralClass": "not_a_pdf",
+        "observedPageCount": null,
+        "looksLikePdf": false,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "nonPdfAsThisEntryAlreadyDeclared": "returned application/vnd.openxmlformats-officedocument.wordprocessingml.document of 23777 bytes, which is what this entry says the publisher issues. Confirmed by acquisition, not a surprise. It remains a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161934918. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
+      "format": "DOCX, not PDF. The acquisition script reads the magic bytes rather than the header, writes a non-PDF as .bin and records observedStructuralClass not_a_pdf, so this acquires honestly. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "edition": "Rev. 12/21 appears on an off-allowlist county copy; not confirmed on the official host and not asserted",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "mt-mmrta-form-b-petition-sentence-completed",
+      "jurisdiction": "MT",
+      "formNumber": "MT-FORM-B",
+      "officialTitle": "MMRTA Form B — Petition for Expungement, Resentencing or Redesignation (sentence completed)",
+      "issuingAuthority": "Montana Office of the Court Administrator",
+      "officialUrl": "https://courts.mt.gov/external/forms/mmrta/form-b.docx",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+      "host": "courts.mt.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "mt_mmrta_completed-set::official-form:MT-FORM-B"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934677,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "finalResolvedUrl": "https://courts.mt.gov/external/forms/mmrta/form-b.docx",
+        "redirected": false,
+        "observedByteLength": 23685,
+        "sha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+        "observedStructuralClass": "not_a_pdf",
+        "observedPageCount": null,
+        "looksLikePdf": false,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "nonPdfAsThisEntryAlreadyDeclared": "returned application/vnd.openxmlformats-officedocument.wordprocessingml.document of 23685 bytes, which is what this entry says the publisher issues. Confirmed by acquisition, not a surprise. It remains a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161934677. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
+      "format": "DOCX, not PDF — same treatment as Form A.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "mt-mmrta-proposed-order-granting-expungement-resentencing-or-redesignation",
+      "jurisdiction": "MT",
+      "formNumber": "MT-OCA-MMRTA",
+      "officialTitle": "Proposed Order Granting Expungement, Resentencing, or Redesignation of a Marijuana-Related Conviction (MMRTA)",
+      "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+      "officialUrl": "https://courts.mt.gov/external/forms/mmrta/proposed-order.docx",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+      "host": "courts.mt.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "mt_mmrta_serving-set::official-form:MT-OCA-MMRTA",
+        "mt_mmrta_completed-set::official-form:MT-OCA-MMRTA"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json",
+      "expectedSha256Basis": "Recomputed by this lane with sha256sum from private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx. It is a pin on the HELD edition -- a claim about WHICH document belongs here -- not a first-acquisition hash.",
+      "hostAllowedExecuted": {
+        "module": "scripts/lib/official-host-policy.mjs",
+        "call": "hostAllowed(\"courts.mt.gov\")",
+        "result": true,
+        "why": "closed .gov namespace; not on the refused list; not an exact-host case"
+      },
+      "format": "DOCX. A COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target. The two sibling MMRTA petitions at this same address shape already acquired as DOCX and the manifest records that as declared, not as a surprise.",
+      "obligationKeyBasis": "Both keys are the committed itemIds in ACTIVE_ASSIGNMENTS.json entry DISC04, byte-identical to the keys already carried by mt-af-22-0129-order-adopting-the-mmrta-temporary-rules.",
+      "exactBinaryUrlEstablished": true,
+      "corroboration": {
+        "one": "The exact URL is carried verbatim by the publisher-facing legal review held in the Master Library: private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/01_LEGAL_REVIEW/MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md, Part 2 table 'Missing from the archive and required before build', row: '| MMRTA Proposed Order | Recommended by OCA for Tracks 2 and 3; the archive has the petitions but not the order | https://courts.mt.gov/external/forms/mmrta/proposed-order.docx |'.",
+        "two": "The filename is carried by a committed, hash-bound record: data/record-clearing/source-artifact-registry.json, artifactId mt-oca-mmrta-proposed-order-granting-expungement-resentencing-or-redesignation-source-2022, provenance.originalFilename 'proposed-order.docx', inventorySha256 and measuredSha256 both 2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e, hashState 'match'. data/rcap-all50/nationwide-source-inventory.json carries the same originalFilename. So the last path segment is not this lane's construction.",
+        "three": "The path SHAPE on this host is exercised, not assumed. THREE siblings in the same flat /external/forms/mmrta/ directory returned HTTP 200 from the hosted fetcher in run 33603361022: form-a.docx (job 100161934918, 23777 bytes), form-b.docx (job 100161934677, 23685 bytes) and af22-0129order.pdf (job 100161934745, 380679 bytes). Recorded in SOURCE_ACQUISITION_MANIFEST.json and FABLE_PROMO1_ACQUISITION_RECEIPTS.json. The only variable between an acquired sibling and this address is the filename, which the two records above supply exactly.",
+        "four": "The document at that filename is held and its own face was READ in this lane. unzip -p word/document.xml prints the caption block '☐ MONTANA ____________ JUDICIAL DISTRICT COURT, ____________ COUNTY / ☐ IN THE JUSTICE COURT OF ________________ COUNTY, STATE OF MONTANA / ☐ IN THE MUNICIPAL OR CITY COURT OF ________________, MONTANA', the heading 'In re the Expungement, Resentencing, or Redesignation of the Marijuana-Related Conviction of', the title 'Proposed Order Granting ☐ Expungement of Conviction ☐ Resentencing of Conviction ☐ Redesignation of Conviction' and the recital 'Petitioner has requested ☐ Expungement / ☐ Resentencing / ☐ Redesignation of a criminal conviction pursuant to the Montana Marijuana Regulation and Taxation Act (MMRTA).' No form number is printed on it; MT-OCA-MMRTA is a constructed identifier.",
+        "five": "Relationship corroboration from committed route evidence, read first-hand: data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-proposed-order-3/dependency.json carries officialFormId MT-OCA-MMRTA, officialFormDocumentRole ORDER, sourceBinary.sha256 2e38c3c6..., requirement 'required', role proposed_order, and profileCorroboration 'Proposed Order Submitted with petition'. data/record-clearing/legal-design-track-registry.json packetSet mt_mmrta_completed-set carries the identical component mt_mmrta_completed-proposed-order-3, officialFormId MT-OCA-MMRTA, requirement required. Both MMRTA families file it."
+      },
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "This container has no usable outbound egress to state judiciary hosts and the assignment forbids fetching. Nothing here is claimed as exercised.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type and the SHA-256 at the address. If the returned hash is not 2e38c3c6... the publisher has reissued the document and that is a finding, not a failure."
+      }
+    },
+    {
+      "sourceId": "prb-certificate-of-expungement-for-military-acknowledgement-eligibility-acknowledgement-so",
+      "jurisdiction": "IL",
+      "formNumber": "Certificate of Expungement for Military Eligibility Acknowledgement",
+      "officialTitle": "Certificate of Expungement for Military Eligibility Acknowledgement",
+      "issuingAuthority": "Illinois Prisoner Review Board",
+      "officialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/military-expungement-docs/certificate-of-expugnement-for-military-eligibility-acknowledgement.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+      "host": "prb.illinois.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-prb-cert-set::PRB Certificate of Expungement for Military Eligibility Acknowledgement"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934880,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/military-expungement-docs/certificate-of-expugnement-for-military-eligibility-acknowledgement.pdf",
+        "redirected": false,
+        "observedByteLength": 84623,
+        "sha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 2,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "prb-certificate-of-expungement-for-military-application-military-certificate-of-expungemen",
+      "jurisdiction": "IL",
+      "formNumber": "Certificate of Expungement for Military Application",
+      "officialTitle": "Certificate of Expungement for Military Application",
+      "issuingAuthority": "Illinois Prisoner Review Board",
+      "officialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/military-expungement-docs/Certificate%20of%20Expungement%20for%20Military%20application%20v9.18.24.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+      "host": "prb.illinois.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-prb-cert-set::PRB Certificate of Expungement for Military Application"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934744,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/military-expungement-docs/Certificate%20of%20Expungement%20for%20Military%20application%20v9.18.24.pdf",
+        "redirected": false,
+        "observedByteLength": 222490,
+        "sha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 5,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "prb-certificate-of-sealing-acknowledgement-eligibility-acknowledgement-source-2024",
+      "jurisdiction": "IL",
+      "formNumber": "Certificate of Sealing Eligibility Acknowledgement",
+      "officialTitle": "Certificate of Sealing Eligibility Acknowledgement",
+      "issuingAuthority": "Illinois Prisoner Review Board",
+      "officialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/sealing-docs/certificate-of-sealing-eligibility-acknowledgement.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+      "host": "prb.illinois.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-prb-cert-set::PRB Certificate of Sealing Eligibility Acknowledgement"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161934812,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/sealing-docs/certificate-of-sealing-eligibility-acknowledgement.pdf",
+        "redirected": false,
+        "observedByteLength": 89530,
+        "sha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 2,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "prb-certificate-of-sealing-application-certificate-of-sealing-application-rev-2024-09-18",
+      "jurisdiction": "IL",
+      "formNumber": "Certificate of Sealing Application",
+      "officialTitle": "Certificate of Sealing Application",
+      "issuingAuthority": "Illinois Prisoner Review Board",
+      "officialUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/sealing-docs/Certificate%20of%20Sealing%20application%209.18.24.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+      "host": "prb.illinois.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-prb-cert-set::PRB Certificate of Sealing Application"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161935871,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/sealing-docs/Certificate%20of%20Sealing%20application%209.18.24.pdf",
+        "redirected": false,
+        "observedByteLength": 226488,
+        "sha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 5,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "ri-dc-33-motion-to-expunge-or-seal-and-affidavit-rev-2025-02",
+      "jurisdiction": "RI",
+      "formNumber": "DC-33",
+      "officialTitle": "Motion to Expunge or Seal Record and Affidavit in Support (District Court)",
+      "issuingAuthority": "Rhode Island Judiciary, District Court",
+      "officialUrl": "https://www.courts.ri.gov/Courts/districtcourt/Documents/Motion%20to%20Expunge%20or%20Seal%20and%20Affidavit.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+      "host": "www.courts.ri.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "ri_decriminalized-set::official-form:DC-33-ORDER",
+        "ri_deferred_sentence-set::official-form:DC-33-ORDER",
+        "ri_first_offender_misdemeanor-set::official-form:DC-33-ORDER",
+        "ri_multiple_misdemeanors-set::official-form:DC-33-ORDER"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161935870,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.courts.ri.gov/Courts/districtcourt/Documents/Motion%20to%20Expunge%20or%20Seal%20and%20Affidavit.pdf",
+        "redirected": false,
+        "observedByteLength": 307164,
+        "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 4,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161935870. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
+      "edition": "revised February 2025, printed on the document and returned by the index",
+      "editionTheFamilyNames": "the family names no edition; it names the label DC-33-ORDER",
+      "oneBinaryTwoLabels": "The census carries DC-33-ORDER and DC-33-AFFIDAVIT as two obligations. The publisher issues ONE document: filing instructions, the motion, the affidavit in support (Parts One to Three) and the order, under the single number DC-33. Both labels resolve here. Only the four DC-33-ORDER obligations are listed below, because DC-33-AFFIDAVIT is granted to a lane that has already released it.",
+      "statute": "R.I. Gen. Laws 12-1.3 (expungement) and 12-1-12 (sealing of records of non-conviction)",
+      "corroboration": {
+        "committedFiles": 1,
+        "indexConfirmedFormNumberAtThisUrl": "DC-33 (revised February 2025) District Court",
+        "note": "One committed file carries this URL, which is below the 2-file evidence-sweep bar on its own. The index confirmation of the printed form number at this exact address is what carries it, not the file count."
+      },
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "ri-superior-55-motion-and-affidavit-to-expunge-or-seal-record-felony-rev-2025-02",
+      "jurisdiction": "RI",
+      "formNumber": "Superior-55",
+      "officialTitle": "Motion and Affidavit to Expunge or Seal Record - Felony (Superior Court)",
+      "issuingAuthority": "Rhode Island Judiciary, Superior Court",
+      "officialUrl": "https://www.courts.ri.gov/Forms/Motion%20and%20Affidavit%20to%20Expunge%20or%20Seal%20Record%20-%20Felony.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+      "host": "www.courts.ri.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "ri_first_offender_felony-set::official-form:Superior-55-ORDER"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161936201,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.courts.ri.gov/Forms/Motion%20and%20Affidavit%20to%20Expunge%20or%20Seal%20Record%20-%20Felony.pdf",
+        "redirected": false,
+        "observedByteLength": 301833,
+        "sha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 4,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161936201. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
+      "edition": "revised February 2025, printed on the document and returned by the index",
+      "editionTheFamilyNames": "the family names no edition; it names the label Superior-55-ORDER",
+      "oneBinaryTwoLabels": "As with DC-33, the Superior Court issues one document carrying instructions, motion, affidavit (Parts One to Four) and order under the single number Superior-55. The family's Superior-55-ORDER label resolves here.",
+      "statute": "R.I. Gen. Laws 12-1.3-2 (first offender felony expungement)",
+      "corroboration": {
+        "committedFiles": 1,
+        "indexConfirmedFormNumberAtThisUrl": "Superior-55 (revised February 2025) Superior Court",
+        "note": "Same basis as DC-33."
+      },
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "tx-gc-411.072-04-20-2022-order-of-nondisclosure-sec-411-072",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.072",
+      "officialTitle": "OCA Model Order of Nondisclosure under Section 411.072",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454663/04-20-2022-order-of-nondisclosure-sec-411-072.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_automatic_misdemeanor_deferred-set::official-form:OCA Model Order of Nondisclosure under Section 411.072"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "expectedSha256Note": "held-edition hash(es) 7e35a724b6de are set-level pins claimed by more than one URL; unpinned here, the acquired bytes' own hash is authoritative and PROMO recomputes",
+      "corroboration": {
+        "nonCandidateFiles": 12,
+        "examples": [
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+          "data/rcap-grade-a/packet-factory-24h/disc01/rows.json",
+          "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161936196,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454663/04-20-2022-order-of-nondisclosure-sec-411-072.pdf",
+        "redirected": false,
+        "observedByteLength": 88342,
+        "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
+        "observedStructuralClass": "flat_pdf",
+        "observedPageCount": 3,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161936196. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent."
+    },
+    {
+      "sourceId": "tx-gc-411.072-instructions-letter-for-order-of-nondisclosure-under-sec",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.072",
+      "officialTitle": "OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1463062/instructions-letter-for-order-of-nondisclosure-under-section-411072.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "c479516495c675b02804b1c109c68bbf9bd748d336d16304bb40f85959d8fe2f",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_automatic_misdemeanor_deferred-set::official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "expectedSha256Note": "held-edition hash(es) 7e35a724b6de are set-level pins claimed by more than one URL; unpinned here, the acquired bytes' own hash is authoritative and PROMO recomputes",
+      "corroboration": {
+        "nonCandidateFiles": 12,
+        "examples": [
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+          "data/rcap-grade-a/packet-factory-24h/disc01/rows.json",
+          "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161936208,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1463062/instructions-letter-for-order-of-nondisclosure-under-section-411072.pdf",
+        "redirected": false,
+        "observedByteLength": 259157,
+        "sha256": "c479516495c675b02804b1c109c68bbf9bd748d336d16304bb40f85959d8fe2f",
+        "observedStructuralClass": "flat_pdf",
+        "observedPageCount": 7,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161936208. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent."
+    },
+    {
+      "sourceId": "tx-gc-411.0725-order-of-nondisclosure-under-section-4110725-411073-or",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.0725",
+      "officialTitle": "OCA Model Order of Nondisclosure under Section 411.0725",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454241/order-of-nondisclosure-under-section-4110725-411073-or-4110735-2022.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_deferred_other-set::official-form:OCA Model Order of Nondisclosure under Section 411.0725"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "expectedSha256Note": "held-edition hash(es) 2eb2e9699e08 are set-level pins claimed by more than one URL; unpinned here, the acquired bytes' own hash is authoritative and PROMO recomputes",
+      "corroboration": {
+        "nonCandidateFiles": 12,
+        "examples": [
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+          "data/rcap-grade-a/packet-factory-24h/disc01/rows.json",
+          "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161936626,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454241/order-of-nondisclosure-under-section-4110725-411073-or-4110735-2022.pdf",
+        "redirected": false,
+        "observedByteLength": 110504,
+        "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 3,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161936626. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent."
+    },
+    {
+      "sourceId": "tx-gc-411.0725-petition-for-nondisclosure-under-section-411-0725-2022",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.0725",
+      "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.0725",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454243/petition-for-nondisclosure-under-section-411-0725-2022.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "2eb2e9699e0803d0fa0766cbb1fad38f088a8d8b15a18b21add93da5e879ae67",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_deferred_other-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0725"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "expectedSha256Note": "held-edition hash(es) 2eb2e9699e08 are set-level pins claimed by more than one URL; unpinned here, the acquired bytes' own hash is authoritative and PROMO recomputes",
+      "corroboration": {
+        "nonCandidateFiles": 12,
+        "examples": [
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+          "data/rcap-grade-a/packet-factory-24h/disc01/rows.json",
+          "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161936635,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454243/petition-for-nondisclosure-under-section-411-0725-2022.pdf",
+        "redirected": false,
+        "observedByteLength": 213699,
+        "sha256": "2eb2e9699e0803d0fa0766cbb1fad38f088a8d8b15a18b21add93da5e879ae67",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 6,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161936635. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent."
+    },
+    {
+      "sourceId": "tx-gc-411.0726-04-20-2022-petition-for-nondisclosure-under-section-411",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.0726",
+      "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.0726",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454245/04-20-2022-petition-for-nondisclosure-under-section-411-0726-2022.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "0ef70a8afe2521b0173a210b8ac22eee503c6231c0cf71fcd3c6a91af82db27d",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_dwi_deferred-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0726"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "expectedSha256Note": "held-edition hash(es) 0ef70a8afe25 are set-level pins claimed by more than one URL; unpinned here, the acquired bytes' own hash is authoritative and PROMO recomputes",
+      "corroboration": {
+        "nonCandidateFiles": 14,
+        "examples": [
+          "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json",
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161936654,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454245/04-20-2022-petition-for-nondisclosure-under-section-411-0726-2022.pdf",
+        "redirected": false,
+        "observedByteLength": 193841,
+        "sha256": "0ef70a8afe2521b0173a210b8ac22eee503c6231c0cf71fcd3c6a91af82db27d",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 5,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161936654. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent."
+    },
+    {
+      "sourceId": "tx-gc-411.0726-order-of-nondisclosure-sec-411-0726-dwi-2022",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.0726",
+      "officialTitle": "OCA Model Order of Nondisclosure (Driving While Intoxicated) under Section 411.0726",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454246/order-of-nondisclosure-sec-411-0726-dwi-2022.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "c2b4c3ecf0033ef5af21ae05eaf79f7be197228150c5d6e752d1d423736d2b06",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_dwi_deferred-set::official-form:OCA Model Order of Nondisclosure (Driving While Intoxicated) under Section 411.0726"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "expectedSha256Note": "held-edition hash(es) 0ef70a8afe25 are set-level pins claimed by more than one URL; unpinned here, the acquired bytes' own hash is authoritative and PROMO recomputes",
+      "corroboration": {
+        "nonCandidateFiles": 14,
+        "examples": [
+          "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json",
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161936955,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454246/order-of-nondisclosure-sec-411-0726-dwi-2022.pdf",
+        "redirected": false,
+        "observedByteLength": 110549,
+        "sha256": "c2b4c3ecf0033ef5af21ae05eaf79f7be197228150c5d6e752d1d423736d2b06",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 3,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161936955. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent."
+    },
+    {
+      "sourceId": "tx-gc-411.0727-04-20-2022-petition-for-nondisclosure-under-section-411",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.0727",
+      "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.0727",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454249/04-20-2022-petition-for-nondisclosure-under-section-411-0727-2022.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "7c34e5f5aeee2ce9bb7e757f3c2c9aa9899d536c8917f5329f0d4dc28f6bfa9d",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_veterans_court-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0727"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "corroboration": {
+        "nonCandidateFiles": 14,
+        "examples": [
+          "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json",
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161936918,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454249/04-20-2022-petition-for-nondisclosure-under-section-411-0727-2022.pdf",
+        "redirected": false,
+        "observedByteLength": 194878,
+        "sha256": "7c34e5f5aeee2ce9bb7e757f3c2c9aa9899d536c8917f5329f0d4dc28f6bfa9d",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 6,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "tx-gc-411.0727-order-of-nondisclosure-sec-411-0727-2022",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.0727",
+      "officialTitle": "OCA Model Order of Nondisclosure under Section 411.0727",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454251/order-of-nondisclosure-sec-411-0727-2022.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "2c9500206f032b2195a6d99ea04310d520413d8ecdc6978da4ba284c2d01189f",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_veterans_court-set::official-form:OCA Model Order of Nondisclosure under Section 411.0727"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "corroboration": {
+        "nonCandidateFiles": 14,
+        "examples": [
+          "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json",
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161937640,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454251/order-of-nondisclosure-sec-411-0727-2022.pdf",
+        "redirected": false,
+        "observedByteLength": 117439,
+        "sha256": "2c9500206f032b2195a6d99ea04310d520413d8ecdc6978da4ba284c2d01189f",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 3,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "tx-gc-411.0729-order-of-nondisclosure-sec-411-0729",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.0729",
+      "officialTitle": "OCA Model Order of Nondisclosure under Section 411.0729",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454257/order-of-nondisclosure-sec-411-0729.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "3440721f4f22e37b60539789222518b27f49dcd7a8c4b9d64536181041382ba9",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_veterans_reemployment-set::official-form:OCA Model Order of Nondisclosure under Section 411.0729"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "corroboration": {
+        "nonCandidateFiles": 17,
+        "examples": [
+          "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-proposed-order-3/deferral-treatment.json",
+          "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-proposed-order-3/dependency.json",
+          "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/route.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161937461,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454257/order-of-nondisclosure-sec-411-0729.pdf",
+        "redirected": false,
+        "observedByteLength": 104659,
+        "sha256": "3440721f4f22e37b60539789222518b27f49dcd7a8c4b9d64536181041382ba9",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 3,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "tx-gc-411.0729-petition-for-nondisclosure-under-section-411-0729",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.0729",
+      "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.0729",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454256/petition-for-nondisclosure-under-section-411-0729.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "5fbe7c7fe7efb752b2d3bce84298d66305f0384b9e30710ca660107ce6fc6c10",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_veterans_reemployment-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0729"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "corroboration": {
+        "nonCandidateFiles": 17,
+        "examples": [
+          "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-petition-2/deferral-treatment.json",
+          "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-petition-2/dependency.json",
+          "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/route.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161937924,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454256/petition-for-nondisclosure-under-section-411-0729.pdf",
+        "redirected": false,
+        "observedByteLength": 189120,
+        "sha256": "5fbe7c7fe7efb752b2d3bce84298d66305f0384b9e30710ca660107ce6fc6c10",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 3,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "tx-gc-411.073-04-26-2022-petition-for-nondisclosure-under-section-411",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.073",
+      "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.073",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454285/04-26-2022-petition-for-nondisclosure-under-section-411-073-2022.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "0f60ff4c10f3f670356907a4d571285e247b796980c674c9bd64737cdd6a068a",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_probation_misdemeanor-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.073"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "expectedSha256Note": "held-edition hash(es) ce4d3a4c0c8c are set-level pins claimed by more than one URL; unpinned here, the acquired bytes' own hash is authoritative and PROMO recomputes",
+      "corroboration": {
+        "nonCandidateFiles": 14,
+        "examples": [
+          "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json",
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161937887,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454285/04-26-2022-petition-for-nondisclosure-under-section-411-073-2022.pdf",
+        "redirected": false,
+        "observedByteLength": 199537,
+        "sha256": "0f60ff4c10f3f670356907a4d571285e247b796980c674c9bd64737cdd6a068a",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 5,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161937887. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent."
+    },
+    {
+      "sourceId": "tx-gc-411.073-order-of-nondisclosure-under-section-4110725-411073-or-4",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.073",
+      "officialTitle": "OCA Model Order of Nondisclosure under Section 411.073",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454286/order-of-nondisclosure-under-section-4110725-411073-or-4110735-2022.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_probation_misdemeanor-set::official-form:OCA Model Order of Nondisclosure under Section 411.073"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "expectedSha256Note": "held-edition hash(es) ce4d3a4c0c8c are set-level pins claimed by more than one URL; unpinned here, the acquired bytes' own hash is authoritative and PROMO recomputes",
+      "corroboration": {
+        "nonCandidateFiles": 14,
+        "examples": [
+          "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json",
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161937901,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454286/order-of-nondisclosure-under-section-4110725-411073-or-4110735-2022.pdf",
+        "redirected": false,
+        "observedByteLength": 110504,
+        "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 3,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161937901. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent."
+    },
+    {
+      "sourceId": "tx-gc-411.0731-2nd-final-order-of-nondisclosure-sec-411-0731-2022",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.0731",
+      "officialTitle": "OCA Model Order of Nondisclosure under Section 411.0731",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454262/2nd-final-order-of-nondisclosure-sec-411-0731-2022.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "f085cd5c03edc67671c4aaab3210c76c33325e45fabdd6b818782e87cf413bd4",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_dwi_probation-set::official-form:OCA Model Order of Nondisclosure under Section 411.0731"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "corroboration": {
+        "nonCandidateFiles": 12,
+        "examples": [
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+          "data/rcap-grade-a/packet-factory-24h/disc01/rows.json",
+          "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161938204,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454262/2nd-final-order-of-nondisclosure-sec-411-0731-2022.pdf",
+        "redirected": false,
+        "observedByteLength": 107395,
+        "sha256": "f085cd5c03edc67671c4aaab3210c76c33325e45fabdd6b818782e87cf413bd4",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 3,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "tx-gc-411.0731-2nd-final-petition-for-nondisclosure-under-section-411",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.0731",
+      "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.0731",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454261/2nd-final-petition-for-nondisclosure-under-section-411-0731-2022.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "51f747e27d6f2b64e545991f242964dad77c0c69702278acb2b43565b0da62ee",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_dwi_probation-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0731"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "corroboration": {
+        "nonCandidateFiles": 12,
+        "examples": [
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+          "data/rcap-grade-a/packet-factory-24h/disc01/rows.json",
+          "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161938144,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454261/2nd-final-petition-for-nondisclosure-under-section-411-0731-2022.pdf",
+        "redirected": false,
+        "observedByteLength": 159564,
+        "sha256": "51f747e27d6f2b64e545991f242964dad77c0c69702278acb2b43565b0da62ee",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 5,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "tx-gc-411.0735-04-26-2022-petition-for-nondisclosure-under-section-411",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.0735",
+      "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.0735",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454264/04-26-2022-petition-for-nondisclosure-under-section-411-0735-2022.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "da0bd63c66a6ee35a7a0659556a02268f1fd6053ebf7419e912b78fd3fb3dd13",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_conviction_no_supervision-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0735"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "expectedSha256Note": "held-edition hash(es) da0bd63c66a6 are set-level pins claimed by more than one URL; unpinned here, the acquired bytes' own hash is authoritative and PROMO recomputes",
+      "corroboration": {
+        "nonCandidateFiles": 12,
+        "examples": [
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+          "data/rcap-grade-a/packet-factory-24h/disc01/rows.json",
+          "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161938166,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454264/04-26-2022-petition-for-nondisclosure-under-section-411-0735-2022.pdf",
+        "redirected": false,
+        "observedByteLength": 215067,
+        "sha256": "da0bd63c66a6ee35a7a0659556a02268f1fd6053ebf7419e912b78fd3fb3dd13",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 5,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161938166. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent."
+    },
+    {
+      "sourceId": "tx-gc-411.0735-order-of-nondisclosure-under-section-4110725-411073-or",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.0735",
+      "officialTitle": "OCA Model Order of Nondisclosure under Section 411.0735",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454265/order-of-nondisclosure-under-section-4110725-411073-or-4110735-2022.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_conviction_no_supervision-set::official-form:OCA Model Order of Nondisclosure under Section 411.0735"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "expectedSha256Note": "held-edition hash(es) da0bd63c66a6 are set-level pins claimed by more than one URL; unpinned here, the acquired bytes' own hash is authoritative and PROMO recomputes",
+      "corroboration": {
+        "nonCandidateFiles": 12,
+        "examples": [
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+          "data/rcap-grade-a/packet-factory-24h/disc01/rows.json",
+          "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161938269,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454265/order-of-nondisclosure-under-section-4110725-411073-or-4110735-2022.pdf",
+        "redirected": false,
+        "observedByteLength": 110504,
+        "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 3,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161938269. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent."
+    },
+    {
+      "sourceId": "tx-gc-411.0736-04-26-2022-order-of-nondisclosure-sec-411-0736",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.0736",
+      "officialTitle": "OCA Model Order of Nondisclosure under Section 411.0736",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454270/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_dwi_conviction-set::official-form:OCA Model Order of Nondisclosure under Section 411.0736"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "expectedSha256Note": "held-edition hash(es) e8e7dee3c084 are set-level pins claimed by more than one URL; unpinned here, the acquired bytes' own hash is authoritative and PROMO recomputes",
+      "corroboration": {
+        "nonCandidateFiles": 19,
+        "examples": [
+          "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json",
+          "data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161938351,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454270/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+        "redirected": false,
+        "observedByteLength": 108945,
+        "sha256": "50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 3,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161938351. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent."
+    },
+    {
+      "sourceId": "tx-gc-411.0736-2nd-final-petition-for-nondisclosure-under-section-411",
+      "jurisdiction": "TX",
+      "formNumber": "TX-GC-411.0736",
+      "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
+      "issuingAuthority": "Texas Office of Court Administration, published on www.txcourts.gov",
+      "officialUrl": "https://www.txcourts.gov/media/1454269/2nd-final-petition-for-nondisclosure-under-section-411-0736.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "tx_nd_dwi_conviction-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736"
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+      "expectedSha256Note": "held-edition hash(es) e8e7dee3c084 are set-level pins claimed by more than one URL; unpinned here, the acquired bytes' own hash is authoritative and PROMO recomputes",
+      "corroboration": {
+        "nonCandidateFiles": 14,
+        "examples": [
+          "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json",
+          "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+        ]
+      },
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161938814,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1454269/2nd-final-petition-for-nondisclosure-under-section-411-0736.pdf",
+        "redirected": false,
+        "observedByteLength": 199202,
+        "sha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 5,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161938814. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent."
+    },
+    {
+      "sourceId": "tx-oca-statement-of-inability-to-afford-payment-bilingual",
+      "jurisdiction": "TX",
+      "formNumber": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual)",
+      "officialTitle": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual)",
+      "issuingAuthority": "Texas Office of Court Administration",
+      "officialUrl": "https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+      "host": "www.txcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-2/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161939181,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
+        "redirected": false,
+        "observedByteLength": 6667524,
+        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 12,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "ut-1501cr-motion-to-remove-link-to-personal-identifying-information",
+      "jurisdiction": "UT",
+      "formNumber": "1501CR",
+      "officialTitle": "Motion to Remove Link to Personal Identifying Information",
+      "issuingAuthority": "Utah State Courts legacy official host",
+      "officialUrl": "https://legacy.utcourts.gov/howto/criminallaw/docs/1501CR_Motion_to_Remove_Link_to_Personal_Identifying_Information.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "69c37d4da60eeccddd54b174427737f6be092cdcbf759dd27e101eb8d3b1c623",
+      "host": "legacy.utcourts.gov",
+      "commitBody": false,
+      "obligationKeys": [],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-2/acquired.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161939240,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://legacy.utcourts.gov/howto/criminallaw/docs/1501CR_Motion_to_Remove_Link_to_Personal_Identifying_Information.pdf",
+        "redirected": false,
+        "observedByteLength": 175626,
+        "sha256": "69c37d4da60eeccddd54b174427737f6be092cdcbf759dd27e101eb8d3b1c623",
+        "observedStructuralClass": "flat_pdf",
+        "observedPageCount": 4,
+        "looksLikePdf": true,
+        "pinAgrees": true,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "wv-sca-c907-petition-for-expungement-of-felony-violations-2026-04",
+      "jurisdiction": "WV",
+      "formNumber": "SCA-C907",
+      "officialTitle": "Petition for Expungement of Felony Violations",
+      "issuingAuthority": "Supreme Court of Appeals of West Virginia",
+      "officialUrl": "https://www.courtswv.gov/sites/default/pubfilesmnt/2026-04/SCA-C907.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+      "host": "www.courtswv.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "wv_acc_treatment_job_readiness-set::official-form:SCA-C907",
+        "wv_conv_nonviolent_felony-set::official-form:SCA-C907"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "lastAcquisition": {
+        "runId": "33603361022",
+        "jobId": 100161939274,
+        "outcome": "acquired_bytes",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "finalResolvedUrl": "https://www.courtswv.gov/sites/default/pubfilesmnt/2026-04/SCA-C907.pdf",
+        "redirected": false,
+        "observedByteLength": 283289,
+        "sha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+        "observedStructuralClass": "acroform",
+        "observedPageCount": 4,
+        "looksLikePdf": true,
+        "pinAgrees": null,
+        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      },
+      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161939274. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
+      "statute": "W. Va. Code 61-11-26a",
+      "edition": "the publisher's own path dates this posting 2026-04",
+      "theOtherEdition": "A 2023-06 posting of the same number exists at https://www.courtswv.gov/sites/default/pubfilesmnt/2023-06/SCA-C907-PetitionforExpungmentFelony.pdf. Both are recorded and neither is substituted; 2026-04 is the later by the publisher's path and is queued first. If it 404s, 2023-06 is the fallback and is not a different document decision.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    }
+  ],
+  "refused": [
+    {
+      "officialUrl": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms",
+      "sourceId": "jud-petition-for-expungement",
+      "reason": "duplicate URL",
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+    },
+    {
+      "officialUrl": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=38",
+      "sourceId": "ju-10-0320-order-re-sealing-records-of-juvenile-offender-2022-01",
+      "reason": "no jurisdiction",
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+    },
+    {
+      "officialUrl": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=38",
+      "sourceId": "ju10-0300-mtafseal",
+      "reason": "no jurisdiction",
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+    },
+    {
+      "officialUrl": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=38",
+      "sourceId": "ju10-0315-nt-of-resp-mt-to-seal-records-of-ju-offender-13-50-050",
+      "reason": "no jurisdiction",
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+    },
+    {
+      "officialUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919681",
+      "sourceId": null,
+      "reason": "no jurisdiction",
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-2/acquired.json"
+    },
+    {
+      "officialUrl": "https://www.ndcourts.gov/legal-self-help/prohibit-public-access/criminal",
+      "sourceId": null,
+      "reason": "no jurisdiction",
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-2/acquired.json"
+    },
+    {
+      "officialUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
+      "sourceId": "cca-xp-0120-7002-form-acr-nonconvictionpetitionorderfillable2021",
+      "reason": "indianalegalhelp.org is not an allowlisted official government host",
+      "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json"
+    }
+  ],
+  "supersededByALaterAddress": [
+    {
+      "sourceId": "mc227",
+      "officialUrl": "https://www.courts.michigan.gov/administration/court-programs/state-court-administrative-office/scao-forms/",
+      "replacedBy": "https://www.courts.michigan.gov/4a4951/siteassets/forms/scao-approved/mc227.pdf",
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+    },
+    {
+      "sourceId": "mt-doj-dci-expungement-removal-request-form-2023-updated",
+      "officialUrl": "https://dojmt.gov/wp-content/uploads/2023-Updated-ExpungementRemovalRequestForm.pdf",
+      "replacedBy": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
+    }
+  ],
+  "discPending": [
+    {
+      "jurisdiction": "DE",
+      "formNumber": "Form 281",
+      "obligation": "the Delaware Form 281 expungement petition's exact official artifact URL",
+      "sweepFinding": "committed evidence carries only landing pages — courts.delaware.gov/forms/ (9 files), courts.delaware.gov/superior/expungement.aspx (15 files), courts.delaware.gov/forms/list.aspx?ag=Superior%20Court&cat=Expungement (2 files) — and no URL containing '281' on any Delaware host. FACTORY_MEMORY warns the held 'FORM-281' bytes actually print Form 281E (the charge-sheet continuation); the identity itself needs DISC before any address is trusted.",
+      "nextLane": "DISC",
+      "whyNotHere": "no corroborated exact URL exists in committed evidence, and a plausible address is worse than an absent one because ACQ will fetch it"
+    },
+    {
+      "jurisdiction": "MO",
+      "formNumber": "FI-05",
+      "obligation": "the Missouri Confidential Case Filing Information Sheet (FI-05) exact official artifact URL — SRR-001, a one-row family release gating six MO families",
+      "sweepFinding": "SOURCE_RELATIONSHIP_REGISTRY records officialArtifactUrl null with sourceState SOURCE_SCOPE_AND_VERSION_AMBIGUITY: St. Louis County publishes FI-05 while the 7th Circuit names the analogous form FI-50, and the recorded source page stlcountycourts.com is not an allowlisted official government host. Committed MO evidence otherwise carries only courts.mo.gov landing pages (page.jsp?id=191585, 242 files) and revisor.mo.gov statutes — no exact FI-05 artifact URL on an allowlisted host.",
+      "nextLane": "DISC",
+      "whyNotHere": "no corroborated exact URL exists, the only recorded publisher host is off-allowlist, and statewide-versus-local scope is unsettled (SRR-001); DISC and Captain settle scope and alias before any acquisition"
+    }
+  ]
+}

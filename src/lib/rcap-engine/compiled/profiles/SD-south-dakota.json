@@ -1,6 +1,21 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "disposition_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "sentence_completion_date",
+      "financial_obligations"
+    ]
+  },
   "jurisdiction": {
     "code": "SD",
     "name": "South Dakota",
@@ -731,6 +746,14 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Projected from data/record-clearing/legal-decisions/route-ratification-registry.json. Decision authority: Lawrence (counsel), recorded through docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md and the evaluator's ratification sets.",
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -935,15 +958,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Prosecutor formally dismissed the entire criminal case After 1 year from formal dismissal",
-        "Prosecutor formally dismissed the entire criminal case and there is compelling necessity Within 1 year from dismissal, if compelling necessity is shown",
-        "South Dakota has a special diversion path. A person who successfully completes a diversion program may be eligible for expungement of the entire criminal record related to the arrest if they are not charged with a new crime, other than petty offenses and minor traffic violations, within one year and thirty days after successful completion. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-03/section-23a-3-35/\")",
-        "If you completed a South Dakota diversion program and stayed clear of new charges for one year and thirty days, the State\u0019s Attorney should file the dismissal and diversion-completion notice, and the court should grant expungement without a separate motion.",
-        "South Dakota automatically removes certain minor cases from the public record after five years if all court-ordered conditions are satisfied and the person has no further convictions during that five-year period. This applies when the highest charged offense in the case was a petty offense, municipal ordinance violation, or Class 2 misdemeanor. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-03/section-23a-3-34/\")",
-        "Some low-level South Dakota cases are removed from public view after five years if the case was only a petty offense, municipal ordinance violation, or Class 2 misdemeanor, all conditions were completed, and there were no new convictions. But the record may still be used by the court or to enhance later penalties.",
-        "South Dakota has a special deferred route for certain drug charges under SDCL 23A-27-53. For a guilty plea to specified controlled-substance offenses, the court may defer sentencing and require probation, treatment, testing, service, or other conditions. After one year, if the person completed treatment and all required conditions, the court must dismiss the original charge under the listed drug statutes when the person pleads guilty to the specified lesser offense. The statute also says the person is not eligible if there are aggravating circumstances or if the person is serving a sentence with the executive branch. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-27/section-23a-27-53/\")",
-        "A South Dakota pardon through Chapter 24-14 releases the person from penalties and disabilities resulting from the offense. When the Governor grants a pardon under that chapter, the Governor orders official records relating to the arrest, charging document, trial, finding of guilt, pardon application, and Board of Pardons and Paroles proceedings sealed. A public document certifying the pardon remains filed with the Secretary of State for five years, then is sealed. (\"https://law.justia.com/codes/south-dakota/title-24/chapter-14/section-24-14-11/\")",
-        "A juvenile, parent, guardian, or guardian ad litem may petition to seal juvenile delinquency records. The petition may be filed only after one year has passed from the juvenile\u0019s unconditional release from court jurisdiction or Department of Corrections discharge, whichever is later. The court may seal records if the child has not been adjudicated delinquent since release/discharge, has no pending or instituted serious proceeding of the types listed in the statute, and the court finds rehabilitation has been attained. (\"https://law.justia.com/codes/south-dakota/title-26/chapter-07a/section-26-7a-115/\")"
+        "sealed after successful completion of probation and discharge, under the statutory once-only and offense limitations; no extra period applies"
       ],
       "exclusionRules": [
         "South Dakota has a special deferred route for certain drug charges under SDCL 23A-27-53. For a guilty plea to specified controlled-substance offenses, the court may defer sentencing and require probation, treatment, testing, service, or other conditions. After one year, if the person completed treatment and all required conditions, the court must dismiss the original charge under the listed drug statutes when the person pleads guilty to the specified lesser offense. The statute also says the person is not eligible if there are aggravating circumstances or if the person is serving a sentence with the executive branch. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-27/section-23a-27-53/\")",
@@ -963,7 +978,46 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-SD-02",
+        "ruleId": "SD-26-7A-115.1-TRAFFICKING-AND-23A-27-13-SIS-SPLIT",
+        "mechanism": "Suspended-imposition-of-sentence sealing",
+        "statute": "S.D. Codified Laws §§ 23A-27-13 and 23A-27-14",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "discharge_date",
+          "anchorText": "sealed after successful completion of probation and discharge, under the statutory once-only and offense limitations; no extra period applies"
+        },
+        "requiredFacts": [
+          "Age?",
+          "Juvenile offense/adjudication?",
+          "Trafficking/exploitation nexus?",
+          "SIS order?",
+          "Probation completion/discharge?",
+          "Prior SIS relief?",
+          "Excluded offense?",
+          "Sealing status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Exact juvenile victim-relief statute or valid suspended-imposition order",
+          "Statutory nexus, offense, once-only, and completion limitations"
+        ],
+        "packetFamily": "South Dakota SIS Sealing Packet under §§ 23A-27-13 / 23A-27-14",
+        "packetComponents": [
+          "Motion or application to seal",
+          "Discharge order"
+        ]
       }
     },
     {
@@ -1049,19 +1103,12 @@
       "caseOutcomes": [
         "convicted_other"
       ],
-      "automatic": false,
-      "filingRequired": true,
-      "routeType": "pardon_then_court",
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic_guidance",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "A South Dakota pardon through Chapter 24-14 releases the person from penalties and disabilities resulting from the offense. When the Governor grants a pardon under that chapter, the Governor orders official records relating to the arrest, charging document, trial, finding of guilt, pardon application, and Board of Pardons and Paroles proceedings sealed. A public document certifying the pardon remains filed with the Secretary of State for five years, then is sealed. (\"https://law.justia.com/codes/south-dakota/title-24/chapter-14/section-24-14-11/\")",
-        "Arrest occurred, but no accusatory instrument was filed After 1 year from arrest",
-        "South Dakota has a special diversion path. A person who successfully completes a diversion program may be eligible for expungement of the entire criminal record related to the arrest if they are not charged with a new crime, other than petty offenses and minor traffic violations, within one year and thirty days after successful completion. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-03/section-23a-3-35/\")",
-        "If you completed a South Dakota diversion program and stayed clear of new charges for one year and thirty days, the State\u0019s Attorney should file the dismissal and diversion-completion notice, and the court should grant expungement without a separate motion.",
-        "South Dakota automatically removes certain minor cases from the public record after five years if all court-ordered conditions are satisfied and the person has no further convictions during that five-year period. This applies when the highest charged offense in the case was a petty offense, municipal ordinance violation, or Class 2 misdemeanor. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-03/section-23a-3-34/\")",
-        "Some low-level South Dakota cases are removed from public view after five years if the case was only a petty offense, municipal ordinance violation, or Class 2 misdemeanor, all conditions were completed, and there were no new convictions. But the record may still be used by the court or to enhance later penalties.",
-        "South Dakota has a special deferred route for certain drug charges under SDCL 23A-27-53. For a guilty plea to specified controlled-substance offenses, the court may defer sentencing and require probation, treatment, testing, service, or other conditions. After one year, if the person completed treatment and all required conditions, the court must dismiss the original charge under the listed drug statutes when the person pleads guilty to the specified lesser offense. The statute also says the person is not eligible if there are aggravating circumstances or if the person is serving a sentence with the executive branch. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-27/section-23a-27-53/\")",
-        "A juvenile, parent, guardian, or guardian ad litem may petition to seal juvenile delinquency records. The petition may be filed only after one year has passed from the juvenile\u0019s unconditional release from court jurisdiction or Department of Corrections discharge, whichever is later. The court may seal records if the child has not been adjudicated delinquent since release/discharge, has no pending or instituted serious proceeding of the types listed in the statute, and the court finds rehabilitation has been attained. (\"https://law.justia.com/codes/south-dakota/title-26/chapter-07a/section-26-7a-115/\")"
+        "event-triggered by issuance of a qualifying Chapter 24-14 pardon; no additional post-pardon waiting period applies"
       ],
       "exclusionRules": [
         "South Dakota has a special deferred route for certain drug charges under SDCL 23A-27-53. For a guilty plea to specified controlled-substance offenses, the court may defer sentencing and require probation, treatment, testing, service, or other conditions. After one year, if the person completed treatment and all required conditions, the court must dismiss the original charge under the listed drug statutes when the person pleads guilty to the specified lesser offense. The statute also says the person is not eligible if there are aggravating circumstances or if the person is serving a sentence with the executive branch. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-27/section-23a-27-53/\")",
@@ -1075,6 +1122,36 @@
         "exclusionOrAmbiguityResult": "needs_review",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-SD-01",
+        "ruleId": "SD-24-14-11-PARDON-EVENT-SEALING",
+        "mechanism": "Pardon-based sealing",
+        "statute": "S.D. Codified Laws § 24-14-11",
+        "stage": "automatic",
+        "outcomeMode": "guidance_status",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "event-triggered by issuance of a qualifying Chapter 24-14 pardon; no additional post-pardon waiting period applies"
+        },
+        "requiredFacts": [
+          "Pardon order/date?",
+          "Issuing authority?",
+          "Exact conviction?",
+          "Whether pardon was under Chapter 24-14?",
+          "Record-sealing status?",
+          "Other counts?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Pardon granted under the South Dakota chapter that carries statutory sealing",
+          "Exact conviction and pardon scope verified"
+        ],
+        "packetFamily": null,
+        "notes": "A pardon obtained outside the covered chapter, or out of state, does not automatically receive the same sealing effect and must be routed to legal review rather than checkout."
       }
     },
     {
@@ -1209,16 +1286,7 @@
       "routeType": "juvenile_special",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Arrest occurred, but no accusatory instrument was filed After 1 year from arrest",
-        "South Dakota has a special diversion path. A person who successfully completes a diversion program may be eligible for expungement of the entire criminal record related to the arrest if they are not charged with a new crime, other than petty offenses and minor traffic violations, within one year and thirty days after successful completion. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-03/section-23a-3-35/\")",
-        "If you completed a South Dakota diversion program and stayed clear of new charges for one year and thirty days, the State\u0019s Attorney should file the dismissal and diversion-completion notice, and the court should grant expungement without a separate motion.",
-        "South Dakota automatically removes certain minor cases from the public record after five years if all court-ordered conditions are satisfied and the person has no further convictions during that five-year period. This applies when the highest charged offense in the case was a petty offense, municipal ordinance violation, or Class 2 misdemeanor. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-03/section-23a-3-34/\")",
-        "Some low-level South Dakota cases are removed from public view after five years if the case was only a petty offense, municipal ordinance violation, or Class 2 misdemeanor, all conditions were completed, and there were no new convictions. But the record may still be used by the court or to enhance later penalties.",
-        "South Dakota has a special deferred route for certain drug charges under SDCL 23A-27-53. For a guilty plea to specified controlled-substance offenses, the court may defer sentencing and require probation, treatment, testing, service, or other conditions. After one year, if the person completed treatment and all required conditions, the court must dismiss the original charge under the listed drug statutes when the person pleads guilty to the specified lesser offense. The statute also says the person is not eligible if there are aggravating circumstances or if the person is serving a sentence with the executive branch. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-27/section-23a-27-53/\")",
-        "A South Dakota pardon through Chapter 24-14 releases the person from penalties and disabilities resulting from the offense. When the Governor grants a pardon under that chapter, the Governor orders official records relating to the arrest, charging document, trial, finding of guilt, pardon application, and Board of Pardons and Paroles proceedings sealed. A public document certifying the pardon remains filed with the Secretary of State for five years, then is sealed. (\"https://law.justia.com/codes/south-dakota/title-24/chapter-14/section-24-14-11/\")",
-        "A juvenile, parent, guardian, or guardian ad litem may petition to seal juvenile delinquency records. The petition may be filed only after one year has passed from the juvenile\u0019s unconditional release from court jurisdiction or Department of Corrections discharge, whichever is later. The court may seal records if the child has not been adjudicated delinquent since release/discharge, has no pending or instituted serious proceeding of the types listed in the statute, and the court finds rehabilitation has been attained. (\"https://law.justia.com/codes/south-dakota/title-26/chapter-07a/section-26-7a-115/\")",
-        "Juvenile delinquency sealing SDCL 26-7A-115 to 26-7A-116 Juvenile records after statutory waiting and rehabilitation showing",
-        "Pathway Main authority Best used for Arrest record expungement SDCL 23A-3-26 to 23A-3-32 No accusatory instrument, dismissal, acquittal Diversion expungement SDCL 23A-3-35 to 23A-3-37 Successful diversion completion Automatic public-record removal for minor cases SDCL 23A-3-34 Petty offense, municipal ordinance, or Class 2 misdemeanor highest charge Suspended imposition sealing SDCL 23A-27-13 to 23A-27-17 Successful suspended imposition of sentence Drug deferred/special dismissal route SDCL 23A-27-53 Certain controlled-substance cases after treatment/compliance Pardon sealing SDCL 24-14-11 Governor\u0019s pardon through Chapter 24-14 process Juvenile delinquency sealing SDCL 26-7A-115 to 26-7A-116 Juvenile records after statutory waiting and rehabilitation showing Juvenile trafficking expungement SDCL 26-7A-115.1 Delinquency records caused by trafficking or sexual exploitation"
+        "an eligible victim who is over eighteen may petition upon establishing the statutory victimization nexus; no additional elapsed wait is stated"
       ],
       "exclusionRules": [
         "South Dakota has a special deferred route for certain drug charges under SDCL 23A-27-53. For a guilty plea to specified controlled-substance offenses, the court may defer sentencing and require probation, treatment, testing, service, or other conditions. After one year, if the person completed treatment and all required conditions, the court must dismiss the original charge under the listed drug statutes when the person pleads guilty to the specified lesser offense. The statute also says the person is not eligible if there are aggravating circumstances or if the person is serving a sentence with the executive branch. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-27/section-23a-27-53/\")",
@@ -1232,6 +1300,42 @@
         "exclusionOrAmbiguityResult": "needs_review",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-SD-02",
+        "ruleId": "SD-26-7A-115.1-TRAFFICKING-AND-23A-27-13-SIS-SPLIT",
+        "mechanism": "Juvenile trafficking and sexual-exploitation victim expungement",
+        "statute": "S.D. Codified Laws § 26-7A-115.1",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "an eligible victim who is over eighteen may petition upon establishing the statutory victimization nexus; no additional elapsed wait is stated"
+        },
+        "requiredFacts": [
+          "Age?",
+          "Juvenile offense/adjudication?",
+          "Trafficking/exploitation nexus?",
+          "SIS order?",
+          "Probation completion/discharge?",
+          "Prior SIS relief?",
+          "Excluded offense?",
+          "Sealing status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact juvenile victim-relief statute or valid suspended-imposition order",
+          "Statutory nexus, offense, once-only, and completion limitations"
+        ],
+        "packetFamily": "South Dakota Juvenile Trafficking Expungement Petition under § 26-7A-115.1",
+        "packetComponents": [
+          "Petition under § 26-7A-115.1",
+          "Victimization nexus evidence"
+        ],
+        "notes": "Do not preserve the prior blanket attorney-referral treatment for an otherwise complete intake."
       }
     }
   ],
@@ -1768,8 +1872,8 @@
         "sourceConditionText": "1 Pardon application materials."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "packet_logic:224-259",
       "candidatePathwayIds": [
@@ -1790,8 +1894,8 @@
         "sourceConditionText": "2 Board of Pardons and Paroles process documents."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "packet_logic:224-259",
       "candidatePathwayIds": [
@@ -1875,8 +1979,8 @@
         "sourceConditionText": "The person wants to seek a pardon."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "referral_triggers:260-297",
       "candidatePathwayIds": [
@@ -2174,16 +2278,10 @@
       "when": {
         "backendPathwayId": "suspended-imposition-of-sentence-sealing",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "disposition_date",
-          "sentence_completion_date"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "disposition_date",
-          "sentence_completion_date"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2192,7 +2290,8 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Suspended-imposition-of-sentence sealing"
+        "sourceConditionText": "sealed after successful completion of probation and discharge, under the statutory once-only and offense limitations; no extra period applies",
+        "timingAnchorFactId": "discharge_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2202,7 +2301,13 @@
       "sourceRef": "section:112-126; corpus-unit:44",
       "candidatePathwayIds": [
         "suspended-imposition-of-sentence-sealing"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-SD-02",
+        "ruleId": "SD-26-7A-115.1-TRAFFICKING-AND-23A-27-13-SIS-SPLIT",
+        "statute": "S.D. Codified Laws §§ 23A-27-13 and 23A-27-14",
+        "mechanism": "Suspended-imposition-of-sentence sealing"
+      }
     },
     {
       "id": "route-controlled-substance-deferred-disposition-route",
@@ -2243,29 +2348,31 @@
       "when": {
         "backendPathwayId": "pardon-based-sealing",
         "requiredFields": [
-          "case_outcome",
-          "offense_category",
-          "pardon_status"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_category",
-          "pardon_status"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "convicted_other"
         ],
-        "sourceConditionText": "Pardon-based sealing"
+        "sourceConditionText": "event-triggered by issuance of a qualifying Chapter 24-14 pardon; no additional post-pardon waiting period applies"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "section:137-148; corpus-unit:56",
       "candidatePathwayIds": [
         "pardon-based-sealing"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-SD-01",
+        "ruleId": "SD-24-14-11-PARDON-EVENT-SEALING",
+        "statute": "S.D. Codified Laws § 24-14-11",
+        "mechanism": "Pardon-based sealing"
+      }
     },
     {
       "id": "route-juvenile-delinquency-sealing",
@@ -2318,24 +2425,10 @@
       "when": {
         "backendPathwayId": "juvenile-trafficking-expungement",
         "requiredFields": [
-          "offense_category",
-          "age_at_offense",
-          "trafficking_status",
-          "record_type",
-          "case_outcome",
-          "offense_level",
-          "sentence_completion_date",
-          "pardon_status"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "offense_category",
-          "age_at_offense",
-          "trafficking_status",
-          "record_type",
-          "case_outcome",
-          "offense_level",
-          "sentence_completion_date",
-          "pardon_status"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "juvenile",
@@ -2343,7 +2436,7 @@
           "acquitted",
           "diversion_or_deferred"
         ],
-        "sourceConditionText": "Juvenile-trafficking expungement"
+        "sourceConditionText": "an eligible victim who is over eighteen may petition upon establishing the statutory victimization nexus; no additional elapsed wait is stated"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2353,7 +2446,13 @@
       "sourceRef": "section:159-167; section:15-26; pathways:15-26; corpus-unit:10; corpus-unit:65",
       "candidatePathwayIds": [
         "juvenile-trafficking-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-SD-02",
+        "ruleId": "SD-26-7A-115.1-TRAFFICKING-AND-23A-27-13-SIS-SPLIT",
+        "statute": "S.D. Codified Laws § 26-7A-115.1",
+        "mechanism": "Juvenile trafficking and sexual-exploitation victim expungement"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -2784,7 +2883,7 @@
       {
         "pathwayId": "pardon-based-sealing",
         "pathwayLabel": "Pardon-based sealing",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [

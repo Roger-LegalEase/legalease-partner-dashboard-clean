@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "nc_146_dismissal_petition-set",
+  "routeKey": "obligation:track-only:NC:nc_146_dismissal_petition",
+  "routeKeys": [
+    "obligation:track-only:NC:nc_146_dismissal_petition"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "nc_146_dismissal_petition-set",
+    "jurisdiction": "NC",
+    "routeKeys": [
+      "obligation:track-only:NC:nc_146_dismissal_petition"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "district_attorney_alternative_filing",
+      "fee_waiver",
+      "instructions",
+      "participant_instructions",
+      "primary_filing"
+    ],
+    "packetComponents": [
+      "component:nc_146_dismissal_petition-fee-waiver-3",
+      "component:nc_146_dismissal_petition-instructions-2",
+      "component:nc_146_dismissal_petition-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:AOC-CR-287",
+        "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
+        "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:AOC-CV-226",
+        "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+        "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+        "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+        "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33608483853",
+      "jobId": "100178592266",
+      "artifactId": "9838346726",
+      "boundToCanonicalSha256": "81d71db0020bdef1204898013cb9fd16a8cf3155c0f864c837a21945b1e40fb1",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf06",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "nc_146_dismissal_petition-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "nc_146_dismissal_petition-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "81d71db0020bdef1204898013cb9fd16a8cf3155c0f864c837a21945b1e40fb1",
+        "requirement": "required"
+      }
+    ]
+  }
+}

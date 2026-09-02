@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "rcap-external-capacity/v1",
+  "measuredAt": "2026-09-02T01:40:34Z",
+  "captainSha": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+  "perBatchCaps": {
+    "CODEX-CS-A": 6,
+    "CODEX-CS-B": 6,
+    "cloudVerify": 5,
+    "cloudResearch": 20
+  },
+  "eligibleNow": {
+    "sourceReadyWithoutBuilder": 7,
+    "failRepairRequiredWithoutRepairer": 3,
+    "rasterPassWithoutAnyVerificationClaim": 0,
+    "rasterPassTransferEligibleForASecondRead": 68,
+    "rasterPassWithALiveVerifier": 29
+  },
+  "theConstraintThatShapesThis": "Zero RASTER_PASS families lack an independent-verification claim, so no second read is mintable and every one needs claim.mjs --transfer. Provisioning eight cloud verification lanes would have produced three assignments that cannot be claimed.",
+  "duplicateBytes": {
+    "groups": 5,
+    "families": 17,
+    "heldOutOfVerification": "families sharing bytes are excluded from second-read assignment until PF-B classifies whether identical bytes across distinct statutory routes is a defect; one read over twelve families is not twelve verdicts"
+  }
+}

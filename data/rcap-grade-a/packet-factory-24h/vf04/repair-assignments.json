@@ -1,0 +1,522 @@
+{
+  "vtdReading": {
+    "reading": "packet-factory-24h/VF04 (VT-D, 2026-09-02)",
+    "whatThisMarkerIs": "One repair assignment was appended to this file by VT-D, carrying \"wave\": \"packet-factory-24h/VF04 (VT-D, 2026-09-02)\". Everything already here was written by earlier workers on this lane and is preserved byte for byte; nothing in it is edited or withdrawn.",
+    "worker": "VT-D (independent; built, repaired and rendered none of these packets)",
+    "baseSha": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "familiesRead": [
+      "rcap-tn-custom-pleading",
+      "ct-decriminalized-set",
+      "ct-missed-erasure-set",
+      "wv_conv_single_misdemeanor-set",
+      "wa_vac_felony-set"
+    ],
+    "assignmentCountAddedHere": 1,
+    "familiesFailedHere": [
+      "wa_vac_felony-set"
+    ],
+    "grantsNothing": "No route opened, no price set, no promotion authorised."
+  },
+  "waveThree": {
+    "wave": "packet-factory-24h/VF04/wave-3 (FABLE-VA4, 2026-09-02)",
+    "whatThisMarkerIs": "Two repair assignments were appended to this file. Everything already here was written by earlier workers on this lane and is preserved byte for byte; nothing in it is edited or withdrawn. The entries carrying \"wave\": \"packet-factory-24h/VF04/wave-3 (FABLE-VA4, 2026-09-02)\" are this reading's, and only those.",
+    "worker": "FABLE-VA4 (independent; built, repaired and rendered none of these packets)",
+    "baseSha": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
+    "assignmentCountAddedHere": 2,
+    "familiesFailedHere": [
+      "ar-misdemeanor-dwi-seal-set",
+      "ny_mrta_marijuana-set"
+    ]
+  },
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF04",
+  "worker": "VF-SRC-A",
+  "assignmentCount": 1,
+  "assignments": [
+  {
+    "wave": "packet-factory-24h/VF04 (VT-D, 2026-09-02)",
+    "itemId": "wa_vac_felony-set",
+    "lane": "VF04",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "raisedBy": "VT-D (independent; built, repaired and rendered none of these packets)",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill",
+    "decisiveDefect": "The packet carries 4 of the 12 self-help stop conditions the committed track registry holds for trackId wa_vac_felony, and the family binds no SELF_HELP_STOP record at all. Eight conditions are absent from participant-instructions.md and from every other packet-authored page, including 'Immigration consequences', which a non-citizen vacating a Washington felony record is never told about.",
+    "failedProofObligations": [
+      {
+        "obligation": "SELF_HELP_STOP",
+        "finding": "data/record-clearing/legal-design-track-registry.json, track wa_vac_felony, selfHelpStopConditions holds 12 entries. Measured by whitespace-normalised search over the whole of participant-instructions.md and over the extracted text of both delivered PDFs, 4 are carried and 8 are not.",
+        "carried": [
+          "Any question about offence class or the exact RCW. — carried as 'you are not sure whether your felony is class B or class C'",
+          "The felony class or the exact RCW cannot be established from the judgment and sentence. — same bullet",
+          "No certificate of discharge has been entered. — carried as 'you do not have a certificate of discharge'",
+          "The offence may be a crime against persons under RCW 43.43.830 even if it is not a violent offence under RCW 9.94A.030. — carried loosely as 'a crime against a person', without the RCW 43.43.830 / RCW 9.94A.030 contrast the registry insists on"
+        ],
+        "absent": [
+          "Any pending charge in Washington, another state, federal court, or tribal court. (0 hits for 'pending charge', 0 for 'tribal')",
+          "Any domestic violence element, charged or findable from the court file. (the file's only domestic-violence mention is the opposite posture: it refers a participant who WAS a victim of domestic violence to the victim-survivor family)",
+          "Any protection, no-contact, antiharassment or civil restraining order currently in effect, or violated in the last five years. (0 hits for 'no-contact', 'restraining', 'antiharassment')",
+          "Any DUI, physical control, or alcohol or drug related driving offence, including a reduced charge. (0 hits for 'DUI', 'physical control')",
+          "Any firearm, deadly weapon or sexual motivation enhancement. (0 hits for 'firearm', 'deadly weapon', 'sexual motivation')",
+          "Immigration consequences. (0 hits for 'immigration' anywhere in the family)",
+          "Any participant whose real goal is firearm rights restoration, which is a separate proceeding under RCW 9.41.041. (0 hits for '9.41.041', 'rights restoration')",
+          "Assault in the third degree where the victim may have been a law enforcement or peace officer. (0 hits for 'assault in the third', 'law enforcement', 'peace officer')"
+        ],
+        "whyThePdfHitsDoNotAnswerIt": "The delivered PDFs return hits for 'firearm', 'deadly weapon', 'physical control' and '43.43.830' only inside CR 08.0900's own printed section 2 exclusion list. That is pinned source text the participant is asked to self-assess against — the opposite of the packet telling them to stop and get help — and it is precisely the self-assessment the registry records as beyond self-help.",
+        "structuralEvidence": "No file in the family directory contains the string SELF_HELP or selfHelp. filing-obligations.json binds FILING_DESTINATION, FEE_AND_WAIVER and SERVICE and stops there, so unlike the family's other four narrative obligations this one was never bound to the registry at build time."
+      }
+    ],
+    "whatIsNotTheDefect": "The instruction to attend the hearing is not the inversion pattern and must not be repaired away. This route's registry record treats a hearing as an ordinary step ('expect a possible hearing'), and the packet separately tells the participant to stop if the prosecuting attorney objects. Leave that as it is.",
+    "whatWouldClearIt": "Carry all 12 registry selfHelpStopConditions for trackId wa_vac_felony in participant-instructions.md's 'Where self-help ends' section, in the registry's own words, and bind SELF_HELP_STOP in filing-obligations.json alongside the three obligations already bound there, so the binding is checkable rather than incidental. Give the immigration condition the treatment the sibling families give it — wv_conv_single_misdemeanor-set and ut_pet_no_charges-set both mark it a hard stop rather than a caveat — and restore the RCW 43.43.830 versus RCW 9.94A.030 contrast the registry records, since those are two different lists and the second is long. Preserve the packet's existing additions (the victim-survivor referral, the prosecutor-objection stop, the record-mismatch stop); they are correct and the registry does not hold them.",
+    "everythingElsePassed": "The other fourteen obligations were measured here and pass. All nine completeness counters are zero, measured here. Both bound Master Library sources recompute exact against pin, byte length and corpus index; all four PDFs hash to record with matching deterministic second renders; the added-token diff against the pinned sources finds 0 unexplained tokens on any of the four artifacts; and exactly the three route-determined elections are marked with 11 controls proved unmarked. This is a single legal-safety omission in an otherwise clean family.",
+    "doesNotAuthorise": "This assignment opens no route, sets no price and promotes nothing."
+  },
+    {
+      "itemId": "ar-arrest-seal-set",
+      "lane": "VF04",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill",
+      "decisiveDefect": "participant-instructions.md does not exist, so no declared item can be named in it",
+      "failedProofObligations": [
+        "REQUIRED_BEFORE_FILING",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "REQUIRED_BEFORE_FILING": {
+          "measuredDetail": "participant-instructions.md does not exist, so no declared item can be named in it",
+          "whatRepairMustDo": "The family has no participant-instructions.md at all. Every blank the filing needs must be declared and named there."
+        },
+        "FILING_DESTINATION": {
+          "measuredDetail": "participant-instructions.md does not exist, so the packet states nothing to the participant",
+          "whatRepairMustDo": "participant-instructions.md must name the court or agency the route names, or name exactly who to get it from."
+        },
+        "FEE_AND_WAIVER": {
+          "measuredDetail": "participant-instructions.md does not exist, so the packet states nothing to the participant",
+          "whatRepairMustDo": "participant-instructions.md must state the filing fee and any waiver route, or name who to ask and say the amount is not stated."
+        },
+        "SERVICE": {
+          "measuredDetail": "participant-instructions.md does not exist, so the packet states nothing to the participant",
+          "whatRepairMustDo": "participant-instructions.md must state who must be served and by what method."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "participant-instructions.md does not exist, so the packet states nothing to the participant",
+          "whatRepairMustDo": "participant-instructions.md must state where self-help ends."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "wave": "packet-factory-24h/VF04/wave-3 (FABLE-VA4, 2026-09-02)",
+      "itemId": "ar-misdemeanor-dwi-seal-set",
+      "lane": "VF04",
+      "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill",
+      "decisiveDefect": "The packet tells the participant that no source it holds establishes what filing this petition costs. The compiled Arkansas profile states the Act 1460 filing fee as $0 three times, and this route is one of the Act 1460 uniform petition-and-order pairs.",
+      "failedProofObligations": [
+        "FEE_AND_WAIVER",
+        "SOURCE_IDENTITY"
+      ],
+      "perObligation": {
+        "FEE_AND_WAIVER": {
+          "measuredDetail": "participant-instructions.md line 22, under '## The filing fee', reads: 'Neither the petition nor the order states a filing fee, and no source this packet holds establishes what filing this petition costs — or whether it costs anything.' The first clause is true of the two forms. The second is false of the repository. src/lib/rcap-engine/compiled/profiles/AR-arkansas.json states, at line 2506, 'Sealing petition filing fee $0 Filing fees eliminated by the 2019 amendments'; at line 2505, 'Act 1460 eliminated sealing filing fees; the real costs are records and any counsel'; and at line 2484, in the filing rule, 'File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.' The same profile's form table at line 2444 lists 'Petition and Order to Seal Misdemeanor DWI / BWI Driving- or boating-while-intoxicated misdemeanor; 10-year wait' among the Act 1460 uniform pairs, so the elimination reaches this exact route.",
+          "corroboration": "The sibling family ar-arrest-seal-set, built from the same profile, states the answer at participant-instructions.md line 24: 'There is no filing fee for this petition… states it three ways'. One Arkansas route publishes the held answer and this one denies it exists.",
+          "standard": "DET-FEE-AND-WAIVER-001 A4 (a packet may never tell a participant that it does not state something it does state) and A2 (the repository includes the compiled state profile whether or not the route census enumerates it).",
+          "whatRepairMustDo": "State the $0 Act 1460 filing fee from the compiled Arkansas profile, quoting it and naming the profile. Keep the clerk-confirmation sentence but demote it to a question about that court's practice rather than the answer to the fee. Say what the waiver half means where there is no fee to waive — the sibling's paragraph on the petition's sworn 'paid all filing fees' averment is the model. Do NOT delete the sentence and leave silence; silence fails the same determination."
+        },
+        "SOURCE_IDENTITY": {
+          "measuredDetail": "Both pinned documents hash exactly, recomputed here from the mounted corpus — ae6b81f6882133c207f23435b00785b50b40e014c616d3c77707e8b6020d43af (order) and 04d876b09fe82b76298a2d06093d122a0ef539f767f76811001030cc7805715d (petition) — but the identity resolution is tier token_subset_same_jurisdiction in data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json. The census names official-form:ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI and official-form:ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI; the corpus holds AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION and AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION. At this base MASTER_QUEUE.json still records sourceStatus SOURCE_IDENTITY_NOT_EXACT, sourceBound false, and 'MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding' for both.",
+          "whatRepairMustDo": "This is an id-alias reconciliation and not an acquisition — the bytes are already held and hash-exact. Reconcile the census form-number identity to the held document ids, then regenerate the queue's sourceReadiness so the two records stop disagreeing. Nothing needs to be fetched.",
+          "notForTheFixLane": "If the reconciliation belongs to a source lane rather than a packet-repair lane, route it there; the packet itself needs no rebuild for this obligation."
+        }
+      },
+      "obligationsThatPassedAndMustNotRegress": [
+        "ROUTE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "do not re-render the fixtures for a fee sentence — this repair is confined to participant-instructions.md and to the source identity records; the bytes carry a RASTER_PASS bound to them",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "wave": "packet-factory-24h/VF04/wave-3 (FABLE-VA4, 2026-09-02)",
+      "itemId": "ny_mrta_marijuana-set",
+      "lane": "VF04",
+      "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill",
+      "decisiveDefect": "The packet never states where self-help ends. participant-instructions.md contains no match, case-insensitively, for lawyer, attorney, legal aid, legal help, self-help, stop or advice.",
+      "failedProofObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "SELF_HELP_STOP": {
+          "measuredDetail": "Zero matches across the whole of participant-instructions.md for the stop vocabulary. There is no stop section, no trigger condition, no referral and no named office for the moment the participant is out of their depth. The nearest thing is the closing 'What you should get back' paragraph naming the clerk of the court of conviction as the office to ask if nothing arrives, which is a status enquiry rather than a boundary. Every other family this lane verified carries a dedicated section; the weakest of them, ut_pet_limitations-set, still names the objection-and-hearing moment and a live referral with a telephone number.",
+          "whatRepairMustDo": "Add a stop section naming a New York attorney or legal-aid office, with trigger conditions for at least: an application returned or refused; convictions in more than one New York court where the participant is unsure which are eligible, given that a separate application goes to each court; and any question about whether the conviction is within the MRTA expungement at all. The Idaho and Nevada families in this same lane are the models — each names the condition, the actor and the referral together."
+        }
+      },
+      "obligationsThatPassedAndMustNotRegress": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "alsoForCaptainRatherThanTheFixLane": "MASTER_QUEUE.json still carries legalInputStatus OPEN_LEGAL_INPUT for this family and WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json states the blocker as 'The review instructions require current local fees to be confirmed', citing a sentence that no longer exists in the file. The packet now states 'There is no application fee' from the form's own face. Clear or restate the open input; it should not gate this family.",
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "do not re-render the single fixture for an instructions section — the bytes carry a RASTER_PASS bound to them",
+        "do not repair the four instruction obligations VF05, VF08 and VF09 failed; all four were repaired before this base and pass here",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    }
+  ,
+    {
+      "itemId": "ut_pet_conviction-set",
+      "lane": "VF04",
+      "wave": "packet-factory-24h/VF04/VA15 independent second read of a repair (2026-09-02)",
+      "raisedBy": "VA15",
+      "raisedAtBase": "7314d48f70865e60531332f253b3c396d244540d",
+      "priorRepairLane": "FIX08",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill",
+      "decisiveDefect": "participant-instructions.md carries none of this route's 13 committed selfHelpStopConditions, and it affirmatively contradicts one of them. The registry's first condition is an express hard stop for non-citizens - the Utah Courts self-help page itself tells non-citizens to consult an immigration lawyer before expunging, because the FBI may retain records of an expunged case - and the packet never mentions immigration, citizenship, a lawyer, an attorney or counsel anywhere in the file. The registry's second condition is that self-help ends when the prosecutor or a victim objects or the court schedules a hearing; the packet instead tells the participant 'The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it', directing self-representation at the exact point the route's own record says to stop.",
+      "failedProofObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "SELF_HELP_STOP": {
+          "result": "FAIL",
+          "whatIsWrong": "Zero of 13 selfHelpStopConditions and zero of 16 selfHelpBoundaries from data/record-clearing/legal-design-track-registry.json track ut_pet_conviction appear in participant-instructions.md. A keyword scan of the whole file returns 0 occurrences of 'lawyer', 'attorney', 'immigration', 'citizen' and 'counsel'. Missing in particular: the non-citizen hard stop; the objection-or-hearing stop, which is contradicted rather than merely omitted; the 77-40a-303(4) and (5) conviction-count limits that run on total criminal history across all states including previously expunged cases; the 77-40a-303(6) mixed-episode counting rule; whether an offence is a violent felony under 76-3-203.5(1)(c)(i); which of case closure, release or termination of supervision starts the waiting period; BCI offering a special certificate instead of a certificate of eligibility, which moves the eligibility decision to the court; an active protective order or stalking injunction; expunging appellate records; and the public-interest showing that has to be argued rather than simply stated - which matters here because the packet already leaves that explanation blank for the participant to write.",
+          "whereToFix": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/participant-instructions.md, and the builder that emits it.",
+          "whatGoodLooksLike": "The sibling packet in this same wave, wv_conv_multiple_misdemeanors-set, does this correctly: it carries a 'Where self-help ends' section reproducing all ten of its route's selfHelpStopConditions word for word, cites the exact file, track and field so a reader can check it, escalates the immigration item to an express hard stop, and separates the two post-filing stops with the instruction to look for a lawyer as soon as an opposition is served. The input is available and the pattern is established; this is an omission, not a blocked legal input.",
+          "evidence": "legal-design-track-registry.json track ut_pet_conviction selfHelpStopConditions (13) and selfHelpBoundaries (16); participant-instructions.md line 40 and full-file keyword scan"
+        }
+      },
+      "obligationsThatPassed": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "alsoNotedNotScoredAsFailure": [
+        "SERVICE discrepancy: the coded track registry's destination.detail says 'The court sends the filing to the prosecuting attorney; the petitioner does not serve', which contradicts the held BCI Expungement Applicant Instructions the packet follows ('Mail or email the prosecutor copies of what you file'). Under the source hierarchy the held official publication wins and the registry note is a state-pack fidelity issue. Flagged for counsel, not failed.",
+        "The committed packet-set manifest's requiredBeforeFiling still carries a stale sentence saying the packet does not quote a court filing fee because the Utah Courts page defers to the cover sheet. The packet now correctly states $150 from the cover sheet it delivers, so the manifest note is behind the packet. Not participant-facing and not a FEE_AND_WAIVER failure, but worth reconciling."
+      ],
+      "repairMustNotDo": [
+        "Do not touch any fixture or raster byte. This repair is instruction-only, the acceptance receipt is still bound to the canonical bytes on disk, and no re-render is required or wanted.",
+        "Do not weaken or remove anything the FIX08 repair added. The fee-and-waiver treatment, the filing-destination sequencing and the required-before-filing additions were all measured and all pass.",
+        "Do not import another Utah route's self-help stop conditions. Use track ut_pet_conviction's own selfHelpStopConditions, per fact and per route.",
+        "Do not open a commercial route, set generationAllowed or runtimeSelectable, or create a fulfillment record. This family remains BUILT_REVIEW_PENDING."
+      ]
+    },
+  {
+   "wave": "packet-factory-24h/VF04-VF06/wave-4 (FABLE-RVB2, 2026-09-02)",
+   "itemId": "ca-1203-42-set",
+   "lane": "VF04",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+   "raisedBy": "FABLE-RVB2 (independent; built, repaired and rendered none of these packets)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill",
+   "nineCountersAtThisBase": "all zero, measured here with scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-42-set (no --write). Every defect below is one the counters do not measure.",
+   "decisiveDefect": "Two obligations fail and neither is visible to the nine counters, which are all zero. (1) REQUIRED_BEFORE_FILING: two read-only Judicial Council viewer-notice fields on MC-031 are declared as blanks the participant must fill before filing, and nine rows tell the participant the form prints a caption it does not print. (2) SELF_HELP_STOP: the packet carries 0 of the 5 stop conditions the committed track registry holds for track ca-1203-42.",
+   "failedProofObligations": [
+    {
+     "obligation": "REQUIRED_BEFORE_FILING",
+     "finding": "Two defects in the MC-031 section of participant-instructions.md, neither visible to any of the nine counters. They are a shared-host defect: exactly the three families in this set that enclose MC-031 carry it (ca-1203-42-set, ca-1203-4a-set, ca-851-91-set), field for field, and the two that do not enclose MC-031 (ca-1203-43-set, ca-prop64-set) are clean. Repair the host, not three copies.",
+     "defectOne": {
+      "what": "Two read-only viewer-notice fields are declared REQUIRED_BEFORE_FILING and listed to the participant as blanks to fill before filing.",
+      "provedHow": "Read first-hand from the pinned MC-031 AcroForm (CA__FORM__MC-031__attached-declaration__REV-2005-07-01__EN.pdf, sha256 defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075). Both fields carry /Ff 4097, which sets bit 1 (READ-ONLY) and bit 13 (MULTILINE), and both already hold a value.",
+      "fields": [
+       {
+        "field": "NoticeHeader1",
+        "rect": [
+         35.54,
+         753.98,
+         573.55,
+         790.35
+        ],
+        "page": 1,
+        "ff": 4097,
+        "readOnly": true,
+        "existingValue": "To keep other people from seeing what you entered on your form, please press the Clear This Form button at the end of the form when finished.",
+        "whatItActuallyIs": "The Judicial Council's Acrobat privacy banner across the top of page 1."
+       },
+       {
+        "field": "NoticeFooter1",
+        "rect": [
+         30.78,
+         2.21,
+         273.82,
+         26.89
+        ],
+        "page": 1,
+        "ff": 4097,
+        "readOnly": true,
+        "existingValue": "For your protection and privacy, please press the Clear This Form button after you have printed the form.",
+        "whatItActuallyIs": "The Judicial Council's Acrobat privacy notice at the foot of page 1."
+       }
+      ],
+      "whyItMatters": "The enclosed MC-031 is byte-identical to the SHA-bound official source, verified here, so it carries the read-only flags. The packet directs the participant to fill two fields the document they are given forbids filling, and that already contain the court's own text. The completeness contract's own vocabulary for a field like this is NOT_A_FILING_FACT, 'a viewer control, not a filing fact'.",
+      "repair": "Reclassify NoticeHeader1 and NoticeFooter1 as NOT_A_FILING_FACT / NOT_APPLICABLE_ON_THIS_ROUTE in the field map for every family that encloses MC-031, and remove their rows from the participant blanks table. Do not simply drop them from the table while leaving blankTreatment REQUIRED_BEFORE_FILING; the declaration is the defect."
+     },
+     "defectTwo": {
+      "what": "Nine rows in the blanks table state a printed caption that the form does not print — they echo the field's internal name back as the caption.",
+      "currentText": "Rows read 'the form prints `FillText10` beside it', and the same for FillText7, FillText8, FillText9, FillText11, FillText13, FillText14, NoticeHeader1 and NoticeFooter1. MC-031 prints none of those strings anywhere.",
+      "provedHow": "Measured from MC-031's own printed words with pdftotext -bbox word geometry against each widget rectangle read from the AcroForm.",
+      "realPrintedCaptions": [
+       {
+        "field": "FillText10",
+        "rect": [
+         162.03,
+         728.08,
+         404.44,
+         743.27
+        ],
+        "printedCaption": "PLAINTIFF/PETITIONER:"
+       },
+       {
+        "field": "FillText9",
+        "rect": [
+         162.03,
+         712,
+         404.44,
+         727
+        ],
+        "printedCaption": "DEFENDANT/RESPONDENT:"
+       },
+       {
+        "field": "FillText11",
+        "rect": [
+         408,
+         715,
+         573,
+         730
+        ],
+        "printedCaption": "CASE NUMBER:"
+       },
+       {
+        "field": "FillText7",
+        "rect": [
+         46.84,
+         123,
+         291.78,
+         138.19
+        ],
+        "printedCaption": "(TYPE OR PRINT NAME)"
+       },
+       {
+        "field": "FillText14",
+        "rect": [
+         74,
+         164,
+         187,
+         179
+        ],
+        "printedCaption": "Date:"
+       },
+       {
+        "field": "FillText13",
+        "rect": [
+         406,
+         60,
+         577,
+         75
+        ],
+        "printedCaption": "the party-role block: Petitioner / Plaintiff / Respondent / Other (Specify)"
+       },
+       {
+        "field": "FillText8",
+        "rect": [
+         34,
+         206,
+         576,
+         668
+        ],
+        "printedCaption": "the declaration body, under the heading DECLARATION and the note '(This form must be attached to another form or court paper before it can be filed in court.)'"
+       }
+      ],
+      "whyItMatters": "The obligation is that a required-before-filing blank is named to the participant with its page and the words the form prints beside it. A field name is not those words. The counter cannot catch it because the contract only tests that the label is non-empty, and a field name is non-empty.",
+      "repair": "Populate effectiveLabel for these seven MC-031 fields from the form's printed words rather than falling back to the field name, and regenerate the instructions table. Consider making the fallback itself fail closed: a label that equals the field name should raise UNCLASSIFIED_BLANK rather than pass, since it tells the participant nothing."
+     },
+     "scope": {
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill",
+      "requiredBeforeFilingRowsInThisFamily": 70,
+      "rowsAffected": 9
+     },
+     "doNotDo": "Do not clear this by deleting the nine rows from the table. Two of the nine must stop being required-before-filing at all, and seven must gain the caption the form actually prints."
+    },
+    {
+     "obligation": "SELF_HELP_STOP",
+     "finding": "Measured by diffing the packet against data/record-clearing/legal-design-track-registry.json (sha256 49d08b90a767d616ebea55b7493b3121c70eee91aa270babf4a66da83ff7ac58, 16469590 B, recomputed here) for track ca-1203-42, in the registry's own words, whitespace- and quote-normalised over the whole of participant-instructions.md. 5 selfHelpStopConditions are recorded and 0 are carried.",
+     "missingVerbatim": [
+      "The prosecutor objects or appears in opposition.",
+      "The court sets a contested hearing.",
+      "The realignment eligibility question cannot be answered from the participant's record.",
+      "The interests-of-justice showing needs argument.",
+      "The participant is not a United States citizen."
+     ],
+     "whyItMatters": "§ 1203.42 relief turns on a realignment eligibility question and on an interests-of-justice showing, and the registry records both as points where self-help ends. The packet's only stated boundary is a source boundary — fee, waiver, service and local filing practice come from the clerk — which is a different thing from a legal handoff. A participant told only that the clerk knows the fee is not told that an opposed petition needs a lawyer.",
+     "theStandardToRepairTo": "Two families in this same lane set already do it correctly and should be copied rather than re-invented: ca-851-91-set carries 6 of 6 and ca-prop64-set 3 of 3, each under an explicit heading that quotes the registry as the authority ('The registry draws one more line, and it is the one this list is easiest to misread. In its own words: …') rather than paraphrasing the boundary in the packet's own voice.",
+     "repair": "Add a self-help boundary section to participant-instructions.md carrying all 5 of this track's recorded stop conditions verbatim, attributed to the committed track registry, and bind the SELF_HELP_STOP record so the binding is auditable rather than a prose match."
+    }
+   ],
+   "notRepairedHere": "This lane verifies and does not repair. Nothing in the family directory was modified.",
+   "doNotDoInRepair": "Do not open a route, set a price, change checkout, or promote a build status. Do not run verify-packet-completeness.mjs --write. The nine counters are already zero and will stay zero through this repair; a counter run is not evidence that it was done."
+  },
+  {
+   "wave": "packet-factory-24h/VF04-VF06/wave-4 (FABLE-RVB2, 2026-09-02)",
+   "itemId": "ca-1203-43-set",
+   "lane": "VF04",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+   "raisedBy": "FABLE-RVB2 (independent; built, repaired and rendered none of these packets)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill",
+   "nineCountersAtThisBase": "all zero, measured here with scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-43-set (no --write). Every defect below is one the counters do not measure.",
+   "decisiveDefect": "SELF_HELP_STOP: the packet carries 0 of the 4 stop conditions the committed track registry holds for track ca-1203-43, and the missing one the registry states first is a routing rule rather than a caveat — a non-citizen on this track goes to an attorney. Everything else in this family measures clean, including the required-before-filing ledger, which carries no MC-031 caption defect because this family does not enclose MC-031.",
+   "failedProofObligations": [
+    {
+     "obligation": "SELF_HELP_STOP",
+     "finding": "Measured by diffing the packet against data/record-clearing/legal-design-track-registry.json (sha256 49d08b90a767d616ebea55b7493b3121c70eee91aa270babf4a66da83ff7ac58, 16469590 B, recomputed here) for track ca-1203-43, in the registry's own words, whitespace- and quote-normalised over the whole of participant-instructions.md. 4 selfHelpStopConditions are recorded and 0 are carried.",
+     "missingVerbatim": [
+      "The participant is not a United States citizen. This track goes to an attorney, not through self-help, because it turns on plea validity and immigration consequences.",
+      "The prosecutor objects or appears in opposition.",
+      "The court sets a contested hearing.",
+      "Whether the programme was completed and the charges dismissed cannot be established."
+     ],
+     "whyItMatters": "Penal Code § 1203.43 exists because the legislature found that the deferred-entry-of-judgment plea advisement was inaccurate about immigration consequences. It is the California route most likely to be sought by a non-citizen and the registry says in terms that this track goes to an attorney rather than through self-help for exactly that reason. A § 1203.43 packet that never says so is missing the stop the registry is most emphatic about, on the track where it is most consequential.",
+     "theStandardToRepairTo": "Two families in this same lane set already do it correctly and should be copied rather than re-invented: ca-851-91-set carries 6 of 6 and ca-prop64-set 3 of 3, each under an explicit heading that quotes the registry as the authority ('The registry draws one more line, and it is the one this list is easiest to misread. In its own words: …') rather than paraphrasing the boundary in the packet's own voice.",
+     "repair": "Add a self-help boundary section to participant-instructions.md carrying all 4 of this track's recorded stop conditions verbatim, attributed to the committed track registry, and bind the SELF_HELP_STOP record so the binding is auditable rather than a prose match."
+    }
+   ],
+   "notRepairedHere": "This lane verifies and does not repair. Nothing in the family directory was modified.",
+   "doNotDoInRepair": "Do not open a route, set a price, change checkout, or promote a build status. Do not run verify-packet-completeness.mjs --write. The nine counters are already zero and will stay zero through this repair; a counter run is not evidence that it was done."
+  },
+  {
+   "wave": "packet-factory-24h/VF04-VF06/wave-4 (FABLE-RVB2, 2026-09-02)",
+   "itemId": "wa_vac_homicide_victim_prostitution-set",
+   "lane": "VF04",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+   "raisedBy": "FABLE-RVB2 (independent; built, repaired and rendered none of these packets)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+   "nineCountersAtThisBase": "all zero, measured here with scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_homicide_victim_prostitution-set (no --write). Every defect below is one the counters do not measure.",
+   "decisiveDefect": "SELF_HELP_STOP: the packet carries 0 of the 4 stop conditions the committed track registry holds for track wa_vac_homicide_victim_prostitution. Three of the four are eligibility gates that decide whether this is the right packet at all, and the fourth is about how to treat the person rather than the paper.",
+   "failedProofObligations": [
+    {
+     "obligation": "SELF_HELP_STOP",
+     "finding": "Measured by diffing the packet against data/record-clearing/legal-design-track-registry.json (sha256 49d08b90a767d616ebea55b7493b3121c70eee91aa270babf4a66da83ff7ac58, 16469590 B, recomputed here) for track wa_vac_homicide_victim_prostitution, in the registry's own words, whitespace- and quote-normalised over the whole of participant-instructions.md. 4 selfHelpStopConditions are recorded and 0 are carried.",
+     "missingVerbatim": [
+      "The applicant is not a family member of the person who died.",
+      "The conviction may not be a RCW 9A.88.030 prostitution conviction.",
+      "The person whose record is at issue is living, in which case the survivor routes apply.",
+      "The applicant is distressed and needs a person rather than a packet. Ask only what is needed to route."
+     ],
+     "whyItMatters": "This is the one route in this set where the applicant is a bereaved family member applying on behalf of someone who was killed. Three of the missing conditions decide whether the applicant is eligible to bring this application at all — standing as a family member, the conviction actually being an RCW 9A.88.030 prostitution conviction, and the subject being deceased rather than living. The fourth is the registry's instruction on handling the person, and it is the one a packet is least able to supply if it is not written down.",
+     "theStandardToRepairTo": "Two families in this same lane set already do it correctly and should be copied rather than re-invented: ca-851-91-set carries 6 of 6 and ca-prop64-set 3 of 3, each under an explicit heading that quotes the registry as the authority ('The registry draws one more line, and it is the one this list is easiest to misread. In its own words: …') rather than paraphrasing the boundary in the packet's own voice.",
+     "repair": "Add a self-help boundary section to participant-instructions.md carrying all 4 of this track's recorded stop conditions verbatim, attributed to the committed track registry, and bind the SELF_HELP_STOP record so the binding is auditable rather than a prose match."
+    }
+   ],
+   "notRepairedHere": "This lane verifies and does not repair. Nothing in the family directory was modified.",
+   "doNotDoInRepair": "Do not open a route, set a price, change checkout, or promote a build status. Do not run verify-packet-completeness.mjs --write. The nine counters are already zero and will stay zero through this repair; a counter run is not evidence that it was done."
+  }
+ ],
+  "supersededLaneMembership": {
+    "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+    "lane": "VF04",
+    "worker": "VF-SRC-A",
+    "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+    "assignmentCount": 2,
+    "assignments": [
+      {
+        "itemId": "ut_pet_acquittal-set",
+        "lane": "VF04",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill",
+        "decisiveDefect": "the packet never states where self-help ends",
+        "failedProofObligations": [
+          "SELF_HELP_STOP"
+        ],
+        "perObligation": {
+          "SELF_HELP_STOP": {
+            "measuredDetail": "the packet never states where self-help ends",
+            "whatRepairMustDo": "participant-instructions.md must state where self-help ends. The Vermont packets close with a 'What this packet is not' section and the Ohio composed drafts carry 'Hard stops'; this family states nothing."
+          }
+        },
+        "repairMustNotDo": [
+          "do not edit any artifact merely so a receipt matches it",
+          "this verification opens no commercial route and grants no approval"
+        ]
+      },
+      {
+        "itemId": "wv_conv_multiple_misdemeanors-set",
+        "lane": "VF04",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+        "decisiveDefect": "neither a filing fee nor a waiver route is stated",
+        "failedProofObligations": [
+          "FEE_AND_WAIVER",
+          "SELF_HELP_STOP"
+        ],
+        "perObligation": {
+          "FEE_AND_WAIVER": {
+            "measuredDetail": "neither a filing fee nor a waiver route is stated",
+            "whatRepairMustDo": "participant-instructions.md must state the filing fee and any waiver route, or name the clerk to ask and say plainly that the amount is not stated. The Vermont packets do the latter and are the model."
+          },
+          "SELF_HELP_STOP": {
+            "measuredDetail": "the packet never states where self-help ends",
+            "whatRepairMustDo": "participant-instructions.md must state where self-help ends. The Vermont packets close with a 'What this packet is not' section and the Ohio composed drafts carry 'Hard stops'; this family states nothing."
+          }
+        },
+        "repairMustNotDo": [
+          "do not edit any artifact merely so a receipt matches it",
+          "this verification opens no commercial route and grants no approval"
+        ]
+      }
+    ]
+  },
+ "waveFour": {
+  "wave": "packet-factory-24h/VF04-VF06/wave-4 (FABLE-RVB2, 2026-09-02)",
+  "worker": "FABLE-RVB2 (independent; built, repaired and rendered none of these packets)",
+  "baseSha": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+  "whatThisMarkerIs": "A fourth reading appended repair assignments to this lane. Every assignment already here is preserved byte for byte; the assignments carrying this wave are this reading's.",
+  "assignmentsAddedHere": 3,
+  "familiesVerifiedThisWave": 4,
+  "familiesPassingThisWave": 1,
+  "noRepairPerformed": true,
+  "overlayDirectoriesModified": 0,
+  "packetsModified": 0
+ }
+}

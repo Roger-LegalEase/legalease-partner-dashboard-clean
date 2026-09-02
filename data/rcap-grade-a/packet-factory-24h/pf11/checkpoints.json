@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF11",
+  "workerId": "FABLE-PB",
+  "shiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+  "checkpointRule": "return every five completed families, or every two hours, whichever comes first",
+  "howThisLaneCheckpointed": "this lane holds fourteen assigned items across six assignment ids and built them as one body of work, so checkpoints are recorded against the whole grant rather than per assignment id. Each landed as a commit on fable/pb before the next family was started.",
+  "checkpoints": [
+    {
+      "checkpoint": 4,
+      "landedAs": "commit on fable/pb: Build the two Texas expunction families: post-acquittal, and the fee waiver",
+      "familiesCompleted": [
+        "tx_exp_acquittal-set"
+      ],
+      "note": "completing the nine buildable families. The acquittal family supplies no proposed order on the in-window branch because art. 55A.201 assigns that to someone else; the fee-waiver family renders once and declares the eight component ids it serves."
+    }
+  ],
+  "supersededShiftCheckpoints": {
+    "note": "the checkpoints this file held before this shift wrote its own, preserved verbatim",
+    "document": {
+      "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+      "assignmentId": "PF11",
+      "workerId": "PF-C",
+      "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This lane carries one family, so it checkpoints once.",
+      "checkpoints": [
+        {
+          "checkpoint": 1,
+          "at": "2026-09-01T10:00:35Z",
+          "familiesCompletedSoFar": [
+            "wi_nc_doj_fingerprint_removal-set"
+          ],
+          "familiesStoppedSoFar": [],
+          "familiesRemaining": [],
+          "note": "DJ-LE-250B built as a measured flat overlay onto a ruled table: thirty-three cells, each bounded by four strokes read from the page content stream and re-checked against the pinned binary, ten participant facts written and read back from the finalized bytes at those cells, canonical and boundary fixtures rendered and every page rastered. All nine counters zero by the builder's own count. A factual claim about the fingerprint boxes was found wrong on visual review and corrected in the builder and in this lane's row. Not verified here. Rebuilt after a placement fix found on the sibling family's raster; the hashes in rows.json are the rebuilt ones."
+        }
+      ],
+      "laneComplete": true,
+      "familiesAssigned": 1,
+      "rowsReturned": 1,
+      "timestampBasis": "The checkpoint time is the modification time of the family's build-status.json on the build host, which is when the build that produced it finished."
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "dc_innocence_expungement-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "Every MASTER_QUEUE row for this family binds no document source (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, officialFormFamily NONE), and the family's own legal-design record states in terms that no official form exists and the statute fixes the content of the motion.",
+      "consequence": "The primary filing is a composed motion, exactly as the packet-set manifest and the MASTER_QUEUE row direct. The one DC document the Master Library holds - the Criminal Division instruction sheet, Rev. April 10, 2024 - is bound byte-exact as the shared REFERENCE instrument: its verified face grounds the filing-channel steps and the help-organization list, and it is not included in any rendered packet. No form was substituted and none was invented."
+    },
+    {
+      "finding": "SOURCE-FIDELITY DISCREPANCY, memo versus face: the intake memo states \"The court's instruction sheet states no fee.\" The pinned sheet's printed face states nothing about fees at all.",
+      "consequence": "The packet follows the face: it nowhere asserts that filing is free, and the fee and fee-waiver questions are delegated to the Criminal Division clerk's office by name and number, both printed on the pinned face. The discrepancy is raised as a counsel question in approval-request.json."
+    },
+    {
+      "finding": "No held source states the caption practice for these motions, the prosecutor-routing rule between the U.S. Attorney's Office and the Office of the Attorney General, a service address, or any filing channel beyond the Seal Team mailbox printed on the pinned face.",
+      "consequence": "The composed caption uses a neutral in-the-matter-of form with the underlying case number as a labelled participant blank; the service page names the two possible offices and delegates the choice and the address to the clerk by name; and the instructions delegate any non-email filing channel to the clerk. Nothing was guessed."
+    },
+    {
+      "finding": "The relief turns on an affirmative evidentiary showing the movant must carry, and the intake record leaves the product-scope enablement of this track expressly open while approving the motion identity itself.",
+      "consequence": "The packet renders the approved motion structure only: every innocence line is the movant's own, the § 16-803(e) no-presumption warning is carried into the instructions, and the scope question travels to counsel undecided."
+    }
+  ]
+}

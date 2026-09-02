@@ -1,10 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { authCaptchaFailureMessage, captchaOptions, isAuthCaptchaRequired } from "@/lib/auth/captcha";
 import { safeAppRedirectPath } from "@/lib/auth/redirect";
+import {
+  CLAIM_TOKEN_PARAM,
+  isWellFormedClaimTokenValue,
+  submitClaim
+} from "@/lib/expungement-ai/claim/claim-handoff";
+import {
+  consumerAuthContinuationFrom,
+  consumerAuthContinuationQuery
+} from "@/lib/expungement-ai/auth-continuation";
 import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
@@ -12,8 +21,9 @@ import { useLocalization } from "@/components/expungement-ai/LocalizationProvide
 const genericError = "We could not sign you in. Check your email and password and try again.";
 const genericCreateError = "We could not create your account. Check your email and password and try again.";
 const confirmationMessage = "Check your email to finish creating your account.";
-const pendingClaimError = "You are signed in, but we could not save this matter to your Briefcase. Retry saving the matter. Your screening result is still waiting for you.";
+const pendingClaimError = "You are signed in, but we could not save your result yet. Retry saving it. Your preliminary result is still waiting for you.";
 type AuthMode = "create" | "signin";
+type PasswordlessState = "idle" | "magic" | "oauth";
 
 export function ConsumerSignInForm() {
   const { t: translate } = useLocalization();
@@ -24,13 +34,24 @@ export function ConsumerSignInForm() {
   const [pendingClaimFailed, setPendingClaimFailed] = useState(false);
   const [captchaToken, setCaptchaToken] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const { pendingId } = readAuthRequestContext();
+  const [passwordlessState, setPasswordlessState] = useState<PasswordlessState>("idle");
+  const { claimToken } = readAuthRequestContext();
 
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("claimRetry") === "1" && claimToken) {
+      setPendingClaimFailed(true);
+      setErrorMessage(translate("signin.pending_claim_error", pendingClaimError));
+    }
+  }, [claimToken, translate]);
+
+  // The claim token is read from the URL on every attempt and never stashed in
+  // localStorage. submitClaim strips it from the address bar once the server has
+  // seen it.
   async function finishPendingClaim() {
     const requestContext = readAuthRequestContext();
     setIsSubmitting(true);
     setErrorMessage("");
-    const claimed = await claimPendingResult(requestContext.pendingId, requestContext.nextPath);
+    const claimed = await submitClaim(requestContext.claimToken);
     if (!claimed.ok) {
       setPendingClaimFailed(true);
       setErrorMessage(translate("signin.pending_claim_error", pendingClaimError));
@@ -74,7 +95,7 @@ export function ConsumerSignInForm() {
         password,
         options: {
           ...captchaOptions(captchaToken),
-          emailRedirectTo: expungementAuthRedirectTo(requestContext.nextPath, requestContext.pendingId)
+          emailRedirectTo: expungementAuthRedirectTo(requestContext.nextPath, requestContext.claimToken)
         }
       })
       : await supabase.auth.signInWithPassword({ email, password, options: captchaOptions(captchaToken) });
@@ -97,12 +118,56 @@ export function ConsumerSignInForm() {
       return;
     }
 
-    if (requestContext.pendingId) {
+    if (requestContext.claimToken) {
       await finishPendingClaim();
       return;
     }
 
     window.location.assign(requestContext.nextPath);
+  }
+
+  async function sendMagicLink(event: FormEvent<HTMLButtonElement>) {
+    const form = event.currentTarget.form;
+    const email = String(new FormData(form ?? undefined).get("email") ?? "").trim();
+    if (!email || (isAuthCaptchaRequired() && !captchaToken.trim())) {
+      setErrorMessage(!email ? genericError : authCaptchaFailureMessage);
+      return;
+    }
+    const requestContext = readAuthRequestContext();
+    setPasswordlessState("magic");
+    setErrorMessage("");
+    setNoticeMessage("");
+    const { error } = await createBrowserSupabaseClient().auth.signInWithOtp({
+      email,
+      options: {
+        shouldCreateUser: false,
+        emailRedirectTo: expungementAuthRedirectTo(requestContext.nextPath, requestContext.claimToken, requestContext.locale),
+        ...captchaOptions(captchaToken)
+      }
+    });
+    setPasswordlessState("idle");
+    if (error) {
+      setErrorMessage(isCaptchaError(error) ? authCaptchaFailureMessage : genericError);
+      return;
+    }
+    setNoticeMessage("Check your email for a secure sign-in link. Your saved result will still be here.");
+  }
+
+  async function continueWithGoogle() {
+    const requestContext = readAuthRequestContext();
+    setPasswordlessState("oauth");
+    setErrorMessage("");
+    const { error } = await createBrowserSupabaseClient().auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: expungementAuthRedirectTo(requestContext.nextPath, requestContext.claimToken, requestContext.locale),
+        skipBrowserRedirect: false
+      }
+    });
+    if (error) {
+      setPasswordlessState("idle");
+      setErrorMessage(genericError);
+    }
   }
 
   const createMode = mode === "create";
@@ -124,7 +189,7 @@ export function ConsumerSignInForm() {
       {errorMessage ? (
         <div className="mt-6 rounded-md border border-[#FF3B00]/30 bg-[#FF3B00]/10 px-4 py-3 text-sm font-semibold text-[#FF3B00]">
           {errorMessage}
-          {pendingClaimFailed && pendingId ? (
+          {pendingClaimFailed && claimToken ? (
             <button
               className="mt-3 block min-h-10 rounded-md bg-[#FF3B00] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
               data-pending-claim-retry="true"
@@ -132,7 +197,7 @@ export function ConsumerSignInForm() {
               onClick={() => void finishPendingClaim()}
               type="button"
             >
-              {isSubmitting ? "Retrying..." : "Retry saving my matter"}
+              {isSubmitting ? "Retrying..." : "Retry saving my result"}
             </button>
           ) : null}
         </div>
@@ -190,7 +255,31 @@ export function ConsumerSignInForm() {
               ? translate("signin.create_submit", "Create account and continue")
               : translate("common.sign_in", "Sign in")}
         </button>
+        {!createMode ? (
+          <button
+            className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#00A99D] bg-white px-5 text-sm font-bold text-[#0B6F68] transition hover:bg-[#00A99D]/5 disabled:cursor-not-allowed disabled:opacity-60"
+            disabled={isSubmitting || passwordlessState !== "idle"}
+            onClick={sendMagicLink}
+            type="button"
+          >
+            {passwordlessState === "magic" ? "Sending secure link..." : "Email me a secure sign-in link"}
+          </button>
+        ) : null}
       </form>
+
+      <div className="my-5 flex items-center gap-3" aria-hidden="true">
+        <span className="h-px flex-1 bg-[#ECEFF4]" />
+        <span className="text-xs font-bold uppercase text-[#5A6275]">or</span>
+        <span className="h-px flex-1 bg-[#ECEFF4]" />
+      </div>
+      <button
+        className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-[#ECEFF4] bg-white px-5 text-sm font-bold text-[#0B1320] transition hover:border-[#00A99D] disabled:cursor-not-allowed disabled:opacity-60"
+        disabled={isSubmitting || passwordlessState !== "idle"}
+        onClick={() => void continueWithGoogle()}
+        type="button"
+      >
+        {passwordlessState === "oauth" ? "Opening Google..." : "Continue with Google"}
+      </button>
 
       <div className="mt-5 flex flex-col gap-3">
         <button
@@ -207,7 +296,7 @@ export function ConsumerSignInForm() {
             ? translate("signin.switch_to_signin", "Already have an account? Sign in")
             : translate("signin.switch_to_create", "New here? Create account")}
         </button>
-        {!createMode ? <Link href="/auth/forgot-password?product=expungement" className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
+        {!createMode ? <Link href={forgotPasswordHref()} className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
           {translate("signin.forgot", "Forgot your password?")}
         </Link> : null}
       </div>
@@ -215,34 +304,8 @@ export function ConsumerSignInForm() {
   );
 }
 
-async function claimPendingResult(
-  pendingId: string,
-  fallbackNext: string
-): Promise<{ ok: true; redirectTo: string } | { ok: false }> {
-  try {
-    const response = await fetch("/api/expungement-ai/screening/pending/claim", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pendingId, next: fallbackNext })
-    });
-    const payload = await response.json().catch(() => null) as { redirectTo?: string } | null;
-    if (!response.ok || !payload?.redirectTo) return { ok: false };
-    const redirectTo = safeAppRedirectPath(payload.redirectTo, "");
-    if (!isExactBriefcaseMatterPath(redirectTo)) return { ok: false };
-    return { ok: true, redirectTo };
-  } catch {
-    return { ok: false };
-  }
-}
-
-function isExactBriefcaseMatterPath(value: string) {
-  return /^\/briefcase\/[^/?#]+$/.test(value);
-}
-
-function expungementAuthRedirectTo(nextPath: string, pendingId: string) {
-  const params = new URLSearchParams({ next: safeAppRedirectPath(nextPath, "/briefcase") });
-  if (pendingId) params.set("pending", pendingId);
-  const path = `/auth/set-password?${params.toString()}`;
+function expungementAuthRedirectTo(nextPath: string, claimToken: string, locale: string | null = null) {
+  const path = `/auth/set-password?${consumerAuthContinuationQuery({ nextPath, claimToken, locale })}`;
   if (typeof window !== "undefined" && isExpungementHost(window.location.hostname)) {
     return `${window.location.origin}${path}`;
   }
@@ -253,19 +316,17 @@ function isExpungementHost(hostname: string) {
   return hostname === "localhost" || hostname === "127.0.0.1" || hostname.endsWith(".vercel.app") || hostname === "expungement.ai" || hostname === "www.expungement.ai";
 }
 
-function safePendingId(value: string | null) {
-  return value && /^[0-9a-f-]{36}$/i.test(value) ? value : "";
-}
-
 function readAuthRequestContext() {
   if (typeof window === "undefined") {
-    return { nextPath: "/briefcase", pendingId: "" };
+    return { nextPath: "/briefcase", claimToken: "", locale: null };
   }
-  const params = new URLSearchParams(window.location.search);
-  return {
-    nextPath: safeAppRedirectPath(params.get("next"), "/briefcase"),
-    pendingId: safePendingId(params.get("pending"))
-  };
+  return consumerAuthContinuationFrom(new URLSearchParams(window.location.search));
+}
+
+function forgotPasswordHref() {
+  if (typeof window === "undefined") return "/auth/forgot-password?product=expungement";
+  const continuation = readAuthRequestContext();
+  return `/auth/forgot-password?${consumerAuthContinuationQuery(continuation, { product: "expungement" })}`;
 }
 
 function initialAuthMode(): AuthMode {

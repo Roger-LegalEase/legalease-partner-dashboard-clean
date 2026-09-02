@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ct-nolle-auto-set",
+  "worklistGroupId": "ct-nolle-auto-set",
+  "jurisdiction": "CT",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no binary source is bound, and none exists to bind: the MASTER_QUEUE row records sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT with officialFormFamily NONE and boundSources []. The build is grounded on two committed records, verified present and un-drifted before anything is composed: the legal-design intake track (whose motion-branch unavailability is pinned) and the packet-set manifest (one process_guidance component).",
+  "routeKey": "obligation:unit:CT:ct-nolle-auto:ct-nolle-auto-branch-automatic-erasure",
+  "routeKeys": [
+    "obligation:unit:CT:ct-nolle-auto:ct-nolle-auto-branch-automatic-erasure",
+    "obligation:unit:CT:ct-nolle-auto:ct-nolle-auto-branch-motion-to-nolle"
+  ],
+  "routeSelectionId": "ct-nolle-auto-composed-set",
+  "statutoryAuthority": "C.G.S. § 54-142a(c), (c)(2), (g)(2) and (k)",
+  "legalName": "Erasure After a Nolle, and Motion to Nolle a Continued Charge, C.G.S. § 54-142a(c)",
+  "allSourcesExact": true,
+  "formIdentityNote": "The § 54-142a(c)(2) motion branch carries the legal-design record's own legal_design_blocker: the motion is potentially custom_pleading and not inherently guidance-only, but no form was located and the current caption, venue, service and clerk practice have not been approved, so no statewide custom pleading may be enabled for it. The manifest names one process_guidance component, and the memo's component note says in terms that it does not generate that motion. This build composes the guidance page and no filable instrument of any kind; the absence of any signature line or captioned pleading is asserted from the output bytes on every build, and the motion-branch unavailability is pinned so an opened branch forces a deliberate rebuild.",
+  "codifiedGrounds": [
+    {
+      "record": "data/record-clearing/legal-design-intake/CT.memo.json",
+      "what": "track ct-nolle-auto: the two branches, the thirteen-month clocks, the motion-branch legal_design_blocker (available: false, pinned), the erasure terminology rule, § 54-142a(k), stop conditions"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "what": "packetSetId ct-nolle-auto-set: the single process_guidance component and the required-before-filing items"
+    }
+  ],
+  "documents": [],
+  "composedComponentsAuthoredByThisBuild": [
+    "process_guidance"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "the filing vehicle, caption, venue, service or clerk practice for a § 54-142a(c)(2) motion",
+    "that any output is approved for participant delivery",
+    "that any record has been or will be erased under § 54-142a(c)"
+  ]
+}

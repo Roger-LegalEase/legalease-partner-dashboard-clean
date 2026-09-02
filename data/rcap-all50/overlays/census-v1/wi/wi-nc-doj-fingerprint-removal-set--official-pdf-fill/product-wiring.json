@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "wi_nc_doj_fingerprint_removal-set",
+  "routeKey": "obligation:track-pathway:WI:wi_nc_doj_fingerprint_removal:adult-non-conviction-arrest-only-record-correction-or-removal",
+  "routeKeys": [
+    "obligation:track-pathway:WI:wi_nc_doj_fingerprint_removal:adult-non-conviction-arrest-only-record-correction-or-removal"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "wi_nc_doj_fingerprint_removal-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "wi_nc_doj_fingerprint_removal-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "5b475b11c17c35f8edc37bada78716e8b14471b1951966604b7a678412fc6cc6",
+        "requirement": "required"
+      }
+    ]
+  },
+  "binding": {
+    "family": "wi_nc_doj_fingerprint_removal-set",
+    "jurisdiction": "WI",
+    "routeKeys": [
+      "obligation:track-pathway:WI:wi_nc_doj_fingerprint_removal:adult-non-conviction-arrest-only-record-correction-or-removal"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "arrest_event_mapping",
+      "disposition_documentation_package",
+      "filing_instructions",
+      "primary_filing"
+    ],
+    "packetComponents": [
+      "component:wi_nc_doj_fingerprint_removal-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:DJ-LE-250B",
+        "sha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33526896195",
+      "jobId": "99922353405",
+      "artifactId": "9808443589",
+      "boundToCanonicalSha256": "5b475b11c17c35f8edc37bada78716e8b14471b1951966604b7a678412fc6cc6",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

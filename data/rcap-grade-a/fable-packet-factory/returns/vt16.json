@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "rcap-fable-verifier-return/v1",
+  "worker": "FABLE-VT16",
+  "role": "independent verification — a second read of three families whose first read was capped at PASS by a raster ceiling that has since lifted. I built, repaired and rastered none of them, and I did not copy any earlier verdict forward.",
+  "lanes": ["VF09", "VF10", "VF11"],
+  "branch": "fable/vt16",
+  "baseSha": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+  "baseShaIsPerRow": "Every row I wrote carries verifiedAtBase 7fcfb7d40aafe7bd7350fc735ea09d16524cb757 on the row itself, not only at document level.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "packetsModified": 0,
+  "overlaysModified": 0,
+  "fixturesModified": 0,
+  "fieldMapsModified": 0,
+  "buildScriptsModified": 0,
+  "familiesPromoted": 0,
+  "approvalsGranted": 0,
+  "filesWritten": [
+    "data/rcap-grade-a/packet-factory-24h/vf09/rows.json (one row appended; all 11 pre-existing rows preserved byte-identical)",
+    "data/rcap-grade-a/packet-factory-24h/vf10/rows.json (one row appended; all 9 pre-existing rows preserved byte-identical)",
+    "data/rcap-grade-a/packet-factory-24h/vf11/rows.json (one row appended; all 12 pre-existing rows preserved byte-identical)",
+    "data/rcap-grade-a/fable-packet-factory/returns/vt16.json (this file)"
+  ],
+  "filesNotTouched": [
+    "MASTER_QUEUE.json",
+    "RASTER_QUEUE.json",
+    "ACTIVE_ASSIGNMENTS.json",
+    "VERIFIER_RETURNS.json — the return extractor rewrites it, so I did not run it",
+    "any other lane's rows.json",
+    "every packet, overlay, fixture, field map and build script",
+    "Production, Supabase, Stripe, secrets, migrations"
+  ],
+  "claimDiscipline": {
+    "asserted": [
+      "VF09 composed-treatment:nd-nonconviction-auto-close-verify — CLAIM_OK, grant set cf45118ebbc41781",
+      "VF10 composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days — CLAIM_OK, grant set cf45118ebbc41781",
+      "VF11 composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 — CLAIM_OK, grant set cf45118ebbc41781"
+    ],
+    "assertedBeforeReading": true,
+    "blockedBeforeClaim": [],
+    "reissueOrTransferUsed": false,
+    "released": "all three released after the work, with --release",
+    "ledgerNote": "claim.mjs --assert verifies an existing grant rather than mutating the ledger, so claim-ledger.json shows no diff from the assertions."
+  },
+  "rasterReceiptConfirmation": {
+    "instruction": "I was told not to take the receipts on trust. I did not.",
+    "method": "For each family I recomputed the SHA-256 of both fixture PDFs on disk at this base with sha256sum, compared each to (a) what the family's rasterReceipt says it rendered (boundToCanonicalSha256 / boundToBoundarySha256) and (b) what RASTER_QUEUE.json independently pins, and then compared the git blob ids of both fixtures between the receipt's renderedCommitSha 58290e76623ff0b351d0b15fbf97af3665fee6b3 and this base — because a matching hash at one commit does not by itself prove the bytes did not move before the base I am scoring at.",
+    "result": "All six fixture hashes match the receipts and the queue pins exactly, and all six git blobs are identical at the rendered commit and at this base. The receipts bind the bytes I actually scored. No receipt names different bytes.",
+    "perFamily": [
+      {
+        "family": "composed-treatment:nd-nonconviction-auto-close-verify",
+        "canonicalSha256": "61bedadea4d79733ae2903993d4525835e08df8f28d191bdb2b3b66fe2e78c96",
+        "boundarySha256": "6088a70b8bd9b67f92862393562c3a0dd9feadee39a4f445a7e56c740d7790b7",
+        "canonicalBlob": "34a01e68188d1fd4bfaae23cc640fd08bd52b90b",
+        "boundaryBlob": "dbe9239b9b91551c7cda0ccff805a63a0ff558a3",
+        "workflowRunId": "33579500812",
+        "jobId": "100091041747",
+        "matchesReceipt": true,
+        "matchesQueuePin": true,
+        "blobIdenticalAtRenderedCommitAndBase": true,
+        "rasterPagesOnDisk": "7 canonical + 7 boundary, matching expectedPages 7"
+      },
+      {
+        "family": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+        "canonicalSha256": "e6d926f76168b6ca6d5dbc2b7a13e6037be2b53203bb8eea6c93cc843e8e0e8d",
+        "boundarySha256": "d00acb23ed43217b68d466265ca30050baca432adb85e1d35f25452adbd0d7ea",
+        "canonicalBlob": "907a41d7d0754f6814ac3e98e35655e7c2892d7c",
+        "boundaryBlob": "59ef37687bf44448d3c2ed9744f01d497e8dfbd6",
+        "workflowRunId": "33579500812",
+        "jobId": "100091041713",
+        "matchesReceipt": true,
+        "matchesQueuePin": true,
+        "blobIdenticalAtRenderedCommitAndBase": true,
+        "rasterPagesOnDisk": "5 canonical + 5 boundary, matching expectedPages 5"
+      },
+      {
+        "family": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "canonicalSha256": "9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a",
+        "boundarySha256": "e898a0768afd9882932f581da66b04b99e2cc9494d9e218fff7e758f7b677e42",
+        "canonicalBlob": "b96dcec271e79670c691f2d8d8774c2af3dafe96",
+        "boundaryBlob": "95234c8803dd2d0c0899db0bdeba08a267e11c35",
+        "workflowRunId": "33579500812",
+        "jobId": "100091041685",
+        "matchesReceipt": true,
+        "matchesQueuePin": true,
+        "blobIdenticalAtRenderedCommitAndBase": true,
+        "rasterPagesOnDisk": "8 canonical + 8 boundary, matching expectedPages 8"
+      }
+    ]
+  },
+  "howThingsWereMeasured": {
+    "nineCounters": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>, run by me in this container at this base, once per family. All three returned PASS_COMPLETE with all nine counters zero.",
+    "doesAllZeroMeanNothingWasMeasured": "No — it means nothing was missing. Each run reported a populated denominator: ND 10/30 fields written, CO 7/23, AK 10/32. The verifier derives invisibleWrites, protectedWrites and visualDefects by reading added glyphs and flattened widget appearances out of the saved packet bytes, and it carries mutation self-tests that prove each of those counters still fires when a defect is injected. A vacuous all-zero would have shown an empty denominator; none did.",
+    "sourceIdentity": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh MOUNTED successfully — archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, governance checksums verified, 51 jurisdictions / 499 files / 329 PDFs. SOURCE_IDENTITY was therefore scored properly against held bytes rather than recorded NOT_MEASURABLE_HERE. I rehashed every bound record myself and every hash and byte length matched its receipt.",
+    "packetFaces": "I extracted the text of every page of all three canonical fixtures with pdftotext -layout and scored FILING_DESTINATION, FEE_AND_WAIVER, SERVICE, PROTECTED_FIELDS and SELF_HELP_STOP against the packet's own bytes, not against its instructions file alone.",
+    "feeServiceFilingStandard": "DETERMINATION_FEE_AND_WAIVER_STANDARD.json read in full including amendment A1 and amendment2 A2. A2's repository scope was applied throughout: for each family I searched the family's own bound records PLUS the compiled state profile for its jurisdiction, the committed relief-track registry, the packet-set manifest, and every record the route obligation census names as a requiredSourceId for that route."
+  },
+  "verdicts": [
+    {
+      "lane": "VF09",
+      "family": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "obligationsScored": 15,
+      "failed": [],
+      "notMeasurable": [],
+      "why": "Fifteen of fifteen measured clean at a base whose raster receipt I confirmed binds these bytes. The A2 question was live here and I resolved it against the repository, not against the family's own shelf: the ND compiled profile's packetGenerator.feeRules is empty, and every 'no filing fee' and prosecutor-service string in that profile is tied by its own words to the PRE-August-1-2025 Petition to Close Nonconviction Records — the sibling branch this packet expressly does not carry. So the repository establishes neither fee nor delivery method for these two correction instruments, and the packet's named checkable authority (the office of the court in the original criminal case, named in the same sentence as each refusal) is the complete deliverable the standard asks for."
+    },
+    {
+      "lane": "VF10",
+      "family": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "obligationsScored": 15,
+      "failed": [],
+      "notMeasurable": [],
+      "why": "Fifteen of fifteen clean. This family is the positive example of the A2 rule rather than a stand-in case: the bound decision establishes the fee outright ('No filing fee or other expungement cost may be charged'), and the packet STATES it three times in the bytes — petition title block, petition body, and filing-instruction STEP FIVE 'Pay nothing' — instead of naming an authority to ask about a figure the repository holds. Venue is likewise stated, not deferred. Where the record genuinely is silent (manner of delivery, obtaining certified copies) the packet names the district court's office."
+    },
+    {
+      "lane": "VF11",
+      "family": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "obligationsScored": 15,
+      "failed": ["FILING_DESTINATION"],
+      "notMeasurable": [],
+      "why": "Fourteen of fifteen clean; the raster ceiling is genuinely lifted and the failure is a content defect the raster gate cannot see. The route obligation census names the compiled AK profile as a requiredSourceId for this exact route, so under A2 it is the repository — and that profile establishes, in four separate structured fields, that on an SIS set-aside under AS 12.55.085(e) 'the court issues a certificate that the person can provide to the Department of Public Safety and the clerk' and directs the participant to 'obtain the court's certificate and provide copies to the Department of Public Safety and the clerk'. The packet's filing instructions stop at serving the prosecutor; the strings 'certificate', 'Public Safety' and 'DPS' appear nowhere in the packet bytes. Worse, the packet affirmatively states 'What further effect a set-aside has on any particular background check is not stated here, because no committed record this packet is built from states it' — a claim about the repository that A2 makes false, since the census-named profile states exactly the mechanic by which the set-aside reaches the DPS criminal history. A participant who follows this packet obtains the order and never learns the certificate exists."
+    }
+  ],
+  "whereIDifferFromTheEarlierLane": [
+    {
+      "family": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "obligation": "FILING_DESTINATION",
+      "earlierLane": "VF11 row at base ebc44031ec7eab29058bfc79a7bc5e1cff089414 scored it PASS",
+      "mine": "FAIL",
+      "measurement": "I read the compiled AK profile that the census names as a requiredSourceId for this route and found the post-order destination stated in packetGenerator.sourceFormStatements[15], attachments[4] and [12], filingDestinationRules[7] and postFilingRules[3]. Both statements name AS 12.55.085(e) and the SIS set-aside by section, and the profile's pathway 0 is this family's own pathwayId, so it is this route and not a sibling. I then extracted all eight packet pages with pdftotext and confirmed the packet never mentions the certificate, DPS or the clerk.",
+      "whyTheDisagreementIsNotACloseCall": "It is a difference in what was read, not in how the same evidence was judged. A2 was decided 2026-09-02T02:30:00Z and widened 'the repository' to include census-named requiredSourceIds; the earlier row predates it and could not have applied it. The earlier lane read the family's own bound records — the route contract and the 2026-08-28 decision — and neither mentions the certificate. That is precisely the error pattern A2 was written to name."
+    },
+    {
+      "family": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "obligation": "FEE_AND_WAIVER",
+      "earlierLane": "PASS",
+      "mine": "PASS — same result, different reasoning, recorded so the Captain can see the boundary was tested rather than waved through",
+      "measurement": "The AK profile's feeRules do carry a line for this route's own instrument: 'SIS set-aside motion | Court motion fees may apply | Filed in the existing criminal case'. Under a mechanical A2 reading that is the repository speaking about this route, which would force a FAIL. It does not, because 'fees may apply' establishes no answer — no amount, no no-fee statement — and is verbatim the determination's own notMet example of a gesture. A2 asks whether the repository ESTABLISHES the answer; a gesture does not. So the fee stays open, the packet's named authority stands in, and the obligation passes."
+    },
+    {
+      "families": ["composed-treatment:nd-nonconviction-auto-close-verify", "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days"],
+      "obligation": "all fifteen",
+      "earlierLane": "PASS on all fifteen, ceilinged",
+      "mine": "PASS on all fifteen, ceiling lifted",
+      "measurement": "I re-measured each obligation rather than inheriting it, including re-running the completeness verifier, rehashing every bound record, re-extracting every packet page, and re-testing fee/service/destination against A2's widened repository scope. I reached the same conclusions. Recording agreement honestly is not the same as copying it forward: the ND and CO fee and service findings in particular required establishing that each jurisdiction's profile statements belong to a sibling branch, which the earlier rows did not have to do."
+    }
+  ],
+  "couldNotMeasure": [],
+  "forTheCaptain": [
+    {
+      "item": "AK family returns to repair, and the fix is small and self-contained.",
+      "detail": "Add a post-order step to the filing instructions — obtain the court's certificate of set-aside and provide copies to the Alaska Department of Public Safety and to the clerk, sourced to the census-named compiled AK profile — and correct the sentence claiming no committed record states the downstream effect. Mirror both into participant-instructions.md. Do NOT state a fee: nothing establishes one, and 'Court motion fees may apply' is a gesture the standard refuses. The other fourteen obligations were measured clean at this base and should hold through a re-render and central re-raster.",
+      "decisionNeeded": false
+    },
+    {
+      "item": "Colorado's recorded discrepancy is confirmed, and it is purely a stale record — but it is a live hazard for the next lane.",
+      "detail": "data/record-clearing/legal-design-intake/CO.memo.json still carries this track with destination 'Unresolved', rules.filing/fees/notice/service all 'Unresolved', two unresolvedQuestions with impact 'build_blocker', legalDesignDecision.status 'legal_research_required', and 'This track is not registered at runtime and is unreachable.' It affects no obligation and no verdict, for four independent reasons: the memo's reviewedAsOf is 2026-07-30 while the bound decision is 2026-08-28 and answers the memo's own two blockers, stamping 'LEGAL RESEARCH: COMPLETE'; the memo says 'Unresolved' everywhere, which is the absence of an answer rather than a rival one; A2's held-source list names the committed TRACK REGISTRY, and relief-track-registry.json contains no co_mistaken_identity_expungement entry at all; and the factory derives legalInputStatus from legal-review-queue-v2.json's counsel queue (4 questions, all answered, none on this route), which is why MASTER_QUEUE records SETTLED with legalInputBasis null. The hazard is that a future lane reading the memo before the decision could reasonably return BLOCKED_LEGAL_INPUT on a settled family. I verify and do not edit records, so I refer it: mark that track superseded by the 2026-08-28 decision. No verdict turns on it.",
+      "decisionNeeded": true
+    },
+    {
+      "item": "A stale local raster marker on all three families, worth a sweep rather than a decision.",
+      "detail": "Each family's own build-status.json still records rasterState 'RASTER_LOCAL_PENDING_CENTRAL', while the central RASTER_QUEUE records RASTER_PASS from run 33579500812. The central record is authoritative and I scored against it, so no obligation is affected; but three families' local markers now disagree with the central one. I am forbidden from touching either file, so this is reported, not fixed.",
+      "decisionNeeded": false
+    },
+    {
+      "item": "A general observation the AK finding suggests, offered as a flag rather than a decision I made.",
+      "detail": "The phrase 'no committed record this packet is built from states it' appears in ND, CO and AK packets. It is scoped to the family's own bound records, which is narrower than A2's repository. In ND and CO the narrow and broad claims happen to coincide, so nothing turns on it; in AK it is what made a false statement pass three earlier reads. It may be worth a sweep across composed-treatment packets carrying that sentence, since the wording is the A2 error pattern in reusable form.",
+      "decisionNeeded": true
+    }
+  ],
+  "summary": "Three families re-read at a base carrying their central raster receipts. All three receipts independently confirmed to bind the exact bytes on disk, by recomputed SHA-256 against both the receipt and the queue pin, plus a git blob comparison between the rendered commit and this base. All fifteen obligations scored from the artifacts for each family, with the corpus mounted and the completeness verifier run per family. Two families reach PASS_COMPLETE_INDEPENDENT; the third fails one obligation on a defect the earlier lanes could not have found, because the standard that exposes it was decided after they read.",
+  "grantsNothing": "This return records measurements and verdicts. It promotes no family, approves no output for participant delivery, opens no commercial route, grants no fulfillment authority, and touches no production system."
+}

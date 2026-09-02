@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF16",
+  "workerId": "PF-C",
+  "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This lane carries two families and checkpoints per family.",
+  "timestampBasis": "Each checkpoint time is the modification time of that family's build-status.json on the build host, which is when the build that produced it finished.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "at": "2026-09-01T08:52:43Z",
+      "familiesCompletedSoFar": ["ak-courtview-set"],
+      "familiesStoppedSoFar": [],
+      "familiesRemaining": ["mi_setaside_marihuana-set"],
+      "note": "TF-810 built: a correction request rather than a petition, with all ten printed grounds left to the participant. Two widget names on this form do not describe the blanks they are, and both are recorded."
+    },
+    {
+      "checkpoint": 2,
+      "at": "2026-09-01T08:56:04Z",
+      "familiesCompletedSoFar": ["ak-courtview-set", "mi_setaside_marihuana-set"],
+      "familiesStoppedSoFar": [],
+      "familiesRemaining": [],
+      "note": "MC 227a built. It writes two facts and that is the form's honest maximum: it has no separate name, address or telephone field, and everything else on it is a court or police record fact. The sworn certificate of mailing is left blank and the instructions carry the court's own four-step order, in which it is filled in last. PF16 returns two rows for two assigned families, both COMPLETED, neither self-verified."
+    }
+  ],
+  "laneComplete": true,
+  "familiesAssigned": 2,
+  "rowsReturned": 2
+}

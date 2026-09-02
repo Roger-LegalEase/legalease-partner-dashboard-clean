@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "wa_crop_certificate_of_restoration-set",
+  "worklistGroupId": "wa_crop_certificate_of_restoration-set",
+  "jurisdiction": "WA",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no binary source is bound: the MASTER_QUEUE row records sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT with officialFormFamily NONE and boundSources []. The build is grounded on two committed records, verified present and un-drifted before anything is composed: the legal-design intake track (including its venue-and-form resolution, which retains custom_pleading) and the packet-set manifest.",
+  "routeKey": "obligation:track-only:WA:wa_crop_certificate_of_restoration",
+  "routeSelectionId": "wa-crop-certificate-of-restoration-composed-set",
+  "statutoryAuthority": "RCW 9.97.010 and RCW 9.97.020",
+  "legalName": "Application for a Certificate of Restoration of Opportunity, RCW 9.97.020",
+  "allSourcesExact": true,
+  "formIdentityNote": "A complete statewide AOC pattern set for the certificate of restoration of opportunity exists and has since 2016 (CRO 01.0100 petition, 01.0200 notice, 01.0300 proof of service, 01.0700 order and certificate). The strategy is custom_pleading NOT because no form exists but because none of those binaries has been acquired, pinned or measured — there is no repository form identity to fill — and whether the CRO forms are mandatory, pattern or optional is an open build question owned by the form-family owner, expressly not guessed here. The composed pleadings conform to the pattern set's recorded content and imitate no binary this build has never read. What would change the strategy is recorded in the memo: acquisition and pinning of the four participant-facing CRO binaries with receipts, plus a form-family determination.",
+  "codifiedGrounds": [
+    {
+      "record": "data/record-clearing/legal-design-intake/WA.memo.json",
+      "what": "track wa_crop_certificate_of_restoration: RCW 9.97.010/.020 read at source, the venue-and-form resolution of 2026-08-08, eligibility scale, exemption list, rules, stop conditions, open questions"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "what": "packetSetId wa_crop_certificate_of_restoration-set: the five-component set and the required-before-filing items"
+    }
+  ],
+  "documents": [],
+  "composedComponentsAuthoredByThisBuild": [
+    "primary_filing",
+    "proposed_order",
+    "notice_package",
+    "records_checklist",
+    "filing_instructions"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "whether the AOC CRO forms are mandatory, pattern or optional (the form-family owner's question)",
+    "the amount of the superior court civil filing fee",
+    "that any output is approved for participant delivery",
+    "that any applicant is a qualified applicant under RCW 9.97.010(1)"
+  ]
+}

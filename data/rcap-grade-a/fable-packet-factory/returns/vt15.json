@@ -1,0 +1,232 @@
+{
+  "schemaVersion": "rcap-fable-verification-return/v1",
+  "worker": "FABLE-VT15",
+  "lane": "VF05, VF06, VF07, VF08, VF12 (five independent-verification lanes, one family each)",
+  "branch": "fable/vt15",
+  "baseSha": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+  "baseShaNote": "Every family's packet bytes, field maps, reports, fixtures and rasters were read at this commit, and every row I appended carries verifiedAtBase on the ROW itself. Amendment A3 of the fee determination postdates this base; I read it from the captain head 913410b1c and applied it, and recorded that provenance rather than restamping rows to a commit whose packet bytes I did not read.",
+  "verifiedAt": "2026-09-02",
+  "independence": "I built none of these packets and edited none of them. No packet, overlay, build script, fixture or field map was modified. The only files this branch changes are the five lane rows.json files, the claim ledger, and this return.",
+  "claimDiscipline": {
+    "mechanism": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert <LANE> <familyId>, run one family at a time before any artifact of that family was read.",
+    "asserted": [
+      "VF05 ut_pet_conviction-set — CLAIM_OK",
+      "VF06 ut_pet_dismissed_with_prejudice-set — CLAIM_OK",
+      "VF07 wv_conv_single_misdemeanor-set — CLAIM_OK",
+      "VF08 wv_conv_multiple_misdemeanors-set — CLAIM_OK",
+      "VF12 ar-arrest-seal-set — CLAIM_OK"
+    ],
+    "blockedBeforeClaim": [],
+    "reissueOrTransferUsed": false,
+    "released": [
+      "VF05 ut_pet_conviction-set — RELEASED",
+      "VF06 ut_pet_dismissed_with_prejudice-set — RELEASED",
+      "VF07 wv_conv_single_misdemeanor-set — RELEASED",
+      "VF08 wv_conv_multiple_misdemeanors-set — RELEASED",
+      "VF12 ar-arrest-seal-set — RELEASED"
+    ],
+    "ledgerAfter": "node scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs returns CLAIM_LEDGER_OK over 690 claims. The ledger change is in this diff.",
+    "oneHonestNote": "The claim gate is asserted before reading a family's own artifacts. I read the shared RASTER_QUEUE row for ut_pet_dismissed_with_prejudice-set moments before asserting VF06 on it, while checking the Utah conviction family's raster pins in the same shared file. I asserted VF06 immediately on noticing, before reading anything in that family's own directory, and I record it rather than let it pass unmentioned."
+  },
+  "obligationSet": {
+    "scored": "the canonical fifteen, by name, on every one of the five families",
+    "names": [
+      "ROUTE_IDENTITY",
+      "SOURCE_IDENTITY",
+      "COMPONENT_SET",
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING",
+      "ROUTE_OPTIONS",
+      "REPEATING_ROWS",
+      "PROTECTED_FIELDS",
+      "ARTIFACTS",
+      "PAGE_ORDER",
+      "CLIPPING_AND_OVERLAP",
+      "FILING_DESTINATION",
+      "FEE_AND_WAIVER",
+      "SERVICE",
+      "SELF_HELP_STOP"
+    ],
+    "l9": "No obligation on any family was left unscored and none was scored NOT_MEASURABLE_HERE. 75 obligation results across five families, all measured in this container.",
+    "standard": "DET-FEE-AND-WAIVER-001 read in full, with amendment A1, amendment A2 (including whatCountsAsHeld and the answersVT8C4 ruling that a committed packet-set manifest's participantActionRequired entries are a held source) and amendment A3 (holding is per FACT, not per document)."
+  },
+  "verdicts": [
+    {
+      "familyId": "ut_pet_conviction-set",
+      "lane": "VF05",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        "REQUIRED_BEFORE_FILING",
+        "FEE_AND_WAIVER"
+      ],
+      "passed": 13,
+      "unmeasured": 0
+    },
+    {
+      "familyId": "ut_pet_dismissed_with_prejudice-set",
+      "lane": "VF06",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        "REQUIRED_BEFORE_FILING",
+        "FEE_AND_WAIVER"
+      ],
+      "passed": 13,
+      "unmeasured": 0
+    },
+    {
+      "familyId": "wv_conv_single_misdemeanor-set",
+      "lane": "VF07",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "passed": 14,
+      "unmeasured": 0
+    },
+    {
+      "familyId": "wv_conv_multiple_misdemeanors-set",
+      "lane": "VF08",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "passed": 14,
+      "unmeasured": 0
+    },
+    {
+      "familyId": "ar-arrest-seal-set",
+      "lane": "VF12",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        "REQUIRED_BEFORE_FILING",
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "passed": 12,
+      "unmeasured": 0
+    }
+  ],
+  "didTheRepairsLand": {
+    "theTwoUtahFamilies": {
+      "claimed": "Repaired by REBUILD ALONE on a host that already carried the two-stage BCI-to-district-court destination, the $150 cover-sheet fee, the 1305GE waiver motion and the prosecutor service step. No fixture byte changed, so the existing raster receipts still bind.",
+      "verdictOnTheClaim": "TRUE, and I pressed it hardest because a byte-unchanged repair is the easy one to fake. participant-instructions.md is now 6,356 bytes with all four sections MASTER_QUEUE recorded as absent from the 1,167-byte file. Both fixtures rehash to their RASTER_QUEUE pins exactly (ad594f0a… and b3ba83a6…), so the receipts do still bind, and all 38 committed raster PNGs rehash exactly. MASTER_QUEUE's recorded FILING_DESTINATION and SERVICE failures for both families are STALE; both obligations now pass on the bytes.",
+      "butTheRepairDidNotClose": "FEE_AND_WAIVER, on a limb it did not address, and REQUIRED_BEFORE_FILING, which it did not touch."
+    },
+    "theTwoWestVirginiaFamilies": {
+      "claimed": "A real host gap, repaired with the circuit clerk of the county of conviction, the § 59-1-11(a)(1) fee the official text sets at $200, and $100 to the State Police records division only on grant — drawn from the committed track registry and route census, deliberately NOT from the compiled state profile.",
+      "verdictOnTheClaim": "TRUE and correctly sourced. I verified every figure against the records the census actually names for these route keys, as asked. MASTER_QUEUE's recorded FEE_AND_WAIVER and FILING_DESTINATION failures for both families are STALE; both obligations now pass.",
+      "butTheRepairDidNotClose": "REQUIRED_BEFORE_FILING, which fails identically in both families on the eligibility-date bullet."
+    },
+    "arArrestSealSet": {
+      "claimed": "An amendment-A2 fee repair; a prior lane also confirmed the dispositions now parse and COMPONENT_SET measures 2/2 hash-bound where it once measured 0/0.",
+      "verdictOnTheClaim": "TRUE on all three counts. All three of the profile's fee sentences are verbatim in AR-arkansas.json, the census names that profile as requiredSourceIds[0] for this route key, both documents are bound and rehash exact, and the run reported 15/66 written with ten blanks reaching the declared REQUIRED_BEFORE_FILING path. MASTER_QUEUE's recorded FEE_AND_WAIVER failure is STALE.",
+      "butTheRepairDidNotClose": "FILING_DESTINATION and SERVICE, which fail on the SAME A2 limb the fee repair was made under. The repair fixed the reported instance and left two of the same shape beside it on the same family."
+    }
+  },
+  "amendmentA3": {
+    "readFrom": "captain head 913410b1c; the determination file at my base carries only amendment and amendment2.",
+    "appliedTo": "every fee, service and filing-destination finding in all five rows.",
+    "outcome": "No verdict changed.",
+    "whatItConfirmed": "The West Virginia repair's refusal to take its number from the compiled state profile was not merely defensible but required, and I can name the trap it avoided. The same WV profile carries, three times over, 'For 61-11-25 acquittal/dismissal/diversion/deferred-adjudication expungement, no filing fees or costs are charged' and 'Fee rule: no filing fees or costs are charged for a 61-11-25 action.' Section 61-11-25 is not § 61-11-26. A repairer treating that profile as one held document — which A2 read literally licensed — could have published 'no filing fee' for a petition that in fact costs $200. That is the California 1203.4 trap with the sign flipped and the stakes higher: a participant told filing is free, arriving at the circuit clerk's counter owing $200. Read per fact, the profile's own § 61-11-26 line does address this route and establishes the $100 State Police fee plus a numberless cross-reference to the civil-action fee, so it is silent on the figure rather than wrong about it; the $200 comes from the track registry, the route census and the packet-set manifest, each keyed to this track, this route key and this packet set respectively.",
+    "whatItAlsoDid": "Confirmed the Arkansas fee PASS as route-addressing — the AR feeRules list is flat and jurisdiction-wide, but every line in it gives the same answer and attributes it to the same Act 1460 this route's petition is captioned to, so there is no competing statutory section and no wrong line available to pick — and strengthened two Arkansas failures with further route-addressing facts the profile holds (the file-in-each-county rule, and a 30-or-90-day objection window by offence class)."
+  },
+  "theOpenCounselQuestionIWasAskedToRecordNotAnswer": {
+    "question": "Whether relief under W. Va. Code § 17C-5-2b (and § 60A-4-407) counts against the once-per-lifetime limit in § 61-11-26(o).",
+    "whereItLives": "data/record-clearing/legal-design-track-registry.json, on the shared node wv_common_conv_procedure, 'Shared Conviction Expungement Procedure, Exclusion Screen and Once-Per-Lifetime Bundling Node'. Its text: 'Section 61-11-26(o) by its terms reaches only §§ 61-11-26 and 61-11-26a, and neither § 60A-4-407 nor § 17C-5-2b cross-references it; both were read in full at source on 2026-08-06 and neither contains a limit referring to § 61-11-26. The textual reading is therefore that they are separate limits in separate statutes, but a participant deciding whether to spend their one lifetime petition needs a settled answer rather than a textual reading.'",
+    "isItAListedExclusionForBothMyFamilies": "YES, confirmed for both. Each track's own exclusions array in the registry carries 'A person who has already obtained expungement under § 61-11-26 or § 61-11-26a. The relief is available only once', and the route census's statuteOrAuthority for each of the two route keys names W. Va. Code § 61-11-26(o) explicitly among its fifteen citations. Both families also defer to wv_common_conv_procedure by name for the fifteen § 61-11-26(c) exclusion subdivisions, so the node carrying the open question is the node they screen against.",
+    "doesEitherPacketAddressIt": "NO — neither one, and this is the answer to what I was asked to check. I searched both participant-instructions.md files in full. Neither contains the phrase once per lifetime, nor 'only once', nor § 61-11-26(o), nor § 17C-5-2b, nor § 60A-4-407, nor any other statement that this relief can be used a single time. A participant is told what to file, where to file it, that it costs $200 plus $100 on grant, and whom to serve among five recipients — and is not told that filing spends a remedy they get once in their life.",
+    "whyIDidNotScoreItAFailure": "It is an open legal question the repository has already flagged as needing counsel, plus a disclosure gap that is not one of the fifteen obligations. MASTER_QUEUE carries legalInputStatus SETTLED with laneReturnLegalHold null for both families, so nothing in the queue currently holds them on it. Recording it, as instructed, rather than answering it or converting it into an obligation failure of my own invention.",
+    "whyItStillMatters": "The two questions compound. The multiple-misdemeanour route is built to put every eligible conviction into one petition precisely because the remedy is once-only, and the same shared node carries a second unanswered question about whether a multi-county group may be venued in the county of residence. The route census's own runtime-authority note says the wrong choice there 'goes to counsel' on 'a once-per-lifetime remedy'. A participant who files a single-misdemeanour petition without being told the relief is once-only may spend it on the smallest thing on their record.",
+    "relatedFindingInTheSamePair": "The eligibility-date defect I scored under REQUIRED_BEFORE_FILING has the same consequence class: the instructions ask the participant to choose among four statutory branches the packet has already chosen for them, and a participant who dates the wrong branch swears an eligibility basis inconsistent with the box the packet checked — on a remedy they get once."
+  },
+  "whatIMeasuredAndHow": {
+    "nineCounters": "Run per family with node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId> in this container at the base commit. All nine are zero on all five families. I did NOT report that as a bare zero: for each family I recorded the denominator the run actually inspected (Utah 38/444 written, WV single 21/166, WV multiple 26/89, Arkansas 15/66) and reproduced the blank-disposition histogram read-only against the committed completeness-contract.mjs, so 'all zero' is stated as nothing-was-missing rather than nothing-was-measured.",
+    "whereAllZeroIsNotWhatItLooks": [
+      "UTAH, requiredFactsNotCollected: a zero over an EMPTY SET, and I say so in the rows. The Utah field maps declare their twelve required-before-filing blanks on the key approvedBlankDisposition; normalizeRow in the committed verifier reads only completenessDisposition and requiredBeforeFiling, so declaredRequired is [] and the disclosure gate never executes. The rows admit it themselves in a compatibilityNote. I ran the disclosure test by hand instead and all twelve are in fact disclosed.",
+      "UTAH, knownRequiredFieldsMissing: zero partly because of a mislabel. The BCI application's GENDER blank carries the label 'MAILING ADDRESS' inherited from the caption below it; if the reader did parse approvedBlankDisposition, classifyBlank's factAvailable branch would return KNOWN_FACT_NOT_WRITTEN because MAILING ADDRESS is written elsewhere on the same document. Recorded for the repairer.",
+      "WEST VIRGINIA, visualDefects: not a measured zero. reports/actual-writes.json records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes as null on every artifact, and the verifier only raises the counter when that field is a number above zero, so the check never fires. I measured the geometry independently instead.",
+      "ARKANSAS: the zeros are strong here. Ten blanks reach the declared REQUIRED_BEFORE_FILING path so the disclosure gate ran over a non-empty set, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is a measured 0 on all four artifacts."
+    ],
+    "sourceIdentity": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh MOUNTED in this container: archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 verified, 51 jurisdictions / 499 files / 329 pdfs, governance checksums verified. So SOURCE_IDENTITY was scored properly on all five families rather than NOT_MEASURABLE_HERE. Every bound document was rehashed from the mounted corpus: Utah 9/9 exact on each family, WV 2/2 and 1/1, Arkansas 2/2 — 23 document bindings in total, all exact on both SHA-256 and byte length, all present in 00_GOVERNANCE/CHECKSUMS.sha256, and all agreeing with the relevant STATE_MANIFEST.csv. I separately rehashed the five cited authorities behind the Utah fee and service repair (UT-BCI-EXP-INSTRUCTIONS, UT-BCI-INDIGENT-INSTRUCTIONS, 1044XX, 1305GE, 1146XX) and all five match on hash AND byte length.",
+    "geometry": "Measured directly with pdftotext -bbox over every page of every fixture rather than inherited from any report: 12 fixtures, 66 pages in total. Zero words outside the 612x792 page box and zero same-baseline word pairs overlapping by more than 1pt, in boundary fixtures as well as canonical ones.",
+    "artifactsAndRaster": "All 12 fixtures recomputed and every one matches its RASTER_QUEUE pin, so every RASTER_PASS receipt still binds the current bytes. All 76 committed raster PNGs across the five families rehash exactly to their recorded sha256 and byteLength.",
+    "prefills": "Read back from output bytes. On Utah I re-derived the three 1044XX checkbox selections geometrically rather than trusting their labels, because the two-column harvester mangles them: matching write x-coordinates against bracket glyph positions in the official form confirmed the marks are the $150 Expungement Petition - Criminal row, Jury Demand 'No', and 'No monetary damages are requested (URCP 26: Tier 2)' — not the neighbouring $250, $187.50 or 'Property Rights' rows any of those labels could have described."
+  },
+  "whatICouldNotMeasureAndWhy": [
+    "The raster receipt PNGs inside the GitHub workflow artifacts are not fetchable from this container, so RASTER_PASS is verified as a hash binding — the receipt's boundToCanonicalSha256 and boundToBoundarySha256 against fixtures I recomputed here — rather than by looking at the rendered images. The 76 committed raster PNGs I could and did rehash.",
+    "W. Va. Code § 59-1-11 itself is not held as bytes anywhere in this container. The $200 exists in the repository only as an assertion inside two committed LegalEase-authored records that say 'the official text sets at $200' and cite an unheld source-url. Under A2 those committed records are the repository, so the packet stating $200 is correct behaviour; but the figure's freshness rests on a source-acquisition gap and I could not close it here.",
+    "Whether the Arkansas platform's matter.county is the county of ARREST or the county of the case. Two of the three records tie this route's venue to the county of arrest; the caption prefill is written from matter.county. If those can differ, the prefill is on the wrong fact. Not settleable from the artifacts.",
+    "Which objection-window figure governs an Arkansas arrest that was never charged. The packet-set manifest says 30 days flatly; the compiled profile says 30 days for a misdemeanor and 90 for a felony. Recorded rather than resolved.",
+    "Whether A2's ask-the-repository-first test extends to REQUIRED_BEFORE_FILING. A2 enumerates FILING_DESTINATION, FEE_AND_WAIVER and SERVICE. I applied the same test to the fourth and flagged the extension rather than assuming it — see the Captain items below."
+  ],
+  "forTheCaptain": [
+    {
+      "id": "VT15-C1",
+      "subject": "Does A2's ask-the-repository-first test extend to REQUIRED_BEFORE_FILING?",
+      "detail": "A2's whatCountsAsHeld and its answersVT8C4 ruling name FILING_DESTINATION, FEE_AND_WAIVER and SERVICE. Four of my five REQUIRED_BEFORE_FILING failures rest on applying the same test to a fourth obligation: the committed packet-set manifest carries a requiredBeforeFiling array, and the packets omit items from it. I am raising the boundary rather than deciding it, as VT8 did on the manifest question A2 then answered. If you narrow A2 to the three named obligations, the findings survive as recorded gaps and every verdict here still stands on its other failures — except the two West Virginia families, whose only failure is the eligibility-date bullet, and that one fails independently of A2 because it contradicts the family's own field map and hands back a route-determined election the completeness contract forbids."
+    },
+    {
+      "id": "VT15-C2",
+      "subject": "Utah: the repository holds a $65.00 BCI application fee and both packets deny an amount exists.",
+      "detail": "The instructions say 'this packet does not state an amount because BCI sets it per applicant.' Page 17 of the delivered canonical.pdf prints 'The application fee is $65.00 and non-refundable' and page 18 prints it twice more. There are two BCI money items and the packet conflates them: the $65.00 application fee, fixed and printed on the packet's own paper, and the per-incident certificate price, which genuinely is set per applicant and which the packet is right to refuse. Repair is one sentence. This is the shared Utah host, so it fixes both families at once."
+    },
+    {
+      "id": "VT15-C3",
+      "subject": "Utah dismissed-with-prejudice: a free route the registry says MUST be disclosed before payment is not disclosed.",
+      "detail": "The committed track registry for ut_pet_dismissed_with_prejudice states 'the petition is the faster paid route to the same result and THE FREE ROUTE MUST BE DISCLOSED BEFORE PAYMENT' — automatic expungement under 77-40a-206, 180 days after dismissal. The packet is byte-identical to its conviction sibling's, which has no free alternative, and discloses nothing. It sends the participant to pay $150 plus $65 plus certificate fees for a result the repository says arrives free. Sharing one instruction file across the two routes is what erased the difference; the repair is per-route instructions on the shared host."
+    },
+    {
+      "id": "VT15-C4",
+      "subject": "Utah: the repository and the official source disagree on who serves the prosecutor.",
+      "detail": "The committed track registry, the route census and the packet-set manifest all say the court sends the filing to the prosecuting attorney and the petitioner does not serve. The held official BCI Expungement Applicant Instructions — which I rehashed to 9e03980f… and extracted — head Step 2 'File the petition with the court and serve the Prosecutor' and say 'Mail or email the prosecutor copies of what you file.' The packet followed the official source, which under AGENTS.md's source hierarchy is correct and is also the safer instruction. I scored SERVICE a PASS and left the three records alone. This is a registry, census and manifest fidelity repair shared across the Utah families and their siblings, not a packet repair."
+    },
+    {
+      "id": "VT15-C5",
+      "subject": "West Virginia: neither packet tells the participant the relief is once per lifetime.",
+      "detail": "Full detail in theOpenCounselQuestionIWasAskedToRecordNotAnswer above. The once-only bar is a listed exclusion on both tracks and § 61-11-26(o) is named in each route's statuteOrAuthority, and neither packet mentions it. Whether the disclosure belongs in the packet is a counsel call. The open 17C-5-2b question sits behind it and is unanswered."
+    },
+    {
+      "id": "VT15-C6",
+      "subject": "West Virginia: one shared instruction fix closes both families.",
+      "detail": "The eligibility-date bullet is byte-identical in both and both are built by the same host, build-census-v1-ne-setaside-custodial-set.mjs. It names four AcroForm field ids where each family's own field map declares exactly one required and refuses the other three by route, asks the participant to determine 'the selected statutory route' the packet already selected without saying which, and carries the WVSCA's own 'Felony' naming and the misspelling MulitipleFelonlySatisfiesDate into participant-facing copy on a misdemeanour-only petition. One line per family."
+    },
+    {
+      "id": "VT15-C7",
+      "subject": "Arkansas: the family's own queue row says its sources are not exactly bound.",
+      "detail": "MASTER_QUEUE carries sourceStatus SOURCE_IDENTITY_NOT_EXACT with sourceReadiness.ready false and boundCount 0 of 2, because the census names the forms official-form:ACIC-PETITION-TO-SEAL-ARREST while the corpus index registers the same bytes as AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460, so the exact-form-number resolver falls back to a token-subset heuristic. The bytes are exact and provably the named forms and I scored SOURCE_IDENTITY a PASS on that basis, but no route should be promoted while its own queue row says its sources are not exactly bound. The repair is an identifier alias in the source registry, not a rebuild."
+    },
+    {
+      "id": "VT15-C8",
+      "subject": "Sweep A2 by pattern, not by instance.",
+      "detail": "ar-arrest-seal-set was repaired for the one A2 instance a lane reported, and I found two more of exactly the same shape on the same family: FILING_DESTINATION defers to the circuit clerk for a venue three held records establish, and SERVICE affirmatively denies a deadline the packet-set manifest sets at three days. It may be worth asking, for every family A2 named and for each of the three obligations, whether the packet defers to an authority on something the compiled profile, the track registry, the route census or the packet-set manifest already answers — rather than repairing the reported sentence."
+    }
+  ],
+  "filesChangedByThisWorker": [
+    "data/rcap-grade-a/packet-factory-24h/vf05/rows.json — appended one row, ut_pet_conviction-set",
+    "data/rcap-grade-a/packet-factory-24h/vf06/rows.json — appended one row, ut_pet_dismissed_with_prejudice-set",
+    "data/rcap-grade-a/packet-factory-24h/vf07/rows.json — appended one row, wv_conv_single_misdemeanor-set",
+    "data/rcap-grade-a/packet-factory-24h/vf08/rows.json — appended one row, wv_conv_multiple_misdemeanors-set",
+    "data/rcap-grade-a/packet-factory-24h/vf12/rows.json — appended one row, ar-arrest-seal-set",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json — five asserts and five releases",
+    "data/rcap-grade-a/fable-packet-factory/returns/vt15.json — this file"
+  ],
+  "preservation": "Every pre-existing row in all five lane files is byte-preserved and every pre-existing top-level field is unchanged; I verified that by diffing each file's parsed rows and top-level keys against git show <base>:<path>. Indentation was preserved per file (one space for vf05, vf06, vf08; two for vf07, vf12), confirmed by a round-trip that reproduced each original byte-for-byte before any append. Lane-level summary blocks were deliberately not rewritten — they are other workers' tallies, and a note in each vt15Read says so.",
+  "notTouched": [
+    "MASTER_QUEUE.json",
+    "RASTER_QUEUE.json",
+    "ACTIVE_ASSIGNMENTS.json",
+    "VERIFIER_RETURNS.json",
+    "any other lane's rows.json",
+    "any packet, overlay, build script, fixture or field map",
+    "Production, Supabase, Stripe, secrets, migrations"
+  ],
+  "generatorsRun": "None. In particular the return extractor was not run, because running it rewrites VERIFIER_RETURNS.json. The only scripts executed were the claim tool, the packet-completeness verifier, the corpus bootstrap, the claim-ledger verifier, and read-only measurement of my own.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "overlayDirectoriesModified": 0,
+  "packetsModified": 0,
+  "buildScriptsModified": 0,
+  "familiesPromoted": 0,
+  "approvalsGranted": 0,
+  "grantsNothing": "This return records verification verdicts and nothing else. It promotes no family, opens no commercial route, grants no approval and overrides no legal decision."
+}

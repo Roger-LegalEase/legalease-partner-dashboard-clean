@@ -1,0 +1,529 @@
+{
+  "schemaVersion": "rcap-source-acquisition-consumption/v1",
+  "lane": "FABLE-ACQ1",
+  "laneKind": "source-acquisition",
+  "consumedAt": "2026-09-01T18:28:54Z",
+  "workflow": ".github/workflows/rcap-official-source-acquisition-batch.yml",
+  "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+  "whatThisIs": "Consumption of the six completed batch-acquisition runs: per-run execution proof and per-source COMPLETE/PARTIAL/REFUSED results read from the GitHub Actions job logs through the API. A workflow conclusion of success is never treated as an acquisition result; only the summarize job's verdict and each acquire job's own receipt lines are.",
+  "howResultsWereRead": "Acquisition artifacts are not downloadable from this container (the egress proxy answers CONNECT 403 for the GitHub artifact blob host), so results were consumed from job logs: each run's 'Batch result' job prints the summarizer verdict line 'COMPLETE|PARTIAL|REFUSED: N/M acquired ...' plus one FAILED line per failure, and each acquire job prints 'OK acquired <jur> <form>' with final URL, HTTP status, byte length, sha256, structural class and 'expected hash MATCHES|DOES NOT MATCH', or 'FAIL official-source acquisition — <reason>'.",
+  "runs": [
+    {
+      "runId": 33449768535,
+      "event": "push",
+      "headSha": "f9125b6ee04bff81a3de0d61810291bdf7c9300d",
+      "completedAt": "2026-08-31T23:15:47Z",
+      "acquisitionExecuted": true,
+      "jobs": {
+        "total": 22,
+        "plan": 1,
+        "acquire": 20,
+        "summarize": 1
+      },
+      "batchResultJobId": 99677196710,
+      "verdict": "PARTIAL",
+      "verdictLine": "PARTIAL: 15/20 acquired, 5 failed, 0 hash mismatch(es).",
+      "verdictProvenance": "job 99677196710 log, step 'Write the batch result', 2026-08-31T23:15:43Z",
+      "failedEntries": [
+        {
+          "jurisdiction": "FL",
+          "formNumber": "FDLE 40-025",
+          "why": "the receipt's outcome is acquired_but_not_the_pinned_document"
+        },
+        {
+          "jurisdiction": "FL",
+          "formNumber": "FDLE 40-028",
+          "why": "the receipt's outcome is acquired_but_not_the_pinned_document"
+        },
+        {
+          "jurisdiction": "IN",
+          "formNumber": "CCA conviction expungement petition",
+          "why": "https://www.in.gov/courts/iocs/self-service/expungement/ answered HTTP 404"
+        },
+        {
+          "jurisdiction": "MA",
+          "formNumber": "Petition to Seal (Office of the Commissioner of Probation)",
+          "why": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms answered HTTP 403"
+        },
+        {
+          "jurisdiction": "MI",
+          "formNumber": "Application to Set Aside Conviction(s)",
+          "why": "https://www.courts.michigan.gov/administration/court-programs/state-court-administrative-office/scao-forms/ answered HTTP 404"
+        }
+      ],
+      "authorityNote": "Newest run; its per-source results are the current ones and are enumerated in currentResults below."
+    },
+    {
+      "runId": 33441624870,
+      "event": "push",
+      "headSha": "1455adca325635e7ccccf372ae7a7e2d8a3320e7",
+      "completedAt": "2026-08-31T21:31:29Z",
+      "acquisitionExecuted": true,
+      "jobs": {
+        "total": 22,
+        "plan": 1,
+        "acquire": 20,
+        "summarize": 1
+      },
+      "batchResultJobId": 99651389776,
+      "verdict": "PARTIAL",
+      "verdictLine": "PARTIAL: 15/20 acquired, 5 failed, 0 hash mismatch(es).",
+      "verdictProvenance": "job 99651389776 log, step 'Write the batch result', 2026-08-31T21:31:28Z",
+      "failedEntries": "same five as run 33449768535 (FL x2 not-the-pinned-document, IN 404, MA 403, MI 404)",
+      "supersededBy": 33449768535
+    },
+    {
+      "runId": 33433809788,
+      "event": "push",
+      "headSha": "4d99de94bab27137d3065150566941a813ace339",
+      "completedAt": "2026-08-31T20:03:53Z",
+      "acquisitionExecuted": true,
+      "jobs": {
+        "total": 22,
+        "plan": 1,
+        "acquire": 20,
+        "summarize": 1
+      },
+      "batchResultJobId": 99625685272,
+      "verdict": "PARTIAL",
+      "verdictLine": "PARTIAL: 15/20 acquired, 5 failed, 0 hash mismatch(es).",
+      "verdictProvenance": "job 99625685272 log, step 'Write the batch result', 2026-08-31T20:03:48Z",
+      "failedEntries": "same five as run 33449768535",
+      "supersededBy": 33449768535
+    },
+    {
+      "runId": 33431316717,
+      "event": "push",
+      "headSha": "a5d8c267892ab895da5329237e12783d02b94ac4",
+      "completedAt": "2026-08-31T19:36:34Z",
+      "acquisitionExecuted": true,
+      "jobs": {
+        "total": 22,
+        "plan": 1,
+        "acquire": 20,
+        "summarize": 1
+      },
+      "batchResultJobId": 99617487755,
+      "verdict": "PARTIAL",
+      "verdictLine": "PARTIAL: 17/20 acquired, 3 failed, 2 hash mismatch(es).",
+      "verdictProvenance": "job 99617487755 log, step 'Write the batch result', 2026-08-31T19:36:28Z",
+      "failedEntries": [
+        {
+          "jurisdiction": "IN",
+          "why": "HTTP 404"
+        },
+        {
+          "jurisdiction": "MA",
+          "why": "HTTP 403"
+        },
+        {
+          "jurisdiction": "MI",
+          "why": "HTTP 404"
+        }
+      ],
+      "note": "At this commit the acquire script still recorded a hash mismatch as outcome 'acquired' with matchesExpectedSha256 false, so the two FL landing-page fetches counted as acquisitions with 2 hash mismatches. The later commit reclassifies them as acquired_but_not_the_pinned_document, which is why the newer runs report 15/20 with 0 mismatches — a stricter reading of the same reality, not a regression.",
+      "supersededBy": 33449768535
+    },
+    {
+      "runId": 33427613739,
+      "event": "push",
+      "headSha": "b18b6e4987dda63166ea2a9cc950ea28e7d72333",
+      "completedAt": "2026-08-31T18:56:21Z",
+      "acquisitionExecuted": true,
+      "jobs": {
+        "total": 22,
+        "plan": 1,
+        "acquire": 20,
+        "summarize": 1
+      },
+      "batchResultJobId": 99605309295,
+      "verdict": "PARTIAL",
+      "verdictLine": "PARTIAL: 17/20 acquired, 3 failed, 2 hash mismatch(es).",
+      "verdictProvenance": "job 99605309295 log, step 'Write the batch result', 2026-08-31T18:56:17Z",
+      "failedEntries": "IN 404, MA 403, MI 404; FL x2 counted acquired-with-mismatch under the pre-reclassification summarizer",
+      "supersededBy": 33449768535
+    },
+    {
+      "runId": 33426578161,
+      "event": "push",
+      "headSha": "1535d2037c196cb78231be2d9e3bbe4ab28bfa13",
+      "completedAt": "2026-08-31T18:44:54Z",
+      "acquisitionExecuted": true,
+      "jobs": {
+        "total": 22,
+        "plan": 1,
+        "acquire": 20,
+        "summarize": 1
+      },
+      "batchResultJobId": 99601908106,
+      "verdict": "PARTIAL",
+      "verdictLine": "PARTIAL: 17/20 acquired, 3 failed, 2 hash mismatch(es).",
+      "verdictProvenance": "job 99601908106 log, step 'Write the batch result', 2026-08-31T18:44:51Z",
+      "note": "Every acquire job in this oldest run CONCLUDED failure although its acquire and upload steps succeeded: the 'Refuse a committed source body' step failed because acquired-source/ was not yet gitignored at commit 1535d203. Artifact names in this run also carried uppercase jurisdiction codes (rcap-source-IL-...). Both were fixed by the next commit; the receipts and artifacts of this run are otherwise real but superseded.",
+      "supersededBy": 33449768535
+    },
+    {
+      "runId": "33542698724",
+      "headSha": "2c59125300af38590f1b07d0418197f683f618f8",
+      "firedBy": "push (SIMPLIFY commit)",
+      "jobs": 42,
+      "planned": 40,
+      "verdict": "PARTIAL 35/40 acquired, 5 failed, 0 hash mismatches",
+      "readFrom": "Batch result job 99973379969 log (summarize step output)",
+      "newlyAcquiredFirstTime": [
+        "TX Statement of Inability to Afford Payment (bilingual) — job 99972894152; previously the one residual human task; the hosted fetch succeeded",
+        "18 TX nondisclosure petitions/orders/instructions (411.072-411.0736 families)",
+        "UT 1501CR motion"
+      ],
+      "failed": [
+        {
+          "source": "FL FDLE 40-025",
+          "why": "acquired_but_not_the_pinned_document (volatile landing-page pin)",
+          "route": "DISC re-pin"
+        },
+        {
+          "source": "FL FDLE 40-028",
+          "why": "acquired_but_not_the_pinned_document",
+          "route": "DISC re-pin"
+        },
+        {
+          "source": "IN CCA conviction petition",
+          "why": "HTTP 404 on landing page",
+          "route": "DISC: bytes already held in corpus bundle (d1 bound them); entry retires"
+        },
+        {
+          "source": "MA Petition to Seal",
+          "why": "HTTP 403",
+          "route": "DISC alternate endpoint"
+        },
+        {
+          "source": "MI MC 227",
+          "why": "HTTP 404 on SCAO listing page",
+          "route": "DISC exact URL"
+        }
+      ],
+      "materializationGap": "The 35 acquired artifacts (30-day retention, expire ~2026-10-01) hold the bytes; this environment cannot download them (blob storage proxy-403). Entering bytes into the corpus is a reviewed commit from a byte-capable environment via scripts/rcap-materialize-acquisition-handoff.mjs. That single step releases all 10 TX families (their petition+order bytes already bind from the held corpus; the Statement of Inability plus three order/letter editions are the only absences)."
+    }
+  ],
+  "currentResults": {
+    "authorityRun": 33449768535,
+    "meaning": "Per-source outcome from the newest run's own acquire-job logs. 'observedSha256' is the sha256 line the acquire script printed over the retrieved bytes; 'bind' is true when it equals the manifest's expectedSha256 (the log's 'expected hash MATCHES').",
+    "sources": [
+      {
+        "sourceId": "convictionpetitionorder0320fillable",
+        "jurisdiction": "IN",
+        "formNumber": "CCA conviction expungement petition",
+        "outcome": "not_acquired",
+        "why": "https://www.in.gov/courts/iocs/self-service/expungement/ answered HTTP 404",
+        "observedSha256": null,
+        "expectedSha256": "999fdf4a3f23c96e5a7e93bbbb3b48cd098041f21757ab6e99cd10e9394abec3",
+        "bind": false,
+        "artifactName": "rcap-source-in-convictionpetitionorder0320fillable",
+        "artifactId": 9779346286,
+        "jobId": 99676956009,
+        "provenance": "FAIL line at 2026-08-31T23:14:52.811Z in job 99676956009"
+      },
+      {
+        "sourceId": "cxp-additional-cannabis-convictions",
+        "jurisdiction": "IL",
+        "formNumber": "EXC-AA 4706.2",
+        "outcome": "acquired",
+        "observedSha256": "32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969",
+        "expectedSha256": "32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969",
+        "bind": true,
+        "byteLength": 396270,
+        "structure": "acroform",
+        "artifactName": "rcap-source-il-cxp-additional-cannabis-convictions",
+        "artifactId": 9779345633,
+        "jobId": 99676956077,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:14:51.453Z in job 99676956077"
+      },
+      {
+        "sourceId": "cxp-additional-notice-of-court-date",
+        "jurisdiction": "IL",
+        "formNumber": "EXC-AM 4705.2",
+        "outcome": "acquired",
+        "observedSha256": "4a6dde5541b6531f99a4294e07a28ea85096ea5c982ee76e46cf3e8dd00b0afa",
+        "expectedSha256": "4a6dde5541b6531f99a4294e07a28ea85096ea5c982ee76e46cf3e8dd00b0afa",
+        "bind": true,
+        "byteLength": 283605,
+        "structure": "acroform",
+        "artifactName": "rcap-source-il-cxp-additional-notice-of-court-date",
+        "artifactId": 9779345657,
+        "jobId": 99676956140,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:14:50.790Z in job 99676956140"
+      },
+      {
+        "sourceId": "cxp-getting-started-motion-to-vacate-and-expunge",
+        "jurisdiction": "IL",
+        "formNumber": "EXC-G 4700.2",
+        "outcome": "acquired",
+        "observedSha256": "52ce3880f8d813ca7ebebb1654da5a04f4d70dca538868f7094163a7199eb0b2",
+        "expectedSha256": "52ce3880f8d813ca7ebebb1654da5a04f4d70dca538868f7094163a7199eb0b2",
+        "bind": true,
+        "byteLength": 150220,
+        "structure": "acroform",
+        "artifactName": "rcap-source-il-cxp-getting-started-motion-to-vacate-and-expunge",
+        "artifactId": 9779345242,
+        "jobId": 99676956121,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:14:50.427Z in job 99676956121"
+      },
+      {
+        "sourceId": "cxp-motion-to-vacate-and-expunge",
+        "jurisdiction": "IL",
+        "formNumber": "EXC-M 4702.2",
+        "outcome": "acquired",
+        "observedSha256": "728ad50c5db068d3d3a6bc68901c79431e865f8e2eaa94c37c38a086d9815acf",
+        "expectedSha256": "728ad50c5db068d3d3a6bc68901c79431e865f8e2eaa94c37c38a086d9815acf",
+        "bind": true,
+        "byteLength": 227699,
+        "structure": "acroform",
+        "artifactName": "rcap-source-il-cxp-motion-to-vacate-and-expunge",
+        "artifactId": 9779344794,
+        "jobId": 99676956102,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:14:49.283Z in job 99676956102"
+      },
+      {
+        "sourceId": "cxp-notice-of-court-date-for-motion",
+        "jurisdiction": "IL",
+        "formNumber": "EXC-N 4703.2",
+        "outcome": "acquired",
+        "observedSha256": "56179412256e2c98b0f535a328801e4cf012ae3d179848c3a1efe7df6377b041",
+        "expectedSha256": "56179412256e2c98b0f535a328801e4cf012ae3d179848c3a1efe7df6377b041",
+        "bind": true,
+        "byteLength": 370872,
+        "structure": "acroform",
+        "artifactName": "rcap-source-il-cxp-notice-of-court-date-for-motion",
+        "artifactId": 9779355261,
+        "jobId": 99676956092,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:15:14.377Z in job 99676956092"
+      },
+      {
+        "sourceId": "cxp-order-granting-or-denying-motion",
+        "jurisdiction": "IL",
+        "formNumber": "EXC-O 4704.2",
+        "outcome": "acquired",
+        "observedSha256": "ca0fdef8909a3ef134c562d09a89dcc24de22036c7b8238902443892c3ac77cc",
+        "expectedSha256": "ca0fdef8909a3ef134c562d09a89dcc24de22036c7b8238902443892c3ac77cc",
+        "bind": true,
+        "byteLength": 332731,
+        "structure": "acroform",
+        "artifactName": "rcap-source-il-cxp-order-granting-or-denying-motion",
+        "artifactId": 9779344201,
+        "jobId": 99676956044,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:14:48.016Z in job 99676956044"
+      },
+      {
+        "sourceId": "dci-76-and-dci-77-criminal-history-record-check-billing-and-request-forms-fillable-source-",
+        "jurisdiction": "IA",
+        "formNumber": "DCI-76 / DCI-77",
+        "outcome": "acquired",
+        "observedSha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+        "expectedSha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+        "bind": true,
+        "byteLength": 1076864,
+        "structure": "acroform",
+        "artifactName": "rcap-source-ia-dci-76-and-dci-77-criminal-history-record-check-billing-and-request-forms-fillab",
+        "artifactId": 9779345832,
+        "jobId": 99676956063,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:14:51.874Z in job 99676956063"
+      },
+      {
+        "sourceId": "exp-ad-additional-cases-expungement",
+        "jurisdiction": "IL",
+        "formNumber": "ATJ 2903.5",
+        "outcome": "acquired",
+        "observedSha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
+        "expectedSha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
+        "bind": true,
+        "byteLength": 821758,
+        "structure": "acroform",
+        "artifactName": "rcap-source-il-exp-ad-additional-cases-expungement",
+        "artifactId": 9779347288,
+        "jobId": 99676956015,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:14:55.077Z in job 99676956015"
+      },
+      {
+        "sourceId": "exp-ad-case-list-request-to-expunge-seal-records",
+        "jurisdiction": "IL",
+        "formNumber": "ATJ 2902.1",
+        "outcome": "acquired",
+        "observedSha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+        "expectedSha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+        "bind": true,
+        "byteLength": 744328,
+        "structure": "acroform",
+        "artifactName": "rcap-source-il-exp-ad-case-list-request-to-expunge-seal-records",
+        "artifactId": 9779345501,
+        "jobId": 99676956035,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:14:50.508Z in job 99676956035"
+      },
+      {
+        "sourceId": "fdle40-025-application-for-juvenile-diversion-expunction-rev-2022-07",
+        "jurisdiction": "FL",
+        "formNumber": "FDLE 40-025",
+        "outcome": "acquired_but_not_the_pinned_document",
+        "why": "the landing page fetch returned text/html whose hash does not equal the pinned one; a landing page's HTML varies per render, so the pin can never bind — the receipt correctly refuses to call this an acquisition",
+        "observedSha256": "a514b0d50a5bb0b7016a629f296d2978e4b17c4f85a67abec1b04693c35b4307",
+        "expectedSha256": "6a853dc106d33f5d298a40608171ce0edffc3e5214c930f7c7fccc10f66ae2d8",
+        "bind": false,
+        "byteLength": 31596,
+        "structure": "not_a_pdf",
+        "artifactName": "rcap-source-fl-fdle40-025-application-for-juvenile-diversion-expunction-rev-2022-07",
+        "artifactId": 9779345838,
+        "jobId": 99676956014,
+        "provenance": "OK acquired + DOES NOT MATCH lines at 2026-08-31T23:14:51.774Z in job 99676956014"
+      },
+      {
+        "sourceId": "fdle40-028-application-for-early-juvenile-expunction-rev-2019-10",
+        "jurisdiction": "FL",
+        "formNumber": "FDLE 40-028",
+        "outcome": "acquired_but_not_the_pinned_document",
+        "why": "same shape as FDLE 40-025: HTML landing page, volatile hash, pin can never bind",
+        "observedSha256": "bccb40ff993d152f59ab93808a0ca53301494882bbeb1de70d95f9ba715fb1f6",
+        "expectedSha256": "82a9600b102e7fd77cbfcd340fd74ff77e7cd49fd81b43d46299ecb353ae212a",
+        "bind": false,
+        "byteLength": 30797,
+        "structure": "not_a_pdf",
+        "artifactName": "rcap-source-fl-fdle40-028-application-for-early-juvenile-expunction-rev-2019-10",
+        "artifactId": 9779345697,
+        "jobId": 99676956208,
+        "provenance": "OK acquired + DOES NOT MATCH lines at 2026-08-31T23:14:50.577Z in job 99676956208"
+      },
+      {
+        "sourceId": "fillable-jud-mps-petition-to-seal",
+        "jurisdiction": "MA",
+        "formNumber": "Petition to Seal (Office of the Commissioner of Probation)",
+        "outcome": "not_acquired",
+        "why": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms answered HTTP 403 — the host refuses this fetcher, consistently across all six runs",
+        "observedSha256": null,
+        "expectedSha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+        "bind": false,
+        "artifactName": "rcap-source-ma-fillable-jud-mps-petition-to-seal",
+        "artifactId": 9779346422,
+        "jobId": 99676956100,
+        "provenance": "FAIL line at 2026-08-31T23:14:53.545Z in job 99676956100"
+      },
+      {
+        "sourceId": "ia-rule-2-86-form-1-application-to-expunge-court-record-901c-2-rev-2022-01",
+        "jurisdiction": "IA",
+        "formNumber": "Iowa R. Crim. P. 2.86 Form 1",
+        "outcome": "acquired",
+        "observedSha256": "d3e68933c4ed878c72784c5b2b191281116f87d953fa6203aecb702584cb5053",
+        "expectedSha256": "d3e68933c4ed878c72784c5b2b191281116f87d953fa6203aecb702584cb5053",
+        "bind": true,
+        "byteLength": 268162,
+        "structure": "flat_pdf",
+        "artifactName": "rcap-source-ia-ia-rule-2-86-form-1-application-to-expunge-court-record-901c-2-rev-2022-01",
+        "artifactId": 9779346829,
+        "jobId": 99676956068,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:14:53.873Z in job 99676956068"
+      },
+      {
+        "sourceId": "ia-rule-2-86-form-3-application-to-expunge-public-intoxication-records-123-46-rev-2022-01",
+        "jurisdiction": "IA",
+        "formNumber": "Iowa R. Crim. P. 2.86 Form 3",
+        "outcome": "acquired",
+        "observedSha256": "6f222685001373ba2e1ef63509e3b42e7e47d5067bfb0ed3b130b62040d80f01",
+        "expectedSha256": "6f222685001373ba2e1ef63509e3b42e7e47d5067bfb0ed3b130b62040d80f01",
+        "bind": true,
+        "byteLength": 263607,
+        "structure": "flat_pdf",
+        "artifactName": "rcap-source-ia-ia-rule-2-86-form-3-application-to-expunge-public-intoxication-records-123-46-re",
+        "artifactId": 9779345073,
+        "jobId": 99676956109,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:14:49.119Z in job 99676956109"
+      },
+      {
+        "sourceId": "mc227",
+        "jurisdiction": "MI",
+        "formNumber": "Application to Set Aside Conviction(s)",
+        "outcome": "not_acquired",
+        "why": "https://www.courts.michigan.gov/administration/court-programs/state-court-administrative-office/scao-forms/ answered HTTP 404 — the SCAO forms landing page moved; committed evidence carries a corroborated direct URL for MC 235 (on courts.michigan.gov under /siteassets/forms/scao-approved/) whose path shape suggests where MC 227 lives, but that is a pattern, not a recorded address; DISC settles it",
+        "observedSha256": null,
+        "expectedSha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+        "bind": false,
+        "artifactName": "rcap-source-mi-mc227",
+        "artifactId": 9779344860,
+        "jobId": 99676956171,
+        "provenance": "FAIL line at 2026-08-31T23:14:49.814Z in job 99676956171"
+      },
+      {
+        "sourceId": "prb-certificate-of-expungement-for-military-acknowledgement-eligibility-acknowledgement-so",
+        "jurisdiction": "IL",
+        "formNumber": "Certificate of Expungement for Military Eligibility Acknowledgement",
+        "outcome": "acquired",
+        "observedSha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+        "expectedSha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+        "bind": true,
+        "byteLength": 84623,
+        "structure": "acroform",
+        "artifactName": "rcap-source-il-prb-certificate-of-expungement-for-military-acknowledgement-eligibility-acknowle",
+        "artifactId": 9779345333,
+        "jobId": 99676956113,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:14:50.988Z in job 99676956113"
+      },
+      {
+        "sourceId": "prb-certificate-of-expungement-for-military-application-military-certificate-of-expungemen",
+        "jurisdiction": "IL",
+        "formNumber": "Certificate of Expungement for Military Application",
+        "outcome": "acquired",
+        "observedSha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+        "expectedSha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+        "bind": true,
+        "byteLength": 222490,
+        "structure": "acroform",
+        "artifactName": "rcap-source-il-prb-certificate-of-expungement-for-military-application-military-certificate-of-",
+        "artifactId": 9779346562,
+        "jobId": 99676956023,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:14:53.122Z in job 99676956023"
+      },
+      {
+        "sourceId": "prb-certificate-of-sealing-acknowledgement-eligibility-acknowledgement-source-2024",
+        "jurisdiction": "IL",
+        "formNumber": "Certificate of Sealing Eligibility Acknowledgement",
+        "outcome": "acquired",
+        "observedSha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+        "expectedSha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+        "bind": true,
+        "byteLength": 89530,
+        "structure": "acroform",
+        "artifactName": "rcap-source-il-prb-certificate-of-sealing-acknowledgement-eligibility-acknowledgement-source-20",
+        "artifactId": 9779344986,
+        "jobId": 99676956206,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:14:49.593Z in job 99676956206"
+      },
+      {
+        "sourceId": "prb-certificate-of-sealing-application-certificate-of-sealing-application-rev-2024-09-18",
+        "jurisdiction": "IL",
+        "formNumber": "Certificate of Sealing Application",
+        "outcome": "acquired",
+        "observedSha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+        "expectedSha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+        "bind": true,
+        "byteLength": 226488,
+        "structure": "acroform",
+        "artifactName": "rcap-source-il-prb-certificate-of-sealing-application-certificate-of-sealing-application-rev-20",
+        "artifactId": 9779344628,
+        "jobId": 99676956149,
+        "provenance": "OK acquired + sha256 lines at 2026-08-31T23:14:48.582Z in job 99676956149"
+      }
+    ]
+  },
+  "promo": {
+    "mechanism": "scripts/rcap-materialize-acquisition-handoff.mjs — requires the exact artifact body (--input), its receipt (--receipt), the run id and the artifact name, and refuses any promotion whose receipt outcome is not exactly 'acquired' or whose pinned/observed hashes do not all bind.",
+    "status": "PROMO_BLOCKED_BYTES_UNREACHABLE_IN_THIS_CONTAINER",
+    "whatIsMissingPerRow": "the artifact zip bytes. Every one of the fifteen bound sources has run id 33449768535, a planner-derived artifact name, a retained artifact (IDs recorded above, 30-day retention from 2026-08-31), and a receipt whose observed sha256 equals the manifest pin — but the artifact download host (productionresultssa*.blob.core.windows.net, signed URL obtained via the API) is refused by this container's egress proxy with CONNECT 403, and the acquire script's fallback transport (receipt + base64 bytes in GITHUB_STEP_SUMMARY) is not exposed through any API surface reachable here (the job's check-run output is empty).",
+    "verifiedBlocks": [
+      "actions_get download_workflow_run_artifact for artifact 9779344986 returned a signed productionresultssa12.blob.core.windows.net URL; curl through the proxy: 'CONNECT tunnel failed, response 403'",
+      "get_check_run 99676956206 returned output.summary and output.text empty — job step summaries are not served by the Checks API"
+    ],
+    "rowDiscipline": "Each of the fifteen rows is STOPPED on exactly this missing input; the lane continues. No hash was carried forward as custody, no body was committed, no family is released.",
+    "whoCanPromote": "Any environment that can reach the artifact store — the captain's host, or a hosted job that downloads the artifacts and runs the materializer — using: node scripts/rcap-materialize-acquisition-handoff.mjs --run-id 33449768535 --artifact-name <name> --input <extracted body> --receipt <extracted receipt.json> --expected-sha256 <the manifest pin recorded above>.",
+    "retentionDeadline": "artifacts expire 30 days after 2026-08-31; promotion after ~2026-09-30 requires a fresh batch run"
+  },
+  "grantsNothing": "A consumed receipt is a consumed receipt. Nothing here promotes custody, builds a packet, releases a family or opens a commercial route.",
+  "sourceBodiesCommitted": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

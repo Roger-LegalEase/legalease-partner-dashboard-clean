@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "rcap-lane-captain-requests/v1",
+  "lane": "G-CO-SOURCE",
+  "shardId": "S-GCO-SRC",
+  "jurisdiction": "CO",
+  "baseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+  "recordedAt": "2026-08-29T11:21:55Z",
+  "purpose": "Changes this lane does not own. The envelope makes a captain-only or another lane's path a stop condition, so each is described here rather than taken.",
+
+  "resolvedForTheCaptain": {
+    "what": "Lane G's earlier source-verification request carried two entries with documentId null, on the note that JDF 611's digits do not survive text extraction. Both are now identified.",
+    "resolution": [
+      { "wasNull": "NOTICE for CO:petition-based-conviction-sealing-jdf-612-24-72-706", "isNow": "JDF 614 -- Order and Notice of Hearing to Seal Conviction Records" },
+      { "wasNull": "ORDER for CO:petition-based-conviction-sealing-jdf-612-24-72-706", "isNow": "JDF 613 -- Order Denying Request to Seal Conviction Records" }
+    ],
+    "evidence": "data/rcap-all50/candidate-evidence/colorado/co-jdf-611-filing-set-identification.json",
+    "captainActionNeeded": "none; recorded so the open question is visibly closed rather than left for a third lane to re-open"
+  },
+
+  "requests": [
+    {
+      "id": "CO-SRC-1",
+      "targetPath": "network egress policy for this session's environment",
+      "ownedByThisLane": false,
+      "severity": "blocking for acquisition, and only for acquisition",
+      "finding": "Every Colorado Judicial Branch host is refused by the egress proxy with a 403 to CONNECT: www.coloradojudicial.gov, coloradojudicial.gov and www.courts.state.co.us. No official Colorado bytes can be retrieved in this environment.",
+      "requestedChange": "Allow www.coloradojudicial.gov for the environment this lane runs in. www.courts.state.co.us is useful for the legacy form index but is not required.",
+      "afterTheChange": "node scripts/rcap-corpus/acquire-colorado-supplement.mjs --write-index completes the supplement with no further decisions; every URL, role, route, path and digest recipe is already settled.",
+      "whatWasNotDone": "The denial was not routed around. No mirror, cache or third-party proxy was used, and no unofficial form aggregator was substituted as the source of record."
+    },
+    {
+      "id": "CO-SRC-2",
+      "targetPath": "Roger-LegalEase/legalease-source-artifacts -- release publication",
+      "ownedByThisLane": false,
+      "severity": "blocking for publication",
+      "finding": "The supplement's release identity is fixed -- tag co-supplement-2026-08-29, asset Expungement_AI_RCAP_CO_Supplement_2026-08-29.tar.gz -- but no archive exists to publish, because acquisition is blocked upstream of it. Publication authorization was therefore never exercised and is not known to be available.",
+      "requestedChange": "After CO-SRC-1, publish the staged archive as the sole asset of that tag. Do not reuse source-corpus-2026-08-28 and do not republish it.",
+      "note": "This request is downstream of CO-SRC-1 and cannot be actioned before it."
+    },
+    {
+      "id": "CO-SRC-3",
+      "targetPath": "data/record-clearing/factory-v2-route-registry.json",
+      "ownedByThisLane": false,
+      "severity": "reachable by a paying participant",
+      "finding": "Lane G already asked for this and it is repeated here only because this lane re-measured it and agrees. CO:petition-based-non-conviction-sealing-jdf-417-24-72-704 reads as fully built with payment allowed at the evaluator, while two of the four filings its own guide requires -- JDF 419 and JDF 435 -- have no bytes in any release.",
+      "requestedChange": "Keep the route's unmetBuildInputs including exactPacketSet and keep a blocker open for JDF 419 and JDF 435 until the supplement is published and verified.",
+      "thisLaneAsksForNoGateToBeOpened": true
+    },
+    {
+      "id": "CO-SRC-4",
+      "targetPath": "src/lib/rcap/state-packs/colorado/ and Colorado packet mappings",
+      "ownedByThisLane": false,
+      "ownedBy": "G-CO-BUILD",
+      "severity": "informational",
+      "finding": "The complete filing sets are now established from the issuing court's current guides, including the two filings that were unidentified.",
+      "handoff": {
+        "CO:petition-based-conviction-sealing-jdf-612-24-72-706": { "required": ["JDF 612", "JDF 613", "JDF 614", "JDF 615"], "conditional": ["JDF 205", "JDF 206"] },
+        "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704": { "required": ["JDF 417", "JDF 418", "JDF 419", "JDF 435"], "conditional": ["JDF 205", "JDF 206"] },
+        "CO:juvenile-expungement-19-1-306": { "required": ["JDF 302"], "conditional": [] }
+      },
+      "caution": "These are identities, not bytes. Nothing here entitles a packet mapping to claim a source it cannot hash."
+    },
+    {
+      "id": "CO-SRC-5",
+      "targetPath": "the pinned corpus itself",
+      "ownedByThisLane": false,
+      "severity": "informational",
+      "finding": "The pinned JDF 611 is R: August 7, 2024; the current official guide is R: July 1, 2025. A JDF612.pdf also exists under the site's 2025-07 directory, with no revision date surfaced for it. The 2025 JDF 611 names the same four filings, so this lane's identification is unaffected.",
+      "requestedChange": "None from this lane. Recorded so a corpus refresh starts from a known list rather than rediscovering it.",
+      "notActedOn": "Refreshing pinned documents is outside this lane's owned paths and was not attempted."
+    }
+  ],
+
+  "pathsTouchedByThisLane": [
+    "data/rcap-all50/candidate-evidence/colorado/",
+    "scripts/rcap-corpus/"
+  ],
+  "pathsDeliberatelyNotTouched": [
+    "package.json and package-lock.json",
+    "data/rcap-grade-a/",
+    "data/rcap-ledger/",
+    "data/rcap-verifier-dispositions.json",
+    "supabase/migrations/",
+    "docs/rcap/grade-a/captain/",
+    "src/lib/rcap/fulfillment/",
+    "src/lib/rcap/render/",
+    "src/lib/rcap/state-packs/colorado/",
+    "data/rcap-all50/overlays/production/",
+    "data/rcap-all50/candidate-evidence/colorado/lane-g-*.json (another lane's records, left as written)"
+  ],
+  "productionTouched": false
+}

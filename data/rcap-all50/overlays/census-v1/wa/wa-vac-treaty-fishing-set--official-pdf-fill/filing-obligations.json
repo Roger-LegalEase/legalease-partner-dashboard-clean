@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "rcap-participant-filing-obligations/v1",
+  "familyId": "wa_vac_treaty_fishing-set",
+  "derivedFrom": {
+    "routeCensus": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "worklist": "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+    "officialInstructionSheet": {
+      "formNumber": "CrRLJ 09.0300",
+      "revision": "07/2022",
+      "sha256": "42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176",
+      "corpusPath": "STATES/WA/03_INSTRUCTIONS/WA__INSTRUCTIONS__CRRLJ-09.0300__crrlj-09-0300-crrlj-09-0300-instructvacatemisdconvictions-2022-07-2__REV-2022-07__EN.pdf",
+      "pageCount": 2,
+      "rehashedAtBuild": true,
+      "statesNoFeeOrWaiver": true
+    },
+    "boundSourceDocuments": [
+      {
+        "formNumber": "CRRLJ-09.0100",
+        "sha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+        "moneyLanguageMeasured": 0
+      },
+      {
+        "formNumber": "CRRLJ-09.0200",
+        "sha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+        "moneyLanguageMeasured": 0
+      }
+    ]
+  },
+  "standard": "DET-FEE-AND-WAIVER-001 with amendments A1, A2, A3 and A4",
+  "obligations": {
+    "FILING_DESTINATION": {
+      "established": true,
+      "basis": "the committed route obligation census records this route's destination, and the committed worklist records it a second time",
+      "statement": [
+        {
+          "kind": "court",
+          "name": "Clerk of the sentencing court",
+          "detail": "File the application in the sentencing court. Where the subject of the conviction has died, the applicant may be a family member or an official representative of the tribe, and the packet is prepared in that person's name."
+        }
+      ],
+      "alsoRecordedInWorklist": [
+        "The sentencing court. Because the route reaches felonies as well as misdemeanours, that may be a superior court",
+        "court Clerk of the sentencing court File the application in the sentencing court. Where the subject of the conviction has died, the applicant may be a family member or an official representative of the tribe, and the packet is prepared in that person's name"
+      ],
+      "corroboratedBy": "CrRLJ 09.0300: File the original petition and declaration, and the original notice document with the clerk of the court.",
+      "namedCheckableAuthority": null,
+      "whyNotAnAuthority": "A1 as read by its own amendment: naming an authority is what honesty requires when the record is empty; it is not a way to avoid stating what the record contains."
+    },
+    "FEE_AND_WAIVER": {
+      "established": false,
+      "basis": "no committed record establishes a court filing fee or a fee-waiver route for this route",
+      "whatWasSearched": [
+        {
+          "record": "bound source CRRLJ-09.0100 (1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b)",
+          "countsAsHeldUnder": "the family's own bound source documents",
+          "found": "no fee, waiver or cost language; measured from the pinned content stream at build time",
+          "answersThisRoutesQuestion": false,
+          "why": "the form's face does not price the filing"
+        },
+        {
+          "record": "bound source CRRLJ-09.0200 (b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2)",
+          "countsAsHeldUnder": "the family's own bound source documents",
+          "found": "no fee, waiver or cost language; measured from the pinned content stream at build time",
+          "answersThisRoutesQuestion": false,
+          "why": "the form's face does not price the filing"
+        },
+        {
+          "record": "CrRLJ 09.0300 (42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176)",
+          "countsAsHeldUnder": "the official Washington instruction sheet for this route's form series, pinned by the committed corpus index",
+          "found": "no fee, waiver or cost language anywhere on the sheet; measured from the pinned bytes at build time",
+          "answersThisRoutesQuestion": false,
+          "why": "the court system's own instructions for this route are silent on cost"
+        },
+        {
+          "record": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "countsAsHeldUnder": "DET-FEE-AND-WAIVER-001-A2 (the compiled state profile, named as a requiredSourceId by the route obligation census for these routes)",
+          "found": "Three fee statements, all Washington State Patrol criminal-history record fees: WATCH online name/DOB check $11; mail conviction CHRI request $32; fingerprint-card CHRI request $58; notarized letter additional $15; non-conviction CHRI copy fingerprint card plus $12; in-person non-conviction record review no fee.",
+          "answersThisRoutesQuestion": false,
+          "why": "Those are the fees WSP charges to give a person their own criminal-history record. The obligation here is the fee a court charges to file a petition or motion to vacate. Under A3 holding is per fact: a record that prices a different transaction does not price this one."
+        },
+        {
+          "record": "src/lib/rcap/state-packs/washington/fee-notes.ts",
+          "countsAsHeldUnder": "coded state-pack research",
+          "found": "\"Court filing-fee practices for vacation petitions (CrRLJ/CR forms) and juvenile sealing motions vary by county and court — confirm the current filing fee or fee-waiver process with the clerk (source gap — no fixed court filing-fee amount stated in the Nationwide source).\"",
+          "answersThisRoutesQuestion": false,
+          "why": "The state pack records the gap rather than closing it, and names the same authority this packet names. It corroborates that nothing is held; it establishes no amount."
+        },
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "countsAsHeldUnder": "DET-FEE-AND-WAIVER-001-A2 (the committed packet-set worklist)",
+          "found": "filingFee and feeWaiverTreatment both carry status not_recorded on every route on this host.",
+          "answersThisRoutesQuestion": false,
+          "why": "A recorded non-establishment is not an answer. Publishing it as one would invert A1."
+        }
+      ],
+      "namedCheckableAuthority": {
+        "name": "Clerk of the sentencing court",
+        "howToReachIt": "the clerk's office of the court identified under FILING_DESTINATION, which is the court named in the caption of your judgment and on the docket for the case",
+        "answersWhichQuestions": [
+          "whether a filing fee applies to this petition or motion in that court",
+          "the amount if one applies",
+          "whether a fee waiver is available and how to apply for it"
+        ],
+        "theSameOfficeTheOfficialInstructionsDirectYouTo": "To schedule a hearing, contact the clerk of the court where you were sentenced and ask for the date and time for the hearing."
+      },
+      "refusalToInvent": "No amount is stated because no held record states one. A named office the participant can actually reach is the complete deliverable here; a plausible figure would not be."
+    },
+    "SERVICE": {
+      "established": true,
+      "recipient": {
+        "established": true,
+        "basis": "the committed worklist records this route's service recipients",
+        "statement": [
+          "Serve the prosecuting attorney for the sentencing court",
+          "Serve the prosecutor's office for the sentencing court and file proof of service"
+        ],
+        "corroboratedBy": "CrRLJ 09.0300: On the same day that you file those documents with the clerk of the court, you must also provide a copy of each document (the petition and declaration, and the scheduling notice) to the prosecuting attorney’s office that prosecuted you."
+      },
+      "methodAndTiming": {
+        "established": true,
+        "basis": "CrRLJ 09.0300, the official Washington instruction sheet for this route's form series, rehashed against the committed corpus index at build time",
+        "statement": "On the same day that you file those documents with the clerk of the court, you must also provide a copy of each document (the petition and declaration, and the scheduling notice) to the prosecuting attorney’s office that prosecuted you.",
+        "copies": "make at least 2 copies (1 copy for the prosecutor’s office and 1 copy for yourself)",
+        "worklistStatus": {
+          "serviceMethod": "not_recorded",
+          "serviceTiming": "not_recorded"
+        },
+        "note": "The worklist does not record the method or the timing. The route's own official instruction sheet does, so under A1 the packet states it rather than naming an authority to ask."
+      }
+    }
+  },
+  "grantsNothing": "Stating an obligation is not legal approval, does not promote this family and opens no commercial route.",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "fable-packet-factory-builder-return/v1",
+  "builder": "b1",
+  "lane": "PF17",
+  "branch": "fable/b1",
+  "familiesCompleted": [
+    "ky_felony_vacatur_expungement-set",
+    "or_conviction_setaside-set"
+  ],
+  "familiesStopped": [
+    {
+      "familyId": "ca-1203-4-set",
+      "exactReason": "BLOCKED_SOURCE: all five bound Judicial Council source PDFs are encrypted and pdf-lib cannot open any of them. Each was verified byte-exact against the committed corpus index first (CR-106 f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a, CR-180 06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe, CR-181 f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504, MC-025 b0ca1509f2c3de152518079de7c1eb2771eaa1eb7da457c2e918498894f6f0af, MC-031 defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075). One PDFDocument.load({ignoreEncryption:true}) attempt per file fails identically: 'Error: Expected instance of PDFDict, but got instance of undefined' after a cascade of 'Trying to parse invalid object / Invalid object ref' warnings - ignoreEncryption skips the /Encrypt check but cannot parse the encrypted object streams. Encryption dictionaries read from the raw bytes: CR-180 and CR-181 (Rev. 2024) are /Filter /Standard AESV3 R6 (AES-256); CR-106 is AESV2 R4; MC-025 and MC-031 are /Standard R4. Matches the standing FACTORY_MEMORY entry (ca-1203-4-set sources are AES-encrypted; STOP, don't fight). No file in the family directory was touched; no build script was created. The family needs either a decrypted re-acquisition of the five sources into the governed corpus or a non-pdf-lib fill path before any builder can proceed."
+    }
+  ],
+  "countersAllZeroOn": [
+    "ky_felony_vacatur_expungement-set",
+    "or_conviction_setaside-set"
+  ],
+  "deterministicProven": [
+    "ky_felony_vacatur_expungement-set",
+    "or_conviction_setaside-set"
+  ],
+  "independentVerifierResults": {
+    "ky_felony_vacatur_expungement-set": "PASS_COMPLETE (17/140 written)",
+    "or_conviction_setaside-set": "PASS_COMPLETE (12/92 written)"
+  },
+  "rasterState": {
+    "ky_felony_vacatur_expungement-set": "BUILT_RASTER_PENDING",
+    "or_conviction_setaside-set": "BUILT_RASTER_PENDING"
+  },
+  "claims": {
+    "asserted": ["ky_felony_vacatur_expungement-set", "or_conviction_setaside-set", "ca-1203-4-set"],
+    "released": ["ky_felony_vacatur_expungement-set", "or_conviction_setaside-set", "ca-1203-4-set"]
+  },
+  "commits": [
+    "8515808a2",
+    "1b05d738e"
+  ],
+  "notesForNextBuilder": [
+    "The corpus environment files (private/source-corpus-environment.txt and ~/.legalease-corpus-env) do not exist in a fresh Fable worktree and setup-packet-factory.sh cannot create them without LEGALEASE_SOURCE_ARTIFACTS_TOKEN; the corpus itself is already mounted at the main checkout's private/source-imports path and verifies byte-exact, so write the two env files pointing at that mount and the environment verifier goes green. Pass --minimum-captain-sha from MASTER_QUEUE.minimumCaptainSha.",
+    "verify-packet-build-environment.mjs also needs npm ci first; pdf-lib is not installed in a fresh container.",
+    "Kentucky AOC forms name every AcroForm field with a bare number; captions must be read from the content stream (the KY builder's dictionaries record every coordinate). The 7(f) prompt line carries NUL bytes between letters - captions are matched against the stream as it is.",
+    "Oregon's page-5 Phone column is the court's own 34 points; no phone number fits at minimum readable font. It is a disclosed required-before-filing item and the anchor is never offered to the renderer. Do not turn it back into a write.",
+    "Any assembled packet made with PDFDocument.create() must go through stampDeterministic or two identical builds differ; the pre-existing OR builder was missing it on the packet assembly document."
+  ]
+}

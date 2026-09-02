@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "rcap-grade-a-already-answered-implementation-stop/v1",
+  "assignmentId": "C8_ALREADY_ANSWERED_ENGINEERING",
+  "workerBranch": "codex/c8-already-answered-engineering",
+  "workerBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+  "sourceRetriageRecord": "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2-retriage.json",
+  "status": "stopped",
+  "stopCondition": "A row whose decision record says something different from what the retriage claims stops and is reported; the record wins and the retriage is the defect.",
+  "rowsExpected": 37,
+  "rowsImplemented": 0,
+  "decisionRecordAudit": {
+    "rowCitations": 37,
+    "uniqueRecords": 35,
+    "missing": []
+  },
+  "stoppedRows": [
+    {
+      "routeKey": "obligation:track-pathway:OR:or_acquittal:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "retriageClaim": "The cited LD-OR-01 combined route answers the acquittal row as one COURT SET-ASIDE PACKET under ORS 137.225(1)(c)-(d).",
+      "retriageCitation": {
+        "id": "LD-OR-01",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-OR-01"
+      },
+      "controllingDecisionIds": [
+        "LWD-2026-08-29-OR-SUBSECTION",
+        "LWD-2026-08-29-OR-PACKET-SCOPE"
+      ],
+      "controllingDecisionRecord": {
+        "file": "data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json",
+        "fields": [
+          "decisions[] decisionId=LWD-2026-08-29-OR-SUBSECTION",
+          "decisions[] decisionId=LWD-2026-08-29-OR-PACKET-SCOPE"
+        ]
+      },
+      "recordEffect": "The existing broad route is legally overbroad. Never-charged matters must use a distinct ORS 137.225(1)(c) Option 3 configuration; acquittals must use a distinct ORS 137.225(1)(d) Option 2 configuration; ordinary dismissals must use a separate ORS 137.225(1)(d) Option 2 configuration. The treatments may share one packet family only if each has a distinct governed configuration; they may not resolve to one generic or null packet configuration.",
+      "retriageDefect": "The retriage cites the older aggregate LD-OR-01 projection even though the newer counsel record names that same route as overbroad and requires it to be retired, narrowed, or replaced. Emitting a 37-row implementation from the retriage would preserve a superseded Oregon route treatment."
+    }
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

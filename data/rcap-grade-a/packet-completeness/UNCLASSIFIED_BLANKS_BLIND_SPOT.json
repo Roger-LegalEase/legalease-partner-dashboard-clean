@@ -1,0 +1,227 @@
+{
+ "schemaVersion": "rcap-unclassified-blanks-blind-spot/v1",
+ "producedBy": "Captain, confirming and generalising a FABLE-VA6 finding",
+ "producedOn": "2026-09-02T10:20:36.552Z",
+ "atCommit": "46ac0914c760f93cb9a2429d470caa7e433b2092",
+ "theFinding": "A counter that cannot see a blank reports zero, and zero reads as proof there is none.",
+ "whatVA6Measured": "On three families it held — the MS 99-15-59 dismissal branch, id_felony_reduction-set and rcap-ok-custom-pleading — 2, 1 and 16 blanks where a court must be named exist in no field map, no blanks report and no instruction table. unclassifiedBlanks reports 0 on all three and cannot see them. VA6 re-ran verify-packet-completeness.mjs itself and it passed all three.",
+ "theShape": {
+  "first": "The caption rule writes \"IN THE ...... COURT\" as a hard-coded literal dot run, while every registered blank goes through the {{DOTS}} placeholder.",
+  "second": "The blank ledger is built only from field-map refusals — the build script pushes a row for each entry of canonicalRefusals and for nothing else — so a blank that never entered a field map cannot enter the ledger.",
+  "together": "A caption blank is invisible to the counter by construction, not by accident."
+ },
+ "captainsGeneralisation": {
+  "buildScriptsExamined": 191,
+  "withARefusalsOnlyBlankLedger": 84,
+  "withBothHalvesOfTheShape": 40,
+  "ofThoseReportingUnclassifiedBlanksZero": 40
+ },
+ "whatThisMeans": "unclassifiedBlanks is not evidence of absence on these families. It remains evidence where it is NON-zero, and it remains a true measurement of the blanks that DID enter a field map everywhere. Nothing here says these packets are defective; it says one counter cannot answer for them.",
+ "whatWasNotDone": "The instrument was not changed. Making the counter report NOT_MEASURED_ON_THIS_FAMILY instead of 0 is the principled fix, and it touches a shared measurement every family and several gates read — with verification lanes in flight measuring against it, changing it mid-run would invalidate their work. It is left as scoped, named work rather than done carelessly.",
+ "doNotConclude": [
+  "That any listed family has an uncollected blank. Only opening its artefacts establishes that, and this opened none.",
+  "That the other counters are affected. This is about unclassifiedBlanks and the blank ledger that feeds it."
+ ],
+ "families": [
+  {
+   "familyId": "ar-nonconviction-seal-set",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "az_wrongful_arrest_clearance-set",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:sc_17_22_950_summary",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "composed-treatment:sd_sis_sealing",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "ct-decriminalized-set",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "dc_yra_set_aside-set",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "id_felony_reduction-set",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "id_set_aside_dismissal-set",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "ms-diversion-set",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "ms-fel-set",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "ms-misd-addl-set",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "ms-nonadj-set",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "rcap-ks-custom-pleading",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "rcap-ms-custom-pleading",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "rcap-nd-custom-pleading",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "rcap-nv-custom-pleading",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "rcap-ok-custom-pleading",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "rcap-sc-custom-pleading",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "rcap-tn-custom-pleading",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "rcap-wa-custom-pleading-clean-tracks",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "rcap-wi-custom-pleading",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "rcap-wv-custom-pleading",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "va_exp_identity_used_by_another-set",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  },
+  {
+   "familyId": "wv_dui_deferral_expungement-set",
+   "unclassifiedBlanksReported": 0,
+   "completenessResult": "PASS_COMPLETE"
+  }
+ ]
+}

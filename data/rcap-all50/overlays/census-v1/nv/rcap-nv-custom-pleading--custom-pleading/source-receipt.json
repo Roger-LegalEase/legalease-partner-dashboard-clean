@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "rcap-nv-custom-pleading",
+  "worklistGroupId": "rcap-nv-custom-pleading",
+  "jurisdiction": "NV",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "committed repository records bound by exact SHA-256 at build time, with every relied-on statement re-read from the committed bytes as an anchor before composing",
+  "routeKeys": [
+    "obligation:track-only:NV:nv_seal_decrim",
+    "obligation:track-only:NV:nv_seal_multi",
+    "obligation:track-only:NV:nv_seal_pardon",
+    "obligation:track-pathway:NV:nv_seal_conviction:general-conviction-record-sealing-under-nrs-179-245",
+    "obligation:track-pathway:NV:nv_seal_nonconviction:non-conviction-record-sealing",
+    "obligation:track-pathway:NV:nv_seal_reentry:reentry-program-sealing-under-nrs-179-259"
+  ],
+  "statutoryAuthority": [
+    "NRS 179.271",
+    "NRS 179.285",
+    "NRS 179.2595",
+    "NRS 179.245",
+    "NRS 179.255",
+    "NRS 179.273",
+    "NRS 213",
+    "NRS 179.2405",
+    "NRS 179.2445",
+    "NRS 179.265",
+    "NRS 179.275",
+    "NRS 179.295",
+    "NRS 179.301",
+    "NRS 176A.850",
+    "NRS 179.255(1)",
+    "NRS 179.255(3)",
+    "NRS 179.255(4)",
+    "NRS 179.255(9)",
+    "NRS 179.259"
+  ],
+  "legalName": "Nevada Record-Sealing Petitions — NRS 179.245, 179.255, 179.259 and the decriminalized-conduct and pardon routes",
+  "allSourcesExact": true,
+  "formIdentityNote": "No committed record names an official statewide participant form for this route; the committed specifications record its component set as composed pleadings. Every page in this packet is therefore composed by this build from the committed records, and no official form was substituted or invented.",
+  "committedRecords": [
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-track-registry.json"
+      ],
+      "recordId": "legal-design-track-registry:nv_seal_decrim+nv_seal_multi+nv_seal_pardon+nv_seal_conviction+nv_seal_nonconviction+nv_seal_reentry",
+      "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6",
+      "byteLength": 16555956,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed legal-design track registry: this route's legal name, its statutory mechanism, its venue and destination, its recorded fee, notice and service rules, its required generation inputs, its packet instructions and its self-help stop conditions",
+      "anchorStatementsVerified": 79
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-specifications.json"
+      ],
+      "recordId": "legal-design-specifications:nv_seal_decrim+nv_seal_multi+nv_seal_pardon+nv_seal_conviction+nv_seal_nonconviction+nv_seal_reentry",
+      "pathInRepository": "data/record-clearing/legal-design-specifications.json",
+      "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+      "byteLength": 16829383,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed custom-pleading specifications: the component set this packet must contain, and the participant actions the record requires before filing",
+      "anchorStatementsVerified": 24
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      ],
+      "recordId": "route-obligation-census:6-route(s)",
+      "pathInRepository": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+      "byteLength": 2599752,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed route-obligation census: the exact route keys this family serves, their statutory authority and their recorded destinations",
+      "anchorStatementsVerified": 6
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [
+    "nv_seal_decrim-primary-filing-2",
+    "nv_seal_decrim-proposed-order-3",
+    "nv_seal_decrim-declaration-and-verification-4",
+    "nv_seal_decrim-stipulation-5",
+    "nv_seal_decrim-filing-instructions-6",
+    "nv_seal_multi-primary-filing-2",
+    "nv_seal_multi-proposed-order-3",
+    "nv_seal_multi-declaration-and-verification-4",
+    "nv_seal_multi-stipulation-5",
+    "nv_seal_multi-filing-instructions-6",
+    "nv_seal_pardon-primary-filing-2",
+    "nv_seal_pardon-proposed-order-3",
+    "nv_seal_pardon-declaration-and-verification-4",
+    "nv_seal_pardon-stipulation-5",
+    "nv_seal_pardon-filing-instructions-6",
+    "nv_seal_conviction-primary-filing-2",
+    "nv_seal_conviction-proposed-order-3",
+    "nv_seal_conviction-declaration-and-verification-4",
+    "nv_seal_conviction-stipulation-5",
+    "nv_seal_conviction-filing-instructions-6",
+    "nv_seal_nonconviction-primary-filing-2",
+    "nv_seal_nonconviction-proposed-order-3",
+    "nv_seal_nonconviction-declaration-and-verification-4",
+    "nv_seal_nonconviction-stipulation-5",
+    "nv_seal_nonconviction-filing-instructions-6",
+    "nv_seal_reentry-primary-filing-2",
+    "nv_seal_reentry-proposed-order-3",
+    "nv_seal_reentry-declaration-and-verification-4",
+    "nv_seal_reentry-stipulation-5",
+    "nv_seal_reentry-filing-instructions-6"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that any record is eligible for the relief this family composes for",
+    "that any particular record meets this route's recorded conditions",
+    "that any prosecuting attorney will stipulate, which the committed record makes a step before filing rather than a consequence of it"
+  ]
+}

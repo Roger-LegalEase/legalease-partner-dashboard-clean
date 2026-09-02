@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "ca-17b-reduction-set",
+  "routeKeys": [
+    "obligation:track-only:CA:ca-17b-reduction"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "renderStrategy": "source_derived_primary_plus_exact_unchanged_packet_components",
+  "evidenceVariants": [
+    "pc-17b-felony-to-misdemeanor",
+    "pc-17d2-misdemeanor-to-infraction"
+  ],
+  "fieldMap": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/production-field-map.json",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "note": "Artifacts remain review-only alternatives. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
+  "binding": {
+    "family": "ca-17b-reduction-set",
+    "jurisdiction": "CA",
+    "routeKeys": [
+      "obligation:track-only:CA:ca-17b-reduction"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "primary_filing",
+      "proof_of_service",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:ca-17b-reduction-primary-filing-1",
+      "component:ca-17b-reduction-proof-of-service-3",
+      "component:ca-17b-reduction-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CR-106",
+        "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CR-180",
+        "sha256": "06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CR-181",
+        "sha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ca-17b-reduction-set.mjs",
+      "sharedBuildHost": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

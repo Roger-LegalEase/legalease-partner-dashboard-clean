@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ky_void_seal_controlled_substance-set",
+  "findings": [
+    {
+      "finding": "AOC-334 is the ORDER the judge signs, not the filing. It prints both KRS 218A.275 and KRS 218A.276 on its own face, which is why one form serves both families in this lane.",
+      "consequence": "The route's primary_filing is a composed motion; AOC-334 is tendered as the proposed_order and is filled in the shared field semantics' caption mode, which admits only the style of the case."
+    },
+    {
+      "finding": "The committed legal-design track registry holds this route's filing destination, its fee and its service party. This build previously read none of them and sent the participant to the circuit court clerk for all three, so the packet was silent about facts the repository already knew.",
+      "consequence": "The instructions and the composed documents now state them from data/record-clearing/legal-design-track-registry.json, track ky_void_seal_controlled_substance: filed with the Office of the Circuit Court Clerk, no filing fee, and served as the registry records. DET-FEE-AND-WAIVER-001-A1 puts the held answer first and allows a named authority to stand in only where no held source establishes the fact."
+    },
+    {
+      "finding": "What the registry does not hold is the serving office's current name and address for the county of conviction, or any filing deadline.",
+      "consequence": "Those two remain declared required-before-filing and disclosed by name, with the circuit court clerk named as the authority to ask. The certificate of service still names no recipient and states no method, and no recipient was guessed."
+    },
+    {
+      "finding": "The order directs named agencies to seal their records, and the platform holds no list of them.",
+      "consequence": "Both agency lines are refused by the shared semantics' agency rule and declared required-before-filing rather than hidden inside a protected class, because an agency name is a case fact the participant can obtain and not a field the court owns."
+    },
+    {
+      "finding": "The completion date appears on both the motion and the tendered order.",
+      "consequence": "It is disclosed once per document and the instructions say in terms to write the same date in both places, because two different dates for one fact invites a denial."
+    }
+  ]
+}

@@ -1,0 +1,1226 @@
+{
+  "schemaVersion": "rcap-source-conveyor/v1",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
+  "question": "What actually stands between 47 buildable families and 346?",
+  "answer": "Source identity. 178 obligations across 102 families, and 85 of them do not yet have an official URL to fetch.",
+  "captainHead": "b03b38d9055aa9d4fe2db98e74e109dee02d09fb",
+  "preservedFactoryLanes": {
+    "rule": "The thirty-two packet lanes are preserved. Nothing here rewrites PF01-PF16, FIX01-FIX04 or VF01-VF08, and SRC01-SRC04 keep their identifiers and take the reconciliation operation.",
+    "packetBuild": [
+      "PF01",
+      "PF02",
+      "PF03",
+      "PF04",
+      "PF05",
+      "PF06",
+      "PF07",
+      "PF08",
+      "PF09",
+      "PF10",
+      "PF11",
+      "PF12",
+      "PF13",
+      "PF14",
+      "PF15",
+      "PF16"
+    ],
+    "rapidRepair": [
+      "FIX01",
+      "FIX02",
+      "FIX03",
+      "FIX04",
+      "FIX05",
+      "FIX06",
+      "FIX07",
+      "FIX08"
+    ],
+    "independentVerification": [
+      "VF01",
+      "VF02",
+      "VF03",
+      "VF04",
+      "VF05",
+      "VF06",
+      "VF07",
+      "VF08",
+      "VF09",
+      "VF10",
+      "VF11",
+      "VF12"
+    ],
+    "heldInventoryReconciliation": [
+      "SRC01",
+      "SRC02",
+      "SRC03",
+      "SRC04"
+    ]
+  },
+  "operations": [
+    {
+      "prefix": "DISC",
+      "lanes": 6,
+      "operation": "exact-source-identity",
+      "never": [
+        "download",
+        "promote",
+        "commit a source body"
+      ],
+      "handOff": "ACQ, the moment an exact official URL is known — never at the end of the lane"
+    },
+    {
+      "prefix": "SRC",
+      "lanes": 4,
+      "operation": "held-inventory-reconciliation",
+      "never": [
+        "fetch",
+        "promote without a hash match",
+        "commit a source body"
+      ],
+      "handOff": "PROMO where the byte is held and binds; DISC where the identity itself is wrong"
+    },
+    {
+      "prefix": "ACQ",
+      "lanes": 3,
+      "operation": "official-acquisition",
+      "never": [
+        "accept a URL DISC has not settled",
+        "download from an unapproved host",
+        "commit a source body"
+      ],
+      "handOff": "PROMO, on the uploaded artifact and its receipt"
+    },
+    {
+      "prefix": "PROMO",
+      "lanes": 3,
+      "operation": "promotion-and-release",
+      "never": [
+        "build a packet",
+        "promote without comparing SHA-256",
+        "release a family whose last source did not bind"
+      ],
+      "handOff": "Captain, who assigns every released family to an available builder immediately"
+    }
+  ],
+  "lanes": [
+    {
+      "assignmentId": "DISC01",
+      "operation": "exact-source-identity",
+      "status": "ACTIVE",
+      "obligations": 24,
+      "familiesReleasedByThisLane": 14,
+      "familiesAdvancedButNotReleasedHere": 1,
+      "issuingHosts": [
+        "IL",
+        "ME",
+        "UT"
+      ],
+      "mustRecord": [
+        "official publisher",
+        "exact title",
+        "form number",
+        "revision",
+        "official URL",
+        "jurisdiction",
+        "intended packet role",
+        "statewide or local"
+      ],
+      "never": [
+        "download",
+        "promote",
+        "commit a source body"
+      ],
+      "handOff": "ACQ, the moment an exact official URL is known — never at the end of the lane",
+      "refusals": [
+        "A source identity without an exact official URL is not settled. Record it STOPPED naming the office that publishes it.",
+        "NEVER guess a form number, a revision or a URL. A plausible address is worse than an absent one because ACQ will fetch it."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/disc01/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/disc01/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/DISC01.md"
+    },
+    {
+      "assignmentId": "DISC02",
+      "operation": "exact-source-identity",
+      "status": "ACTIVE",
+      "obligations": 14,
+      "familiesReleasedByThisLane": 8,
+      "familiesAdvancedButNotReleasedHere": 0,
+      "issuingHosts": [
+        "IA",
+        "IN",
+        "MT"
+      ],
+      "mustRecord": [
+        "official publisher",
+        "exact title",
+        "form number",
+        "revision",
+        "official URL",
+        "jurisdiction",
+        "intended packet role",
+        "statewide or local"
+      ],
+      "never": [
+        "download",
+        "promote",
+        "commit a source body"
+      ],
+      "handOff": "ACQ, the moment an exact official URL is known — never at the end of the lane",
+      "refusals": [
+        "A source identity without an exact official URL is not settled. Record it STOPPED naming the office that publishes it.",
+        "NEVER guess a form number, a revision or a URL. A plausible address is worse than an absent one because ACQ will fetch it."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/disc02/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/disc02/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/DISC02.md"
+    },
+    {
+      "assignmentId": "DISC03",
+      "operation": "exact-source-identity",
+      "status": "ACTIVE",
+      "obligations": 14,
+      "familiesReleasedByThisLane": 8,
+      "familiesAdvancedButNotReleasedHere": 4,
+      "issuingHosts": [
+        "AR",
+        "FL",
+        "IA",
+        "WA"
+      ],
+      "mustRecord": [
+        "official publisher",
+        "exact title",
+        "form number",
+        "revision",
+        "official URL",
+        "jurisdiction",
+        "intended packet role",
+        "statewide or local"
+      ],
+      "never": [
+        "download",
+        "promote",
+        "commit a source body"
+      ],
+      "handOff": "ACQ, the moment an exact official URL is known — never at the end of the lane",
+      "refusals": [
+        "A source identity without an exact official URL is not settled. Record it STOPPED naming the office that publishes it.",
+        "NEVER guess a form number, a revision or a URL. A plausible address is worse than an absent one because ACQ will fetch it."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/disc03/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/disc03/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/DISC03.md"
+    },
+    {
+      "assignmentId": "DISC04",
+      "operation": "exact-source-identity",
+      "status": "ACTIVE",
+      "obligations": 5,
+      "familiesReleasedByThisLane": 3,
+      "familiesAdvancedButNotReleasedHere": 0,
+      "issuingHosts": [
+        "DE",
+        "MI"
+      ],
+      "mustRecord": [
+        "official publisher",
+        "exact title",
+        "form number",
+        "revision",
+        "official URL",
+        "jurisdiction",
+        "intended packet role",
+        "statewide or local"
+      ],
+      "never": [
+        "download",
+        "promote",
+        "commit a source body"
+      ],
+      "handOff": "ACQ, the moment an exact official URL is known — never at the end of the lane",
+      "refusals": [
+        "A source identity without an exact official URL is not settled. Record it STOPPED naming the office that publishes it.",
+        "NEVER guess a form number, a revision or a URL. A plausible address is worse than an absent one because ACQ will fetch it."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/disc04/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/disc04/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/DISC04.md"
+    },
+    {
+      "assignmentId": "DISC05",
+      "operation": "exact-source-identity",
+      "status": "ACTIVE",
+      "obligations": 5,
+      "familiesReleasedByThisLane": 1,
+      "familiesAdvancedButNotReleasedHere": 1,
+      "issuingHosts": [
+        "IA",
+        "ND"
+      ],
+      "mustRecord": [
+        "official publisher",
+        "exact title",
+        "form number",
+        "revision",
+        "official URL",
+        "jurisdiction",
+        "intended packet role",
+        "statewide or local"
+      ],
+      "never": [
+        "download",
+        "promote",
+        "commit a source body"
+      ],
+      "handOff": "ACQ, the moment an exact official URL is known — never at the end of the lane",
+      "refusals": [
+        "A source identity without an exact official URL is not settled. Record it STOPPED naming the office that publishes it.",
+        "NEVER guess a form number, a revision or a URL. A plausible address is worse than an absent one because ACQ will fetch it."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/disc05/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/disc05/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/DISC05.md"
+    },
+    {
+      "assignmentId": "DISC06",
+      "operation": "exact-source-identity",
+      "status": "ACTIVE",
+      "obligations": 4,
+      "familiesReleasedByThisLane": 4,
+      "familiesAdvancedButNotReleasedHere": 0,
+      "issuingHosts": [
+        "MA",
+        "TX"
+      ],
+      "mustRecord": [
+        "official publisher",
+        "exact title",
+        "form number",
+        "revision",
+        "official URL",
+        "jurisdiction",
+        "intended packet role",
+        "statewide or local"
+      ],
+      "never": [
+        "download",
+        "promote",
+        "commit a source body"
+      ],
+      "handOff": "ACQ, the moment an exact official URL is known — never at the end of the lane",
+      "refusals": [
+        "A source identity without an exact official URL is not settled. Record it STOPPED naming the office that publishes it.",
+        "NEVER guess a form number, a revision or a URL. A plausible address is worse than an absent one because ACQ will fetch it."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/disc06/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/disc06/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/DISC06.md"
+    },
+    {
+      "assignmentId": "SRC01",
+      "operation": "held-inventory-reconciliation",
+      "status": "ACTIVE",
+      "obligations": 39,
+      "familiesReleasedByThisLane": 4,
+      "familiesAdvancedButNotReleasedHere": 7,
+      "issuingHosts": [
+        "CA",
+        "FL",
+        "GA",
+        "KS"
+      ],
+      "mustRecord": [
+        "custody path",
+        "SHA-256",
+        "byte size",
+        "MIME",
+        "page count",
+        "technology"
+      ],
+      "never": [
+        "fetch",
+        "promote without a hash match",
+        "commit a source body"
+      ],
+      "handOff": "PROMO where the byte is held and binds; DISC where the identity itself is wrong",
+      "refusals": [
+        "A form the corpus already carries needs no acquisition. Bind it and say so.",
+        "A named form number that is not in the corpus is a DISC or ACQ obligation, never a bind."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/src01/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/src01/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/SRC01.md"
+    },
+    {
+      "assignmentId": "SRC02",
+      "operation": "held-inventory-reconciliation",
+      "status": "ACTIVE",
+      "obligations": 30,
+      "familiesReleasedByThisLane": 20,
+      "familiesAdvancedButNotReleasedHere": 6,
+      "issuingHosts": [
+        "AL",
+        "AZ",
+        "CA",
+        "MA",
+        "MO",
+        "RI"
+      ],
+      "mustRecord": [
+        "custody path",
+        "SHA-256",
+        "byte size",
+        "MIME",
+        "page count",
+        "technology"
+      ],
+      "never": [
+        "fetch",
+        "promote without a hash match",
+        "commit a source body"
+      ],
+      "handOff": "PROMO where the byte is held and binds; DISC where the identity itself is wrong",
+      "refusals": [
+        "A form the corpus already carries needs no acquisition. Bind it and say so.",
+        "A named form number that is not in the corpus is a DISC or ACQ obligation, never a bind."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/src02/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/src02/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/SRC02.md"
+    },
+    {
+      "assignmentId": "SRC03",
+      "operation": "held-inventory-reconciliation",
+      "status": "ACTIVE",
+      "obligations": 21,
+      "familiesReleasedByThisLane": 12,
+      "familiesAdvancedButNotReleasedHere": 6,
+      "issuingHosts": [
+        "CO",
+        "DE",
+        "MD",
+        "ME",
+        "MO",
+        "RI"
+      ],
+      "mustRecord": [
+        "custody path",
+        "SHA-256",
+        "byte size",
+        "MIME",
+        "page count",
+        "technology"
+      ],
+      "never": [
+        "fetch",
+        "promote without a hash match",
+        "commit a source body"
+      ],
+      "handOff": "PROMO where the byte is held and binds; DISC where the identity itself is wrong",
+      "refusals": [
+        "A form the corpus already carries needs no acquisition. Bind it and say so.",
+        "A named form number that is not in the corpus is a DISC or ACQ obligation, never a bind."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/src03/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/src03/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/SRC03.md"
+    },
+    {
+      "assignmentId": "SRC04",
+      "operation": "held-inventory-reconciliation",
+      "status": "ACTIVE",
+      "obligations": 22,
+      "familiesReleasedByThisLane": 13,
+      "familiesAdvancedButNotReleasedHere": 5,
+      "issuingHosts": [
+        "HI",
+        "KS",
+        "KY",
+        "NC",
+        "ND",
+        "UT",
+        "WV"
+      ],
+      "mustRecord": [
+        "custody path",
+        "SHA-256",
+        "byte size",
+        "MIME",
+        "page count",
+        "technology"
+      ],
+      "never": [
+        "fetch",
+        "promote without a hash match",
+        "commit a source body"
+      ],
+      "handOff": "PROMO where the byte is held and binds; DISC where the identity itself is wrong",
+      "refusals": [
+        "A form the corpus already carries needs no acquisition. Bind it and say so.",
+        "A named form number that is not in the corpus is a DISC or ACQ obligation, never a bind."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/src04/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/src04/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/SRC04.md"
+    },
+    {
+      "assignmentId": "ACQ01",
+      "operation": "official-acquisition",
+      "status": "QUEUED_EMPTY",
+      "obligations": 0,
+      "familiesReleasedByThisLane": 0,
+      "familiesAdvancedButNotReleasedHere": 0,
+      "issuingHosts": [],
+      "mustRecord": [
+        "SHA-256",
+        "MIME",
+        "page count",
+        "technology (acroform, xfa, flat)",
+        "byte size",
+        "artifact name"
+      ],
+      "never": [
+        "accept a URL DISC has not settled",
+        "download from an unapproved host",
+        "commit a source body"
+      ],
+      "handOff": "PROMO, on the uploaded artifact and its receipt",
+      "refusals": [
+        "Consume only exact official URLs supplied by DISC. A URL you composed yourself is refused.",
+        "Download only from an approved official government host: .gov, .uscourts.gov, state.<code>.us. An unofficial mirror is refused even when the official host is slow.",
+        "The body leaves as a workflow artifact. Nothing is committed."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/acq01/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/ACQ01.md"
+    },
+    {
+      "assignmentId": "ACQ02",
+      "operation": "official-acquisition",
+      "status": "QUEUED_EMPTY",
+      "obligations": 0,
+      "familiesReleasedByThisLane": 0,
+      "familiesAdvancedButNotReleasedHere": 0,
+      "issuingHosts": [],
+      "mustRecord": [
+        "SHA-256",
+        "MIME",
+        "page count",
+        "technology (acroform, xfa, flat)",
+        "byte size",
+        "artifact name"
+      ],
+      "never": [
+        "accept a URL DISC has not settled",
+        "download from an unapproved host",
+        "commit a source body"
+      ],
+      "handOff": "PROMO, on the uploaded artifact and its receipt",
+      "refusals": [
+        "Consume only exact official URLs supplied by DISC. A URL you composed yourself is refused.",
+        "Download only from an approved official government host: .gov, .uscourts.gov, state.<code>.us. An unofficial mirror is refused even when the official host is slow.",
+        "The body leaves as a workflow artifact. Nothing is committed."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/acq02/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/ACQ02.md"
+    },
+    {
+      "assignmentId": "ACQ03",
+      "operation": "official-acquisition",
+      "status": "QUEUED_EMPTY",
+      "obligations": 0,
+      "familiesReleasedByThisLane": 0,
+      "familiesAdvancedButNotReleasedHere": 0,
+      "issuingHosts": [],
+      "mustRecord": [
+        "SHA-256",
+        "MIME",
+        "page count",
+        "technology (acroform, xfa, flat)",
+        "byte size",
+        "artifact name"
+      ],
+      "never": [
+        "accept a URL DISC has not settled",
+        "download from an unapproved host",
+        "commit a source body"
+      ],
+      "handOff": "PROMO, on the uploaded artifact and its receipt",
+      "refusals": [
+        "Consume only exact official URLs supplied by DISC. A URL you composed yourself is refused.",
+        "Download only from an approved official government host: .gov, .uscourts.gov, state.<code>.us. An unofficial mirror is refused even when the official host is slow.",
+        "The body leaves as a workflow artifact. Nothing is committed."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/acq03/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq03/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/ACQ03.md"
+    },
+    {
+      "assignmentId": "PROMO01",
+      "operation": "promotion-and-release",
+      "status": "QUEUED_EMPTY",
+      "obligations": 0,
+      "familiesReleasedByThisLane": 0,
+      "familiesAdvancedButNotReleasedHere": 0,
+      "issuingHosts": [],
+      "mustRecord": [
+        "receipt verified",
+        "SHA-256 compared",
+        "custody record",
+        "inventory entry",
+        "families released"
+      ],
+      "never": [
+        "build a packet",
+        "promote without comparing SHA-256",
+        "release a family whose last source did not bind"
+      ],
+      "handOff": "Captain, who assigns every released family to an available builder immediately",
+      "refusals": [
+        "Bytes treated as promoted without a SHA-256 comparison are refused. A promotion is a release, and a released family goes to a builder that will open the file.",
+        "A SHA mismatch is a refusal, never a warning.",
+        "Update the source inventory through the existing authority. Do not write a parallel register."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/promo01/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/promo01/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/PROMO01.md"
+    },
+    {
+      "assignmentId": "PROMO02",
+      "operation": "promotion-and-release",
+      "status": "QUEUED_EMPTY",
+      "obligations": 0,
+      "familiesReleasedByThisLane": 0,
+      "familiesAdvancedButNotReleasedHere": 0,
+      "issuingHosts": [],
+      "mustRecord": [
+        "receipt verified",
+        "SHA-256 compared",
+        "custody record",
+        "inventory entry",
+        "families released"
+      ],
+      "never": [
+        "build a packet",
+        "promote without comparing SHA-256",
+        "release a family whose last source did not bind"
+      ],
+      "handOff": "Captain, who assigns every released family to an available builder immediately",
+      "refusals": [
+        "Bytes treated as promoted without a SHA-256 comparison are refused. A promotion is a release, and a released family goes to a builder that will open the file.",
+        "A SHA mismatch is a refusal, never a warning.",
+        "Update the source inventory through the existing authority. Do not write a parallel register."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/promo02/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/promo02/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/PROMO02.md"
+    },
+    {
+      "assignmentId": "PROMO03",
+      "operation": "promotion-and-release",
+      "status": "QUEUED_EMPTY",
+      "obligations": 0,
+      "familiesReleasedByThisLane": 0,
+      "familiesAdvancedButNotReleasedHere": 0,
+      "issuingHosts": [],
+      "mustRecord": [
+        "receipt verified",
+        "SHA-256 compared",
+        "custody record",
+        "inventory entry",
+        "families released"
+      ],
+      "never": [
+        "build a packet",
+        "promote without comparing SHA-256",
+        "release a family whose last source did not bind"
+      ],
+      "handOff": "Captain, who assigns every released family to an available builder immediately",
+      "refusals": [
+        "Bytes treated as promoted without a SHA-256 comparison are refused. A promotion is a release, and a released family goes to a builder that will open the file.",
+        "A SHA mismatch is a refusal, never a warning.",
+        "Update the source inventory through the existing authority. Do not write a parallel register."
+      ],
+      "continueAfterFailure": "An obligation that cannot be settled is one STOPPED row naming exactly what is missing. The lane continues to the next obligation. One failure never stops a lane.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/promo03/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/promo03/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/PROMO03.md"
+    }
+  ],
+  "totals": {
+    "sourceLanes": 16,
+    "disc": 6,
+    "src": 4,
+    "acq": 3,
+    "promo": 3,
+    "obligations": 178,
+    "familiesReleased": 87,
+    "manifestEntries": 62
+  },
+  "batchWorkflow": ".github/workflows/rcap-official-source-acquisition-batch.yml",
+  "manifest": "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json",
+  "integrationState": "data/rcap-grade-a/packet-factory-24h/CONTINUOUS_INTEGRATION_STATE.json",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A promoted source is a held byte with a custody record. It builds no packet, proves no packet complete and opens no commercial route."
+}

@@ -1,0 +1,195 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "ne-seal-enforcement-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "informal_demand_letter",
+      "field": "informal_demand_letter.agency_address",
+      "page": 1,
+      "printedContext": "Mailing address of the agency the demand is sent to",
+      "disclosureLabel": "Mailing address of the agency the demand is sent to",
+      "identity": "informal_demand_letter field agency_address",
+      "why": "the platform holds no address for the agency and it is never guessed",
+      "participantMustSupply": "the agency's current published mailing address"
+    },
+    {
+      "document": "informal_demand_letter",
+      "field": "informal_demand_letter.agency_name",
+      "page": 1,
+      "printedContext": "Agency the demand is addressed to - the agency whose records have not been conformed",
+      "disclosureLabel": "Agency the demand is addressed to - the agency whose records have not been conformed",
+      "identity": "informal_demand_letter field agency_name",
+      "why": "which agency failed to conform its records is a fact the participant establishes by checking, and the platform has not seen the results",
+      "participantMustSupply": "the agency that still shows the record - the State Patrol, a county attorney, a court records office, a city attorney, or another; your State Patrol report, court case search or courthouse terminal printout shows which"
+    },
+    {
+      "document": "informal_demand_letter",
+      "field": "informal_demand_letter.arrest_date",
+      "page": 1,
+      "printedContext": "Date of arrest, citation or referral",
+      "disclosureLabel": "Date of arrest, citation or referral",
+      "identity": "informal_demand_letter field arrest_date",
+      "why": "no arrest fact is held for a record the platform has not seen",
+      "participantMustSupply": "the date you were arrested, cited or referred, from your papers"
+    },
+    {
+      "document": "informal_demand_letter",
+      "field": "informal_demand_letter.case_number",
+      "page": 1,
+      "printedContext": "Case or citation number, if there was one",
+      "disclosureLabel": "Case or citation number, if there was one",
+      "identity": "informal_demand_letter field case_number",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the case or citation number, copied from the record if one exists"
+    },
+    {
+      "document": "informal_demand_letter",
+      "field": "informal_demand_letter.disposition_and_date",
+      "page": 1,
+      "printedContext": "How the matter ended - no charges filed, diversion completed, dismissed, or acquitted - and the date it ended",
+      "disclosureLabel": "How the matter ended - no charges filed, diversion completed, dismissed, or acquitted - and the date it ended",
+      "identity": "informal_demand_letter field disposition_and_date",
+      "why": "no disposition fact is held for a record the platform has not seen",
+      "participantMustSupply": "how the matter ended and on what date, from the court record or your papers - the qualifying dispositions are those Neb. Rev. Stat. Sec. 29-3523(3) lists"
+    },
+    {
+      "document": "informal_demand_letter",
+      "field": "informal_demand_letter.period_end_date",
+      "page": 1,
+      "printedContext": "Date on which the period applicable to that kind of disposition ran out, or the event that ended it",
+      "disclosureLabel": "Date on which the period applicable to that kind of disposition ran out, or the event that ended it",
+      "identity": "informal_demand_letter field period_end_date",
+      "why": "the computation depends on dates the platform does not hold, so the participant computes it from the record",
+      "participantMustSupply": "when the Sec. 29-3523(3) period for your kind of disposition ran out, or the event that ended it, computed from the record"
+    },
+    {
+      "document": "informal_demand_letter",
+      "field": "informal_demand_letter.verification_method",
+      "page": 1,
+      "printedContext": "How the record was verified as still publicly appearing, and the date checked",
+      "disclosureLabel": "How the record was verified as still publicly appearing, and the date checked",
+      "identity": "informal_demand_letter field verification_method",
+      "why": "the evidence that the record is still public is the participant's own search, which the platform has not seen",
+      "participantMustSupply": "how you checked - a Nebraska State Patrol report, a court case search, or a courthouse public-access terminal printout - and the date you checked"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.arrest_date",
+      "page": 1,
+      "printedContext": "Date of arrest, citation or referral, on the complaint",
+      "disclosureLabel": "Date of arrest, citation or referral, on the complaint",
+      "identity": "primary_filing field arrest_date",
+      "why": "no arrest fact is held for a record the platform has not seen",
+      "participantMustSupply": "the same arrest, citation or referral date as on the demand letter"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.case_number",
+      "page": 1,
+      "printedContext": "Case or citation number, if there was one, on the complaint",
+      "disclosureLabel": "Case or citation number, if there was one, on the complaint",
+      "identity": "primary_filing field case_number",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the same case or citation number as on the demand letter, if one exists"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.defendant_agency",
+      "page": 1,
+      "printedContext": "Name of the agency or political subdivision sued, and its mailing address",
+      "disclosureLabel": "Name of the agency or political subdivision sued, and its mailing address",
+      "identity": "primary_filing field defendant_agency",
+      "why": "which public body failed to comply is a fact the participant establishes, and the platform has not seen the searches",
+      "participantMustSupply": "the non-compliant agency or political subdivision, named as your searches show it, with its current published mailing address"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.demand_history",
+      "page": 1,
+      "printedContext": "Date the written demand was delivered, and what response was received",
+      "disclosureLabel": "Date the written demand was delivered, and what response was received",
+      "identity": "primary_filing field demand_history",
+      "why": "what happened to the demand is post-generation history only the participant knows",
+      "participantMustSupply": "when your demand letter was delivered to the agency and what, if anything, the agency answered - the complaint is conditional on the demand not producing compliance"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.disposition_and_date",
+      "page": 1,
+      "printedContext": "How the matter ended and the date, on the complaint",
+      "disclosureLabel": "How the matter ended and the date, on the complaint",
+      "identity": "primary_filing field disposition_and_date",
+      "why": "no disposition fact is held for a record the platform has not seen",
+      "participantMustSupply": "the same disposition and date as on the demand letter"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.period_end_date",
+      "page": 1,
+      "printedContext": "Date the applicable Sec. 29-3523(3) period ran out, or its trigger, on the complaint",
+      "disclosureLabel": "Date the applicable Sec. 29-3523(3) period ran out, or its trigger, on the complaint",
+      "identity": "primary_filing field period_end_date",
+      "why": "the computation depends on dates the platform does not hold",
+      "participantMustSupply": "the same computed date or event as on the demand letter"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.venue_county",
+      "page": 1,
+      "printedContext": "County in the caption - the district where the records are located, or Lancaster County, as you elect",
+      "disclosureLabel": "County in the caption - the district where the records are located, or Lancaster County, as you elect",
+      "identity": "primary_filing field venue_county",
+      "why": "Neb. Rev. Stat. Sec. 29-3528 grants a venue choice the route does not determine, and only the participant can make it",
+      "participantMustSupply": "the county of the district court you elect - a district where the records are located, or Lancaster County; the statute allows both and the venue election guidance explains the choice, which is yours"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.verification_method",
+      "page": 1,
+      "printedContext": "How the plaintiff verified the record still appears publicly, on the complaint",
+      "disclosureLabel": "How the plaintiff verified the record still appears publicly, on the complaint",
+      "identity": "primary_filing field verification_method",
+      "why": "the evidence is the participant's own search, which the platform has not seen",
+      "participantMustSupply": "the same verification as on the demand letter, updated if you checked again before filing"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "informal_demand_letter",
+      "field": "informal_demand_letter.signature",
+      "label": "Signature on the demand letter",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the letter is the participant's own and is signed when actually posted"
+    },
+    {
+      "document": "informal_demand_letter",
+      "field": "informal_demand_letter.signature_date",
+      "label": "Date beside the signature on the letter",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the letter is actually posted would be false"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.case_number_assigned",
+      "label": "Case number of this action, assigned at filing",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the district court's office assigns the number at filing"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.plaintiff_signature",
+      "label": "Signature of the plaintiff on the complaint",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the plaintiff signs the complaint personally"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.signature_date",
+      "label": "Date beside the plaintiff's signature on the complaint",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the complaint is signed would be false"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/ne/ne-seal-enforcement-set--custom-pleading/participant-instructions.md"
+}

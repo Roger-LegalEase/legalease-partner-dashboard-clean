@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "vt_seal_under_25-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "application_for_sealing",
+      "field": "application_for_sealing.age_at_offence",
+      "page": 1,
+      "printedContext": "Applicant's age at the time of the offence, from the record",
+      "disclosureLabel": "Applicant's age at the time of the offence, from the record",
+      "identity": "application_for_sealing field age_at_offence",
+      "why": "the age at the offence is the route's threshold fact and lives on the participant's own record",
+      "participantMustSupply": "how old you were when you committed the offence - this route is only open where it was before you turned 25"
+    },
+    {
+      "document": "application_for_sealing",
+      "field": "application_for_sealing.court_unit",
+      "page": 1,
+      "printedContext": "Superior Court unit named in the caption - the county whose court had jurisdiction over the proceeding",
+      "disclosureLabel": "Superior Court unit named in the caption - the county whose court had jurisdiction over the proceeding",
+      "identity": "application_for_sealing field court_unit",
+      "why": "the court having jurisdiction is a case fact the participant establishes from the record",
+      "participantMustSupply": "which county's Superior Court, Criminal Division, handled the case - the Criminal Division clerk's office there can confirm it"
+    },
+    {
+      "document": "application_for_sealing",
+      "field": "application_for_sealing.docket_number",
+      "page": 1,
+      "printedContext": "Docket number of the proceeding sought to be sealed",
+      "disclosureLabel": "Docket number of the proceeding sought to be sealed",
+      "identity": "application_for_sealing field docket_number",
+      "why": "no case identifier is held for this record",
+      "participantMustSupply": "the docket number, copied from the court record"
+    },
+    {
+      "document": "application_for_sealing",
+      "field": "application_for_sealing.final_discharge_date",
+      "page": 1,
+      "printedContext": "Date of final discharge, shown by the court's record of final discharge",
+      "disclosureLabel": "Date of final discharge, shown by the court's record of final discharge",
+      "identity": "application_for_sealing field final_discharge_date",
+      "why": "no discharge fact is held for this record, and the two-year requirement of Sec. 5119(g)(1) runs from it",
+      "participantMustSupply": "the date of your final discharge - the day you finished everything the sentence required - checked against the record of final discharge from the Criminal Division; it establishes the date the two-year clock ran from"
+    },
+    {
+      "document": "application_for_sealing",
+      "field": "application_for_sealing.rehabilitation_account",
+      "page": 1,
+      "printedContext": "The applicant's own account of rehabilitation since final discharge, on the application's own lines",
+      "disclosureLabel": "The applicant's own account of rehabilitation since final discharge, on the application's own lines",
+      "identity": "application_for_sealing field rehabilitation_account",
+      "why": "the controlling review lists rehabilitation evidence on the under-25 route among the fields that must not be auto-completed; the platform prompts and never writes",
+      "participantMustSupply": "your own account, in your own words, of what you have done since discharge - work, study, treatment, family, community; the Court has to be satisfied about rehabilitation, the burden is yours, and the prompts page may help you decide what to say; check what you say against whatever material you choose to gather"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "application_for_sealing",
+      "field": "application_for_sealing.applicant_signature",
+      "label": "Signature of the applicant on the application",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the applicant signs the application personally"
+    },
+    {
+      "document": "application_for_sealing",
+      "field": "application_for_sealing.signature_date",
+      "label": "Date beside the applicant's signature on the application",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the application is signed would be false"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading/participant-instructions.md"
+}

@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "composed-treatment:sc_17_22_950_summary",
+  "worklistGroupId": "composed-treatment:sc_17_22_950_summary",
+  "jurisdiction": "SC",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "committed repository records bound by exact SHA-256 at build time, with every relied-on statement re-read from the committed bytes as an anchor before composing",
+  "routeKeys": [
+    "obligation:decision-branch:SC:sc_17_22_950_summary:written_implementation_request",
+    "obligation:decision-branch:SC:sc_17_22_950_summary:original_case_enforcement_motion"
+  ],
+  "statutoryAuthority": [
+    "S.C. Code § 17-22-950(A)",
+    "S.C. Code § 17-22-950(C)",
+    "S.C. Code § 17-22-950(F)"
+  ],
+  "legalName": "Enforcement Instruments for the Mandatory Summary-Court Expungement Under S.C. Code § 17-22-950(A)",
+  "allSourcesExact": true,
+  "formIdentityNote": "No official form exists for a § 17-22-950(A) order the summary court failed to enter, and the controlling decision forbids the substitutions that look available: SCCA 223E is the subsection (B) application for the non-fingerprinted branch 'and should not be repurposed when the court simply failed to enter the automatic order', and no new solicitor application is opened 'merely because the summary court missed its duty'. Both instruments are therefore composed by this build from the committed records. The existing sc_17_22_950_summary-set official_pdf_fill family serves the unit-a/unit-b routes, not these two decision-branch routes; nothing here duplicates it and nothing was substituted.",
+  "committedRecords": [
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json"
+      ],
+      "recordId": "legal-decision:2026-08-28:Q-035:sc_17_22_950_summary",
+      "pathInRepository": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+      "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+      "byteLength": 184365,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the controlling Q-035 decision: the two-step escalation, the contents both instruments must identify, and the recorded prohibition on repurposing SCCA 223E or opening a solicitor application",
+      "anchorStatementsVerified": 6
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-intake/SC.memo.json"
+      ],
+      "recordId": "legal-design-intake:SC:sc_17_22_950_summary",
+      "pathInRepository": "data/record-clearing/legal-design-intake/SC.memo.json",
+      "sha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
+      "byteLength": 395522,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the legal-design record: the fingerprinted (A) branch's automatic no-cost order, the § 17-22-950(C) timing window, the (F) objection path, and the statutory bars",
+      "anchorStatementsVerified": 5
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [
+    "implementation_request",
+    "enforcement_motion",
+    "filing_instructions"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that any record is eligible for the relief this family composes for",
+    "that any particular disposition is within § 17-22-950(A), or that the participant was fingerprinted",
+    "that the summary court's duty was in fact breached in any particular case"
+  ]
+}

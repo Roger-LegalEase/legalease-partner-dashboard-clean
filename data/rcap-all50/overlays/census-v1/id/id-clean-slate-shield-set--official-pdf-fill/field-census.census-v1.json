@@ -1,0 +1,459 @@
+{
+  "schemaVersion": "rcap-official-form-field-census/v1-census-v1",
+  "familyId": "id_clean_slate_shield-set",
+  "censusBasis": "first_hand_inspection_of_the_pinned_verified_binary",
+  "geometryBasis": "Every write box is the AcroForm widget's own /Rect, read from the document. No box is derived from a label position; captions are captured separately and decide only what a blank means, never where it is.",
+  "filenameNote": "Deliberately NOT named field-census.json. scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs walks the overlays for that exact filename and asserts family and field totals equal counts frozen in a diff record outside this family's owned path. Enrolling a new census under that name would change those totals. The guard is not weakened or skipped: this family's own charge-caption projection is recorded in reports/charge-caption-proof.json.",
+  "documents": [
+    {
+      "documentId": "ISC-PETITION-TO-SHIELD-67-3004-11",
+      "documentRole": "PETITION",
+      "ownership": "participant_completed",
+      "captionOnly": false,
+      "pageGeometry": [
+        {
+          "page": 1,
+          "width": 612,
+          "height": 792
+        },
+        {
+          "page": 2,
+          "width": 612,
+          "height": 792
+        }
+      ],
+      "fieldCount": 13,
+      "fields": [
+        {
+          "name": "Full Name of Party Filing Document",
+          "type": "text",
+          "maxLength": 35,
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 71.76,
+                "y": 705.12,
+                "width": 239.88,
+                "height": 22.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Mailing Address Street or Post Office Box",
+          "type": "text",
+          "maxLength": 35,
+          "effectiveLabel": "Full Name of Party Filing Document",
+          "harvestedLabel": "Full Name of Party Filing Document",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 71.04,
+                "y": 670.8,
+                "width": 239.88,
+                "height": 22.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.street_address"
+          ],
+          "descriptorsByLabel": [
+            "participant.full_legal_name"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "City State and Zip Code",
+          "type": "text",
+          "maxLength": 35,
+          "effectiveLabel": "City, State and Zip Code",
+          "harvestedLabel": "Mailing Address (Street or Post Office Box)",
+          "printedLabelCorrection": {
+            "printedLabel": "City, State and Zip Code",
+            "readFrom": "page 1, printed caption at y=629.2: \"City, State and Zip Code\"",
+            "measuredEvidence": "the widget occupies x 71.04-310.92 at y=636.00, directly above that printed caption, in the filer's contact block at the head of the page",
+            "why": "Its harvested caption is \"Mailing Address (Street or Post Office Box)\" — the caption of the line ABOVE it — so the row would have described the wrong blank. The correction only names the blank; it does not change what is written into it, because the shared binder reads the field NAME first and the name matches its city descriptor before the label channel is ever consulted. See partialFills below."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 71.04,
+                "y": 636,
+                "width": 239.88,
+                "height": 22.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.city",
+            "participant.zip",
+            "participant.state"
+          ],
+          "descriptorsByLabel": [
+            "participant.city",
+            "participant.zip",
+            "participant.state"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Telephone",
+          "type": "text",
+          "maxLength": 35,
+          "effectiveLabel": "City, State and Zip Code",
+          "harvestedLabel": "City, State and Zip Code",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 71.04,
+                "y": 601.44,
+                "width": 239.88,
+                "height": 22.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.phone"
+          ],
+          "descriptorsByLabel": [
+            "participant.city",
+            "participant.zip",
+            "participant.state"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Email Address if any",
+          "type": "text",
+          "maxLength": 35,
+          "effectiveLabel": "Telephone",
+          "harvestedLabel": "Telephone",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 71.04,
+                "y": 566.52,
+                "width": 239.88,
+                "height": 22.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.email"
+          ],
+          "descriptorsByLabel": [
+            "participant.phone"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "THE STATE OF IDAHO IN AND FOR THE COUNTY OF",
+          "type": "text",
+          "maxLength": 10,
+          "effectiveLabel": "IN THE DISTRICT COURT OF THE judicial district",
+          "harvestedLabel": "IN THE DISTRICT COURT OF THE",
+          "printedLabelCorrection": {
+            "printedLabel": "IN THE DISTRICT COURT OF THE judicial district",
+            "readFrom": "page 1, printed line at y=504.5: \"IN THE DISTRICT COURT OF THE ______ JUDICIAL DISTRICT OF\"",
+            "measuredEvidence": "\"IN THE DISTRICT COURT OF THE \" ends at x=302.4 and \" JUDICIAL DISTRICT OF\" resumes at x=382.6; this widget occupies x 302.52-382.92, exactly that gap",
+            "why": "Its own name contains the word STATE, and the shared binder matched participant.state on it: the canonical fixture would have printed \"IN THE DISTRICT COURT OF THE XX JUDICIAL DISTRICT OF\". The correction states what the blank is; the role refusal below then keeps it empty, because the platform holds no judicial-district fact."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 302.52,
+                "y": 499.76,
+                "width": 80.4,
+                "height": 18.99
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.state",
+            "matter.county"
+          ],
+          "descriptorsByLabel": [
+            "matter.court"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "JUDICIAL DISTRICT OF",
+          "type": "text",
+          "maxLength": 18,
+          "effectiveLabel": "IN AND FOR THE COUNTY OF",
+          "harvestedLabel": "THE STATE OF IDAHO, IN AND FOR THE COUNTY OF",
+          "printedLabelCorrection": {
+            "printedLabel": "IN AND FOR THE COUNTY OF",
+            "readFrom": "page 1, printed line at y=490.0: \"THE STATE OF IDAHO, IN AND FOR THE COUNTY OF\"",
+            "measuredEvidence": "the printed line ends at x=393.4 and this widget occupies x 395.04-508.80 on the same line, so it spans the blank after \"COUNTY OF\"",
+            "why": "The widget is named after the words that PRECEDE the line it sits on, not the words beside it. Its own name would have reached nothing; the county the platform holds would not have been written at all."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": "IN THE DISTRICT COURT OF THE JUDICIAL DISTRICT OF",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 395.04,
+                "y": 485,
+                "width": 113.76,
+                "height": 18.16
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.court"
+          ],
+          "descriptorsByLabel": [
+            "matter.county"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Case No",
+          "type": "text",
+          "maxLength": 16,
+          "effectiveLabel": "Case No",
+          "harvestedLabel": "Case No",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "THE STATE OF IDAHO, IN AND FOR THE COUNTY OF",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 347.4,
+                "y": 445.2,
+                "width": 132,
+                "height": 20.3
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.case_number"
+          ],
+          "descriptorsByLabel": [
+            "matter.case_number"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Petitioner  Defendant",
+          "type": "text",
+          "maxLength": 30,
+          "effectiveLabel": "v. Disclosure",
+          "harvestedLabel": "v. Disclosure",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "THE STATE OF IDAHO, IN AND FOR THE COUNTY OF",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 77.28,
+                "y": 381.08,
+                "width": 195.84,
+                "height": 22.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "a misdemeanor that is not assaultive or violent as listed in Idaho Code section",
+          "type": "checkbox",
+          "maxLength": null,
+          "effectiveLabel": "1.The offense(s) that I petition to have shielded is eligibl",
+          "harvestedLabel": "1.The offense(s) that I petition to have shielded is eligibl",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 95.28,
+                "y": 277.8,
+                "width": 11.04,
+                "height": 11.04
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "matter.charge"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "a felony possession of a controlled substance under Idaho Code section 372732a",
+          "type": "checkbox",
+          "maxLength": null,
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 95.28,
+                "y": 242.76,
+                "width": 11.04,
+                "height": 11.04
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Dated",
+          "type": "text",
+          "maxLength": 12,
+          "effectiveLabel": "Dated",
+          "harvestedLabel": "Dated",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "CERTIFICATION UNDER PENALTY OF PERJURY",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 107.52,
+                "y": 469.52,
+                "width": 108.6,
+                "height": 20.94
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Petitioner  Defendant_2",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "Petitioner / Defendant signature line, page 2",
+          "harvestedLabel": null,
+          "printedLabelCorrection": {
+            "printedLabel": "Petitioner / Defendant signature line, page 2",
+            "readFrom": "page 2, printed caption at y=462.1: \"Petitioner / Defendant\", directly under the rule this widget covers, in the block headed \"CERTIFICATION UNDER PENALTY OF PERJURY\"",
+            "measuredEvidence": "the widget occupies x 324.00-504.12 at y=469.52; the printed caption naming it sits at y=462.1 beneath it, and \"Dated:\" with its own widget sits to the left on the same rule",
+            "why": "The widget harvests no caption at all and its name matches the participant's name, so the shared binder would have printed the petitioner's name on the line where the petitioner SIGNS the certification under penalty of perjury. The correction says what the line is; the role refusal below keeps it blank."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": "CERTIFICATION UNDER PENALTY OF PERJURY",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 324,
+                "y": 469.52,
+                "width": 180.12,
+                "height": 22.25
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "signature",
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [
+            "participant.full_legal_name"
+          ],
+          "measuredRuleUnderWriteBox": null
+        }
+      ]
+    }
+  ]
+}

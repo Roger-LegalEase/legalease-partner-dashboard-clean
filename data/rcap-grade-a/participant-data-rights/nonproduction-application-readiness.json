@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "rcap-participant-data-rights-nonproduction-application-readiness/v1",
+  "recordedBy": "Captain A",
+  "recordedAt": "2026-08-30",
+  "question": "Roger authorized a one-time application of the data-rights migration to the dedicated synthetic acceptance project. Can this session perform it, and can it satisfy the authorization's own preconditions?",
+
+  "verdict": "NOT_APPLIED_PRECONDITIONS_UNSATISFIABLE_IN_THIS_SESSION",
+  "applied": false,
+  "productionTouched": false,
+
+  "whatTheAuthorizationRequiredFirst": {
+    "step1_integrateThreeCommits": "DONE",
+    "step2_recordFiveFacts": "PARTIAL — three of five recorded below; two cannot be produced here",
+    "step3_confirmSixConditions": "NOT POSSIBLE — every one of them is a statement about a project this session cannot reach"
+  },
+
+  "recorded": {
+    "captainSha": "63dc6bdf26a4d34da1328077fbacd9ab1dc8d20f",
+    "integratedCommits": [
+      "959b3bd10dfcc2845be894738424a1967dcc8781 — replay onto the current Captain head",
+      "caaab8447b1bc6640ea9580a9c8387064215343c — governance regenerated from the current tree",
+      "5684728d4e5b5faeb49f311b3db90ecc82e53a9c — the three acceptance gaps closed"
+    ],
+    "migrationFile": "supabase/migrations/20260830120000_participant_data_rights.sql",
+    "migrationSha256": "991fe21eab48b1ee72ab9f06346339f959f82d5f668b34560eef97bda08272ca",
+    "migrationSha256TakenFrom": "the integrated Captain tree at 63dc6bdf",
+    "migrationHistoryHead": "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql",
+    "thisMigrationIsNext": "20260830120000_participant_data_rights.sql is the next identity in the forward-only timestamped chain and applies through it normally.",
+    "nonproductionProjectRef": null,
+    "nonproductionProjectRefWhyNull": "No project ref is configured in this session and none is recorded in the repository for a synthetic acceptance project. Inventing one, or reusing a ref found in an unrelated record, would be fabricating the single fact the authorization is keyed to.",
+    "dedicatedSyntheticAcceptanceProof": null,
+    "dedicatedSyntheticAcceptanceProofWhyNull": "Proof that a project is dedicated to synthetic acceptance is an observation about that project's contents. It cannot be asserted from here; it has to be read from the project."
+  },
+
+  "whyItCannotRunHere": [
+    {
+      "ground": "no credential",
+      "evidence": "No SUPABASE_* environment variable is set in this session — no project ref, no service-role key, no database URL. docs/rcap/grade-a/captain/decision-waiting/nonproduction-readiness-audit.json already records SUPABASE_PROJECT_REF as absent, so this is a standing condition rather than a new one."
+    },
+    {
+      "ground": "no egress",
+      "evidence": "https://api.supabase.com/v1/projects and https://supabase.com both return http_code 000 (the CONNECT tunnel is refused before any request is sent), while https://registry.npmjs.org/ returns 200. That is the same allowlist policy the acquisition probe characterised on 2026-08-30: package registries permitted, everything else denied. A managed project cannot be reached from this environment even with a credential."
+    },
+    {
+      "ground": "no tooling",
+      "evidence": "The Supabase CLI is not installed. psql is present, but it has nothing to connect to."
+    }
+  ],
+
+  "theSixConfirmationsAndWhyEachIsBlocked": {
+    "noRealParticipantAccountsOrRecords": "An observation about the project's tables. Requires reading the project.",
+    "noProductionDatabaseOrEnvironmentConnected": "An observation about the project's configuration. Requires reading the project.",
+    "allTestIdentitiesAndRecordsSynthetic": "An observation about rows that do not yet exist, in a project that cannot be reached.",
+    "processorCallbacksUseSyntheticEndpointsOnly": "Configurable here in principle, but meaningless to assert without the environment it would be configured in.",
+    "migrationRunsThroughTheTimestampedChain": "This one IS confirmable from the repository, and it holds: the file sits at the end of supabase/migrations/ and carries no phase-NN identity.",
+    "obsoletePhase57NotApplied": "Also confirmable, and it holds: no phase-57 file exists in this tree. The draft was never integrated and the rebuilt migration replaces it."
+  },
+
+  "whatWouldUnblockIt": [
+    "A session or operator environment that holds the synthetic acceptance project's ref and service-role credential, and whose egress policy permits api.supabase.com and the project's database host.",
+    "In that environment: record the ref, read the project to prove it holds no real participant records and is not wired to Production, then apply the exact file whose SHA-256 is recorded above and confirm the applied file matches that digest."
+  ],
+
+  "whatWasNotDone": [
+    "The migration was not applied, to the acceptance project or anywhere else.",
+    "No participant-privacy secret was configured in any environment.",
+    "No synthetic participant, matter, packet, storage object, legal hold, privacy request or processor outcome was created.",
+    "No hosted export, matter-deletion or account-deletion acceptance was run.",
+    "No processor callback was configured or contacted.",
+    "Production was not touched, and no Production credential was read."
+  ],
+
+  "standing": "The authorization remains open and unspent. Nothing here consumes it, and applying later needs no new authorization — only an environment that can satisfy the preconditions Roger attached to it."
+}

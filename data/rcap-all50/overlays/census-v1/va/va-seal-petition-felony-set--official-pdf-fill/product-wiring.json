@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "va_seal_petition_felony-set",
+  "routeKey": "obligation:track-only:VA:va_seal_petition_felony",
+  "routeKeys": [
+    "obligation:track-only:VA:va_seal_petition_felony"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "va_seal_petition_felony-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "va_seal_petition_felony-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "c653f0a41319bbee6133a17c418666eaccb31f329abfd465d0de55b9dd4e2636",
+        "requirement": "required"
+      }
+    ]
+  },
+  "binding": {
+    "family": "va_seal_petition_felony-set",
+    "jurisdiction": "VA",
+    "routeKeys": [
+      "obligation:track-only:VA:va_seal_petition_felony"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "ccre_forwarding_request",
+      "commonwealth_service_and_stipulation_request",
+      "filing_instructions",
+      "primary_filing",
+      "records_checklist"
+    ],
+    "packetComponents": [
+      "component:va_seal_petition_felony-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CC-1201",
+        "sha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33495068504",
+      "jobId": "99815920316",
+      "artifactId": "9795585777",
+      "boundToCanonicalSha256": "c653f0a41319bbee6133a17c418666eaccb31f329abfd465d0de55b9dd4e2636",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf26",
+      "verifiedAtBase": null
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-va_seal_petition_felony-set.mjs",
+      "sharedBuildHost": "build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "ut_pet_traffic-set",
+  "routeKeys": [
+    "obligation:track-pathway:UT:ut_pet_traffic:path-i-traffic-offense-expungement-or-deletion"
+  ],
+  "routeSelectionId": "ut-traffic-direct-court-no-bci",
+  "implementationStrategy": "official_pdf_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "assignmentOwnedPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill",
+  "evidenceOutputPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill",
+  "note": "Review artifacts and maps create no authority. A route remains closed until exact output-level legal and independent visual approval exists in the separate control plane.",
+  "binding": {
+    "family": "ut_pet_traffic-set",
+    "jurisdiction": "UT",
+    "routeKeys": [
+      "obligation:track-pathway:UT:ut_pet_traffic:path-i-traffic-offense-expungement-or-deletion"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "acceptance_of_service",
+      "civil_cover_sheet",
+      "consent_and_waiver_of_hearing",
+      "filing_and_timing_instructions",
+      "petition",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:ut_pet_traffic-acceptance-of-service-4",
+      "component:ut_pet_traffic-civil-cover-sheet-1",
+      "component:ut_pet_traffic-consent-and-waiver-of-hearing-5",
+      "component:ut_pet_traffic-petition-2",
+      "component:ut_pet_traffic-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:1002EX",
+        "sha256": "fab0ba66e2ef50acf0e30ae781e8e38202da0cf39c788a0b1652c99fc6b0b0cd",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:1022EX",
+        "sha256": "b0d9c6f1100c7d40e63c1261fa55cc868f91d2fe7cc8df05b6ba0036ff37f952",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:1044XX",
+        "sha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:1146XX",
+        "sha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:1148XX",
+        "sha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf06",
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ut_pet_traffic-set.mjs",
+      "sharedBuildHost": "build-census-v1-ut_pet_acquittal-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

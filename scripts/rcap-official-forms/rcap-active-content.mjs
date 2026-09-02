@@ -250,6 +250,60 @@ function isChoiceField(acroField) {
   return String(acroField.dict.lookup(PDFName.of("FT"))?.toString?.() ?? "") === "/Ch";
 }
 
+function removeFromArray(pdfDoc, array, ref, dict) {
+  if (!(array instanceof PDFArray)) return 0;
+  let removed = 0;
+  for (let i = array.size() - 1; i >= 0; i -= 1) {
+    const entry = array.get(i);
+    if (entry === ref || pdfDoc.context.lookup(entry) === dict) { array.remove(i); removed += 1; }
+  }
+  return removed;
+}
+
+/*
+ * A TERMINAL field is not always a member of the AcroForm's own /Fields array.
+ *
+ * ISO 32000-1 8.6.1 lets a field tree nest: /Fields holds the ROOTS, and a
+ * terminal field can sit any number of /Kids levels below one. The CA Judicial
+ * Council forms are built that way -- CR-409's AcroForm /Fields holds a single
+ * entry, `CR-409[0]`, and its four footer pushbuttons hang five levels beneath
+ * it. A scan of /Fields alone therefore finds nothing to remove, returns 0, and
+ * leaves the field exactly where getFields(), updateFieldAppearances() and
+ * flatten() all walk it from.
+ *
+ * That is not hypothetical: it is why the delivered CR-409 carried the Warning
+ * pushbutton's 18-word /MK /CA caption stamped across the bottom of page 2,
+ * eight words off the left edge of the paper and three more inside the Print
+ * button's own rectangle.
+ *
+ * Walking the tree is OPT-IN, and stays opt-in for the same reason
+ * evaluateDeclaredMinimumSize and alignWidgetFontSizeToFit in the finalizer do:
+ * the families sharing this module are rebuilt by different workers at
+ * different times, and a lane holding one family does not get to decide what
+ * the others' next rebuild produces. With the option off this function behaves
+ * exactly as it always has, byte for byte.
+ */
+function detachFromParentChain(pdfDoc, acroField) {
+  let childRef = acroField.ref;
+  let childDict = acroField.dict;
+  let removed = 0;
+  for (let depth = 0; depth < 32; depth += 1) {
+    const parentRef = childDict.get(PDFName.of("Parent"));
+    if (!parentRef) return removed;
+    const parent = pdfDoc.context.lookup(parentRef);
+    if (!(parent instanceof PDFDict)) return removed;
+    removed += removeFromArray(pdfDoc, parent.lookupMaybe(PDFName.of("Kids"), PDFArray), childRef, childDict);
+    // A parent that has lost every kid is an empty interior node. Leaving it
+    // behind would leave getFields() nothing to return for it, but it is still
+    // dead structure, so it is pruned upward on the same walk.
+    const kids = parent.lookupMaybe(PDFName.of("Kids"), PDFArray);
+    if (kids && kids.size() > 0) return removed;
+    childRef = parentRef;
+    childDict = parent;
+  }
+  return removed;
+}
+
 /**
  * Detaches a field from the AcroForm so nothing downstream can revive it.
  *
@@ -261,20 +315,26 @@ function isChoiceField(acroField) {
  * gets stamped anyway. A field the form no longer lists is not regenerated and
  * not flattened.
  */
-function detachFromAcroForm(pdfDoc, acroField) {
+function detachFromAcroForm(pdfDoc, acroField, { walkFieldTree = false } = {}) {
   const acroForm = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
   const fields = acroForm?.lookupMaybe(PDFName.of("Fields"), PDFArray);
   if (!fields) return 0;
-  let removed = 0;
-  for (let i = fields.size() - 1; i >= 0; i -= 1) {
-    const entry = fields.get(i);
-    if (entry === acroField.ref || pdfDoc.context.lookup(entry) === acroField.dict) { fields.remove(i); removed += 1; }
+  let removed = removeFromArray(pdfDoc, fields, acroField.ref, acroField.dict);
+  if (removed === 0 && walkFieldTree) {
+    removed += detachFromParentChain(pdfDoc, acroField);
+    // The prune may have emptied a root, which is a member of /Fields.
+    for (let i = fields.size() - 1; i >= 0; i -= 1) {
+      const root = pdfDoc.context.lookup(fields.get(i));
+      if (!(root instanceof PDFDict)) continue;
+      const kids = root.lookupMaybe(PDFName.of("Kids"), PDFArray);
+      if (kids && kids.size() === 0) { fields.remove(i); removed += 1; }
+    }
   }
   return removed;
 }
 
 /** Drops a field's widgets so flatten has nothing to draw for it. */
-function dropWidgets(pdfDoc, acroField) {
+function dropWidgets(pdfDoc, acroField, detachOptions = {}) {
   let dropped = 0;
   for (const widget of acroField.getWidgets()) {
     for (const page of pdfDoc.getPages()) {
@@ -287,8 +347,84 @@ function dropWidgets(pdfDoc, acroField) {
     }
     widget.dict.delete(PDFName.of("AP"));
   }
-  detachFromAcroForm(pdfDoc, acroField);
+  detachFromAcroForm(pdfDoc, acroField, detachOptions);
   return dropped;
+}
+
+/**
+ * Widget annotation flags the PDF spec defines as "do not display this".
+ *
+ * /F bit 2 (Hidden) and bit 6 (NoView) are the source document's own statement
+ * that a viewer must not show the annotation. Table 165 of ISO 32000-1: Hidden
+ * means "do not display the annotation or print it", NoView means "do not
+ * display on screen".
+ */
+const ANNOT_FLAG_HIDDEN = 1 << 1;
+const ANNOT_FLAG_NOVIEW = 1 << 5;
+
+/** True when the source marks this widget as one no viewer displays. */
+function isNonDisplayedWidget(widget) {
+  const flags = widget.dict.lookup(PDFName.of("F"));
+  if (!(flags instanceof PDFNumber)) return false;
+  const value = flags.asNumber();
+  return (value & ANNOT_FLAG_HIDDEN) !== 0 || (value & ANNOT_FLAG_NOVIEW) !== 0;
+}
+
+/**
+ * Drops the widgets the source itself marks as never displayed.
+ *
+ * pdf-lib's flatten() stamps EVERY widget's appearance onto the page. It does
+ * not read /F, so an annotation the source hides is drawn as ordinary ink on
+ * the filing. On a form that shows one of several alternate captions at a time
+ * -- Nebraska's DC 1:15 is the proven case, with five mutually exclusive caption
+ * blocks stacked on the same coordinates -- every alternate lands on top of the
+ * one that belongs there and the page becomes unreadable. That defect was
+ * measured as 47 same-baseline text-on-text overlaps on one page, against 0 in
+ * the corpus source, so it is introduced by flattening and is not inherited.
+ *
+ * This is not a judgement about what a field MEANS, which is why it runs before
+ * dispositions and independently of them. It reads one thing: whether the
+ * document that shipped the widget says a viewer may display it. A widget the
+ * source hides contributes nothing to what a person sees on screen, so it
+ * contributes nothing to the flattened page either.
+ *
+ * Removal is from the field's /Kids and the page's /Annots, not merely from
+ * /AP: updateFieldAppearances() runs after this and regenerates an appearance
+ * for every widget the field still lists, so clearing /AP alone would be undone
+ * a few lines later. Where the field IS the widget (the merged single-widget
+ * case, so there is no /Kids to prune), the whole field is detached instead.
+ */
+function dropNonDisplayedWidgets(pdfDoc, acroField) {
+  const widgets = acroField.getWidgets();
+  const hidden = widgets.filter(isNonDisplayedWidget);
+  if (hidden.length === 0) return 0;
+
+  const kids = acroField.Kids();
+  if (!kids) {
+    // Field and widget are one object: there is no kid to prune.
+    dropWidgets(pdfDoc, acroField);
+    return hidden.length;
+  }
+
+  const hiddenDicts = new Set(hidden.map((widget) => widget.dict));
+  for (let i = kids.size() - 1; i >= 0; i -= 1) {
+    const entry = kids.get(i);
+    const dict = entry instanceof PDFRef ? pdfDoc.context.lookup(entry) : entry;
+    if (!hiddenDicts.has(dict)) continue;
+    kids.remove(i);
+    for (const page of pdfDoc.getPages()) {
+      const annots = page.node.lookup(PDFName.of("Annots"));
+      if (!(annots instanceof PDFArray)) continue;
+      for (let j = annots.size() - 1; j >= 0; j -= 1) {
+        const candidate = annots.get(j);
+        if (candidate === entry || pdfDoc.context.lookup(candidate) === dict) annots.remove(j);
+      }
+    }
+    dict.delete(PDFName.of("AP"));
+  }
+  // Every widget was hidden, so the field draws nothing at all.
+  if (kids.size() === 0) detachFromAcroForm(pdfDoc, acroField);
+  return hidden.length;
 }
 
 /** The last fill colour a token sets, as a grey level, or null. */
@@ -387,12 +523,24 @@ function stripWidgetBackground(pdfDoc, acroField) {
  * to. Only the caller knows that, and it is the difference between a chooser
  * the participant answered and one still showing the form's prompt.
  */
-export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Set(), dispositions = new Map()) {
+export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Set(), dispositions = new Map(),
+  detachOptions = {}) {
   const report = { commandControlsDropped: [], unselectedChoicesDropped: [], unwrittenParticipantInputsDropped: [],
-    sourceAppearancesPreserved: [], backgroundsNeutralized: 0, dispositionsApplied: {} };
+    sourceAppearancesPreserved: [], backgroundsNeutralized: 0, nonDisplayedWidgetsDropped: 0,
+    fieldsWithNonDisplayedWidgets: [], dispositionsApplied: {} };
   for (const field of form.getFields()) {
     const name = field.getName();
     const acroField = field.acroField;
+    // Before anything is decided about MEANING: a widget the source itself
+    // marks Hidden or NoView is never shown to a person, so it is never
+    // flattened onto the page either. This reads the document's own display
+    // flag, not the family, the form, the field name or the text.
+    const nonDisplayed = dropNonDisplayedWidgets(pdfDoc, acroField);
+    if (nonDisplayed > 0) {
+      report.nonDisplayedWidgetsDropped += nonDisplayed;
+      report.fieldsWithNonDisplayedWidgets.push(name);
+      if (acroField.getWidgets().length === 0) { report.dispositionsApplied[name] = "not_displayed_by_source"; continue; }
+    }
     // What this field's appearance MEANS. A classified field says so; anything
     // else falls back to the structural rule. Both arrive as one of three
     // dispositions, and everything below switches on that value alone - never on
@@ -402,7 +550,7 @@ export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Se
     report.dispositionsApplied[name] = disposition;
 
     if (disposition === APPEARANCE_DISPOSITION.SUPPRESS_CONTROL_APPEARANCE) {
-      dropWidgets(pdfDoc, acroField);
+      dropWidgets(pdfDoc, acroField, detachOptions);
       report.commandControlsDropped.push(name);
       continue;
     }
@@ -424,7 +572,17 @@ export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Se
   return report;
 }
 
-export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, defaultFont = null, writtenFields = new Set(), appearanceDispositions = new Map() } = {}) {
+export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, defaultFont = null, writtenFields = new Set(),
+  appearanceDispositions = new Map(),
+  /*
+   * Whether a suppressed control is also removed from a NESTED field tree.
+   *
+   * Off by default and deliberately: a family whose controls sit directly in
+   * the AcroForm's /Fields array is already fully detached by the flat scan, so
+   * the option changes nothing for it, and a family that has never been rebuilt
+   * against this option keeps the bytes it has. See detachFromAcroForm.
+   */
+  detachNestedControlFields = false } = {}) {
   const report = {};
 
   const acroBefore = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
@@ -445,7 +603,8 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
       // background rectangle into the stream it generates, so removing the
       // background afterwards would mean editing generated streams instead of
       // never asking for the rectangle at all.
-      report.widgetContributions = restrictWidgetContributions(pdfDoc, form, writtenFields, appearanceDispositions);
+      report.widgetContributions = restrictWidgetContributions(pdfDoc, form, writtenFields, appearanceDispositions,
+        { walkFieldTree: detachNestedControlFields });
       // Appearances must exist before flattening: flatten draws each field's
       // appearance stream onto the page, so a field whose appearance was never
       // generated flattens to nothing and the value disappears.

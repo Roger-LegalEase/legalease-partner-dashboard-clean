@@ -1,0 +1,480 @@
+{
+  "schemaVersion": "rcap-source-acquisition-return/v1",
+  "workerId": "CODEX-CS2-SRC2",
+  "lane": "DISC03",
+  "laneKind": "source-discovery",
+  "baseSha": "47272aa1c6f013b8e73621767a5bf5dcfeaf9178",
+  "branch": "codex/cs2-src2",
+  "returnPath": "data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json",
+  "acquiredAtDateUtc": "2026-09-02",
+  "persistentStagingRoot": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2",
+  "assignmentCardinality": {
+    "declaredObligations": 11,
+    "declaredFamilies": 11,
+    "ledgerSourceObligations": 13,
+    "uniqueFamilies": 11,
+    "explanation": "The ledger has 13 exact source-obligation grants. FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION is family-scoped three times, while the Arkansas drug-court family and Iowa 901C.3 family each have two source obligations. The cohort therefore contains 13 ledger obligations across 11 unique families."
+  },
+  "claimAssertion": {
+    "assertedSuccessfully": 13,
+    "failedExactObligationAssertions": 0,
+    "claimGrantDigestPrefix": "32f903df3e90e8e7",
+    "releasedByWorker": [],
+    "exactObligationIds": [
+      "ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "ar-drug-court-set::official-form:ACIC-ORDER-DRUG-COURT",
+      "ar-drug-court-set::official-form:ACIC-PETITION-DRUG-COURT",
+      "ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+      "ar-veterans-court-set::official-form:ACIC-ORDER-VETERANS-COURT",
+      "fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "fl-administrative-set::official-form:FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION",
+      "fl-early-juvenile-set::official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
+      "fl-expunction-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "fl-juvenile-diversion-set::official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "fl-sealing-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "ia-901c3-set::official-form:Rule 2.86 Form 2",
+      "ia-901c3-set::official-form:Rule 2.86 Form 2 attached sheet"
+    ]
+  },
+  "resultCounts": {
+    "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION": 9,
+    "IDENTITY_REQUIRES_CAPTAIN_DECISION": 3,
+    "NOT_AN_OFFICIAL_DOCUMENT": 1,
+    "ACQUIRED_CURRENT_OFFICIAL_BINARY": 0,
+    "EGRESS_BLOCKED": 0,
+    "OFFICIAL_SOURCE_SUPERSEDED": 0
+  },
+  "privateUpload": {
+    "available": false,
+    "receipts": [],
+    "attemptedWorkflow": ".github/workflows/rcap-official-source-acquisition.yml",
+    "attemptedFor": "IA Rule 2.86 Form 2 at the exact official binary URL and exact staged SHA-256",
+    "exactFailure": "could not create workflow dispatch event: HTTP 403: Resource not accessible by integration (https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/workflows/338264045/dispatches)",
+    "additionalTransportLimits": [
+      "The governed workflow accepts a GET URL only. Current FDLE blank PDFs are produced by a stateful JSF POST after selecting a request type; dispatching the renderer landing URL would receipt HTML, not the exact staged PDF bytes.",
+      "The ACIC page links its current PDFs from media.ark.org. The repository uploader rejects that CDN host because it cannot carry the verified issuing-page provenance chain. Its exact local preflight failure was: FAIL official-source acquisition — media.ark.org is not an allowlisted official government host; extend scripts/lib/official-host-policy.mjs in a reviewed commit if it is one."
+    ]
+  },
+  "publisherFindings": {
+    "arkansas": {
+      "authoritativePublisher": "Arkansas Crime Information Center (ACIC), now presented within the Arkansas Department of Public Safety site",
+      "assignedLanding": "https://acic.arkansas.gov/",
+      "assignedLandingFinalUrl": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/",
+      "verifiedFormsPage": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "binaryDeliveryHost": "media.ark.org",
+      "binaryHostAcceptanceBasis": "Every acquired media.ark.org URL was followed directly from the verified ACIC forms page, satisfying the assignment's CDN provenance standard.",
+      "arkansasJudiciaryPageChecked": "https://arcourts.gov/forms-and-publications/court-forms",
+      "arkansasJudiciaryFinding": "The current Arkansas Judiciary court-forms catalogue does not publish these ACIC sealing forms.",
+      "authorityUsed": "ACIC",
+      "why": "ACIC's own current criminal-history forms page names, links, and instructs use of the petition/order set; Arkansas Judiciary does not duplicate these instruments."
+    },
+    "florida": {
+      "authoritativePublisher": "Florida Department of Law Enforcement (FDLE), Expunge/Seal Unit",
+      "verifiedProgrammePage": "https://www.fdle.state.fl.us/Seal-and-Expunge-Process",
+      "renderer": "https://web.fdle.state.fl.us/intakeweb/formrenderer.xhtml?pageId=se",
+      "hostAcceptanceBasis": "web.fdle.state.fl.us is under the delegated Florida state-government namespace and is linked by FDLE's verified programme page.",
+      "rendererRequestTypesObserved": {
+        "1": "Seal",
+        "2": "Expunge",
+        "4": "Juvenile Diversion",
+        "5": "Early Juvenile Expunction"
+      },
+      "administrativeRequestTypeObserved": false
+    },
+    "iowa": {
+      "authoritativePublisher": "Iowa Judicial Branch",
+      "verifiedFormsPage": "https://www.iowacourts.gov/for-the-public/court-forms/",
+      "publisherListing": "Rule 2.86—Form 2 - Application to Expunge Misdemeanor Court Records under Iowa Code section 901C.3",
+      "publisherDownloadUrl": "https://www.iowacourts.gov/browse/files/2efe17f972494a31a1094a07fac255cd/download",
+      "separateInstructionsUrl": "https://www.iowacourts.gov/browse/files/38328ca81c814cb1af15d52daa6f49f9/download",
+      "separateInstructionsNote": "The separately published Instructions for Rule 2.86—Form 2 are not the assignment's 'attached sheet'."
+    }
+  },
+  "obligations": [
+    {
+      "itemId": "ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "familyIds": ["ar-act346-set"],
+      "result": "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION",
+      "issuingAuthority": "Arkansas Crime Information Center (ACIC)",
+      "printedTitle": "PETITION TO DISMISS AND SEAL FIRST OFFENDERS UNDER ACT 346 of 1975 ACA §16-93-301 through 303 and ACT 1460 OF 2013 A.C.A.16-90-1401, Et. Seq.",
+      "printedFormNumber": "ACIC Form; no numeric form number printed",
+      "revisionOrEffectiveDate": "Revised 08/25/2014 on pages 1-3 and 5; Revised 04/01/2015 on the verification page",
+      "officialSourcePage": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "officialSourceUrl": "https://media.ark.org/dps/12_FirstOffenderPetitionDraftF.pdf",
+      "finalResolvedUrl": "https://media.ark.org/dps/12_FirstOffenderPetitionDraftF.pdf",
+      "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/AR-act346-first-offender-petition.pdf",
+      "byteLength": 530147,
+      "sha256": "b90179f471d3b47bc4aa4d40d8b1cf7aa4c0633d05c4ba5ad3d5a49895bbacd3",
+      "pageCount": 5,
+      "privateArtifactReceipt": null,
+      "uploadFailure": "GitHub workflow dispatch returned HTTP 403; the uploader also rejects media.ark.org because it cannot encode the verified ACIC-page-to-CDN provenance chain."
+    },
+    {
+      "itemId": "ar-drug-court-set::official-form:ACIC-ORDER-DRUG-COURT",
+      "familyIds": ["ar-drug-court-set"],
+      "result": "IDENTITY_REQUIRES_CAPTAIN_DECISION",
+      "issuingAuthority": "Arkansas Crime Information Center (ACIC)",
+      "identityProblem": "The generic obligation names one order, but ACIC currently publishes two materially distinct orders: a pre-adjudication order and a post-adjudication order. The family design itself says the applicable pre- or post-adjudication pair is required, so neither candidate can silently stand in for the generic identity.",
+      "captainDecisionRequired": "Replace the generic order obligation with both specifically named order components, or make the route answer pre-adjudication versus post-adjudication before source binding.",
+      "officialSourcePage": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "candidates": [
+        {
+          "printedTitle": "ORDER TO DISMISS AND SEAL OFFENSE IN PRE-ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. §16-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}",
+          "printedFormNumber": "ACIC Form; no numeric form number printed",
+          "revisionOrEffectiveDate": "Revised 01/01/2014",
+          "officialSourceUrl": "https://media.ark.org/dps/16_DrugCourtPreAdjudicationOrderSealF.pdf",
+          "finalResolvedUrl": "https://media.ark.org/dps/16_DrugCourtPreAdjudicationOrderSealF.pdf",
+          "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/AR-drug-court-pre-order.pdf",
+          "byteLength": 312762,
+          "sha256": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e",
+          "pageCount": 4,
+          "privateArtifactReceipt": null
+        },
+        {
+          "printedTitle": "ORDER TO DISMISS AND SEAL OFFENSE IN POST ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. § 16-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}",
+          "printedFormNumber": "ACIC Form; no numeric form number printed",
+          "revisionOrEffectiveDate": "Revised 01/01/2014",
+          "officialSourceUrl": "https://media.ark.org/dps/18_DrugCourtPostAdjudicationOrderSealF.pdf",
+          "finalResolvedUrl": "https://media.ark.org/dps/18_DrugCourtPostAdjudicationOrderSealF.pdf",
+          "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/AR-drug-court-post-order.pdf",
+          "byteLength": 603002,
+          "sha256": "731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2",
+          "pageCount": 4,
+          "privateArtifactReceipt": null
+        }
+      ],
+      "uploadFailureForCandidateBytes": "GitHub workflow dispatch returned HTTP 403; the uploader also rejects media.ark.org because it cannot encode the verified ACIC-page-to-CDN provenance chain."
+    },
+    {
+      "itemId": "ar-drug-court-set::official-form:ACIC-PETITION-DRUG-COURT",
+      "familyIds": ["ar-drug-court-set"],
+      "result": "IDENTITY_REQUIRES_CAPTAIN_DECISION",
+      "issuingAuthority": "Arkansas Crime Information Center (ACIC)",
+      "identityProblem": "The generic obligation names one petition, but ACIC currently publishes two materially distinct petitions: a pre-adjudication petition and a post-adjudication petition. The family design itself says the applicable pre- or post-adjudication pair is required, so neither candidate can silently stand in for the generic identity.",
+      "captainDecisionRequired": "Replace the generic petition obligation with both specifically named petition components, or make the route answer pre-adjudication versus post-adjudication before source binding.",
+      "officialSourcePage": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "candidates": [
+        {
+          "printedTitle": "PETITION TO DISMISS AND SEAL OFFENSE IN PRE-ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. §16-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}",
+          "printedFormNumber": "ACIC Form; no numeric form number printed",
+          "revisionOrEffectiveDate": "Revised 08/25/2014",
+          "officialSourceUrl": "https://media.ark.org/dps/15_DrugCourtPreAdjudicationPetitionSealF.pdf",
+          "finalResolvedUrl": "https://media.ark.org/dps/15_DrugCourtPreAdjudicationPetitionSealF.pdf",
+          "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/AR-drug-court-pre-petition.pdf",
+          "byteLength": 356744,
+          "sha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42",
+          "pageCount": 4,
+          "privateArtifactReceipt": null
+        },
+        {
+          "printedTitle": "PETITION TO DISMISS AND SEAL OFFENSE IN POST ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. § 16-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}",
+          "printedFormNumber": "ACIC Form; no numeric form number printed",
+          "revisionOrEffectiveDate": "Revised 01/01/2014",
+          "officialSourceUrl": "https://media.ark.org/dps/17_DrugCourtPostAdjudicationPetitionSealF.pdf",
+          "finalResolvedUrl": "https://media.ark.org/dps/17_DrugCourtPostAdjudicationPetitionSealF.pdf",
+          "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/AR-drug-court-post-petition.pdf",
+          "byteLength": 1026997,
+          "sha256": "99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39",
+          "pageCount": 4,
+          "privateArtifactReceipt": null
+        }
+      ],
+      "uploadFailureForCandidateBytes": "GitHub workflow dispatch returned HTTP 403; the uploader also rejects media.ark.org because it cannot encode the verified ACIC-page-to-CDN provenance chain."
+    },
+    {
+      "itemId": "ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+      "familyIds": ["ar-misdemeanor-seal-set"],
+      "result": "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION",
+      "issuingAuthority": "Arkansas Crime Information Center (ACIC)",
+      "printedTitle": "PETITION TO SEAL MISDEMEANORS UNDER ACT 1460 OF 2013; A.C.A.16-90-1401, Et. Seq.",
+      "printedFormNumber": "ACIC Form; no numeric form number printed",
+      "revisionOrEffectiveDate": "Revised 10/25/2023",
+      "officialSourcePage": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "officialSourceUrl": "https://media.ark.org/dps/3-Misdemeanor-Petition-8_01_2023.pdf",
+      "finalResolvedUrl": "https://media.ark.org/dps/3-Misdemeanor-Petition-8_01_2023.pdf",
+      "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/AR-misdemeanor-petition.pdf",
+      "byteLength": 775618,
+      "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+      "pageCount": 5,
+      "privateArtifactReceipt": null,
+      "uploadFailure": "GitHub workflow dispatch returned HTTP 403; the uploader also rejects media.ark.org because it cannot encode the verified ACIC-page-to-CDN provenance chain."
+    },
+    {
+      "itemId": "ar-veterans-court-set::official-form:ACIC-ORDER-VETERANS-COURT",
+      "familyIds": ["ar-veterans-court-set"],
+      "result": "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION",
+      "issuingAuthority": "Arkansas Crime Information Center (ACIC)",
+      "printedTitle": "ORDER TO DISMISS AND SEAL OFFENSE IN VETERANS TREATMENT SPECIALITY COURT PROCEEDING PURSUANT TO A.C.A. §16-101-106 AND A.C.A. §16-90-1401 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}",
+      "printedFormNumber": "ACIC Form; no numeric form number printed",
+      "revisionOrEffectiveDate": "07/27/2021 printed on the form; not labelled as a revision",
+      "officialSourcePage": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "officialSourceUrl": "https://media.ark.org/dps/Veterans-Court-Order-to-Seal-Form-July2021.pdf",
+      "finalResolvedUrl": "https://media.ark.org/dps/Veterans-Court-Order-to-Seal-Form-July2021.pdf",
+      "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/AR-veterans-court-order.pdf",
+      "byteLength": 116034,
+      "sha256": "dd73dfdee29c12977a360413311a973fd3366e5a7dc606d385666bfa3b38ccf5",
+      "pageCount": 4,
+      "privateArtifactReceipt": null,
+      "uploadFailure": "GitHub workflow dispatch returned HTTP 403; the uploader also rejects media.ark.org because it cannot encode the verified ACIC-page-to-CDN provenance chain."
+    },
+    {
+      "itemId": "fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "familyIds": ["fl-10yr-bridge-set"],
+      "result": "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION",
+      "issuingAuthority": "Florida Department of Law Enforcement (FDLE)",
+      "printedTitle": "FLORIDA DEPARTMENT OF LAW ENFORCEMENT APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR SEALING (s. 943.059, F.S.) or EXPUNCTION (s. 943.585, F.S.)",
+      "printedFormNumber": "FDLE40-021",
+      "revisionOrEffectiveDate": "Revised October 2019",
+      "rendererRequestType": "Expunge",
+      "officialSourcePage": "https://www.fdle.state.fl.us/Seal-and-Expunge-Process/Certificate-of-Eligibility-Instructions.aspx",
+      "officialSourceUrl": "https://web.fdle.state.fl.us/intakeweb/formrenderer.xhtml?pageId=se",
+      "finalResolvedUrl": "https://web.fdle.state.fl.us/intakeweb/formrenderer.xhtml",
+      "finalResolvedUrlNote": "The transport response used an ephemeral ;jsessionid path parameter. It is omitted because session material must not be committed; the stable endpoint is exact apart from that ephemeral parameter.",
+      "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-certificate-expunction-blank.pdf",
+      "byteLength": 26602,
+      "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+      "pageCount": 6,
+      "privateArtifactReceipt": null,
+      "uploadFailure": "GitHub workflow dispatch returned HTTP 403. Independently, the governed workflow is GET-only and cannot upload the exact stateful-POST PDF bytes."
+    },
+    {
+      "itemId": "fl-administrative-set::official-form:FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION",
+      "familyIds": ["fl-administrative-set"],
+      "result": "NOT_AN_OFFICIAL_DOCUMENT",
+      "issuingAuthority": "Florida Department of Law Enforcement (FDLE)",
+      "printedTitle": null,
+      "printedFormNumber": null,
+      "revisionOrEffectiveDate": null,
+      "finding": "FDLE's current public renderer has no Administrative Expunction request type. Current Florida Administrative Code Rule 11C-7.008 does not prescribe or incorporate an FDLE form: it requires an application in writing, with an agency-letterhead route or a written applicant request plus written agency or state-attorney endorsement. The assignment label is a descriptive procedure/output, not the identity of a published uniform form.",
+      "officialProgrammePage": "https://www.fdle.state.fl.us/Seal-and-Expunge-Process",
+      "controllingProcedurePage": "https://flrules.org/gateway/RuleNo.asp?ID=11C-7.008",
+      "controllingRuleTitle": "11C-7.008 Administrative Expunction Procedures",
+      "controllingRuleEffectiveDate": "4/16/2009",
+      "prescribedOutput": "A custom written application and, when applicant-submitted, a custom written endorsement; not an FDLE application form.",
+      "stagingPath": null,
+      "privateArtifactReceipt": null
+    },
+    {
+      "itemId": "fl-early-juvenile-set::official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
+      "familyIds": ["fl-early-juvenile-set"],
+      "result": "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION",
+      "issuingAuthority": "Florida Department of Law Enforcement (FDLE)",
+      "printedTitle": "FLORIDA DEPARTMENT OF LAW ENFORCEMENT APPLICATION FOR A EARLY JUVENILE EXPUNCTION (s. 943.0515, F.S.)",
+      "printedFormNumber": "FDLE40-028",
+      "revisionOrEffectiveDate": "Revised October 2019",
+      "rendererRequestType": "Early Juvenile Expunction",
+      "officialSourcePage": "https://www.fdle.state.fl.us/Seal-and-Expunge-Process/Early-Juvenile-Expungement.aspx",
+      "officialSourceUrl": "https://web.fdle.state.fl.us/intakeweb/formrenderer.xhtml?pageId=se",
+      "finalResolvedUrl": "https://web.fdle.state.fl.us/intakeweb/formrenderer.xhtml",
+      "finalResolvedUrlNote": "The transport response used an ephemeral ;jsessionid path parameter. It is omitted because session material must not be committed; the stable endpoint is exact apart from that ephemeral parameter.",
+      "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-early-juvenile-expunction-blank.pdf",
+      "byteLength": 22449,
+      "sha256": "d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb",
+      "pageCount": 5,
+      "privateArtifactReceipt": null,
+      "uploadFailure": "GitHub workflow dispatch returned HTTP 403. Independently, the governed workflow is GET-only and cannot upload the exact stateful-POST PDF bytes."
+    },
+    {
+      "itemId": "fl-expunction-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "familyIds": ["fl-expunction-set"],
+      "result": "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION",
+      "issuingAuthority": "Florida Department of Law Enforcement (FDLE)",
+      "printedTitle": "FLORIDA DEPARTMENT OF LAW ENFORCEMENT APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR SEALING (s. 943.059, F.S.) or EXPUNCTION (s. 943.585, F.S.)",
+      "printedFormNumber": "FDLE40-021",
+      "revisionOrEffectiveDate": "Revised October 2019",
+      "rendererRequestType": "Expunge",
+      "officialSourcePage": "https://www.fdle.state.fl.us/Seal-and-Expunge-Process/Certificate-of-Eligibility-Instructions.aspx",
+      "officialSourceUrl": "https://web.fdle.state.fl.us/intakeweb/formrenderer.xhtml?pageId=se",
+      "finalResolvedUrl": "https://web.fdle.state.fl.us/intakeweb/formrenderer.xhtml",
+      "finalResolvedUrlNote": "The transport response used an ephemeral ;jsessionid path parameter. It is omitted because session material must not be committed; the stable endpoint is exact apart from that ephemeral parameter.",
+      "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-certificate-expunction-blank.pdf",
+      "byteLength": 26602,
+      "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+      "pageCount": 6,
+      "privateArtifactReceipt": null,
+      "uploadFailure": "GitHub workflow dispatch returned HTTP 403. Independently, the governed workflow is GET-only and cannot upload the exact stateful-POST PDF bytes."
+    },
+    {
+      "itemId": "fl-juvenile-diversion-set::official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "familyIds": ["fl-juvenile-diversion-set"],
+      "result": "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION",
+      "issuingAuthority": "Florida Department of Law Enforcement (FDLE)",
+      "printedTitle": "FLORIDA DEPARTMENT OF LAW ENFORCEMENT APPLICATION FOR A JUVENILE DIVERSION EXPUNCTION (s. 943.0582, F.S.)",
+      "printedFormNumber": "FDLE40-025",
+      "revisionOrEffectiveDate": "Revised July 2022",
+      "rendererRequestType": "Juvenile Diversion",
+      "officialSourcePage": "https://www.fdle.state.fl.us/Seal-and-Expunge-Process/Juvenile-Diversion-Expunction.aspx",
+      "officialSourceUrl": "https://web.fdle.state.fl.us/intakeweb/formrenderer.xhtml?pageId=se",
+      "finalResolvedUrl": "https://web.fdle.state.fl.us/intakeweb/formrenderer.xhtml",
+      "finalResolvedUrlNote": "The transport response used an ephemeral ;jsessionid path parameter. It is omitted because session material must not be committed; the stable endpoint is exact apart from that ephemeral parameter.",
+      "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-juvenile-diversion-expunction-blank.pdf",
+      "byteLength": 23990,
+      "sha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e",
+      "pageCount": 5,
+      "privateArtifactReceipt": null,
+      "uploadFailure": "GitHub workflow dispatch returned HTTP 403. Independently, the governed workflow is GET-only and cannot upload the exact stateful-POST PDF bytes."
+    },
+    {
+      "itemId": "fl-sealing-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "familyIds": ["fl-sealing-set"],
+      "result": "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION",
+      "issuingAuthority": "Florida Department of Law Enforcement (FDLE)",
+      "printedTitle": "FLORIDA DEPARTMENT OF LAW ENFORCEMENT APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR SEALING (s. 943.059, F.S.) or EXPUNCTION (s. 943.585, F.S.)",
+      "printedFormNumber": "FDLE40-021",
+      "revisionOrEffectiveDate": "Revised October 2019",
+      "rendererRequestType": "Seal",
+      "officialSourcePage": "https://www.fdle.state.fl.us/Seal-and-Expunge-Process/Certificate-of-Eligibility-Instructions.aspx",
+      "officialSourceUrl": "https://web.fdle.state.fl.us/intakeweb/formrenderer.xhtml?pageId=se",
+      "finalResolvedUrl": "https://web.fdle.state.fl.us/intakeweb/formrenderer.xhtml",
+      "finalResolvedUrlNote": "The transport response used an ephemeral ;jsessionid path parameter. It is omitted because session material must not be committed; the stable endpoint is exact apart from that ephemeral parameter.",
+      "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-certificate-sealing-blank.pdf",
+      "byteLength": 26589,
+      "sha256": "1d07f48487cc466294a25fd36f06fb15002d1fa524dd43889c3ddb832c1f8aec",
+      "pageCount": 6,
+      "privateArtifactReceipt": null,
+      "uploadFailure": "GitHub workflow dispatch returned HTTP 403. Independently, the governed workflow is GET-only and cannot upload the exact stateful-POST PDF bytes."
+    },
+    {
+      "itemId": "ia-901c3-set::official-form:Rule 2.86 Form 2",
+      "familyIds": ["ia-901c3-set"],
+      "result": "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION",
+      "issuingAuthority": "Iowa Judicial Branch",
+      "printedTitle": "Rule 2.86—Form 2: Application to Expunge Misdemeanor Court Records under Iowa Code section 901C.3",
+      "printedFormNumber": "Rule 2.86—Form 2",
+      "revisionOrEffectiveDate": "August 2024",
+      "officialSourcePage": "https://www.iowacourts.gov/for-the-public/court-forms/",
+      "officialSourceUrl": "https://www.iowacourts.gov/browse/files/2efe17f972494a31a1094a07fac255cd/download",
+      "finalResolvedUrl": "https://www.iowacourts.gov/browse/files/2efe17f972494a31a1094a07fac255cd/download",
+      "responseFilename": "2_86_2_901C3_Expungement_BF9ED522021B2.pdf",
+      "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/IA-rule-2.86-form-2.pdf",
+      "byteLength": 2674736,
+      "sha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963",
+      "pageCount": 3,
+      "privateArtifactReceipt": null,
+      "uploadFailure": "could not create workflow dispatch event: HTTP 403: Resource not accessible by integration (https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/workflows/338264045/dispatches)"
+    },
+    {
+      "itemId": "ia-901c3-set::official-form:Rule 2.86 Form 2 attached sheet",
+      "familyIds": ["ia-901c3-set"],
+      "result": "IDENTITY_REQUIRES_CAPTAIN_DECISION",
+      "issuingAuthority": "Iowa Judicial Branch",
+      "printedTitle": null,
+      "printedFormNumber": null,
+      "revisionOrEffectiveDate": null,
+      "identityProblem": "No separate 'attached sheet' is published. Rule 2.86—Form 2 is one three-page instrument. Page 1 lets the filer check a box if the filer has attached a sheet with additional alternate names, and page 2 lets the filer check a box if the filer has attached a sheet with additional related-case information. Those are user-created continuation sheets, not an Iowa Judicial Branch form. The separately published Instructions for Rule 2.86—Form 2 are a different document and must not be substituted.",
+      "captainDecisionRequired": "Remove the phantom official-form obligation and model optional user-created attachments inside Form 2, or create a clearly non-official continuation-sheet composer requirement.",
+      "containingInstrument": {
+        "printedTitle": "Rule 2.86—Form 2: Application to Expunge Misdemeanor Court Records under Iowa Code section 901C.3",
+        "printedFormNumber": "Rule 2.86—Form 2",
+        "revisionOrEffectiveDate": "August 2024",
+        "officialSourceUrl": "https://www.iowacourts.gov/browse/files/2efe17f972494a31a1094a07fac255cd/download",
+        "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/IA-rule-2.86-form-2.pdf",
+        "byteLength": 2674736,
+        "sha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963",
+        "pageCount": 3,
+        "privateArtifactReceipt": null,
+        "uploadFailure": "The containing instrument's private upload was denied by GitHub workflow dispatch with HTTP 403."
+      }
+    }
+  ],
+  "acquiredFiles": [
+    {
+      "path": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/AR-act346-first-offender-petition.pdf",
+      "filename": "AR-act346-first-offender-petition.pdf",
+      "byteLength": 530147,
+      "sha256": "b90179f471d3b47bc4aa4d40d8b1cf7aa4c0633d05c4ba5ad3d5a49895bbacd3",
+      "privateArtifactReceipt": null
+    },
+    {
+      "path": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/AR-drug-court-post-order.pdf",
+      "filename": "AR-drug-court-post-order.pdf",
+      "byteLength": 603002,
+      "sha256": "731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2",
+      "privateArtifactReceipt": null
+    },
+    {
+      "path": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/AR-drug-court-post-petition.pdf",
+      "filename": "AR-drug-court-post-petition.pdf",
+      "byteLength": 1026997,
+      "sha256": "99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39",
+      "privateArtifactReceipt": null
+    },
+    {
+      "path": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/AR-drug-court-pre-order.pdf",
+      "filename": "AR-drug-court-pre-order.pdf",
+      "byteLength": 312762,
+      "sha256": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e",
+      "privateArtifactReceipt": null
+    },
+    {
+      "path": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/AR-drug-court-pre-petition.pdf",
+      "filename": "AR-drug-court-pre-petition.pdf",
+      "byteLength": 356744,
+      "sha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42",
+      "privateArtifactReceipt": null
+    },
+    {
+      "path": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/AR-misdemeanor-petition.pdf",
+      "filename": "AR-misdemeanor-petition.pdf",
+      "byteLength": 775618,
+      "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+      "privateArtifactReceipt": null
+    },
+    {
+      "path": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/AR-veterans-court-order.pdf",
+      "filename": "AR-veterans-court-order.pdf",
+      "byteLength": 116034,
+      "sha256": "dd73dfdee29c12977a360413311a973fd3366e5a7dc606d385666bfa3b38ccf5",
+      "privateArtifactReceipt": null
+    },
+    {
+      "path": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-certificate-expunction-blank.pdf",
+      "filename": "FDLE-certificate-expunction-blank.pdf",
+      "byteLength": 26602,
+      "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+      "privateArtifactReceipt": null
+    },
+    {
+      "path": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-certificate-sealing-blank.pdf",
+      "filename": "FDLE-certificate-sealing-blank.pdf",
+      "byteLength": 26589,
+      "sha256": "1d07f48487cc466294a25fd36f06fb15002d1fa524dd43889c3ddb832c1f8aec",
+      "privateArtifactReceipt": null
+    },
+    {
+      "path": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-early-juvenile-expunction-blank.pdf",
+      "filename": "FDLE-early-juvenile-expunction-blank.pdf",
+      "byteLength": 22449,
+      "sha256": "d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb",
+      "privateArtifactReceipt": null
+    },
+    {
+      "path": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-juvenile-diversion-expunction-blank.pdf",
+      "filename": "FDLE-juvenile-diversion-expunction-blank.pdf",
+      "byteLength": 23990,
+      "sha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e",
+      "privateArtifactReceipt": null
+    },
+    {
+      "path": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/IA-rule-2.86-form-2.pdf",
+      "filename": "IA-rule-2.86-form-2.pdf",
+      "byteLength": 2674736,
+      "sha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963",
+      "privateArtifactReceipt": null
+    }
+  ],
+  "fdleAcquireOnceFinding": {
+    "canonicalArtifactId": "FDLE40-021",
+    "finding": "The publisher treats sealing and expunction as one FDLE40-021 instrument and the printed title covers both, but the current renderer writes the selected request type into the PDF and emits a per-render UUID. The two exact renderings are therefore not byte-identical: Expunge is sha256 ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650 and Seal is sha256 1d07f48487cc466294a25fd36f06fb15002d1fa524dd43889c3ddb832c1f8aec. Expunge serves fl-10yr-bridge-set and fl-expunction-set; Seal serves fl-sealing-set.",
+    "whyTwoRenderingsWerePreserved": "One common identity was acquired from one official renderer, but exact family-ready bytes require the publisher-selected request type. Both successful official responses are preserved under the no-delete rule."
+  },
+  "repositoryEffects": {
+    "sourceBodiesCommitted": 0,
+    "claimLedgerModified": false,
+    "claimReleasesPerformed": 0,
+    "packetChanges": 0,
+    "centralSourceRecordsChanged": 0,
+    "queueStateChanged": 0,
+    "productionTouched": false
+  }
+}

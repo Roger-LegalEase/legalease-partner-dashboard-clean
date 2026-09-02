@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+  "worklistGroupId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+  "jurisdiction": "OK",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "committed repository records bound by exact SHA-256 at build time, with every relied-on statement re-read from the committed bytes as an anchor before composing",
+  "routeKeys": [
+    "obligation:runtime-only:OK:juvenile-record-expungement"
+  ],
+  "statutoryAuthority": [
+    "10A O.S. § 2-6-109"
+  ],
+  "legalName": "Oklahoma Juvenile Expungement Petition under 10A O.S. § 2-6-109",
+  "allSourcesExact": true,
+  "formIdentityNote": "No committed record names an official participant form for this route, and the committed contract's own packet components are a composed petition together with records the participant obtains. Every page in this packet is therefore composed by this build from the committed records; no official form was substituted and none was invented.",
+  "committedRecords": [
+    {
+      "sourceIds": [
+        "committed-record:src/lib/legal-authority/routes/route-splits.json"
+      ],
+      "recordId": "route-contract:OK:juvenile-record-expungement",
+      "pathInRepository": "src/lib/legal-authority/routes/route-splits.json",
+      "sha256": "c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df",
+      "byteLength": 127996,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed route contract: this route's mechanism, statute, outcome mode, timing anchor, recorded conditions, required facts and packet components",
+      "anchorStatementsVerified": 10
+    },
+    {
+      "sourceIds": [
+        "committed-record:src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json"
+      ],
+      "recordId": "compiled-profile:OK-oklahoma#juvenile-record-expungement",
+      "pathInRepository": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+      "sha256": "741344600678fb394a60c90ec168d8fbe1d5b2642bc987658f5eac2d56261db1",
+      "byteLength": 227605,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the compiled state profile's own pathway for this route, carrying the recorded substance of the statute and, where it exists, the recorded self-help boundary",
+      "anchorStatementsVerified": 3
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      ],
+      "recordId": "route-obligation-census:obligation:runtime-only:OK:juvenile-record-expungement",
+      "pathInRepository": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+      "byteLength": 2599752,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed route-obligation census: this route's exact key, its statutory authority, its recorded destination and its participant-facing instrument",
+      "anchorStatementsVerified": 2
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [
+    "ok-juvenile-expungement-2-6-109-primary-filing-1",
+    "ok-juvenile-expungement-2-6-109-filing-instructions-2"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that any record is eligible for the relief this family composes for",
+    "that any Oklahoma juvenile case has been dismissed or closed, or that every ordered requirement has been completed"
+  ]
+}

@@ -1,6 +1,11 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [],
+    "completionAliasIds": []
+  },
   "jurisdiction": {
     "code": "UT",
     "name": "Utah",
@@ -778,24 +783,7 @@
       "routeType": "automatic",
       "suggestedResultCode": "guidance_only",
       "waitingRules": [
-        "Acquittal on all charges Goal: 60 days after acquittal for qualifying post-May 1, 2020 cases",
-        "Dismissal with prejudice Goal: 180 days after dismissal/final appeal, unless dismissed after plea in abeyance",
-        "The Utah Courts public guidance says the automatic process can take up to 120 days, because the court system runs automatic expungement checks periodically and must allow prosecutor response time. (",
-        "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category.",
-        "Clean Slate automatic expungement can apply to cases where each conviction or charge is one of the lower-level categories allowed by statute: controlled-substance possession misdemeanor, Class B misdemeanor, Class C misdemeanor, or infraction. The automatic waiting periods are generally 5 years for Class C misdemeanors/infractions, 6 years for Class B misdemeanors, and 7 years for Class A controlled-substance possession misdemeanors.",
-        "Class C misdemeanor or infraction 5 years",
-        "Class A misdemeanor controlled-substance possession 7 years",
-        "4 File the petition in the correct Utah court within 180 days of certificate issuance.",
-        "BCI\u0019s current FAQ says the initial application fee is $65, fingerprints are required even if BCI already has fingerprints, BCI can take up to 1-2 months to respond, and eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations. Court filing fees are separate, and fee waivers may be available through the court. (\"https://bci.utah.gov/expungements/expungements-faq/\")",
-        "If the person was arrested or charged but not convicted, Utah may allow petition-based expungement of records of arrest, investigation, and detention. A BCI certificate can be issued if at least 30 days have passed after arrest or charge and one of the statutory outcomes applies: no charges will be filed, all charges were dismissed with prejudice, charges dismissed without prejudice or condition with prosecutor consent or 180 days passed, acquittal on all charges, or statute of limitations expired.",
-        "Misdemeanor DUI under 41-6a-501(2) 10 years",
-        "Certain serious controlled-substance driving injury/death felony 10 years",
-        "Felony drug-possession offense 5 years",
-        "Class C misdemeanor or infraction 3 years",
-        "Utah separates traffic cases from regular criminal expungement. Some traffic offenses are automatically deleted by the court, including traffic acquittals, dismissals with prejudice, and certain adjudicated Class C/infraction or Class B traffic cases after statutory time periods. Automatic deletion uses 5 years for Class C misdemeanor/infraction traffic cases and 6 years for Class B misdemeanor traffic cases.",
-        "A person can also petition for traffic expungement without a BCI certificate. Petition-based traffic expungement can use shorter timing: 3 years after adjudication or dismissal for Class C misdemeanor/infraction traffic cases and 4 years for Class B misdemeanor traffic cases, if there is no pending traffic case, no pending traffic plea in abeyance, and the person is not currently on probation for a traffic case.",
-        "[60 days / 180 days / 3 years / 4 years / 5 years / 6 years / 7 years / 10 years / not applicable / unknown]",
-        "Automatic acquittal goal 60 days for qualifying post-May 1, 2020 cases"
+        "the automatic categories use the statute's class-specific periods — five years for a Class C misdemeanor or infraction, six years for a Class B misdemeanor, and seven years for the specified Class A controlled-substance-possession category — measured from the statutory adjudication or disposition anchor"
       ],
       "exclusionRules": [
         "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category.",
@@ -813,6 +801,39 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "guidance_only",
         "paymentAllowed": false
+      },
+      "legalAuthority": {
+        "decisionId": "LD-UT-02",
+        "ruleId": "UT-77-40A-AUTOMATIC-VS-PETITION-CLEAN-SLATE-MAP",
+        "mechanism": "Automatic Clean Slate expungement",
+        "statute": "Utah Code § 77-40a-205",
+        "stage": "automatic",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "the automatic categories use the statute's class-specific periods — five years for a Class C misdemeanor or infraction, six years for a Class B misdemeanor, and seven years for the specified Class A controlled-substance-possession category — measured from the statutory adjudication or disposition anchor"
+        },
+        "requiredFacts": [
+          "Utah class?",
+          "Statute?",
+          "Conviction/plea-in-abeyance/dismissal?",
+          "Adjudication and completion dates?",
+          "Case count?",
+          "Restitution/fees?",
+          "Pending cases?",
+          "Automatic processing status?",
+          "Certificate need?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "eligible_conviction_class"
+        ],
+        "exclusions": [
+          "Exact Utah offense class, disposition, case-count limits, completion/payment, excluded offense, and automatic-versus-petition status"
+        ],
+        "packetFamily": null,
+        "notes": "The participant files nothing; checkout stays closed. Generic offense_level is insufficient: the flow must collect the Utah Class A/B/C or infraction and the precise statutory category."
       }
     },
     {
@@ -963,29 +984,12 @@
         "acquitted",
         "convicted_misdemeanor"
       ],
-      "automatic": true,
-      "filingRequired": false,
+      "automatic": false,
+      "filingRequired": true,
       "routeType": "automatic",
       "suggestedResultCode": "guidance_only",
       "waitingRules": [
-        "Clean Slate automatic expungement can apply to cases where each conviction or charge is one of the lower-level categories allowed by statute: controlled-substance possession misdemeanor, Class B misdemeanor, Class C misdemeanor, or infraction. The automatic waiting periods are generally 5 years for Class C misdemeanors/infractions, 6 years for Class B misdemeanors, and 7 years for Class A controlled-substance possession misdemeanors.",
-        "Acquittal on all charges Goal: 60 days after acquittal for qualifying post-May 1, 2020 cases",
-        "Dismissal with prejudice Goal: 180 days after dismissal/final appeal, unless dismissed after plea in abeyance",
-        "The Utah Courts public guidance says the automatic process can take up to 120 days, because the court system runs automatic expungement checks periodically and must allow prosecutor response time. (",
-        "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category.",
-        "Class C misdemeanor or infraction 5 years",
-        "Class A misdemeanor controlled-substance possession 7 years",
-        "4 File the petition in the correct Utah court within 180 days of certificate issuance.",
-        "BCI\u0019s current FAQ says the initial application fee is $65, fingerprints are required even if BCI already has fingerprints, BCI can take up to 1-2 months to respond, and eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations. Court filing fees are separate, and fee waivers may be available through the court. (\"https://bci.utah.gov/expungements/expungements-faq/\")",
-        "If the person was arrested or charged but not convicted, Utah may allow petition-based expungement of records of arrest, investigation, and detention. A BCI certificate can be issued if at least 30 days have passed after arrest or charge and one of the statutory outcomes applies: no charges will be filed, all charges were dismissed with prejudice, charges dismissed without prejudice or condition with prosecutor consent or 180 days passed, acquittal on all charges, or statute of limitations expired.",
-        "Misdemeanor DUI under 41-6a-501(2) 10 years",
-        "Certain serious controlled-substance driving injury/death felony 10 years",
-        "Felony drug-possession offense 5 years",
-        "Class C misdemeanor or infraction 3 years",
-        "Utah separates traffic cases from regular criminal expungement. Some traffic offenses are automatically deleted by the court, including traffic acquittals, dismissals with prejudice, and certain adjudicated Class C/infraction or Class B traffic cases after statutory time periods. Automatic deletion uses 5 years for Class C misdemeanor/infraction traffic cases and 6 years for Class B misdemeanor traffic cases.",
-        "A person can also petition for traffic expungement without a BCI certificate. Petition-based traffic expungement can use shorter timing: 3 years after adjudication or dismissal for Class C misdemeanor/infraction traffic cases and 4 years for Class B misdemeanor traffic cases, if there is no pending traffic case, no pending traffic plea in abeyance, and the person is not currently on probation for a traffic case.",
-        "[60 days / 180 days / 3 years / 4 years / 5 years / 6 years / 7 years / 10 years / not applicable / unknown]",
-        "Automatic acquittal goal 60 days for qualifying post-May 1, 2020 cases"
+        "the separate petition map applies — three, four, five, seven, or ten years by category — rather than the automatic table"
       ],
       "exclusionRules": [
         "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category.",
@@ -1003,6 +1007,51 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "guidance_only",
         "paymentAllowed": false
+      },
+      "legalAuthority": {
+        "decisionId": "LD-UT-02",
+        "ruleId": "UT-77-40A-AUTOMATIC-VS-PETITION-CLEAN-SLATE-MAP",
+        "mechanism": "Petition-based expungement, including plea-in-abeyance dismissals",
+        "statute": "Utah Code § 77-40a-301 et seq.",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 3,
+          "unit": "years",
+          "anchorFactId": "sentence_completion_actual_date",
+          "anchorAlternates": [
+            "discharge_date"
+          ],
+          "anchorText": "the separate petition map applies — three, four, five, seven, or ten years by category — rather than the automatic table"
+        },
+        "requiredFacts": [
+          "Utah class?",
+          "Statute?",
+          "Conviction/plea-in-abeyance/dismissal?",
+          "Adjudication and completion dates?",
+          "Case count?",
+          "Restitution/fees?",
+          "Pending cases?",
+          "Automatic processing status?",
+          "Certificate need?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "eligible_conviction_class",
+          "sentence_completion_actual_date"
+        ],
+        "exclusions": [
+          "Exact Utah offense class, disposition, case-count limits, completion/payment, excluded offense, and automatic-versus-petition status"
+        ],
+        "packetFamily": "Utah Expungement Petition under § 77-40a-301 et seq.",
+        "packetComponents": [
+          "Petition and certificate of eligibility where required",
+          "Completion proof",
+          "Service on the required agencies"
+        ],
+        "notes": "The stored value is the shortest petition category; the exact Utah class and statutory category are mandatory intake facts."
       }
     },
     {
@@ -1104,7 +1153,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1209,7 +1259,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1311,7 +1362,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1373,24 +1425,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Utah separates traffic cases from regular criminal expungement. Some traffic offenses are automatically deleted by the court, including traffic acquittals, dismissals with prejudice, and certain adjudicated Class C/infraction or Class B traffic cases after statutory time periods. Automatic deletion uses 5 years for Class C misdemeanor/infraction traffic cases and 6 years for Class B misdemeanor traffic cases.",
-        "A person can also petition for traffic expungement without a BCI certificate. Petition-based traffic expungement can use shorter timing: 3 years after adjudication or dismissal for Class C misdemeanor/infraction traffic cases and 4 years for Class B misdemeanor traffic cases, if there is no pending traffic case, no pending traffic plea in abeyance, and the person is not currently on probation for a traffic case.",
-        "Acquittal on all charges Goal: 60 days after acquittal for qualifying post-May 1, 2020 cases",
-        "Dismissal with prejudice Goal: 180 days after dismissal/final appeal, unless dismissed after plea in abeyance",
-        "The Utah Courts public guidance says the automatic process can take up to 120 days, because the court system runs automatic expungement checks periodically and must allow prosecutor response time. (",
-        "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category.",
-        "Clean Slate automatic expungement can apply to cases where each conviction or charge is one of the lower-level categories allowed by statute: controlled-substance possession misdemeanor, Class B misdemeanor, Class C misdemeanor, or infraction. The automatic waiting periods are generally 5 years for Class C misdemeanors/infractions, 6 years for Class B misdemeanors, and 7 years for Class A controlled-substance possession misdemeanors.",
-        "Class C misdemeanor or infraction 5 years",
-        "Class A misdemeanor controlled-substance possession 7 years",
-        "4 File the petition in the correct Utah court within 180 days of certificate issuance.",
-        "BCI\u0019s current FAQ says the initial application fee is $65, fingerprints are required even if BCI already has fingerprints, BCI can take up to 1-2 months to respond, and eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations. Court filing fees are separate, and fee waivers may be available through the court. (\"https://bci.utah.gov/expungements/expungements-faq/\")",
-        "If the person was arrested or charged but not convicted, Utah may allow petition-based expungement of records of arrest, investigation, and detention. A BCI certificate can be issued if at least 30 days have passed after arrest or charge and one of the statutory outcomes applies: no charges will be filed, all charges were dismissed with prejudice, charges dismissed without prejudice or condition with prosecutor consent or 180 days passed, acquittal on all charges, or statute of limitations expired.",
-        "Misdemeanor DUI under 41-6a-501(2) 10 years",
-        "Certain serious controlled-substance driving injury/death felony 10 years",
-        "Felony drug-possession offense 5 years",
-        "Class C misdemeanor or infraction 3 years",
-        "[60 days / 180 days / 3 years / 4 years / 5 years / 6 years / 7 years / 10 years / not applicable / unknown]",
-        "Automatic acquittal goal 60 days for qualifying post-May 1, 2020 cases"
+        "three years after adjudication or dismissal for a qualifying Class C misdemeanor or infraction traffic case, and four years for a Class B traffic case"
       ],
       "exclusionRules": [
         "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category.",
@@ -1409,6 +1444,60 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-UT-05",
+        "ruleId": "UT-TRAFFIC-PETITION-3-4-VS-AUTOMATIC-5-6",
+        "mechanism": "Traffic-offense expungement — petition branch",
+        "statute": "Utah Code Title 77, Chapter 40a traffic provisions",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 3,
+          "unit": "years",
+          "anchorFactId": "conviction_date",
+          "anchorAlternates": [
+            "disposition_date"
+          ],
+          "anchorText": "three years after adjudication or dismissal for a qualifying Class C misdemeanor or infraction traffic case, and four years for a Class B traffic case"
+        },
+        "requiredFacts": [
+          "Traffic statute?",
+          "Offense class?",
+          "Adjudication/dismissal date?",
+          "DUI/serious-traffic exclusion?",
+          "Route requested?",
+          "Automatic-deletion status?",
+          "Completion and fees?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "eligible_conviction_class",
+          "conviction_date"
+        ],
+        "exclusions": [
+          "Qualifying Utah traffic offense",
+          "Exact Class B versus Class C/infraction",
+          "Petition versus automatic route",
+          "Excluded serious traffic/DUI categories absent"
+        ],
+        "packetFamily": "Utah Traffic Expungement Petition",
+        "packetComponents": [
+          "Petition",
+          "BCI certificate where required",
+          "Traffic record"
+        ],
+        "notes": "The automatic-deletion route is separate and uses a five-year Class C or infraction and six-year Class B schedule, plus the immediate administrative favourable-outcome branches the current statute provides. A single 'traffic' answer cannot calculate eligibility: class is a mandatory rendered fact."
+      },
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Projected from data/record-clearing/legal-decisions/route-ratification-registry.json. Decision authority: Lawrence (counsel), recorded through docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md and the evaluator's ratification sets.",
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1469,24 +1558,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Acquittal on all charges Goal: 60 days after acquittal for qualifying post-May 1, 2020 cases",
-        "Dismissal with prejudice Goal: 180 days after dismissal/final appeal, unless dismissed after plea in abeyance",
-        "The Utah Courts public guidance says the automatic process can take up to 120 days, because the court system runs automatic expungement checks periodically and must allow prosecutor response time. (",
-        "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category.",
-        "Clean Slate automatic expungement can apply to cases where each conviction or charge is one of the lower-level categories allowed by statute: controlled-substance possession misdemeanor, Class B misdemeanor, Class C misdemeanor, or infraction. The automatic waiting periods are generally 5 years for Class C misdemeanors/infractions, 6 years for Class B misdemeanors, and 7 years for Class A controlled-substance possession misdemeanors.",
-        "Class C misdemeanor or infraction 5 years",
-        "Class A misdemeanor controlled-substance possession 7 years",
-        "4 File the petition in the correct Utah court within 180 days of certificate issuance.",
-        "BCI\u0019s current FAQ says the initial application fee is $65, fingerprints are required even if BCI already has fingerprints, BCI can take up to 1-2 months to respond, and eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations. Court filing fees are separate, and fee waivers may be available through the court. (\"https://bci.utah.gov/expungements/expungements-faq/\")",
-        "If the person was arrested or charged but not convicted, Utah may allow petition-based expungement of records of arrest, investigation, and detention. A BCI certificate can be issued if at least 30 days have passed after arrest or charge and one of the statutory outcomes applies: no charges will be filed, all charges were dismissed with prejudice, charges dismissed without prejudice or condition with prosecutor consent or 180 days passed, acquittal on all charges, or statute of limitations expired.",
-        "Misdemeanor DUI under 41-6a-501(2) 10 years",
-        "Certain serious controlled-substance driving injury/death felony 10 years",
-        "Felony drug-possession offense 5 years",
-        "Class C misdemeanor or infraction 3 years",
-        "Utah separates traffic cases from regular criminal expungement. Some traffic offenses are automatically deleted by the court, including traffic acquittals, dismissals with prejudice, and certain adjudicated Class C/infraction or Class B traffic cases after statutory time periods. Automatic deletion uses 5 years for Class C misdemeanor/infraction traffic cases and 6 years for Class B misdemeanor traffic cases.",
-        "A person can also petition for traffic expungement without a BCI certificate. Petition-based traffic expungement can use shorter timing: 3 years after adjudication or dismissal for Class C misdemeanor/infraction traffic cases and 4 years for Class B misdemeanor traffic cases, if there is no pending traffic case, no pending traffic plea in abeyance, and the person is not currently on probation for a traffic case.",
-        "[60 days / 180 days / 3 years / 4 years / 5 years / 6 years / 7 years / 10 years / not applicable / unknown]",
-        "Automatic acquittal goal 60 days for qualifying post-May 1, 2020 cases"
+        "governed by the special cannabis statute and offense facts, not a generic waiting table; no additional elapsed period exists"
       ],
       "exclusionRules": [
         "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category.",
@@ -1505,6 +1577,42 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-UT-07",
+        "ruleId": "UT-CANNABIS-PARDON-TRAFFICKING-JUVENILE-FOUR-ROUTE-MAP",
+        "mechanism": "Cannabis-possession petition authorised without a BCI certificate",
+        "statute": "Utah Code Title 77, Chapter 40a cannabis provisions",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "governed by the special cannabis statute and offense facts, not a generic waiting table; no additional elapsed period exists"
+        },
+        "requiredFacts": [
+          "Cannabis statute/amount/date?",
+          "Pardon order?",
+          "Trafficking-caused offense and evidence?",
+          "Juvenile age?",
+          "Jurisdiction-end/release date?",
+          "Later record?",
+          "Automatic/favorable disposition?",
+          "Waiver basis?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Exact Utah special statute and all offense, nexus, age, completion, and exclusion conditions"
+        ],
+        "packetFamily": "Utah Cannabis-Possession Expungement Petition",
+        "packetComponents": [
+          "Petition under the special cannabis provision",
+          "Offense record"
+        ],
+        "notes": "The current guidance-only treatment must be removed: the statute expressly authorises a participant-filed petition."
       }
     },
     {
@@ -1562,28 +1670,11 @@
         "convicted_other"
       ],
       "automatic": false,
-      "filingRequired": true,
-      "routeType": "pardon_then_court",
+      "filingRequired": false,
+      "routeType": "automatic_guidance",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Acquittal on all charges Goal: 60 days after acquittal for qualifying post-May 1, 2020 cases",
-        "Dismissal with prejudice Goal: 180 days after dismissal/final appeal, unless dismissed after plea in abeyance",
-        "The Utah Courts public guidance says the automatic process can take up to 120 days, because the court system runs automatic expungement checks periodically and must allow prosecutor response time. (",
-        "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category.",
-        "Clean Slate automatic expungement can apply to cases where each conviction or charge is one of the lower-level categories allowed by statute: controlled-substance possession misdemeanor, Class B misdemeanor, Class C misdemeanor, or infraction. The automatic waiting periods are generally 5 years for Class C misdemeanors/infractions, 6 years for Class B misdemeanors, and 7 years for Class A controlled-substance possession misdemeanors.",
-        "Class C misdemeanor or infraction 5 years",
-        "Class A misdemeanor controlled-substance possession 7 years",
-        "4 File the petition in the correct Utah court within 180 days of certificate issuance.",
-        "BCI\u0019s current FAQ says the initial application fee is $65, fingerprints are required even if BCI already has fingerprints, BCI can take up to 1-2 months to respond, and eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations. Court filing fees are separate, and fee waivers may be available through the court. (\"https://bci.utah.gov/expungements/expungements-faq/\")",
-        "If the person was arrested or charged but not convicted, Utah may allow petition-based expungement of records of arrest, investigation, and detention. A BCI certificate can be issued if at least 30 days have passed after arrest or charge and one of the statutory outcomes applies: no charges will be filed, all charges were dismissed with prejudice, charges dismissed without prejudice or condition with prosecutor consent or 180 days passed, acquittal on all charges, or statute of limitations expired.",
-        "Misdemeanor DUI under 41-6a-501(2) 10 years",
-        "Certain serious controlled-substance driving injury/death felony 10 years",
-        "Felony drug-possession offense 5 years",
-        "Class C misdemeanor or infraction 3 years",
-        "Utah separates traffic cases from regular criminal expungement. Some traffic offenses are automatically deleted by the court, including traffic acquittals, dismissals with prejudice, and certain adjudicated Class C/infraction or Class B traffic cases after statutory time periods. Automatic deletion uses 5 years for Class C misdemeanor/infraction traffic cases and 6 years for Class B misdemeanor traffic cases.",
-        "A person can also petition for traffic expungement without a BCI certificate. Petition-based traffic expungement can use shorter timing: 3 years after adjudication or dismissal for Class C misdemeanor/infraction traffic cases and 4 years for Class B misdemeanor traffic cases, if there is no pending traffic case, no pending traffic plea in abeyance, and the person is not currently on probation for a traffic case.",
-        "[60 days / 180 days / 3 years / 4 years / 5 years / 6 years / 7 years / 10 years / not applicable / unknown]",
-        "Automatic acquittal goal 60 days for qualifying post-May 1, 2020 cases"
+        "triggered by the Board of Pardons and Parole's grant and the resulting expungement order or process; there is no separate wait"
       ],
       "exclusionRules": [
         "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category.",
@@ -1601,6 +1692,37 @@
         "exclusionOrAmbiguityResult": "needs_review",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-UT-07",
+        "ruleId": "UT-CANNABIS-PARDON-TRAFFICKING-JUVENILE-FOUR-ROUTE-MAP",
+        "mechanism": "Pardon-based expungement",
+        "statute": "Utah Code Title 77, Chapter 40a pardon provisions",
+        "stage": "single_stage",
+        "outcomeMode": "guidance_status",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "triggered by the Board of Pardons and Parole's grant and the resulting expungement order or process; there is no separate wait"
+        },
+        "requiredFacts": [
+          "Cannabis statute/amount/date?",
+          "Pardon order?",
+          "Trafficking-caused offense and evidence?",
+          "Juvenile age?",
+          "Jurisdiction-end/release date?",
+          "Later record?",
+          "Automatic/favorable disposition?",
+          "Waiver basis?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact Utah special statute and all offense, nexus, age, completion, and exclusion conditions"
+        ],
+        "packetFamily": null,
+        "notes": "The expungement follows from the Board's own order and process, so the product gives status and correction guidance rather than selling a petition."
       }
     },
     {
@@ -1661,24 +1783,7 @@
       "routeType": "special",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Acquittal on all charges Goal: 60 days after acquittal for qualifying post-May 1, 2020 cases",
-        "Dismissal with prejudice Goal: 180 days after dismissal/final appeal, unless dismissed after plea in abeyance",
-        "The Utah Courts public guidance says the automatic process can take up to 120 days, because the court system runs automatic expungement checks periodically and must allow prosecutor response time. (",
-        "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category.",
-        "Clean Slate automatic expungement can apply to cases where each conviction or charge is one of the lower-level categories allowed by statute: controlled-substance possession misdemeanor, Class B misdemeanor, Class C misdemeanor, or infraction. The automatic waiting periods are generally 5 years for Class C misdemeanors/infractions, 6 years for Class B misdemeanors, and 7 years for Class A controlled-substance possession misdemeanors.",
-        "Class C misdemeanor or infraction 5 years",
-        "Class A misdemeanor controlled-substance possession 7 years",
-        "4 File the petition in the correct Utah court within 180 days of certificate issuance.",
-        "BCI\u0019s current FAQ says the initial application fee is $65, fingerprints are required even if BCI already has fingerprints, BCI can take up to 1-2 months to respond, and eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations. Court filing fees are separate, and fee waivers may be available through the court. (\"https://bci.utah.gov/expungements/expungements-faq/\")",
-        "If the person was arrested or charged but not convicted, Utah may allow petition-based expungement of records of arrest, investigation, and detention. A BCI certificate can be issued if at least 30 days have passed after arrest or charge and one of the statutory outcomes applies: no charges will be filed, all charges were dismissed with prejudice, charges dismissed without prejudice or condition with prosecutor consent or 180 days passed, acquittal on all charges, or statute of limitations expired.",
-        "Misdemeanor DUI under 41-6a-501(2) 10 years",
-        "Certain serious controlled-substance driving injury/death felony 10 years",
-        "Felony drug-possession offense 5 years",
-        "Class C misdemeanor or infraction 3 years",
-        "Utah separates traffic cases from regular criminal expungement. Some traffic offenses are automatically deleted by the court, including traffic acquittals, dismissals with prejudice, and certain adjudicated Class C/infraction or Class B traffic cases after statutory time periods. Automatic deletion uses 5 years for Class C misdemeanor/infraction traffic cases and 6 years for Class B misdemeanor traffic cases.",
-        "A person can also petition for traffic expungement without a BCI certificate. Petition-based traffic expungement can use shorter timing: 3 years after adjudication or dismissal for Class C misdemeanor/infraction traffic cases and 4 years for Class B misdemeanor traffic cases, if there is no pending traffic case, no pending traffic plea in abeyance, and the person is not currently on probation for a traffic case.",
-        "[60 days / 180 days / 3 years / 4 years / 5 years / 6 years / 7 years / 10 years / not applicable / unknown]",
-        "Automatic acquittal goal 60 days for qualifying post-May 1, 2020 cases"
+        "available upon proof that the covered offense resulted from trafficking; no fixed elapsed period applies"
       ],
       "exclusionRules": [
         "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category.",
@@ -1696,6 +1801,42 @@
         "exclusionOrAmbiguityResult": "needs_review",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-UT-07",
+        "ruleId": "UT-CANNABIS-PARDON-TRAFFICKING-JUVENILE-FOUR-ROUTE-MAP",
+        "mechanism": "Human-trafficking-related vacatur and expungement",
+        "statute": "Utah Code Title 77, Chapter 40a trafficking provisions",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "available upon proof that the covered offense resulted from trafficking; no fixed elapsed period applies"
+        },
+        "requiredFacts": [
+          "Cannabis statute/amount/date?",
+          "Pardon order?",
+          "Trafficking-caused offense and evidence?",
+          "Juvenile age?",
+          "Jurisdiction-end/release date?",
+          "Later record?",
+          "Automatic/favorable disposition?",
+          "Waiver basis?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Exact Utah special statute and all offense, nexus, age, completion, and exclusion conditions"
+        ],
+        "packetFamily": "Utah Trafficking Vacatur and Expungement Petition",
+        "packetComponents": [
+          "Petition to vacate or expunge",
+          "Trafficking nexus evidence"
+        ],
+        "notes": "The current guidance-only treatment must be removed: the statute expressly authorises a participant-filed petition."
       }
     },
     {
@@ -1757,24 +1898,7 @@
       "routeType": "juvenile",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Acquittal on all charges Goal: 60 days after acquittal for qualifying post-May 1, 2020 cases",
-        "Dismissal with prejudice Goal: 180 days after dismissal/final appeal, unless dismissed after plea in abeyance",
-        "The Utah Courts public guidance says the automatic process can take up to 120 days, because the court system runs automatic expungement checks periodically and must allow prosecutor response time. (",
-        "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category.",
-        "Clean Slate automatic expungement can apply to cases where each conviction or charge is one of the lower-level categories allowed by statute: controlled-substance possession misdemeanor, Class B misdemeanor, Class C misdemeanor, or infraction. The automatic waiting periods are generally 5 years for Class C misdemeanors/infractions, 6 years for Class B misdemeanors, and 7 years for Class A controlled-substance possession misdemeanors.",
-        "Class C misdemeanor or infraction 5 years",
-        "Class A misdemeanor controlled-substance possession 7 years",
-        "4 File the petition in the correct Utah court within 180 days of certificate issuance.",
-        "BCI\u0019s current FAQ says the initial application fee is $65, fingerprints are required even if BCI already has fingerprints, BCI can take up to 1-2 months to respond, and eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations. Court filing fees are separate, and fee waivers may be available through the court. (\"https://bci.utah.gov/expungements/expungements-faq/\")",
-        "If the person was arrested or charged but not convicted, Utah may allow petition-based expungement of records of arrest, investigation, and detention. A BCI certificate can be issued if at least 30 days have passed after arrest or charge and one of the statutory outcomes applies: no charges will be filed, all charges were dismissed with prejudice, charges dismissed without prejudice or condition with prosecutor consent or 180 days passed, acquittal on all charges, or statute of limitations expired.",
-        "Misdemeanor DUI under 41-6a-501(2) 10 years",
-        "Certain serious controlled-substance driving injury/death felony 10 years",
-        "Felony drug-possession offense 5 years",
-        "Class C misdemeanor or infraction 3 years",
-        "Utah separates traffic cases from regular criminal expungement. Some traffic offenses are automatically deleted by the court, including traffic acquittals, dismissals with prejudice, and certain adjudicated Class C/infraction or Class B traffic cases after statutory time periods. Automatic deletion uses 5 years for Class C misdemeanor/infraction traffic cases and 6 years for Class B misdemeanor traffic cases.",
-        "A person can also petition for traffic expungement without a BCI certificate. Petition-based traffic expungement can use shorter timing: 3 years after adjudication or dismissal for Class C misdemeanor/infraction traffic cases and 4 years for Class B misdemeanor traffic cases, if there is no pending traffic case, no pending traffic plea in abeyance, and the person is not currently on probation for a traffic case.",
-        "[60 days / 180 days / 3 years / 4 years / 5 years / 6 years / 7 years / 10 years / not applicable / unknown]",
-        "Automatic acquittal goal 60 days for qualifying post-May 1, 2020 cases"
+        "the person must be at least eighteen and generally one year beyond termination of juvenile-court jurisdiction or release, subject to the statutory waiver"
       ],
       "exclusionRules": [
         "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category.",
@@ -1792,6 +1916,48 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-UT-07",
+        "ruleId": "UT-CANNABIS-PARDON-TRAFFICKING-JUVENILE-FOUR-ROUTE-MAP",
+        "mechanism": "Juvenile expungement — ordinary petition branch",
+        "statute": "Utah juvenile expungement statutes",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 1,
+          "unit": "years",
+          "anchorFactId": "release_date",
+          "anchorAlternates": [
+            "discharge_date"
+          ],
+          "anchorText": "the person must be at least eighteen and generally one year beyond termination of juvenile-court jurisdiction or release, subject to the statutory waiver"
+        },
+        "requiredFacts": [
+          "Cannabis statute/amount/date?",
+          "Pardon order?",
+          "Trafficking-caused offense and evidence?",
+          "Juvenile age?",
+          "Jurisdiction-end/release date?",
+          "Later record?",
+          "Automatic/favorable disposition?",
+          "Waiver basis?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "release_date"
+        ],
+        "exclusions": [
+          "Exact Utah special statute and all offense, nexus, age, completion, and exclusion conditions"
+        ],
+        "packetFamily": "Utah Juvenile Expungement Petition",
+        "packetComponents": [
+          "Petition",
+          "Jurisdiction termination or release proof"
+        ],
+        "notes": "Separate automatic and favourable-outcome branches exist and are not subject to this age-and-time rule."
       }
     }
   ],
@@ -3524,8 +3690,8 @@
         "sourceConditionText": "Path K - Pardon-Based Expungement"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "pathways:19-159",
       "candidatePathwayIds": [
@@ -4028,18 +4194,10 @@
       "when": {
         "backendPathwayId": "path-a-automatic-clean-slate-expungement",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -4047,7 +4205,7 @@
           "convicted_misdemeanor",
           "convicted_other"
         ],
-        "sourceConditionText": "Path A — Automatic Clean Slate expungement"
+        "sourceConditionText": "the automatic categories use the statute's class-specific periods — five years for a Class C misdemeanor or infraction, six years for a Class B misdemeanor, and seven years for the specified Class A controlled-substance-possession category — measured from the statutory adjudication or disposition anchor"
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -4057,7 +4215,13 @@
       "sourceRef": "pathways:19-159; section:19-159; corpus-unit:10",
       "candidatePathwayIds": [
         "path-a-automatic-clean-slate-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-UT-02",
+        "ruleId": "UT-77-40A-AUTOMATIC-VS-PETITION-CLEAN-SLATE-MAP",
+        "statute": "Utah Code § 77-40a-205",
+        "mechanism": "Automatic Clean Slate expungement"
+      }
     },
     {
       "id": "route-path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice",
@@ -4104,18 +4268,10 @@
       "when": {
         "backendPathwayId": "path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "convicted_other",
@@ -4123,7 +4279,16 @@
           "acquitted",
           "convicted_misdemeanor"
         ],
-        "sourceConditionText": "Path C — Clean Slate eligible convictions and plea-in-abeyance dismissals"
+        "sourceConditionText": "the separate petition map applies — three, four, five, seven, or ten years by category — rather than the automatic table",
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "timingAnchorFactId": "sentence_completion_actual_date",
+        "timingAnchorAlternateFactIds": [
+          "discharge_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -4133,7 +4298,13 @@
       "sourceRef": "pathways:19-159; section:19-159; corpus-unit:14",
       "candidatePathwayIds": [
         "path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-UT-02",
+        "ruleId": "UT-77-40A-AUTOMATIC-VS-PETITION-CLEAN-SLATE-MAP",
+        "statute": "Utah Code § 77-40a-301 et seq.",
+        "mechanism": "Petition-based expungement, including plea-in-abeyance dismissals"
+      }
     },
     {
       "id": "route-path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility",
@@ -4260,20 +4431,10 @@
       "when": {
         "backendPathwayId": "path-i-traffic-offense-expungement-or-deletion",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "criminal_history"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "criminal_history"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -4281,7 +4442,16 @@
           "convicted_misdemeanor",
           "convicted_other"
         ],
-        "sourceConditionText": "Path I — Traffic-offense expungement or deletion"
+        "sourceConditionText": "three years after adjudication or dismissal for a qualifying Class C misdemeanor or infraction traffic case, and four years for a Class B traffic case",
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "timingAnchorFactId": "conviction_date",
+        "timingAnchorAlternateFactIds": [
+          "disposition_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4291,7 +4461,13 @@
       "sourceRef": "pathways:19-159; section:19-159; corpus-unit:40",
       "candidatePathwayIds": [
         "path-i-traffic-offense-expungement-or-deletion"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-UT-05",
+        "ruleId": "UT-TRAFFIC-PETITION-3-4-VS-AUTOMATIC-5-6",
+        "statute": "Utah Code Title 77, Chapter 40a traffic provisions",
+        "mechanism": "Traffic-offense expungement — petition branch"
+      }
     },
     {
       "id": "route-path-j-cannabis-possession-petition-without-a-bci-certificate",
@@ -4301,17 +4477,11 @@
         "backendPathwayId": "path-j-cannabis-possession-petition-without-a-bci-certificate",
         "requiredFields": [
           "case_outcome",
-          "offense_category",
-          "offense_level",
-          "disposition_date",
-          "criminal_history"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_category",
-          "offense_level",
-          "disposition_date",
-          "criminal_history"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_other",
@@ -4319,7 +4489,7 @@
           "acquitted",
           "convicted_misdemeanor"
         ],
-        "sourceConditionText": "Path J — Cannabis-possession petition without a BCI certificate"
+        "sourceConditionText": "governed by the special cannabis statute and offense facts, not a generic waiting table; no additional elapsed period exists"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4329,7 +4499,13 @@
       "sourceRef": "pathways:19-159; section:19-159; corpus-unit:48",
       "candidatePathwayIds": [
         "path-j-cannabis-possession-petition-without-a-bci-certificate"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-UT-07",
+        "ruleId": "UT-CANNABIS-PARDON-TRAFFICKING-JUVENILE-FOUR-ROUTE-MAP",
+        "statute": "Utah Code Title 77, Chapter 40a cannabis provisions",
+        "mechanism": "Cannabis-possession petition authorised without a BCI certificate"
+      }
     },
     {
       "id": "route-path-k-pardon-based-expungement",
@@ -4338,20 +4514,10 @@
       "when": {
         "backendPathwayId": "path-k-pardon-based-expungement",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "pardon_status"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "pardon_status"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -4359,17 +4525,23 @@
           "convicted_misdemeanor",
           "convicted_other"
         ],
-        "sourceConditionText": "Path K — Pardon-based expungement"
+        "sourceConditionText": "triggered by the Board of Pardons and Parole's grant and the resulting expungement order or process; there is no separate wait"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "section:19-159; pathways:19-159; corpus-unit:49",
       "candidatePathwayIds": [
         "path-k-pardon-based-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-UT-07",
+        "ruleId": "UT-CANNABIS-PARDON-TRAFFICKING-JUVENILE-FOUR-ROUTE-MAP",
+        "statute": "Utah Code Title 77, Chapter 40a pardon provisions",
+        "mechanism": "Pardon-based expungement"
+      }
     },
     {
       "id": "route-path-l-vacatur-human-trafficking-related-expungement",
@@ -4379,17 +4551,11 @@
         "backendPathwayId": "path-l-vacatur-human-trafficking-related-expungement",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history"
+          "offense_level"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -4397,7 +4563,7 @@
           "convicted_misdemeanor",
           "convicted_other"
         ],
-        "sourceConditionText": "Path L — Vacatur / human-trafficking-related expungement"
+        "sourceConditionText": "available upon proof that the covered offense resulted from trafficking; no fixed elapsed period applies"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4407,7 +4573,13 @@
       "sourceRef": "section:19-159; pathways:19-159; corpus-unit:50",
       "candidatePathwayIds": [
         "path-l-vacatur-human-trafficking-related-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-UT-07",
+        "ruleId": "UT-CANNABIS-PARDON-TRAFFICKING-JUVENILE-FOUR-ROUTE-MAP",
+        "statute": "Utah Code Title 77, Chapter 40a trafficking provisions",
+        "mechanism": "Human-trafficking-related vacatur and expungement"
+      }
     },
     {
       "id": "route-path-m-juvenile-expungement",
@@ -4416,20 +4588,10 @@
       "when": {
         "backendPathwayId": "path-m-juvenile-expungement",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "age_at_offense"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "age_at_offense"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -4438,7 +4600,16 @@
           "convicted_other",
           "juvenile"
         ],
-        "sourceConditionText": "Path M — Juvenile expungement"
+        "sourceConditionText": "the person must be at least eighteen and generally one year beyond termination of juvenile-court jurisdiction or release, subject to the statutory waiver",
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 years"
+        },
+        "timingAnchorFactId": "release_date",
+        "timingAnchorAlternateFactIds": [
+          "discharge_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4448,7 +4619,13 @@
       "sourceRef": "section:19-159; corpus-unit:51",
       "candidatePathwayIds": [
         "path-m-juvenile-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-UT-07",
+        "ruleId": "UT-CANNABIS-PARDON-TRAFFICKING-JUVENILE-FOUR-ROUTE-MAP",
+        "statute": "Utah juvenile expungement statutes",
+        "mechanism": "Juvenile expungement — ordinary petition branch"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -4951,6 +5128,50 @@
         "offense_category",
         "charge"
       ]
+    },
+    {
+      "id": "authority-path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+      "ruleText": "Utah Code § 77-40a-301 et seq. — the separate petition map applies — three, four, five, seven, or ten years by category — rather than the automatic table",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "sentence_completion_actual_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "eligible_conviction_class",
+        "sentence_completion_actual_date"
+      ]
+    },
+    {
+      "id": "authority-path-m-juvenile-expungement",
+      "ruleText": "Utah juvenile expungement statutes — the person must be at least eighteen and generally one year beyond termination of juvenile-court jurisdiction or release, subject to the statutory waiver",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 years"
+      },
+      "anchor": "release_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "release_date"
+      ]
+    },
+    {
+      "id": "authority-path-i-traffic-offense-expungement-or-deletion",
+      "ruleText": "Utah Code Title 77, Chapter 40a traffic provisions — three years after adjudication or dismissal for a qualifying Class C misdemeanor or infraction traffic case, and four years for a Class B traffic case",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "conviction_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "eligible_conviction_class",
+        "conviction_date"
+      ]
     }
   ],
   "exclusionRules": [
@@ -5317,7 +5538,7 @@
       {
         "pathwayId": "path-k-pardon-based-expungement",
         "pathwayLabel": "Path K — Pardon-based expungement",
-        "mode": "official_form_overlay_or_source_form_set",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [
           {
             "fileName": "expungements.html",

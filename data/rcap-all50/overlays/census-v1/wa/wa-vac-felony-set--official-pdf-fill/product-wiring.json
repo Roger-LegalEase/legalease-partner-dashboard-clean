@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "wa_vac_felony-set",
+  "routeKeys": [
+    "obligation:track-pathway:WA:wa_vac_felony:adult-felony-vacation-under-rcw-9-94a-640"
+  ],
+  "routeSelectionId": "wa-vac-felony-cr-08-0900-rcw-9-94a-640",
+  "routeSelectionBasis": "Read first-hand for FIX10 from the pinned CR 08.0900 bytes (rev. 07/2025, sha256 ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e): the motion's face carries route-determined elections this ordinary RCW 9.94A.640 route fixes - section I movant '[X] Defendant', section 3 '[X] was discharged under RCW 9.94A.637' (required for class B and C alike per CR 08.0930), and section 4 '[X] no criminal charges pending' (RCW 9.94A.640(2)(a); the alternative box is victim-route-only). The build marks exactly those three (controls p1-selection-1, p2-selection-1, p2-selection-3). The class B / class C timing boxes in sections 5-6 depend on the participant's own conviction class and remain genuine participant elections, disclosed in participant-instructions.md.",
+  "implementationStrategy": "official_pdf_fill",
+  "fieldMap": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/production-field-map.json",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "intendedOverlayDestination": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/product-wiring.json",
+  "integrationStatus": "INSTALLED_BY_CAPTAIN",
+  "note": "Integration-ready repair payload only. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
+  "installedFrom": "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/wa_vac_felony-set/product-wiring.json",
+  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT",
+  "binding": {
+    "family": "wa_vac_felony-set",
+    "jurisdiction": "WA",
+    "routeKeys": [
+      "obligation:track-pathway:WA:wa_vac_felony:adult-felony-vacation-under-rcw-9-94a-640"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "certificate_of_discharge_guidance",
+      "filing_instructions",
+      "primary_filing",
+      "proposed_order",
+      "records_checklist"
+    ],
+    "packetComponents": [
+      "component:wa_vac_felony-primary-filing-1",
+      "component:wa_vac_felony-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CR-08.0900",
+        "sha256": "ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CR-08.0920",
+        "sha256": "e5ccd2e0847fc9b0c2b54ef4ff75fd8d500b7b2af5a9eed963dd3855bb0226db",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33526896195",
+      "jobId": "99922353467",
+      "artifactId": "9808489474",
+      "boundToCanonicalSha256": "5cf52336e302beedc601c9bb7ad947955b5a123a187fcad32d4635ebaf593010",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-wa_vac_felony-set.mjs",
+      "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ri_nonconviction_sealing-set",
+  "status": "artifact_evidence_built_review_required",
+  "routeKeys": [
+    "obligation:unit:RI:ri_nonconviction_sealing:ri-nonconviction-motion-to-seal"
+  ],
+  "notes": [
+    "Only the measured existing SEAL control is marked. Courthouse, eligibility, notice/service, hearing, signature/date, and notary blocks remain blank.",
+    "The notary \"personally appeared\" control on page 4 is left in its source-owned blank state; its unselected /Off appearance is proven against a zero-write source-normalized flattened baseline and is never a mark this build makes.",
+    "The filing fee is no longer among this family's release blockers: the fee-and-waiver section states that no held source establishes it and names the division clerk's office that answers it."
+  ],
+  "hardRulesVerified": [
+    "exact source path, SHA-256, and byte length matched the corpus index and installed source",
+    "every field received an explicit candidate-write, route-selection, or refusal disposition",
+    "signatures, dates, unperformed service, court, prosecutor, clerk, agency, and notary fields carried no generated ink",
+    "all emitted PDF pages were rasterized and byte-inventoried"
+  ],
+  "blockers": [
+    "completed-output legal approval has not been granted",
+    "commercial release and runtime selection remain disabled",
+    "current revision/status and local court practice must be confirmed"
+  ],
+  "commercialAuthority": false,
+  "runtimeSelectable": false
+}

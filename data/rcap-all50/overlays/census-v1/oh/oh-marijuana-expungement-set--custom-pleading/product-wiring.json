@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "oh_marijuana_expungement-set",
+  "routeKeys": [
+    "obligation:track-pathway:OH:oh_marijuana_expungement:marijuana-hashish-possession-expungement-under-2953-321"
+  ],
+  "implementationStrategy": "custom_pleading_artifact_only_with_official_post_order_companion",
+  "fieldMap": null,
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "intendedOverlayDestination": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/product-wiring.json",
+  "integrationStatus": "INSTALLED_BY_CAPTAIN",
+  "note": "Integration-ready repair payload only. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
+  "installedFrom": "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/oh_marijuana_expungement-set/product-wiring.json",
+  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT",
+  "binding": {
+    "family": "oh_marijuana_expungement-set",
+    "jurisdiction": "OH",
+    "routeKeys": [
+      "obligation:track-pathway:OH:oh_marijuana_expungement:marijuana-hashish-possession-expungement-under-2953-321"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Ohio R.C. 2953.321 Marijuana or Hashish Possession Expungement Application"
+    ],
+    "packetComponents": [
+      "component:oh_marijuana_expungement-bci-transmission-5"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+        "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33598433649",
+      "jobId": "100147213562",
+      "artifactId": "9834357918",
+      "boundToCanonicalSha256": "ddf3d4840f5ef8fa46d0f80992c927c8ce9bbb24194604c317f97188908d027a",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "lane": "vf12",
+      "verifiedAtBase": "1b40b32e0f59a6b70c7ca8779617a337ab184b22"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-oh_marijuana_expungement-set.mjs",
+      "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

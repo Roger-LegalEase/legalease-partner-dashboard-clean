@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ga-vacated-j2-set",
+  "routeKey": "obligation:track-only:GA:ga-vacated-j2",
+  "routeKeys": [
+    "obligation:track-only:GA:ga-vacated-j2"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "ga-vacated-j2-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "ga-vacated-j2-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "6c2ce97c8086b9f64684f20680feb603b903de1a7888ce1ab4b5a29686b4181c",
+        "requirement": "required"
+      }
+    ]
+  },
+  "binding": {
+    "family": "ga-vacated-j2-set",
+    "jurisdiction": "GA",
+    "routeKeys": [
+      "obligation:track-only:GA:ga-vacated-j2"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "attachment",
+      "certificate_of_service",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33547709781",
+      "jobId": "99990088652",
+      "artifactId": "9816364655",
+      "boundToCanonicalSha256": "6c2ce97c8086b9f64684f20680feb603b903de1a7888ce1ab4b5a29686b4181c",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf04",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ga-vacated-j2-set.mjs",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

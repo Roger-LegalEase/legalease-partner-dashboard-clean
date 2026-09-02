@@ -1,0 +1,2624 @@
+{
+  "schemaVersion": "rcap-illinois-canonical-source-identity-delta/v1",
+  "asOf": "2026-08-30",
+  "researchBoundary": "No new web research; reconciliation only against the pre-existing Illinois audit and Captain canonical batches.",
+  "captainHead": "d0e19066e856c8c9024b243a2b37f892888e3089",
+  "canonicalInputs": {
+    "batch-1": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json",
+    "batch-2": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+  },
+  "reviewedWorklistGroupIds": [
+    "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+    "il-cannabis-vacate-set",
+    "il-exp-nonconv-set",
+    "il-exp-pardon-set",
+    "il-exp-precompletion-set",
+    "il-exp-qualprob-set",
+    "il-exp-supervision-set",
+    "il-prb-cert-set",
+    "il-prostitution-j-vacate-set",
+    "il-seal-2yr-set",
+    "il-seal-3yr-set",
+    "il-seal-edu-set",
+    "il-seal-nonconv-set"
+  ],
+  "canonicalBatchForEachRow": {
+    "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief": "batch-1",
+    "il-cannabis-vacate-set": "batch-1",
+    "il-exp-nonconv-set": "batch-1",
+    "il-exp-pardon-set": "batch-1",
+    "il-exp-precompletion-set": "batch-2",
+    "il-exp-qualprob-set": "batch-2",
+    "il-exp-supervision-set": "batch-2",
+    "il-prb-cert-set": "batch-2",
+    "il-prostitution-j-vacate-set": "batch-2",
+    "il-seal-2yr-set": "batch-2",
+    "il-seal-3yr-set": "batch-2",
+    "il-seal-edu-set": "batch-2",
+    "il-seal-nonconv-set": "batch-2"
+  },
+  "classificationForEachRow": {
+    "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief": "NO_CHANGE",
+    "il-cannabis-vacate-set": "SOURCE_IDENTITY_CORRECTION",
+    "il-exp-nonconv-set": "SOURCE_IDENTITY_CORRECTION",
+    "il-exp-pardon-set": "SOURCE_IDENTITY_CORRECTION",
+    "il-exp-precompletion-set": "SOURCE_IDENTITY_CORRECTION",
+    "il-exp-qualprob-set": "SOURCE_IDENTITY_CORRECTION",
+    "il-exp-supervision-set": "SOURCE_IDENTITY_CORRECTION",
+    "il-prb-cert-set": "REVISION_CURRENTNESS_CORRECTION",
+    "il-prostitution-j-vacate-set": "CAPTAIN_ROUTE_MAPPING_FINDING",
+    "il-seal-2yr-set": "SOURCE_IDENTITY_CORRECTION",
+    "il-seal-3yr-set": "SOURCE_IDENTITY_CORRECTION",
+    "il-seal-edu-set": "SOURCE_IDENTITY_CORRECTION",
+    "il-seal-nonconv-set": "SOURCE_IDENTITY_CORRECTION"
+  },
+  "canonicalDisposition": {
+    "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief": {
+      "canonicalBatch": "batch-1",
+      "canonicalSource": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089",
+      "quotedResolution": "UNRESOLVED",
+      "quotedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "UNRESOLVED"
+        },
+        {
+          "path": "/unresolvedReason",
+          "exists": true,
+          "value": "NO_LEGAL_DESIGN_TRACK_AND_NO_FORM_ASSIGNMENT"
+        },
+        {
+          "path": "/needs/0/resolutionStatus",
+          "exists": true,
+          "value": "UNRESOLVED"
+        },
+        {
+          "path": "/needs/0/identity/issuingAuthority",
+          "exists": true,
+          "value": "Circuit court of Illinois (destination; whether a standardised form covers this route is not established)"
+        },
+        {
+          "path": "/needs/0/identity/formNumber",
+          "exists": true,
+          "value": null
+        },
+        {
+          "path": "/needs/0/identity/officialTitle",
+          "exists": true,
+          "value": null
+        }
+      ],
+      "quotedChangedFieldValues": []
+    },
+    "il-cannabis-vacate-set": {
+      "canonicalBatch": "batch-1",
+      "canonicalSource": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089",
+      "quotedResolution": "RESOLVED",
+      "quotedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/needs/0/resolutionStatus",
+          "exists": true,
+          "value": "RESOLVED_HELD_OUTSIDE_VERIFIED_CORPUS"
+        },
+        {
+          "path": "/needs/0/heldOutsideVerifiedCorpus",
+          "exists": true,
+          "value": [
+            {
+              "relativePath": "LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf",
+              "state": "IL",
+              "sha256": "728ad50c5db068d3d3a6bc68901c79431e865f8e2eaa94c37c38a086d9815acf",
+              "byteLength": 227699,
+              "classification": "pdf"
+            }
+          ]
+        }
+      ],
+      "quotedChangedFieldValues": [
+        {
+          "path": "/needs/0/documentTheRouteNeeds",
+          "exists": true,
+          "value": "The Illinois standardised cannabis-expungement form: Motion to Vacate and Expunge."
+        },
+        {
+          "path": "/needs/0/identity/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/needs/0/identity/currentRevisionEvidence",
+          "exists": false
+        },
+        {
+          "path": "/needs/0/identity/formNumber",
+          "exists": true,
+          "value": "CXP Motion to Vacate and Expunge"
+        },
+        {
+          "path": "/needs/0/identity/officialSourceUrl",
+          "exists": false
+        },
+        {
+          "path": "/needs/0/identity/officialTitle",
+          "exists": true,
+          "value": "Motion to Vacate and Expunge"
+        },
+        {
+          "path": "/needs/0/notes",
+          "exists": true,
+          "value": "The CXP suite is a standardised statewide form set carrying no numeric identifier; its titles are its identity. All six are held in the inventory, so the work is promotion and verification. The memo's open item is whether the 03/2022 suite remains accurate after the Clean Slate amendments, which is a currency question."
+        },
+        {
+          "path": "/needs/1/identity/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/needs/1/identity/currentRevisionEvidence",
+          "exists": false
+        },
+        {
+          "path": "/needs/1/identity/formNumber",
+          "exists": true,
+          "value": "CXP Additional Cannabis Convictions"
+        },
+        {
+          "path": "/needs/1/identity/officialSourceUrl",
+          "exists": false
+        },
+        {
+          "path": "/needs/1/notes",
+          "exists": true,
+          "value": "The CXP suite is a standardised statewide form set carrying no numeric identifier; its titles are its identity. All six are held in the inventory, so the work is promotion and verification. The memo's open item is whether the 03/2022 suite remains accurate after the Clean Slate amendments, which is a currency question."
+        },
+        {
+          "path": "/needs/2/documentTheRouteNeeds",
+          "exists": true,
+          "value": "The Illinois standardised cannabis-expungement form: Getting Started: Motion to Vacate and Expunge."
+        },
+        {
+          "path": "/needs/2/identity/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/needs/2/identity/currentRevisionEvidence",
+          "exists": false
+        },
+        {
+          "path": "/needs/2/identity/formNumber",
+          "exists": true,
+          "value": "CXP Getting Started: Motion to Vacate and Expunge"
+        },
+        {
+          "path": "/needs/2/identity/officialSourceUrl",
+          "exists": false
+        },
+        {
+          "path": "/needs/2/identity/officialTitle",
+          "exists": true,
+          "value": "Getting Started: Motion to Vacate and Expunge"
+        },
+        {
+          "path": "/needs/2/notes",
+          "exists": true,
+          "value": "The CXP suite is a standardised statewide form set carrying no numeric identifier; its titles are its identity. All six are held in the inventory, so the work is promotion and verification. The memo's open item is whether the 03/2022 suite remains accurate after the Clean Slate amendments, which is a currency question."
+        },
+        {
+          "path": "/needs/3/documentTheRouteNeeds",
+          "exists": true,
+          "value": "The Illinois standardised cannabis-expungement form: Notice of Court Date for Motion."
+        },
+        {
+          "path": "/needs/3/identity/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/needs/3/identity/currentRevisionEvidence",
+          "exists": false
+        },
+        {
+          "path": "/needs/3/identity/formNumber",
+          "exists": true,
+          "value": "CXP Notice of Court Date for Motion"
+        },
+        {
+          "path": "/needs/3/identity/officialSourceUrl",
+          "exists": false
+        },
+        {
+          "path": "/needs/3/identity/officialTitle",
+          "exists": true,
+          "value": "Notice of Court Date for Motion"
+        },
+        {
+          "path": "/needs/3/notes",
+          "exists": true,
+          "value": "The CXP suite is a standardised statewide form set carrying no numeric identifier; its titles are its identity. All six are held in the inventory, so the work is promotion and verification. The memo's open item is whether the 03/2022 suite remains accurate after the Clean Slate amendments, which is a currency question."
+        },
+        {
+          "path": "/needs/4/documentTheRouteNeeds",
+          "exists": true,
+          "value": "The Illinois standardised cannabis-expungement form: Additional Notice of Court Date."
+        },
+        {
+          "path": "/needs/4/identity/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/needs/4/identity/currentRevisionEvidence",
+          "exists": false
+        },
+        {
+          "path": "/needs/4/identity/formNumber",
+          "exists": true,
+          "value": "CXP Additional Notice of Court Date"
+        },
+        {
+          "path": "/needs/4/identity/officialSourceUrl",
+          "exists": false
+        },
+        {
+          "path": "/needs/4/identity/officialTitle",
+          "exists": true,
+          "value": "Additional Notice of Court Date"
+        },
+        {
+          "path": "/needs/4/notes",
+          "exists": true,
+          "value": "The CXP suite is a standardised statewide form set carrying no numeric identifier; its titles are its identity. All six are held in the inventory, so the work is promotion and verification. The memo's open item is whether the 03/2022 suite remains accurate after the Clean Slate amendments, which is a currency question."
+        },
+        {
+          "path": "/needs/5/documentTheRouteNeeds",
+          "exists": true,
+          "value": "The Illinois standardised cannabis-expungement form: Order Granting or Denying Motion."
+        },
+        {
+          "path": "/needs/5/identity/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/needs/5/identity/currentRevisionEvidence",
+          "exists": false
+        },
+        {
+          "path": "/needs/5/identity/formNumber",
+          "exists": true,
+          "value": "CXP Order Granting or Denying Motion"
+        },
+        {
+          "path": "/needs/5/identity/officialSourceUrl",
+          "exists": false
+        },
+        {
+          "path": "/needs/5/identity/officialTitle",
+          "exists": true,
+          "value": "Order Granting or Denying Motion"
+        },
+        {
+          "path": "/needs/5/notes",
+          "exists": true,
+          "value": "The CXP suite is a standardised statewide form set carrying no numeric identifier; its titles are its identity. All six are held in the inventory, so the work is promotion and verification. The memo's open item is whether the 03/2022 suite remains accurate after the Clean Slate amendments, which is a currency question."
+        }
+      ]
+    },
+    "il-exp-nonconv-set": {
+      "canonicalBatch": "batch-1",
+      "canonicalSource": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089",
+      "quotedResolution": "RESOLVED",
+      "quotedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/needs/0/resolutionStatus",
+          "exists": true,
+          "value": "RESOLVED_HELD_OUTSIDE_VERIFIED_CORPUS"
+        },
+        {
+          "path": "/needs/0/heldOutsideVerifiedCorpus",
+          "exists": true,
+          "value": [
+            {
+              "relativePath": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+              "state": "IL",
+              "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+              "byteLength": 744328,
+              "classification": "pdf"
+            }
+          ]
+        }
+      ],
+      "quotedChangedFieldValues": [
+        {
+          "path": "/needs/0/identity/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/needs/0/identity/currentRevisionEvidence",
+          "exists": false
+        },
+        {
+          "path": "/needs/0/identity/formNumber",
+          "exists": true,
+          "value": "EXP-AD Case List"
+        },
+        {
+          "path": "/needs/0/identity/officialSourceUrl",
+          "exists": false
+        },
+        {
+          "path": "/needs/0/identity/officialTitle",
+          "exists": true,
+          "value": "Case List: Request to Expunge and/or Seal Criminal Records"
+        },
+        {
+          "path": "/needs/1/identity/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/needs/1/identity/currentRevisionEvidence",
+          "exists": false
+        },
+        {
+          "path": "/needs/1/identity/formNumber",
+          "exists": true,
+          "value": "EXP-AD Additional Cases Expungement"
+        },
+        {
+          "path": "/needs/1/identity/officialSourceUrl",
+          "exists": false
+        },
+        {
+          "path": "/needs/1/identity/officialTitle",
+          "exists": true,
+          "value": "Additional Cases: Expungement"
+        }
+      ]
+    },
+    "il-exp-pardon-set": {
+      "canonicalBatch": "batch-1",
+      "canonicalSource": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089",
+      "quotedResolution": "RESOLVED",
+      "quotedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/needs/0/resolutionStatus",
+          "exists": true,
+          "value": "RESOLVED_HELD_OUTSIDE_VERIFIED_CORPUS"
+        },
+        {
+          "path": "/needs/0/heldOutsideVerifiedCorpus",
+          "exists": true,
+          "value": [
+            {
+              "relativePath": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+              "state": "IL",
+              "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+              "byteLength": 744328,
+              "classification": "pdf"
+            }
+          ]
+        }
+      ],
+      "quotedChangedFieldValues": [
+        {
+          "path": "/needs/0/identity/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/needs/0/identity/currentRevisionEvidence",
+          "exists": false
+        },
+        {
+          "path": "/needs/0/identity/formNumber",
+          "exists": true,
+          "value": "EXP-AD Case List"
+        },
+        {
+          "path": "/needs/0/identity/officialSourceUrl",
+          "exists": false
+        },
+        {
+          "path": "/needs/0/identity/officialTitle",
+          "exists": true,
+          "value": "Case List: Request to Expunge and/or Seal Criminal Records"
+        }
+      ]
+    },
+    "il-exp-precompletion-set": {
+      "canonicalBatch": "batch-2",
+      "canonicalSource": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089",
+      "quotedResolution": "RESOLVED",
+      "quotedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 4
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 3
+        }
+      ],
+      "quotedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/formNumber",
+          "exists": true,
+          "value": null
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitle",
+          "exists": true,
+          "value": "EXP-AD Case List"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "exists": true,
+          "value": "the label the census names is itself prose, not a form number; it is carried as the title"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": false
+        }
+      ]
+    },
+    "il-exp-qualprob-set": {
+      "canonicalBatch": "batch-2",
+      "canonicalSource": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089",
+      "quotedResolution": "RESOLVED",
+      "quotedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 4
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 3
+        }
+      ],
+      "quotedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/formNumber",
+          "exists": true,
+          "value": null
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitle",
+          "exists": true,
+          "value": "EXP-AD Case List"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "exists": true,
+          "value": "the label the census names is itself prose, not a form number; it is carried as the title"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": false
+        }
+      ]
+    },
+    "il-exp-supervision-set": {
+      "canonicalBatch": "batch-2",
+      "canonicalSource": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089",
+      "quotedResolution": "RESOLVED",
+      "quotedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 4
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 3
+        }
+      ],
+      "quotedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/formNumber",
+          "exists": true,
+          "value": null
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitle",
+          "exists": true,
+          "value": "EXP-AD Case List"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "exists": true,
+          "value": "the label the census names is itself prose, not a form number; it is carried as the title"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": false
+        }
+      ]
+    },
+    "il-prb-cert-set": {
+      "canonicalBatch": "batch-2",
+      "canonicalSource": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089",
+      "quotedResolution": "RESOLVED",
+      "quotedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 5
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 1
+        }
+      ],
+      "quotedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/0/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/documentsTheRouteNeeds/0/officialTitle",
+          "exists": true,
+          "value": "Certificate of Sealing Application"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/0/officialTitleBasis",
+          "exists": true,
+          "value": "source-artifact registry, data/record-clearing/source-artifact-registry.json, for private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Application__certificate-of-sealing-application__rev-2024-09-18.pdf"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/0/revisionCurrentnessEvidence",
+          "exists": false
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": false
+        },
+        {
+          "path": "/documentsTheRouteNeeds/2/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/documentsTheRouteNeeds/2/officialTitle",
+          "exists": true,
+          "value": "Certificate of Expungement for Military Application"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/2/officialTitleBasis",
+          "exists": true,
+          "value": "source-artifact registry, data/record-clearing/source-artifact-registry.json, for private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Application__military-certificate-of-expungement-application__rev-2024-09-18.pdf"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/2/revisionCurrentnessEvidence",
+          "exists": false
+        },
+        {
+          "path": "/documentsTheRouteNeeds/3/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/documentsTheRouteNeeds/3/revisionCurrentnessEvidence",
+          "exists": false
+        }
+      ]
+    },
+    "il-prostitution-j-vacate-set": {
+      "canonicalBatch": "batch-2",
+      "canonicalSource": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089",
+      "quotedResolution": "NO_OFFICIAL_DOCUMENT_REQUIRED",
+      "quotedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "NO_OFFICIAL_DOCUMENT_REQUIRED"
+        },
+        {
+          "path": "/documentsTheRouteNeeds",
+          "exists": true,
+          "value": []
+        },
+        {
+          "path": "/noOfficialFormIsRequiredBecause",
+          "exists": true,
+          "value": [
+            {
+              "packetSetId": "il-prostitution-j-vacate-set",
+              "everyComponentIs": [
+                "custom_pleading"
+              ],
+              "statedIn": "data/record-clearing/legal-design-intake/IL.memo.json"
+            }
+          ]
+        }
+      ],
+      "quotedChangedFieldValues": []
+    },
+    "il-seal-2yr-set": {
+      "canonicalBatch": "batch-2",
+      "canonicalSource": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089",
+      "quotedResolution": "RESOLVED",
+      "quotedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 4
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 3
+        }
+      ],
+      "quotedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/formNumber",
+          "exists": true,
+          "value": null
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitle",
+          "exists": true,
+          "value": "EXP-AD Case List"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "exists": true,
+          "value": "the label the census names is itself prose, not a form number; it is carried as the title"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": false
+        }
+      ]
+    },
+    "il-seal-3yr-set": {
+      "canonicalBatch": "batch-2",
+      "canonicalSource": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089",
+      "quotedResolution": "RESOLVED",
+      "quotedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 4
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 3
+        }
+      ],
+      "quotedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/formNumber",
+          "exists": true,
+          "value": null
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitle",
+          "exists": true,
+          "value": "EXP-AD Case List"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "exists": true,
+          "value": "the label the census names is itself prose, not a form number; it is carried as the title"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": false
+        }
+      ]
+    },
+    "il-seal-edu-set": {
+      "canonicalBatch": "batch-2",
+      "canonicalSource": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089",
+      "quotedResolution": "RESOLVED",
+      "quotedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 4
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 3
+        }
+      ],
+      "quotedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/formNumber",
+          "exists": true,
+          "value": null
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitle",
+          "exists": true,
+          "value": "EXP-AD Case List"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "exists": true,
+          "value": "the label the census names is itself prose, not a form number; it is carried as the title"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": false
+        }
+      ]
+    },
+    "il-seal-nonconv-set": {
+      "canonicalBatch": "batch-2",
+      "canonicalSource": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089",
+      "quotedResolution": "RESOLVED",
+      "quotedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 4
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 3
+        }
+      ],
+      "quotedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": false
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/formNumber",
+          "exists": true,
+          "value": null
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitle",
+          "exists": true,
+          "value": "EXP-AD Case List"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "exists": true,
+          "value": "the label the census names is itself prose, not a form number; it is carried as the title"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": false
+        }
+      ]
+    }
+  },
+  "proposedDisposition": {
+    "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief": {
+      "sourceIdentityAction": "PRESERVE_CANONICAL_UNRESOLVED",
+      "proposedResolution": "UNRESOLVED",
+      "proposedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "UNRESOLVED"
+        },
+        {
+          "path": "/unresolvedReason",
+          "exists": true,
+          "value": "NO_LEGAL_DESIGN_TRACK_AND_NO_FORM_ASSIGNMENT"
+        },
+        {
+          "path": "/needs/0/resolutionStatus",
+          "exists": true,
+          "value": "UNRESOLVED"
+        },
+        {
+          "path": "/needs/0/identity/issuingAuthority",
+          "exists": true,
+          "value": "Circuit court of Illinois (destination; whether a standardised form covers this route is not established)"
+        },
+        {
+          "path": "/needs/0/identity/formNumber",
+          "exists": true,
+          "value": null
+        },
+        {
+          "path": "/needs/0/identity/officialTitle",
+          "exists": true,
+          "value": null
+        }
+      ],
+      "proposedChangedFieldValues": [],
+      "routeClassificationChangedHere": false
+    },
+    "il-cannabis-vacate-set": {
+      "sourceIdentityAction": "PATCH_CANONICAL_FORM_IDENTITY_METADATA",
+      "proposedResolution": "RESOLVED",
+      "proposedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/needs/0/resolutionStatus",
+          "exists": true,
+          "value": "RESOLVED_HELD_OUTSIDE_VERIFIED_CORPUS"
+        },
+        {
+          "path": "/needs/0/heldOutsideVerifiedCorpus",
+          "exists": true,
+          "value": [
+            {
+              "relativePath": "LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf",
+              "state": "IL",
+              "sha256": "728ad50c5db068d3d3a6bc68901c79431e865f8e2eaa94c37c38a086d9815acf",
+              "byteLength": 227699,
+              "classification": "pdf"
+            }
+          ]
+        }
+      ],
+      "proposedChangedFieldValues": [
+        {
+          "path": "/needs/0/documentTheRouteNeeds",
+          "exists": true,
+          "value": "The Illinois standardised cannabis-expungement form: Motion to Vacate & Expunge Eligible Cannabis Convictions."
+        },
+        {
+          "path": "/needs/0/identity/currentRevision",
+          "exists": true,
+          "value": "03/22"
+        },
+        {
+          "path": "/needs/0/identity/currentRevisionEvidence",
+          "exists": true,
+          "value": "The issuer form number and 03/22 revision are printed on the current official PDF face and reconciled to the held inventory bytes in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/needs/0/identity/formNumber",
+          "exists": true,
+          "value": "EXC-M 4702.2"
+        },
+        {
+          "path": "/needs/0/identity/officialSourceUrl",
+          "exists": true,
+          "value": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/8562a938-0296-4236-9030-3217460e8b5c/CXP%20Motion%20to%20Vacate%20and%20Expunge.pdf"
+        },
+        {
+          "path": "/needs/0/identity/officialTitle",
+          "exists": true,
+          "value": "Motion to Vacate & Expunge Eligible Cannabis Convictions"
+        },
+        {
+          "path": "/needs/0/notes",
+          "exists": true,
+          "value": "CXP is the publisher filename prefix; the issuer-assigned identifiers are in the EXC series. All six are held in the inventory, so the work is promotion and verification. The memo's open item is whether the 03/2022 suite remains accurate after the Clean Slate amendments, which is a currency question."
+        },
+        {
+          "path": "/needs/1/identity/currentRevision",
+          "exists": true,
+          "value": "03/22"
+        },
+        {
+          "path": "/needs/1/identity/currentRevisionEvidence",
+          "exists": true,
+          "value": "The issuer form number and 03/22 revision are printed on the current official PDF face and reconciled to the held inventory bytes in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/needs/1/identity/formNumber",
+          "exists": true,
+          "value": "EXC-AA 4706.2"
+        },
+        {
+          "path": "/needs/1/identity/officialSourceUrl",
+          "exists": true,
+          "value": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/85296a2c-ee02-41c9-b962-6fb1f797dc8e/CXP%20Additional%20Cannabis%20Convictions.pdf"
+        },
+        {
+          "path": "/needs/1/notes",
+          "exists": true,
+          "value": "CXP is the publisher filename prefix; the issuer-assigned identifiers are in the EXC series. All six are held in the inventory, so the work is promotion and verification. The memo's open item is whether the 03/2022 suite remains accurate after the Clean Slate amendments, which is a currency question."
+        },
+        {
+          "path": "/needs/2/documentTheRouteNeeds",
+          "exists": true,
+          "value": "The Illinois standardised cannabis-expungement form: Getting Started Motion to Vacate & Expunge Eligible Cannabis Convictions."
+        },
+        {
+          "path": "/needs/2/identity/currentRevision",
+          "exists": true,
+          "value": "03/22"
+        },
+        {
+          "path": "/needs/2/identity/currentRevisionEvidence",
+          "exists": true,
+          "value": "The issuer form number and 03/22 revision are printed on the current official PDF face and reconciled to the held inventory bytes in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/needs/2/identity/formNumber",
+          "exists": true,
+          "value": "EXC-G 4700.2"
+        },
+        {
+          "path": "/needs/2/identity/officialSourceUrl",
+          "exists": true,
+          "value": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/da1fc04d-1770-4e40-8a5c-527bd52ca7f9/CXP%20Getting%20Started%20Motion%20to%20Vacate%20and%20Expunge.pdf"
+        },
+        {
+          "path": "/needs/2/identity/officialTitle",
+          "exists": true,
+          "value": "Getting Started Motion to Vacate & Expunge Eligible Cannabis Convictions"
+        },
+        {
+          "path": "/needs/2/notes",
+          "exists": true,
+          "value": "CXP is the publisher filename prefix; the issuer-assigned identifiers are in the EXC series. All six are held in the inventory, so the work is promotion and verification. The memo's open item is whether the 03/2022 suite remains accurate after the Clean Slate amendments, which is a currency question."
+        },
+        {
+          "path": "/needs/3/documentTheRouteNeeds",
+          "exists": true,
+          "value": "The Illinois standardised cannabis-expungement form: Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions."
+        },
+        {
+          "path": "/needs/3/identity/currentRevision",
+          "exists": true,
+          "value": "03/22"
+        },
+        {
+          "path": "/needs/3/identity/currentRevisionEvidence",
+          "exists": true,
+          "value": "The issuer form number and 03/22 revision are printed on the current official PDF face and reconciled to the held inventory bytes in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/needs/3/identity/formNumber",
+          "exists": true,
+          "value": "EXC-N 4703.2"
+        },
+        {
+          "path": "/needs/3/identity/officialSourceUrl",
+          "exists": true,
+          "value": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/a9f72f2b-0bc7-482d-a301-9dc73e64e4b7/CXP%20Notice%20of%20Court%20Date%20for%20Motion.pdf"
+        },
+        {
+          "path": "/needs/3/identity/officialTitle",
+          "exists": true,
+          "value": "Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions"
+        },
+        {
+          "path": "/needs/3/notes",
+          "exists": true,
+          "value": "CXP is the publisher filename prefix; the issuer-assigned identifiers are in the EXC series. All six are held in the inventory, so the work is promotion and verification. The memo's open item is whether the 03/2022 suite remains accurate after the Clean Slate amendments, which is a currency question."
+        },
+        {
+          "path": "/needs/4/documentTheRouteNeeds",
+          "exists": true,
+          "value": "The Illinois standardised cannabis-expungement form: Additional Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions."
+        },
+        {
+          "path": "/needs/4/identity/currentRevision",
+          "exists": true,
+          "value": "03/22"
+        },
+        {
+          "path": "/needs/4/identity/currentRevisionEvidence",
+          "exists": true,
+          "value": "The issuer form number and 03/22 revision are printed on the current official PDF face and reconciled to the held inventory bytes in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/needs/4/identity/formNumber",
+          "exists": true,
+          "value": "EXC-AM 4705.2"
+        },
+        {
+          "path": "/needs/4/identity/officialSourceUrl",
+          "exists": true,
+          "value": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62d19ea4-46a8-423b-9e42-b975974fc77b/CXP%20Additional%20Notice%20of%20Court%20Date.pdf"
+        },
+        {
+          "path": "/needs/4/identity/officialTitle",
+          "exists": true,
+          "value": "Additional Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions"
+        },
+        {
+          "path": "/needs/4/notes",
+          "exists": true,
+          "value": "CXP is the publisher filename prefix; the issuer-assigned identifiers are in the EXC series. All six are held in the inventory, so the work is promotion and verification. The memo's open item is whether the 03/2022 suite remains accurate after the Clean Slate amendments, which is a currency question."
+        },
+        {
+          "path": "/needs/5/documentTheRouteNeeds",
+          "exists": true,
+          "value": "The Illinois standardised cannabis-expungement form: Order Granting or Denying Motion to Vacate & Expunge Eligible Cannabis Convictions."
+        },
+        {
+          "path": "/needs/5/identity/currentRevision",
+          "exists": true,
+          "value": "03/22"
+        },
+        {
+          "path": "/needs/5/identity/currentRevisionEvidence",
+          "exists": true,
+          "value": "The issuer form number and 03/22 revision are printed on the current official PDF face and reconciled to the held inventory bytes in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/needs/5/identity/formNumber",
+          "exists": true,
+          "value": "EXC-O 4704.2"
+        },
+        {
+          "path": "/needs/5/identity/officialSourceUrl",
+          "exists": true,
+          "value": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/0c788d57-5951-47d9-9946-dfc36b7d1d50/CXP%20Order%20Granting%20or%20Denying%20Motion.pdf"
+        },
+        {
+          "path": "/needs/5/identity/officialTitle",
+          "exists": true,
+          "value": "Order Granting or Denying Motion to Vacate & Expunge Eligible Cannabis Convictions"
+        },
+        {
+          "path": "/needs/5/notes",
+          "exists": true,
+          "value": "CXP is the publisher filename prefix; the issuer-assigned identifiers are in the EXC series. All six are held in the inventory, so the work is promotion and verification. The memo's open item is whether the 03/2022 suite remains accurate after the Clean Slate amendments, which is a currency question."
+        }
+      ],
+      "routeClassificationChangedHere": false
+    },
+    "il-exp-nonconv-set": {
+      "sourceIdentityAction": "PATCH_CANONICAL_FORM_IDENTITY_METADATA",
+      "proposedResolution": "RESOLVED",
+      "proposedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/needs/0/resolutionStatus",
+          "exists": true,
+          "value": "RESOLVED_HELD_OUTSIDE_VERIFIED_CORPUS"
+        },
+        {
+          "path": "/needs/0/heldOutsideVerifiedCorpus",
+          "exists": true,
+          "value": [
+            {
+              "relativePath": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+              "state": "IL",
+              "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+              "byteLength": 744328,
+              "classification": "pdf"
+            }
+          ]
+        }
+      ],
+      "proposedChangedFieldValues": [
+        {
+          "path": "/needs/0/identity/currentRevision",
+          "exists": true,
+          "value": "06/26"
+        },
+        {
+          "path": "/needs/0/identity/currentRevisionEvidence",
+          "exists": true,
+          "value": "ATJ 2902.1 and 06/26 are printed on the current official PDF face and reconciled to SHA-256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/needs/0/identity/formNumber",
+          "exists": true,
+          "value": "ATJ 2902.1"
+        },
+        {
+          "path": "/needs/0/identity/officialSourceUrl",
+          "exists": true,
+          "value": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf"
+        },
+        {
+          "path": "/needs/0/identity/officialTitle",
+          "exists": true,
+          "value": "Case List for Request to Expunge and/or Seal Criminal Records"
+        },
+        {
+          "path": "/needs/1/identity/currentRevision",
+          "exists": true,
+          "value": "06/26"
+        },
+        {
+          "path": "/needs/1/identity/currentRevisionEvidence",
+          "exists": true,
+          "value": "ATJ 2903.5 and 06/26 are printed on the current official PDF face and reconciled to SHA-256 36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00 in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/needs/1/identity/formNumber",
+          "exists": true,
+          "value": "ATJ 2903.5"
+        },
+        {
+          "path": "/needs/1/identity/officialSourceUrl",
+          "exists": true,
+          "value": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/9cb2130f-056d-4962-a6e7-a592b4f4b4bb/EXP-AD%20Additional%20Cases%20Expungement.pdf"
+        },
+        {
+          "path": "/needs/1/identity/officialTitle",
+          "exists": true,
+          "value": "Additional Arrests or Cases for Expungement"
+        }
+      ],
+      "routeClassificationChangedHere": false
+    },
+    "il-exp-pardon-set": {
+      "sourceIdentityAction": "PATCH_CANONICAL_FORM_IDENTITY_METADATA",
+      "proposedResolution": "RESOLVED",
+      "proposedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/needs/0/resolutionStatus",
+          "exists": true,
+          "value": "RESOLVED_HELD_OUTSIDE_VERIFIED_CORPUS"
+        },
+        {
+          "path": "/needs/0/heldOutsideVerifiedCorpus",
+          "exists": true,
+          "value": [
+            {
+              "relativePath": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+              "state": "IL",
+              "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+              "byteLength": 744328,
+              "classification": "pdf"
+            }
+          ]
+        }
+      ],
+      "proposedChangedFieldValues": [
+        {
+          "path": "/needs/0/identity/currentRevision",
+          "exists": true,
+          "value": "06/26"
+        },
+        {
+          "path": "/needs/0/identity/currentRevisionEvidence",
+          "exists": true,
+          "value": "ATJ 2902.1 and 06/26 are printed on the current official PDF face and reconciled to SHA-256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/needs/0/identity/formNumber",
+          "exists": true,
+          "value": "ATJ 2902.1"
+        },
+        {
+          "path": "/needs/0/identity/officialSourceUrl",
+          "exists": true,
+          "value": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf"
+        },
+        {
+          "path": "/needs/0/identity/officialTitle",
+          "exists": true,
+          "value": "Case List for Request to Expunge and/or Seal Criminal Records"
+        }
+      ],
+      "routeClassificationChangedHere": false
+    },
+    "il-exp-precompletion-set": {
+      "sourceIdentityAction": "PATCH_CANONICAL_FORM_IDENTITY_METADATA",
+      "proposedResolution": "RESOLVED",
+      "proposedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 4
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 3
+        }
+      ],
+      "proposedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": true,
+          "value": "06/26"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/formNumber",
+          "exists": true,
+          "value": "ATJ 2902.1"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitle",
+          "exists": true,
+          "value": "Case List for Request to Expunge and/or Seal Criminal Records"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "exists": true,
+          "value": "The exact issuer title and form number are printed in reference/illinois/il-expungement-companion-forms.html and on the official PDF face reconciled in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": true,
+          "value": "The official PDF face prints Page 1 of 1 (06/26); the audited bytes have SHA-256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c."
+        }
+      ],
+      "routeClassificationChangedHere": false
+    },
+    "il-exp-qualprob-set": {
+      "sourceIdentityAction": "PATCH_CANONICAL_FORM_IDENTITY_METADATA",
+      "proposedResolution": "RESOLVED",
+      "proposedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 4
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 3
+        }
+      ],
+      "proposedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": true,
+          "value": "06/26"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/formNumber",
+          "exists": true,
+          "value": "ATJ 2902.1"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitle",
+          "exists": true,
+          "value": "Case List for Request to Expunge and/or Seal Criminal Records"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "exists": true,
+          "value": "The exact issuer title and form number are printed in reference/illinois/il-expungement-companion-forms.html and on the official PDF face reconciled in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": true,
+          "value": "The official PDF face prints Page 1 of 1 (06/26); the audited bytes have SHA-256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c."
+        }
+      ],
+      "routeClassificationChangedHere": false
+    },
+    "il-exp-supervision-set": {
+      "sourceIdentityAction": "PATCH_CANONICAL_FORM_IDENTITY_METADATA",
+      "proposedResolution": "RESOLVED",
+      "proposedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 4
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 3
+        }
+      ],
+      "proposedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": true,
+          "value": "06/26"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/formNumber",
+          "exists": true,
+          "value": "ATJ 2902.1"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitle",
+          "exists": true,
+          "value": "Case List for Request to Expunge and/or Seal Criminal Records"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "exists": true,
+          "value": "The exact issuer title and form number are printed in reference/illinois/il-expungement-companion-forms.html and on the official PDF face reconciled in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": true,
+          "value": "The official PDF face prints Page 1 of 1 (06/26); the audited bytes have SHA-256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c."
+        }
+      ],
+      "routeClassificationChangedHere": false
+    },
+    "il-prb-cert-set": {
+      "sourceIdentityAction": "PATCH_CANONICAL_TITLE_AND_REVISION_METADATA",
+      "proposedResolution": "RESOLVED",
+      "proposedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 5
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 1
+        }
+      ],
+      "proposedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/0/currentRevision",
+          "exists": true,
+          "value": "9.18.24 (publisher filename; no printed revision legend)"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/0/officialTitle",
+          "exists": true,
+          "value": "Certificate of Sealing"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/0/officialTitleBasis",
+          "exists": true,
+          "value": "Title printed on the current official PDF face; reconciled to SHA-256 5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd in the Illinois canonical delta."
+        },
+        {
+          "path": "/documentsTheRouteNeeds/0/revisionCurrentnessEvidence",
+          "exists": true,
+          "value": "The current official URL and held filename carry 9.18.24; the PDF face has no separate revision legend."
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": true,
+          "value": null
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": true,
+          "value": "The current official acknowledgement PDF has no printed revision legend; its audited SHA-256 is b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361."
+        },
+        {
+          "path": "/documentsTheRouteNeeds/2/currentRevision",
+          "exists": true,
+          "value": "v9.18.24 (publisher filename; no printed revision legend)"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/2/officialTitle",
+          "exists": true,
+          "value": "Certificate of Expungement for Military"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/2/officialTitleBasis",
+          "exists": true,
+          "value": "Title printed on the current official PDF face; reconciled to SHA-256 87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e in the Illinois canonical delta."
+        },
+        {
+          "path": "/documentsTheRouteNeeds/2/revisionCurrentnessEvidence",
+          "exists": true,
+          "value": "The current official URL and held filename carry v9.18.24; the PDF face has no separate revision legend."
+        },
+        {
+          "path": "/documentsTheRouteNeeds/3/currentRevision",
+          "exists": true,
+          "value": "08/11/2014 (printed)"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/3/revisionCurrentnessEvidence",
+          "exists": true,
+          "value": "The current official acknowledgement PDF prints 08/11/2014; its audited SHA-256 is 691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c."
+        }
+      ],
+      "routeClassificationChangedHere": false
+    },
+    "il-prostitution-j-vacate-set": {
+      "sourceIdentityAction": "PRESERVE_CANONICAL_NO_OFFICIAL_DOCUMENT_REQUIRED",
+      "proposedResolution": "NO_OFFICIAL_DOCUMENT_REQUIRED",
+      "proposedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "NO_OFFICIAL_DOCUMENT_REQUIRED"
+        },
+        {
+          "path": "/documentsTheRouteNeeds",
+          "exists": true,
+          "value": []
+        },
+        {
+          "path": "/noOfficialFormIsRequiredBecause",
+          "exists": true,
+          "value": [
+            {
+              "packetSetId": "il-prostitution-j-vacate-set",
+              "everyComponentIs": [
+                "custom_pleading"
+              ],
+              "statedIn": "data/record-clearing/legal-design-intake/IL.memo.json"
+            }
+          ]
+        }
+      ],
+      "proposedChangedFieldValues": [],
+      "routeClassificationChangedHere": false
+    },
+    "il-seal-2yr-set": {
+      "sourceIdentityAction": "PATCH_CANONICAL_FORM_IDENTITY_METADATA",
+      "proposedResolution": "RESOLVED",
+      "proposedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 4
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 3
+        }
+      ],
+      "proposedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": true,
+          "value": "06/26"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/formNumber",
+          "exists": true,
+          "value": "ATJ 2902.1"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitle",
+          "exists": true,
+          "value": "Case List for Request to Expunge and/or Seal Criminal Records"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "exists": true,
+          "value": "The exact issuer title and form number are printed in reference/illinois/il-expungement-companion-forms.html and on the official PDF face reconciled in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": true,
+          "value": "The official PDF face prints Page 1 of 1 (06/26); the audited bytes have SHA-256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c."
+        }
+      ],
+      "routeClassificationChangedHere": false
+    },
+    "il-seal-3yr-set": {
+      "sourceIdentityAction": "PATCH_CANONICAL_FORM_IDENTITY_METADATA",
+      "proposedResolution": "RESOLVED",
+      "proposedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 4
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 3
+        }
+      ],
+      "proposedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": true,
+          "value": "06/26"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/formNumber",
+          "exists": true,
+          "value": "ATJ 2902.1"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitle",
+          "exists": true,
+          "value": "Case List for Request to Expunge and/or Seal Criminal Records"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "exists": true,
+          "value": "The exact issuer title and form number are printed in reference/illinois/il-expungement-companion-forms.html and on the official PDF face reconciled in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": true,
+          "value": "The official PDF face prints Page 1 of 1 (06/26); the audited bytes have SHA-256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c."
+        }
+      ],
+      "routeClassificationChangedHere": false
+    },
+    "il-seal-edu-set": {
+      "sourceIdentityAction": "PATCH_CANONICAL_FORM_IDENTITY_METADATA",
+      "proposedResolution": "RESOLVED",
+      "proposedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 4
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 3
+        }
+      ],
+      "proposedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": true,
+          "value": "06/26"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/formNumber",
+          "exists": true,
+          "value": "ATJ 2902.1"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitle",
+          "exists": true,
+          "value": "Case List for Request to Expunge and/or Seal Criminal Records"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "exists": true,
+          "value": "The exact issuer title and form number are printed in reference/illinois/il-expungement-companion-forms.html and on the official PDF face reconciled in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": true,
+          "value": "The official PDF face prints Page 1 of 1 (06/26); the audited bytes have SHA-256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c."
+        }
+      ],
+      "routeClassificationChangedHere": false
+    },
+    "il-seal-nonconv-set": {
+      "sourceIdentityAction": "PATCH_CANONICAL_FORM_IDENTITY_METADATA",
+      "proposedResolution": "RESOLVED",
+      "proposedControlFields": [
+        {
+          "path": "/resolution",
+          "exists": true,
+          "value": "RESOLVED"
+        },
+        {
+          "path": "/documentsResolved",
+          "exists": true,
+          "value": 4
+        },
+        {
+          "path": "/documentsHeldInCorpus",
+          "exists": true,
+          "value": 3
+        }
+      ],
+      "proposedChangedFieldValues": [
+        {
+          "path": "/documentsTheRouteNeeds/1/currentRevision",
+          "exists": true,
+          "value": "06/26"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/formNumber",
+          "exists": true,
+          "value": "ATJ 2902.1"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitle",
+          "exists": true,
+          "value": "Case List for Request to Expunge and/or Seal Criminal Records"
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "exists": true,
+          "value": "The exact issuer title and form number are printed in reference/illinois/il-expungement-companion-forms.html and on the official PDF face reconciled in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json."
+        },
+        {
+          "path": "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "exists": true,
+          "value": "The official PDF face prints Page 1 of 1 (06/26); the audited bytes have SHA-256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c."
+        }
+      ],
+      "routeClassificationChangedHere": false
+    }
+  },
+  "changedFields": {
+    "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief": [],
+    "il-cannabis-vacate-set": [
+      "/needs/0/documentTheRouteNeeds",
+      "/needs/0/identity/currentRevision",
+      "/needs/0/identity/currentRevisionEvidence",
+      "/needs/0/identity/formNumber",
+      "/needs/0/identity/officialSourceUrl",
+      "/needs/0/identity/officialTitle",
+      "/needs/0/notes",
+      "/needs/1/identity/currentRevision",
+      "/needs/1/identity/currentRevisionEvidence",
+      "/needs/1/identity/formNumber",
+      "/needs/1/identity/officialSourceUrl",
+      "/needs/1/notes",
+      "/needs/2/documentTheRouteNeeds",
+      "/needs/2/identity/currentRevision",
+      "/needs/2/identity/currentRevisionEvidence",
+      "/needs/2/identity/formNumber",
+      "/needs/2/identity/officialSourceUrl",
+      "/needs/2/identity/officialTitle",
+      "/needs/2/notes",
+      "/needs/3/documentTheRouteNeeds",
+      "/needs/3/identity/currentRevision",
+      "/needs/3/identity/currentRevisionEvidence",
+      "/needs/3/identity/formNumber",
+      "/needs/3/identity/officialSourceUrl",
+      "/needs/3/identity/officialTitle",
+      "/needs/3/notes",
+      "/needs/4/documentTheRouteNeeds",
+      "/needs/4/identity/currentRevision",
+      "/needs/4/identity/currentRevisionEvidence",
+      "/needs/4/identity/formNumber",
+      "/needs/4/identity/officialSourceUrl",
+      "/needs/4/identity/officialTitle",
+      "/needs/4/notes",
+      "/needs/5/documentTheRouteNeeds",
+      "/needs/5/identity/currentRevision",
+      "/needs/5/identity/currentRevisionEvidence",
+      "/needs/5/identity/formNumber",
+      "/needs/5/identity/officialSourceUrl",
+      "/needs/5/identity/officialTitle",
+      "/needs/5/notes"
+    ],
+    "il-exp-nonconv-set": [
+      "/needs/0/identity/currentRevision",
+      "/needs/0/identity/currentRevisionEvidence",
+      "/needs/0/identity/formNumber",
+      "/needs/0/identity/officialSourceUrl",
+      "/needs/0/identity/officialTitle",
+      "/needs/1/identity/currentRevision",
+      "/needs/1/identity/currentRevisionEvidence",
+      "/needs/1/identity/formNumber",
+      "/needs/1/identity/officialSourceUrl",
+      "/needs/1/identity/officialTitle"
+    ],
+    "il-exp-pardon-set": [
+      "/needs/0/identity/currentRevision",
+      "/needs/0/identity/currentRevisionEvidence",
+      "/needs/0/identity/formNumber",
+      "/needs/0/identity/officialSourceUrl",
+      "/needs/0/identity/officialTitle"
+    ],
+    "il-exp-precompletion-set": [
+      "/documentsTheRouteNeeds/1/currentRevision",
+      "/documentsTheRouteNeeds/1/formNumber",
+      "/documentsTheRouteNeeds/1/officialTitle",
+      "/documentsTheRouteNeeds/1/officialTitleBasis",
+      "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+    ],
+    "il-exp-qualprob-set": [
+      "/documentsTheRouteNeeds/1/currentRevision",
+      "/documentsTheRouteNeeds/1/formNumber",
+      "/documentsTheRouteNeeds/1/officialTitle",
+      "/documentsTheRouteNeeds/1/officialTitleBasis",
+      "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+    ],
+    "il-exp-supervision-set": [
+      "/documentsTheRouteNeeds/1/currentRevision",
+      "/documentsTheRouteNeeds/1/formNumber",
+      "/documentsTheRouteNeeds/1/officialTitle",
+      "/documentsTheRouteNeeds/1/officialTitleBasis",
+      "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+    ],
+    "il-prb-cert-set": [
+      "/documentsTheRouteNeeds/0/currentRevision",
+      "/documentsTheRouteNeeds/0/officialTitle",
+      "/documentsTheRouteNeeds/0/officialTitleBasis",
+      "/documentsTheRouteNeeds/0/revisionCurrentnessEvidence",
+      "/documentsTheRouteNeeds/1/currentRevision",
+      "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+      "/documentsTheRouteNeeds/2/currentRevision",
+      "/documentsTheRouteNeeds/2/officialTitle",
+      "/documentsTheRouteNeeds/2/officialTitleBasis",
+      "/documentsTheRouteNeeds/2/revisionCurrentnessEvidence",
+      "/documentsTheRouteNeeds/3/currentRevision",
+      "/documentsTheRouteNeeds/3/revisionCurrentnessEvidence"
+    ],
+    "il-prostitution-j-vacate-set": [],
+    "il-seal-2yr-set": [
+      "/documentsTheRouteNeeds/1/currentRevision",
+      "/documentsTheRouteNeeds/1/formNumber",
+      "/documentsTheRouteNeeds/1/officialTitle",
+      "/documentsTheRouteNeeds/1/officialTitleBasis",
+      "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+    ],
+    "il-seal-3yr-set": [
+      "/documentsTheRouteNeeds/1/currentRevision",
+      "/documentsTheRouteNeeds/1/formNumber",
+      "/documentsTheRouteNeeds/1/officialTitle",
+      "/documentsTheRouteNeeds/1/officialTitleBasis",
+      "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+    ],
+    "il-seal-edu-set": [
+      "/documentsTheRouteNeeds/1/currentRevision",
+      "/documentsTheRouteNeeds/1/formNumber",
+      "/documentsTheRouteNeeds/1/officialTitle",
+      "/documentsTheRouteNeeds/1/officialTitleBasis",
+      "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+    ],
+    "il-seal-nonconv-set": [
+      "/documentsTheRouteNeeds/1/currentRevision",
+      "/documentsTheRouteNeeds/1/formNumber",
+      "/documentsTheRouteNeeds/1/officialTitle",
+      "/documentsTheRouteNeeds/1/officialTitleBasis",
+      "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+    ]
+  },
+  "evidence": {
+    "evidenceRegistry": {
+      "IL-IDENTITY-THEFT-LOCALITY-BOUNDARY": {
+        "evidenceType": "CANONICAL_SCOPE_AND_LOCALITY_BOUNDARY",
+        "noNewWebResearch": true,
+        "repositoryEvidence": [
+          "src/lib/legal-authority/routes/route-splits.json#IL:criminal-identity-theft-mistaken-identity-relief",
+          "data/record-clearing/legal-design-intake/IL.memo.json",
+          "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089"
+        ],
+        "exactFacts": [
+          "The canonical row is statewide/county-unspecified and has no Illinois legal-design track or official-form assignment.",
+          "The prior audit located Cook County CCCR 0018, CCCR 0019, CCCR 0021 and CCCR 0024, all issued by the Clerk of the Circuit Court of Cook County.",
+          "A county-local set does not establish the identity required for an arrest in an unknown Illinois circuit."
+        ],
+        "exactConclusion": "Preserve canonical UNRESOLVED; do not replace it with the Cook County-local identity."
+      },
+      "IL-CANNABIS-EXC-SUITE-2022-03": {
+        "evidenceType": "OFFICIAL_PDF_FACES_PLUS_HELD_BYTE_RECONCILIATION",
+        "noNewWebResearch": true,
+        "issuer": "Illinois Supreme Court, through the Supreme Court Commission on Access to Justice",
+        "components": [
+          {
+            "censusSourceId": "official-form:CXP Motion to Vacate and Expunge",
+            "officialTitlePrinted": "Motion to Vacate & Expunge Eligible Cannabis Convictions",
+            "formNumberPrinted": "EXC-M 4702.2",
+            "revisionPrinted": "03/22",
+            "officialDirectFileUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/8562a938-0296-4236-9030-3217460e8b5c/CXP%20Motion%20to%20Vacate%20and%20Expunge.pdf",
+            "heldInventoryPath": "LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf",
+            "sha256": "728ad50c5db068d3d3a6bc68901c79431e865f8e2eaa94c37c38a086d9815acf"
+          },
+          {
+            "censusSourceId": "official-form:CXP Additional Cannabis Convictions",
+            "officialTitlePrinted": "Additional Cannabis Convictions",
+            "formNumberPrinted": "EXC-AA 4706.2",
+            "revisionPrinted": "03/22",
+            "officialDirectFileUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/85296a2c-ee02-41c9-b962-6fb1f797dc8e/CXP%20Additional%20Cannabis%20Convictions.pdf",
+            "heldInventoryPath": "LegalEase Illinois/CXP Additional Cannabis Convictions.pdf",
+            "sha256": "32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969"
+          },
+          {
+            "censusSourceId": "official-form:CXP Getting Started Motion to Vacate and Expunge",
+            "officialTitlePrinted": "Getting Started Motion to Vacate & Expunge Eligible Cannabis Convictions",
+            "formNumberPrinted": "EXC-G 4700.2",
+            "revisionPrinted": "03/22",
+            "officialDirectFileUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/da1fc04d-1770-4e40-8a5c-527bd52ca7f9/CXP%20Getting%20Started%20Motion%20to%20Vacate%20and%20Expunge.pdf",
+            "heldInventoryPath": "LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf",
+            "sha256": "52ce3880f8d813ca7ebebb1654da5a04f4d70dca538868f7094163a7199eb0b2"
+          },
+          {
+            "censusSourceId": "official-form:CXP Notice of Court Date for Motion",
+            "officialTitlePrinted": "Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions",
+            "formNumberPrinted": "EXC-N 4703.2",
+            "revisionPrinted": "03/22",
+            "officialDirectFileUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/a9f72f2b-0bc7-482d-a301-9dc73e64e4b7/CXP%20Notice%20of%20Court%20Date%20for%20Motion.pdf",
+            "heldInventoryPath": "LegalEase Illinois/CXP Notice of Court Date for Motion.pdf",
+            "sha256": "56179412256e2c98b0f535a328801e4cf012ae3d179848c3a1efe7df6377b041"
+          },
+          {
+            "censusSourceId": "official-form:CXP Additional Notice of Court Date",
+            "officialTitlePrinted": "Additional Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions",
+            "formNumberPrinted": "EXC-AM 4705.2",
+            "revisionPrinted": "03/22",
+            "officialDirectFileUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62d19ea4-46a8-423b-9e42-b975974fc77b/CXP%20Additional%20Notice%20of%20Court%20Date.pdf",
+            "heldInventoryPath": "LegalEase Illinois/CXP Additional Notice of Court Date.pdf",
+            "sha256": "4a6dde5541b6531f99a4294e07a28ea85096ea5c982ee76e46cf3e8dd00b0afa"
+          },
+          {
+            "censusSourceId": "official-form:CXP Order Granting or Denying Motion",
+            "officialTitlePrinted": "Order Granting or Denying Motion to Vacate & Expunge Eligible Cannabis Convictions",
+            "formNumberPrinted": "EXC-O 4704.2",
+            "revisionPrinted": "03/22",
+            "officialDirectFileUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/0c788d57-5951-47d9-9946-dfc36b7d1d50/CXP%20Order%20Granting%20or%20Denying%20Motion.pdf",
+            "heldInventoryPath": "LegalEase Illinois/CXP Order Granting or Denying Motion.pdf",
+            "sha256": "ca0fdef8909a3ef134c562d09a89dcc24de22036c7b8238902443892c3ac77cc"
+          }
+        ],
+        "repositoryCorroboration": [
+          "data/rcap-all50/nationwide-source-inventory.json",
+          "data/record-clearing/source-artifact-registry.json",
+          "data/record-clearing/legal-design-intake/IL.memo.json#il-cannabis-vacate"
+        ],
+        "exactConclusion": "CXP is the publisher filename prefix, not the form-number series. The PDF faces print the EXC-* numbers and 03/22 revisions; all hashes match already-held inventory bytes, so custody is unchanged."
+      },
+      "IL-CASE-LIST-ATJ-2902.1": {
+        "evidenceType": "OFFICIAL_PDF_FACE_PLUS_HELD_BYTE_RECONCILIATION",
+        "noNewWebResearch": true,
+        "officialTitlePrinted": "Case List for Request to Expunge and/or Seal Criminal Records",
+        "formNumberPrinted": "ATJ 2902.1",
+        "revisionPrinted": "Page 1 of 1 (06/26)",
+        "officialDirectFileUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf",
+        "heldInventoryPath": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+        "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+        "repositoryCorroboration": [
+          "reference/illinois/il-expungement-companion-forms.html",
+          "data/rcap-all50/nationwide-source-inventory.json",
+          "data/record-clearing/source-artifact-registry.json"
+        ],
+        "exactConclusion": "EXP-AD Case List is a filename label; ATJ 2902.1 is the issuer number, the printed title has no colon, and the printed revision is 06/26. Custody is unchanged."
+      },
+      "IL-ADDITIONAL-EXPUNGEMENT-ATJ-2903.5": {
+        "evidenceType": "OFFICIAL_PDF_FACE_PLUS_HELD_BYTE_RECONCILIATION",
+        "noNewWebResearch": true,
+        "officialTitlePrinted": "Additional Arrests or Cases for Expungement",
+        "formNumberPrinted": "ATJ 2903.5",
+        "revisionPrinted": "Page 1 of 1 (06/26)",
+        "officialDirectFileUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/9cb2130f-056d-4962-a6e7-a592b4f4b4bb/EXP-AD%20Additional%20Cases%20Expungement.pdf",
+        "heldInventoryPath": "LegalEase Illinois/EXP-AD Additional Cases Expungement.pdf",
+        "sha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
+        "repositoryCorroboration": [
+          "reference/illinois/il-expungement-companion-forms.html",
+          "data/rcap-all50/nationwide-source-inventory.json",
+          "data/record-clearing/source-artifact-registry.json"
+        ],
+        "exactConclusion": "ATJ 2903.5, its exact face title, and 06/26 replace the filename-derived identity. Custody is unchanged."
+      },
+      "IL-PRB-FACE-AND-REVISION-AUDIT": {
+        "evidenceType": "OFFICIAL_PDF_FACES_PLUS_HELD_BYTE_RECONCILIATION",
+        "noNewWebResearch": true,
+        "components": [
+          {
+            "obligationLabel": "PRB Certificate of Sealing Application",
+            "officialTitlePrinted": "Certificate of Sealing",
+            "currentRevision": "9.18.24 (publisher filename; no printed revision legend)",
+            "revisionEvidence": "The current official URL and held filename carry 9.18.24; the PDF face has no separate revision legend.",
+            "officialDirectFileUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/sealing-docs/Certificate%20of%20Sealing%20application%209.18.24.pdf",
+            "heldInventoryPath": "LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Application__certificate-of-sealing-application__rev-2024-09-18.pdf",
+            "sha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd"
+          },
+          {
+            "obligationLabel": "PRB Certificate of Sealing Eligibility Acknowledgement",
+            "officialTitlePrinted": "Certificate of Sealing Eligibility Acknowledgement",
+            "currentRevision": null,
+            "revisionEvidence": "The current official PDF has no printed revision legend.",
+            "officialDirectFileUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/sealing-docs/certificate-of-sealing-eligibility-acknowledgement.pdf",
+            "heldInventoryPath": "LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+            "sha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361"
+          },
+          {
+            "obligationLabel": "PRB Certificate of Expungement for Military Application",
+            "officialTitlePrinted": "Certificate of Expungement for Military",
+            "currentRevision": "v9.18.24 (publisher filename; no printed revision legend)",
+            "revisionEvidence": "The current official URL and held filename carry v9.18.24; the PDF face has no separate revision legend.",
+            "officialDirectFileUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/military-expungement-docs/Certificate%20of%20Expungement%20for%20Military%20application%20v9.18.24.pdf",
+            "heldInventoryPath": "LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Application__military-certificate-of-expungement-application__rev-2024-09-18.pdf",
+            "sha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e"
+          },
+          {
+            "obligationLabel": "PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+            "officialTitlePrinted": "Certificate of Expungement for Military Eligibility Acknowledgement",
+            "currentRevision": "08/11/2014 (printed)",
+            "revisionEvidence": "The PDF face prints 08/11/2014; the repository filename's source-2024 suffix is not a printed revision.",
+            "officialDirectFileUrl": "https://prb.illinois.gov/content/dam/soi/en/web/prb/documents/military-expungement-docs/certificate-of-expugnement-for-military-eligibility-acknowledgement.pdf",
+            "heldInventoryPath": "LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+            "sha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c"
+          }
+        ],
+        "repositoryCorroboration": [
+          "data/rcap-all50/nationwide-source-inventory.json",
+          "data/record-clearing/source-artifact-registry.json",
+          "data/record-clearing/legal-design-intake/IL.memo.json#il-prb-cert"
+        ],
+        "exactConclusion": "Application filename labels are not the exact face titles. Filename dates are the only application markers, the sealing acknowledgement is undated, and the military acknowledgement prints 08/11/2014. Custody is unchanged."
+      },
+      "IL-PROSTITUTION-CANONICAL-VERSUS-COMPILED-MAPPING": {
+        "evidenceType": "REPOSITORY_ROUTE_MAPPING_CONFLICT",
+        "noNewWebResearch": true,
+        "repositoryEvidence": [
+          "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json@d0e19066e856c8c9024b243a2b37f892888e3089#il-prostitution-j-vacate-set",
+          "data/record-clearing/legal-design-intake/IL.memo.json#il-prostitution-j-vacate",
+          "src/lib/rcap-engine/compiled/profiles/IL-illinois.json#pathwayId=felony-prostitution-relief"
+        ],
+        "exactFacts": [
+          "Canonical batch 2 says NO_OFFICIAL_DOCUMENT_REQUIRED with custom pleadings and no form.",
+          "The compiled pathway selects CXP Additional Cannabis Convictions.pdf, SHA-256 32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969.",
+          "The memo expressly excludes the cannabis suite from this route."
+        ],
+        "exactConclusion": "Preserve canonical source identity and queue only the Captain route-mapping conflict."
+      }
+    },
+    "evidenceForEachRow": {
+      "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief": {
+        "evidenceIds": [
+          "IL-IDENTITY-THEFT-LOCALITY-BOUNDARY"
+        ],
+        "supportsChangedFields": [],
+        "supportsNoChangeOrCaptainFinding": true
+      },
+      "il-cannabis-vacate-set": {
+        "evidenceIds": [
+          "IL-CANNABIS-EXC-SUITE-2022-03"
+        ],
+        "supportsChangedFields": [
+          "/needs/0/documentTheRouteNeeds",
+          "/needs/0/identity/currentRevision",
+          "/needs/0/identity/currentRevisionEvidence",
+          "/needs/0/identity/formNumber",
+          "/needs/0/identity/officialSourceUrl",
+          "/needs/0/identity/officialTitle",
+          "/needs/0/notes",
+          "/needs/1/identity/currentRevision",
+          "/needs/1/identity/currentRevisionEvidence",
+          "/needs/1/identity/formNumber",
+          "/needs/1/identity/officialSourceUrl",
+          "/needs/1/notes",
+          "/needs/2/documentTheRouteNeeds",
+          "/needs/2/identity/currentRevision",
+          "/needs/2/identity/currentRevisionEvidence",
+          "/needs/2/identity/formNumber",
+          "/needs/2/identity/officialSourceUrl",
+          "/needs/2/identity/officialTitle",
+          "/needs/2/notes",
+          "/needs/3/documentTheRouteNeeds",
+          "/needs/3/identity/currentRevision",
+          "/needs/3/identity/currentRevisionEvidence",
+          "/needs/3/identity/formNumber",
+          "/needs/3/identity/officialSourceUrl",
+          "/needs/3/identity/officialTitle",
+          "/needs/3/notes",
+          "/needs/4/documentTheRouteNeeds",
+          "/needs/4/identity/currentRevision",
+          "/needs/4/identity/currentRevisionEvidence",
+          "/needs/4/identity/formNumber",
+          "/needs/4/identity/officialSourceUrl",
+          "/needs/4/identity/officialTitle",
+          "/needs/4/notes",
+          "/needs/5/documentTheRouteNeeds",
+          "/needs/5/identity/currentRevision",
+          "/needs/5/identity/currentRevisionEvidence",
+          "/needs/5/identity/formNumber",
+          "/needs/5/identity/officialSourceUrl",
+          "/needs/5/identity/officialTitle",
+          "/needs/5/notes"
+        ],
+        "supportsNoChangeOrCaptainFinding": false
+      },
+      "il-exp-nonconv-set": {
+        "evidenceIds": [
+          "IL-CASE-LIST-ATJ-2902.1",
+          "IL-ADDITIONAL-EXPUNGEMENT-ATJ-2903.5"
+        ],
+        "supportsChangedFields": [
+          "/needs/0/identity/currentRevision",
+          "/needs/0/identity/currentRevisionEvidence",
+          "/needs/0/identity/formNumber",
+          "/needs/0/identity/officialSourceUrl",
+          "/needs/0/identity/officialTitle",
+          "/needs/1/identity/currentRevision",
+          "/needs/1/identity/currentRevisionEvidence",
+          "/needs/1/identity/formNumber",
+          "/needs/1/identity/officialSourceUrl",
+          "/needs/1/identity/officialTitle"
+        ],
+        "supportsNoChangeOrCaptainFinding": false
+      },
+      "il-exp-pardon-set": {
+        "evidenceIds": [
+          "IL-CASE-LIST-ATJ-2902.1"
+        ],
+        "supportsChangedFields": [
+          "/needs/0/identity/currentRevision",
+          "/needs/0/identity/currentRevisionEvidence",
+          "/needs/0/identity/formNumber",
+          "/needs/0/identity/officialSourceUrl",
+          "/needs/0/identity/officialTitle"
+        ],
+        "supportsNoChangeOrCaptainFinding": false
+      },
+      "il-exp-precompletion-set": {
+        "evidenceIds": [
+          "IL-CASE-LIST-ATJ-2902.1"
+        ],
+        "supportsChangedFields": [
+          "/documentsTheRouteNeeds/1/currentRevision",
+          "/documentsTheRouteNeeds/1/formNumber",
+          "/documentsTheRouteNeeds/1/officialTitle",
+          "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+        ],
+        "supportsNoChangeOrCaptainFinding": false
+      },
+      "il-exp-qualprob-set": {
+        "evidenceIds": [
+          "IL-CASE-LIST-ATJ-2902.1"
+        ],
+        "supportsChangedFields": [
+          "/documentsTheRouteNeeds/1/currentRevision",
+          "/documentsTheRouteNeeds/1/formNumber",
+          "/documentsTheRouteNeeds/1/officialTitle",
+          "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+        ],
+        "supportsNoChangeOrCaptainFinding": false
+      },
+      "il-exp-supervision-set": {
+        "evidenceIds": [
+          "IL-CASE-LIST-ATJ-2902.1"
+        ],
+        "supportsChangedFields": [
+          "/documentsTheRouteNeeds/1/currentRevision",
+          "/documentsTheRouteNeeds/1/formNumber",
+          "/documentsTheRouteNeeds/1/officialTitle",
+          "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+        ],
+        "supportsNoChangeOrCaptainFinding": false
+      },
+      "il-prb-cert-set": {
+        "evidenceIds": [
+          "IL-PRB-FACE-AND-REVISION-AUDIT"
+        ],
+        "supportsChangedFields": [
+          "/documentsTheRouteNeeds/0/currentRevision",
+          "/documentsTheRouteNeeds/0/officialTitle",
+          "/documentsTheRouteNeeds/0/officialTitleBasis",
+          "/documentsTheRouteNeeds/0/revisionCurrentnessEvidence",
+          "/documentsTheRouteNeeds/1/currentRevision",
+          "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+          "/documentsTheRouteNeeds/2/currentRevision",
+          "/documentsTheRouteNeeds/2/officialTitle",
+          "/documentsTheRouteNeeds/2/officialTitleBasis",
+          "/documentsTheRouteNeeds/2/revisionCurrentnessEvidence",
+          "/documentsTheRouteNeeds/3/currentRevision",
+          "/documentsTheRouteNeeds/3/revisionCurrentnessEvidence"
+        ],
+        "supportsNoChangeOrCaptainFinding": false
+      },
+      "il-prostitution-j-vacate-set": {
+        "evidenceIds": [
+          "IL-PROSTITUTION-CANONICAL-VERSUS-COMPILED-MAPPING"
+        ],
+        "supportsChangedFields": [],
+        "supportsNoChangeOrCaptainFinding": true
+      },
+      "il-seal-2yr-set": {
+        "evidenceIds": [
+          "IL-CASE-LIST-ATJ-2902.1"
+        ],
+        "supportsChangedFields": [
+          "/documentsTheRouteNeeds/1/currentRevision",
+          "/documentsTheRouteNeeds/1/formNumber",
+          "/documentsTheRouteNeeds/1/officialTitle",
+          "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+        ],
+        "supportsNoChangeOrCaptainFinding": false
+      },
+      "il-seal-3yr-set": {
+        "evidenceIds": [
+          "IL-CASE-LIST-ATJ-2902.1"
+        ],
+        "supportsChangedFields": [
+          "/documentsTheRouteNeeds/1/currentRevision",
+          "/documentsTheRouteNeeds/1/formNumber",
+          "/documentsTheRouteNeeds/1/officialTitle",
+          "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+        ],
+        "supportsNoChangeOrCaptainFinding": false
+      },
+      "il-seal-edu-set": {
+        "evidenceIds": [
+          "IL-CASE-LIST-ATJ-2902.1"
+        ],
+        "supportsChangedFields": [
+          "/documentsTheRouteNeeds/1/currentRevision",
+          "/documentsTheRouteNeeds/1/formNumber",
+          "/documentsTheRouteNeeds/1/officialTitle",
+          "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+        ],
+        "supportsNoChangeOrCaptainFinding": false
+      },
+      "il-seal-nonconv-set": {
+        "evidenceIds": [
+          "IL-CASE-LIST-ATJ-2902.1"
+        ],
+        "supportsChangedFields": [
+          "/documentsTheRouteNeeds/1/currentRevision",
+          "/documentsTheRouteNeeds/1/formNumber",
+          "/documentsTheRouteNeeds/1/officialTitle",
+          "/documentsTheRouteNeeds/1/officialTitleBasis",
+          "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+        ],
+        "supportsNoChangeOrCaptainFinding": false
+      }
+    }
+  },
+  "ownerQueue": {
+    "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief": "NONE",
+    "il-cannabis-vacate-set": "CANONICAL_SOURCE_IDENTITY",
+    "il-exp-nonconv-set": "CANONICAL_SOURCE_IDENTITY",
+    "il-exp-pardon-set": "CANONICAL_SOURCE_IDENTITY",
+    "il-exp-precompletion-set": "CANONICAL_SOURCE_IDENTITY",
+    "il-exp-qualprob-set": "CANONICAL_SOURCE_IDENTITY",
+    "il-exp-supervision-set": "CANONICAL_SOURCE_IDENTITY",
+    "il-prb-cert-set": "CANONICAL_SOURCE_IDENTITY",
+    "il-prostitution-j-vacate-set": "CAPTAIN_ROUTE_MAPPING",
+    "il-seal-2yr-set": "CANONICAL_SOURCE_IDENTITY",
+    "il-seal-3yr-set": "CANONICAL_SOURCE_IDENTITY",
+    "il-seal-edu-set": "CANONICAL_SOURCE_IDENTITY",
+    "il-seal-nonconv-set": "CANONICAL_SOURCE_IDENTITY"
+  },
+  "recommendedCanonicalPatch": {
+    "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief": {
+      "required": false,
+      "generator": null,
+      "generatedOutput": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json",
+      "selector": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "reason": "Cook County-local forms do not displace a statewide/county-unknown unresolved identity."
+    },
+    "il-cannabis-vacate-set": {
+      "required": true,
+      "generator": "scripts/grade-a-route-obligation-census/resolve-census-source-identity-batch-1.mjs",
+      "generatedOutput": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json",
+      "selector": "il-cannabis-vacate-set",
+      "changedFields": [
+        "/needs/0/documentTheRouteNeeds",
+        "/needs/0/identity/currentRevision",
+        "/needs/0/identity/currentRevisionEvidence",
+        "/needs/0/identity/formNumber",
+        "/needs/0/identity/officialSourceUrl",
+        "/needs/0/identity/officialTitle",
+        "/needs/0/notes",
+        "/needs/1/identity/currentRevision",
+        "/needs/1/identity/currentRevisionEvidence",
+        "/needs/1/identity/formNumber",
+        "/needs/1/identity/officialSourceUrl",
+        "/needs/1/notes",
+        "/needs/2/documentTheRouteNeeds",
+        "/needs/2/identity/currentRevision",
+        "/needs/2/identity/currentRevisionEvidence",
+        "/needs/2/identity/formNumber",
+        "/needs/2/identity/officialSourceUrl",
+        "/needs/2/identity/officialTitle",
+        "/needs/2/notes",
+        "/needs/3/documentTheRouteNeeds",
+        "/needs/3/identity/currentRevision",
+        "/needs/3/identity/currentRevisionEvidence",
+        "/needs/3/identity/formNumber",
+        "/needs/3/identity/officialSourceUrl",
+        "/needs/3/identity/officialTitle",
+        "/needs/3/notes",
+        "/needs/4/documentTheRouteNeeds",
+        "/needs/4/identity/currentRevision",
+        "/needs/4/identity/currentRevisionEvidence",
+        "/needs/4/identity/formNumber",
+        "/needs/4/identity/officialSourceUrl",
+        "/needs/4/identity/officialTitle",
+        "/needs/4/notes",
+        "/needs/5/documentTheRouteNeeds",
+        "/needs/5/identity/currentRevision",
+        "/needs/5/identity/currentRevisionEvidence",
+        "/needs/5/identity/formNumber",
+        "/needs/5/identity/officialSourceUrl",
+        "/needs/5/identity/officialTitle",
+        "/needs/5/notes"
+      ],
+      "custodyChangeAllowed": false,
+      "routeClassificationChangeAllowed": false
+    },
+    "il-exp-nonconv-set": {
+      "required": true,
+      "generator": "scripts/grade-a-route-obligation-census/resolve-census-source-identity-batch-1.mjs",
+      "generatedOutput": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json",
+      "selector": "il-exp-nonconv-set",
+      "changedFields": [
+        "/needs/0/identity/currentRevision",
+        "/needs/0/identity/currentRevisionEvidence",
+        "/needs/0/identity/formNumber",
+        "/needs/0/identity/officialSourceUrl",
+        "/needs/0/identity/officialTitle",
+        "/needs/1/identity/currentRevision",
+        "/needs/1/identity/currentRevisionEvidence",
+        "/needs/1/identity/formNumber",
+        "/needs/1/identity/officialSourceUrl",
+        "/needs/1/identity/officialTitle"
+      ],
+      "custodyChangeAllowed": false,
+      "routeClassificationChangeAllowed": false
+    },
+    "il-exp-pardon-set": {
+      "required": true,
+      "generator": "scripts/grade-a-route-obligation-census/resolve-census-source-identity-batch-1.mjs",
+      "generatedOutput": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json",
+      "selector": "il-exp-pardon-set",
+      "changedFields": [
+        "/needs/0/identity/currentRevision",
+        "/needs/0/identity/currentRevisionEvidence",
+        "/needs/0/identity/formNumber",
+        "/needs/0/identity/officialSourceUrl",
+        "/needs/0/identity/officialTitle"
+      ],
+      "custodyChangeAllowed": false,
+      "routeClassificationChangeAllowed": false
+    },
+    "il-exp-precompletion-set": {
+      "required": true,
+      "generator": "scripts/grade-a-route-obligation-census/resolve-census-source-identity.mjs",
+      "generatedOutput": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json",
+      "selector": "il-exp-precompletion-set",
+      "changedFields": [
+        "/documentsTheRouteNeeds/1/currentRevision",
+        "/documentsTheRouteNeeds/1/formNumber",
+        "/documentsTheRouteNeeds/1/officialTitle",
+        "/documentsTheRouteNeeds/1/officialTitleBasis",
+        "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+      ],
+      "custodyChangeAllowed": false,
+      "routeClassificationChangeAllowed": false
+    },
+    "il-exp-qualprob-set": {
+      "required": true,
+      "generator": "scripts/grade-a-route-obligation-census/resolve-census-source-identity.mjs",
+      "generatedOutput": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json",
+      "selector": "il-exp-qualprob-set",
+      "changedFields": [
+        "/documentsTheRouteNeeds/1/currentRevision",
+        "/documentsTheRouteNeeds/1/formNumber",
+        "/documentsTheRouteNeeds/1/officialTitle",
+        "/documentsTheRouteNeeds/1/officialTitleBasis",
+        "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+      ],
+      "custodyChangeAllowed": false,
+      "routeClassificationChangeAllowed": false
+    },
+    "il-exp-supervision-set": {
+      "required": true,
+      "generator": "scripts/grade-a-route-obligation-census/resolve-census-source-identity.mjs",
+      "generatedOutput": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json",
+      "selector": "il-exp-supervision-set",
+      "changedFields": [
+        "/documentsTheRouteNeeds/1/currentRevision",
+        "/documentsTheRouteNeeds/1/formNumber",
+        "/documentsTheRouteNeeds/1/officialTitle",
+        "/documentsTheRouteNeeds/1/officialTitleBasis",
+        "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+      ],
+      "custodyChangeAllowed": false,
+      "routeClassificationChangeAllowed": false
+    },
+    "il-prb-cert-set": {
+      "required": true,
+      "generator": "scripts/grade-a-route-obligation-census/resolve-census-source-identity.mjs",
+      "generatedOutput": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json",
+      "selector": "il-prb-cert-set",
+      "changedFields": [
+        "/documentsTheRouteNeeds/0/currentRevision",
+        "/documentsTheRouteNeeds/0/officialTitle",
+        "/documentsTheRouteNeeds/0/officialTitleBasis",
+        "/documentsTheRouteNeeds/0/revisionCurrentnessEvidence",
+        "/documentsTheRouteNeeds/1/currentRevision",
+        "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence",
+        "/documentsTheRouteNeeds/2/currentRevision",
+        "/documentsTheRouteNeeds/2/officialTitle",
+        "/documentsTheRouteNeeds/2/officialTitleBasis",
+        "/documentsTheRouteNeeds/2/revisionCurrentnessEvidence",
+        "/documentsTheRouteNeeds/3/currentRevision",
+        "/documentsTheRouteNeeds/3/revisionCurrentnessEvidence"
+      ],
+      "custodyChangeAllowed": false,
+      "routeClassificationChangeAllowed": false
+    },
+    "il-prostitution-j-vacate-set": {
+      "required": false,
+      "generator": null,
+      "generatedOutput": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json",
+      "selector": "il-prostitution-j-vacate-set",
+      "reason": "Canonical identity is correct; the mismatch belongs only in Captain route mapping."
+    },
+    "il-seal-2yr-set": {
+      "required": true,
+      "generator": "scripts/grade-a-route-obligation-census/resolve-census-source-identity.mjs",
+      "generatedOutput": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json",
+      "selector": "il-seal-2yr-set",
+      "changedFields": [
+        "/documentsTheRouteNeeds/1/currentRevision",
+        "/documentsTheRouteNeeds/1/formNumber",
+        "/documentsTheRouteNeeds/1/officialTitle",
+        "/documentsTheRouteNeeds/1/officialTitleBasis",
+        "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+      ],
+      "custodyChangeAllowed": false,
+      "routeClassificationChangeAllowed": false
+    },
+    "il-seal-3yr-set": {
+      "required": true,
+      "generator": "scripts/grade-a-route-obligation-census/resolve-census-source-identity.mjs",
+      "generatedOutput": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json",
+      "selector": "il-seal-3yr-set",
+      "changedFields": [
+        "/documentsTheRouteNeeds/1/currentRevision",
+        "/documentsTheRouteNeeds/1/formNumber",
+        "/documentsTheRouteNeeds/1/officialTitle",
+        "/documentsTheRouteNeeds/1/officialTitleBasis",
+        "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+      ],
+      "custodyChangeAllowed": false,
+      "routeClassificationChangeAllowed": false
+    },
+    "il-seal-edu-set": {
+      "required": true,
+      "generator": "scripts/grade-a-route-obligation-census/resolve-census-source-identity.mjs",
+      "generatedOutput": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json",
+      "selector": "il-seal-edu-set",
+      "changedFields": [
+        "/documentsTheRouteNeeds/1/currentRevision",
+        "/documentsTheRouteNeeds/1/formNumber",
+        "/documentsTheRouteNeeds/1/officialTitle",
+        "/documentsTheRouteNeeds/1/officialTitleBasis",
+        "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+      ],
+      "custodyChangeAllowed": false,
+      "routeClassificationChangeAllowed": false
+    },
+    "il-seal-nonconv-set": {
+      "required": true,
+      "generator": "scripts/grade-a-route-obligation-census/resolve-census-source-identity.mjs",
+      "generatedOutput": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json",
+      "selector": "il-seal-nonconv-set",
+      "changedFields": [
+        "/documentsTheRouteNeeds/1/currentRevision",
+        "/documentsTheRouteNeeds/1/formNumber",
+        "/documentsTheRouteNeeds/1/officialTitle",
+        "/documentsTheRouteNeeds/1/officialTitleBasis",
+        "/documentsTheRouteNeeds/1/revisionCurrentnessEvidence"
+      ],
+      "custodyChangeAllowed": false,
+      "routeClassificationChangeAllowed": false
+    }
+  },
+  "captainPatchRequests": [
+    {
+      "requestId": "CAPTAIN-IL-ROUTE-TO-FORM-MAPPING",
+      "ownerQueue": "CAPTAIN_ROUTE_MAPPING",
+      "notASourceIdentityDisposition": true,
+      "affectedWorklistGroupIds": [
+        "il-cannabis-vacate-set",
+        "il-exp-nonconv-set",
+        "il-exp-qualprob-set",
+        "il-exp-supervision-set",
+        "il-prostitution-j-vacate-set"
+      ],
+      "exactRepositoryEvidence": [
+        {
+          "path": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+          "selectors": [
+            "pathwayId=adult-non-conviction-expungement",
+            "pathwayId=expungement-after-eligible-supervision-or-qualified-probation",
+            "pathwayId=cannabis-specific-automatic-or-petition-expungement",
+            "pathwayId=felony-prostitution-relief"
+          ],
+          "currentValue": "Each formCandidates list contains only LegalEase Illinois/CXP Additional Cannabis Convictions.pdf, SHA-256 32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969."
+        },
+        {
+          "path": "src/lib/rcap-engine/packet-planner.ts",
+          "selector": "buildPacketPlan sourceFormIds",
+          "currentBehavior": "Pathway formCandidates are directly converted into authoritative sourceFormIds."
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/IL.memo.json",
+          "expectedBoundary": "Cannabis uses its Motion/Notice/Order suite; adult routes use EXP-AD; prostitution uses custom pleadings and excludes the cannabis suite."
+        }
+      ],
+      "requestedAction": "Correct Captain-owned pathway formCandidates; do not encode routing as source identity."
+    },
+    {
+      "requestId": "CAPTAIN-IL-PRB-STAGE-AUTHORITY",
+      "ownerQueue": "CAPTAIN_ROUTE_MAPPING",
+      "notASourceIdentityDisposition": true,
+      "affectedWorklistGroupIds": [
+        "il-prb-cert-set"
+      ],
+      "exactRepositoryEvidence": [
+        {
+          "path": "data/rcap-all50/composed-routes/illinois/il-prb-cert/route.json",
+          "currentCitationValues": {
+            "il-prb-cert-certificate-application": "20 ILCS 2630/5.2(e-5) and 20 ILCS 2630/5.2(e-6), read with 730 ILCS 5/3-3-2(a)(10) and 730 ILCS 5/5-5.5",
+            "il-prb-cert-sealing-branch": "20 ILCS 2630/5.2(e-5)",
+            "il-prb-cert-military-branch": "20 ILCS 2630/5.2(e-6)",
+            "il-prb-cert-court-petition": "20 ILCS 2630/5.2(d)(2)"
+          }
+        },
+        {
+          "evidenceProvenance": "PRE_EXISTING_ILLINOIS_AUDIT_EMBEDDED_IN_THIS_DELTA",
+          "noNewWebResearch": true,
+          "upstreamPatchTarget": "data/record-clearing/legal-design-intake/IL.memo.json",
+          "auditedStageBoundary": "Stage 1 sealing: 730 ILCS 5/3-3-2(a)(10); stage 1 military expungement: (a)(11); later court stage: 20 ILCS 2630/5.2(e-5)/(e-6). 730 ILCS 5/5-5.5 is a different certificate family."
+        }
+      ],
+      "requestedAction": "Patch upstream stage authority and regenerate the composed route, retaining 20 ILCS 2630/5.2(d)(2) on the court-petition unit. Do not change document identity/custody or create a legal decision."
+    },
+    {
+      "requestId": "CAPTAIN-IL-CANNABIS-AUTOMATIC-VERSUS-PARTICIPANT-BRANCH",
+      "ownerQueue": "CAPTAIN_LEGAL_BRANCH_SPLIT",
+      "notASourceIdentityDisposition": true,
+      "affectedWorklistGroupIds": [
+        "il-cannabis-vacate-set"
+      ],
+      "exactRepositoryEvidence": [
+        {
+          "path": "data/record-clearing/legal-design-intake/IL.memo.json",
+          "selectors": [
+            "trackId=il-cannabis-auto",
+            "trackId=il-cannabis-vacate"
+          ],
+          "expectedBoundary": "Automatic process guidance has no participant filing; the conviction fallback is a separate participant motion track."
+        },
+        {
+          "path": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+          "selector": "route id=cannabis-specific-automatic-or-petition-expungement",
+          "currentConflict": "One court_filing route contains automatic arrest and participant-motion clauses while automatic=false and filingRequired=true."
+        }
+      ],
+      "requestedAction": "Split automatic agency process from participant motion; do not conflate the branches or infer Category B from incomplete implementation."
+    }
+  ],
+  "noChangeCount": 1,
+  "correctionCount": 11,
+  "captainOnlyFindingRowCount": 1,
+  "countSemantics": {
+    "noChangeCount": "Rows classified NO_CHANGE.",
+    "correctionCount": "Rows requiring a canonical identity/currentness generator patch; Captain-only findings excluded.",
+    "captainOnlyFindingRowCount": "Rows with Captain mapping findings and no canonical source field change."
+  },
+  "classificationCounts": {
+    "NO_CHANGE": 1,
+    "SOURCE_IDENTITY_CORRECTION": 10,
+    "CUSTODY_CORRECTION": 0,
+    "REVISION_CURRENTNESS_CORRECTION": 1,
+    "CAPTAIN_ROUTE_MAPPING_FINDING": 1,
+    "LEGAL_BRANCH_SPLIT_FINDING": 0
+  },
+  "canonicalPatchProofExpectation": {
+    "intendedChangedBatch1WorklistGroupIds": [
+      "il-cannabis-vacate-set",
+      "il-exp-nonconv-set",
+      "il-exp-pardon-set"
+    ],
+    "intendedChangedBatch2WorklistGroupIds": [
+      "il-exp-precompletion-set",
+      "il-exp-qualprob-set",
+      "il-exp-supervision-set",
+      "il-prb-cert-set",
+      "il-seal-2yr-set",
+      "il-seal-3yr-set",
+      "il-seal-edu-set",
+      "il-seal-nonconv-set"
+    ],
+    "intendedCustodyChanges": [],
+    "intendedRouteClassificationChanges": []
+  }
+}
