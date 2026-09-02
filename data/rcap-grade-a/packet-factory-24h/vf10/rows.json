@@ -6118,6 +6118,290 @@
         "Four sibling families share this build host, this field-map shape and this catch-all sentence: nj_clean_slate-set, nj_disorderly_persons-set, nj_indictable_conviction-set and nj_ordinance-set. Each declares 18 candidate writes and each carries the same instructions skeleton. I hold no grant on any of them and make no finding about them, but a repair scoped to this family alone will leave the host defect in place.",
         "The completeness verifier believing a candidate_write is a general property of readFieldRows(), not of this family. Any family on a documents-and-decisions field map can carry an unwritten declared write and still score nine zeros. That is a verifier question for the Captain, not a defect of this packet."
       ]
+    },
+    {
+      "itemId": "rcap-wv-custom-pleading",
+      "lane": "VF10",
+      "verdict": "PASS",
+      "laneDisposition": "PASS_INDEPENDENT_RASTER_PENDING",
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+      "verifiedBy": "FABLE-RVD (RV-D; independent — built, repaired and rastered none of this family)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading",
+      "stateAtRead": "VERIFY_PENDING",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "artifactBytesMovedByThisLane": 0,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "failedObligations": [],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "One route key, present in both sources that bind it: obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief occurs once in route-obligation-candidate.json, the census the receipt binds by SHA-256, and four times in canonical-route-universe.json. It matches registry trackId wv_drug_conditional_discharge, an application under W. Va. Code § 60A-4-407(b) to clear a first controlled-substance possession case that ended in a conditional discharge, brought at least six months after probation expired.",
+          "evidence": {
+            "routeKeyInBoundCensus": true,
+            "routeKeyInCanonicalUniverse": true,
+            "registryTrackId": "wv_drug_conditional_discharge",
+            "authority": [
+              "W. Va. Code § 60A-4-407(a)",
+              "W. Va. Code § 60A-4-407(b)",
+              "W. Va. Code § 60A-4-407(c)",
+              "W. Va. Code § 60A-4-401(c)",
+              "W. Va. Code § 60A-4-407a"
+            ]
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "custom_pleading from codified text: no official form binary is bound and none is claimed. All three committed records the receipt binds were rehashed from disk and every SHA-256 and byte length matches. The packet's statutory read date, 'Read at source on 2026-08-06', is the retrievedOn recorded against all three of the track's officialSources entries and is not invented.",
+          "evidence": [
+            {
+              "record": "data/record-clearing/legal-design-track-registry.json",
+              "recordedSha": "49d08b90a767d616ebea55b7493b3121c70eee91aa270babf4a66da83ff7ac58",
+              "recomputedSha": "49d08b90a767d616ebea55b7493b3121c70eee91aa270babf4a66da83ff7ac58",
+              "match": true,
+              "recordedByteLength": 16469590,
+              "actualByteLength": 16469590
+            },
+            {
+              "record": "data/record-clearing/legal-design-specifications.json",
+              "recordedSha": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+              "recomputedSha": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+              "match": true,
+              "recordedByteLength": 16829383,
+              "actualByteLength": 16829383
+            },
+            {
+              "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "recordedSha": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+              "recomputedSha": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+              "match": true,
+              "recordedByteLength": 2599752,
+              "actualByteLength": 2599752
+            }
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredComponentsMissing 0, and the ordinal collision the repair was written for is gone. The registry packetSet declares five required components and the rendered componentSet is the same five in the same order: primary-filing-1, supporting-affidavit-2, certificate-of-service-3, records-checklist-4, filing-instructions-5. Ordinals are 1,2,3,4,5 — unique, contiguous from 1, and no two components share one. Every component owns pages in the 12-page manifest and no page is unattributed: primary filing 1-3, affidavit 4-6, certificate of service 7, records checklist 8-9, filing instructions 10-12. The new fifth component is substantive rather than a placeholder: pages 8-9 reproduce all three of the registry's participantFilingRequirements in the registry's own words, correctly split into the two requiredBeforeFiling records and the one conditional record, each with who holds it and which participant answer it checks.",
+          "evidence": {
+            "registryComponents": 5,
+            "renderedComponents": 5,
+            "identicalAndInOrder": true,
+            "ordinals": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "ordinalCollisions": 0,
+            "ordinalGaps": 0,
+            "pagesPerComponent": {
+              "primary-filing-1": [
+                1,
+                2,
+                3
+              ],
+              "supporting-affidavit-2": [
+                4,
+                5,
+                6
+              ],
+              "certificate-of-service-3": [
+                7
+              ],
+              "records-checklist-4": [
+                8,
+                9
+              ],
+              "filing-instructions-5": [
+                10,
+                11,
+                12
+              ]
+            },
+            "totalPages": 12,
+            "noteOnSpecsFile": "legal-design-specifications.json carries customPleadingSpecs for ordinals 1-3 only and no processGuidanceSpecs row for this track, so the two process_guidance components are grounded on the registry packetSet and on the registry's own participantFilingRequirements and rules rather than on a per-component spec. The registry is bound by SHA-256 in the same receipt, so the component set is grounded; this is recorded as an observation, not a defect."
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Proven from the artifact bytes. Both fixtures are composed pages carrying no AcroForm, so every value was decoded from page content streams. Diffing canonical against boundary isolates exactly the participant-dependent values and nothing else: applicant name, date of birth, mailing address, telephone and email, each appearing only in the places the field map assigns them — the caption and opening averment of the petition and affidavit, the signature blocks on pages 3, 6 and 7, the certificate of service on page 7, and the 'This page is for' line on the checklist and instruction pages. No value appears in a blank the packet declares the participant's, and no constant is baked beyond the composed text itself.",
+          "evidence": {
+            "acroFormFields": 0,
+            "participantValuesIsolatedByFixtureDiff": 5,
+            "valuesOutsideAssignedPlaces": 0
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "unclassifiedBlanks 0. Every one of the 40 blanks is classified: 31 as REQUIRED_BEFORE_FILING and 9 as PROTECTED_FIELD, matching the builder's blankDispositions exactly. Each of the 31 carries a printedContext, a disclosureLabel, an identity, a why grounded in the registry's required generation inputs, and the participant question that fills it — none is null. I tested the receipt's own claim that every required-before-filing item is disclosed in participant-instructions.md and all 31 disclosure labels and all 31 participant questions occur there. The nine protected blanks are disclosed substantively too, under 'Things the platform deliberately left blank' and in the ordered steps.",
+          "evidence": {
+            "blanksTotal": 40,
+            "requiredBeforeFiling": 31,
+            "protectedBlanks": 9,
+            "blanksWithNullClassification": 0,
+            "disclosureLabelsFoundInInstructions": 31,
+            "participantQuestionsFoundInInstructions": 31
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing 0. This route carries one recorded conditional limb — court costs assessed under § 60A-4-407(c) — and the packet carries it as a conditional record under 'GET THIS IF IT APPLIES TO YOU' with the registry's own conditionDescription, rather than presenting it as unconditional. No other election is recorded for this track and none is invented.",
+          "evidence": {
+            "conditionalLimbsInRegistry": 1,
+            "conditionalLimbsCarried": 1,
+            "presentedAsConditional": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The repeating structures here are the per-component item tables in the instructions and the three-record checklist. Each row carries its own distinct fact: the item tables key every row to a distinct Item C-number and its own participant question, and the three checklist rows carry three distinct record names, three distinct holders and three distinct answers to check. No caption or label repeats across rows while standing for a different fact, and no row inherits another row's value.",
+          "evidence": {
+            "repeatingRowFamilies": 2,
+            "rowsSharingALabelAcrossDifferentFacts": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites 0, measured from the bytes rather than accepted from the report. All nine protected blanks are court-, prosecutor-, clerk- or agency-owned or are the participant's own signature: the case number in each of the three captions, the signature and date on the petition, on the affidavit and on the certificate of service. In both fixtures every one of them renders as an empty dotted rule with printed guidance beside it — 'DATE .... SIGNATURE OF PETITIONER ....', '(The petitioner signs and dates this petition personally...)', and on the certificate the express warning that a certificate signed before delivery states something that has not happened. No signature, no date beside a signing line and no case number carries a value in either fixture. The only baked date in the packet is the statutory read date 2026-08-06, which is the officialSources retrievedOn and is not a signing date.",
+          "evidence": {
+            "protectedBlanks": 9,
+            "protectedBlanksCarryingInk": 0,
+            "signatureValuesFound": 0,
+            "signingDatesFound": 0,
+            "caseNumberValuesFound": 0
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Two artifacts declared, two present on disk, both SHA-256 recomputed and matching, both byte lengths matching, both 12 pages as declared.",
+          "evidence": [
+            {
+              "file": "fixtures/canonical.pdf",
+              "present": true,
+              "declaredSha": "c3e7ad175ab82426ab7d98f772717600edf936a583e0aa58caddecdd14c77b06",
+              "recomputedSha": "c3e7ad175ab82426ab7d98f772717600edf936a583e0aa58caddecdd14c77b06",
+              "match": true,
+              "declaredByteLength": 32974,
+              "actualByteLength": 32974,
+              "declaredPages": 12,
+              "actualPages": 12
+            },
+            {
+              "file": "fixtures/boundary.pdf",
+              "present": true,
+              "declaredSha": "18576a72d6f9822958aead7f5551b2b9c52adf3c968d5ef422d7a612d029f194",
+              "recomputedSha": "18576a72d6f9822958aead7f5551b2b9c52adf3c968d5ef422d7a612d029f194",
+              "match": true,
+              "declaredByteLength": 33536,
+              "actualByteLength": 33536,
+              "declaredPages": 12,
+              "actualPages": 12
+            }
+          ]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Twelve pages in filing order: the petition first, then the supporting affidavit it depends on, then the certificate of service, then the two components that are not filed at all — the records checklist and the filing instructions — last. Both non-filed components say on their own face that they are not filed with the court, so their position after the filed papers cannot mislead. The page manifest attributes every one of the 12 pages to exactly one component with no gap, no duplicate and no reordering between the two fixtures.",
+          "evidence": {
+            "pages": 12,
+            "pagesAttributed": 12,
+            "unattributedPages": 0,
+            "duplicateAttributions": 0,
+            "nonFiledComponentsMarkedAsSuch": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects 0 as measured here. This family composes its own pages, so the boundary fixture is the real test and it passes: a 46-character name and a 78-character mailing address both reflow onto continuation lines rather than clipping — boundary page 3 carries the address across two lines ending '...Fort Saint Clairsville' / '39501-2214' — and the boundary fixture holds four more text-showing operations than the canonical for that reason. No value is truncated, no glyph is dropped and both fixtures hold the same 12 pages. Central page rasterisation has not run for this family, so a raster-level visual defect is not excluded by this row and the lane disposition is held at raster-pending.",
+          "evidence": {
+            "clippedValues": 0,
+            "reflowedLongValues": 2,
+            "canonicalShowOps": 343,
+            "boundaryShowOps": 347,
+            "rasterPages": 0
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Stated in the registry's own words on both limbs. Destination: the clerk of the court that entered the conditional discharge order, with the registry's detail that the application is filed once at least six months have run from the expiration of the probation term. Venue: the court that entered the conditional discharge and imposed probation, including the registry's own gloss that § 60A-4-407(b) directs the application to 'the court', which is the court whose probation expired. Both strings appear verbatim in the packet.",
+          "evidence": {
+            "destinationQuotedVerbatim": true,
+            "venueQuotedVerbatim": true,
+            "filingRuleQuotedVerbatim": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both limbs answered from the registry, including its express non-statement, and no figure is borrowed from a sibling section. The packet reproduces rules.fees verbatim — § 60A-4-407 charges no fee for the application, the participant remains liable under subsection (c) for the court costs assessable against a person convicted under § 60A-4-401(c), and whether a circuit clerk charges a civil filing fee is not established by the section — and reproduces feeWaiver verbatim as 'none stated in § 60A-4-407.'. This is the point DET-FEE-AND-WAIVER-001-A4 guards: West Virginia's compiled profile carries a no-fee line keyed to § 61-11-25 and a $200 figure keyed to § 61-11-26, and neither appears anywhere in this packet. The build-findings record that reasoning and the bytes bear it out.",
+          "evidence": {
+            "feeQuotedVerbatim": true,
+            "waiverQuotedVerbatim": true,
+            "figuresBorrowedFromSiblingSections": 0,
+            "dollarFiguresInPacket": 0
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Answered on both limbs verbatim from the registry: serve the prosecuting attorney of the county and the supervising probation office, following the § 61-11-26(e) service practice West Virginia clerks expect; and § 60A-4-407(b) provides for a hearing but names no statutory notice or opposition window, with the application served on the prosecuting attorney as a matter of ordinary practice. The packet delivers a certificate of service as its own component, leaves it entirely unsigned and undated, and prints on the page that a certificate signed before delivery states something that has not happened. The absence of a statutory notice window is disclosed rather than papered over.",
+          "evidence": {
+            "serviceQuotedVerbatim": true,
+            "noticeQuotedVerbatim": true,
+            "certificateOfServiceComponent": true,
+            "certificateLeftUnsigned": true,
+            "expressNonStatementDisclosed": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All seven of the registry's selfHelpStopConditions for wv_drug_conditional_discharge appear in the packet verbatim, and the two further bullets are also the registry's own words, drawn from its recorded limitations — that LegalEase must not generate any assertion about the participant's probation violation history because the court determines whether there was a serious or repeated violation, and that if the prosecuting attorney objects or the court sets a contested hearing on that question automated assistance ends and the participant needs a lawyer while the initial packet still generates. Nothing is composed. This is the family where the hearing test bites in the opposite direction and the packet reads it correctly: § 60A-4-407(b) contemplates an ordinary hearing at which the court determines whether there was a violation, and the registry treats that as a normal step, not the end of self-help. The registry's stop is narrower — 'The court sets a contested hearing or the prosecuting attorney objects.' — and the packet reproduces exactly that distinction, disclosing the ordinary hearing under FILING_DESTINATION while stopping self-help only on a contested one. No sentence tells the participant to attend a hearing the registry records as the end of self-help.",
+          "evidence": {
+            "registryStopConditions": 7,
+            "appearingVerbatimInPacket": 7,
+            "additionalBulletsAlsoRegistryWords": 2,
+            "composedConditions": 0,
+            "hearingTreatedAsOrdinaryStepByRegistry": true,
+            "packetStopsOnlyOnContestedHearing": true,
+            "tellsParticipantToAttendAStoppingHearing": false
+          }
+        }
+      },
+      "namedRepairChecked": {
+        "repair": "A fifth registry component (records-checklist) was built and filing instructions renumbered to -5; the defect was an ordinal collision in which filing instructions occupied the missing checklist's ordinal, hiding the gap from COMPONENT_SET.",
+        "holds": true,
+        "howProven": "The registry packetSet for wv_drug_conditional_discharge declares five required components ending records-checklist-4 and filing-instructions-5, and the rendered componentSet is now identical to it, in order. Ordinals are 1,2,3,4,5: unique, contiguous, no collision and no gap, so the condition that hid the missing component cannot recur here. The renumbering is real in the artifact and not only in the manifest — filing instructions render as packet pages 10-12 and the new checklist as pages 8-9, and the checklist reproduces all three registry participantFilingRequirements verbatim rather than standing as an empty ordinal.",
+        "otherOrdinalsChecked": "Every componentId in this family's set was parsed for its trailing ordinal and compared pairwise; no other ordinal collides."
+      },
+      "blindSpotAnswered": "A composed-pleading family has no AcroForm, so a field-value reader sees nothing and could report either a clean pass or a total absence of writes. Every value and every blank reported here was decoded from the page content streams of both fixtures and cross-checked against the field map and the blanks report, and the protected-field result was reached by looking for signature, date and case-number ink in the bytes rather than by trusting protectedWrites 0.",
+      "whatThisPassDoesNotGrant": "An independent PASS proves this packet complete as measured here. It approves no output, opens no commercial route, sets no price, marks nothing deliverable and grants no fulfillment record. Central page rasterisation has not run for this family, so the visual obligation is satisfied only to the extent it can be measured from the bytes; a hash-bound RASTER_PASS is still outstanding and counsel review and the three recorded counsel questions remain open."
     }
   ],
   "supersessionNote": "The prior VF10 FAIL row for ut_pet_traffic-set is not carried here: that family was re-verified under this verifier's VF11 lane after repair commit 1c8007435, and its current verdict lives in vf11/rows.json. Git history preserves the prior row.",
