@@ -26,9 +26,9 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 35,
-  "rows": 39,
-  "PASS_COMPLETE_INDEPENDENT": 26,
+  "families": 36,
+  "rows": 40,
+  "PASS_COMPLETE_INDEPENDENT": 27,
   "FAIL_REPAIR_REQUIRED": 11,
   "BLOCKED_SOURCE": 0,
   "BLOCKED_LEGAL_INPUT": 0,
@@ -8017,6 +8017,145 @@
     "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes",
     "data/record-clearing/legal-design-track-registry.json",
     "data/record-clearing/legal-design-specifications.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/stale-artifact-block.json"
+   ]
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+   "lane": "VF01",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading",
+   "readAtBase": "247b790b6",
+   "rasterState": "RASTER_PENDING",
+   "rasterWorkflowRunId": null,
+   "verdictCeilingApplied": null,
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59, run in this worktree: PASS_COMPLETE, 7/21 written"
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "one route key, obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59, identical in the MASTER_QUEUE row, source-receipt.json, production-field-map.json and product-wiring.json, and printed in the footer of all five delivered pages of both fixtures. More than the key agrees: the committed route contract at src/lib/legal-authority/routes/mississippi.json records this pathway as 'Uncharged or unprosecuted misdemeanor - dismissal branch' under Miss. Code Ann. Sec. 99-15-59 with outcomeMode participant_packet, and the packet states that mechanism, that statute and that outcome mode in the record's own words. This is the dismissal branch and not the twelve-month branch, which the packet says three separate times.",
+     "evidence": "MASTER_QUEUE.json; source-receipt.json; production-field-map.json; product-wiring.json; src/lib/legal-authority/routes/mississippi.json routeKey MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59; pdftotext -layout of both fixtures"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "a runtime-only composed treatment binds no official binary - no committed record names a Mississippi participant form for this route - so what must hash is what it composes from, and all three committed records rehash byte-exact here: the route contract mississippi.json 1d533e72... at 37570 bytes with 15 anchor statements verified, the compiled profile MS-mississippi.json d30c78bc... at 416327 bytes, and route-obligation-candidate.json 09368333... at 2599752 bytes, each equal to source-receipt.json in hash and in length. I also checked the substance rather than only the hash: the sentence the petition attributes to the compiled profile - that under 99-15-59 a person arrested, cited or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement - is in that profile verbatim.",
+     "evidence": "SHA-256 recomputed over each committed record named in source-receipt.json committedRecords; string comparison of the quoted profile sentence against src/lib/rcap-engine/compiled/profiles/MS-mississippi.json"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the route contract names three packet components - the petition under Sec. 99-15-59, the dismissal order and the proposed order - and the packet accounts for all three without pretending to be able to compose one of them. The petition is on pages 1-2 and the proposed order on page 3 of both fixtures, located by reading the page manifest against the delivered text, with a filing-instructions component on pages 4-5. The dismissal order is an existing court record rather than a pleading, and the packet says so in terms - 'anything on that list that is a RECORD rather than a pleading is a document you obtain and file with the petition' - names it in a documents-to-obtain table, and says where to get it, from the clerk of the court that dismissed the charge. Neither fixture's manifest names a component the declared set omits, and no declared component is missing from a manifest.",
+     "evidence": "src/lib/legal-authority/routes/mississippi.json packetComponents; reports/rendered-artifacts.json componentSet and pageManifest; pdftotext -layout of both fixtures; participant-instructions.md 'Documents you must obtain before filing'"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "seven values are declared written on each fixture and I found every one in the extracted text of the pages its own component occupies - 0 not found, on both fixtures: name and date of birth in the petitioner block, name in both captions and beside the signature rule, mailing address, telephone and email in the signature block, and the name again on the instructions page. Nothing case-specific is written; every fact about the matter is a labelled blank. knownRequiredFieldsMissing and invisibleWrites are zero, measured here.",
+     "evidence": "reports/actual-writes.json actualWrites compared value by value against pdftotext -layout of each component's own pages, both fixtures; the completeness verifier run here"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "seven items are declared required before filing and all seven are named in participant-instructions.md - the five requiredFacts the route contract holds, printed on the petition as C1 to C5 in the contract's own question wording, plus the caption court name on the petition and the identical caption on the proposed order. Each caption rule carries its own printed explanation on the page: 'Write the name of the court with jurisdiction over the matter on the line above. This packet does not hold it and has left it blank.' None of the seven carries ink on either fixture. The seven protected blanks are separately disclosed.",
+     "evidence": "src/lib/legal-authority/routes/mississippi.json requiredFacts; reports/blanks-left-for-the-participant.json; participant-instructions.md; pdftotext -layout of both fixtures"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "there is one route and one instrument set, and no election control exists on any composed page - I read all five pages of both fixtures and there is no checkbox, no option and no alternative to choose. The one thing that could be mistaken for an election, which branch of Sec. 99-15-59 applies, is not this packet's to make and it says so: the twelve-month no-charge branch is a different route with its own family, the packet tells the participant to confirm the charge was filed and then dismissed, and it lists using this packet where no charge was ever filed as a stop. requiredOptionsMissing is zero, measured here.",
+     "evidence": "production-field-map.json; pdftotext -layout of both fixtures; the completeness verifier run here"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet declares and renders no repeating row group; the five facts are free-text labelled items, each a dotted rule rather than a row of cells, so no row can carry a written cell beside a blank required one. incompleteRows is zero, measured here.",
+     "evidence": "production-field-map.json; pdftotext -layout of both fixtures; the completeness verifier run here"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "seven blanks are protected and every one is empty in the delivered bytes of both fixtures, which I read line by line: on the petition, the court caption rule, the case number rule and 'DATE .... SIGNATURE OF PETITIONER ....', with the page stating that nothing on it is signed or dated for the petitioner; on the proposed order, the caption, the case number, the ORDERS decision line, the DATED line and the judicial signature rule, under a printed statement that every decision on the page is the Court's and that nothing on it is completed, decided, signed or dated by the petitioner or by this packet. The instructions repeat the last of those as a rule the participant must follow: do not sign the proposed order. protectedWrites is zero, measured here.",
+     "evidence": "pdftotext -layout of fixtures/canonical.pdf and fixtures/boundary.pdf, read line by line; reports/blanks-left-for-the-participant.json protectedBlanks; the completeness verifier run here"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both artifacts rehash to what the record names: canonical 606e3c9d5e6b83da8422a9bb01138b5937db3e5726b64975674ffda137c448ac and boundary ed06c2dcd41ee0c4a8692ae32aee8e0afabd2ae0a5c8fd3f6e178434b42e8c8e, recomputed here and equal to reports/rendered-artifacts.json in hash and byte length. The canonical hash also equals the one RASTER_QUEUE.json carries, so the queue points at the bytes that exist. rendered-artifacts.json names no other file and none is missing; neither hash is on the stale-artifact block.",
+     "evidence": "SHA-256 recomputed over both fixtures; reports/rendered-artifacts.json; RASTER_QUEUE.json; data/rcap-grade-a/stale-artifact-block.json"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "each fixture declares a five-entry page manifest numbered 1 to 5 with no gap, and reading the bytes gives five pages in that order: petition on 1-2, proposed order on 3, filing instructions on 4-5, which is what the manifest assigns and what the first line of each page says. The page count read from the bytes equals the declared pageCount on both fixtures and the raster queue's expected count.",
+     "evidence": "reports/rendered-artifacts.json pageManifest; page counts and per-page text read from both fixtures; RASTER_QUEUE.json expectedPages"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "no word box leaves its page on either fixture: measured from pdftotext -bbox word rectangles against each page's own MediaBox, canonical 0 and boundary 0, the boundary persona carrying a 47-character hyphenated name and a long address without either leaving the page. visualDefects is zero, measured here. The central raster gate is RASTER_PENDING for these bytes and this result is measured from the bytes rather than read from a receipt.",
+     "evidence": "pdftotext -bbox word rectangles of both fixtures against their MediaBoxes; the completeness verifier run here; RASTER_QUEUE.json"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet answers it from the compiled profile and is careful about which part of the answer the repository holds and which part the participant's own matter decides. It states that under Sec. 99-15-59 a person may apply to the court with jurisdiction for expungement, and that which court has jurisdiction over a particular matter is a fact of that matter - which the route contract itself makes a required fact, 'What venue or agency?' - so the court's identity is left blank on both caption rules with a printed instruction to write it in, and is listed among the items the participant must supply. That is a stated destination with a named gap, not a delegation.",
+     "evidence": "participant-instructions.md FILING_DESTINATION row; the delivered filing-instructions component; src/lib/rcap-engine/compiled/profiles/MS-mississippi.json; src/lib/legal-authority/routes/mississippi.json requiredFacts"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the answer the record holds here is that it holds none, and the packet states that rather than inventing a figure: no committed record it binds states a filing fee or a fee waiver for this route, the office that answers both is the clerk of the Mississippi court with jurisdiction, which is the court that handled the dismissed charge, and the participant is told to ask before going, because a filing you cannot pay for is a filing you cannot make. The statement appears both on the delivered instructions page and in participant-instructions.md.",
+     "evidence": "pdftotext -layout of fixtures/canonical.pdf page 4; participant-instructions.md FEE_AND_WAIVER row; src/lib/legal-authority/routes/mississippi.json"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the same express non-statement, stated the same way: no committed record this packet binds states who must be served on this route or how, and the office that answers it is the clerk of the Mississippi court with jurisdiction over the matter. Nothing is asserted about service that the record does not hold, and no certificate of service is generated on either fixture, which I confirmed by reading the delivered pages.",
+     "evidence": "pdftotext -layout of fixtures/canonical.pdf page 4 and of the boundary fixture; participant-instructions.md SERVICE row"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states where self-help ends, on the delivered instructions page and again in participant-instructions.md, and every stop is traceable to the committed contract rather than invented: no charge ever filed, which is the twelve-month branch and whose instrument is not in this packet; the matter being anything other than a misdemeanor and anything arising from it being pending, which are the contract's two recorded exclusions word for word; related counts the participant is unsure about, which is one of the contract's required facts; and any immigration question. The contract's own boundary note is carried verbatim under what the record says you must know - 'Dismissal is immediate. Never apply the twelve-month no-charge clock here.' - and the packet closes by stating it is not an official Mississippi form, not legal advice, not filed for the participant and not a decision on the outcome.",
+     "evidence": "pdftotext -layout of fixtures/canonical.pdf page 5; participant-instructions.md SELF_HELP_STOP row, 'When to stop and get help instead of filing' and 'What this packet is not'; src/lib/legal-authority/routes/mississippi.json exclusions, requiredFacts and notes"
+    }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": [],
+   "whatThisPassDoesNotOpen": "an independent PASS proves this packet is complete. It approves no output and opens no commercial route; product-wiring.json remains DECLARED_NOT_INSTALLED, build-status.json keeps generationAllowed false, and the central raster gate is still RASTER_PENDING for these bytes.",
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/fixtures/boundary.pdf",
+    "src/lib/legal-authority/routes/mississippi.json",
+    "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
     "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
