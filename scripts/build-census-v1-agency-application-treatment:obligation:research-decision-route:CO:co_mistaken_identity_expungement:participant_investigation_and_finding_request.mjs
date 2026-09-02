@@ -470,8 +470,10 @@ import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
-import { finalizeFlatOverlay } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { finalizeFlatOverlay, finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { captureWidgetContext } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { resolveFact } from "./rcap-official-forms/rcap-field-semantics.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS }
   from "./rcap-packet-completeness/completeness-contract.mjs";
@@ -491,6 +493,7 @@ const MASTER_LIBRARY = "private/source-imports/Expungement_AI_RCAP_Master_Librar
 const STALE_BLOCK = "data/rcap-grade-a/stale-artifact-block.json";
 export const DOTS = (n = 84) => ".".repeat(n);
 
+const STRATEGY = SPEC.implementationStrategy ?? "participant_agency_application";
 const OFFICIAL = SPEC.officialComponents ?? {};
 const isOfficial = (componentId) => Object.hasOwn(OFFICIAL, componentId);
 
@@ -722,6 +725,136 @@ async function measureCells(bytes, cells) {
   return { measured, drift, pageCount: pages.length };
 }
 
+/* ---- an AcroForm document's own census, read from the document ---------------- *
+ * Every write box is the widget's own /Rect, read from the binary. No box is
+ * derived from a caption position; the caption is captured separately and
+ * decides only what a blank MEANS, never where it is.
+ */
+const FIELD_TYPE = (f) => {
+  const n = f.constructor?.name ?? "";
+  if (n === "PDFTextField") return "text";
+  if (n === "PDFCheckBox") return "checkbox";
+  if (n === "PDFRadioGroup") return "radio";
+  if (n === "PDFDropdown") return "dropdown";
+  if (n === "PDFOptionList") return "optionlist";
+  return "unknown";
+};
+
+async function censusAcroForm(bytes) {
+  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+  const pages = doc.getPages();
+  const pageIndexOfRef = new Map(pages.map((p, i) => [p.ref, i + 1]));
+  const form = doc.getForm();
+  const raw = form.getFields().map((f) => {
+    const widgets = f.acroField.getWidgets().map((w) => {
+      const r = w.getRectangle();
+      return {
+        page: pageIndexOfRef.get(w.P()) ?? null,
+        rect: { x: r.x, y: r.y, width: r.width, height: r.height }
+      };
+    });
+    return {
+      name: f.getName(),
+      type: FIELD_TYPE(f),
+      multiline: (() => { try { return f.isMultiline?.() === true; } catch { return false; } })(),
+      maxLength: (() => { try { return f.getMaxLength?.() ?? null; } catch { return null; } })(),
+      widgets
+    };
+  });
+  // Captions, page by page, so a widget's printed label comes from the page it
+  // actually sits on.
+  const byPage = new Map();
+  for (const f of raw) for (const w of f.widgets) {
+    if (!w.page) continue;
+    if (!byPage.has(w.page)) byPage.set(w.page, []);
+    byPage.get(w.page).push({ name: f.name, rect: w.rect });
+  }
+  const labelOf = new Map();
+  for (const [pageNo, widgets] of byPage) {
+    const context = captureWidgetContext(pages[pageNo - 1], widgets, { isFirstPage: pageNo === 1 });
+    for (const c of context) if (!labelOf.has(c.name)) labelOf.set(c.name, c);
+  }
+  const fields = raw.map((f) => {
+    const c = labelOf.get(f.name) ?? {};
+    return {
+      ...f,
+      effectiveLabel: c.effectiveLabel ?? null,
+      labelBasis: c.labelBasis ?? null,
+      regionHeading: c.regionHeading ?? null,
+      regionIsDocumentTitle: c.regionIsDocumentTitle ?? false
+    };
+  });
+  const documentTextLines = pages.flatMap((p) => groupIntoLines(extractTextItems(p)).map((l) => l.text));
+  return { fields, documentTextLines, pageCount: pages.length };
+}
+
+/* ---- what the official page actually carries, read from its own bytes -------- *
+ * The finalizer's report says what this build BELIEVES it wrote. This says what
+ * the paper shows, and it is the only channel that can catch the two failures
+ * the report structurally cannot: ink that landed outside every box this family
+ * measured, and ink sitting on a blank the map refused.
+ *
+ * The source's own printed text is subtracted first, by position and content,
+ * because an official form prints captions inside and beside the very boxes it
+ * strokes — counting those as our ink would report every form as defective.
+ * What remains is exactly what this build added.
+ */
+const INK_TOLERANCE = 2.5;
+
+async function itemsOfDocument(bytes) {
+  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+  return doc.getPages().map((page) => extractTextItems(page).map((t) => ({
+    x: t.x, y: t.y, text: String(t.text ?? ""), width: t.width ?? 0
+  })));
+}
+
+const inkKey = (t) => `${Math.round(t.x)}|${Math.round(t.y)}|${t.text}`;
+const insideBox = (t, box) =>
+  t.x >= box.x - INK_TOLERANCE && t.x <= box.x + box.width + INK_TOLERANCE
+  && t.y >= box.y - INK_TOLERANCE && t.y <= box.y + box.height + INK_TOLERANCE;
+
+async function auditOfficialInk(sourceBytes, outputBytes, boxes) {
+  const source = await itemsOfDocument(sourceBytes);
+  const output = await itemsOfDocument(outputBytes);
+  const added = [];
+  for (const [i, page] of output.entries()) {
+    const before = new Map();
+    for (const t of source[i] ?? []) before.set(inkKey(t), (before.get(inkKey(t)) ?? 0) + 1);
+    for (const t of page) {
+      const key = inkKey(t);
+      const seen = before.get(key) ?? 0;
+      if (seen > 0) { before.set(key, seen - 1); continue; }
+      added.push({ page: i + 1, ...t });
+    }
+  }
+  let glyphsOutsideMeasuredWriteBoxes = 0;
+  const refusedFieldsWithInk = [];
+  const written = boxes.filter((b) => b.written);
+  const refused = boxes.filter((b) => !b.written);
+  for (const t of added) {
+    const glyphs = t.text.replace(/\s+/g, "").length;
+    if (glyphs === 0) continue;
+    if (!written.some((b) => b.page === t.page && insideBox(t, b.rect))) {
+      glyphsOutsideMeasuredWriteBoxes += glyphs;
+    }
+    for (const b of refused) {
+      if (b.page === t.page && b.rect && insideBox(t, b.rect)) {
+        refusedFieldsWithInk.push({ fieldId: b.key, drawnText: t.text, page: t.page });
+      }
+    }
+  }
+  return {
+    addedTextItems: added.length,
+    addedGlyphs: added.reduce((n, t) => n + t.text.replace(/\s+/g, "").length, 0),
+    glyphsOutsideMeasuredWriteBoxes,
+    refusedFieldsWithInk,
+    method:
+      "every text item of the finished document compared against the pinned source document's own items by "
+      + "position and content; what remains is what this build added, and each added item is tested against "
+      + "every measured box"
+  };
+}
+
 /* ---- deterministic composed-page rendering ---------------------------------- */
 export function sanitizePdfText(text) {
   return text.replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
@@ -812,6 +945,19 @@ function mapHelpers(componentId) {
       class: "participant_sworn_narrative_or_legal_election",
       requiredBeforeFiling: false, routeDetermined: false, document: componentId, why
     }),
+    /*
+     * A blank the FORM ITSELF marks optional or conditional: a second address
+     * line, a second offence rule, a number the form prints "(if known)".
+     * Never for a blank the filing needs — that is a required fact wearing a
+     * softer word, and the reason it may stay empty is the form's own, stated
+     * here so a reader can check it against the printed page.
+     */
+    optional: (id, label, why, page = 1) => ({
+      ...base(id, label, page),
+      reason: `optional participant-authored content, and the platform does not invent it: ${why}`,
+      category: null, completenessClass: null, class: null,
+      requiredBeforeFiling: false, document: componentId, why
+    }),
     rbf: (id, label, what, why, page = 1) => ({
       ...base(id, label, page),
       reason: `the participant supplies this before filing: ${what}`,
@@ -870,7 +1016,7 @@ async function byteProof(packetBytes, pageManifest, maps, facts, fixtureName, dr
       // is the fact itself. A field the overlay REFUSED is not asserted here,
       // because the refusal is the record and inventing ink to match it would
       // be the defect this proof exists to catch.
-      const drawn = drawnValues.get(`${componentId} ${w.field}`);
+      const drawn = drawnValues.get(`${componentId} ${w.field}`);
       if (isOfficial(componentId) && drawn === undefined) continue;
       const value = sanitizePdfText(String(drawn ?? facts[w.factId] ?? ""));
       assert.ok(value.length > 0, `${componentId}/${w.field}: no fixture value for ${w.factId}`);
@@ -1076,6 +1222,14 @@ export async function runFamily(argv = process.argv.slice(2)) {
   // Every cell this family writes into is measured from the official
   // document's own strokes before anything is drawn. A cell that does not
   // measure stops the family rather than being drawn at a guessed rectangle.
+  // An AcroForm document is censused once, from the document itself, and the
+  // census is reused for both fixtures: the geometry is a property of the form,
+  // not of the facts written onto it.
+  const censusByComponent = new Map();
+  for (const b of bound) {
+    if (b.doc.acroform === true) censusByComponent.set(b.componentId, await censusAcroForm(b.bytes));
+  }
+
   const cellsByComponent = new Map();
   const allDrift = [];
   for (const b of bound) {
@@ -1117,6 +1271,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const rasterPages = [];
   const pdfsDeclared = [];
   const overlayReports = [];
+  const inkAudits = [];
 
   for (const fixtureName of ["canonical", "boundary"]) {
     const facts = SPEC.fixtures[fixtureName];
@@ -1133,24 +1288,70 @@ export async function runFamily(argv = process.argv.slice(2)) {
       if (isOfficial(componentId)) {
         const b = boundByComponent.get(componentId);
         sourceSha = b.doc.sha256;
-        const cells = cellsByComponent.get(componentId) ?? [];
-        const writable = cells.filter((c) => c.fact && !c.tooShallowToWriteIn);
-        const { bytes, report } = await finalizeFlatOverlay({
-          sourceBytes: b.bytes,
-          expectedSha256: b.doc.sha256,
-          anchors: writable.map((c) => ({
-            label: c.bindingLabel ?? c.label, page: c.page, writeBox: c.writeBox,
-            factId: c.fact, protectedRules: []
-          })),
-          explicitMappings: Object.fromEntries(writable.map((c) => [c.bindingLabel ?? c.label, c.fact])),
-          facts,
-          documentTextLines: [],
-          title: `${SPEC.jurisdiction} ${b.doc.documentId}`
-        });
-        for (const w of report.written) {
-          const cell = writable.find((c) => (c.bindingLabel ?? c.label) === w.anchor);
-          if (cell) drawnValues.set(`${componentId} ${componentId}.${cell.key}`, String(facts[cell.fact] ?? ""));
+        let bytes;
+        let report;
+        let boxes;
+        if (b.doc.acroform === true) {
+          // An AcroForm document. Every decision about what MAY be written is
+          // the shared semantics'; this supplies only the family's own explicit
+          // mappings and its role classification, and then proves the result
+          // from the artifact bytes rather than from the finalizer's report.
+          const census = censusByComponent.get(componentId);
+          const result = await finalizeOfficialForm({
+            sourceBytes: b.bytes,
+            expectedSha256: b.doc.sha256,
+            census: census.fields,
+            facts,
+            explicitMappings: b.doc.explicitMappings ?? {},
+            unwritableFields: (b.doc.unwritable ?? []).map((u) => ({ field: u.field, class: u.class })),
+            captionOnly: b.doc.captionOnly === true,
+            documentTextLines: census.documentTextLines,
+            evaluateDeclaredMinimumSize: true,
+            alignWidgetFontSizeToFit: true,
+            title: `${SPEC.jurisdiction} ${b.doc.documentId}`
+          });
+          bytes = result.bytes;
+          report = result.report;
+          const writtenNames = new Set(report.written.map((w) => w.field));
+          boxes = census.fields.flatMap((f) => (f.widgets ?? []).map((w) => ({
+            key: f.name, page: w.page, rect: w.rect, written: writtenNames.has(f.name)
+          })));
+          for (const w of report.written) {
+            const value = resolveFact(facts, w.factId);
+            if (value !== undefined && value !== null && String(value) !== "") {
+              drawnValues.set(`${componentId} ${componentId}.${w.field}`, String(value));
+            }
+          }
+        } else {
+          // A flat document. Every value sits on a stroke the form itself drew.
+          const cells = cellsByComponent.get(componentId) ?? [];
+          const writable = cells.filter((c) => c.fact && !c.tooShallowToWriteIn);
+          const result = await finalizeFlatOverlay({
+            sourceBytes: b.bytes,
+            expectedSha256: b.doc.sha256,
+            anchors: writable.map((c) => ({
+              label: c.bindingLabel ?? c.label, page: c.page, writeBox: c.writeBox,
+              factId: c.fact, protectedRules: []
+            })),
+            explicitMappings: Object.fromEntries(writable.map((c) => [c.bindingLabel ?? c.label, c.fact])),
+            facts,
+            documentTextLines: [],
+            title: `${SPEC.jurisdiction} ${b.doc.documentId}`
+          });
+          bytes = result.bytes;
+          report = result.report;
+          const writtenAnchors = new Set(report.written.map((w) => w.anchor));
+          for (const w of report.written) {
+            const cell = writable.find((c) => (c.bindingLabel ?? c.label) === w.anchor);
+            if (cell) drawnValues.set(`${componentId} ${componentId}.${cell.key}`, String(facts[cell.fact] ?? ""));
+          }
+          boxes = cells.map((c) => ({
+            key: c.key, page: c.page, rect: c.writeBox,
+            written: writtenAnchors.has(c.bindingLabel ?? c.label)
+          }));
         }
+        const ink = await auditOfficialInk(b.bytes, bytes, boxes);
+        inkAudits.push({ fixture: fixtureName, component: componentId, documentId: b.doc.documentId, ...ink });
         overlayReports.push({ fixture: fixtureName, component: componentId, documentId: b.doc.documentId, ...report });
         componentBytes = Buffer.from(bytes);
       } else {
@@ -1180,14 +1381,28 @@ export async function runFamily(argv = process.argv.slice(2)) {
     }
 
     const proof = await byteProof(packetBytes, pageManifest, maps, facts, fixtureName, drawnValues);
+    // The ink audit is per OFFICIAL document and is the only channel that can
+    // see ink outside a measured box, or ink sitting on a blank the map
+    // refused. A composed page raises no such question: this build authored
+    // every mark on it.
+    const inkHere = inkAudits.filter((a) => a.fixture === fixtureName);
     writeProofs.push({
       fixture: fixtureName,
-      proofMethod: "every written fact value read back from the extracted text of its component's own pages in the saved packet bytes",
+      proofMethod:
+        "every written fact value read back from the extracted text of its component's own pages in the saved "
+        + "packet bytes, and every official document's finished text compared item by item against the pinned "
+        + "source document's own text so that only what this build added is measured",
       valuesReportedByFinalizer: proof.actualWrites.length,
       addedGlyphsReadFromOutputBytes: proof.glyphs,
       flattenedWidgetAppearancesReadFromOutputBytes: 0,
-      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0,
-      refusedFieldsWithInk: [],
+      flattenedWidgetNote:
+        "zero by construction rather than by failure: an AcroForm document is flattened into page content "
+        + "before it is copied into the packet, and a flat overlay draws into page content to begin with, so "
+        + "every mark this family makes is counted as a glyph in the column beside this one",
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes:
+        inkHere.reduce((n, a) => n + a.glyphsOutsideMeasuredWriteBoxes, 0),
+      refusedFieldsWithInk: inkHere.flatMap((a) => a.refusedFieldsWithInk.map((r) => ({ ...r, documentId: a.documentId }))),
+      officialInkAudits: inkHere,
       actualWrites: proof.actualWrites
     });
 
@@ -1197,7 +1412,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       documents, components: SPEC.components
     });
     pdfsDeclared.push({
-      file, documentId: "assembled_packet", role: "assembled_agency_application_packet",
+      file, documentId: "assembled_packet", role: SPEC.assembledPacketRole ?? "assembled_agency_application_packet",
       fixture: fixtureName, sha256, byteLength: packetBytes.length, pageCount: packet.getPageCount()
     });
 
@@ -1234,7 +1449,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   writeJson(`${OUT}/source-receipt.json`, {
     schemaVersion: "rcap-family-source-receipt/v1", familyId: SPEC.familyId, worklistGroupId: SPEC.worklistGroupId,
-    jurisdiction: SPEC.jurisdiction, implementationStrategy: "participant_agency_application",
+    jurisdiction: SPEC.jurisdiction, implementationStrategy: STRATEGY,
     custodyClass: SPEC.custodyClass, acquisitionCommissioned: false,
     bindingMethod:
       "committed repository records bound by exact SHA-256 at build time with every relied-on statement re-read "
@@ -1277,8 +1492,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
     routeKeys: SPEC.routes.map((r) => r.routeKey),
     renderStrategy: bound.length > 0 ? "measured_flat_overlay_and_composed_pages" : "composed_agency_application",
     jurisdiction: SPEC.jurisdiction, statutes: SPEC.statutes, legalName: SPEC.legalName,
-    implementationStrategy: "participant_agency_application",
-    agencyTreatmentNote: SPEC.agencyTreatmentNote,
+    implementationStrategy: STRATEGY,
+    agencyTreatmentNote: SPEC.agencyTreatmentNote ?? null,
     officialForm: bound.length > 0 ? bound.map((b) => b.doc.documentId) : null,
     componentSet: SPEC.components,
     componentConditions: SPEC.componentConditions,
@@ -1357,7 +1572,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/build-status.json`, {
     schemaVersion: "rcap-family-build-status/v1", familyId: SPEC.familyId,
     buildStatus: "state_built", reviewStatus: "qa_review_pending", builtBy: SPEC.buildScript,
-    implementationStrategy: "participant_agency_application",
+    implementationStrategy: STRATEGY,
     rasterEngine: skipRaster ? "not rendered in this run" : "chromium_calibrated", popplerUsed: false,
     renderedArtifacts: artifacts.length, rasterPages: rasterPages.length,
     rasterState: skipRaster ? "BUILT_RASTER_PENDING" : "RASTER_LOCAL_PENDING_CENTRAL",
@@ -1377,7 +1592,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     requested: "independent completeness verification, visual review and counsel review",
     buildStatus: "state_built", status: "PENDING_INDEPENDENT_VERIFICATION",
     approvedForLive: false, live: false, commercialRoutesOpened: 0,
-    implementationStrategy: "participant_agency_application",
+    implementationStrategy: STRATEGY,
     counselQuestionsRaised: SPEC.counselQuestions,
     mattersForTheReviewersAttention: SPEC.reviewersAttention
   });
@@ -1393,7 +1608,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     }),
     counters: counted.counters,
     directory: OUT,
-    implementationStrategy: "participant_agency_application",
+    implementationStrategy: STRATEGY,
     recordsBound: resolved.map((r) => ({ recordId: r.recordId, sha256: r.sha256 })),
     officialDocumentsBound: bound.map((b) => ({ sourceId: b.doc.sourceId, documentId: b.doc.documentId, sha256: b.doc.sha256, custody: b.custody })),
     components: SPEC.components,

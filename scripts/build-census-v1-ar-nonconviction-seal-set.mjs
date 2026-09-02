@@ -1,167 +1,197 @@
 #!/usr/bin/env node
 /**
- * FABLE-PD agency-application treatment — Alaska AS 12.62.170, correcting
- * inaccurate or incomplete criminal justice information in APSIN.
+ * FABLE-PD official-form packet family — Arkansas, sealing a NON-CONVICTION
+ * under Act 1460 of 2013 (A.C.A. Sec. 16-90-1401 et seq.).
  *
- *   node "scripts/build-census-v1-agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record.mjs" [--check] [--no-raster]
+ *   node scripts/build-census-v1-ar-nonconviction-seal-set.mjs [--check] [--no-raster]
  *
  * One census-v1 family, one strategy, one route:
  *
- *   obligation:unattached-decision-route:AK:ak-correct-record
+ *   obligation:track-only:AR:ar-nonconviction-seal
  *
- * WHAT KIND OF FAMILY THIS IS, AND WHY
+ * WHAT KIND OF FAMILY THIS IS
  *
- * MASTER_QUEUE gives this family implementationStrategy
- * `participant_agency_application`, and the controlling 2026-08-28 decision
- * says so in terms: AS 12.62.170 "creates an administrative correction process
- * for inaccurate or incomplete criminal justice information", and "The
- * participant first challenges the record through the Department of Public
- * Safety or the agency responsible for the disputed data, using the published
- * **Request to Correct Criminal Justice Information** form". Its recorded
- * product disposition is "INITIAL OUTPUT: OFFICIAL AGENCY CORRECTION FORM +
- * EVIDENCE CHECKLIST".
+ * An OFFICIAL-FORM packet family: implementationStrategy official_pdf_fill,
+ * two ACIC forms bound by exact SHA-256 and delivered as the Arkansas Crime
+ * Information Center publishes them.
  *
- * So unlike the two other agency treatments in this lane, Alaska DOES publish
- * a form — DPS Form CRI-103 — and the family binds it by exact SHA-256. It is
- * not a court filing and nothing here is styled as one: no caption, no case
- * number, no proposed order, no certificate of service. The participant
- * applies on the agency's own published form, and the packet adds the evidence
- * checklist the decision names.
+ *   * the ACIC Petition to Seal Records of Nolle Prosequi, Dismissals,
+ *     Judgments of Acquittal, and Charges Not Filed -- what the participant
+ *     files; and
+ *   * the matching ACIC Order -- the proposed order the COURT signs. It is
+ *     captionOnly: its findings, its decree, the judge's signature and the
+ *     date beside it are the court's alone and this packet writes nothing
+ *     there.
  *
- * WHAT IS WRITTEN ON THE FORM, AND WHAT IS NOT
+ * THREE MIS-BINDINGS THIS FAMILY REFUSES BY ROLE
  *
- * CRI-103 is a flat page: no AcroForm, no widget rectangles. Every value this
- * build draws sits on a ruled blank the form itself strokes, measured from the
- * page content stream by its own y, start x and end x. Six identity and
- * contact facts are written. Everything else on the page is refused, and each
- * refusal is a real one rather than a policy: the driver's licence number and
- * the SSN are refused by the shared semantics as government identifiers, the
- * five reason boxes are the participant's own election about their own record,
- * the whole right-hand column applies only where the record was used to deny a
- * right or privilege, and the signature, its date and the DPS decision block
- * belong to the requester and to the Bureau.
+ * The shared semantics decide what MAY be written; this file supplies the
+ * classification only a caller can supply, and on this form that classification
+ * stops three writes that would otherwise be made and would each be wrong:
  *
- * THE BOUNDARY THE DECISION DRAWS, AND WHY IT MATTERS HERE
- *
- * "A disagreement about whether an accurate event should be sealed or expunged
- * is not a correction claim." A participant who wants a true record hidden is
- * at the wrong route, and the form's own page carries the same distinction in
- * its five reasons. The packet says so plainly rather than letting a
- * participant discover it from a refusal.
+ *   1. `Sex`, on the petition's identification block, BINDS
+ *      participant.date_of_birth. Its own name matches no descriptor, so the
+ *      binder falls back to the printed label -- and the caption capture on
+ *      this page returns "DOB" for it, because the block prints
+ *      "Sex ____ SID No." and "DOB ____ FBI No." one line apart. A date of
+ *      birth in the sex box is a wrong answer to an identification question
+ *      that the form says is required for the state and national record
+ *      systems.
+ *   2. `COUNTY/CITY`, the county in the caption "IN THE ______ COURT OF
+ *      ________, ARKANSAS", BINDS participant.city. That is the county of the
+ *      court where the order was entered, not where the participant lives, and
+ *      the two are routinely different. On the ORDER the same field is stopped
+ *      today only because a court-issued order takes caption facts only and
+ *      participant.city is not one; a refusal that depends on another rule is
+ *      not this family's refusal, so it is stated on both documents.
+ *   3. `Petitioner`, in the petition's VERIFICATION block, carries TWO widgets:
+ *      the blank inside "Comes the Petitioner, ____, under oath" AND the
+ *      signature rule above the printed word "Petitioner" at the foot of the
+ *      notarised jurat. Filling the field fills both, so a legitimate caption
+ *      write would put the participant's name on a notarised signature line.
+ *      One widget cannot be filled without the other, so the field is refused
+ *      whole and the sentence blank becomes the participant's.
  *
  * A built family is a built family. It is not verified, not approved, not
  * sellable, and this builder issues no verdict on its own packets.
  */
 
-const FAMILY_ID = "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record";
+const FAMILY_ID = "ar-nonconviction-seal-set";
 
 const SPEC = {
   familyId: FAMILY_ID,
   worklistGroupId: FAMILY_ID,
-  buildScript: "scripts/build-census-v1-agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record.mjs",
-  outDir: "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill",
-  jurisdiction: "AK",
+  buildScript: "scripts/build-census-v1-ar-nonconviction-seal-set.mjs",
+  outDir: "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
+  jurisdiction: "AR",
   custodyClass: "SOURCE_ALREADY_HELD",
-  legalName: "Request to Correct Criminal Justice Information in the Alaska Public Safety Information Network (AS 12.62.170)",
-  routeName: "correcting an inaccurate or incomplete entry in your Alaska criminal justice information under AS 12.62.170",
-  statutes: ["AS 12.62.170", "13 AAC 68.200"],
-  routes: [
-    { routeKey: "obligation:unattached-decision-route:AK:ak-correct-record" }
-  ],
+  implementationStrategy: "official_pdf_fill",
+  assembledPacketRole: "assembled_packet_of_official_forms",
+  legalName: "Petition and Order to Seal Records of Nolle Prosequi, Dismissals, Judgments of Acquittal, and Charges Not Filed Under Act 1460 of 2013 (A.C.A. Sec. 16-90-1401 et seq.)",
+  routeName: "sealing an Arkansas record that ended in a nolle prosequi, a dismissal, an acquittal, or charges never filed, under Act 1460 of 2013",
+  statutes: ["A.C.A. § 16-90-1401 et seq.", "A.C.A. § 16-90-1410", "A.C.A. § 16-90-1413", "A.C.A. § 16-90-1419"],
+  routes: [{ routeKey: "obligation:track-only:AR:ar-nonconviction-seal" }],
 
   records: [
     {
-      recordId: "legal-decision:2026-08-28:research-track:ak-correct-record",
-      path: "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+      recordId: "packet-set-manifest:ar-nonconviction-seal-set",
+      path: "data/record-clearing/legal-design-packet-set-manifests.json",
       role:
-        "the controlling decision: that AS 12.62.170 is an administrative correction process, that the challenge "
-        + "goes first to DPS or the agency responsible for the disputed data on the published form, what the "
-        + "challenge must identify, the boundary between a correction claim and a sealing request, and the "
-        + "recorded escalation on a final adverse decision",
+        "the committed packet-set manifest for this exact packet set. Under DETERMINATION_FEE_AND_WAIVER_"
+        + "STANDARD amendment A2 its participantActionRequired entries are a held source, and here they settle "
+        + "the filing destination, the service rule and its three-day deadline, the prosecutor's objection "
+        + "window, and the two records steps that precede the petition",
       mustContain: [
-        "AS 12.62.170 creates an administrative correction process for inaccurate or incomplete criminal justice information.",
-        "using the published **Request to Correct Criminal Justice Information** form and supporting documentation",
-        "the precise entry;",
-        "why it is inaccurate or incomplete;",
-        "the correct disposition or data;",
-        "the originating agency and case;",
-        "certified disposition, identity documents, and fingerprints where required; and",
-        "the correction requested.",
-        "A disagreement about whether an accurate event should be sealed or expunged is not a correction claim.",
-        "If the agency issues a final adverse decision, judicial review proceeds through an administrative appeal to the Alaska Superior Court under the applicable appellate rules. That appeal is not an ordinary self-help record-clearing packet.",
-        "INITIAL OUTPUT: OFFICIAL AGENCY CORRECTION FORM + EVIDENCE CHECKLIST",
-        "INITIAL DESTINATION: DPS / RESPONSIBLE ORIGINATING AGENCY",
-        "ADVERSE FINAL DECISION: SUPERIOR-COURT ADMINISTRATIVE APPEAL",
-        "APPEAL: ATTORNEY HANDOFF"
+        "File the ACIC non-conviction petition and order pair in the court where the nolle prosequi or dismissal order was entered.",
+        "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+        "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition.",
+        "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information.",
+        "The source review does not state a filing fee for this petition."
       ]
     },
     {
-      recordId: "compiled-profile:AK-alaska",
-      path: "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+      recordId: "compiled-profile:AR-arkansas",
+      path: "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
       role:
-        "the compiled Alaska profile, a held source for this jurisdiction under "
-        + "DETERMINATION_FEE_AND_WAIVER_STANDARD amendment A2. Its fee table is read narrowly under amendment "
-        + "A3: it prices a TF-810 Courtview exclusion, an SIS set-aside motion, an AS 12.62.180(b) SEALING "
-        + "request and a DPS criminal history record, and none of those is an AS 12.62.170 correction. What it "
-        + "does answer for this route is the cost of the DPS criminal history record the participant needs in "
-        + "order to identify the entry.",
+        "the compiled Arkansas profile, a held source for this jurisdiction under amendment A2. Its fee lines "
+        + "are keyed to ACT 1460 SEALING, which is the act this petition is filed under and printed on the form's "
+        + "own face, so under amendment A3 they answer THIS route's fee question rather than a sibling's. It also "
+        + "records the opposition window class-dependently and the real, non-filing costs of the route",
       mustContain: [
-        "Form TF-810 (Courtview exclusion) Typically $0 Administrative request to the court",
-        "AS 12.62.180(b) sealing request Agency-dependent Written request to the record-holding agency",
-        "DPS criminal history record DPS fee To confirm what records exist"
+        "Act 1460 eliminated sealing filing fees",
+        "Sealing petition filing fee $0 Filing fees eliminated by the 2019 amendments",
+        "File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.",
+        "ACIC criminal-history record ACIC fee To confirm offenses, classes, dispositions",
+        "30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons"
       ]
     }
   ],
 
   officialComponents: {
-    dps_correction_request: {
-      sourceId: "official-form:Request to Correct Criminal Justice Information",
-      documentId: "DPS-CRI-103",
-      formNumber: "DPS-CRI-103",
-      officialTitle: "Request to Correct Criminal Justice Information in the Alaska Public Safety Information Network (APSIN)",
-      revision: "REV-2022-07-25",
-      instrumentKind: "participant_agency_application_form",
-      sha256: "b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259"
+    petition: {
+      sourceId: "official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      documentId: "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      formNumber: "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      officialTitle: "Petition to Seal Records of Nolle Prosequi, Dismissals, Judgments of Acquittal, and Charges Not Filed Under Act 1460 of 2013",
+      revision: "REV-2020-04-22",
+      instrumentKind: "primary_filing",
+      sha256: "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      acroform: true,
+      captionOnly: false,
+      explicitMappings: {
+        "First Middle and Last name": "participant.full_legal_name",
+        1: "matter.charge"
+      },
+      unwritable: [
+        { field: "Sex", class: "identification_block_descriptor",
+          why: "The identification block's SEX entry. Its own name matches no descriptor, so the binder falls back to the printed label, and the caption capture returns \"DOB\" for it — the block prints Sex and DOB one line apart. It therefore BINDS participant.date_of_birth, which would write a date of birth into the sex box of a block the form says is required for identification in the state and national record systems. The participant states their own sex here." },
+        { field: "COUNTY/CITY", class: "caption_venue_county",
+          why: "The county in the caption \"IN THE ______ COURT OF ________, ARKANSAS\". It BINDS participant.city, because the field name carries the word city and the caption capture offers nothing better. This blank is the county of the court where the nolle prosequi or dismissal order was entered; the participant's own city is a different fact and is written in the address block on page 2." },
+        { field: "Petitioner", class: "notarised_signature_line_shared_with_a_caption_blank",
+          why: "This ONE field carries TWO widgets: the blank inside \"Comes the Petitioner, ____, under oath and states\" and the signature rule above the printed word \"Petitioner\" at the foot of the notarised jurat. A field is filled as a whole, so writing the caption blank would also write the participant's name onto a notarised signature line. The field is refused entire, and the sentence blank is the participant's to complete." },
+        { field: "COUNTY OF", class: "notarial_jurat_county",
+          why: "The county in the VERIFICATION block's \"STATE OF ARKANSAS / COUNTY OF ____\". That is the county in which the oath is administered before the notary, not the county of the case; the platform does not know where the participant will be sworn." },
+        { field: "in violation of ACA", class: "statutory_section_of_the_offence",
+          why: "The \"in violation of A.C.A. § ______\" blank. Its printed caption carries the word violation, so it binds matter.charge — but the blank holds the Arkansas Code SECTION, not the name of the offence, and writing the charge there would state a section number that is not one. The participant copies the section from their own paperwork." },
+        { field: "ADDRESS 2", class: "address_continuation_line",
+          why: "The second printed rule of the two-line street block. The platform holds one street address and writes it on the first rule; filling both prints the same address twice. It is refused today by geometry as well, because the caption capture reaches the Defendant's Signature rule beside it — but that is a refusal for the wrong reason, and this is the right one." },
+        { field: "DAY 1", class: "arrest_date_component",
+          why: "Day component of paragraph 1's arrest date. The platform holds an arrest date as a whole and holds no day fact, so there is nothing correct to write here." },
+        { field: "MONTH 1", class: "arrest_date_component",
+          why: "Month component of the same date, on the same footing. This is the blank class that on the sibling arrest-seal form was proved to receive the participant's own name through the printed-label fallback; the shared binder now refuses a date-component name, and this states the family's own reason underneath it." },
+        { field: "YEAR 1", class: "arrest_date_component",
+          why: "Year component of the same date. The trio is one fact the platform does not hold in component form." },
+        { field: "DEFENDANT", class: "certificate_of_service_attestation",
+          why: "The certifying party's name in the page 4 Certificate of Service's \"I, ____, do hereby certify that a true and correct copy ... has been provided\". That is a sworn statement about an act of service, made after mailing, not a caption." },
+        { field: "Arrest Tracking Number", class: "agency_assigned_identifier",
+          why: "The ATN is assigned by Arkansas ACIC when an arrest is processed. It identifies the arrest through a system the platform has no knowledge of; the participant copies it from their arrest paperwork or their ACIC record." }
+      ]
+    },
+    order: {
+      sourceId: "official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      documentId: "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      formNumber: "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      officialTitle: "Order to Seal Records of Nolle Prosequi, Dismissals, Judgments of Acquittal, and Charges Not Filed Under Act 1460 of 2013",
+      revision: "REV-2023-10-25",
+      instrumentKind: "proposed_order",
+      sha256: "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a",
+      acroform: true,
+      captionOnly: true,
+      explicitMappings: {
+        "First Middle and Last name": "participant.full_legal_name"
+      },
+      unwritable: [
+        { field: "COUNTY/CITY", class: "caption_venue_county",
+          why: "The county in the order's caption, on the same reasoning as the petition's. It binds participant.city, which is the wrong fact. On this document it is ALSO stopped because a court-issued order accepts caption facts only and participant.city is not one — but a refusal that depends on another rule is not this family's refusal, and the classification is stated here so it survives whatever that rule does next." },
+        { field: "Judge", class: "court_only_signature",
+          why: "The judge's signature line on the order. Court-only." },
+        { field: "Date", class: "court_only_signature_date",
+          why: "The date beside the judge's signature. The court dates its own order." },
+        { field: "DAY 1", class: "arrest_date_component",
+          why: "Day component of the arrest date in the court's own findings. The platform holds no day fact." },
+        { field: "MONTH 1", class: "arrest_date_component",
+          why: "Month component of the same finding, on the same footing." },
+        { field: "YEAR 1", class: "arrest_date_component",
+          why: "Year component of the same finding, on the same footing." },
+        { field: "ACA NO", class: "statutory_section_of_the_offence",
+          why: "The order's \"in violation of A.C.A. §\" blank, which binds matter.charge through its printed caption and holds a code section rather than an offence name — the same defect as on the petition, in the court's findings." },
+        { field: "Arrest Tracking Number", class: "agency_assigned_identifier",
+          why: "ACIC-assigned arrest identifier in the order's identification block; the agency's number to state." }
+      ]
     }
   },
 
-  /* Every write box on CRI-103, measured from the form's own strokes. Six carry
-   * a fact; the rest are measured and left alone so the field map can state
-   * where each refused blank actually is on the page. */
-  officialCells: {
-    dps_correction_request: [
-      { key: "requester_name", page: 1, ruleY: 604.32, ruleFromX: 169.68, ruleToX: 335.52, label: "Requester Name (if not subject)", fact: null },
-      { key: "subject_name", page: 1, ruleY: 587.04, ruleFromX: 111.24, ruleToX: 335.52, label: "Subject Name", fact: "participant.full_legal_name" },
-      { key: "maiden_alias_name", page: 1, ruleY: 569.76, ruleFromX: 117.6, ruleToX: 335.52, label: "Maiden/Alias name", fact: null },
-      { key: "mailing_address", page: 1, ruleY: 552.48, ruleFromX: 111.24, ruleToX: 335.52, label: "Mailing Address", fact: "participant.street_address" },
-      { key: "city_state_zip", page: 1, ruleY: 535.2, ruleFromX: 111.24, ruleToX: 335.52, label: "City/State/Zip", fact: "participant.city_state_zip" },
-      { key: "drivers_license", page: 1, ruleY: 517.92, ruleFromX: 169.68, ruleToX: 335.52, label: "Drivers License State / #", fact: null },
-      { key: "date_of_birth", page: 1, ruleY: 500.64, ruleFromX: 95.52, ruleToX: 193.44, label: "Date of Birth", fact: "participant.date_of_birth" },
-      { key: "ssn", page: 1, ruleY: 500.64, ruleFromX: 239.04, ruleToX: 335.52, label: "SSN", fact: null },
-      { key: "telephone", page: 1, ruleY: 483.36, ruleFromX: 95.52, ruleToX: 193.44, label: "Telephone #", fact: "participant.phone" },
-      { key: "fax", page: 1, ruleY: 483.36, ruleFromX: 239.04, ruleToX: 335.52, label: "Fax #", fact: null },
-      { key: "email", page: 1, ruleY: 466.08, ruleFromX: 67.08, ruleToX: 335.52, label: "Email", fact: "participant.email" },
-      { key: "other_contact", page: 1, ruleY: 448.8, ruleFromX: 169.68, ruleToX: 317.28, label: "Other (cell or message #)", fact: null }
-    ]
-  },
+  officialCells: {},
 
-  components: ["agency_route_sheet", "dps_correction_request", "evidence_checklist"],
+  components: ["petition", "order"],
   componentTitles: {
-    agency_route_sheet: "Where This Goes, What It Costs, and What You Do Not File",
-    dps_correction_request: "DPS Form CRI-103 — Request to Correct Criminal Justice Information",
-    evidence_checklist: "Evidence Checklist — What the Challenge Must Identify and What to Attach"
+    petition: "ACIC Petition to Seal Records of Nolle Prosequi, Dismissals, Judgments of Acquittal, and Charges Not Filed",
+    order: "ACIC Order to Seal Records of Nolle Prosequi, Dismissals, Judgments of Acquittal, and Charges Not Filed"
   },
   componentConditions: {},
   componentDescriptions: {
-    agency_route_sheet:
-      "the agency this goes to with its own printed address, telephone, fax and email; what the correction "
-      + "process is and is not; what it costs so far as the repository establishes; and what you do NOT file",
-    dps_correction_request:
-      "the State of Alaska Department of Public Safety's own published form CRI-103, filled with what the "
-      + "platform holds about you and left alone everywhere else",
-    evidence_checklist:
-      "the six things the recorded decision says a challenge must identify, each with space to write it and a "
-      + "note on what to attach — the evidence checklist the recorded product disposition names"
+    petition: "the ACIC petition you file, with a verification page for a notary and a certificate of service on its last page",
+    order: "the matching proposed order you hand the court to sign; every finding, the decree, the judge's signature and the date beside it are the court's alone"
   },
 
   fixtures: {
@@ -169,406 +199,410 @@ const SPEC = {
       "participant.full_legal_name": "Jordan Avery Reyes",
       "participant.date_of_birth": "1991-04-17",
       "participant.street_address": "42 Larkspur Street",
-      "participant.city_state_zip": "Anchorage, AK 99501",
-      "participant.phone": "907-555-0142",
-      "participant.email": "jordan.reyes@example.org"
+      "participant.city": "Little Rock",
+      "participant.state": "AR",
+      "participant.zip": "72201",
+      "matter.case_number": "60CR-19-1184",
+      "matter.charges": [{ charge: "Theft of property" }]
     },
     boundary: {
       "participant.full_legal_name": "Maria-Alejandra O'Shaughnessy-Whitfield",
       "participant.date_of_birth": "1968-12-31",
-      "participant.street_address": "1188 Upper Kuskokwim Crossing Road, Apartment 14B",
-      "participant.city_state_zip": "Ketchikan Gateway Borough, Alaska 99901-2214",
-      "participant.phone": "(907) 555-0199 ext. 4417",
-      "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+      "participant.street_address": "1188 Upper Ouachita Crossing Road, Apartment 14B",
+      "participant.city": "Fayetteville",
+      "participant.state": "AR",
+      "participant.zip": "72701-2214",
+      "matter.case_number": "72CR-2004-000000118844-A",
+      "matter.charges": [{ charge: "Breaking or entering a vehicle, and criminal mischief in the first degree" }]
     }
   },
 
-  composedFromNote:
-    "the controlling 2026-08-28 decision for ak-correct-record and the compiled Alaska profile "
-    + "(src/lib/rcap-engine/compiled/profiles/AK-alaska.json), both bound by SHA-256 and anchor-verified at "
-    + "build time",
+  composedFromNote: null,
 
   formIdentityNote:
-    "Alaska publishes the form this route uses and the controlling decision names it in terms: the Request to "
-    + "Correct Criminal Justice Information, DPS Form CRI-103 (Rev. 07/25/22). It is bound by exact SHA-256 and "
-    + "delivered as the agency issues it, with values drawn only onto blanks the form itself strokes. Nothing "
-    + "was substituted and nothing was invented; the two composed pages beside it are plainly a route sheet and "
-    + "a checklist and carry no form number of their own.",
+    "Both documents are the Arkansas Crime Information Center's own published forms, bound by exact SHA-256 "
+    + "through the committed corpus index and delivered as ACIC issues them. Nothing is composed, substituted or "
+    + "invented, and no page of this packet was authored by this build.",
 
-  agencyTreatmentNote:
-    "This is an AGENCY APPLICATION, not a court filing. The participant submits DPS Form CRI-103 to the "
-    + "Department of Public Safety, or to the agency responsible for the disputed data, and no court is involved "
-    + "at this stage. The recorded escalation on a final adverse decision is an administrative appeal to the "
-    + "Alaska Superior Court, which the decision says is expressly NOT an ordinary self-help record-clearing "
-    + "packet, and which nothing here prepares.",
+  agencyTreatmentNote: null,
 
   routeSelectionNote:
-    "One route, one instrument, and the route does not determine the form's own election. CRI-103 offers five "
-    + "reasons a record may be wrong — mistaken identity or false accusation, personal descriptors in error, "
-    + "charge information in error, missing or wrong disposition information, and set-aside information missing "
-    + "— and which of them is true is a fact about the participant's own record rather than something this "
-    + "route decides. They are therefore recorded as genuine participant elections, not as route-determined "
-    + "selections left unmade. What the route DOES determine is the instrument, and no page asks the "
-    + "participant to choose it.",
+    "The ROUTE is stated by the instrument: this is the ACIC non-conviction pair, and its own title names the "
+    + "four endings it serves. Which of those four ended the participant's case is NOT determined by the route — "
+    + "the committed packet-set manifest asks the participant that question in terms (\"How did the case end — "
+    + "nolle prosequi, dismissal, acquittal, or were charges never filed?\") and directs them to check the answer "
+    + "against their ACIC record. Paragraph 2's four boxes are therefore genuine participant elections about "
+    + "their own case, and so are paragraph 4's pending-felony pair and paragraph 5's sex-offender-registration "
+    + "pair. No box is marked, and no election on either document is one this route decides.",
 
   routeSelectionsMade: [
     {
-      selection: "instrument",
-      value: "DPS Form CRI-103, Request to Correct Criminal Justice Information",
+      selection: "instrument set",
+      value: "the ACIC non-conviction petition and its matching order, filed as a pair",
       determinedBy:
-        "the controlling decision: the participant challenges the record \"using the published **Request to "
-        + "Correct Criminal Justice Information** form\", and the recorded initial output is \"OFFICIAL AGENCY "
-        + "CORRECTION FORM + EVIDENCE CHECKLIST\""
-    },
-    {
-      selection: "destination",
-      value: "Department of Public Safety, Criminal Records and Identification Bureau, or the responsible originating agency",
-      determinedBy:
-        "the recorded initial destination \"DPS / RESPONSIBLE ORIGINATING AGENCY\", and the address the bound "
-        + "form prints on its own face"
+        "the committed packet-set manifest's two components and its file entry: \"File the ACIC non-conviction "
+        + "petition and order pair in the court where the nolle prosequi or dismissal order was entered.\""
     }
   ],
 
-  instructionsHeading: "What to do — correcting an Alaska criminal justice information entry (AS 12.62.170)",
+  instructionsHeading: "Filing instructions — sealing an Arkansas non-conviction under Act 1460 of 2013",
 
   instructionsIntro: [
-    "**This is not a court filing.** AS 12.62.170 creates an *administrative correction process* for inaccurate or incomplete criminal justice information. The recorded rule is that you challenge the record first through the Department of Public Safety, or through the agency responsible for the disputed data, on the published **Request to Correct Criminal Justice Information** form. There is no petition, no case number and no hearing at this stage.",
-    "**Know the boundary before you start, because it decides whether this is your route at all.** The recorded rule is exact: *a disagreement about whether an accurate event should be sealed or expunged is not a correction claim.* This route is for a record that is **wrong** — the arrest was not yours, a descriptor is incorrect, the charge is recorded incorrectly, the disposition is missing or wrong, or a set-aside is not shown. It is not a way to remove a record that is right.",
-    "**The form is the agency's own.** DPS Form CRI-103 (Rev. 07/25/22) is delivered exactly as the Department publishes it. The platform wrote six things onto it — your name, your mailing address, your city, state and ZIP, your date of birth, your telephone number and your email — each onto the ruled blank the form draws for it. Every other blank on that page is listed below and is yours.",
-    "**Two things the form itself will not let the platform fill.** Your driver's licence number and your Social Security number are government identifiers, and the platform refuses to write either onto any form. Both blanks are yours."
+    "This packet is two ACIC forms, filed together: the **Petition to Seal Records of Nolle Prosequi, Dismissals, Judgments of Acquittal, and Charges Not Filed**, and the matching **Order**. The petition is what you file. The order is what you hand the court to sign — its findings, its decree, the judge's signature and the date beside it are the court's alone, and this packet writes nothing there.",
+    "**The petition's own paragraph 2 states the four situations this packet covers**, and you must tick exactly one: an Order of Nolle Prosequi entered more than one year ago that the prosecuting or city attorney has not refiled; an Order of Dismissal; a Judgment of Acquittal that was not for reason of mental disease or defect; or the prosecuting or city attorney never filing charges at all. If none of those is true of your case, this is the wrong packet.",
+    "The platform filled what it holds about you and your case: your name in the caption, in the prayer and in the order's decree; the case number; your street address, city, state and ZIP on the petition's address block; your date of birth in both identification blocks; and the first offence line on the petition. Every other blank is deliberate and every one is listed below.",
+    "**Three blanks are refused on purpose and are worth knowing about**, because each would otherwise be filled with a wrong answer rather than left empty. The identification block's **Sex** entry is refused because the form's own layout makes it bind a date of birth. The caption's **county** is refused because it binds the city you live in rather than the county of the court. And the verification block's **Petitioner** blank is refused because that one field also controls the notarised signature line above the word \"Petitioner\", and no packet may put your name on a signature line."
   ],
 
   whoDecides: [
-    "**The Department of Public Safety decides, or the agency that owns the disputed data does.** You are asking the holder of the record to correct its own record. Nothing about that is a court proceeding and nothing on this route is filed.",
-    "**If DPS does not hold the information, DPS forwards it — you do not.** The bound form's own decision block records that step on its face: *DPS does not have information; forwarded to: ___ on ___ Due: ___*, and then *Based on response received or lack of response by deadline, request Approved / Denied*. So you send to one place, and the Department chases the originating agency itself.",
-    "**Nobody is deciding whether your record should be sealed.** That is a different question under a different statute, and the recorded rule is that it is not a correction claim at all.",
-    "**If the request is denied, the appeal is not a self-help filing.** The form itself prints the first step — *Per 13 AAC 68.200, you may appeal a denial to the Commissioner of Public Safety* — and the recorded decision names what follows a final adverse decision: judicial review by administrative appeal to the Alaska Superior Court, which it says in terms is **not** an ordinary self-help record-clearing packet. Nothing here prepares that appeal."
+    "**The court decides, on your petition.** You file; the prosecuting attorney may object; the judge signs the order or does not.",
+    "**The order is the court's instrument and you complete nothing on it below the caption.** Its recitals mirror the petition's, and the caption facts — your name, the case number, your date of birth in the identification block — are filled to match. When you file, ask the clerk of the filing court whether that court wants the order's recital blanks completed to match your petition, and complete exactly those if the clerk says so.",
+    "**After the order is signed, the distribution is the CLERK's, not yours.** The order's own text directs it: the Clerk is directed to mail or transmit a certified copy of the order to the Arkansas Crime Information Center, the Administrative Office of the Courts, the prosecuting and/or city attorney as the case may be, the District Court Clerk if applicable, and the arresting agency, and each of those agencies must comply with A.C.A. § 16-90-1413 as it pertains to them. You do not have to serve the sealed order on the record-holders yourself."
   ],
 
   filingDestination: [
-    "**Send the completed form to the Department of Public Safety's Criminal Records and Identification Bureau.** The bound form prints the destination on its own face, with four ways to reach it: *Submit forms to: Criminal Records and Identification Bureau, 5700 East Tudor Road, Anchorage, Alaska 99507. Telephone: (907) 375-6410. Fax: (907) 269-0363. Email: dps.chri@alaska.gov.*",
-    "**Or send it to the agency responsible for the disputed data**, if the wrong entry belongs to another agency's record rather than to the APSIN entry itself. The recorded initial destination is \"DPS / RESPONSIBLE ORIGINATING AGENCY\", and the Bureau's own telephone number above is the place to ask which of the two yours is.",
-    "**Nothing is filed with any court, and there is no court to file it in on this route.**"
+    "**File the petition and the unsigned order together in the court where the nolle prosequi or dismissal order was entered.** That is the committed packet-set manifest's own instruction for this packet, and it is the answer: you do not have to work out venue for yourself.",
+    "**Check the county printed in the caption before you file.** The caption's county blank is one this packet deliberately leaves to you, so write the county of the court that entered the order — not the county you live in.",
+    "**Which of the two Arkansas courts it is — circuit or district — is the one thing left open, and the clerk answers it.** The compiled Arkansas profile records the rule as \"File in the circuit or district court that handled the case\", and the order's own distribution paragraph contemplates both, directing certified copies to \"the District Court Clerk, if applicable\". **Ask the circuit clerk's office of the county where the order was entered which of the two takes an Act 1460 non-conviction petition**, and write the answer in the caption's \"IN THE ______ COURT OF\" blank.",
+    "**The DIVISION blank in the caption is yours too, and only if that court has divisions.** The same clerk's office can tell you."
   ],
 
   feeAndWaiver: [
-    "**No held source states any charge for submitting this correction request, and this packet asks you to pay nothing.** The bound form prints no fee anywhere on its face. **The Bureau publishes what it charges, and the form gives you four ways to ask it: (907) 375-6410, fax (907) 269-0363, dps.chri@alaska.gov, or 5700 East Tudor Road, Anchorage, Alaska 99507.** Ask before you send if you want certainty.",
-    "**One cost on this route IS recorded, and it is not a fee for the request.** You will generally need your own Alaska criminal history record in order to identify the precise entry that is wrong. The compiled Alaska profile this route is built on records the item and not a figure — *\"DPS criminal history record — DPS fee — To confirm what records exist\"* — so a DPS fee applies and the amount is the Bureau's to state. Ask it at the same number.",
-    "**Alaska's other published record-clearing charges are not this route's charges, and this packet does not borrow them.** The same compiled profile prices a TF-810 Courtview exclusion (\"Typically $0\"), an SIS set-aside motion, and an AS 12.62.180(b) *sealing* request (\"Agency-dependent\"). None of those is an AS 12.62.170 correction: they are different statutes and different instruments, and a figure keyed to one of them is not the price of this.",
-    "**There is no fee waiver, because there is no filing fee.** An administrative correction request is not a court filing and carries no filing fee for a waiver to reach. If a records charge is a barrier for you, ask the Bureau at the number above what it does for a person who cannot pay."
+    "**There is no filing fee for this petition.** The compiled Arkansas profile records it three ways, and every one of them is keyed to ACT 1460 — the act printed on the face of both of these forms: \"Act 1460 eliminated sealing filing fees\"; \"Sealing petition filing fee $0 — Filing fees eliminated by the 2019 amendments\"; and, in its filing rule, \"File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.\"",
+    "**What that means for paragraph 3, which you are signing.** Paragraph 3 of the petition is a statement that you \"ha[ve] paid all filing fees required to be paid with the filing of this Petition mandated by A.C.A § 16-90-1419\". The printed form still recites that statute and prints no amount anywhere. Where no filing fee is required, there is none left to have paid, and the sentence is true as printed. So do not read paragraph 3 as a bill. **If the clerk of the court where you file nevertheless asks you to pay something, that is a question about that court's own practice rather than about this packet — ask the clerk of that court what the charge is for and whether it can be waived or reduced, and settle it before you sign, because paragraph 3 is part of what you sign.**",
+    "**There is no fee-waiver form in this packet because there is no filing fee to waive.** The committed packet-set manifest records the same thing from the other direction: its pay_fee entry says the source review does not state a filing fee for this petition, and its apply_fee_waiver entry says the review does not address a waiver.",
+    "**The costs this route does carry are records costs, not filing fees**, and the same compiled profile names them: the ACIC criminal-history record carries an ACIC fee, a copy of a Judgment and Commitment Order carries a small clerk fee from the sentencing court, and counsel costs whatever counsel costs — which is not required here, and which legal-aid organisations and sealing clinics assist with at no charge.",
+    "**One cost is not money.** The verification page must be sworn before a notary, and a notary may charge for the acknowledgement. Ask whoever notarises it."
   ],
 
   service: [
-    "**There is nobody to serve.** This is a request to a record-holding agency, not a proceeding: there is no opposing party, no prosecutor to notify, no certificate of service and no return date. No held record states any service requirement for it.",
-    "**Send it once, to one office, and keep dated proof.** The form gives you post, fax and email; whichever you use, keep a copy of everything you sent, including every attachment. If the Bureau later says nothing arrived, that copy and that receipt are what you have.",
-    "**If DPS has to reach another agency, that is DPS's step, not yours.** The form's own decision block records the Department forwarding the request to the originating agency and setting that agency a due date. Do not send duplicate requests to the other agency unless the Bureau tells you to."
+    "**Serve the prosecuting attorney within THREE DAYS of filing.** That is the committed packet-set manifest's rule for this packet — \"Serve the prosecuting attorney within three days of filing\" — and nothing on the printed forms tells you to look for a deadline, because the certificate of service sits inside the petition and prints none. Three days from the day you file.",
+    "**Who you serve, and how, is on the petition's own last page.** The Certificate of Service states it in full: a true and correct copy of the petition goes to **either the Prosecuting Attorney for the county in which the petition has been filed or to the City Attorney, depending on which office prosecuted the case**, **and to the arresting agency** — by placing a copy in the United States mail, postage prepaid, or by hand delivering a copy to that office.",
+    "**Complete the Certificate of Service only after you have actually served both.** Your name in the \"I, ______\" line, the signature line and the date beside it are all left blank by this packet, because service has not happened yet and a signed certificate of a mailing that never occurred is a false statement to the court.",
+    "**Then expect an objection, or expect silence.** The committed manifest gives the prosecuting attorney **30 days to object**. The compiled Arkansas profile records the window class-dependently for Act 1460 sealing generally — \"30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons\" — so if the offence in paragraph 1 is a felony the longer window may apply to you. **Ask the clerk of the court where you file which window that court runs.** If no objection is filed, many Arkansas courts grant a sealing petition on the papers.",
+    "**You do not serve the signed order on anyone.** The clerk distributes it — see *Who decides this* above."
   ],
 
   documentsToObtain: [
-    ["Your Alaska criminal history record from DPS — the document that shows the precise entry you say is wrong", "the Criminal Records and Identification Bureau at the address, telephone, fax or email printed on the form; the compiled Alaska profile records that a DPS fee applies and states no amount"],
-    ["A certified disposition for the case, where the entry you are correcting is a court disposition", "the court that handled the case; the recorded decision lists certified disposition among the supporting documentation a challenge carries"],
-    ["Identity documents, where the entry is a personal descriptor or the arrest was not yours", "you; the recorded decision lists identity documents among the supporting documentation"],
-    ["Court documents supporting the correction, where any exist", "the court that handled the case — the form's own instruction is that if court documents are available they must be attached"],
-    ["Fingerprints, where the reason is mistaken identity or false accusation", "the Bureau; the form's own instruction on that reason is to make arrangements through that office to have your fingerprints taken"]
+    ["A fingerprint card. The committed packet-set manifest requires it before filing: \"Have fingerprints taken and submit the card with the petition.\" LegalEase does not collect fingerprints and this packet contains no card", "a law enforcement agency or an authorised fingerprint vendor"],
+    ["Your Arkansas criminal history, obtained on the ACIC Authorization for Review of Criminal History Information. This is the records step that comes before the petition, and it is what you check the case against", "the Arkansas Crime Information Center; the compiled profile records that an ACIC fee applies"],
+    ["The order that ended the case — the nolle prosequi, the dismissal or the judgment of acquittal — or whatever shows charges were never filed", "the clerk of the court that entered it"],
+    ["Your arrest paperwork, for the arrest date, the offence, the Arkansas Code section and the arrest tracking number", "the arresting agency, or your ACIC record"]
   ],
 
   steps: [
-    "**Check first that this is a correction and not a sealing request.** The recorded rule is that a disagreement about whether an accurate event should be sealed or expunged is not a correction claim. If the record is right and you want it hidden, this is the wrong route.",
-    "**Get your Alaska criminal history record from DPS** so that you can point at the precise entry rather than describing it. A DPS fee applies; the Bureau states it.",
-    "**Mark the one reason on the form that matches your record.** The form offers five, they are facts about your own record, and this packet marks none of them for you: mistaken identity or false accusation; personal descriptors in error; charge information in error; missing or wrong court or prosecutor disposition information; set-aside information missing.",
-    "**Write the problem out on the form, and use the back of the form if you need more room** — that is the form's own instruction. Say which entry is wrong, why it is inaccurate or incomplete, what the correct data is, and what correction you are asking for. The evidence checklist page in this packet has each of those as a heading.",
-    "**Attach the documents.** The form's own instruction is that if court documents are available they must be attached. Attach the certified disposition and the identity documents that support the correction.",
-    "**If your reason is mistaken identity or false accusation, arrange fingerprints.** The form's own instruction on that reason is to make arrangements through the Bureau to have your fingerprints taken, and to provide the name of the person using your identity if you know it.",
-    "**Fill in the blanks that are yours** — the driver's licence, the SSN, any maiden or alias name, a fax number or other contact number if you have one — each listed in the table above.",
-    "**Complete the right-hand column only if the record was used to deny you a right or a privilege.** If it was not, that whole column stays empty.",
-    "**Sign and date the form yourself**, under the unsworn falsification statement it carries: you certify under penalty of unsworn falsification (AS 11.56.210) that what you supply is true and correct. Nothing on this packet signs or dates for you.",
-    "**Send it to the Bureau, and keep dated proof.** Post, fax or email, all printed on the form's face.",
-    "**If the request is denied, the form's own next step is an appeal to the Commissioner of Public Safety under 13 AAC 68.200.** Beyond that, the recorded escalation is an administrative appeal to the Alaska Superior Court — and the recorded decision says in terms that this is not an ordinary self-help matter. Take it to a lawyer."
+    "**Check paragraph 2 against your own record.** Exactly one of its four boxes must be true of your case. The committed manifest asks the same question — how did the case end — and directs you to check your answer against your ACIC criminal history before you file.",
+    "**Obtain your ACIC criminal history and your fingerprint card.** Both come before filing; the card goes in with the petition.",
+    "**Fill in every blank listed in the table below**, on both documents, from the records rather than from memory.",
+    "**Tick exactly one box in paragraph 2, one in paragraph 4 and one in paragraph 5.** Each is a statement about your own record and this packet marks none of them.",
+    "**Take the petition to a notary and swear the verification on page 3.** The notary completes the jurat, the seal, the commission expiry and the notary signature; you complete your own name in \"Comes the Petitioner, ____\" and sign where the notary directs.",
+    "**Sign and date the petition on page 2.** Paragraph 6 makes the whole petition a statement that the information is true and correct to the best of your knowledge.",
+    "**File the petition, the fingerprint card and the UNSIGNED order** in the court where the nolle prosequi or dismissal order was entered. Pay nothing: Act 1460 eliminated the filing fee.",
+    "**Serve the prosecuting or city attorney and the arresting agency within three days of filing**, then complete and sign the Certificate of Service on the petition's last page.",
+    "**Wait out the objection window** — 30 days under the committed manifest, possibly 90 for a felony under the compiled profile. Ask the clerk which the court runs.",
+    "**If the order is signed, the clerk distributes it.** You do not have to deliver certified copies to ACIC, the Administrative Office of the Courts, the prosecutor, the district court clerk or the arresting agency; the order directs the clerk to do it."
   ],
 
   deliberatelyBlank: [
-    "**Your signature on the form and the date beside it.** The form carries an unsworn falsification statement under AS 11.56.210 above that line; the certification is yours to make.",
-    "**Your driver's licence number and your Social Security number.** The shared semantics refuse a government identifier on any form, and the refusal is deliberate rather than a gap.",
-    "**Every one of the five reason boxes.** Which one is true is a fact about your own record, and marking one for you would be asserting something the platform does not know.",
-    "**The whole right-hand column.** It applies only where the record was or will be used to deny you a right or a privilege, and the platform does not know whether it was.",
-    "**The DPS decision block at the foot of the page.** The Bureau completes it."
+    "**Your signature on the petition and the date beside it**, and the whole Certificate of Service — name, signature and date. Service has not happened yet.",
+    "**Everything on the order below its caption.** The findings, the paragraph boxes, the decree, the judge's signature and the date are the court's.",
+    "**The entire notary block** — the jurat day, month and year, the seal, the notary's signature and the commission expiry. A notary completes it in your presence.",
+    "**The identification block's Sex entry**, refused because the form's own layout makes it bind a date of birth; **the caption's county**, refused because it binds the city you live in; and **the verification block's \"Comes the Petitioner, ____\" blank**, refused because that one field also controls the notarised signature line above it.",
+    "**The arrest date's day, month and year blanks.** The platform holds an arrest date as a whole and holds no day, month or year fact.",
+    "**Race, Arrest Tracking Number, SID and FBI number.** The form itself marks the FBI number \"if known\"; the rest are identification facts the platform does not hold."
   ],
 
   notTold: [
-    "**What a DPS criminal history record costs.** The compiled Alaska profile records that a DPS fee applies and records no amount. The Criminal Records and Identification Bureau publishes it: (907) 375-6410, or dps.chri@alaska.gov.",
-    "**Whether your particular entry belongs to DPS or to another agency.** The recorded destination is DPS or the responsible originating agency, and which yours is depends on whose data is wrong. The Bureau can tell you at the same number.",
-    "**How long the Bureau takes.** The form sets a due date for an agency it forwards to, and states no turnaround for itself. Ask the Bureau.",
-    "**Whether a correction will change what a background check shows.** This packet does not promise any outcome from any record-holder."
+    "**Whether the circuit or the district court takes your petition.** The compiled profile records that Act 1460 sealing is filed \"in the circuit or district court that handled the case\", and which of the two varies by county. The circuit clerk's office of the county where the order was entered is the office that answers it.",
+    "**Whether the objection window on your case is 30 days or 90.** The committed manifest says 30; the compiled profile records 30 for a misdemeanour and 90 for a felony under Act 1460 generally. Both are held and they are keyed differently, so both are disclosed here rather than one being chosen for you. Ask the clerk of the court where you file which window that court runs.",
+    "**What the ACIC criminal-history record costs, and what a notary charges.** The compiled profile records that an ACIC fee applies and states no amount; ACIC publishes it. A notary's charge is the notary's.",
+    "**Whether your court has divisions.** The caption's DIVISION blank is completed only if it does, and the clerk's office of that court answers it."
   ],
 
   stopConditions: [
-    "the record is accurate and what you actually want is for it to be sealed or expunged — the recorded rule is that this is not a correction claim, and Alaska's sealing route under AS 12.62.180 is a different instrument in a different packet;",
-    "the Bureau denies the request — the form's own next step is an appeal to the Commissioner of Public Safety under 13 AAC 68.200, and the recorded escalation after a final adverse decision is an administrative appeal to the Alaska Superior Court, which the decision says in terms is not an ordinary self-help matter;",
-    "you are asked to prove identity by fingerprints and are unsure what that means for you;",
-    "the entry you want corrected came from another state or from a federal agency — Alaska's Commissioner cannot reach records that did not originate in this state;",
-    "somebody else has been using your identity and you do not know what else was done in your name;",
+    "none of paragraph 2's four situations is true of your case — this petition is for a nolle prosequi, a dismissal, an acquittal, or charges never filed, and a case that ended in a conviction or a diversion is a different ACIC form family;",
+    "the acquittal was for reason of mental disease or defect under A.C.A. § 5-2-301 et seq. — paragraph 2's acquittal box excludes it in terms;",
+    "you have a pending felony charge in any state or federal court, so paragraph 4's second box is yours — whether the petition can be granted while it is pending is a question this packet does not answer;",
+    "you are required to register under the Sex Offender Registration Act of 1997, so paragraph 5 reads IS — what that means for sealing this record is a question this packet does not answer;",
+    "the prosecuting attorney files a notice of opposition — the petition is contested from that point and goes to a hearing;",
+    "you cannot work out which offence, class or A.C.A. section to copy and your paperwork does not show them — your ACIC criminal-history record is where they are;",
     "any immigration question is involved."
   ],
 
   whatThisIsNot:
-    "This is the Department of Public Safety's own published form CRI-103, delivered as the Department issues it, "
-    + "with a route sheet and an evidence checklist. It is not a court filing, not a petition, not a sealing or "
-    + "expungement request, not the appeal to the Commissioner and not the Superior Court appeal that may follow "
-    + "one. It is not legal advice, it is not sent for you, and it is not a promise that the Department will "
-    + "correct anything.",
+    "This is a prepared set of official Arkansas Crime Information Center forms, delivered as ACIC publishes "
+    + "them. It is not legal advice, it is not filed for you, and it does not decide whether your record can be "
+    + "sealed under A.C.A. Sec. 16-90-1401 et seq. It is not the ACIC form family for a conviction or a "
+    + "diversion, and it is not the ACIC arrest-sealing petition, which is a different route and a different "
+    + "packet.",
 
   receiptDoesNotEstablish: [
-    "that this is the current edition of DPS Form CRI-103, or that the Department has not revised it since the archive was assembled",
-    "that any particular APSIN entry is inaccurate or incomplete",
-    "what the Department of Public Safety charges for a criminal history record"
+    "that these are the current official editions of either ACIC form, or that neither has been superseded since the archive was assembled",
+    "that any particular Arkansas case ended in a nolle prosequi, a dismissal, an acquittal, or with no charges filed"
   ],
 
   buildFindings: [
     {
       finding:
-        "MASTER_QUEUE classifies this family participant_agency_application, and unlike the other two agency "
-        + "treatments in this lane it binds a real document: the controlling decision names \"the published "
-        + "Request to Correct Criminal Justice Information form\" and the census names it as this route's "
-        + "requiredSourceId.",
+        "THREE writes the shared semantics would have made are refused by role, and each would have been wrong "
+        + "rather than merely unhelpful: `Sex` binds participant.date_of_birth through the printed-label "
+        + "fallback because the identification block prints Sex and DOB one line apart; `COUNTY/CITY` binds "
+        + "participant.city although it is the county of the filing court; and `Petitioner` carries two widgets, "
+        + "one of them the notarised signature rule at the foot of the jurat.",
       consequence:
-        "DPS Form CRI-103 is bound by exact SHA-256 through the committed corpus index and delivered as the "
-        + "Department issues it. No form was invented for this route, and the route was not left in a "
-        + "missing-PDF state."
+        "All three are declared unwritable with the reason stated, are classified required-before-filing, and "
+        + "are disclosed by name in participant-instructions.md — including a paragraph explaining to the "
+        + "participant why each is empty, so a refusal does not read as an oversight."
     },
     {
       finding:
-        "CRI-103 is a flat page: the corpus index records 0 AcroForm fields on it, so there is no widget "
-        + "rectangle to write into and no appearance to flatten.",
+        "The `COUNTY/CITY` mis-binding is stopped on the ORDER today by a different rule: a court-issued order "
+        + "accepts caption facts only, and participant.city is not one.",
       consequence:
-        "Every write box is measured from the form's own content stream — one horizontal stroke, matched on its "
-        + "y, its start x and its end x, with the box ceiling taken from the lowest printed baseline above it "
-        + "inside its own span. Twelve blanks are measured; six carry a fact. A blank that failed to measure "
-        + "would stop the family rather than be drawn at a guessed rectangle."
+        "It is refused by role on both documents anyway. A refusal that depends on another rule is not this "
+        + "family's refusal and would disappear the moment that rule moved."
     },
     {
       finding:
-        "Two blanks the platform could technically fill are refused by the shared semantics as government "
-        + "identifiers: the driver's licence number and the SSN.",
+        "FEE_AND_WAIVER, tested against DETERMINATION_FEE_AND_WAIVER_STANDARD A1-A4. The compiled Arkansas "
+        + "profile is a held source under A2 and its three fee statements are keyed to ACT 1460 SEALING — the "
+        + "act printed on the face of both bound forms — so under A3 they answer this route rather than a "
+        + "sibling's, and A1 forbids substituting a named authority for an answer the repository holds.",
       consequence:
-        "Both are declared required-before-filing, disclosed by name in participant-instructions.md, and the "
-        + "refusal is explained to the participant rather than presented as an oversight."
+        "The packet states that there is no filing fee and quotes all three lines; explains what that means for "
+        + "paragraph 3's sworn fee averment, which the form still recites; names the clerk of the filing court "
+        + "for the residual question of a particular court's own practice; and separately names the records "
+        + "costs the same profile records, so that a participant does not read \"no filing fee\" as \"free\"."
     },
     {
       finding:
-        "The form's five reasons are an election, and the route does not determine which is true.",
+        "SERVICE is answered by two held records that agree on the recipients and differ on the objection "
+        + "window: the committed packet-set manifest sets three days to serve and 30 days to object, and the "
+        + "compiled profile records the window class-dependently as 30 for a misdemeanour and 90 for a felony.",
       consequence:
-        "Each is recorded as a genuine participant election rather than as a route-determined selection left "
-        + "unmade, with the reason stated in routeSelectionNote. Nothing is marked on the form."
+        "Both are disclosed rather than one being chosen, with the clerk of the filing court named for which "
+        + "window that court runs. The recipients and the method are taken from the petition's own printed "
+        + "Certificate of Service."
     },
     {
       finding:
-        "FEE_AND_WAIVER, tested against DETERMINATION_FEE_AND_WAIVER_STANDARD A1-A3. The compiled Alaska profile "
-        + "is a held source under A2, and its fee table prices a TF-810 Courtview exclusion, an SIS set-aside "
-        + "motion, an AS 12.62.180(b) SEALING request and a DPS criminal history record. Under A3, none of the "
-        + "first three answers an AS 12.62.170 correction — they are different statutes and different "
-        + "instruments — while the fourth answers a document this route genuinely needs.",
+        "The order's own text directs the CLERK to distribute certified copies to ACIC, the Administrative "
+        + "Office of the Courts, the prosecuting or city attorney, the District Court Clerk if applicable, and "
+        + "the arresting agency.",
       consequence:
-        "The packet states that no held source establishes a charge for the request itself and names the "
-        + "Criminal Records and Identification Bureau with the address, telephone, fax and email the bound form "
-        + "prints on its own face; states that the DPS criminal history record carries a DPS fee whose amount "
-        + "the profile does not give, and names the same office for it; and says in terms that the TF-810, "
-        + "set-aside and sealing figures are not borrowed."
+        "The packet states that this step is the clerk's and not the participant's, in the order's own terms, "
+        + "so that nobody sets out to deliver sealed orders by hand."
     },
     {
       finding:
-        "SELF_HELP_STOP has two recorded limbs and they must not be collapsed. The decision draws a substantive "
-        + "boundary — a disagreement about whether an ACCURATE event should be sealed is not a correction claim "
-        + "— and a procedural one — a final adverse decision goes to the Superior Court by administrative "
-        + "appeal, which is expressly not an ordinary self-help packet. The bound form adds a third step the "
-        + "decision does not mention: an appeal to the Commissioner of Public Safety under 13 AAC 68.200.",
+        "Paragraph 2's four boxes, paragraph 4's pair and paragraph 5's pair are elections about the "
+        + "participant's own record, and the committed packet-set manifest asks the participant paragraph 2's "
+        + "question in terms rather than resolving it.",
       consequence:
-        "All three are stated, each attributed to the record it came from, and the packet prepares none of the "
-        + "appeals."
+        "All eight are recorded as genuine participant elections rather than as route-determined selections "
+        + "left unmade, with the reasoning in routeSelectionNote. No box is marked on either document."
     }
   ],
 
   counselQuestions: [
-    "The packet delivers CRI-103 with six identity and contact facts drawn onto measured ruled blanks and everything else left to the participant. Confirm that filling those six on an agency correction form is appropriate, given that the form carries an unsworn falsification certification over the whole of what is supplied.",
-    "The five reason boxes are treated as genuine participant elections that the route does not determine, so none is marked. Confirm that, or say that the route ought to determine one.",
-    "The packet states that no held source establishes a charge for the request and names the Bureau with the contact details the form prints. Confirm that reading, or supply the figure.",
-    "The packet tells a participant whose record is accurate that this is not their route and points at AS 12.62.180 sealing without carrying it. Confirm the boundary is stated correctly.",
-    "The packet states the Commissioner appeal under 13 AAC 68.200 from the form's own face, and the Superior Court administrative appeal from the decision, and prepares neither. Confirm that is the right stopping point."
+    "The `Petitioner` field is refused whole because one of its two widgets is the notarised signature rule. That leaves the \"Comes the Petitioner, ____\" blank empty on a page the participant swears. Confirm that leaving it to the participant is right, against the alternative of a form-level repair.",
+    "The order is treated as captionOnly and this packet writes the participant's name into its decree sentence (\"the Petition of the Defendant, ____\") as a caption fact. Confirm that writing a name inside the court's ORDERED paragraph is acceptable, or say that the whole paragraph should be left blank.",
+    "The packet states there is no filing fee from the compiled profile's Act 1460 lines while paragraph 3 of the petition still recites A.C.A. § 16-90-1419. Confirm the reading that the averment is true as printed where no fee is required.",
+    "Two held records give different objection windows (manifest: 30 days; profile: 30 misdemeanour / 90 felony). The packet discloses both and names the clerk. Confirm, or settle which governs.",
+    "The identification block's Sex entry is refused because of a caption-capture defect rather than because it is the participant's to state. Confirm that leaving it to the participant is the right disposition."
   ],
 
   reviewersAttention: [
-    "This is an AGENCY-APPLICATION treatment that DOES bind an official form. It carries no caption, case number, proposed order or certificate of service by design.",
-    "Every value on the official page is drawn onto a measured ruled blank rather than into a widget, because the form has no AcroForm. The measurement basis is recorded per cell in production-field-map.json under measuredCells.",
-    "The DPS decision block at the foot of the page is deliberately untouched and is recorded as agency-owned; please check on the raster that nothing has landed in it."
+    "Three role refusals on this family stop writes that would have been WRONG, not merely absent. They are the substance of this build; please check each against the printed page.",
+    "The order is captionOnly. Everything below its caption is deliberately empty and must stay that way on the raster.",
+    "The petition's page 3 is a notarial jurat. Nothing in the whole block is filled, including the day, month and year of the oath."
   ],
 
-  /* ---- composed bodies ------------------------------------------------------- */
-  composedBody(componentId, facts) {
-    const name = facts["participant.full_legal_name"];
-    const L = [];
-    L.push(this.componentTitles[componentId].toUpperCase(), "");
-    if (componentId === "agency_route_sheet") {
-      L.push(`Prepared for: ${name}`, "");
-      L.push("WHAT THIS IS, IN ONE LINE", "");
-      L.push("An administrative request asking the Alaska Department of Public Safety, or the agency that owns the disputed data, to correct an inaccurate or incomplete entry in your criminal justice information under AS 12.62.170. It is not a court filing.", "");
-      L.push("THE BOUNDARY - READ THIS BEFORE ANYTHING ELSE", "");
-      L.push("The recorded rule is exact: a disagreement about whether an ACCURATE event should be sealed or expunged is NOT a correction claim. This route is for a record that is WRONG. If your record is right and you want it hidden, this is the wrong instrument, and Alaska's sealing route under AS 12.62.180 is a different packet.", "");
-      L.push("WHERE IT GOES", "");
-      L.push("The form prints its own destination: Submit forms to: Criminal Records and Identification Bureau, 5700 East Tudor Road, Anchorage, Alaska 99507. Telephone: (907) 375-6410. Fax: (907) 269-0363. Email: dps.chri@alaska.gov.");
-      L.push("The recorded initial destination is DPS or the responsible originating agency. If the wrong entry belongs to another agency's record, that agency is the destination; the Bureau's own number above is where to ask which yours is.");
-      L.push("If DPS does not hold the information, DPS forwards the request itself and sets that agency a due date - the form's own decision block records that step on its face. You do not chase the other agency.", "");
-      L.push("WHAT YOU DO NOT FILE", "");
-      L.push("No petition. No motion. No proposed order. No certificate of service. No case number, because there is no case. Nothing on this route goes to a court.", "");
-      L.push("WHAT IT COSTS", "");
-      L.push("Nothing is asked of you in this packet, and no held source states a charge for submitting the request. The form prints no fee. The Bureau publishes what it charges and the form gives you four ways to ask: (907) 375-6410, fax (907) 269-0363, dps.chri@alaska.gov, or 5700 East Tudor Road, Anchorage, Alaska 99507.");
-      L.push("One recorded cost is real and is not a fee for the request: you will generally need your own Alaska criminal history record to point at the entry, and the compiled Alaska profile records \"DPS criminal history record - DPS fee - To confirm what records exist\" without an amount. Ask the Bureau.");
-      L.push("Alaska's other published charges are not this route's charges. The same profile prices a TF-810 Courtview exclusion at typically $0, an SIS set-aside motion, and an AS 12.62.180(b) SEALING request as agency-dependent. Those are different statutes and different instruments, and this packet does not borrow their figures.");
-      L.push("There is no fee waiver because there is no filing fee.", "");
-      L.push("WHO ELSE HAS TO BE TOLD", "");
-      L.push("Nobody. There is no opposing party and no certificate of service. Send it once, keep dated proof, and let DPS forward it if it has to.", "");
-      L.push("IF IT IS DENIED", "");
-      L.push("The form's own footer: Per 13 AAC 68.200, you may appeal a denial to the Commissioner of Public Safety.");
-      L.push("After a final adverse decision, the recorded route is judicial review by administrative appeal to the Alaska Superior Court under the applicable appellate rules - and the recorded decision says in terms that that appeal is NOT an ordinary self-help record-clearing packet. Take it to a lawyer. Nothing here prepares either appeal.", "");
-      L.push("WHEN TO STOP AND GET HELP", "");
-      L.push("- the record is accurate and you want it sealed rather than corrected;");
-      L.push("- the request is denied;");
-      L.push("- the entry came from another state or from a federal agency - the Commissioner cannot reach records that did not originate in Alaska;");
-      L.push("- somebody has been using your identity and you do not know what else was done in your name;");
-      L.push("- any immigration question is involved.", "");
-      L.push("WHAT THIS PACKET IS NOT", "");
-      L.push("The Department's own form CRI-103 delivered as issued, plus this route sheet and an evidence checklist. Not a court filing, not a petition, not a sealing request, not either appeal, not legal advice, not sent for you, and not a promise that the Department will correct anything.");
-    } else {
-      L.push(`Prepared for: ${name}`, "");
-      L.push("The recorded decision says a challenge under AS 12.62.170 should identify six things. Write each one out here, then copy or attach it to the form. The form's own instruction is: \"What is the problem with your criminal history? Be specific. Use the back of form to explain. If court documents are available they must be attached.\"", "");
-      L.push("1. THE PRECISE ENTRY. Which entry in your criminal justice information is wrong. Identify it exactly as your DPS criminal history record prints it, not by description.", "");
-      L.push(DOTS());
-      L.push(DOTS(), "");
-      L.push("2. WHY IT IS INACCURATE OR INCOMPLETE. What specifically is wrong with it, or what is missing from it.", "");
-      L.push(DOTS());
-      L.push(DOTS(), "");
-      L.push("3. THE CORRECT DISPOSITION OR DATA. What the entry should say instead.", "");
-      L.push(DOTS());
-      L.push(DOTS(), "");
-      L.push("4. THE ORIGINATING AGENCY AND CASE. Which agency created the entry, and the case or incident number it belongs to.", "");
-      L.push(DOTS());
-      L.push(DOTS(), "");
-      L.push("5. SUPPORTING DOCUMENTATION. The recorded list is: certified disposition, identity documents, and fingerprints where required. Tick what you are attaching and name each document.", "");
-      L.push("   [ ] Certified disposition from the court that handled the case");
-      L.push("   [ ] Identity documents");
-      L.push("   [ ] Fingerprints - required by the form itself if your reason is mistaken identity or false accusation; make arrangements through the Bureau to have them taken");
-      L.push("   [ ] Other court documents - the form requires these to be attached if they are available", "");
-      L.push(DOTS());
-      L.push(DOTS(), "");
-      L.push("6. THE CORRECTION REQUESTED. State plainly what you are asking the record-holder to do.", "");
-      L.push(DOTS());
-      L.push(DOTS(), "");
-      L.push("AND ONE THING THE FORM ADDS. If your reason is mistaken identity or false accusation, the form asks for the name of the person using your identity, if known.", "");
-      L.push(DOTS(), "");
-      L.push("A REMINDER ABOUT WHAT YOU ARE SIGNING. The form carries an unsworn falsification statement: you certify under penalty of unsworn falsification (AS 11.56.210) that the information you supply on and with the form is true and correct. Everything you write above travels under that certification.");
-    }
-    L.push("", `Route: ${this.routes[0].routeKey}`);
-    return L.join("\n");
+  composedBody() {
+    throw new Error("this family composes no pages: every component is an official ACIC form");
   },
 
   /* ---- field maps ------------------------------------------------------------- */
   mapFor(componentId, h) {
     const writes = [];
     const refusals = [];
-    if (componentId === "dps_correction_request") {
+    if (componentId === "petition") {
       writes.push(
-        h.write("subject_name", "Subject Name", "participant.full_legal_name"),
-        h.write("mailing_address", "Mailing Address", "participant.street_address"),
-        h.write("city_state_zip", "City/State/Zip", "participant.city_state_zip"),
-        h.write("date_of_birth", "Date of Birth", "participant.date_of_birth"),
-        h.write("telephone", "Telephone #", "participant.phone"),
-        h.write("email", "Email", "participant.email")
+        h.write("First Middle and Last name", "Defendant named in the caption of the petition (First, Middle and Last name)", "participant.full_legal_name", 1),
+        h.write("Case No", "Case No. in the caption of the petition", "matter.case_number", 1),
+        h.write("1", "Paragraph 1 - the offence(s) the Defendant was charged with, first printed rule", "matter.charge", 1),
+        h.write("Defendant", "Defendant named in the WHEREFORE prayer on page 2", "participant.full_legal_name", 2),
+        h.write("ADDRESS 1", "Defendant's Address - street line", "participant.street_address", 2),
+        h.write("City", "Defendant's Address - City", "participant.city", 2),
+        h.write("State", "Defendant's Address - State", "participant.state", 2),
+        h.write("Zip code", "Defendant's Address - Zip code", "participant.zip", 2),
+        h.write("DOB", "DOB in the identification block on page 3", "participant.date_of_birth", 3)
       );
       refusals.push(
-        h.rbf("requester_name", "Requester Name (if not subject)",
-          "nothing, if the record you are correcting is your own - the form asks for this only where the person making the request is someone other than the subject of the record. If you are making the request for someone else, put your own name here",
-          "the form itself makes this blank conditional on the requester not being the subject, and the platform holds no fact about anyone else"),
-        h.rbf("maiden_alias_name", "Maiden/Alias name",
-          "any maiden name or alias your record might be held under; the agency searches on these",
-          "the platform holds no alias fact, and binding the participant's legal name into an alias blank would assert an alias that may not exist"),
-        h.rbf("drivers_license", "Drivers License State / #",
-          "your driver's licence issuing state and number, from the licence itself",
-          "the shared semantics refuse a government identifier on any form, so the platform will not write a licence number even where it holds one"),
-        h.rbf("ssn", "SSN",
-          "your Social Security number, if you choose to give it",
-          "the shared semantics refuse a government identifier on any form, so the platform will not write a Social Security number"),
-        h.rbf("fax", "Fax #",
-          "a fax number the agency can reach you on, if you have one; leave it empty if you do not",
-          "the platform holds no fax fact"),
-        h.rbf("other_contact", "Other (cell or message #)",
-          "a mobile or message number the agency can reach you on, if you want to give one that is not your main telephone number",
-          "the platform holds one telephone fact and writes it to the telephone blank; a second number is one it does not hold"),
-        h.rbf("problem_description", "What is the problem with your criminal history",
-          "the precise entry that is wrong, why it is inaccurate or incomplete, the correct data, the originating agency and case, and the correction you are asking for - use the back of the form if you need more room, as the form instructs. The evidence checklist page in this packet has each of those as a heading",
-          "the account of what is wrong with a record is the participant's own and the substance the agency decides on; the platform has not seen the record"),
-        h.rbf("person_using_identity", "Name of the person using your identity",
-          "the name of the person using your identity, if you know it - the form asks for this only where your reason is mistaken identity or false accusation",
-          "the identity of another person is not a fact the platform holds"),
-        h.rbf("right_or_privilege", "Right or privilege granted or denied",
-          "the right or privilege that was or will be denied because of the record - only if that has happened; leave the whole right-hand column empty if it has not",
-          "the whole right-hand column is conditional on the record having been used to deny a right or privilege, which the platform does not know"),
-        h.rbf("date_and_time_granted_or_denied", "Date and time granted / denied",
-          "the date and time the right or privilege was granted or denied - only if the right-hand column applies to you",
-          "conditional on a denial the platform does not know about"),
-        h.rbf("responsible_person_name", "Name of the person responsible for granting or denying the privilege",
-          "the name of the person who granted or denied it - only if the right-hand column applies to you",
-          "the identity of a third party is not a fact the platform holds"),
-        h.rbf("responsible_person_title", "Title of the person responsible for granting or denying the privilege",
-          "that person's job title - only if the right-hand column applies to you",
-          "the details of a third party are not facts the platform holds"),
-        h.rbf("responsible_person_mailing_address", "Mailing address of the person responsible for granting or denying the privilege",
-          "that person's postal address - only if the right-hand column applies to you",
-          "a third party's address is not a fact the platform holds, and the participant's own address belongs in the left-hand column"),
-        h.rbf("responsible_person_telephone", "Telephone number of the person responsible for granting or denying the privilege",
-          "that person's telephone number - only if the right-hand column applies to you",
-          "a third party's telephone number is not a fact the platform holds"),
-        h.election("reason_mistaken_identity", "Reason box: MISTAKEN IDENTITY / FALSELY ACCUSED",
-          "which of the form's five reasons is true is a fact about the participant's own record; the route does not determine it, and this reason additionally requires the participant to arrange fingerprints through the Bureau"),
-        h.election("reason_personal_descriptors", "Reason box: PERSONAL DESCRIPTORS IN ERROR",
-          "which of the form's five reasons is true is a fact about the participant's own record and the route does not determine it"),
-        h.election("reason_charge_information", "Reason box: CHARGE INFORMATION IN ERROR",
-          "which of the form's five reasons is true is a fact about the participant's own record and the route does not determine it"),
-        h.election("reason_missing_disposition", "Reason box: MISSING OR WRONG COURT OR PROSECUTOR DISPOSITION INFORMATION",
-          "which of the form's five reasons is true is a fact about the participant's own record and the route does not determine it"),
-        h.election("reason_set_aside_missing", "Reason box: SET ASIDE INFORMATION IS MISSING",
-          "which of the form's five reasons is true is a fact about the participant's own record and the route does not determine it"),
-        h.protectedBlank("record_subject_signature", "Record Subject's Signature",
-          "the form carries an unsworn falsification certification under AS 11.56.210 over this line; the requester signs it personally"),
-        h.protectedBlank("signature_date", "Date beside the Record Subject's Signature",
-          "a date written before the form is signed would be false"),
-        h.agencyBlank("dps_decision_block", "Bureau use only - the decision block at the foot of the form",
-          "DPS Received, DPS has information, Approved, Denied, the forwarding line and its due date are all completed by the Criminal Records and Identification Bureau")
-      );
-    } else if (componentId === "evidence_checklist") {
-      writes.push(h.write("checklist_prepared_for", "Person this evidence checklist is prepared for", "participant.full_legal_name"));
-      refusals.push(
-        h.rbf("precise_entry", "The precise entry that is inaccurate or incomplete",
-          "the entry exactly as your DPS criminal history record prints it, not a description of it",
-          "the platform has not seen any participant's Alaska criminal history record"),
-        h.rbf("why_inaccurate", "Why the entry is inaccurate or incomplete",
-          "what specifically is wrong with the entry, or what is missing from it",
-          "this is the participant's own account of their own record"),
-        h.rbf("correct_data", "The correct disposition or data",
-          "what the entry should say instead",
-          "the correct value for a record the platform has not seen is not a fact it holds"),
-        h.rbf("originating_agency_and_case", "The originating agency and case",
-          "which agency created the entry, and the case or incident number it belongs to",
-          "which agency originated a particular entry lives on the record itself"),
-        h.rbf("supporting_documentation", "The supporting documentation being attached",
-          "which of the certified disposition, identity documents, fingerprints and other court documents you are attaching, and the name of each",
-          "what a participant holds and attaches is not a fact the platform can know"),
-        h.rbf("correction_requested", "The correction requested",
-          "what you are asking the record-holder to do, stated plainly",
-          "the relief a participant asks for on their own record is theirs to state"),
-        h.rbf("checklist_person_using_identity", "The name of the person using your identity, if known",
-          "the name of the person using your identity, if you know it - the form asks for this where the reason is mistaken identity or false accusation",
-          "the identity of another person is not a fact the platform holds")
+        h.rbf("COURT TYPE", "Caption - the type of court in \"IN THE ______ COURT OF\"",
+          "which Arkansas court takes an Act 1460 non-conviction petition where your order was entered - circuit or district; the circuit clerk's office of that county answers it",
+          "the compiled profile records that Act 1460 sealing is filed in the circuit or district court that handled the case, and which of the two varies by county", 1),
+        h.rbf("COUNTY/CITY", "Caption - the county in \"COURT OF ________, ARKANSAS\"",
+          "the county of the court where the nolle prosequi, dismissal or judgment of acquittal was entered - not the county you live in",
+          "this blank binds participant.city through its own field name, which is the wrong fact; the county of the filing court is a case fact the participant establishes", 1),
+        h.rbf("DAY 1", "Paragraph 1 - the DAY of the arrest date",
+          "the day of the month you were arrested, copied from your arrest paperwork",
+          "the platform holds an arrest date as a whole and holds no day fact", 1),
+        h.rbf("MONTH 1", "Paragraph 1 - the MONTH of the arrest date",
+          "the month you were arrested, copied from the same paperwork",
+          "the platform holds no month fact, and this blank class was proved on the sibling ACIC form to take a participant name through the printed-label fallback", 1),
+        h.rbf("YEAR 1", "Paragraph 1 - the YEAR of the arrest date",
+          "the year you were arrested, copied from the same paperwork",
+          "the platform holds no year fact", 1),
+        h.rbf("in violation of ACA", "Paragraph 1 - \"in violation of A.C.A. Sec. ______\"",
+          "the Arkansas Code section of the offence, copied from your arrest or court paperwork or from your ACIC record",
+          "this blank binds matter.charge through its printed caption, but it holds a code section rather than an offence name", 1),
+        h.rbf("Petitioner", "Verification - \"Comes the Petitioner, ______, under oath and states\"",
+          "your own name, written on the page you swear before the notary",
+          "this one field also controls the notarised signature rule at the foot of the jurat, and a packet may never put a name on a signature line, so the field is refused whole", 3),
+        h.rbf("COUNTY OF", "Verification - \"STATE OF ARKANSAS / COUNTY OF ______\"",
+          "the county in which you swear the verification before the notary - the notary can tell you, and it need not be the county of the court",
+          "the county of a notarial oath is where the participant happens to be sworn, which the platform does not know", 3),
+        h.rbf("Race", "Identification block - Race",
+          "your race, as the form asks; the form states this block is required for proper identification of the Defendant in the state and national record systems",
+          "the platform does not hold or write a race fact", 3),
+        h.rbf("Sex", "Identification block - Sex",
+          "your sex, as the form asks, in the same identification block",
+          "this blank binds participant.date_of_birth through the printed-label fallback, because the block prints Sex and DOB one line apart; a date of birth in the sex box is a wrong answer rather than a missing one", 3),
+        h.rbf("Arrest Tracking Number", "Identification block - Arrest Tracking Number",
+          "the ATN, copied from your arrest paperwork or your ACIC criminal-history record",
+          "the ATN is assigned by Arkansas ACIC when an arrest is processed and identifies the arrest through a system the platform has no knowledge of", 3),
+        h.rbf("SID", "Identification block - SID No.",
+          "your State Identification number, from your arrest paperwork or your ACIC criminal-history record",
+          "the platform holds no SID, and the shared semantics refuse a government identifier on any form", 3),
+        h.optional("DIVISION", "Caption - the DIVISION blank",
+          "completed only if the court you file in has divisions; the clerk's office of that court answers whether it does", 1),
+        h.optional("2", "Paragraph 1 - the second printed rule of the offence list",
+          "used only if the same arrest carried a further offence; the first rule is filled from what you gave", 1),
+        h.optional("CHARGES 1", "Paragraph 4 - status of pending felony charge(s), first printed rule",
+          "used only if you tick paragraph 4's second box: the court, case number and current status of each pending felony charge", 2),
+        h.optional("CHARGES 2", "Paragraph 4 - status of pending felony charge(s), second printed rule",
+          "used only if the first rule will not hold the answer", 2),
+        h.optional("ADDRESS 2", "Defendant's Address - second street line",
+          "used only if your address needs a second line; the platform holds one street address and writes it on the first rule", 2),
+        h.optional("FBI No if known", "Identification block - FBI No. (if known)",
+          "the form itself marks this blank \"(if known)\"; leave it empty if you do not know it", 3),
+        h.election("Check Box1", "Paragraph 2 - Order of Nolle Prosequi entered more than one year ago and not refiled",
+          "which of paragraph 2's four situations ended the case is a fact about the participant's own record; the committed packet-set manifest asks the participant that question in terms rather than resolving it", 1),
+        h.election("Check Box2", "Paragraph 2 - Order of Dismissal has been entered",
+          "the same election, second of four", 1),
+        h.election("Check Box3", "Paragraph 2 - Judgment of Acquittal, not for reason of mental disease or defect",
+          "the same election, third of four", 1),
+        h.election("Check Box4", "Paragraph 2 - the prosecuting or city attorney did not file charges",
+          "the same election, fourth of four", 1),
+        h.election("Check Box5", "Paragraph 4 - no pending felony charges in any state or federal court",
+          "a sworn statement about the participant's own record which the route does not determine", 2),
+        h.election("Check Box6", "Paragraph 4 - one or more pending felony charges",
+          "the other half of the same sworn election", 2),
+        h.election("Check Box7", "Paragraph 5 - IS required to register under the Sex Offender Registration Act of 1997",
+          "a sworn statement about the participant's own status which the route does not determine", 2),
+        h.election("Check Box8", "Paragraph 5 - IS NOT required to register",
+          "the other half of the same sworn election", 2),
+        h.protectedBlank("Defendants Signature", "Defendant's Signature on page 2",
+          "paragraph 6 makes the petition a statement that the information is true and correct; the participant signs it", 2),
+        h.protectedBlank("Date", "Date beside the Defendant's Signature on page 2",
+          "a date written before the petition is signed would be false", 2),
+        h.protectedBlank("DEFENDANT", "Certificate of Service - the certifying party's name in \"I, ______, do hereby certify\"",
+          "a sworn statement about an act of service, made after mailing and not before", 4),
+        h.protectedBlank("Defendant or Defendants Attorney", "Certificate of Service - signature line",
+          "signed by the participant, or their attorney, after service has actually happened", 4),
+        h.protectedBlank("Date_2", "Certificate of Service - date line",
+          "the date of service, written after service has happened", 4),
+        h.agencyBlank("Notary Public", "Verification - the Notary Public signature line",
+          "a notary signs their own jurat", 3),
+        h.agencyBlank("DAY 2", "Verification - the DAY of \"Subscribed and sworn to before me on this ___\"",
+          "the notary completes the jurat when the oath is administered", 3),
+        h.agencyBlank("MONTH 2", "Verification - the MONTH of the jurat",
+          "the notary completes the jurat when the oath is administered", 3),
+        h.agencyBlank("YEAR 2", "Verification - the YEAR of the jurat",
+          "the notary completes the jurat when the oath is administered", 3),
+        h.agencyBlank("EXPIRE DATE", "Verification - \"My Commission expires\"",
+          "the notary's own commission expiry, which only the notary knows", 3)
       );
     } else {
-      writes.push(h.write("prepared_for", "Person this route sheet is prepared for", "participant.full_legal_name"));
+      writes.push(
+        h.write("First Middle and Last name", "Defendant named in the caption of the order (First, Middle and Last name)", "participant.full_legal_name", 1),
+        h.write("Case No", "Case No. in the caption of the order", "matter.case_number", 1),
+        h.write("DEFENDANT NAME", "Defendant named in the order's decree sentence, matching the petition", "participant.full_legal_name", 2),
+        h.write("DOB", "DOB in the order's identification block", "participant.date_of_birth", 3)
+      );
+      refusals.push(
+        h.rbf("COURT TYPE", "Order caption - the type of court, which must match the petition's",
+          "the same court you wrote in the petition's caption",
+          "the order travels with the petition and carries the same caption the participant establishes", 1),
+        h.rbf("COUNTY/CITY", "Order caption - the county, which must match the petition's",
+          "the same county you wrote in the petition's caption - the county of the court where the order was entered",
+          "this blank binds participant.city through its own field name, which is the wrong fact", 1),
+        h.optional("DIVISION", "Order caption - the DIVISION blank",
+          "completed only if that court has divisions, to match the petition", 1),
+        h.agencyBlank("Judge", "The order's signature line, for the Judge",
+          "the court signs its own order, if and only if it grants the petition", 2),
+        h.agencyBlank("Date", "The date beside the Judge's signature",
+          "the court dates its own order", 2),
+        h.rbf("DAY 1", "Order paragraph 1 - the DAY of the arrest date in the court's findings",
+          "nothing unless the clerk asks you to complete the order's recitals to match your petition; then the day of the arrest, as on the petition",
+          "the platform holds no day fact, and the recitals below the caption are the court's", 1),
+        h.rbf("MONTH 1", "Order paragraph 1 - the MONTH of the arrest date in the court's findings",
+          "nothing unless the clerk asks you to complete the recitals; then the month, as on the petition",
+          "the platform holds no month fact, and the recitals below the caption are the court's", 1),
+        h.rbf("YEAR 1", "Order paragraph 1 - the YEAR of the arrest date in the court's findings",
+          "nothing unless the clerk asks you to complete the recitals; then the year, as on the petition",
+          "the platform holds no year fact, and the recitals below the caption are the court's", 1),
+        h.rbf("1", "Order paragraph 1 - the offence(s) in the court's findings, first printed rule",
+          "nothing unless the clerk asks you to complete the recitals; then the offence, as on the petition",
+          "the order is the court's instrument and accepts caption facts only; its findings are not caption facts", 1),
+        h.rbf("CLASS", "Order paragraph 1 - the \"A Class ______\" blank in the court's findings",
+          "nothing unless the clerk asks you to complete the recitals; then the class letter of the offence",
+          "the platform holds no offence-class fact, and the findings are the court's", 1),
+        h.rbf("ACA NO", "Order paragraph 1 - \"in violation of A.C.A. Sec.\" in the court's findings",
+          "nothing unless the clerk asks you to complete the recitals; then the Arkansas Code section, as on the petition",
+          "this blank binds matter.charge through its printed caption but holds a code section, and the findings are the court's", 1),
+        h.rbf("Race", "Order identification block - Race",
+          "the same race entry you wrote on the petition",
+          "the platform does not hold or write a race fact", 3),
+        h.rbf("Sex", "Order identification block - Sex",
+          "the same sex entry you wrote on the petition",
+          "the platform does not hold a sex fact", 3),
+        h.rbf("Arrest Tracking Number", "Order identification block - Arrest Tracking Number",
+          "the same ATN you wrote on the petition",
+          "the ATN is assigned by Arkansas ACIC and is the agency's identifier", 3),
+        h.rbf("SID", "Order identification block - SID No.",
+          "the same SID you wrote on the petition",
+          "the platform holds no SID, and the shared semantics refuse a government identifier", 3),
+        h.optional("2", "Order paragraph 1 - the second printed rule of the offence list in the court's findings",
+          "nothing unless the clerk asks you to complete the recitals and the same arrest carried a further offence", 1),
+        h.optional("CHARGES 1", "Order paragraph 4 - status of pending felony charge(s), first printed rule",
+          "nothing unless the clerk asks you to complete the recitals and paragraph 4's second box is yours", 2),
+        h.optional("CHARGES 2", "Order paragraph 4 - status of pending felony charge(s), second printed rule",
+          "nothing unless the first rule will not hold the answer", 2),
+        h.optional("FBI No if known", "Order identification block - FBI No. (if known)",
+          "the form itself marks this blank \"(if known)\"", 3),
+        h.election("Check BoxF", "Order paragraph 1 - felony box in the court's findings",
+          "the court makes its own findings; where a clerk asks for the recitals to be completed to match the petition, which box is true is read off the participant's own paperwork and the route does not determine it", 1),
+        h.election("Check BoxM", "Order paragraph 1 - misdemeanor box in the court's findings",
+          "the other half of the same election", 1),
+        h.election("Check Box1", "Order paragraph 2 - Order of Nolle Prosequi entered more than one year ago and not refiled",
+          "the same election as the petition's paragraph 2, in the court's findings", 1),
+        h.election("Check Box2", "Order paragraph 2 - Order of Dismissal has been entered",
+          "the same election, second of four", 1),
+        h.election("Check Box3", "Order paragraph 2 - Judgment of Acquittal, not for reason of mental disease or defect",
+          "the same election, third of four", 1),
+        h.election("Check Box4", "Order paragraph 2 - the prosecuting or city attorney did not file charges",
+          "the same election, fourth of four", 1),
+        h.election("Check Box5", "Order paragraph 4 - no pending felony charges",
+          "the same sworn election as the petition's paragraph 4", 2),
+        h.election("Check Box6", "Order paragraph 4 - one or more pending felony charges",
+          "the other half of the same election", 2),
+        h.election("Check Box7", "Order paragraph 5 - IS required to register as a sex offender",
+          "the same sworn election as the petition's paragraph 5", 2),
+        h.election("Check Box8", "Order paragraph 5 - IS NOT required to register",
+          "the other half of the same election", 2)
+      );
     }
     return { writes, refusals };
   }
