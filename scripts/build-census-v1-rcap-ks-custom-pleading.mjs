@@ -1595,7 +1595,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
     artifacts.push({
       fixture: fixtureName, file, sha256,
       byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
-      documents, components: COMPONENT_IDS
+      documents, components: COMPONENT_IDS,
+      role: "family_assembly_of_every_route",
+      deliveryRole: SPEC.routes.length === 1
+        ? "participant_deliverable"
+        : "build_and_review_evidence_only_not_a_participant_deliverable"
     });
     pdfsDeclared.push({
       file, documentId: "assembled_packet", role: "assembled_packet_of_composed_pleadings",
@@ -1626,6 +1630,78 @@ export async function runFamily(argv = process.argv.slice(2)) {
           sha256: crypto.createHash("sha256").update(fs.readFileSync(png)).digest("hex")
         });
       }
+    }
+  }
+
+  /* ---- the per-route artifacts, which are what a participant actually receives ----
+   *
+   * The unit of delivery is a ROUTE, not a family. The assembly above concatenates
+   * every route's components into one packet; on a family carrying more than one
+   * statutory route that packet is nobody's deliverable, because it would hand a
+   * participant the pages of remedies they did not ask for and cannot use. It is
+   * retained as build and review evidence — see deliveryRole on each entry — and
+   * it is not a participant deliverable.
+   *
+   * What a participant receives is the artifact for their own route: only that
+   * route's components, in the order this family's own component declarations
+   * carry them. The pages are the same pages. Each component is rendered by
+   * renderComposedPdf from its own declared body alone, and no composed page
+   * carries a packet page number, a running header or any other value that
+   * depends on what else sits in the packet — so this is an assembly change and
+   * not new packet content.
+   */
+  const routeSlug = (routeKey) => String(routeKey).split(":")[3];
+  for (const c of SPEC.components) {
+    assert.ok(SPEC.routes.some((r) => r.routeKey === c.routeKey),
+      `${c.id}: carries route ${c.routeKey}, which this family does not declare`);
+  }
+  const routeArtifacts = [];
+  for (const fixtureName of ["canonical", "boundary"]) {
+    const facts = SPEC.fixtures[fixtureName];
+    for (const route of SPEC.routes) {
+      const routeComponentIds = SPEC.components.filter((c) => c.routeKey === route.routeKey).map((c) => c.id);
+      assert.ok(routeComponentIds.length > 0, `${route.routeKey}: a declared route carries no component`);
+      const slug = routeSlug(route.routeKey);
+      const packet = await PDFDocument.create();
+      stampDeterministic(packet);
+      packet.setTitle(`${SPEC.legalName} — ${slug} — ${fixtureName} fixture`);
+      const pageManifest = [];
+
+      for (const componentId of routeComponentIds) {
+        const body = composedBody(componentId, facts);
+        assert.ok(body.includes(facts["participant.full_legal_name"]),
+          `${componentId}: the composed page must carry the participant's name`);
+        const composedBytes = await renderComposedPdf(body, COMPONENT[componentId].title);
+        const composed = await PDFDocument.load(composedBytes, { ignoreEncryption: true, updateMetadata: false });
+        for (const [i, p] of (await packet.copyPages(composed, composed.getPageIndices())).entries()) {
+          packet.addPage(p);
+          pageManifest.push({ packetPage: packet.getPageCount(), component: componentId, documentId: componentId, sourcePage: i + 1, sourceSha256: null });
+        }
+      }
+
+      const packetBytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
+      const dir = `${OUT}/fixtures/routes/${slug}`;
+      fs.mkdirSync(path.join(ROOT, dir), { recursive: true });
+      const file = `${dir}/${fixtureName}.pdf`;
+      fs.writeFileSync(path.join(ROOT, file), packetBytes);
+
+      /* The same byte proof the family assembly gets, over this route's maps only:
+       * every fact this route's components write must be readable back out of the
+       * route artifact's own saved bytes. */
+      const routeMaps = maps.filter((m) => routeComponentIds.includes(m.formNumber));
+      const routeProof = await byteProof(packetBytes, pageManifest, routeMaps, facts, `${fixtureName}/${slug}`);
+
+      routeArtifacts.push({
+        routeKey: route.routeKey, route: slug, fixture: fixtureName, file,
+        sha256: crypto.createHash("sha256").update(packetBytes).digest("hex"),
+        byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
+        documents: routeComponentIds, components: routeComponentIds,
+        role: "route_packet_of_composed_pleadings",
+        deliveryRole: "participant_deliverable_for_this_route_only",
+        valuesReadBackFromTheseBytes: routeProof.actualWrites.length,
+        rasterPending: true,
+        independentVerificationPending: true
+      });
     }
   }
 
@@ -1688,6 +1764,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
     componentConditions: Object.fromEntries(SPEC.components.filter((c) => c.condition).map((c) => [c.id, c.condition])),
     boundReferenceSource: null,
     pdfs: pdfsDeclared,
+    /* The family assembly. On a family carrying more than one route this is build
+     * and review evidence, not something a participant receives; routeArtifacts
+     * below carries the deliverables. */
+    familyAssemblyIsAParticipantDeliverable: SPEC.routes.length === 1,
+    familyAssemblyRole: SPEC.routes.length === 1
+      ? "single-route family: the assembly and the route artifact carry the same components"
+      : "build and review evidence only — it concatenates every route's components and is not a participant deliverable",
+    routeArtifacts,
+    routeArtifactRoutes: SPEC.routes.map((r) => r.routeKey),
+    routeArtifactRasterPending: true,
     artifacts,
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     everyPageRastered: rasterPages.length === artifacts.reduce((n, a) => n + a.pageCount, 0),
@@ -1780,6 +1866,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     writes: maps.reduce((n, m) => n + (m.canonicalWrites ?? []).length, 0),
     requiredBeforeFiling: rbf.length,
     artifactHashes: artifacts.map((a) => ({ fixture: a.fixture, packetSha256: a.sha256, pages: a.pageCount })),
+    routeArtifactHashes: routeArtifacts.map((a) => ({ fixture: a.fixture, route: a.route, routeKey: a.routeKey, packetSha256: a.sha256, pages: a.pageCount })),
     rasterPages: rasterPages.length,
     rasterState: skipRaster ? "BUILT_RASTER_PENDING" : "RASTER_LOCAL_PENDING_CENTRAL",
     nineCountersZero: allZero,
