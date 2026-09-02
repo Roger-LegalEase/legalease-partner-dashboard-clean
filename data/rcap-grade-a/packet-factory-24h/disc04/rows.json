@@ -6,9 +6,9 @@
  "generatedAtBase": "09b741ad00be0d630bd73a72f66640294abab397",
  "preflight": "SOURCE_CONVEYOR_PREFLIGHT_READY",
  "counts": {
-  "obligations": 43,
-  "completed": 37,
-  "stopped": 6
+  "obligations": 51,
+  "completed": 44,
+  "stopped": 7
  },
  "method": "Committed inventories only. This container refuses egress to court and agency hosts, so no URL was fetched, no form number was guessed, and no unofficial mirror was accepted in place of an available official original. Every digest quoted for a held document was recomputed from the mounted Master Library bytes in this lane.",
  "mirrorsRefused": [
@@ -179,29 +179,35 @@
    "status": "COMPLETED",
    "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
    "jurisdiction": "WA",
-   "issuingAuthority": "Washington Courts — the Administrative Office of the Courts publishes the JU pattern forms",
-   "officialTitle": "Motion and Declaration to Seal Records of Juvenile Offender (JU 10.0300); Notice of Respondent's Motion to Seal Records of Juvenile Offender (JU 10.0315); Order Re: Sealing Records of Juvenile Offender (JU 10.0320)",
-   "formNumber": "JU 10.0300, JU 10.0315, JU 10.0320",
-   "revision": "JU 10.0320 carries a 2022-01 revision in the recorded filename; JU 10.0300 and JU 10.0315 carry none",
+   "issuingAuthority": "Washington Courts — the Administrative Office of the Courts publishes the JU pattern forms; on THIS route no publisher is engaged because nothing is filed",
+   "officialTitle": null,
+   "formNumber": null,
+   "revision": null,
    "officialUrl": null,
-   "urlKind": "none_recorded — the publisher is settled, the address is not",
-   "intendedPacketRole": "the motion, the notice of hearing and the order for the participant motion branch of juvenile record sealing under RCW 13.50.260",
-   "statewideOrLocal": "statewide pattern forms",
+   "urlKind": "none — there is no document to address",
+   "intendedPacketRole": "none",
+   "statewideOrLocal": "statewide",
    "familyIds": [
     "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260"
    ],
-   "resolution": "IDENTITY_SETTLED_ADDRESS_OUTSTANDING",
-   "finding": "The route named no document. The Washington state pack binds three pattern forms to this exact citation, RCW 13.50.260, with their official titles, their roles and their source filenames — and records that Washington Courts publishes the juvenile motion and notice as .doc rather than .pdf, which is why they do not appear in the PDF corpus index. That is an exact identity from a committed inventory, not a guess. What is still missing is the Washington Courts address each is published at; no committed record carries it.",
-   "heldElsewhere": "JU10_0300_MTAFseal.doc, JU10_0315_NT of Resp MT to Seal Records of JU Offender  13.50.050.doc and JU 10_0320 Order re Sealing Records of Juvenile Offender_2022 01.pdf are recorded present in the Nationwide source folder, which is a different corpus from the Master Library and is not mounted here.",
-   "handoffOperation": "ACQ",
+   "resolution": "NO_DOCUMENT_SHAPED_SOURCE_NAMED_CONFIRMED",
+   "finding": "The label is honest. RCW 13.50.260(1)-(2) relief is court-initiated: the court sets the administrative sealing hearing at disposition and enters the sealing order on its own findings, so the participant files nothing and there is no participant-facing document for this family to name. The three JU pattern forms (JU 10.0300 Motion and Declaration to Seal Records of Juvenile Offender, JU 10.0315 Notice of Respondent's Motion to Seal, JU 10.0320 Order Re: Sealing Records of Juvenile Offender) are real, are published by Washington Courts and are the MOTION path under RCW 13.50.260(3) — a different route, which the Captain has already decided is a separate family if it is wanted at all.",
+   "identityConfidence": null,
+   "recomputedSha256": null,
+   "corpusIndexLeg": null,
+   "handoffOperation": "NONE",
+   "nextOperationOwner": null,
    "evidencePaths": [
-    "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
-    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json",
+    "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
     "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
     "data/rcap-all50/local-source-corpus-index.json",
-    "src/lib/rcap/state-packs/washington/official-forms.ts"
+    "src/lib/rcap/state-packs/washington/official-forms.ts",
+    "src/lib/rcap/state-packs/washington/filing-instructions.ts"
    ],
-   "identityGuessed": false
+   "identityGuessed": false,
+   "supersedesEarlierRowInThisFile": true,
+   "recordedInFull": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json"
   },
   {
    "itemId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request::NO_DOCUMENT_SOURCE_NAMED",
@@ -473,6 +479,39 @@
     "data/rcap-all50/local-source-corpus-index.json"
    ],
    "identityGuessed": false
+  },
+  {
+   "itemId": "de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
+   "status": "STOPPED",
+   "sourceId": "official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
+   "jurisdiction": "DE",
+   "issuingAuthority": "Delaware State Police, State Bureau of Identification (SBI)",
+   "officialTitle": null,
+   "formNumber": null,
+   "revision": null,
+   "officialUrl": null,
+   "urlKind": "no binary address established; the publisher's programme page is https://dsp.delaware.gov/expungements/ and it is a landing page",
+   "intendedPacketRole": "the application a participant submits to SBI for mandatory expungement under 11 Del. C. § 4373",
+   "statewideOrLocal": "statewide, single agency",
+   "familyIds": [
+    "de_mandatory_expungement-set"
+   ],
+   "resolution": "PUBLISHER_SETTLED_NO_PUBLISHED_ARTIFACT_FOUND",
+   "finding": "The publisher is settled beyond doubt: the Delaware State Police State Bureau of Identification, under 11 Del. C. § 4373, and its programme page is https://dsp.delaware.gov/expungements/ (hostAllowed true). What is NOT settled, and what this lane concludes is probably not settleable by acquisition, is a published blank application: the publisher's own instruction documents describe the mandatory path as an SBI-issued letter with individualised instructions mailed to the applicant with their certified criminal history, and neither Delaware instruction packet, neither Delaware court guide, nor any committed record in this repository names a form number, a title or a revision for it. An acquisition dispatched at the programme page will return a page, not a form. That outcome is already visible in this manifest for other landing-page entries and would waste a fetch and read as a gap.",
+   "identityConfidence": null,
+   "recomputedSha256": null,
+   "corpusIndexLeg": null,
+   "handoffOperation": "CAPTAIN_AND_LEGAL, not ACQ",
+   "nextOperationOwner": "The question is not 'which URL' and it is not a question for a clerk. It is: does Delaware publish a mandatory-expungement application at all, or is the § 4373 mandatory path an SBI-initiated determination the participant triggers by requesting a certified criminal history? If the latter, de_mandatory_expungement-set is modelled official_pdf_fill on a document that does not exist, and the honest treatment is guidance — request the certified history through IdentoGo service code 27S23V, wait for the SBI eligibility letter, follow the instructions it carries — exactly as the Washington juvenile family resolved. A single human read of https://dsp.delaware.gov/expungements/ settles it; this container cannot make that read.",
+   "evidencePaths": [
+    "data/record-clearing/legal-design-intake/DE.memo.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json",
+    "data/rcap-all50/local-source-corpus-index.json"
+   ],
+   "identityGuessed": false,
+   "recordedInFull": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json"
   },
   {
    "itemId": "ky_criminal_record_segregation-set::NO_DOCUMENT_SOURCE_NAMED",
@@ -1143,6 +1182,210 @@
    "identityGuessed": false
   },
   {
+   "itemId": "mt_mmrta_completed-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+   "status": "COMPLETED",
+   "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+   "jurisdiction": "MT",
+   "issuingAuthority": "Montana Department of Justice, Division of Criminal Investigation — CRISS",
+   "officialTitle": "Expungement/Removal Request Form",
+   "formNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+   "revision": "2024-04-29",
+   "officialUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+   "urlKind": "DIRECT_OFFICIAL_BINARY",
+   "intendedPacketRole": "primary_filing at Unit 2, conditional DOJ stage",
+   "statewideOrLocal": "statewide, single agency",
+   "familyIds": [
+    "mt_mmrta_completed-set"
+   ],
+   "resolution": "ADDRESS_ALREADY_ESTABLISHED_OBLIGATION_KEY_MISSING",
+   "finding": "Same as the serving twin: address settled, obligationKey missing. The independent corroboration matters beyond this row — it means the 2024-04-29 URL is now carried verbatim by TWO committed files plus the held legal review, which is above the conveyor's own two-distinct-committed-files corroboration bar.",
+   "identityConfidence": "confirmed_from_document_text",
+   "recomputedSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+   "corpusIndexLeg": "UNSATISFIABLE_INDEX_IS_PDF_ONLY",
+   "handoffOperation": "ACQ",
+   "nextOperationOwner": "Same single key edit, then one fetch for all four families.",
+   "evidencePaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC8_SOURCE_ADDRESSES.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json"
+   ],
+   "identityGuessed": false,
+   "recordedInFull": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json"
+  },
+  {
+   "itemId": "mt_mmrta_completed-set::official-form:MT-FORM-B",
+   "status": "COMPLETED",
+   "sourceId": "official-form:MT-FORM-B",
+   "jurisdiction": "MT",
+   "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+   "officialTitle": "MMRTA Form B — Petition for Expungement or Redesignation of Conviction (use where the sentence has been served)",
+   "formNumber": "FORM B (printed on the document as 'FORM B'; MT-FORM-B is the constructed identifier)",
+   "revision": "none printed on the document",
+   "officialUrl": "https://courts.mt.gov/external/forms/mmrta/form-b.docx",
+   "urlKind": "DIRECT_OFFICIAL_BINARY",
+   "intendedPacketRole": "primary_filing — the MMRTA petition where the sentence has been served",
+   "statewideOrLocal": "statewide",
+   "familyIds": [
+    "mt_mmrta_completed-set"
+   ],
+   "resolution": "ADDRESS_ALREADY_ESTABLISHED_AND_EXERCISED",
+   "finding": "Nothing was outstanding; the address is in the manifest as mt-mmrta-form-b-petition-sentence-completed with the exact obligationKey, already fetched. The face read confirms Form A and Form B are two documents distinguished by posture — 'currently serving your sentence' against 'where Sentence has been served' — and confirms the relief they request differs too: Form A offers expungement OR RESENTENCING, Form B offers expungement OR REDESIGNATION. A packet lane must not substitute one for the other.",
+   "identityConfidence": "confirmed_from_document_text",
+   "recomputedSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+   "corpusIndexLeg": "UNSATISFIABLE_INDEX_IS_PDF_ONLY",
+   "handoffOperation": "PROMO",
+   "nextOperationOwner": "Source promotion. DOCX; COMPOSE_FROM_AUTHORITY only.",
+   "evidencePaths": [
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json",
+    "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json"
+   ],
+   "identityGuessed": false,
+   "recordedInFull": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json"
+  },
+  {
+   "itemId": "mt_mmrta_completed-set::official-form:MT-OCA-MMRTA",
+   "status": "COMPLETED",
+   "sourceId": "official-form:MT-OCA-MMRTA",
+   "jurisdiction": "MT",
+   "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+   "officialTitle": "Same two companion instruments as the serving family. The document set is identical; only the petition differs (Form B rather than Form A).",
+   "formNumber": "none printed on either document",
+   "revision": "none printed",
+   "officialUrl": [
+    "https://courts.mt.gov/external/forms/mmrta/proposed-order.docx",
+    "https://courts.mt.gov/external/forms/mmrta/cert-service.docx"
+   ],
+   "urlKind": "DIRECT_OFFICIAL_BINARY (two of them)",
+   "intendedPacketRole": "proposed_order and certificate_of_service, both required",
+   "statewideOrLocal": "statewide",
+   "familyIds": [
+    "mt_mmrta_completed-set"
+   ],
+   "resolution": "LABEL_NAMES_A_SET_BOTH_MEMBERS_NOW_ADDRESSED",
+   "finding": "Identical to the serving family and settled by the same two addresses. Worth stating plainly because it is the thing a builder would get wrong: the proposed order is drafted for BOTH postures — its caption reads 'In re the Expungement, Resentencing, or Redesignation' and it offers all three tick-boxes — so one order document serves both families, while the petitions do not.",
+   "identityConfidence": "confirmed_from_document_text",
+   "recomputedSha256": {
+    "proposedOrder": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+    "certificateOfService": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9"
+   },
+   "corpusIndexLeg": "UNSATISFIABLE_INDEX_IS_PDF_ONLY",
+   "handoffOperation": "ACQ",
+   "nextOperationOwner": "Acquisition for the two addresses, then the per-instrument identity split.",
+   "evidencePaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json"
+   ],
+   "identityGuessed": false,
+   "recordedInFull": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json"
+  },
+  {
+   "itemId": "mt_mmrta_serving-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+   "status": "COMPLETED",
+   "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+   "jurisdiction": "MT",
+   "issuingAuthority": "Montana Department of Justice, Division of Criminal Investigation — Criminal Records & Identification Services Section / Crime Information Bureau (CRISS)",
+   "officialTitle": "Expungement/Removal Request Form",
+   "formNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX (the label; the form prints a title, not a number)",
+   "revision": "2024-04-29",
+   "officialUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+   "urlKind": "DIRECT_OFFICIAL_BINARY",
+   "intendedPacketRole": "primary_filing at Unit 2, the conditional Department of Justice stage — the post-order agency submission, mailed to CRISS with the signed court order, and only where the court grants EXPUNGEMENT",
+   "statewideOrLocal": "statewide, single agency",
+   "familyIds": [
+    "mt_mmrta_serving-set"
+   ],
+   "resolution": "ADDRESS_ALREADY_ESTABLISHED_OBLIGATION_KEY_MISSING",
+   "finding": "The address is settled and correct; FABLE-DISC8 established it and it supersedes the 2023 PDF. What is missing is two obligationKeys. The manifest entry mt-doj-dci-expungement-removal-request-form-20240429-updated carries only the deferred-dismissal and misdemeanor keys, so this obligation and its completed-set twin read as unaddressed in every downstream count even though the document and its address are settled. See obligationKeysToExtendOnAnExistingEntry, which also answers the Captain's question: it is ONE document for all four Montana families that name it.",
+   "identityConfidence": "confirmed_from_document_text",
+   "recomputedSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+   "corpusIndexLeg": "UNSATISFIABLE_INDEX_IS_PDF_ONLY",
+   "handoffOperation": "ACQ",
+   "nextOperationOwner": "Whoever integrates this return: add the two keys to the existing entry rather than adding a second entry. Then ACQ fetches the address once for all four families.",
+   "evidencePaths": [
+    "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-primary-filing-5/dependency.json",
+    "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC8_SOURCE_ADDRESSES.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json"
+   ],
+   "identityGuessed": false,
+   "recordedInFull": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json"
+  },
+  {
+   "itemId": "mt_mmrta_serving-set::official-form:MT-FORM-A",
+   "status": "COMPLETED",
+   "sourceId": "official-form:MT-FORM-A",
+   "jurisdiction": "MT",
+   "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+   "officialTitle": "MMRTA Form A — Petition for Expungement or Resentencing of Conviction (use if currently serving the sentence)",
+   "formNumber": "FORM A (printed on the document as 'FORM A'; MT-FORM-A is the constructed identifier)",
+   "revision": "none printed on the document. The Montana legal review's authority table says 'forms Rev. 12/21' for the MMRTA set as a whole; that is a page-level statement, not a mark on this binary, and it is not asserted as the form's revision.",
+   "officialUrl": "https://courts.mt.gov/external/forms/mmrta/form-a.docx",
+   "urlKind": "DIRECT_OFFICIAL_BINARY",
+   "intendedPacketRole": "primary_filing — the MMRTA petition for a petitioner currently serving the sentence",
+   "statewideOrLocal": "statewide",
+   "familyIds": [
+    "mt_mmrta_serving-set"
+   ],
+   "resolution": "ADDRESS_ALREADY_ESTABLISHED_AND_EXERCISED",
+   "finding": "Nothing was outstanding. The address is in SOURCE_ACQUISITION_MANIFEST.json as mt-mmrta-form-a-petition-currently-serving with the exact obligationKey mt_mmrta_serving-set::official-form:MT-FORM-A, and it has already been fetched successfully. This lane's contribution is a first-hand face read confirming that the bytes at that address are the currently-serving petition and not the sentence-completed one, and confirming that no revision is printed on it.",
+   "identityConfidence": "confirmed_from_document_text",
+   "recomputedSha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+   "corpusIndexLeg": "UNSATISFIABLE_INDEX_IS_PDF_ONLY — data/rcap-all50/local-source-corpus-index.json indexes 582 PDFs and zero DOCX, and holds zero MT entries. See admissionRuleAsApplied.",
+   "handoffOperation": "PROMO",
+   "nextOperationOwner": "Source promotion. The bytes are acquired but no committed index carries them; a builder cannot open them yet. DOCX, so a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+   "evidencePaths": [
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json",
+    "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+    "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-primary-filing-1/dependency.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json"
+   ],
+   "identityGuessed": false,
+   "recordedInFull": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json"
+  },
+  {
+   "itemId": "mt_mmrta_serving-set::official-form:MT-OCA-MMRTA",
+   "status": "COMPLETED",
+   "sourceId": "official-form:MT-OCA-MMRTA",
+   "jurisdiction": "MT",
+   "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+   "officialTitle": "MT-OCA-MMRTA is a constructed set identifier, not a printed title. It covers two companion instruments: 'Proposed Order Granting Expungement / Resentencing / Redesignation of a Marijuana-Related Conviction (MMRTA)' and 'Certificate of Service — MMRTA Petition'.",
+   "formNumber": "none. Neither document prints a form number anywhere on its face — verified by reading both in this lane.",
+   "revision": "none printed. Document metadata dates them 2022-02 (proposed order) and 2022-03 (certificate of service).",
+   "officialUrl": [
+    "https://courts.mt.gov/external/forms/mmrta/proposed-order.docx",
+    "https://courts.mt.gov/external/forms/mmrta/cert-service.docx"
+   ],
+   "urlKind": "DIRECT_OFFICIAL_BINARY (two of them)",
+   "intendedPacketRole": "proposed_order (order 3) and certificate_of_service (order 2) — both marked requirement 'required' on this route",
+   "statewideOrLocal": "statewide",
+   "familyIds": [
+    "mt_mmrta_serving-set"
+   ],
+   "resolution": "LABEL_NAMES_A_SET_BOTH_MEMBERS_NOW_ADDRESSED",
+   "finding": "The label does not name one document and it never did. The composed-route dependency files say so in their own words: 'Master Library Edition 1.1 gives the OCA MMRTA Proposed Order and the OCA MMRTA Certificate of Service the same document ID, MT-OCA-MMRTA, distinguished only by document role, ORDER against SERVICE. They are two different binaries with two different SHA-256 values, so a component naming MT-OCA-MMRTA matches two retained assets carrying conflicting hashes and the authority gate records an authority hash conflict.' This is NOT a pick-one ambiguity: both instruments are requirement 'required' on this route and the route files both. The certificate of service is required by § 16-12-113(5)(b) and is marked required on the face of both Form A and Form B; the proposed order is submitted with the petition. Two exact binary addresses are established for the first time and carried in manifestEntriesAdded.",
+   "identityConfidence": "confirmed_from_document_text",
+   "recomputedSha256": {
+    "proposedOrder": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+    "certificateOfService": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9"
+   },
+   "corpusIndexLeg": "UNSATISFIABLE_INDEX_IS_PDF_ONLY",
+   "handoffOperation": "ACQ",
+   "nextOperationOwner": "Acquisition, for the two new addresses. Then the census owner, to split MT-OCA-MMRTA into two per-instrument identities — the registry already records that split as the mechanical cure and this lane does not own the census vocabulary. Until the split, the family keeps sourceState FAMILY_IDENTITY_AMBIGUOUS mechanically (model check S11) even though nothing about the documents is ambiguous any more.",
+   "evidencePaths": [
+    "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-proposed-order-3/dependency.json",
+    "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-certificate-of-service-2/dependency.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "data/rcap-all50/nationwide-source-inventory.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json"
+   ],
+   "identityGuessed": false,
+   "recordedInFull": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json"
+  },
+  {
    "itemId": "nv_repository_removal-set::NO_DOCUMENT_SOURCE_NAMED",
    "status": "COMPLETED",
    "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
@@ -1304,6 +1547,46 @@
    "identityGuessed": false
   },
   {
+   "itemId": "tx_nd_dwi_conviction-set::official-form:OCA Model Order of Nondisclosure under Section 411.0736",
+   "status": "COMPLETED",
+   "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0736",
+   "jurisdiction": "TX",
+   "issuingAuthority": "Texas Office of Court Administration (OCA), published on www.txcourts.gov",
+   "officialTitle": "OCA Model Order of Nondisclosure under Section 411.0736",
+   "formNumber": "TX-GC-411.0736 (order variant). OCA model forms carry a statute section and a revision, not a form number.",
+   "revision": "February 2022 for the 411.0736 model set; the address's own filename dates the order 04-26-2022. Not asserted from the order's own face, which is not held — see below.",
+   "officialUrl": "https://www.txcourts.gov/media/1454270/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+   "urlKind": "DIRECT_OFFICIAL_BINARY",
+   "intendedPacketRole": "proposed order — printed and filed with the petition; 'In most courts, you must submit a proposed order when you file your petition.'",
+   "statewideOrLocal": "statewide",
+   "familyIds": [
+    "tx_nd_dwi_conviction-set"
+   ],
+   "resolution": "ADDRESS_ALREADY_ESTABLISHED_AND_EXERCISED",
+   "finding": "Nothing was outstanding at the identity or address layer. SOURCE_ACQUISITION_MANIFEST.json already carries tx-gc-411.0736-04-26-2022-order-of-nondisclosure-sec-411-0736 with this obligationKey verbatim, urlKind DIRECT_OFFICIAL_BINARY, and a successful acquisition: run 33603361022 job 100161938351, HTTP 200, application/pdf, 108945 bytes, 3 pages, acroform, sha256 50e648a3..., no redirect. The obligation is not blocked on discovery. It is blocked on PROMOTION: the bytes exist in a workflow artifact and in no committed index, so a builder that opens this family still finds nothing.",
+   "identityConfidence": "established_from_the_publisher's_own_companion_instructions_not_from_the_order's_face",
+   "recomputedSha256": {
+    "companionPetitionHeld": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
+    "companionInstructionsHeld": "693044c746fc22d3653f06634c1d74ae348a7bb6611fdb8c31b21ddfbedd3b58",
+    "theOrderItself": "not recomputable — no bytes held. The manifest carries 50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e as the hash the hosted fetcher measured at the address."
+   },
+   "corpusIndexLeg": {
+    "companionPetition": "SATISFIED — the committed index carries STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf at e8e7dee3..., in two custodies (master_library and d_source_packs), and my recomputed digest agrees.",
+    "companionInstructions": "SATISFIED at 693044c7..., same two custodies.",
+    "theOrder": "NOT IN THE INDEX. 50e648a3... appears nowhere in local-source-corpus-index.json. The bytes were fetched into a workflow artifact and never promoted."
+   },
+   "handoffOperation": "PROMO",
+   "nextOperationOwner": "Source promotion, not acquisition — re-fetching a document that returned HTTP 200 four days ago is the exact waste the 2026-08-31 batch demonstrated. What PROMO must check on promotion, because this lane could not: that the acquired PDF's own face prints 'Order of Nondisclosure' and §411.0736, and not §411.0731 or the combined §411.0725/411.073/411.0735 order. The publisher issues one combined order for three sections, so a section-specific order is exactly where a mis-bind would hide.",
+   "evidencePaths": [
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json",
+    "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json",
+    "data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json",
+    "data/rcap-all50/local-source-corpus-index.json"
+   ],
+   "identityGuessed": false,
+   "recordedInFull": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json"
+  },
+  {
    "itemId": "va_exp_absolute_pardon-set::NO_DOCUMENT_SOURCE_NAMED",
    "status": "STOPPED",
    "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
@@ -1394,5 +1677,23 @@
    ],
    "identityGuessed": false
   }
- ]
+ ],
+ "secondPass": {
+  "lane": "FABLE-DISC04",
+  "base": "ff08785680f9facd967827284c3325b696e5f50f",
+  "producedOn": "2026-09-02",
+  "whyThisFileWasRewritten": "The same nine itemIds were re-dispatched to DISC04 after the run that produced the first 43 rows. Eight of the nine had no row here at all; the ninth, the Washington juvenile row, is replaced because this pass contradicts it. The 34 rows this pass did not own are untouched.",
+  "rowsReplacedOrAdded": 9,
+  "rowsAlreadyPresentAndReplaced": 1,
+  "rowsLeftUntouched": 42,
+  "fullReturn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json",
+  "contradictionsRecorded": [
+   "C1",
+   "C2",
+   "C3",
+   "C4",
+   "C5",
+   "C6"
+  ]
+ }
 }
