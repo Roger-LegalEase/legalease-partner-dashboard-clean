@@ -41,3 +41,44 @@ export function nonFormCandidatesSetAside(matches) {
   return matches.filter((m) => m?.assetClass !== "FORM")
     .map((m) => ({ path: m.path, assetClass: m.assetClass ?? null, sha256: m.sha256 }));
 }
+
+/**
+ * ONE FORM NUMBER, SEVERAL LANGUAGES — AND SOMETIMES SEVERAL DOCUMENTS.
+ *
+ * The FORM preference above is not the only reason a form number resolves to
+ * more than one document, and the residue is not one thing:
+ *
+ *  - LANGUAGE. North Carolina files AOC-CR-287 and AOC-CV-226 in English,
+ *    Spanish and Vietnamese under one number. A packet delivers one of them,
+ *    and which one is not a coin toss.
+ *  - EDITION. AOC-CR-287 exists at REV-2020-12 and REV-2025-12. That is the
+ *    staleness question and this resolver has a class for it.
+ *  - GENUINELY DIFFERENT DOCUMENTS. Montana files the OCA MMRTA proposed order
+ *    and its certificate of service under one document id, split only by role,
+ *    and both are required; Texas files the order and the petition for each
+ *    nondisclosure section under one section number. There the label does not
+ *    identify a document at all, and no preference can make it.
+ *
+ * Language is decidable from the index and is decided here. The rest is not,
+ * and the caller is expected to refuse rather than pick — a form number that
+ * still names two distinct hashes after both preferences is an unresolved
+ * identity, and binding one arbitrarily is how a family comes to ship the
+ * certificate of service where the proposed order belongs.
+ */
+export function preferPrimaryLanguage(matches, language = "EN") {
+  if (!Array.isArray(matches) || matches.length < 2) return matches ?? [];
+  const preferred = matches.filter((m) => (m?.language ?? language) === language);
+  return preferred.length > 0 && preferred.length < matches.length ? preferred : matches;
+}
+
+/**
+ * The entries an `official-form:` label resolves to after every preference
+ * this module can justify, or null when the label still names more than one
+ * distinct document and therefore identifies none of them.
+ */
+export function resolveOfficialFormCandidates(matches, language = "EN") {
+  const narrowed = preferPrimaryLanguage(preferOfficialForm(matches), language);
+  if (narrowed.length === 0) return { candidates: [], ambiguous: false };
+  const distinct = new Set(narrowed.map((m) => m?.sha256));
+  return { candidates: narrowed, ambiguous: distinct.size > 1 };
+}

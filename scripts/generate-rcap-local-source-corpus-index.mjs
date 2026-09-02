@@ -52,7 +52,27 @@ function walk(dir, out = []) {
     if (entry.name === "__MACOSX" || isAppleDouble(entry.name)) continue;
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) walk(full, out);
-    else if (/\.pdf$/i.test(entry.name)) out.push(full);
+    /*
+     * NOT EVERY OFFICIAL BINARY IS A PDF.
+     *
+     * This filter was `\.pdf$`, and the index's own counter is still called
+     * pdfsIndexed, which was accurate and hid something. The Master Library
+     * holds seven DOCX files and five of them are Montana's: the OCA MMRTA
+     * proposed order and certificate of service, Form A and Form B. Zero were
+     * indexed, so `byState` carried no MT entry at all, and the third leg of
+     * the tier-3 admission rule -- the committed corpus index must hold this
+     * exact path at this exact hash -- was unsatisfiable for every one of
+     * them. Five held, hash-verifiable documents read as absent, and the only
+     * address the MMRTA label had was the Supreme Court order ADOPTING the
+     * rules, so a family could read as addressed-and-acquired on rule text.
+     *
+     * A DOCX is indexed for what an index is for: identity and custody. It is
+     * NOT given the PDF structural fields; those are measured from a PDF
+     * dictionary and inventing them would be the dangerous kind of wrong this
+     * file exists to prevent. `assetFormat` says which it is, and a consumer
+     * that needs page counts or AcroForm fields must check that first.
+     */
+    else if (/\.(pdf|docx)$/i.test(entry.name)) out.push(full);
   }
   return out;
 }
@@ -277,7 +297,7 @@ const unmounted = [];
 for (const custody of CUSTODIES) {
   const abs = path.join(rootDir, custody.root);
   if (!fs.existsSync(abs)) { unmounted.push(`${custody.id}: ${custody.root} is not mounted`); continue; }
-  if (walk(abs).length === 0) unmounted.push(`${custody.id}: ${custody.root} is mounted but holds no PDF`);
+  if (walk(abs).length === 0) unmounted.push(`${custody.id}: ${custody.root} is mounted but holds no indexable binary`);
 }
 if (unmounted.length) {
   console.error("REFUSED: a declared source custody is not present, and an index missing its entries would unbind every source keyed to them.");
@@ -321,11 +341,12 @@ for (const custody of CUSTODIES) {
     }
 
     const identity = custody.identity(relativeToCustody);
-    const text = bytes.toString("latin1");
+    const isPdf = /\.pdf$/i.test(file);
+    const text = isPdf ? bytes.toString("latin1") : "";
     let pageCount = null;
     let acroFieldCount = null;
     let loadError = null;
-    try {
+    if (isPdf) try {
       const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
       pageCount = doc.getPageCount();
       try { acroFieldCount = doc.getForm().getFields().length; } catch { acroFieldCount = 0; }
@@ -346,24 +367,31 @@ for (const custody of CUSTODIES) {
       language: identity.language,
       byteLength: bytes.length,
       sha256,
+      /* What kind of binary this is. Present on every entry so no reader has
+       * to infer it from the path, and so the absence of a structural
+       * measurement below is explained rather than ambiguous. */
+      assetFormat: isPdf ? "pdf" : path.extname(file).slice(1).toLowerCase(),
       pageCount,
       // Read from the bytes. The name says what someone meant; the dictionary
       // says what the factory will actually find.
       // A document the primary reader refused is measured again below, with an
       // instrument that can open it. Until then it claims nothing.
-      acroFormPresent: loadError ? null : /\/AcroForm\b/.test(text),
+      acroFormPresent: !isPdf ? null : loadError ? null : /\/AcroForm\b/.test(text),
       acroFieldCount,
-      xfaPresent: loadError ? null : /\/XFA[\s/[]/.test(text),
+      xfaPresent: !isPdf ? null : loadError ? null : /\/XFA[\s/[]/.test(text),
       // An XFA form's fields may live entirely in the XML, so an AcroForm
       // dictionary with zero fields on an XFA document means "not readable by
       // this factory", not "nothing to fill".
-      structuralClassObserved: loadError ? "unreadable"
+      /* A non-PDF is not "unreadable": nothing tried to read it as a PDF and
+       * nothing should. It carries its own format and no PDF verdict. */
+      structuralClassObserved: !isPdf ? `not_a_pdf_${path.extname(file).slice(1).toLowerCase()}`
+        : loadError ? "unreadable"
         : /\/XFA[\s/[]/.test(text) ? "xfa"
           : (acroFieldCount ?? 0) > 0 ? "acroform"
             : "flat_pdf",
       loadError
     };
-    if (loadError) unreadable.set(file, entry);
+    if (loadError && isPdf) unreadable.set(file, entry);
     entries.push(entry);
     shaToEntry.set(sha256, entry);
   }
@@ -475,6 +503,10 @@ const payload = {
   corpusRoot: MASTER_LIBRARY,
   custodies: CUSTODIES.map((c) => ({
     id: c.id, root: c.root, pathsRelativeTo: c.pathsRelativeTo, describes: c.describes,
+    binariesIndexed: byCustody[c.id] ?? 0,
+    /* Kept under its old name as well: several committed records and readers
+     * ask for pdfsIndexed by name, and renaming it silently would make them
+     * read zero. It counts every indexed binary, as it always did. */
     pdfsIndexed: byCustody[c.id] ?? 0
   })),
   corpusIsNotCommitted: "private/ is git-ignored. This index is the committed record of what the corpus contained; the corpus itself is a working input.",
@@ -486,7 +518,10 @@ const payload = {
   importVerification,
   importVerificationProvenance,
   totals: {
+    binariesIndexed: entries.length,
     pdfsIndexed: entries.length,
+    byAssetFormat: entries.reduce((acc, e) => { acc[e.assetFormat] = (acc[e.assetFormat] ?? 0) + 1; return acc; }, {}),
+    whyByAssetFormatExists: "The index held PDFs only until a non-PDF official binary was needed. Five Montana DOCX documents were held, hash-verifiable and invisible to every identity check because of it. A consumer that needs pageCount, acroFormPresent or structuralClassObserved must read assetFormat first: those are PDF measurements and are null on anything else.",
     exactDuplicateBinariesSkipped: duplicates.length,
     byCustody,
     byStructure,

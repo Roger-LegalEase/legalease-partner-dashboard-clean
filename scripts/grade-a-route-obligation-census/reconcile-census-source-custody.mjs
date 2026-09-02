@@ -36,6 +36,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { nonFormCandidatesSetAside, resolveOfficialFormCandidates } from "../lib/official-form-asset-class.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(rootDir);
@@ -213,20 +214,55 @@ const byHash = new Map(corpus.entries.map((e) => [e.sha256, e]));
  * map when no FORM entry claims that number, because an instruction sheet a
  * family names by itself is a real component -- CR-106-INFO is exactly that.
  */
+/*
+ * TIER 1 HAD NO UNIQUENESS RULE, AND TIER 2 ALWAYS DID.
+ *
+ * This map was built by insertion, so a form number naming two DIFFERENT
+ * documents resolved to whichever the walk reached last. Tier 2 refuses that
+ * case in as many words -- "an ambiguous match is not a match: two corpus
+ * entries that both satisfy the label mean the label does not identify
+ * either" -- and tier 1, which runs first and wins, did not.
+ *
+ * Nine form numbers are in that state. Four are language variants and are
+ * decided by preferring English, which is what these packets deliver. Five are
+ * not decidable at all: Montana files the OCA MMRTA proposed order and its
+ * certificate of service under one document id with both required, and Texas
+ * files the order and the petition for each nondisclosure section under one
+ * section number. Those need a route split or a label change, which is a
+ * modelling decision and not this resolver's to make silently.
+ *
+ * So an ambiguous form number now resolves to NOTHING at tier 1 and is
+ * reported. Montana's two MMRTA families lose this label and keep the two
+ * source-sha256 obligations that name the same two documents exactly, so
+ * nothing about what they hold changes -- only the false claim that one label
+ * identified one of them.
+ */
 const byFormNumber = new Map();
 const displacedByAssetClass = [];
+const ambiguousFormNumbers = [];
+const groupedByFormNumber = new Map();
 for (const entry of corpus.entries) {
   if (!entry.formNumber) continue;
   const key = normalise(entry.formNumber);
-  const held = byFormNumber.get(key);
-  if (held && held.assetClass === "FORM" && entry.assetClass !== "FORM") {
-    displacedByAssetClass.push({ formNumber: entry.formNumber, keptFORM: held.path, notPreferred: entry.path, assetClass: entry.assetClass });
+  if (!groupedByFormNumber.has(key)) groupedByFormNumber.set(key, []);
+  groupedByFormNumber.get(key).push(entry);
+}
+for (const [key, group] of groupedByFormNumber) {
+  const { candidates, ambiguous } = resolveOfficialFormCandidates(group);
+  for (const dropped of nonFormCandidatesSetAside(group)) {
+    displacedByAssetClass.push({ formNumber: group[0].formNumber, keptFORM: candidates[0]?.path ?? null, notPreferred: dropped.path, assetClass: dropped.assetClass });
+  }
+  if (ambiguous) {
+    ambiguousFormNumbers.push({
+      formNumber: group[0].formNumber,
+      distinctDocuments: [...new Set(candidates.map((c) => c.sha256))].length,
+      candidates: candidates.map((c) => ({ path: c.path, sha256: c.sha256, revision: c.revision ?? null })),
+      resolvesTo: null,
+      why: "This form number names more than one distinct document even after preferring FORM over INSTRUCTIONS and English over other languages. A label that names two documents identifies neither. It needs a route split or a label change, not a resolver's guess."
+    });
     continue;
   }
-  if (held && held.assetClass !== "FORM" && entry.assetClass === "FORM") {
-    displacedByAssetClass.push({ formNumber: entry.formNumber, keptFORM: entry.path, notPreferred: held.path, assetClass: held.assetClass });
-  }
-  byFormNumber.set(key, entry);
+  if (candidates.length > 0) byFormNumber.set(key, candidates[0]);
 }
 /* Every entry at one form number, for the staleness test below. */
 const allByFormNumber = new Map();
@@ -465,6 +501,14 @@ const doc = {
   },
   matchingIsConservative:
     "Only an exact content hash or a strong form-number match within the same jurisdiction counts as held. An unresolvable label is recorded as unresolved identity rather than as missing, because absence of a match is not evidence of absence -- and calling a held source missing wastes acquisition while calling a missing source held suppresses it.",
+  /* Form numbers that name more than one distinct document even after
+   * preferring FORM over INSTRUCTIONS and English over other languages. Each
+   * resolves to nothing rather than to an arbitrary one of its candidates, and
+   * is listed here so the refusal is actionable instead of silent: every one
+   * needs a route split or a label change. */
+  ambiguousFormNumbers,
+  whatAnAmbiguousFormNumberCosts:
+    "The label is refused at tier 1, so any obligation naming it stays unresolved. Where the family also names the same documents by source-sha256 -- as Montana's two MMRTA families do -- nothing it holds changes; only the false claim that one label identified one of two required documents.",
   acquisitionTasks: rows.length,
   counts,
   commissionAcquisitionFor: rows.filter((r) => r.commissionAcquisition).length,

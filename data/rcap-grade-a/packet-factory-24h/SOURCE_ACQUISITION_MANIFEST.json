@@ -39,12 +39,17 @@
       "data/record-clearing"
     ],
     "distinctUrlsSeen": 246,
-    "corroborated": 211,
+    "corroborated": 212,
     "candidateOnly": 9,
     "topCorroborated": [
       {
         "url": "https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
         "corroboration": 34,
+        "alreadyInManifest": true
+      },
+      {
+        "url": "https://www.txcourts.gov/media/1454270/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+        "corroboration": 19,
         "alreadyInManifest": true
       },
       {
@@ -60,11 +65,6 @@
       {
         "url": "https://www.txcourts.gov/media/1454257/order-of-nondisclosure-sec-411-0729.pdf",
         "corroboration": 17,
-        "alreadyInManifest": true
-      },
-      {
-        "url": "https://www.txcourts.gov/media/1454270/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
-        "corroboration": 16,
         "alreadyInManifest": true
       },
       {
@@ -96,12 +96,12 @@
     "whyThisExists": "The Texas statement of inability gates ten families, has an exact txcourts.gov address in dozens of committed records, and was never queued because the manifest read only the two acquisition-receipt files."
   },
   "counts": {
-    "entries": 60,
+    "entries": 62,
     "refused": 7,
-    "urlRecordsRead": 67,
-    "sourceObligationsTotal": 234,
+    "urlRecordsRead": 69,
+    "sourceObligationsTotal": 214,
     "obligationsCoveredByARecordedUrl": 93,
-    "obligationsNeedingDiscoveryFirst": 141
+    "obligationsNeedingDiscoveryFirst": 121
   },
   "entries": [
     {
@@ -1254,6 +1254,45 @@
       }
     },
     {
+      "sourceId": "mt-mmrta-certificate-of-service-on-county-attorney",
+      "jurisdiction": "MT",
+      "formNumber": "MT-OCA-MMRTA",
+      "officialTitle": "Certificate of Service — MMRTA Petition (service on the county attorney)",
+      "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+      "officialUrl": "https://courts.mt.gov/external/forms/mmrta/cert-service.docx",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+      "host": "courts.mt.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "mt_mmrta_serving-set::official-form:MT-OCA-MMRTA",
+        "mt_mmrta_completed-set::official-form:MT-OCA-MMRTA"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json",
+      "expectedSha256Basis": "Recomputed by this lane with sha256sum from private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx. A pin on the held edition.",
+      "hostAllowedExecuted": {
+        "module": "scripts/lib/official-host-policy.mjs",
+        "call": "hostAllowed(\"courts.mt.gov\")",
+        "result": true,
+        "why": "closed .gov namespace; not on the refused list; not an exact-host case"
+      },
+      "format": "DOCX. A COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "obligationKeyBasis": "Same two committed itemIds. This instrument and the proposed order are the two documents the single label covers.",
+      "exactBinaryUrlEstablished": true,
+      "corroboration": {
+        "one": "The exact URL is carried verbatim by the held Montana legal review, same table: '| MMRTA Certificate of Service | **Required** by § 16-12-113(5)(b) and marked required on both Form A and Form B | https://courts.mt.gov/external/forms/mmrta/cert-service.docx |'.",
+        "two": "data/record-clearing/source-artifact-registry.json, artifactId mt-oca-mmrta-certificate-of-service-source-2022-03, provenance.originalFilename 'cert-service.docx', inventorySha256 and measuredSha256 both d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9, hashState 'match'; officialTitle recorded as 'Certificate of Service - MMRTA Petition'. data/rcap-all50/nationwide-source-inventory.json carries the same originalFilename.",
+        "three": "Same exercised path shape: three HTTP 200 siblings in /external/forms/mmrta/ in run 33603361022.",
+        "four": "Face read in this lane from word/document.xml: 'CERTIFICATE OF SERVICE / The undersigned hereby certifies that true and correct copies of the foregoing document were, this day, served upon the following individuals by U.S. Mail and/or e-mail and addressed as follows:' followed by a 'Name of County Attorney' block, a date line and a signature block. It is a certificate of service and it is not a proposed order.",
+        "five": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-certificate-of-service-2/dependency.json carries officialFormId MT-OCA-MMRTA, officialFormDocumentRole SERVICE, sourceBinary.sha256 d9096c17..., requirement 'required', and profileCorroboration 'The petition must be served on the county attorney for the county where the petition is filed. Under the Judicial Branch instructions, the county attorney has 21 days to oppose the petition.' data/record-clearing/legal-design-track-registry.json carries mt_mmrta_completed-certificate-of-service-2 identically."
+      },
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "no usable egress; fetching is forbidden here",
+        "whatRemainsForTheRunner": "HTTP reachability, content type and the SHA-256 at the address."
+      }
+    },
+    {
       "sourceId": "mt-mmrta-form-a-petition-currently-serving",
       "jurisdiction": "MT",
       "formNumber": "MT-FORM-A",
@@ -1336,6 +1375,45 @@
         "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
         "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
         "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "mt-mmrta-proposed-order-granting-expungement-resentencing-or-redesignation",
+      "jurisdiction": "MT",
+      "formNumber": "MT-OCA-MMRTA",
+      "officialTitle": "Proposed Order Granting Expungement, Resentencing, or Redesignation of a Marijuana-Related Conviction (MMRTA)",
+      "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+      "officialUrl": "https://courts.mt.gov/external/forms/mmrta/proposed-order.docx",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+      "host": "courts.mt.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "mt_mmrta_serving-set::official-form:MT-OCA-MMRTA",
+        "mt_mmrta_completed-set::official-form:MT-OCA-MMRTA"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json",
+      "expectedSha256Basis": "Recomputed by this lane with sha256sum from private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx. It is a pin on the HELD edition -- a claim about WHICH document belongs here -- not a first-acquisition hash.",
+      "hostAllowedExecuted": {
+        "module": "scripts/lib/official-host-policy.mjs",
+        "call": "hostAllowed(\"courts.mt.gov\")",
+        "result": true,
+        "why": "closed .gov namespace; not on the refused list; not an exact-host case"
+      },
+      "format": "DOCX. A COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target. The two sibling MMRTA petitions at this same address shape already acquired as DOCX and the manifest records that as declared, not as a surprise.",
+      "obligationKeyBasis": "Both keys are the committed itemIds in ACTIVE_ASSIGNMENTS.json entry DISC04, byte-identical to the keys already carried by mt-af-22-0129-order-adopting-the-mmrta-temporary-rules.",
+      "exactBinaryUrlEstablished": true,
+      "corroboration": {
+        "one": "The exact URL is carried verbatim by the publisher-facing legal review held in the Master Library: private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/01_LEGAL_REVIEW/MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md, Part 2 table 'Missing from the archive and required before build', row: '| MMRTA Proposed Order | Recommended by OCA for Tracks 2 and 3; the archive has the petitions but not the order | https://courts.mt.gov/external/forms/mmrta/proposed-order.docx |'.",
+        "two": "The filename is carried by a committed, hash-bound record: data/record-clearing/source-artifact-registry.json, artifactId mt-oca-mmrta-proposed-order-granting-expungement-resentencing-or-redesignation-source-2022, provenance.originalFilename 'proposed-order.docx', inventorySha256 and measuredSha256 both 2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e, hashState 'match'. data/rcap-all50/nationwide-source-inventory.json carries the same originalFilename. So the last path segment is not this lane's construction.",
+        "three": "The path SHAPE on this host is exercised, not assumed. THREE siblings in the same flat /external/forms/mmrta/ directory returned HTTP 200 from the hosted fetcher in run 33603361022: form-a.docx (job 100161934918, 23777 bytes), form-b.docx (job 100161934677, 23685 bytes) and af22-0129order.pdf (job 100161934745, 380679 bytes). Recorded in SOURCE_ACQUISITION_MANIFEST.json and FABLE_PROMO1_ACQUISITION_RECEIPTS.json. The only variable between an acquired sibling and this address is the filename, which the two records above supply exactly.",
+        "four": "The document at that filename is held and its own face was READ in this lane. unzip -p word/document.xml prints the caption block '☐ MONTANA ____________ JUDICIAL DISTRICT COURT, ____________ COUNTY / ☐ IN THE JUSTICE COURT OF ________________ COUNTY, STATE OF MONTANA / ☐ IN THE MUNICIPAL OR CITY COURT OF ________________, MONTANA', the heading 'In re the Expungement, Resentencing, or Redesignation of the Marijuana-Related Conviction of', the title 'Proposed Order Granting ☐ Expungement of Conviction ☐ Resentencing of Conviction ☐ Redesignation of Conviction' and the recital 'Petitioner has requested ☐ Expungement / ☐ Resentencing / ☐ Redesignation of a criminal conviction pursuant to the Montana Marijuana Regulation and Taxation Act (MMRTA).' No form number is printed on it; MT-OCA-MMRTA is a constructed identifier.",
+        "five": "Relationship corroboration from committed route evidence, read first-hand: data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-proposed-order-3/dependency.json carries officialFormId MT-OCA-MMRTA, officialFormDocumentRole ORDER, sourceBinary.sha256 2e38c3c6..., requirement 'required', role proposed_order, and profileCorroboration 'Proposed Order Submitted with petition'. data/record-clearing/legal-design-track-registry.json packetSet mt_mmrta_completed-set carries the identical component mt_mmrta_completed-proposed-order-3, officialFormId MT-OCA-MMRTA, requirement required. Both MMRTA families file it."
+      },
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "This container has no usable outbound egress to state judiciary hosts and the assignment forbids fetching. Nothing here is claimed as exercised.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type and the SHA-256 at the address. If the returned hash is not 2e38c3c6... the publisher has reissued the document and that is a finding, not a failure."
       }
     },
     {
@@ -2244,7 +2322,7 @@
       "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
       "expectedSha256Note": "held-edition hash(es) e8e7dee3c084 are set-level pins claimed by more than one URL; unpinned here, the acquired bytes' own hash is authoritative and PROMO recomputes",
       "corroboration": {
-        "nonCandidateFiles": 16,
+        "nonCandidateFiles": 19,
         "examples": [
           "data/rcap-all50/review-artifacts/d-track-queue.json",
           "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json",
