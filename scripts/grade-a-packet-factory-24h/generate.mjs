@@ -795,9 +795,34 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (independentFail) state = "FAIL_REPAIR_REQUIRED";
   else if (activeOwner && activeOwnerLane === "independent-verification") state = "VERIFYING";
   else if (activeOwner) state = "BUILD_IN_PROGRESS";
-  else if (verdict?.verdict === "PASS") state = "VERIFIED_PASS";
-  else if (comp && nineZero) state = "VERIFY_PENDING";
+  /*
+   * A COMPLETENESS FAILURE OUTRANKS A NON-INDEPENDENT PASS.
+   *
+   * This line used to read `else if (verdict?.verdict === "PASS") state =
+   * "VERIFIED_PASS"` and sat ABOVE the two completeness cases, so a plain PASS
+   * -- which is a lane's own verdict on its own work, never an independent one
+   * -- promoted a family the completeness verifier was failing. Nothing between
+   * "a lane says it built this" and "verified" asked the nine counters.
+   *
+   * It was invisible for as long as those families also had an active owner,
+   * because `activeOwner` catches first and holds them at BUILD_IN_PROGRESS.
+   * Retiring four dead Codex Cloud reservations removed the owners and all four
+   * families -- nj_disorderly_persons-set, ca-17b-reduction-set, ca-1203-43-set
+   * and az_marijuana_expungement_superior_court-set -- went straight to
+   * VERIFIED_PASS carrying completenessStatus FAIL_MISSING_REQUIRED_FACTS and
+   * up to four non-zero counters between them. ca-17b-reduction-set alone had
+   * 54 known required fields missing, 71 unclassified blanks, 16 required
+   * options missing and 3 required components missing.
+   *
+   * So the completeness measurement is consulted first, and a plain PASS can
+   * only reach VERIFIED_PASS on a family whose nine counters are zero. A
+   * measured failure is never outranked by anyone's opinion, least of all the
+   * builder's own.
+   */
   else if (comp && !nineZero) state = "FAIL_REPAIR_REQUIRED";
+  else if (verdict?.verdict === "PASS" && comp && nineZero) state = "VERIFIED_PASS";
+  else if (verdict?.verdict === "PASS" && !comp) state = "VERIFIED_PASS";
+  else if (comp && nineZero) state = "VERIFY_PENDING";
   /*
    * A legally blocked family is not source-blocked.
    *
