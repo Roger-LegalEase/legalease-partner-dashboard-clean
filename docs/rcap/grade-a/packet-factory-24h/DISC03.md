@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `c4cd551656a08934a7f855bddbc68833b44aeac4` (or the newer dispatch base)
+**Minimum required ancestor:** `a4cedb4a1d2da0fe48ce0c47ffd8f6dfb8e66eb2` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC03 \
   --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' \
   --codex-cloud \
-  --minimum-captain-sha c4cd551656a08934a7f855bddbc68833b44aeac4
+  --minimum-captain-sha a4cedb4a1d2da0fe48ce0c47ffd8f6dfb8e66eb2
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**14 obligations · 8 families this lane WOULD release if every one of them resolves · hosts: AR, FL, IA, TX**
+**14 obligations · 8 families this lane WOULD release if every one of them resolves · hosts: AR, FL, IA, WA**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -110,6 +110,7 @@ the issuing court or agency that publishes the document
 | `ar-drug-court-set::official-form:ACIC-PETITION-DRUG-COURT` | `official-form:ACIC-PETITION-DRUG-COURT` | AR | `exact-source-identity` | `ar-drug-court-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | `official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | AR | `exact-source-identity` | `ar-misdemeanor-seal-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-veterans-court-set::official-form:ACIC-ORDER-VETERANS-COURT` | `official-form:ACIC-ORDER-VETERANS-COURT` | AR | `exact-source-identity` | `ar-veterans-court-set` | unresolved exact identity or URL | `ACQ` |
+| `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | WA | `exact-source-identity` | `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260` | unresolved exact identity or URL | `ACQ` |
 | `fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | `official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | FL | `exact-source-identity` | `fl-10yr-bridge-set` | unresolved exact identity or URL | `ACQ` |
 | `fl-administrative-set::official-form:FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION` | `official-form:FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION` | FL | `exact-source-identity` | `fl-administrative-set` | unresolved exact identity or URL | `ACQ` |
 | `fl-early-juvenile-set::official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION` | `official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION` | FL | `exact-source-identity` | `fl-early-juvenile-set` | unresolved exact identity or URL | `ACQ` |
@@ -118,7 +119,6 @@ the issuing court or agency that publishes the document
 | `fl-sealing-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | `official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | FL | `exact-source-identity` | `fl-sealing-set` | unresolved exact identity or URL | `ACQ` |
 | `ia-901c3-set::official-form:Rule 2.86 Form 2` | `official-form:Rule 2.86 Form 2` | IA | `exact-source-identity` | `ia-901c3-set` | unresolved exact identity or URL | `ACQ` |
 | `ia-901c3-set::official-form:Rule 2.86 Form 2 attached sheet` | `official-form:Rule 2.86 Form 2 attached sheet` | IA | `exact-source-identity` | `ia-901c3-set` | unresolved exact identity or URL | `ACQ` |
-| `tx_nd_dwi_conviction-set::official-form:OCA Model Order of Nondisclosure under Section 411.0736` | `official-form:OCA Model Order of Nondisclosure under Section 411.0736` | TX | `exact-source-identity` | `tx_nd_dwi_conviction-set` | unresolved exact identity or URL | `ACQ` |
 
 Deterministically assert exactly the 14 committed itemIds (failures are recorded per row and do not terminate the loop):
 
@@ -138,7 +138,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' --codex-cloud --minimum-captain-sha c4cd551656a08934a7f855bddbc68833b44aeac4
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' --codex-cloud --minimum-captain-sha a4cedb4a1d2da0fe48ce0c47ffd8f6dfb8e66eb2
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -147,7 +147,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source
 
 ### Families this lane would release
 
-`ar-act346-set`, `ar-drug-court-set`, `ar-misdemeanor-seal-set`, `ar-veterans-court-set`, `fl-administrative-set`, `fl-early-juvenile-set`, `fl-juvenile-diversion-set`, `tx_nd_dwi_conviction-set`
+`ar-act346-set`, `ar-drug-court-set`, `ar-misdemeanor-seal-set`, `ar-veterans-court-set`, `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`, `fl-administrative-set`, `fl-early-juvenile-set`, `fl-juvenile-diversion-set`
 
 
 ### Settle these first
@@ -165,7 +165,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source
 | FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION | FL | 1 |
 | FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION | FL | 1 |
 | FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION | FL | 1 |
-| OCA Model Order of Nondisclosure under Section 411.0736 | TX | 1 |
+| NO_DOCUMENT_SOURCE_NAMED | WA | 0 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 

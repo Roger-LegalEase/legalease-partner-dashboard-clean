@@ -29,11 +29,7 @@
   "role": "Repair and Promotion Factory (persistent Codespace)",
   "lane": "FIX09",
   "laneKind": "repair",
-  "subjectIds": [
-    "ca-1203-41-set",
-    "ca-1203-42-set",
-    "ca-1203-4a-set"
-  ],
+  "subjectIds": [],
   "subjects": [
     {
       "familyId": "ca-1203-41-set",
@@ -126,5 +122,23 @@
     "remote": "origin/claude/legalease-sprint-captain-utucnw",
     "mustContain": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
     "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
-  }
+  },
+  "withdrawnBecauseHeldByARunningClaudeLane": [
+    {
+      "subjectId": "ca-1203-41-set",
+      "heldBy": "FIX01/repair",
+      "withdrawnOn": "2026-09-02"
+    },
+    {
+      "subjectId": "ca-1203-42-set",
+      "heldBy": "FIX02/repair",
+      "withdrawnOn": "2026-09-02"
+    },
+    {
+      "subjectId": "ca-1203-4a-set",
+      "heldBy": "FIX03/repair",
+      "withdrawnOn": "2026-09-02"
+    }
+  ],
+  "whyWithdrawn": "A live grant on a running Claude lane outranks a planning entry for an external worker that has not started. These subjects are being worked now; an external assignment naming them would be a second owner, which the ledger cannot express."
 }

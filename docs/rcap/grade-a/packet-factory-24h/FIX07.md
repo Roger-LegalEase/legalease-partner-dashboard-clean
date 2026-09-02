@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `c4cd551656a08934a7f855bddbc68833b44aeac4` (or the newer dispatch base)
+**Minimum required ancestor:** `a4cedb4a1d2da0fe48ce0c47ffd8f6dfb8e66eb2` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 \
   --codex-cloud \
-  --minimum-captain-sha c4cd551656a08934a7f855bddbc68833b44aeac4
+  --minimum-captain-sha a4cedb4a1d2da0fe48ce0c47ffd8f6dfb8e66eb2
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,13 +56,14 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 5 families
+## The 6 families
 
 - `composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085`
 - `composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route`
 - `id_isp_expungement-set`
 - `in_arrest_no_charges-set`
 - `tx_nd_conviction_no_supervision-set`
+- `ut_pet_dismissed_with_prejudice-set`
 
 ## What you receive
 
@@ -80,11 +81,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085.mjs`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route.mjs`
 - `scripts/build-census-v1-id_isp_expungement-set.mjs`
 - `scripts/build-census-v1-in_arrest_no_charges-set.mjs`
 - `scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs`
+- `scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs`
 
 ## Never write here
 

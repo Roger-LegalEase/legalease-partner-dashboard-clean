@@ -1069,12 +1069,34 @@ try {
   for (const n of rq.notEligible ?? []) if (n.familyId) rasterNotEligible.set(n.familyId, n.why ?? []);
   for (const r of rq.rows ?? []) {
     const rec = r.rasterReceipt;
+    /*
+     * THE RECEIPT MUST BIND THE BYTES ON DISK, NOT THE QUEUE'S OWN COPY.
+     *
+     * The last two comparisons read the receipt against r.canonicalPdfSha256 --
+     * a field of the same queue row the receipt lives in. When a packet is
+     * rebuilt, BOTH move together on the next regeneration and the check keeps
+     * passing over bytes nobody rastered. That is the mirror shape: a record
+     * asserting its own consistency and calling it evidence.
+     *
+     * Kansas made it concrete. Its acceptance receipt claimed RASTER_PASS
+     * covering the whole family, bound to canonical 6a4ce684; after the
+     * route-key repair the canonical hashes aca94f8f, and none of its six
+     * artifacts appears in the raster queue at all. The receipt was internally
+     * consistent and described a packet that no longer exists.
+     *
+     * So the hash is recomputed from the file the row names. A row whose PDF is
+     * missing or has moved is not a pass -- it is a family owing a re-raster,
+     * which is exactly what RERASTER_REQUIRED means.
+     */
+    const canonicalNow = r.canonicalPdfPath ? hashOnDisk(r.canonicalPdfPath) : null;
+    const boundaryNow = r.boundaryPdfPath ? hashOnDisk(r.boundaryPdfPath) : null;
     rasterPassByFamily.set(r.familyId,
       r.currentRasterState === "RASTER_PASS"
       && rec?.verdict === "RASTER_PASS"
       && r.coverage?.complete === true
-      && rec?.boundToCanonicalSha256 === r.canonicalPdfSha256
-      && rec?.boundToBoundarySha256 === r.boundaryPdfSha256);
+      && canonicalNow !== null && boundaryNow !== null
+      && rec?.boundToCanonicalSha256 === canonicalNow
+      && rec?.boundToBoundarySha256 === boundaryNow);
   }
 } catch { /* no raster queue yet: nothing can be proven */ }
 
@@ -1257,6 +1279,23 @@ for (const f of IN.scoreboard.familiesDetail) {
    * decides it: whether the family's own artefacts moved between the base the
    * verdict declares and this head.
    */
+  /*
+   * VERIFIED_PASS IS READ AS PROVEN, SO IT OWES THE VISUAL GATE TOO.
+   *
+   * The branch above already holds a family the raster gate could not ENROL.
+   * It did not hold one the gate had simply not finished: a family with a
+   * passing verdict and a RASTER_PENDING row fell straight through to
+   * VERIFIED_PASS, which F30 and L4 both count among the proven states. Two
+   * families were sitting there -- rcap-ms-custom-pleading and
+   * rcap-wa-custom-pleading-clean-tracks -- read and passed, with no rendered
+   * page yet examined.
+   *
+   * Not enrolled and not yet run are different reasons and the same answer:
+   * until a hash-bound RASTER_PASS covers the current bytes, the honest state
+   * is that the family still owes something, not that it is verified.
+   */
+  else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
+    && rasterPassByFamily.get(familyId) !== true) state = "VERIFY_PENDING";
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT") state = "VERIFIED_PASS";
   /*
    * AND THE REPAIR HAS TO POSTDATE THE VERDICT.

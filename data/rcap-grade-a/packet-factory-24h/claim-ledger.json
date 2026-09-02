@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "c4cd551656a08934a7f855bddbc68833b44aeac4",
+  "generatedAtCommit": "a4cedb4a1d2da0fe48ce0c47ffd8f6dfb8e66eb2",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1122,10 +1122,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T16:09:04.906Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -3654,10 +3653,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T12:25:55.372Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -3879,9 +3877,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF10",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": false
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4146,7 +4145,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:08:28.907Z"
@@ -4221,7 +4220,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:08:29.423Z"
@@ -4401,7 +4400,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:08:44.052Z"
@@ -4543,6 +4542,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "rcap-ks-custom-pleading",
+      "familyId": "rcap-ks-custom-pleading",
+      "itemId": null,
+      "familyIds": [
+        "rcap-ks-custom-pleading"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX03",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "rcap-ms-custom-pleading",
       "familyId": "rcap-ms-custom-pleading",
       "itemId": null,
@@ -4551,7 +4565,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF12",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:08:44.232Z"
@@ -4761,7 +4775,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T13:50:39.051Z"
@@ -4866,7 +4880,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:09:05.072Z"
@@ -5046,7 +5060,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T12:57:39.940Z"
@@ -5328,10 +5342,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX06",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T02:27:25.780Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -5343,7 +5356,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF10",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
@@ -5388,10 +5401,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX07",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T05:32:09.827Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -5462,7 +5474,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:09:22.680Z"
@@ -5724,6 +5736,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "va_seal_petition_misdemeanor-set",
+      "familyId": "va_seal_petition_misdemeanor-set",
+      "itemId": null,
+      "familyIds": [
+        "va_seal_petition_misdemeanor-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX08",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "vt_exp_decriminalized-set",
       "familyId": "vt_exp_decriminalized-set",
       "itemId": null,
@@ -5751,6 +5778,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T08:49:15.274Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_exp_decriminalized-set",
+      "familyId": "vt_exp_decriminalized-set",
+      "itemId": null,
+      "familyIds": [
+        "vt_exp_decriminalized-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5919,6 +5961,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "familyId": "vt_seal_nonconviction-set",
+      "itemId": null,
+      "familyIds": [
+        "vt_seal_nonconviction-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "vt_seal_pardon-set",
       "familyId": "vt_seal_pardon-set",
       "itemId": null,
@@ -6032,7 +6089,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T05:46:07.018Z"
@@ -6092,10 +6149,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX10",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T15:13:19.086Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -6377,7 +6433,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:09:22.505Z"
@@ -6970,7 +7026,7 @@
       ],
       "sourceId": "official-form:AOCCRSA3F-010122",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:05.260Z"
@@ -6984,7 +7040,7 @@
       ],
       "sourceId": "official-form:AOCCRSA4F-010122",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:05.359Z"
@@ -6998,7 +7054,7 @@
       ],
       "sourceId": "official-form:AOC-CREM2F-071221-CONT",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:05.472Z"
@@ -7012,7 +7068,7 @@
       ],
       "sourceId": "official-form:AOCCRSL1F-050825-CONT",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:05.574Z"
@@ -7026,7 +7082,7 @@
       ],
       "sourceId": "official-form:AOCCR41FORM31A-082224",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:05.671Z"
@@ -7040,7 +7096,7 @@
       ],
       "sourceId": "official-form:AOCCR41FORM31A-082224-CONT",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:05.766Z"
@@ -7054,7 +7110,7 @@
       ],
       "sourceId": "official-form:AOCCR41FORM31B-082224",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:05.861Z"
@@ -7082,7 +7138,7 @@
       ],
       "sourceId": "official-form:SDSC-CRM-307",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-02T06:58:59.733Z"
@@ -7110,7 +7166,7 @@
       ],
       "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC01",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:54.067Z"
@@ -7124,7 +7180,7 @@
       ],
       "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC01",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:54.171Z"
@@ -7138,7 +7194,7 @@
       ],
       "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC03",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-02T09:28:04.703Z"
@@ -7474,7 +7530,7 @@
       ],
       "sourceId": "official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-02T09:28:04.790Z"
@@ -7530,7 +7586,7 @@
       ],
       "sourceId": "official-form:FL-RULE-3.989-ORDER",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:04.957Z"
@@ -7544,7 +7600,7 @@
       ],
       "sourceId": "official-form:FL-RULE-3.989-PETITION",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:05.046Z"
@@ -7600,7 +7656,7 @@
       ],
       "sourceId": "official-form:FL-RULE-3.989-ORDER",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:05.134Z"
@@ -7614,7 +7670,7 @@
       ],
       "sourceId": "official-form:FL-RULE-3.989-PETITION",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:05.227Z"
@@ -7628,7 +7684,7 @@
       ],
       "sourceId": "official-form:FL-RULE-3.989-SWORN-STATEMENT",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:05.316Z"
@@ -7670,7 +7726,7 @@
       ],
       "sourceId": "official-form:FL-RULE-3.989-ORDER",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:05.404Z"
@@ -7684,7 +7740,7 @@
       ],
       "sourceId": "official-form:FL-RULE-3.989-PETITION",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:05.494Z"
@@ -7698,7 +7754,7 @@
       ],
       "sourceId": "official-form:FL-RULE-3.989-SWORN-STATEMENT",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:05.585Z"
@@ -7810,7 +7866,7 @@
       ],
       "sourceId": "official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:06.338Z"
@@ -7950,7 +8006,7 @@
       ],
       "sourceId": "official-form:Certification of Service by Mailing or Delivery",
       "operation": "exact-source-identity",
-      "lane": "DISC02",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-02T09:25:39.803Z"
@@ -8762,7 +8818,7 @@
       ],
       "sourceId": "official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:45:13.938Z"
@@ -8860,7 +8916,7 @@
       ],
       "sourceId": "official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:45:14.031Z"
@@ -8958,7 +9014,7 @@
       ],
       "sourceId": "official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:45:14.122Z"
@@ -9056,7 +9112,7 @@
       ],
       "sourceId": "official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:45:14.221Z"
@@ -9224,7 +9280,7 @@
       ],
       "sourceId": "official-form:AOC-497.2",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:06.517Z"
@@ -9238,7 +9294,7 @@
       ],
       "sourceId": "official-form:AOC-275.18",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:06.607Z"
@@ -9588,7 +9644,7 @@
       ],
       "sourceId": "official-form:TC0057",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:06.531Z"
@@ -9686,7 +9742,7 @@
       ],
       "sourceId": "official-form:CR-218",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC03",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:06.700Z"
@@ -9700,7 +9756,7 @@
       ],
       "sourceId": "official-form:CR-308",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC03",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:06.790Z"
@@ -9952,7 +10008,7 @@
       ],
       "sourceId": "official-form:FI-05",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC03",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:51.651Z"
@@ -9994,7 +10050,7 @@
       ],
       "sourceId": "official-form:FI-05",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC03",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:51.846Z"
@@ -10036,7 +10092,7 @@
       ],
       "sourceId": "official-form:FI-05",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC03",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:52.043Z"
@@ -10078,7 +10134,7 @@
       ],
       "sourceId": "official-form:FI-05",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC03",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:52.221Z"
@@ -10134,7 +10190,7 @@
       ],
       "sourceId": "official-form:FI-05",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC03",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:52.430Z"
@@ -10148,7 +10204,7 @@
       ],
       "sourceId": "official-form:FI-05",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC03",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:52.523Z"
@@ -10218,7 +10274,7 @@
       ],
       "sourceId": "official-form:MT-OCA-MMRTA",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC02",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-02T09:28:05.032Z"
@@ -10316,7 +10372,7 @@
       ],
       "sourceId": "official-form:MT-OCA-MMRTA",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC02",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-02T09:28:05.274Z"
@@ -11100,7 +11156,7 @@
       ],
       "sourceId": "official-form:DC-33-AFFIDAVIT",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC03",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:52.616Z"
@@ -11338,7 +11394,7 @@
       ],
       "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0736",
       "operation": "exact-source-identity",
-      "lane": "DISC03",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-02T09:28:05.355Z"
@@ -11604,7 +11660,7 @@
       ],
       "sourceId": "official-form:1110GE or 1111GE",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC01",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:57.830Z"
@@ -11772,7 +11828,7 @@
       ],
       "sourceId": "official-form:SCA-C907",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:09.653Z"
@@ -11814,7 +11870,7 @@
       ],
       "sourceId": "official-form:SCA-C907",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:09.881Z"
@@ -11834,7 +11890,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d70aba527dae7d003eff0c240a3907b871645420754554cc2ab6e20d578c01ee",
+  "claimsDigest": "fbeb5901a1b4f583053aac1d710da3ad33d1b65e186b0eb869323066b2fea73c",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -22666,6 +22722,56 @@
       "previouslyReleasedAt": "2026-09-01T16:34:41.987Z",
       "reissuedAt": "2026-09-02T16:07:59.003Z",
       "reason": "Assigned to an external source worker in Roger's Codespace, which has official-host egress this environment does not; the official binary is genuinely missing from custody and this obligation blocks the listed families."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-02T16:12:23Z",
+      "reason": "the current dispatch names VF01 for this family, the family is VERIFY_PENDING and owes independent-verification, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nd-nonconviction-close-petition-set",
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "dispatchNames": "FIX02",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-02T16:12:23Z",
+      "reason": "the current dispatch names FIX02 for this family, the family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_felony-set",
+      "operation": "rapid-repair",
+      "lane": "FIX04",
+      "dispatchNames": "FIX04",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-02T16:12:23Z",
+      "reason": "the current dispatch names FIX04 for this family, the family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_acquittal-set",
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "dispatchNames": "FIX06",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-02T16:12:23Z",
+      "reason": "the current dispatch names FIX06 for this family, the family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_dismissed_with_prejudice-set",
+      "operation": "rapid-repair",
+      "lane": "FIX07",
+      "dispatchNames": "FIX07",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-02T16:12:23Z",
+      "reason": "the current dispatch names FIX07 for this family, the family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -25380,6 +25486,22 @@
       "lane": "PF08",
       "withdrawnAt": "2026-09-02T13:30:32Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_arrest_no_conviction-set",
+      "operation": "independent-verification",
+      "lane": "VF10",
+      "withdrawnAt": "2026-09-02T16:12:23Z",
+      "reason": "lane retired: VF10 is not in the current dispatch, so no worker can ever assert this grant — claim.mjs answers GRANTED_ELSEWHERE to every lane that exists. The subject is still dispatched and is re-dealt to a lane that does exist."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_conviction-set",
+      "operation": "independent-verification",
+      "lane": "VF10",
+      "withdrawnAt": "2026-09-02T16:12:23Z",
+      "reason": "lane retired: VF10 is not in the current dispatch, so no worker can ever assert this grant — claim.mjs answers GRANTED_ELSEWHERE to every lane that exists. The subject is still dispatched and is re-dealt to a lane that does exist."
     }
   ]
 }

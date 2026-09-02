@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `c4cd551656a08934a7f855bddbc68833b44aeac4` (or the newer dispatch base)
+**Minimum required ancestor:** `a4cedb4a1d2da0fe48ce0c47ffd8f6dfb8e66eb2` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id SRC04 \
-  --source-obligation 'ga-nonconv-pre2013-set::official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013' \
+  --source-obligation 'hi_712_1200_deferred_expungement-set::official-form:HCJDC-159B' \
   --codex-cloud \
-  --minimum-captain-sha c4cd551656a08934a7f855bddbc68833b44aeac4
+  --minimum-captain-sha a4cedb4a1d2da0fe48ce0c47ffd8f6dfb8e66eb2
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**22 obligations · 11 families this lane WOULD release if every one of them resolves · hosts: GA, HI, MO, NC, ND, RI, UT**
+**22 obligations · 13 families this lane WOULD release if every one of them resolves · hosts: HI, KS, KY, NC, ND, UT, WV**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -103,28 +103,28 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `ga-nonconv-pre2013-set::official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013` | `official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013` | GA | `held-inventory-reconciliation` | `ga-nonconv-pre2013-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `hi_712_1200_deferred_expungement-set::official-form:HCJDC-159B` | `official-form:HCJDC-159B` | HI | `held-inventory-reconciliation` | `hi_712_1200_deferred_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `hi_dag_danc_expungement-set::official-form:HCJDC-159B` | `official-form:HCJDC-159B` | HI | `held-inventory-reconciliation` | `hi_dag_danc_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `hi_nonconviction_expungement-set::official-form:HCJDC-159B` | `official-form:HCJDC-159B` | HI | `held-inventory-reconciliation` | `hi_nonconviction_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `mo-575-120-identity-theft-correction-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-575-120-identity-theft-correction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `mo-610-122-arrest-expungement-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-610-122-arrest-expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `mo-610-140-arrest-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-610-140-arrest-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `mo-610-140-conviction-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-610-140-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `mo-610-145-mistaken-identity-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-610-145-mistaken-identity-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `mo-art-xiv-marijuana-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-art-xiv-marijuana-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-conviction-set::official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-diversion-set::official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-diversion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-prostitution-coercion-set::official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-prostitution-coercion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-specialty-court-set::official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-specialty-court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ky_nonconviction_expungement-set::official-form:AOC-497.2` | `official-form:AOC-497.2` | KY | `held-inventory-reconciliation` | `ky_nonconviction_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ky_protective_order_record_expungement-set::official-form:AOC-275.18` | `official-form:AOC-275.18` | KY | `held-inventory-reconciliation` | `ky_protective_order_record_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `nc_145_8a_youthful-set::official-form:AOC-CR-293` | `official-form:AOC-CR-293` | NC | `held-inventory-reconciliation` | `nc_145_8a_youthful-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `nc_145_8a_youthful-set::official-form:AOC-CR-293-INSTRUCTIONS` | `official-form:AOC-CR-293-INSTRUCTIONS` | NC | `held-inventory-reconciliation` | `nc_145_8a_youthful-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `nc_auto_146_a4_agency_followup-set::official-form:AOC-G-260` | `official-form:AOC-G-260` | NC | `held-inventory-reconciliation` | `nc_auto_146_a4_agency_followup-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `nd-regular-pardon-set::official-form:SFN-14859` | `official-form:SFN-14859` | ND | `held-inventory-reconciliation` | `nd-regular-pardon-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `rcap-hi-custom-pleading::official-form:HCJDC-159B` | `official-form:HCJDC-159B` | HI | `held-inventory-reconciliation` | `rcap-hi-custom-pleading` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `ri_decriminalized-set::official-form:DC-33-AFFIDAVIT` | `official-form:DC-33-AFFIDAVIT` | RI | `held-inventory-reconciliation` | `ri_decriminalized-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ut_pet_cannabis-set::official-form:1023EX` | `official-form:1023EX` | UT | `held-inventory-reconciliation` | `ut_pet_cannabis-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ut_pet_remove_link-set::official-form:1501CR` | `official-form:1501CR` | UT | `held-inventory-reconciliation` | `ut_pet_remove_link-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ut_pet_remove_link-set::official-form:1501CR-C` | `official-form:1501CR-C` | UT | `held-inventory-reconciliation` | `ut_pet_remove_link-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ut_pet_remove_link-set::official-form:1502CR` | `official-form:1502CR` | UT | `held-inventory-reconciliation` | `ut_pet_remove_link-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ut_pet_special_certificate-set::official-form:1001EX` | `official-form:1001EX` | UT | `held-inventory-reconciliation` | `ut_pet_special_certificate-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ut_pet_special_certificate-set::official-form:1021EX` | `official-form:1021EX` | UT | `held-inventory-reconciliation` | `ut_pet_special_certificate-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `wv_acc_treatment_job_readiness-set::official-form:SCA-C907` | `official-form:SCA-C907` | WV | `held-inventory-reconciliation` | `wv_acc_treatment_job_readiness-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `wv_conv_nonviolent_felony-set::official-form:SCA-C907` | `official-form:SCA-C907` | WV | `held-inventory-reconciliation` | `wv_conv_nonviolent_felony-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 
 Deterministically assert exactly the 22 committed itemIds (failures are recorded per row and do not terminate the loop):
 
@@ -144,7 +144,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-obligation 'ga-nonconv-pre2013-set::official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013' --codex-cloud --minimum-captain-sha c4cd551656a08934a7f855bddbc68833b44aeac4
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-obligation 'hi_712_1200_deferred_expungement-set::official-form:HCJDC-159B' --codex-cloud --minimum-captain-sha a4cedb4a1d2da0fe48ce0c47ffd8f6dfb8e66eb2
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -153,7 +153,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-
 
 ### Families this lane would release
 
-`ga-nonconv-pre2013-set`, `hi_712_1200_deferred_expungement-set`, `hi_dag_danc_expungement-set`, `hi_nonconviction_expungement-set`, `mo-art-xiv-marijuana-set`, `nc_145_8a_youthful-set`, `nc_auto_146_a4_agency_followup-set`, `nd-regular-pardon-set`, `rcap-hi-custom-pleading`, `ut_pet_cannabis-set`, `ut_pet_special_certificate-set`
+`hi_712_1200_deferred_expungement-set`, `hi_dag_danc_expungement-set`, `hi_nonconviction_expungement-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `nc_145_8a_youthful-set`, `nc_auto_146_a4_agency_followup-set`, `nd-regular-pardon-set`, `rcap-hi-custom-pleading`, `ut_pet_cannabis-set`, `ut_pet_special_certificate-set`, `wv_acc_treatment_job_readiness-set`, `wv_conv_nonviolent_felony-set`
 
 
 ### Settle these first
@@ -162,11 +162,12 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-
 
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
-| FI-05 | MO | 7 |
+| KS-CRIMINAL-COVER-SHEET-10-14-2025 | KS | 5 |
 | HCJDC-159B | HI | 4 |
-| DC-33 | RI | 4 |
 | 1044XX | UT | 2 |
-| GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013 | GA | 1 |
+| SCA-C907 | WV | 2 |
+| AOC-497 | KY | 1 |
+| AOC-275.18 | KY | 1 |
 | AOC-CR-293 | NC | 1 |
 | AOC-G-260 | NC | 1 |
 | SFN-14859 | ND | 1 |

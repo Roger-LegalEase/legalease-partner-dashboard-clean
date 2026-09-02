@@ -52,19 +52,33 @@
       "assignmentId": "CSB-FIX09-V4-BATCH-001",
       "lane": "FIX09",
       "laneKind": "repair",
-      "subjectIds": [
-        "ca-1203-41-set",
-        "ca-1203-42-set",
-        "ca-1203-4a-set"
-      ],
+      "subjectIds": [],
       "operation": "rapid-repair",
-      "subjectCount": 3,
+      "subjectCount": 0,
       "requiresCaptainTransferFirst": true,
       "captainTransferCommands": [
         "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX01 FIX09 ca-1203-41-set --reason \"<why this lane takes it>\"",
         "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX02 FIX09 ca-1203-42-set --reason \"<why this lane takes it>\"",
         "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX03 FIX09 ca-1203-4a-set --reason \"<why this lane takes it>\""
-      ]
+      ],
+      "withdrawnBecauseHeldByARunningClaudeLane": [
+        {
+          "subjectId": "ca-1203-41-set",
+          "heldBy": "FIX01/repair",
+          "withdrawnOn": "2026-09-02"
+        },
+        {
+          "subjectId": "ca-1203-42-set",
+          "heldBy": "FIX02/repair",
+          "withdrawnOn": "2026-09-02"
+        },
+        {
+          "subjectId": "ca-1203-4a-set",
+          "heldBy": "FIX03/repair",
+          "withdrawnOn": "2026-09-02"
+        }
+      ],
+      "whyWithdrawn": "A live repair grant on a running Claude lane outranks a planning entry for an external worker that has not started. These subjects are being repaired now; an external assignment naming them would be a second owner, which the ledger cannot express."
     },
     {
       "workerId": "FABLE-V2",
@@ -75,19 +89,26 @@
       "laneKind": "independent-verification",
       "subjectIds": [
         "va_seal_petition_felony-set",
-        "va_seal_petition_misdemeanor-set",
         "va_seal_enumerated_seven_year-set",
         "va_seal_ancillary_matter_only-set"
       ],
       "operation": "independent-verification",
-      "subjectCount": 4,
+      "subjectCount": 3,
       "requiresCaptainTransferFirst": true,
       "captainTransferCommands": [
         "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF26 VF26 va_seal_petition_felony-set --reason \"<why this lane takes it>\"",
         "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF26 VF26 va_seal_petition_misdemeanor-set --reason \"<why this lane takes it>\"",
         "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF26 VF26 va_seal_enumerated_seven_year-set --reason \"<why this lane takes it>\"",
         "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF26 VF26 va_seal_ancillary_matter_only-set --reason \"<why this lane takes it>\""
-      ]
+      ],
+      "withdrawnBecauseHeldByARunningClaudeLane": [
+        {
+          "subjectId": "va_seal_petition_misdemeanor-set",
+          "heldBy": "FIX08/repair",
+          "withdrawnOn": "2026-09-02"
+        }
+      ],
+      "whyWithdrawn": "A live repair grant on a running Claude lane outranks a planning entry for an external worker that has not started. These subjects are being repaired now; an external assignment naming them would be a second owner, which the ledger cannot express."
     },
     {
       "workerId": "CLOUD01",
