@@ -6,8 +6,8 @@
       "documentId": "RI-DC-33",
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-canonical.pdf",
-      "sha256": "e8ba4ef7f10b867113072a9f2febfaeb0a2d3f31b26a5d639636402b095633f2",
-      "byteLength": 279891,
+      "sha256": "e0af21e5c1f4b8014d4d2fb224e99940996328ef69aefd41153095e7166fdc6d",
+      "byteLength": 282412,
       "written": [
         {
           "field": "Case Number",
@@ -16,20 +16,135 @@
           "fontSize": 11,
           "outcome": "fit",
           "lines": 1
-        }
-      ],
-      "refused": [
+        },
         {
           "field": "State of Rhode Island v Defendant",
-          "reason": "protected_category",
-          "category": "agency",
-          "regionHeading": null
+          "factId": "participant.full_legal_name",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 2,
+              "rect": {
+                "x": 73.29,
+                "y": 597.96,
+                "width": 242.91,
+                "height": 16.135
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-7098480789"
+            }
+          ]
         },
         {
           "field": "Date of Birth",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "factId": "participant.date_of_birth",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 2,
+              "rect": {
+                "x": 436.08,
+                "y": 625.56,
+                "width": 102.96,
+                "height": 16.055
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-9742682568"
+            }
+          ]
         },
+        {
+          "field": "2 Charges 1",
+          "factId": "matter.charge",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 2,
+              "rect": {
+                "x": 177.6,
+                "y": 417.96,
+                "width": 210,
+                "height": 12.72
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-2000805986"
+            }
+          ]
+        },
+        {
+          "field": "State of Rhode Island v Defendant_2",
+          "factId": "participant.full_legal_name",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 3,
+              "rect": {
+                "x": 73.29,
+                "y": 585.24,
+                "width": 243.15,
+                "height": 16.64
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-9750469207"
+            }
+          ]
+        },
+        {
+          "field": "Case Number_2",
+          "factId": "matter.case_number",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 3,
+              "rect": {
+                "x": 318.6,
+                "y": 612.96,
+                "width": 120,
+                "height": 15.67
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-7572533686"
+            }
+          ]
+        },
+        {
+          "field": "Date of Birth_2",
+          "factId": "participant.date_of_birth",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 3,
+              "rect": {
+                "x": 440.16,
+                "y": 612.96,
+                "width": 99.36,
+                "height": 15.285
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-8450180107"
+            }
+          ]
+        }
+      ],
+      "refused": [
         {
           "field": "Bureau of Criminal Identification Number",
           "reason": "classified_unwritable_by_role",
@@ -84,12 +199,6 @@
           "field": "1 Counts 4",
           "reason": "classified_unwritable_by_role",
           "category": "role"
-        },
-        {
-          "field": "2 Charges 1",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
         },
         {
           "field": "2 Charges 2",
@@ -168,23 +277,6 @@
         },
         {
           "field": "Date",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "State of Rhode Island v Defendant_2",
-          "reason": "protected_category",
-          "category": "agency",
-          "regionHeading": null
-        },
-        {
-          "field": "Case Number_2",
-          "reason": "repeating_row_without_indexed_fact",
-          "category": "charge_row",
-          "regionHeading": null
-        },
-        {
-          "field": "Date of Birth_2",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -619,9 +711,9 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "e8ba4ef7f10b867113072a9f2febfaeb0a2d3f31b26a5d639636402b095633f2",
-        "artifactByteLength": 279891,
-        "appearanceCount": 78,
+        "artifactSha256": "e0af21e5c1f4b8014d4d2fb224e99940996328ef69aefd41153095e7166fdc6d",
+        "artifactByteLength": 282412,
+        "appearanceCount": 84,
         "writtenProof": [
           {
             "field": "Case Number",
@@ -632,12 +724,135 @@
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "State of Rhode Island v Defendant",
+            "factId": "participant.full_legal_name",
+            "expectedValue": "Jordan Avery Reyes",
+            "drawnText": [
+              "Jordan Avery Reyes"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "Date of Birth",
+            "factId": "participant.date_of_birth",
+            "expectedValue": "1991-04-17",
+            "drawnText": [
+              "1991-04-17"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "2 Charges 1",
+            "factId": "matter.charge",
+            "expectedValue": "Possession of a controlled substance",
+            "drawnText": [
+              "Possession of a controlled substance"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "State of Rhode Island v Defendant_2",
+            "factId": "participant.full_legal_name",
+            "expectedValue": "Jordan Avery Reyes",
+            "drawnText": [
+              "Jordan Avery Reyes"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "Case Number_2",
+            "factId": "matter.case_number",
+            "expectedValue": "24-CR-001234",
+            "drawnText": [
+              "24-CR-001234"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "Date of Birth_2",
+            "factId": "participant.date_of_birth",
+            "expectedValue": "1991-04-17",
+            "drawnText": [
+              "1991-04-17"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
           }
         ],
         "missingWrittenInk": [],
         "wrongWrittenValues": [],
         "protectedInk": [],
         "protectedVectorInk": [],
+        "protectedSourceOwnedAppearances": [
+          {
+            "field": "Group2",
+            "category": null,
+            "pathsMatchingNormalizedBaseline": 12,
+            "conditions": {
+              "buildWroteNoParticipantValue": true,
+              "preFlattenFieldValue": null,
+              "preFlattenWidgetAppearanceStates": [
+                "/Off",
+                "/Off"
+              ],
+              "zeroWriteNormalizedBaselineSha256": "c6bf7c5adc6eb1796147bbe30cbbacccf6c246800f360f50fa63338f6ac22bf9",
+              "pathsBeyondNormalizedBaseline": 0,
+              "drawnTextInsideProtectedWidget": [],
+              "focusedRegionRaster": [
+                {
+                  "page": 4,
+                  "rect": {
+                    "x": 72.409,
+                    "y": 267.91,
+                    "width": 12.223,
+                    "height": 9.911
+                  },
+                  "dpi": 288,
+                  "regionPx": {
+                    "left": 288,
+                    "top": 2055,
+                    "width": 51,
+                    "height": 42
+                  },
+                  "comparedPixels": 2142,
+                  "differingPixels": 0,
+                  "identical": true,
+                  "artifactRegionSha256": "6ff631421d79d47a6395c58995d73163920ed15b0d32ad1b159a4b60a9a785fd",
+                  "baselineRegionSha256": "6ff631421d79d47a6395c58995d73163920ed15b0d32ad1b159a4b60a9a785fd"
+                },
+                {
+                  "page": 4,
+                  "rect": {
+                    "x": 224.544,
+                    "y": 268.295,
+                    "width": 11.452,
+                    "height": 9.526
+                  },
+                  "dpi": 288,
+                  "regionPx": {
+                    "left": 897,
+                    "top": 2055,
+                    "width": 48,
+                    "height": 41
+                  },
+                  "comparedPixels": 1968,
+                  "differingPixels": 0,
+                  "identical": true,
+                  "artifactRegionSha256": "3ff5a0b2b3d3eccd329c90d46c4ced433302d36d5537055b5229223a4c4ce3fd",
+                  "baselineRegionSha256": "3ff5a0b2b3d3eccd329c90d46c4ced433302d36d5537055b5229223a4c4ce3fd"
+                }
+              ]
+            },
+            "rule": "a protected widget's own unselected /Off appearance is source-owned form structure, proven against a zero-write source-normalized flattened baseline"
+          }
+        ],
         "selectionProof": [
           {
             "control": "sealed",
@@ -653,7 +868,7 @@
             "mark": "two_diagonal_strokes_inset",
             "drewANewBox": false,
             "redrewTheCourtsBox": false,
-            "derivedFromArtifactBytesSha256": "e8ba4ef7f10b867113072a9f2febfaeb0a2d3f31b26a5d639636402b095633f2",
+            "derivedFromArtifactBytesSha256": "e0af21e5c1f4b8014d4d2fb224e99940996328ef69aefd41153095e7166fdc6d",
             "artifactDerivedMarkPaths": [
               {
                 "page": 2,
@@ -684,21 +899,95 @@
       "documentId": "RI-DC-33",
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-boundary.pdf",
-      "sha256": "49cdd9b2c6ad0bd2c0b0f6952486e4b3f6e61cc0986b7687d383f09ad6916358",
-      "byteLength": 279561,
-      "written": [],
-      "refused": [
+      "sha256": "fd9ebb9561919129b40d75d20dd76fbaf777f94141fba0b3caee7220af2df923",
+      "byteLength": 281656,
+      "written": [
         {
           "field": "State of Rhode Island v Defendant",
-          "reason": "protected_category",
-          "category": "agency",
-          "regionHeading": null
+          "factId": "participant.full_legal_name",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 2,
+              "rect": {
+                "x": 73.29,
+                "y": 597.96,
+                "width": 242.91,
+                "height": 16.135
+              },
+              "fontSize": 7,
+              "outcome": "shrunk",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-7098480789"
+            }
+          ]
         },
         {
           "field": "Date of Birth",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "factId": "participant.date_of_birth",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 2,
+              "rect": {
+                "x": 436.08,
+                "y": 625.56,
+                "width": 102.96,
+                "height": 16.055
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-9742682568"
+            }
+          ]
         },
+        {
+          "field": "State of Rhode Island v Defendant_2",
+          "factId": "participant.full_legal_name",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 3,
+              "rect": {
+                "x": 73.29,
+                "y": 585.24,
+                "width": 243.15,
+                "height": 16.64
+              },
+              "fontSize": 7,
+              "outcome": "shrunk",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-2000805986"
+            }
+          ]
+        },
+        {
+          "field": "Date of Birth_2",
+          "factId": "participant.date_of_birth",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 3,
+              "rect": {
+                "x": 440.16,
+                "y": 612.96,
+                "width": 99.36,
+                "height": 15.285
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-9750469207"
+            }
+          ]
+        }
+      ],
+      "refused": [
         {
           "field": "Bureau of Criminal Identification Number",
           "reason": "classified_unwritable_by_role",
@@ -841,21 +1130,10 @@
           "category": "role"
         },
         {
-          "field": "State of Rhode Island v Defendant_2",
-          "reason": "protected_category",
-          "category": "agency",
-          "regionHeading": null
-        },
-        {
           "field": "Case Number_2",
           "reason": "repeating_row_without_indexed_fact",
           "category": "charge_row",
           "regionHeading": null
-        },
-        {
-          "field": "Date of Birth_2",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
         },
         {
           "field": "Bureau of Criminal Identification Number_2",
@@ -1293,14 +1571,118 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "49cdd9b2c6ad0bd2c0b0f6952486e4b3f6e61cc0986b7687d383f09ad6916358",
-        "artifactByteLength": 279561,
-        "appearanceCount": 78,
-        "writtenProof": [],
+        "artifactSha256": "fd9ebb9561919129b40d75d20dd76fbaf777f94141fba0b3caee7220af2df923",
+        "artifactByteLength": 281656,
+        "appearanceCount": 82,
+        "writtenProof": [
+          {
+            "field": "State of Rhode Island v Defendant",
+            "factId": "participant.full_legal_name",
+            "expectedValue": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+            "drawnText": [
+              "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "Date of Birth",
+            "factId": "participant.date_of_birth",
+            "expectedValue": "1991-04-17",
+            "drawnText": [
+              "1991-04-17"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "State of Rhode Island v Defendant_2",
+            "factId": "participant.full_legal_name",
+            "expectedValue": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+            "drawnText": [
+              "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "Date of Birth_2",
+            "factId": "participant.date_of_birth",
+            "expectedValue": "1991-04-17",
+            "drawnText": [
+              "1991-04-17"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          }
+        ],
         "missingWrittenInk": [],
         "wrongWrittenValues": [],
         "protectedInk": [],
         "protectedVectorInk": [],
+        "protectedSourceOwnedAppearances": [
+          {
+            "field": "Group2",
+            "category": null,
+            "pathsMatchingNormalizedBaseline": 12,
+            "conditions": {
+              "buildWroteNoParticipantValue": true,
+              "preFlattenFieldValue": null,
+              "preFlattenWidgetAppearanceStates": [
+                "/Off",
+                "/Off"
+              ],
+              "zeroWriteNormalizedBaselineSha256": "c6bf7c5adc6eb1796147bbe30cbbacccf6c246800f360f50fa63338f6ac22bf9",
+              "pathsBeyondNormalizedBaseline": 0,
+              "drawnTextInsideProtectedWidget": [],
+              "focusedRegionRaster": [
+                {
+                  "page": 4,
+                  "rect": {
+                    "x": 72.409,
+                    "y": 267.91,
+                    "width": 12.223,
+                    "height": 9.911
+                  },
+                  "dpi": 288,
+                  "regionPx": {
+                    "left": 288,
+                    "top": 2055,
+                    "width": 51,
+                    "height": 42
+                  },
+                  "comparedPixels": 2142,
+                  "differingPixels": 0,
+                  "identical": true,
+                  "artifactRegionSha256": "6ff631421d79d47a6395c58995d73163920ed15b0d32ad1b159a4b60a9a785fd",
+                  "baselineRegionSha256": "6ff631421d79d47a6395c58995d73163920ed15b0d32ad1b159a4b60a9a785fd"
+                },
+                {
+                  "page": 4,
+                  "rect": {
+                    "x": 224.544,
+                    "y": 268.295,
+                    "width": 11.452,
+                    "height": 9.526
+                  },
+                  "dpi": 288,
+                  "regionPx": {
+                    "left": 897,
+                    "top": 2055,
+                    "width": 48,
+                    "height": 41
+                  },
+                  "comparedPixels": 1968,
+                  "differingPixels": 0,
+                  "identical": true,
+                  "artifactRegionSha256": "3ff5a0b2b3d3eccd329c90d46c4ced433302d36d5537055b5229223a4c4ce3fd",
+                  "baselineRegionSha256": "3ff5a0b2b3d3eccd329c90d46c4ced433302d36d5537055b5229223a4c4ce3fd"
+                }
+              ]
+            },
+            "rule": "a protected widget's own unselected /Off appearance is source-owned form structure, proven against a zero-write source-normalized flattened baseline"
+          }
+        ],
         "selectionProof": [
           {
             "control": "sealed",
@@ -1316,7 +1698,7 @@
             "mark": "two_diagonal_strokes_inset",
             "drewANewBox": false,
             "redrewTheCourtsBox": false,
-            "derivedFromArtifactBytesSha256": "49cdd9b2c6ad0bd2c0b0f6952486e4b3f6e61cc0986b7687d383f09ad6916358",
+            "derivedFromArtifactBytesSha256": "fd9ebb9561919129b40d75d20dd76fbaf777f94141fba0b3caee7220af2df923",
             "artifactDerivedMarkPaths": [
               {
                 "page": 2,
