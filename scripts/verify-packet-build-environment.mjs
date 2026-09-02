@@ -274,7 +274,22 @@ function familySources(family, env = ROOT) {
   const sources = [];
   const unresolvable = [];
   for (const formNumber of formNumbers) {
-    const matches = index.entries.filter((e) => e.formNumber === formNumber);
+    let matches = index.entries.filter((e) => e.formNumber === formNumber);
+    /*
+     * ONE DOCUMENT AT TWO PATHS IS ONE IDENTITY.
+     *
+     * The index carries more than one custody, and the same official binary
+     * legitimately sits in two: Alaska's TF-810 at REV-2025-05 is in the Master
+     * Library and in a D source pack at the identical SHA-256. Requiring a
+     * single entry read that as an ambiguity and refused a form the family was
+     * already built from. Identical hashes are one identity and the lexically
+     * first path is the deterministic pick; differing bytes under one form
+     * number stay a genuine ambiguity and still refuse, which is the case this
+     * must not decide. Same rule as the factory's own source binder.
+     */
+    if (matches.length > 1 && new Set(matches.map((m) => m.sha256)).size === 1) {
+      matches = [matches.slice().sort((a, b) => a.path.localeCompare(b.path))[0]];
+    }
     if (matches.length === 1) {
       sources.push({ sourceId: `official-form:${formNumber}`, path: matches[0].path, sha256: matches[0].sha256 });
     } else {
@@ -858,9 +873,26 @@ check(
         detail: `${FAMILY} names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.`
       };
     }
+    /*
+     * A source's path is only Master-Library-relative when the Master Library
+     * is the custody that holds it. The corpus index carries more than one now,
+     * and every custody but the library writes REPOSITORY-relative paths — so
+     * joining the library root onto a D-source-pack path produced a file that
+     * does not exist and reported 9 of 9 sources not binding for three Utah
+     * families whose bytes were sitting right there, byte-exact.
+     *
+     * The index declares how its own paths are shaped, and
+     * scripts/lib/corpus-index-paths.mjs resolves an entry through that
+     * declaration. This check is the fourth reader to need it; the other three
+     * were wired up when the second custody landed and this one was missed.
+     */
     const root = masterLibraryRoot(env);
+    const corpusIndex = readJson(CORPUS_INDEX, env);
+    const corpusPaths = makeCorpusEntryResolver(corpusIndex, { repoRoot: env, masterLibraryRoot: root });
+    const entryByPath = new Map((corpusIndex?.entries ?? []).map((e) => [e.path, e]));
     const results = resolved.sources.map((s) => {
-      const p = path.join(root, s.path);
+      const entry = entryByPath.get(s.path);
+      const p = (entry && corpusPaths.resolve(entry)) ?? path.join(root, s.path);
       if (!fs.existsSync(p)) return { ...s, present: false, observed: null, bound: false };
       const observed = sha256(p);
       return { ...s, present: true, observed, bound: observed === s.sha256 };
