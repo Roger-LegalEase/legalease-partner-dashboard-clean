@@ -2353,6 +2353,129 @@ const survivingClaims = [...claimRowsRespectingExternal, ...preservedGrants].fil
     reason: "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)" });
   return false;
 });
+/*
+ * A DISPATCH THAT NAMES WORK NOBODY CAN CLAIM IS A BROKEN DISPATCH.
+ *
+ * The ledger grants one claim per subject per operation ever. That is the right
+ * rule and it is what makes a claim atomic. Its consequence is that once a lane
+ * releases a family, no lane can ever assert that family for that operation
+ * again — and a family whose bytes change AFTER its verifier released is a
+ * family that needs verifying again.
+ *
+ * Twenty-six families were in exactly that position: the current dispatch names
+ * a lane, the family's state says the work is owed, and an assert returns exit
+ * 9 ALREADY_RELEASED. Nineteen were VERIFY_PENDING packets whose bytes moved
+ * after a verifier read them; seven were builds. Every one of those lanes would
+ * have been sent to work it could not touch. FABLE-CA2 ran 74 asserts across
+ * seven California families and got exit 0 zero times, which is how this was
+ * found.
+ *
+ * The remedy already exists and already has a name: --reissue, a deliberate act
+ * with a stated cause. generate.mjs's own state-machine comment says a family
+ * failed again after its repair released "must come back through a new repair
+ * grant (reissue/transfer)". Nobody was performing it, so the dispatch and the
+ * ledger disagreed on every regeneration and the families sat still.
+ *
+ * The dispatch owns the roster, so the generator performs it — under four
+ * conditions together, none of which is a judgement call:
+ *
+ *   1. the CURRENT dispatch names this family to this lane;
+ *   2. EVERY prior claim for this family and this operation is released, so
+ *      nothing live is being disturbed;
+ *   3. the family's state genuinely owes this operation — VERIFY_PENDING owes
+ *      verification, FAIL_REPAIR_REQUIRED owes repair, SOURCE_READY owes a
+ *      build. A reissue for an operation the state does not owe is refused;
+ *   4. a claim row for it exists to reissue in the first place.
+ *
+ * Every reissue lands in the ledger's `reissues` log with its cause, so this
+ * mints nothing invisibly and a reviewer can read exactly why each one exists.
+ * It cannot manufacture work: it re-opens a grant on a family the dispatch is
+ * already asking a named lane to do, and nothing else.
+ */
+const OPERATION_THE_STATE_OWES = {
+  VERIFY_PENDING: "independent-verification",
+  FAIL_REPAIR_REQUIRED: "rapid-repair",
+  SOURCE_READY: "packet-build"
+};
+const reissuedNow = [];
+const stateOfFamily = new Map(families.map((r) => [r.familyId, r.state]));
+/*
+ * A subject an external worker holds is not ours to re-open.
+ *
+ * Seven packet-build subjects were released precisely BECAUSE they went to an
+ * external worker, and re-opening an internal grant on them double-books the
+ * family: E2 counted eight collisions against CODEX-CS-A the moment this ran.
+ * The external index is the authority on what is out with a worker, so it is
+ * consulted before anything is reissued rather than after the gate complains.
+ */
+const heldExternally = new Set();
+try {
+  const ext = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/external-worker-control/EXTERNAL_ASSIGNMENTS.json"), "utf8"));
+  for (const w of ext.workers ?? []) for (const id of w.subjectIds ?? []) heldExternally.add(`${id}::${w.operation ?? w.laneKind}`);
+} catch { /* no external index; nothing is out with a worker */ }
+const everReleasedFor = new Map();
+for (const c of survivingClaims) {
+  const k = `${c.subjectId}::${c.operation}`;
+  if (!everReleasedFor.has(k)) everReleasedFor.set(k, []);
+  everReleasedFor.get(k).push(c);
+}
+for (const asg of assignments) {
+  for (const id of asg.items ?? []) {
+    if (typeof id !== "string") continue;
+    const owed = OPERATION_THE_STATE_OWES[stateOfFamily.get(id) ?? ""];
+    if (!owed || owed !== asg.lane) continue;
+    if (heldExternally.has(`${id}::${asg.lane}`)) continue;
+    const claims = everReleasedFor.get(`${id}::${asg.lane}`) ?? [];
+    if (claims.length === 0 || !claims.every((c) => c.released === true)) continue;
+    /*
+     * REISSUE ONCE, NOT ON A LOOP.
+     *
+     * Without this, a lane that takes a reissued grant, does the work and
+     * releases it gets the same grant re-opened on the very next regeneration —
+     * because the family may still owe the operation while its return is being
+     * integrated. That is a treadmill: the lane can never finish, and "one
+     * claim per subject per operation" stops meaning anything.
+     *
+     * So a subject is reissued again only if it was RELEASED AFTER its last
+     * reissue. A release later than the reissue means a lane took the re-opened
+     * grant and finished with it, and finishing is not a reason to start over.
+     * A release EARLIER than the last reissue is the old history this mechanism
+     * exists to step past.
+     */
+    const priorReissue = (priorLedger.reissues ?? [])
+      .filter((r) => r.subjectId === id && r.operation === asg.lane && r.reissuedAt)
+      .sort((x, y) => String(x.reissuedAt).localeCompare(String(y.reissuedAt)))
+      .pop();
+    if (priorReissue) {
+      const releasedAfter = claims.some((c) => c.releasedAt && String(c.releasedAt) > String(priorReissue.reissuedAt));
+      if (releasedAfter) continue;
+    }
+    /*
+     * ONLY the claim the current dispatch's own lane holds.
+     *
+     * The first version re-opened whichever claim existed when the dispatch's
+     * lane held none, and that helps nobody: ca-1203-4-set's history sits on
+     * PF17 while the dispatch names PF02, so re-opening PF17's grant left the
+     * family held by a lane nobody is dispatching and idle to the one that is.
+     * F22 and C9 both caught it. A mismatch between the dispatch's lane and the
+     * ledger's history is a transfer question, not a reissue question, and it
+     * stays visible rather than being papered over here.
+     */
+    const target = claims.find((c) => c.lane === asg.assignmentId);
+    if (!target) continue;
+    target.released = false;
+    delete target.releasedAt;
+    delete target.releaseReason;
+    reissuedNow.push({
+      subjectType: target.subjectType, subjectId: id, operation: asg.lane,
+      lane: target.lane, dispatchNames: asg.assignmentId,
+      familyState: stateOfFamily.get(id),
+      reissuedAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
+      reason: `the current dispatch names ${asg.assignmentId} for this family, the family is ${stateOfFamily.get(id)} and owes ${asg.lane}, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.`
+    });
+  }
+}
+
 const mergedClaims = survivingClaims
   .sort((x, y) => x.subjectType.localeCompare(y.subjectType) || x.subjectId.localeCompare(y.subjectId) || x.operation.localeCompare(y.operation) || x.lane.localeCompare(y.lane));
 
@@ -2396,7 +2519,7 @@ const claimLedgerRecord = {
   claimsDigestCovers: digestFields,
   revocationIsVisibleHow: "the digest changes whenever a grant is added or withdrawn; generatedAtCommit is a declared floor and does not",
   releases: priorLedger.releases ?? [],
-  reissues: priorLedger.reissues ?? [],
+  reissues: [...(priorLedger.reissues ?? []), ...reissuedNow],
   /* The transfer log carries the same weight as releases and reissues: it is
    * how a family read twice is auditable at all. It was added to claim.mjs
    * after this generator was last touched, so without this line the first
@@ -2431,9 +2554,27 @@ const priorLiveLane = new Map((priorLedger.claims ?? []).filter((c) => c.release
 const movedLiveLanes = mergedClaims
   .filter((c) => c.released !== true && priorLiveLane.has(identityOf(c)) && priorLiveLane.get(identityOf(c)) !== c.lane)
   .map((c) => `${identityOf(c)}: ${priorLiveLane.get(identityOf(c))} -> ${c.lane}`);
+/*
+ * A CLEARED RELEASE FLAG IS HISTORY DESTRUCTION -- UNLESS IT IS A LOGGED
+ * REISSUE, WHICH IS THE ONE THING A CLEARED RELEASE FLAG IS SUPPOSED TO BE.
+ *
+ * This guard exists because a regeneration that quietly un-releases a claim
+ * erases the record that a lane finished with it. That is exactly right for
+ * every accidental case. It is wrong for the deliberate one: reissuing IS
+ * clearing a release flag, on purpose, with a stated cause, and the whole
+ * mechanism above does nothing else.
+ *
+ * The exemption is as narrow as it can be: only identities the same run wrote
+ * into `reissuedNow`, each of which lands in the ledger's reissues log with the
+ * dispatch that asked for it, the family's state, and why an assert would
+ * otherwise have answered ALREADY_RELEASED. Anything else clearing a release
+ * flag still stops the run and still writes nothing.
+ */
+const deliberatelyReissued = new Set(reissuedNow.map((r) => `${r.subjectType}|${r.subjectId}|${r.operation}`));
 const lostReleaseFlags = [...beforeReleased].filter((k) => {
   const after = mergedClaims.find((c) => identityOf(c) === k);
-  return after && after.released !== true;
+  if (!after || after.released === true) return false;
+  return !deliberatelyReissued.has(k);
 });
 const shrank = [
   ["releases", (priorLedger.releases ?? []).length, (claimLedgerRecord.releases ?? []).length],
