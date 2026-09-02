@@ -4583,6 +4583,842 @@
           "evidence": "registry selfHelpStopConditions and mechanism text for trackId oh_marijuana_expungement; build-findings.json hardStops; participant-instructions.md; tracks/oh_marijuana_expungement/participant-instructions.md; term grep across the family"
         }
       }
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "worker": "VT-B",
+      "verifiedBy": "VT-B independent verification, measured in this container",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "33605354695",
+      "verdictCeilingApplied": null,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief, run without --write in this container on the committed bytes"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the one declared route key obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief is carried identically by source-receipt.json, product-wiring.json (top level and binding), production-field-map.json and the printed Route(s) footer, and it occurs in the committed route-obligation census",
+          "evidence": "grep of the declared key against data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json: PRESENT; product-wiring top-level routeKeys equal binding.routeKeys"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "3/3 committedRecords recomputed byte-for-byte from disk in this container and every declared sha256 and byteLength matched; the declared routeKey is textually PRESENT in two of the three bound records",
+          "evidence": "sha256 recomputed for src/lib/legal-authority/routes/route-splits.json, src/lib/rcap-engine/compiled/profiles/IL-illinois.json and data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "componentSet declares il-mistaken-identity-primary-filing-1 and il-mistaken-identity-filing-instructions-2; both appear in the 4-row pageManifest of both fixtures and no component of any other route appears",
+          "evidence": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/reports/rendered-artifacts.json pageManifest read against componentSet"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0, produced by running the completeness verifier here rather than read from any builder report",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief, run without --write in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "every declared required-before-filing item is named in participant-instructions.md; 6/6 matched by normalised string against the file",
+          "evidence": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/production-field-map.json requiredBeforeFiling checked against participant-instructions.md"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief, run without --write in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief, run without --write in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no declared write entry carries a signature, signature-date, notary, certificate-of-mailing, court-only or prosecutor-only label (0 of 12 matched a protected-label pattern), and the extracted page text shows the DATE / SIGNATURE OF PETITIONER line blank",
+          "evidence": "production-field-map.json write entries scanned for protected labels; pdftotext -layout of fixtures/canonical.pdf line 70"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both artifact hashes recomputed from the committed bytes in this container and both equal what reports/rendered-artifacts.json names; both hashes are present in RASTER_QUEUE.json and the acceptance receipt in product-wiring.json binds a hash that still exists",
+          "evidence": "sha256 recomputed for fixtures/canonical.pdf and fixtures/boundary.pdf; acceptanceReceipt.boundToCanonicalSha256 25f0c6a1... matches a live artifact"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "pageManifest is 4 contiguous packetPage rows 1..4 and pdfinfo reports 4 pages for both fixtures",
+          "evidence": "pdfinfo page count compared against reports/rendered-artifacts.json pageCount and pageManifest length"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 words fall outside the page box on any page of either fixture, measured from the bytes with pdftotext -bbox-layout word rectangles against the declared MediaBox",
+          "evidence": "pdftotext -bbox-layout over both fixtures: 892 and 897 words, 0 outside the page box"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the instructions name the office of the chief judge of the Illinois judicial circuit where the arrest occurred, which is the destination the compiled Illinois profile records for this route",
+          "evidence": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/participant-instructions.md FILING_DESTINATION row, checked against src/lib/rcap-engine/compiled/profiles/IL-illinois.json"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "BLOCKED_LEGAL_INPUT",
+          "finding": "no committed record this family binds states a filing fee or a waiver route; the packet states that expressly, names the office that answers it and invents no figure",
+          "evidence": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/participant-instructions.md FEE_AND_WAIVER row"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "BLOCKED_LEGAL_INPUT",
+          "finding": "no committed record this family binds states who must be served or how; the packet states that expressly and names the office that answers it",
+          "evidence": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/participant-instructions.md SERVICE row"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet carries a dedicated stop section with five stop conditions, including immigration",
+          "evidence": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/participant-instructions.md 'When to stop and get help instead of filing'"
+        }
+      }
+    },
+    {
+      "itemId": "rcap-ks-custom-pleading",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "worker": "VT-B",
+      "verifiedBy": "VT-B independent verification, measured in this container against the committed bytes",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterWorkflowRunId": null,
+      "verdictCeilingApplied": null,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading, run without --write in this container on the committed bytes"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "the family's own records disagree about which route it serves. source-receipt.json, production-field-map.json, reports/rendered-artifacts.json, product-wiring.json binding.routeKeys and the printed Route: line all carry the two current five-segment keys, which the census does carry. product-wiring.json top-level routeKey and routeKeys still carry obligation:track-only:KS:ks-12-4516-municipal and obligation:track-only:KS:ks-12-4516a-municipal-arrest, and each occurs ZERO times in the committed route-obligation census. Only 6 of 182 census-v1 product-wiring files disagree top-level against binding, so this is an anomaly and not the house style.",
+          "evidence": "grep of each key against data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (0 occurrences for both track-only keys, 1 each for both track-pathway keys); product-wiring.json routeKey/routeKeys compared against binding.routeKeys across all 182 census-v1 families"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "3/3 committedRecords recomputed byte-for-byte here and every sha256 and byteLength matched, including the census re-pin the repair made (0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 bytes). Both declared five-segment routeKeys are textually PRESENT in the census bytes the receipt binds, which is the exact check Kansas previously failed.",
+          "evidence": "sha256 recomputed for data/record-clearing/legal-design-track-registry.json, data/record-clearing/legal-design-specifications.json and the route-obligation census; each declared routeKey grepped against the census bytes"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all six declared components appear in the 13-row family pageManifest, and each route artifact carries only its own three components: the ks-12-4516-municipal artifacts contain 3 conviction-route component headings and 0 arrest-route headings, the ks-12-4516a-municipal-arrest artifacts the reverse, and each route artifact prints only its own route key",
+          "evidence": "extracted page text of all four fixtures/routes/*.pdf counted for the other route's component headings and route keys; reports/rendered-artifacts.json routeArtifacts pageManifests read against componentSet"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading, run without --write in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "25 declared required-before-filing items, all 25 named in participant-instructions.md by normalised string match against the file",
+          "evidence": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/production-field-map.json requiredBeforeFiling checked against participant-instructions.md"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading, run without --write in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading, run without --write in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 of 28 declared write entries carry a protected label, and the extracted text shows the DATE / SIGNATURE OF PETITIONER lines blank on both petitions",
+          "evidence": "production-field-map.json write entries scanned for signature, notary, clerk, judge, prosecutor and certificate-of-service labels; pdftotext -layout of fixtures/canonical.pdf"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "the six artifact hashes recomputed here all equal what reports/rendered-artifacts.json names, but product-wiring.json names a different hash for the same bytes: binding.acceptanceReceipt claims RASTER_PASS coversTheWholeFamily bound to 6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8, and proposedRepresentation repeats it. That hash is the pre-repair canonical and no longer exists on disk; the canonical now hashes aca94f8f2ec3ae058e1a52b3d17cda4ffbabec5e6f8b087e5d58147f81a3f04f. Kansas is the only family of my nine whose acceptance receipt binds a hash that no artifact carries, and 0 of its 6 artifacts appear in RASTER_QUEUE.json. The five route-artifact acceptance records also still pin only pre-repair Kansas hashes: ROUTE_ARTIFACT_ACCEPTANCE 14 pre-repair hash lines and 0 post-repair, COMPLETENESS 4/0, DETERMINISM 9/0, RASTER_QUEUE 4/0, CENTRAL_RASTER_RUN 2/0.",
+          "evidence": "sha256 recomputed for all six fixtures and compared against reports/rendered-artifacts.json, product-wiring.json acceptanceReceipt and proposedRepresentation, RASTER_QUEUE.json and data/rcap-grade-a/route-artifact-acceptance/*.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "every pageManifest is contiguous and every declared pageCount equals the pdfinfo page count: family 13/13, ks-12-4516-municipal 7/7, ks-12-4516a-municipal-arrest 6/6, on both fixtures. The added page in the canonical family assembly and in the canonical ks-12-4516-municipal artifact is declared in the manifest as page 4 of ks-12-4516-municipal-primary-filing-1.",
+          "evidence": "pdfinfo page counts against reports/rendered-artifacts.json pageCount and pageManifest for all six artifacts"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 words outside the page box on any page of any of the six artifacts (3356, 3364, 1701, 1705, 1655 and 1659 words measured). The wrapped route key is fully on the page: it breaks mid-token as expungement-und / er-12-4516 and, on the canonical family assembly and the canonical ks-12-4516-municipal artifact, the Route: label is orphaned at the foot of page 3 while its value occupies a page of its own. That is a page-composition question for visual review, not ink outside a box.",
+          "evidence": "pdftotext -bbox-layout over the committed fixture bytes: every word rectangle compared against that page's own MediaBox; per-page text of post-repair page 4 read in full"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both routes name the destination the committed track registry records: the convicting Kansas municipal court, and the municipal court where the ordinance charge was brought, each with the charter-ordinance caveat the registry carries",
+          "evidence": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/participant-instructions.md FILING_DESTINATION rows checked against data/record-clearing/legal-design-track-registry.json destination and venue for ks-12-4516-municipal and ks-12-4516a-municipal-arrest"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both routes state the fee position and the waiver position as the registry records them, including the K.S.A. 21-6107 identity-theft fee exemption on the arrest route and the absence of any discretionary waiver",
+          "evidence": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/participant-instructions.md FEE_AND_WAIVER rows against the track registry"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both routes state that the court causes notice to be given to the prosecuting attorney and the arresting agency and that the participant does not serve, as the registry records",
+          "evidence": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/participant-instructions.md SERVICE rows against the track registry"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 12 registry self-help stop conditions across the two tracks are carried in the packet, including immigration consequences",
+          "evidence": "registry selfHelpStopConditions for both tracks compared term-by-term against participant-instructions.md: 12 of 12 covered"
+        }
+      },
+      "repairAssignmentId": "VTB-REPAIR-KS-PRODUCT-WIRING",
+      "rePointingClaimIndependentlyChecked": {
+        "claim": "FIXKS recorded in KANSAS_ROUTE_KEY_REPAIR.json that the only textual change anywhere in the six artifacts is the trailing Route: line, and that two artifacts gained a page because the longer key wraps.",
+        "howVTBCheckedIt": "the six pre-repair artifacts were recovered with git show 6c9fac8dd^ and the post-repair artifacts read from disk; page text was extracted from all twelve with pdftotext -layout, whitespace was collapsed and only the two route-key strings were replaced by tokens, and the whole normalised documents were compared",
+        "result": "CLAIM HOLDS. All six normalised documents are character-identical pre and post, at identical lengths (23408, 23006, 12346, 12145, 11062 and 10861 characters), with the same number of route-key occurrences on each side. participant-instructions.md differs by exactly one line, the trailing _Route(s):_ footer.",
+        "pageGrowthCause": "CONFIRMED AND MORE SPECIFIC THAN THE CLAIM. Page counts moved exactly as recorded: canonical family 12 to 13, canonical ks-12-4516-municipal 6 to 7, the other four held. The cause is not a three-line wrap absorbed in place: the whole key value was pushed off page 3 onto a new page 4 that contains nothing but the key, hard-wrapped mid-token as expungement-und / er-12-4516, leaving the bare label Route: alone at the foot of page 3. Both halves of that split sit inside the page box.",
+        "whatTheClaimDidNotCover": "the repair record disclosed that product-wiring.json still carries the superseded keys and left it to another lane. VT-B measured the consequence and found a second stale limb in the same file that the repair record did not name: the acceptance receipt and proposedRepresentation still bind the pre-repair canonical hash."
+      }
+    },
+    {
+      "itemId": "rcap-wa-custom-pleading-clean-tracks",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "worker": "VT-B",
+      "verifiedBy": "VT-B independent verification, measured in this container against the committed bytes",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterWorkflowRunId": null,
+      "verdictCeilingApplied": null,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks, run without --write in this container on the committed bytes"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both declared keys, obligation:track-only:WA:wa_vac_post_probation_9_95_240 and obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060, occur in the committed census and are carried identically by the receipt, the field map, product-wiring top level and binding, and the printed Route(s) footer",
+          "evidence": "each key grepped against the route-obligation census; product-wiring top-level routeKeys equal binding.routeKeys"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "3/3 committedRecords recomputed byte-for-byte here with every sha256 and byteLength matching; both declared routeKeys are textually PRESENT in the census bytes the receipt binds",
+          "evidence": "sha256 recomputed for the track registry, the design specifications and the route-obligation census"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 8 declared components appear in the 17-row pageManifest of both fixtures and no component of any other route appears",
+          "evidence": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/reports/rendered-artifacts.json pageManifest read against componentSet"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks, run without --write in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "19 declared items, all 19 named in participant-instructions.md",
+          "evidence": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/production-field-map.json requiredBeforeFiling against participant-instructions.md"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks, run without --write in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks, run without --write in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 of 32 declared write entries carry a protected label; the judge's signature and date on the proposed order and the participant signature lines are blank in the extracted text, and the packet says so in terms",
+          "evidence": "production-field-map.json write entries scanned; pdftotext -layout of fixtures/canonical.pdf lines 112, 197-198 and 390"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both hashes recomputed here equal what reports/rendered-artifacts.json names, and both appear in RASTER_QUEUE.json",
+          "evidence": "sha256 recomputed for fixtures/canonical.pdf and fixtures/boundary.pdf and matched against RASTER_QUEUE.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "pageManifest is 17 contiguous rows and pdfinfo reports 17 pages on both fixtures",
+          "evidence": "pdfinfo against reports/rendered-artifacts.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 words outside the page box across 4644 and 4650 words on the two fixtures",
+          "evidence": "pdftotext -bbox-layout over the committed fixture bytes: every word rectangle compared against that page's own MediaBox"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the court limb names the clerk of the sentencing court and the agency limb names the Washington State Patrol with no court involved, both as the registry records them",
+          "evidence": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/participant-instructions.md FILING_DESTINATION rows against the track registry destination and venue for wa_vac_post_probation_9_95_240 and wa_del_nonconviction"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the WSP limb carries the recorded fee table and the no-fee in-person review; the 9.95.240 court limb states, as recorded, that no source establishes the court filing fee or a waiver and directs the participant to the clerk rather than inventing a figure",
+          "evidence": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/participant-instructions.md FEE_AND_WAIVER rows against the track registry"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the court limb states service on the prosecutor for the sentencing court with proof of service filed; the agency limb states that there is no service and no objection process",
+          "evidence": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/participant-instructions.md SERVICE rows against the track registry"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 19 registry stop conditions across the two tracks are carried, including immigration consequences and the firearm-rights-restoration handoff",
+          "evidence": "registry selfHelpStopConditions for both tracks compared against participant-instructions.md: 19 of 19 covered"
+        }
+      }
+    },
+    {
+      "itemId": "vt_seal_nonconviction-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "worker": "VT-B",
+      "verifiedBy": "VT-B independent verification, measured in this container against the committed bytes",
+      "rasterState": "rendered_locally_pending_central_acceptance",
+      "rasterWorkflowRunId": "33585751332",
+      "verdictCeilingApplied": null,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set, run without --write in this container on the committed bytes"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "the participant-facing pages print a route key that no census carries. participant-instructions.md and the process-guidance page inside fixtures/canonical.pdf both end 'Route: obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing', and production-field-map.json declares the same key. That string occurs ZERO times in the committed route-obligation census and in the compiled runtime; its only occurrences anywhere in the repository are this builder, this field map and these instructions. The census and product-wiring.json instead carry three obligation:unit:VT:vt_seal_nonconviction:* keys. This is the same defect class the Kansas repair was opened for, on a family nobody has repaired.",
+          "evidence": "grep of obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing across data, src and scripts: 3 files, all inside this family and its builder, 0 occurrences in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json; the three obligation:unit:VT:vt_seal_nonconviction:* keys are each PRESENT in the census"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "3/3 official sources recomputed byte-for-byte from the Master Library here and every sha256 and byteLength matched, and each also matches the committed corpus index",
+          "evidence": "sha256 recomputed for VT forms 200-00130, 200-00132 and 600-00228 under MASTER_LIBRARY_SOURCE_DIR, compared against source-receipt.json and data/rcap-all50/local-source-corpus-index.json"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all four declared components (petition, stipulation_and_proposed_order, fee_waiver_application, process_guidance) appear in the 8-row pageManifest of both fixtures and nothing outside the set appears",
+          "evidence": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json pageManifest read against componentSet"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set, run without --write in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "58 declared items, all 58 named in participant-instructions.md",
+          "evidence": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/production-field-map.json requiredBeforeFiling against participant-instructions.md"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set, run without --write in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set, run without --write in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 of 52 declared write entries carry a protected label, and every added glyph in both fixtures lands inside a declared write box, so nothing was written to the defendant signature, the date of signature, the State's Attorney block or the court's order",
+          "evidence": "source glyphs subtracted from output glyphs page by page through the repository's own content-stream walker, and every remaining glyph tested for containment in a write box declared in production-field-map.json; 24 added items on canonical and 23 on boundary, 0 outside a declared box"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both declared artifact hashes recomputed here match, and the acceptance receipt binds a hash that still exists. Six further PDFs sit in fixtures/ (canonical--200-00130.pdf and five siblings) that no record in the family names and whose hashes appear nowhere; they are the builder's per-form intermediates, and their page text is identical to the corresponding assembled pages, so they are disclosed here rather than treated as a hash failure.",
+          "evidence": "sha256 recomputed for every PDF under fixtures/; per-form splits compared page-for-page against the assembled canonical with pdftotext -layout"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "pageManifest is 8 contiguous rows and pdfinfo reports 8 pages on both fixtures",
+          "evidence": "pdfinfo against reports/rendered-artifacts.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 words outside the page box across 1838 words, and 0 added glyphs outside a declared write box",
+          "evidence": "pdftotext -bbox-layout over the committed fixture bytes: every word rectangle compared against that page's own MediaBox; source glyphs subtracted from output glyphs page by page through the repository's own content-stream walker, and every remaining glyph tested for containment in a write box declared in production-field-map.json"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet names the Vermont Superior Court, Criminal Division, in the unit where the case was decided, which is the destination the committed track registry records for vt_seal_nonconviction",
+          "evidence": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/participant-instructions.md 'Where you file this' against data/record-clearing/legal-design-track-registry.json destination and venue"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "BLOCKED_LEGAL_INPUT",
+          "finding": "the track registry carries no fee and no waiver field for this track and the packet says so expressly on both the instructions page and the process-guidance page, includes form 600-00228 and directs the participant to the clerk without inventing an amount",
+          "evidence": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/participant-instructions.md; registry entry for vt_seal_nonconviction has no fee or waiver key"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "BLOCKED_LEGAL_INPUT",
+          "finding": "the registry carries no service or notice field for this track and the packet says so expressly, adding that the State's Attorney's signature on the stipulation is not service",
+          "evidence": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/participant-instructions.md; registry entry for vt_seal_nonconviction has no service or notice key"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "the packet nowhere states where self-help ends. There is no stop section in participant-instructions.md and none on the process-guidance page; the only related sentence is the boilerplate 'It is not legal advice, it is not filed for you'. The committed track registry records six selfHelpStopConditions for vt_seal_nonconviction and the packet carries two of them at most, omitting that any pending charge anywhere blocks the court under Section 7604, that the disposition may not be one of the three Section 7603(a)(1) triggers, that Act 60 repealed the no-conviction expungement so the participant gets sealing rather than expungement, and immigration consequences. The sister family vt_seal_pardon, on the same forms, carries all ten of its registry stop conditions verbatim under 'When to stop and get a lawyer', so this is an omission rather than an unavailable input.",
+          "evidence": "data/record-clearing/legal-design-track-registry.json selfHelpStopConditions for vt_seal_nonconviction compared term-by-term against participant-instructions.md and the extracted text of fixtures/canonical.pdf pages 7-8"
+        }
+      },
+      "repairAssignmentId": "VTB-REPAIR-VTNC-ROUTE-KEY-AND-STOP"
+    },
+    {
+      "itemId": "wa_vac_survivor_felony-set",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "worker": "VT-B",
+      "verifiedBy": "VT-B independent verification, measured in this container against the committed bytes",
+      "rasterState": "BUILT_EVIDENCE_ONLY",
+      "rasterWorkflowRunId": "33497786539",
+      "verdictCeilingApplied": null,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_felony-set, run without --write in this container on the committed bytes"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the single declared key obligation:track-pathway:WA:wa_vac_survivor_felony:victim-survivor-conviction-vacation-route occurs in the committed census and is carried identically by the receipt and by product-wiring top level and binding",
+          "evidence": "key grepped against the route-obligation census; product-wiring top-level routeKeys equal binding.routeKeys"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "2/2 official sources recomputed byte-for-byte from the Master Library here with sha256 and byteLength matching, and both agree with the committed corpus index",
+          "evidence": "sha256 recomputed for WA CR-08.0900 and CR-08.0920 under MASTER_LIBRARY_SOURCE_DIR against source-receipt.json and data/rcap-all50/local-source-corpus-index.json"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the family declares two documents, participant_filing CR-08.0900 and court_order CR-08.0920, and both are rendered as canonical and boundary fixtures; fixture-manifest.json and reports/rendered-artifacts.json agree on all four, and no component of another route is present",
+          "evidence": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/fixtures/fixture-manifest.json against reports/rendered-artifacts.json and the four PDFs on disk"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_felony-set, run without --write in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the required-before-filing set is carried as 16 withheld blanks per document plus the Required attachments and Deadline sections, and every one is disclosed in participant-instructions.md",
+          "evidence": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/production-field-map.json documents[].withheld and participant-completion-instructions.json against participant-instructions.md"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here, and the packet devotes a section to the one election the route determines",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_felony-set, run without --write in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here, on a fixture that carries four charge rows",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_felony-set, run without --write in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 of 49 declared writable anchors carry a protected label, and every added glyph across all four fixtures lands inside a declared write box, so the Dated / Signature / WSBA No. line and the judge, commissioner, clerk and prosecutor sections carry no ink",
+          "evidence": "source glyphs subtracted from output glyphs page by page through the repository's own content-stream walker, and every remaining glyph tested for containment in a write box declared in production-field-map.json; 20 added items on each CR-08.0900 fixture and 29 on each CR-08.0920 fixture, 0 outside a declared box"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all four fixture hashes recomputed here match fixture-manifest.json and reports/rendered-artifacts.json exactly, and the acceptance receipt binds a hash that still exists",
+          "evidence": "sha256sum of the four fixtures compared against both records and against RASTER_QUEUE.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "each fixture is 3 pages, matching its declared pageCount and the 3-page source it was filled from",
+          "evidence": "pdfinfo against reports/rendered-artifacts.json and against the pinned source page counts"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 words outside the page box on either canonical fixture (825 and 1128 words), and 0 added glyphs outside a declared write box on any of the four",
+          "evidence": "pdftotext -bbox-layout over the committed fixture bytes: every word rectangle compared against that page's own MediaBox; source glyphs subtracted from output glyphs page by page through the repository's own content-stream walker, and every remaining glyph tested for containment in a write box declared in production-field-map.json"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet names the clerk of the sentencing superior court and records that the prosecutor of the county of sentencing may apply on behalf of the state, which is the destination the registry records",
+          "evidence": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/participant-instructions.md 'Where to file' against the track registry destination for wa_vac_survivor_felony"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet carries a dedicated filing fee and fee waiver section",
+          "evidence": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/participant-instructions.md 'Filing fee and fee waiver'"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet carries a dedicated section naming who must be served and how, plus a hearing section",
+          "evidence": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/participant-instructions.md 'Who must be served, and how'"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet states where self-help ends in a dedicated section with seven stop conditions. Disclosed divergence, not scored as a failure of this obligation: the list is authored independently rather than transcribed, and it covers 3 of the 12 selfHelpStopConditions the committed track registry records for wa_vac_survivor_felony, omitting among others any pending charge anywhere, any domestic-violence element, any active protection order, any firearm or sexual-motivation enhancement, immigration consequences, and the participant whose real goal is firearm-rights restoration under RCW 9.41.041.",
+          "evidence": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/participant-instructions.md 'Where self-help ends' compared term-by-term against data/record-clearing/legal-design-track-registry.json selfHelpStopConditions for wa_vac_survivor_felony"
+        }
+      }
+    },
+    {
+      "itemId": "az_marijuana_expungement_arrest_no_charges-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "worker": "VT-B",
+      "verifiedBy": "VT-B independent verification, measured in this container against the committed bytes",
+      "rasterState": null,
+      "rasterWorkflowRunId": "33526896195",
+      "verdictCeilingApplied": null,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_arrest_no_charges-set, run without --write in this container on the committed bytes"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the single declared key obligation:track-pathway:AZ:az_marijuana_expungement_arrest_no_charges:remedy-3-marijuana-expungement occurs in the committed census and is carried identically by the receipt, the field map and product-wiring top level and binding",
+          "evidence": "key grepped against the route-obligation census; product-wiring top-level routeKeys equal binding.routeKeys"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the one official source recomputed byte-for-byte from the Master Library here: sha256 3f0a4f97f7a28a63f4f74e4f6c37cc4400a47e35c5669895ebf296c882b79652 and 22738 bytes, matching the pin, the recomputed value in the receipt and the committed corpus index",
+          "evidence": "sha256 recomputed for AZ AOC-CREM3F under MASTER_LIBRARY_SOURCE_DIR against source-receipt.json and data/rcap-all50/local-source-corpus-index.json"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the family declares one primary_filing document and renders it as canonical and boundary; both are present and no component of another route appears",
+          "evidence": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/reports/rendered-artifacts.json against the two PDFs on disk"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0 measured here; 13 of 13 declared writes are readable in the output bytes",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_arrest_no_charges-set, run without --write in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "5 declared items, all 5 named in participant-instructions.md, plus a separate list of the blanks left deliberately empty",
+          "evidence": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/production-field-map.json requiredBeforeFiling against participant-instructions.md"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here; the packet leaves every sworn election to the participant and names each one with its printed line",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_arrest_no_charges-set, run without --write in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_arrest_no_charges-set, run without --write in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 of 13 declared writes carry a protected label, and every added glyph lands inside a declared write box, so the Petitioner's Signature and Date line and the whole attorney block carry no ink",
+          "evidence": "source glyphs subtracted from output glyphs page by page through the repository's own content-stream walker, and every remaining glyph tested for containment in a write box declared in production-field-map.json; 13 added items on canonical and 12 on boundary, 0 outside a declared box"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both fixture hashes recomputed here match reports/rendered-artifacts.json, and the acceptance receipt binds a hash that still exists",
+          "evidence": "sha256 recomputed for the two fixtures and matched against reports/rendered-artifacts.json and RASTER_QUEUE.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "each fixture is 3 pages, matching the declared pageCount and the 3-page source",
+          "evidence": "pdfinfo against reports/rendered-artifacts.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 words outside the page box across 751 words, and 0 added glyphs outside a declared write box",
+          "evidence": "pdftotext -bbox-layout over the committed fixture bytes: every word rectangle compared against that page's own MediaBox; source glyphs subtracted from output glyphs page by page through the repository's own content-stream walker, and every remaining glyph tested for containment in a write box declared in production-field-map.json"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet names the Superior Court clerk in the county printed in the caption, which is the destination the registry and the census both record as the superior court in the county of arrest",
+          "evidence": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/participant-instructions.md 'Where you file this' against the track registry destination and venue for az_marijuana_expungement_arrest_no_charges"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "BLOCKED_LEGAL_INPUT",
+          "finding": "the committed track registry carries no fee and no waiver field for this track, and the packet states in terms that it will not print an unsourced figure and names the clerk as the office that answers",
+          "evidence": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/participant-instructions.md; registry entry for az_marijuana_expungement_arrest_no_charges has no fee or waiver key"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "BLOCKED_LEGAL_INPUT",
+          "finding": "the registry carries no service or notice field for this track and the packet states that expressly and names the clerk as the office that answers",
+          "evidence": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/participant-instructions.md; registry entry has no service or notice key"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "the packet nowhere states where self-help ends. participant-instructions.md has no stop section and the two references to a lawyer are both instructions to leave the attorney block blank; the official form carries none either. The committed track registry records six selfHelpStopConditions for this track and the packet carries at most two of them, omitting that the prosecuting agency may file a response opposing eligibility, that a conduct date on or after 12 July 2021 changes the position, that a participant who wants to challenge the conviction rather than expunge it is on the wrong route, and immigration consequences. The input exists in the committed record, so this is an omission and not a legal block.",
+          "evidence": "data/record-clearing/legal-design-track-registry.json selfHelpStopConditions for az_marijuana_expungement_arrest_no_charges compared term-by-term against participant-instructions.md and the extracted text of both fixtures"
+        }
+      },
+      "repairAssignmentId": "VTB-REPAIR-AZ-SELF-HELP-STOP"
+    },
+    {
+      "itemId": "vt_seal_pardon-set",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "worker": "VT-B",
+      "verifiedBy": "VT-B independent verification, measured in this container against the committed bytes",
+      "rasterState": null,
+      "rasterWorkflowRunId": "33596784162",
+      "verdictCeilingApplied": null,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set, run without --write in this container on the committed bytes"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the single declared key obligation:track-only:VT:vt_seal_pardon occurs in the committed census, is carried identically by the receipt and by product-wiring top level and binding, and is the key printed in the instructions footer",
+          "evidence": "key grepped against the route-obligation census; product-wiring top-level routeKeys equal binding.routeKeys; printed footer read from participant-instructions.md"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "3/3 official sources recomputed byte-for-byte from the Master Library here with sha256 and byteLength matching and agreeing with the committed corpus index. A fourth authority is relied on for fee and service, VT 200-00130A, and the instructions bind it by hash; that hash recomputes exactly against the Master Library too, although source-receipt.json documents[] does not list it.",
+          "evidence": "sha256 recomputed for 200-00130, 200-00132 and 600-00228, and for STATES/VT/03_INSTRUCTIONS/VT__INSTRUCTIONS__200-00130A__... which hashes 8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078 as the instructions state"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all four declared components are delivered: three as packet pages carrying 200-00130, 200-00132 and 600-00228 across the 6-row pageManifest, and the required filing-and-expectation-instructions component as participant-instructions.md, which is present. Nothing outside the set appears.",
+          "evidence": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/reports/rendered-artifacts.json componentSet deliveredAs values checked against the pageManifest and against the file on disk"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set, run without --write in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "110 declared items, all 110 named in participant-instructions.md",
+          "evidence": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/production-field-map.json requiredBeforeFiling against participant-instructions.md"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set, run without --write in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set, run without --write in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 of 48 declared write entries carry a protected label, and every added glyph lands inside a declared write box, so the defendant signature, the date of signature, the State's Attorney block and the court's order carry no ink",
+          "evidence": "source glyphs subtracted from output glyphs page by page through the repository's own content-stream walker, and every remaining glyph tested for containment in a write box declared in production-field-map.json; 24 added items on each fixture, 0 outside a declared box"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both fixture hashes recomputed here match reports/rendered-artifacts.json and the acceptance receipt binds a hash that still exists",
+          "evidence": "sha256 recomputed for the two fixtures and matched against reports/rendered-artifacts.json and RASTER_QUEUE.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "pageManifest is 6 contiguous rows in form order 200-00130, 200-00132, 600-00228 and pdfinfo reports 6 pages on both fixtures",
+          "evidence": "pdfinfo against reports/rendered-artifacts.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 words outside the page box across 1406 words, and 0 added glyphs outside a declared write box",
+          "evidence": "pdftotext -bbox-layout over the committed fixture bytes: every word rectangle compared against that page's own MediaBox; source glyphs subtracted from output glyphs page by page through the repository's own content-stream walker, and every remaining glyph tested for containment in a write box declared in production-field-map.json"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet names the Criminal Division of the Vermont Superior Court in the county that handled the case, which is the registry destination",
+          "evidence": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/participant-instructions.md 'Where you file this' against the track registry destination and venue for vt_seal_pardon"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet carries a dedicated cost and waiver section, quotes it from VT 200-00130A and binds that publication by a hash that recomputes exactly here",
+          "evidence": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/participant-instructions.md 'What it costs, and how to ask for a waiver' and 'Where the fee and service directions come from'"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet carries a dedicated section naming who must receive a copy and how, quoted from the same hashed publication",
+          "evidence": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/participant-instructions.md 'Who must receive a copy, and how'"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet transcribes all ten registry selfHelpStopConditions verbatim, including immigration consequences, and separately flags the unresolved three-year against seven-year clock for a pardoned misdemeanour as an open question rather than a rule",
+          "evidence": "registry selfHelpStopConditions for vt_seal_pardon compared term-by-term against participant-instructions.md 'When to stop and get a lawyer': 10 of 10 carried"
+        }
+      }
     }
   ],
   "vt1Read": {
@@ -4754,5 +5590,32 @@
     "commercialRoutesOpened": 0,
     "productionTouched": false,
     "grantsNothing": "This block and the five rows it describes record measurements. They approve no output, promote no family, open no commercial route and consume no packet credit."
+  },
+  "vtbRead": {
+    "worker": "VT-B",
+    "readAt": "2026-09-02",
+    "baseSha": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "branch": "fable/vtb",
+    "preflight": "node scripts/verify-packet-build-environment.mjs --family <familyId> --codex-cloud --minimum-captain-sha c4cd551656a08934a7f855bddbc68833b44aeac4 returned PACKET_BUILD_ENVIRONMENT_READY, 14/14 registered applicable checks passing, for every family in this read",
+    "measuredBy": "the fifteen proof obligations measured in this container. The nine counters were produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here, without --write, rather than read from any builder report. SOURCE_IDENTITY was recomputed by SHA-256 from the Master Library bytes mounted at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and from the committed repository records, and every declared routeKey was tested for presence in the source that binds it. ARTIFACTS hashes were recomputed from the committed fixture bytes. CLIPPING_AND_OVERLAP was measured twice: word rectangles from pdftotext -bbox-layout against each page's own MediaBox, and, on every official-form family, source glyphs subtracted from output glyphs with each remaining glyph tested for containment in a declared write box.",
+    "independence": "VT-B built none of these families and repaired none of them. No overlay directory, build script, MASTER_QUEUE.json, VERIFIER_RETURNS.json or vf* directory other than vf02 and vf09 was written.",
+    "subjects": [
+      "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "rcap-ks-custom-pleading",
+      "rcap-wa-custom-pleading-clean-tracks",
+      "vt_seal_nonconviction-set",
+      "wa_vac_survivor_felony-set",
+      "az_marijuana_expungement_arrest_no_charges-set",
+      "vt_seal_pardon-set"
+    ],
+    "verdicts": {
+      "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief": "PASS_COMPLETE_INDEPENDENT",
+      "rcap-ks-custom-pleading": "FAIL_REPAIR_REQUIRED",
+      "rcap-wa-custom-pleading-clean-tracks": "PASS_COMPLETE_INDEPENDENT",
+      "vt_seal_nonconviction-set": "FAIL_REPAIR_REQUIRED",
+      "wa_vac_survivor_felony-set": "PASS_COMPLETE_INDEPENDENT",
+      "az_marijuana_expungement_arrest_no_charges-set": "FAIL_REPAIR_REQUIRED",
+      "vt_seal_pardon-set": "PASS_COMPLETE_INDEPENDENT"
+    }
   }
 }

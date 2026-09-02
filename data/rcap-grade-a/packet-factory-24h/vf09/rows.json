@@ -4194,6 +4194,243 @@
         "every vf* and fix* directory other than vf09 — untouched",
         "scripts/build-census-v1-*.mjs — untouched"
       ]
+    },
+    {
+      "itemId": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
+      "lane": "VF09",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/official-form-treatment:obligation:research-decision-route:al:al-olr--official-pdf-fill",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "worker": "VT-B",
+      "verifiedBy": "VT-B independent verification, measured in this container against the committed bytes",
+      "rasterState": null,
+      "rasterWorkflowRunId": "33605354695",
+      "verdictCeilingApplied": null,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family official-form-treatment:obligation:research-decision-route:AL:al-olr, run without --write in this container on the committed bytes"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the single declared key obligation:research-decision-route:AL:al-olr occurs in the committed census and is carried identically by the receipt, the field map, product-wiring top level and binding, and the printed Route footer",
+          "evidence": "key grepped against data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json; product-wiring top-level routeKeys equal binding.routeKeys"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the one official source recomputed byte-for-byte from the Master Library here: AOC Form C-94A, sha256 e7ebe16d45d9a5619fd36f2834d4696efc4c0e7bf3ef42c44fa684906effc2c2 and 235124 bytes, matching source-receipt.json and the committed corpus index",
+          "evidence": "sha256 recomputed for STATES/AL/05_SOURCE_GATED/AL__SOURCE-GATED__C-94A__... under MASTER_LIBRARY_SOURCE_DIR against source-receipt.json and data/rcap-all50/local-source-corpus-index.json"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the family declares one document, the C-94A petition, and renders it as canonical and boundary; both are present at 3 pages each and no component of another route appears",
+          "evidence": "data/rcap-all50/overlays/census-v1/al/official-form-treatment:obligation:research-decision-route:al:al-olr--official-pdf-fill/reports/rendered-artifacts.json packets and artifacts against the two PDFs on disk"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0 measured here; 9 of 9 declared writes readable in the canonical output bytes",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family official-form-treatment:obligation:research-decision-route:AL:al-olr, run without --write in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 30 declared participant blanks are disclosed. Twenty-four are named individually in the items table and the deliberately-blank list; the remaining six are disclosed by group and by page rather than row by row, namely the five identically-captioned conviction and collateral-consequence rules, which the instructions describe as the five ruled lines to use as many of as needed, and the RETURN ON SERVICE page, which the instructions assign in whole to whoever serves the petition.",
+          "evidence": "data/rcap-all50/overlays/census-v1/al/official-form-treatment:obligation:research-decision-route:al:al-olr--official-pdf-fill/reports/blanks-left-for-the-participant.json 30 blanks read against participant-instructions.md"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here; the packet also names each election it refuses to make and why, including the previous-application Granted/Denied/Not applicable boxes",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family official-form-treatment:obligation:research-decision-route:AL:al-olr, run without --write in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here; the five conviction and collateral-consequence rules are left wholly blank rather than partly written",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family official-form-treatment:obligation:research-decision-route:AL:al-olr, run without --write in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 of 9 declared write boxes carry a protected label and every added glyph lands inside a declared write box, so the petitioner signature, the whole notarial jurat and the whole RETURN ON SERVICE page carry no ink",
+          "evidence": "source glyphs subtracted from output glyphs page by page through the repository's own content-stream walker, and every remaining glyph tested for containment in a write box declared in production-field-map.json; 9 added items on canonical and 7 on boundary, 0 outside a declared box; extracted text shows the (Petitioner-Signature), oath-officer and process-server lines blank"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both fixture hashes recomputed here match reports/rendered-artifacts.json, both appear in RASTER_QUEUE.json, and the acceptance receipt binds a hash that still exists",
+          "evidence": "sha256 recomputed for fixtures/petition-canonical-filled.pdf and fixtures/petition-boundary-filled.pdf"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "each fixture is 3 pages in the source's own order, matching the 3-page pinned source",
+          "evidence": "pdfinfo against the pinned source page count in source-receipt.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 words outside the page box across 620 words on the canonical fixture, and 0 added glyphs outside a declared write box on either fixture",
+          "evidence": "pdftotext -bbox-layout over the committed fixture bytes: every word rectangle compared against that page's own MediaBox; source glyphs subtracted from output glyphs page by page through the repository's own content-stream walker, and every remaining glyph tested for containment in a write box declared in production-field-map.json"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet names the Alabama circuit court selected under Ala. Code Sec. 12-26-3, which is the destination the committed route record gives, and it tells the participant to check the prefilled county against that section because complex venue is a lawyer matter",
+          "evidence": "data/rcap-all50/overlays/census-v1/al/official-form-treatment:obligation:research-decision-route:al:al-olr--official-pdf-fill/participant-instructions.md 'Where you file this'"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet states the 100 dollar statutory administrative fee, states that it is nonwaivable, and states the permitted indigency payment-plan treatment as the only relief, quoting the committed record for both halves",
+          "evidence": "data/rcap-all50/overlays/census-v1/al/official-form-treatment:obligation:research-decision-route:al:al-olr--official-pdf-fill/participant-instructions.md 'What it costs'"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet names the licensing board or commission as the party served, sets out both methods the form's RETURN ON SERVICE page provides, states that the participant does not complete that page, and records that no held source states a service deadline",
+          "evidence": "data/rcap-all50/overlays/census-v1/al/official-form-treatment:obligation:research-decision-route:al:al-olr--official-pdf-fill/participant-instructions.md 'Who you serve, and how'"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet carries a dedicated section with six stop conditions quoted from the committed record and the committed legal decision, including complex venue, joinder, foreign relief, prohibited offences, agency-contested matters and a collateral consequence not identified with specificity",
+          "evidence": "data/rcap-all50/overlays/census-v1/al/official-form-treatment:obligation:research-decision-route:al:al-olr--official-pdf-fill/participant-instructions.md 'Where self-help ends'"
+        }
+      }
+    },
+    {
+      "itemId": "ut_pet_acquittal-set",
+      "lane": "VF09",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "worker": "VT-B",
+      "verifiedBy": "VT-B independent verification, measured in this container against the committed bytes",
+      "rasterState": "BUILT_REVIEW_PENDING",
+      "rasterWorkflowRunId": "33488713831",
+      "verdictCeilingApplied": null,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set, run without --write in this container on the committed bytes"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both declared keys, obligation:unit:UT:ut_pet_acquittal:ut_pet_acquittal-court-petition and :ut_pet_acquittal-bci-certificate, occur in the committed census and are carried identically by the receipt, the field map and product-wiring top level and binding",
+          "evidence": "both keys grepped against the route-obligation census; product-wiring top-level routeKeys equal binding.routeKeys"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "9/9 official sources recomputed byte-for-byte from the Master Library here with sha256 and byteLength matching and agreeing with the committed corpus index. The six further authorities the packet quotes for filing destination, fee, waiver and service were also recomputed and all six match the hashes the instructions print, including the compiled Utah profile at src/lib/rcap-engine/compiled/profiles/UT-utah.json.",
+          "evidence": "sha256 recomputed for 1000EX, 1020EX, 1044XX, 1146XX, 1148XX, 1149XX, 1169XX, UT-BCI-EXP-APPLICATION and UT-BCI-THIRD-PARTY-RELEASE, and for the citedAuthorities in production-field-map.json completenessRepair"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all nine declared documents appear in the 19-row pageManifest of both fixtures, in receipt order, with nothing missing and nothing extra",
+          "evidence": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/reports/rendered-artifacts.json pageManifest form order compared against source-receipt.json documents[]"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0 measured here; 38 declared writes readable in the output bytes of each fixture",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set, run without --write in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the 228 role refusals across the nine maps are disclosed by category in the facts-you-must-supply section, which names the BCI certificate number, the public-interest explanation, previously used names, gender, Social Security and driver-licence data, the payment or waiver election, identification and fingerprints, signing city, signatures and dates, and the conditional recipient, victim, prosecutor, reply and third-party-release content",
+          "evidence": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/production-field-map.json roleRefusals against participant-instructions.md 'The facts you must supply before filing'"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here; route-determined selections are marked and readable in the bytes, including the selected_route_option bracket on the district court cover sheet",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set, run without --write in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set, run without --write in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 of 90 declared write entries carry a protected label, and every added glyph across both fixtures lands inside a declared write box, so every Signature marker, every signing date, the court-only, agency-only, prosecutor-only and victim fields and the optional third-party authorisation carry no ink",
+          "evidence": "source glyphs subtracted from output glyphs page by page through the repository's own content-stream walker, and every remaining glyph tested for containment in a write box declared in production-field-map.json; 38 added items per fixture, 0 outside a declared box"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both fixture hashes recomputed here match reports/rendered-artifacts.json. Recorded limitation, not a failure: the acceptance receipt in product-wiring.json carries coversTheWholeFamily false, so the RASTER_PASS it names does not cover every page of this 19-page packet.",
+          "evidence": "sha256 recomputed for fixtures/canonical.pdf and fixtures/boundary.pdf against reports/rendered-artifacts.json; product-wiring.json binding.acceptanceReceipt read"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "pageManifest is 19 contiguous rows and pdfinfo reports 19 pages on both fixtures",
+          "evidence": "pdfinfo against reports/rendered-artifacts.json pageCount and pageManifest length"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "0 words outside the page box across 4210 words, and 0 added glyphs outside a declared write box on either fixture",
+          "evidence": "pdftotext -bbox-layout over the committed fixture bytes: every word rectangle compared against that page's own MediaBox; source glyphs subtracted from output glyphs page by page through the repository's own content-stream walker, and every remaining glyph tested for containment in a write box declared in production-field-map.json"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet states the two destinations in the fixed sequence the registry records, the Utah DPS Bureau of Criminal Identification first and then the court that decided the case, and it starts by telling the participant that Utah may already have cleared a qualifying acquittal so that nothing need be filed",
+          "evidence": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md 'Where the fallback petition is filed' and 'Start here' against the track registry destination and venue for ut_pet_acquittal"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet states what the fallback petition costs and names the waiver route by form number and authority, Utah court form 1305GE under Utah Code 78A-2-302, and binds the instructions it quotes by hashes that recompute exactly here",
+          "evidence": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md 'What the fallback petition costs, and how to ask for a waiver'"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet states who gives notice and to whom, and corrects a superseded line in the enclosed BCI instruction sheet rather than repeating it",
+          "evidence": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md 'Who gives notice, and to whom'"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "the packet nowhere states where self-help ends. There is no stop section in participant-instructions.md and none in the 19 packet pages; the nearest sentences are a self-help-centre phone number offered for a different question, one line telling the participant that if the court schedules a hearing they should attend it, which is the opposite of stopping, and the boilerplate 'It is not legal advice'. The committed track registry records eight selfHelpStopConditions for ut_pet_acquittal and the packet carries at most half of them. The omission that matters most is the first: the registry records that a participant who is not a US citizen should consult an immigration lawyer before expunging because the FBI may retain records of an expunged case, and records it in terms as a hard stop and not a caveat. The words citizen and immigration do not appear anywhere in this packet. Also omitted are the public-interest showing that has to be argued rather than stated, an active protective order or stalking injunction, and a verdict of not guilty by reason of insanity, which the review treats as out of scope.",
+          "evidence": "data/record-clearing/legal-design-track-registry.json selfHelpStopConditions for ut_pet_acquittal compared term-by-term against participant-instructions.md and the extracted text of all 19 pages of fixtures/canonical.pdf"
+        }
+      },
+      "repairAssignmentId": "VTB-REPAIR-UT-SELF-HELP-STOP"
     }
   ],
   "obligationSet": [
@@ -4348,5 +4585,22 @@
     "commercialRoutesOpened": 0,
     "productionTouched": false,
     "grantsNothing": "These rows are readings. They promote nothing, open no commercial route and approve no output."
+  },
+  "vtbRead": {
+    "worker": "VT-B",
+    "readAt": "2026-09-02",
+    "baseSha": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "branch": "fable/vtb",
+    "preflight": "node scripts/verify-packet-build-environment.mjs --family <familyId> --codex-cloud --minimum-captain-sha c4cd551656a08934a7f855bddbc68833b44aeac4 returned PACKET_BUILD_ENVIRONMENT_READY, 14/14 registered applicable checks passing, for every family in this read",
+    "measuredBy": "the fifteen proof obligations measured in this container. The nine counters were produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here, without --write, rather than read from any builder report. SOURCE_IDENTITY was recomputed by SHA-256 from the Master Library bytes mounted at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and from the committed repository records, and every declared routeKey was tested for presence in the source that binds it. ARTIFACTS hashes were recomputed from the committed fixture bytes. CLIPPING_AND_OVERLAP was measured twice: word rectangles from pdftotext -bbox-layout against each page's own MediaBox, and, on every official-form family, source glyphs subtracted from output glyphs with each remaining glyph tested for containment in a declared write box.",
+    "independence": "VT-B built none of these families and repaired none of them. No overlay directory, build script, MASTER_QUEUE.json, VERIFIER_RETURNS.json or vf* directory other than vf02 and vf09 was written.",
+    "subjects": [
+      "official-form-treatment:obligation:research-decision-route:AL:al-olr",
+      "ut_pet_acquittal-set"
+    ],
+    "verdicts": {
+      "official-form-treatment:obligation:research-decision-route:AL:al-olr": "PASS_COMPLETE_INDEPENDENT",
+      "ut_pet_acquittal-set": "FAIL_REPAIR_REQUIRED"
+    }
   }
 }
