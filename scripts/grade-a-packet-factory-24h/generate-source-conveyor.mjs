@@ -710,7 +710,29 @@ const countIn = (s) => {
   return master.families.filter((f) => f.state === s).length;
 };
 const sourceReady = countIn("SOURCE_READY");
-const verifyPending = countIn("VERIFY_PENDING") + countIn("VERIFYING");
+/*
+ * THE VERIFICATION QUEUE, COUNTED THE WAY THE DISPATCH SIZES IT.
+ *
+ * This was VERIFY_PENDING + VERIFYING, and generate.mjs sizes the elastic
+ * roster on the families nobody holds PLUS the families a verifier already
+ * has -- read from the OWNER, not from the state label. The two disagreed by
+ * exactly the families that are VERIFY_PENDING and actively owned by a
+ * verification lane, which is a real and normal state: an externally
+ * dispatched verifier holds the family while its state still says a reading
+ * is owed.
+ *
+ * At the boundary that gap became a contradiction. The dispatch measured 22
+ * and materialised four elastic lanes; this measured 20, said the trigger was
+ * off, and C19 reported four lanes existing for a trigger that was not firing.
+ * Neither number was wrong about what it counted; they were counting
+ * different things, and the one that decides the roster is the dispatch's.
+ *
+ * So a family in flight is counted once, whether the label or the owner says
+ * so, and never twice.
+ */
+const verifyPending = master.families.filter((f) =>
+  f.state === "VERIFY_PENDING" || f.state === "VERIFYING"
+  || f.activeOwnerLane === "independent-verification").length;
 const repairRequired = countIn("FAIL_REPAIR_REQUIRED");
 
 const ELASTIC = [

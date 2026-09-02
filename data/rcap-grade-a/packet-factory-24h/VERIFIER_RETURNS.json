@@ -22,10 +22,10 @@
   "supersessionRule": "one current verdict per family: the highest-precedence lane wins (factory vf lanes over codex-cloud directories, then higher lane number); superseded rows remain as history with superseded: true",
   "counts": {
     "returnDirectories": 33,
-    "rows": 310,
-    "independentVerdicts": 158,
-    "failRepairRequired": 50,
-    "passIndependent": 108
+    "rows": 316,
+    "independentVerdicts": 164,
+    "failRepairRequired": 54,
+    "passIndependent": 110
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
@@ -33,6 +33,7 @@
     "ar-arrest-seal-set",
     "ar-cs-possession-seal-set",
     "ar-misdemeanor-dwi-seal-set",
+    "ar-nonconviction-seal-set",
     "ca-1203-42-set",
     "ca-851-91-set",
     "ca-prop64-set",
@@ -42,10 +43,12 @@
     "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
     "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
     "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+    "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
     "ct-missed-erasure-set",
     "id_felony_reduction-set",
     "id_isp_expungement-set",
+    "in_section1_petition-set",
     "ma-expunge-time-set",
     "nc_146_dismissal_petition-set",
     "nd-nonconviction-close-petition-set",
@@ -61,6 +64,7 @@
     "rcap-wv-custom-pleading",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
+    "tx_exp_acquittal-set",
     "tx_nd_conviction_no_supervision-set",
     "tx_nd_dwi_probation-set",
     "ut_pet_acquittal-set",
@@ -876,6 +880,34 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-misdemeanor-dwi-seal-set",
       "superseded": true
+    },
+    {
+      "familyId": "ar-nonconviction-seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5",
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "THE PACKET GIVES A VENUE ANSWER THE REPOSITORY RECORDS AS NOT EXISTING FOR HALF THE DISPOSITIONS IT SHIPS, AND TELLS THE PARTICIPANT THEY NEED NOT WORK VENUE OUT. participant-instructions.md, under 'Where this goes', says: 'File the petition and the unsigned order together in the court where the nolle prosequi or dismissal order was entered. That is the committed packet-set manifest's own instruction for this packet, and it is the answer: you do not have to work out venue for yourself.' THE PACKET SHIPS FOUR DISPOSITIONS: its own paragraph 2 offers nolle prosequi, dismissal, judgment of acquittal, and charges never filed, and the instructions tell the participant to tick exactly one of the four. THE REPOSITORY ANSWERS VENUE FOR ONLY TWO OF THEM, and says so three times. (1) The committed route census row for obligation:track-only:AR:ar-nonconviction-seal records destination.detail '§ 16-90-1410(b). Venue for an acquittal and for charges never filed is not stated.' (2) The committed track registry entry ar-nonconviction-seal records venue 'Statewide Arkansas track; court where the nolle prosequi or dismissal order was entered. Venue for acquittals and never-filed charges remains unresolved.' (3) The same entry carries unresolvedQuestions[0] 'Venue for an acquittal and for charges never filed is not stated in § 16-90-1410(b)' with impact BUILD_BLOCKER and affectedElement 'venue', sourced to LegalEase-Arkansas-Legal-Review.md TRACK AR-5. AND THE REGISTRY GAVE THE BUILD ITS SEQUENCING IN TERMS: scopeRestrictions[1] reads 'Resolve venue for acquittals and uncharged matters before shipping those two dispositions; ship dismissal and nolle prosequi first.' The packet shipped all four and stated one destination for all four. For a participant whose charges were NEVER FILED there is no court that entered any order, so the sentence does not merely under-serve them, it cannot be followed. This is the inverse of the A4 shape: not a packet denying what it holds, but a packet asserting an answer where its own repository records a build blocker. A1's test — ask first whether the repository establishes the answer — returns NO for two of the four dispositions, and 'ask the clerk' would have been the honest move there rather than the assertion actually printed.",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "Compared condition by condition against the committed track registry's selfHelpStopConditions for trackId ar-nonconviction-seal, which holds FIVE. THREE ARE CARRIED: (1) 'The prosecuting attorney objects within the 30-day window' — the stop list has 'the prosecuting attorney files a notice of opposition — the petition is contested from that point and goes to a hearing', and the 30-day window is stated in the service section; (2) 'The court sets a contested hearing' — same bullet; (5) 'A nolle prossed charge may have been refiled' — reachable through the first bullet and through paragraph 2's own one-year-not-refiled condition, which the instructions state. TWO ARE NOT. (a) CONDITION 4, 'The disposition is an acquittal or a never-filed charge, where venue is unresolved', is ABSENT ENTIRELY — and it is worse than absent, because the instructions affirmatively tell a participant in exactly that position that venue 'is the answer: you do not have to work out venue for yourself.' The one place the participant needed to be stopped is the place they are reassured. (b) CONDITION 3, 'Immigration, licensing or firearm consequences are in play', is carried on ONE of its three limbs. The stop list ends 'any immigration question is involved.' LICENSING and FIREARM consequences appear nowhere: a case-insensitive search for 'licens' and for 'firearm' returns ZERO hits in participant-instructions.md and ZERO hits in the full extracted text of the canonical fixture. Two of five conditions unmet, one of them the same defect that fails FILING_DESTINATION.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-nonconviction-seal-set",
+      "superseded": false
     },
     {
       "familyId": "az_marijuana_expungement_arrest_no_charges-set",
@@ -1878,6 +1910,28 @@
       "superseded": false
     },
     {
+      "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5",
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "THE ROUTE-LEVEL REFUSAL IS CORRECT; A SOURCED SENTENCE INSIDE IT IS FALSE ABOUT THE RECORD IT NAMES. What is right, and should survive the repair: no committed record this packet binds states a filing fee or a fee waiver for § 61-14-9 — this lane searched the compiled West Virginia profile and the route contract and found no fee keyed to 61-14-9 — and the packet names a specific checkable authority, the office of the clerk of the West Virginia circuit court in the county of conviction or juvenile adjudication, in the same breath as the refusal. That is DET-FEE-AND-WAIVER-001 theStandard.met limb three, and the packet's A3 discipline in refusing to import a sibling section's figure is exactly what A3 was written to protect. WHAT IS WRONG: the delivered canonical and boundary bytes, on the filing-instructions page, print 'The compiled profile carries no-fee lines keyed to W. Va. Code Sec. 61-11-25 and a $200 figure keyed to Sec. 61-11-26; this route is Sec. 61-14-9 and is neither of them.' THE COMPILED PROFILE CONTAINS NO $200. A search of src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json for '$200' returns ZERO hits. What the profile actually records for 61-11-26, in its feeRules and twice more in its fee section, is: 'For 61-11-26 conviction expungement, the circuit clerk charges the same fee as filing a civil action, and a person who receives an expungement order must pay a $100 West Virginia State Police processing fee.' So the sentence is wrong twice over — wrong on the amount ($100, not $200) and wrong on the character of the charge (a civil-action fee plus a $100 processing fee payable on grant, not a flat $200 filing fee). The $200 figure IS held in this repository, but by different records: the route-obligation census and the packet-family build worklist record 'the § 59-1-11(a)(1) civil-action filing fee of $200' for the 61-11-26 families. The packet attributes to the compiled profile a figure the compiled profile does not carry. Under A4's operative rule — a false sentence 'fails under whichever obligation carries the false sentence' — this one is carried by the fee paragraph. The repair is one clause, not the paragraph: correct the attribution, or drop the sibling aside entirely, and leave the § 61-14-9 refusal and its named authority exactly as they stand.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "superseded": false
+    },
+    {
       "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf10",
@@ -2607,6 +2661,40 @@
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_section1_petition-set",
+      "superseded": false
+    },
+    {
+      "familyId": "in_section1_petition-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "THE BOUND SOURCE NAMES THREE SETS OF PAGES IT REQUIRES AND NOTHING SUPPLIES THEM, AND THE DELIVERED PACKET IS NOT A FILING WITHOUT THEM. This is not inferred from a report — it is printed on the delivered artifact, and this lane read it there. pdftotext of fixtures/packet-canonical-filled.pdf: PAGE 4 prints, as the entire page, 'Take out this page and insert your non-conviction Facts pages (from the Non Conviction Insert Forms)'; PAGE 10 prints 'Take out this page and insert your non-conviction Findings pages (from the Non Conviction Insert Forms)'; PAGE 11 prints 'Take out this page and insert your non-conviction Exhibit pages (from the Non Conviction Insert Forms)'. Three of the fifteen delivered pages are placeholders for pages the packet does not contain. The consequence is stated by the source's own text elsewhere in the bundle: without the Facts pages the petition alleges nothing about the arrest, charge or allegation to be expunged; without the Findings pages the proposed order gives the judge nothing to find; and without the Exhibit pages there is no Exhibit A, which the order's own paragraph 1(a) requires as the place for 'all information necessary to identify particular agency records that are to be expunged pursuant to this Order' under I.C. § 35-38-9-1(g). THE BUILD DECLARED THIS ITSELF and was right to: reports/missing-companion-forms.json answers its own question 'YES. Three sets of insert pages, named by the bound source on three of its own pages', records 'COMPONENT_SET is an OPEN FINDING for this family', and explains why no completeness counter can see it — 'The nine packet-completeness counters measure the blanks on the pages that ARE in the bound binary. They cannot see a page that is absent, so all nine can be zero while the packet is unfilable.' This lane confirms both halves independently: all nine counters are zero, and the packet is not a filing. An honest self-declaration is a reason to trust the builder, not a reason to score the obligation as met. The close is a source lane acquiring the Coalition for Court Access Non Conviction Insert Forms and binding them, not an edit in a repair lane.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "THE PARTICIPANT'S OWN NAME IS WRITTEN INTO FOUR WIDGETS THAT CANNOT HOLD IT, AT A FONT SIZE 0.01pt ABOVE THE READABLE FLOOR, AND EACH APPEARANCE STREAM CLIPS IT. This is the boundary fixture, whose job is to find exactly this. METHOD: every flattened widget appearance in fixtures/packet-boundary-filled.pdf was decoded from its Form XObject — the /BBox, the clip path, the /Tf size and the hex Tj string — and the required text width was computed with pdf-lib's Helvetica metrics at that widget's own size and compared with that widget's own usable width. The value is the 70-character boundary name 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III', set at 6.01pt, requiring 195.97pt. Every appearance stream carries an explicit clip, 'W n', inset 1pt on each side. FOUR OF THE SIXTEEN WIDGETS WITH TEXT CANNOT TAKE IT: /FlatWidget-7888911063 on page 1, BBox 196.99, usable 194.99, over by 0.98pt; /FlatWidget-2708199956 on page 7 at x=332.887 y=463.385, BBox 187.88, usable 185.88, OVER BY 10.09pt; /FlatWidget-6703682664 on page 7 at x=406.387 y=449.662, BBox 161.12, usable 159.12, OVER BY 36.84pt; /FlatWidget-9668333493 on page 9 at x=124.733 y=493.345, BBox 182.19, usable 180.19, OVER BY 15.78pt. The same string fits in the ten other widgets it is written into, which range from 200.98 to 342.16. WHY THIS IS A DEFECT AND NOT THE PERMITTED REFUSAL: docs/RCAP_OREGON_OFFICIAL_PDF_GRADE_A_LANE_C.md protects a value that is REFUSED at the 6pt readable floor and left blank for the participant. This value was not refused. reports/rendered-artifacts.json lists exactly two unfittable refusals on the boundary fixture — cap-COUNTY and Address, both with reason value_exceeds_widget_width_at_minimum_font — and cap-PetitionerFullName is not among them; it was written. THE LIKELY MECHANISM, offered as a lead and not as a finding: production-field-map.json records ONE writeBox for cap-PetitionerFullName, on page 1, rect width 210.08, rectBasis 'acroform_widget_rect_read_from_the_document'. The AcroForm field has fourteen widget kids across ten pages with widths from 161.12 to 342.16. A fitter that sizes to one recorded rect and applies the result to every kid produces exactly this: a size that fits the box it measured and overruns three others. WHAT THE PARTICIPANT SEES: a PDF viewer honours the Form XObject clip, so the name is truncated mid-word on the filed pages rather than printed over neighbouring text. On page 7 the surname is cut off in the line 'Contemporaneous with the filing of this notice, ______ has filed'; on page 9 in the order's own 'Petitioner, ______,'. The canonical fixture is clean: 26 widget appearances, zero exceeding their clip box. RESIDUAL LIMIT, STATED PLAINLY: this is a geometric computation from the appearance streams, not a pixel reading. This lane inspected no raster. The central raster receipt for this family records 0 problems over 30 pages, which is not a contradiction — a clip guarantees no ink lands outside its box, so an ink-outside-the-box check cannot see a value truncated inside one. The two instruments answer different questions and this one answers the question the Lane C rule is about.",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "THE COMMITTED TRACK REGISTRY HOLDS THIRTEEN STOP CONDITIONS FOR trackId in_section1_petition. THE PACKET'S 'Where self-help ends' CARRIES SIX BULLETS, AND NINE OF THE THIRTEEN ARE ABSENT FROM BOTH THE INSTRUCTIONS AND THE DELIVERED BYTES, each searched by its own distinguishing terms in participant-instructions.md and in the full pdftotext extraction of the canonical fixture. ABSENT: (1) 'The prosecutor objects or files a notice in opposition' — 'objects' 0/0, 'opposition' 0/0. (2) 'A victim submits a statement in opposition' — 'victim' 0/0, and this is a stop about someone else's filing that the participant would never anticipate. (4) 'The person has convictions in more than one county and the 365-day window is already partly consumed' — '365' 0/0. (5) 'A conviction is not yet eligible and the person wants to file now, which is the Chastain trap' — 'Chastain' 0/0; the registry names a specific trap by the case that makes it one and the packet never mentions it. (7) 'Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury' — 'Section 2' 0/0, 'bodily injury' 0/0. (8) 'The person is a sex or violent offender or subject to registration' — 'sex offender' 0/0, 'registration' 0/0. (9) 'Fines, fees, costs or restitution are unpaid or disputed' — 'restitution' 0/0. (11) 'The record involves a commercial driver's licence and 49 C.F.R. 384.226' — '384.226' 0/0, 'CDL' 0 in the instructions. (13) 'The person wants to attack the underlying conviction rather than expunge it' — 'attack' 0/0. CONDITION 12, 'Immigration, firearm, licensing or CDL consequences are in play', is absent on every limb that matters: 'immigration' 0/0 and 'firearm' 0/0, and the only 'licens' hit in the instructions is 'a lawyer licensed in Indiana', which is the referral, not the consequence. CARRIED: (3) the court sets a hearing, quoted from the committed record; (6) the person has already filed a Sections 2 through 5 petition, reachable through the packet's scope statement; (10) charges pending anywhere or participation in a pretrial diversion programme, carried well and tied to the paragraph 3 the participant swears. Three of thirteen carried. The six bullets the packet does have are good ones — several, like 'you cannot obtain the Non Conviction Insert Forms' and the one-year wait with its written-agreement exception, are not in the registry at all and are right to be there. The failure is not carelessness; it is that the recorded list was not walked.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_section1_petition-set",
       "superseded": false
     },
@@ -4746,6 +4834,20 @@
       "superseded": false
     },
     {
+      "familyId": "rcap-ks-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
+      "superseded": false
+    },
+    {
       "familyId": "rcap-ms-custom-pleading",
       "verdict": "BLOCKED_BEFORE_CLAIM",
       "lane": "vf04",
@@ -5271,6 +5373,28 @@
       "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family street address",
+      "superseded": false
+    },
+    {
+      "familyId": "tx_exp_acquittal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "THE COMMITTED TRACK REGISTRY HOLDS TWELVE STOP CONDITIONS FOR trackId tx_exp_acquittal. THE PACKET CARRIES FIVE BULLETS, AND SEVEN OF THE TWELVE ARE ABSENT FROM BOTH THE INSTRUCTIONS AND THE DELIVERED BYTES. Each was searched by its own distinguishing terms, case-insensitively, in participant-instructions.md and in the full pdftotext extraction of fixtures/canonical.pdf. ABSENT: (1) 'The state opposes the petition, or seeks retention of records under art. 55A.302' — 'oppose' 0/0, 'retention' 0/0, '55A.302' 0/0. (2) 'The arrest produced multiple charges with mixed outcomes. State v. T.S.N. and Ex parte R.P.G.P. govern whether individual offences from one arrest can be expunged separately, and that analysis is not automated' — 'T.S.N' 0/0, 'R.P.G.P' 0/0, 'mixed outcome' 0/0. This is the single most consequential omission: a person acquitted on one count of a multi-count arrest is precisely the person this packet will be reached for, and the registry records that the governing case law is not automated. (3) 'A felony from the same transaction is present or arguable, which moves the wait to three years and can defeat the petition' — 'three years' 0/0, '3 years' 0/0. (4) 'The applicable limitations period is contested, or the participant wants full rather than partial expunction and the limitations analysis is not clear' — 'limitation' 0/0, 'partial' 0/0. (5) 'There is any absconding or bail-jumping history. Article 55A.154 makes an intentional or knowing absconder ineligible under arts. 55A.052(a)(1) to (3) and 55A.054, and a participant may not self-identify the fact' — 'abscond' 0/0, 'bail' 0/0, '55A.154' 0/0; the registry's own reason for the stop is that the participant cannot be expected to identify it themselves. (6) 'The arrest may have been made on a community-supervision violation warrant under art. 42A.751(b), which art. 55A.153 bars' — '42A.751' 0/0, '55A.153' 0/0. (11) 'Any multi-count indictment with a mixed verdict' — 'multi-count' 0/0, 'mixed verdict' 0/0. PARTIALLY CARRIED: (7) venue unclear because arrest and alleged offence occurred in different counties — the instructions have 'the 30-day window has closed and you are not sure which county the arrest belongs to', which conditions the stop on the window having closed and never uses the word venue; (9) 'wants to attack the underlying case rather than clear it' — 'attack' 0/0, and nothing equivalent. CARRIED: (8) immigration consequences, rendered as 'you are not a United States citizen' — the word 'immigration' appears nowhere but the substance reaches the reader; (10) the art. 55A.151 criminal-episode bar, carried well and twice, including the point that it also removes the mandatory fee waiver; (12) representation at trial, carried as the proposed order's own condition. Five of twelve carried, two partial, seven absent.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_exp_acquittal-set",
       "superseded": false
     },
     {
@@ -8819,6 +8943,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_dui_deferral_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "wy_fel_1502-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wy_fel_1502-set",
       "superseded": false
     },
     {
