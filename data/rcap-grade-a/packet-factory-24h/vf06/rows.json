@@ -4349,8 +4349,122 @@
     "MASTER_LIBRARY_SOURCE_DIR STATES/UT (nine bound PDFs re-hashed, plus UT-BCI-EXP-INSTRUCTIONS, UT-BCI-INDIGENT-INSTRUCTIONS and 1305GE)"
    ],
    "whatThisDoesNotDo": "An independent PASS proves this packet is complete. It approves no output, opens no commercial route, and does not stand in for the output-level legal or independent visual approval this family still awaits."
+  },
+  {
+   "itemId": "in_arrest_no_charges-set",
+   "lane": "VF06",
+   "wave": "packet-factory-24h/VF06 re-dispatch (2026-09-02)",
+   "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
+   "decisiveDefect": "In the boundary fixture the petitioner's full legal name is written into every widget of the shared AcroForm field cap-PetitionerFullName, including three widgets narrower than the value at the font chosen, and the appearance is clipped there — so Form ACR (packet page 7) prints 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwillian' and 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y' where the name should be, and packet page 9 prints '…Oyelaran y Fitzwilli'. The same fixture refused cap-COUNTY and Address for value_exceeds_widget_width_at_minimum_font, so the fit rule exists; it was applied against one widget rather than the narrowest widget carrying that field name.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 3,
+    "allZero": false,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_arrest_no_charges-set at this base returns PASS_COMPLETE, 5/145 written, with all nine of its counters at 0. This lane's own measurement disagrees on one of them and the disagreement is the verdict: three clipped appearances in fixtures/packet-boundary-filled.pdf, so visualDefects is 3 rather than 0 as measured here. Method: every AcroForm widget rectangle was read out of the bound source PDF with pdf-lib (105 widgets), the ink each fixture adds was isolated by differencing pdftotext -bbox words on each packet page against the same page of the bound source, and each added word was matched to the widget it sits in. Canonical: 66 added words, every one inside a widget of a field the map writes, 0 outside, 0 inside a protected widget, 0 overrunning its widget. Boundary: 74 added words, 4 outside every written field's widget and 2 widgets carrying ink past their own right edge. The three clipped widgets were then confirmed visually by rastering pages 7 and 9 of the boundary fixture here with pdftoppm at 200dpi and reading the images."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "detail": "obligation:track-pathway:IN:in_arrest_no_charges:non-conviction-arrest-or-criminal-charge-expungement is declared identically by source-receipt.json, production-field-map.json, product-wiring.json and approval-request.json, and is the single routeKey the committed worklist carries for worklistGroupId in_arrest_no_charges-set. The instructions close on that same route key and on I.C. § 35-38-9-1(c), (a), (e), (f) and (k)."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "detail": "Both bound documents re-hashed here from the mounted Master Library and equal to their pins in hash and byte length: the CCA Section 1 petition-and-order bundle b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5 at 2946894 B / 15 pages, and the Non Conviction Insert Forms 65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707 at 2904076 B / 4 pages. The receipt records that five route source ids resolve to the one bundle binary, which the bundle's own printed structure confirms — Appearance pages 1-2, Verified Petition 3-6, Form ACR 7, Confidential Information Form 8, proposed Order 9-15. No committed records are bound, so no census pin is involved."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "detail": "The route names five components — primary-filing-1, proposed-order-2 and attachments 3, 4 and 5 — and all five are pages of the two bound documents, which are both rendered. The bundle's own printed pages send the filer to Facts, Findings and Exhibit insert pages, and those four pages are bound as the second document, so the packet no longer names a document it does not carry. OBSERVATION, and it belongs to the repair below: step 1 of 'What you must do before you file' still tells the participant to 'Get the Non Conviction Insert Forms … from www.indianalegalhelp.org' and says 'Nothing else in this list matters until this is done', which contradicts this packet's own 'Read this first' section — 'All three sets are in this packet.' The pages are present; one instruction line still speaks from before they were bound."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "detail": "Five fields are written (cap-COUNTY, cap-PetitionerFullName, Email, Phone, Address), all on the Appearance, and each is a fact the platform holds. Because AcroForm widgets share a field name, those five values render into 26 widgets across pages 1, 3, 5, 7, 8, 9 and 13; all 66 added words in the canonical fixture were found inside a widget of the field they belong to, none anywhere else. The packet's refusals are stated and sound — the aliases blank is refused because the shared binder would otherwise assert the participant's own name as an alias, and the related and appellate cause-number blanks because they would receive this matter's own number. The truncation the boundary fixture shows is scored under CLIPPING AND OVERLAP rather than counted twice here; on the canonical fixture every written fact is fully visible where it belongs."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "detail": "participant-instructions.md carries a fourteen-row table naming every blank the participant must complete with its page and its PDF field name — the court-type dropdown, fax, the three Appearance check boxes, the six related-case pairs, additional information, the four certificates of service, the petition's last-four SSN and driver-licence blanks, the two WHEREFORE election boxes, and the Confidential Information Form's full SSN — plus a separate list of what the platform deliberately left blank and why. Each blank the field map marks requiredBeforeFiling on the insert document is covered by the standing statement that every blank on all four insert pages is the participant's, which the map's own 77-of-77 refusal matches."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "detail": "The packet elects nothing and says so: the court-type dropdown, the related-cases yes/no pair, the two WHEREFORE relief boxes and both limbs of every certificate of service are all left to the participant, each named in the instructions with what to write. Nothing in the route record determines any of them — the venue rule names a county rather than a court, and the relief is the participant's request — so there is no route-determined election left unselected. requiredOptionsMissing 0."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "detail": "The one repeating structure is the Appearance's related-cases table, six Caption / Case No. pairs on pages 1-2. Every cell of all six rows is blank in both fixtures — no row carries a written cell beside a blank required cell — and the instructions tell the participant to complete the rows for any related case. incompleteRows 0."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "detail": "49 protected fields are declared on the bundle and all 77 fields of the insert forms are refused as unwritable by role. Measured from the bytes against the widget rectangles read out of the source: 0 added glyphs land inside any declared protected widget in either fixture. Every signature line, every certificate of service including its date, county and prosecutor address, and the whole of the proposed order below its caption carry no ink."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "detail": "sha256sum here: packet-canonical-filled.pdf a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271 (251414 B), packet-boundary-filled.pdf 4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23 (251586 B), inserts-canonical-filled.pdf and inserts-boundary-filled.pdf both f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9 — each equal to what reports/rendered-artifacts.json names. The two insert fixtures being one and the same bytes is correct rather than a fault: the family writes nothing on the insert pages, so canonical and boundary have nothing to differ about, and my diff against the bound source confirms 0 added ink on all four insert pages. pdf-lib reads 15 and 4 pages and 0 remaining AcroForm fields, so the appearances are flattened."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "detail": "The packet is two files, and the record names them in the order the filer uses them: the 15-page bundle then the 4-page inserts. Within each file the page order is the bound source's own order, unchanged — verified by differencing every page of each fixture against the same-numbered page of its source, which matched printed text page for page across all 19 pages of the two fixtures."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "FAIL",
+     "detail": "In fixtures/packet-boundary-filled.pdf the value of cap-PetitionerFullName overruns three of its own widgets and the appearance is clipped at the widget edge. Page 7, widget x=332.9 w=187.9 (right edge 520.8): ink runs to 530.3 and the page prints '…Oyelaran y Fitzwillian', the final 'm III' cut off, immediately before the printed words 'has filed'. Page 7, widget x=406.4 w=161.1 (right edge 567.5): ink runs to 603.8 and the page prints '…Oyelaran y', with 'Fitzwilliam III' gone. Page 9, widget x=124.7 w=182.2 (right edge 306.9): ink runs to 322.1 and the page prints '…Oyelaran y Fitzwilli'. Four added words sit outside every written field's widget entirely. Confirmed visually by rastering both pages here at 200dpi. The canonical fixture is clean: 0 words outside a widget, 0 overruns. The engine's own fit rule refused cap-COUNTY (needs 143.6 in a 108-wide rect) and Address in this same fixture, so the rule works — it simply was not run against the narrowest widget of a field name that renders into fourteen of them."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "detail": "'File in a circuit or superior court in the county where the charges or allegation were filed — or, if no charges were ever filed, in the county where the arrest happened', which is the track's venue rule in its own words. The instructions add that the county is already written in the Appearance caption from the held matter and must be checked, and that which court within that county is for the clerk to say — the court-type dropdown is deliberately unselected."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "detail": "'There is no filing fee', quoted from the committed route record twice ('None.' and 'Section 1 petitions carry no filing fee'), with the waiver position stated as 'Not applicable. There is no fee.' and a direction to ask the clerk what any charge is for before paying it. A stated absence of a fee is a stated fee position."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "detail": "The instructions state both the statutory position — the court serves the prosecuting attorney under I.C. § 35-38-9-1(f) — and the practical one the forms impose, that the CCA bundle carries certificates of service anyway and the filer should follow the form. They name all four certificates, both limbs of each (first-class mail or hand delivery to the county prosecutor, or the Indiana E-filing System), say every one is left blank because service has not happened and the platform holds no prosecutor address, and tell the participant to get that address from the clerk or the prosecutor's office. They also say plainly that no held record states a service deadline on this route."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "detail": "Diffed against the registry for track in_arrest_no_charges: all 13 selfHelpStopConditions appear, 12 of them near-verbatim and one — 'Charges are pending anywhere, or the person is in a pretrial diversion programme' — rendered in the second person and tied to the petition's own paragraph 3. The packet adds two further stops of its own about the insert pages and the one-year waiting period, and names who to ask: an Indiana-licensed lawyer, indianalegalhelp.org, or the clerk for procedural questions."
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/ (source-receipt.json, production-field-map.json, field-census.census-v1.json, participant-instructions.md, product-wiring.json, approval-request.json, build-findings.json, reports/rendered-artifacts.json, reports/actual-writes.json, reports/missing-companion-forms.json, reports/charge-caption-proof.json, reports/participant-name-placement.json, all four fixtures)",
+    "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+    "data/record-clearing/legal-design-track-registry.json (track in_arrest_no_charges)",
+    "MASTER_LIBRARY_SOURCE_DIR STATES/IN/02_PACKET_FORMS (both bound PDFs re-hashed; 105 source widget rectangles read from the bundle)"
+   ],
+   "whatThisDoesNotDo": "A FAIL is a verdict and a repair assignment. This lane edited nothing and opened no route."
   }
  ],
+  "vf06ReDispatchWave": {
+   "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
+   "note": "VF06 re-dispatch wave (2026-09-02, base 247b790b6): the seven families dispatch transferred to VF06, none of which any prior VF06 row covered. Rows from earlier waves are preserved above unchanged.",
+   "families": [
+    "ut_pet_conviction-set",
+    "ut_pet_no_charges-set",
+    "in_arrest_no_charges-set"
+   ],
+   "verdicts": {
+    "FAIL_REPAIR_REQUIRED": 1,
+    "PASS_COMPLETE_INDEPENDENT": 2
+   },
+   "overlayDirectoriesModified": 0,
+   "packetsModified": 0,
+   "buildScriptsModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "centralManifestsModified": "none - MASTER_QUEUE.json, VERIFIER_RETURNS.json and ACTIVE_ASSIGNMENTS.json untouched; the claim ledger changed only through claim.mjs --assert and --release",
+   "measuredBy": "Each family measured in this container: the nine counters from scripts/rcap-packet-completeness/verify-packet-completeness.mjs run here, every bound source and artifact SHA-256 recomputed from the mounted Master Library and the committed bytes, added ink isolated by differencing pdftotext -bbox words on each packet page against its bound source page, and the narrative obligations read against participant-instructions.md and the committed legal records."
+  },
   "vf06ReDispatchWave": {
    "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
    "worker": "VF06 (independent; built, repaired and rendered none of these packets)",

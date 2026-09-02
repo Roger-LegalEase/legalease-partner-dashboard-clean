@@ -275,8 +275,46 @@
       ],
       "raisedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)",
       "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+    },
+    {
+      "itemId": "in_arrest_no_charges-set",
+      "lane": "VF06",
+      "assignedBy": "VF06",
+      "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
+      "decisiveDefect": "fixtures/packet-boundary-filled.pdf prints a truncated petitioner name. cap-PetitionerFullName is one AcroForm field name with fourteen widgets across pages 1, 3, 5, 7, 8, 9 and 13, and the fill wrote the boundary value into all of them at a font sized against one widget. Three widgets are narrower than the value needs and the appearance is clipped there: page 7 x=332.9 w=187.9 prints '…Oyelaran y Fitzwillian' (ink to 530.3 against a 520.8 right edge) directly before the printed 'has filed'; page 7 x=406.4 w=161.1 prints '…Oyelaran y' and loses 'Fitzwilliam III' entirely (ink to 603.8 against 567.5); page 9 x=124.7 w=182.2 prints '…Oyelaran y Fitzwilli' (ink to 322.1 against 306.9). Form ACR and the order pages therefore name a person who is not the petitioner.",
+      "failedProofObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "perObligation": {
+        "CLIPPING_AND_OVERLAP": {
+          "measuredDetail": "Measured here, not read from a report: 105 widget rectangles read out of the bound source with pdf-lib, added ink isolated by differencing pdftotext -bbox words on each fixture page against the same page of the bound source, each added word matched to the widget it sits in. Canonical is clean — 66 added words, 0 outside a written field's widget, 0 overrunning. Boundary — 74 added words, 4 outside every written field's widget, 2 widgets carrying ink past their own right edge, and the three clipped appearances confirmed by rastering pages 7 and 9 at 200dpi and reading the images.",
+          "whatRepairMustDo": "Make the existing fit rule govern every widget of a shared field name rather than one of them. The rule already exists and already fires in this same fixture — reports/rendered-artifacts.json records cap-COUNTY refused as value_exceeds_widget_width_at_minimum_font (requiredWidthAtMin 143.6 against a 108-wide rect) and Address likewise — so the repair is to evaluate the value against the narrowest widget carrying that field name and to refuse, or to fit to that narrowest widget, rather than to write a value that renders clipped. A refused blank is safe; a name silently cut mid-word on a sworn filing is not. Then re-render both fixtures and re-hash: the artifact record and any raster receipt bind the current bytes.",
+          "whereToLook": "the shared-field fill path for AcroForm families in the Indiana build script, and the widget-fit check that produced the two refusals already recorded in reports/rendered-artifacts.json"
+        }
+      },
+      "secondaryDefectNotScored": {
+        "what": "participant-instructions.md contradicts itself about the insert pages. Its 'Read this first' section states 'All three sets are in this packet' and tables which insert page answers which printed instruction, but step 1 of 'What you must do before you file' still reads 'Get the Non Conviction Insert Forms — Facts, Findings and Exhibit pages — from www.indianalegalhelp.org … Nothing else in this list matters until this is done.'",
+        "whyItIsNotTheVerdict": "the pages are bound and rendered, so no proof obligation fails on it; it is a stale line from before the inserts were bound and it sends a participant to fetch what they already hold.",
+        "whatRepairShouldDo": "rewrite that step to say the insert pages are in the packet and are to be put in place of the three placeholder pages, keeping the rest of the list as it stands."
+      },
+      "whatIsNotWrongWithThisFamily": "Both sources rehash exactly; all five written facts land in their own widgets; no protected widget carries ink in either fixture; the related-cases table is uniformly blank; the instructions state venue, the absence of a filing fee, both service positions and all thirteen registry self-help stops. The repair is narrow.",
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "do not close the defect by removing the boundary fixture or by shortening the boundary name — the fixture exists to find exactly this",
+        "this verification opens no commercial route and grants no approval"
+      ]
     }
   ],
+   "vf06ReDispatchWave": {
+     "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
+     "appendedBy": "VF06 (independent; built, repaired and rendered none of these packets)",
+     "appended": [
+       "in_arrest_no_charges-set"
+     ],
+     "noteOnAssignmentCount": "the top-level assignmentCount reads 1 and predates several waves of appends; it was already stale before this wave and is left as the earlier lanes wrote it. The assignments array is the record.",
+     "whatAFailIs": "a verdict and a repair assignment. This lane edited no packet, no overlay directory and no build script."
+   },
   "supersededLaneMembership": {
     "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
     "lane": "VF06",
