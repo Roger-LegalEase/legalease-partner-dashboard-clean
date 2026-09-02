@@ -6,6 +6,12 @@
 **Minimum required ancestor:** `72f99073c42bd28e3469efe316378b37601717c7`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md`
 
+> ## RETIRED — DO NOT RUN
+>
+> **This lane was never executed and no longer owns anything.** It does not mean the defect is fixed. Seven families still fail FEE_AND_WAIVER, FILING_DESTINATION, SERVICE and SELF_HELP_STOP, and the two facts this dispatch identified as absent from the repository are still absent. It means a different lane now owns saying so.
+>
+> The prompt is kept because its reading of the defect is still the best one on record. Read it; do not run it as written.
+
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
 >
 > **DO NOT EXECUTE THE OTHER WASHINGTON REPAIR PROMPTS IN THIS CONTAINER.**

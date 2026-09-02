@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `005e629c07576c98c2f4d40ef0fcc4d7a2b7a9b0` (or the newer dispatch base)
+**Minimum required ancestor:** `8b5126174414338b0bed1d11d7f6e56b13e3b01b` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family ar-misdemeanor-dwi-seal-set \
   --codex-cloud \
-  --minimum-captain-sha 005e629c07576c98c2f4d40ef0fcc4d7a2b7a9b0
+  --minimum-captain-sha 8b5126174414338b0bed1d11d7f6e56b13e3b01b
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,11 +56,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 3 families
+## The 4 families
 
 - `ar-misdemeanor-dwi-seal-set`
 - `ct-cleanslate-petition-set`
 - `sd_arrest_expungement-set`
+- `wa_vac_survivor_felony-set`
 
 ## What you receive
 
@@ -76,9 +77,11 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ar-misdemeanor-dwi-seal-set.mjs`
 - `scripts/build-census-v1-ct-cleanslate-petition-set.mjs`
 - `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
+- `scripts/build-census-v1-wa_vac_survivor_felony-set.mjs`
 
 ## Never write here
 

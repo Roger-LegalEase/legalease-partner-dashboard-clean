@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "005e629c07576c98c2f4d40ef0fcc4d7a2b7a9b0",
+  "generatedAtCommit": "8b5126174414338b0bed1d11d7f6e56b13e3b01b",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3918,8 +3918,8 @@
       "operation": "rapid-repair",
       "lane": "FIX10",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T04:49:06.598Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4008,8 +4008,8 @@
       "operation": "rapid-repair",
       "lane": "FIX10",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T04:49:06.669Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4038,8 +4038,8 @@
       "operation": "rapid-repair",
       "lane": "FIX10",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T12:42:30.571Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4068,8 +4068,8 @@
       "operation": "rapid-repair",
       "lane": "FIX10",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T12:43:51.973Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4098,8 +4098,8 @@
       "operation": "rapid-repair",
       "lane": "FIX10",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T12:46:38.353Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4128,8 +4128,8 @@
       "operation": "rapid-repair",
       "lane": "FIX10",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T12:44:47.274Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4158,8 +4158,8 @@
       "operation": "rapid-repair",
       "lane": "FIX10",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T12:45:39.713Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -9886,7 +9886,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "5af9960c60573d0b3c617589cca0f4d81f5c3a6de18dfaca66ffe15c9afc30bb",
+  "claimsDigest": "aecd4fe9d94a7601476cd76de76fa31629fbd3c8a01abc890e2d580351697aa9",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -16333,6 +16333,76 @@
       "previouslyReleasedAt": "2026-09-02T02:27:25.988Z",
       "reissuedAt": "2026-09-02T04:49:06.523Z",
       "reason": "a fresh independent read failed this family AFTER its repair lane released; the state machine's own caveat requires a new repair grant to flip it back to FAIL_REPAIR_REQUIRED — failed obligations: REQUIRED_BEFORE_FILING"
+    },
+    {
+      "lane": "FIX10",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_cannabis-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T04:49:06.598Z",
+      "reissuedAt": "2026-09-02T05:01:36.336Z",
+      "reason": "a fresh independent read failed this family AFTER its repair lane released; the state machine's own caveat requires a new repair grant to flip it back to FAIL_REPAIR_REQUIRED — failed obligations: FEE_AND_WAIVER, FILING_DESTINATION, ROUTE_OPTIONS, SERVICE"
+    },
+    {
+      "lane": "FIX10",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_homicide_victim_prostitution-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T04:49:06.669Z",
+      "reissuedAt": "2026-09-02T05:01:36.413Z",
+      "reason": "a fresh independent read failed this family AFTER its repair lane released; the state machine's own caveat requires a new repair grant to flip it back to FAIL_REPAIR_REQUIRED — failed obligations: FEE_AND_WAIVER, FILING_DESTINATION, ROUTE_OPTIONS, SERVICE"
+    },
+    {
+      "lane": "FIX10",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_misdemeanor_ordinary-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T12:42:30.571Z",
+      "reissuedAt": "2026-09-02T05:01:36.494Z",
+      "reason": "a fresh independent read failed this family AFTER its repair lane released; the state machine's own caveat requires a new repair grant to flip it back to FAIL_REPAIR_REQUIRED — failed obligations: FEE_AND_WAIVER, FILING_DESTINATION, SELF_HELP_STOP, SERVICE"
+    },
+    {
+      "lane": "FIX10",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_substance_use_disorder-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T12:43:51.973Z",
+      "reissuedAt": "2026-09-02T05:01:36.576Z",
+      "reason": "a fresh independent read failed this family AFTER its repair lane released; the state machine's own caveat requires a new repair grant to flip it back to FAIL_REPAIR_REQUIRED — failed obligations: FEE_AND_WAIVER, FILING_DESTINATION, SELF_HELP_STOP, SERVICE"
+    },
+    {
+      "lane": "FIX10",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_survivor_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T12:46:38.353Z",
+      "reissuedAt": "2026-09-02T05:01:36.661Z",
+      "reason": "a fresh independent read failed this family AFTER its repair lane released; the state machine's own caveat requires a new repair grant to flip it back to FAIL_REPAIR_REQUIRED — failed obligations: FEE_AND_WAIVER, FILING_DESTINATION, SELF_HELP_STOP, SERVICE"
+    },
+    {
+      "lane": "FIX10",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_survivor_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T12:44:47.274Z",
+      "reissuedAt": "2026-09-02T05:01:36.769Z",
+      "reason": "a fresh independent read failed this family AFTER its repair lane released; the state machine's own caveat requires a new repair grant to flip it back to FAIL_REPAIR_REQUIRED — failed obligations: FEE_AND_WAIVER, FILING_DESTINATION, SELF_HELP_STOP, SERVICE"
+    },
+    {
+      "lane": "FIX10",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_treaty_fishing-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T12:45:39.713Z",
+      "reissuedAt": "2026-09-02T05:01:36.844Z",
+      "reason": "a fresh independent read failed this family AFTER its repair lane released; the state machine's own caveat requires a new repair grant to flip it back to FAIL_REPAIR_REQUIRED — failed obligations: FEE_AND_WAIVER, FILING_DESTINATION, SELF_HELP_STOP, SERVICE"
     }
   ],
   "transfers": [

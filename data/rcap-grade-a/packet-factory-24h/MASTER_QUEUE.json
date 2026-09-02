@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "005e629c07576c98c2f4d40ef0fcc4d7a2b7a9b0",
+  "minimumCaptainSha": "8b5126174414338b0bed1d11d7f6e56b13e3b01b",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
@@ -54,25 +54,25 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 13,
+    "activeFamiliesExcluded": 6,
     "guidanceOnly": 0,
-    "remaining": 333,
+    "remaining": 340,
     "sourceReady": 45,
     "sourceBlocked": 162,
-    "legalBlocked": 25,
+    "legalBlocked": 29,
     "verifyPending": 2,
-    "repairRequired": 23,
+    "repairRequired": 30,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 45,
     "SOURCE_BLOCKED": 162,
     "COMPLETE_PACKET_PROVEN": 84,
-    "FAIL_REPAIR_REQUIRED": 23,
+    "FAIL_REPAIR_REQUIRED": 30,
     "VERIFIED_PASS": 6,
     "BUILD_IN_PROGRESS": 4,
     "LEGAL_BLOCKED": 13,
-    "VERIFY_PENDING": 9
+    "VERIFY_PENDING": 2
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
@@ -111,20 +111,41 @@
       "ca-1203-43-set",
       "ca-17b-reduction-set",
       "nj_disorderly_persons-set",
-      "wa_vac_cannabis-set",
       "wa_vac_domestic_violence-set",
-      "wa_vac_felony-set",
-      "wa_vac_homicide_victim_prostitution-set",
-      "wa_vac_misdemeanor_ordinary-set",
-      "wa_vac_substance_use_disorder-set",
-      "wa_vac_survivor_felony-set",
-      "wa_vac_survivor_misdemeanor-set",
-      "wa_vac_treaty_fishing-set"
+      "wa_vac_felony-set"
     ],
     "staleRosterFamilies": [
       {
         "familyId": "sd_arrest_expungement-set",
         "roster": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
+      },
+      {
+        "familyId": "wa_vac_cannabis-set",
+        "roster": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION"
+      },
+      {
+        "familyId": "wa_vac_homicide_victim_prostitution-set",
+        "roster": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
+      },
+      {
+        "familyId": "wa_vac_misdemeanor_ordinary-set",
+        "roster": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
+      },
+      {
+        "familyId": "wa_vac_substance_use_disorder-set",
+        "roster": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
+      },
+      {
+        "familyId": "wa_vac_survivor_felony-set",
+        "roster": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
+      },
+      {
+        "familyId": "wa_vac_survivor_misdemeanor-set",
+        "roster": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
+      },
+      {
+        "familyId": "wa_vac_treaty_fishing-set",
+        "roster": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
       }
     ],
     "paths": 38,
@@ -136,7 +157,7 @@
     "familiesPerBuilder": 2.8,
     "targetPerBuilder": "15 to 25",
     "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 45 do, so a full roster of 16 builders averages 2.8 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 341 source obligations across 187 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 341 source obligations across 191 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -28520,9 +28541,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION",
-      "activeOwnerLane": "independent-verification",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_cannabis-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -28533,7 +28554,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "staleRosterOwner": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION"
     },
     {
       "familyId": "wa_vac_domestic_violence-set",
@@ -28865,9 +28887,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION",
-      "activeOwnerLane": "independent-verification",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -28878,7 +28900,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "staleRosterOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
     },
     {
       "familyId": "wa_vac_misdemeanor_ordinary-set",
@@ -28967,13 +28990,43 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "FAIL — no participant instructions exist, so the packet names no court",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION",
-      "activeOwnerLane": "independent-verification",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_misdemeanor_ordinary-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -28984,7 +29037,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "staleRosterOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
     },
     {
       "familyId": "wa_vac_substance_use_disorder-set",
@@ -29074,13 +29128,43 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "FAIL — no participant instructions exist, so the packet names no court",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION",
-      "activeOwnerLane": "independent-verification",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -29091,7 +29175,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "staleRosterOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION"
     },
     {
       "familyId": "wa_vac_survivor_felony-set",
@@ -29181,13 +29266,43 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "FAIL — no participant instructions exist, so the packet names no court",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
-      "activeOwnerLane": "independent-verification",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_survivor_felony-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -29198,7 +29313,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "staleRosterOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
     },
     {
       "familyId": "wa_vac_survivor_misdemeanor-set",
@@ -29288,13 +29404,43 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "FAIL — no participant instructions exist, so the packet names no court",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
-      "activeOwnerLane": "independent-verification",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_survivor_misdemeanor-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -29305,7 +29451,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "staleRosterOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
     },
     {
       "familyId": "wa_vac_treaty_fishing-set",
@@ -29394,13 +29541,43 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "FAIL — no participant instructions exist, so the packet names no court",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "FAIL — same absence",
+          "evidence": null,
+          "readFrom": "a named-obligation block outside proofObligations"
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
-      "activeOwnerLane": "independent-verification",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_treaty_fishing-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
@@ -29411,7 +29588,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "staleRosterOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
     },
     {
       "familyId": "wi_exp_cr266-set",

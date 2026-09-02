@@ -263,6 +263,29 @@
       "instructionsPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/participant-instructions.md"
     }
   ],
+  "retirement": {
+    "status": "RETIRED_NEVER_EXECUTED",
+    "measuredOn": {
+      "lanesThatReturned": [],
+      "familiesStillNeedingThisDispatch": [],
+      "familiesHeldByAnotherLiveLane": [
+        "wa_vac_cannabis-set",
+        "wa_vac_homicide_victim_prostitution-set",
+        "wa_vac_misdemeanor_ordinary-set",
+        "wa_vac_substance_use_disorder-set",
+        "wa_vac_survivor_felony-set",
+        "wa_vac_survivor_misdemeanor-set",
+        "wa_vac_treaty_fishing-set"
+      ],
+      "familiesAlreadySettled": [
+        "wa_vac_domestic_violence-set",
+        "wa_vac_felony-set"
+      ]
+    },
+    "whatRetirementWithdraws": "current ownership, and nothing else. The analysis, the evidence and every prompt remain.",
+    "whatRetirementDoesNotMean": "It does not mean the defect is fixed. Seven families still fail FEE_AND_WAIVER, FILING_DESTINATION, SERVICE and SELF_HELP_STOP, and the two facts this dispatch identified as absent from the repository are still absent. It means a different lane now owns saying so.",
+    "howItComesBack": "Both conditions are recomputed on every run. A return directory appearing, or a family failing with no other lane holding it, restores the dispatch without anyone editing this file."
+  },
   "lanes": {
     "repair": [
       "WAR01_WA_SHARED_INSTRUCTION_HOST",
@@ -274,11 +297,12 @@
       "WARV01_WA_REVERIFICATION",
       "WARV02_WA_REVERIFICATION"
     ],
-    "sequence": "WAR01 and WAR02 run now and in parallel. WAR03 and WAR04 wait for both. WARV01 and WARV02 are provisioned and are launched by Captain from a new HEAD once their re-render is integrated."
+    "sequence": "Retired without executing. The sequence WAR01 and WAR02, then WAR03 and WAR04, then WARV01 and WARV02 was never entered: no lane returned, and every family it named is now held by another live lane or already settled."
   },
   "commercialRoutesOpened": 0,
   "productionTouched": false,
-  "assignments": [
+  "assignments": [],
+  "retiredAssignments": [
     {
       "assignmentId": "WAR01_WA_SHARED_INSTRUCTION_HOST",
       "wave": "washington-repair",

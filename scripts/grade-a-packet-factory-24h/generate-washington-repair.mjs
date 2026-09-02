@@ -273,6 +273,62 @@ if (problems.length) {
   process.exit(1);
 }
 
+/* ---- retirement, measured rather than declared -----------------------------
+ *
+ * This dispatch was cut for Codex Cloud at 72f99073c and no lane in it ever
+ * ran: not one of the six return directories exists. In the meantime the same
+ * nine families were repaired in-session on the FIX lanes, re-read by two
+ * independent verification lanes, and failed again on the participant-facing
+ * obligations — so the factory's own claim ledger, not this record, is where
+ * their ownership now lives. Conveyor check C7 caught it exactly there: seven
+ * families owned by a live FIX grant AND by WAR03/WAR04 at the same time.
+ *
+ * An assignment nobody executed is not work in progress, and a record that
+ * keeps naming an owner for a family somebody else holds makes the queue lie
+ * about who is doing what. So the whole dispatch retires when two things are
+ * measured true on this run: no lane returned, and no family it names still
+ * needs it — each is either held live by another lane or already settled at
+ * VERIFIED_PASS or COMPLETE_PACKET_PROVEN. Both are recomputed every run, so
+ * if a Washington lane ever does return, or the competing grants release
+ * while a family is still failing, the dispatch comes back by itself.
+ *
+ * Retirement is not deletion. The root-cause analysis, the import graph, the
+ * evidence and all six prompts stay exactly as written — they are the best
+ * account of this defect anyone has produced, and whichever lane finally
+ * fixes the shared host will read them. What retirement withdraws is the one
+ * thing that was no longer true: the claim of current ownership.
+ */
+const ledgerClaims = (() => {
+  try { return read("data/rcap-grade-a/packet-factory-24h/claim-ledger.json").claims ?? []; }
+  catch { return []; }
+})();
+const masterFamilies = (() => {
+  try { return read("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json").families ?? []; }
+  catch { return []; }
+})();
+const SETTLED = new Set(["COMPLETE_PACKET_PROVEN", "VERIFIED_PASS"]);
+const heldByAnotherLane = new Set(ledgerClaims
+  .filter((c) => c.released !== true && !/^WAR/.test(String(c.lane)))
+  .map((c) => c.subjectId));
+const settled = new Set(masterFamilies.filter((f) => SETTLED.has(f.state)).map((f) => f.familyId));
+const stillNeedsThisDispatch = FAMILIES.filter((f) => !heldByAnotherLane.has(f) && !settled.has(f));
+const laneThatReturned = assignments.filter((a) => fs.existsSync(path.join(ROOT, a.returnDirectory)))
+  .map((a) => a.assignmentId);
+const retired = laneThatReturned.length === 0 && stillNeedsThisDispatch.length === 0;
+const dispatchStatus = retired ? "RETIRED_NEVER_EXECUTED" : "CURRENT";
+const retirement = {
+  status: dispatchStatus,
+  measuredOn: {
+    lanesThatReturned: laneThatReturned,
+    familiesStillNeedingThisDispatch: stillNeedsThisDispatch,
+    familiesHeldByAnotherLiveLane: FAMILIES.filter((f) => heldByAnotherLane.has(f)),
+    familiesAlreadySettled: FAMILIES.filter((f) => settled.has(f))
+  },
+  whatRetirementWithdraws: "current ownership, and nothing else. The analysis, the evidence and every prompt remain.",
+  whatRetirementDoesNotMean: "It does not mean the defect is fixed. Seven families still fail FEE_AND_WAIVER, FILING_DESTINATION, SERVICE and SELF_HELP_STOP, and the two facts this dispatch identified as absent from the repository are still absent. It means a different lane now owns saying so.",
+  howItComesBack: "Both conditions are recomputed on every run. A return directory appearing, or a family failing with no other lane holding it, restores the dispatch without anyone editing this file."
+};
+
 const doc = {
   schemaVersion: "rcap-washington-repair/v1",
   generatedBy: "scripts/grade-a-packet-factory-24h/generate-washington-repair.mjs",
@@ -291,14 +347,21 @@ const doc = {
     whyNotOneLane: "One lane would mix a shared-logic correction, an unresolved source obligation and nine re-renders into a single return that could only be integrated whole."
   },
   evidence,
+  retirement,
   lanes: {
     repair: repairLanes.map((a) => a.assignmentId),
     reverification: assignments.filter((a) => a.lane === "independent-verification").map((a) => a.assignmentId),
-    sequence: "WAR01 and WAR02 run now and in parallel. WAR03 and WAR04 wait for both. WARV01 and WARV02 are provisioned and are launched by Captain from a new HEAD once their re-render is integrated."
+    sequence: retired
+      ? "Retired without executing. The sequence WAR01 and WAR02, then WAR03 and WAR04, then WARV01 and WARV02 was never entered: no lane returned, and every family it named is now held by another live lane or already settled."
+      : "WAR01 and WAR02 run now and in parallel. WAR03 and WAR04 wait for both. WARV01 and WARV02 are provisioned and are launched by Captain from a new HEAD once their re-render is integrated."
   },
   commercialRoutesOpened: 0,
   productionTouched: false,
-  assignments
+  /* Only a current dispatch names owners. A retired one carries its lanes
+   * under retiredAssignments, where every downstream reader — C7's owner
+   * sweep among them — sees exactly what is true: this record owns nothing. */
+  assignments: retired ? [] : assignments,
+  ...(retired ? { retiredAssignments: assignments } : {})
 };
 
 const bullet = (xs) => (xs ?? []).map((x) => `- ${typeof x === "string" ? x : JSON.stringify(x)}`).join("\n");
@@ -310,6 +373,13 @@ const promptFor = (a) => {
   p.push("**Branch in the container:** `work` — Codex Cloud names it.");
   p.push(`**Minimum required ancestor:** \`${a.minimumCaptainSha}\``);
   p.push(`**Execution contract:** \`${a.executionContract}\``, "");
+  if (retired) p.push(
+    "> ## RETIRED — DO NOT RUN",
+    ">",
+    `> **This lane was never executed and no longer owns anything.** ${retirement.whatRetirementDoesNotMean}`,
+    ">",
+    "> The prompt is kept because its reading of the defect is still the best one on record. Read it; do not run it as written.",
+    "");
   p.push(`> ## ${a.taskIsolation[0]}`, ">", `> **${a.taskIsolation[1]}**`, "");
   if (a.launchNow === false) p.push(`> ## ${a.launchRule}`, "");
   if (a.doNotStartEarly) p.push(`> **${a.doNotStartEarly}**`, "");

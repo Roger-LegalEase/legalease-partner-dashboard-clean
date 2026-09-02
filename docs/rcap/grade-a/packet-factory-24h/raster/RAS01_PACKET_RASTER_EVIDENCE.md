@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `005e629c07576c98c2f4d40ef0fcc4d7a2b7a9b0`
+**Minimum required ancestor:** `8b5126174414338b0bed1d11d7f6e56b13e3b01b`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -30,7 +30,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf` — `6bf0184ddc31364f316cb656745f364f8def8aa547428beb881c4c632e2f750d`
 - boundary `data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf` — `a6cef12f7344600b5f9e89aefee9785440de185d88340d051b090ec6011bdfb8`
 - expected pages 4 · requested scale 2.5
-- built by VF02
+- built by FIX02
 
 ### co_pardoned_conviction_seal-set
 
@@ -135,7 +135,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/fixtures/application-canonical.pdf` — `d5c8fbc835385d9eb2bbc6d45cc8886a89330f170fa4d4b5fcabcb49d8af7021`
 - boundary `data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/fixtures/application-boundary.pdf` — `cda7142cd49f0dd4ed89f32e29227d7d440981371678411f82b3bb3f3ff84b6d`
 - expected pages 6 · requested scale 2.5
-- built by VF05
+- built by FIX05
 
 ### pa_490_nonconviction-set
 
@@ -149,7 +149,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf` — `fb5024c3acb10682ac4e167fdcac4e83e6064b86293a7aa1eb602b97e12425af`
 - boundary `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf` — `bf36782337fd233e293784fe14bc08cd055f94e5bce8cfdc0d9eae212f66e368`
 - expected pages 5 · requested scale 2.5
-- built by VF08
+- built by FIX08
 
 ### ri_nonconviction_sealing-set
 
@@ -163,7 +163,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/canonical.pdf` — `ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6`
 - boundary `data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/boundary.pdf` — `b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765`
 - expected pages 19 · requested scale 2.5
-- built by VF11
+- built by FIX03
 
 ### ut_pet_no_charges-set
 
@@ -198,7 +198,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/canonical.pdf` — `39d9ac94bb59f196f4e236ca2a11f30507b7680a103ef95b6cbe060e5c1684f8`
 - boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/boundary.pdf` — `010b7fdedd026da5d014460185ecf1c17cf7801f51eea877feedddcae7d4ddf8`
 - expected pages 6 · requested scale 2.5
-- built by FIX02
+- built by FIX05
 
 ### wa_vac_domestic_violence-set
 
@@ -212,7 +212,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf` — `846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad`
 - boundary `data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf` — `75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77`
 - expected pages 5 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by FIX01
 
 ### wi_nc_doj_challenge-set
 

@@ -70,7 +70,44 @@ const obligationFailed = (r) => {
 };
 const obligationUnmeasured = (r) => UNMEASURED.has(r);
 
+/*
+ * A failing verdict that names no obligation is a verdict no repairer can act
+ * on. Five Washington families sat in VERIFY_PENDING for exactly that reason:
+ * VF16 recorded their four failing obligations inside a Captain adjudication
+ * block instead of in `proofObligations`, and this extractor read only the one
+ * field. The findings were in the bytes; the queue showed an empty list and
+ * the families became unassignable.
+ *
+ * So when `proofObligations` yields nothing for a FAILING row, the obligations
+ * are harvested from anywhere in that row: any key that IS one of the fifteen
+ * canonical obligations, spelled either way, carrying a value that reads PASS
+ * or FAIL. It keys on the factory's own vocabulary rather than on a lane's
+ * field name, so it reads any lane that names an obligation somewhere, and it
+ * never overrides an explicit `proofObligations` reading. It stays fail-closed
+ * in the same sense the strict reader does: a value outside the vocabulary is
+ * not guessed at, it is simply not harvested.
+ */
+const OBLIGATION_BY_SHAPE = new Map(PROOF_OBLIGATIONS.map((o) => [o.replace(/_/g, "").toLowerCase(), o]));
+const canonicalObligation = (k) => OBLIGATION_BY_SHAPE.get(String(k).replace(/[^A-Za-z]/g, "").toLowerCase()) ?? null;
+const readsAsFail = (v) => v === false || (typeof v === "string" && /^FAIL\b/i.test(v.trim()));
+const harvestNamedObligations = (node, found = new Map(), depth = 0) => {
+  if (depth > 8 || node === null || typeof node !== "object") return found;
+  if (Array.isArray(node)) { for (const v of node) harvestNamedObligations(v, found, depth + 1); return found; }
+  for (const [k, v] of Object.entries(node)) {
+    const o = canonicalObligation(k);
+    if (o && readsAsFail(v) && !found.has(o))
+      found.set(o, { obligation: o, finding: typeof v === "string" ? v : null, evidence: null, readFrom: "a named-obligation block outside proofObligations" });
+    harvestNamedObligations(v, found, depth + 1);
+  }
+  return found;
+};
+
 const problems = [];
+/* Failing rows that name no obligation even after the harvest above. This is
+ * reported, not refused: refusing would drop every other lane's verdicts over
+ * one lane's silence, and the silence is itself the finding — a family here
+ * cannot be repaired, only re-read. */
+const unactionableFailures = [];
 const rows = [];
 const dirsUnder = (base, keep) => fs.existsSync(path.join(ROOT, base))
   ? fs.readdirSync(path.join(ROOT, base), { withFileTypes: true })
@@ -136,6 +173,12 @@ for (const { base, name: d } of sweep) {
           .filter(([, v]) => obligationUnmeasured(v?.result)).map(([k]) => k).sort();
       } catch (e) { problems.push(`${d}/${familyId}: ${e.message}`); continue; }
     }
+    let obligationsReadFromElsewhere = false;
+    if (failedObligations.length === 0 && FAILING.has(verdict)) {
+      const harvested = [...harvestNamedObligations(r).values()];
+      if (harvested.length) { failedObligations = harvested; obligationsReadFromElsewhere = true; }
+      else unactionableFailures.push(`${d}/${familyId}`);
+    }
     if (verdict === "PASS_COMPLETE_INDEPENDENT" && unmeasuredObligations.length)
       { problems.push(`${d}/${familyId}: claims PASS_COMPLETE_INDEPENDENT with ${unmeasuredObligations.length} unmeasured obligation(s): ${unmeasuredObligations.join(", ")}`); continue; }
     rows.push({
@@ -158,6 +201,7 @@ for (const { base, name: d } of sweep) {
         obligationsNotScored: unscoredObligations,
       } : {}),
       failedObligations, failedObligationNames: failedObligations.map((x) => x.obligation).sort(),
+      ...(obligationsReadFromElsewhere ? { obligationsReadFromElsewhere: "this row's proofObligations named none; the failing obligations below were read from a named-obligation block elsewhere in the same row" } : {}),
       unmeasuredObligations,
       evidencePath: `${base}/${d}/rows.json`,
       repairAssignmentsPath: fs.existsSync(path.join(ROOT, base, d, "repair-assignments.json"))
@@ -260,6 +304,10 @@ const doc = {
     passIndependent: passed.length
   },
   failRepairRequiredFamilies: failed.map((r) => r.familyId).sort(),
+  unactionableFailures: {
+    whatThisIs: "rows carrying a failing verdict that name no obligation anywhere, so no repairer can be dispatched from them; each needs a fresh independent read, not a repair",
+    rows: unactionableFailures.sort()
+  },
   rows: rows.sort((a, b) => a.familyId.localeCompare(b.familyId) || a.lane.localeCompare(b.lane)),
   commercialRoutesOpened: 0,
   productionTouched: false,

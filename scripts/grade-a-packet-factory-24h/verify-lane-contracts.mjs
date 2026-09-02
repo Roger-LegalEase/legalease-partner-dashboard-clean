@@ -550,18 +550,32 @@ if (MUTATIONS) {
     /* Constructs its own subject: no family is PROVEN today, so a mutation that
      * only flipped coverage would be a check over zero subjects. This promotes
      * a family whose row covers one of several documents and asserts L4 refuses. */
-    { name: "promoting a family whose raster verdict covers one of several documents is caught", id: "L4", file: `${DIR}/MASTER_QUEUE.json`,
+    /*
+     * Reconstructed on the raster queue rather than hunted for in the master
+     * queue, and for the reason the L6 case above was moved: this case used to
+     * look for a family whose row already carried the forbidden shape — a
+     * partial-coverage RASTER_PASS, or no pass at all — and promote it. Both
+     * subjects vanished the moment the queue reached 117 of 117 RASTER_PASS
+     * with complete coverage on every row, and the case reported MISSED: the
+     * mutation changed nothing, so L4 was never asked the question.
+     *
+     * A control whose subject is whatever the data happens to contain stops
+     * being a control the moment the data improves, and improving data is the
+     * point. So the forbidden pairing is BUILT here instead: a family stays
+     * proven, and the row underneath it stops covering the whole packet. That
+     * is exactly the state L4 refuses, and it can be constructed from any
+     * proven family, so the case keeps a subject for as long as one exists.
+     */
+    { name: "promoting a family whose raster verdict covers one of several documents is caught", id: "L4", file: `${DIR}/RASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t);
-        const q = JSON.parse(fs.readFileSync(path.join(ROOT, `${DIR}/RASTER_QUEUE.json`), "utf8"));
-        /* Falls back to a family with no passing row once no partial row
-         * exists, so the case keeps a subject instead of quietly mutating
-         * nothing. */
-        const provable = q.rows.find((r) => r.currentRasterState === "RASTER_PASS" && r.coverage?.complete === false)
-          ?? q.rows.find((r) => r.currentRasterState !== "RASTER_PASS");
-        if (!provable) return t;
-        const fam = j.families.find((x) => x.familyId === provable.familyId);
-        if (!fam) return t;
-        fam.state = "PASS_COMPLETE"; return `${JSON.stringify(j, null, 2)}\n`; } }
+        const m = JSON.parse(fs.readFileSync(path.join(ROOT, `${DIR}/MASTER_QUEUE.json`), "utf8"));
+        const PROVEN = new Set(["PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"]);
+        const proven = new Set(m.families.filter((x) => PROVEN.has(x.state)).map((x) => x.familyId));
+        const row = j.rows.find((r) => proven.has(r.familyId) && r.currentRasterState === "RASTER_PASS" && r.coverage?.complete === true);
+        if (!row) return t;
+        row.coverage.complete = false;
+        row.coverage.notRastered = [...(row.coverage.notRastered ?? []), "a-companion-document-this-verdict-never-measured.pdf"];
+        return `${JSON.stringify(j, null, 2)}\n`; } }
   ];
   let allCaught = true;
   for (const c of cases) {
