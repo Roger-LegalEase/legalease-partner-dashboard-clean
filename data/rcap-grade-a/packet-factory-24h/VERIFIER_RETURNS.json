@@ -22,10 +22,10 @@
   "supersessionRule": "one current verdict per family: the highest-precedence lane wins (factory vf lanes over codex-cloud directories, then higher lane number); superseded rows remain as history with superseded: true",
   "counts": {
     "returnDirectories": 33,
-    "rows": 150,
+    "rows": 163,
     "independentVerdicts": 97,
-    "failRepairRequired": 20,
-    "passIndependent": 73
+    "failRepairRequired": 26,
+    "passIndependent": 67
   },
   "failRepairRequiredFamilies": [
     "ar-arrest-seal-set",
@@ -34,11 +34,15 @@
     "ca-851-91-set",
     "ky_void_seal_controlled_substance-set",
     "ky_void_seal_marijuana_synthetic_salvia-set",
+    "ne-setaside-custodial-set",
     "ny_160_59_petition-set",
     "oh_marijuana_expungement-set",
     "rcap-oh-custom-pleading-clean-tracks",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
+    "ut_pet_acquittal-set",
+    "ut_pet_conviction-set",
+    "ut_pet_dismissed_with_prejudice-set",
     "vt_seal_felony-set",
     "wa_vac_cannabis-set",
     "wa_vac_homicide_victim_prostitution-set",
@@ -47,7 +51,9 @@
     "wa_vac_survivor_felony-set",
     "wa_vac_survivor_misdemeanor-set",
     "wa_vac_treaty_fishing-set",
-    "wi_nc_doj_fingerprint_removal-set"
+    "wi_nc_doj_fingerprint_removal-set",
+    "wv_conv_multiple_misdemeanors-set",
+    "wv_conv_single_misdemeanor-set"
   ],
   "rows": [
     {
@@ -617,6 +623,20 @@
     },
     {
       "familyId": "dc_correct_misattributed_arrest-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_correct_misattributed_arrest-set",
+      "superseded": false
+    },
+    {
+      "familyId": "dc_correct_misattributed_arrest-set",
       "verdict": "PASS",
       "lane": "vf10",
       "isIndependentVerification": true,
@@ -629,6 +649,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_correct_misattributed_arrest-set",
+      "superseded": true
+    },
+    {
+      "familyId": "dc_innocence_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_innocence_expungement-set",
       "superseded": false
     },
     {
@@ -645,6 +679,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_innocence_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "dc_seal_conviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_seal_conviction-set",
       "superseded": false
     },
     {
@@ -659,7 +707,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_seal_conviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "dc_seal_fugitive-set",
@@ -719,6 +767,20 @@
     },
     {
       "familyId": "ga-fo-active-pre2026-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fo-active-pre2026-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ga-fo-active-pre2026-set",
       "verdict": "PASS",
       "lane": "vf10",
       "isIndependentVerification": true,
@@ -731,6 +793,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fo-active-pre2026-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ga-fo-discharged-pre2026-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fo-discharged-pre2026-set",
       "superseded": false
     },
     {
@@ -747,7 +823,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fo-discharged-pre2026-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ga-fugitive-j5-set",
@@ -849,15 +925,13 @@
     },
     {
       "familyId": "ky_felony_vacatur_expungement-set",
-      "verdict": "PASS",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf11",
       "isIndependentVerification": true,
-      "verifiedAtBase": null,
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
       "failedObligations": [],
       "failedObligationNames": [],
-      "unmeasuredObligations": [
-        "SOURCE_IDENTITY"
-      ],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_felony_vacatur_expungement-set",
@@ -1178,6 +1252,106 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/rows.json",
       "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Packet page 4 is unreadable, and this build made it so. The page is Nebraska form DC 1:15, whose caption block is a set of alternate captions the form's own script shows one at a time. In the delivered packet all of them are printed on top of each other: \"IN RE NAME CHANGE OF\", \"IN THE MATTER OF THE ADOPTION OF:\", \"IN RE EMANCIPATION OF:\", \"IN THE MATTER OF THE ESTATE OF:\" and the Plaintiff/Petitioner caption are superimposed in one block, together with \"Petitioner. / Decedent. / A Minor child. / Minor Child(ren) / Defendant/Respondent.\" and the red box the form itself says \"The items in this box will NOT print on your form.\" Measured geometrically: 47 same-baseline text-on-text overlaps in each fixture, up to 91pt wide, all on page 4. Traced to its cause rather than asserted: the corpus source DC-1-15 was measured the same way in this lane and carries 0 text-on-text overlaps across its two pages, and its rendered page reads as a single clean caption. The defect is introduced by the build's flattening of hidden widget appearances, not inherited from the source. Separately, ten underscore rules run past the right page edge (x1 = 613 on a 612pt page) on packet pages 4 and 5, where the source has one. The family holds a RASTER_PASS receipt; the raster gate proves the pages render, not that they can be read.",
+          "evidence": {
+            "method": "pdftotext -bbox word geometry per page, plus a visual read of the committed raster pages 4 and 5 and of the corpus source rendered in this lane",
+            "packet": {
+              "textOnTextOverlaps": 47,
+              "wordsOutsidePageBox": 10,
+              "worstExamples": [
+                {
+                  "page": 4,
+                  "a": "EMANCIPATION",
+                  "b": "CHANGE",
+                  "overlapPt": 49.86
+                },
+                {
+                  "page": 4,
+                  "a": "EMANCIPATION",
+                  "b": "MATTER",
+                  "overlapPt": 49.33
+                },
+                {
+                  "page": 4,
+                  "a": "EMANCIPATION",
+                  "b": "NAME",
+                  "overlapPt": 35.33
+                }
+              ]
+            },
+            "corpusSource": {
+              "file": "STATES/NE/02_PACKET_FORMS/NE__FORM__DC-1-15__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+              "textOnTextOverlaps": 0,
+              "wordsOutsidePageBox": 1
+            },
+            "rasterPagesRead": [
+              "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-04.png",
+              "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-05.png"
+            ]
+          }
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "The packet does not say where it is filed. participant-instructions.md is a list of blank field identifiers with no filing section of any kind; the packet's own pages carry the caption \"IN THE ______ COURT OF ______ COUNTY, NEBRASKA\" with both blanks empty, so not even a court type is fixed on the face. Amendment A1's test is answered yes: the committed track registry holds \"Clerk of the sentencing court ... filed in the existing criminal case, in person, by mail, or by fax for a self-represented filer. In district court the participant obtains a hearing date from the judge's bailiff and then files DC 1:15 and gives a copy to the prosecutor; in county court the clerk schedules and mails notice.\" The repository establishes the destination and the packet is silent about it.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/participant-instructions.md",
+            "captionBlanksOnTheFace": "IN THE ______ COURT OF ______ COUNTY, NEBRASKA, both blanks empty in both fixtures",
+            "trackRegistryDestination": "Clerk of the sentencing court",
+            "registry": "data/record-clearing/legal-design-track-registry.json"
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Silence. Searched in this lane across the full extracted text of both fixtures and the whole of participant-instructions.md: no amount, no statement that filing is free, no waiver or in-forma-pauperis procedure, and no office named to ask. That is the standard's first not-met clause exactly — a participant cannot tell from this packet whether filing is free, whether a fee exists, or whom to ask.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/participant-instructions.md",
+            "searchedFor": [
+              "$",
+              "fee",
+              "waiver",
+              "indigent",
+              "in forma pauperis",
+              "cost",
+              "pauper"
+            ],
+            "hitsInPacketOrInstructions": 0,
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+            "standardClause": "theStandard.notMet[0]"
+          }
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The packet names no recipient, no method and no authority to ask. participant-instructions.md says only that \"a certificate of mailing is completed after mailing has happened\" — a timing rule, not a service rule. The DC 1:15 certificate of service page carries blank \"Name\" and \"Address\" rules with no recipient identified, and the caption block that would identify the proceeding is the illegible one. The committed track registry holds the rule: the participant obtains a hearing date from the judge's bailiff, files DC 1:15 and gives a copy to the prosecutor in district court, while in county court the clerk schedules and mails notice. The repository establishes it, the packet does not state it, and no named checkable authority stands in its place.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/participant-instructions.md",
+            "whatTheInstructionsSayAboutService": "a certificate of mailing is completed after mailing has happened",
+            "trackRegistryService": "district court: bailiff sets the hearing, participant files DC 1:15 and gives a copy to the prosecutor; county court: the clerk schedules and mails notice",
+            "registry": "data/record-clearing/legal-design-track-registry.json",
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
       "superseded": false
     },
@@ -1863,6 +2037,61 @@
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ut_pet_acquittal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "This route has two destinations in a fixed legal sequence and the packet states one of them. Stage one is fully named on the packet's own face: the BCI instruction page prints \"UTAH BUREAU OF CRIMINAL IDENTIFICATION, 4315 South 2700 West, Suite 1300, Taylorsville, Utah 84129\" and bciexpungements@utah.gov. Stage two — the district or justice court that decided the case — is named nowhere: the 1,167-byte participant-instructions.md has no \"Where you file this\" section at all, and the only trace is the prefilled caption, which under this factory's settled standard is evidence but is not the instructions naming a destination. Amendment A1's test is answered first and it is answered yes: the committed track registry holds \"Two destinations in a fixed legal sequence ... the participant first applies to BCI, which decides eligibility and issues a certificate valid for 180 days. The participant then files the expungement petition ... in the district or justice court that decided the case.\" The repository establishes it, so the packet must state it. The sibling ut_pet_no_charges-set, which ships nearly the same forms, states both stages and the 180-day window in full, so this is a gap in this packet rather than a limit of what is knowable.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md",
+            "instructionsByteLength": 1167,
+            "sectionsPresent": [
+              "Required before filing"
+            ],
+            "sectionsAbsent": [
+              "Where you file this",
+              "What it costs, and how to ask for a waiver",
+              "Who must receive a copy, and how",
+              "What this packet is not"
+            ],
+            "trackRegistryDestination": "Stage one, the Utah DPS Bureau of Criminal Identification; stage two, the court that decided the case",
+            "registry": "data/record-clearing/legal-design-track-registry.json",
+            "siblingThatStatesIt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/participant-instructions.md",
+            "stageOneNamedOnTheFace": "UTAH BUREAU OF CRIMINAL IDENTIFICATION, 4315 South 2700 West, Suite 1300, Taylorsville, Utah 84129; bciexpungements@utah.gov"
+          }
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The packet states neither who must receive a copy nor how, and names no authority to ask. The 1,167-byte participant-instructions.md mentions service only twice, both times as a timing caveat — \"Service method, address, date, and certification only after service occurs\" and \"service certifications ... remain protected\" — which tells the participant when to fill a certificate in, not whom to serve. The packet does carry form 1146XX, Acceptance of Service – Expungement (Prosecutor), but a form's presence is not a direction: nothing on the delivered pages says the participant must send the prosecutor a copy, or by what method. The repository establishes the rule — the committed track registry states \"The court sends the filing to the prosecuting attorney; the petitioner does not serve\" — and the sibling ut_pet_no_charges-set packet states the recipient and the method in terms and names the Utah State Courts Self-Help Center (888-583-0009) besides. Under the determination, silence fails and a rule the repository holds must be stated.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md",
+            "instructionsByteLength": 1167,
+            "whatTheInstructionsSayAboutService": [
+              "Service method, address, date, and certification only after service occurs",
+              "service certifications ... remain protected"
+            ],
+            "trackRegistryService": "The court sends the filing to the prosecuting attorney; the petitioner does not serve",
+            "registry": "data/record-clearing/legal-design-track-registry.json",
+            "siblingThatStatesIt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/participant-instructions.md",
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set",
       "superseded": false
     },
     {
@@ -1895,6 +2124,61 @@
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_conviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ut_pet_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "This route has two destinations in a fixed legal sequence and the packet states one of them. Stage one is fully named on the packet's own face: the BCI instruction page prints \"UTAH BUREAU OF CRIMINAL IDENTIFICATION, 4315 South 2700 West, Suite 1300, Taylorsville, Utah 84129\" and bciexpungements@utah.gov. Stage two — the district or justice court that decided the case — is named nowhere: the 1,167-byte participant-instructions.md has no \"Where you file this\" section at all, and the only trace is the prefilled caption, which under this factory's settled standard is evidence but is not the instructions naming a destination. Amendment A1's test is answered first and it is answered yes: the committed track registry holds \"Two destinations in a fixed legal sequence ... the participant first applies to BCI, which decides eligibility and issues a certificate valid for 180 days. The participant then files the expungement petition ... in the district or justice court that decided the case.\" The repository establishes it, so the packet must state it. The sibling ut_pet_no_charges-set, which ships nearly the same forms, states both stages and the 180-day window in full, so this is a gap in this packet rather than a limit of what is knowable.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/participant-instructions.md",
+            "instructionsByteLength": 1167,
+            "sectionsPresent": [
+              "Required before filing"
+            ],
+            "sectionsAbsent": [
+              "Where you file this",
+              "What it costs, and how to ask for a waiver",
+              "Who must receive a copy, and how",
+              "What this packet is not"
+            ],
+            "trackRegistryDestination": "Stage one, the Utah DPS Bureau of Criminal Identification; stage two, the court that decided the case",
+            "registry": "data/record-clearing/legal-design-track-registry.json",
+            "siblingThatStatesIt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/participant-instructions.md",
+            "stageOneNamedOnTheFace": "UTAH BUREAU OF CRIMINAL IDENTIFICATION, 4315 South 2700 West, Suite 1300, Taylorsville, Utah 84129; bciexpungements@utah.gov"
+          }
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The packet states neither who must receive a copy nor how, and names no authority to ask. The 1,167-byte participant-instructions.md mentions service only twice, both times as a timing caveat — \"Service method, address, date, and certification only after service occurs\" and \"service certifications ... remain protected\" — which tells the participant when to fill a certificate in, not whom to serve. The packet does carry form 1146XX, Acceptance of Service – Expungement (Prosecutor), but a form's presence is not a direction: nothing on the delivered pages says the participant must send the prosecutor a copy, or by what method. The repository establishes the rule — the committed track registry states \"The court sends the filing to the prosecuting attorney; the petitioner does not serve\" — and the sibling ut_pet_no_charges-set packet states the recipient and the method in terms and names the Utah State Courts Self-Help Center (888-583-0009) besides. Under the determination, silence fails and a rule the repository holds must be stated.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/participant-instructions.md",
+            "instructionsByteLength": 1167,
+            "whatTheInstructionsSayAboutService": [
+              "Service method, address, date, and certification only after service occurs",
+              "service certifications ... remain protected"
+            ],
+            "trackRegistryService": "The court sends the filing to the prosecuting attorney; the petitioner does not serve",
+            "registry": "data/record-clearing/legal-design-track-registry.json",
+            "siblingThatStatesIt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/participant-instructions.md",
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_conviction-set",
       "superseded": false
     },
     {
@@ -1926,6 +2210,61 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/rows.json",
       "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_with_prejudice-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ut_pet_dismissed_with_prejudice-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "This route has two destinations in a fixed legal sequence and the packet states one of them. Stage one is fully named on the packet's own face: the BCI instruction page prints \"UTAH BUREAU OF CRIMINAL IDENTIFICATION, 4315 South 2700 West, Suite 1300, Taylorsville, Utah 84129\" and bciexpungements@utah.gov. Stage two — the district or justice court that decided the case — is named nowhere: the 1,167-byte participant-instructions.md has no \"Where you file this\" section at all, and the only trace is the prefilled caption, which under this factory's settled standard is evidence but is not the instructions naming a destination. Amendment A1's test is answered first and it is answered yes: the committed track registry holds \"Two destinations in a fixed legal sequence ... the participant first applies to BCI, which decides eligibility and issues a certificate valid for 180 days. The participant then files the expungement petition ... in the district or justice court that decided the case.\" The repository establishes it, so the packet must state it. The sibling ut_pet_no_charges-set, which ships nearly the same forms, states both stages and the 180-day window in full, so this is a gap in this packet rather than a limit of what is knowable.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/participant-instructions.md",
+            "instructionsByteLength": 1167,
+            "sectionsPresent": [
+              "Required before filing"
+            ],
+            "sectionsAbsent": [
+              "Where you file this",
+              "What it costs, and how to ask for a waiver",
+              "Who must receive a copy, and how",
+              "What this packet is not"
+            ],
+            "trackRegistryDestination": "Stage one, the Utah DPS Bureau of Criminal Identification; stage two, the court that decided the case",
+            "registry": "data/record-clearing/legal-design-track-registry.json",
+            "siblingThatStatesIt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/participant-instructions.md",
+            "stageOneNamedOnTheFace": "UTAH BUREAU OF CRIMINAL IDENTIFICATION, 4315 South 2700 West, Suite 1300, Taylorsville, Utah 84129; bciexpungements@utah.gov"
+          }
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The packet states neither who must receive a copy nor how, and names no authority to ask. The 1,167-byte participant-instructions.md mentions service only twice, both times as a timing caveat — \"Service method, address, date, and certification only after service occurs\" and \"service certifications ... remain protected\" — which tells the participant when to fill a certificate in, not whom to serve. The packet does carry form 1146XX, Acceptance of Service – Expungement (Prosecutor), but a form's presence is not a direction: nothing on the delivered pages says the participant must send the prosecutor a copy, or by what method. The repository establishes the rule — the committed track registry states \"The court sends the filing to the prosecuting attorney; the petitioner does not serve\" — and the sibling ut_pet_no_charges-set packet states the recipient and the method in terms and names the Utah State Courts Self-Help Center (888-583-0009) besides. Under the determination, silence fails and a rule the repository holds must be stated.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/participant-instructions.md",
+            "instructionsByteLength": 1167,
+            "whatTheInstructionsSayAboutService": [
+              "Service method, address, date, and certification only after service occurs",
+              "service certifications ... remain protected"
+            ],
+            "trackRegistryService": "The court sends the filing to the prosecuting attorney; the petitioner does not serve",
+            "registry": "data/record-clearing/legal-design-track-registry.json",
+            "siblingThatStatesIt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/participant-instructions.md",
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_with_prejudice-set",
       "superseded": false
     },
@@ -2307,6 +2646,20 @@
     },
     {
       "familyId": "ut_pet_no_charges-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_no_charges-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf09",
       "isIndependentVerification": true,
@@ -2449,7 +2802,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_no_charges-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ut_pet_traffic-set",
@@ -2485,6 +2838,20 @@
     },
     {
       "familyId": "ut_pet_traffic-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_traffic-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ut_pet_traffic-set",
       "verdict": "PASS",
       "lane": "vf11",
       "isIndependentVerification": true,
@@ -2497,7 +2864,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_traffic-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "va_exp_identity_used_by_another-set",
@@ -3762,6 +4129,56 @@
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-03/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_multiple_misdemeanors-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wv_conv_multiple_misdemeanors-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "The packet does not name the office it is filed with. participant-instructions.md has no filing section — it directs the participant only to \"the manner the form and filing court require\" — and the packet's own pages carry the caption \"IN THE CIRCUIT COURT OF Kanawha COUNTY, WEST VIRGINIA\", which under this factory's settled standard is evidence of a court type but is not the instructions naming a destination. This family ships the petition alone: SCA-C900, the instructions form its single-misdemeanour sibling carries, is not in this packet, so there is not even a general how-to page. Amendment A1's test is answered yes: the committed track registry holds \"Clerk of the circuit court of the county of conviction\". The repository establishes the destination and the packet is silent about it.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/participant-instructions.md",
+            "whatTheInstructionsSay": "Complete or sign them only at the event and in the manner the form and filing court require",
+            "trackRegistryDestination": "Clerk of the circuit court of the county of conviction",
+            "registry": "data/record-clearing/legal-design-track-registry.json",
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+            "standardClause": "amendment A1"
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Silence, and the repository holds the figure. Searched in this lane across the full extracted text of both fixtures and the whole of participant-instructions.md: no amount, no statement that filing is free, no waiver or in-forma-pauperis procedure, and no office named to ask. The committed track registry states the fee in terms — \"the § 59-1-11(a)(1) civil-action filing fee of $200, plus a $100 State Police processing fee paid on grant\" — so this is not a case where naming an authority could stand in: A1's test asks first whether the repository establishes the answer, and here it does. Silence fails under the determination's first not-met clause in any event.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/participant-instructions.md",
+            "searchedFor": [
+              "$",
+              "fee",
+              "waiver",
+              "indigent",
+              "in forma pauperis",
+              "cost"
+            ],
+            "hitsInPacketOrInstructions": 0,
+            "trackRegistryFee": "the § 59-1-11(a)(1) civil-action filing fee of $200, plus a $100 State Police processing fee paid on grant",
+            "registry": "data/record-clearing/legal-design-track-registry.json",
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+            "standardClause": "theStandard.notMet[0], with amendment A1 closing the named-authority alternative"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_multiple_misdemeanors-set",
       "superseded": false
     },
     {
@@ -3793,6 +4210,56 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-03/rows.json",
       "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_single_misdemeanor-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wv_conv_single_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "The packet does not name the office it is filed with. participant-instructions.md has no filing section — it directs the participant only to \"the manner the form and filing court require\" — and the packet's own pages carry the caption \"IN THE CIRCUIT COURT OF Kanawha COUNTY, WEST VIRGINIA\", which under this factory's settled standard is evidence of a court type but is not the instructions naming a destination. The SCA-C900 instructions component that ships in this packet tells the participant how to complete each part of the form and never says where to take it. Amendment A1's test is answered yes: the committed track registry holds \"Clerk of the circuit court of the county in which the conviction occurred\". The repository establishes the destination and the packet is silent about it.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+            "whatTheInstructionsSay": "Complete or sign them only at the event and in the manner the form and filing court require",
+            "trackRegistryDestination": "Clerk of the circuit court of the county in which the conviction occurred",
+            "registry": "data/record-clearing/legal-design-track-registry.json",
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+            "standardClause": "amendment A1"
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Silence, and the repository holds the figure. Searched in this lane across the full extracted text of both fixtures and the whole of participant-instructions.md: no amount, no statement that filing is free, no waiver or in-forma-pauperis procedure, and no office named to ask. The committed track registry states the fee in terms — \"the § 59-1-11(a)(1) civil-action filing fee, which the official text sets at $200, plus a $100 State Police processing fee paid on grant\" — so this is not a case where naming an authority could stand in: A1's test asks first whether the repository establishes the answer, and here it does. Silence fails under the determination's first not-met clause in any event.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+            "searchedFor": [
+              "$",
+              "fee",
+              "waiver",
+              "indigent",
+              "in forma pauperis",
+              "cost"
+            ],
+            "hitsInPacketOrInstructions": 0,
+            "trackRegistryFee": "the § 59-1-11(a)(1) civil-action filing fee, which the official text sets at $200, plus a $100 State Police processing fee paid on grant",
+            "registry": "data/record-clearing/legal-design-track-registry.json",
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+            "standardClause": "theStandard.notMet[0], with amendment A1 closing the named-authority alternative"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_single_misdemeanor-set",
       "superseded": false
     },

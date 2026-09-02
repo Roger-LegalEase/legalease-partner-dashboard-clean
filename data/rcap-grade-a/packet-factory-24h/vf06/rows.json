@@ -522,6 +522,805 @@
       "notes": "REPAIRED-FAMILY FRESH READ THAT DOES NOT HOLD: VTR01's filing-destination repair reached this family; the FIX03/FIX04 fee, service and text-fitting repairs reached only vt_seal_18_to_21-set and vt_seal_dui-set. This family needs the same rebuild the siblings got.",
       "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
       "verifiedAtBaseStatedBy": "FABLE-VT2, from the worktree HEAD at the time of the read"
+    },
+    {
+      "itemId": "ga-fo-active-pre2026-set",
+      "lane": "VF06",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading",
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "verifier": "FABLE-VT6 (independent; built none of these packets)",
+      "obligationsScored": 15,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "corpusMounted": true,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "production-field-map.json, product-wiring.json, source-receipt.json and the MASTER_QUEUE family row all declare the single key obligation:track-only:GA:ga-fo-active-pre2026, and both fixtures print that key and O.C.G.A. § 42-8-62.1(c) on their own face, read from the bytes in this lane. The receipt's legal name is \"Petition to Restrict and Seal First Offender Records for a Sentence Imposed Before July 1, 2026 That Has Not Been Revoked\", which is the route the statute names.",
+          "evidence": {
+            "queueRouteKeys": [
+              "obligation:track-only:GA:ga-fo-active-pre2026"
+            ],
+            "fieldMapRouteKeys": [
+              "obligation:track-only:GA:ga-fo-active-pre2026"
+            ],
+            "wiringRouteKeys": [
+              "obligation:track-only:GA:ga-fo-active-pre2026"
+            ],
+            "receiptRouteKeys": [
+              "obligation:track-only:GA:ga-fo-active-pre2026"
+            ],
+            "statutoryAuthority": "O.C.G.A. § 42-8-62.1(c)",
+            "statuteFoundOnEveryFixtureFace": true,
+            "routeKeyPrintedOnEveryFixtureFace": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "Measured, not inferred. The Master Library is mounted in this lane and every one of this family's 3 bound source(s) was rehashed from the source bytes: every SHA-256 agrees with the family's source-receipt.json, with the committed corpus index, and with the archive's own STATE_MANIFEST.csv and 00_GOVERNANCE/CHECKSUMS.sha256. Every source SHA-256 that the family's own build reports cite was resolved back to a receipt document and rehashed the same way. This is the obligation the pre-corpus lanes recorded as NOT_MEASURABLE_HERE; it is measured here and it passes.",
+          "evidence": {
+            "corpusMounted": true,
+            "corpusRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+            "bootstrap": "scripts/rcap-corpus/bootstrap-private-corpus.sh, run in this lane: archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 verified, 51 jurisdictions / 499 files / 329 PDFs, and the corpus verified against its own 00_GOVERNANCE/CHECKSUMS.sha256",
+            "wholeIndexRehashed": "all 329 entries of data/rcap-all50/local-source-corpus-index.json were rehashed from the mounted bytes in this lane: 329 matched, 0 mismatched, 0 absent",
+            "boundDocuments": [
+              {
+                "documentId": "GA-LEGAL-REVIEW-2026-07-30",
+                "residence": "master-library",
+                "pathInArchive": "STATES/GA/01_LEGAL_REVIEW/GA__LEGAL-REVIEW__STATEWIDE__georgia-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "declaredSha256": "85e22768a4cfc27dd0633791fe6ed8a020682c39899144239bbcb95727d6fd22",
+                "recomputedInThisLane": "85e22768a4cfc27dd0633791fe6ed8a020682c39899144239bbcb95727d6fd22",
+                "hashMatchesReceipt": true,
+                "byteLengthMatchesReceipt": true,
+                "inCommittedCorpusIndex": false,
+                "committedIndexPathAgrees": null,
+                "faceAnchors": "24/24 of the receipt's claimed face anchors were found in text extracted from the source bytes in this lane"
+              },
+              {
+                "documentId": "GA-LEGAL-DESIGN-INTAKE-MEMO",
+                "residence": "committed-repository",
+                "pathInArchive": "data/record-clearing/legal-design-intake/GA.memo.json",
+                "declaredSha256": "44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183",
+                "recomputedInThisLane": "44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183",
+                "hashMatchesReceipt": true,
+                "byteLengthMatchesReceipt": "receipt declares no byte length",
+                "inCommittedCorpusIndex": false,
+                "committedIndexPathAgrees": null,
+                "faceAnchors": null
+              },
+              {
+                "documentId": "GA-PACKET-SET-MANIFEST",
+                "residence": "committed-repository",
+                "pathInArchive": "data/record-clearing/legal-design-packet-set-manifests.json",
+                "declaredSha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa",
+                "recomputedInThisLane": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa",
+                "hashMatchesReceipt": true,
+                "byteLengthMatchesReceipt": "receipt declares no byte length",
+                "inCommittedCorpusIndex": false,
+                "committedIndexPathAgrees": null,
+                "faceAnchors": null
+              }
+            ],
+            "archiveOwnManifests": [
+              {
+                "documentId": "GA-LEGAL-REVIEW-2026-07-30",
+                "receiptArchiveManifestSha256": "5b9bca5897f88fdfce83354d8963bb5e6bd55ffe079122b082ebd3955bdcd894",
+                "checks": [
+                  {
+                    "file": "STATES/GA/STATE_MANIFEST.csv",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  },
+                  {
+                    "file": "00_GOVERNANCE/CHECKSUMS.sha256",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Every component the family declares appears in the rendered packet, in both fixtures: primary_filing, proposed_order, certificate_of_service, exhibit_a_fo_final_disposition. The fresh completeness run measured requiredComponentsMissing 0.",
+          "evidence": {
+            "declaredComponentSet": [
+              "primary_filing",
+              "proposed_order",
+              "certificate_of_service",
+              "exhibit_a_fo_final_disposition"
+            ],
+            "perFixture": [
+              {
+                "fixture": "canonical",
+                "components": [
+                  "primary_filing",
+                  "proposed_order",
+                  "certificate_of_service",
+                  "exhibit_a_fo_final_disposition"
+                ],
+                "documents": [
+                  "primary_filing",
+                  "proposed_order",
+                  "certificate_of_service",
+                  "exhibit_a_fo_final_disposition"
+                ]
+              },
+              {
+                "fixture": "boundary",
+                "components": [
+                  "primary_filing",
+                  "proposed_order",
+                  "certificate_of_service",
+                  "exhibit_a_fo_final_disposition"
+                ],
+                "documents": [
+                  "primary_filing",
+                  "proposed_order",
+                  "certificate_of_service",
+                  "exhibit_a_fo_final_disposition"
+                ]
+              }
+            ],
+            "requiredComponentsMissing": 0
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "Every value the family records as written was searched for in text extracted from that fixture's own PDF bytes in this lane, and every one was found, in both fixtures. No refused field carries ink, no widget appearance was flattened and no glyph falls outside a measured write box. The fresh completeness run measured invisibleWrites 0 and knownRequiredFieldsMissing 0.",
+          "evidence": {
+            "perFixture": [
+              {
+                "fixture": "canonical",
+                "writeValuesSearchedFor": 8,
+                "notFoundInExtractedText": 0,
+                "reportedByFinalizer": 8,
+                "addedGlyphsReadFromOutputBytes": 147,
+                "flattenedWidgetAppearances": 0,
+                "strayGlyphsOutsideWriteBoxes": 0,
+                "refusedFieldsWithInk": 0
+              },
+              {
+                "fixture": "boundary",
+                "writeValuesSearchedFor": 8,
+                "notFoundInExtractedText": 0,
+                "reportedByFinalizer": 8,
+                "addedGlyphsReadFromOutputBytes": 335,
+                "flattenedWidgetAppearances": 0,
+                "strayGlyphsOutsideWriteBoxes": 0,
+                "refusedFieldsWithInk": 0
+              }
+            ],
+            "freshRunInThisLane": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fo-active-pre2026-set — PASS_COMPLETE, all nine counters zero",
+            "counters": {
+              "knownRequiredFieldsMissing": 0,
+              "requiredFactsNotCollected": 0,
+              "unclassifiedBlanks": 0,
+              "incompleteRows": 0,
+              "requiredOptionsMissing": 0,
+              "requiredComponentsMissing": 0,
+              "invisibleWrites": 0,
+              "protectedWrites": 0,
+              "visualDefects": 0
+            }
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "The field map declares 13 required-before-filing item(s), and participant-instructions.md names each one in a table that also names who holds the record it comes from — the clerk of the sentencing or discharging court, the prosecuting attorney's office, GCIC. The fresh completeness run measured requiredFactsNotCollected 0 and unclassifiedBlanks 0.",
+          "evidence": {
+            "requiredBeforeFilingCount": 13,
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/participant-instructions.md",
+            "freshRunInThisLane": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fo-active-pre2026-set — PASS_COMPLETE, all nine counters zero",
+            "counters": {
+              "knownRequiredFieldsMissing": 0,
+              "requiredFactsNotCollected": 0,
+              "unclassifiedBlanks": 0,
+              "incompleteRows": 0,
+              "requiredOptionsMissing": 0,
+              "requiredComponentsMissing": 0,
+              "invisibleWrites": 0,
+              "protectedWrites": 0,
+              "visualDefects": 0
+            }
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "Measured and vacuously satisfied: the composed pages carry no election control. The field map records routeSelectionsMade [], and the petition's own title and body — read from the fixture bytes here — state the statutory route. The one live choice on the certificate of service (which service method was used) is named to the participant as theirs to record after service, not an unmade required option. The fresh completeness run measured requiredOptionsMissing 0.",
+          "evidence": {
+            "routeSelectionsMade": [],
+            "requiredOptionsMissing": 0,
+            "statuteReadFromFixtureBytes": "O.C.G.A. § 42-8-62.1(c)"
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "The fresh completeness run measured incompleteRows 0: no baseline row band carries written cells beside a required cell left blank, in either fixture.",
+          "evidence": {
+            "incompleteRows": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "No protected field carries ink. The fresh completeness run measured protectedWrites 0, and both fixtures' byte-proof reports record zero refused fields with ink and zero flattened widget appearances. The judge's name, the SO ORDERED date and the judge's signature block on the proposed order are blank in the bytes, and the instructions say in terms that third-party blocks are never prefilled.",
+          "evidence": {
+            "protectedWrites": 0,
+            "refusedFieldsWithInkPerFixture": [
+              0,
+              0
+            ]
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Every fixture's bytes were rehashed in this lane and every SHA-256 agrees with reports/rendered-artifacts.json and with the byte length recorded there. The family holds a RASTER_PASS receipt from the central workflow (run 33547709781), and that receipt's hashes bind to the exact bytes rehashed here.",
+          "evidence": {
+            "recomputedFromCommittedBytes": [
+              {
+                "fixture": "canonical",
+                "sha256": "e3ecc96b782b313a09977491d76d96c065a2c2082ef3375d025d1f9071b9e862",
+                "matchedRecord": true,
+                "byteLength": 14852,
+                "byteLengthMatchedRecord": true
+              },
+              {
+                "fixture": "boundary",
+                "sha256": "95eafa84a182bb34d9274f9d62b26d4eb78665df47dea34b8deb0a367f6a93d6",
+                "matchedRecord": true,
+                "byteLength": 15135,
+                "byteLengthMatchedRecord": true
+              }
+            ],
+            "rasterReceipt": {
+              "state": "RASTER_PASS",
+              "verdict": "RASTER_PASS",
+              "workflowRunId": "33547709781",
+              "jobConclusion": "success",
+              "boundToCanonicalSha256": "e3ecc96b782b313a09977491d76d96c065a2c2082ef3375d025d1f9071b9e862",
+              "boundToBoundarySha256": "95eafa84a182bb34d9274f9d62b26d4eb78665df47dea34b8deb0a367f6a93d6",
+              "coversTheWholeFamily": true,
+              "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+            },
+            "rasterBindingCheckedInThisLane": "the receipt's boundToCanonicalSha256 and boundToBoundarySha256 were compared against the SHA-256 this lane recomputed from the committed fixture bytes; both agree"
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "For every fixture the packet page numbers run 1..N with no gap, and N is the same number three ways: the page count in the artifact record, the page count read from the PDF bytes with pdfinfo in this lane, and the length of the page manifest. Document blocks appear in receipt order and source pages ascend 1..k inside each block (primary_filing 1-2, proposed_order 3-4, certificate_of_service 5, exhibit_a_fo_final_disposition 6).",
+          "evidence": {
+            "perFixture": [
+              {
+                "fixture": "canonical",
+                "recordedPageCount": 6,
+                "pdfPagesReadFromBytesWithPdfinfo": 6,
+                "manifestPages": 6,
+                "contiguousFromOne": true
+              },
+              {
+                "fixture": "boundary",
+                "recordedPageCount": 6,
+                "pdfPagesReadFromBytesWithPdfinfo": 6,
+                "manifestPages": 6,
+                "contiguousFromOne": true
+              }
+            ],
+            "documentBlocks": "primary_filing 1-2, proposed_order 3-4, certificate_of_service 5, exhibit_a_fo_final_disposition 6"
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "Measured geometrically in this lane. Across 2416 words in 12 pages, 0 words fall outside the page box and no two words on a shared baseline overlap anywhere in either fixture.",
+          "evidence": {
+            "method": "pdftotext -bbox word geometry per page",
+            "perFixture": [
+              {
+                "fixture": "canonical",
+                "pages": 6,
+                "words": 1208,
+                "wordsOutsidePageBox": 0,
+                "textOnTextOverlaps": 0
+              },
+              {
+                "fixture": "boundary",
+                "pages": 6,
+                "words": 1208,
+                "wordsOutsidePageBox": 0,
+                "textOnTextOverlaps": 0
+              }
+            ]
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The instructions name the destination affirmatively and twice: step 3 says to confirm the filing method with the clerk before filing because local courts control their own e-filing practice, and step 5 says \"File with the clerk of the court that ordered the First Offender sentence, in the existing criminal case under the existing case number.\" The committed track registry holds \"Clerk of the court that handled the underlying case ... filed as a criminal petition in the existing case\", and the packet states it — which is exactly what amendment A1 requires of a destination the repository holds.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/participant-instructions.md",
+            "trackRegistryDestination": "Clerk of the court that handled the underlying case; filed as a criminal petition in the existing case",
+            "registry": "data/record-clearing/legal-design-track-registry.json"
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "The packet states that no held source establishes the figure and names the authority that answers it: \"Whether any Georgia clerk charges a fee for such a filing is unresolved and county-specific, so this packet quotes no figure — ask the clerk of the court that ordered the First Offender sentence before filing\", with the same clerk named for the O.C.G.A. § 9-15-2 pauper's-affidavit question. That clerk is identified well enough to reach — it is the clerk of the participant's own sentencing court, the same office the instructions send them to for the case papers and the final disposition. Amendment A1's test is answered first: the committed track registry holds no fee for this track, so no held source establishes it and the named authority properly stands in. This is not the \"check with the court\" gesture the standard excludes, because it names which court and which office.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/participant-instructions.md",
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+            "standardClause": "theStandard.met[2]",
+            "registryHoldsNoFeeForThisTrack": true
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Both halves are stated on the packet's own pages. Recipients: the certificate of service certifies service on the prosecuting attorney — named as the District Attorney or Solicitor-General for the county — and on the clerk of court, and the instructions say the clerk's office can supply both addresses. Method: registered or certified mail or statutory overnight delivery, named as statutorily sufficient under O.C.G.A. § 42-8-62.1(c), with hand delivery or e-filing also available. The instructions direct that the certificate be completed only after service has happened, because a certificate dated before service would be false.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/participant-instructions.md",
+            "componentCarryingIt": "certificate_of_service"
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "The packet states where the platform stops. \"Things the platform deliberately left blank\" names the signature, every date beside a signature and every third-party block; \"When to stop and get help instead of filing\" lists the conditions and names four Georgia records-restriction desks by name; \"What this packet is not\" says the pages are not an official Georgia court form (none exists for this filing), not legal advice, not filed for the participant and decide nothing. approval-request.json records PENDING_INDEPENDENT_VERIFICATION, not approved for live, not live, zero commercial routes opened.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/participant-instructions.md",
+            "approvedForLive": false,
+            "live": false,
+            "commercialRoutesOpened": 0
+          }
+        }
+      },
+      "reExaminedUnder": "DET-FEE-AND-WAIVER-001 and its amendment A1",
+      "whyTheStrongestVerdict": "All fifteen obligations measured here, all fifteen pass. SOURCE_IDENTITY — the one the earlier read could not measure — is measured from the mounted Master Library and passes, including the two committed legal-design records this family binds alongside the corpus source.",
+      "supersedes": "the VF10 row for this family, which stopped at PASS because SOURCE_IDENTITY could not be measured without the corpus"
+    },
+    {
+      "itemId": "ut_pet_traffic-set",
+      "lane": "VF06",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill",
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "verifier": "FABLE-VT6 (independent; built none of these packets)",
+      "obligationsScored": 15,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "corpusMounted": true,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "production-field-map.json, product-wiring.json, approval-request.json and the MASTER_QUEUE family row declare the identical route key set [\"obligation:track-pathway:UT:ut_pet_traffic:path-i-traffic-offense-expungement-or-deletion\"], and the field map's routeSelectionId is ut-traffic-direct-court-no-bci. This is the single-stage traffic route and the packet says so on evidence from the form's own face: form 1002EX paragraph 1 reads \"Certificate of eligibility is not required\", which is what distinguishes this route from the BCI routes, and the packet ships 1002EX/1022EX rather than 1000EX/1020EX. Its fixture bytes are distinct from every other Utah family's.",
+          "evidence": {
+            "queueRouteKeys": [
+              "obligation:track-pathway:UT:ut_pet_traffic:path-i-traffic-offense-expungement-or-deletion"
+            ],
+            "fieldMapRouteKeys": [
+              "obligation:track-pathway:UT:ut_pet_traffic:path-i-traffic-offense-expungement-or-deletion"
+            ],
+            "wiringRouteKeys": [
+              "obligation:track-pathway:UT:ut_pet_traffic:path-i-traffic-offense-expungement-or-deletion"
+            ],
+            "routeSelectionId": "ut-traffic-direct-court-no-bci",
+            "statuteOnTheFace": "Utah Code 77-40a-305(1)(a), printed by form 1000EX/1002EX itself"
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "Measured, not inferred. The Master Library is mounted in this lane and every one of this family's 5 bound source(s) was rehashed from the source bytes: every SHA-256 agrees with the family's source-receipt.json, with the committed corpus index, and with the archive's own STATE_MANIFEST.csv and 00_GOVERNANCE/CHECKSUMS.sha256. This is the obligation the pre-corpus lanes could not reach; it is measured here and it passes.",
+          "evidence": {
+            "corpusMounted": true,
+            "corpusRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+            "bootstrap": "scripts/rcap-corpus/bootstrap-private-corpus.sh, run in this lane: archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 verified, 51 jurisdictions / 499 files / 329 PDFs, and the corpus verified against its own 00_GOVERNANCE/CHECKSUMS.sha256",
+            "wholeIndexRehashed": "all 329 entries of data/rcap-all50/local-source-corpus-index.json were rehashed from the mounted bytes in this lane: 329 matched, 0 mismatched, 0 absent",
+            "boundDocuments": [
+              {
+                "documentId": "1002EX",
+                "residence": "master-library",
+                "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1002EX__petition-to-expunge-records-traffic-charge__REV-2022-04-11__EN.pdf",
+                "declaredSha256": "fab0ba66e2ef50acf0e30ae781e8e38202da0cf39c788a0b1652c99fc6b0b0cd",
+                "recomputedInThisLane": "fab0ba66e2ef50acf0e30ae781e8e38202da0cf39c788a0b1652c99fc6b0b0cd",
+                "hashMatchesReceipt": true,
+                "byteLengthMatchesReceipt": true,
+                "inCommittedCorpusIndex": true,
+                "committedIndexPathAgrees": true
+              },
+              {
+                "documentId": "1022EX",
+                "residence": "master-library",
+                "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1022EX__order-on-petition-to-expunge-records-traffic-conviction__REV-2022-04-11__EN.pdf",
+                "declaredSha256": "b0d9c6f1100c7d40e63c1261fa55cc868f91d2fe7cc8df05b6ba0036ff37f952",
+                "recomputedInThisLane": "b0d9c6f1100c7d40e63c1261fa55cc868f91d2fe7cc8df05b6ba0036ff37f952",
+                "hashMatchesReceipt": true,
+                "byteLengthMatchesReceipt": true,
+                "inCommittedCorpusIndex": true,
+                "committedIndexPathAgrees": true
+              },
+              {
+                "documentId": "1044XX",
+                "residence": "master-library",
+                "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+                "declaredSha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+                "recomputedInThisLane": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+                "hashMatchesReceipt": true,
+                "byteLengthMatchesReceipt": true,
+                "inCommittedCorpusIndex": true,
+                "committedIndexPathAgrees": true
+              },
+              {
+                "documentId": "1146XX",
+                "residence": "master-library",
+                "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+                "declaredSha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+                "recomputedInThisLane": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+                "hashMatchesReceipt": true,
+                "byteLengthMatchesReceipt": true,
+                "inCommittedCorpusIndex": true,
+                "committedIndexPathAgrees": true
+              },
+              {
+                "documentId": "1148XX",
+                "residence": "master-library",
+                "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
+                "declaredSha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+                "recomputedInThisLane": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+                "hashMatchesReceipt": true,
+                "byteLengthMatchesReceipt": true,
+                "inCommittedCorpusIndex": true,
+                "committedIndexPathAgrees": true
+              }
+            ],
+            "archiveOwnManifests": [
+              {
+                "documentId": "1002EX",
+                "receiptArchiveManifestSha256": null,
+                "checks": [
+                  {
+                    "file": "STATES/UT/STATE_MANIFEST.csv",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  },
+                  {
+                    "file": "00_GOVERNANCE/CHECKSUMS.sha256",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  }
+                ]
+              },
+              {
+                "documentId": "1022EX",
+                "receiptArchiveManifestSha256": null,
+                "checks": [
+                  {
+                    "file": "STATES/UT/STATE_MANIFEST.csv",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  },
+                  {
+                    "file": "00_GOVERNANCE/CHECKSUMS.sha256",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  }
+                ]
+              },
+              {
+                "documentId": "1044XX",
+                "receiptArchiveManifestSha256": null,
+                "checks": [
+                  {
+                    "file": "STATES/UT/STATE_MANIFEST.csv",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  },
+                  {
+                    "file": "00_GOVERNANCE/CHECKSUMS.sha256",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  }
+                ]
+              },
+              {
+                "documentId": "1146XX",
+                "receiptArchiveManifestSha256": null,
+                "checks": [
+                  {
+                    "file": "STATES/UT/STATE_MANIFEST.csv",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  },
+                  {
+                    "file": "00_GOVERNANCE/CHECKSUMS.sha256",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  }
+                ]
+              },
+              {
+                "documentId": "1148XX",
+                "receiptArchiveManifestSha256": null,
+                "checks": [
+                  {
+                    "file": "STATES/UT/STATE_MANIFEST.csv",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  },
+                  {
+                    "file": "00_GOVERNANCE/CHECKSUMS.sha256",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  }
+                ]
+              }
+            ],
+            "reportCitedHashes": "every source SHA-256 cited in this family's reports/actual-writes.json and reports/rendered-artifacts.json was resolved back to a source-receipt.json document and rehashed byte-exact from the mounted corpus in this lane"
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Every document the family binds appears in the rendered packet, in both fixtures. The receipt binds 5 document(s) and the page manifest carries exactly those 5 form blocks, by form number, in order (1002EX 1-2, 1022EX 3-4, 1044XX 5-6, 1146XX 7, 1148XX 8-9). The fresh completeness run measured requiredComponentsMissing 0.",
+          "evidence": {
+            "declaredBoundDocuments": [
+              "1002EX",
+              "1022EX",
+              "1044XX",
+              "1146XX",
+              "1148XX"
+            ],
+            "documentBlocksInTheBytes": 9,
+            "perFixture": [
+              {
+                "fixture": "canonical",
+                "components": [
+                  null
+                ],
+                "documents": [
+                  null
+                ]
+              },
+              {
+                "fixture": "boundary",
+                "components": [
+                  null
+                ],
+                "documents": [
+                  null
+                ]
+              }
+            ],
+            "requiredComponentsMissing": 0
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "Measured by reading the artifacts back. All 31 values the byte-proof report records as written were searched for in text extracted from that fixture's own PDF bytes in this lane and every one was found, in both fixtures; the count matches the finalizer's own count exactly. Zero glyphs fall outside a measured write box, zero widget appearances were flattened, and no refused field carries ink. The fresh completeness run measured invisibleWrites 0 and knownRequiredFieldsMissing 0.",
+          "evidence": {
+            "perFixture": [
+              {
+                "fixture": "canonical",
+                "writeValuesSearchedFor": 31,
+                "notFoundInExtractedText": 0,
+                "reportedByFinalizer": 31,
+                "addedGlyphsReadFromOutputBytes": 372,
+                "flattenedWidgetAppearances": 0,
+                "strayGlyphsOutsideWriteBoxes": 0,
+                "refusedFieldsWithInk": 0
+              },
+              {
+                "fixture": "boundary",
+                "writeValuesSearchedFor": 31,
+                "notFoundInExtractedText": 0,
+                "reportedByFinalizer": 31,
+                "addedGlyphsReadFromOutputBytes": 933,
+                "flattenedWidgetAppearances": 0,
+                "strayGlyphsOutsideWriteBoxes": 0,
+                "refusedFieldsWithInk": 0
+              }
+            ],
+            "freshRunInThisLane": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_traffic-set — PASS_COMPLETE, all nine counters zero",
+            "counters": {
+              "knownRequiredFieldsMissing": 0,
+              "requiredFactsNotCollected": 0,
+              "unclassifiedBlanks": 0,
+              "incompleteRows": 0,
+              "requiredOptionsMissing": 0,
+              "requiredComponentsMissing": 0,
+              "invisibleWrites": 0,
+              "protectedWrites": 0,
+              "visualDefects": 0
+            }
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "participant-instructions.md carries a five-item \"The facts you must supply before filing\" list — judicial district and court street address, the public-interest explanation, signing city and dates, optional recipient content, and service details after service — and the closing paragraph names the field classes that stay protected. The fresh completeness run measured requiredFactsNotCollected 0 and unclassifiedBlanks 0.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/participant-instructions.md",
+            "freshRunInThisLane": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_traffic-set — PASS_COMPLETE, all nine counters zero",
+            "counters": {
+              "knownRequiredFieldsMissing": 0,
+              "requiredFactsNotCollected": 0,
+              "unclassifiedBlanks": 0,
+              "incompleteRows": 0,
+              "requiredOptionsMissing": 0,
+              "requiredComponentsMissing": 0,
+              "invisibleWrites": 0,
+              "protectedWrites": 0,
+              "visualDefects": 0
+            }
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "Measured from the bytes. The order 1020EX/1022EX carries \"(choose one)\" blocks and the packet makes the election it is entitled to make — the case-number box is ticked and the law-enforcement-incident box is not, read from the extracted text in this lane — while the findings blocks the court chooses are left unmarked. The fresh completeness run measured requiredOptionsMissing 0.",
+          "evidence": {
+            "requiredOptionsMissing": 0,
+            "electionMadeAndVerifiedFromBytes": "case number box ticked on the order's 'choose one' block",
+            "freshRunInThisLane": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_traffic-set — PASS_COMPLETE, all nine counters zero",
+            "counters": {
+              "knownRequiredFieldsMissing": 0,
+              "requiredFactsNotCollected": 0,
+              "unclassifiedBlanks": 0,
+              "incompleteRows": 0,
+              "requiredOptionsMissing": 0,
+              "requiredComponentsMissing": 0,
+              "invisibleWrites": 0,
+              "protectedWrites": 0,
+              "visualDefects": 0
+            }
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "The fresh completeness run measured incompleteRows 0: no baseline row band in either fixture carries written cells beside a required cell left blank.",
+          "evidence": {
+            "incompleteRows": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "No protected field carries ink. The fresh completeness run measured protectedWrites 0 and both fixtures' byte-proof reports record refusedFieldsWithInk []. Read back from the bytes, the participant signature lines, signature dates, the judge and clerk blocks, the OFFICIAL TAKING PRINTS block and the BUREAU USE ONLY block on the BCI application are blank.",
+          "evidence": {
+            "protectedWrites": 0,
+            "refusedFieldsWithInkPerFixture": [
+              0,
+              0
+            ]
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Both fixtures' bytes were rehashed in this lane and every SHA-256 and byte length agrees with reports/rendered-artifacts.json. The family holds a RASTER_PASS receipt from the central workflow (run 33488713831) whose hashes bind to the exact bytes rehashed here.",
+          "evidence": {
+            "recomputedFromCommittedBytes": [
+              {
+                "fixture": "canonical",
+                "sha256": "b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909",
+                "matchedRecord": true,
+                "byteLength": 671686,
+                "byteLengthMatchedRecord": true
+              },
+              {
+                "fixture": "boundary",
+                "sha256": "ef8b488fe1f78f87a47419ddf2123ad9909b88612931a8c031ade0299a8d6e03",
+                "matchedRecord": true,
+                "byteLength": 672193,
+                "byteLengthMatchedRecord": true
+              }
+            ],
+            "rasterReceipt": {
+              "state": "RASTER_PASS",
+              "verdict": "RASTER_PASS",
+              "workflowRunId": "33488713831",
+              "jobConclusion": "success",
+              "boundToCanonicalSha256": "b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909",
+              "boundToBoundarySha256": "ef8b488fe1f78f87a47419ddf2123ad9909b88612931a8c031ade0299a8d6e03",
+              "coverage": {
+                "documents": [
+                  "canonical.pdf"
+                ],
+                "rastered": [
+                  "canonical.pdf"
+                ],
+                "notRastered": [],
+                "complete": true,
+                "basis": "the family ships one assembled packet, so rendering it covers the family"
+              }
+            },
+            "rasterBindingCheckedInThisLane": "the receipt's boundToCanonicalSha256 and boundToBoundarySha256 were compared against the SHA-256 this lane recomputed from the committed fixture bytes; both agree"
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "For both fixtures the packet page numbers run 1..N with no gap, and N is the same number three ways: the artifact record, the page count read from the PDF bytes with pdfinfo in this lane, and the length of the page manifest. Document blocks run in receipt order and source pages ascend 1..k inside every block (1002EX 1-2, 1022EX 3-4, 1044XX 5-6, 1146XX 7, 1148XX 8-9).",
+          "evidence": {
+            "perFixture": [
+              {
+                "fixture": "canonical",
+                "recordedPageCount": 9,
+                "pdfPagesReadFromBytesWithPdfinfo": 9,
+                "manifestPages": 9,
+                "contiguousFromOne": true
+              },
+              {
+                "fixture": "boundary",
+                "recordedPageCount": 9,
+                "pdfPagesReadFromBytesWithPdfinfo": 9,
+                "manifestPages": 9,
+                "contiguousFromOne": true
+              }
+            ],
+            "documentBlocks": "1002EX 1-2, 1022EX 3-4, 1044XX 5-6, 1146XX 7, 1148XX 8-9"
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "Measured geometrically in this lane. Across 4,177 words in 18 pages, 0 words fall outside the page box, no two words of text overlap on a shared baseline, and not one written value collides with a form rule. This is the cleanest geometry of the fourteen families read here.",
+          "evidence": {
+            "method": "pdftotext -bbox word geometry per page",
+            "perFixture": [
+              {
+                "fixture": "canonical",
+                "pages": 9,
+                "words": 2071,
+                "wordsOutsidePageBox": 0,
+                "textOnTextOverlaps": 0,
+                "valueOnFormRuleOverlaps": 0
+              },
+              {
+                "fixture": "boundary",
+                "pages": 9,
+                "words": 2106,
+                "wordsOutsidePageBox": 0,
+                "textOnTextOverlaps": 0,
+                "valueOnFormRuleOverlaps": 0
+              }
+            ]
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The instructions name the destination affirmatively: \"File the cover sheet (1044XX), the petition (1002EX) and the proposed order (1022EX) with the Utah district court for the county where the case was heard\", and they say why there is no second stage — 1002EX's own paragraph 1 reads \"Certificate of eligibility is not required\", so the participant does not apply to BCI. The committed track registry holds \"The district or justice court that decided the traffic case ... single-stage. No BCI certificate is required\", and the packet states it.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/participant-instructions.md",
+            "trackRegistryDestination": "The district or justice court that decided the traffic case; single-stage, no BCI certificate",
+            "registry": "data/record-clearing/legal-design-track-registry.json"
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "The amount is stated and sourced: \"The court filing fee is $150\", from the cover sheet's own printed row, which this packet has already ticked — verified from the bytes here as \"$150 [X] Expungement Petition - Criminal (E)\". The waiver route is named by form number and authority: Motion to Waive Fees for Expungement – Criminal, form 1305GE, under Utah Code 78A-2-302 and CJA Rule 4-508, with where to get it and what it asks. First met clause.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/participant-instructions.md",
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+            "standardClause": "theStandard.met[0]",
+            "verifiedFromFixtureBytes": "$150 [X] Expungement Petition - Criminal (E)"
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Recipient stated: \"The prosecutor must receive a copy of what you file\", grounded on form 1146XX's own printed text acknowledging receipt. Method: Utah's published applicant instructions direct mail or email, and because this is the traffic route rather than the BCI route the packet says so and names two reachable authorities to confirm the method and the prosecutor's current address — the clerk of the district court where the participant files, and the Utah State Courts Self-Help Center on 888-583-0009. That is a named checkable authority standing in for a rule the held sources do not settle for this route, which the determination's extension to SERVICE permits, and it is not a gesture because it names who to ask.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/participant-instructions.md",
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+            "standardClause": "theStandard.met[0] for the recipient, met[2] for the method on this route",
+            "selfHelpLine": "888-583-0009"
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "\"What this packet is not\" says the packet is not legal advice, is not filed for the participant and does not decide whether the court will grant expungement; the required-before-filing list names what the platform will not supply and the closing paragraph names the field classes it will not sign. Four held publications are cited by SHA-256, all four rehashed byte-exact from the mounted corpus in this lane. approval-request.json records status REQUESTED, generationAllowed false, runtimeSelectable false, zero commercial routes opened.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/participant-instructions.md",
+            "citedSourceHashesAllRehashedInThisLane": 4,
+            "approvalStatus": "REQUESTED",
+            "generationAllowed": false,
+            "runtimeSelectable": false,
+            "commercialRoutesOpened": 0
+          }
+        }
+      },
+      "reExaminedUnder": "DET-FEE-AND-WAIVER-001 and its amendment A1",
+      "whyTheStrongestVerdict": "All fifteen obligations measured here and all fifteen pass; SOURCE_IDENTITY is measured from the mounted corpus for all five bound sources and all four hashes the instructions cite.",
+      "supersedes": "the VF11 row for this family, capped at PASS for want of a measurable SOURCE_IDENTITY, and the older codex-cloud s2-continuation-verify-02 row scored over a narrower obligation set"
     }
   ],
   "supersededLaneMembership": {
@@ -667,5 +1466,47 @@
       "co_motion_seal_nonconviction-set"
     ],
     "rowsWithNoStatedBaseNote": "Not FABLE-VT2's reads. Their author states their base or they keep whatever precedence the rule gives a read with no declared base; FABLE-VT2 will not back-fill a base for a read it did not make."
+  },
+  "vt6Read": {
+    "verifier": "FABLE-VT6 (independent; built none of these packets)",
+    "readAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+    "note": "Per-row verifiedAtBase, not a document-level base: these files are shared with other lanes and a document base would stamp this commit onto their older rows.",
+    "corpusMounted": true,
+    "corpusMountEvidence": "scripts/rcap-corpus/bootstrap-private-corpus.sh run in this lane. Archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 verified; 51 jurisdictions / 499 files / 329 PDFs; the corpus verified against its own 00_GOVERNANCE/CHECKSUMS.sha256; and all 329 entries of the committed data/rcap-all50/local-source-corpus-index.json rehashed from the mounted bytes with 329 matched, 0 mismatched, 0 absent.",
+    "obligationSet": [
+      "ROUTE_IDENTITY",
+      "SOURCE_IDENTITY",
+      "COMPONENT_SET",
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING",
+      "ROUTE_OPTIONS",
+      "REPEATING_ROWS",
+      "PROTECTED_FIELDS",
+      "ARTIFACTS",
+      "PAGE_ORDER",
+      "CLIPPING_AND_OVERLAP",
+      "FILING_DESTINATION",
+      "FEE_AND_WAIVER",
+      "SERVICE",
+      "SELF_HELP_STOP"
+    ],
+    "measuredBy": "Every obligation was measured in this lane from the committed artifacts and the mounted corpus at the base named on each row. Fixture hashes were recomputed; page counts read from the PDF bytes with pdfinfo; every recorded write value searched for in text extracted from the fixture bytes; word geometry extracted with pdftotext -bbox and checked against the page box and against every same-baseline word pair, with value-on-form-rule pairs separated from text-on-text pairs; every bound source rehashed from the Master Library and cross-checked against the committed corpus index and the archive's own STATE_MANIFEST.csv and CHECKSUMS.sha256; every RASTER_PASS receipt's bound hashes compared against the recomputed fixture hashes; the repository's own completeness verifier run fresh per family; and committed raster pages read visually where the geometry raised a question.",
+    "standardApplied": {
+      "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001. Met by a sourced amount, by a sourced statement that no fee is charged, or by stating that no held source establishes the fee AND naming a specific reachable authority. Silence fails.",
+      "FILING_DESTINATION": "DET-FEE-AND-WAIVER-001 amendment A1. Ask first whether the repository establishes the answer; where the committed track registry holds the destination, the packet must state it, and a named authority does not stand in. A prefilled caption identifying a court type is evidence but is not the instructions naming a destination.",
+      "SERVICE": "The determination's extension: met when the packet states who must be served and how, or states affirmatively that the participant serves nobody with the mechanism that replaces it, or names a reachable authority for a rule no held source establishes. Silence fails.",
+      "SELF_HELP_STOP": "Met when the packet states where the platform stops: which facts it will not supply, which fields it will not sign, and that the artifact carries no approval."
+    },
+    "overlayDirectoriesModified": 0,
+    "packetsModified": 0,
+    "buildScriptsModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "A verdict moves a family in the queue. It promotes nothing, opens no route, and prepares no review package.",
+    "subjectsRecordedHere": [
+      "ga-fo-active-pre2026-set",
+      "ut_pet_traffic-set"
+    ],
+    "rowsReplacedInThisFile": []
   }
 }
