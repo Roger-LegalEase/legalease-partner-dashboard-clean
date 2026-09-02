@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "rcap-rendered-artifacts/v1",
+  "familyId": "ar-act531-set",
+  "renderedFresh": true,
+  "citesNoBlockedHash": true,
+  "staleArtifactBlock": "data/rcap-grade-a/stale-artifact-block.json",
+  "note": "Rendered fresh from the pinned source bytes. Every output hash below was checked against the hashes in the stale-artifact block and matches none of them.",
+  "rasterisation": {
+    "performedHere": false,
+    "why": "This container resolves no browser, so no page raster is produced at build time. The render happens centrally in .github/workflows/rcap-packet-raster-acceptance-batch.yml against the exact bytes the hashes below pin. This family is BUILT_RASTER_PENDING and no visual obligation is waived by it.",
+    "rasters": []
+  },
+  "packets": [
+    {
+      "packetId": "ar-act531-set",
+      "documents": [
+        "ACIC-PETITION-SEAL-ACT-531-ACT-1460 (canonical)",
+        "ACIC-PETITION-SEAL-ACT-531-ACT-1460 (boundary)",
+        "ACIC-ORDER-SEAL-ACT-531-ACT-1460 (canonical)",
+        "ACIC-ORDER-SEAL-ACT-531-ACT-1460 (boundary)"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "document": "ACIC-PETITION-SEAL-ACT-531-ACT-1460",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-act531-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+      "sha256": "3beb2d4174d65fa40e836aaf862c10b5c518ed6c4b82d4f83da8b26cdbd12c4d",
+      "byteLength": 378609,
+      "fieldsWritten": 9,
+      "fieldsRefused": 35,
+      "unfittable": []
+    },
+    {
+      "document": "ACIC-PETITION-SEAL-ACT-531-ACT-1460",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-act531-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+      "sha256": "909ae1530fe07a57fb1a75d65d5ec4dcc0d3edcf5b1a7528509770cb9a717d9c",
+      "byteLength": 378709,
+      "fieldsWritten": 8,
+      "fieldsRefused": 36,
+      "unfittable": [
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+          "rect": {
+            "x": 279.96,
+            "y": 593.28,
+            "width": 116.76,
+            "height": 22.44
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 118
+        }
+      ]
+    },
+    {
+      "document": "ACIC-ORDER-SEAL-ACT-531-ACT-1460",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-act531-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+      "sha256": "7c76f528c3f21e6977beb26efa4ed1ae7d5c93a6d92409af495d83c73f4c96a7",
+      "byteLength": 320967,
+      "fieldsWritten": 3,
+      "fieldsRefused": 35,
+      "unfittable": []
+    },
+    {
+      "document": "ACIC-ORDER-SEAL-ACT-531-ACT-1460",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-act531-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+      "sha256": "559c9a1309182e61cb89b6dc98ce1410465b3cf2fa8c82cfc97aafe019c39ac0",
+      "byteLength": 320813,
+      "fieldsWritten": 2,
+      "fieldsRefused": 36,
+      "unfittable": [
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+          "rect": {
+            "x": 279.96,
+            "y": 593.28,
+            "width": 116.76,
+            "height": 22.44
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 118
+        }
+      ]
+    }
+  ]
+}
