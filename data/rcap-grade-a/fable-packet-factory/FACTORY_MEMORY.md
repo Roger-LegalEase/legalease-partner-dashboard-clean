@@ -166,3 +166,23 @@ paid for once already.
   from the document stamps a later team's commit onto older rows it never read
   -- a stale verdict wearing a current timestamp, which then outranks the fresh
   read that superseded it. Only a base a row states about itself can order it.
+- **A short SHA is not a SHA. Never type the tail.** Twice in one session I
+  dispatched a raster run against a forty-hex string whose first nine
+  characters came from a `git log --oneline` I had just read and whose
+  remaining thirty-one I produced from nothing. Both were syntactically valid,
+  so the workflow's own guard -- which correctly refuses a branch name or a
+  short ref -- passed them straight through, and the run failed later at
+  checkout against a commit that has never existed. The guard cannot help
+  here: it checks the SHAPE of the input, and a fabricated hash has the right
+  shape. The only defence is procedural. Run `git rev-parse HEAD` in the same
+  breath as the dispatch and copy the forty characters from that output; if
+  the full hash is not on screen in the current turn, it is not known.
+- **A gate that passes while its own negative control is MISSED proves
+  nothing.** Lane contract L6 -- no family proven while the raster gate cannot
+  be dispatched -- reports `ok` on every sweep, and
+  `verify-lane-contracts.mjs --mutations` reports `MISSED` on the one case
+  written to break it. The green line and the missed mutation had coexisted
+  long enough that the sweep's `9/9 checks passed` was read as evidence about
+  packets when it was only evidence that the checker ran. Run the mutation
+  suites, not just the checks: a contract is only worth what its negative
+  control catches, and the two numbers have to be read together.
