@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "id_felony_reduction-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "id_felony_reduction-primary-filing-1",
+      "field": "id_felony_reduction-primary-filing-1.fact_judgmentType",
+      "page": 1,
+      "printedContext": "Item C1 - judgment type",
+      "disclosureLabel": "Item C1 - judgment type",
+      "identity": "id_felony_reduction-primary-filing-1 field fact_judgmentType",
+      "why": "the committed track registry records this as a required generation input for id_felony_reduction, and the platform holds no value for it",
+      "participantMustSupply": "Does your judgment of conviction impose a term in the custody of the Board of Correction?"
+    },
+    {
+      "document": "id_felony_reduction-primary-filing-1",
+      "field": "id_felony_reduction-primary-filing-1.fact_daysServedBeforeSentencing",
+      "page": 1,
+      "printedContext": "Item C2 - days served before sentencing",
+      "disclosureLabel": "Item C2 - days served before sentencing",
+      "identity": "id_felony_reduction-primary-filing-1 field fact_daysServedBeforeSentencing",
+      "why": "the committed track registry records this as a required generation input for id_felony_reduction, and the platform holds no value for it",
+      "participantMustSupply": "How many days did you serve before sentencing?"
+    },
+    {
+      "document": "id_felony_reduction-primary-filing-1",
+      "field": "id_felony_reduction-primary-filing-1.fact_sexOffenderRegistration",
+      "page": 1,
+      "printedContext": "Item C3 - sex offender registration",
+      "disclosureLabel": "Item C3 - sex offender registration",
+      "identity": "id_felony_reduction-primary-filing-1 field fact_sexOffenderRegistration",
+      "why": "the committed track registry records this as a required generation input for id_felony_reduction, and the platform holds no value for it",
+      "participantMustSupply": "Does the offense require sex offender registration under § 18-8304? Those offenses are excluded from this route."
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "id_felony_reduction-primary-filing-1",
+      "field": "id_felony_reduction-primary-filing-1.case_number",
+      "label": "Case number of this filing, if the court assigns one at filing",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "if a number is assigned, the court assigns it at filing"
+    },
+    {
+      "document": "id_felony_reduction-primary-filing-1",
+      "field": "id_felony_reduction-primary-filing-1.petition_signature",
+      "label": "Signature of the person named in the caption, on the petition",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the participant signs personally; this build never signs for anyone"
+    },
+    {
+      "document": "id_felony_reduction-primary-filing-1",
+      "field": "id_felony_reduction-primary-filing-1.petition_signature_date",
+      "label": "Date beside the signature on the petition",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the document is signed would be false"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/id/id-felony-reduction-set--custom-pleading/participant-instructions.md"
+}
