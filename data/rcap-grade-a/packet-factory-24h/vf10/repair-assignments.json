@@ -33,6 +33,137 @@
     "the service recipient and method"
    ],
    "whatThisDoesNotChange": "Eleven of the fifteen obligations pass on measurement made in this lane, including every source digest recomputed from the Master Library bytes and both artifact hashes recomputed from the PDF bytes. The packet's fill is sound; its participant-facing instructions and two blank dispositions are not."
+  },
+  {
+   "assignmentId": "VA10-youthful-first-offender-restriction-route",
+   "itemId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+   "lane": "VF10",
+   "raisedBy": "FABLE-VA10",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading",
+   "decisiveDefect": "source-receipt.json binds the route-obligation census by exact SHA-256 at e615283930c6a9aa... / 2,596,466 B and records allSourcesExact:true. At d210669f0 that file is e881e8493e69... / 2,596,674 B. Recomputed here; the other two bound records (routes/p0.json and GA-georgia.json) verify exactly.",
+   "failedProofObligations": [
+    {
+     "obligation": "SOURCE_IDENTITY",
+     "finding": "1 of 3 bound records does not hash to its declared value. The drift entered at commit 7613a4b50; the declared hash was current at 4fb89c96e. The GA route entry is byte-identical between the two versions, so the substance is unaffected and the repair is a re-pin."
+    }
+   ],
+   "repairScope": "Re-pin the census digest in source-receipt.json to e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2 / 2,596,674 B and re-derive allSourcesExact. Do this as ONE shared repair across all 31 affected families, not family by family: every family under data/rcap-all50/overlays/census-v1 that binds data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json carries the same stale value and none carries the current one. No fixture needs re-rendering: the pinned and current versions differ in exactly 4 of 703 route entries and all four are Montana MMRTA units, so no fact any of these packets reads has moved. Verify by rehashing rather than by editing a number, and consider whether a check that recomputes committed-record pins at ingestion belongs beside the existing fixture-hash check, since this drifted silently across 31 families in one commit.",
+   "notForThisLaneToInfer": "Whether the 4 changed Montana entries themselves are correct is not this lane's question; I established only that they are the whole of the delta and that none of them is on my families' routes.",
+   "whatThisDoesNotChange": "This assignment approves nothing, promotes nothing and opens no commercial route. It does not authorise any change to a live RCAP route. The family's other thirteen or fourteen obligations passed on measurement and are not reopened by it."
+  },
+  {
+   "assignmentId": "VA10-human-trafficking-victim-vacatur-w-s-6-2-708",
+   "itemId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+   "lane": "VF10",
+   "raisedBy": "FABLE-VA10",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading",
+   "decisiveDefect": "The packet tells the participant that no committed record it binds states a filing fee or waiver for this route. The compiled Wyoming profile, which this family pins by exact SHA-256 and which rehashes MATCH here, carries the row 'Human-trafficking victim vacatur Verify with clerk; statute is a motion route, not a standard expungement filing-fee route' -- twice, at packetGenerator.feeRules[4] and sourceSections[9].text -- keyed to this route by its own label, inside a table whose other rows are keyed to 7-13-1401/1501/1502/14-6-241. Separately, the census pin does not hold.",
+   "failedProofObligations": [
+    {
+     "obligation": "FEE_AND_WAIVER",
+     "finding": "A blanket denial about the REPOSITORY that is false against the bound profile. This is the exact A2 error pattern the determination names, and independently an A4 internal-consistency failure. What is withheld is not an amount -- there is none -- but the reason, which is the participant's instrument at the clerk's counter: a participant quoted the $300 felony-expungement fee has nothing to say unless told this is a motion route rather than a standard expungement filing."
+    },
+    {
+     "obligation": "SOURCE_IDENTITY",
+     "finding": "The census pin is stale, as for GA and MS. The other two bound records (routes/single-routes.json and WY-wyoming.json) verify exactly."
+    }
+   ],
+   "repairScope": "Two separable repairs. (1) FEE_AND_WAIVER: replace the blanket denial with what the profile holds -- that no amount is established for this route AND that the profile records it as a motion route rather than a standard expungement filing-fee route, so the standard expungement schedule does not apply -- keeping the clerk as the named authority for the amount, and keeping the authority in the same breath as the money statement per A2's answersVT13B1 guidance. (2) SOURCE_IDENTITY: the shared census re-pin described on the GA and MS assignments.",
+   "notForThisLaneToInfer": "Whether the delivered document should be captioned a Motion rather than a Petition, given that the same profile names the instrument 'Motion to Vacate Conviction under W.S. 6-2-708', is raised as VA10-Q1 and not decided here. It bears on the fee question -- a filing docketed as a new civil action is where the standard fee attaches -- so a repairer touching the fee sentence should read that question rather than route around it.",
+   "whatThisDoesNotChange": "This assignment approves nothing, promotes nothing and opens no commercial route. It does not authorise any change to a live RCAP route. The family's other thirteen or fourteen obligations passed on measurement and are not reopened by it."
+  },
+  {
+   "assignmentId": "VA10-ma-expunge-time-set",
+   "itemId": "ma-expunge-time-set",
+   "lane": "VF10",
+   "raisedBy": "FABLE-VA10",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill",
+   "decisiveDefect": "participant-instructions.md tells the participant twice that the petition carries their mailing address -- the component table says 'with your name, date of birth, mailing address and phone written in' and the closing section says 'with the four facts the platform holds written into it' -- and the delivered bytes carry three writes and no address. Measured on both fixtures: the mailing_address write box (x=105 y=484 w=171 h=13, i.e. y_top 295-308) contains only the form's own printed captions; the 171-point run from x=105 to x=276 is empty in canonical.pdf and empty in boundary.pdf.",
+   "failedProofObligations": [
+    {
+     "obligation": "KNOWN_PREFILLS",
+     "finding": "The packet states it wrote a fact it did not write. The direction of harm is the worse one: a participant who believes the address is on the form does not transcribe it and files a petition the Probation Service cannot answer. Three other sentences in the same document say the opposite, which is why a reader cannot tell which to believe."
+    },
+    {
+     "obligation": "SELF_HELP_STOP",
+     "finding": "Of the five selfHelpStopConditions the committed track registry holds for ma-expunge-time, condition 3 -- 'Whether offences arose from a single incident for counting purposes is unclear' -- is absent in any form. 'incident', 'arising from', 'arose', 'counting' and 'count as one' return 0 hits in participant-instructions.md and 0 in the delivered canonical bytes. The same registry entry holds the rule that resolves it, in its exclusions: 'Multiple offences arising from the same incident count as one.' A participant with three charges from one arrest reads the two-record limit, counts three, and abandons a route they may be eligible for."
+    }
+   ],
+   "repairScope": "Two small, separable edits, neither of which touches a fixture. (1) Correct the component table and the closing section to say three facts -- name, date of birth, phone -- and not four; the rest of the document already describes the address correctly and needs no change. (2) Add the counting rule and its stop condition: state that multiple offences arising from the same incident count as one, and add a stop bullet for the case where it is unclear whether offences arose from a single incident. Both are prose repairs to participant-instructions.md and the composed guidance component; the petition's ink is correct as it stands and should not be touched.",
+   "notForThisLaneToInfer": "Whether the same-incident counting rule reaches a given participant's record is a legal question and stays with counsel. What is measured here is that the repository states the rule and states that uncertainty about it is where self-help stops, and the packet publishes neither. Separately, the registry's open release blocker on whether the 2018-10-11 revision is still the published edition is untouched by this repair and remains outstanding.",
+   "whatThisDoesNotChange": "This assignment approves nothing, promotes nothing and opens no commercial route. It does not authorise any change to a live RCAP route. The family's other thirteen or fourteen obligations passed on measurement and are not reopened by it."
+  },
+  {
+   "assignmentId": "VA10-nd-nonconviction-close-petition-set",
+   "itemId": "nd-nonconviction-close-petition-set",
+   "lane": "VF10",
+   "raisedBy": "FABLE-VA10",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill",
+   "decisiveDefect": "participant-instructions.md says twice, in bold and in its items table, that the proposed order's caption is blank and that 'the order's caption carries no form boxes at all', instructing the participant to copy the county, judicial district, case number and name across by hand. Page 5 of the delivered canonical fixture carries 'County of Example County', 'Case No. 24-CR-001234' and 'Jordan Avery Reyes' -- three of this build's own writes. Page 5 of the pinned source carries none of them, so they are not the form's printing. And pdf-lib over the pinned source shows why: the fields 'Judicial District', 'County', 'Case Number' and 'Defendant' each carry TWO widgets, one on page 3 and one on page 5, so a value written once for the petition necessarily appears on the order.",
+   "failedProofObligations": [
+    {
+     "obligation": "KNOWN_PREFILLS",
+     "finding": "The packet denies three writes it made, and denies the existence of four form fields the source document has. The boundary fixture makes it worse rather than better: there County and Defendant were correctly refused at the 6pt floor, so page 5 shows the case number filled and the other two blank -- the truth of the instruction varies with the length of the participant's own name."
+    },
+    {
+     "obligation": "REQUIRED_BEFORE_FILING",
+     "finding": "The items table row '| 5 | The proposed order's whole caption | copy it by hand ... The order's caption has no form boxes |' instructs the participant to hand-write over existing generated text on the document the judge signs."
+    }
+   ],
+   "repairScope": "A prose repair to participant-instructions.md, with no change to any fixture, field map or build script. Describe what the shared widgets actually do: say that the county, case number and defendant name appear on BOTH the petition and the proposed order because the form uses one field with a widget on each page, and that the only caption item the participant copies across is the judicial district, which genuinely is blank. Then correct the items table row to match. Confirm against the source form before writing: the four dual-widget fields are enumerable with pdf-lib in about ten lines. While there, decide whether the boundary case needs its own sentence, since a refused long name leaves page 5's defendant line blank and a participant in that position DOES have something to copy.",
+   "notForThisLaneToInfer": "Whether the shared-widget behaviour should be changed -- so that the order's caption is filled independently of the petition's, or not filled at all -- is a build decision outside this lane. The measured defect is that the instructions describe the opposite of what the bytes do, and that is fixable in prose either way.",
+   "whatThisDoesNotChange": "This assignment approves nothing, promotes nothing and opens no commercial route. It does not authorise any change to a live RCAP route. The family's other thirteen or fourteen obligations passed on measurement and are not reopened by it."
+  },
+  {
+   "assignmentId": "VA10-rcap-ms-custom-pleading",
+   "itemId": "rcap-ms-custom-pleading",
+   "lane": "VF10",
+   "raisedBy": "FABLE-VA10",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading",
+   "decisiveDefect": "On each of the three petitions, the delivered page states the petitioner's name in the caption, the date of birth in section B, and the address, telephone and email in the footer block -- and then, between them, asks the participant to write the same facts into empty dotted blanks: '[C1 - full name] What is your full legal name...', '[C2 - date of birth] What is your date of birth?', '[C3 - mailing address] What is your current address, phone number and email?'. Nine duplicated asks in one delivered packet. Separately, the census pin does not hold.",
+   "failedProofObligations": [
+    {
+     "obligation": "KNOWN_PREFILLS",
+     "finding": "The packet asks for facts it has already printed on the same page, which is the A4 class: printing 'What is your date of birth?' as a blank one inch below 'Date of birth: 1991-04-17' tells the participant it does not state something it does state. On a pleading the harm is concrete -- a participant who complies writes their name and date of birth twice on one petition and gives a clerk an inconsistency to resolve; one who does not comply cannot tell whether they have skipped a required item. The packet's own framing shows the intent it missed: it calls section C facts 'about your own case' that 'belong to the record itself', which is true of C5-C17 and false of C1-C3."
+    },
+    {
+     "obligation": "SOURCE_IDENTITY",
+     "finding": "The census pin is stale, as for GA and WY. The other two bound records (legal-design-track-registry.json and legal-design-specifications.json) verify exactly."
+    }
+   ],
+   "repairScope": "Two separable repairs. (1) KNOWN_PREFILLS: drop C2 and C3 from all three petitions and from the instructions' three items tables, and narrow C1 to the limb that is genuinely not held -- any other name the case is under. C4, county of residence, is correctly a blank and stays: nothing in the packet supplies a Mississippi county. Check the other custom-pleading families built from the same composer for the same C1-C3 shape before repairing this one in isolation. (2) SOURCE_IDENTITY: the shared census re-pin described on the GA assignment.",
+   "notForThisLaneToInfer": "Whether the composer should instead prefill C1-C3 from the facts it holds, rather than dropping them, is a build decision. Either resolution removes the contradiction; what is measured is only that the packet currently does both at once.",
+   "whatThisDoesNotChange": "This assignment approves nothing, promotes nothing and opens no commercial route. It does not authorise any change to a live RCAP route. The family's other thirteen or fourteen obligations passed on measurement and are not reopened by it."
+  },
+  {
+   "assignmentId": "VA10-tx_nd_conviction_no_supervision-set",
+   "itemId": "tx_nd_conviction_no_supervision-set",
+   "lane": "VF10",
+   "raisedBy": "FABLE-VA10",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
+   "decisiveDefect": "Of the seven selfHelpStopConditions the committed track registry holds for tx_nd_conviction_no_supervision, 'The prosecutor opposes the petition or requests a hearing' never appears as a stop. 'opposes', 'objects' and 'requests a hearing' return 0 hits in participant-instructions.md and 0 in the delivered canonical bytes. The packet describes the mechanism -- 'A hearing is required UNLESS the State does not request one before the 45th day after receiving notice' -- but never tells the participant that a contested hearing is where they need a lawyer.",
+   "failedProofObligations": [
+    {
+     "obligation": "SELF_HELP_STOP",
+     "finding": "A pro se participant who reads the 45-day sentence learns to expect a hearing and is told nothing about stopping. Recorded alongside: the registry's first condition is 'Any family violence finding OR FAMILY VIOLENCE ALLEGATION anywhere in the record' and the packet narrows it to 'the court has made an affirmative finding of family violence'; 'allegation' appears 0 times anywhere in the packet, so a participant with an allegation and no finding is told nothing -- which is precisely the ambiguous case the registry flags."
+    }
+   ],
+   "repairScope": "Two bullets in participant-instructions.md and the matching two lines on the composed filing-and-after-order-instructions component. Add a stop for the prosecutor opposing the petition or requesting a hearing, placed beside the existing 45-day sentence so a reader meets the mechanism and the stop together. Widen the family-violence bullet from 'affirmative finding' to the registry's own 'finding or allegation anywhere in the record'. No fixture, field map or build script changes.",
+   "notForThisLaneToInfer": "This is the strongest packet of the six on every other obligation -- its fee handling is the best in this return, naming the $28 figure a participant is likely to have read and disowning it per route -- and the assignment should not be read as a general criticism of it. Whether SELF_HELP_STOP is within DET-FEE-AND-WAIVER-001 A4's extension at all is raised as VA10-Q3; if Captain reads A4's list as exhaustive, this finding should be re-scored onto another obligation rather than waived, since it is an omission of a fact the repository establishes.",
+   "whatThisDoesNotChange": "This assignment approves nothing, promotes nothing and opens no commercial route. It does not authorise any change to a live RCAP route. The family's other thirteen or fourteen obligations passed on measurement and are not reopened by it."
   }
- ]
+ ],
+ "fableVA10Note": "The one assignment above FABLE-VA10's belongs to an earlier roster (ut_pet_traffic-set) and is left exactly as that lane wrote it; assignment ids are reused across shifts, so these six were written beside it rather than over it, and each carries a VA10- prefixed assignmentId, its own verifiedAtBase and raisedBy FABLE-VA10. The file's top-level generatedAtBase still describes the earlier lane's assignment, not these."
 }

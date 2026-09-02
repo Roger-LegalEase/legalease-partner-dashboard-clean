@@ -3618,6 +3618,991 @@
       },
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "lane": "VF10",
+      "worker": "FABLE-VA10",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "One route, and the packet is on it. source-receipt.json declares routeKeys ['obligation:runtime-only:GA:youthful-first-offender-restriction-route'] and statutory authority O.C.G.A. Sec. 42-8-62.1; the compiled Georgia profile's pathways[4] is id 'youthful-first-offender-restriction-route' with legalAuthority.statute 'O.C.G.A. Sec. 42-8-62.1' and legalAuthority.packetFamily 'Georgia First-Offender Restriction and Sealing Petition under Sec. 42-8-62.1'. I located both in the committed bytes. The delivered page 1 caption and the filing-instructions page both name Sec. 42-8-62.1, and the packet says in terms that it is NOT the Sec. 42-8-66 retroactive instrument, which is the neighbouring statute a reader is most likely to confuse it with.",
+          "evidence": {
+            "profilePathway": "GA-georgia.json pathways[4]",
+            "deliveredCaption": "page 1 of canonical.pdf",
+            "readInThisLane": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "FAIL",
+          "finding": "The census pin does not hold at this base. The family's other bound records do: src/lib/legal-authority/routes/p0.json rehashes to 6b4188167447a5755503fa0ef8888af124431ce4367a30f20cb32006009cc058 at 14,385 B and src/lib/rcap-engine/compiled/profiles/GA-georgia.json to 3992bda9c4961d0e9f19c05cb22c7efee84b1c21c8e5318ee73917ce02155507 at 201,162 B, both exactly as source-receipt.json declares. The third bound record, data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, is pinned at e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816 / 2,596,466 B and at this base holds e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2 / 2,596,674 B. The receipt's own bindingMethod is 'committed repository records bound by exact SHA-256', and its allSourcesExact:true does not hold. I dated the drift rather than assuming it: the declared hash was the file's content at commit 4fb89c96e, and commit 7613a4b50 (\"Montana's MMRTA label named two required documents; split it\") moved it. I then compared the two versions entry by entry -- 703 route entries in each, 0 added, 0 removed, exactly 4 changed, and all four are Montana MMRTA units. The GA route entry obligation:runtime-only:GA:youthful-first-offender-restriction-route is byte-identical between the pinned version and the file on disk. So no fact this packet reads has moved, and the repair is a re-pin rather than a rebuild. Recorded because it is systemic and not this family's alone: all 31 families in data/rcap-all50/overlays/census-v1 that bind this census carry the same stale pin and the same allSourcesExact:true, and not one carries the current hash.",
+          "evidence": {
+            "recomputedHere": "every bound record rehashed from the committed bytes in this container",
+            "driftCommit": "7613a4b50; the declared hash was current at 4fb89c96e",
+            "substanceCompared": "703 census route entries diffed across the two versions: 4 changed, all Montana",
+            "scale": "31/31 families binding this census are stale; 0 current",
+            "readInThisLane": true
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Two components declared and two delivered, with the page ranges read from the canonical bytes: ga-first-offender-restriction-primary-filing-1 at pages 1-2 and ga-first-offender-restriction-filing-instructions-2 at pages 3-4. The pageManifest carries one row per page, 4 rows for 4 pages, contiguous 1..4. No official Georgia participant form is claimed and none is substituted: the receipt records that no committed record names one for this route, and the compiled pathway's packetComponents[0] is 'Petition or motion under Sec. 42-8-62.1', a description rather than a form number.",
+          "evidence": {
+            "pageManifest": "4 rows, contiguous, covers all 4 pages",
+            "readInThisLane": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "Six writes reported, six found, and the packet's account of them is true against its own bytes. participant-instructions.md says 'The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email.' The canonical fixture carries exactly that and nothing more -- 'Name: Jordan Avery Reyes', 'Date of birth: 1991-04-17', and the footer block PRINTED NAME / MAILING ADDRESS / TELEPHONE / EMAIL -- plus the participant name on the filing-instructions page. No case fact is prefilled anywhere; every C-item is a dotted blank. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 in both fixtures and my own geometry pass agrees.",
+          "evidence": {
+            "writesFound": "6/6 in canonical, 6/6 in boundary",
+            "deliveredTextRead": true,
+            "readInThisLane": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "Six case-fact items C1-C6 (arrest and disposition dates, exact offense, first-offender sentence/discharge, pardon and date, pending/later charges, restriction/sealing status), each printed as a labelled dotted blank on the delivered page and each enumerated in the instructions with what to write. The one document to obtain first -- first-offender discharge documentation -- is named with where to get it. The signing lines and every caption case number are named as deliberately blank. I checked this family against data/rcap-grade-a/packet-completeness/UNCLASSIFIED_BLANKS_BLIND_SPOT.json, which lists it, and read the caption on the delivered bytes rather than trusting its unclassifiedBlanks 0: page 1 carries 'IN THE ............................................................ COURT' as a hard-coded dot run that is in no field map and no blanks report. It is a real blank the counter cannot see. But the brief's question -- is a participant left to supply a court nobody told them to -- answers NO: the line directly beneath it on the delivered page reads '(the Georgia court that entered the first-offender sentence or disposition)', and the instructions' FILING_DESTINATION row says the same. What is missing is enumeration, not the answer, so this is recorded as a builder-guidance finding rather than scored as a failure.",
+          "evidence": {
+            "blindSpotListed": true,
+            "captionReadOnDeliveredBytes": true,
+            "captionSelfLabelled": "(the Georgia court that entered the first-offender sentence or disposition)",
+            "readInThisLane": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "This route carries no participant election on the delivered pages: the field map declares no selection control for the petition, requiredOptionsMissing is 0 when I re-ran the repository's completeness contract myself, and the one branch that does exist -- which side of the 1 July 2026 change the record falls on -- is put to the participant as the first ordered step and again as the first stop condition, not as a box to mark.",
+          "evidence": {
+            "verifierRerunHere": "requiredOptionsMissing 0",
+            "readInThisLane": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "Measured, not assumed: re-running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container returns rowsInspected 0 and incompleteRows 0. The composed petition has no row group -- each C-item is a single labelled blank -- so there is no repeating structure for this obligation to bite on, and none was invented.",
+          "evidence": {
+            "verifierRerunHere": "rowsInspected 0, incompleteRows 0",
+            "readInThisLane": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "The signature block on the delivered page reads 'DATE .............................. SIGNATURE OF PETITIONER ....................................' with both runs empty in both fixtures, followed by the printed parenthetical '(The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.)'. refusedFieldsWithInk is empty and protectedWrites is 0 on my own re-run of the completeness contract.",
+          "evidence": {
+            "signatureBlockReadOnBytes": true,
+            "verifierRerunHere": "protectedWrites 0",
+            "readInThisLane": true
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Both delivered fixtures recomputed byte-for-byte in this container and both equal the RASTER_QUEUE row AND the receipt's boundToCanonicalSha256 / boundToBoundarySha256: canonical b35a0f04979f25912049b4d2d39f27c0b23223b497f30b78b4f0afa7c9eca5de, boundary e3352f6da6302d0074372e3a9d3bab0adbe64b4e42096470cb3ade5ad2f45539. Page counts read from the bytes with pdf-lib: canonical 4, boundary 4, both equal the declared pageCount and the queue's expectedPages 4. coverage.complete is true with documentsNotCovered empty and coversTheWholeFamily true; jobConclusion success under the run's canary precondition. None of these hashes appears in data/rcap-grade-a/stale-artifact-block.json, which I checked against all 12 blocked hashes. NO PIXEL WAS INSPECTED: workflow artifact blobs are not downloadable from this container (the egress proxy refuses the blob-storage CONNECT with 403), so the raster is cited by run 33605354695, job 100168605484, artifact id 9836950669, zip digest sha256:0fe71559df35c5a45e2775fa093c6d7bcce2045a75dcf7c206e63b2f1dc836d5 -- durable evidence of which bytes exist and where, not of what they look like.",
+          "evidence": {
+            "rasterReceipt": "run 33605354695, job 100168605484, artifact 9836950669",
+            "zipDigest": "sha256:0fe71559df35c5a45e2775fa093c6d7bcce2045a75dcf7c206e63b2f1dc836d5",
+            "pixelsRead": false,
+            "readInThisLane": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "4 pages in each fixture read from the bytes with pdf-lib, equal to the declared pageCount and to RASTER_QUEUE expectedPages. The pageManifest has 4 rows numbered 1,2,3,4 with no gap and no repeat, and the order is the one the route needs: the pleading first, the filing instructions behind it.",
+          "evidence": {
+            "pdfLibPageCount": "4 / 4",
+            "readInThisLane": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "Measured with pdftotext -bbox-layout over both delivered fixtures and classified every pair rather than counted them. 927 words in canonical and 932 in boundary; 0 words cross the page box in either; and 0 same-baseline word pairs overlap at all, so there was nothing to classify as intended rendering and nothing left over. The boundary fixture is the one carrying the deliberately long values, so it is the stronger of the two tests. No value was refused at the 6pt floor in either fixture (unfittable is empty), so the Lane C refusal case does not arise here.",
+          "evidence": {
+            "instrument": "pdftotext -bbox-layout, run in this lane on both fixtures",
+            "measured": "0 page-box crossings, 0 same-band overlaps, 1859 words",
+            "readInThisLane": true
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "Scored under DET-FEE-AND-WAIVER-001 A1's test as widened by A2 and bounded by A3, and I asked the repository first rather than accepting the packet's word. The packet states the destination as not recorded, naming the court LEVEL -- the Georgia court that entered the first-offender sentence or disposition -- and the clerk's office of that court as the authority. I tested whether the repository in fact holds more. data/record-clearing/factory-v2-route-registry.json maps pathwayKey GA:youthful-first-offender-restriction-route to registryTrackIds ['ga-seal-m'], and ga-seal-m in the committed track registry DOES carry a destination: 'Clerk of the court with original jurisdiction over the offences in the county where the clerk is located'. Reading that across would be the exact error A3 was written to stop: ga-seal-m is Motion to Seal Clerk of Court Records under O.C.G.A. Sec. 35-3-37(m), a different statutory section answering a different filing's question, and its own venue note says the formula differs even between neighbouring Georgia routes. The packet is right to refuse it, and right for the reason it gives -- the census records a HELD route-presentation conflict for this route and rejects the crosswalk edge. Under A1's theTest, where no held source establishes the answer a named checkable authority may stand in, and here it is named to a court rather than gestured at.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 A1 as widened by A2 and bounded by A3",
+            "siblingRouteRejected": "ga-seal-m is Sec. 35-3-37(m), not Sec. 42-8-62.1",
+            "registryRead": "data/record-clearing/legal-design-track-registry.json trackId ga-seal-m",
+            "readInThisLane": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "The packet says no committed record it binds states a filing fee or a waiver for this route, and names the clerk's office of the Georgia court that entered the first-offender sentence as the office that answers both. I tested the denial against the bound profile instead of taking it. GA-georgia.json packetGenerator.feeRules carries five money statements and not one is keyed to Sec. 42-8-62.1: 'GCIC restriction processing fee Set by GCIC'; 'Automatic restriction (>= 7/1/2013) $0'; 'SB 288 court petition filing fee ~$50-$250' (that is Sec. 35-3-37(j)(4)); 'GCIC criminal history report Fee set by GCIC'; and, at pathways[5], 'Sec. 42-8-66 imposes no elapsed wait and no filing fee' -- which is the RETROACTIVE first-offender statute, a different section. Under A3, holding is per fact and per route, so none of those answers this route's question and the packet's denial is true. The authority named is specific enough to reach. Contrast the Wyoming row in this same return, where the identically shaped sentence is false because the bound profile does carry a row keyed to that route by name; the two together are what per-fact-per-route discipline looks like when it is actually applied.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 A1/A2/A3",
+            "profileRead": "GA-georgia.json packetGenerator.feeRules and pathways[5], located in this lane",
+            "verdict": "denial verified true, authority named",
+            "readInThisLane": true
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "The packet states that no committed record it binds establishes a service requirement for a Sec. 42-8-62.1 petition and names the clerk's office of the court that entered the first-offender sentence as the office that answers who must be served and how. I checked the bound profile for a service rule keyed to this section and found none; the profile's service and notice content sits on the Sec. 35-3-37 mechanisms, which A3 bars reading across. Per DET-FEE-AND-WAIVER-001's extension to this obligation, a named reachable authority standing in for a rule no held source establishes satisfies it, and this one is named to an office rather than gestured at.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 as extended to SERVICE, bounded by A3",
+            "readInThisLane": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "Compared condition by condition against what the repository actually holds for this route. This is a runtime-only route with no legal-design track of its own, so the registry's selfHelpStopConditions do not exist for it; the held boundary is the compiled pathway's legalAuthority.notes and exclusions plus the census's route-presentation conflict. All three are carried: the packet quotes 'The intake must branch explicitly on the July 1, 2026 statutory change; apply the new law prospectively as written' verbatim, carries the Sec. 42-8-66 confusion as its own stop, and states the two-step restriction-then-sealing order the profile records. Its five stop conditions -- pre-1-July-2026 records, the Sec. 42-8-66 route, the serious traffic/sexual/other exceptions, uncertainty about restriction versus sealing, and any immigration question -- appear identically in participant-instructions.md and on the delivered filing-instructions page, so a participant who reads only the paper gets the same list. The packet also says where it stops in kind: it is not an official Georgia form, it is not filed for you, and it does not decide eligibility.",
+          "evidence": {
+            "comparedAgainst": "GA-georgia.json pathways[4].legalAuthority.notes and exclusions; no track registry entry exists for this runtime-only route",
+            "deliveredPageMatchesMd": true,
+            "readInThisLane": true
+          }
+        }
+      },
+      "instrumentLimits": [
+        "Text geometry cannot see raster ink, vector rules, field borders, images, shading, or any glyph without extractable text. Every clipping and overlap figure below is a pdftotext -bbox-layout word-extent measurement over the delivered bytes, which is a different instrument from a widget-level or pixel-level read, and it agrees with neither by construction.",
+        "No workflow artifact blob was downloaded and no raster page was viewed. Every visual conclusion rests on text and geometry.",
+        "private/Nationwide Record Clearing is not mounted in this release and cannot be. Where a committed record names a 'LegalEase <State>/' path -- the MA track registry's packetSet.components[0].officialSourceUrl is one -- that path is unreadable here and is reported as an absence, not as a mismatch. The bytes those families actually bind are the Master Library copies, and those were rehashed."
+      ]
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "lane": "VF10",
+      "worker": "FABLE-VA10",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "SOURCE_IDENTITY",
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "The route, statute and relief are unambiguous and correct: Wyo. Stat. Sec. 6-2-708 human-trafficking-victim vacatur, matching the compiled Wyoming profile's pathways[3] (id human-trafficking-victim-vacatur-w-s-6-2-708, ruleId WY-6-2-708-ANY-TIME-AFTER-CONVICTION-TRAFFICKING) and the route contract in src/lib/legal-authority/routes/single-routes.json, both located in the committed bytes. ONE DISCREPANCY IS RECORDED AND NOT DECIDED HERE. The bound profile names the instrument for this route twice -- packetGenerator.sourceFormStatements[5] 'Human-trafficking victim relief Motion to Vacate Conviction under W.S. 6-2-708' -- and separately characterises the route as 'a motion route, not a standard expungement filing-fee route'. The delivered document is captioned 'PETITION - WYOMING TRAFFICKING-VICTIM VACATUR PETITION UNDER Sec. 6-2-708'. Whether a Wyoming clerk handed a 'Petition' on a route the repository calls a motion would docket it as a new civil action -- which is where the standard expungement filing fee attaches -- is a question I raise rather than settle, because the answer is a Wyoming practice question and not a measurement. The route identity itself is not in doubt, so this scores PASS with the discrepancy named.",
+          "evidence": {
+            "profilePathway": "WY-wyoming.json pathways[3]",
+            "instrumentNameInRepository": "Motion to Vacate Conviction under W.S. 6-2-708",
+            "instrumentNameDelivered": "PETITION ... VACATUR PETITION",
+            "raisedNotDecided": true,
+            "readInThisLane": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "FAIL",
+          "finding": "The census pin does not hold at this base. The family's other bound records do: src/lib/legal-authority/routes/single-routes.json rehashes to its declared value at 52,860 B and src/lib/rcap-engine/compiled/profiles/WY-wyoming.json at 120,012 B, both exactly as source-receipt.json declares. The third bound record, data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, is pinned at e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816 / 2,596,466 B and at this base holds e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2 / 2,596,674 B. The receipt's own bindingMethod is 'committed repository records bound by exact SHA-256', and its allSourcesExact:true does not hold. I dated the drift rather than assuming it: the declared hash was the file's content at commit 4fb89c96e, and commit 7613a4b50 (\"Montana's MMRTA label named two required documents; split it\") moved it. I then compared the two versions entry by entry -- 703 route entries in each, 0 added, 0 removed, exactly 4 changed, and all four are Montana MMRTA units. The WY route entry obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708 is byte-identical between the pinned version and the file on disk. So no fact this packet reads has moved, and the repair is a re-pin rather than a rebuild. Recorded because it is systemic and not this family's alone: all 31 families in data/rcap-all50/overlays/census-v1 that bind this census carry the same stale pin and the same allSourcesExact:true, and not one carries the current hash.",
+          "evidence": {
+            "recomputedHere": "every bound record rehashed from the committed bytes in this container",
+            "driftCommit": "7613a4b50; the declared hash was current at 4fb89c96e",
+            "substanceCompared": "703 census route entries diffed across the two versions: 4 changed, all Montana",
+            "scale": "31/31 families binding this census are stale; 0 current",
+            "readInThisLane": true
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Two components declared and two delivered, page ranges read from the canonical bytes: wy-6-2-708-vacatur-primary-filing-1 at pages 1-2 and wy-6-2-708-vacatur-filing-instructions-2 at pages 3-4, with a 4-row pageManifest covering all 4 pages contiguously. The nexus-evidence document the route contract names is treated correctly as a record the participant obtains rather than a page this build composes, and the instructions say where to get it and that official documentation is not the only possible proof.",
+          "evidence": {
+            "pageManifest": "4 rows, contiguous, covers all 4 pages",
+            "readInThisLane": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "Six writes reported and six found in each fixture, and the packet's description of them is true against its own bytes: 'Name: Jordan Avery Reyes', 'Date of birth: 1991-04-17', and the footer PRINTED NAME / MAILING ADDRESS / TELEPHONE / EMAIL, plus the participant name on the filing-instructions page. Nothing about the trafficking itself is prefilled, which is the load-bearing restraint on this route: C3 trafficking period, C4 causal nexus, C5 official documentation and C6 alternative evidence are all left blank, and the packet says in terms that no page in it asks for an account of what was done to the participant. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 in both fixtures and my own geometry pass agrees.",
+          "evidence": {
+            "writesFound": "6/6 canonical, 6/6 boundary",
+            "traumaRestraintHeld": "C3-C6 blank on the delivered page",
+            "readInThisLane": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "Eight case-fact items C1-C8 (exact conviction, conviction date, trafficking period, causal nexus, official documentation if available, alternative evidence, other counts, requested vacatur effect), each a labelled dotted blank on the delivered page and each enumerated in the instructions. Nexus evidence is named as a document to obtain, with the profile's own rule that official documentation creates the presumption but is not required. Signing lines and caption case numbers are named as deliberately blank. This family is on the UNCLASSIFIED_BLANKS_BLIND_SPOT list and I read the caption on the delivered bytes rather than reading its unclassifiedBlanks 0 as proof: page 1 carries 'IN THE ............................................................ COURT' as a hard-coded dot run present in no field map and no blanks report. It is a real blank the counter cannot see. The brief's question -- is a participant left to supply a court nobody told them to -- answers NO: the delivered line beneath it reads '(the Wyoming court that entered the conviction)', and the FILING_DESTINATION row and ordered step 5 say the same. The gap is enumeration, not the answer, so it is recorded rather than failed.",
+          "evidence": {
+            "blindSpotListed": true,
+            "captionReadOnDeliveredBytes": true,
+            "captionSelfLabelled": "(the Wyoming court that entered the conviction)",
+            "readInThisLane": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "No participant election is drawn on the delivered pages and none is required: requiredOptionsMissing is 0 on my own re-run of the completeness contract, and the only genuine branch the route contract records -- that alternative nexus evidence must be permitted alongside official documentation -- is carried as two separate blanks (C5 and C6) rather than as a forced choice between them, which is the right shape for a rule that says documentation is not required.",
+          "evidence": {
+            "verifierRerunHere": "requiredOptionsMissing 0",
+            "readInThisLane": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "Measured: re-running the repository's completeness verifier here returns rowsInspected 0 and incompleteRows 0. The composed petition carries no row group; each C-item is a single labelled blank. Nothing repeating exists and none was invented. The 'other counts' fact, which is the one place a repeating structure could have been reached for, is correctly a single narrative blank plus a stop condition rather than a table the platform would have to size.",
+          "evidence": {
+            "verifierRerunHere": "rowsInspected 0, incompleteRows 0",
+            "readInThisLane": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "The delivered signature block carries empty date and signature runs in both fixtures, under the printed statement that the petitioner signs and dates personally and that nothing on the page is signed or dated for them. refusedFieldsWithInk is empty in both fixtures and protectedWrites is 0 on my own re-run.",
+          "evidence": {
+            "signatureBlockReadOnBytes": true,
+            "verifierRerunHere": "protectedWrites 0",
+            "readInThisLane": true
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Both delivered fixtures recomputed byte-for-byte in this container and both equal the RASTER_QUEUE row AND the receipt's boundToCanonicalSha256 / boundToBoundarySha256: canonical 5bda53316d7754e6c4b538aee582218516a0d50290aa5391346068f8d6d43880, boundary 0640a1b57e2480fb7d3f8fe473d04ec3c97cad788df7cfd4e9daf2c0b119071c. Page counts read from the bytes with pdf-lib: canonical 4, boundary 4, both equal the declared pageCount and the queue's expectedPages 4. coverage.complete is true with documentsNotCovered empty and coversTheWholeFamily true; jobConclusion success under the run's canary precondition. None of these hashes appears in data/rcap-grade-a/stale-artifact-block.json, which I checked against all 12 blocked hashes. NO PIXEL WAS INSPECTED: workflow artifact blobs are not downloadable from this container (the egress proxy refuses the blob-storage CONNECT with 403), so the raster is cited by run 33605354695, job 100168605549, artifact id 9836930134, zip digest sha256:d15dc4ccd563e401ed499cf1b1cd88aec6f49572aecdebf0ea462eb97f58bf05 -- durable evidence of which bytes exist and where, not of what they look like.",
+          "evidence": {
+            "rasterReceipt": "run 33605354695, job 100168605549, artifact 9836930134",
+            "zipDigest": "sha256:d15dc4ccd563e401ed499cf1b1cd88aec6f49572aecdebf0ea462eb97f58bf05",
+            "pixelsRead": false,
+            "readInThisLane": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "4 pages in each fixture read with pdf-lib, equal to the declared pageCount and the queue's expectedPages. The pageManifest is 4 rows numbered 1..4 with no gap or repeat, pleading first and filing instructions behind it.",
+          "evidence": {
+            "pdfLibPageCount": "4 / 4",
+            "readInThisLane": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "pdftotext -bbox-layout over both delivered fixtures, with every same-baseline pair classified rather than merely counted: 1014 words in canonical and 1019 in boundary; 0 cross the page box in either; 0 same-baseline pairs overlap at all, so there was neither an intended value-on-rule pair nor an unexplained collision. The boundary fixture carries the deliberately long values and is the stronger test. unfittable is empty in both, so no Lane C 6pt-floor refusal arises here.",
+          "evidence": {
+            "instrument": "pdftotext -bbox-layout, run in this lane on both fixtures",
+            "measured": "0 page-box crossings, 0 same-band overlaps, 2033 words",
+            "readInThisLane": true
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The packet states the destination outright rather than delegating it, and it states the one the repository holds. Its FILING_DESTINATION row says 'The repository establishes this one' and cites the compiled Wyoming profile's 'the court that entered the conviction may vacate it'; I located that sentence in WY-wyoming.json pathways[3].ruleClauses[0] and in sourceSections[6].text, both keyed to Sec. 6-2-708 by name, so it survives A3. The packet also discloses that the census's own destination field for this route is not recorded and says which record answers it instead. That is A1 applied in the direction A1 requires: the answer is stated, not delegated.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 A1/A2/A3",
+            "profileQuoteVerified": "WY-wyoming.json pathways[3].ruleClauses[0] and sourceSections[6].text, located in this lane",
+            "readInThisLane": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "FAIL",
+          "finding": "The packet denies that the repository says anything about the cost of this route, and the record it binds says something about the cost of this route -- by name. participant-instructions.md and the delivered filing-instructions page both read: 'No committed record this packet binds states a filing fee, or a fee waiver, for this route.' The bound compiled profile, src/lib/rcap-engine/compiled/profiles/WY-wyoming.json, which this family pins by exact SHA-256 and which I rehashed MATCH in this container, carries the row 'Human-trafficking victim vacatur Verify with clerk; statute is a motion route, not a standard expungement filing-fee route' -- twice, at packetGenerator.feeRules[4] and again in sourceSections[9].text, inside a Route/Fee table whose other four rows are keyed to 7-13-1401 ($0), 7-13-1501 ($100), 7-13-1502 ($300) and 14-6-241 ($0). The row is keyed to THIS route by its own label, so A3 does not excuse it: this is not a sibling statute's answer read across, it is this route's own line. What the packet withholds is not an amount -- there is none -- but the reason, and the reason is the participant's best instrument at the counter: told only 'ask the clerk', a participant quoted the $300 felony-expungement fee has nothing to say; told what the profile holds, they can say this is a motion in the existing case and not a standard expungement filing. Under DET-FEE-AND-WAIVER-001 A2 the compiled state profile is a held source, and under A4's narrow rule a packet may never tell a participant that it does not state something it does state. This is squarely the A2 error pattern the determination names: the claim about the bound FORMS would be fine; the claim about the REPOSITORY is false. The named authority is present and correct, so the participant can still act, and the repair is to publish what the profile holds rather than to find an amount that does not exist.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 A2 as bounded by A3, and A4's internal-consistency rule",
+            "profileQuoteVerified": "WY-wyoming.json packetGenerator.feeRules[4] and sourceSections[9].text, located in this lane",
+            "boundBySha": "the family pins this profile by exact SHA-256 and it rehashes MATCH here",
+            "routeKeyedByName": true,
+            "readInThisLane": true
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "The packet states that no committed record it binds establishes who must be served on this route or how, and names the clerk's office of the Wyoming court that entered the conviction as the office that answers it. I tested that denial the same way I tested the fee denial, and unlike the fee denial it holds: the profile's service rules are 'Verified petition served on prosecuting attorney' (7-13-1401), 'served on prosecutor and DCI' (7-13-1501) and the same for 7-13-1502 -- each keyed to a different statutory section, each barred by A3 from being read onto a Sec. 6-2-708 vacatur, and there is no service line keyed to 6-2-708 anywhere in the file. Per the determination's extension to SERVICE, a named reachable authority standing in for a rule no held source establishes satisfies it.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 as extended to SERVICE, bounded by A3",
+            "profileSearched": "no service rule keyed to Sec. 6-2-708 exists in WY-wyoming.json",
+            "readInThisLane": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "Compared against what the repository holds for this route, condition by condition. Wyoming's track registry carries only wy_nc_1401, wy_misd_1501 and wy_fel_1502; there is no track for this runtime-only route, so no selfHelpStopConditions list exists to compare against, and the held boundary is the compiled pathway's legalAuthority.notes plus the profile's own trauma rule. Both are carried verbatim on the delivered page: 'Wilma trauma rule: Ask only what is necessary: ... Then route to manual/legal review. Do not require graphic details.' is quoted as the FIRST stop condition, and 'Statutory documentation creates the stated evidentiary effect but is not the only possible proof; the intake must permit alternative nexus evidence' is carried in the must-know section. I verified both against WY-wyoming.json sourceSections[6].text and pathways[3].legalAuthority.notes in the committed bytes. The packet then adds three stops the route's subject matter demands and the record supports -- that the nexus facts are the participant's alone to tell, that safety once a filing becomes a public court record is a reason to stop, and other counts on the same or another case. This is the one family of the six where the platform's stopping point is stated as a trauma boundary rather than only as an eligibility boundary, and the record it rests on is the record that says so.",
+          "evidence": {
+            "comparedAgainst": "WY-wyoming.json pathways[3].legalAuthority.notes and sourceSections[6].text; no track registry entry exists for this runtime-only route",
+            "registryChecked": "WY tracks are wy_nc_1401, wy_misd_1501, wy_fel_1502 only",
+            "readInThisLane": true
+          }
+        }
+      },
+      "instrumentLimits": [
+        "Text geometry cannot see raster ink, vector rules, field borders, images, shading, or any glyph without extractable text. Every clipping and overlap figure below is a pdftotext -bbox-layout word-extent measurement over the delivered bytes, which is a different instrument from a widget-level or pixel-level read, and it agrees with neither by construction.",
+        "No workflow artifact blob was downloaded and no raster page was viewed. Every visual conclusion rests on text and geometry.",
+        "private/Nationwide Record Clearing is not mounted in this release and cannot be. Where a committed record names a 'LegalEase <State>/' path -- the MA track registry's packetSet.components[0].officialSourceUrl is one -- that path is unreadable here and is reported as an absence, not as a mismatch. The bytes those families actually bind are the Master Library copies, and those were rehashed."
+      ]
+    },
+    {
+      "itemId": "ma-expunge-time-set",
+      "lane": "VF10",
+      "worker": "FABLE-VA10",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "KNOWN_PREFILLS",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "One track, two staged obligations, and the packet is on both. routeKeys are obligation:unit:MA:ma-expunge-time:ma-expunge-time-commissioner-certification and ...-court-determination, matching the committed track registry's ma-expunge-time, whose units are exactly those two in that order (Commissioner certification first, court determination second). Statutory authority G.L. c. 276 Secs. 100F/100G/100H/100I/100J/100N matches the registry's authority list. The packet observes the registry's own packetInstruction that Massachusetts sealing and expungement are never used interchangeably: the delivered guidance page says 'That is stronger relief than sealing' and describes destruction, never sealing.",
+          "evidence": {
+            "registryTrack": "data/record-clearing/legal-design-track-registry.json trackId ma-expunge-time",
+            "stagedUnitsMatch": true,
+            "readInThisLane": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "1/1 exact, recomputed from the mounted Master Library rather than read from a report. STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf rehashes to 5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1 at 13,137 bytes, equal to source-receipt.json on both. The corpus itself verified first: scripts/verify-packet-build-environment.mjs returned PACKET_BUILD_ENVIRONMENT_READY, 51 jurisdictions / 499 files / 329 PDFs, with 24 sampled index entries byte-exact. TWO ABSENCES ARE REPORTED RATHER THAN GLOSSED. First, the committed track registry's packetSet.components[0].officialSourceUrl for this component is 'private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/...'; private/Nationwide Record Clearing is not carried by this release and cannot be mounted, so that path is unreadable here. It is a provenance label, not the binding -- the family binds the Master Library copy, which hashes exact -- but no lane in this container can confirm the two are the same document. Second, the asset sits under 05_SOURCE_GATED, which is the corpus's own currentness gate, and the registry carries an open release blocker on whether the 2018-10-11 revision is still the published edition. Neither absence changes the hash result; both are stated because SOURCE_IDENTITY is where they would otherwise disappear.",
+          "evidence": {
+            "recomputedHere": "1/1 HASH_EXACT against the mounted Master Library",
+            "corpusVerified": "PACKET_BUILD_ENVIRONMENT_READY 12/12",
+            "nationwidePathUnreadable": "private/Nationwide Record Clearing is not mounted in this release",
+            "sourceGated": true,
+            "readInThisLane": true
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "The packet-set manifest declares two required components, ma-expunge-time-primary-filing-1 (primary_filing) and ma-expunge-time-process-guidance-2 (process_guidance), and both are delivered: the pageManifest read from the canonical bytes puts the pinned 2-page petition at pages 1-2 and the composed guidance at pages 3-4, 4 rows for 4 pages. The registry's second unit is process_guidance rather than a second filing, and the packet matches that: it composes an explanation of stage two, not a second petition, which is what the registry says the review found.",
+          "evidence": {
+            "manifestRead": "data/record-clearing/legal-design-packet-set-manifests.json ma-expunge-time-set",
+            "pageManifest": "4 rows, contiguous",
+            "readInThisLane": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "finding": "THE PACKET TELLS THE PARTICIPANT IT WROTE THEIR MAILING ADDRESS ONTO THE PETITION, AND IT DID NOT. Two participant-facing sentences say it did. The component table: 'the Massachusetts Probation Service Petition to Expunge itself, Rev. 10/11/2018, with your name, date of birth, MAILING ADDRESS and phone written in and every other blank left for you'. And the closing section: 'This is the official Massachusetts Probation Service Petition to Expunge with the FOUR facts the platform holds written into it'. There are three. reports/actual-writes.json reports 3 values in each fixture -- petitioner_name, date_of_birth, phone_number -- and I confirmed the absence on the delivered bytes rather than on the report: extracting page 1 of both fixtures with pdftotext -bbox-layout and reading the band that contains the mailing_address write box (field-map rect x=105 y=484 w=171 h=13, which is y_top 295-308 on a 792pt page), the only words present are the form's own printed captions 'Mailing Address:', 'City:', 'State:', 'Zip:' at x=28.42-100.93, 280.42, 415.42 and 514.42. The 171-point run from x=105 to x=276 is empty in the canonical fixture and empty in the boundary fixture. This is the A4 defect with its sign reversed -- the rule is that a packet may never tell a participant it does not state something it does state, and the harm here is the mirror image and worse in direction: a participant who reads the component table and believes the address is on the form will not transcribe it, and will file a petition with the Probation Service that has no address on it to answer. The packet contradicts itself three times over in the participant's favour -- 'Your address is not filled in, and that is deliberate', the street-address row in the items-to-supply table, and 'The whole address - street, city, state and zip' in the deliberately-left-blank list -- which is exactly why a reader cannot tell which sentence to believe. The fix is two words in two sentences, not a rebuild.",
+          "evidence": {
+            "measuredOnDeliveredBytes": "pdftotext -bbox-layout, page 1 of both fixtures, mailing_address band read directly",
+            "writeBoxEmpty": "x=105..276, y_top 295..308: no words in canonical, none in boundary",
+            "actualWritesReports": 3,
+            "instructionsClaim": "'mailing address ... written in' and 'the four facts'",
+            "standard": "DET-FEE-AND-WAIVER-001 A4 internal-consistency rule",
+            "readInThisLane": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "Eleven blanks are enumerated in the items-to-supply table, each named by the caption it sits beside, and they reconcile exactly with the field census's 11 'supply' cells: alias/maiden name, mailing address, city, state, zip, occupation, Social Security number, father's name, mother's maiden name, spouse's name, gender. The document to obtain first (the participant's own CORI from DCJIS) is named with where to get it and why -- to check the docket number, the section box and the two-record limit. Four blanks are given reasons rather than left bare, which is the harder and better thing: race, ethnicity, gender and the Social Security number are each stated to be blank because the platform does not collect or hold them and will not guess. THE ADDRESS DEFECT SCORED ABOVE DOES NOT REACH THIS OBLIGATION: the street-address blank IS in this table, correctly, so a participant who reads the table completes it. The failure is in the packet's description of its own prefills, not in its enumeration of what the participant must do.",
+          "evidence": {
+            "censusReconciled": "11 'supply' cells in field-census.census-v1.json, 11 rows in the instructions table",
+            "readInThisLane": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "Three elections, all genuinely the participant's, all unmarked, and each given a reason. The section box (Sec. 100F for a delinquency adjudication or youthful offender conviction, Sec. 100G for an adult conviction, Sec. 100H for a non-conviction) is left unmarked because this family covers all three and which applies follows from a record the platform has not seen -- and the registry agrees, since the route's two units are staged rather than a choice between statutes. The race and ethnicity lines are unmarked because the platform does not collect either. requiredOptionsMissing is 0 on my own re-run of the completeness contract.",
+          "evidence": {
+            "verifierRerunHere": "requiredOptionsMissing 0",
+            "electionsUnmarkedOnBytes": true,
+            "readInThisLane": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "Measured: re-running the repository's completeness verifier here returns rowsInspected 0 and incompleteRows 0. The Massachusetts petition is a single-record form -- it carries one identity block and one narrative, with no charge table and no per-case row group -- so there is no repeating structure for this obligation to bite on. The registry's two-record limit is a counting rule about the participant's whole record, not a repeating row on this paper.",
+          "evidence": {
+            "verifierRerunHere": "rowsInspected 0, incompleteRows 0",
+            "readInThisLane": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "Three protected cells and all three are clean on the delivered bytes: signature_top, signature_bottom and signature_bottom_date carry no generated ink in either fixture, and the instructions name them first in the deliberately-blank list with the reason -- you sign when you actually send it. The Commissioner's eligibility certification, which the registry classifies as agency-completed, is likewise untouched. refusedFieldsWithInk is empty and protectedWrites is 0 on my own re-run. The flat-PDF overlay strategy makes this stronger than it looks: with acroFieldCount 0 there is no widget to fill accidentally, and every mark is a measured draw.",
+          "evidence": {
+            "verifierRerunHere": "protectedWrites 0, invisibleWrites 0",
+            "structuralClass": "flat_pdf_measured_overlay, acroFieldsFoundInBinary 0",
+            "readInThisLane": true
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Both delivered fixtures recomputed byte-for-byte in this container and both equal the RASTER_QUEUE row AND the receipt's boundToCanonicalSha256 / boundToBoundarySha256: canonical b41eb67d3173db1b57f982d15ebb5886eabda4801d1f23fb26ebf053eaa5e6af, boundary 87befe2ef7be124aa20853cfba988cc229011337523035eb73b8a5e24be0b49a. Page counts read from the bytes with pdf-lib: canonical 4, boundary 4, both equal the declared pageCount and the queue's expectedPages 4. coverage.complete is true with documentsNotCovered empty and coversTheWholeFamily true; jobConclusion success under the run's canary precondition. None of these hashes appears in data/rcap-grade-a/stale-artifact-block.json, which I checked against all 12 blocked hashes. NO PIXEL WAS INSPECTED: workflow artifact blobs are not downloadable from this container (the egress proxy refuses the blob-storage CONNECT with 403), so the raster is cited by run 33608483853, job 100178592158, artifact id 9838278274, zip digest sha256:985972712d308ca9279f67ba0560abfb1327c468208bcc3f851eccf132776667 -- durable evidence of which bytes exist and where, not of what they look like.",
+          "evidence": {
+            "rasterReceipt": "run 33608483853, job 100178592158, artifact 9838278274",
+            "zipDigest": "sha256:985972712d308ca9279f67ba0560abfb1327c468208bcc3f851eccf132776667",
+            "pixelsRead": false,
+            "readInThisLane": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "4 pages in each fixture read with pdf-lib. The pageManifest has 4 rows numbered 1..4, each naming its component, its source page and the source SHA-256; pages 1-2 map to source pages 1 and 2 of the pinned petition in that order, so the official form's own pagination is preserved rather than reflowed, and the composed guidance follows it. That order matches the route: the participant sends the petition, and the guidance explains what happens after.",
+          "evidence": {
+            "pdfLibPageCount": "4 / 4",
+            "sourcePagesInOrder": "source page 1 -> packet page 1, source page 2 -> packet page 2",
+            "readInThisLane": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "pdftotext -bbox-layout over both delivered fixtures with every same-baseline pair classified: 1897 words in canonical and 1898 in boundary; 0 words cross the page box in either; 0 same-baseline pairs overlap at all. The boundary fixture carries the long-name and long-phone values -- 'Maria-Alejandra O'Shaughnessy-Whitfield' in a 350pt box and '(413) 555-0199 ext. 4417' in a 148pt box -- and neither collides with the form's printed captions or with each other. unfittable is empty in both fixtures. I looked specifically for the Lane C case here because this family's own build record turns on one: the finalizer once refused a 79-character address needing 242.3pt in a 171pt blank, and the correct response was taken -- the field was reclassified to a participant blank in BOTH fixtures rather than written when short and dropped when long. That refusal is not clipping and is not scored as such.",
+          "evidence": {
+            "instrument": "pdftotext -bbox-layout, run in this lane on both fixtures",
+            "measured": "0 page-box crossings, 0 same-band overlaps, 3795 words",
+            "laneCStandard": "docs/RCAP_OREGON_OFFICIAL_PDF_GRADE_A_LANE_C.md: a refusal at the 6pt floor with the blank left for the participant is correct",
+            "readInThisLane": true
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "Stated outright, with a street address, from a source the participant is holding. 'Mail it to the Office of the Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108' appears in the ordered steps, on the delivered guidance page under WHERE THIS GOES, and the guidance says where to check it -- the petition's own TO: line on page 1 and again on page 2 under 'Where to file (mail) this Petition?'. The committed track registry independently records the destination as 'Commissioner of Probation, then the court' with the filing rule 'Submit the Petition to Expunge to the Commissioner of Probation'. Under A1 this is the required direction of travel: the repository holds it, so the packet states it rather than naming somebody to ask.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 A1",
+            "registryDestination": "Commissioner of Probation, then the court",
+            "quotedOnDeliveredBytes": true,
+            "readInThisLane": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "The honest refusal, done correctly, and I checked the refusal instead of accepting it. The delivered guidance page says: 'No source this packet is built from establishes a filing fee for this petition, and none establishes a fee-waiver route. That is not the same as saying it is free', then names the office -- 'The Office of the Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108 - the same office you are mailing the petition to - is who answers what, if anything, this costs and whether any waiver exists. Ask before you send it.' I tested each limb. The committed track registry's rules.fees is 'None identified in the review' and rules.feeWaiver is 'None identified' -- records of non-establishment, not answers, so publishing them as the answer would invert A1. The compiled Massachusetts profile carries one dollar figure, a $50 threshold for minor motor-vehicle offences under Sec. 100A, which is a different section answering a different question and is barred by A3 from being read onto Secs. 100F-100H; the packet's build record says exactly that and does not read it across. And the authority is named to a street address in the same breath as the refusal, which A2's answersVT13B1 identifies as the better practice rather than merely the passing one.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 A1/A2/A3",
+            "registryRead": "rules.fees 'None identified in the review'; rules.feeWaiver 'None identified'",
+            "a3Guard": "the profile's only figure is a Sec. 100A $50 threshold, a different section",
+            "quotedOnDeliveredBytes": true,
+            "readInThisLane": true
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Stated affirmatively, in the direction that protects the participant, with the mechanism that replaces it and the source on the page they are holding. Ordered step 7 is 'Do not serve the district attorney', and the guidance page carries the reason from the petition's own page 2: 'YOU DO NOT SERVE THE DISTRICT ATTORNEY. ... if upon review of your Petition it is determined that you meet all of the criteria ... THAT OFFICE will then notify the District Attorney's Office in the county where the offence was prosecuted.' The committed registry agrees at rules.notice: 'The district attorney receives notice and may object.' This is the determination's 'participant serves nobody, stated affirmatively with the mechanism that replaces it' limb, and the build record is right that inventing a service obligation would contradict a document the participant is holding.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 as extended to SERVICE",
+            "registryNotice": "The district attorney receives notice and may object",
+            "quotedOnDeliveredBytes": true,
+            "readInThisLane": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "FAIL",
+          "finding": "ONE OF THE FIVE STOP CONDITIONS THE REGISTRY HOLDS FOR THIS TRACK IS ABSENT FROM THE PACKET IN ANY FORM, AND IT IS THE ONE THAT COSTS A PARTICIPANT THE ROUTE. I compared data/record-clearing/legal-design-track-registry.json trackId ma-expunge-time selfHelpStopConditions against participant-instructions.md and the delivered bytes, condition by condition, then grepped each condition's distinguishing terms. (1) 'Any offence may fall on the Sec. 100J list, several entries of which turn on facts rather than charge titles' -- carried: the packet reproduces the whole exclusion list. (2) 'Whether every offence occurred before the 21st birthday is unclear' -- carried, first bullet in both the md and the delivered page. (4) 'The district attorney objects' -- carried. (5) 'The court sets a hearing on the best interests of justice' -- carried in substance; the guidance states the hearing rule and 'the determination that expungement is in the interests of justice'. (3) 'WHETHER OFFENCES AROSE FROM A SINGLE INCIDENT FOR COUNTING PURPOSES IS UNCLEAR' -- ABSENT. The words 'incident', 'arising from', 'arose', 'counting' and 'count as one' appear NOWHERE in participant-instructions.md and NOWHERE in the delivered canonical bytes; I grepped each. What the packet does say is 'your record shows more than two convictions, or more than two non-conviction records - the section limits it to two.' The same registry entry holds the rule that resolves it, in its exclusions: 'More than two records. MULTIPLE OFFENCES ARISING FROM THE SAME INCIDENT COUNT AS ONE.' So the repository establishes both the counting rule and that uncertainty about it is where self-help stops, and the packet publishes neither. The direction of the harm is specific and one-way: a participant with three charges from one arrest reads the two-record limit, counts three, and abandons a route they are eligible for -- and no bullet tells them this is the moment to ask. Under A2 a committed registry is a held source; under A4 as extended, an obligation whose failure mode is omitting a fact the repository establishes is an ask-the-repository-first obligation. Both limbs are met and the omission is the whole of the failure.",
+          "evidence": {
+            "comparedAgainst": "legal-design-track-registry.json trackId ma-expunge-time, selfHelpStopConditions, 5 conditions",
+            "conditionsCarried": "1, 2, 4, 5",
+            "conditionAbsent": "3 -- single-incident counting",
+            "grepped": "'incident', 'arising from', 'arose', 'counting', 'count as one' -- 0 hits in participant-instructions.md and 0 in the delivered canonical bytes",
+            "ruleHeldAt": "the same registry entry's exclusions: 'Multiple offences arising from the same incident count as one.'",
+            "standard": "DET-FEE-AND-WAIVER-001 A2 and A4",
+            "readInThisLane": true
+          }
+        }
+      },
+      "instrumentLimits": [
+        "Text geometry cannot see raster ink, vector rules, field borders, images, shading, or any glyph without extractable text. Every clipping and overlap figure below is a pdftotext -bbox-layout word-extent measurement over the delivered bytes, which is a different instrument from a widget-level or pixel-level read, and it agrees with neither by construction.",
+        "No workflow artifact blob was downloaded and no raster page was viewed. Every visual conclusion rests on text and geometry.",
+        "private/Nationwide Record Clearing is not mounted in this release and cannot be. Where a committed record names a 'LegalEase <State>/' path -- the MA track registry's packetSet.components[0].officialSourceUrl is one -- that path is unreadable here and is reported as an absence, not as a mismatch. The bytes those families actually bind are the Master Library copies, and those were rehashed."
+      ],
+      "notes": {
+        "untestedFlagFromAnEarlierLaneWasMEASUREDANDDISPROVEN": "The brief carried an untested flag: an earlier lane reported a 79-character address WRITTEN INTO a 171pt blank in both fixtures and could not test it. I tested it and it does not hold at this base. The address is written into that blank in NEITHER fixture. Measured directly: the mailing_address write box is x=105 y=484 w=171 h=13, which on a 792pt page is the band y_top 295-308; extracting page 1 of both fixtures with pdftotext -bbox-layout, the only words in that band are the form's own printed captions 'Mailing Address:' (x28.42-100.93), 'City:' (x280.42), 'State:' (x415.42) and 'Zip:' (x514.42). The 171-point run from x=105 to x=276 is empty in canonical.pdf and empty in boundary.pdf. reports/actual-writes.json reports 3 writes per fixture -- name, date of birth, phone -- and no address. WHAT THE EARLIER LANE PROBABLY SAW is a real record that reads the other way: build-findings.json states that a FIRST PASS wrote the whole line into the street blank, that THE BOUNDARY FIXTURE DISPROVED IT (79 characters need 242.3pt at the minimum legible size and the blank is 171pt, so the finalizer refused it and that fixture silently lost the address while the canonical kept it), and that all four address parts were therefore reclassified as participant blanks. That is a record of a defect FOUND AND FIXED, kept rather than repaired away because the boundary fixture is what caught it. Read without the surrounding sentences it reads as a live defect. It is not one at d210669f0.",
+        "whatThisChangesAboutTheVerdict": "Nothing in the direction the flag pointed. The MA FAIL rests on two different things I measured myself: the packet's own claim that the address IS written (KNOWN_PREFILLS), which is the opposite error from the one flagged, and a missing self-help stop condition. The address is correctly absent from the paper; the packet is wrong about it in prose."
+      }
+    },
+    {
+      "itemId": "nd-nonconviction-close-petition-set",
+      "lane": "VF10",
+      "worker": "FABLE-VA10",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "The route is the pre-1-August-2025 petition branch of N.D.C.C. Sec. 12-60.1-05, and the packet is unusually careful about it: before anything else it tells the participant that if the order of nonconviction was entered ON OR AFTER 1 August 2025 they should do nothing, quoting the form's own page 2, and that this packet is for the other branch. The committed registry's nd-nonconviction-close-petition and its sibling nd-nonconviction-auto-close-verify are the two halves of that split, and the route key on the delivered footer names the branch explicitly (obligation:service-branch:ND:...:pre_effective_date_petition). The delivered petition's paragraph 5 carries the same line on its face.",
+          "evidence": {
+            "branchStatedOnDeliveredBytes": true,
+            "siblingRouteNamed": "nd-nonconviction-auto-close-verify",
+            "readInThisLane": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "1/1 exact, recomputed from the mounted Master Library. STATES/ND/02_PACKET_FORMS/ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf rehashes to 21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f at 1,319,263 bytes, equal to source-receipt.json on both, and its declared pageCount 6 equals the page count I read from the delivered bytes. This family binds no committed-record digests, so unlike the three composed families in this return it is untouched by the stale census pin. The corpus verified first at PACKET_BUILD_ENVIRONMENT_READY.",
+          "evidence": {
+            "recomputedHere": "1/1 HASH_EXACT against the mounted Master Library",
+            "corpusVerified": "PACKET_BUILD_ENVIRONMENT_READY 12/12",
+            "readInThisLane": true
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "The manifest declares three required components -- nd-nonconviction-close-petition-primary-filing-1, -proposed-order-2 and -instructions-3 -- and all three are present in the delivered six pages, because North Dakota publishes them as one binary: instructions at pages 1-2, petition at 3-4, proposed order at 5-6. I confirmed the split by reading each page of the delivered bytes. requiredComponentsMissing is 0 on my own re-run. ONE INSTRUMENT NOTE, disclosed rather than smoothed: reports/rendered-artifacts.json for this family carries no componentSet and no pageManifest -- it is the only one of my six that does not -- so PAGE_ORDER below had to be measured against the source document's own pagination rather than against a manifest, and the component-to-page mapping I relied on is the participant-facing table in participant-instructions.md, which states it correctly.",
+          "evidence": {
+            "manifestRead": "legal-design-packet-set-manifests.json nd-nonconviction-close-petition-set, 3 components",
+            "verifierRerunHere": "requiredComponentsMissing 0",
+            "noPageManifest": true,
+            "readInThisLane": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "finding": "THE PACKET TELLS THE PARTICIPANT, TWICE AND IN BOLD, THAT THE PROPOSED ORDER'S CAPTION IS BLANK AND CARRIES NO FORM BOXES. IT CARRIES THREE OF THE PACKET'S OWN WRITES AND FOUR FORM BOXES. participant-instructions.md says: 'The proposed order's caption is blank, and there is nothing in this packet that can fill it - the order's caption carries NO FORM BOXES AT ALL ... Copy the county, judicial district, case number and your name across by hand', and its items table repeats it: 'The proposed order's whole caption | copy it by hand, exactly as you filled in the petition's. The order's caption has no form boxes'. I measured both halves. On the DELIVERED bytes, page 5 of packet-canonical-filled.pdf reads 'County of Example County ... Judicial District', 'Case No. 24-CR-001234' and 'Jordan Avery Reyes' above 'Defendant.' -- three values, in the proposed order's caption. On the PINNED SOURCE bytes, the same page 5 reads 'County of', 'Case No.' and a blank defendant line, so those three are this build's ink and not the form's. And the mechanism is structural, not accidental: loading the source PDF with pdf-lib shows four AcroForm fields -- 'Judicial District', 'County', 'Case Number' and 'Defendant' -- each carrying TWO widgets, one on page 3 and one on page 5. They are single fields with a widget on each page, so a value written once for the petition necessarily appears on the order. The claim 'no form boxes at all' is false against the form's own structure. The boundary fixture makes it worse rather than better: there County and Defendant were correctly refused at the 6pt floor as too long, so page 5 shows the case number filled and the other two blank -- meaning the truth of the instruction varies with the length of the participant's own name. A participant who follows it writes over generated ink; one who notices the mismatch cannot tell whether their packet is defective. The repair is to describe what the shared widgets actually do and to tell the participant to copy across only the judicial district, which genuinely is blank.",
+          "evidence": {
+            "measuredOnDeliveredBytes": "pdftotext -layout page 5 of packet-canonical-filled.pdf: County, Case No. and Defendant all carry values",
+            "measuredOnSourceBytes": "pdftotext -layout page 5 of the pinned source: all three blank",
+            "structuralProof": "pdf-lib over the pinned source: fields 'Judicial District', 'County', 'Case Number', 'Defendant' each have widgets on pages [3,5]",
+            "boundaryDiffers": "County and Defendant refused at the 6pt floor there, so the same sentence is half-true",
+            "standard": "DET-FEE-AND-WAIVER-001 A4 internal-consistency rule",
+            "readInThisLane": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "finding": "The items-to-supply table carries a row that instructs the participant to do something the packet has already done for them, and doing it would deface the filing. Row: '| 5 | The proposed order's whole caption | copy it by hand, exactly as you filled in the petition's. The order's caption has no form boxes |'. As measured under KNOWN_PREFILLS above, page 5 of the delivered canonical fixture already carries the county, the case number and the defendant's name, written by this build through form fields whose widgets span pages 3 and 5. A participant following this row hand-writes those three over existing text on a document the judge signs. EVERYTHING ELSE ON THIS OBLIGATION IS RIGHT, and unusually so, which is why the row stands out: the eleven blanks are enumerated by page with the form field name beside each; the judicial district is left blank on a sourced ground I verified on the delivered page 1 ('If you don't know the Judicial District, you may leave that space blank'); the place-and-date-of-signing line is left blank with the reason that nobody can know where the participant will be; and the five eligibility conditions and the 'if you can't check all three boxes, you can't use this form' rule are both quoted from the printed instructions the packet ships. The failure is one row, and it is the row that touches the order the court signs.",
+          "evidence": {
+            "rowQuoted": "items table page 5 row",
+            "contradictedBy": "the delivered page 5 caption, measured",
+            "otherBlanksVerified": "11 blanks enumerated and reconciled against reports/blanks-left-for-the-participant.json",
+            "readInThisLane": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "Five elections, all the participant's, all unmarked, and each explained. The petition's paragraph 3 carries three boxes (Check Box7/8/9) that are sworn statements about how the case ended, and the packet leaves all three unmarked and quotes the form's own rule -- 'If you can't check all three boxes, you can't use this form' -- which I verified on delivered page 1. The proposed order's paragraph 3 carries two more (Check Box10/11, Dismissal or Acquittal) and the packet leaves both unmarked while telling the participant to mark the one matching their petition, noting that this is unusual for a proposed order and that it is what this form directs. requiredOptionsMissing is 0 on my own re-run.",
+          "evidence": {
+            "verifierRerunHere": "requiredOptionsMissing 0",
+            "formRuleQuotedFromDeliveredPage1": true,
+            "readInThisLane": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "Measured: rowsInspected 0 and incompleteRows 0 on my own re-run of the completeness contract. The North Dakota form has no row group -- one case, one caption, one set of paragraph-3 boxes -- and the statute it runs on requires that ALL charges in the case were dismissed or acquitted, so a per-charge row would be the wrong shape for the relief. The packet says so, quoting Sec. 12-60.1-01(5) on the delivered page.",
+          "evidence": {
+            "verifierRerunHere": "rowsInspected 0, incompleteRows 0",
+            "readInThisLane": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "Read directly on the delivered bytes rather than from a counter. Page 4 of packet-canonical-filled.pdf shows 'Signed on ________________(date) in _____________________________(city), _________________________(county), ___________(state), ___________________(country).' with every run empty, and the signature rule above the printed name empty. The printed name, address, city/state/zip, telephone and email BELOW the signature line are filled, which is what the instructions say and is correct -- they are the filer's contact block, not the signature. The state and country blanks carry the strongest reasoning I saw in these six: reports/blanks-left-for-the-participant.json records that a shared binder had written the participant's state of RESIDENCE into the place-of-signing state, and would have printed 'XX' as a country, so both were classified unwritable by role. protectedWrites and invisibleWrites are 0 on my own re-run.",
+          "evidence": {
+            "signatureBlockReadOnBytes": "page 4 of the canonical fixture",
+            "verifierRerunHere": "protectedWrites 0, invisibleWrites 0",
+            "readInThisLane": true
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Both delivered fixtures recomputed byte-for-byte in this container and both equal the RASTER_QUEUE row AND the receipt's boundToCanonicalSha256 / boundToBoundarySha256: canonical 2211ad2f8597d79a79151bc5850b222a664ba1ab935abb2d916c43612dddea58, boundary 7f178d4a93edc84c72ea8123715f51da16b7bc1c91d709f575451101052ae747. Page counts read from the bytes with pdf-lib: canonical 6, boundary 6, both equal the queue's expectedPages 6 and the pinned source's declared pageCount 6. coverage.complete is true with documentsNotCovered empty and coversTheWholeFamily true; jobConclusion success under the run's canary precondition. None of these hashes appears in data/rcap-grade-a/stale-artifact-block.json, which I checked against all 12 blocked hashes. NO PIXEL WAS INSPECTED: workflow artifact blobs are not downloadable from this container (the egress proxy refuses the blob-storage CONNECT with 403), so the raster is cited by run 33605354695, job 100168605702, artifact id 9837056470, zip digest sha256:b246c28ed62011ab68a074c6bfb044edcf1a01573baeda293c568732dce3c970 -- durable evidence of which bytes exist and where, not of what they look like.",
+          "evidence": {
+            "rasterReceipt": "run 33605354695, job 100168605702, artifact 9837056470",
+            "zipDigest": "sha256:b246c28ed62011ab68a074c6bfb044edcf1a01573baeda293c568732dce3c970",
+            "pixelsRead": false,
+            "readInThisLane": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "6 pages in each fixture read with pdf-lib, equal to the queue's expectedPages and to the pinned source's declared pageCount. With no pageManifest for this family I measured the order against the source document itself: page 1 of the delivered canonical is the court administrator's instruction sheet ('Instructions for Petition to Close Nonconviction Records'), page 3 opens the petition caption and page 5 opens the proposed order caption, which is the published order of the source binary, unreordered. The participant-facing table states the same ranges (1-2, 3-4, 5-6) and tells the participant they file nothing from pages 1-2.",
+          "evidence": {
+            "pdfLibPageCount": "6 / 6",
+            "orderMeasuredAgainstSource": true,
+            "readInThisLane": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "pdftotext -bbox-layout over both delivered fixtures with every same-baseline pair classified: 1334 words in canonical and 1333 in boundary; 0 words cross the page box in either; 0 same-baseline pairs overlap at all. The boundary fixture is the strong test and it behaves correctly under docs/RCAP_OREGON_OFFICIAL_PDF_GRADE_A_LANE_C.md: three values were REFUSED at the 6pt floor with the blank left for the participant -- Defendant ('Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III', 195.6pt required in a 150pt widget), County (143.6pt in 135.6pt) and City/State/Zip -- and a refusal with the blank left is correct, not clipping. ONE ANOMALY RECORDED, NOT SCORED AS A DEFECT: the City/State/Zip refusal reports requiredWidthAtMin 179.0 against a widget width of 181.35, so by the report's own two numbers the value fits. The likely explanation is a padding inset the report does not surface. It errs toward asking the participant rather than toward overrunning the box, which is the safe direction, but a refusal whose stated arithmetic does not support it is worth a builder's eye.",
+          "evidence": {
+            "instrument": "pdftotext -bbox-layout, run in this lane on both fixtures",
+            "measured": "0 page-box crossings, 0 same-band overlaps, 2667 words",
+            "laneCRefusals": "3 in the boundary fixture, blanks left for the participant",
+            "anomaly": "City State Zip Code: requiredWidthAtMin 179.0 < rect width 181.35, yet refused",
+            "readInThisLane": true
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "Stated, sourced twice, and with a way to find the office. 'File the original with the Clerk of Court where your criminal case is filed', supported by page 2 of the printed instructions and by the committed route record, which the packet quotes as 'The North Dakota district court or municipal court in which the criminal case is filed', filed in the existing criminal case; and it points to ndcourts.gov/court-locations, which I located on the delivered page. The committed track registry independently records the destination as 'Clerk of Court of the court holding the criminal case'. Under A1 the repository holds it and the packet states it rather than delegating it.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 A1",
+            "registryDestination": "Clerk of Court of the court holding the criminal case",
+            "quotedOnDeliveredBytes": "'no filing fee' page and 'ndcourts.gov/court-locations' both located in the canonical bytes",
+            "readInThisLane": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "A sourced statement that no fee is charged -- the determination's second met-limb -- plus the waiver treatment that follows from it, plus a use for the answer. The packet says 'There is no filing fee', citing page 2 of the printed instructions, and I found that line verbatim in the delivered canonical bytes ('There's no filing fee.'). It also cites the committed record: 'Sec. 12-60.1-05(4) and the official instructions both state there is no filing fee', which matches the registry's rules.fees, and records the waiver as 'not applicable; there is no fee', which matches rules.feeWaiver. Then it does the thing that turns an answer into a tool: 'If the clerk's office asks you for money to file this petition, ask that clerk what the charge is for before you pay it, because the statute and the court administrator's own instructions both say there is none.'",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001, no-fee limb",
+            "registryRead": "rules.fees 'none. N.D.C.C. Sec. 12-60.1-05(4) and the official instructions both state there is no filing fee'",
+            "quotedOnDeliveredBytes": "'There's no filing fee.'",
+            "readInThisLane": true
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Stated affirmatively, with the qualification the record actually carries and a named office for the part that is genuinely undetermined. 'Usually nobody. Possibly the prosecutor. The judge in your case decides.' The packet quotes the committed record's serviceRecipients/serviceMethod/serviceTiming as 'None required by the statute', then the qualification -- 'The individual judge may require the petition to be served on the prosecutor; the official instructions flag it as a possibility rather than a rule' -- which matches the registry's rules.notice word for word, and the printed instructions' own version. It then names where the remainder is answered: 'Ask the Clerk of Court where you file whether the judge in your case requires the Prosecutor to be served, and if so how', with the honest statement that no held record and no printed line states a method or a deadline for it. That is the affirmative limb and the named-authority limb applied to the two halves that respectively deserve them.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 as extended to SERVICE",
+            "registryNotice": "'None required by the statute. The individual judge may require the petition to be served on the prosecutor, which the official instructions flag.'",
+            "readInThisLane": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "Compared condition by condition against data/record-clearing/legal-design-track-registry.json trackId nd-nonconviction-close-petition, whose selfHelpStopConditions carries six, and each is reached. (1) 'Any of the four statutory exceptions' -- carried as a bullet naming appeal, lack-of-criminal-responsibility verdict, fitness-to-proceed dismissal and plea-agreement dismissal. (2) 'A case where fewer than all charges were dismissed or acquitted' -- carried, quoting Sec. 12-60.1-01(5)'s 'all'. (3) 'A charge traded across cases in a multi-case plea' -- carried in the form's own words, 'the dismissal was part of a plea agreement involving a conviction on another offence'. (6) 'An order of nonconviction entered on or after 1 August 2025' -- carried twice, once as the opening question and once as a stop bullet. TWO ARE CARRIED BY CATEGORY RATHER THAN BY NAME, AND I GREPPED THEM RATHER THAN ASSUMING: (4) 'An out-of-state or federal record' -- the terms 'out-of-state', 'out of state' and 'federal' appear 0 times in participant-instructions.md and 0 times in the delivered canonical bytes, but the packet states the limit that decides it, quoting 'Only the records controlled by the North Dakota court system are closed', which excludes an out-of-state or federal record by construction. (5) 'A participant who expects the BCI criminal history record to change' -- 'BCI', 'Bureau of Criminal', 'criminal history' and 'background check' likewise appear 0 times, but the packet carries the stop bullet 'you need records held by the prosecutor or a law-enforcement agency closed as well. This order does not reach them', and the North Dakota BCI is a law-enforcement agency, so the category reaches it. Both are named here because reaching a condition by category is weaker than naming it, and a participant whose actual goal is a clean background check would be better served by the words. It is guidance, not a defect: the condition is covered. The packet also quotes the strongest self-help boundary in this return, from the court administrator's own page: the ND Legal Self Help Center 'can't provide assistance in criminal matters', and the office to ask is the Clerk of Court.",
+          "evidence": {
+            "comparedAgainst": "legal-design-track-registry.json trackId nd-nonconviction-close-petition, 6 selfHelpStopConditions",
+            "conditionsNamed": "1, 2, 3, 6",
+            "conditionsCoveredByCategory": "4 and 5",
+            "grepped": "'out-of-state', 'federal', 'BCI', 'Bureau of Criminal', 'criminal history', 'background check' -- 0 hits in the md and 0 in the delivered canonical bytes",
+            "readInThisLane": true
+          }
+        }
+      },
+      "instrumentLimits": [
+        "Text geometry cannot see raster ink, vector rules, field borders, images, shading, or any glyph without extractable text. Every clipping and overlap figure below is a pdftotext -bbox-layout word-extent measurement over the delivered bytes, which is a different instrument from a widget-level or pixel-level read, and it agrees with neither by construction.",
+        "No workflow artifact blob was downloaded and no raster page was viewed. Every visual conclusion rests on text and geometry.",
+        "private/Nationwide Record Clearing is not mounted in this release and cannot be. Where a committed record names a 'LegalEase <State>/' path -- the MA track registry's packetSet.components[0].officialSourceUrl is one -- that path is unreadable here and is reported as an absence, not as a mismatch. The bytes those families actually bind are the Master Library copies, and those were rehashed."
+      ]
+    },
+    {
+      "itemId": "rcap-ms-custom-pleading",
+      "lane": "VF10",
+      "worker": "FABLE-VA10",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "SOURCE_IDENTITY",
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "Three routes, correctly separated rather than merged, and each on its own statute: ms-drug-cd (Miss. Code Ann. Sec. 41-29-150 controlled-substance conditional discharge), ms-dui (Sec. 63-11-30 first-offence DUI) and ms-mip (Sec. 67-3-70 underage alcohol). The delivered pages carry the statute in the caption block and again in the footer route key, and the packet opens with a 'Which pages in this packet are yours' table plus the instruction to leave the rest unused. Two boundary statements that matter are made and are correct against the registry: a DUI must never be routed through Sec. 99-19-71(1), and trafficking under Sec. 41-29-139 is outside the conditional-discharge route entirely and is independently excluded from felony expungement under Sec. 99-19-71(2)(a)(iii).",
+          "evidence": {
+            "registryTracks": "ms-drug-cd, ms-dui, ms-mip",
+            "routeKeysOnDeliveredFooters": true,
+            "readInThisLane": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "FAIL",
+          "finding": "The census pin does not hold at this base. The family's other bound records do: data/record-clearing/legal-design-track-registry.json rehashes to its declared value at 16,469,590 B and data/record-clearing/legal-design-specifications.json at 16,829,383 B, both exactly as source-receipt.json declares. The third bound record, data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, is pinned at e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816 / 2,596,466 B and at this base holds e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2 / 2,596,674 B. The receipt's own bindingMethod is 'committed repository records bound by exact SHA-256', and its allSourcesExact:true does not hold. I dated the drift rather than assuming it: the declared hash was the file's content at commit 4fb89c96e, and commit 7613a4b50 (\"Montana's MMRTA label named two required documents; split it\") moved it. I then compared the two versions entry by entry -- 703 route entries in each, 0 added, 0 removed, exactly 4 changed, and all four are Montana MMRTA units. The MS route entries this family reads -- including obligation:runtime-only:MS:... -- are byte-identical between the pinned version and the file on disk; I compared all MS entries. So no fact this packet reads has moved, and the repair is a re-pin rather than a rebuild. Recorded because it is systemic and not this family's alone: all 31 families in data/rcap-all50/overlays/census-v1 that bind this census carry the same stale pin and the same allSourcesExact:true, and not one carries the current hash.",
+          "evidence": {
+            "recomputedHere": "every bound record rehashed from the committed bytes in this container",
+            "driftCommit": "7613a4b50; the declared hash was current at 4fb89c96e",
+            "substanceCompared": "703 census route entries diffed across the two versions: 4 changed, all Montana",
+            "scale": "31/31 families binding this census are stale; 0 current",
+            "readInThisLane": true
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Twelve components declared and twelve delivered -- four per route: primary filing, proposed order, certificate of service and filing instructions. I read the page ranges from the canonical bytes and they are exactly the declared set in a clean per-route block order: drug-cd at pages 1-4 / 5 / 6 / 7-8, dui at 9-12 / 13 / 14 / 15-17, mip at 18-21 / 22 / 23 / 24-26. The 26-row pageManifest covers all 26 pages contiguously. requiredComponentsMissing is 0 on my own re-run. Shipping a certificate of service per route is the right shape here: the registry records service by US mail or hand delivery evidenced by a certificate of service for all three tracks.",
+          "evidence": {
+            "pageManifest": "26 rows, contiguous, covers all 26 pages",
+            "componentsDeclared": 12,
+            "componentsDelivered": 12,
+            "readInThisLane": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "finding": "ON EVERY ONE OF THE THREE PETITIONS, THE PACKET ASKS THE PARTICIPANT TO HAND-WRITE FACTS IT HAS ALREADY PRINTED ON THE SAME PAGE. Measured on the delivered canonical bytes. Each petition carries a section B 'THE PETITIONER' stating 'Date of birth: 1991-04-17', a caption reading 'IN RE: Jordan Avery Reyes, PETITIONER.', and a footer block 'PRINTED NAME: Jordan Avery Reyes / MAILING ADDRESS: 42 Magnolia Street, Springfield 62704 / TELEPHONE: 555-0142 / EMAIL: jordan.reyes@example.org'. Between them, section C asks as empty dotted blanks: '[C1 - full name] What is your full legal name, and any other name the case is under?', '[C2 - date of birth] What is your date of birth?', and '[C3 - mailing address] What is your current address, phone number and email?'. The same three appear at lines 52/56/60, 347/351/355 and 660/664/668 of the extracted canonical text -- once per petition, nine duplicated asks in one delivered packet -- and the instructions' items table repeats all three per route. C1 has a legitimate extra limb (any other name the case is under) and C4, county of residence, is genuinely not held; C2 and C3 have no such excuse. This is the A4 class: a packet may never tell a participant it does not state something it does state, and printing 'What is your date of birth?' as a blank one inch below 'Date of birth: 1991-04-17' does exactly that. The harm is concrete on a pleading -- a participant who complies writes their name and date of birth twice on one petition, and a clerk reading two entries has an inconsistency to resolve; a participant who does not comply is left unsure whether they have skipped a required item. The packet's own framing shows the intent it missed: it says every item in section C is a fact 'about your own case' that 'belongs to the record itself', which is true of C5-C17 and false of C1-C3. The repair is to drop C2 and C3 and narrow C1 to the alias limb.",
+          "evidence": {
+            "measuredOnDeliveredBytes": "pdftotext -layout over canonical.pdf; section B, section C and the footer block read on the same page for all three petitions",
+            "duplicatedAsks": "C1, C2, C3 on each of ms-drug-cd, ms-dui and ms-mip primary filings",
+            "legitimate": "C4 county of residence is not prefilled anywhere; C1's alias limb is genuine",
+            "standard": "DET-FEE-AND-WAIVER-001 A4 internal-consistency rule",
+            "readInThisLane": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "Every blank on every route's pages is enumerated by route in the instructions -- seventeen C-items for drug-cd and comparable sets for dui and mip, plus the three certificate-of-service blanks per route (who received the papers, at what address, and how). The documents to obtain first are listed per route with who holds them, including the load-bearing ones for DUI: proof of probation completion, and the blood or breath test result or documentation that no test was refused, with the reason -- the statute conditions relief on not having refused and on a concentration below .16. The certificate of service is correctly declared unsignable until delivery has actually happened. THE BLIND-SPOT CHECK: this family is on data/rcap-grade-a/packet-completeness/UNCLASSIFIED_BLANKS_BLIND_SPOT.json and I read the caption on the delivered bytes rather than treating its unclassifiedBlanks 0 as proof. Every one of the twelve pages opens 'IN THE ............................................................ COURT', a hard-coded dot run in no field map and no blanks report. It is a real blank the counter cannot see. The brief's question -- is a participant left to supply a court nobody told them to -- answers NO, and MS answers it better than the other two composed families: the delivered line beneath the dot run names the court AND points at the packet, e.g. '(Clerk of the court that granted the conditional discharge - see the filing instructions in this packet)', and the per-route FILING_DESTINATION rows name the court specifically, including the DUI venue trap. The gap is enumeration, not the answer.",
+          "evidence": {
+            "blindSpotListed": true,
+            "captionReadOnDeliveredBytes": true,
+            "captionSelfLabelled": "(Clerk of the court that granted the conditional discharge - see the filing instructions in this packet)",
+            "readInThisLane": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "The genuine option on this family is which of three routes the participant is on, and it is handled as an option rather than guessed: the packet ships all three sets, opens with a table saying when each is yours, tells the participant to leave the rest unused, states that every page names its own route in its footer (verified on the delivered bytes), and says that if two routes could fit, that is a question for a lawyer and not a choice to guess at. requiredOptionsMissing is 0 on my own re-run of the completeness contract.",
+          "evidence": {
+            "verifierRerunHere": "requiredOptionsMissing 0",
+            "routeFootersOnDeliveredBytes": true,
+            "readInThisLane": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "Measured: rowsInspected 0 and incompleteRows 0 on my own re-run. The composed pleadings carry no row group -- each C-item is a single labelled blank -- and the three routes are separate component blocks rather than repeated rows of one instrument, which is the correct shape given that each rests on a different statute with different exclusions.",
+          "evidence": {
+            "verifierRerunHere": "rowsInspected 0, incompleteRows 0",
+            "readInThisLane": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "Read on the delivered bytes. Each of the three proposed orders carries 'ORDERS that ........................................................', 'DATED ..............................' and a signature rule, all empty, under the printed statement '(EVERY DECISION ON THIS PAGE IS THE COURT'S. This proposed order travels with the petition for the Court's convenience; nothing on it is completed, decided, signed or dated by the petitioner or by this packet.)' and '(The court signs here if, and only if, it grants the petition.)'. The petitions' own DATE and SIGNATURE OF PETITIONER runs are empty in both fixtures. The instructions add the rule that carries this across the whole family: 'Leave every page that belongs to the court or the prosecuting attorney blank.' protectedWrites and invisibleWrites are 0 on my own re-run.",
+          "evidence": {
+            "orderPagesReadOnBytes": "pages 5, 13 and 22 of canonical.pdf",
+            "verifierRerunHere": "protectedWrites 0, invisibleWrites 0",
+            "readInThisLane": true
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Both delivered fixtures recomputed byte-for-byte in this container and both equal the RASTER_QUEUE row AND the receipt's boundToCanonicalSha256 / boundToBoundarySha256: canonical 38a01f9a2c6d30b549b9f6365bbe03e34e27a9470f1d820f3d3545e3cf93713c, boundary 9f5dd99ccd4e50094d00abe758cc34e1955df9a709d0da26ce21722b99a07c66. Page counts read from the bytes with pdf-lib: canonical 26, boundary 26, both equal the declared pageCount and the queue's expectedPages 26. coverage.complete is true with documentsNotCovered empty and coversTheWholeFamily true; jobConclusion success under the run's canary precondition. None of these hashes appears in data/rcap-grade-a/stale-artifact-block.json, which I checked against all 12 blocked hashes. NO PIXEL WAS INSPECTED: workflow artifact blobs are not downloadable from this container (the egress proxy refuses the blob-storage CONNECT with 403), so the raster is cited by run 33605354695, job 100168606950, artifact id 9837306985, zip digest sha256:10ffe02c7d7ab8df84b7163c6b7b8fd82633677e7b8577d638e8bfcce03a3f90 -- durable evidence of which bytes exist and where, not of what they look like.",
+          "evidence": {
+            "rasterReceipt": "run 33605354695, job 100168606950, artifact 9837306985",
+            "zipDigest": "sha256:10ffe02c7d7ab8df84b7163c6b7b8fd82633677e7b8577d638e8bfcce03a3f90",
+            "pixelsRead": false,
+            "readInThisLane": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "26 pages in each fixture read with pdf-lib, equal to the declared pageCount and the queue's expectedPages. The 26-row pageManifest is numbered 1..26 with no gap and no repeat, and the order is the one a filer needs: for each route in turn, petition, then proposed order, then certificate of service, then filing instructions. A participant using one route finds their four documents contiguous rather than interleaved with the other two routes'.",
+          "evidence": {
+            "pdfLibPageCount": "26 / 26",
+            "blockOrder": "drug-cd 1-8, dui 9-17, mip 18-26",
+            "readInThisLane": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "pdftotext -bbox-layout over both delivered fixtures, all 26 pages each, with every same-baseline pair classified: 6475 words in canonical and 6505 in boundary; 0 words cross the page box in either; 0 same-baseline pairs overlap at all. This is the largest of the four composed packets in this return and the cleanest by word count. unfittable is empty in both fixtures, so no Lane C 6pt-floor refusal arises.",
+          "evidence": {
+            "instrument": "pdftotext -bbox-layout, run in this lane on both fixtures",
+            "measured": "0 page-box crossings, 0 same-band overlaps, 12980 words across 52 pages",
+            "readInThisLane": true
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "Stated per route from the committed track registry, which is what A1 requires, and the DUI row does the hardest version of it. drug-cd: 'Clerk of the court that granted the conditional discharge', with the venue as recorded. mip: 'Clerk of the court that disposed of the charge', with the note that Sec. 67-3-70(6) says simply 'apply to the court' with no circuit-court transfer, so the charging or convicting court is the destination. dui: 'Circuit clerk of the county of conviction', with the trap stated in terms -- file in the CIRCUIT COURT of the county of conviction even where the conviction was entered in a municipal or justice court, because the Attorney General has opined that a municipal court judge is not authorized to expunge a DUI conviction. I verified all three against the registry's destination and rules.filing for ms-drug-cd, ms-dui and ms-mip and they match. Naming a venue trap that would otherwise send a participant to the wrong courthouse is the difference between a destination stated and a destination gestured at.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 A1",
+            "registryDestinations": "ms-drug-cd 'Clerk of the court that granted the conditional discharge'; ms-dui 'Circuit clerk of the county of conviction'; ms-mip 'Clerk of the court that disposed of the charge'",
+            "allThreeMatch": true,
+            "readInThisLane": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "Three refusals, each with the reason stated per statute, and the reason is A3's own test written out. Every route's row reads 'No amount is published here. Section 99-19-72's fee reaches petitions under Sec. 99-19-71 and does not reach [Sec. 41-29-150 / Sec. 63-11-30 / Sec. 67-3-70] by its terms. The participant confirms with the clerk', with the waiver recorded as not established and the clerk named. I verified each against the committed registry's rules.fees and rules.feeWaiver for the matching track and all three are carried verbatim. What makes this the strongest fee handling of the six is that it does not merely refuse: it names the neighbouring fee statute a repairer would most plausibly have read across, and says why it does not reach. The delivered drug-cd petition adds the same point from the statute itself -- 'Section 41-29-150 specifies no fee.' The authority is named per route and the ordered steps tell the participant to ask before they go.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 A1/A2/A3",
+            "registryRead": "rules.fees and rules.feeWaiver for ms-drug-cd, ms-dui and ms-mip, all carried verbatim",
+            "a3AppliedInThePacket": "names Sec. 99-19-72 as the fee statute that does NOT reach these sections",
+            "readInThisLane": true
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Stated per route with who, how and the proof, and matched to the registry. All three rows record service as 'United States mail or hand delivery, evidenced by the certificate of service', which is the registry's rules.service for each track verbatim, with the recipient named per route -- the prosecuting authority for the court on drug-cd and mip, the district attorney on dui -- and the fact that no response or objection period is established stated rather than left silent. The packet ships a certificate of service per route as its own component and forbids signing it before delivery has happened, which is the mechanism that makes the rule checkable. It also states the practical gate honestly under SELF_HELP_STOP: LegalEase prepares the certificate, the cover letter and the notice calendar, and does not seek, obtain or negotiate the prosecutor's approval as to form.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 as extended to SERVICE",
+            "registryService": "'United States mail or hand delivery, evidenced by the certificate of service' for all three tracks",
+            "certificateComponentShipped": true,
+            "readInThisLane": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "The completest of the six, and I checked it mechanically rather than by impression. I took all fifteen selfHelpStopConditions the committed track registry holds across ms-drug-cd (5), ms-dui (6) and ms-mip (4) and tested each for verbatim presence in participant-instructions.md. FIFTEEN OF FIFTEEN APPEAR VERBATIM -- including the ones a builder would be tempted to soften, such as 'Every DUI. All DUI packets carry mandatory attorney review before filing and a post-generation handoff' and 'Any doubt about which court to file in, given that the petition goes to circuit court rather than the convicting court.' The packet then adds one the registry does not carry and that is the truest thing in the file: obtaining the district attorney's approval as to form is the practical gate on the entire Mississippi product, it is a negotiation and not a filing, and a declining or silent prosecutor is an attorney handoff. All fifteen also appear on the delivered pages, in the per-route SELF_HELP_STOP rows and again in the packet-level stop list, so a participant reading only the paper gets the same list.",
+          "evidence": {
+            "comparedAgainst": "legal-design-track-registry.json ms-drug-cd (5), ms-dui (6), ms-mip (4) selfHelpStopConditions",
+            "result": "15/15 verbatim in participant-instructions.md",
+            "alsoOnDeliveredPages": true,
+            "readInThisLane": true
+          }
+        }
+      },
+      "instrumentLimits": [
+        "Text geometry cannot see raster ink, vector rules, field borders, images, shading, or any glyph without extractable text. Every clipping and overlap figure below is a pdftotext -bbox-layout word-extent measurement over the delivered bytes, which is a different instrument from a widget-level or pixel-level read, and it agrees with neither by construction.",
+        "No workflow artifact blob was downloaded and no raster page was viewed. Every visual conclusion rests on text and geometry.",
+        "private/Nationwide Record Clearing is not mounted in this release and cannot be. Where a committed record names a 'LegalEase <State>/' path -- the MA track registry's packetSet.components[0].officialSourceUrl is one -- that path is unreadable here and is reported as an absence, not as a mismatch. The bytes those families actually bind are the Master Library copies, and those were rehashed."
+      ]
+    },
+    {
+      "itemId": "tx_nd_conviction_no_supervision-set",
+      "lane": "VF10",
+      "worker": "FABLE-VA10",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "One route, Tex. Gov't Code Sec. 411.0735 -- a misdemeanour conviction with NO community supervision of any kind -- and the packet leads with the thing most likely to put a participant on the wrong one. Its first substantive paragraph says Texas splits nearly every nondisclosure section on the deferred-adjudication-versus-probation-versus-neither line and that if the participant was placed on community supervision this is the wrong petition; the same statement recurs as the first stop condition and again on the delivered filing-instructions page ('YOU MUST NOT BE ELIGIBLE UNDER SEC. 411.073'). The route key matches the registry track tx_nd_conviction_no_supervision, and the bound OCA petition is the model petition for this section. The packet also handles the awkwardness that the OCA ORDER form covers three sections at once by leaving all three boxes unmarked, which is scored under ROUTE_OPTIONS.",
+          "evidence": {
+            "registryTrack": "tx_nd_conviction_no_supervision",
+            "wrongSectionWarningOnDeliveredBytes": true,
+            "readInThisLane": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "3/3 exact, recomputed from bytes across TWO custodies, which is the point worth recording. From the mounted Master Library: the OCA petition TX__FORM__TX-GC-411.0735__...__REV-2022-02__EN.pdf at da0bd63c66a6ee35a7a0659556a02268f1fd6053ebf7419e912b78fd3fb3dd13 / 215,067 B, and the OCA order TX__FORM__TX-GC-411.0725-411.073-411.0735__...__REV-2022-02__EN.pdf at 6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680 / 110,504 B. The third is held in a different custody, human_source_returns rather than master_library: private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf, which rehashes to bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d, exactly as source-receipt.json declares. All three declared byte lengths match. This family binds no committed-record digests, so it is untouched by the stale census pin that fails three other families in this return. The corpus verified first at PACKET_BUILD_ENVIRONMENT_READY, 51 jurisdictions / 499 files / 329 PDFs.",
+          "evidence": {
+            "recomputedHere": "3/3 HASH_EXACT",
+            "custodies": "master_library (2) and human_source_returns (1), both resolved and rehashed in this container",
+            "corpusVerified": "PACKET_BUILD_ENVIRONMENT_READY 12/12",
+            "readInThisLane": true
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Five components declared in the packet-set manifest and five delivered, with the two conditional ones correctly labelled as conditional in both the manifest and the participant-facing table. Page ranges read from the canonical bytes: petition 1-5, proposed order 6-8, proof of delivery to prosecutor 9, Statement of Inability 10-21, filing-and-after-order instructions 22-24; 24 pageManifest rows for 24 pages, contiguous. Both conditions are stated with the reason, not just flagged: the proof of delivery ships conditional because Sec. 411.0745(e) makes the COURT responsible for notifying the State while OCA instructions nonetheless direct the petitioner to show proof, so the participant is told to ask the clerk which applies in that county; and the Statement ships conditional because paragraph 6 of the petition is an election between paying and filing it. requiredComponentsMissing is 0 on my own re-run.",
+          "evidence": {
+            "manifestRead": "legal-design-packet-set-manifests.json tx_nd_conviction_no_supervision-set, 5 components, 2 conditional",
+            "pageManifest": "24 rows, contiguous",
+            "readInThisLane": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "Fifteen writes, and the packet's one-sentence account of them is exactly right against its own bytes -- the only one of the six that is. It says: 'your name on the petition, the proposed order and the Statement, your telephone number on the petition, and your date of birth, address, telephone number and email on the Statement.' reports/actual-writes.json lists 13 form writes plus 2 composed-component writes, and every one falls inside that description: Name1 and Naem2 and Printed Name on the petition, Defendant on the order, and full legal name, date of birth, address, phone and email on the Statement (twice for name and address, since the form asks twice). All 15 were found in the output bytes. The negative claim is also true and I checked it directly: 'Your address is not written on the petition, and that is deliberate' -- page 5 of the delivered canonical shows the Address and City/State/Zip lines empty beneath a filled Printed Name and Telephone Number. And 'Nothing financial is filled in for you anywhere' holds: no financial field on the twelve-page Statement carries ink in either fixture.",
+          "evidence": {
+            "writesFound": "15/15 found in output bytes, canonical and boundary",
+            "negativeClaimVerified": "petition page 5 Address and City/State/Zip empty on the delivered bytes",
+            "financialFieldsEmpty": true,
+            "readInThisLane": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "114 blanks are classified REQUIRED_BEFORE_FILING and the instructions enumerate them component by component with what to write, across the four documents that carry them. The two documents to obtain first are named with who holds them and why each matters: the Texas DPS criminal history record following DPS form CR-63, which establishes the disposition and every other conviction or deferred adjudication, and the judgment plus the discharge or dismissal order from the sentencing clerk, which establishes which section applies. The deliberately-blank list is specific rather than generic -- the signature and date, everything on the order recording what the State or the court did, the three section boxes, both parts of the address, every financial fact on the Statement, the cause number on the Statement (because its own face says the Clerk's office fills it in when you file), and the district attorney's name and address if that county wants the proof of delivery. knownRequiredFieldsMissing and requiredFactsNotCollected are both 0 on my own re-run.",
+          "evidence": {
+            "verifierRerunHere": "knownRequiredFieldsMissing 0, requiredFactsNotCollected 0, 114 REQUIRED_BEFORE_FILING blanks classified",
+            "readInThisLane": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "Two live elections, both left to the participant or the court, both explained. The OCA order covers Secs. 411.0725, 411.073 and 411.0735 with a box for each, and NONE is marked -- including the Sec. 411.0735 box that is this route's own -- because the printed sentence above them records the COURT's finding, so marking one would assert a finding no court has made. That is the harder and correct call: the route is known, and the packet still refuses, because the box is not a statement of the route but of a judicial finding. The second is paragraph 6 of the petition, the election between paying the fees and filing a Statement of Inability, which is left unmarked and explained, with the Statement shipped so the election can actually be exercised. 44 blanks are classified PARTICIPANT_ELECTION_GENUINE and requiredOptionsMissing is 0 on my own re-run.",
+          "evidence": {
+            "verifierRerunHere": "requiredOptionsMissing 0, 44 PARTICIPANT_ELECTION_GENUINE",
+            "sectionBoxesUnmarkedOnBytes": true,
+            "readInThisLane": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "The only family of the six with real repeating structure, and it is clean. Re-running the repository's completeness contract in this container returns rowsInspected 5 and incompleteRows 0: five row groups exist in the delivered forms -- they come from the Statement of Inability's tabular blocks, whose field names carry the Item[n].Row[n].Cell shape the contract groups on -- and not one of them has a written cell sitting beside a required blank cell. That is the defect this counter exists to catch (a row that reads as finished and is not), and there is none, which follows from the design decision recorded under KNOWN_PREFILLS: no financial fact is written anywhere, so no financial row is half-filled.",
+          "evidence": {
+            "verifierRerunHere": "rowsInspected 5, incompleteRows 0",
+            "readInThisLane": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "Read on the delivered bytes rather than from a counter. Page 5 of the canonical fixture shows the petition's Signature rule empty above a filled Printed Name, with Address and City/State/Zip empty and Telephone Number filled -- exactly the split the instructions describe. The proposed order carries no participant ink at all on its recital, hearing-box, signing-date or judge/court blocks. 24 blanks are classified PROTECTED_FIELD, and protectedWrites and invisibleWrites are both 0 on my own re-run of the completeness contract.",
+          "evidence": {
+            "signatureBlockReadOnBytes": "page 5 of canonical.pdf",
+            "verifierRerunHere": "protectedWrites 0, invisibleWrites 0, 24 PROTECTED_FIELD blanks",
+            "readInThisLane": true
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Both delivered fixtures recomputed byte-for-byte in this container and both equal the RASTER_QUEUE row AND the receipt's boundToCanonicalSha256 / boundToBoundarySha256: canonical 9d99a242799be5c90ce9aad7d91c322bc855d3fb6c24fb260c4868d7b057e3a2, boundary 29bac4d194aa367e63f62e465c1de566271f61ad1fd8ee475c15691195255c57. Page counts read from the bytes with pdf-lib: canonical 24, boundary 24, both equal the declared pageCount and the queue's expectedPages 24. coverage.complete is true with documentsNotCovered empty and coversTheWholeFamily true; jobConclusion success under the run's canary precondition. None of these hashes appears in data/rcap-grade-a/stale-artifact-block.json, which I checked against all 12 blocked hashes. NO PIXEL WAS INSPECTED: workflow artifact blobs are not downloadable from this container (the egress proxy refuses the blob-storage CONNECT with 403), so the raster is cited by run 33608483853, job 100178595207, artifact id 9838677764, zip digest sha256:727f088e1f9095a0d5ba57c064b1c10d6c4df77c74d3dee8bc8aadf58632b864 -- durable evidence of which bytes exist and where, not of what they look like.",
+          "evidence": {
+            "rasterReceipt": "run 33608483853, job 100178595207, artifact 9838677764",
+            "zipDigest": "sha256:727f088e1f9095a0d5ba57c064b1c10d6c4df77c74d3dee8bc8aadf58632b864",
+            "pixelsRead": false,
+            "readInThisLane": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "24 pages in each fixture read with pdf-lib, equal to the declared pageCount and the queue's expectedPages, and each bound document's page count equals its source-receipt pageCount (petition 5, order 3, Statement 12). The 24-row pageManifest is numbered 1..24 with no gap or repeat. The order tracks what a filer hands the clerk: the petition, the proposed order that travels with it, the conditional proof of delivery, the conditional fee-waiver Statement that paragraph 6 elects, and the instructions last.",
+          "evidence": {
+            "pdfLibPageCount": "24 / 24",
+            "perDocumentPageCounts": "petition 5, order 3, Statement 12, each equal to its source-receipt pageCount",
+            "readInThisLane": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "This is the only family of the six with same-baseline overlaps, and every one of them is intended rendering. pdftotext -bbox-layout over both fixtures: 5067 words in canonical and 5071 in boundary; 0 words cross the page box in either. 16 same-baseline overlapping pairs in canonical and 21 in boundary, and I CLASSIFIED EVERY PAIR rather than counting them -- 16/16 and 21/21 are a written value sitting on the underscore rule that receives it, e.g. 'Jordan Avery Reyes' at x109.0-208.0 on the rule '____________________________________' at x107.997-341.135 on page 1, and the address on page 11 sitting on its own rule. Zero pairs are text-on-text. Under the standard in my brief a value on the underscore rule receiving it is intended rendering, so this obligation passes with 0 unexplained collisions. unfittable is empty in both fixtures, so the Lane C 6pt-floor case does not arise here. ONE INSTRUMENT NOTE: poppler emits 'XObject subtype is missing or wrong type' twice while extracting this family's canonical fixture -- it comes from the 6.6 MB Statement of Inability, extraction completes and pdf-lib loads all 24 pages without complaint, but it means some XObject content in that document is outside what my instrument reads.",
+          "evidence": {
+            "instrument": "pdftotext -bbox-layout, run in this lane on both fixtures",
+            "measured": "0 page-box crossings; 16 canonical and 21 boundary same-baseline overlaps, 37/37 classified VALUE_ON_UNDERSCORE_RULE, 0 unclassified text-on-text",
+            "popplerWarning": "XObject subtype is missing or wrong type, twice, on the canonical fixture",
+            "readInThisLane": true
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "Stated, and stated with the level of specificity the route needs. The heading of participant-instructions.md names it -- 'the Texas court that sentenced you for a misdemeanour' -- and the delivered filing-instructions page tells the participant to call the clerk of the court they are filing in for the mechanics. The committed track registry records the destination as 'The court that sentenced the person or placed the person on community supervision, filed through its clerk', with the detail that this is a statewide mechanism with court-level filing and that no county form is promoted to statewide status. The packet matches the registry rather than substituting an authority for it, which is what A1 requires where the repository holds the answer.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 A1",
+            "registryDestination": "'The court that sentenced the person or placed the person on community supervision, filed through its clerk'",
+            "readInThisLane": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "The best fee handling in this return, and it passes every limb of the determination at once. The delivered page states what the statute actually does -- 'Government Code Sec. 411.0745(b) says the petition must be accompanied by payment of a fee THAT [generally applies to the filing of a civil case]... the TYPE of fee, not an amount: there is no flat statutory figure for a petition-based nondisclosure, and your county's civil filing fee schedule governs' -- gives the OCA's figure ('TYPICALLY ABOUT $280'), names the authority to call ('SO CALL THE CLERK OF THE COURT YOU ARE FILING IN and ask what the civil filing fee is'), and then does something no other packet here does: it names the wrong number and disowns it. 'NOW THE NUMBER TO IGNORE: $28. You may have read that an order of nondisclosure costs $28... it belongs to [the no-petition route under Sec.] 411.072(c), and the committed record states in terms that it is not a filing fee at all. This is a petition route under Sec. 411.0735. Do not arrive at the clerk's window with $28.' That is A3 applied prospectively against the participant's own likely misreading, not just against a repairer's. The waiver is not merely described but SHIPPED: the statewide Statement of Inability under Tex. R. Civ. P. 145, on the form the Supreme Court of Texas approved in Misc. Docket No. 22-9090, is component 4, and the registry's rules.feeWaiver names that exact instrument. I verified the fee and waiver text against the registry's rules.fees and rules.feeWaiver for this track and they agree.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 A1/A2/A3",
+            "registryRead": "rules.fees and rules.feeWaiver for tx_nd_conviction_no_supervision",
+            "quotedOnDeliveredBytes": "'TYPICALLY ABOUT $280' and 'NOW THE NUMBER TO IGNORE: $28'",
+            "waiverShippedNotJustDescribed": true,
+            "readInThisLane": true
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Stated affirmatively in the direction that protects the participant, with the county variation named and an office to resolve it. The delivered page: 'WHO GIVES NOTICE TO THE STATE - AND IT IS NOT YOU. Under Sec. 411.0745(e), on receipt of your petition THE COURT provides notice to the State and an opportunity for a hearing. The committed record states that you should not be charged for that notice. OCA instructions do direct a petitioner to show proof that the district attorney received a copy, and some counties expect it, which is why this packet includes a proof-of-delivery page marked CONDITIONAL. Ask the clerk whether that county wants it.' That matches the registry's rules.service for this track, which records the same two-limb rule, and the conditional component exists so the participant can comply if the answer is yes. Both limbs of the determination's SERVICE extension are used where each belongs: the rule is stated where the record establishes it, and a named authority stands in only for the county variation no record can settle.",
+          "evidence": {
+            "standard": "DET-FEE-AND-WAIVER-001 as extended to SERVICE",
+            "registryService": "'The court notifies the state. Where local practice requires the filer to deliver a copy to the prosecuting attorney, the packet includes proof that the district attorney received a copy of the petition.'",
+            "conditionalComponentShipped": true,
+            "readInThisLane": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "FAIL",
+          "finding": "ONE OF THE SEVEN STOP CONDITIONS THE REGISTRY HOLDS FOR THIS TRACK NEVER APPEARS AS A STOP, AND IT IS THE ONE THAT MARKS THE MOMENT THE PROCEEDING STOPS BEING SELF-HELP. I compared data/record-clearing/legal-design-track-registry.json trackId tx_nd_conviction_no_supervision selfHelpStopConditions against participant-instructions.md and the delivered bytes, condition by condition, grepping each condition's distinguishing terms. Carried: prior conviction or deferred adjudication other than a fine-only traffic offence; immigration; the violent-or-sexual determination under Sec. 411.0735(c-1); the Penal Code Sec. 22.01 assault carve-out; and completion of the sentence. ABSENT: 'THE PROSECUTOR OPPOSES THE PETITION OR REQUESTS A HEARING'. The words 'opposes', 'objects' and 'requests a hearing' appear 0 times in participant-instructions.md and 0 times in the delivered canonical bytes; I grepped each. The packet is not silent about the mechanism -- its filing-instructions page says 'A hearing is required UNLESS the State does not request one before the 45th day after receiving notice AND the court finds that you are entitled to file the petition and that issuing the order is in the best interest of justice' -- but describing when a hearing happens is not telling the participant that a contested hearing is where they need a lawyer, and the registry names it as exactly that. A pro se participant who reads the 45-day sentence learns to expect a hearing; nothing tells them to stop preparing to attend it alone. RECORDED ALONGSIDE, NOT SEPARATELY SCORED: the registry's first condition is 'Any family violence finding OR FAMILY VIOLENCE ALLEGATION anywhere in the record' and the packet narrows it to 'the court has made an affirmative finding of family violence'; 'allegation' appears 0 times in the md and 0 times in the delivered bytes, so a participant with an allegation and no finding is told nothing, which is precisely the ambiguous case the registry flags. This is the only failing obligation on the strongest packet in this return, and the repair is two bullets.",
+          "evidence": {
+            "comparedAgainst": "legal-design-track-registry.json trackId tx_nd_conviction_no_supervision, 7 selfHelpStopConditions",
+            "conditionAbsent": "'The prosecutor opposes the petition or requests a hearing'",
+            "grepped": "'opposes', 'objects', 'requests a hearing' -- 0 hits in participant-instructions.md and 0 in the delivered canonical bytes",
+            "alsoNarrowed": "condition 1: 'allegation' -- 0 hits anywhere in the packet",
+            "mechanismIsDescribed": "the 45th-day hearing rule IS on the delivered page; it is not framed as a stop",
+            "readInThisLane": true
+          }
+        }
+      },
+      "instrumentLimits": [
+        "Text geometry cannot see raster ink, vector rules, field borders, images, shading, or any glyph without extractable text. Every clipping and overlap figure below is a pdftotext -bbox-layout word-extent measurement over the delivered bytes, which is a different instrument from a widget-level or pixel-level read, and it agrees with neither by construction.",
+        "No workflow artifact blob was downloaded and no raster page was viewed. Every visual conclusion rests on text and geometry.",
+        "private/Nationwide Record Clearing is not mounted in this release and cannot be. Where a committed record names a 'LegalEase <State>/' path -- the MA track registry's packetSet.components[0].officialSourceUrl is one -- that path is unreadable here and is reported as an absence, not as a mismatch. The bytes those families actually bind are the Master Library copies, and those were rehashed."
+      ]
     }
   ],
   "supersessionNote": "The prior VF10 FAIL row for ut_pet_traffic-set is not carried here: that family was re-verified under this verifier's VF11 lane after repair commit 1c8007435, and its current verdict lives in vf11/rows.json. Git history preserves the prior row.",
@@ -3768,5 +4753,81 @@
     "commercialRoutesOpened": 0,
     "productionTouched": false,
     "grantsNothing": "This is a verification pass. It promotes no family, opens no route, proves nothing for commercial purposes, and modifies no overlay, build script, compiled profile, production path, Supabase, Stripe or secret. Nothing outside this file was written."
+  },
+  "fableVA10": {
+    "worker": "FABLE-VA10",
+    "assignmentId": "VF10_FABLE_VA10_INDEPENDENT_VERIFICATION",
+    "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+    "branch": "fable/va10",
+    "rosterDerivedFromTheLedger": "The roster was derived from data/rcap-grade-a/packet-factory-24h/claim-ledger.json rather than from the brief's list: live = released !== true AND laneKind 'independent-verification' AND lane 'VF10'. That query returns exactly six subjects and they are the six the brief named, so on this shift the ledger and the brief agree. Each was then asserted with `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF10 <familyId> --reason ...` BEFORE any artifact of that family was opened, and all six returned CLAIM_OK (grant set b2075a47a863e80b). No --reissue and no --transfer was used, no exit 8 GRANTED_ELSEWHERE and no exit 9 ALREADY_RELEASED was hit, and the ledger was not hand-edited: `git status --porcelain` was clean after the six asserts, which is what an idempotent re-assert of grants this lane already held looks like.",
+    "whyThisReaderIsIndependent": "FABLE-VA10 built none of these six families, repaired none, and rastered none. Every family was scored from zero and no prior verdict was treated as evidence of anything. Nothing was inherited: every SHA-256 was recomputed from bytes in this container, every page count read from the PDF bytes with pdf-lib against the pageManifest, every declared write value looked for in text extracted from the delivered fixtures, every clipping figure measured with pdftotext -bbox-layout with each same-baseline pair classified rather than counted, the repository's own completeness verifier re-run per family, and every quotation attributed to a compiled profile, a track registry entry, a packet-set manifest or a form face located in the committed bytes before it was relied on. Where a builder report is cited it is cited as the thing being checked. DISCLOSED RATHER THAN ASSUMED: RASTER_QUEUE.json records builderAssignment VF10 on all six families, so the LANE identity has prior involvement in their raster dispatch even though this reader does not; and the rows already in this file were written by four earlier passes (FABLE-VT5, VT6, VT13/VT16, V10 and VD) whose work was left untouched and appended beside, not merged with.",
+    "environment": {
+      "preflight": "node scripts/verify-packet-build-environment.mjs -> PACKET_BUILD_ENVIRONMENT_READY, 12/12 passed, 0 failed, 5 not applicable",
+      "corpusMounted": "MASTER_LIBRARY_SOURCE_DIR set to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1; master_library_complete 499 files / 329 PDFs / 51 jurisdictions; corpus_matches_committed_index verified 24 sampled entries byte-exact. SOURCE_IDENTITY was therefore measured on every row rather than deferred, and no row in this block is NOT_MEASURABLE_HERE.",
+      "secondCustody": "private/source-imports/rcap-d-source-packs-2026-08-12 is present and was resolvable; one of my six (TX) binds a third custody, private/human-source-returns, and that document was rehashed there.",
+      "nationwideIsAbsent": "private/Nationwide Record Clearing is NOT mounted and cannot be in this release. Any committed record naming a 'LegalEase <State>/' path is unreadable here; the MA track registry's packetSet.components[0].officialSourceUrl is one such path and is reported as an absence on that row, not as a mismatch.",
+      "artifactBlobs": "Workflow artifact blobs are not downloadable from this container (the egress proxy refuses the blob-storage CONNECT with 403). NO PIXEL WAS INSPECTED for any family. Raster verdicts are cited by run id, job id, artifact id and zip digest, which is durable evidence of which bytes exist and where, not of what they look like."
+    },
+    "standardsRead": [
+      "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json in full, including A1, A2, A3 and A4, before scoring FEE_AND_WAIVER, SERVICE, FILING_DESTINATION, REQUIRED_BEFORE_FILING or SELF_HELP_STOP on any family",
+      "data/rcap-grade-a/packet-completeness/UNCLASSIFIED_BLANKS_BLIND_SPOT.json, before reading any unclassifiedBlanks counter",
+      "data/rcap-grade-a/stale-artifact-block.json, checked against all 12 blocked hashes",
+      "docs/RCAP_OREGON_OFFICIAL_PDF_GRADE_A_LANE_C.md standard, applied to every 6pt-floor refusal found"
+    ],
+    "toolsUsed": [
+      "sha256 recomputation over every delivered fixture and every bound source and committed record",
+      "pdf-lib page counts and AcroForm field/widget enumeration",
+      "pdftotext -layout for delivered artifact and source form text",
+      "pdftotext -bbox-layout word-extent geometry, with every same-baseline pair classified",
+      "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, read-only, re-run per family",
+      "node scripts/verify-packet-build-environment.mjs",
+      "direct reads of the compiled state profiles, the legal-design track registry, the packet-set manifests, the factory-v2 route registry and the route-obligation census"
+    ],
+    "blindSpotCheckPerformed": "Three of my six -- GA, WY and rcap-ms-custom-pleading -- are on the UNCLASSIFIED_BLANKS_BLIND_SPOT list with unclassifiedBlanks 0. I did not read those zeros as proof. On all three I read the caption on the delivered bytes and confirmed the blind spot is real: each carries 'IN THE ............ COURT' as a hard-coded dot run that exists in no field map and no blanks report, so the counter cannot see it and reports 0. The brief's question -- is a participant left to supply a court nobody told them to -- answers NO on all three: each dot run is self-labelled on the delivered page ('(the Georgia court that entered the first-offender sentence or disposition)', '(the Wyoming court that entered the conviction)', '(Clerk of the court that granted the conditional discharge - see the filing instructions in this packet)') and each packet's FILING_DESTINATION row names the same court. The gap is enumeration, not the answer, so it is recorded on each row as a builder-guidance finding and none of the three is failed for it.",
+    "verdictSummary": {
+      "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route": "FAIL_REPAIR_REQUIRED -- SOURCE_IDENTITY (stale census pin)",
+      "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708": "FAIL_REPAIR_REQUIRED -- SOURCE_IDENTITY (stale census pin) and FEE_AND_WAIVER (denies a route-keyed row in the profile it binds)",
+      "ma-expunge-time-set": "FAIL_REPAIR_REQUIRED -- KNOWN_PREFILLS (says the mailing address is written in; it is not, in either fixture) and SELF_HELP_STOP (the registry's same-incident counting stop is absent)",
+      "nd-nonconviction-close-petition-set": "FAIL_REPAIR_REQUIRED -- KNOWN_PREFILLS and REQUIRED_BEFORE_FILING (says the proposed order's caption is blank with no form boxes; it carries three of this build's writes through fields whose widgets span pages 3 and 5)",
+      "rcap-ms-custom-pleading": "FAIL_REPAIR_REQUIRED -- SOURCE_IDENTITY (stale census pin) and KNOWN_PREFILLS (asks for name, date of birth and contact details already printed on the same page, on all three petitions)",
+      "tx_nd_conviction_no_supervision-set": "FAIL_REPAIR_REQUIRED -- SELF_HELP_STOP (the registry's prosecutor-opposition stop never appears as a stop)"
+    },
+    "whatIsSystemicRatherThanPerFamily": "THE SINGLE LARGEST FINDING IN THIS RETURN IS NOT ABOUT MY SIX FAMILIES. Three of them bind data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json by exact SHA-256 and the pin does not hold at this base. I then measured the scale: of the 31 families under data/rcap-all50/overlays/census-v1 that bind that census, ALL 31 carry the stale pin e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816 and NOT ONE carries the current e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2. Every one of those 31 source receipts asserts allSourcesExact:true, and that assertion is false at d210669f0. One commit did it -- 7613a4b50, \"Montana's MMRTA label named two required documents; split it\" -- and I diffed the pinned version against the current file entry by entry: 703 route entries in each, 0 added, 0 removed, exactly 4 changed, all four Montana MMRTA units. So no fact any of the 31 packets reads has moved, and the repair is one mechanical re-pin across 31 receipts rather than 31 rebuilds. It is scored as a SOURCE_IDENTITY failure on my three because the receipts' own bindingMethod is exact-SHA-256 and recomputation refutes it, and because a route may not promote while its own receipt says something false about its bytes -- the same reasoning DET-FEE-AND-WAIVER-001 A4 records for the Arkansas queue row.",
+    "contradictionsWithCommittedRecords": [
+      "31 source receipts (3 of them mine) record allSourcesExact:true while the census record they pin does not hash to its declared value at this base.",
+      "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json records ma-expunge-time-set totals.written 4 and blanksByDisposition.PARTICIPANT_ELECTION_GENUINE 6; the family's own reports/completeness-counters.json records 3 elections, and reports/actual-writes.json records 3 writes per fixture, which is what I measured on the bytes. The matrix's own re-run through verify-packet-completeness.mjs reproduces '4/24 written', so the discrepancy is in how the contract counts the composed guidance component, not in the delivered ink. Recorded because a reader comparing the two records will see 4 and 3 and cannot tell which is the paper.",
+      "The three composed families' participant-facing FILING_DESTINATION rows state that the census records no destination for their route. That is true of the census. For GA the factory-v2 route registry nonetheless maps the pathway to registryTrackId ga-seal-m, whose registry entry DOES carry a destination -- for O.C.G.A. Sec. 35-3-37(m), a different section. The packet is right to refuse it under A3; the mapping is recorded here because a lane that follows the crosswalk without reading the statute will publish the wrong court."
+    ],
+    "questionsRaisedNotDecided": [
+      "VA10-Q1 (WY, ROUTE_IDENTITY). The bound Wyoming profile names this route's instrument 'Motion to Vacate Conviction under W.S. 6-2-708' and separately calls the route 'a motion route, not a standard expungement filing-fee route'. The delivered document is captioned PETITION. Whether a Wyoming clerk handed a Petition on a motion route would open a new civil action -- which is where the standard expungement filing fee attaches, and so is the practical point of the profile's own fee row -- is a Wyoming practice question. I scored ROUTE_IDENTITY PASS because the route, statute and relief are unambiguous, and refer the naming rather than deciding it.",
+      "VA10-Q2 (ND, CLIPPING_AND_OVERLAP). The boundary fixture refuses 'City State Zip Code' at the 6pt floor reporting requiredWidthAtMin 179.0 against a widget width of 181.35 -- by its own two numbers the value fits. A padding inset the report does not surface is the likely explanation. It errs toward asking the participant, which is the safe direction, so I did not score it as a defect; but a refusal whose stated arithmetic does not support it is either a reporting gap or a threshold nobody has written down.",
+      "VA10-Q3 (scope). I scored SELF_HELP_STOP against the committed track registry's selfHelpStopConditions for the family's trackId, treating an absent condition as a failure of that obligation. DET-FEE-AND-WAIVER-001 A4 extends the ask-the-repository-first test to REQUIRED_BEFORE_FILING, FILING_DESTINATION, SERVICE and FEE_AND_WAIVER and does not name SELF_HELP_STOP. I read the extension as reaching it, because a registry's selfHelpStopConditions ARE the repository's statement of where this track's self-help stops and omitting one is the same failure mode A4 describes. If Captain reads the list as exhaustive, the MA and TX SELF_HELP_STOP failures should be re-read against that narrower rule -- not waived, because both are omissions of a fact the repository establishes, but possibly re-scored onto a different obligation."
+    ],
+    "residualLimits": [
+      "No raster pixel was read for any of the six. Every visual conclusion rests on artifact text and geometry, and the human independent visual review remains required on all six.",
+      "pdftotext -bbox-layout sees words. It cannot see raster ink, vector rules, field borders, images, shading, or any glyph without extractable text, so a defect made only of those is invisible to this lane by construction.",
+      "The delivered fixtures are flattened -- pdf-lib reports 0 AcroForm fields on every delivered PDF I opened -- so widget-level reads were only possible against the PINNED SOURCE forms. That is how the ND caption finding was established, and it is why CLIPPING_AND_OVERLAP is a word-extent measurement rather than a widget-extent one on every row.",
+      "poppler emits 'XObject subtype is missing or wrong type' twice while extracting the TX canonical fixture. Extraction completes and pdf-lib loads all 24 pages, but some XObject content in the 6.6 MB Statement of Inability lies outside what my instrument reads.",
+      "Whether any of these routes in fact reaches a given participant is a legal question this lane did not decide. What is measured is what the repository establishes and what the packet says about it.",
+      "The MA source is held under 05_SOURCE_GATED and the track registry carries an open release blocker on whether the 2018-10-11 revision is still the published edition. Nothing in this container can answer that, and it is unaffected by the hash result."
+    ],
+    "overlayDirectoriesModified": 0,
+    "packetsModified": 0,
+    "buildScriptsModified": 0,
+    "fixturesModified": 0,
+    "fieldMapsModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "A verdict here moves a family in the queue and nothing else. It approves no output, promotes no family, opens no commercial route, and prepares no review package. Every finding below is a verdict and a repair assignment; this lane opened no packet, overlay, fixture, field map, queue, route, price or build script for writing, and entered no other lane's worktree.",
+    "subjectsRecordedHere": [
+      "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "ma-expunge-time-set",
+      "nd-nonconviction-close-petition-set",
+      "rcap-ms-custom-pleading",
+      "tx_nd_conviction_no_supervision-set"
+    ],
+    "rowsReplacedInThisFile": [],
+    "rowsPreserved": 26
   }
 }
