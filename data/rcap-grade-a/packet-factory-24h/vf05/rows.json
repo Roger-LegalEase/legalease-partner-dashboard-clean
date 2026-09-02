@@ -2,13 +2,14 @@
   "schemaVersion": "rcap-independent-verification-rows/v1",
   "lane": "VF05",
   "laneKind": "independent-verification",
-  "worker": "VF-SRC-A",
+  "worker": "VF-SRC-A (prior rows); FABLE-VT2 (fresh independent read, 2026-09-02)",
   "laneMembership": [
     "ar-misdemeanor-dwi-seal-set",
-    "pa_pardon_expungement-set"
+    "pa_pardon_expungement-set",
+    "vt_seal_dui-set"
   ],
-  "verdictCeiling": "BUILT_RASTER_PENDING — no family returns PASS_COMPLETE_INDEPENDENT",
-  "measuredBy": "the fifteen proof obligations measured in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from the builder's report",
+  "verdictCeiling": "none for the FABLE-VT2 rows — hash-bound central RASTER_PASS receipts now exist and were re-verified against current bytes; earlier rows carried BUILT_RASTER_PENDING when no receipts existed",
+  "measuredBy": "FABLE-VT2 fresh read: nine counters measured by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container; every source and artifact SHA-256 recomputed here from the mounted Master Library corpus (bootstrap-private-corpus.sh, governance checksums verified) and the committed bytes; raster-queue pins re-hashed against the current fixture bytes; fixture text extracted from the PDFs with pdftotext and read against the committed legal records. Earlier rows: the fifteen proof obligations measured in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from the builder's report",
   "overlayDirectoriesModified": 0,
   "packetsModified": 0,
   "commercialRoutesOpened": 0,
@@ -23,11 +24,12 @@
     "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
   },
   "summary": {
-    "families": 2,
-    "PASS_COMPLETE_INDEPENDENT": 0,
+    "families": 3,
+    "PASS_COMPLETE_INDEPENDENT": 1,
     "FAIL_REPAIR_REQUIRED": 1,
     "BLOCKED_SOURCE": 1,
-    "BLOCKED_LEGAL_INPUT": 0
+    "BLOCKED_LEGAL_INPUT": 0,
+    "STOPPED": 0
   },
   "rows": [
     {
@@ -295,6 +297,122 @@
         "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/build-findings.json",
         "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md"
       ]
+    },
+    {
+      "itemId": "vt_seal_dui-set",
+      "lane": "VF05",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
+      "repairedFamilyFreshRead": true,
+      "priorFail": "vf12 FAIL_REPAIR_REQUIRED on knownPrefills, feeAndWaiver and service; repaired by FIX04 (80bd5405b) with re-rendered fixtures",
+      "verdictCeilingApplied": "none — a hash-bound central RASTER_PASS receipt (run 33547709781) binds to the current (post-FIX03) fixture bytes",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "familyId and routeSelectionId agree across the records; the instructions title the packet 'sealing a DUI conviction under 13 V.S.A. § 7602' and print the route footer obligation:track-pathway:VT:vt_seal_dui:dui-sealing",
+          "evidence": "records + instructions, read here"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all three receipt sources recomputed from the mounted corpus and equal: 200-00130 ff914f49…, 200-00132 08811624…, 600-00228 263d4e19…; the fee/service source the instructions cite (200-00130A, 8a44b91c…) also recomputes to exactly that hash from the corpus",
+          "evidence": "sha256sum run here against the corpus bytes"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the three declared components — petition 200-00130, stipulation+order 200-00132, fee-waiver 600-00228 — are in the six-page assembled fixture, pinned by the raster row",
+          "evidence": "RASTER_QUEUE row re-hashed here + extracted fixture text"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "REPAIR VERIFIED: knownRequiredFieldsMissing=0 measured here, and the vf12 byte defect — an empty flattened email appearance on the 200-00132 page of the boundary fixture — is gone: the long fixture email appears on the petition, the stipulation ('Email Address maria.alejandra.oshaughnessy.whitfield@longmailexample.org') and the waiver pages of the extracted boundary text",
+          "evidence": "pdftotext of fixtures/boundary.pdf, read here"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredFactsNotCollected=0 and unclassifiedBlanks=0 measured here; the instructions tables name each blank per form and page with the printed caption beside it",
+          "evidence": "participant-instructions.md, read here"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here; the sealing-basis and conviction controls on the petition are the participant's own, disclosed row by row (unchanged from the vf11 read, which passed this obligation)",
+          "evidence": "counters + instructions"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here",
+          "evidence": "verify-packet-completeness.mjs counters"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites=0 measured here; the instructions expressly leave the State's Attorney's signature, date and printed name to the prosecutor and every court-owned line blank",
+          "evidence": "counters + instructions"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 14 recorded artifact hashes recomputed from the committed bytes and equal to reports/rendered-artifacts.json",
+          "evidence": "recomputed in this container"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the raster row pins canonical 81525fd2… and boundary 8f0058c9… at 6 pages, equal to the current bytes",
+          "evidence": "RASTER_QUEUE row re-hashed here"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects=0 measured here and the central RASTER_PASS receipt (run 33547709781) binds to the same bytes",
+          "evidence": "counters + raster receipt pin equality"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "REPAIR VERIFIED (VTR01): 'File the completed packet with the Vermont Superior Court, Criminal Division, in the unit where your case was decided', with the docket number and any unit clerk as the way to identify the unit",
+          "evidence": "instructions 'Where you file this'"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "REPAIR VERIFIED (FIX04): the fee rule is quoted from held 200-00130A — no fee except $90 to seal 23 V.S.A. § 1201(a) convictions, which is this route's own offence, stated in as many words — with 600-00228 as the included waiver route; source hash 8a44b91c… recomputed here from the corpus",
+          "evidence": "instructions 'What it costs' + corpus hash recomputed here"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "REPAIR VERIFIED (FIX04): quoted from 200-00130A — the court provides a copy to the prosecutor once the petition is filed (or skips it on a stipulated petition); the State's Attorney's stipulation signature is expressly distinguished from service",
+          "evidence": "instructions 'Who must receive a copy, and how'"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet states what it is not — not legal advice, not filed for you, no decision on whether the court grants sealing — and the blanks it deliberately leaves (unchanged from the vf11 read, which passed this obligation)",
+          "evidence": "instructions closing sections"
+        }
+      },
+      "notes": "REPAIRED-FAMILY FRESH READ THAT HOLDS: all three vf12 defects verified repaired from bytes and held sources. Completeness verifier: PASS_COMPLETE, 24/165 written, nine counters zero, measured here. The $90 fee the quoted rule names is this route's own case: 23 V.S.A. § 1201(a) is the DUI offence, and the instructions say exactly that.",
+      "priorFailLane": "VF12"
     }
   ],
   "supersededLaneMembership": {
