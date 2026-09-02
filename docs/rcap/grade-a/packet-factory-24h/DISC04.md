@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `92239810a4b96c6cffb87929a45cf56d8a20cbf5` (or the newer dispatch base)
+**Minimum required ancestor:** `f34e391ecded9aafec9c51fc3d2af0862439cba0` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC04 \
   --source-obligation 'agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information' \
   --codex-cloud \
-  --minimum-captain-sha 92239810a4b96c6cffb87929a45cf56d8a20cbf5
+  --minimum-captain-sha f34e391ecded9aafec9c51fc3d2af0862439cba0
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -134,7 +134,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source-obligation 'agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information' --codex-cloud --minimum-captain-sha 92239810a4b96c6cffb87929a45cf56d8a20cbf5
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source-obligation 'agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information' --codex-cloud --minimum-captain-sha f34e391ecded9aafec9c51fc3d2af0862439cba0
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
