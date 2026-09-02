@@ -14,7 +14,7 @@ This packet covers **a case that did not end in a conviction** — an arrest, a 
 
 ## Read this first: three pages of this packet are missing, and the packet says so itself
 
-**This bundle is not a complete filing on its own, and it tells you so in its own words, three times.** Where the petition's factual allegations should be, page 5 prints:
+**This bundle is not a complete filing on its own, and it tells you so in its own words, three times.** Where the petition's factual allegations should be, page 4 prints:
 
 > Take out this page and insert your non-conviction **Facts** pages (from the Non Conviction Insert Forms)
 

@@ -326,7 +326,7 @@ const DOCUMENTS = [
       {
         namedBy: "the bound source's own printed pages",
         printedInstruction: "Take out this page and insert your non-conviction Facts pages (from the Non Conviction Insert Forms)",
-        where: "page 5 of the bundle, inside the Verified Petition, between paragraph 3 and the WHEREFORE clause",
+        where: "page 4 of the bundle, inside the Verified Petition, between paragraph 3 and the WHEREFORE clause",
         whatIsMissing: "CCA Non Conviction Insert Forms — Facts pages",
         consequence: "The petition as delivered has no factual allegations about the arrest, charge or allegation being expunged. It cannot be filed as it stands."
       },
@@ -808,7 +808,7 @@ ${ROUTE_ELIGIBILITY}
 
 ## Read this first: three pages of this packet are missing, and the packet says so itself
 
-**This bundle is not a complete filing on its own, and it tells you so in its own words, three times.** Where the petition's factual allegations should be, page 5 prints:
+**This bundle is not a complete filing on its own, and it tells you so in its own words, three times.** Where the petition's factual allegations should be, page 4 prints:
 
 > Take out this page and insert your non-conviction **Facts** pages (from the Non Conviction Insert Forms)
 
