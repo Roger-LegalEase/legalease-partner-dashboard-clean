@@ -8,8 +8,8 @@
   "liveFamilyDenominator": 346,
   "completePacketProven": 90,
   "states": {
-    "SOURCE_BLOCKED": 74,
-    "SOURCE_READY": 79,
+    "SOURCE_BLOCKED": 70,
+    "SOURCE_READY": 83,
     "LEGAL_BLOCKED": 22,
     "ASSIGNED_TO_BUILD": 0,
     "BUILD_IN_PROGRESS": 0,
@@ -30,9 +30,9 @@
     "AGENCY_APPLICATION_READY": 0,
     "OUT_OF_SCOPE": 5
   },
-  "sourceReady": 79,
-  "sourceBlocked": 74,
-  "assigned": 79,
+  "sourceReady": 83,
+  "sourceBlocked": 70,
+  "assigned": 83,
   "completedSinceLastCheckpoint": 0,
   "newlySourceReady": 0,
   "returnedForRepair": 0,
@@ -44,12 +44,6 @@
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
-    {
-      "family": "al-pardon-set",
-      "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:ABPP-3",
-      "owner": "SRC01",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
     {
       "family": "ar-act346-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS, official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
@@ -346,25 +340,25 @@
     },
     {
       "family": "mo-575-120-identity-theft-correction-set",
-      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:CR310: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
+      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:FI-05: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
       "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "mo-610-122-arrest-expungement-set",
-      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:CR143: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
+      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:FI-05: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
       "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "mo-610-140-arrest-set",
-      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:CR370: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
+      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:FI-05: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
       "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "mo-610-140-conviction-set",
-      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:CR370: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
+      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:FI-05: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
       "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
@@ -390,18 +384,6 @@
       "family": "mt_mmrta_serving-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX, official-form:MT-FORM-A, official-form:MT-OCA-MMRTA, source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e, source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7, source-sha256:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d, source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
       "owner": "DISC06",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "nc_145_8a_youthful-set",
-      "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:AOC-CR-293, official-form:AOC-CR-293-INSTRUCTIONS, official-form:AOC-CV-226, source-sha256:48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d, source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
-      "owner": "SRC03",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "nc_auto_146_a4_agency_followup-set",
-      "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:AOC-G-260",
-      "owner": "SRC03",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -468,12 +450,6 @@
       "family": "ut_pet_remove_link-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:1110GE or 1111GE, official-form:1501CR, official-form:1501CR-C, official-form:1502CR",
       "owner": "DISC05",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "ut_pet_special_certificate-set",
-      "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:1001EX, official-form:1021EX, official-form:1044XX, official-form:1146XX, official-form:1148XX, official-form:1149XX, official-form:1169XX, official-form:UT-BCI-EXP-APPLICATION, official-form:UT-BCI-THIRD-PARTY-RELEASE",
-      "owner": "SRC04",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
