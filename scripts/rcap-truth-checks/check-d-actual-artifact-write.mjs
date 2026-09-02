@@ -97,11 +97,27 @@ export function isDeclaredWrite(node) {
   return false;
 }
 
-/** Every (field, widget) a field map declares written, with geometry. */
+/**
+ * Every (field, widget) a field map declares written, with geometry.
+ *
+ * The enclosing document is carried down the walk. A field row usually does not
+ * repeat its own documentId — New York's rows sit inside a documents[] entry
+ * that names it once — and losing that context would leave the write
+ * unattributable and silently unmeasured.
+ */
 export function declaredWrites(fieldMap) {
   const out = [];
-  for (const [node] of walk(fieldMap)) {
-    if (!isDeclaredWrite(node)) continue;
+  const descend = (node, inheritedDocumentId) => {
+    if (Array.isArray(node)) {
+      for (const v of node) descend(v, inheritedDocumentId);
+      return;
+    }
+    if (!node || typeof node !== 'object') return;
+    const documentId = node.documentId ?? node.document ?? inheritedDocumentId ?? null;
+    if (isDeclaredWrite(node)) collect(node, documentId);
+    for (const k of Object.keys(node)) descend(node[k], documentId);
+  };
+  const collect = (node, documentId) => {
     const name =
       node.field ?? node.fieldName ?? node.acroFieldName ?? node.effectiveLabel ?? null;
     const widgets = [];
@@ -114,16 +130,17 @@ export function declaredWrites(fieldMap) {
     } else if (typeof node.page === 'number' && node.rect && typeof node.rect.x === 'number') {
       widgets.push({ page: node.page, rect: node.rect, widgetIndex: 0 });
     }
-    if (widgets.length === 0) continue;
+    if (widgets.length === 0) return;
     out.push({
       field: name,
       factId: node.factId ?? null,
       decision: node.decision ?? null,
       disposition: node.disposition ?? null,
-      documentId: node.documentId ?? node.document ?? null,
+      documentId: documentId ? String(documentId) : null,
       widgets,
     });
-  }
+  };
+  descend(fieldMap, null);
   return out;
 }
 
@@ -141,6 +158,9 @@ function blankSourceFor(receipt, documentId) {
 }
 
 const normDoc = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
+
+/** A fixture that carries whatever the family declares, because nothing separates them. */
+const ANY_DOCUMENT = Symbol('any-document');
 
 /**
  * Which document each fixture renders.
@@ -165,16 +185,38 @@ function fixturesOf(dir, documentIds) {
     if (p?.file && p?.documentId) stated.set(path.basename(p.file), String(p.documentId));
   }
 
-  for (const f of fs.readdirSync(fx).sort()) {
-    if (!/\.pdf$/i.test(f)) continue;
+  const pdfs = fs.readdirSync(fx).filter((f) => /\.pdf$/i.test(f)).sort();
+  // What the fixture renders, with the variant word removed wherever it sits.
+  // "boundary.pdf" and "canonical.pdf" are the same document in two variants and
+  // must reduce to the same stem; "rule-790-order-boundary.pdf" and
+  // "rule-790-petition-boundary.pdf" are two documents and must not.
+  const stemOf = (f) =>
+    normDoc(f.replace(/\.pdf$/i, '').replace(/\b(canonical|boundary)\b/gi, ''));
+  const stems = new Set(pdfs.map(stemOf));
+
+  // Attribution only matters when the family renders several documents as
+  // separate fixtures. One rendered artifact per variant is unambiguous however
+  // many documents the map names — Maryland's single fixture pair carries both
+  // of its documents — and a map naming no document at all cannot be ambiguous.
+  const ambiguous = documentIds.length > 1 && stems.size > 1;
+
+  for (const f of pdfs) {
+    if (!ambiguous) {
+      out.push({
+        file: path.join(fx, f),
+        name: f,
+        documentId: documentIds.length === 1 ? documentIds[0] : ANY_DOCUMENT,
+        attributedBy:
+          documentIds.length <= 1
+            ? 'the family renders a single document'
+            : 'one rendered artifact per variant carries every document',
+      });
+      continue;
+    }
     let documentId = stated.get(f) || null;
     let how = documentId ? 'rendered-artifacts.json' : null;
-    if (!documentId && documentIds.length === 1) {
-      documentId = documentIds[0];
-      how = 'the family renders a single document';
-    }
     if (!documentId) {
-      const stem = normDoc(f.replace(/\.pdf$/i, '').replace(/-(canonical|boundary)$/i, ''));
+      const stem = stemOf(f);
       const hit = documentIds.filter((d) => {
         const n = normDoc(d);
         return stem.length >= 4 && (n.includes(stem) || stem.includes(n));
@@ -198,6 +240,54 @@ function documentIdsOf(fieldMap) {
     }
   }
   return [...ids];
+}
+
+/**
+ * Independent cross-check on an absence.
+ *
+ * Ink is the authority because text extraction under-reports. The opposite
+ * error is still possible: if the rasteriser silently dropped something the
+ * text layer knows about — poppler warns "XObject subtype is missing or wrong
+ * type" on several forms here — ink would under-report too. So every widget
+ * ink calls empty is asked again, from the text layer, with word geometry. A
+ * word sitting inside a rectangle ink called empty is a contradiction, and the
+ * detector reports it rather than resolving it.
+ */
+function wordsInRegion(pdf, page, rect, pageHeightPts, cache) {
+  const key = `${pdf}#${page}`;
+  let words = cache.get(key);
+  if (!words) {
+    words = [];
+    try {
+      const xml = execFileSync(
+        'pdftotext',
+        ['-q', '-bbox', '-f', String(page), '-l', String(page), pdf, '-'],
+        { encoding: 'utf8', maxBuffer: 1 << 24, timeout: 60000 },
+      );
+      const re = /<word xMin="([\d.]+)" yMin="([\d.]+)" xMax="([\d.]+)" yMax="([\d.]+)">([^<]*)<\/word>/g;
+      let m;
+      while ((m = re.exec(xml)) !== null) {
+        words.push({
+          xMin: Number(m[1]), yMin: Number(m[2]), xMax: Number(m[3]), yMax: Number(m[4]),
+          text: m[5],
+        });
+      }
+    } catch { /* leave empty; ink still decides */ }
+    cache.set(key, words);
+  }
+  // -bbox reports y from the top; widget rects are from the bottom.
+  const top = pageHeightPts - rect.y - rect.height;
+  const bottom = pageHeightPts - rect.y;
+  return words
+    .filter(
+      (w) =>
+        w.xMax > rect.x &&
+        w.xMin < rect.x + rect.width &&
+        w.yMax > top &&
+        w.yMin < bottom &&
+        w.text.trim().length > 0,
+    )
+    .map((w) => w.text);
 }
 
 function pdfTextOfPage(pdf, page) {
@@ -288,28 +378,41 @@ export function run({ onlyFamily = null } = {}) {
         const fixtures = fixturesOf(d.dir, documentIds);
         if (fixtures.length === 0) continue;
 
-        const ctx = { imgCache: new Map(), heightCache: new Map(), scratch };
+        const ctx = { imgCache: new Map(), heightCache: new Map(), wordCache: new Map(), scratch };
         for (const fx of fixtures) {
           if (!fx.documentId) { unattributedFixtures += 1; continue; }
           fixturesRead += 1;
           for (const w of writes) {
             // A field belongs to one document. Measuring it against a fixture
             // that renders a different document would invent a failure.
-            if (w.documentId && String(w.documentId) !== fx.documentId) continue;
-            if (!w.documentId && documentIds.length > 1) { unattributedWrites += 1; continue; }
-            const blank = blankSourceFor(receipt, w.documentId || fx.documentId);
+            if (fx.documentId !== ANY_DOCUMENT) {
+              if (w.documentId && String(w.documentId) !== fx.documentId) continue;
+              if (!w.documentId && documentIds.length > 1) { unattributedWrites += 1; continue; }
+            }
+            const blank = blankSourceFor(
+              receipt,
+              w.documentId || (fx.documentId === ANY_DOCUMENT ? null : fx.documentId),
+            );
             for (const widget of w.widgets) {
               const m = measureWidget(ctx, fx.file, blank?.file || null, widget);
               if (!m.measured) continue;
               let textWitness = null;
+              let textLayerWordsInRegion = null;
               if (!m.present) {
-                // Only consulted to describe an absence, never to overrule ink.
+                // Consulted to corroborate an absence, never to overrule ink.
                 const t = pdfTextOfPage(fx.file, widget.page);
                 textWitness = t.trim().length > 0 ? 'page extracts text' : 'page extracts no text';
+                textLayerWordsInRegion = wordsInRegion(
+                  fx.file,
+                  widget.page,
+                  widget.rect,
+                  pageHeights(fx.file, ctx.heightCache),
+                  ctx.wordCache,
+                );
               }
               perFamily.push({
                 fixture: rel(fx.file),
-                fixtureDocumentId: fx.documentId,
+                fixtureDocumentId: fx.documentId === ANY_DOCUMENT ? null : fx.documentId,
                 fixtureAttributedBy: fx.attributedBy,
                 field: w.field,
                 factId: w.factId,
@@ -319,6 +422,9 @@ export function run({ onlyFamily = null } = {}) {
                 blankSource: blank ? blank.pathInArchive : null,
                 ...m,
                 textWitness,
+                textLayerWordsInRegion,
+                inkAndTextDisagree:
+                  Array.isArray(textLayerWordsInRegion) && textLayerWordsInRegion.length > 0,
               });
             }
           }
@@ -337,7 +443,10 @@ export function run({ onlyFamily = null } = {}) {
         notMeasurable.push({
           familyId: fam.familyId,
           reason: 'NOT_MEASURABLE_HERE',
-          why: 'the family declares writes with geometry but renders no fixture PDF to measure them against',
+          why:
+            'the family declares writes with geometry but no fixture PDF could be measured against ' +
+            'them — it renders none, or it renders several documents that could not be paired to a ' +
+            'declared write without guessing',
           declaredWrites: declaredCount,
         });
         continue;
@@ -363,6 +472,7 @@ export function run({ onlyFamily = null } = {}) {
         measurementsWithoutBlankBaseline: withoutBaseline,
         fixturesNotAttributableToADocument: unattributedFixtures,
         declaredWritesNotAttributableToADocument: unattributedWrites,
+        widgetsWhereInkAndTextDisagree: absent.filter((a) => a.inkAndTextDisagree).length,
         result: absent.length === 0 ? 'PASS' : 'FAIL',
         failures: absent.length > 0 ? ['D1_DECLARED_WRITE_NOT_IN_ARTIFACT'] : [],
         absentFieldCount: absentFields.length,
@@ -382,6 +492,8 @@ export function run({ onlyFamily = null } = {}) {
           blankSourceInk: a.blankSourceInk,
           inkAddedByRender: a.inkAddedByRender,
           textWitness: a.textWitness,
+          textLayerWordsInRegion: a.textLayerWordsInRegion,
+          inkAndTextDisagree: a.inkAndTextDisagree,
         })),
       });
     }
@@ -404,7 +516,9 @@ export function run({ onlyFamily = null } = {}) {
       inkDeltaThreshold: INK_DELTA_PRESENT,
       dpi: 150,
       textExtraction:
-        'consulted only as a witness describing an absence, never to overrule ink',
+        'consulted only to corroborate an absence, never to overrule ink. Every widget ink calls ' +
+        'empty is asked again from the text layer with word geometry; a word inside a rectangle ' +
+        'ink called empty is reported as inkAndTextDisagree rather than silently resolved.',
     },
     trapsHandled: {
       fieldMeasuredAgainstTheWrongDocument:
