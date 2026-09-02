@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-independent-verification-rows/v1",
   "lane": "VF02",
   "laneKind": "independent-verification",
-  "worker": "VF-SRC-A",
+  "worker": "VF-SRC-A + FABLE-VT1",
   "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
   "measuredBy": "the fifteen proof obligations measured in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from any builder report",
   "sourceIdentityLimitation": "SOURCE_IDENTITY could not be recomputed from the source bytes for any family in this lane: the Master Library corpus is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and scripts/rcap-corpus/bootstrap-private-corpus.sh cannot resolve the pinned release asset (HTTP 403 from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28). Cross-record consistency was measured instead and is recorded as such; it is not a substitute, and no family in this lane is recorded PASS_COMPLETE_INDEPENDENT on its strength.",
@@ -241,6 +241,811 @@
         "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/build-findings.json",
         "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/participant-instructions.md"
       ]
+    },
+    {
+      "itemId": "ar-arrest-seal-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "33497786539",
+      "verdictCeilingApplied": null,
+      "repairedFamilyReRead": {
+        "priorVerdict": "FAIL_REPAIR_REQUIRED (vf04): FEE_AND_WAIVER, FILING_DESTINATION, REQUIRED_BEFORE_FILING, SELF_HELP_STOP, SERVICE",
+        "whatTheRepairFixed": "participant-instructions.md now exists and addresses all five instruction obligations — that part of the repair holds",
+        "whatStillFails": "the family still cannot prove completeness: verify-packet-completeness.mjs, run fresh here, returns FAIL_COMPONENT_SET with 0/0 fields measured"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": false,
+        "note": "the verifier refused the field map as unauditable, so the nine counters were never actually measured for this family; zeros here are the refusal's empty totals, not a measurement"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "familyId agrees across the family's committed records; product-wiring routeKeys match the MASTER_QUEUE row",
+          "evidence": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/product-wiring.json; data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "the census form-number identity is not exactly bound: MASTER_QUEUE records sourceStatus SOURCE_IDENTITY_NOT_EXACT, sourceBound=false, binding tier token_subset_same_jurisdiction, with readiness reasons 'MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding' for both ACIC-ORDER-TO-SEAL-ARREST and ACIC-PETITION-TO-SEAL-ARREST. The declared SHA-256s DO match Master Library bytes recomputed here (both files hash to the receipt values), so the bytes are held and genuine — the defect is the identity binding, not the bytes",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json sourceReadiness; sha256 recomputed here from private/source-imports/…/STATES/AR/05_SOURCE_GATED/*"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "verify-packet-completeness.mjs, run fresh in this container, returns FAIL_COMPONENT_SET with 0/0 fields measured: production-field-map.json uses a documents[].explicitMappings/writeBoxes/refused/roleRefusals schema that readFieldRows() does not read, and the verifier refuses an unread schema as unauditable rather than reading it as empty. The family therefore cannot prove what it was supposed to write",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-arrest-seal-set, run in this container on the committed bytes"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "not measurable: the completeness verifier refuses this family's production-field-map.json schema as unauditable, so this counter was never measured for it",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-arrest-seal-set, run in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "reports/blanks-left-for-the-participant.json uses an older schema (a flat blanks list with no requiredBeforeFiling classification and no disclosure flag), so the disclosure contract cannot be measured against it",
+          "evidence": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/reports/blanks-left-for-the-participant.json"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "not measurable: the completeness verifier refuses this family's production-field-map.json schema as unauditable, so this counter was never measured for it",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-arrest-seal-set, run in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "not measurable: the completeness verifier refuses this family's production-field-map.json schema as unauditable, so this counter was never measured for it",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-arrest-seal-set, run in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "the family has no reports/actual-writes.json, so no byte-level read-back of protected fields exists to verify",
+          "evidence": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/reports"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "4 artifact(s) recomputed by SHA-256 from the committed fixture bytes in this container; every hash matches reports/rendered-artifacts.json and the RASTER_PASS receipt (workflow run 33497786539)",
+          "evidence": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/fixtures; data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/reports/rendered-artifacts.json; data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the committed fixture bytes are the exact bytes the central raster gate rendered and passed",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "not measurable: the completeness verifier refuses this family's production-field-map.json schema as unauditable, so this counter was never measured for it",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-arrest-seal-set, run in this container on the committed bytes"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "repair holds: participant-instructions.md names where to file; the petition face is the genuine ACIC Act-1460 arrest-seal form with participant name, case number and DOB written",
+          "evidence": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/participant-instructions.md; pdftotext of fixtures/petition-canonical-filled.pdf"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "repair holds: the fee posture and waiver question are addressed in participant-instructions.md",
+          "evidence": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/participant-instructions.md"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "repair holds: service on the prosecuting attorney or city attorney and the arresting agency is stated (the ACIC petition carries its own certificate of service, and the instructions address it)",
+          "evidence": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/participant-instructions.md"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "repair holds: the instructions state where self-help ends",
+          "evidence": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/participant-instructions.md"
+        }
+      },
+      "failedProofObligations": [
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET"
+      ],
+      "notMeasurableHere": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "exactDefect": "REPAIR REQUIRED: (1) rewrite production-field-map.json into a schema scripts/rcap-packet-completeness/verify-packet-completeness.mjs reads (writes[]+refusals[], documents[].fields[] with decisions, writableAnchors[]+withheld[], or maps[].canonicalWrites[]) or teach the verifier this family's schema, and emit reports/actual-writes.json and a current-schema blanks report, so completeness can actually be measured; (2) resolve the census form-number identity so the held AR bytes bind at an exact tier instead of token_subset_same_jurisdiction",
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/fixtures",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+      ]
+    },
+    {
+      "itemId": "dc_seal_nonconviction-set",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "33549186956",
+      "verdictCeilingApplied": null,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "familyId agrees across source-receipt.json, product-wiring.json, build-status.json, approval-request.json and build-findings.json; product-wiring routeKeys match the MASTER_QUEUE row",
+          "evidence": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/product-wiring.json routeKeys [\"obligation:track-pathway:DC:dc_seal_nonconviction:dc_motion_seal_nonconviction_16_806\"]"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the family is CUSTOM_PLEADING_FROM_CODIFIED_TEXT: no official form is named and no source bytes are owed; the canonical face carries the receipt's statutory authority, D.C. Code § 16-806(a)(1), read from the extracted fixture text, with the movant's name and DOB populated",
+          "evidence": "source-receipt.json statutoryAuthority; pdftotext of fixtures/canonical.pdf"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "componentSet primary_filing+prosecutor_service+filing_instructions all appear in the canonical pageManifest (5/5 pages)",
+          "evidence": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/reports/rendered-artifacts.json pageManifest, read against the declared component set"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_seal_nonconviction-set, run in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "9 required-before-filing items listed with 5 protected blanks; everyRequiredBeforeFilingItemIsDisclosed=true and requiredFactsNotCollected=0 measured here",
+          "evidence": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/reports/blanks-left-for-the-participant.json"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_seal_nonconviction-set, run in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_seal_nonconviction-set, run in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites=0 measured here; reports/actual-writes.json is derived from the artifact bytes (derivedFromArtifactBytes=true) with zero blocking findings; signature and date lines are blank on the extracted fixture text",
+          "evidence": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/reports/actual-writes.json; node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_seal_nonconviction-set, run in this container on the committed bytes"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "2 artifact(s) recomputed by SHA-256 from the committed fixture bytes in this container; every hash matches reports/rendered-artifacts.json and the RASTER_PASS receipt in RASTER_QUEUE.json (workflow run 33549186956)",
+          "evidence": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/fixtures; data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/reports/rendered-artifacts.json; data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "actual page count read from the PDF bytes equals the declared pageCount and the pageManifest length for both fixtures; the bytes are the same bytes the central raster gate passed",
+          "evidence": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/reports/rendered-artifacts.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects=0 measured here; the central raster gate holds a RASTER_PASS receipt for these exact bytes",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_seal_nonconviction-set, run in this container on the committed bytes"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the Criminal Division clerk's office (500 Indiana Avenue NW, Room 4001, Washington, DC) and the Seal Team (criminalmotionsealteam@dcsc.gov, 202-879-1373) are named from the court's own instruction sheet",
+          "evidence": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/participant-instructions.md"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the fee posture is stated honestly: no held source states a fee or waiver procedure, and the participant is told to ask the Criminal Division clerk's office (202-879-1373) before filing",
+          "evidence": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/participant-instructions.md"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the prosecutor_service component carries the copy for the prosecuting office; the instructions tell the participant to confirm which office prosecuted (USAO-DC or OAG-DC) and its service address with the clerk or Seal Team before serving",
+          "evidence": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/participant-instructions.md"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the instructions state what the packet is not (not an official court form, not legal advice, not filed for you) and name the stop points",
+          "evidence": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/participant-instructions.md"
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/fixtures",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ]
+    },
+    {
+      "itemId": "ga-pardon-j7-set",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "33547709781",
+      "verdictCeilingApplied": null,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "familyId agrees across source-receipt.json, product-wiring.json, build-status.json, approval-request.json and build-findings.json; product-wiring routeKeys match the MASTER_QUEUE row",
+          "evidence": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/product-wiring.json routeKeys [\"obligation:track-pathway:GA:ga-pardon-j7:restriction-and-sealing-of-a-pardoned-felony\"]"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the family is CUSTOM_PLEADING_FROM_CODIFIED_TEXT: no official form is named and no source bytes are owed; the canonical face carries the receipt's statutory authority, O.C.G.A. § 35-3-37(j)(7), with pardon language, read from the extracted fixture text",
+          "evidence": "source-receipt.json statutoryAuthority; pdftotext of fixtures/canonical.pdf"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "componentSet of 6 components (primary_filing, proposed_order, certificate_of_service, exhibits A-C incl. pardon certificate) all appear in the canonical pageManifest (7/7 pages)",
+          "evidence": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/reports/rendered-artifacts.json pageManifest, read against the declared component set"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-pardon-j7-set, run in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "14 required-before-filing items listed with 9 protected blanks; everyRequiredBeforeFilingItemIsDisclosed=true and requiredFactsNotCollected=0 measured here",
+          "evidence": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/reports/blanks-left-for-the-participant.json"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-pardon-j7-set, run in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-pardon-j7-set, run in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites=0 measured here; reports/actual-writes.json is derived from the artifact bytes (derivedFromArtifactBytes=true) with zero blocking findings; signature and date lines are blank on the extracted fixture text",
+          "evidence": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/reports/actual-writes.json; node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-pardon-j7-set, run in this container on the committed bytes"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "2 artifact(s) recomputed by SHA-256 from the committed fixture bytes in this container; every hash matches reports/rendered-artifacts.json and the RASTER_PASS receipt in RASTER_QUEUE.json (workflow run 33547709781)",
+          "evidence": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/fixtures; data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/reports/rendered-artifacts.json; data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "actual page count read from the PDF bytes equals the declared pageCount and the pageManifest length for both fixtures; the bytes are the same bytes the central raster gate passed",
+          "evidence": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/reports/rendered-artifacts.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects=0 measured here; the central raster gate holds a RASTER_PASS receipt for these exact bytes",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-pardon-j7-set, run in this container on the committed bytes"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the instructions direct filing in the convicting court (its clerk named throughout), with the court and county carried in the caption; the clerk of the convicting court is named as the confirmer",
+          "evidence": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/participant-instructions.md"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the fee posture is stated honestly: no statutory filing fee is identified, the county-specific question is disclosed, and the participant is told to ask the clerk of the convicting court before filing; the O.C.G.A. § 9-15-2 pauper's-affidavit question is likewise disclosed",
+          "evidence": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/participant-instructions.md"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "a certificate_of_service component certifies service on the prosecuting attorney (District Attorney or Solicitor-General) and the clerk of court; methods (certified mail, e-filing, hand delivery) and the instruction to complete the certificate only when copies actually go out are stated",
+          "evidence": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/participant-instructions.md"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "a 'When to stop and get help instead of filing' section is present",
+          "evidence": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/participant-instructions.md"
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/fixtures",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ]
+    },
+    {
+      "itemId": "ma-expunge-mj-set",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "33526896195",
+      "verdictCeilingApplied": null,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "familyId agrees across source-receipt.json, product-wiring.json, build-status.json, approval-request.json and build-findings.json; product-wiring routeKeys match the MASTER_QUEUE row",
+          "evidence": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/product-wiring.json routeKeys [\"obligation:track-pathway:MA:ma-expunge-mj:marijuana-only-expungement\"]"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "TC0021 recomputed by SHA-256 from the Master Library bytes in this container and matches the receipt exactly (a9d80fab…), tier exact_form_number; the fixture face is the genuine TC0021 petition (G.L. c. 276, § 100K¼, Rev. 11/22)",
+          "evidence": "sha256sum of private/source-imports/…/STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__…__REV-2022-11__EN.pdf recomputed here against source-receipt.json"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "componentSet primary_filing appears in the canonical pageManifest (2/2 pages, both bound to TC0021's sha256)",
+          "evidence": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/reports/rendered-artifacts.json pageManifest, read against the declared component set"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-mj-set, run in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "a declared zero-write packet: 0/29 fields written by design and proven by byte read-back (addedGlyphsReadFromOutputBytes=0 at all 29 measured rectangles); 7 required-before-filing items, 19 participant elections and 3 protected blanks all disclosed (everyRequiredBeforeFilingItemIsDisclosed=true), requiredFactsNotCollected=0 measured here",
+          "evidence": "reports/blanks-left-for-the-participant.json; reports/actual-writes.json"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-mj-set, run in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-mj-set, run in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites=0 measured here; reports/actual-writes.json is derived from the artifact bytes (derivedFromArtifactBytes=true) with zero blocking findings; signature and date lines are blank on the extracted fixture text",
+          "evidence": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/reports/actual-writes.json; node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-mj-set, run in this container on the committed bytes"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "2 artifact(s) recomputed by SHA-256 from the committed fixture bytes in this container; every hash matches reports/rendered-artifacts.json and the RASTER_PASS receipt in RASTER_QUEUE.json (workflow run 33526896195)",
+          "evidence": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/fixtures; data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/reports/rendered-artifacts.json; data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "actual page count read from the PDF bytes equals the declared pageCount and the pageManifest length for both fixtures; the bytes are the same bytes the central raster gate passed",
+          "evidence": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/reports/rendered-artifacts.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects=0 measured here; the central raster gate holds a RASTER_PASS receipt for these exact bytes",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-mj-set, run in this container on the committed bytes"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "'File this petition in the clerk's office in the court where the criminal case was heard' — the court's own instruction sheet's words; separate petitions per docket stated",
+          "evidence": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/participant-instructions.md"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "TC0021 states no filing fee; the instructions say so, direct the participant to ask the clerk's office whether any fee applies and whether it can be waived, and note the no-cost interpreter right printed on the form",
+          "evidence": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/participant-instructions.md"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "service on the District Attorney's Office that prosecuted the case, on or before the day of filing, by hand or first-class mail, with the reason the service statement lines are left blank",
+          "evidence": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/participant-instructions.md"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "amount thresholds gating the route (two ounces / ten ounces / plant counts) are stated with the pointer to mass.gov for other circumstances; what the packet is not is stated",
+          "evidence": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/participant-instructions.md"
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/fixtures",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ]
+    },
+    {
+      "itemId": "ms-misd-1st-set",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "33547709781",
+      "verdictCeilingApplied": null,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "familyId agrees across source-receipt.json, product-wiring.json, build-status.json, approval-request.json and build-findings.json; product-wiring routeKeys match the MASTER_QUEUE row",
+          "evidence": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/product-wiring.json routeKeys [\"obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1\"]"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the family is CUSTOM_PLEADING_FROM_CODIFIED_TEXT: no official form is named and no source bytes are owed; the canonical face carries the receipt's statutory authority, Miss. Code Ann. § 99-19-71(1) (with §§ 99-19-71(3) and 99-19-72 in the receipt), read from the extracted fixture text, with the petitioner's name and DOB populated",
+          "evidence": "source-receipt.json statutoryAuthority; pdftotext of fixtures/canonical.pdf"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "componentSet primary_filing+proposed_order+certificate_of_service+attachment+instructions all appear in the canonical pageManifest (8/8 pages)",
+          "evidence": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/reports/rendered-artifacts.json pageManifest, read against the declared component set"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set, run in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "19 required-before-filing items listed with 9 protected blanks; everyRequiredBeforeFilingItemIsDisclosed=true and requiredFactsNotCollected=0 measured here",
+          "evidence": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/reports/blanks-left-for-the-participant.json"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set, run in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set, run in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites=0 measured here; reports/actual-writes.json is derived from the artifact bytes (derivedFromArtifactBytes=true) with zero blocking findings; signature and date lines are blank on the extracted fixture text",
+          "evidence": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/reports/actual-writes.json; node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set, run in this container on the committed bytes"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "2 artifact(s) recomputed by SHA-256 from the committed fixture bytes in this container; every hash matches reports/rendered-artifacts.json and the RASTER_PASS receipt in RASTER_QUEUE.json (workflow run 33547709781)",
+          "evidence": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/fixtures; data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/reports/rendered-artifacts.json; data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "actual page count read from the PDF bytes equals the declared pageCount and the pageManifest length for both fixtures; the bytes are the same bytes the central raster gate passed",
+          "evidence": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/reports/rendered-artifacts.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects=0 measured here; the central raster gate holds a RASTER_PASS receipt for these exact bytes",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set, run in this container on the committed bytes"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the instructions direct filing in the court that heard the case and tell the participant to call that court's records office before filing because districts maintain their own preferences",
+          "evidence": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/participant-instructions.md"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the § 99-19-72 fee statute is addressed and the zero-balance practice disclosed, with the court's records office named as the confirmer",
+          "evidence": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/participant-instructions.md"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "a certificate_of_service component records contemporaneous delivery of a copy to the prosecuting authority, at a mailing address confirmed with the court's records office",
+          "evidence": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/participant-instructions.md"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "an 'instructions' component states what you do in order and when to stop and get help; docket wording such as 'passed to the file' is flagged as a reason to stop and get advice",
+          "evidence": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/participant-instructions.md"
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/fixtures",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ]
+    },
+    {
+      "itemId": "pa_pardon_expungement-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "33495068504",
+      "verdictCeilingApplied": null,
+      "repairedFamilyReRead": {
+        "priorVerdict": "BLOCKED_SOURCE (vf05): SOURCE_IDENTITY unmeasured",
+        "whatTheRepairFixed": "the source repair holds: both Rule 790 forms are bound at exact_form_number tier and their SHA-256s, recomputed here from the Master Library bytes, match the receipt and the pageManifest exactly",
+        "whatStillFails": "participant-instructions.md is wrong-state template text in its filing sections — a defect the prior BLOCKED_SOURCE read never reached"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "familyId agrees across the family's committed records; product-wiring routeKeys match the MASTER_QUEUE row; the packet PDF itself (petition, order, process-guidance page) is Pennsylvania-correct for the pardon route",
+          "evidence": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/product-wiring.json; pdftotext of fixtures/canonical.pdf"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "PA-RCRIM-P-790-PETITION (fc06486e…) and PA-RCRIM-P-790-ORDER (4d312ebd…) recomputed by SHA-256 from the Master Library bytes in this container match the receipt and pageManifest exactly; binding tier exact_form_number",
+          "evidence": "sha256 recomputed here from private/source-imports/…/STATES/PA/02_PACKET_FORMS/*"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "componentSet primary_filing+proposed_order+process_guidance all appear in the canonical pageManifest (5/5 pages)",
+          "evidence": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/reports/rendered-artifacts.json"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set, run in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredFactsNotCollected=0 measured here: every required-before-filing blank's label is named in participant-instructions.md. Note the family carries reports/builder-completeness-counters.json but no blanks-left-for-the-participant.json in the current schema",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set, run in this container on the committed bytes"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set, run in this container on the committed bytes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0, measured by running the completeness verifier in this container",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set, run in this container on the committed bytes"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites=0 measured here; reports/actual-writes.json derivedFromArtifactBytes=true with zero blocking findings",
+          "evidence": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/reports/actual-writes.json; node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set, run in this container on the committed bytes"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "2 artifact(s) recomputed by SHA-256 from the committed fixture bytes; hashes match reports/rendered-artifacts.json and the RASTER_PASS receipt (workflow run 33495068504)",
+          "evidence": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures; data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "actual page count (5) equals declared pageCount and pageManifest length for both fixtures; bytes match the raster receipt",
+          "evidence": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/reports/rendered-artifacts.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects=0 measured here; RASTER_PASS receipt held for these bytes",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set, run in this container on the committed bytes"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "participant-instructions.md line 9 directs filing with 'the Vermont Superior Court, Criminal Division, in the unit where your case was decided' — a Vermont court for a Pennsylvania Rule 790 packet. Line 11 describes Vermont forms 200-00130 and 200-00132; the packet's own process-guidance page correctly says 'File the petition with the Clerk of Courts', so the instructions contradict the packet",
+          "evidence": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md lines 9-11"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "the fee section says 'The waiver form is included' referring to Vermont form 600-00228, which is not in this packet; the participant is directed to 'the clerk of the unit above', i.e. a Vermont Superior Court unit",
+          "evidence": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md lines 15, 33"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "the service line says to ask 'the same clerk' (the Vermont unit's) and that 'The State's Attorney's signature on the stipulation is not service' — Vermont officers and a stipulation document this Pennsylvania packet does not contain. Step 4 tells the participant to have the State's Attorney sign stipulation 200-00132; step 2 asks them to pick a 'non-conviction ending', wrong for a pardon route",
+          "evidence": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md lines 16, 27, 31"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "the closing statement reads 'This is a prepared set of official Vermont forms and a process-guidance page' — the stop language exists but describes the wrong state's packet",
+          "evidence": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md line 132"
+        }
+      },
+      "failedProofObligations": [
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "notMeasurableHere": [],
+      "exactDefect": "REPAIR REQUIRED: participant-instructions.md is a hybrid whose filing sections are Vermont template text (Vermont Superior Court Criminal Division; forms 200-00130/200-00132/600-00228; State's Attorney stipulation route; a 'non-conviction ending' step wrong for a pardon route) wrapped around otherwise Pennsylvania-correct Rule 790 item tables. Rewrite the 'Where you file this', fee/service bullets, and steps 2/4/5 to the Pennsylvania process the packet's own process-guidance page already states (Clerk of Courts; serve the attorney for the Commonwealth), and remove the Vermont form references. The PDF packet itself is correct; only the instructions file misdirects. Also emit the current-schema blanks-left-for-the-participant.json report. Note: the completeness verifier passed this family because it only checks that blank labels appear in the instructions text, not which state's court the instructions send the participant to",
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/reports/builder-completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+      ]
     }
-  ]
+  ],
+  "vt1Read": {
+    "worker": "FABLE-VT1",
+    "readAt": "2026-09-01",
+    "baseSha": "edf5ff14b",
+    "subjects": [
+      "ar-arrest-seal-set",
+      "dc_seal_nonconviction-set",
+      "ga-pardon-j7-set",
+      "ma-expunge-mj-set",
+      "ms-misd-1st-set",
+      "pa_pardon_expungement-set"
+    ],
+    "measuredBy": "the fifteen proof obligations measured in this container by FABLE-VT1; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from any builder report; SOURCE_IDENTITY recomputed by SHA-256 from the Master Library bytes present at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1; artifact hashes recomputed from the committed fixture bytes and matched against reports/rendered-artifacts.json and the RASTER_PASS receipts in RASTER_QUEUE.json",
+    "verdictCeilingNote": "the file-level verdictCeiling (where present) belongs to the earlier read, taken while raster acceptance was pending; every FABLE-VT1 subject holds a RASTER_PASS receipt in RASTER_QUEUE.json for the exact committed fixture bytes (recomputed and matched here), so no raster ceiling applies to the VT1 rows and each carries verdictCeilingApplied: null"
+  }
 }

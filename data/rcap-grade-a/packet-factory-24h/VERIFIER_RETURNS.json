@@ -22,10 +22,10 @@
   "supersessionRule": "one current verdict per family: the highest-precedence lane wins (factory vf lanes over codex-cloud directories, then higher lane number); superseded rows remain as history with superseded: true",
   "counts": {
     "returnDirectories": 29,
-    "rows": 77,
-    "independentVerdicts": 45,
+    "rows": 89,
+    "independentVerdicts": 53,
     "failRepairRequired": 29,
-    "passIndependent": 13
+    "passIndependent": 21
   },
   "failRepairRequiredFamilies": [
     "ar-arrest-seal-set",
@@ -168,6 +168,40 @@
     {
       "familyId": "ar-arrest-seal-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "the census form-number identity is not exactly bound: MASTER_QUEUE records sourceStatus SOURCE_IDENTITY_NOT_EXACT, sourceBound=false, binding tier token_subset_same_jurisdiction, with readiness reasons 'MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding' for both ACIC-ORDER-TO-SEAL-ARREST and ACIC-PETITION-TO-SEAL-ARREST. The declared SHA-256s DO match Master Library bytes recomputed here (both files hash to the receipt values), so the bytes are held and genuine — the defect is the identity binding, not the bytes",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json sourceReadiness; sha256 recomputed here from private/source-imports/…/STATES/AR/05_SOURCE_GATED/*"
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "verify-packet-completeness.mjs, run fresh in this container, returns FAIL_COMPONENT_SET with 0/0 fields measured: production-field-map.json uses a documents[].explicitMappings/writeBoxes/refused/roleRefusals schema that readFieldRows() does not read, and the verifier refuses an unread schema as unauditable rather than reading it as empty. The family therefore cannot prove what it was supposed to write",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-arrest-seal-set, run in this container on the committed bytes"
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-arrest-seal-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ar-arrest-seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf04",
       "isIndependentVerification": true,
       "failedObligations": [
@@ -213,6 +247,40 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-arrest-seal-set",
       "superseded": false
+    },
+    {
+      "familyId": "ar-misdemeanor-dwi-seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "the census form-number identity is not exactly bound: MASTER_QUEUE records sourceStatus SOURCE_IDENTITY_NOT_EXACT, sourceBound=false, binding tier token_subset_same_jurisdiction, with readiness reasons 'MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding' for both ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI and ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI. The declared SHA-256s DO match Master Library bytes recomputed here (both files hash to the receipt values), so the bytes are held and genuine — the defect is the identity binding, not the bytes",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json sourceReadiness; sha256 recomputed here from private/source-imports/…/STATES/AR/05_SOURCE_GATED/*"
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "verify-packet-completeness.mjs, run fresh in this container, returns FAIL_COMPONENT_SET with 0/0 fields measured: production-field-map.json uses a documents[].explicitMappings/writeBoxes/refused/roleRefusals schema that readFieldRows() does not read, and the verifier refuses an unread schema as unauditable rather than reading it as empty. The family therefore cannot prove what it was supposed to write",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-misdemeanor-dwi-seal-set, run in this container on the committed bytes"
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-misdemeanor-dwi-seal-set",
+      "superseded": true
     },
     {
       "familyId": "ar-misdemeanor-dwi-seal-set",
@@ -438,6 +506,84 @@
       "superseded": false
     },
     {
+      "familyId": "dc_seal_fugitive-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_seal_fugitive-set",
+      "superseded": false
+    },
+    {
+      "familyId": "dc_seal_nonconviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_seal_nonconviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ga-misd-j4-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-misd-j4-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ga-pardon-j7-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-pardon-j7-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ga-seal-m-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-seal-m-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ma-expunge-mj-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-mj-set",
+      "superseded": false
+    },
+    {
       "familyId": "mi_setaside_marihuana-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
@@ -485,6 +631,32 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_marihuana-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ms-misd-1st-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ms-nonconv-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
       "superseded": false
     },
     {
@@ -686,6 +858,19 @@
     },
     {
       "familyId": "pa_age70_deceased-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_age70_deceased-set",
+      "superseded": true
+    },
+    {
+      "familyId": "pa_age70_deceased-set",
       "verdict": "BLOCKED_SOURCE",
       "lane": "vf04",
       "isIndependentVerification": true,
@@ -698,6 +883,45 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_age70_deceased-set",
       "superseded": false
+    },
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "participant-instructions.md line 9 directs filing with 'the Vermont Superior Court, Criminal Division, in the unit where your case was decided' — a Vermont court for a Pennsylvania Rule 790 packet. Line 11 describes Vermont forms 200-00130 and 200-00132; the packet's own process-guidance page correctly says 'File the petition with the Clerk of Courts', so the instructions contradict the packet",
+          "evidence": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md lines 9-11"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "the fee section says 'The waiver form is included' referring to Vermont form 600-00228, which is not in this packet; the participant is directed to 'the clerk of the unit above', i.e. a Vermont Superior Court unit",
+          "evidence": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md lines 15, 33"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "the service line says to ask 'the same clerk' (the Vermont unit's) and that 'The State's Attorney's signature on the stipulation is not service' — Vermont officers and a stipulation document this Pennsylvania packet does not contain. Step 4 tells the participant to have the State's Attorney sign stipulation 200-00132; step 2 asks them to pick a 'non-conviction ending', wrong for a pardon route",
+          "evidence": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md lines 16, 27, 31"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "the closing statement reads 'This is a prepared set of official Vermont forms and a process-guidance page' — the stop language exists but describes the wrong state's packet",
+          "evidence": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md line 132"
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set",
+      "superseded": true
     },
     {
       "familyId": "pa_pardon_expungement-set",
