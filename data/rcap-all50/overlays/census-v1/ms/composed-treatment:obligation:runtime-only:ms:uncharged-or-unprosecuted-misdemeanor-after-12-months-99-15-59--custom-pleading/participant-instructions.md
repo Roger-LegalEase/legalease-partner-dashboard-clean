@@ -47,7 +47,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 2. **Count the twelve months from the arrest or citation date.** The recorded clock runs from that date, and it must have fully passed with no formal charge and no prosecution.
 3. **Get your arrest record** and fill in every dotted blank from it. Do not guess a date, an offense wording or an agency name.
 4. **Sign and date the petition yourself.** The platform never signs for you and never dates a signature.
-5. **File the petition, the arrest record and the unsigned proposed order with the court with jurisdiction over the matter.** The office of that court can confirm it is the right court, how it accepts filings, and whether a filing fee applies - no committed record this packet is built from states one.
+5. **File the petition, the arrest record and the unsigned proposed order with the court with jurisdiction over the matter.** The office of that court can confirm it is the right court, how it accepts filings, whether a filing fee applies, and whether a copy must go to anyone - no committed record this packet is built from states any of those three.
 6. **Keep the proposed order unsigned.** Every decision on it is the court's.
 
 ## Things the platform deliberately left blank
@@ -59,6 +59,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 ## What this packet does not tell you
 
 - **Whether a filing fee applies, and how the petition must be delivered.** Neither is established by the committed records this packet is built from. The office of the court with jurisdiction over the matter is the authority that can answer both — ask before you file.
+- **Who, if anyone, must be served with a copy.** No committed record this packet is built from establishes a service rule for this branch: the route contract carries no service term at all and no packet-set manifest exists for this family. That is the absence of a record and not a finding that no service is required, and this packet does not turn one into the other. The only notice rule the compiled Mississippi profile carries — ten days' written notice to the district attorney before any hearing — is recorded against § 99-19-71 rather than § 99-15-59, so it is not read across to this branch. Ask the office of the court with jurisdiction over the matter, at the same time you ask about the fee and the filing method.
 - **Whether related counts change anything.** The route contract asks about related counts as a required fact; if there are any, get help rather than guessing.
 
 ## When to stop and get help instead of filing

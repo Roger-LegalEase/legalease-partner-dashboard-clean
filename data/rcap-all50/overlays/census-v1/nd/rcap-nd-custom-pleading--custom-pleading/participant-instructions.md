@@ -41,7 +41,8 @@ Every page states its own route in its footer. If two routes could fit your reco
 | `nd-dui-record-seal-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Ask a North Dakota court to seal a DUI record) |
 | `nd-marijuana-first-offense-seal-primary-filing-1` | the composed petition, on this route's own statutory ground (Ask a North Dakota court to seal a first marijuana possession conviction) |
 | `nd-marijuana-first-offense-seal-proposed-order-2` | the proposed order the court may sign; every decision line is the court's and is left blank (Ask a North Dakota court to seal a first marijuana possession conviction) |
-| `nd-marijuana-first-offense-seal-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Ask a North Dakota court to seal a first marijuana possession conviction) |
+| `nd-marijuana-first-offense-seal-legal-effect-explanation-3` | what a sealing order under chapter 19-03.1 does, what it does not reach, and why the general sealing chapter's waiting periods and burden do not apply (Ask a North Dakota court to seal a first marijuana possession conviction) |
+| `nd-marijuana-first-offense-seal-filing-instructions-4` | what this set is, where it goes, what it costs, who must be served, and when to stop (Ask a North Dakota court to seal a first marijuana possession conviction) |
 
 ## Where this is filed, what it costs, and who must be served
 

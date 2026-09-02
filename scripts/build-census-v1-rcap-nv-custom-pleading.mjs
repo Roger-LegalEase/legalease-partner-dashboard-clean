@@ -228,7 +228,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court - see the filing instructions in this packet)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the record was entered. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -334,6 +334,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the record was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_seaFullLegalName",
           "label": "Item C1 - sea full legal name",
           "supply": "What is your full legal name, and have you used any other names?",
@@ -424,7 +431,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the record was entered. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -453,6 +460,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the record was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
         {
           "kind": "court",
           "id": "order_case_number",
@@ -488,7 +502,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the record was entered. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -547,6 +561,13 @@ const SPEC = {
       ],
       "blanks": [
         {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the record was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
+        {
           "kind": "court",
           "id": "declaration_case_number",
           "label": "Case number in the caption of the declaration, if the court assigns one at filing",
@@ -588,7 +609,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the record was entered. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -621,6 +642,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the record was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
         {
           "kind": "court",
           "id": "stip_case_number",
@@ -724,7 +752,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court - see the filing instructions in this packet)",
+        "(Write the COURT on the line above. Venue as recorded: The district court for the county, which is the highest court in the county and may seal all charges within it. For a justice court case, caption the specific township you gave at item C9 of the petition, because justice court petitions must be captioned to the specific township. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -831,6 +859,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The district court for the county, which is the highest court in the county and may seal all charges within it. For a justice court case, caption the specific township you gave at item C9 of the petition, because justice court petitions must be captioned to the specific township. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_seaFullLegalName",
           "label": "Item C1 - sea full legal name",
           "supply": "What is your full legal name, and have you used any other names?",
@@ -921,7 +956,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The district court for the county, which is the highest court in the county and may seal all charges within it. For a justice court case, caption the specific township you gave at item C9 of the petition, because justice court petitions must be captioned to the specific township. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -950,6 +985,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The district court for the county, which is the highest court in the county and may seal all charges within it. For a justice court case, caption the specific township you gave at item C9 of the petition, because justice court petitions must be captioned to the specific township. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
         {
           "kind": "court",
           "id": "order_case_number",
@@ -985,7 +1027,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The district court for the county, which is the highest court in the county and may seal all charges within it. For a justice court case, caption the specific township you gave at item C9 of the petition, because justice court petitions must be captioned to the specific township. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -1044,6 +1086,13 @@ const SPEC = {
       ],
       "blanks": [
         {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The district court for the county, which is the highest court in the county and may seal all charges within it. For a justice court case, caption the specific township you gave at item C9 of the petition, because justice court petitions must be captioned to the specific township. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
+        {
           "kind": "court",
           "id": "declaration_case_number",
           "label": "Case number in the caption of the declaration, if the court assigns one at filing",
@@ -1085,7 +1134,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The district court for the county, which is the highest court in the county and may seal all charges within it. For a justice court case, caption the specific township you gave at item C9 of the petition, because justice court petitions must be captioned to the specific township. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -1118,6 +1167,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The district court for the county, which is the highest court in the county and may seal all charges within it. For a justice court case, caption the specific township you gave at item C9 of the petition, because justice court petitions must be captioned to the specific township. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
         {
           "kind": "court",
           "id": "stip_case_number",
@@ -1221,7 +1277,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court - see the filing instructions in this packet)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the conviction was entered, for the petition route. No venue applies to the automatic route. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -1337,6 +1393,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered, for the petition route. No venue applies to the automatic route. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_seaFullLegalName",
           "label": "Item C1 - sea full legal name",
           "supply": "What is your full legal name, and have you used any other names?",
@@ -1441,7 +1504,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the conviction was entered, for the petition route. No venue applies to the automatic route. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -1470,6 +1533,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered, for the petition route. No venue applies to the automatic route. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
         {
           "kind": "court",
           "id": "order_case_number",
@@ -1505,7 +1575,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the conviction was entered, for the petition route. No venue applies to the automatic route. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -1564,6 +1634,13 @@ const SPEC = {
       ],
       "blanks": [
         {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered, for the petition route. No venue applies to the automatic route. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
+        {
           "kind": "court",
           "id": "declaration_case_number",
           "label": "Case number in the caption of the declaration, if the court assigns one at filing",
@@ -1605,7 +1682,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the conviction was entered, for the petition route. No venue applies to the automatic route. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -1638,6 +1715,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered, for the petition route. No venue applies to the automatic route. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
         {
           "kind": "court",
           "id": "stip_case_number",
@@ -1694,7 +1778,7 @@ const SPEC = {
         "",
         "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
         "",
-        "Fee as recorded: County-dependent, plus the repository criminal history and fingerprinting costs and certified copies. Every fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9). Fee waiver as recorded: NRS 179.245(9) for a victim of sex trafficking or involuntary servitude; county fee-waiver applications otherwise.",
+        "Fee as recorded: none for this petition. NRS 179.273 is titled \"Sealing of records after unconditional pardon: Automatic sealing; petition; no fee\" in the chapter index published by the Nevada Legislature, and the committed record records that the petition carries no fee. The county-dependent filing fee recorded for the ordinary sealing petition under NRS 179.245 belongs to that instrument and is not read across to this one. Fee waiver as recorded: no filing-fee waiver is needed for a petition that carries no fee. The Central Repository criminal history and fingerprinting costs and the cost of certified copies are separate charges that still apply, and every one of them is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9).",
         "",
         "WHO MUST BE SERVED",
         "",
@@ -1742,7 +1826,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court - see the filing instructions in this packet)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the person was convicted, being a district, justice or municipal court. NRS 179.245(1). District court is the highest court in the county and may seal all charges within the county; NRS 179.2595 permits consolidation there. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -1880,6 +1964,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the person was convicted, being a district, justice or municipal court. NRS 179.245(1). District court is the highest court in the county and may seal all charges within the county; NRS 179.2595 permits consolidation there. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_cvsFullLegalName",
           "label": "Item C1 - cvs full legal name",
           "supply": "What is your full legal name, and have you used any other names?",
@@ -2012,7 +2103,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the person was convicted, being a district, justice or municipal court. NRS 179.245(1). District court is the highest court in the county and may seal all charges within the county; NRS 179.2595 permits consolidation there. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -2041,6 +2132,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the person was convicted, being a district, justice or municipal court. NRS 179.245(1). District court is the highest court in the county and may seal all charges within the county; NRS 179.2595 permits consolidation there. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
         {
           "kind": "court",
           "id": "order_case_number",
@@ -2076,7 +2174,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the person was convicted, being a district, justice or municipal court. NRS 179.245(1). District court is the highest court in the county and may seal all charges within the county; NRS 179.2595 permits consolidation there. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -2135,6 +2233,13 @@ const SPEC = {
       ],
       "blanks": [
         {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the person was convicted, being a district, justice or municipal court. NRS 179.245(1). District court is the highest court in the county and may seal all charges within the county; NRS 179.2595 permits consolidation there. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
+        {
           "kind": "court",
           "id": "declaration_case_number",
           "label": "Case number in the caption of the declaration, if the court assigns one at filing",
@@ -2176,7 +2281,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the person was convicted, being a district, justice or municipal court. NRS 179.245(1). District court is the highest court in the county and may seal all charges within the county; NRS 179.2595 permits consolidation there. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -2209,6 +2314,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the person was convicted, being a district, justice or municipal court. NRS 179.245(1). District court is the highest court in the county and may seal all charges within the county; NRS 179.2595 permits consolidation there. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
         {
           "kind": "court",
           "id": "stip_case_number",
@@ -2318,7 +2430,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court - see the filing instructions in this packet)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the charges were dismissed, the court having jurisdiction in which the charges were declined, or the court in which the acquittal was entered. NRS 179.2595 permits consolidation in district court. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -2435,6 +2547,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the charges were dismissed, the court having jurisdiction in which the charges were declined, or the court in which the acquittal was entered. NRS 179.2595 permits consolidation in district court. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_ncvFullLegalName",
           "label": "Item C1 - ncv full legal name",
           "supply": "What is your full legal name, and have you used any other names?",
@@ -2539,7 +2658,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the charges were dismissed, the court having jurisdiction in which the charges were declined, or the court in which the acquittal was entered. NRS 179.2595 permits consolidation in district court. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -2568,6 +2687,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the charges were dismissed, the court having jurisdiction in which the charges were declined, or the court in which the acquittal was entered. NRS 179.2595 permits consolidation in district court. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
         {
           "kind": "court",
           "id": "order_case_number",
@@ -2603,7 +2729,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the charges were dismissed, the court having jurisdiction in which the charges were declined, or the court in which the acquittal was entered. NRS 179.2595 permits consolidation in district court. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -2662,6 +2788,13 @@ const SPEC = {
       ],
       "blanks": [
         {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the charges were dismissed, the court having jurisdiction in which the charges were declined, or the court in which the acquittal was entered. NRS 179.2595 permits consolidation in district court. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
+        {
           "kind": "court",
           "id": "declaration_case_number",
           "label": "Case number in the caption of the declaration, if the court assigns one at filing",
@@ -2703,7 +2836,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the charges were dismissed, the court having jurisdiction in which the charges were declined, or the court in which the acquittal was entered. NRS 179.2595 permits consolidation in district court. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -2736,6 +2869,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the charges were dismissed, the court having jurisdiction in which the charges were declined, or the court in which the acquittal was entered. NRS 179.2595 permits consolidation in district court. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
         {
           "kind": "court",
           "id": "stip_case_number",
@@ -2842,7 +2982,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court - see the filing instructions in this packet)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the conviction was entered. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -2948,6 +3088,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_seaFullLegalName",
           "label": "Item C1 - sea full legal name",
           "supply": "What is your full legal name, and have you used any other names?",
@@ -3038,7 +3185,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the conviction was entered. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -3067,6 +3214,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
         {
           "kind": "court",
           "id": "order_case_number",
@@ -3102,7 +3256,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the conviction was entered. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -3161,6 +3315,13 @@ const SPEC = {
       ],
       "blanks": [
         {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
+        {
           "kind": "court",
           "id": "declaration_case_number",
           "label": "Case number in the caption of the declaration, if the court assigns one at filing",
@@ -3202,7 +3363,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(The district attorney's or city attorney's office first, then the clerk of the appropriate court)",
+        "(Write the COURT on the line above. Venue as recorded: The court in which the conviction was entered. The district attorney's or city attorney's office receives this packet before it is filed - that is where the papers go first, not what is written on this line. See the filing instructions in this packet.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -3235,6 +3396,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court on the caption line \"IN THE ............ COURT\" of this document",
+          "supply": "The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption.",
+          "why": "venue is a fact of the participant's own record and the platform holds no value for it, and the caption line names the court rather than the prosecuting agency the packet goes to first"
+        },
         {
           "kind": "court",
           "id": "stip_case_number",
@@ -3426,7 +3594,7 @@ const SPEC = {
     ],
     [
       "FEE_AND_WAIVER — Seal a Nevada record after a pardon",
-      "Fee as recorded: County-dependent, plus the repository criminal history and fingerprinting costs and certified copies. Every fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9). Fee waiver as recorded: NRS 179.245(9) for a victim of sex trafficking or involuntary servitude; county fee-waiver applications otherwise."
+      "Fee as recorded: none for this petition. NRS 179.273 is titled \"Sealing of records after unconditional pardon: Automatic sealing; petition; no fee\" in the chapter index published by the Nevada Legislature, and the committed record records that the petition carries no fee. The county-dependent filing fee recorded for the ordinary sealing petition under NRS 179.245 belongs to that instrument and is not read across to this one. Fee waiver as recorded: no filing-fee waiver is needed for a petition that carries no fee. The Central Repository criminal history and fingerprinting costs and the cost of certified copies are separate charges that still apply, and every one of them is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9)."
     ],
     [
       "SERVICE — Seal a Nevada record after a pardon",

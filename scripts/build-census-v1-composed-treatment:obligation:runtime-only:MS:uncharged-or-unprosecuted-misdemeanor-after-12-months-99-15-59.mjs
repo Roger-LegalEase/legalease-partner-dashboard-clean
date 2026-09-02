@@ -158,7 +158,7 @@ const SPEC = {
     "**Count the twelve months from the arrest or citation date.** The recorded clock runs from that date, and it must have fully passed with no formal charge and no prosecution.",
     "**Get your arrest record** and fill in every dotted blank from it. Do not guess a date, an offense wording or an agency name.",
     "**Sign and date the petition yourself.** The platform never signs for you and never dates a signature.",
-    "**File the petition, the arrest record and the unsigned proposed order with the court with jurisdiction over the matter.** The office of that court can confirm it is the right court, how it accepts filings, and whether a filing fee applies - no committed record this packet is built from states one.",
+    "**File the petition, the arrest record and the unsigned proposed order with the court with jurisdiction over the matter.** The office of that court can confirm it is the right court, how it accepts filings, whether a filing fee applies, and whether a copy must go to anyone - no committed record this packet is built from states any of those three.",
     "**Keep the proposed order unsigned.** Every decision on it is the court's."
   ],
   deliberatelyBlank: [
@@ -168,6 +168,7 @@ const SPEC = {
   ],
   notTold: [
     "**Whether a filing fee applies, and how the petition must be delivered.** Neither is established by the committed records this packet is built from. The office of the court with jurisdiction over the matter is the authority that can answer both — ask before you file.",
+    "**Who, if anyone, must be served with a copy.** No committed record this packet is built from establishes a service rule for this branch: the route contract carries no service term at all and no packet-set manifest exists for this family. That is the absence of a record and not a finding that no service is required, and this packet does not turn one into the other. The only notice rule the compiled Mississippi profile carries — ten days' written notice to the district attorney before any hearing — is recorded against § 99-19-71 rather than § 99-15-59, so it is not read across to this branch. Ask the office of the court with jurisdiction over the matter, at the same time you ask about the fee and the filing method.",
     "**Whether related counts change anything.** The route contract asks about related counts as a required fact; if there are any, get help rather than guessing."
   ],
   stopConditions: [
@@ -302,6 +303,10 @@ const SPEC = {
       L.push("STEP THREE. Fill in every dotted blank from the arrest record. Do not guess a date, an offense wording or an agency name.");
       L.push("STEP FOUR. Sign and date the petition yourself.");
       L.push("STEP FIVE. File the petition, the arrest record and the unsigned proposed order with the court with jurisdiction over the matter. Ask that court's office whether a filing fee applies and how it accepts filings - no committed record this packet is built from states either.", "");
+      L.push("WHO MUST BE SERVED", "");
+      L.push("No committed record this packet is built from establishes a service rule for this branch. The route contract carries no service term at all, and no packet-set manifest exists for this family. THAT IS NOT A FINDING THAT NO SERVICE IS REQUIRED - it is the absence of a record, and this packet does not turn one into the other.", "");
+      L.push("The one notice rule the compiled Mississippi profile does carry - that the petitioner must give ten days' written notice to the district attorney before any hearing - is recorded against Sec. 99-19-71, not against Sec. 99-15-59, so this packet does not read it across to this branch and you should not assume it applies here.", "");
+      L.push("Ask the office of the court with jurisdiction over the matter whether a copy must go to anyone, and to whom and how, at the same time you ask it about the fee and the filing method. Ask before you file.", "");
       L.push("WHEN TO STOP AND GET HELP INSTEAD OF FILING", "");
       L.push("Stop, and take this packet to a lawyer or a legal-aid office, if any of these is true:");
       L.push("- the matter was anything other than a misdemeanor;");

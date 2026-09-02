@@ -241,6 +241,25 @@ const FAMILIES = Object.freeze({
       "obligation:track-pathway:CA:ca-prop64:prop-64-currently-serving-petition-11361-8",
     ],
     formNumbers: ["CR-400", "CR-401", "CR-403"],
+    /*
+     * VF07, CLIPPING_AND_OVERLAP on all four delivered CR-400s.
+     *
+     * The CR-409 shape FIX06 root-caused, on the other form that has it.
+     * CR-400's AcroForm /Fields array holds one nested root and its footer
+     * pushbuttons hang below it, so the flat scan in detachFromAcroForm
+     * removed nothing, updateFieldAppearances regenerated the Warning
+     * pushbutton's caption from its /MK /CA, and flatten() stamped it: the
+     * word "protection" broke the left edge of the paper at x -3.485 and the
+     * caption's tail was drawn through the Print button's own rectangle, four
+     * same-baseline collisions in all. The official baseline
+     * derived-sources/cr-400-pikepdf-unlocked.pdf measures zero of both, so
+     * every one of the five is introduced by the build.
+     *
+     * FIX06 set this flag on ca-851-91-set only and recorded that the other
+     * five California families share the nesting and the defect, each to be
+     * held by the lane that claims it. This lane holds ca-prop64-set.
+     */
+    detachNestedControlFields: true,
   },
 });
 
@@ -1370,6 +1389,27 @@ function caRefusalDisposition(source, field) {
     // evidence-variant design) resolves who answers these cells on dismissal
     // routes. Declaring them participant-completable instead would be the
     // exact self-excuse channel the contract closed.
+    //
+    // RT-3 tested that rather than repeating it. On ca-1203-41-set the ten
+    // cells were re-declared requiredBeforeFiling:true, routeDetermined:false,
+    // blankTreatment REQUIRED_BEFORE_FILING with an identity, and the counter
+    // did not move: requiredOptionsMissing stayed 10. The reason is structural
+    // and not a property of this declaration. classifyField matches the
+    // printed caption "Eligible for reduction ... under Penal Code, § 17(b)
+    // (yes or no)" to FIELD_CLASSES.ROUTE_ELECTION, whose requirement is
+    // ROUTE_DETERMINED, and classifyBlank then returns ROUTE_OPTION_NOT_SELECTED
+    // from the required-before-filing gate itself, before any declared
+    // disposition is read. NOT_APPLICABLE_ON_THIS_ROUTE, whose stated meaning
+    // ("the field belongs to a branch of the form this route does not use")
+    // fits these cells exactly, is reachable from no declaration at all.
+    //
+    // So the five CR-180 families cannot zero this counter without WRITING a
+    // yes or no into the cells, and no record establishes one: whether a listed
+    // offence is a § 17(b) wobbler is a legal characterisation of that code
+    // section, the packet holds no fact for it, and writing an inferred legal
+    // conclusion onto a petition sworn under penalty of perjury is worse than
+    // the blank. This remains the captain-level determination named above; a
+    // repair lane may not resolve it by editing the contract, and RT-3 did not.
     return {
       reason: "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it.",
       routeDetermined: true,
@@ -1867,6 +1907,44 @@ const CA_PARTICIPANT_GUIDANCE = Object.freeze({
       amount: "$0",
       keyedTo: "Proposition 64 marijuana relief, Health and Safety Code section 11361.8",
     }),
+    /*
+     * VF07, SELF_HELP_STOP. The committed track registry holds three self-help
+     * stop conditions for trackId ca-prop64 and the packet carried at most one
+     * and a half: CR-402 appeared nowhere, although the registry names it three
+     * times for this route, and the word "hearing" appeared nowhere at all,
+     * although "The court sets a contested hearing" is the one condition that
+     * does not need anyone to oppose anything. The conditions are printed in
+     * the registry's own words.
+     */
+    statesRegistryStopConditions: "ca-prop64",
+    /*
+     * The registry's own fourth boundary, which is the distinction the packet
+     * lost when it reduced both conditions to "if anyone opposes the petition":
+     * a routine hearing is not a stop, a CR-402 response or a contested hearing
+     * is. It is held in postGenerationHandoffs and is printed verbatim.
+     */
+    statesRegistryHandoffBoundary: true,
+    /*
+     * VF07, REQUIRED_BEFORE_FILING. Fifteen controls are refused with the
+     * reason "the participant instructions name it", and the participant
+     * instructions named none of them -- including the five offence-section
+     * boxes that decide what the petition is about and the two waivers of
+     * rights at items 3 and 4. The refusal reason is a disclosure the packet
+     * claimed to make; this flag makes it true.
+     */
+    statesParticipantMarkedControls: true,
+    /*
+     * VF07, ROUTE_OPTIONS. The packet told the participant "The platform never
+     * marks a box on a sworn filing" while marking two on every fixture. Both
+     * marks are correct -- this family's two variants carry DIFFERENT route
+     * keys, the section 11361.8(f) title election and the completed-sentence
+     * item are what distinguish them, and leaving them unmarked would ship a
+     * petition that does not say which relief it asks for. What was false was
+     * the sentence, so the sentence is what changes: the packet names the
+     * controls its route determines and marks, and says every other election is
+     * the participant's.
+     */
+    platformMarksRouteDeterminedControls: true,
   }),
 });
 
@@ -2137,10 +2215,24 @@ function caRegistryStopConditionSection(config, guidance) {
   const meetsTheElection = config.participantMarksStatutoryElections && guidance.electionItem
     ? `\n\nThe first of these also decides which election at ${guidance.electionItem} is open to you at all, which is one reason this packet marks neither box for you: the form prints that same bar in its own words beside the item.`
     : "";
+  /*
+   * The registry's own boundary between a hearing that is routine and one that
+   * is a stop. Printed only where a family opts in, because it is held in
+   * postGenerationHandoffs rather than in selfHelpStopConditions and not every
+   * track has one.
+   */
+  let boundary = "";
+  if (guidance.statesRegistryHandoffBoundary) {
+    const handoffs = (track.postGenerationHandoffs ?? [])
+      .map((row) => String(row).trim()).filter(Boolean);
+    assert.ok(handoffs.length,
+      `${trackId}: statesRegistryHandoffBoundary is set but the track registry holds no post-generation handoff`);
+    boundary = `\n\nThe registry draws one more line, and it is the one this list is easiest to misread. In its own words: ${handoffs.join(" ")}`;
+  }
   return `## When to stop and take this to a lawyer\n\n`
     + `The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take the papers to a lawyer or a legal-aid office rather than filing them:\n\n`
     + conditions.map((condition) => `- ${condition}`).join("\n")
-    + `${meetsTheElection}\n\n`;
+    + `${boundary}${meetsTheElection}\n\n`;
 }
 
 function caParticipantInstructions(familyId, config, fieldMap) {
@@ -2172,6 +2264,68 @@ function caParticipantInstructions(familyId, config, fieldMap) {
         ? " — complete this only after service has actually occurred" : ""} |`);
     return `### ${documentId}\n\n| Page | Form field | What the form says |\n| --- | --- | --- |\n${lines.join("\n")}\n`;
   }).join("\n");
+  /*
+   * What the platform marks, and what it does not, stated from the field map
+   * rather than asserted.
+   *
+   * The default sentence -- "The platform never marks a box on a sworn filing"
+   * -- is true of every family that emits no statutory selection, and false of
+   * one that does. A family whose variants are distinguished by a marked
+   * control says so instead, names the controls, and says everything else is
+   * still the participant's.
+   */
+  const marked = (fieldMap.selections ?? []).filter((row) => row.disposition === "SELECT");
+  const perVariant = Object.entries(fieldMap.statutorySelectionsByVariant ?? {});
+  const markedPerFiling = perVariant.length
+    ? Math.max(...perVariant.map(([, rows]) => rows.length))
+    : marked.length;
+  const labelOf = (fieldName) => String((marked.find((row) => row.fieldName === fieldName) ?? {}).effectiveLabel ?? "")
+    .replace(/\s+/g, " ").trim();
+  const variantSentence = perVariant
+    .map(([variantId, rows]) => `on **${variantId}**, ${rows.map((row) => `\`${shortFieldName(row.fieldName)}\` (${labelOf(row.fieldName)})`).join(" and ")}`)
+    .join("; and ");
+  const electionStep = guidance.platformMarksRouteDeterminedControls
+    ? `**Mark every other election yourself.** This packet is not silent on the boxes: it marks ${markedPerFiling} on each delivered filing, and ${markedPerFiling === 1 ? "it is the one control" : "they are the only controls"} the route itself decides — the ones that say which of this family's two routes these papers are. ${variantSentence.charAt(0).toUpperCase()}${variantSentence.slice(1)}. Read those printed lines on the page and check that the marks match your own case before you sign, because you swear to this filing. Every other box on every form in this packet is printed unmarked and is yours to mark.`
+    : `**Mark every election yourself.** The platform never marks a box on a sworn filing.`;
+  if (guidance.platformMarksRouteDeterminedControls) {
+    assert.ok(marked.length > 0,
+      `${familyId}: platformMarksRouteDeterminedControls is set but the field map records no statutory selection`);
+    assert.ok(perVariant.length > 0,
+      `${familyId}: platformMarksRouteDeterminedControls is set but no per-variant statutory selection is recorded`);
+  }
+  /*
+   * VF07, REQUIRED_BEFORE_FILING. Every control the field map refuses on the
+   * ground that the participant instructions name it, actually named. The
+   * refusal reason is the disclosure; a reason that describes a disclosure the
+   * packet does not make is the defect, not the refusal.
+   */
+  const participantMarked = (fieldMap.refusals ?? [])
+    .filter((row) => row.isSelectionControl === true
+      && /the participant instructions name it/i.test(String(row.reason ?? "")));
+  let markedControlSection = "";
+  if (guidance.statesParticipantMarkedControls) {
+    assert.ok(participantMarked.length > 0,
+      `${familyId}: statesParticipantMarkedControls is set but no refusal claims that disclosure`);
+    const byDoc = new Map();
+    for (const row of participantMarked) {
+      if (!byDoc.has(row.documentId)) byDoc.set(row.documentId, []);
+      byDoc.get(row.documentId).push(row);
+    }
+    markedControlSection = `## The boxes you must mark yourself\n\n`
+      + `The platform marks no box on this packet except the route election named in step 2. Every control below is printed unmarked, and none of them is optional in the sense of being safe to skip: the offence-section boxes decide what the petition is about, and the items at 3 and 4 give up rights. Read each printed line on the page and mark it only if it is true of your case.\n\n`
+      + [...byDoc.entries()].map(([documentId, rows]) => `### ${documentId}\n\n`
+        + `| Page | Form control | What the form prints beside it |\n| --- | --- | --- |\n`
+        + rows
+          .map((row) => ({
+            page: (row.widgets?.[0]?.pageIndex ?? 0) + 1,
+            name: shortFieldName(row.fieldName),
+            label: String(row.effectiveLabel ?? "").replace(/\s+/g, " ").trim(),
+          }))
+          .sort((left, right) => left.page - right.page || left.name.localeCompare(right.name))
+          .map((row) => `| ${row.page} | \`${row.name}\` | ${row.label || "the measurement could reach no printed caption; read the printed page"} |`)
+          .join("\n") + "\n").join("\n")
+      + `\n`;
+  }
   const routeDeterminedNote = (fieldMap.refusals ?? []).some((row) => row.routeDetermined === true)
     ? "\n- **The 17(b)/17(d)(2) yes-or-no cells in the conviction table** — a route-level election this packet family does not determine; it is recorded as unmade rather than guessed.\n"
     : "\n";
@@ -2182,7 +2336,7 @@ function caParticipantInstructions(familyId, config, fieldMap) {
     + `The platform filled in only identity and record facts it verifiably holds — name, case number, county, date of birth, contact details, and the recorded arrest or conviction facts — in the caption and identity items of the primary form. Everything else is yours to complete, and this page lists it.\n\n`
     + `## What you must do before you file\n\n`
     + `1. **Fill in every blank listed below.** Each row names the page, the form field as the source PDF names it, and the words printed beside the blank.\n`
-    + `2. **Mark every election yourself.** The platform never marks a box on a sworn filing.\n`
+    + `2. ${electionStep}\n`
     + `3. **Sign and date each form yourself**, and complete the proof of service only after service has actually occurred.\n`
     + `4. **Leave ${guidance.orderForm} entirely blank**${required.some((row) => row.documentRole === "proposed_order")
       ? " except the report numbers listed below" : ""}. The ${guidance.orderName} is the court's form.\n\n`
@@ -2192,6 +2346,7 @@ function caParticipantInstructions(familyId, config, fieldMap) {
       ? caHeldGuidanceSections(familyId, config, guidance) + `\n`
       : `## What this packet does not tell you\n\n`
         + `The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the ${guidance.countyOf}. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.\n\n`)
+    + markedControlSection
     + `## The blanks you must fill in\n\n`
     + `The platform holds no value for any of these, and this packet never guesses at one.\n\n`
     + tables
