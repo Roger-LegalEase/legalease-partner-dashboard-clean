@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `14d34ec39a2f19db3dde848a1055456fd8936b85`
+**Minimum required ancestor:** `2a820c8f790ed993f7d130cae5bc5e317fe6aa67`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -37,14 +37,14 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf` — `b2b487cc7dd10b3ce9e7f5b41a115859bb3d1ac6be6932ea1f6503219d6c530e`
 - boundary `data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf` — `046fbedea2db1dc1afa4895b13f279e7fabf626a1e0172e705a676fc769bc6f8`
 - expected pages 5 · requested scale 2.5
-- built by VF07
+- built by VF03
 
 ### az_wrongful_arrest_clearance-set
 
 - canonical `data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/canonical.pdf` — `ae9d2adfcc34c4aa45012493466e0b86e49ace944aa552998ffec4c2a36166ee`
 - boundary `data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/boundary.pdf` — `9ff414dfc5ee70776d55cf44400479680d1b3043789d189232c879e0e8eb36f9`
 - expected pages 4 · requested scale 2.5
-- built by VF10
+- built by VF03
 
 ### composed-treatment:nd-nonconviction-auto-close-verify
 
@@ -58,28 +58,28 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1018-discretionary-petition--custom-pleading/fixtures/canonical.pdf` — `d6b4097679fc575096728708f3ee31b35a834ec7eb9f40d8105df02bc9f24a82`
 - boundary `data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1018-discretionary-petition--custom-pleading/fixtures/boundary.pdf` — `c67cee6f0abf6f42a76f09c6ab5d57152a5486dcd88d9c7a1590a9565d56dea0`
 - expected pages 4 · requested scale 2.5
-- built by VF03
+- built by VF08
 
 ### composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4
 
 - canonical `data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/fixtures/canonical.pdf` — `cb8c7e2d0d6072e1a97fa634456cd509b798fe6a1917548eec8e53ce6b6f2839`
 - boundary `data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/fixtures/boundary.pdf` — `aae4a363e15f32127ee1c5fc205cf1de2101cdd4cd2d4dee47b355c61c2e7e96`
 - expected pages 5 · requested scale 2.5
-- built by VF07
+- built by VF12
 
 ### composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247
 
 - canonical `data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/fixtures/canonical.pdf` — `ace550b2facfe49073b96b693f687da88ef69294a1654be2b253424913eb4364`
 - boundary `data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/fixtures/boundary.pdf` — `cbae759020043282ceb3213a052dae9271c263a87e81a3a7e6cd5404c5b7cae0`
 - expected pages 4 · requested scale 2.5
-- built by VF11
+- built by VF04
 
 ### composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement
 
 - canonical `data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/fixtures/canonical.pdf` — `d292e9b4f2d0c9b11dd90ca0f662c24544d53a1e10cd7dc5ee241cd720c05655`
 - boundary `data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/fixtures/boundary.pdf` — `4a4cd512bf4a30df9fb527c9aafeb3836c30a852c34648e91be7bb2a9ab4e401`
 - expected pages 4 · requested scale 2.5
-- built by VF03
+- built by VF08
 
 ### composed-treatment:sd_sis_sealing
 
@@ -93,7 +93,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ct/ct-missed-erasure-set--official-pdf-fill/fixtures/canonical.pdf` — `0872021341ca0755e2df874ebea40d601e3ffacbb4be6f5436b642548ffdcb82`
 - boundary `data/rcap-all50/overlays/census-v1/ct/ct-missed-erasure-set--official-pdf-fill/fixtures/boundary.pdf` — `9fb5c03662f710c73094e29bd1428e70cc1de7790644a3b7b8fdada0062b4b5b`
 - expected pages 2 · requested scale 2.5
-- built by VF07
+- built by VF02
 
 ### dc_correct_misattributed_arrest-set
 
@@ -135,14 +135,14 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/canonical.pdf` — `7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc`
 - boundary `data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/boundary.pdf` — `69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f`
 - expected pages 4 · requested scale 2.5
-- built by VF12
+- built by VF03
 
 ### in_section1_petition-set
 
 - canonical `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf` — `a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271`
 - boundary `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf` — `4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23`
 - expected pages 15 · requested scale 2.5
-- built by VF02
+- built by VF09
 
 ### ky_void_seal_marijuana_synthetic_salvia-set
 
@@ -219,21 +219,21 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8`
 - boundary `data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `682a6a4b1d64f6998135325d264af837fab045ae4828fa6a0b4a5e6bc88cdb67`
 - expected pages 12 · requested scale 2.5
-- built by VF03
+- built by VF09
 
 ### rcap-oh-custom-pleading-clean-tracks
 
 - canonical `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_32_sealing/rendered/canonical/canonical.pdf` — `849eff7b89cc989fcae59c5b219ea35acd1964116043287e8b14e21924f711bb`
 - boundary `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_32_sealing/rendered/boundary/boundary.pdf` — `3d777dd9964390f6bcfefe8855061cb8809983e32e91cff8482d425c1792ad75`
 - expected pages 2 · requested scale 2.5
-- built by VF07
+- built by VF01
 
 ### rcap-tx-custom-pleading
 
 - canonical `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `30454cbde2cbdd5ba58f9640ecc0317ab133ab960ff4211ad69ed34a8469fdb8`
 - boundary `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `f411283e0290a5e9b6ecae1e3aa0da56f6089556bab1fdc0d2fe9066abe8aa97`
 - expected pages 15 · requested scale 2.5
-- built by VF11
+- built by VF05
 
 ### ri_marijuana-set
 
@@ -247,21 +247,21 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/canonical.pdf` — `40da6ac91f2aa86ccd3a3f524d81696b5cf00a203de5f088266592b5fe7fe290`
 - boundary `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/boundary.pdf` — `d59768743649d703e61aeae9620cbf1ec8f30026af6138b1998de047b49f16aa`
 - expected pages 22 · requested scale 2.5
-- built by VF03
+- built by VF09
 
 ### ut_pet_conviction-set
 
 - canonical `data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/canonical.pdf` — `ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6`
 - boundary `data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/boundary.pdf` — `b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765`
 - expected pages 19 · requested scale 2.5
-- built by VF07
+- built by VF01
 
 ### ut_pet_no_charges-set
 
 - canonical `data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/fixtures/canonical.pdf` — `ceb283f2899e0be8b73c3adf0a426df1bac2aacce3669c6cb2426ea44cfe44d3`
 - boundary `data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/fixtures/boundary.pdf` — `9a79316b95cec0ca4cb401f6023e59112f0e2dc5a7f7ca7f8d854df35b627403`
 - expected pages 19 · requested scale 2.5
-- built by VF11
+- built by VF05
 
 ### va_exp_nonconviction-set
 
@@ -289,7 +289,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/canonical.pdf` — `81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942`
 - boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/boundary.pdf` — `8f0058c992eaf6fec640b7519935f3e0d4c119348f90d7042dd1ee6b53501404`
 - expected pages 6 · requested scale 2.5
-- built by VF12
+- built by VF06
 
 ### wa_vac_domestic_violence-set
 

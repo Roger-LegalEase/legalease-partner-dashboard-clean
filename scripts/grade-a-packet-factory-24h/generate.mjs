@@ -1443,11 +1443,54 @@ for (let i = 0; i < PF_LANES; i += 1) {
 }
 
 /* ---- VF01..VF08 ---- */
+/*
+ * THE ROUND-ROBIN MUST FOLLOW A LIVE GRANT, NOT FIGHT IT.
+ *
+ * This dealt families to verification lanes by index alone --
+ * `pool.filter((_, j) => j % VF_LANES === i)` -- and took no account of which
+ * lane already holds a live grant on a family. The source lanes have respected
+ * live claims for a while ("a live claim pins its obligation to its lane"); the
+ * verification deal never did.
+ *
+ * The result is a dispatch that names work its lane cannot take. A live grant
+ * is owned and this generator will not re-pack it, so when the index deal put a
+ * family on VF01 while VF06 held it live, VF01's assert answered exit 8
+ * GRANTED_ELSEWHERE and VF06 was not the lane anyone launched. FABLE-VA1 hit it
+ * on six of its seven families; measured across the whole dispatch, 69 of 80
+ * VERIFY_PENDING families were in that state — unreachable, not for want of a
+ * verifier but because two records disagreed about which lane owned them.
+ *
+ * So each lane is seeded FIRST with the families it already holds live, and the
+ * unheld remainder is dealt round-robin over the leftover capacity. The ledger
+ * decides ownership; the deal only fills the gaps.
+ */
+const liveVerificationLaneOf = (() => {
+  const m = new Map();
+  try {
+    const led = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8"));
+    for (const c of led.claims ?? []) {
+      if (c.released === true || c.laneKind !== "independent-verification") continue;
+      for (const f of c.familyIds ?? (c.familyId ? [c.familyId] : [])) if (f) m.set(f, c.lane);
+    }
+  } catch { /* no ledger yet; the deal is a plain round-robin */ }
+  return m;
+})();
+const VF_IDS = Array.from({ length: VF_LANES }, (_, i) => `VF${String(i + 1).padStart(2, "0")}`);
+const heldByLane = new Map(VF_IDS.map((id) => [id, []]));
+const unheldPool = [];
+for (const f of verifyPending) {
+  const lane = liveVerificationLaneOf.get(f.familyId);
+  if (lane && heldByLane.has(lane)) heldByLane.get(lane).push(f.familyId);
+  else unheldPool.push(f.familyId);
+}
+const dealt = new Map(VF_IDS.map((id) => [id, []]));
+unheldPool.forEach((familyId, j) => dealt.get(VF_IDS[j % VF_LANES]).push(familyId));
+
 const verifiablePool = [...verifyPending];
 for (let i = 0; i < VF_LANES; i += 1) {
   const id = `VF${String(i + 1).padStart(2, "0")}`;
   const slug = id.toLowerCase();
-  const seedItems = verifiablePool.filter((_, j) => j % VF_LANES === i).map((f) => f.familyId);
+  const seedItems = [...heldByLane.get(id), ...dealt.get(id)];
   /* A verifier with nothing to inspect must not be launched: its checkout would
    * predate the packet commit it exists to read, and it would verify an artifact
    * that is not there yet. It is PROVISIONED and started by Captain on the first
@@ -1687,11 +1730,40 @@ for (const op of SOURCE_OPERATIONS) {
 }
 
 /* ---- FIX01..FIX04 ---- */
+/*
+ * Same rule as the verification deal: a live grant decides which lane owns a
+ * family, and the round-robin only fills what nothing owns. Four repair
+ * families were dispatched to a lane while another held them live, so the named
+ * lane's assert would answer exit 8 GRANTED_ELSEWHERE and the holding lane was
+ * not the one anyone launched.
+ */
+const liveRepairLaneOf = (() => {
+  const m = new Map();
+  try {
+    const led = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8"));
+    for (const c of led.claims ?? []) {
+      if (c.released === true || c.operation !== "rapid-repair") continue;
+      for (const f of c.familyIds ?? (c.familyId ? [c.familyId] : [])) if (f) m.set(f, c.lane);
+    }
+  } catch { /* no ledger yet; the deal is a plain round-robin */ }
+  return m;
+})();
+const FIX_IDS = Array.from({ length: FIX_LANES }, (_, i) => `FIX${String(i + 1).padStart(2, "0")}`);
+const fixHeld = new Map(FIX_IDS.map((id) => [id, []]));
+const fixUnheld = [];
+for (const f of repairRequired) {
+  const lane = liveRepairLaneOf.get(f.familyId);
+  if (lane && fixHeld.has(lane)) fixHeld.get(lane).push(f);
+  else fixUnheld.push(f);
+}
+const fixDealt = new Map(FIX_IDS.map((id) => [id, []]));
+fixUnheld.forEach((f, j) => fixDealt.get(FIX_IDS[j % FIX_LANES]).push(f));
+
 const fixSeed = repairRequired;
 for (let i = 0; i < FIX_LANES; i += 1) {
   const id = `FIX${String(i + 1).padStart(2, "0")}`;
   const slug = id.toLowerCase();
-  const items = fixSeed.filter((_, j) => j % FIX_LANES === i);
+  const items = [...fixHeld.get(id), ...fixDealt.get(id)];
   assignments.push(base(id, "rapid-repair", slug, {
     mission: "Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.",
     itemKind: "packetFamily",
@@ -2344,9 +2416,33 @@ try {
   }
 } catch { /* no external index */ }
 const claimDispatchKey = (c) => `${c.subjectType}::${c.subjectId}::${c.operation}`;
+/*
+ * A LIVE GRANT ON A LANE THAT NO LONGER EXISTS CAN NEVER BE EXERCISED.
+ *
+ * The dissolution rule below withdraws a live grant whose SUBJECT the dispatch
+ * no longer names. This is the other half: the subject is still dispatched, but
+ * to a lane that is gone. Four repair families sat live on FIX06 and FIX10
+ * after the repair roster shrank to FIX01-FIX04 — claim.mjs answers
+ * GRANTED_ELSEWHERE to every lane that exists and the holder cannot be reached,
+ * so the work is unreachable by construction.
+ *
+ * Withdrawing it is safe for the same reason the dissolution rule is safe: no
+ * worker can hold work through a lane the dispatch does not carry. The
+ * withdrawal is logged with its reason, changes the claims digest, and the
+ * lane-seeding above then deals the family to a lane that does exist. External
+ * lanes are exempt — they are not this dispatch's to retire.
+ */
+const dispatchLaneIds = new Set(assignments.map((a) => a.assignmentId));
+const claimDispatchKey2 = (c) => `${c.subjectType}::${c.subjectId}::${c.operation}`;
 const withdrawnNow = [];
 const survivingClaims = [...claimRowsRespectingExternal, ...preservedGrants].filter((c) => {
   if (c.released === true) return true;
+  if (!dispatchLaneIds.has(c.lane) && !externalLanes.has(c.lane) && dispatchedKeys.has(claimDispatchKey2(c))) {
+    withdrawnNow.push({ subjectType: c.subjectType, subjectId: c.subjectId, operation: c.operation, lane: c.lane,
+      withdrawnAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
+      reason: `lane retired: ${c.lane} is not in the current dispatch, so no worker can ever assert this grant — claim.mjs answers GRANTED_ELSEWHERE to every lane that exists. The subject is still dispatched and is re-dealt to a lane that does exist.` });
+    return false;
+  }
   if (dispatchedKeys.has(claimDispatchKey(c))) return true;
   withdrawnNow.push({ subjectType: c.subjectType, subjectId: c.subjectId, operation: c.operation, lane: c.lane,
     withdrawnAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
