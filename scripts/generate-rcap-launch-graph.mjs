@@ -81,7 +81,7 @@ const evidencePacket = read(EVIDENCE_PACKET);
 const ownerDecision = readOwnerLegalDecision();
 
 const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
-const { resolvePacketRoute } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
+const { resolvePacketRoute, PACKET_ROUTE_AVAILABILITIES } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
 const { renderCustomPleading } = await import("../src/lib/record-clearing/renderers/custom-pleading-renderer.ts");
 
 // ---------------------------------------------------------------------------
@@ -292,6 +292,13 @@ for (const pathway of intended) {
     pathwayId: pathway.pathwayId,
     pathwayLabel: pathway.pathwayLabel,
 
+    // The resolver's derived availability word — read from the same resolution
+    // that already supplies routeKind and rendererKind, never recomputed here.
+    // It is reporting, not rollout: the two ready states are reachable only
+    // through a Grade-A record at the admission schema, and flipping the
+    // consumer path live remains the single nationwide owner-authorized action.
+    availability: resolution.availability,
+
     compiledPathway: { present: Boolean(compiledPathway), profileVersion: profile?.profileVersion ?? null },
     registryTracks: trackIds,
     registryGap,
@@ -413,6 +420,27 @@ for (const row of rows) {
   for (const gate of row.unmetOperationalGates) unmetTally[gate] = (unmetTally[gate] ?? 0) + 1;
 }
 
+// ---------------------------------------------------------------------------
+// availability aggregation — totals and per-state counts, derived from the rows
+// and from nothing else, in the resolver's own vocabulary order.
+// ---------------------------------------------------------------------------
+const emptyAvailabilityCounts = () => Object.fromEntries(PACKET_ROUTE_AVAILABILITIES.map((word) => [word, 0]));
+const availabilityTotals = emptyAvailabilityCounts();
+const availabilityByState = {};
+for (const row of rows) {
+  availabilityTotals[row.availability] += 1;
+  if (!availabilityByState[row.jurisdiction]) availabilityByState[row.jurisdiction] = emptyAvailabilityCounts();
+  availabilityByState[row.jurisdiction][row.availability] += 1;
+}
+const availabilityBlock = {
+  vocabulary: [...PACKET_ROUTE_AVAILABILITIES],
+  source: "src/lib/rcap/documents/packet-route-resolver.ts (resolvePacketRoute().availability)",
+  notARolloutMechanism:
+    "Availability is derived reporting. PACKET_READY and CUSTOM_PLEADING_READY are reachable only through a current Grade-A fulfillment record at the admission schema version; flipping the consumer path live remains a single nationwide owner-authorized action through the consumer-delivery control under the all-51 launch rule.",
+  totals: availabilityTotals,
+  byState: Object.fromEntries(Object.entries(availabilityByState).sort(([a], [b]) => a.localeCompare(b)))
+};
+
 const graph = {
   schemaVersion: "rcap-launch-graph/v1",
   generatedBy: "scripts/generate-rcap-launch-graph.mjs",
@@ -452,6 +480,7 @@ const graph = {
   },
   counters,
   unmetOperationalGates: unmetTally,
+  availability: availabilityBlock,
   rows
 };
 
@@ -492,6 +521,19 @@ const md = [
   "Operationally sellable means all nine of: correct public witness; authoritative intended pathway;",
   "paymentAllowed=true; complete packet specification; owner-approved existing legal design; current",
   "technical approval; renderer selected; deterministic artifact proven; no problematic-PDF hold.",
+  "",
+  "## Availability",
+  "",
+  "The resolver's derived availability word, per route, aggregated here. Reporting, not rollout:",
+  "the two ready states are reachable only through a current Grade-A fulfillment record at the",
+  "admission schema version, and flipping the consumer path live remains a single nationwide",
+  "owner-authorized action through the consumer-delivery control under the all-51 launch rule.",
+  "",
+  "| Availability | Routes |",
+  "|---|---:|",
+  ...PACKET_ROUTE_AVAILABILITIES.map((word) => `| \`${word}\` | ${availabilityTotals[word]} |`),
+  "",
+  "Per-state counts are carried in `availability.byState` of the JSON ledger.",
   "",
   "## What is missing, and on how many routes",
   "",
@@ -548,6 +590,11 @@ console.log(`FACTORY_V2 RESOLVED:                ${pad(counters.factoryV2Resolve
 console.log(`PAYMENT ALLOWED:                    ${pad(counters.paymentAllowed)}`);
 console.log(`DETERMINISTICALLY RENDERED:         ${pad(counters.deterministicallyRendered)}   (composed text proven on ${counters.deterministicallyRenderedComposedText}; ${counters.officialFormsNamedButNotHeldInThisRepository} name an official form this repository does not hold)`);
 console.log(`OPERATIONALLY SELLABLE:             ${pad(counters.operationallySellable)}`);
+console.log("");
+console.log("Availability:");
+for (const word of PACKET_ROUTE_AVAILABILITIES) {
+  console.log(`  ${pad(availabilityTotals[word])}  ${word}`);
+}
 console.log("");
 console.log("Unmet operational gates:");
 for (const [gate, n] of Object.entries(unmetTally).sort((a, b) => b[1] - a[1])) {

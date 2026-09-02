@@ -43,6 +43,19 @@ const PREDICATE = [
   "noProblematicPdfHold"
 ];
 
+// The resolver's availability vocabulary, restated deliberately: the graph's
+// declared vocabulary must match this list exactly, so a word added or dropped
+// in either place fails here rather than drifting.
+const AVAILABILITY = [
+  "PACKET_READY",
+  "CUSTOM_PLEADING_READY",
+  "GUIDANCE_READY",
+  "HANDOFF_READY",
+  "MAINTENANCE_HOLD",
+  "LEGAL_HOLD",
+  "UNFINISHED"
+];
+
 function failures({ graph, closure }) {
   const out = [];
   const fail = (ok, message) => { if (!ok) out.push(message); };
@@ -121,6 +134,44 @@ function failures({ graph, closure }) {
   fail(graph.createsApproval === false, "S-approval: the graph must not claim to create an approval");
   fail(graph.changesRuntime === false, "S-runtime: the graph must not claim to change runtime");
 
+  // V — availability: every row carries a word from the vocabulary, the totals
+  // and per-state counts re-derive from the rows, and a ready word cannot be
+  // claimed past the commercial authority.
+  fail(JSON.stringify(graph.availability?.vocabulary ?? []) === JSON.stringify(AVAILABILITY),
+    "V-vocabulary: the graph's availability vocabulary does not match the resolver's");
+  const totals = Object.fromEntries(AVAILABILITY.map((word) => [word, 0]));
+  const byState = {};
+  for (const row of rows) {
+    if (!AVAILABILITY.includes(row.availability)) {
+      fail(false, `V-word ${row.pathwayKey}: availability ${JSON.stringify(row.availability)} is not in the vocabulary`);
+      continue;
+    }
+    totals[row.availability] += 1;
+    if (!byState[row.jurisdiction]) byState[row.jurisdiction] = Object.fromEntries(AVAILABILITY.map((word) => [word, 0]));
+    byState[row.jurisdiction][row.availability] += 1;
+    // A ready word is a claim of Grade-A proof, which is strictly stronger than
+    // the operational sellability the authority reports on the same row. Zero
+    // routes are ready today, and a row that becomes ready without also being
+    // operationally sellable is a forged word, not a launch.
+    if ((row.availability === "PACKET_READY" || row.availability === "CUSTOM_PLEADING_READY")
+      && row.operationallySellable !== true) {
+      fail(false, `V-ready ${row.pathwayKey}: reports ${row.availability} while the Grade-A authority does not admit it`);
+    }
+  }
+  for (const word of AVAILABILITY) {
+    fail(graph.availability?.totals?.[word] === totals[word],
+      `V-total ${word}: reported ${graph.availability?.totals?.[word]} against ${totals[word]} derived from the rows`);
+  }
+  const reportedStates = Object.keys(graph.availability?.byState ?? {}).sort().join(",");
+  fail(reportedStates === Object.keys(byState).sort().join(","),
+    "V-states: the per-state availability breakdown does not cover exactly the states the rows cover");
+  for (const [state, counts] of Object.entries(byState)) {
+    for (const word of AVAILABILITY) {
+      fail(graph.availability?.byState?.[state]?.[word] === counts[word],
+        `V-state ${state} ${word}: reported ${graph.availability?.byState?.[state]?.[word]} against ${counts[word]} derived from the rows`);
+    }
+  }
+
   return out;
 }
 
@@ -163,7 +214,24 @@ if (MUTATIONS) {
       const row = d.graph.rows.find((candidate) => candidate.registryGap);
       row.registryTracks = ["invented-track"];
     }],
-    ["the graph claiming it creates an approval", (d) => { d.graph.createsApproval = true; }]
+    ["the graph claiming it creates an approval", (d) => { d.graph.createsApproval = true; }],
+    ["a row's availability forged to PACKET_READY", (d) => {
+      const row = d.graph.rows.find((candidate) => candidate.operationallySellable !== true);
+      row.availability = "PACKET_READY";
+    }],
+    ["an availability total inflated past the rows", (d) => { d.graph.availability.totals.PACKET_READY += 1; }],
+    ["a row's availability replaced with a word outside the vocabulary", (d) => { d.graph.rows[0].availability = "READY_ENOUGH"; }],
+    ["a state's availability breakdown dropped", (d) => {
+      delete d.graph.availability.byState[d.graph.rows[0].jurisdiction];
+    }],
+    ["a state's hold count understated", (d) => {
+      const held = d.graph.rows.find((candidate) => candidate.availability === "MAINTENANCE_HOLD");
+      d.graph.availability.byState[held.jurisdiction].MAINTENANCE_HOLD -= 1;
+      d.graph.availability.byState[held.jurisdiction].UNFINISHED += 1;
+    }],
+    ["the availability vocabulary quietly shortened", (d) => {
+      d.graph.availability.vocabulary = d.graph.availability.vocabulary.filter((word) => word !== "LEGAL_HOLD");
+    }]
   ];
 
   let undetected = 0;

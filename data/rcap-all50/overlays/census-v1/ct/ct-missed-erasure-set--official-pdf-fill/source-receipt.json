@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ct-missed-erasure-set",
+  "worklistGroupId": "ct-missed-erasure-set",
+  "jurisdiction": "CT",
+  "implementationStrategy": "participant_agency_application",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no source bytes are bound: the MASTER_QUEUE row for this family binds zero sources (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundCount 0, officialFormFamily NONE, forms []). Every composed page is grounded on the committed legal-design records named in groundingRecords, and nothing else.",
+  "routeKeys": [
+    "obligation:unit:CT:ct-missed-erasure:ct-missed-erasure-stage-1-record-and-assessment",
+    "obligation:unit:CT:ct-missed-erasure:ct-missed-erasure-stage-2-despp-submission"
+  ],
+  "routeSelectionId": "ct-missed-erasure-composed-set",
+  "statutoryAuthority": "C.G.S. § 54-142t(g)",
+  "legalName": "Request for Review of a Missed Automatic Erasure, C.G.S. § 54-142t(g)",
+  "allSourcesExact": true,
+  "allSourcesExactNote": "true vacuously: this family binds zero source binaries, so there is no source that is not bound by exact SHA-256. No official form exists for this route per the legal-design record, and none was invented.",
+  "documents": [],
+  "groundingRecords": [
+    {
+      "record": "data/record-clearing/legal-design-intake/CT.memo.json",
+      "track": "ct-missed-erasure",
+      "reviewedAsOf": "2026-07-30"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "packetSetId": "ct-missed-erasure-set"
+    }
+  ],
+  "officialSourcesRecordedInIntake": [
+    {
+      "title": "C.G.S. § 54-142t, Automated process for erasure; request for review of criminal history records for erasure",
+      "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142t/",
+      "retrievedOn": "2026-07-30"
+    },
+    {
+      "title": "DPS-0846-C, State of Connecticut Criminal History Record Request Form, Rev. 12/01/17",
+      "url": "https://portal.ct.gov/despp",
+      "retrievedOn": "2026-07-30"
+    }
+  ],
+  "formIdentityNote": "Stage 2's instrument does not exist to bind: § 54-142t(g) requires the submission to DESPP 'in a form and manner determined by the department', that form and manner is not in the statute and had not been located, and the legal-design record classifies inventing a DESPP filing form as a legal_design_blocker. This build renders only the stage-1 process guidance the record approves, exactly as the packet-set manifest directs (one component, process_guidance). DPS-0846-C is named as a document the participant obtains and mails to DESPP-SPBI; it is not rendered, filled or bound, and its printed fees (dated 12/01/17) are stated with a verify-before-relying warning. The queue row's directory suffix (--official-pdf-fill) is the queue-owned path and is used exactly as the row states it; no official PDF is filled here.",
+  "composedComponentsAuthoredByThisBuild": [
+    "process_guidance"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "DESPP's current form and manner for a § 54-142t(g) submission — the recorded true output blocker; no submission document exists in this packet",
+    "current SPBI fees and process — the recorded figures are from a form dated 12/01/17 and must be verified",
+    "whether the SPBI report must bear any particular date — recorded as unresolved, not as a rule",
+    "that any output is approved for participant delivery, or that any record was required to be deemed erased under § 54-142a(e)"
+  ]
+}
