@@ -4609,610 +4609,917 @@
       "routeArtifact": "ks-12-4516-municipal",
       "lane": "VF10",
       "laneKind": "independent-verification",
-      "verdict": null,
-      "laneStatus": "BLOCKED_BEFORE_CLAIM",
-      "verifiedAtBase": "9a6077f90a496c1d651714e0c696bdc42df1802f",
-      "readAtBase": "9a6077f90a496c1d651714e0c696bdc42df1802f",
-      "claimRefusal": "GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10",
-      "exitCode": 8,
-      "claimHeld": false,
-      "claimHeldNote": "VF10 has never held rcap-ks-custom-pleading; the sole independent-verification grant for it is VF09's, and that grant is itself already released (releasedAt 2026-09-02T11:02:20.572Z). There is therefore no assertable path to this family from this lane at this base: a lane-matched assert would refuse ALREADY_RELEASED (exit 9), and the lane-mismatch refuses first at exit 8.",
-      "artifactsOpened": false,
-      "artifactHashes": null,
-      "artifactHashesNote": "Not recomputed. The assignment names canonical fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6 (6pp) and boundary 90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b (7pp) for ks-12-4516-municipal; both remain UNVERIFIED CLAIMS. Hashing a fixture is reading it, and the claim-ledger worker contract makes a non-zero --assert a full stop that reads nothing of the family. No byte of <familyDir>/fixtures/routes/ks-12-4516-municipal/ was opened by this lane.",
-      "nineCounters": null,
-      "nineCountersMeasuredHere": false,
-      "nineCountersNote": "The nine counters (unwrittenKnownPrefills, missingRouteComponents, foreignRouteComponents, unselectedRouteOptions, partiallyWrittenRepeatingRows, inkedProtectedFields, pageOrderDepartures, clippedOrOverlappingWrites, unstatedRequiredBeforeFilingItems) are unmeasured here. They are not recorded as zero and not read from the building lane's report; an unmeasured counter is left absent rather than inherited.",
+      "verdict": "BLOCKED_SOURCE",
+      "verifiedAtBase": "cef3d1cfb1d93e75337f6a142031d2d55e23382b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading",
+      "routeKeyCarriedByTheArtifact": "obligation:track-only:KS:ks-12-4516-municipal",
+      "claimHeld": true,
+      "claimEvidence": "claim.mjs --assert VF10 rcap-ks-custom-pleading returned CLAIM_OK (independent-verification, grant set 33b9661c04d702d4) after Captain transferred the grant from VF09. Asserted before any artifact was opened.",
+      "whyThisReaderIsIndependent": "VF10 neither built nor repaired this artifact and produced none of its acceptance evidence. VF09 read the family ASSEMBLY before these route-scoped PDFs existed; this is the first independent read of these bytes.",
+      "artifactHashes": {
+        "canonical": {
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
+          "recomputedSha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
+          "recomputedByteLength": 18289,
+          "parsedPageCount": 6,
+          "agreesWithAssignmentTable": true,
+          "agreesWithRenderedArtifactsRecord": true,
+          "agreesWithRasterReceiptPin": true,
+          "threePlacesAgree": true
+        },
+        "boundary": {
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
+          "recomputedSha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
+          "recomputedByteLength": 18888,
+          "parsedPageCount": 7,
+          "agreesWithAssignmentTable": true,
+          "agreesWithRenderedArtifactsRecord": true,
+          "agreesWithRasterReceiptPin": true,
+          "threePlacesAgree": true
+        }
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredHere": true,
+        "allZero": true,
+        "scope": "summed over the canonical and boundary fixtures of THIS route artifact, over this route's own field-map rows alone"
+      },
+      "deterministicRebuild": {
+        "method": "two independent from-scratch rebuilds, each run in its own process after deleting the family's entire fixtures/ directory, performed in a sandboxed copy of the repository so that no write of any kind landed in data/rcap-all50/overlays/census-v1/**",
+        "whyNotInPlace": "the shipped determinism harness deletes and git-restores the overlay tree in place. This lane may not write into that path, and other lanes are live, so the rebuild was done on a copy instead.",
+        "result": "CANNOT_REBUILD_AT_THIS_BASE",
+        "passesRun": 2,
+        "canonicalMatchesCommitted": null,
+        "boundaryMatchesCommitted": null,
+        "detail": "Neither pass produced any Kansas PDF. scripts/build-census-v1-rcap-ks-custom-pleading.mjs exits 0 having written nothing and reports status BLOCKED_SOURCE, naming the two missing census anchors. So determinism is not merely unproven for this route — the artifact cannot be regenerated from the committed records at this base at all. Tennessee, rebuilt in the same sandbox in the same two passes, reproduced all six of its artifacts exactly, which shows the sandbox itself is sound and isolates the refusal to Kansas's source."
+      },
       "proofObligations": [
         {
           "obligation": "ROUTE_IDENTITY",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "FAIL",
+          "measuredHere": true,
+          "measuredHow": "route stamps recovered from each page's content stream via pdf-lib, compared against the family's componentRoutes, the census anchors at this base, and FIRST_COHORT_RUNTIME_IDENTITY.json",
+          "note": "FAIL. The remedy is right and exclusive — this artifact is the K.S.A. 12-4516 municipal route and carries no trace of its sibling. What fails is the KEY. Every page stamp, the field map's componentRoutes and reports/rendered-artifacts.json all carry \"obligation:track-only:KS:ks-12-4516-municipal\". The repository has superseded that key: data/rcap-grade-a/FIRST_COHORT_RUNTIME_IDENTITY.json records this route's obligationKey as \"obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516\" and labels the string the packet carries priorObligationKey. Commit 39b88c674 made that change and did not touch this family's directory, so a participant receives a packet stamped with a route id the runtime no longer forms."
         },
         {
           "obligation": "SOURCE_IDENTITY",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "FAIL",
+          "measuredHere": true,
+          "measuredHow": "sha256 recomputed over all three bound records named in source-receipt.json, plus a literal search for this route's anchor statement in the current census",
+          "note": "FAIL, and it is the decisive finding for this route. The family's source-receipt.json binds three committed records by exact SHA-256 and declares allSourcesExact:true. Two rebind on recomputation. The third, data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, is pinned at e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2 (2596674 B) and recomputes at 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f (2599752 B). Worse than a stale pin: the two anchor statements this route's build relies on are GONE from the current file. \"obligation:track-only:KS:ks-12-4516-municipal\" occurs 0 times at this base. The repository's own builder agrees — scripts/build-census-v1-rcap-ks-custom-pleading.mjs returns status BLOCKED_SOURCE naming exactly these two missing anchors and writes nothing."
         },
         {
           "obligation": "COMPONENT_SET",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "declared set taken from the family's componentRoutes (never from the artifact's own report); presence confirmed from the BYTES by checking each claimed component's first page opens with that component role's heading; foreign-component scan over every other component id and every other route slug in the family",
+          "note": "PASS in both directions, and checked from the bytes rather than from the manifest's claim about itself. This route declares 3 component(s): ks-12-4516-municipal-primary-filing-1, ks-12-4516-municipal-proposed-order-2, ks-12-4516-municipal-filing-instructions-3. All 3 are present in both fixtures, each opening on the heading its role requires, each occupying one contiguous page run. No component belonging to another route is present: the family's other 3 component id(s) across 1 other route(s) appear nowhere in these bytes, and no foreign route stamp appears. No sibling-route string occurs at all."
         },
         {
           "obligation": "KNOWN_PREFILLS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "every value bound to this route's components read back out of THIS artifact's own text layer",
+          "note": "7/7 values read back from the canonical bytes (123 glyphs) and 7/7 from the boundary bytes (280 glyphs). Nothing unread. knownRequiredFieldsMissing = 0 on both fixtures."
         },
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "each required-before-filing blank matched against participant-instructions.md",
+          "note": "requiredFactsNotCollected = 0 on both fixtures. participant-instructions.md carries a which-pages-are-yours row for this route naming each of its components and what it is for."
         },
         {
           "obligation": "ROUTE_OPTIONS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "route-determined elections counted over this route's field-map rows alone",
+          "note": "requiredOptionsMissing = 0 on both fixtures."
         },
         {
           "obligation": "REPEATING_ROWS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "row-key grouping over this route's field-map rows",
+          "note": "incompleteRows = 0 on both fixtures: no row carries written cells beside required cells left blank."
         },
         {
           "obligation": "PROTECTED_FIELDS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "every write classified against the protected-field contract",
+          "note": "protectedWrites = 0 on both fixtures. Visible on the page as well: the proposed order states that every decision on it is the court's and that nothing on it is completed, decided, signed or dated by the petitioner or by this packet, and its signature and date lines carry no ink."
         },
         {
           "obligation": "ARTIFACTS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "sha256 recomputed from disk and compared against three independent places",
+          "note": "Both fixtures agree in all three places — the bytes on disk, the routeArtifacts row in reports/rendered-artifacts.json, and the route raster receipt's pin — and all ten values also equal the dispatch table. canonical fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6 (18289 B, 6pp); boundary 90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b (18888 B, 7pp). Page counts are from the pdf-lib parser, not a byte scan."
         },
         {
           "obligation": "PAGE_ORDER",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "parsed page order compared against the artifact's own pageManifest, with each page's component confirmed from its text",
+          "note": "packetPage runs 1..N with no gap or repeat; the manifest describes exactly 6 (canonical) and 7 (boundary) pages, matching the parser; every component occupies one contiguous run."
         },
         {
           "obligation": "CLIPPING_AND_OVERLAP",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "route raster receipt over these exact bytes, checked to pin the hash I recomputed",
+          "note": "visualDefects = 0 on both fixtures. The route's own raster receipt is RASTER_PASS with 0 problems over 13 pages measured, and I confirmed it pins the same canonical and boundary hashes I recomputed rather than the family assembly's."
         },
         {
           "obligation": "FILING_DESTINATION",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own filing-instructions component read out of this artifact",
+          "note": "Stated for THIS route, not read across from a sibling. 'The convicting Kansas municipal court', filed with the municipal court clerk, with the Wichita charter-ordinance caveat and the K.S.A. 12-4516(a)(1)/(a)(2) venue basis."
         },
         {
           "obligation": "FEE_AND_WAIVER",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "scored against DET-FEE-AND-WAIVER-001 A1-A4, per fact and per route",
+          "note": "PASS under A1. The repository does not establish a figure — K.S.A. 12-4516(g)(2) lets each municipal court prescribe its own costs and there is no statewide amount — so the packet names the checkable authority instead of inventing a number, and says so: \"Amounts vary by court and there is no statewide figure.\" Waiver: \"None identified in K.S.A. 12-4516. Any relief is a matter of local municipal court practice.\" A3 respected: this cites 12-4516(g)(2) and never 12-4516a; the sibling's identity-theft exemption is NOT read across, which would have been the easy error here. A4: no sentence denies stating anything the packet states."
         },
         {
           "obligation": "SERVICE",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own filing-instructions component read out of this artifact",
+          "note": "Stated for THIS route. \"The court causes notice to be given. The participant does not serve\", with notice to the prosecuting attorney and the arresting law enforcement agency under K.S.A. 12-4516(g)(1) — this route's own subsection."
         },
         {
           "obligation": "SELF_HELP_STOP",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own stop conditions read out of this artifact",
+          "note": "Present and route-specific. Stops include the city prosecutor opposing, a contested evidentiary hearing, a charter-ordinance city such as Wichita, a disputed state-equivalent offence classification, KORA registration and immigration consequences. The packet states where generation ends and self-help stops."
         }
       ],
-      "componentSetDirectionalFinding": "UNKNOWN IN BOTH DIRECTIONS. This lane cannot say whether ks-12-4516-municipal's artifact carries every component its route declares, nor whether it carries any component belonging to a sibling route, because it did not open the artifact. The question is left open, not answered.",
-      "focusedTestsRun": [],
-      "focusedTestsNote": "verify-route-artifact-completeness.mjs and verify-packet-completeness.mjs were NOT run. Both take a family or route under that family as their subject and would have read the artifacts the refused claim bars.",
-      "whyNoVerdict": "This lane was briefed that rcap-ks-custom-pleading is live on VF10. It is not. claim.mjs --assert VF10 rcap-ks-custom-pleading refused with the exit-8 message quoted in claimRefusal, and the claim-ledger worker contract makes a non-zero assert a full stop: report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing. So no artifact for ks-12-4516-municipal was opened, no hash recomputed, no counter measured, and no obligation scored. No verdict is recorded rather than a verdict from the closed set, because none of PASS_COMPLETE_INDEPENDENT, FAIL_REPAIR_REQUIRED, WRONG_DELIVERY_TYPE, BLOCKED_SOURCE or BLOCKED_LEGAL_INPUT is true here: nothing was measured, so PASS and FAIL are both unfounded, and the block is neither a source block nor an open legal input but a ledger-grant block. A verdict written from this lane would be read as this route artifact's current one and would displace whatever verdict it already carries, which this lane has not read and has no basis to disturb.",
-      "whatWouldUnblockIt": "Captain moves the grant: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF09 VF10 rcap-ks-custom-pleading --reason \"<why>\", then re-dispatch VF10. This lane did not run that and did not run --grant or --reissue: minting or moving a grant to oneself is exactly the fail-closed ledger's own failure mode, and the destination lane is Captain's choice. Note that VF09 is an independent-verification lane that has already read this family, so if the intent is a genuinely second independent read, the transfer destination matters and the reason should say so.",
-      "independenceNote": "Independence was never reached. This lane neither built nor repaired rcap-ks-custom-pleading and would have been an independent reader of ks-12-4516-municipal, but it never held the grant that authorizes the read.",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "componentSetDirectionalFinding": "Checked in BOTH directions from the bytes. Every component this route declares is present; NO component belonging to another route is present. No sibling-route string of any kind appears.",
+      "focusedTestsRun": [
+        "scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs (run fresh at this base, without --write) — ROUTE_PASS_COMPLETE on both fixtures",
+        "an independent byte-level component/route-stamp/cross-contamination scan written for this read, because the shipped verifier tests COMPONENT_SET against the artifact's own pageManifest rather than against the pages"
+      ],
+      "supersedes": {
+        "row": "the VF10 row for ks-12-4516-municipal recorded BLOCKED_BEFORE_CLAIM at base 9a6077f90a496c1d651714e0c696bdc42df1802f",
+        "why": "that row was correct when written — the grant sat elsewhere and was already released — and is superseded because Captain transferred the grant to VF10, which then measured the artifact."
+      },
       "overlayDirectoriesModified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false,
-      "grantsNothing": "This row records a stop. It approves no output, promotes no build status, opens no commercial route, and neither confirms nor disturbs any existing verdict on this route artifact."
+      "grantsNothing": "A verdict on one route artifact. It promotes no build status, approves no output and opens no commercial route."
     },
     {
       "itemId": "rcap-ks-custom-pleading",
       "routeArtifact": "ks-12-4516a-municipal-arrest",
       "lane": "VF10",
       "laneKind": "independent-verification",
-      "verdict": null,
-      "laneStatus": "BLOCKED_BEFORE_CLAIM",
-      "verifiedAtBase": "9a6077f90a496c1d651714e0c696bdc42df1802f",
-      "readAtBase": "9a6077f90a496c1d651714e0c696bdc42df1802f",
-      "claimRefusal": "GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10",
-      "exitCode": 8,
-      "claimHeld": false,
-      "claimHeldNote": "VF10 has never held rcap-ks-custom-pleading; the sole independent-verification grant for it is VF09's, and that grant is itself already released (releasedAt 2026-09-02T11:02:20.572Z). There is therefore no assertable path to this family from this lane at this base: a lane-matched assert would refuse ALREADY_RELEASED (exit 9), and the lane-mismatch refuses first at exit 8.",
-      "artifactsOpened": false,
-      "artifactHashes": null,
-      "artifactHashesNote": "Not recomputed. The assignment names canonical 3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685 (6pp) and boundary f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a (6pp) for ks-12-4516a-municipal-arrest; both remain UNVERIFIED CLAIMS. Hashing a fixture is reading it, and the claim-ledger worker contract makes a non-zero --assert a full stop that reads nothing of the family. No byte of <familyDir>/fixtures/routes/ks-12-4516a-municipal-arrest/ was opened by this lane.",
-      "nineCounters": null,
-      "nineCountersMeasuredHere": false,
-      "nineCountersNote": "The nine counters (unwrittenKnownPrefills, missingRouteComponents, foreignRouteComponents, unselectedRouteOptions, partiallyWrittenRepeatingRows, inkedProtectedFields, pageOrderDepartures, clippedOrOverlappingWrites, unstatedRequiredBeforeFilingItems) are unmeasured here. They are not recorded as zero and not read from the building lane's report; an unmeasured counter is left absent rather than inherited.",
+      "verdict": "BLOCKED_SOURCE",
+      "verifiedAtBase": "cef3d1cfb1d93e75337f6a142031d2d55e23382b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading",
+      "routeKeyCarriedByTheArtifact": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
+      "claimHeld": true,
+      "claimEvidence": "claim.mjs --assert VF10 rcap-ks-custom-pleading returned CLAIM_OK (independent-verification, grant set 33b9661c04d702d4) after Captain transferred the grant from VF09. Asserted before any artifact was opened.",
+      "whyThisReaderIsIndependent": "VF10 neither built nor repaired this artifact and produced none of its acceptance evidence. VF09 read the family ASSEMBLY before these route-scoped PDFs existed; this is the first independent read of these bytes.",
+      "artifactHashes": {
+        "canonical": {
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
+          "recomputedSha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
+          "recomputedByteLength": 17417,
+          "parsedPageCount": 6,
+          "agreesWithAssignmentTable": true,
+          "agreesWithRenderedArtifactsRecord": true,
+          "agreesWithRasterReceiptPin": true,
+          "threePlacesAgree": true
+        },
+        "boundary": {
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
+          "recomputedSha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
+          "recomputedByteLength": 17614,
+          "parsedPageCount": 6,
+          "agreesWithAssignmentTable": true,
+          "agreesWithRenderedArtifactsRecord": true,
+          "agreesWithRasterReceiptPin": true,
+          "threePlacesAgree": true
+        }
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredHere": true,
+        "allZero": true,
+        "scope": "summed over the canonical and boundary fixtures of THIS route artifact, over this route's own field-map rows alone"
+      },
+      "deterministicRebuild": {
+        "method": "two independent from-scratch rebuilds, each run in its own process after deleting the family's entire fixtures/ directory, performed in a sandboxed copy of the repository so that no write of any kind landed in data/rcap-all50/overlays/census-v1/**",
+        "whyNotInPlace": "the shipped determinism harness deletes and git-restores the overlay tree in place. This lane may not write into that path, and other lanes are live, so the rebuild was done on a copy instead.",
+        "result": "CANNOT_REBUILD_AT_THIS_BASE",
+        "passesRun": 2,
+        "canonicalMatchesCommitted": null,
+        "boundaryMatchesCommitted": null,
+        "detail": "Neither pass produced any Kansas PDF. scripts/build-census-v1-rcap-ks-custom-pleading.mjs exits 0 having written nothing and reports status BLOCKED_SOURCE, naming the two missing census anchors. So determinism is not merely unproven for this route — the artifact cannot be regenerated from the committed records at this base at all. Tennessee, rebuilt in the same sandbox in the same two passes, reproduced all six of its artifacts exactly, which shows the sandbox itself is sound and isolates the refusal to Kansas's source."
+      },
       "proofObligations": [
         {
           "obligation": "ROUTE_IDENTITY",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "FAIL",
+          "measuredHere": true,
+          "measuredHow": "route stamps recovered from each page's content stream via pdf-lib, compared against the family's componentRoutes, the census anchors at this base, and FIRST_COHORT_RUNTIME_IDENTITY.json",
+          "note": "FAIL. The remedy is right and exclusive — this artifact is the K.S.A. 12-4516a municipal route and carries no trace of its sibling. What fails is the KEY. Every page stamp, the field map's componentRoutes and reports/rendered-artifacts.json all carry \"obligation:track-only:KS:ks-12-4516a-municipal-arrest\". The repository has superseded that key: data/rcap-grade-a/FIRST_COHORT_RUNTIME_IDENTITY.json records this route's obligationKey as \"obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a\" and labels the string the packet carries priorObligationKey. Commit 39b88c674 made that change and did not touch this family's directory, so a participant receives a packet stamped with a route id the runtime no longer forms."
         },
         {
           "obligation": "SOURCE_IDENTITY",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "FAIL",
+          "measuredHere": true,
+          "measuredHow": "sha256 recomputed over all three bound records named in source-receipt.json, plus a literal search for this route's anchor statement in the current census",
+          "note": "FAIL, and it is the decisive finding for this route. The family's source-receipt.json binds three committed records by exact SHA-256 and declares allSourcesExact:true. Two rebind on recomputation. The third, data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, is pinned at e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2 (2596674 B) and recomputes at 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f (2599752 B). Worse than a stale pin: the two anchor statements this route's build relies on are GONE from the current file. \"obligation:track-only:KS:ks-12-4516a-municipal-arrest\" occurs 0 times at this base. The repository's own builder agrees — scripts/build-census-v1-rcap-ks-custom-pleading.mjs returns status BLOCKED_SOURCE naming exactly these two missing anchors and writes nothing."
         },
         {
           "obligation": "COMPONENT_SET",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "declared set taken from the family's componentRoutes (never from the artifact's own report); presence confirmed from the BYTES by checking each claimed component's first page opens with that component role's heading; foreign-component scan over every other component id and every other route slug in the family",
+          "note": "PASS in both directions, and checked from the bytes rather than from the manifest's claim about itself. This route declares 3 component(s): ks-12-4516a-municipal-arrest-primary-filing-1, ks-12-4516a-municipal-arrest-proposed-order-2, ks-12-4516a-municipal-arrest-filing-instructions-3. All 3 are present in both fixtures, each opening on the heading its role requires, each occupying one contiguous page run. No component belonging to another route is present: the family's other 3 component id(s) across 1 other route(s) appear nowhere in these bytes, and no foreign route stamp appears. No sibling-route string occurs at all."
         },
         {
           "obligation": "KNOWN_PREFILLS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "every value bound to this route's components read back out of THIS artifact's own text layer",
+          "note": "7/7 values read back from the canonical bytes (123 glyphs) and 7/7 from the boundary bytes (280 glyphs). Nothing unread. knownRequiredFieldsMissing = 0 on both fixtures."
         },
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "each required-before-filing blank matched against participant-instructions.md",
+          "note": "requiredFactsNotCollected = 0 on both fixtures. participant-instructions.md carries a which-pages-are-yours row for this route naming each of its components and what it is for."
         },
         {
           "obligation": "ROUTE_OPTIONS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "route-determined elections counted over this route's field-map rows alone",
+          "note": "requiredOptionsMissing = 0 on both fixtures."
         },
         {
           "obligation": "REPEATING_ROWS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "row-key grouping over this route's field-map rows",
+          "note": "incompleteRows = 0 on both fixtures: no row carries written cells beside required cells left blank."
         },
         {
           "obligation": "PROTECTED_FIELDS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "every write classified against the protected-field contract",
+          "note": "protectedWrites = 0 on both fixtures. Visible on the page as well: the proposed order states that every decision on it is the court's and that nothing on it is completed, decided, signed or dated by the petitioner or by this packet, and its signature and date lines carry no ink."
         },
         {
           "obligation": "ARTIFACTS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "sha256 recomputed from disk and compared against three independent places",
+          "note": "Both fixtures agree in all three places — the bytes on disk, the routeArtifacts row in reports/rendered-artifacts.json, and the route raster receipt's pin — and all ten values also equal the dispatch table. canonical 3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685 (17417 B, 6pp); boundary f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a (17614 B, 6pp). Page counts are from the pdf-lib parser, not a byte scan."
         },
         {
           "obligation": "PAGE_ORDER",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "parsed page order compared against the artifact's own pageManifest, with each page's component confirmed from its text",
+          "note": "packetPage runs 1..N with no gap or repeat; the manifest describes exactly 6 (canonical) and 6 (boundary) pages, matching the parser; every component occupies one contiguous run."
         },
         {
           "obligation": "CLIPPING_AND_OVERLAP",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "route raster receipt over these exact bytes, checked to pin the hash I recomputed",
+          "note": "visualDefects = 0 on both fixtures. The route's own raster receipt is RASTER_PASS with 0 problems over 12 pages measured, and I confirmed it pins the same canonical and boundary hashes I recomputed rather than the family assembly's."
         },
         {
           "obligation": "FILING_DESTINATION",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own filing-instructions component read out of this artifact",
+          "note": "Stated for THIS route, not read across from a sibling. 'The Kansas municipal court where the ordinance charge was brought', filed with the municipal court clerk, on the K.S.A. 12-4516a(a) venue basis."
         },
         {
           "obligation": "FEE_AND_WAIVER",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "scored against DET-FEE-AND-WAIVER-001 A1-A4, per fact and per route",
+          "note": "PASS under A1. Same no-statewide-figure position on this route's OWN subsection, K.S.A. 12-4516a(b), and it additionally states the fact the record does establish for this route and only this route: no fee may be charged to a person arrested as a result of being a victim of identity theft under K.S.A. 21-6107 or former 21-4018. Waiver: \"No discretionary waiver. The relief is the statutory identity-theft exemption, which applies by its own terms.\" A3 respected in the sharp direction — this exemption belongs to 12-4516a and does not appear in the 12-4516 packet. A4: no sentence denies stating anything the packet states."
         },
         {
           "obligation": "SERVICE",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own filing-instructions component read out of this artifact",
+          "note": "Stated for THIS route. \"The court causes notice to be given. The participant does not serve\", with notice to the prosecuting attorney and the arresting law enforcement agency under K.S.A. 12-4516a(b) — this route's own subsection."
         },
         {
           "obligation": "SELF_HELP_STOP",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-ks-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-ks-custom-pleading is granted to VF09, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own stop conditions read out of this artifact",
+          "note": "Present and route-specific. Stops include the city prosecutor opposing, a contested hearing, a disputed mistaken-identity or no-probable-cause ground, and expressly the case where the participant was convicted or diverted on the charge, which it routes to the municipal conviction route instead. The packet states where generation ends and self-help stops."
         }
       ],
-      "componentSetDirectionalFinding": "UNKNOWN IN BOTH DIRECTIONS. This lane cannot say whether ks-12-4516a-municipal-arrest's artifact carries every component its route declares, nor whether it carries any component belonging to a sibling route, because it did not open the artifact. The question is left open, not answered.",
-      "focusedTestsRun": [],
-      "focusedTestsNote": "verify-route-artifact-completeness.mjs and verify-packet-completeness.mjs were NOT run. Both take a family or route under that family as their subject and would have read the artifacts the refused claim bars.",
-      "whyNoVerdict": "This lane was briefed that rcap-ks-custom-pleading is live on VF10. It is not. claim.mjs --assert VF10 rcap-ks-custom-pleading refused with the exit-8 message quoted in claimRefusal, and the claim-ledger worker contract makes a non-zero assert a full stop: report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing. So no artifact for ks-12-4516a-municipal-arrest was opened, no hash recomputed, no counter measured, and no obligation scored. No verdict is recorded rather than a verdict from the closed set, because none of PASS_COMPLETE_INDEPENDENT, FAIL_REPAIR_REQUIRED, WRONG_DELIVERY_TYPE, BLOCKED_SOURCE or BLOCKED_LEGAL_INPUT is true here: nothing was measured, so PASS and FAIL are both unfounded, and the block is neither a source block nor an open legal input but a ledger-grant block. A verdict written from this lane would be read as this route artifact's current one and would displace whatever verdict it already carries, which this lane has not read and has no basis to disturb.",
-      "whatWouldUnblockIt": "Captain moves the grant: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF09 VF10 rcap-ks-custom-pleading --reason \"<why>\", then re-dispatch VF10. This lane did not run that and did not run --grant or --reissue: minting or moving a grant to oneself is exactly the fail-closed ledger's own failure mode, and the destination lane is Captain's choice. Note that VF09 is an independent-verification lane that has already read this family, so if the intent is a genuinely second independent read, the transfer destination matters and the reason should say so.",
-      "independenceNote": "Independence was never reached. This lane neither built nor repaired rcap-ks-custom-pleading and would have been an independent reader of ks-12-4516a-municipal-arrest, but it never held the grant that authorizes the read.",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "componentSetDirectionalFinding": "Checked in BOTH directions from the bytes. Every component this route declares is present; NO component belonging to another route is present. No sibling-route string of any kind appears.",
+      "focusedTestsRun": [
+        "scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs (run fresh at this base, without --write) — ROUTE_PASS_COMPLETE on both fixtures",
+        "an independent byte-level component/route-stamp/cross-contamination scan written for this read, because the shipped verifier tests COMPONENT_SET against the artifact's own pageManifest rather than against the pages"
+      ],
+      "supersedes": {
+        "row": "the VF10 row for ks-12-4516a-municipal-arrest recorded BLOCKED_BEFORE_CLAIM at base 9a6077f90a496c1d651714e0c696bdc42df1802f",
+        "why": "that row was correct when written — the grant sat elsewhere and was already released — and is superseded because Captain transferred the grant to VF10, which then measured the artifact."
+      },
       "overlayDirectoriesModified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false,
-      "grantsNothing": "This row records a stop. It approves no output, promotes no build status, opens no commercial route, and neither confirms nor disturbs any existing verdict on this route artifact."
+      "grantsNothing": "A verdict on one route artifact. It promotes no build status, approves no output and opens no commercial route."
     },
     {
       "itemId": "rcap-tn-custom-pleading",
       "routeArtifact": "tn_eligible_conviction",
       "lane": "VF10",
       "laneKind": "independent-verification",
-      "verdict": null,
-      "laneStatus": "BLOCKED_BEFORE_CLAIM",
-      "verifiedAtBase": "9a6077f90a496c1d651714e0c696bdc42df1802f",
-      "readAtBase": "9a6077f90a496c1d651714e0c696bdc42df1802f",
-      "claimRefusal": "GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10",
-      "exitCode": 8,
-      "claimHeld": false,
-      "claimHeldNote": "VF10 has never held rcap-tn-custom-pleading; the sole independent-verification grant for it is VF04's, and that grant is itself already released (releasedAt 2026-09-02T09:16:56.837Z). There is therefore no assertable path to this family from this lane at this base: a lane-matched assert would refuse ALREADY_RELEASED (exit 9), and the lane-mismatch refuses first at exit 8.",
-      "artifactsOpened": false,
-      "artifactHashes": null,
-      "artifactHashesNote": "Not recomputed. The assignment names canonical b8fcb67ca7a3544ffb9e9f5ac5170ffb5a8948f675edfcbd7bbfa2ffc66a09fc (5pp) and boundary 7144db6a93b1f5522cd29f29f77192e782e4e3766fbab6d0d5b1144ec51de3ee (5pp) for tn_eligible_conviction; both remain UNVERIFIED CLAIMS. Hashing a fixture is reading it, and the claim-ledger worker contract makes a non-zero --assert a full stop that reads nothing of the family. No byte of <familyDir>/fixtures/routes/tn_eligible_conviction/ was opened by this lane.",
-      "nineCounters": null,
-      "nineCountersMeasuredHere": false,
-      "nineCountersNote": "The nine counters (unwrittenKnownPrefills, missingRouteComponents, foreignRouteComponents, unselectedRouteOptions, partiallyWrittenRepeatingRows, inkedProtectedFields, pageOrderDepartures, clippedOrOverlappingWrites, unstatedRequiredBeforeFilingItems) are unmeasured here. They are not recorded as zero and not read from the building lane's report; an unmeasured counter is left absent rather than inherited.",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "cef3d1cfb1d93e75337f6a142031d2d55e23382b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading",
+      "routeKeyCarriedByTheArtifact": "obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+      "claimHeld": true,
+      "claimEvidence": "claim.mjs --assert VF10 rcap-tn-custom-pleading returned CLAIM_OK (independent-verification, grant set 33b9661c04d702d4) after Captain transferred the grant from VF04. Asserted before any artifact was opened.",
+      "whyThisReaderIsIndependent": "VF10 neither built nor repaired this artifact and produced none of its acceptance evidence. VF04 read the family ASSEMBLY before these route-scoped PDFs existed; this is the first independent read of these bytes.",
+      "artifactHashes": {
+        "canonical": {
+          "file": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_eligible_conviction/canonical.pdf",
+          "recomputedSha256": "b8fcb67ca7a3544ffb9e9f5ac5170ffb5a8948f675edfcbd7bbfa2ffc66a09fc",
+          "recomputedByteLength": 17565,
+          "parsedPageCount": 5,
+          "agreesWithAssignmentTable": true,
+          "agreesWithRenderedArtifactsRecord": true,
+          "agreesWithRasterReceiptPin": true,
+          "threePlacesAgree": true
+        },
+        "boundary": {
+          "file": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_eligible_conviction/boundary.pdf",
+          "recomputedSha256": "7144db6a93b1f5522cd29f29f77192e782e4e3766fbab6d0d5b1144ec51de3ee",
+          "recomputedByteLength": 17855,
+          "parsedPageCount": 5,
+          "agreesWithAssignmentTable": true,
+          "agreesWithRenderedArtifactsRecord": true,
+          "agreesWithRasterReceiptPin": true,
+          "threePlacesAgree": true
+        }
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredHere": true,
+        "allZero": true,
+        "scope": "summed over the canonical and boundary fixtures of THIS route artifact, over this route's own field-map rows alone"
+      },
+      "deterministicRebuild": {
+        "method": "two independent from-scratch rebuilds, each run in its own process after deleting the family's entire fixtures/ directory, performed in a sandboxed copy of the repository so that no write of any kind landed in data/rcap-all50/overlays/census-v1/**",
+        "whyNotInPlace": "the shipped determinism harness deletes and git-restores the overlay tree in place. This lane may not write into that path, and other lanes are live, so the rebuild was done on a copy instead.",
+        "result": "REPRODUCES",
+        "passesRun": 2,
+        "canonicalMatchesCommitted": true,
+        "boundaryMatchesCommitted": true,
+        "detail": "Both fixtures rebuilt from nothing twice and both times hashed to exactly the committed bytes. The builder is deterministic for this route and the artifact on disk is the artifact the committed records produce."
+      },
       "proofObligations": [
         {
           "obligation": "ROUTE_IDENTITY",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "route stamps recovered from each page's content stream via pdf-lib, compared against the family's componentRoutes, the census anchors at this base, and FIRST_COHORT_RUNTIME_IDENTITY.json",
+          "note": "PASS. The artifact's routeKey \"obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107\" is the key the family's componentRoutes assigns to these components and the key present in the current census; every route stamp recovered from the page content streams resolves to this route and to no other."
         },
         {
           "obligation": "SOURCE_IDENTITY",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "FAIL",
+          "measuredHere": true,
+          "measuredHow": "sha256 recomputed over all three bound records named in source-receipt.json, plus a literal search for this route's anchor statement in the current census",
+          "note": "FAIL. The family's source-receipt.json binds data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json at e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2 (2596674 B) and declares allSourcesExact:true; it recomputes at 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f (2599752 B). The other two bound records rebind exactly. Unlike Kansas, no fact THIS route reads has moved: its anchor \"obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107\" is present exactly once at this base, and the artifact rebuilds byte-for-byte twice from scratch. This is a stale pin on a live record, not a lost source."
         },
         {
           "obligation": "COMPONENT_SET",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "declared set taken from the family's componentRoutes (never from the artifact's own report); presence confirmed from the BYTES by checking each claimed component's first page opens with that component role's heading; foreign-component scan over every other component id and every other route slug in the family",
+          "note": "PASS in both directions, and checked from the bytes rather than from the manifest's claim about itself. This route declares 3 component(s): tn_eligible_conviction-request-to-district-attorney-1, tn_eligible_conviction-eligibility-record-2, tn_eligible_conviction-filing-instructions-3. All 3 are present in both fixtures, each opening on the heading its role requires, each occupying one contiguous page run. No component belonging to another route is present: the family's other 26 component id(s) across 10 other route(s) appear nowhere in these bytes, and no foreign route stamp appears. The strings tn_post_pardon and tn_recovery_court DO occur, and I checked them: they are onward-referral sentences in this route's own filing-instructions and self-help-stop components ('is evaluated under tn_post_pardon'), naming sibling routes as referrals. No page, component or remedy of those routes is carried."
         },
         {
           "obligation": "KNOWN_PREFILLS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "every value bound to this route's components read back out of THIS artifact's own text layer",
+          "note": "11/11 values read back from the canonical bytes (198 glyphs) and 11/11 from the boundary bytes (446 glyphs). Nothing unread. knownRequiredFieldsMissing = 0 on both fixtures."
         },
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "each required-before-filing blank matched against participant-instructions.md",
+          "note": "requiredFactsNotCollected = 0 on both fixtures. participant-instructions.md carries a which-pages-are-yours row for this route naming each of its components and what it is for."
         },
         {
           "obligation": "ROUTE_OPTIONS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "route-determined elections counted over this route's field-map rows alone",
+          "note": "requiredOptionsMissing = 0 on both fixtures."
         },
         {
           "obligation": "REPEATING_ROWS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "row-key grouping over this route's field-map rows",
+          "note": "incompleteRows = 0 on both fixtures: no row carries written cells beside required cells left blank."
         },
         {
           "obligation": "PROTECTED_FIELDS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "every write classified against the protected-field contract",
+          "note": "protectedWrites = 0 on both fixtures. Visible on the page as well: signature, signature-date and certificate-of-mailing lines carry no ink."
         },
         {
           "obligation": "ARTIFACTS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "sha256 recomputed from disk and compared against three independent places",
+          "note": "Both fixtures agree in all three places — the bytes on disk, the routeArtifacts row in reports/rendered-artifacts.json, and the route raster receipt's pin — and all ten values also equal the dispatch table. canonical b8fcb67ca7a3544ffb9e9f5ac5170ffb5a8948f675edfcbd7bbfa2ffc66a09fc (17565 B, 5pp); boundary 7144db6a93b1f5522cd29f29f77192e782e4e3766fbab6d0d5b1144ec51de3ee (17855 B, 5pp). Page counts are from the pdf-lib parser, not a byte scan."
         },
         {
           "obligation": "PAGE_ORDER",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "parsed page order compared against the artifact's own pageManifest, with each page's component confirmed from its text",
+          "note": "packetPage runs 1..N with no gap or repeat; the manifest describes exactly 5 (canonical) and 5 (boundary) pages, matching the parser; every component occupies one contiguous run."
         },
         {
           "obligation": "CLIPPING_AND_OVERLAP",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "route raster receipt over these exact bytes, checked to pin the hash I recomputed",
+          "note": "visualDefects = 0 on both fixtures. The route's own raster receipt is RASTER_PASS with 0 problems over 10 pages measured, and I confirmed it pins the same canonical and boundary hashes I recomputed rather than the family assembly's."
         },
         {
           "obligation": "FILING_DESTINATION",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own filing-instructions component read out of this artifact",
+          "note": "Stated for THIS route, not read across from a sibling. 'The office of the district attorney general for the judicial district of the convicting court', on the Sec. 40-32-108(e) basis, stating that LegalEase generates the request and eligibility record and not the petition or order."
         },
         {
           "obligation": "FEE_AND_WAIVER",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "scored against DET-FEE-AND-WAIVER-001 A1-A4, per fact and per route",
+          "note": "PASS under A1 and A3. The fee rests on this route's own provision, Sec. 40-32-108(a), which genuinely governs it, and no figure is quoted: Sec. 8-21-401 sets the amount, its current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06. The packet goes further and disposes of the widely circulated $180 figure, recording that it appears only on a superseded AOC-hosted page and nowhere in the enacted text of Public Chapter 268. Waiver: no indigency or fee-waiver provision anywhere in the reorganized sections. This is the same holding as tn_two_offense/tn_eligible_conviction respectively because both routes are governed by the SAME statutory fee provision — not a sibling-route read-across; tn_judicial_diversion, which has a different fee basis, correctly states a different fee. A4: no sentence denies stating anything the packet states."
         },
         {
           "obligation": "SERVICE",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own filing-instructions component read out of this artifact",
+          "note": "Stated for THIS route. 'Through the clerk. The participant does not effect service'; the clerk serves the district attorney general, who may respond within 60 days, and the court may not order sooner than 61 days after service."
         },
         {
           "obligation": "SELF_HELP_STOP",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own stop conditions read out of this artifact",
+          "note": "Present and route-specific. Stops include any dispute with the district attorney general, any other conviction anywhere, unpaid costs or restitution, DUI/sexual-offence/registration matters, out-of-state and federal records, and immigration or security-clearance consequences. The packet states where generation ends and self-help stops."
         }
       ],
-      "componentSetDirectionalFinding": "UNKNOWN IN BOTH DIRECTIONS. This lane cannot say whether tn_eligible_conviction's artifact carries every component its route declares, nor whether it carries any component belonging to a sibling route, because it did not open the artifact. The question is left open, not answered.",
-      "focusedTestsRun": [],
-      "focusedTestsNote": "verify-route-artifact-completeness.mjs and verify-packet-completeness.mjs were NOT run. Both take a family or route under that family as their subject and would have read the artifacts the refused claim bars.",
-      "whyNoVerdict": "This lane was briefed that rcap-tn-custom-pleading is live on VF10. It is not. claim.mjs --assert VF10 rcap-tn-custom-pleading refused with the exit-8 message quoted in claimRefusal, and the claim-ledger worker contract makes a non-zero assert a full stop: report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing. So no artifact for tn_eligible_conviction was opened, no hash recomputed, no counter measured, and no obligation scored. No verdict is recorded rather than a verdict from the closed set, because none of PASS_COMPLETE_INDEPENDENT, FAIL_REPAIR_REQUIRED, WRONG_DELIVERY_TYPE, BLOCKED_SOURCE or BLOCKED_LEGAL_INPUT is true here: nothing was measured, so PASS and FAIL are both unfounded, and the block is neither a source block nor an open legal input but a ledger-grant block. A verdict written from this lane would be read as this route artifact's current one and would displace whatever verdict it already carries, which this lane has not read and has no basis to disturb.",
-      "whatWouldUnblockIt": "Captain moves the grant: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF04 VF10 rcap-tn-custom-pleading --reason \"<why>\", then re-dispatch VF10. This lane did not run that and did not run --grant or --reissue: minting or moving a grant to oneself is exactly the fail-closed ledger's own failure mode, and the destination lane is Captain's choice. Note that VF04 is an independent-verification lane that has already read this family, so if the intent is a genuinely second independent read, the transfer destination matters and the reason should say so.",
-      "independenceNote": "Independence was never reached. This lane neither built nor repaired rcap-tn-custom-pleading and would have been an independent reader of tn_eligible_conviction, but it never held the grant that authorizes the read.",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "componentSetDirectionalFinding": "Checked in BOTH directions from the bytes. Every component this route declares is present; NO component belonging to another route is present. The only sibling-route strings in the bytes are onward-referral sentences naming tn_post_pardon and tn_recovery_court in this route's own instructions; no sibling component, page or remedy is carried.",
+      "focusedTestsRun": [
+        "scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs (run fresh at this base, without --write) — ROUTE_PASS_COMPLETE on both fixtures",
+        "an independent byte-level component/route-stamp/cross-contamination scan written for this read, because the shipped verifier tests COMPONENT_SET against the artifact's own pageManifest rather than against the pages"
+      ],
+      "supersedes": {
+        "row": "the VF10 row for tn_eligible_conviction recorded BLOCKED_BEFORE_CLAIM at base 9a6077f90a496c1d651714e0c696bdc42df1802f",
+        "why": "that row was correct when written — the grant sat elsewhere and was already released — and is superseded because Captain transferred the grant to VF10, which then measured the artifact."
+      },
       "overlayDirectoriesModified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false,
-      "grantsNothing": "This row records a stop. It approves no output, promotes no build status, opens no commercial route, and neither confirms nor disturbs any existing verdict on this route artifact."
+      "grantsNothing": "A verdict on one route artifact. It promotes no build status, approves no output and opens no commercial route."
     },
     {
       "itemId": "rcap-tn-custom-pleading",
       "routeArtifact": "tn_judicial_diversion",
       "lane": "VF10",
       "laneKind": "independent-verification",
-      "verdict": null,
-      "laneStatus": "BLOCKED_BEFORE_CLAIM",
-      "verifiedAtBase": "9a6077f90a496c1d651714e0c696bdc42df1802f",
-      "readAtBase": "9a6077f90a496c1d651714e0c696bdc42df1802f",
-      "claimRefusal": "GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10",
-      "exitCode": 8,
-      "claimHeld": false,
-      "claimHeldNote": "VF10 has never held rcap-tn-custom-pleading; the sole independent-verification grant for it is VF04's, and that grant is itself already released (releasedAt 2026-09-02T09:16:56.837Z). There is therefore no assertable path to this family from this lane at this base: a lane-matched assert would refuse ALREADY_RELEASED (exit 9), and the lane-mismatch refuses first at exit 8.",
-      "artifactsOpened": false,
-      "artifactHashes": null,
-      "artifactHashesNote": "Not recomputed. The assignment names canonical 32fd06a9afb5c77d9d4472e72887442cf92dbebdaad117b63f0436ea13db62d5 (6pp) and boundary d3a6b8dcb0315b87c6b54ac0d1ccf87c5f0396719fed6e9929e961a5db6aff6a (6pp) for tn_judicial_diversion; both remain UNVERIFIED CLAIMS. Hashing a fixture is reading it, and the claim-ledger worker contract makes a non-zero --assert a full stop that reads nothing of the family. No byte of <familyDir>/fixtures/routes/tn_judicial_diversion/ was opened by this lane.",
-      "nineCounters": null,
-      "nineCountersMeasuredHere": false,
-      "nineCountersNote": "The nine counters (unwrittenKnownPrefills, missingRouteComponents, foreignRouteComponents, unselectedRouteOptions, partiallyWrittenRepeatingRows, inkedProtectedFields, pageOrderDepartures, clippedOrOverlappingWrites, unstatedRequiredBeforeFilingItems) are unmeasured here. They are not recorded as zero and not read from the building lane's report; an unmeasured counter is left absent rather than inherited.",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "cef3d1cfb1d93e75337f6a142031d2d55e23382b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading",
+      "routeKeyCarriedByTheArtifact": "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+      "claimHeld": true,
+      "claimEvidence": "claim.mjs --assert VF10 rcap-tn-custom-pleading returned CLAIM_OK (independent-verification, grant set 33b9661c04d702d4) after Captain transferred the grant from VF04. Asserted before any artifact was opened.",
+      "whyThisReaderIsIndependent": "VF10 neither built nor repaired this artifact and produced none of its acceptance evidence. VF04 read the family ASSEMBLY before these route-scoped PDFs existed; this is the first independent read of these bytes.",
+      "artifactHashes": {
+        "canonical": {
+          "file": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_judicial_diversion/canonical.pdf",
+          "recomputedSha256": "32fd06a9afb5c77d9d4472e72887442cf92dbebdaad117b63f0436ea13db62d5",
+          "recomputedByteLength": 17598,
+          "parsedPageCount": 6,
+          "agreesWithAssignmentTable": true,
+          "agreesWithRenderedArtifactsRecord": true,
+          "agreesWithRasterReceiptPin": true,
+          "threePlacesAgree": true
+        },
+        "boundary": {
+          "file": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_judicial_diversion/boundary.pdf",
+          "recomputedSha256": "d3a6b8dcb0315b87c6b54ac0d1ccf87c5f0396719fed6e9929e961a5db6aff6a",
+          "recomputedByteLength": 17786,
+          "parsedPageCount": 6,
+          "agreesWithAssignmentTable": true,
+          "agreesWithRenderedArtifactsRecord": true,
+          "agreesWithRasterReceiptPin": true,
+          "threePlacesAgree": true
+        }
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredHere": true,
+        "allZero": true,
+        "scope": "summed over the canonical and boundary fixtures of THIS route artifact, over this route's own field-map rows alone"
+      },
+      "deterministicRebuild": {
+        "method": "two independent from-scratch rebuilds, each run in its own process after deleting the family's entire fixtures/ directory, performed in a sandboxed copy of the repository so that no write of any kind landed in data/rcap-all50/overlays/census-v1/**",
+        "whyNotInPlace": "the shipped determinism harness deletes and git-restores the overlay tree in place. This lane may not write into that path, and other lanes are live, so the rebuild was done on a copy instead.",
+        "result": "REPRODUCES",
+        "passesRun": 2,
+        "canonicalMatchesCommitted": true,
+        "boundaryMatchesCommitted": true,
+        "detail": "Both fixtures rebuilt from nothing twice and both times hashed to exactly the committed bytes. The builder is deterministic for this route and the artifact on disk is the artifact the committed records produce."
+      },
       "proofObligations": [
         {
           "obligation": "ROUTE_IDENTITY",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "route stamps recovered from each page's content stream via pdf-lib, compared against the family's componentRoutes, the census anchors at this base, and FIRST_COHORT_RUNTIME_IDENTITY.json",
+          "note": "PASS. The artifact's routeKey \"obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313\" is the key the family's componentRoutes assigns to these components and the key present in the current census; every route stamp recovered from the page content streams resolves to this route and to no other."
         },
         {
           "obligation": "SOURCE_IDENTITY",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "FAIL",
+          "measuredHere": true,
+          "measuredHow": "sha256 recomputed over all three bound records named in source-receipt.json, plus a literal search for this route's anchor statement in the current census",
+          "note": "FAIL. The family's source-receipt.json binds data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json at e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2 (2596674 B) and declares allSourcesExact:true; it recomputes at 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f (2599752 B). The other two bound records rebind exactly. Unlike Kansas, no fact THIS route reads has moved: its anchor \"obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313\" is present exactly once at this base, and the artifact rebuilds byte-for-byte twice from scratch. This is a stale pin on a live record, not a lost source."
         },
         {
           "obligation": "COMPONENT_SET",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "declared set taken from the family's componentRoutes (never from the artifact's own report); presence confirmed from the BYTES by checking each claimed component's first page opens with that component role's heading; foreign-component scan over every other component id and every other route slug in the family",
+          "note": "PASS in both directions, and checked from the bytes rather than from the manifest's claim about itself. This route declares 2 component(s): tn_judicial_diversion-petition-1, tn_judicial_diversion-filing-instructions-2. All 2 are present in both fixtures, each opening on the heading its role requires, each occupying one contiguous page run. No component belonging to another route is present: the family's other 27 component id(s) across 10 other route(s) appear nowhere in these bytes, and no foreign route stamp appears. No sibling-route string occurs at all."
         },
         {
           "obligation": "KNOWN_PREFILLS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "every value bound to this route's components read back out of THIS artifact's own text layer",
+          "note": "6/6 values read back from the canonical bytes (107 glyphs) and 6/6 from the boundary bytes (242 glyphs). Nothing unread. knownRequiredFieldsMissing = 0 on both fixtures."
         },
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "each required-before-filing blank matched against participant-instructions.md",
+          "note": "requiredFactsNotCollected = 0 on both fixtures. participant-instructions.md carries a which-pages-are-yours row for this route naming each of its components and what it is for."
         },
         {
           "obligation": "ROUTE_OPTIONS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "route-determined elections counted over this route's field-map rows alone",
+          "note": "requiredOptionsMissing = 0 on both fixtures."
         },
         {
           "obligation": "REPEATING_ROWS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "row-key grouping over this route's field-map rows",
+          "note": "incompleteRows = 0 on both fixtures: no row carries written cells beside required cells left blank."
         },
         {
           "obligation": "PROTECTED_FIELDS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "every write classified against the protected-field contract",
+          "note": "protectedWrites = 0 on both fixtures. Visible on the page as well: signature, signature-date and certificate-of-mailing lines carry no ink."
         },
         {
           "obligation": "ARTIFACTS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "sha256 recomputed from disk and compared against three independent places",
+          "note": "Both fixtures agree in all three places — the bytes on disk, the routeArtifacts row in reports/rendered-artifacts.json, and the route raster receipt's pin — and all ten values also equal the dispatch table. canonical 32fd06a9afb5c77d9d4472e72887442cf92dbebdaad117b63f0436ea13db62d5 (17598 B, 6pp); boundary d3a6b8dcb0315b87c6b54ac0d1ccf87c5f0396719fed6e9929e961a5db6aff6a (17786 B, 6pp). Page counts are from the pdf-lib parser, not a byte scan."
         },
         {
           "obligation": "PAGE_ORDER",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "parsed page order compared against the artifact's own pageManifest, with each page's component confirmed from its text",
+          "note": "packetPage runs 1..N with no gap or repeat; the manifest describes exactly 6 (canonical) and 6 (boundary) pages, matching the parser; every component occupies one contiguous run."
         },
         {
           "obligation": "CLIPPING_AND_OVERLAP",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "route raster receipt over these exact bytes, checked to pin the hash I recomputed",
+          "note": "visualDefects = 0 on both fixtures. The route's own raster receipt is RASTER_PASS with 0 problems over 12 pages measured, and I confirmed it pins the same canonical and boundary hashes I recomputed rather than the family assembly's."
         },
         {
           "obligation": "FILING_DESTINATION",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own filing-instructions component read out of this artifact",
+          "note": "Stated for THIS route, not read across from a sibling. 'The county criminal, circuit or general sessions court having jurisdiction in the previous action', with the AOC negative form finding recorded by inspection."
         },
         {
           "obligation": "FEE_AND_WAIVER",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "scored against DET-FEE-AND-WAIVER-001 A1-A4, per fact and per route",
+          "note": "PASS under A1 and A3, and this route is the evidence that A3 is being honoured rather than recited. Its fee rests on its OWN provision, Sec. 40-32-106(d)(3) (clerk's fee for destroying the records), not on the Sec. 40-32-108(a) provision its two sibling routes cite — and the packet draws out the asymmetry a participant needs: diversion is a non-conviction outcome but is not free, whereas a straight dismissal is. No figure is quoted because Sec. 8-21-401 sets it and the repository does not hold it. Waiver: none in the reorganized Sec. 40-32-106 to 40-32-110, with the TBI's unpublished indigency procedure for its separate certificate fee described rather than asserted as a waiver. A4: no sentence denies stating anything the packet states."
         },
         {
           "obligation": "SERVICE",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own filing-instructions component read out of this artifact",
+          "note": "Stated for THIS route. 'Through the clerk. The participant does not effect service'; the clerk serves the district attorney general in the ordinary course."
         },
         {
           "obligation": "SELF_HELP_STOP",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own stop conditions read out of this artifact",
+          "note": "Present and route-specific. Stops include any dispute with the district attorney general, any other conviction anywhere, unpaid costs or restitution, DUI/sexual-offence/registration matters, out-of-state and federal records, and immigration or security-clearance consequences. The packet states where generation ends and self-help stops."
         }
       ],
-      "componentSetDirectionalFinding": "UNKNOWN IN BOTH DIRECTIONS. This lane cannot say whether tn_judicial_diversion's artifact carries every component its route declares, nor whether it carries any component belonging to a sibling route, because it did not open the artifact. The question is left open, not answered.",
-      "focusedTestsRun": [],
-      "focusedTestsNote": "verify-route-artifact-completeness.mjs and verify-packet-completeness.mjs were NOT run. Both take a family or route under that family as their subject and would have read the artifacts the refused claim bars.",
-      "whyNoVerdict": "This lane was briefed that rcap-tn-custom-pleading is live on VF10. It is not. claim.mjs --assert VF10 rcap-tn-custom-pleading refused with the exit-8 message quoted in claimRefusal, and the claim-ledger worker contract makes a non-zero assert a full stop: report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing. So no artifact for tn_judicial_diversion was opened, no hash recomputed, no counter measured, and no obligation scored. No verdict is recorded rather than a verdict from the closed set, because none of PASS_COMPLETE_INDEPENDENT, FAIL_REPAIR_REQUIRED, WRONG_DELIVERY_TYPE, BLOCKED_SOURCE or BLOCKED_LEGAL_INPUT is true here: nothing was measured, so PASS and FAIL are both unfounded, and the block is neither a source block nor an open legal input but a ledger-grant block. A verdict written from this lane would be read as this route artifact's current one and would displace whatever verdict it already carries, which this lane has not read and has no basis to disturb.",
-      "whatWouldUnblockIt": "Captain moves the grant: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF04 VF10 rcap-tn-custom-pleading --reason \"<why>\", then re-dispatch VF10. This lane did not run that and did not run --grant or --reissue: minting or moving a grant to oneself is exactly the fail-closed ledger's own failure mode, and the destination lane is Captain's choice. Note that VF04 is an independent-verification lane that has already read this family, so if the intent is a genuinely second independent read, the transfer destination matters and the reason should say so.",
-      "independenceNote": "Independence was never reached. This lane neither built nor repaired rcap-tn-custom-pleading and would have been an independent reader of tn_judicial_diversion, but it never held the grant that authorizes the read.",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "componentSetDirectionalFinding": "Checked in BOTH directions from the bytes. Every component this route declares is present; NO component belonging to another route is present. No sibling-route string of any kind appears.",
+      "focusedTestsRun": [
+        "scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs (run fresh at this base, without --write) — ROUTE_PASS_COMPLETE on both fixtures",
+        "an independent byte-level component/route-stamp/cross-contamination scan written for this read, because the shipped verifier tests COMPONENT_SET against the artifact's own pageManifest rather than against the pages"
+      ],
+      "supersedes": {
+        "row": "the VF10 row for tn_judicial_diversion recorded BLOCKED_BEFORE_CLAIM at base 9a6077f90a496c1d651714e0c696bdc42df1802f",
+        "why": "that row was correct when written — the grant sat elsewhere and was already released — and is superseded because Captain transferred the grant to VF10, which then measured the artifact."
+      },
       "overlayDirectoriesModified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false,
-      "grantsNothing": "This row records a stop. It approves no output, promotes no build status, opens no commercial route, and neither confirms nor disturbs any existing verdict on this route artifact."
+      "grantsNothing": "A verdict on one route artifact. It promotes no build status, approves no output and opens no commercial route."
     },
     {
       "itemId": "rcap-tn-custom-pleading",
       "routeArtifact": "tn_two_offense",
       "lane": "VF10",
       "laneKind": "independent-verification",
-      "verdict": null,
-      "laneStatus": "BLOCKED_BEFORE_CLAIM",
-      "verifiedAtBase": "9a6077f90a496c1d651714e0c696bdc42df1802f",
-      "readAtBase": "9a6077f90a496c1d651714e0c696bdc42df1802f",
-      "claimRefusal": "GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10",
-      "exitCode": 8,
-      "claimHeld": false,
-      "claimHeldNote": "VF10 has never held rcap-tn-custom-pleading; the sole independent-verification grant for it is VF04's, and that grant is itself already released (releasedAt 2026-09-02T09:16:56.837Z). There is therefore no assertable path to this family from this lane at this base: a lane-matched assert would refuse ALREADY_RELEASED (exit 9), and the lane-mismatch refuses first at exit 8.",
-      "artifactsOpened": false,
-      "artifactHashes": null,
-      "artifactHashesNote": "Not recomputed. The assignment names canonical 397c4caa4ccecab1c6e16f50db255143cfdf0d9c462b562ab46daab9f349d85a (5pp) and boundary b6e5ad6482c0f9b83cf54b2b67e6ff94857ab1f261d59e3455140690599fb611 (5pp) for tn_two_offense; both remain UNVERIFIED CLAIMS. Hashing a fixture is reading it, and the claim-ledger worker contract makes a non-zero --assert a full stop that reads nothing of the family. No byte of <familyDir>/fixtures/routes/tn_two_offense/ was opened by this lane.",
-      "nineCounters": null,
-      "nineCountersMeasuredHere": false,
-      "nineCountersNote": "The nine counters (unwrittenKnownPrefills, missingRouteComponents, foreignRouteComponents, unselectedRouteOptions, partiallyWrittenRepeatingRows, inkedProtectedFields, pageOrderDepartures, clippedOrOverlappingWrites, unstatedRequiredBeforeFilingItems) are unmeasured here. They are not recorded as zero and not read from the building lane's report; an unmeasured counter is left absent rather than inherited.",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "cef3d1cfb1d93e75337f6a142031d2d55e23382b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading",
+      "routeKeyCarriedByTheArtifact": "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k",
+      "claimHeld": true,
+      "claimEvidence": "claim.mjs --assert VF10 rcap-tn-custom-pleading returned CLAIM_OK (independent-verification, grant set 33b9661c04d702d4) after Captain transferred the grant from VF04. Asserted before any artifact was opened.",
+      "whyThisReaderIsIndependent": "VF10 neither built nor repaired this artifact and produced none of its acceptance evidence. VF04 read the family ASSEMBLY before these route-scoped PDFs existed; this is the first independent read of these bytes.",
+      "artifactHashes": {
+        "canonical": {
+          "file": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_two_offense/canonical.pdf",
+          "recomputedSha256": "397c4caa4ccecab1c6e16f50db255143cfdf0d9c462b562ab46daab9f349d85a",
+          "recomputedByteLength": 17476,
+          "parsedPageCount": 5,
+          "agreesWithAssignmentTable": true,
+          "agreesWithRenderedArtifactsRecord": true,
+          "agreesWithRasterReceiptPin": true,
+          "threePlacesAgree": true
+        },
+        "boundary": {
+          "file": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_two_offense/boundary.pdf",
+          "recomputedSha256": "b6e5ad6482c0f9b83cf54b2b67e6ff94857ab1f261d59e3455140690599fb611",
+          "recomputedByteLength": 17764,
+          "parsedPageCount": 5,
+          "agreesWithAssignmentTable": true,
+          "agreesWithRenderedArtifactsRecord": true,
+          "agreesWithRasterReceiptPin": true,
+          "threePlacesAgree": true
+        }
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredHere": true,
+        "allZero": true,
+        "scope": "summed over the canonical and boundary fixtures of THIS route artifact, over this route's own field-map rows alone"
+      },
+      "deterministicRebuild": {
+        "method": "two independent from-scratch rebuilds, each run in its own process after deleting the family's entire fixtures/ directory, performed in a sandboxed copy of the repository so that no write of any kind landed in data/rcap-all50/overlays/census-v1/**",
+        "whyNotInPlace": "the shipped determinism harness deletes and git-restores the overlay tree in place. This lane may not write into that path, and other lanes are live, so the rebuild was done on a copy instead.",
+        "result": "REPRODUCES",
+        "passesRun": 2,
+        "canonicalMatchesCommitted": true,
+        "boundaryMatchesCommitted": true,
+        "detail": "Both fixtures rebuilt from nothing twice and both times hashed to exactly the committed bytes. The builder is deterministic for this route and the artifact on disk is the artifact the committed records produce."
+      },
       "proofObligations": [
         {
           "obligation": "ROUTE_IDENTITY",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "route stamps recovered from each page's content stream via pdf-lib, compared against the family's componentRoutes, the census anchors at this base, and FIRST_COHORT_RUNTIME_IDENTITY.json",
+          "note": "PASS. The artifact's routeKey \"obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k\" is the key the family's componentRoutes assigns to these components and the key present in the current census; every route stamp recovered from the page content streams resolves to this route and to no other."
         },
         {
           "obligation": "SOURCE_IDENTITY",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "FAIL",
+          "measuredHere": true,
+          "measuredHow": "sha256 recomputed over all three bound records named in source-receipt.json, plus a literal search for this route's anchor statement in the current census",
+          "note": "FAIL. The family's source-receipt.json binds data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json at e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2 (2596674 B) and declares allSourcesExact:true; it recomputes at 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f (2599752 B). The other two bound records rebind exactly. Unlike Kansas, no fact THIS route reads has moved: its anchor \"obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k\" is present exactly once at this base, and the artifact rebuilds byte-for-byte twice from scratch. This is a stale pin on a live record, not a lost source."
         },
         {
           "obligation": "COMPONENT_SET",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "declared set taken from the family's componentRoutes (never from the artifact's own report); presence confirmed from the BYTES by checking each claimed component's first page opens with that component role's heading; foreign-component scan over every other component id and every other route slug in the family",
+          "note": "PASS in both directions, and checked from the bytes rather than from the manifest's claim about itself. This route declares 3 component(s): tn_two_offense-request-to-district-attorney-1, tn_two_offense-eligibility-record-2, tn_two_offense-filing-instructions-3. All 3 are present in both fixtures, each opening on the heading its role requires, each occupying one contiguous page run. No component belonging to another route is present: the family's other 26 component id(s) across 10 other route(s) appear nowhere in these bytes, and no foreign route stamp appears. The strings tn_post_pardon and tn_recovery_court DO occur, and I checked them: they are onward-referral sentences in this route's own filing-instructions and self-help-stop components ('is evaluated under tn_post_pardon'), naming sibling routes as referrals. No page, component or remedy of those routes is carried."
         },
         {
           "obligation": "KNOWN_PREFILLS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "every value bound to this route's components read back out of THIS artifact's own text layer",
+          "note": "11/11 values read back from the canonical bytes (198 glyphs) and 11/11 from the boundary bytes (446 glyphs). Nothing unread. knownRequiredFieldsMissing = 0 on both fixtures."
         },
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "each required-before-filing blank matched against participant-instructions.md",
+          "note": "requiredFactsNotCollected = 0 on both fixtures. participant-instructions.md carries a which-pages-are-yours row for this route naming each of its components and what it is for."
         },
         {
           "obligation": "ROUTE_OPTIONS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "route-determined elections counted over this route's field-map rows alone",
+          "note": "requiredOptionsMissing = 0 on both fixtures."
         },
         {
           "obligation": "REPEATING_ROWS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "row-key grouping over this route's field-map rows",
+          "note": "incompleteRows = 0 on both fixtures: no row carries written cells beside required cells left blank."
         },
         {
           "obligation": "PROTECTED_FIELDS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "every write classified against the protected-field contract",
+          "note": "protectedWrites = 0 on both fixtures. Visible on the page as well: signature, signature-date and certificate-of-mailing lines carry no ink."
         },
         {
           "obligation": "ARTIFACTS",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "sha256 recomputed from disk and compared against three independent places",
+          "note": "Both fixtures agree in all three places — the bytes on disk, the routeArtifacts row in reports/rendered-artifacts.json, and the route raster receipt's pin — and all ten values also equal the dispatch table. canonical 397c4caa4ccecab1c6e16f50db255143cfdf0d9c462b562ab46daab9f349d85a (17476 B, 5pp); boundary b6e5ad6482c0f9b83cf54b2b67e6ff94857ab1f261d59e3455140690599fb611 (17764 B, 5pp). Page counts are from the pdf-lib parser, not a byte scan."
         },
         {
           "obligation": "PAGE_ORDER",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "parsed page order compared against the artifact's own pageManifest, with each page's component confirmed from its text",
+          "note": "packetPage runs 1..N with no gap or repeat; the manifest describes exactly 5 (canonical) and 5 (boundary) pages, matching the parser; every component occupies one contiguous run."
         },
         {
           "obligation": "CLIPPING_AND_OVERLAP",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "route raster receipt over these exact bytes, checked to pin the hash I recomputed",
+          "note": "visualDefects = 0 on both fixtures. The route's own raster receipt is RASTER_PASS with 0 problems over 10 pages measured, and I confirmed it pins the same canonical and boundary hashes I recomputed rather than the family assembly's."
         },
         {
           "obligation": "FILING_DESTINATION",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own filing-instructions component read out of this artifact",
+          "note": "Stated for THIS route, not read across from a sibling. 'The office of the district attorney general for the judicial district of the convicting court', on the Sec. 40-32-108(e) basis, stating that LegalEase generates the request and eligibility record and not the petition or order."
         },
         {
           "obligation": "FEE_AND_WAIVER",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "scored against DET-FEE-AND-WAIVER-001 A1-A4, per fact and per route",
+          "note": "PASS under A1 and A3. The fee rests on this route's own provision, Sec. 40-32-108(a), which genuinely governs it, and no figure is quoted: Sec. 8-21-401 sets the amount, its current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06. The packet goes further and disposes of the widely circulated $180 figure, recording that it appears only on a superseded AOC-hosted page and nowhere in the enacted text of Public Chapter 268. Waiver: no indigency or fee-waiver provision anywhere in the reorganized sections. This is the same holding as tn_two_offense/tn_eligible_conviction respectively because both routes are governed by the SAME statutory fee provision — not a sibling-route read-across; tn_judicial_diversion, which has a different fee basis, correctly states a different fee. A4: no sentence denies stating anything the packet states."
         },
         {
           "obligation": "SERVICE",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own filing-instructions component read out of this artifact",
+          "note": "Stated for THIS route. 'Through the clerk. The participant does not effect service'; the clerk serves the district attorney general, who may respond within 60 days, and the court may not order sooner than 61 days after service."
         },
         {
           "obligation": "SELF_HELP_STOP",
-          "result": "NOT_MEASURABLE_HERE",
-          "measuredHere": false,
-          "note": "Not measured: the claim assert for rcap-tn-custom-pleading refused before any artifact was opened (GRANTED_ELSEWHERE: rcap-tn-custom-pleading is granted to VF04, not VF10). NOT_MEASURABLE_HERE records that THIS lane did not measure it, not that the obligation is unmeasurable on the artifact."
+          "result": "PASS",
+          "measuredHere": true,
+          "measuredHow": "the route's own stop conditions read out of this artifact",
+          "note": "Present and route-specific. Stops include any dispute with the district attorney general, any other conviction anywhere, unpaid costs or restitution, DUI/sexual-offence/registration matters, out-of-state and federal records, and immigration or security-clearance consequences. The packet states where generation ends and self-help stops."
         }
       ],
-      "componentSetDirectionalFinding": "UNKNOWN IN BOTH DIRECTIONS. This lane cannot say whether tn_two_offense's artifact carries every component its route declares, nor whether it carries any component belonging to a sibling route, because it did not open the artifact. The question is left open, not answered.",
-      "focusedTestsRun": [],
-      "focusedTestsNote": "verify-route-artifact-completeness.mjs and verify-packet-completeness.mjs were NOT run. Both take a family or route under that family as their subject and would have read the artifacts the refused claim bars.",
-      "whyNoVerdict": "This lane was briefed that rcap-tn-custom-pleading is live on VF10. It is not. claim.mjs --assert VF10 rcap-tn-custom-pleading refused with the exit-8 message quoted in claimRefusal, and the claim-ledger worker contract makes a non-zero assert a full stop: report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing. So no artifact for tn_two_offense was opened, no hash recomputed, no counter measured, and no obligation scored. No verdict is recorded rather than a verdict from the closed set, because none of PASS_COMPLETE_INDEPENDENT, FAIL_REPAIR_REQUIRED, WRONG_DELIVERY_TYPE, BLOCKED_SOURCE or BLOCKED_LEGAL_INPUT is true here: nothing was measured, so PASS and FAIL are both unfounded, and the block is neither a source block nor an open legal input but a ledger-grant block. A verdict written from this lane would be read as this route artifact's current one and would displace whatever verdict it already carries, which this lane has not read and has no basis to disturb.",
-      "whatWouldUnblockIt": "Captain moves the grant: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF04 VF10 rcap-tn-custom-pleading --reason \"<why>\", then re-dispatch VF10. This lane did not run that and did not run --grant or --reissue: minting or moving a grant to oneself is exactly the fail-closed ledger's own failure mode, and the destination lane is Captain's choice. Note that VF04 is an independent-verification lane that has already read this family, so if the intent is a genuinely second independent read, the transfer destination matters and the reason should say so.",
-      "independenceNote": "Independence was never reached. This lane neither built nor repaired rcap-tn-custom-pleading and would have been an independent reader of tn_two_offense, but it never held the grant that authorizes the read.",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "componentSetDirectionalFinding": "Checked in BOTH directions from the bytes. Every component this route declares is present; NO component belonging to another route is present. The only sibling-route strings in the bytes are onward-referral sentences naming tn_post_pardon and tn_recovery_court in this route's own instructions; no sibling component, page or remedy is carried.",
+      "focusedTestsRun": [
+        "scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs (run fresh at this base, without --write) — ROUTE_PASS_COMPLETE on both fixtures",
+        "an independent byte-level component/route-stamp/cross-contamination scan written for this read, because the shipped verifier tests COMPONENT_SET against the artifact's own pageManifest rather than against the pages"
+      ],
+      "supersedes": {
+        "row": "the VF10 row for tn_two_offense recorded BLOCKED_BEFORE_CLAIM at base 9a6077f90a496c1d651714e0c696bdc42df1802f",
+        "why": "that row was correct when written — the grant sat elsewhere and was already released — and is superseded because Captain transferred the grant to VF10, which then measured the artifact."
+      },
       "overlayDirectoriesModified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false,
-      "grantsNothing": "This row records a stop. It approves no output, promotes no build status, opens no commercial route, and neither confirms nor disturbs any existing verdict on this route artifact."
+      "grantsNothing": "A verdict on one route artifact. It promotes no build status, approves no output and opens no commercial route."
     }
   ],
   "supersessionNote": "The prior VF10 FAIL row for ut_pet_traffic-set is not carried here: that family was re-verified under this verifier's VF11 lane after repair commit 1c8007435, and its current verdict lives in vf11/rows.json. Git history preserves the prior row.",

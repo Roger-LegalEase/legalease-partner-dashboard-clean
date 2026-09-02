@@ -872,7 +872,23 @@ const pathIsActive = (p) => activePaths.some((x) => touches(p, x.path) || new Re
  * directory and is where several of these repairs are made, gated behind a
  * per-family flag.
  */
-const GENERATED_BOOKKEEPING = ["product-wiring.json", "build-status.json"];
+/*
+ * Files the factory writes ABOUT a packet, which are not the packet.
+ *
+ * reports/rendered-artifacts.json joined this list on measurement rather than
+ * on principle. Hoisting the staleness lapses above COMPLETE_PACKET_PROVEN
+ * moved 28 families out of proven, and five of them had exactly one changed
+ * file: this report, whose only diff was `scripts/lib/pdf-page-raster.mjs` ->
+ * `scripts/raster/pdf-page-raster.mjs`. A tool moving on disk is not a packet
+ * changing, and sending five families back for a re-read over a renamed path
+ * would spend a verifier's day proving nothing.
+ *
+ * Excluding it costs no coverage. The report records the artifacts' own
+ * byte-derived hashes, so any rebuild that actually moves bytes also moves the
+ * PDFs beside it, and those are watched. A file that can only echo a change
+ * visible elsewhere is safe to stop watching; the PDFs remain the witness.
+ */
+const GENERATED_BOOKKEEPING = ["product-wiring.json", "build-status.json", "reports/rendered-artifacts.json"];
 /*
  * WHEN A VERDICT NAMES NO BASE, THE LEDGER STILL KNOWS WHEN IT ENDED.
  *
@@ -907,6 +923,63 @@ const releaseTimeOf = (() => {
   }
   return (lane, subjectId) => byKey.get(`${String(lane).toUpperCase()}\u0000${subjectId}\u0000independent-verification`) ?? null;
 })();
+
+/*
+ * A SOURCE THAT DRIFTS UNDER A VERDICT LAPSES IT, JUST AS THE FAMILY'S OWN
+ * BYTES DO.
+ *
+ * familyMovedSinceVerdict watches the family directory and its build script,
+ * which is where a repairer edits. It does not watch what the family BINDS,
+ * and SOURCE_IDENTITY is one of the fifteen obligations: "every source binds
+ * by exact SHA-256, recomputed from the bytes". So a verdict could stay
+ * standing over a receipt that had stopped being true.
+ *
+ * It did. Every one of the 31 families whose receipt pins the route-obligation
+ * census pins it at e881e849 / 2,596,674 B; the file now hashes 09368333 /
+ * 2,599,752 B. Eleven of those families were COMPLETE_PACKET_PROVEN, both
+ * first-cohort members among them, each carrying a receipt that declares
+ * allSourcesExact true over a hash that no longer matches. An independent read
+ * of the Tennessee route artifacts failed them on SOURCE_IDENTITY alone for
+ * exactly this, and the queue had no way to notice.
+ *
+ * The measurement is the obligation itself rather than a proxy for it: recompute
+ * each pinned record and compare it to the pin. That is stricter than asking git
+ * whether a path moved, because it catches a file that changed and changed back
+ * in the tree but not on disk, and it does not care which commit did it.
+ *
+ * A drift is not a defect in the packet. It means the packet's proof of source
+ * identity has to be made again -- usually a re-pin, sometimes a rebuild when an
+ * anchor the packet names has left the source altogether. Either way the family
+ * owes a fresh read, so it returns to VERIFY_PENDING rather than staying proven.
+ */
+const fileHashCache = new Map();
+const hashOnDisk = (rel) => {
+  if (fileHashCache.has(rel)) return fileHashCache.get(rel);
+  let h = null;
+  try { h = crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"); }
+  catch { h = null; }
+  fileHashCache.set(rel, h);
+  return h;
+};
+const sourceDriftCache = new Map();
+function boundSourceDriftedSinceVerdict(directory) {
+  if (sourceDriftCache.has(directory)) return sourceDriftCache.get(directory);
+  let drifted = null;
+  try {
+    const receipt = JSON.parse(fs.readFileSync(path.join(ROOT, directory, "source-receipt.json"), "utf8"));
+    for (const rec of receipt.committedRecords ?? []) {
+      const rel = rec.pathInRepository;
+      if (!rel || !/^[0-9a-f]{64}$/.test(String(rec.sha256 ?? ""))) continue;
+      const now = hashOnDisk(rel);
+      /* A record that is GONE is a different failure -- the conveyor reports a
+       * missing source -- and must not be read here as "unchanged". */
+      if (now === null) { drifted = { path: rel, pinned: rec.sha256, now: "MISSING" }; break; }
+      if (now !== rec.sha256) { drifted = { path: rel, pinned: rec.sha256, now }; break; }
+    }
+  } catch { drifted = null; /* no receipt to check; other gates cover that */ }
+  sourceDriftCache.set(directory, drifted);
+  return drifted;
+}
 
 const movedSinceCache = new Map();
 function familyMovedSinceVerdict(independentReturn, directory, buildScript) {
@@ -1129,6 +1202,24 @@ for (const f of IN.scoreboard.familiesDetail) {
    * would have reached Lawrence review as in-flight rather than as failed. A
    * lane that has returned is not still verifying.
    */
+  /*
+   * THE LAPSES GUARD THE STRONGEST STATE FIRST.
+   *
+   * Both lapse branches used to sit BELOW this one, so they only ever protected
+   * VERIFIED_PASS -- the weaker of the two passing states. A family that cleared
+   * raster and wiring reached COMPLETE_PACKET_PROVEN before either lapse was
+   * consulted, which means the state that L4 and F30 read as proven, and that a
+   * fulfilment record is keyed to, had no staleness guard at all while the
+   * lesser state had two. Exactly backwards, and it is why eleven proven
+   * families were sitting on receipts that had stopped being true.
+   *
+   * A verdict that no longer describes the bytes, or no longer describes the
+   * sources those bytes bind, is not a weaker pass. It is not a pass.
+   */
+  else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
+    && familyMovedSinceVerdict(independentReturn, directory, buildScript)) state = "VERIFY_PENDING";
+  else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
+    && boundSourceDriftedSinceVerdict(directory)) state = "VERIFY_PENDING";
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
     && rasterPassByFamily.get(familyId) === true
     && !legalBlocked
@@ -1166,8 +1257,6 @@ for (const f of IN.scoreboard.familiesDetail) {
    * decides it: whether the family's own artefacts moved between the base the
    * verdict declares and this head.
    */
-  else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
-    && familyMovedSinceVerdict(independentReturn, directory, buildScript)) state = "VERIFY_PENDING";
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT") state = "VERIFIED_PASS";
   /*
    * AND THE REPAIR HAS TO POSTDATE THE VERDICT.
@@ -1285,6 +1374,21 @@ for (const f of IN.scoreboard.familiesDetail) {
      * treatment has not been checked by anyone but its author. Carried here so
      * the caveat travels with the state instead of living in a file the reader
      * may not open. */
+    /* Why a passing verdict stopped counting, carried where the state is. A
+     * family sent back to VERIFY_PENDING from a PASS looks identical to one
+     * that never had a verdict, and a verifier picking it up deserves to know
+     * it is re-reading rather than reading. */
+    verificationLapsedBecause: (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
+      && state === "VERIFY_PENDING")
+      ? (boundSourceDriftedSinceVerdict(directory)
+          ? { lapse: "BOUND_SOURCE_DRIFTED", ...boundSourceDriftedSinceVerdict(directory),
+              meaning: "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source." }
+          : familyMovedSinceVerdict(independentReturn, directory, buildScript)
+            ? { lapse: "FAMILY_MOVED_SINCE_THE_VERDICT",
+                meaning: "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist." }
+            : { lapse: "RASTER_NOT_ENROLLED",
+                meaning: "The verdict stands but the visual gate could not enrol the family, so there is no raster receipt for L4 to read." })
+      : null,
     terminalTreatment: terminalTreatment
       ? {
           treatment: terminalTreatment.terminalTreatment,
