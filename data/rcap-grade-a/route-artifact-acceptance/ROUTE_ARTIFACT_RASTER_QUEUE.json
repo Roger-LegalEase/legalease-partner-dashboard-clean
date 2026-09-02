@@ -1,0 +1,694 @@
+{
+  "schemaVersion": "rcap-route-artifact-raster-queue/v1",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-route-artifact-raster-queue.mjs",
+  "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+  "whyThisExists": "Route-scoped artifacts carry rasterPending: true and the family raster receipt binds to different bytes. This enrols each route artifact in central raster acceptance on its own hashes.",
+  "thisIsNotTheCaptainsQueue": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json and MASTER_QUEUE.json are the Captain's and are not written by this lane. This manifest is lane-local and is read by rcap-raster-batch.mjs through --manifest.",
+  "consumedBy": "node scripts/rcap-raster-batch.mjs --manifest <this file> --family <familyId> --out <dir>",
+  "requestedScale": 2.5,
+  "firstCohortRoutes": [
+    "ks-12-4516-municipal",
+    "ks-12-4516a-municipal-arrest",
+    "tn_eligible_conviction",
+    "tn_judicial_diversion",
+    "tn_two_offense"
+  ],
+  "cohortOnly": false,
+  "counts": {
+    "rows": 13,
+    "inFirstCohort": 5,
+    "documents": 26,
+    "pages": 149,
+    "notEligible": 0
+  },
+  "rows": [
+    {
+      "familyId": "rcap-ks-custom-pleading::route::ks-12-4516-municipal",
+      "packetFamilyId": "rcap-ks-custom-pleading",
+      "routeKey": "obligation:track-only:KS:ks-12-4516-municipal",
+      "route": "ks-12-4516-municipal",
+      "unitOfDelivery": "route_artifact",
+      "inFirstCohort": true,
+      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
+      "canonicalPdfSha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
+      "boundaryPdfSha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
+      "expectedPages": 6,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "ks-12-4516-municipal--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
+          "sha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
+          "pageCount": 7
+        },
+        {
+          "role": "canonical",
+          "name": "ks-12-4516-municipal--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
+          "sha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
+          "pageCount": 6
+        }
+      ],
+      "documentsDigest": "1b5d1a5a7e3c8df62f8a8da7c8b9e017e701600f6d2f2334e08883dff2c02915",
+      "coverage": {
+        "documents": [
+          "ks-12-4516-municipal--boundary.pdf",
+          "ks-12-4516-municipal--canonical.pdf"
+        ],
+        "rastered": [
+          "ks-12-4516-municipal--boundary.pdf",
+          "ks-12-4516-municipal--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-ks-custom-pleading::route::ks-12-4516a-municipal-arrest",
+      "packetFamilyId": "rcap-ks-custom-pleading",
+      "routeKey": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
+      "route": "ks-12-4516a-municipal-arrest",
+      "unitOfDelivery": "route_artifact",
+      "inFirstCohort": true,
+      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
+      "canonicalPdfSha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
+      "boundaryPdfSha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
+      "expectedPages": 6,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "ks-12-4516a-municipal-arrest--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
+          "sha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
+          "pageCount": 6
+        },
+        {
+          "role": "canonical",
+          "name": "ks-12-4516a-municipal-arrest--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
+          "sha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
+          "pageCount": 6
+        }
+      ],
+      "documentsDigest": "cc84a57503ce3b3a5c6a72781b23d81a5520ccfbd170706fd1c445af8f1416db",
+      "coverage": {
+        "documents": [
+          "ks-12-4516a-municipal-arrest--boundary.pdf",
+          "ks-12-4516a-municipal-arrest--canonical.pdf"
+        ],
+        "rastered": [
+          "ks-12-4516a-municipal-arrest--boundary.pdf",
+          "ks-12-4516a-municipal-arrest--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading::route::tn_eligible_conviction",
+      "packetFamilyId": "rcap-tn-custom-pleading",
+      "routeKey": "obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+      "route": "tn_eligible_conviction",
+      "unitOfDelivery": "route_artifact",
+      "inFirstCohort": true,
+      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_eligible_conviction/canonical.pdf",
+      "canonicalPdfSha256": "b8fcb67ca7a3544ffb9e9f5ac5170ffb5a8948f675edfcbd7bbfa2ffc66a09fc",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_eligible_conviction/boundary.pdf",
+      "boundaryPdfSha256": "7144db6a93b1f5522cd29f29f77192e782e4e3766fbab6d0d5b1144ec51de3ee",
+      "expectedPages": 5,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "tn_eligible_conviction--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_eligible_conviction/boundary.pdf",
+          "sha256": "7144db6a93b1f5522cd29f29f77192e782e4e3766fbab6d0d5b1144ec51de3ee",
+          "pageCount": 5
+        },
+        {
+          "role": "canonical",
+          "name": "tn_eligible_conviction--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_eligible_conviction/canonical.pdf",
+          "sha256": "b8fcb67ca7a3544ffb9e9f5ac5170ffb5a8948f675edfcbd7bbfa2ffc66a09fc",
+          "pageCount": 5
+        }
+      ],
+      "documentsDigest": "3512522f5e8e8541e9354b44d4ebea3abd78734b01f487862fd717fd4957ec1f",
+      "coverage": {
+        "documents": [
+          "tn_eligible_conviction--boundary.pdf",
+          "tn_eligible_conviction--canonical.pdf"
+        ],
+        "rastered": [
+          "tn_eligible_conviction--boundary.pdf",
+          "tn_eligible_conviction--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading::route::tn_judicial_diversion",
+      "packetFamilyId": "rcap-tn-custom-pleading",
+      "routeKey": "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+      "route": "tn_judicial_diversion",
+      "unitOfDelivery": "route_artifact",
+      "inFirstCohort": true,
+      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_judicial_diversion/canonical.pdf",
+      "canonicalPdfSha256": "32fd06a9afb5c77d9d4472e72887442cf92dbebdaad117b63f0436ea13db62d5",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_judicial_diversion/boundary.pdf",
+      "boundaryPdfSha256": "d3a6b8dcb0315b87c6b54ac0d1ccf87c5f0396719fed6e9929e961a5db6aff6a",
+      "expectedPages": 6,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "tn_judicial_diversion--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_judicial_diversion/boundary.pdf",
+          "sha256": "d3a6b8dcb0315b87c6b54ac0d1ccf87c5f0396719fed6e9929e961a5db6aff6a",
+          "pageCount": 6
+        },
+        {
+          "role": "canonical",
+          "name": "tn_judicial_diversion--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_judicial_diversion/canonical.pdf",
+          "sha256": "32fd06a9afb5c77d9d4472e72887442cf92dbebdaad117b63f0436ea13db62d5",
+          "pageCount": 6
+        }
+      ],
+      "documentsDigest": "eaa3383f6c62a71ca0a4a6f079d5edcc6a747277d370f16b59ed1bdf0f4c34c8",
+      "coverage": {
+        "documents": [
+          "tn_judicial_diversion--boundary.pdf",
+          "tn_judicial_diversion--canonical.pdf"
+        ],
+        "rastered": [
+          "tn_judicial_diversion--boundary.pdf",
+          "tn_judicial_diversion--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading::route::tn_two_offense",
+      "packetFamilyId": "rcap-tn-custom-pleading",
+      "routeKey": "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k",
+      "route": "tn_two_offense",
+      "unitOfDelivery": "route_artifact",
+      "inFirstCohort": true,
+      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_two_offense/canonical.pdf",
+      "canonicalPdfSha256": "397c4caa4ccecab1c6e16f50db255143cfdf0d9c462b562ab46daab9f349d85a",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_two_offense/boundary.pdf",
+      "boundaryPdfSha256": "b6e5ad6482c0f9b83cf54b2b67e6ff94857ab1f261d59e3455140690599fb611",
+      "expectedPages": 5,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "tn_two_offense--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_two_offense/boundary.pdf",
+          "sha256": "b6e5ad6482c0f9b83cf54b2b67e6ff94857ab1f261d59e3455140690599fb611",
+          "pageCount": 5
+        },
+        {
+          "role": "canonical",
+          "name": "tn_two_offense--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_two_offense/canonical.pdf",
+          "sha256": "397c4caa4ccecab1c6e16f50db255143cfdf0d9c462b562ab46daab9f349d85a",
+          "pageCount": 5
+        }
+      ],
+      "documentsDigest": "72702a72ce568a87e59ee29f50649c2fc72d4e421dca96d9e661ed0fe737c290",
+      "coverage": {
+        "documents": [
+          "tn_two_offense--boundary.pdf",
+          "tn_two_offense--canonical.pdf"
+        ],
+        "rastered": [
+          "tn_two_offense--boundary.pdf",
+          "tn_two_offense--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading::route::tn_arrest_no_court_record",
+      "packetFamilyId": "rcap-tn-custom-pleading",
+      "routeKey": "obligation:track-only:TN:tn_arrest_no_court_record",
+      "route": "tn_arrest_no_court_record",
+      "unitOfDelivery": "route_artifact",
+      "inFirstCohort": false,
+      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_arrest_no_court_record/canonical.pdf",
+      "canonicalPdfSha256": "4f407cc9573b786026d2599903d48ff13b31019c61112fb9129c595d4babb56d",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_arrest_no_court_record/boundary.pdf",
+      "boundaryPdfSha256": "480afe6716bf5f06f031d8cd482e9014324a7a80c9016b2783fa8efff47208b2",
+      "expectedPages": 6,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "tn_arrest_no_court_record--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_arrest_no_court_record/boundary.pdf",
+          "sha256": "480afe6716bf5f06f031d8cd482e9014324a7a80c9016b2783fa8efff47208b2",
+          "pageCount": 6
+        },
+        {
+          "role": "canonical",
+          "name": "tn_arrest_no_court_record--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_arrest_no_court_record/canonical.pdf",
+          "sha256": "4f407cc9573b786026d2599903d48ff13b31019c61112fb9129c595d4babb56d",
+          "pageCount": 6
+        }
+      ],
+      "documentsDigest": "b51b4d0d5d124e7855c793838b0d78e85a27daa73b142675f98a0699436caa3d",
+      "coverage": {
+        "documents": [
+          "tn_arrest_no_court_record--boundary.pdf",
+          "tn_arrest_no_court_record--canonical.pdf"
+        ],
+        "rastered": [
+          "tn_arrest_no_court_record--boundary.pdf",
+          "tn_arrest_no_court_record--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading::route::tn_illegal_voting",
+      "packetFamilyId": "rcap-tn-custom-pleading",
+      "routeKey": "obligation:track-only:TN:tn_illegal_voting",
+      "route": "tn_illegal_voting",
+      "unitOfDelivery": "route_artifact",
+      "inFirstCohort": false,
+      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_illegal_voting/canonical.pdf",
+      "canonicalPdfSha256": "54de61f9367ae8038f30c61315638be2ec0e4196ff2297d2560375dd7bc45156",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_illegal_voting/boundary.pdf",
+      "boundaryPdfSha256": "fdf011ac0224b35ff6f1f2bbaf89972a52521de85a544d1a86a6b82e39b39353",
+      "expectedPages": 5,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "tn_illegal_voting--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_illegal_voting/boundary.pdf",
+          "sha256": "fdf011ac0224b35ff6f1f2bbaf89972a52521de85a544d1a86a6b82e39b39353",
+          "pageCount": 5
+        },
+        {
+          "role": "canonical",
+          "name": "tn_illegal_voting--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_illegal_voting/canonical.pdf",
+          "sha256": "54de61f9367ae8038f30c61315638be2ec0e4196ff2297d2560375dd7bc45156",
+          "pageCount": 5
+        }
+      ],
+      "documentsDigest": "a5b24de1150cd1975fcdfcec7ca4e5e64d535165e837d32fcf99a38b803d8874",
+      "coverage": {
+        "documents": [
+          "tn_illegal_voting--boundary.pdf",
+          "tn_illegal_voting--canonical.pdf"
+        ],
+        "rastered": [
+          "tn_illegal_voting--boundary.pdf",
+          "tn_illegal_voting--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading::route::tn_mistaken_identity",
+      "packetFamilyId": "rcap-tn-custom-pleading",
+      "routeKey": "obligation:track-only:TN:tn_mistaken_identity",
+      "route": "tn_mistaken_identity",
+      "unitOfDelivery": "route_artifact",
+      "inFirstCohort": false,
+      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_mistaken_identity/canonical.pdf",
+      "canonicalPdfSha256": "ce292942d0c1312f63c5700c6a707aee5fa6068e00195f26ed93bf3a24a61f89",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_mistaken_identity/boundary.pdf",
+      "boundaryPdfSha256": "9795d31c69abf632d2903fab179ec48329c023e12a356913b7bd6ef2c71805ab",
+      "expectedPages": 6,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "tn_mistaken_identity--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_mistaken_identity/boundary.pdf",
+          "sha256": "9795d31c69abf632d2903fab179ec48329c023e12a356913b7bd6ef2c71805ab",
+          "pageCount": 6
+        },
+        {
+          "role": "canonical",
+          "name": "tn_mistaken_identity--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_mistaken_identity/canonical.pdf",
+          "sha256": "ce292942d0c1312f63c5700c6a707aee5fa6068e00195f26ed93bf3a24a61f89",
+          "pageCount": 6
+        }
+      ],
+      "documentsDigest": "5cde37a2127c2da6965fda8026dcea4fa3f5072a6a15a454cb63722fbb133769",
+      "coverage": {
+        "documents": [
+          "tn_mistaken_identity--boundary.pdf",
+          "tn_mistaken_identity--canonical.pdf"
+        ],
+        "rastered": [
+          "tn_mistaken_identity--boundary.pdf",
+          "tn_mistaken_identity--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading::route::tn_nonconviction_petition",
+      "packetFamilyId": "rcap-tn-custom-pleading",
+      "routeKey": "obligation:track-only:TN:tn_nonconviction_petition",
+      "route": "tn_nonconviction_petition",
+      "unitOfDelivery": "route_artifact",
+      "inFirstCohort": false,
+      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_nonconviction_petition/canonical.pdf",
+      "canonicalPdfSha256": "cf7a2630c3bdba5dbf58ab8b66c0c517472aafeda1b0899f394182c0ea43be07",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_nonconviction_petition/boundary.pdf",
+      "boundaryPdfSha256": "3174ec151490d2ed5b8c5c0614add190522fd7ee701141c88e986f3942f4fcee",
+      "expectedPages": 6,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "tn_nonconviction_petition--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_nonconviction_petition/boundary.pdf",
+          "sha256": "3174ec151490d2ed5b8c5c0614add190522fd7ee701141c88e986f3942f4fcee",
+          "pageCount": 6
+        },
+        {
+          "role": "canonical",
+          "name": "tn_nonconviction_petition--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_nonconviction_petition/canonical.pdf",
+          "sha256": "cf7a2630c3bdba5dbf58ab8b66c0c517472aafeda1b0899f394182c0ea43be07",
+          "pageCount": 6
+        }
+      ],
+      "documentsDigest": "468cbcaf603dc29acde525a350d3ed46f55cdf9ec4008db9edbd1dc33c34b76c",
+      "coverage": {
+        "documents": [
+          "tn_nonconviction_petition--boundary.pdf",
+          "tn_nonconviction_petition--canonical.pdf"
+        ],
+        "rastered": [
+          "tn_nonconviction_petition--boundary.pdf",
+          "tn_nonconviction_petition--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading::route::tn_post_pardon",
+      "packetFamilyId": "rcap-tn-custom-pleading",
+      "routeKey": "obligation:track-only:TN:tn_post_pardon",
+      "route": "tn_post_pardon",
+      "unitOfDelivery": "route_artifact",
+      "inFirstCohort": false,
+      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_post_pardon/canonical.pdf",
+      "canonicalPdfSha256": "03f4948be810f94ec2b430fc7684b3fea5da0f4977251dd6d5a419c2a95ec987",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_post_pardon/boundary.pdf",
+      "boundaryPdfSha256": "bfb2ba6979f542c9189aed13dec93927cab827df87510d39c145b7882598c21f",
+      "expectedPages": 5,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "tn_post_pardon--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_post_pardon/boundary.pdf",
+          "sha256": "bfb2ba6979f542c9189aed13dec93927cab827df87510d39c145b7882598c21f",
+          "pageCount": 5
+        },
+        {
+          "role": "canonical",
+          "name": "tn_post_pardon--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_post_pardon/canonical.pdf",
+          "sha256": "03f4948be810f94ec2b430fc7684b3fea5da0f4977251dd6d5a419c2a95ec987",
+          "pageCount": 5
+        }
+      ],
+      "documentsDigest": "8b25406af38dd1aa0e3be0982cfcf31ffb8645a16546fb36d067ba915ed4e620",
+      "coverage": {
+        "documents": [
+          "tn_post_pardon--boundary.pdf",
+          "tn_post_pardon--canonical.pdf"
+        ],
+        "rastered": [
+          "tn_post_pardon--boundary.pdf",
+          "tn_post_pardon--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading::route::tn_pretrial_diversion",
+      "packetFamilyId": "rcap-tn-custom-pleading",
+      "routeKey": "obligation:track-only:TN:tn_pretrial_diversion",
+      "route": "tn_pretrial_diversion",
+      "unitOfDelivery": "route_artifact",
+      "inFirstCohort": false,
+      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_pretrial_diversion/canonical.pdf",
+      "canonicalPdfSha256": "3e2e151485ceb673901585f0c5d2d913e53fc5bfd837ff93c8c43ddaba664dac",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_pretrial_diversion/boundary.pdf",
+      "boundaryPdfSha256": "5e94e8ee99c6437d60f57c967070553045f674ef79fe94eeeb2d2c2c4fa5b881",
+      "expectedPages": 6,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "tn_pretrial_diversion--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_pretrial_diversion/boundary.pdf",
+          "sha256": "5e94e8ee99c6437d60f57c967070553045f674ef79fe94eeeb2d2c2c4fa5b881",
+          "pageCount": 6
+        },
+        {
+          "role": "canonical",
+          "name": "tn_pretrial_diversion--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_pretrial_diversion/canonical.pdf",
+          "sha256": "3e2e151485ceb673901585f0c5d2d913e53fc5bfd837ff93c8c43ddaba664dac",
+          "pageCount": 6
+        }
+      ],
+      "documentsDigest": "316be8e8ac7aeb8bd67a27fe9c8b397c304bec330b7e98601924cbf874e74ff7",
+      "coverage": {
+        "documents": [
+          "tn_pretrial_diversion--boundary.pdf",
+          "tn_pretrial_diversion--canonical.pdf"
+        ],
+        "rastered": [
+          "tn_pretrial_diversion--boundary.pdf",
+          "tn_pretrial_diversion--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading::route::tn_recovery_court",
+      "packetFamilyId": "rcap-tn-custom-pleading",
+      "routeKey": "obligation:track-only:TN:tn_recovery_court",
+      "route": "tn_recovery_court",
+      "unitOfDelivery": "route_artifact",
+      "inFirstCohort": false,
+      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_recovery_court/canonical.pdf",
+      "canonicalPdfSha256": "a4e798f319fe06653e80f4b1ed3ff4b27b34b30854739a9ebc218b865d0225a5",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_recovery_court/boundary.pdf",
+      "boundaryPdfSha256": "c4a3881633797310d3999b05a53fb28ace305aa6f70a62b70737249ff3d5550a",
+      "expectedPages": 5,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "tn_recovery_court--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_recovery_court/boundary.pdf",
+          "sha256": "c4a3881633797310d3999b05a53fb28ace305aa6f70a62b70737249ff3d5550a",
+          "pageCount": 5
+        },
+        {
+          "role": "canonical",
+          "name": "tn_recovery_court--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_recovery_court/canonical.pdf",
+          "sha256": "a4e798f319fe06653e80f4b1ed3ff4b27b34b30854739a9ebc218b865d0225a5",
+          "pageCount": 5
+        }
+      ],
+      "documentsDigest": "e713611b7bf03b021a3265f7f900a9d00f94c542f4cbfe6cc6b08a2d5e2f5c39",
+      "coverage": {
+        "documents": [
+          "tn_recovery_court--boundary.pdf",
+          "tn_recovery_court--canonical.pdf"
+        ],
+        "rastered": [
+          "tn_recovery_court--boundary.pdf",
+          "tn_recovery_court--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading::route::tn_redaction",
+      "packetFamilyId": "rcap-tn-custom-pleading",
+      "routeKey": "obligation:track-only:TN:tn_redaction",
+      "route": "tn_redaction",
+      "unitOfDelivery": "route_artifact",
+      "inFirstCohort": false,
+      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_redaction/canonical.pdf",
+      "canonicalPdfSha256": "af51506aed52e3f40385d864d0520e20db0f8fc2980c942aaef26bf36828b7ea",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_redaction/boundary.pdf",
+      "boundaryPdfSha256": "e2a9c951b87d77c14c1cb3453a4ead0aed3ea8de5e3e97e3f1ecbb2507df37be",
+      "expectedPages": 7,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "tn_redaction--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_redaction/boundary.pdf",
+          "sha256": "e2a9c951b87d77c14c1cb3453a4ead0aed3ea8de5e3e97e3f1ecbb2507df37be",
+          "pageCount": 7
+        },
+        {
+          "role": "canonical",
+          "name": "tn_redaction--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_redaction/canonical.pdf",
+          "sha256": "af51506aed52e3f40385d864d0520e20db0f8fc2980c942aaef26bf36828b7ea",
+          "pageCount": 7
+        }
+      ],
+      "documentsDigest": "64f7fb092ec1fdddf80a75a0152b7c05e4896eb4c44ed50c8a9ec0895ad6a6ea",
+      "coverage": {
+        "documents": [
+          "tn_redaction--boundary.pdf",
+          "tn_redaction--canonical.pdf"
+        ],
+        "rastered": [
+          "tn_redaction--boundary.pdf",
+          "tn_redaction--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+    }
+  ],
+  "notEligible": [],
+  "packetPdfsModified": 0,
+  "packetContentChanged": false,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
