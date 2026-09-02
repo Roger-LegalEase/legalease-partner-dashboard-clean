@@ -127,21 +127,26 @@ you are eligible.
 
 ## Where self-help ends
 
-Stop here and get help from a lawyer or a court facilitator if any of the
-following is true:
+The committed track registry records these as the points where self-help ends on this route, in its own words. Each is carried word for word from `data/record-clearing/legal-design-track-registry.json`, track `wa_vac_felony`, `selfHelpStopConditions`. **If any of them describes your case, stop here and take it to a lawyer, a legal-aid office or a court facilitator rather than filing:**
 
-- you are not sure this is the correct route or the correct court for your case —
-  in particular, if you committed the offense because you were a victim of
-  domestic violence, sex trafficking, prostitution, commercial sexual abuse of a
-  minor, or sexual assault, the victim-survivor route (a different family, with
-  different conditions) may apply instead;
-- you are not sure whether your felony is class B or class C, so you cannot mark
-  sections 5 and 6 with certainty;
-- your offense may be a class A felony, a violent offense, a crime against a
-  person, or another offense the motion's section 2 and CR 08.0930 exclude from
-  vacation — those lists are long and exacting;
-- you do not have a certificate of discharge, or any eligibility statement
-  printed on the motion is not exactly true for you;
+- Any pending charge in Washington, another state, federal court, or tribal court.
+- Any domestic violence element, charged or findable from the court file.
+- Any protection, no-contact, antiharassment or civil restraining order currently in effect, or violated in the last five years.
+- Any DUI, physical control, or alcohol or drug related driving offence, including a reduced charge.
+- Any firearm, deadly weapon or sexual motivation enhancement.
+- Any question about offence class or the exact RCW.
+- Immigration consequences.
+- Any participant whose real goal is firearm rights restoration, which is a separate proceeding under RCW 9.41.041.
+- No certificate of discharge has been entered.
+- The felony class or the exact RCW cannot be established from the judgment and sentence.
+- The offence may be a crime against persons under RCW 43.43.830 even if it is not a violent offence under RCW 9.94A.030.
+- Assault in the third degree where the victim may have been a law enforcement or peace officer.
+
+Two of those are worth naming plainly. **Immigration consequences are on that list, and this packet cannot tell you what vacating a conviction does to your immigration position** — ask an immigration lawyer before you sign or file anything. And **if what you actually want is your firearm rights back, that is a separate proceeding under RCW 9.41.041**; this motion is not it, and winning this motion does not do it.
+
+Stop and get the same help if any of the following is also true:
+
+- you are not sure this is the correct route or the correct court for your case — in particular, if you committed the offense because you were a victim of domestic violence, sex trafficking, prostitution, commercial sexual abuse of a minor, or sexual assault, the victim-survivor route (a different family, with different conditions) may apply instead;
 - the prosecuting attorney objects to the motion; or
 - anything in your court record does not match what this packet shows.
 
