@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `a4cedb4a1d2da0fe48ce0c47ffd8f6dfb8e66eb2` (or the newer dispatch base)
+**Minimum required ancestor:** `1f1c014e728f2cb6cb5c1f380696ed07a5c70c26` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission \
   --codex-cloud \
-  --minimum-captain-sha a4cedb4a1d2da0fe48ce0c47ffd8f6dfb8e66eb2
+  --minimum-captain-sha 1f1c014e728f2cb6cb5c1f380696ed07a5c70c26
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -71,7 +71,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `ut_pet_dismissed_without_prejudice-set`
 - `vt_exp_decriminalized-set`
 - `wa_vac_homicide_victim_prostitution-set`
-- `az_marijuana_expungement_arrest_no_charges-set`
+- `rcap-oh-custom-pleading-clean-tracks`
 
 ## What you receive
 
@@ -97,7 +97,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/**`
 - `scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission.mjs`
 - `scripts/build-census-v1-ar-cs-possession-seal-set.mjs`
 - `scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs`
@@ -111,6 +111,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs`
 - `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`
 - `scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs`
+- `scripts/build-census-v1-rcap-oh-custom-pleading-clean-tracks.mjs`
 
 ## Never write here
 

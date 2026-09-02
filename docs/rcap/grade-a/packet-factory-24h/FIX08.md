@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `a4cedb4a1d2da0fe48ce0c47ffd8f6dfb8e66eb2` (or the newer dispatch base)
+**Minimum required ancestor:** `1f1c014e728f2cb6cb5c1f380696ed07a5c70c26` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26 \
+  --family va_seal_petition_misdemeanor-set \
   --codex-cloud \
-  --minimum-captain-sha a4cedb4a1d2da0fe48ce0c47ffd8f6dfb8e66eb2
+  --minimum-captain-sha 1f1c014e728f2cb6cb5c1f380696ed07a5c70c26
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,14 +56,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 7 families
+## The 1 family
 
-- `composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26`
-- `composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59`
-- `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement`
-- `composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708`
-- `rcap-nd-custom-pleading`
-- `rcap-nv-custom-pleading`
 - `va_seal_petition_misdemeanor-set`
 
 ## What you receive
@@ -77,19 +71,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
-- `data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/**`
-- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26.mjs`
-- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59.mjs`
-- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement.mjs`
-- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708.mjs`
-- `scripts/build-census-v1-rcap-nd-custom-pleading.mjs`
-- `scripts/build-census-v1-rcap-nv-custom-pleading.mjs`
 
 ## Never write here
 

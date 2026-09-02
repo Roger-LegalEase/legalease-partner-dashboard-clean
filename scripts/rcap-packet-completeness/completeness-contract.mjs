@@ -308,7 +308,47 @@ export function classifyBlank(field, reason, refusalClass = null, declared = nul
   // defect the declaration was standing in front of, rather than a generic one,
   // so a family reading its own report can tell which condition it missed.
   if (declaresRequiredBeforeFiling ? dec.requiredBeforeFiling === true : String(dec.disposition) === "REQUIRED_BEFORE_FILING") {
-    if (dec.routeDetermined === true || cls.requirement === "ROUTE_DETERMINED") {
+    /*
+     * AN ELECTION THE CASE DETERMINES IS NOT AN ELECTION THE ROUTE DETERMINES.
+     *
+     * The rule below is right in general: a packet built for one statutory
+     * route states which route it is rather than asking the participant. It
+     * was applied to every field whose printed caption LOOKS like a route
+     * election, and some of those are determined by the case rather than by
+     * the route.
+     *
+     * California CR-180 is the measured instance. Its per-offence
+     * "Penal Code section 17(b)" and "17(d)(2)" cells ask, of each listed
+     * conviction, whether that offence is a wobbler. The route does not decide
+     * that; the offence does, and answering it is a legal characterisation of
+     * a code section. Because the class outranked the declaration, the only
+     * way to clear the counter was to WRITE a yes or no that no held record
+     * establishes -- onto a petition sworn under penalty of perjury. A counter
+     * that can only be satisfied by guessing a legal conclusion is pressure to
+     * ship an unsafe filing, which is the one thing these counters exist to
+     * prevent.
+     *
+     * So a family may say that a route-election-shaped field is determined by
+     * the CASE, and must say WHY the route cannot determine it. The general
+     * rule is untouched: without that explicit, reasoned declaration a
+     * route-determined field still has to be stated by the packet, and
+     * declaring routeDetermined true still refuses.
+     */
+    const caseDetermined = dec.determinedByTheCaseNotTheRoute === true
+      && typeof dec.whyTheRouteCannotDetermineIt === "string"
+      && dec.whyTheRouteCannotDetermineIt.trim().length > 0;
+    if (dec.determinedByTheCaseNotTheRoute === true && !caseDetermined) {
+      return {
+        disposition: "ROUTE_OPTION_NOT_SELECTED", fieldClass: cls.id,
+        basis: "declared determinedByTheCaseNotTheRoute without whyTheRouteCannotDetermineIt; the exception is auditable or it is not available",
+        declaredRequiredBeforeFiling: true
+      };
+    }
+    /* The exception overrides the CLASS inference, never an explicit
+     * declaration. A family that says both routeDetermined and
+     * determinedByTheCaseNotTheRoute is contradicting itself, and the refusal
+     * stands rather than the more permissive half winning. */
+    if (dec.routeDetermined === true || (!caseDetermined && cls.requirement === "ROUTE_DETERMINED")) {
       return {
         disposition: "ROUTE_OPTION_NOT_SELECTED", fieldClass: cls.id,
         basis: "declared required-before-filing, but the route determines this election; a packet built for one statutory route states which route it is rather than asking the participant",
@@ -331,7 +371,13 @@ export function classifyBlank(field, reason, refusalClass = null, declared = nul
         declaredRequiredBeforeFiling: true, factId: dec.factId ?? null
       };
     }
-    if (!PARTICIPANT_COMPLETABLE_REQUIREMENTS.has(cls.requirement)) {
+    /* The case-determined exception carries through here too. Its whole claim
+     * is that this particular cell IS the participant's to answer, so refusing
+     * it as "not the participant's to complete" on the strength of the same
+     * class the exception was granted against would leave the family exactly
+     * where it started -- trading requiredOptionsMissing for
+     * unclassifiedBlanks and calling it a repair. */
+    if (!caseDetermined && !PARTICIPANT_COMPLETABLE_REQUIREMENTS.has(cls.requirement)) {
       return {
         disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id,
         basis: `declared required-before-filing on a ${cls.id} field, which is not the participant's to complete`,
