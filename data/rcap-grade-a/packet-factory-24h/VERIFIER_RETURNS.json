@@ -22,7 +22,7 @@
   "supersessionRule": "one current verdict per family: the highest-precedence lane wins (factory vf lanes over codex-cloud directories, then higher lane number); superseded rows remain as history with superseded: true",
   "counts": {
     "returnDirectories": 33,
-    "rows": 229,
+    "rows": 231,
     "independentVerdicts": 120,
     "failRepairRequired": 30,
     "passIndependent": 90
@@ -644,6 +644,52 @@
     {
       "familyId": "ca-851-91-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "On all four delivered primary filings, the flattener regenerates the CR-409 footer pushbutton captions and lays the long one out as a single line wider than its own widget and wider than the page. Eight of that caption's eighteen words are lost off the left page edge, three more are drawn inside the neighbouring Print button's rectangle, and in the delivered raster the sentence is cut at both ends and reads as a meaningless fragment. The official form renders the same notice whole, on two lines, entirely inside the page, so this is a regression the build introduces rather than a property of the source.",
+          "evidence": {
+            "fixturesMeasured": 16,
+            "fixturesWithWordsOutsideThePageBox": 4,
+            "allFourAreTheFilledPrimaryFiling": true,
+            "unchangedOfficialCompanionsAffected": 0,
+            "clippedWordText": "otection",
+            "clippedWordX0": -3.442,
+            "clippedWordBox": "[-3.442, 765.077, 24.574, 772.477] on a 612 x 792 page, page 2",
+            "officialSameNoticeX0": 36.043,
+            "officialSetsItAsTwoLines": true,
+            "artifactSetsItAsOneLine": true,
+            "wordsInTheNoticeOnTheOfficialForm": 18,
+            "wordsSurvivingInTheDeliveredPage": 10,
+            "wordsLostOffTheLeftEdge": "For your pr",
+            "newWordBoxOverlapPairsNotPresentInTheOfficialForm": 4,
+            "largestOverlap": "'Print' and 'printed' intersect over 95.1 square points at x 270.01, y 767.45",
+            "overlapVictim": "the Print[0] pushbutton caption, whose own rectangle is invaded by the Warning caption's tail",
+            "sourceOfTheCaption": "the Warning[0] pushbutton in the unlocked CR-409, /FT /Btn with /Ff 65536 so bit 17 is set, /MK /CA 'For your protection and privacy, please press the Clear This Form button after you have printed the form.', /Rect [36.043, 12.461, 247.337, 35.64]",
+            "whatTheDeliveredBytesShow": "the delivered CR-409 carries no AcroForm and no annotations; all 15 page-2 widgets, the four footer pushbuttons among them, survive as flattened appearances stamped onto the page",
+            "flatWidgetPlacementsDecodedFromTheDeliveredPage": "24 on page 1, 15 on page 2",
+            "theSuppressionPathExistsAndDidNotReachThese": "scripts/rcap-official-forms/rcap-active-content.mjs classifies a pushbutton as SUPPRESS_CONTROL_APPEARANCE and dropWidgets/detachFromAcroForm exist precisely so updateFieldAppearances cannot regenerate a caption from /MK /CA. I confirmed with pdf-lib that all four footer pushbuttons ARE enumerable through the AcroForm on the unlocked source, so they were reachable. Why they were not suppressed on this build path is the repairer's question, not a determination of mine.",
+            "confirmedInPixels": "raster/pc-851-91-matter-of-right-canonical/cr-409/page-02.png, read at this base: the footer reads 'd privacy, please press the Clear This Form button after you have' with the opening words gone and the closing words occluded, beside three stamped interactive-only buttons coloured green, yellow and red",
+            "participantHarm": "the delivered primary filing is a court document carrying a truncated, unreadable sentence and three coloured buttons that do nothing on paper",
+            "whatWouldClearIt": "suppress the four CR-409 footer pushbutton captions before flattening, or regenerate the Warning caption within its own rectangle at the official two-line layout; then re-measure that no word box falls outside the page box and that no new word-box overlap exists against the official baseline"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-851-91-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf04",
       "isIndependentVerification": true,
       "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
@@ -672,7 +718,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-851-91-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ca-851-91-set",
@@ -2905,6 +2951,71 @@
     {
       "familyId": "pa_pardon_expungement-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The delivered process-guidance page tells the participant, in terms, that the packet states no timetable and no criterion for telling which of the two routes they are in. The packet's own participant instructions state both: a quarterly Board of Pardons to AOPC transmission cycle, and the unconditional-pardon criterion. The committed manifest goes further and makes a quarterly verification date a required-before-filing participant action, and that date appears nowhere in any delivered byte. A reader is told to go and find out something the packet has already told them, and is given no schedule for the cycle that decides whether they need to file at all. Separately, seven of the seventy-eight required-item rows tell the participant nothing they can act on.",
+          "evidence": {
+            "sentenceInTheDeliveredBytes": "This page states no timetable and no criterion for that, because neither is established by the two forms this packet is built from, and an unsourced criterion in a filing instruction is worse than none.",
+            "occurrencesOfThatSentence": "1 in canonical.pdf and 1 in boundary.pdf, on the process-guidance page",
+            "whatThePacketActuallyStates": "the Board of Pardons transmits eligible records to the Administrative Office of Pennsylvania Courts quarterly, AOPC sends the record on to the court of common pleas, and that court orders expungement once it confirms the criteria",
+            "whereItStatesIt": "participant-instructions.md, What you must do, item 4",
+            "criterionAlsoStatedThere": "the pardon must be unconditional; a conditional pardon may lead to Clean Slate limited access rather than to full expungement",
+            "a4RuleApplied": "a packet may never tell a participant that it does not state something it does state; this is internal consistency and does not depend on A1, A2 or A3",
+            "theStatedReasonIsAlsoWrongUnderA2": "the guidance page grounds its refusal in 'the two forms this packet is built from'. A2 settled that the repository is every committed record the family binds plus every record the census names for the route, which includes the compiled state profile and the committed packet-set manifest. The manifest answers this.",
+            "manifestRequiredBeforeFilingItem": "complete_field, 'Quarterly verification date - Guidance, verification schedule', requirement required, requiredBeforeFiling true",
+            "occurrencesOfQuarterlyInDeliveredPdfs": 0,
+            "occurrencesOfQuarterlyInParticipantInstructions": 1,
+            "occurrencesOfVerificationScheduleAnywhereInTheFamily": 0,
+            "soTheRequiredActionHasNoPlaceToBeRecorded": "no delivered component carries a quarterly verification date field, and no instruction row asks for one",
+            "secondLimbUninformativeRows": {
+              "rowsTotal": 78,
+              "rowsWhoseGuidanceIsSelfReferential": 7,
+              "text": "what the form asks for beside \"<the caption again>\"",
+              "worstCase": "four consecutive rows are all labelled 'Docket No: CP- ---20' with identical guidance, so a participant cannot tell the four caption docket segments apart",
+              "others": [
+                "Address: Alias(es):",
+                "CASE INFORMATION",
+                "CASE INFORMATION"
+              ],
+              "whyThisIsTheSameObligation": "the obligation is that the participant can complete the packet before filing; a row that repeats the caption back is not an instruction"
+            },
+            "whatIsNotWrongHere": "the field-level arithmetic is sound and I checked it: requiredBeforeFilingCount 78 equals the field map's requiredBeforeFiling list length and equals the instruction table row count. This failure is not a counting failure.",
+            "whatWouldClearIt": "state the quarterly cycle on the guidance page or delete the sentence that denies it, give the quarterly verification date the manifest requires somewhere a participant can record it, and replace the seven self-referential rows with guidance that names what to write"
+          }
+        },
+        {
+          "obligation": "PAGE_ORDER",
+          "finding": "The assembled packet binds its components in the reverse of the order the committed manifest declares. The manifest puts the process-guidance page first and marks the petition and the order conditional on it; the delivered packet puts the petition first, the order second, and the guidance page last, on pages 4 and 5. The guidance page's own opening line is READ THIS BEFORE YOU FILE ANYTHING, and the packet's instructions tell the participant to find out first whether they need to file at all. A participant reading the packet in the order it is bound reaches that instruction after the two documents it is meant to gate.",
+          "evidence": {
+            "manifestComponentOrder": "order 1 process_guidance (requirement required), order 2 primary_filing (requirement conditional), order 3 proposed_order (requirement conditional)",
+            "manifestConditionOnThePetition": "Generated only where the automatic route has not cleared the record after the quarterly cycle.",
+            "deliveredPageOrder": "page 1 primary_filing, pages 2 and 3 proposed_order, pages 4 and 5 process_guidance",
+            "verifiedFromTheBytes": "I read the first lines of all five pages of canonical.pdf: page 1 'In the Court of Common Pleas', page 2 'Commonwealth of Pennsylvania IN THE COURT OF COMMON PLEAS OF', page 3 'Pursuant to Pa.R.Crim.P. 790, the following information is provided', page 4 'PROCESS GUIDANCE: WHICH OF THE TWO ROUTES YOU ARE IN', page 5 the route-key footer",
+            "sameInBothFixtures": true,
+            "theGuidancePagesOwnWords": "READ THIS BEFORE YOU FILE ANYTHING, and: if the automatic route has already cleared the record, there is nothing here to file. A packet that only ever told you to file would be telling you to do work you may not need to do, and to pay for it.",
+            "theInstructionsAgreeWithTheManifestAndNotWithTheBinding": "participant-instructions.md item 4 reads 'Find out first whether you still need to file at all'",
+            "whatCouldRebutThis": "the builder's own reports/rendered-artifacts.json declares componentSet in the delivered order and its pageManifest matches the bytes exactly, so the build is self-consistent. The disagreement is with the committed packet-set manifest, which under A2 is a held source and which is the record that states an order. I record the rebuttal so the repair lane can weigh it rather than discover it.",
+            "whatWouldClearIt": "bind the process-guidance component first, as the manifest orders it, or amend the manifest's order and say why; either way the packet and the manifest must stop disagreeing about which page a participant reads first"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "PAGE_ORDER",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "isIndependentVerification": true,
       "verifiedAtBase": null,
@@ -2991,7 +3102,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "pa_pardon_expungement-set",

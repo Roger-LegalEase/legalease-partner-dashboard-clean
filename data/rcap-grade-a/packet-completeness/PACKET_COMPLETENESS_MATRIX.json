@@ -17,10 +17,9 @@
   ],
   "familiesAudited": 126,
   "byResult": {
-    "PASS_COMPLETE": 118,
+    "PASS_COMPLETE": 119,
     "FAIL_MISSING_REQUIRED_FACTS": 4,
-    "FAIL_ROUTE_SELECTION": 3,
-    "FAIL_COMPONENT_SET": 1
+    "FAIL_ROUTE_SELECTION": 3
   },
   "counterTotals": {
     "knownRequiredFieldsMissing": 203,
@@ -6056,9 +6055,9 @@
         "written": 12,
         "blank": 21,
         "blanksByDisposition": {
-          "REQUIRED_BEFORE_FILING": 13,
+          "REQUIRED_BEFORE_FILING": 10,
           "NOT_APPLICABLE_ON_THIS_ROUTE": 1,
-          "PROTECTED_FIELD": 4,
+          "PROTECTED_FIELD": 7,
           "PARTICIPANT_ELECTION_GENUINE": 3
         },
         "rowsInspected": 3,
@@ -6072,7 +6071,8 @@
     {
       "familyId": "oh_marijuana_expungement-set",
       "directory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
-      "result": "FAIL_COMPONENT_SET",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -6084,20 +6084,22 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
+      "failedCounters": [],
       "totals": {
-        "terminalFields": 0,
-        "written": 0,
-        "blank": 0,
-        "blanksByDisposition": {},
-        "rowsInspected": 0
+        "terminalFields": 14,
+        "written": 6,
+        "blank": 8,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 6,
+          "PROTECTED_FIELD": 2
+        },
+        "rowsInspected": 0,
+        "fieldMapSchema": "documents-and-decisions"
       },
-      "findings": [
-        {
-          "counter": "requiredComponentsMissing",
-          "why": "the family has no production-field-map.json, so nothing states what it was supposed to write"
-        }
-      ],
-      "auditable": false
+      "outputApprovalStatus": "REQUESTED_NOT_GRANTED",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
     },
     {
       "familyId": "or_conviction_setaside-set",

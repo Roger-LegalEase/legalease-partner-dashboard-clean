@@ -270,3 +270,36 @@ Before dispatching a wave, diff the family lists against each other and
 against every lane already running. The claim ledger prevents two lanes
 WRITING the same family at once; it does not prevent me from asking two lanes
 to solve the same problem in different worktrees.
+
+## Brief a lane on the ledger, not on a dispatch snapshot
+
+Three lanes in one wave lost most of their work to the same thing. FABLE-VB was
+refused on eight of eight, FABLE-VA on six of eight, FABLE-FA on seven of ten.
+Every refusal was correct and every lane stopped exactly where the claim gate
+says to.
+
+The cause is that I brief from `ACTIVE_ASSIGNMENTS.json` and the ledger keeps
+moving underneath it. The dispatch is regenerated on every `generate.mjs` run,
+grants are re-homed as families change state, and other lanes release and
+assert continuously — so by the time a lane checks out its base and asserts,
+the snapshot I copied into its brief describes a world that has moved on. The
+lane then reports `GRANTED_ELSEWHERE` or `ALREADY_RELEASED` and, correctly,
+reads nothing.
+
+Two rules follow.
+
+FIRST: brief the LANE, not the list. Say "you hold VF05, VF06 and VF07; read
+ACTIVE_ASSIGNMENTS at your base and take exactly what those ids name — the file
+is the authority, not this brief". Every lane that was told this handled the
+drift gracefully. A brief that hard-codes family names invites a lane to trust
+a list I cannot keep current.
+
+SECOND: verify the grants are live AT THE BASE YOU HAND OVER, not at the
+moment you write the brief. Read the ledger for that commit and confirm each
+subject is live on the lane before dispatching, and hand over a base that
+already carries the grants. I twice committed transfers AFTER writing a brief
+that named an earlier base, which is how VF10 and VF12 were sent to read at a
+commit that predated their own grants.
+
+The pattern that works, and the only one that has: run the generator, read
+ACTIVE_ASSIGNMENTS, commit, and hand the lane the commit it was read from.
