@@ -484,6 +484,14 @@ async function renderReferenceOnly(sourceBytes, sourceRow, censusDoc) {
   const appearanceDispositions = new Map(censusDoc.fields
     .filter((field) => field.type !== "checkbox")
     .map((field) => [field.name, APPEARANCE_DISPOSITION.RENDER_PARTICIPANT_VALUE_ONLY_WHEN_WRITTEN]));
+  // The family's second flatten. SCA-C900 spells every appearance
+  // origin-relative and writes no reversed rectangle, so this correction moves
+  // nothing on it and the reference artifact's bytes are unchanged by it. It is
+  // here so that neither of this builder's two flatten sites depends on the
+  // reader remembering which of its two forms is the well-formed one.
+  const referencePlacement = normalizeWidgetAppearancePlacement(pdf);
+  assert.equal(referencePlacement.corrected.length, 0,
+    "SCA-C900 appearance placement is no longer origin-relative; the reference artifact must be re-reviewed, not silently corrected");
   const { clean } = await sanitizeAndFlatten(pdf, {
     writtenFields: new Set(),
     appearanceDispositions
