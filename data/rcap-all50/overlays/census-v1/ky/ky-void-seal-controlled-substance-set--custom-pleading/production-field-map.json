@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
   "familyId": "ky_void_seal_controlled_substance-set",
   "routeKeys": [
-    "obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal"
+    "obligation:track-only:KY:ky_void_seal_controlled_substance"
   ],
   "routeSelectionId": "ky-void-seal-controlled-substance-aoc-334-complete-set",
   "jurisdiction": "KY",
@@ -220,8 +220,8 @@
       "printedContext": "Name and address of each person served",
       "disclosureLabel": "Name and address of each person served",
       "identity": "certificate_of_service field persons_served",
-      "why": "a certificate of service records what a person did, and this build establishes none of it: the name and address of every person who must receive a copy — ask the circuit court clerk who that is, because this packet does not establish it",
-      "participantMustSupply": "the name and address of every person who must receive a copy — ask the circuit court clerk who that is, because this packet does not establish it"
+      "why": "a certificate of service records what a person did, and this build may write none of it: the name and address of the office that must receive a copy: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case. The record this build reads names that office; it does not give its current address for your county, so ask the circuit court clerk for that",
+      "participantMustSupply": "the name and address of the office that must receive a copy: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case. The record this build reads names that office; it does not give its current address for your county, so ask the circuit court clerk for that"
     },
     {
       "document": "certificate_of_service",
@@ -231,8 +231,8 @@
       "printedContext": "Method of service",
       "disclosureLabel": "Method of service",
       "identity": "certificate_of_service field method_of_service",
-      "why": "a certificate of service records what a person did, and this build establishes none of it: how you delivered or mailed the copy: by hand, by first-class mail, or whatever method the clerk tells you this filing requires",
-      "participantMustSupply": "how you delivered or mailed the copy: by hand, by first-class mail, or whatever method the clerk tells you this filing requires"
+      "why": "a certificate of service records what a person did, and this build may write none of it: how you delivered or mailed the copy, from the two the record allows: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case.",
+      "participantMustSupply": "how you delivered or mailed the copy, from the two the record allows: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case."
     },
     {
       "document": "certificate_of_service",
@@ -242,7 +242,7 @@
       "printedContext": "Date of service",
       "disclosureLabel": "Date of service",
       "identity": "certificate_of_service field date_of_service",
-      "why": "a certificate of service records what a person did, and this build establishes none of it: the date you actually delivered or mailed the copy, written at the time it goes out and not before",
+      "why": "a certificate of service records what a person did, and this build may write none of it: the date you actually delivered or mailed the copy, written at the time it goes out and not before",
       "participantMustSupply": "the date you actually delivered or mailed the copy, written at the time it goes out and not before"
     }
   ],
@@ -253,7 +253,7 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal"
+        "routeKey": "obligation:track-only:KY:ky_void_seal_controlled_substance"
       },
       "structuralClass": "composed_document",
       "explicitMappings": {},
@@ -622,7 +622,7 @@
         "mode": "court_issued_order",
         "captionOnly": true,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal"
+        "routeKey": "obligation:track-only:KY:ky_void_seal_controlled_substance"
       },
       "structuralClass": "acroform",
       "captionModeNote": "This is the order the judge signs. Only the style of the case is written into it, through the shared field semantics' caption mode; every recital, the ordering date, the agency list and the judge's signature are the court's.",
@@ -1812,7 +1812,7 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal"
+        "routeKey": "obligation:track-only:KY:ky_void_seal_controlled_substance"
       },
       "structuralClass": "composed_document",
       "explicitMappings": {},
@@ -1916,7 +1916,7 @@
           "regionHeading": "Name and address of each person served",
           "sectionHeading": null,
           "rectBasis": "composed_document_authored_by_this_build",
-          "reason": "the participant supplies this before filing: the name and address of every person who must receive a copy — ask the circuit court clerk who that is, because this packet does not establish it",
+          "reason": "the participant supplies this before filing: the name and address of the office that must receive a copy: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case. The record this build reads names that office; it does not give its current address for your county, so ask the circuit court clerk for that",
           "category": null,
           "completenessClass": null,
           "class": null,
@@ -1926,8 +1926,8 @@
           "identity": "certificate_of_service field persons_served",
           "factId": null,
           "document": "certificate_of_service",
-          "why": "a certificate of service records what a person did, and this build establishes none of it: the name and address of every person who must receive a copy — ask the circuit court clerk who that is, because this packet does not establish it",
-          "participantMustSupply": "the name and address of every person who must receive a copy — ask the circuit court clerk who that is, because this packet does not establish it"
+          "why": "a certificate of service records what a person did, and this build may write none of it: the name and address of the office that must receive a copy: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case. The record this build reads names that office; it does not give its current address for your county, so ask the circuit court clerk for that",
+          "participantMustSupply": "the name and address of the office that must receive a copy: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case. The record this build reads names that office; it does not give its current address for your county, so ask the circuit court clerk for that"
         },
         {
           "field": "certificate_of_service.method_of_service",
@@ -1938,7 +1938,7 @@
           "regionHeading": "Method of service",
           "sectionHeading": null,
           "rectBasis": "composed_document_authored_by_this_build",
-          "reason": "the participant supplies this before filing: how you delivered or mailed the copy: by hand, by first-class mail, or whatever method the clerk tells you this filing requires",
+          "reason": "the participant supplies this before filing: how you delivered or mailed the copy, from the two the record allows: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case.",
           "category": null,
           "completenessClass": null,
           "class": null,
@@ -1948,8 +1948,8 @@
           "identity": "certificate_of_service field method_of_service",
           "factId": null,
           "document": "certificate_of_service",
-          "why": "a certificate of service records what a person did, and this build establishes none of it: how you delivered or mailed the copy: by hand, by first-class mail, or whatever method the clerk tells you this filing requires",
-          "participantMustSupply": "how you delivered or mailed the copy: by hand, by first-class mail, or whatever method the clerk tells you this filing requires"
+          "why": "a certificate of service records what a person did, and this build may write none of it: how you delivered or mailed the copy, from the two the record allows: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case.",
+          "participantMustSupply": "how you delivered or mailed the copy, from the two the record allows: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case."
         },
         {
           "field": "certificate_of_service.date_of_service",
@@ -1970,7 +1970,7 @@
           "identity": "certificate_of_service field date_of_service",
           "factId": null,
           "document": "certificate_of_service",
-          "why": "a certificate of service records what a person did, and this build establishes none of it: the date you actually delivered or mailed the copy, written at the time it goes out and not before",
+          "why": "a certificate of service records what a person did, and this build may write none of it: the date you actually delivered or mailed the copy, written at the time it goes out and not before",
           "participantMustSupply": "the date you actually delivered or mailed the copy, written at the time it goes out and not before"
         }
       ],
@@ -2072,7 +2072,7 @@
           "regionHeading": "Name and address of each person served",
           "sectionHeading": null,
           "rectBasis": "composed_document_authored_by_this_build",
-          "reason": "the participant supplies this before filing: the name and address of every person who must receive a copy — ask the circuit court clerk who that is, because this packet does not establish it",
+          "reason": "the participant supplies this before filing: the name and address of the office that must receive a copy: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case. The record this build reads names that office; it does not give its current address for your county, so ask the circuit court clerk for that",
           "category": null,
           "completenessClass": null,
           "class": null,
@@ -2082,8 +2082,8 @@
           "identity": "certificate_of_service field persons_served",
           "factId": null,
           "document": "certificate_of_service",
-          "why": "a certificate of service records what a person did, and this build establishes none of it: the name and address of every person who must receive a copy — ask the circuit court clerk who that is, because this packet does not establish it",
-          "participantMustSupply": "the name and address of every person who must receive a copy — ask the circuit court clerk who that is, because this packet does not establish it"
+          "why": "a certificate of service records what a person did, and this build may write none of it: the name and address of the office that must receive a copy: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case. The record this build reads names that office; it does not give its current address for your county, so ask the circuit court clerk for that",
+          "participantMustSupply": "the name and address of the office that must receive a copy: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case. The record this build reads names that office; it does not give its current address for your county, so ask the circuit court clerk for that"
         },
         {
           "field": "certificate_of_service.method_of_service",
@@ -2094,7 +2094,7 @@
           "regionHeading": "Method of service",
           "sectionHeading": null,
           "rectBasis": "composed_document_authored_by_this_build",
-          "reason": "the participant supplies this before filing: how you delivered or mailed the copy: by hand, by first-class mail, or whatever method the clerk tells you this filing requires",
+          "reason": "the participant supplies this before filing: how you delivered or mailed the copy, from the two the record allows: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case.",
           "category": null,
           "completenessClass": null,
           "class": null,
@@ -2104,8 +2104,8 @@
           "identity": "certificate_of_service field method_of_service",
           "factId": null,
           "document": "certificate_of_service",
-          "why": "a certificate of service records what a person did, and this build establishes none of it: how you delivered or mailed the copy: by hand, by first-class mail, or whatever method the clerk tells you this filing requires",
-          "participantMustSupply": "how you delivered or mailed the copy: by hand, by first-class mail, or whatever method the clerk tells you this filing requires"
+          "why": "a certificate of service records what a person did, and this build may write none of it: how you delivered or mailed the copy, from the two the record allows: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case.",
+          "participantMustSupply": "how you delivered or mailed the copy, from the two the record allows: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case."
         },
         {
           "field": "certificate_of_service.date_of_service",
@@ -2126,7 +2126,7 @@
           "identity": "certificate_of_service field date_of_service",
           "factId": null,
           "document": "certificate_of_service",
-          "why": "a certificate of service records what a person did, and this build establishes none of it: the date you actually delivered or mailed the copy, written at the time it goes out and not before",
+          "why": "a certificate of service records what a person did, and this build may write none of it: the date you actually delivered or mailed the copy, written at the time it goes out and not before",
           "participantMustSupply": "the date you actually delivered or mailed the copy, written at the time it goes out and not before"
         }
       ]

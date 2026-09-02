@@ -18,17 +18,26 @@ AOC-334 is headed **ORDER VOIDING CONVICTION AND SEALING RECORDS** and ends over
 
 Do not sign the order. It is not yours to sign.
 
+## Where you file, what it costs, and who gets a copy
+
+- **Where the motion is filed.** Office of the Circuit Court Clerk. Filed in the original criminal case in the county of conviction, as motion type SA with no summons issued.
+- **Which court.** The court of conviction, ordinarily District Court. The motion is made in the original criminal case.
+- **The filing fee.** There is none. The record this build reads states it in these words: "none. The Clerks' Manual records that there is no filing fee for this proceeding." A fee waiver is "not applicable; there is no fee."
+- **Who must be served, and how.** By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case.
+
+Those four answers are read from data/record-clearing/legal-design-track-registry.json, track ky_void_seal_marijuana_synthetic_salvia, which is the record this repository already holds for this route. They are not guessed and they are not the order form's.
+
 ## What this packet does not tell you
 
-- **Who must be served, and how.** This is not established by the order form this packet is built from, so the certificate of service is left blank for you and no recipient is named. Ask the circuit court clerk for the county in the caption who must receive a copy, then complete the certificate at the time you actually send it.
-- **The filing fee, and any deadline.** Ask the same clerk. No amount and no number of days is stated here, because an unsourced figure in a filing instruction is worse than none.
+- **The name and address of the person you serve.** The record above says which office receives a copy; it does not give you that office's current name and address for your county. Ask the circuit court clerk for the county in the caption, then complete the certificate at the time you actually send the copy.
+- **Any deadline.** No held source states a number of days. Ask the same clerk, because an unsourced figure in a filing instruction is worse than none.
 
 ## What you must do, in order
 
 1. **Fill in every item listed below**, on all three documents.
 2. **Write the same completion date on the motion and on the tendered order.** They are the same fact and a filing that gives two different dates for it invites a denial.
 3. **Sign and date the motion yourself.** The platform never signs and never dates a signature.
-4. **File the motion with the tendered order.** The order goes to the judge with the motion; it is not filed on its own.
+4. **File the motion in the original criminal case with the circuit court clerk, tendering AOC-334 as the proposed order.** The order goes to the judge with the motion; it is not filed on its own.
 5. **Serve a copy, then complete and sign the certificate of service** — at the time you send it, not before.
 
 ## The items you must supply
@@ -64,8 +73,8 @@ Do not sign the order. It is not yours to sign.
 
 | The blank on the document | What to write |
 | --- | --- |
-| Name and address of each person served | the name and address of every person who must receive a copy — ask the circuit court clerk who that is, because this packet does not establish it |
-| Method of service | how you delivered or mailed the copy: by hand, by first-class mail, or whatever method the clerk tells you this filing requires |
+| Name and address of each person served | the name and address of the office that must receive a copy: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case. The record this build reads names that office; it does not give its current address for your county, so ask the circuit court clerk for that |
+| Method of service | how you delivered or mailed the copy, from the two the record allows: By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case. |
 | Date of service | the date you actually delivered or mailed the copy, written at the time it goes out and not before |
 
 ## Things the platform deliberately left blank
@@ -79,4 +88,4 @@ Do not sign the order. It is not yours to sign.
 
 This is a prepared motion, a tendered official order and a certificate of service. It is not legal advice, it is not filed for you, and it does not decide whether the court will void the conviction or seal the records.
 
-_Route: obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal_
+_Route: obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia_
