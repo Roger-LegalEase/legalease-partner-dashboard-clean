@@ -1915,6 +1915,30 @@ for (const f of verifyPending) {
   if (lane && heldByLane.has(lane)) heldByLane.get(lane).push(f.familyId);
   else unheldPool.push(f.familyId);
 }
+/*
+ * A LIVE GRANT IS A DISPATCH, EVEN WHEN THE FAMILY IS NOT VERIFY_PENDING.
+ *
+ * The loop above walks verifyPending, so a lane holding a live grant on a
+ * family in any other state contributed nothing to its own seed list and the
+ * dispatch never named the work. That is not a hypothetical: rcap-ks- and
+ * rcap-tn-custom-pleading are COMPLETE_PACKET_PROVEN, and when their route-
+ * scoped artifacts were regenerated as new bytes the second read had to be
+ * granted on the proven families. F24 immediately and correctly reported both
+ * as "granted, not dispatched, and not released" -- the same leak that let
+ * VF15, VF16 and VF17 hold eighteen live grants no assignment named.
+ *
+ * The re-read case is the ordinary one: proving a family once does not freeze
+ * its bytes forever, and the grant is what authorises the reader. So ownership
+ * is taken from the ledger for every live grant, and verifyPending decides only
+ * which UNHELD families are dealt out. A held family is seeded to its holder
+ * whatever state it is in.
+ */
+const seededAlready = new Set([...heldByLane.values()].flat());
+for (const [familyId, lane] of liveVerificationLaneOf) {
+  if (seededAlready.has(familyId) || !heldByLane.has(lane)) continue;
+  heldByLane.get(lane).push(familyId);
+  seededAlready.add(familyId);
+}
 const dealt = new Map(VF_IDS.map((id) => [id, []]));
 unheldPool.forEach((familyId, j) => dealt.get(VF_IDS[j % VF_LANES]).push(familyId));
 
