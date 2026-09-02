@@ -26,9 +26,9 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 33,
-  "rows": 37,
-  "PASS_COMPLETE_INDEPENDENT": 24,
+  "families": 34,
+  "rows": 38,
+  "PASS_COMPLETE_INDEPENDENT": 25,
   "FAIL_REPAIR_REQUIRED": 11,
   "BLOCKED_SOURCE": 0,
   "BLOCKED_LEGAL_INPUT": 0,
@@ -7735,6 +7735,144 @@
     "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/fixtures/application-canonical-filled.pdf",
     "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/fixtures/application-boundary-filled.pdf",
     "MASTER_LIBRARY_SOURCE_DIR/STATES/ID/05_SOURCE_GATED/ID__SOURCE-GATED__ISP-BCI__idaho-state-police-bureau-of-criminal-identification-expungement-application__REV-UNKNOWN__EN.pdf",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/stale-artifact-block.json"
+   ]
+  },
+  {
+   "itemId": "tx_exp_acquittal-set",
+   "lane": "VF01",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading",
+   "readAtBase": "247b790b6",
+   "rasterState": "RASTER_PENDING",
+   "rasterWorkflowRunId": null,
+   "verdictCeilingApplied": null,
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_exp_acquittal-set, run in this worktree: PASS_COMPLETE, 17/198 written"
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "two route keys, obligation:unit:TX:tx_exp_acquittal:tx-acquittal-in-window-request and :tx-acquittal-out-of-window-petition, identical in the MASTER_QUEUE row, source-receipt.json, production-field-map.json and product-wiring.json, and both printed in the footer of the delivered pages. The receipt's statutory authority - arts. 55A.002, 55A.201, 55A.251, 55A.253, 55A.254, 55A.301 and 102.0061 - is the authority the delivered pages cite in their own titles and bodies, and the legal name matches the committed track registry entry for track tx_exp_acquittal.",
+     "evidence": "MASTER_QUEUE.json; source-receipt.json; production-field-map.json; product-wiring.json; pdftotext -layout of fixtures/canonical.pdf; data/record-clearing/legal-design-track-registry.json"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "one official form binds and it rehashes exactly: the Statement of Inability to Afford Payment of Court Costs or an Appeal Bond, held in the human_source_returns custody at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf, recomputed here as bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d at 6667524 bytes, equal to source-receipt.json, rendered-artifacts.json boundSources and MASTER_QUEUE sourceHashes. The preflight binds it 1 of 1 by exact SHA-256 through the custody reconciliation. The other five components are composed by this build and the receipt says so; Texas publishes no statewide expunction form, which the committed record confirms.",
+     "evidence": "SHA-256 recomputed over the bound source in its declared custody; preflight family_sources_bind 1/1; source-receipt.json documents and composedComponentsAuthoredByThisBuild"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "six components are declared and all six are rendered and present, located by reading the page manifest against the delivered text: the request to the trial court on pages 1-2, the art. 55A.253 information package on 3-4, the verified ex parte petition on 5-6, the proposed order on 7, the Statement of Inability on 8-19, and the filing and expectation instructions on 20-23. Neither fixture's manifest names a component the declared set omits, and no declared component is missing from a manifest. Each of the five branch-conditional components states its branch on its own first line - page 1 'USE THIS PAGE ONLY IF YOU ARE STILL INSIDE THE 30-DAY WINDOW', page 5 'USE THIS PAGE IF THE 30-DAY WINDOW HAS CLOSED, OR THE COURT DID NOT ACT', page 7 'USE THIS PAGE ON THE OUT-OF-WINDOW BRANCH ONLY'.",
+     "evidence": "reports/rendered-artifacts.json componentSet, componentConditions and pageManifest; pdftotext -layout of both fixtures read page by page"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "seventeen values are declared written on each fixture and I found every one in the extracted text of the pages its own component occupies, not merely somewhere in the file - 0 not found, on both fixtures. On the Statement of Inability, comparing the twelve delivered pages token by token against the twelve pages of the pinned official source shows exactly what this build added and nothing else: name, date of birth, street address, telephone and email on the information page, name and address on the Option 1 declaration, and name on the Option 2 affidavit. Nothing else was written into a form the participant swears to. Two of the form's own auto-sum totals lost a default of '$0' - the packet leaves them as '$' - which is the build declining to assert that a participant it knows nothing about has zero assets; the individual asset, expense and debt entries beneath them are all declared blanks the participant supplies.",
+     "evidence": "reports/actual-writes.json actualWrites compared value by value against pdftotext -layout of each component's own pages, both fixtures; token-level comparison of the twelve Statement pages against the pinned source; the completeness verifier run here"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "126 items are declared required before filing and all 126 are named in participant-instructions.md, checked one by one against the file by disclosure label and by field identity - 0 undisclosed. They are the case facts across all four composed components and every substantive entry on the Statement of Inability, and each carries what to write and where the figure must come from, with the reminder that the Statement is sworn under penalty of perjury. The thirty-six protected blanks are separately disclosed under what the platform deliberately left blank, which names the signature and dates, the court's findings and the judge's signature, the notarial jurat, sex and race, the Social Security and driver's licence numbers, the TRN, the agency and private-entity lists, and the art. 55A.151 criminal-episode statement.",
+     "evidence": "reports/blanks-left-for-the-participant.json requiredBeforeFiling and protectedBlanks; participant-instructions.md, item by item"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "there is no route-determined election to select, and the packet is explicit about why: the choice between the two route keys is made by the calendar, not by preference or by the route. Within thirty days of the acquittal art. 55A.201 governs and the request and information package are used, with no proposed order because the article assigns its preparation to the acquitted person's attorney or to the state's; after the window art. 55A.251 governs and the verified petition and proposed order are used. Each branch-specific component is marked conditional with the condition stated, and says on its own first line which branch it belongs to. The composed pages carry no election control and the field map declares none. requiredOptionsMissing is zero, measured here.",
+     "evidence": "production-field-map.json routeSelectionsMade and routeSelectionNote; reports/rendered-artifacts.json componentConditions; the delivered text of pages 1, 3, 5 and 7; the completeness verifier run here"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the repeating rows in this packet all live on the Statement of Inability - five debt rows, five dependant rows with name, age and relationship, eleven property value rows, two other-expense rows and two other-benefit write-ins - and every one of them is wholly empty on both fixtures. The token comparison against the pinned source shows this build added nothing to any table cell, so no row carries a written cell beside a required cell left blank. Each row is a declared required-before-filing item with its own instruction. incompleteRows is zero, measured here.",
+     "evidence": "token-level comparison of the twelve Statement pages against the pinned source, both fixtures; reports/blanks-left-for-the-participant.json; the completeness verifier run here"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "thirty-six blanks are protected - sixteen signature or date, nineteen sworn narrative or legal election, one court-owned - and reading the delivered pages shows every signing surface empty. On the composed pages: 'DATE ...... SIGNATURE ......' on the request with the note that nothing on the page is signed or dated for the participant; both verification blocks on the petition, the notarial jurat and the unsworn declaration, unsigned, with the same note; and on the proposed order 'SIGNED on ......' with the findings, the date and the judge's signature blank and stated to be the Court's. On the Statement of Inability the Option 1 and Option 2 signature rules, the date of birth rule, the county and state rule and the notary section are all empty, and the only added tokens on those pages are the participant's own identity facts. No refused field carries ink and protectedWrites is zero, measured here.",
+     "evidence": "pdftotext -layout of fixtures/canonical.pdf pages 1-7 and 18-19 read against the pinned source; reports/blanks-left-for-the-participant.json protectedBlanks; reports/actual-writes.json refusedFieldsWithInk; the completeness verifier run here"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both artifacts rehash to what the record names: canonical d9fb4fcc682df7c530609115e75165566e0c368f0337f0be0e395933803efcbd at 976888 bytes and boundary 0c72f34ff2ce096c529a5a85237ecf35175ab220f4734ab458d17e2764574b15 at 977529 bytes, recomputed here and equal to reports/rendered-artifacts.json. The canonical hash also equals the one RASTER_QUEUE.json carries for this family, so the queue is pointing at the bytes that exist. rendered-artifacts.json names no other file and none is missing; neither hash is on the stale-artifact block.",
+     "evidence": "SHA-256 recomputed over both fixtures; reports/rendered-artifacts.json; data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json; data/rcap-grade-a/stale-artifact-block.json"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both fixtures read 23 pages from the bytes, equal to the declared pageCount, to the 23-entry page manifest and to the raster queue's expected page count, and each manifest is numbered 1 to 23 with no gap or repeat. The components appear in the manifest's order, which I confirmed by reading the first line of each page. The twelve embedded pages of the Statement of Inability sit at packet pages 8 to 19 in the official form's own order: comparing each against the corresponding source page, seven are textually identical and the five that differ do so only by the participant values this build added and by the two neutralised '$0' defaults.",
+     "evidence": "page counts and per-page text read from both fixtures; reports/rendered-artifacts.json pageManifest; page-by-page comparison of packet pages 8-19 against the twelve pages of the pinned source"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "no word box leaves its page on either fixture, measured from pdftotext -bbox word rectangles against each page's own MediaBox across all 23 pages: canonical 0 and boundary 0, including the boundary persona's longer identity values. The composed pages set their own text frame rather than filling a fixed widget, and on the embedded Statement pages the token comparison against the source shows no value spilling into neighbouring printed text. The central raster gate is RASTER_PENDING for these bytes; this result is measured here from the bytes rather than read from a raster receipt.",
+     "evidence": "pdftotext -bbox word rectangles of both fixtures against their MediaBoxes; token-level comparison of the Statement pages against the pinned source; the completeness verifier run here"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet names the destination for each branch and says which one applies when: within thirty days, the trial court under art. 55A.201; after the window, a district court through the district clerk of the county of arrest or of the alleged offence under art. 55A.251, with the warning that this may not be the court that acquitted the participant. That is exactly what the committed track registry holds as destination.name, venue and rules.filing for track tx_exp_acquittal. The packet also sends the participant to the one county-specific thing the statute creates - the art. 55A.253(c) agency and e-mail list each district clerk must publish - and names the clerk to ask for it by name.",
+     "evidence": "participant-instructions.md opening branch statement and 'Documents you must obtain first'; the delivered instructions component, pages 20-23; data/record-clearing/legal-design-track-registry.json destination, venue and rules.filing"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the fee is stated at the level the statute allows and the waiver route is stated twice over. In-window, art. 102.0061(c) requires the fee to be waived unless the art. 55A.151 bar applies, and the packet tells the participant to say so at the counter and cite it. Out-of-window, a district court charges the ordinary county civil ex parte filing fee, which is not a flat statutory amount, and a justice or municipal court of record charges a flat $100. The art. 55A.254(e) and (f) structure is carried as the cost it really is: free electronic transmission, $25 for each listed entity that cannot receive one, repeated at the order stage, so a duplicated or paper-only agency costs $25 twice. The waiver route is the statewide Statement of Inability bound into this packet, with Rule 145's requirement that the clerk supply it free and unasked. The packet refuses to quote the repealed art. 102.006 range and says why. Every one of those statements matches the registry's rules.fees.",
+     "evidence": "participant-instructions.md 'What you do, in order' steps 3, 6 and 7 and 'What this packet is not'; the delivered instructions component; data/record-clearing/legal-design-track-registry.json rules.fees"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet answers who must be served and how, on both branches, and the answer on the out-of-window branch is that the participant serves nobody: the clerk sends the petition and the notice of hearing, and a state or local agency with a listed e-mail address must accept electronic service. On the in-window branch the request goes to the trial court after notice to the state. What replaces service as the participant's real task - assembling the deduplicated agency and entity list from the clerk's published art. 55A.253(c) list, and keeping private entities on a separate list - is stated with the dollar consequence attached, and the packet adds that the participant does not chase the FBI because DPS notifies the central federal depositories itself.",
+     "evidence": "participant-instructions.md steps 3, 4, 9 and 10; the delivered instructions component; data/record-clearing/legal-design-track-registry.json rules"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states where self-help ends and carries all twelve selfHelpStopConditions the registry holds for track tx_exp_acquittal word for word - I compared each of the twelve against the registry string and none is paraphrased. It then adds three of its own from what it knows about this filing, and singles out the two that a participant cannot resolve alone: the mixed-outcome arrest, where State v. T.S.N. and Ex parte R.P.G.P. govern and the record says the analysis is not automated, and the art. 55A.154 absconding bar, whose own recorded reason for being a stop is that a participant may not self-identify the fact. It closes by naming which office answers what and stating that none of them may advise, and that this is not legal advice and is not filed for the participant.",
+     "evidence": "participant-instructions.md 'When to stop and get help instead' and 'What this packet is not', compared condition by condition against data/record-clearing/legal-design-track-registry.json selfHelpStopConditions"
+    }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": [],
+   "whatThisPassDoesNotOpen": "an independent PASS proves this packet is complete. It approves no output, opens no commercial route, and does not stand in for the central raster gate, which is RASTER_PENDING for these bytes.",
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/boundary.pdf",
+    "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+    "data/record-clearing/legal-design-track-registry.json",
     "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
     "data/rcap-grade-a/stale-artifact-block.json"
