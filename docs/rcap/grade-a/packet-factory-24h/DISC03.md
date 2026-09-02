@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `859624e9f9bef14b79a1099086fba6b4a14e4e35` (or the newer dispatch base)
+**Minimum required ancestor:** `ca0a6e7127e428fa4e1d3dfe273e097595993874` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC03 \
-  --source-obligation 'il-cannabis-vacate-set::official-form:CXP Additional Cannabis Convictions' \
+  --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' \
   --codex-cloud \
-  --minimum-captain-sha 859624e9f9bef14b79a1099086fba6b4a14e4e35
+  --minimum-captain-sha ca0a6e7127e428fa4e1d3dfe273e097595993874
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC03 <itemId>`
-- The committed assignment contains exactly 20 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 13 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC03 <itemId>`.
 
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**20 obligations · 11 families this lane WOULD release if every one of them resolves · hosts: IL**
+**13 obligations · 6 families this lane WOULD release if every one of them resolves · hosts: AR**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -105,34 +105,27 @@ the issuing court or agency that publishes the document
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `il-cannabis-vacate-set::official-form:CXP Additional Cannabis Convictions` | `official-form:CXP Additional Cannabis Convictions` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
-| `il-cannabis-vacate-set::official-form:CXP Additional Notice of Court Date` | `official-form:CXP Additional Notice of Court Date` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
-| `il-cannabis-vacate-set::official-form:CXP Getting Started Motion to Vacate and Expunge` | `official-form:CXP Getting Started Motion to Vacate and Expunge` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
-| `il-cannabis-vacate-set::official-form:CXP Motion to Vacate and Expunge` | `official-form:CXP Motion to Vacate and Expunge` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
-| `il-cannabis-vacate-set::official-form:CXP Notice of Court Date for Motion` | `official-form:CXP Notice of Court Date for Motion` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
-| `il-cannabis-vacate-set::official-form:CXP Order Granting or Denying Motion` | `official-form:CXP Order Granting or Denying Motion` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
-| `il-exp-nonconv-set::official-form:EXP-AD Additional Cases Expungement` | `official-form:EXP-AD Additional Cases Expungement` | IL | `exact-source-identity` | `il-exp-nonconv-set` | unresolved exact identity or URL | `ACQ` |
-| `il-exp-nonconv-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-exp-nonconv-set` | unresolved exact identity or URL | `ACQ` |
-| `il-exp-pardon-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-exp-pardon-set` | unresolved exact identity or URL | `ACQ` |
-| `il-exp-precompletion-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-exp-precompletion-set` | unresolved exact identity or URL | `ACQ` |
-| `il-exp-qualprob-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-exp-qualprob-set` | unresolved exact identity or URL | `ACQ` |
-| `il-exp-supervision-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-exp-supervision-set` | unresolved exact identity or URL | `ACQ` |
-| `il-prb-cert-set::official-form:PRB Certificate of Expungement for Military Application` | `official-form:PRB Certificate of Expungement for Military Application` | IL | `exact-source-identity` | `il-prb-cert-set` | unresolved exact identity or URL | `ACQ` |
-| `il-prb-cert-set::official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement` | `official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement` | IL | `exact-source-identity` | `il-prb-cert-set` | unresolved exact identity or URL | `ACQ` |
-| `il-prb-cert-set::official-form:PRB Certificate of Sealing Application` | `official-form:PRB Certificate of Sealing Application` | IL | `exact-source-identity` | `il-prb-cert-set` | unresolved exact identity or URL | `ACQ` |
-| `il-prb-cert-set::official-form:PRB Certificate of Sealing Eligibility Acknowledgement` | `official-form:PRB Certificate of Sealing Eligibility Acknowledgement` | IL | `exact-source-identity` | `il-prb-cert-set` | unresolved exact identity or URL | `ACQ` |
-| `il-seal-2yr-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-seal-2yr-set` | unresolved exact identity or URL | `ACQ` |
-| `il-seal-3yr-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-seal-3yr-set` | unresolved exact identity or URL | `ACQ` |
-| `il-seal-edu-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-seal-edu-set` | unresolved exact identity or URL | `ACQ` |
-| `il-seal-nonconv-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-seal-nonconv-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | `official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | AR | `exact-source-identity` | `ar-act346-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-cs-possession-seal-set::official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION` | `official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION` | AR | `exact-source-identity` | `ar-cs-possession-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-cs-possession-seal-set::official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION` | `official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION` | AR | `exact-source-identity` | `ar-cs-possession-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-drug-court-set::official-form:ACIC-ORDER-DRUG-COURT` | `official-form:ACIC-ORDER-DRUG-COURT` | AR | `exact-source-identity` | `ar-drug-court-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-drug-court-set::official-form:ACIC-PETITION-DRUG-COURT` | `official-form:ACIC-PETITION-DRUG-COURT` | AR | `exact-source-identity` | `ar-drug-court-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-felony-seal-set::official-form:ACIC-UNIFORM-ORDER-TO-SEAL` | `official-form:ACIC-UNIFORM-ORDER-TO-SEAL` | AR | `exact-source-identity` | `ar-felony-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-felony-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | `official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | AR | `exact-source-identity` | `ar-felony-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-ORDER-TO-SEAL` | `official-form:ACIC-UNIFORM-ORDER-TO-SEAL` | AR | `exact-source-identity` | `ar-misdemeanor-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | `official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | AR | `exact-source-identity` | `ar-misdemeanor-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-nonconviction-seal-set::official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION` | `official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION` | AR | `exact-source-identity` | `ar-nonconviction-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-nonconviction-seal-set::official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION` | `official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION` | AR | `exact-source-identity` | `ar-nonconviction-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-veterans-court-set::official-form:ACIC-ORDER-VETERANS-COURT` | `official-form:ACIC-ORDER-VETERANS-COURT` | AR | `exact-source-identity` | `ar-veterans-court-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-veterans-court-set::official-form:ACIC-PETITION-VETERANS-COURT` | `official-form:ACIC-PETITION-VETERANS-COURT` | AR | `exact-source-identity` | `ar-veterans-court-set` | unresolved exact identity or URL | `ACQ` |
 
-Deterministically assert exactly the 20 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 13 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='DISC03');
-if (!a || a.items.length !== 20) throw new Error('DISC03 committed item count changed');
+if (!a || a.items.length !== 13) throw new Error('DISC03 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','DISC03',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -144,7 +137,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source-obligation 'il-cannabis-vacate-set::official-form:CXP Additional Cannabis Convictions' --codex-cloud --minimum-captain-sha 859624e9f9bef14b79a1099086fba6b4a14e4e35
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' --codex-cloud --minimum-captain-sha ca0a6e7127e428fa4e1d3dfe273e097595993874
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -153,7 +146,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source
 
 ### Families this lane would release
 
-`il-cannabis-vacate-set`, `il-exp-nonconv-set`, `il-exp-pardon-set`, `il-exp-precompletion-set`, `il-exp-qualprob-set`, `il-exp-supervision-set`, `il-prb-cert-set`, `il-seal-2yr-set`, `il-seal-3yr-set`, `il-seal-edu-set`, `il-seal-nonconv-set`
+`ar-cs-possession-seal-set`, `ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-nonconviction-seal-set`, `ar-veterans-court-set`
 
 
 ### Settle these first
@@ -162,8 +155,12 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source
 
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
-| EXP-AD Request | IL | 10 |
-| CXP Additional Cannabis Convictions | IL | 1 |
+| ACIC-UNIFORM-ORDER-TO-SEAL | AR | 2 |
+| ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS | AR | 1 |
+| ACIC-ORDER-TO-SEAL-CS-POSSESSION | AR | 1 |
+| ACIC-ORDER-DRUG-COURT | AR | 1 |
+| ACIC-ORDER-TO-SEAL-NONCONVICTION | AR | 1 |
+| ACIC-ORDER-VETERANS-COURT | AR | 1 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 

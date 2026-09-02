@@ -1,8 +1,24 @@
 {
-  "schemaVersion": "rcap-local-source-corpus-index/v1",
+  "schemaVersion": "rcap-local-source-corpus-index/v2",
   "generatedBy": "scripts/generate-rcap-local-source-corpus-index.mjs",
-  "purpose": "An index of the installed Master Library, so every asset can be reconciled against bytes that are actually present rather than against a URL.",
+  "purpose": "An index of every source custody this repository holds, so every asset can be reconciled against bytes that are actually present rather than against a URL.",
   "corpusRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+  "custodies": [
+    {
+      "id": "master_library",
+      "root": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "pathsRelativeTo": "custodyRoot",
+      "describes": "The pinned Master Library, Edition 1: the authoritative archive of official binaries, installed by scripts/rcap-corpus/bootstrap-private-corpus.sh.",
+      "pdfsIndexed": 329
+    },
+    {
+      "id": "human_source_returns",
+      "root": "private/human-source-returns",
+      "pathsRelativeTo": "repositoryRoot",
+      "describes": "Documents returned by a person with provenance, each with a receipt under data/rcap-grade-a/source-verification/human-source-returns/. Held outside the Master Library and not carried by any release.",
+      "pdfsIndexed": 1
+    }
+  ],
   "corpusIsNotCommitted": "private/ is git-ignored. This index is the committed record of what the corpus contained; the corpus itself is a working input.",
   "whatThisIndexDoesNotEstablish": [
     "that a file is the current official edition",
@@ -18,11 +34,16 @@
     "filesMissing": [],
     "filesHashMismatched": []
   },
+  "importVerificationProvenance": "carried_forward_from_committed_index_shard_manifest_absent",
   "totals": {
-    "pdfsIndexed": 329,
+    "pdfsIndexed": 330,
     "exactDuplicateBinariesSkipped": 0,
+    "byCustody": {
+      "master_library": 329,
+      "human_source_returns": 1
+    },
     "byStructure": {
-      "acroform": 168,
+      "acroform": 169,
       "flat_pdf": 140,
       "unreadable": 21
     },
@@ -67,7 +88,7 @@
     "SC": 3,
     "SD": 7,
     "TN": 2,
-    "TX": 28,
+    "TX": 29,
     "UT": 21,
     "VA": 6,
     "VT": 9,
@@ -76,9 +97,11 @@
     "WV": 4
   },
   "duplicates": [],
+  "crossCustodyIdenticalBinaries": [],
   "entries": [
     {
       "path": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
       "state": "AK",
       "assetClass": "FORM",
@@ -96,6 +119,7 @@
     },
     {
       "path": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf",
       "state": "AK",
       "assetClass": "FORM",
@@ -113,6 +137,7 @@
     },
     {
       "path": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-810__request-to-exclude-case-from-online-public-index-courtview-under-administrative-rule-40-a__REV-2025-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "AK__FORM__TF-810__request-to-exclude-case-from-online-public-index-courtview-under-administrative-rule-40-a__REV-2025-05__EN.pdf",
       "state": "AK",
       "assetClass": "FORM",
@@ -130,6 +155,7 @@
     },
     {
       "path": "STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-CRI-103__request-to-correct-criminal-justice-information-in-the-alaska-public-safety-information-ne__REV-2022-07-25__EN.pdf",
+      "custody": "master_library",
       "fileName": "AK__SOURCE-GATED__DPS-CRI-103__request-to-correct-criminal-justice-information-in-the-alaska-public-safety-information-ne__REV-2022-07-25__EN.pdf",
       "state": "AK",
       "assetClass": "SOURCE-GATED",
@@ -147,6 +173,7 @@
     },
     {
       "path": "STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-SEAL-REQ-2-04__request-to-seal-criminal-justice-information__REV-2004-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "AK__SOURCE-GATED__DPS-SEAL-REQ-2-04__request-to-seal-criminal-justice-information__REV-2004-02__EN.pdf",
       "state": "AK",
       "assetClass": "SOURCE-GATED",
@@ -164,6 +191,7 @@
     },
     {
       "path": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
       "state": "AL",
       "assetClass": "FORM",
@@ -181,6 +209,7 @@
     },
     {
       "path": "STATES/AL/04_SUPPORTING_PROCESS/AL__SUPPORT__SBI-FORM-46__application-to-review-alabama-criminal-history-record-information__REV-2017-10-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "AL__SUPPORT__SBI-FORM-46__application-to-review-alabama-criminal-history-record-information__REV-2017-10-01__EN.pdf",
       "state": "AL",
       "assetClass": "SUPPORT",
@@ -198,6 +227,7 @@
     },
     {
       "path": "STATES/AL/05_SOURCE_GATED/AL__SOURCE-GATED__C-94A__petition-for-order-of-limited-relief__REV-2023-10__EN.pdf",
+      "custody": "master_library",
       "fileName": "AL__SOURCE-GATED__C-94A__petition-for-order-of-limited-relief__REV-2023-10__EN.pdf",
       "state": "AL",
       "assetClass": "SOURCE-GATED",
@@ -215,6 +245,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-OF-PROBATION-UNDER-ACT-346__order-of-probation-under-act-346-and-act-1460__REV-2014-08-25__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-ORDER-OF-PROBATION-UNDER-ACT-346__order-of-probation-under-act-346-and-act-1460__REV-2014-08-25__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -232,6 +263,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -249,6 +281,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT-OFF__order-to-dismiss-and-seal-offense-in-post-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT-OFF__order-to-dismiss-and-seal-offense-in-post-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -266,6 +299,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE__order-to-dismiss-and-seal-offense-in-pre-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE__order-to-dismiss-and-seal-offense-in-pre-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -283,6 +317,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460__order-to-seal-arrest-under-act-1460-of-2013__REV-2014-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460__order-to-seal-arrest-under-act-1460-of-2013__REV-2014-01-01__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -300,6 +335,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI__order-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2014-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI__order-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2014-01-01__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -317,6 +353,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460__order-to-seal-felony-under-act-1460-of-2013__REV-2021-08-16__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460__order-to-seal-felony-under-act-1460-of-2013__REV-2021-08-16__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -334,6 +371,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION__order-to-seal-a-misdemeanor-conviction-for-driving-or-boating-while-intoxicated__REV-2021-07-27__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION__order-to-seal-a-misdemeanor-conviction-for-driving-or-boating-while-intoxicated__REV-2021-07-27__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -351,6 +389,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -368,6 +407,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA__order-to-seal-records-of-nolle-prosequi-dismissals-judg__REV-2023-10-25__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA__order-to-seal-records-of-nolle-prosequi-dismissals-judg__REV-2023-10-25__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -385,6 +425,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL__order-to-seal-records-of-a-pardoned-offender-or-pardoned-youthful-felony-offender__REV-2022-03-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL__order-to-seal-records-of-a-pardoned-offender-or-pardoned-youthful-felony-offender__REV-2022-03-07__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -402,6 +443,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1__order-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1__order-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -419,6 +461,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT__petition-to-dismiss-and-seal-offense-in-post-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT__petition-to-dismiss-and-seal-offense-in-post-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -436,6 +479,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O__petition-to-dismiss-and-seal-offense-in-pre-adjudication-drug-court-proceeding__REV-2014-08-25__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O__petition-to-dismiss-and-seal-offense-in-pre-adjudication-drug-court-proceeding__REV-2014-08-25__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -453,6 +497,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -470,6 +515,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460__petition-to-seal-arrest-under-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460__petition-to-seal-arrest-under-act-1460-of-2013__REV-2014-08-25__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -487,6 +533,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE__petition-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2015-04-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE__petition-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2015-04-01__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -504,6 +551,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -521,6 +569,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION__petition-to-seal-a-misdemeanor-conviction-for-driving-or-boating-while-intoxicated__REV-2021-07-27__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION__petition-to-seal-a-misdemeanor-conviction-for-driving-or-boating-while-intoxicated__REV-2021-07-27__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -538,6 +587,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO__petition-to-seal-records-of-nolle-prosequi-dismissals-j__REV-2020-04-22__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO__petition-to-seal-records-of-nolle-prosequi-dismissals-j__REV-2020-04-22__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -555,6 +605,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL__petition-to-seal-records-of-a-pardoned-offender-or-pardoned-youthful-felony-offender__REV-2022-03-08__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL__petition-to-seal-records-of-a-pardoned-offender-or-pardoned-youthful-felony-offender__REV-2022-03-08__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -572,6 +623,7 @@
     },
     {
       "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC__petition-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+      "custody": "master_library",
       "fileName": "AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC__petition-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
       "state": "AR",
       "assetClass": "SOURCE-GATED",
@@ -589,6 +641,7 @@
     },
     {
       "path": "STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+      "custody": "master_library",
       "fileName": "AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
       "state": "AZ",
       "assetClass": "FORM",
@@ -606,6 +659,7 @@
     },
     {
       "path": "STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+      "custody": "master_library",
       "fileName": "AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
       "state": "AZ",
       "assetClass": "FORM",
@@ -623,6 +677,7 @@
     },
     {
       "path": "STATES/AZ/03_INSTRUCTIONS/AZ__INSTRUCTIONS__AOCCREM1I-071221__instructions-for-completing-a-petition-to-expunge-marijuana-related__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "AZ__INSTRUCTIONS__AOCCREM1I-071221__instructions-for-completing-a-petition-to-expunge-marijuana-related__REV-UNKNOWN__EN.pdf",
       "state": "AZ",
       "assetClass": "INSTRUCTIONS",
@@ -640,6 +695,7 @@
     },
     {
       "path": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCREM2F-071221__petition-to-expunge-records-municipal-justice-court__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "AZ__SOURCE-GATED__AOCCREM2F-071221__petition-to-expunge-records-municipal-justice-court__REV-UNKNOWN__EN.pdf",
       "state": "AZ",
       "assetClass": "SOURCE-GATED",
@@ -657,6 +713,7 @@
     },
     {
       "path": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCREM3F-071221__petition-to-expunge-records-superior-court__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "AZ__SOURCE-GATED__AOCCREM3F-071221__petition-to-expunge-records-superior-court__REV-UNKNOWN__EN.pdf",
       "state": "AZ",
       "assetClass": "SOURCE-GATED",
@@ -674,6 +731,7 @@
     },
     {
       "path": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA3F-103023__application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
+      "custody": "master_library",
       "fileName": "AZ__SOURCE-GATED__AOCCRSA3F-103023__application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
       "state": "AZ",
       "assetClass": "SOURCE-GATED",
@@ -691,6 +749,7 @@
     },
     {
       "path": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA4F-103023__order-regarding-application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
+      "custody": "master_library",
       "fileName": "AZ__SOURCE-GATED__AOCCRSA4F-103023__order-regarding-application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
       "state": "AZ",
       "assetClass": "SOURCE-GATED",
@@ -708,6 +767,7 @@
     },
     {
       "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
       "state": "CA",
       "assetClass": "FORM",
@@ -725,6 +785,7 @@
     },
     {
       "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-180__petition-for-dismissal__REV-2024-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CA__FORM__CR-180__petition-for-dismissal__REV-2024-01-01__EN.pdf",
       "state": "CA",
       "assetClass": "FORM",
@@ -742,6 +803,7 @@
     },
     {
       "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-181__order-for-dismissal__REV-2024-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CA__FORM__CR-181__order-for-dismissal__REV-2024-01-01__EN.pdf",
       "state": "CA",
       "assetClass": "FORM",
@@ -759,6 +821,7 @@
     },
     {
       "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-400__petition-application-under-health-and-safety-code-section-11361-8-adult-crimes__REV-2024-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CA__FORM__CR-400__petition-application-under-health-and-safety-code-section-11361-8-adult-crimes__REV-2024-01-01__EN.pdf",
       "state": "CA",
       "assetClass": "FORM",
@@ -776,6 +839,7 @@
     },
     {
       "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-401__proof-of-service-for-petition-application-under-health-and-safety-code-section-11361-8-adu__REV-2024-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CA__FORM__CR-401__proof-of-service-for-petition-application-under-health-and-safety-code-section-11361-8-adu__REV-2024-01-01__EN.pdf",
       "state": "CA",
       "assetClass": "FORM",
@@ -793,6 +857,7 @@
     },
     {
       "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-402__prosecuting-agency-response-to-petition-application-under-health-and-safety-code-section-1__REV-2024-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CA__FORM__CR-402__prosecuting-agency-response-to-petition-application-under-health-and-safety-code-section-1__REV-2024-01-01__EN.pdf",
       "state": "CA",
       "assetClass": "FORM",
@@ -810,6 +875,7 @@
     },
     {
       "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-403__order-after-petition-application-under-health-and-safety-code-section-11361-8-adult-crimes__REV-2024-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CA__FORM__CR-403__order-after-petition-application-under-health-and-safety-code-section-11361-8-adult-crimes__REV-2024-01-01__EN.pdf",
       "state": "CA",
       "assetClass": "FORM",
@@ -827,6 +893,7 @@
     },
     {
       "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-409__petition-to-seal-arrest-and-related-records__REV-2024-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CA__FORM__CR-409__petition-to-seal-arrest-and-related-records__REV-2024-01-01__EN.pdf",
       "state": "CA",
       "assetClass": "FORM",
@@ -844,6 +911,7 @@
     },
     {
       "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-410__order-to-seal-arrest-and-related-records__REV-2019-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CA__FORM__CR-410__order-to-seal-arrest-and-related-records__REV-2019-01-01__EN.pdf",
       "state": "CA",
       "assetClass": "FORM",
@@ -861,6 +929,7 @@
     },
     {
       "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-025__attachment-to-judicial-council-form__REV-2009-07-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CA__FORM__MC-025__attachment-to-judicial-council-form__REV-2009-07-01__EN.pdf",
       "state": "CA",
       "assetClass": "FORM",
@@ -878,6 +947,7 @@
     },
     {
       "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-031__attached-declaration__REV-2005-07-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CA__FORM__MC-031__attached-declaration__REV-2005-07-01__EN.pdf",
       "state": "CA",
       "assetClass": "FORM",
@@ -895,6 +965,7 @@
     },
     {
       "path": "STATES/CA/03_INSTRUCTIONS/CA__INSTRUCTIONS__CR-106-INFO__information-on-how-to-file-a-proof-of-service-in-criminal-record-clearing-requests__REV-2020-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CA__INSTRUCTIONS__CR-106-INFO__information-on-how-to-file-a-proof-of-service-in-criminal-record-clearing-requests__REV-2020-01-01__EN.pdf",
       "state": "CA",
       "assetClass": "INSTRUCTIONS",
@@ -912,6 +983,7 @@
     },
     {
       "path": "STATES/CA/03_INSTRUCTIONS/CA__INSTRUCTIONS__CR-409-INFO__information-on-how-to-file-a-petition-to-seal-arrest-and-related-records__REV-2024-01-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CA__INSTRUCTIONS__CR-409-INFO__information-on-how-to-file-a-petition-to-seal-arrest-and-related-records__REV-2024-01-01__EN.pdf",
       "state": "CA",
       "assetClass": "INSTRUCTIONS",
@@ -929,6 +1001,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2363__request-for-a-hearing-automatic-conviction-sealing__REV-2024-02-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-2363__request-for-a-hearing-automatic-conviction-sealing__REV-2024-02-01__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -946,6 +1019,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2371__motion-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-2371__motion-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -963,6 +1037,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2374__order-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-2374__order-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -980,6 +1055,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-417__petition-to-seal-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-417__petition-to-seal-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -997,6 +1073,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-418__order-to-seal-arrest-and-criminal-records__REV-2024-03-20__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-418__order-to-seal-arrest-and-criminal-records__REV-2024-03-20__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -1014,6 +1091,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -1031,6 +1109,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -1048,6 +1127,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -1065,6 +1145,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -1082,6 +1163,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-641__motion-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-641__motion-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -1099,6 +1181,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-642__order-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-642__order-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -1116,6 +1199,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-680__motion-to-seal-conviction-records-pardoned__REV-2022-08-10__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-680__motion-to-seal-conviction-records-pardoned__REV-2022-08-10__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -1133,6 +1217,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-681__order-to-seal-pardoned-conviction-records__REV-2024-03-20__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-681__order-to-seal-pardoned-conviction-records__REV-2024-03-20__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -1150,6 +1235,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-683__petition-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-683__petition-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -1167,6 +1253,7 @@
     },
     {
       "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-686__order-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__FORM__JDF-686__order-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
       "state": "CO",
       "assetClass": "FORM",
@@ -1184,6 +1271,7 @@
     },
     {
       "path": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-2370__guide-to-sealing-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__INSTRUCTIONS__JDF-2370__guide-to-sealing-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
       "state": "CO",
       "assetClass": "INSTRUCTIONS",
@@ -1201,6 +1289,7 @@
     },
     {
       "path": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-416__guide-to-sealing-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__INSTRUCTIONS__JDF-416__guide-to-sealing-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
       "state": "CO",
       "assetClass": "INSTRUCTIONS",
@@ -1218,6 +1307,7 @@
     },
     {
       "path": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-491__guide-to-sealing-non-conviction-records__REV-2024-08-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__INSTRUCTIONS__JDF-491__guide-to-sealing-non-conviction-records__REV-2024-08-07__EN.pdf",
       "state": "CO",
       "assetClass": "INSTRUCTIONS",
@@ -1235,6 +1325,7 @@
     },
     {
       "path": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf",
       "state": "CO",
       "assetClass": "INSTRUCTIONS",
@@ -1252,6 +1343,7 @@
     },
     {
       "path": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-640__how-to-seal-multiple-conviction-records__REV-2022-09-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__INSTRUCTIONS__JDF-640__how-to-seal-multiple-conviction-records__REV-2022-09-06__EN.pdf",
       "state": "CO",
       "assetClass": "INSTRUCTIONS",
@@ -1269,6 +1361,7 @@
     },
     {
       "path": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-682__how-to-seal-municipal-conviction-records__REV-2024-08-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "CO__INSTRUCTIONS__JDF-682__how-to-seal-municipal-conviction-records__REV-2024-08-07__EN.pdf",
       "state": "CO",
       "assetClass": "INSTRUCTIONS",
@@ -1286,6 +1379,7 @@
     },
     {
       "path": "STATES/CT/02_PACKET_FORMS/CT__FORM__JD-CR-202__petition-for-clean-slate-erasure-convictions-before-1-1-2000__REV-2023-11__EN.pdf",
+      "custody": "master_library",
       "fileName": "CT__FORM__JD-CR-202__petition-for-clean-slate-erasure-convictions-before-1-1-2000__REV-2023-11__EN.pdf",
       "state": "CT",
       "assetClass": "FORM",
@@ -1303,6 +1397,7 @@
     },
     {
       "path": "STATES/CT/04_SUPPORTING_PROCESS/CT__SUPPORT__DPS-0846-C__state-of-connecticut-criminal-history-record-request-form__REV-2017-12-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CT__SUPPORT__DPS-0846-C__state-of-connecticut-criminal-history-record-request-form__REV-2017-12-01__EN.pdf",
       "state": "CT",
       "assetClass": "SUPPORT",
@@ -1320,6 +1415,7 @@
     },
     {
       "path": "STATES/CT/05_SOURCE_GATED/CT__SOURCE-GATED__DESPP-0847-C__hearing-for-clean-slate-erasure-convictions-after-1-1-2000__REV-2001-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "CT__SOURCE-GATED__DESPP-0847-C__hearing-for-clean-slate-erasure-convictions-after-1-1-2000__REV-2001-01__EN.pdf",
       "state": "CT",
       "assetClass": "SOURCE-GATED",
@@ -1337,6 +1433,7 @@
     },
     {
       "path": "STATES/DC/03_INSTRUCTIONS/DC__INSTRUCTIONS__DC-HOW-TO-SEAL-OR-EXPUNGE-YOUR-CRIMINAL-RECOR__how-to-seal-or-expunge-your-criminal-record__REV-2024-04-10__EN.pdf",
+      "custody": "master_library",
       "fileName": "DC__INSTRUCTIONS__DC-HOW-TO-SEAL-OR-EXPUNGE-YOUR-CRIMINAL-RECOR__how-to-seal-or-expunge-your-criminal-record__REV-2024-04-10__EN.pdf",
       "state": "DC",
       "assetClass": "INSTRUCTIONS",
@@ -1354,6 +1451,7 @@
     },
     {
       "path": "STATES/DE/03_INSTRUCTIONS/DE__INSTRUCTIONS__CIV-EXP-06-A__a-guide-to-expungement-of-adult-record__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "DE__INSTRUCTIONS__CIV-EXP-06-A__a-guide-to-expungement-of-adult-record__REV-UNKNOWN__EN.pdf",
       "state": "DE",
       "assetClass": "INSTRUCTIONS",
@@ -1371,6 +1469,7 @@
     },
     {
       "path": "STATES/DE/03_INSTRUCTIONS/DE__INSTRUCTIONS__CIV-EXP-07-A__expungement-instructions__REV-2024-10-04__EN.pdf",
+      "custody": "master_library",
       "fileName": "DE__INSTRUCTIONS__CIV-EXP-07-A__expungement-instructions__REV-2024-10-04__EN.pdf",
       "state": "DE",
       "assetClass": "INSTRUCTIONS",
@@ -1388,6 +1487,7 @@
     },
     {
       "path": "STATES/DE/03_INSTRUCTIONS/DE__INSTRUCTIONS__FORM-1021IP__adult-expungement-instruction-packet__REV-2023-10__EN.pdf",
+      "custody": "master_library",
       "fileName": "DE__INSTRUCTIONS__FORM-1021IP__adult-expungement-instruction-packet__REV-2023-10__EN.pdf",
       "state": "DE",
       "assetClass": "INSTRUCTIONS",
@@ -1405,6 +1505,7 @@
     },
     {
       "path": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-EXPUNCTION__application-for-a-certificate-of-eligibility-for-expunction__REV-2019-10__EN.pdf",
+      "custody": "master_library",
       "fileName": "FL__SOURCE-GATED__FDLE40-021-EXPUNCTION__application-for-a-certificate-of-eligibility-for-expunction__REV-2019-10__EN.pdf",
       "state": "FL",
       "assetClass": "SOURCE-GATED",
@@ -1422,6 +1523,7 @@
     },
     {
       "path": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-SEALING__application-for-a-certificate-of-eligibility-for-sealing__REV-2019-10__EN.pdf",
+      "custody": "master_library",
       "fileName": "FL__SOURCE-GATED__FDLE40-021-SEALING__application-for-a-certificate-of-eligibility-for-sealing__REV-2019-10__EN.pdf",
       "state": "FL",
       "assetClass": "SOURCE-GATED",
@@ -1439,6 +1541,7 @@
     },
     {
       "path": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-026__application-for-a-certificate-of-eligibility-for-lawful-self-defense-expunction__REV-2019-10__EN.pdf",
+      "custody": "master_library",
       "fileName": "FL__SOURCE-GATED__FDLE40-026__application-for-a-certificate-of-eligibility-for-lawful-self-defense-expunction__REV-2019-10__EN.pdf",
       "state": "FL",
       "assetClass": "SOURCE-GATED",
@@ -1456,6 +1559,7 @@
     },
     {
       "path": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FL-4TH-JUDICIAL-CIRCUIT-DUVAL-COUNTY__fourth-judicial-circuit-duval-county-seal-or-expunge-packet__SOURCE-2025__EN.pdf",
+      "custody": "master_library",
       "fileName": "FL__SOURCE-GATED__FL-4TH-JUDICIAL-CIRCUIT-DUVAL-COUNTY__fourth-judicial-circuit-duval-county-seal-or-expunge-packet__SOURCE-2025__EN.pdf",
       "state": "FL",
       "assetClass": "SOURCE-GATED",
@@ -1473,6 +1577,7 @@
     },
     {
       "path": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FL-7TH-JUDICIAL-CIRCUIT-ST-JOHNS-COUNTY__st-johns-county-seal-and-or-expunge-procedure-guidelines-and-forms__SOURCE-2025-04__EN.pdf",
+      "custody": "master_library",
       "fileName": "FL__SOURCE-GATED__FL-7TH-JUDICIAL-CIRCUIT-ST-JOHNS-COUNTY__st-johns-county-seal-and-or-expunge-procedure-guidelines-and-forms__SOURCE-2025-04__EN.pdf",
       "state": "FL",
       "assetClass": "SOURCE-GATED",
@@ -1490,6 +1595,7 @@
     },
     {
       "path": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+      "custody": "master_library",
       "fileName": "IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
       "state": "IA",
       "assetClass": "FORM",
@@ -1507,6 +1613,7 @@
     },
     {
       "path": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
+      "custody": "master_library",
       "fileName": "IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
       "state": "IA",
       "assetClass": "FORM",
@@ -1524,6 +1631,7 @@
     },
     {
       "path": "STATES/ID/02_PACKET_FORMS/ID__FORM__PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE__petition-to-shield-records-from-public-disclosure-i-c-67-3004-11__REV-2001-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "ID__FORM__PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE__petition-to-shield-records-from-public-disclosure-i-c-67-3004-11__REV-2001-01__EN.pdf",
       "state": "ID",
       "assetClass": "FORM",
@@ -1541,6 +1649,7 @@
     },
     {
       "path": "STATES/ID/05_SOURCE_GATED/ID__SOURCE-GATED__ISP-BCI__idaho-state-police-bureau-of-criminal-identification-expungement-application__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "ID__SOURCE-GATED__ISP-BCI__idaho-state-police-bureau-of-criminal-identification-expungement-application__REV-UNKNOWN__EN.pdf",
       "state": "ID",
       "assetClass": "SOURCE-GATED",
@@ -1558,6 +1667,7 @@
     },
     {
       "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
       "state": "IL",
       "assetClass": "FORM",
@@ -1575,6 +1685,7 @@
     },
     {
       "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
       "state": "IL",
       "assetClass": "FORM",
@@ -1592,6 +1703,7 @@
     },
     {
       "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf",
+      "custody": "master_library",
       "fileName": "IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf",
       "state": "IL",
       "assetClass": "FORM",
@@ -1609,6 +1721,7 @@
     },
     {
       "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-INSERTS__section-1-non-conviction-expungement-facts-findings-and-exhibit-inserts__REV-2020-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "IN__FORM__CCA-SECTION1-INSERTS__section-1-non-conviction-expungement-facts-findings-and-exhibit-inserts__REV-2020-01__EN.pdf",
       "state": "IN",
       "assetClass": "FORM",
@@ -1626,6 +1739,7 @@
     },
     {
       "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+      "custody": "master_library",
       "fileName": "IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
       "state": "IN",
       "assetClass": "FORM",
@@ -1643,6 +1757,7 @@
     },
     {
       "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
       "state": "IN",
       "assetClass": "FORM",
@@ -1660,6 +1775,7 @@
     },
     {
       "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7009__conviction-expungement-insert-i-c-35-38-9-3__REV-2020-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "IN__FORM__CCA-XP-0220-7009__conviction-expungement-insert-i-c-35-38-9-3__REV-2020-02__EN.pdf",
       "state": "IN",
       "assetClass": "FORM",
@@ -1677,6 +1793,7 @@
     },
     {
       "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7010__conviction-expungement-insert-i-c-35-38-9-4__REV-2020-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "IN__FORM__CCA-XP-0220-7010__conviction-expungement-insert-i-c-35-38-9-4__REV-2020-02__EN.pdf",
       "state": "IN",
       "assetClass": "FORM",
@@ -1694,6 +1811,7 @@
     },
     {
       "path": "STATES/IN/03_INSTRUCTIONS/IN__INSTRUCTIONS__CCA-SECTION1-INSTRUCTIONS__non-conviction-expungement-instructions__REV-2020-03__EN.pdf",
+      "custody": "master_library",
       "fileName": "IN__INSTRUCTIONS__CCA-SECTION1-INSTRUCTIONS__non-conviction-expungement-instructions__REV-2020-03__EN.pdf",
       "state": "IN",
       "assetClass": "INSTRUCTIONS",
@@ -1711,6 +1829,7 @@
     },
     {
       "path": "STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KS-NOTICE-OF-HEARING-ON-PETITION-FOR-EXPUNGEM__notice-of-hearing-on-petition-for-expungement__REV-2016-12__EN.pdf",
+      "custody": "master_library",
       "fileName": "KS__SOURCE-GATED__KS-NOTICE-OF-HEARING-ON-PETITION-FOR-EXPUNGEM__notice-of-hearing-on-petition-for-expungement__REV-2016-12__EN.pdf",
       "state": "KS",
       "assetClass": "SOURCE-GATED",
@@ -1728,6 +1847,7 @@
     },
     {
       "path": "STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KS-ORDER-OF-EXPUNGEMENT-OF-CONVICTION-OR-DIVE__order-of-expungement-of-conviction-or-diversion__REV-2016-12__EN.pdf",
+      "custody": "master_library",
       "fileName": "KS__SOURCE-GATED__KS-ORDER-OF-EXPUNGEMENT-OF-CONVICTION-OR-DIVE__order-of-expungement-of-conviction-or-diversion__REV-2016-12__EN.pdf",
       "state": "KS",
       "assetClass": "SOURCE-GATED",
@@ -1745,6 +1865,7 @@
     },
     {
       "path": "STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KSJC__order-for-expungement-of-conviction-or-diversion__REV-2022-08__EN.pdf",
+      "custody": "master_library",
       "fileName": "KS__SOURCE-GATED__KSJC__order-for-expungement-of-conviction-or-diversion__REV-2022-08__EN.pdf",
       "state": "KS",
       "assetClass": "SOURCE-GATED",
@@ -1762,6 +1883,7 @@
     },
     {
       "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-009__records-unit__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "KY__FORM__AOC-009__records-unit__REV-UNKNOWN__EN.pdf",
       "state": "KY",
       "assetClass": "FORM",
@@ -1779,6 +1901,7 @@
     },
     {
       "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-334__is-hereby-void-and-all-records-pertaining-thereto-that-are-in-custody-of-the-court-and-any__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "KY__FORM__AOC-334__is-hereby-void-and-all-records-pertaining-thereto-that-are-in-custody-of-the-court-and-any__REV-UNKNOWN__EN.pdf",
       "state": "KY",
       "assetClass": "FORM",
@@ -1796,6 +1919,7 @@
     },
     {
       "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496__expungement-order__REV-2016-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "KY__FORM__AOC-496__expungement-order__REV-2016-07__EN.pdf",
       "state": "KY",
       "assetClass": "FORM",
@@ -1813,6 +1937,7 @@
     },
     {
       "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
       "state": "KY",
       "assetClass": "FORM",
@@ -1830,6 +1955,7 @@
     },
     {
       "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
       "state": "KY",
       "assetClass": "FORM",
@@ -1847,6 +1973,7 @@
     },
     {
       "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.4__496-4__REV-2023-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "KY__FORM__AOC-496.4__496-4__REV-2023-06__EN.pdf",
       "state": "KY",
       "assetClass": "FORM",
@@ -1864,6 +1991,7 @@
     },
     {
       "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.5__on-2-the-court-ordered-the-judgment-regarding-the-offense-s-listed-on-the__REV-2019-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "KY__FORM__AOC-496.5__on-2-the-court-ordered-the-judgment-regarding-the-offense-s-listed-on-the__REV-2019-06__EN.pdf",
       "state": "KY",
       "assetClass": "FORM",
@@ -1881,6 +2009,7 @@
     },
     {
       "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-497__the-court-having-reviewed-defendants-petition-to-expunge-and-being-sufficiently-advised-fi__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "KY__FORM__AOC-497__the-court-having-reviewed-defendants-petition-to-expunge-and-being-sufficiently-advised-fi__REV-UNKNOWN__EN.pdf",
       "state": "KY",
       "assetClass": "FORM",
@@ -1898,6 +2027,7 @@
     },
     {
       "path": "STATES/KY/05_SOURCE_GATED/KY__SOURCE-GATED__AOC-333__substance-in-the-first-degree-against-the-defendant-is-dismissed-and-all-records-relating__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "KY__SOURCE-GATED__AOC-333__substance-in-the-first-degree-against-the-defendant-is-dismissed-and-all-records-relating__REV-UNKNOWN__EN.pdf",
       "state": "KY",
       "assetClass": "SOURCE-GATED",
@@ -1915,6 +2045,7 @@
     },
     {
       "path": "STATES/KY/05_SOURCE_GATED/KY__SOURCE-GATED__AOC-497.3__aoc-497-3-rev-7-20-order-auto-expunge-n-re__REV-2020-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "KY__SOURCE-GATED__AOC-497.3__aoc-497-3-rev-7-20-order-auto-expunge-n-re__REV-2020-07__EN.pdf",
       "state": "KY",
       "assetClass": "SOURCE-GATED",
@@ -1932,6 +2063,7 @@
     },
     {
       "path": "STATES/LA/03_INSTRUCTIONS/LA__INSTRUCTIONS__LA-CCRP-ART-984__article-984-additional-requirements-for-expungement-involving-operating-a-vehicle-while-in__SOURCE-2026-07-31__EN.pdf",
+      "custody": "master_library",
       "fileName": "LA__INSTRUCTIONS__LA-CCRP-ART-984__article-984-additional-requirements-for-expungement-involving-operating-a-vehicle-while-in__SOURCE-2026-07-31__EN.pdf",
       "state": "LA",
       "assetClass": "INSTRUCTIONS",
@@ -1949,6 +2081,7 @@
     },
     {
       "path": "STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+      "custody": "master_library",
       "fileName": "LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
       "state": "LA",
       "assetClass": "SOURCE-GATED",
@@ -1966,6 +2099,7 @@
     },
     {
       "path": "STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-993__article-993-supplemental-sheet__SOURCE-2026-07-31__EN.pdf",
+      "custody": "master_library",
       "fileName": "LA__SOURCE-GATED__LA-CCRP-ART-993__article-993-supplemental-sheet__SOURCE-2026-07-31__EN.pdf",
       "state": "LA",
       "assetClass": "SOURCE-GATED",
@@ -1983,6 +2117,7 @@
     },
     {
       "path": "STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf",
+      "custody": "master_library",
       "fileName": "LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf",
       "state": "LA",
       "assetClass": "SOURCE-GATED",
@@ -2000,6 +2135,7 @@
     },
     {
       "path": "STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-998__article-998-motion-for-expungement-for-misdemeanor-conviction-for-a-first-offense-possessi__SOURCE-2026-07-31__EN.pdf",
+      "custody": "master_library",
       "fileName": "LA__SOURCE-GATED__LA-CCRP-ART-998__article-998-motion-for-expungement-for-misdemeanor-conviction-for-a-first-offense-possessi__SOURCE-2026-07-31__EN.pdf",
       "state": "LA",
       "assetClass": "SOURCE-GATED",
@@ -2017,6 +2153,7 @@
     },
     {
       "path": "STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-999.1__article-999-1-order-of-expungement-under-article-999__SOURCE-2026-07-31__EN.pdf",
+      "custody": "master_library",
       "fileName": "LA__SOURCE-GATED__LA-CCRP-ART-999.1__article-999-1-order-of-expungement-under-article-999__SOURCE-2026-07-31__EN.pdf",
       "state": "LA",
       "assetClass": "SOURCE-GATED",
@@ -2034,6 +2171,7 @@
     },
     {
       "path": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf",
+      "custody": "master_library",
       "fileName": "MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf",
       "state": "MA",
       "assetClass": "SOURCE-GATED",
@@ -2051,6 +2189,7 @@
     },
     {
       "path": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+      "custody": "master_library",
       "fileName": "MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
       "state": "MA",
       "assetClass": "SOURCE-GATED",
@@ -2068,6 +2207,7 @@
     },
     {
       "path": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf",
+      "custody": "master_library",
       "fileName": "MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf",
       "state": "MD",
       "assetClass": "FORM",
@@ -2085,6 +2225,7 @@
     },
     {
       "path": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-CR-078__general-waiver-and-release__REV-2025-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "MD__FORM__CC-DC-CR-078__general-waiver-and-release__REV-2025-01__EN.pdf",
       "state": "MD",
       "assetClass": "FORM",
@@ -2102,6 +2243,7 @@
     },
     {
       "path": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-CR-148__petition-for-shielding-under-the-maryland-second-chance-act__REV-2026-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "MD__FORM__CC-DC-CR-148__petition-for-shielding-under-the-maryland-second-chance-act__REV-2026-07__EN.pdf",
       "state": "MD",
       "assetClass": "FORM",
@@ -2119,6 +2261,7 @@
     },
     {
       "path": "STATES/MD/02_PACKET_FORMS/MD__FORM__MDJ-008__notice-regarding-restricted-information-pursuant-to-rule-20-201-1__REV-2026-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "MD__FORM__MDJ-008__notice-regarding-restricted-information-pursuant-to-rule-20-201-1__REV-2026-07__EN.pdf",
       "state": "MD",
       "assetClass": "FORM",
@@ -2136,6 +2279,7 @@
     },
     {
       "path": "STATES/MD/05_SOURCE_GATED/MD__SOURCE-GATED__DC-CR-071__application-for-expungement-of-police-record-and-notice-of-hearing__REV-2015-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "MD__SOURCE-GATED__DC-CR-071__application-for-expungement-of-police-record-and-notice-of-hearing__REV-2015-07__EN.pdf",
       "state": "MD",
       "assetClass": "SOURCE-GATED",
@@ -2153,6 +2297,7 @@
     },
     {
       "path": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-289__ada-notice-the-maine-judicial-branch-complies-with-the-americans-with-disabilities-act-ada__REV-2024-10__EN.pdf",
+      "custody": "master_library",
       "fileName": "ME__SOURCE-GATED__CR-289__ada-notice-the-maine-judicial-branch-complies-with-the-americans-with-disabilities-act-ada__REV-2024-10__EN.pdf",
       "state": "ME",
       "assetClass": "SOURCE-GATED",
@@ -2170,6 +2315,7 @@
     },
     {
       "path": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
       "state": "ME",
       "assetClass": "SOURCE-GATED",
@@ -2187,6 +2333,7 @@
     },
     {
       "path": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227A__application-to-set-aside-misdemeanor-marihuana-conviction-s__REV-2024-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "MI__FORM__MC-227A__application-to-set-aside-misdemeanor-marihuana-conviction-s__REV-2024-07__EN.pdf",
       "state": "MI",
       "assetClass": "FORM",
@@ -2204,6 +2351,7 @@
     },
     {
       "path": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
       "state": "MI",
       "assetClass": "FORM",
@@ -2221,6 +2369,7 @@
     },
     {
       "path": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-228__order-on-application-to-set-aside-conviction-s__REV-2023-03__EN.pdf",
+      "custody": "master_library",
       "fileName": "MI__FORM__MC-228__order-on-application-to-set-aside-conviction-s__REV-2023-03__EN.pdf",
       "state": "MI",
       "assetClass": "FORM",
@@ -2238,6 +2387,7 @@
     },
     {
       "path": "STATES/MN/03_INSTRUCTIONS/MN__INSTRUCTIONS__EXP101-ES__petitioners-instructions-for-expungement__REV-2015-01__ES.pdf",
+      "custody": "master_library",
       "fileName": "MN__INSTRUCTIONS__EXP101-ES__petitioners-instructions-for-expungement__REV-2015-01__ES.pdf",
       "state": "MN",
       "assetClass": "INSTRUCTIONS",
@@ -2255,6 +2405,7 @@
     },
     {
       "path": "STATES/MN/03_INSTRUCTIONS/MN__INSTRUCTIONS__EXP101-HMN__petitioners-instructions-for-expungement__REV-2015-01__HMN.pdf",
+      "custody": "master_library",
       "fileName": "MN__INSTRUCTIONS__EXP101-HMN__petitioners-instructions-for-expungement__REV-2015-01__HMN.pdf",
       "state": "MN",
       "assetClass": "INSTRUCTIONS",
@@ -2272,6 +2423,7 @@
     },
     {
       "path": "STATES/MN/03_INSTRUCTIONS/MN__INSTRUCTIONS__EXP101-SO__petitioners-instructions-for-expungement__REV-2015-01__SO.pdf",
+      "custody": "master_library",
       "fileName": "MN__INSTRUCTIONS__EXP101-SO__petitioners-instructions-for-expungement__REV-2015-01__SO.pdf",
       "state": "MN",
       "assetClass": "INSTRUCTIONS",
@@ -2289,6 +2441,7 @@
     },
     {
       "path": "STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
       "state": "MN",
       "assetClass": "SUPPORT",
@@ -2306,6 +2459,7 @@
     },
     {
       "path": "STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
       "state": "MN",
       "assetClass": "SUPPORT",
@@ -2323,6 +2477,7 @@
     },
     {
       "path": "STATES/MO/02_PACKET_FORMS/MO__FORM__CR145__petition-for-expungement-of-arrest-records__REV-2024-04__EN.pdf",
+      "custody": "master_library",
       "fileName": "MO__FORM__CR145__petition-for-expungement-of-arrest-records__REV-2024-04__EN.pdf",
       "state": "MO",
       "assetClass": "FORM",
@@ -2340,6 +2495,7 @@
     },
     {
       "path": "STATES/MO/02_PACKET_FORMS/MO__FORM__CR360__petition-for-expungement-section-610-140-rsmo__REV-2024-10__EN.pdf",
+      "custody": "master_library",
       "fileName": "MO__FORM__CR360__petition-for-expungement-section-610-140-rsmo__REV-2024-10__EN.pdf",
       "state": "MO",
       "assetClass": "FORM",
@@ -2357,6 +2513,7 @@
     },
     {
       "path": "STATES/MO/02_PACKET_FORMS/MO__FORM__CR375__petition-for-expungement-marijuana-related-offense-s__REV-2024-10__EN.pdf",
+      "custody": "master_library",
       "fileName": "MO__FORM__CR375__petition-for-expungement-marijuana-related-offense-s__REV-2024-10__EN.pdf",
       "state": "MO",
       "assetClass": "FORM",
@@ -2374,6 +2531,7 @@
     },
     {
       "path": "STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__CR300__petition-for-correction-of-arrest-court-records-identity-theft__REV-2010-04__EN.pdf",
+      "custody": "master_library",
       "fileName": "MO__SOURCE-GATED__CR300__petition-for-correction-of-arrest-court-records-identity-theft__REV-2010-04__EN.pdf",
       "state": "MO",
       "assetClass": "SOURCE-GATED",
@@ -2391,6 +2549,7 @@
     },
     {
       "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+      "custody": "master_library",
       "fileName": "NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
       "state": "NC",
       "assetClass": "FORM",
@@ -2408,6 +2567,7 @@
     },
     {
       "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+      "custody": "master_library",
       "fileName": "NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
       "state": "NC",
       "assetClass": "FORM",
@@ -2425,6 +2585,7 @@
     },
     {
       "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+      "custody": "master_library",
       "fileName": "NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
       "state": "NC",
       "assetClass": "FORM",
@@ -2442,6 +2603,7 @@
     },
     {
       "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+      "custody": "master_library",
       "fileName": "NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
       "state": "NC",
       "assetClass": "FORM",
@@ -2459,6 +2621,7 @@
     },
     {
       "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+      "custody": "master_library",
       "fileName": "NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
       "state": "NC",
       "assetClass": "FORM",
@@ -2476,6 +2639,7 @@
     },
     {
       "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+      "custody": "master_library",
       "fileName": "NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
       "state": "NC",
       "assetClass": "FORM",
@@ -2493,6 +2657,7 @@
     },
     {
       "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-296__aoc-cr-296-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+      "custody": "master_library",
       "fileName": "NC__FORM__AOC-CR-296__aoc-cr-296-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
       "state": "NC",
       "assetClass": "FORM",
@@ -2510,6 +2675,7 @@
     },
     {
       "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-297__aoc-cr-297-petition-and-order-of-expunction__REV-2025-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "NC__FORM__AOC-CR-297__aoc-cr-297-petition-and-order-of-expunction__REV-2025-06__EN.pdf",
       "state": "NC",
       "assetClass": "FORM",
@@ -2527,6 +2693,7 @@
     },
     {
       "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-298__aoc-cr-298-petition-and-order-of-expunction__REV-2025-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "NC__FORM__AOC-CR-298__aoc-cr-298-petition-and-order-of-expunction__REV-2025-07__EN.pdf",
       "state": "NC",
       "assetClass": "FORM",
@@ -2544,6 +2711,7 @@
     },
     {
       "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__ES.pdf",
+      "custody": "master_library",
       "fileName": "NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__ES.pdf",
       "state": "NC",
       "assetClass": "INSTRUCTIONS",
@@ -2561,6 +2729,7 @@
     },
     {
       "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__VI.pdf",
+      "custody": "master_library",
       "fileName": "NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__VI.pdf",
       "state": "NC",
       "assetClass": "INSTRUCTIONS",
@@ -2578,6 +2747,7 @@
     },
     {
       "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+      "custody": "master_library",
       "fileName": "NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
       "state": "NC",
       "assetClass": "INSTRUCTIONS",
@@ -2595,6 +2765,7 @@
     },
     {
       "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__ES.pdf",
+      "custody": "master_library",
       "fileName": "NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__ES.pdf",
       "state": "NC",
       "assetClass": "INSTRUCTIONS",
@@ -2612,6 +2783,7 @@
     },
     {
       "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__VI.pdf",
+      "custody": "master_library",
       "fileName": "NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__VI.pdf",
       "state": "NC",
       "assetClass": "INSTRUCTIONS",
@@ -2629,6 +2801,7 @@
     },
     {
       "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
+      "custody": "master_library",
       "fileName": "NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
       "state": "NC",
       "assetClass": "INSTRUCTIONS",
@@ -2646,6 +2819,7 @@
     },
     {
       "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-297__aoc-cr-297-instructions__REV-2025-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "NC__INSTRUCTIONS__AOC-CR-297__aoc-cr-297-instructions__REV-2025-06__EN.pdf",
       "state": "NC",
       "assetClass": "INSTRUCTIONS",
@@ -2663,6 +2837,7 @@
     },
     {
       "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-298__aoc-cr-298-instructions__REV-2025-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "NC__INSTRUCTIONS__AOC-CR-298__aoc-cr-298-instructions__REV-2025-07__EN.pdf",
       "state": "NC",
       "assetClass": "INSTRUCTIONS",
@@ -2680,6 +2855,7 @@
     },
     {
       "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__ES.pdf",
+      "custody": "master_library",
       "fileName": "NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__ES.pdf",
       "state": "NC",
       "assetClass": "SUPPORT",
@@ -2697,6 +2873,7 @@
     },
     {
       "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__VI.pdf",
+      "custody": "master_library",
       "fileName": "NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__VI.pdf",
       "state": "NC",
       "assetClass": "SUPPORT",
@@ -2714,6 +2891,7 @@
     },
     {
       "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+      "custody": "master_library",
       "fileName": "NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
       "state": "NC",
       "assetClass": "SUPPORT",
@@ -2731,6 +2909,7 @@
     },
     {
       "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__NC-SBI-RIGHT-TO-REVIEW__north-carolina-sbi-right-to-review-criminal-history-instructions__REV-2025-12__EN.pdf",
+      "custody": "master_library",
       "fileName": "NC__SUPPORT__NC-SBI-RIGHT-TO-REVIEW__north-carolina-sbi-right-to-review-criminal-history-instructions__REV-2025-12__EN.pdf",
       "state": "NC",
       "assetClass": "SUPPORT",
@@ -2748,6 +2927,7 @@
     },
     {
       "path": "STATES/ND/02_PACKET_FORMS/ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf",
       "state": "ND",
       "assetClass": "FORM",
@@ -2765,6 +2945,7 @@
     },
     {
       "path": "STATES/ND/04_SUPPORTING_PROCESS/ND__SUPPORT__ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA__north-dakota-pardon-advisory-board-application-to-pardon-eligible__REV-2020-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "ND__SUPPORT__ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA__north-dakota-pardon-advisory-board-application-to-pardon-eligible__REV-2020-02__EN.pdf",
       "state": "ND",
       "assetClass": "SUPPORT",
@@ -2782,6 +2963,7 @@
     },
     {
       "path": "STATES/ND/04_SUPPORTING_PROCESS/ND__SUPPORT__SEALING-CRIMINAL-RECORDS-RESEARCH-GUIDE__sealing-criminal-records-or-closing-nonconviction__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "ND__SUPPORT__SEALING-CRIMINAL-RECORDS-RESEARCH-GUIDE__sealing-criminal-records-or-closing-nonconviction__REV-UNKNOWN__EN.pdf",
       "state": "ND",
       "assetClass": "SUPPORT",
@@ -2799,6 +2981,7 @@
     },
     {
       "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11__cc-6-11-petition-to-set-aside-a-criminal-conviction__REV-2024-04__EN.pdf",
+      "custody": "master_library",
       "fileName": "NE__FORM__CC-6-11__cc-6-11-petition-to-set-aside-a-criminal-conviction__REV-2024-04__EN.pdf",
       "state": "NE",
       "assetClass": "FORM",
@@ -2816,6 +2999,7 @@
     },
     {
       "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf",
+      "custody": "master_library",
       "fileName": "NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf",
       "state": "NE",
       "assetClass": "FORM",
@@ -2833,6 +3017,7 @@
     },
     {
       "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
+      "custody": "master_library",
       "fileName": "NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
       "state": "NE",
       "assetClass": "FORM",
@@ -2850,6 +3035,7 @@
     },
     {
       "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-15.1__motion-to-seal-record__REV-2021-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "NE__FORM__CC-6-15.1__motion-to-seal-record__REV-2021-05__EN.pdf",
       "state": "NE",
       "assetClass": "FORM",
@@ -2867,6 +3053,7 @@
     },
     {
       "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__DC-1-15__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NE__FORM__DC-1-15__notice-of-hearing__REV-UNKNOWN__EN.pdf",
       "state": "NE",
       "assetClass": "FORM",
@@ -2884,6 +3071,7 @@
     },
     {
       "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__DC-6-7.2__dc-6-7-2-order-to-proceed-in-forma-pauperis__REV-2025-03__EN.pdf",
+      "custody": "master_library",
       "fileName": "NE__FORM__DC-6-7.2__dc-6-7-2-order-to-proceed-in-forma-pauperis__REV-2025-03__EN.pdf",
       "state": "NE",
       "assetClass": "FORM",
@@ -2901,6 +3089,7 @@
     },
     {
       "path": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-11.2A__completing-the-order-setting-aside-a-criminal-conviction__REV-2024-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "NE__INSTRUCTIONS__CC-6-11.2A__completing-the-order-setting-aside-a-criminal-conviction__REV-2024-06__EN.pdf",
       "state": "NE",
       "assetClass": "INSTRUCTIONS",
@@ -2918,6 +3107,7 @@
     },
     {
       "path": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-11A__completing-the-petition-to-set-aside-a-criminal-conviction__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NE__INSTRUCTIONS__CC-6-11A__completing-the-petition-to-set-aside-a-criminal-conviction__REV-UNKNOWN__EN.pdf",
       "state": "NE",
       "assetClass": "INSTRUCTIONS",
@@ -2935,6 +3125,7 @@
     },
     {
       "path": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
       "state": "NE",
       "assetClass": "INSTRUCTIONS",
@@ -2952,6 +3143,7 @@
     },
     {
       "path": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__DC-6-7.1A__instructions-for-dc-6-7-1-affidavit-and-application-to-proceed-in-forma-pauperis__REV-2025-03__EN.pdf",
+      "custody": "master_library",
       "fileName": "NE__INSTRUCTIONS__DC-6-7.1A__instructions-for-dc-6-7-1-affidavit-and-application-to-proceed-in-forma-pauperis__REV-2025-03__EN.pdf",
       "state": "NE",
       "assetClass": "INSTRUCTIONS",
@@ -2969,6 +3161,7 @@
     },
     {
       "path": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__DC-6-7.2A__instructions-for-dc-6-7-2-order-to-proceed-in-forma-pauperis__REV-2025-03__EN.pdf",
+      "custody": "master_library",
       "fileName": "NE__INSTRUCTIONS__DC-6-7.2A__instructions-for-dc-6-7-2-order-to-proceed-in-forma-pauperis__REV-2025-03__EN.pdf",
       "state": "NE",
       "assetClass": "INSTRUCTIONS",
@@ -2986,6 +3179,7 @@
     },
     {
       "path": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
       "state": "NH",
       "assetClass": "FORM",
@@ -3003,6 +3197,7 @@
     },
     {
       "path": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3056__petition-of-eligibility-for-annulment-of-record-non-conviction__REV-2019-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "NH__FORM__NHJB-3056__petition-of-eligibility-for-annulment-of-record-non-conviction__REV-2019-06__EN.pdf",
       "state": "NH",
       "assetClass": "FORM",
@@ -3020,6 +3215,7 @@
     },
     {
       "path": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
       "state": "NH",
       "assetClass": "FORM",
@@ -3037,6 +3233,7 @@
     },
     {
       "path": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3124__petition-of-eligibility-for-annulment-of-record-of-arrest-or__REV-2020-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "NH__FORM__NHJB-3124__petition-of-eligibility-for-annulment-of-record-of-arrest-or__REV-2020-01__EN.pdf",
       "state": "NH",
       "assetClass": "FORM",
@@ -3054,6 +3251,7 @@
     },
     {
       "path": "STATES/NH/03_INSTRUCTIONS/NH__INSTRUCTIONS__NH-ANNULMENT-CHECKLIST__annulment-of-criminal-records__REV-2020-08-24__EN.pdf",
+      "custody": "master_library",
       "fileName": "NH__INSTRUCTIONS__NH-ANNULMENT-CHECKLIST__annulment-of-criminal-records__REV-2020-08-24__EN.pdf",
       "state": "NH",
       "assetClass": "INSTRUCTIONS",
@@ -3071,6 +3269,7 @@
     },
     {
       "path": "STATES/NH/03_INSTRUCTIONS/NH__INSTRUCTIONS__NH-MARIJUANA-ANNULMENT-GUIDE__annulment-of-personal-possession-of-marijuana-charges__REV-2020-08-24__EN.pdf",
+      "custody": "master_library",
       "fileName": "NH__INSTRUCTIONS__NH-MARIJUANA-ANNULMENT-GUIDE__annulment-of-personal-possession-of-marijuana-charges__REV-2020-08-24__EN.pdf",
       "state": "NH",
       "assetClass": "INSTRUCTIONS",
@@ -3088,6 +3287,7 @@
     },
     {
       "path": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
       "state": "NH",
       "assetClass": "SUPPORT",
@@ -3105,6 +3305,7 @@
     },
     {
       "path": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
       "state": "NH",
       "assetClass": "SUPPORT",
@@ -3122,6 +3323,7 @@
     },
     {
       "path": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
       "state": "NH",
       "assetClass": "SUPPORT",
@@ -3139,6 +3341,7 @@
     },
     {
       "path": "STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
       "state": "NJ",
       "assetClass": "FORM",
@@ -3156,6 +3359,7 @@
     },
     {
       "path": "STATES/NJ/03_INSTRUCTIONS/NJ__INSTRUCTIONS__BACKGROUND-STEPS__instructions-for-in-state-residents-requesting-a-new-jersey-fingerprint-based__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NJ__INSTRUCTIONS__BACKGROUND-STEPS__instructions-for-in-state-residents-requesting-a-new-jersey-fingerprint-based__REV-UNKNOWN__EN.pdf",
       "state": "NJ",
       "assetClass": "INSTRUCTIONS",
@@ -3173,6 +3377,7 @@
     },
     {
       "path": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-951__4-951-petition-to-expunge-arrest-records-and-public-records-identity-theft__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__FORM__NM-4-951__4-951-petition-to-expunge-arrest-records-and-public-records-identity-theft__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "FORM",
@@ -3190,6 +3395,7 @@
     },
     {
       "path": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-952__4-952-petition-to-expunge-arrest-records-and-public-records-upon-release-without__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__FORM__NM-4-952__4-952-petition-to-expunge-arrest-records-and-public-records-upon-release-without__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "FORM",
@@ -3207,6 +3413,7 @@
     },
     {
       "path": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-953__4-953-petition-to-expunge-arrest-records-and-public-records-upon-conviction__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__FORM__NM-4-953__4-953-petition-to-expunge-arrest-records-and-public-records-upon-conviction__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "FORM",
@@ -3224,6 +3431,7 @@
     },
     {
       "path": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-955__4-955-certificate-of-service-expungement-of-records-upon-release-without-conviction__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__FORM__NM-4-955__4-955-certificate-of-service-expungement-of-records-upon-release-without-conviction__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "FORM",
@@ -3241,6 +3449,7 @@
     },
     {
       "path": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-956__4-956-certificate-of-service-expungement-of-records-upon-conviction__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__FORM__NM-4-956__4-956-certificate-of-service-expungement-of-records-upon-conviction__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "FORM",
@@ -3258,6 +3467,7 @@
     },
     {
       "path": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-957__4-957-objection-to-petition-to-expunge-records__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__FORM__NM-4-957__4-957-objection-to-petition-to-expunge-records__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "FORM",
@@ -3275,6 +3485,7 @@
     },
     {
       "path": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-958__4-958-notice-of-non-objection-to-petition-to-expunge-records__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__FORM__NM-4-958__4-958-notice-of-non-objection-to-petition-to-expunge-records__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "FORM",
@@ -3292,6 +3503,7 @@
     },
     {
       "path": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-959__notice-of-completion-of-briefing-nonconviction__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__FORM__NM-4-959__notice-of-completion-of-briefing-nonconviction__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "FORM",
@@ -3309,6 +3521,7 @@
     },
     {
       "path": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960__notice-of-completion-of-briefing-conviction__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__FORM__NM-4-960__notice-of-completion-of-briefing-conviction__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "FORM",
@@ -3326,6 +3539,7 @@
     },
     {
       "path": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "FORM",
@@ -3343,6 +3557,7 @@
     },
     {
       "path": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.2__affirmation-in-support-of-expungement-upon-release-without-conviction__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__FORM__NM-4-960.2__affirmation-in-support-of-expungement-upon-release-without-conviction__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "FORM",
@@ -3360,6 +3575,7 @@
     },
     {
       "path": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.3__affirmation-in-support-of-expungement-upon-conviction__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__FORM__NM-4-960.3__affirmation-in-support-of-expungement-upon-conviction__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "FORM",
@@ -3377,6 +3593,7 @@
     },
     {
       "path": "STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "SUPPORT",
@@ -3394,6 +3611,7 @@
     },
     {
       "path": "STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-DPS-ROI__new-mexico-dps-authorization-for-release-of-information__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__SUPPORT__NM-DPS-ROI__new-mexico-dps-authorization-for-release-of-information__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "SUPPORT",
@@ -3411,6 +3629,7 @@
     },
     {
       "path": "STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-DPS-ROI__new-mexico-dps-authorization-for-release-of-information__REV-UNKNOWN__ES.pdf",
+      "custody": "master_library",
       "fileName": "NM__SUPPORT__NM-DPS-ROI__new-mexico-dps-authorization-for-release-of-information__REV-UNKNOWN__ES.pdf",
       "state": "NM",
       "assetClass": "SUPPORT",
@@ -3428,6 +3647,7 @@
     },
     {
       "path": "STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-LOCAL-CONVICTION-ORDER__petitioner__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__SOURCE-GATED__NM-LOCAL-CONVICTION-ORDER__petitioner__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "SOURCE-GATED",
@@ -3445,6 +3665,7 @@
     },
     {
       "path": "STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-LOCAL-IDENTITY-THEFT-ORDER__petitioner__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__SOURCE-GATED__NM-LOCAL-IDENTITY-THEFT-ORDER__petitioner__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "SOURCE-GATED",
@@ -3462,6 +3683,7 @@
     },
     {
       "path": "STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-SAN-JUAN-NONCONVICTION-PACKET__petition-to-expunge__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NM__SOURCE-GATED__NM-SAN-JUAN-NONCONVICTION-PACKET__petition-to-expunge__REV-UNKNOWN__EN.pdf",
       "state": "NM",
       "assetClass": "SOURCE-GATED",
@@ -3479,6 +3701,7 @@
     },
     {
       "path": "STATES/NV/05_SOURCE_GATED/NV__SOURCE-GATED__NV-LAS-VEGAS-MUNICIPAL-HANDBOOK__las-vegas-municipal-court-record-sealing-handbook__REV-2026-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "NV__SOURCE-GATED__NV-LAS-VEGAS-MUNICIPAL-HANDBOOK__las-vegas-municipal-court-record-sealing-handbook__REV-2026-02__EN.pdf",
       "state": "NV",
       "assetClass": "SOURCE-GATED",
@@ -3496,6 +3719,7 @@
     },
     {
       "path": "STATES/NV/05_SOURCE_GATED/NV__SOURCE-GATED__NV-RCCD-GENERAL-INFORMATION__nevada-rccd-sealing-of-criminal-history-records-information__REV-2025-08__EN.pdf",
+      "custody": "master_library",
       "fileName": "NV__SOURCE-GATED__NV-RCCD-GENERAL-INFORMATION__nevada-rccd-sealing-of-criminal-history-records-information__REV-2025-08__EN.pdf",
       "state": "NV",
       "assetClass": "SOURCE-GATED",
@@ -3513,6 +3737,7 @@
     },
     {
       "path": "STATES/NV/05_SOURCE_GATED/NV__SOURCE-GATED__NV-RENO-MUNICIPAL-PACKET__reno-municipal-court-sealing-of-records-packet__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NV__SOURCE-GATED__NV-RENO-MUNICIPAL-PACKET__reno-municipal-court-sealing-of-records-packet__REV-UNKNOWN__EN.pdf",
       "state": "NV",
       "assetClass": "SOURCE-GATED",
@@ -3530,6 +3755,7 @@
     },
     {
       "path": "STATES/NY/02_PACKET_FORMS/NY__FORM__CPL-160.59-APPLICATION__notice-of-motion-and-affidavit-in-support-of-sealing-under-cpl-160-59__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NY__FORM__CPL-160.59-APPLICATION__notice-of-motion-and-affidavit-in-support-of-sealing-under-cpl-160-59__REV-UNKNOWN__EN.pdf",
       "state": "NY",
       "assetClass": "FORM",
@@ -3547,6 +3773,7 @@
     },
     {
       "path": "STATES/NY/02_PACKET_FORMS/NY__FORM__CPL-160.59-PRO-SE-PACKET__cpl-160-59-pro-se-sealing-application-packet-and-instructions__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NY__FORM__CPL-160.59-PRO-SE-PACKET__cpl-160-59-pro-se-sealing-application-packet-and-instructions__REV-UNKNOWN__EN.pdf",
       "state": "NY",
       "assetClass": "FORM",
@@ -3564,6 +3791,7 @@
     },
     {
       "path": "STATES/NY/02_PACKET_FORMS/NY__FORM__MRTA-DESTRUCTION-REQUEST__application-to-destroy-marijuana-conviction-record__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NY__FORM__MRTA-DESTRUCTION-REQUEST__application-to-destroy-marijuana-conviction-record__REV-UNKNOWN__EN.pdf",
       "state": "NY",
       "assetClass": "FORM",
@@ -3581,6 +3809,7 @@
     },
     {
       "path": "STATES/NY/04_SUPPORTING_PROCESS/NY__SUPPORT__CPL-160.59-COD-REQUEST__criminal-certificate-of-disposition-request-form__REV-2024-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "NY__SUPPORT__CPL-160.59-COD-REQUEST__criminal-certificate-of-disposition-request-form__REV-2024-07__EN.pdf",
       "state": "NY",
       "assetClass": "SUPPORT",
@@ -3598,6 +3827,7 @@
     },
     {
       "path": "STATES/NY/04_SUPPORTING_PROCESS/NY__SUPPORT__CPL-160.59-SEAL-VERIFICATION__request-for-cpl-160-59-seal-verification__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NY__SUPPORT__CPL-160.59-SEAL-VERIFICATION__request-for-cpl-160-59-seal-verification__REV-UNKNOWN__EN.pdf",
       "state": "NY",
       "assetClass": "SUPPORT",
@@ -3615,6 +3845,7 @@
     },
     {
       "path": "STATES/NY/04_SUPPORTING_PROCESS/NY__SUPPORT__UCS-LRS2__local-criminal-record-search-request__REV-2024-04__EN.pdf",
+      "custody": "master_library",
       "fileName": "NY__SUPPORT__UCS-LRS2__local-criminal-record-search-request__REV-2024-04__EN.pdf",
       "state": "NY",
       "assetClass": "SUPPORT",
@@ -3632,6 +3863,7 @@
     },
     {
       "path": "STATES/NY/05_SOURCE_GATED/NY__SOURCE-GATED__UCS-YO-DETERMINATION__youthful-offender-determination-application__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "NY__SOURCE-GATED__UCS-YO-DETERMINATION__youthful-offender-determination-application__REV-UNKNOWN__EN.pdf",
       "state": "NY",
       "assetClass": "SOURCE-GATED",
@@ -3649,6 +3881,7 @@
     },
     {
       "path": "STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
       "state": "OH",
       "assetClass": "SUPPORT",
@@ -3666,6 +3899,7 @@
     },
     {
       "path": "STATES/OR/02_PACKET_FORMS/OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf",
       "state": "OR",
       "assetClass": "FORM",
@@ -3683,6 +3917,7 @@
     },
     {
       "path": "STATES/OR/02_PACKET_FORMS/OR__FORM__OR-OJD-MJ-PCR__motion-and-declaration-to-modify-or-set-aside-marijuana-conviction__REV-2023-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "OR__FORM__OR-OJD-MJ-PCR__motion-and-declaration-to-modify-or-set-aside-marijuana-conviction__REV-2023-07__EN.pdf",
       "state": "OR",
       "assetClass": "FORM",
@@ -3700,6 +3935,7 @@
     },
     {
       "path": "STATES/OR/04_SUPPORTING_PROCESS/OR__SUPPORT__OR-OJD-CLA-SET-ASIDE-CHECK__ojd-request-for-set-aside-criminal-record-check__REV-2022-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "OR__SUPPORT__OR-OJD-CLA-SET-ASIDE-CHECK__ojd-request-for-set-aside-criminal-record-check__REV-2022-01__EN.pdf",
       "state": "OR",
       "assetClass": "SUPPORT",
@@ -3717,6 +3953,7 @@
     },
     {
       "path": "STATES/OR/04_SUPPORTING_PROCESS/OR__SUPPORT__OR-OSP-SET-ASIDE-CCH__oregon-state-police-set-aside-criminal-history-request-and-instructions__REV-2022-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "OR__SUPPORT__OR-OSP-SET-ASIDE-CCH__oregon-state-police-set-aside-criminal-history-request-and-instructions__REV-2022-01__EN.pdf",
       "state": "OR",
       "assetClass": "SUPPORT",
@@ -3734,6 +3971,7 @@
     },
     {
       "path": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-ORDER__pa-r-crim-p-490-blank-expungement-order__REV-2006-03__EN.pdf",
+      "custody": "master_library",
       "fileName": "PA__FORM__PA-RCRIM-P-490-ORDER__pa-r-crim-p-490-blank-expungement-order__REV-2006-03__EN.pdf",
       "state": "PA",
       "assetClass": "FORM",
@@ -3751,6 +3989,7 @@
     },
     {
       "path": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-PETITION__pa-r-crim-p-490-petition__REV-2009-03__EN.pdf",
+      "custody": "master_library",
       "fileName": "PA__FORM__PA-RCRIM-P-490-PETITION__pa-r-crim-p-490-petition__REV-2009-03__EN.pdf",
       "state": "PA",
       "assetClass": "FORM",
@@ -3768,6 +4007,7 @@
     },
     {
       "path": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
       "state": "PA",
       "assetClass": "FORM",
@@ -3785,6 +4025,7 @@
     },
     {
       "path": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+      "custody": "master_library",
       "fileName": "PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
       "state": "PA",
       "assetClass": "FORM",
@@ -3802,6 +4043,7 @@
     },
     {
       "path": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-791-ORDER__pa-r-crim-p-791-order-for-limited-access__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "PA__FORM__PA-RCRIM-P-791-ORDER__pa-r-crim-p-791-order-for-limited-access__REV-UNKNOWN__EN.pdf",
       "state": "PA",
       "assetClass": "FORM",
@@ -3819,6 +4061,7 @@
     },
     {
       "path": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-791-PETITION__pa-r-crim-p-791-petition-for-order-for-limited-access__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "PA__FORM__PA-RCRIM-P-791-PETITION__pa-r-crim-p-791-petition-for-order-for-limited-access__REV-UNKNOWN__EN.pdf",
       "state": "PA",
       "assetClass": "FORM",
@@ -3836,6 +4079,7 @@
     },
     {
       "path": "STATES/PA/04_SUPPORTING_PROCESS/PA__SUPPORT__PA-IFP-CCP__court-of-common-pleas-motion-to-proceed-in-forma-pauperis__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "PA__SUPPORT__PA-IFP-CCP__court-of-common-pleas-motion-to-proceed-in-forma-pauperis__REV-UNKNOWN__EN.pdf",
       "state": "PA",
       "assetClass": "SUPPORT",
@@ -3853,6 +4097,7 @@
     },
     {
       "path": "STATES/PA/04_SUPPORTING_PROCESS/PA__SUPPORT__PA-IFP-MDJ__magisterial-district-court-in-forma-pauperis-affidavit__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "PA__SUPPORT__PA-IFP-MDJ__magisterial-district-court-in-forma-pauperis-affidavit__REV-UNKNOWN__EN.pdf",
       "state": "PA",
       "assetClass": "SUPPORT",
@@ -3870,6 +4115,7 @@
     },
     {
       "path": "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
       "state": "RI",
       "assetClass": "FORM",
@@ -3887,6 +4133,7 @@
     },
     {
       "path": "STATES/RI/02_PACKET_FORMS/RI__FORM__FC-85__family-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "RI__FORM__FC-85__family-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
       "state": "RI",
       "assetClass": "FORM",
@@ -3904,6 +4151,7 @@
     },
     {
       "path": "STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-27__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-misdemeanor__REV-2025-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "RI__FORM__SUPERIOR-27__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-misdemeanor__REV-2025-07__EN.pdf",
       "state": "RI",
       "assetClass": "FORM",
@@ -3921,6 +4169,7 @@
     },
     {
       "path": "STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-55__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-felony__REV-2025-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "RI__FORM__SUPERIOR-55__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-felony__REV-2025-02__EN.pdf",
       "state": "RI",
       "assetClass": "FORM",
@@ -3938,6 +4187,7 @@
     },
     {
       "path": "STATES/SC/02_PACKET_FORMS/SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf",
+      "custody": "master_library",
       "fileName": "SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf",
       "state": "SC",
       "assetClass": "FORM",
@@ -3955,6 +4205,7 @@
     },
     {
       "path": "STATES/SC/05_SOURCE_GATED/SC__SOURCE-GATED__SCCA-223D1__expungement-objection-transmittal__REV-2016-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "SC__SOURCE-GATED__SCCA-223D1__expungement-objection-transmittal__REV-2016-05__EN.pdf",
       "state": "SC",
       "assetClass": "SOURCE-GATED",
@@ -3972,6 +4223,7 @@
     },
     {
       "path": "STATES/SC/05_SOURCE_GATED/SC__SOURCE-GATED__SCCA-223E__application-for-expungement__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "SC__SOURCE-GATED__SCCA-223E__application-for-expungement__REV-UNKNOWN__EN.pdf",
       "state": "SC",
       "assetClass": "SOURCE-GATED",
@@ -3989,6 +4241,7 @@
     },
     {
       "path": "STATES/SD/02_PACKET_FORMS/SD__FORM__UJS-232__case-filing-statement-information-only-not-retained-in-case-records__REV-2020-12__EN.pdf",
+      "custody": "master_library",
       "fileName": "SD__FORM__UJS-232__case-filing-statement-information-only-not-retained-in-case-records__REV-2020-12__EN.pdf",
       "state": "SD",
       "assetClass": "FORM",
@@ -4006,6 +4259,7 @@
     },
     {
       "path": "STATES/SD/02_PACKET_FORMS/SD__FORM__UJS-390-395-PACKET__south-dakota-ujs-expungement-print-all-packet__REV-2026-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "SD__FORM__UJS-390-395-PACKET__south-dakota-ujs-expungement-print-all-packet__REV-2026-07__EN.pdf",
       "state": "SD",
       "assetClass": "FORM",
@@ -4023,6 +4277,7 @@
     },
     {
       "path": "STATES/SD/02_PACKET_FORMS/SD__FORM__UJS-391__instructions-and-forms-on-motion-for-expungement__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "SD__FORM__UJS-391__instructions-and-forms-on-motion-for-expungement__REV-UNKNOWN__EN.pdf",
       "state": "SD",
       "assetClass": "FORM",
@@ -4040,6 +4295,7 @@
     },
     {
       "path": "STATES/SD/02_PACKET_FORMS/SD__FORM__UJS-392__instructions-and-form-on-waiver-of-hearing__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "SD__FORM__UJS-392__instructions-and-form-on-waiver-of-hearing__REV-UNKNOWN__EN.pdf",
       "state": "SD",
       "assetClass": "FORM",
@@ -4057,6 +4313,7 @@
     },
     {
       "path": "STATES/SD/02_PACKET_FORMS/SD__FORM__UJS-393__instructions-and-form-on-notice-of-hearing-for-expungement-of-record__REV-2026-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "SD__FORM__UJS-393__instructions-and-form-on-notice-of-hearing-for-expungement-of-record__REV-2026-07__EN.pdf",
       "state": "SD",
       "assetClass": "FORM",
@@ -4074,6 +4331,7 @@
     },
     {
       "path": "STATES/SD/02_PACKET_FORMS/SD__FORM__UJS-394__in-the-matter-of-the-expungement-of__REV-2024-08__EN.pdf",
+      "custody": "master_library",
       "fileName": "SD__FORM__UJS-394__in-the-matter-of-the-expungement-of__REV-2024-08__EN.pdf",
       "state": "SD",
       "assetClass": "FORM",
@@ -4091,6 +4349,7 @@
     },
     {
       "path": "STATES/SD/02_PACKET_FORMS/SD__FORM__UJS-395__instructions-on-notice-of-entry-of-order-of-expungement__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "SD__FORM__UJS-395__instructions-on-notice-of-entry-of-order-of-expungement__REV-UNKNOWN__EN.pdf",
       "state": "SD",
       "assetClass": "FORM",
@@ -4108,6 +4367,7 @@
     },
     {
       "path": "STATES/TN/02_PACKET_FORMS/TN__FORM__TN-EXPUNGEMENT-ORDER__order-for-the-expungement-of-criminal-offender-record__REV-2025-05-09__EN.pdf",
+      "custody": "master_library",
       "fileName": "TN__FORM__TN-EXPUNGEMENT-ORDER__order-for-the-expungement-of-criminal-offender-record__REV-2025-05-09__EN.pdf",
       "state": "TN",
       "assetClass": "FORM",
@@ -4125,6 +4385,7 @@
     },
     {
       "path": "STATES/TN/02_PACKET_FORMS/TN__FORM__TN-TCA-40-32-106-REMOVAL__removal-of-criminal-offender-record-under-t-c-a-40-32-106-c-2__REV-2025-05-09__EN.pdf",
+      "custody": "master_library",
       "fileName": "TN__FORM__TN-TCA-40-32-106-REMOVAL__removal-of-criminal-offender-record-under-t-c-a-40-32-106-c-2__REV-2025-05-09__EN.pdf",
       "state": "TN",
       "assetClass": "FORM",
@@ -4142,6 +4403,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.072__order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.072__order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4159,6 +4421,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725__petition-for-order-of-nondisclosure-under-411-0725__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0725__petition-for-order-of-nondisclosure-under-411-0725__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4176,6 +4439,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725-411.073-411.0735__order-of-nondisclosure-under-411-0725-411-073-411-0735__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0725-411.073-411.0735__order-of-nondisclosure-under-411-0725-411-073-411-0735__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4193,6 +4457,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0726__petition-for-order-of-nondisclosure-under-411-0726__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0726__petition-for-order-of-nondisclosure-under-411-0726__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4210,6 +4475,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0726-BWI-ORDER__order-of-nondisclosure-under-411-0726-bwi__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0726-BWI-ORDER__order-of-nondisclosure-under-411-0726-bwi__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4227,6 +4493,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0726-DWI-ORDER__order-of-nondisclosure-under-411-0726-dwi__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0726-DWI-ORDER__order-of-nondisclosure-under-411-0726-dwi__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4244,6 +4511,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0727__order-of-nondisclosure-under-411-0727__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0727__order-of-nondisclosure-under-411-0727__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4261,6 +4529,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0727__petition-for-order-of-nondisclosure-under-411-0727__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0727__petition-for-order-of-nondisclosure-under-411-0727__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4278,6 +4547,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0728__order-of-nondisclosure-under-411-0728__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0728__order-of-nondisclosure-under-411-0728__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4295,6 +4565,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0728__petition-for-order-of-nondisclosure-under-411-0728__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0728__petition-for-order-of-nondisclosure-under-411-0728__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4312,6 +4583,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0729__order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0729__order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4329,6 +4601,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0729__petition-for-order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0729__petition-for-order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4346,6 +4619,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.073-411.0732__petition-for-order-of-nondisclosure-under-411-073-411-0732__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.073-411.0732__petition-for-order-of-nondisclosure-under-411-073-411-0732__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4363,6 +4637,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0731__order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0731__order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4380,6 +4655,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0731__petition-for-order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0731__petition-for-order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4397,6 +4673,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0735__petition-for-order-of-nondisclosure-under-411-0735__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0735__petition-for-order-of-nondisclosure-under-411-0735__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4414,6 +4691,7 @@
     },
     {
       "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "FORM",
@@ -4431,6 +4709,7 @@
     },
     {
       "path": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.072__instructions-for-petition-for-order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__INSTRUCTIONS__TX-GC-411.072__instructions-for-petition-for-order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "INSTRUCTIONS",
@@ -4448,6 +4727,7 @@
     },
     {
       "path": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.0725__instructions-for-petition-for-order-of-nondisclosure-under-411-0725__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__INSTRUCTIONS__TX-GC-411.0725__instructions-for-petition-for-order-of-nondisclosure-under-411-0725__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "INSTRUCTIONS",
@@ -4465,6 +4745,7 @@
     },
     {
       "path": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.0726__instructions-for-petition-for-order-of-nondisclosure-under-411-0726__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__INSTRUCTIONS__TX-GC-411.0726__instructions-for-petition-for-order-of-nondisclosure-under-411-0726__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "INSTRUCTIONS",
@@ -4482,6 +4763,7 @@
     },
     {
       "path": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.0727__instructions-for-petition-for-order-of-nondisclosure-under-411-0727__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__INSTRUCTIONS__TX-GC-411.0727__instructions-for-petition-for-order-of-nondisclosure-under-411-0727__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "INSTRUCTIONS",
@@ -4499,6 +4781,7 @@
     },
     {
       "path": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.0728__instructions-for-petition-for-order-of-nondisclosure-under-411-0728__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__INSTRUCTIONS__TX-GC-411.0728__instructions-for-petition-for-order-of-nondisclosure-under-411-0728__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "INSTRUCTIONS",
@@ -4516,6 +4799,7 @@
     },
     {
       "path": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.0729__instructions-for-petition-for-order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__INSTRUCTIONS__TX-GC-411.0729__instructions-for-petition-for-order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "INSTRUCTIONS",
@@ -4533,6 +4817,7 @@
     },
     {
       "path": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.073__instructions-for-petition-for-order-of-nondisclosure-under-411-073__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__INSTRUCTIONS__TX-GC-411.073__instructions-for-petition-for-order-of-nondisclosure-under-411-073__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "INSTRUCTIONS",
@@ -4550,6 +4835,7 @@
     },
     {
       "path": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.0731__instructions-for-petition-for-order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__INSTRUCTIONS__TX-GC-411.0731__instructions-for-petition-for-order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "INSTRUCTIONS",
@@ -4567,6 +4853,7 @@
     },
     {
       "path": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.0735__instructions-for-petition-for-order-of-nondisclosure-under-411-0735__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__INSTRUCTIONS__TX-GC-411.0735__instructions-for-petition-for-order-of-nondisclosure-under-411-0735__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "INSTRUCTIONS",
@@ -4584,6 +4871,7 @@
     },
     {
       "path": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.0736__instructions-for-petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__INSTRUCTIONS__TX-GC-411.0736__instructions-for-petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
       "state": "TX",
       "assetClass": "INSTRUCTIONS",
@@ -4601,6 +4889,7 @@
     },
     {
       "path": "STATES/TX/04_SUPPORTING_PROCESS/TX__SUPPORT__CR-63__review-of-criminal-history-information__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "TX__SUPPORT__CR-63__review-of-criminal-history-information__REV-UNKNOWN__EN.pdf",
       "state": "TX",
       "assetClass": "SUPPORT",
@@ -4618,6 +4907,7 @@
     },
     {
       "path": "STATES/UT/02_PACKET_FORMS/UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
       "state": "UT",
       "assetClass": "FORM",
@@ -4635,6 +4925,7 @@
     },
     {
       "path": "STATES/UT/02_PACKET_FORMS/UT__FORM__1002EX__petition-to-expunge-records-traffic-charge__REV-2022-04-11__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__FORM__1002EX__petition-to-expunge-records-traffic-charge__REV-2022-04-11__EN.pdf",
       "state": "UT",
       "assetClass": "FORM",
@@ -4652,6 +4943,7 @@
     },
     {
       "path": "STATES/UT/02_PACKET_FORMS/UT__FORM__1003EX__petition-to-expunge-records-cannabis-conviction__REV-2020-03-09__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__FORM__1003EX__petition-to-expunge-records-cannabis-conviction__REV-2020-03-09__EN.pdf",
       "state": "UT",
       "assetClass": "FORM",
@@ -4669,6 +4961,7 @@
     },
     {
       "path": "STATES/UT/02_PACKET_FORMS/UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
       "state": "UT",
       "assetClass": "FORM",
@@ -4686,6 +4979,7 @@
     },
     {
       "path": "STATES/UT/02_PACKET_FORMS/UT__FORM__1022EX__order-on-petition-to-expunge-records-traffic-conviction__REV-2022-04-11__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__FORM__1022EX__order-on-petition-to-expunge-records-traffic-conviction__REV-2022-04-11__EN.pdf",
       "state": "UT",
       "assetClass": "FORM",
@@ -4703,6 +4997,7 @@
     },
     {
       "path": "STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
       "state": "UT",
       "assetClass": "FORM",
@@ -4720,6 +5015,7 @@
     },
     {
       "path": "STATES/UT/03_INSTRUCTIONS/UT__INSTRUCTIONS__UT-BCI-EXP-INSTRUCTIONS__bci-expungement-applicant-instructions__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__INSTRUCTIONS__UT-BCI-EXP-INSTRUCTIONS__bci-expungement-applicant-instructions__REV-UNKNOWN__EN.pdf",
       "state": "UT",
       "assetClass": "INSTRUCTIONS",
@@ -4737,6 +5033,7 @@
     },
     {
       "path": "STATES/UT/03_INSTRUCTIONS/UT__INSTRUCTIONS__UT-BCI-INDIGENT-INSTRUCTIONS__bci-indigent-expungement-instructions__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__INSTRUCTIONS__UT-BCI-INDIGENT-INSTRUCTIONS__bci-indigent-expungement-instructions__REV-UNKNOWN__EN.pdf",
       "state": "UT",
       "assetClass": "INSTRUCTIONS",
@@ -4754,6 +5051,7 @@
     },
     {
       "path": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__1020GE__proof-of-completed-service__REV-2018-02-26__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__SUPPORT__1020GE__proof-of-completed-service__REV-2018-02-26__EN.pdf",
       "state": "UT",
       "assetClass": "SUPPORT",
@@ -4771,6 +5069,7 @@
     },
     {
       "path": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__1305GE__motion-to-waive-fees-for-expungement__REV-2019-06-24__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__SUPPORT__1305GE__motion-to-waive-fees-for-expungement__REV-2019-06-24__EN.pdf",
       "state": "UT",
       "assetClass": "SUPPORT",
@@ -4788,6 +5087,7 @@
     },
     {
       "path": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf",
       "state": "UT",
       "assetClass": "SUPPORT",
@@ -4805,6 +5105,7 @@
     },
     {
       "path": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-VERIFICATION__bci-automatic-and-petitioned-expungement-verification-application__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__SUPPORT__UT-BCI-EXP-VERIFICATION__bci-automatic-and-petitioned-expungement-verification-application__REV-UNKNOWN__EN.pdf",
       "state": "UT",
       "assetClass": "SUPPORT",
@@ -4822,6 +5123,7 @@
     },
     {
       "path": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-ROA__bci-application-for-criminal-history-record__REV-2025-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__SUPPORT__UT-BCI-ROA__bci-application-for-criminal-history-record__REV-2025-01__EN.pdf",
       "state": "UT",
       "assetClass": "SUPPORT",
@@ -4839,6 +5141,7 @@
     },
     {
       "path": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf",
       "state": "UT",
       "assetClass": "SUPPORT",
@@ -4856,6 +5159,7 @@
     },
     {
       "path": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
       "state": "UT",
       "assetClass": "SOURCE-GATED",
@@ -4873,6 +5177,7 @@
     },
     {
       "path": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
       "state": "UT",
       "assetClass": "SOURCE-GATED",
@@ -4890,6 +5195,7 @@
     },
     {
       "path": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf",
       "state": "UT",
       "assetClass": "SOURCE-GATED",
@@ -4907,6 +5213,7 @@
     },
     {
       "path": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1164XX__notice-of-hearing-expungement__REV-2010-07-16__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__SOURCE-GATED__1164XX__notice-of-hearing-expungement__REV-2010-07-16__EN.pdf",
       "state": "UT",
       "assetClass": "SOURCE-GATED",
@@ -4924,6 +5231,7 @@
     },
     {
       "path": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf",
       "state": "UT",
       "assetClass": "SOURCE-GATED",
@@ -4941,6 +5249,7 @@
     },
     {
       "path": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1170XX__request-for-response-by-adult-probation-and-parole__REV-2010-07-16__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__SOURCE-GATED__1170XX__request-for-response-by-adult-probation-and-parole__REV-2010-07-16__EN.pdf",
       "state": "UT",
       "assetClass": "SOURCE-GATED",
@@ -4958,6 +5267,7 @@
     },
     {
       "path": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1173XX__response-by-adult-probation-and-parole__REV-2019-05-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "UT__SOURCE-GATED__1173XX__response-by-adult-probation-and-parole__REV-2019-05-01__EN.pdf",
       "state": "UT",
       "assetClass": "SOURCE-GATED",
@@ -4975,6 +5285,7 @@
     },
     {
       "path": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1201__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "VA__FORM__CC-1201__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
       "state": "VA",
       "assetClass": "FORM",
@@ -4992,6 +5303,7 @@
     },
     {
       "path": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1201-A__addendum-to-petition-for-sealing__REV-2026-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "VA__FORM__CC-1201-A__addendum-to-petition-for-sealing__REV-2026-07__EN.pdf",
       "state": "VA",
       "assetClass": "FORM",
@@ -5009,6 +5321,7 @@
     },
     {
       "path": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1203__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "VA__FORM__CC-1203__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
       "state": "VA",
       "assetClass": "FORM",
@@ -5026,6 +5339,7 @@
     },
     {
       "path": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1203-A__addendum-to-petition-for-sealing__REV-2026-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "VA__FORM__CC-1203-A__addendum-to-petition-for-sealing__REV-2026-07__EN.pdf",
       "state": "VA",
       "assetClass": "FORM",
@@ -5043,6 +5357,7 @@
     },
     {
       "path": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1203-B__addendum-to-petition-for-sealing__REV-2026-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "VA__FORM__CC-1203-B__addendum-to-petition-for-sealing__REV-2026-07__EN.pdf",
       "state": "VA",
       "assetClass": "FORM",
@@ -5060,6 +5375,7 @@
     },
     {
       "path": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
       "state": "VA",
       "assetClass": "FORM",
@@ -5077,6 +5393,7 @@
     },
     {
       "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00129__petition-to-expunge-criminal-history__REV-2025-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "VT__FORM__200-00129__petition-to-expunge-criminal-history__REV-2025-07__EN.pdf",
       "state": "VT",
       "assetClass": "FORM",
@@ -5094,6 +5411,7 @@
     },
     {
       "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
       "state": "VT",
       "assetClass": "FORM",
@@ -5111,6 +5429,7 @@
     },
     {
       "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00131__response-to-petition-to-expunge-or-seal__REV-2018-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "VT__FORM__200-00131__response-to-petition-to-expunge-or-seal__REV-2018-07__EN.pdf",
       "state": "VT",
       "assetClass": "FORM",
@@ -5128,6 +5447,7 @@
     },
     {
       "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
       "state": "VT",
       "assetClass": "FORM",
@@ -5145,6 +5465,7 @@
     },
     {
       "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf",
       "state": "VT",
       "assetClass": "FORM",
@@ -5162,6 +5483,7 @@
     },
     {
       "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00631__request-for-sealing-order-in-special-index__REV-2019-09__EN.pdf",
+      "custody": "master_library",
       "fileName": "VT__FORM__200-00631__request-for-sealing-order-in-special-index__REV-2019-09__EN.pdf",
       "state": "VT",
       "assetClass": "FORM",
@@ -5179,6 +5501,7 @@
     },
     {
       "path": "STATES/VT/03_INSTRUCTIONS/VT__INSTRUCTIONS__200-00130A__filing-a-petition-to-expunge-or-seal-a-criminal-record__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "VT__INSTRUCTIONS__200-00130A__filing-a-petition-to-expunge-or-seal-a-criminal-record__REV-UNKNOWN__EN.pdf",
       "state": "VT",
       "assetClass": "INSTRUCTIONS",
@@ -5196,6 +5519,7 @@
     },
     {
       "path": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__200-00331__request-for-criminal-record-search__REV-2026-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "VT__SUPPORT__200-00331__request-for-criminal-record-search__REV-2026-05__EN.pdf",
       "state": "VT",
       "assetClass": "SUPPORT",
@@ -5213,6 +5537,7 @@
     },
     {
       "path": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+      "custody": "master_library",
       "fileName": "VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
       "state": "VT",
       "assetClass": "SUPPORT",
@@ -5230,6 +5555,7 @@
     },
     {
       "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
       "state": "WA",
       "assetClass": "FORM",
@@ -5247,6 +5573,7 @@
     },
     {
       "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-002__blake-002-record-vacatur-form__REV-2026-04__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__FORM__BLAKE-002__blake-002-record-vacatur-form__REV-2026-04__EN.pdf",
       "state": "WA",
       "assetClass": "FORM",
@@ -5264,6 +5591,7 @@
     },
     {
       "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-003__blake-003-record-vacatur-form__REV-2025-12__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__FORM__BLAKE-003__blake-003-record-vacatur-form__REV-2025-12__EN.pdf",
       "state": "WA",
       "assetClass": "FORM",
@@ -5281,6 +5609,7 @@
     },
     {
       "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-004__blake-004-record-vacatur-form__REV-2025-12__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__FORM__BLAKE-004__blake-004-record-vacatur-form__REV-2025-12__EN.pdf",
       "state": "WA",
       "assetClass": "FORM",
@@ -5298,6 +5627,7 @@
     },
     {
       "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-005__blake-005-record-vacatur-form__REV-2025-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__FORM__BLAKE-005__blake-005-record-vacatur-form__REV-2025-05__EN.pdf",
       "state": "WA",
       "assetClass": "FORM",
@@ -5315,6 +5645,7 @@
     },
     {
       "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-006__blake-006-record-vacatur-form__REV-2025-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__FORM__BLAKE-006__blake-006-record-vacatur-form__REV-2025-05__EN.pdf",
       "state": "WA",
       "assetClass": "FORM",
@@ -5332,6 +5663,7 @@
     },
     {
       "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-007__blake-007-record-vacatur-form__REV-2025-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__FORM__BLAKE-007__blake-007-record-vacatur-form__REV-2025-05__EN.pdf",
       "state": "WA",
       "assetClass": "FORM",
@@ -5349,6 +5681,7 @@
     },
     {
       "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-008__blake-008-record-vacatur-form__REV-2025-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__FORM__BLAKE-008__blake-008-record-vacatur-form__REV-2025-05__EN.pdf",
       "state": "WA",
       "assetClass": "FORM",
@@ -5366,6 +5699,7 @@
     },
     {
       "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__CR-08.0900__cr-08-0900-cr08-0900-mt-and-decl-for-or-vacating-record-of-felony-2025-07__REV-2025-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__FORM__CR-08.0900__cr-08-0900-cr08-0900-mt-and-decl-for-or-vacating-record-of-felony-2025-07__REV-2025-07__EN.pdf",
       "state": "WA",
       "assetClass": "FORM",
@@ -5383,6 +5717,7 @@
     },
     {
       "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__CR-08.0920__cr-08-0920-cr08-0920-order-re-vacating-record-of-felony-conviction-2025-07-2__REV-2025-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__FORM__CR-08.0920__cr-08-0920-cr08-0920-order-re-vacating-record-of-felony-conviction-2025-07-2__REV-2025-07__EN.pdf",
       "state": "WA",
       "assetClass": "FORM",
@@ -5400,6 +5735,7 @@
     },
     {
       "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
       "state": "WA",
       "assetClass": "FORM",
@@ -5417,6 +5753,7 @@
     },
     {
       "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0200__crrlj-09-0200-crrlj-09-0200-ord-pet-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__FORM__CRRLJ-09.0200__crrlj-09-0200-crrlj-09-0200-ord-pet-vacate-conviction-f-u__REV-2024-11__EN.pdf",
       "state": "WA",
       "assetClass": "FORM",
@@ -5434,6 +5771,7 @@
     },
     {
       "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0870__crrlj-09-0870-crrlj-09-0870-orderpetvacateconviction-cannabis-2022-07-2__REV-2022-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__FORM__CRRLJ-09.0870__crrlj-09-0870-crrlj-09-0870-orderpetvacateconviction-cannabis-2022-07-2__REV-2022-07__EN.pdf",
       "state": "WA",
       "assetClass": "FORM",
@@ -5451,6 +5789,7 @@
     },
     {
       "path": "STATES/WA/03_INSTRUCTIONS/WA__INSTRUCTIONS__CR-08.0930__information-sheet-vacating-record-of-felony-conviction__REV-2023-01__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__INSTRUCTIONS__CR-08.0930__information-sheet-vacating-record-of-felony-conviction__REV-2023-01__EN.pdf",
       "state": "WA",
       "assetClass": "INSTRUCTIONS",
@@ -5468,6 +5807,7 @@
     },
     {
       "path": "STATES/WA/03_INSTRUCTIONS/WA__INSTRUCTIONS__CRRLJ-09.0300__crrlj-09-0300-crrlj-09-0300-instructvacatemisdconvictions-2022-07-2__REV-2022-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__INSTRUCTIONS__CRRLJ-09.0300__crrlj-09-0300-crrlj-09-0300-instructvacatemisdconvictions-2022-07-2__REV-2022-07__EN.pdf",
       "state": "WA",
       "assetClass": "INSTRUCTIONS",
@@ -5485,6 +5825,7 @@
     },
     {
       "path": "STATES/WA/05_SOURCE_GATED/WA__SOURCE-GATED__BLAKE-009__blake-009-record-vacatur-form__REV-2023-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__SOURCE-GATED__BLAKE-009__blake-009-record-vacatur-form__REV-2023-05__EN.pdf",
       "state": "WA",
       "assetClass": "SOURCE-GATED",
@@ -5502,6 +5843,7 @@
     },
     {
       "path": "STATES/WA/05_SOURCE_GATED/WA__SOURCE-GATED__BLAKE-010__blake-010-record-vacatur-form__REV-2023-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__SOURCE-GATED__BLAKE-010__blake-010-record-vacatur-form__REV-2023-05__EN.pdf",
       "state": "WA",
       "assetClass": "SOURCE-GATED",
@@ -5519,6 +5861,7 @@
     },
     {
       "path": "STATES/WA/05_SOURCE_GATED/WA__SOURCE-GATED__CRRLJ-09.0800__crrlj-09-0800-crrlj-09-0800-petitiondeclvacateconviction-cannabis-2022-07-2__REV-2022-07__EN.pdf",
+      "custody": "master_library",
       "fileName": "WA__SOURCE-GATED__CRRLJ-09.0800__crrlj-09-0800-crrlj-09-0800-petitiondeclvacateconviction-cannabis-2022-07-2__REV-2022-07__EN.pdf",
       "state": "WA",
       "assetClass": "SOURCE-GATED",
@@ -5536,6 +5879,7 @@
     },
     {
       "path": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-266__cr-266-05-24-petition-to-expunge-criminal-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "WI__FORM__CR-266__cr-266-05-24-petition-to-expunge-criminal-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
       "state": "WI",
       "assetClass": "FORM",
@@ -5553,6 +5897,7 @@
     },
     {
       "path": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-267__cr-267-02-15-order-on-petition-to-expunge-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "WI__FORM__CR-267__cr-267-02-15-order-on-petition-to-expunge-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
       "state": "WI",
       "assetClass": "FORM",
@@ -5570,6 +5915,7 @@
     },
     {
       "path": "STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-247__wisconsin-criminal-history-record-challenge-form__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "WI__SUPPORT__DJ-LE-247__wisconsin-criminal-history-record-challenge-form__REV-UNKNOWN__EN.pdf",
       "state": "WI",
       "assetClass": "SUPPORT",
@@ -5587,6 +5933,7 @@
     },
     {
       "path": "STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-250B__fingerprint-record-removal-request__REV-UNKNOWN__EN.pdf",
+      "custody": "master_library",
       "fileName": "WI__SUPPORT__DJ-LE-250B__fingerprint-record-removal-request__REV-UNKNOWN__EN.pdf",
       "state": "WI",
       "assetClass": "SUPPORT",
@@ -5604,6 +5951,7 @@
     },
     {
       "path": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf",
+      "custody": "master_library",
       "fileName": "WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf",
       "state": "WV",
       "assetClass": "FORM",
@@ -5621,6 +5969,7 @@
     },
     {
       "path": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+      "custody": "master_library",
       "fileName": "WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
       "state": "WV",
       "assetClass": "FORM",
@@ -5638,6 +5987,7 @@
     },
     {
       "path": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C912__sca-c912-victim-s-notice-of-opposition__REV-2020-01-09__EN.pdf",
+      "custody": "master_library",
       "fileName": "WV__FORM__SCA-C912__sca-c912-victim-s-notice-of-opposition__REV-2020-01-09__EN.pdf",
       "state": "WV",
       "assetClass": "FORM",
@@ -5655,6 +6005,7 @@
     },
     {
       "path": "STATES/WV/03_INSTRUCTIONS/WV__INSTRUCTIONS__SCA-C900__sca-c900-expungement-instructions__SOURCE-2026-05__EN.pdf",
+      "custody": "master_library",
       "fileName": "WV__INSTRUCTIONS__SCA-C900__sca-c900-expungement-instructions__SOURCE-2026-05__EN.pdf",
       "state": "WV",
       "assetClass": "INSTRUCTIONS",
@@ -5666,6 +6017,24 @@
       "pageCount": 5,
       "acroFormPresent": true,
       "acroFieldCount": 67,
+      "xfaPresent": false,
+      "structuralClassObserved": "acroform",
+      "loadError": null
+    },
+    {
+      "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+      "custody": "human_source_returns",
+      "fileName": "TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+      "state": "TX",
+      "assetClass": null,
+      "formNumber": null,
+      "revision": null,
+      "language": null,
+      "byteLength": 6667524,
+      "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+      "pageCount": 12,
+      "acroFormPresent": true,
+      "acroFieldCount": 132,
       "xfaPresent": false,
       "structuralClassObserved": "acroform",
       "loadError": null
