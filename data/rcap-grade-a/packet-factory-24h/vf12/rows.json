@@ -7105,6 +7105,298 @@
       },
       "blindSpotAnswered": "This is a flat PDF with a measured overlay, so there is no widget to read and no AcroForm to interrogate: a field-value reader returns zero fields and would have reported nothing written at all. Every value was decoded from page content streams and confirmed by diffing canonical against boundary, and the count of three was reached from the paper before the prose was read.",
       "whatThisPassDoesNotGrant": "An independent PASS proves this packet complete as measured here. It approves no output, opens no commercial route, sets no price and marks nothing deliverable. Central rasterisation has not run, so the visual obligation is satisfied only so far as the bytes can show it. The six counsel questions the family raises remain open, including the currentness of the 10/11/2018 revision behind the corpus gate and the treatment of the section box."
+    },
+    {
+      "itemId": "tx_nd_conviction_no_supervision-set",
+      "lane": "VF12",
+      "verdict": "FAIL",
+      "laneDisposition": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+      "verifiedBy": "FABLE-RVD (RV-D; independent — built, repaired and rastered none of this family)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
+      "stateAtRead": "VERIFY_PENDING",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "artifactBytesMovedByThisLane": 0,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 1,
+        "visualDefects": 0,
+        "allZero": false,
+        "measuredHere": true
+      },
+      "failedObligations": [
+        "PROTECTED_FIELDS"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "One route key, present in the source that binds it: four occurrences in canonical-route-universe.json and one in MASTER_QUEUE.json, matching registry trackId tx_nd_conviction_no_supervision — petitioned nondisclosure for an eligible misdemeanour conviction under Gov't Code § 411.0735 where the person was never placed on community supervision. The packet is precise about what the relief is not: it states that nondisclosure is sealing rather than expunction, that the record is still disclosed to the agencies listed in § 411.076(a), that the record is not destroyed and the participant should never say it does not exist, and that one order covers one offence.",
+          "evidence": {
+            "routeKeys": 1,
+            "inCanonicalUniverse": 4,
+            "inQueue": 1,
+            "sealingVersusExpunctionDistinguished": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Three bound binaries, all rehashed from disk with matching SHA-256 and byte length: the OCA model petition and the OCA model order from the Master Library, and the statewide Statement of Inability to Afford Payment of Court Costs approved by the Supreme Court of Texas in Misc. Docket No. 22-9090, held in private/human-source-returns. The two remaining components are composed and the receipt records them as authored by this build.",
+          "evidence": [
+            {
+              "documentId": "tx_nd_conviction_no_supervision-petition-1",
+              "recordedSha": "da0bd63c66a6ee35a7a0659556a02268f1fd6053ebf7419e912b78fd3fb3dd13",
+              "recomputedSha": "da0bd63c66a6ee35a7a0659556a02268f1fd6053ebf7419e912b78fd3fb3dd13",
+              "match": true,
+              "recordedByteLength": 215067,
+              "actualByteLength": 215067
+            },
+            {
+              "documentId": "tx_nd_conviction_no_supervision-proposed-order-2",
+              "recordedSha": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680",
+              "recomputedSha": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680",
+              "match": true,
+              "recordedByteLength": 110504,
+              "actualByteLength": 110504
+            },
+            {
+              "documentId": "tx_nd_conviction_no_supervision-fee-waiver-statement-4",
+              "recordedSha": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+              "recomputedSha": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+              "match": true,
+              "recordedByteLength": 6667524,
+              "actualByteLength": 6667524
+            }
+          ],
+          "note": "The fee-waiver source is a human-captured return rather than a Master Library binary. Its bytes bind exactly, but the capture carries participant-side ink of its own, which is the subject of the PROTECTED_FIELDS failure below. Binding the right bytes and binding clean bytes are different questions, and only the first is settled here."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredComponentsMissing 0, and I checked this one by name rather than by ordinal after finding an ordinal collision elsewhere in this assignment. The registry packetSet declares five components and the rendered componentSet is the same five, in order, with ordinals 1,2,3,4,5 unique and contiguous: petition-1 and proposed-order-2 required, proof-of-delivery-to-prosecutor-3 conditional, fee-waiver-statement-4 conditional, filing-and-after-order-instructions-5 required. Both conditional components carry their registry conditionDescription into the participant text. Every component owns pages in the 24-page manifest: petition 1-5, order 6-8, proof of delivery 9, fee-waiver statement 10-21, instructions 22-24. The apparent gap in the source-receipt's documents list, which runs 1, 2, 4, is not a gap: components 3 and 5 are custom_pleading and process_guidance and bind no binary.",
+          "evidence": {
+            "registryComponents": 5,
+            "renderedComponents": 5,
+            "identicalAndInOrder": true,
+            "ordinals": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "ordinalCollisions": 0,
+            "ordinalGaps": 0,
+            "conditionalComponents": 2,
+            "conditionsCarriedToParticipant": 2,
+            "pagesPerComponent": {
+              "petition-1": [
+                1,
+                5
+              ],
+              "proposed-order-2": [
+                6,
+                8
+              ],
+              "proof-of-delivery-3": [
+                9,
+                9
+              ],
+              "fee-waiver-statement-4": [
+                10,
+                21
+              ],
+              "instructions-5": [
+                22,
+                24
+              ]
+            },
+            "totalPages": 24,
+            "unattributedPages": 0
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The build's own writes are proven and correct. Both fixtures are flattened, so every value was decoded from page content streams including Form XObjects, and cross-checked against an independent pdftotext extraction which agrees exactly — ten occurrences of the participant name, two of the phone, two of the address, one of the date of birth. The byte proof records 15 actual writes in each fixture, thirteen on the official forms plus one each on the two composed components, and the bytes bear that out. Every written value is identity information the platform holds — name, phone, email, address, date of birth — and nothing financial is written into the fee-waiver statement, which the participant text states explicitly.",
+          "evidence": {
+            "declaredActualWrites": 15,
+            "provenFromBytes": 15,
+            "independentExtractionMethodsAgreeing": [
+              "content-stream decode incl. Form XObjects",
+              "pdftotext"
+            ],
+            "financialValuesWrittenIntoFeeWaiver": 0
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "unclassifiedBlanks 0. One hundred and sixty-three blanks across five components, every one classified and none lacking a why or a refusalClass: 117 required before filing and 46 protected. I tested the receipt's claim that every required-before-filing item is disclosed in participant-instructions.md and all 117 disclosure labels occur there. The documents the participant must obtain first are set out separately, and the ordered steps tell them to call the clerk for the county's civil filing fee before filing.",
+          "evidence": {
+            "blanksTotal": 163,
+            "requiredBeforeFiling": 117,
+            "protectedBlanks": 46,
+            "blanksWithNullClassification": 0,
+            "disclosureLabelsFoundInInstructions": 117
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing 0, and the central election is handled exactly right. The OCA order form carries one box for §§ 411.0725, 411.073 and 411.0735 together, and the packet marks none of the three, because the sentence printed above them says the Court finds which section applies — marking one would assert a finding no court has made. The petition's three participant controls are named and left to the participant: whether the judgment is attached, whether the completion evidence is attached, and whether the filer is paying the fee or filing the Statement of Inability. The two conditional components are presented as conditional, with the proof of delivery flagged as needed only where local practice requires it and the participant told to ask the clerk which applies.",
+          "evidence": {
+            "sectionBoxesMarked": 0,
+            "reasonRecorded": "the Court finds which section applies",
+            "participantControlsNamed": 3,
+            "conditionalComponentsPresentedAsConditional": 2
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The repeating structures are the fee-waiver statement's income, expense and benefit grids — the largest repeating body in my set at 132 source fields — and the per-component item tables. Nothing financial is written into any grid row in either fixture, so no row carries another row's figure, and each item-table row is keyed to its own printed caption and participant question. The bilingual captions that repeat down the Statement are matched to distinct fields rather than collapsed onto one.",
+          "evidence": {
+            "financialGridRowsWritten": 0,
+            "rowsSharingALabelAcrossDifferentFacts": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "protectedWrites 1. The delivered packet carries a date on a sworn declaration, and it is the precise falsity the family's own record says it refused to create. Page 20 of both fixtures — page 12 of 12 of the Statement of Inability to Afford Payment of Court Costs — is the declaration page, printing 'Signature / Firma', 'Date (month, day, year) / Fecha (mes, día, año)' and 'County, state / Condado, estado' above blank rules. On that page the bytes carry '12/15/2022'. It is not one of the build's 15 writes and does not appear anywhere in actual-writes.json. It is inherited from the source binary: the human-captured Statement at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf has a field named 'Today' whose normal appearance stream draws '12/15/2022', and flattening carried that appearance through onto the delivered page. The family knows the field and refused it on exactly the right ground: blanks-left-for-the-participant.json records tx_nd_conviction_no_supervision-fee-waiver-statement-4.Today with refusalClass 'signature_or_date_participant_completion' and the why 'a date written before the Statement is actually sworn would be false'. The refusal is real and the paper defeats it. A participant filing this in 2026 would swear a Rule 145 Statement dated 15 December 2022. Everything else in this obligation passes: 46 protected blanks and no other one carries ink, the proposed order is wholly unexecuted with its recitals, hearing boxes, section boxes, signing date and judge block all blank, and nothing financial is written into the Statement.",
+          "evidence": {
+            "protectedFieldCarryingInk": "tx_nd_conviction_no_supervision-fee-waiver-statement-4.Today",
+            "valueOnThePaper": "12/15/2022",
+            "packetPage": 20,
+            "componentPage": "12 of 12 of the Rule 145 Statement",
+            "presentInBothFixtures": true,
+            "authoredByThisBuild": false,
+            "inheritedFromSourceAppearanceStream": true,
+            "sourceField": "Today",
+            "sourcePath": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+            "familysOwnRefusalClass": "signature_or_date_participant_completion",
+            "familysOwnStatedReason": "a date written before the Statement is actually sworn would be false",
+            "listedInActualWrites": false,
+            "otherProtectedBlanksCarryingInk": 0,
+            "proposedOrderExecuted": false
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Two artifacts declared, two present on disk, both SHA-256 recomputed and matching, both byte lengths matching, both 24 pages as declared. rasterSkipped is true, everyPageRastered is false and rasterPages is empty, and there is no raster directory on disk — so no raster artifact is declared and none is missing. The declaration and the disk agree in both directions.",
+          "evidence": [
+            {
+              "file": "fixtures/canonical.pdf",
+              "present": true,
+              "declaredSha": "52821ee02b5528ed73235b359d7d40bd27389792d41ba9d9b799b45515b444a6",
+              "recomputedSha": "52821ee02b5528ed73235b359d7d40bd27389792d41ba9d9b799b45515b444a6",
+              "match": true,
+              "declaredByteLength": 1240812,
+              "actualByteLength": 1240812,
+              "declaredPages": 24,
+              "actualPages": 24
+            },
+            {
+              "file": "fixtures/boundary.pdf",
+              "present": true,
+              "declaredSha": "614e65dca4a894127c9cfa87c6f6629458a96bff5ad2ec4bdc70eb4573fdf28c",
+              "recomputedSha": "614e65dca4a894127c9cfa87c6f6629458a96bff5ad2ec4bdc70eb4573fdf28c",
+              "match": true,
+              "declaredByteLength": 1241188,
+              "actualByteLength": 1241188,
+              "declaredPages": 24,
+              "actualPages": 24
+            },
+            {
+              "rasterPagesDeclared": 0,
+              "rasterFilesOnDisk": 0,
+              "declarationMatchesDisk": true
+            }
+          ]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Twenty-four pages in filing order: the petition, the proposed order tendered with it, the conditional proof of delivery, the twelve-page fee-waiver Statement, then the instructions that are not filed. Each source document's own internal page order is preserved — the Statement runs its full 12 pages and its page 12 lands on packet page 21 with its own 'pg. 12 of 12' footer intact. Every page is attributed to exactly one component with no gap or duplicate, and both fixtures carry the identical manifest.",
+          "evidence": {
+            "pages": 24,
+            "pagesAttributed": 24,
+            "unattributedPages": 0,
+            "sourceInternalOrderPreserved": true,
+            "fixturesAgree": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects 0 as measured here. The boundary fixture carries a 39-character name, a 58-character email and a 79-character address and each renders within its widget; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 and I found no ink outside a measured write box in either fixture. Both fixtures hold the same 24 pages and differ by 376 bytes, consistent with longer values rather than a layout change. Central rasterisation has not run for this family, so a raster-level visual defect is not excluded by this row. The page-20 date is not a clipping defect and is scored under PROTECTED_FIELDS.",
+          "evidence": {
+            "clippedValues": 0,
+            "glyphsOutsideWriteBoxes": 0,
+            "rasterPages": 0
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Stated and faithful to the registry: the court that sentenced the person or placed them on community supervision, filed through its clerk. The packet carries the registry's own caution about statewide publication — the OCA model petition, order and instructions are published statewide and county clerks republish them — and asserts no local variant and promotes no county form to statewide status. Where self-help stops, the clerk of the sentencing court is named as the office that answers filing mechanics and the county's fee.",
+          "evidence": {
+            "destinationStated": true,
+            "matchesRegistryDestination": true,
+            "noLocalVariantAsserted": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both limbs answered per route, with the sibling figure named and excluded rather than borrowed. The registry records that § 411.0745(b) sets the type of fee and not an amount, that county civil filing fee schedules govern, that OCA describes the total as typically about $280 varying by county, and that the $28 figure belongs only to the no-petition route under § 411.072(c) and is not a filing fee. The packet carries all of that: it tells the participant that § 411.0745(b) sets the type of fee and not an amount, gives the roughly $280 OCA figure as varying by county, directs them to call the clerk of the court they are filing in, and its instructions component is described as covering 'the $28 figure that is not yours'. On waiver it does better than describe — it delivers the remedy as a component, the statewide Rule 145 Statement approved in Misc. Docket No. 22-9090, and states the Rule 145 entitlement that the clerk must give the form free and without the participant having to ask.",
+          "evidence": {
+            "feeTypeVersusAmountDistinguished": true,
+            "octaFigureCarried": "about $280, varying by county",
+            "siblingRouteFigureNamedAndExcluded": "$28 under § 411.072(c)",
+            "siblingFigureBorrowed": false,
+            "waiverDeliveredAsAComponent": true,
+            "rule145ClerkObligationStated": true
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Answered on both limbs and the tension between them is disclosed rather than resolved away. The registry records that the court notifies the state, and that where local practice requires the filer to deliver a copy to the prosecuting attorney the packet includes proof of delivery. The packet says both: § 411.0745(e) makes the COURT responsible for notifying the state and the filer should not be charged for that notice, while OCA instructions nonetheless direct the petitioner to show proof the district attorney received a copy — and it tells the participant to ask the clerk which applies in that county. The proof-of-delivery component is delivered conditionally on that basis rather than unconditionally.",
+          "evidence": {
+            "statutoryLimbStated": "§ 411.0745(e) — the court notifies the state",
+            "practiceLimbStated": true,
+            "tensionDisclosedNotResolved": true,
+            "proofOfDeliveryConditional": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All seven registry stop conditions for tx_nd_conviction_no_supervision are carried. One is verbatim — 'The prosecutor opposes the petition or requests a hearing.' — and the other six are reproduced in the second person without changing what they stop on: the family violence finding paired with the § 411.074 exclusion list, any other conviction or deferred adjudication other than a fine-only traffic offence including where the participant is unsure, any doubt about sentence completion, immigration status, and the violent-or-sexual determination, which the packet grounds in § 411.0735(c-1) and pairs with the Penal Code § 22.01 assault carve-out the registry names. Nothing is composed and no condition is dropped. On the hearing test this family reads correctly in the strict direction: the registry makes a prosecutor-requested hearing a stop and the packet reproduces it as a stop, in bold, rather than as a step to attend. The boundary names the clerk of the sentencing court for filing mechanics and the Texas DPS Crime Records Service for the criminal history the other-offence question depends on.",
+          "evidence": {
+            "registryStopConditions": 7,
+            "carried": 7,
+            "verbatim": 1,
+            "reproducedInSecondPersonWithoutNarrowing": 6,
+            "composedConditions": 0,
+            "hearingTreatedAsStop": true,
+            "tellsParticipantToAttendAStoppingHearing": false
+          }
+        }
+      },
+      "blindSpotAnswered": "This is the family where the warned-of trap actually bites, and it bites in a way three separate ordinary methods miss. The fixtures are flattened, so an AcroForm reader sees zero fields. The stale date is identical in canonical and boundary, so a canonical-versus-boundary diff — the method that found every other write in this assignment — cannot see it. And it is not among the build's own writes, so the family's byte proof, which reads back only its own measured write boxes, does not examine it. It is visible only by decoding the delivered page's Form XObjects and then diffing what is found against the pristine source binary's own widget appearance streams. The value sits in a Form XObject named FlatWidget-4774049913, set in Helvetica with no ToUnicode CMap, which is exactly the shape the brief warned about; here pdftotext happened to recover it too and the two independent extractions agree, but the reason it went unrecorded is that nothing was looking at inherited ink rather than that nothing could read it.",
+      "whatThisFailDoesNotDisturb": "This FAIL is a verdict and a repair assignment. This lane wrote into no overlay directory, ran no build script, moved no artifact byte, opened no route and changed no queue state. Fourteen of the fifteen obligations pass, including a component set I checked by name after finding an ordinal collision elsewhere, a fee treatment that names and excludes the sibling route's $28 figure, and a route-option treatment that refuses to mark a section box because the court makes that finding. The single failure is confined to one inherited value on one page."
     }
   ],
   "v5xAppend": {
