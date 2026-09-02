@@ -285,9 +285,22 @@ jobs:
           git diff --quiet && git diff --cached --quiet \
             || { echo "REFUSED: the render modified tracked files"; git status --porcelain; exit 1; }
 
+      # An artifact name may not contain a colon, and composed-treatment family
+      # ids are full of them (composed-treatment:obligation:runtime-only:AK:...).
+      # Six families rendered correctly and then lost their receipts at upload
+      # for that reason alone, which reads as a failed verdict when nothing
+      # about the packet failed. The family id stays the family id; only the
+      # artifact label is slugged, and the receipt records both so a receipt can
+      # still be traced back to its family.
+      - name: Artifact-safe label for this family
+        env:
+          FAMILY: ${{ matrix.family }}
+        run: |
+          printf 'FAMILY_SLUG=%s\n' "$(printf '%s' "$FAMILY" | tr -c 'A-Za-z0-9._-' '_')" >> "$GITHUB_ENV"
+
       - uses: actions/upload-artifact@v4
         with:
-          name: rcap-raster-${{ matrix.family }}-${{ github.run_id }}
+          name: rcap-raster-${{ env.FAMILY_SLUG }}-${{ github.run_id }}
           path: raster-out/
           if-no-files-found: error
           retention-days: 14
