@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "98eda7585939a96359f15e742695f6de12341455",
+  "generatedAtCommit": "7292511170e1bd1d1bfdaf32e52a423a85ed9096",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3976,7 +3976,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX09",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": false,
       "releasedAt": null
@@ -4888,7 +4888,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF12",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T13:50:39.051Z"
@@ -12016,7 +12016,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "c2d38d0a096d3c39a7a938e8d2695cebd12834dc1e8c8b9aee18d729dc293375",
+  "claimsDigest": "66e562611ca6237415ca1f83905e5fc88d491f68cf2b3e1e741e7ee86652bfad",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -20208,6 +20208,14 @@
       "operation": "rapid-repair",
       "laneKind": "repair",
       "releasedAt": "2026-09-02T16:31:36.906Z"
+    },
+    {
+      "lane": "FIX09",
+      "subjectType": "packet-family",
+      "subjectId": "nj_arrest_no_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T17:13:18.577Z"
     }
   ],
   "reissues": [
@@ -24934,6 +24942,17 @@
       "previouslyReleasedAt": "2026-09-02T16:06:36.796Z",
       "transferredAt": "2026-09-02T16:06:36.880Z",
       "reason": "Restoring the lane the dispatch names: the transfer to SRC02 left SRC03 items dispatched but absent from the ledger, which the claim-ledger verifier correctly refuses."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_arrest_no_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX09",
+      "toLane": "FIX01",
+      "previouslyReleasedAt": "2026-09-02T17:13:18.577Z",
+      "transferredAt": "2026-09-02T17:13:18.662Z",
+      "reason": "FIX09 is a lane from an earlier wave and is outside the current dispatch's elastic repair-lane range, so the deal cannot see its grant and dealt the family to FIX01; the ledger now names the lane the dispatch names."
     }
   ],
   "withdrawals": [
