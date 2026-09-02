@@ -142,9 +142,51 @@ const identityFindings = (() => {
 })();
 
 const byHash = new Map(corpus.entries.map((e) => [e.sha256, e]));
+/*
+ * One form number, several documents.
+ *
+ * The library files an instruction sheet under the number of the form it
+ * explains: NC__INSTRUCTIONS__AOC-CR-287__… carries formNumber AOC-CR-287, the
+ * same as NC__FORM__AOC-CR-287__…. Building this map by last-write-wins let the
+ * instruction sheet displace the petition, and it did — the index lists FORM
+ * before INSTRUCTIONS, so INSTRUCTIONS was always the survivor. Two things went
+ * wrong at once, and both are the same bug:
+ *
+ *   - tier 1 bound `official-form:AOC-CR-287` to the two-page instruction
+ *     sheet rather than the petition and order the family actually files;
+ *   - the staleness test then compared the petition's held hash against the
+ *     instruction sheet's, which can never agree, and reported five North
+ *     Carolina families SOURCE_REVISION_STALE when nothing was stale.
+ *
+ * The library already records which is which. `assetClass` is the second field
+ * of its six-field name and it says FORM or INSTRUCTIONS in as many words; the
+ * indexer has been carrying it on every entry all along. So an INSTRUCTIONS
+ * entry never displaces a FORM entry at the same number. It still enters the
+ * map when no FORM entry claims that number, because an instruction sheet a
+ * family names by itself is a real component -- CR-106-INFO is exactly that.
+ */
 const byFormNumber = new Map();
+const displacedByAssetClass = [];
 for (const entry of corpus.entries) {
-  if (entry.formNumber) byFormNumber.set(normalise(entry.formNumber), entry);
+  if (!entry.formNumber) continue;
+  const key = normalise(entry.formNumber);
+  const held = byFormNumber.get(key);
+  if (held && held.assetClass === "FORM" && entry.assetClass !== "FORM") {
+    displacedByAssetClass.push({ formNumber: entry.formNumber, keptFORM: held.path, notPreferred: entry.path, assetClass: entry.assetClass });
+    continue;
+  }
+  if (held && held.assetClass !== "FORM" && entry.assetClass === "FORM") {
+    displacedByAssetClass.push({ formNumber: entry.formNumber, keptFORM: entry.path, notPreferred: held.path, assetClass: held.assetClass });
+  }
+  byFormNumber.set(key, entry);
+}
+/* Every entry at one form number, for the staleness test below. */
+const allByFormNumber = new Map();
+for (const entry of corpus.entries) {
+  if (!entry.formNumber) continue;
+  const key = normalise(entry.formNumber);
+  if (!allByFormNumber.has(key)) allByFormNumber.set(key, []);
+  allByFormNumber.get(key).push(entry);
 }
 
 /**
@@ -293,8 +335,16 @@ for (const family of worklist.packetFamilies) {
   // Revision staleness is only assertable where the census names an exact hash
   // AND the corpus holds the same form under a different one.
   if (custodyClass === "SOURCE_ALREADY_HELD") {
-    const stale = resolved.filter((s) => s.kind === "content_hash"
-      && s.heldAs && byFormNumber.get(normalise(s.heldAs.formNumber))?.sha256 !== s.heldAs.sha256);
+    /*
+     * Stale means the corpus holds this form only under other revisions -- not
+     * that the one entry this map happened to keep is a different document.
+     * A form number routinely names several editions at once (AOC-CR-287 is
+     * held as REV-2020-12 in Spanish and Vietnamese and REV-2025-12 in
+     * English), and a Spanish edition is not a stale English one. So the test
+     * asks whether the held hash appears among ANY entry at that number.
+     */
+    const stale = resolved.filter((s) => s.kind === "content_hash" && s.heldAs
+      && !(allByFormNumber.get(normalise(s.heldAs.formNumber)) ?? []).some((e) => e.sha256 === s.heldAs.sha256));
     if (stale.length > 0) custodyClass = "SOURCE_REVISION_STALE";
   }
 

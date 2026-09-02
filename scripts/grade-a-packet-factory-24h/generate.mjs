@@ -23,6 +23,7 @@ import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { makeEmitter } from "../lib/generator-emit.mjs";
+import { preferOfficialForm, nonFormCandidatesSetAside } from "../lib/official-form-asset-class.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -403,6 +404,18 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
     let matches = indexByForm.get(formNumber) ?? [];
     let tier = "exact_form_number";
     let resolvedBy = "census_form_number_against_committed_index";
+    /*
+     * An instruction sheet is filed under the number of the form it explains,
+     * so this set can hold the petition AND the sheet about the petition. They
+     * are different bytes, so the identical-hash collapse below could not save
+     * it and the whole number refused as an ambiguity -- an ambiguity only in
+     * the index's filing, never in what the family named.
+     */
+    const setAside = nonFormCandidatesSetAside(matches);
+    if (setAside.length > 0) {
+      matches = preferOfficialForm(matches);
+      resolvedBy = "census_form_number_against_committed_index_official_form_preferred_over_instructions";
+    }
     /*
      * ONE DOCUMENT AT TWO PATHS IS ONE IDENTITY.
      *

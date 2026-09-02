@@ -62,6 +62,7 @@ import crypto from "node:crypto";
 import { execFileSync, spawnSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
+import { preferOfficialForm } from "./lib/official-form-asset-class.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -283,6 +284,15 @@ function familySources(family, env = ROOT) {
   const unresolvable = [];
   for (const formNumber of formNumbers) {
     let matches = index.entries.filter((e) => e.formNumber === formNumber);
+    /*
+     * An instruction sheet is filed under the number of the form it explains,
+     * so an `official-form:` label can match the petition AND the sheet about
+     * it. Different bytes, so the identical-hash collapse below cannot reach
+     * them, and the number refused as an ambiguity that only ever existed in
+     * how the library files its instructions. Where a FORM answers the number,
+     * only FORM entries are considered.
+     */
+    matches = preferOfficialForm(matches);
     /*
      * ONE DOCUMENT AT TWO PATHS IS ONE IDENTITY.
      *
