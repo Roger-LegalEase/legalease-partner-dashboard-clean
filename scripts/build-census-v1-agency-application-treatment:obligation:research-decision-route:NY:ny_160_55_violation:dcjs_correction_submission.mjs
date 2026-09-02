@@ -677,6 +677,60 @@ const CAPTION_CLEARANCE = 2.5;
 const MIN_WRITE_BOX_HEIGHT = 7.5;
 const MAX_WRITE_BOX_HEIGHT = 12;
 
+/*
+ * The second measured shape: a RULED BLANK.
+ *
+ * Not every official form draws a cell grid. Alaska's DPS CRI-103 draws a
+ * printed caption followed by a single horizontal stroke, and there is no
+ * vertical divider on either side of it — so the four-stroke cell test above
+ * finds nothing and would report the whole form as geometry drift. The stroke
+ * IS the measurement here: its own x and endX give the horizontal extent the
+ * form intends for the value, and the value sits on it, which is why the
+ * finalizer's protected-rule test is expressed in the same terms.
+ *
+ * The ceiling is still measured rather than assumed: the box stops a fixed
+ * clearance below the lowest printed baseline that sits above this stroke
+ * inside its own span, so a value can never be drawn over the caption of the
+ * line above. Where nothing is printed above inside the span, the box takes
+ * the maximum height and the fitter decides the rest.
+ */
+const BASELINE_ABOVE_RULE = 2;
+
+function measureRuledBlank(page, cell) {
+  const candidates = page.horizontal
+    .filter((r) => Math.abs(r.y - cell.ruleY) <= RULE_TOLERANCE
+      && Math.abs(r.x - cell.ruleFromX) <= RULE_TOLERANCE
+      && Math.abs(r.endX - cell.ruleToX) <= RULE_TOLERANCE)
+    .sort((a, b) => Math.abs(a.y - cell.ruleY) - Math.abs(b.y - cell.ruleY));
+  const rule = candidates[0];
+  if (!rule) return null;
+  const boxBottom = rule.y + BASELINE_ABOVE_RULE;
+  const above = page.items
+    .filter((t) => String(t.text).trim() && t.x >= rule.x - 2 && t.x <= rule.endX + 2 && t.y > boxBottom + 2)
+    .map((t) => t.y);
+  const ceiling = above.length > 0 ? Math.min(...above) - CAPTION_CLEARANCE : boxBottom + MAX_WRITE_BOX_HEIGHT;
+  const height = Number(Math.min(MAX_WRITE_BOX_HEIGHT, ceiling - boxBottom).toFixed(2));
+  const writeBox = {
+    x: Number((rule.x + CELL_INSET).toFixed(2)),
+    y: Number(boxBottom.toFixed(2)),
+    width: Number((rule.endX - rule.x - CELL_INSET * 2).toFixed(2)),
+    height: Math.max(0, height)
+  };
+  return {
+    writeBox,
+    tooShallowToWriteIn: height < MIN_WRITE_BOX_HEIGHT,
+    rectBasis:
+      "measured_ruled_blank: one horizontal stroke read from the page content stream — the rule the value is "
+      + "written on — matched on its own y, start x and end x against the pinned binary, with the box ceiling "
+      + "taken from the lowest printed baseline above it inside its own span",
+    measuredCell: {
+      ruleY: rule.y, ruleFromX: rule.x, ruleToX: rule.endX,
+      ruleThickness: rule.height ?? null,
+      lowestPrintedBaselineAboveInsideSpan: above.length > 0 ? Math.min(...above) : null
+    }
+  };
+}
+
 async function measureCells(bytes, cells) {
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
   const pages = doc.getPages();
@@ -693,6 +747,21 @@ async function measureCells(bytes, cells) {
   const drift = [];
   for (const cell of cells) {
     const here = perPage.get(cell.page) ?? { horizontal: [], vertical: [], items: [] };
+    if (Object.hasOwn(cell, "ruleY")) {
+      const ruled = measureRuledBlank(here, cell);
+      if (!ruled) {
+        drift.push({
+          cell: cell.key, page: cell.page, shape: "ruled_blank",
+          expected: { ruleY: cell.ruleY, ruleFromX: cell.ruleFromX, ruleToX: cell.ruleToX },
+          nearest: here.horizontal
+            .filter((r) => Math.abs(r.y - cell.ruleY) <= 6)
+            .map((r) => ({ y: r.y, x: r.x, endX: r.endX })).slice(0, 4)
+        });
+        continue;
+      }
+      measured.push({ ...cell, ...ruled, rect: ruled.writeBox });
+      continue;
+    }
     const cellHeight = cell.top - cell.bottom;
     const overlapOf = (v) => {
       const y0 = Number(v.y);
@@ -821,6 +890,23 @@ function mapHelpers(componentId) {
       reason: "court, clerk, prosecutor, agency, or hearing field; the agency completes it",
       category: COURT_OWNED, completenessClass: COURT_OWNED, class: COURT_OWNED,
       requiredBeforeFiling: false, document: componentId, why
+    }),
+    /*
+     * A control the reader marks, which THIS ROUTE does not determine.
+     *
+     * Only ever for an election that is genuinely the participant's: a route
+     * that determines its own election must state it, and a packet built for
+     * one statutory route may never hand that choice back. Every use of this
+     * helper carries the reason the route leaves the choice open.
+     */
+    election: (id, label, why, page = 1) => ({
+      ...base(id, label, page),
+      isSelectionControl: true, kind: "selection_control",
+      reason: "a sworn assertion or legal election the route does not determine",
+      category: "participant_sworn_narrative_or_legal_election",
+      completenessClass: "participant_sworn_narrative_or_legal_election",
+      class: "participant_sworn_narrative_or_legal_election",
+      requiredBeforeFiling: false, routeDetermined: false, document: componentId, why
     }),
     rbf: (id, label, what, why, page = 1) => ({
       ...base(id, label, page),

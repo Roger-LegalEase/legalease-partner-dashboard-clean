@@ -1,383 +1,469 @@
 #!/usr/bin/env node
 /**
- * FABLE-PD agency-application treatment — Colorado mistaken-identity
- * expungement, the participant's written REQUEST TO THE ARRESTING AGENCY for
- * an investigation and a mistaken-identity finding.
+ * FABLE-PD agency-application treatment — Alaska AS 12.62.170, correcting
+ * inaccurate or incomplete criminal justice information in APSIN.
  *
- *   node "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request.mjs" [--check] [--no-raster]
+ *   node "scripts/build-census-v1-agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record.mjs" [--check] [--no-raster]
  *
  * One census-v1 family, one strategy, one route:
  *
- *   obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request
+ *   obligation:unattached-decision-route:AK:ak-correct-record
  *
  * WHAT KIND OF FAMILY THIS IS, AND WHY
  *
  * MASTER_QUEUE gives this family implementationStrategy
- * `participant_agency_application`. That is not a bookkeeping label: this
- * route is NOT a court filing and must not be dressed as one. The controlling
- * 2026-08-28 research-track decision for `co_mistaken_identity_expungement`
- * records that C.R.S. Sec. 24-72-702 "creates a mandatory agency-first
- * procedure", that the duty to petition the district court belongs to the
- * ARRESTING AGENCY, and — for this route exactly — that "If there is no agency
- * finding, the first output should be a written request for investigation and
- * finding, not the court petition."
+ * `participant_agency_application`, and the controlling 2026-08-28 decision
+ * says so in terms: AS 12.62.170 "creates an administrative correction process
+ * for inaccurate or incomplete criminal justice information", and "The
+ * participant first challenges the record through the Department of Public
+ * Safety or the agency responsible for the disputed data, using the published
+ * **Request to Correct Criminal Justice Information** form". Its recorded
+ * product disposition is "INITIAL OUTPUT: OFFICIAL AGENCY CORRECTION FORM +
+ * EVIDENCE CHECKLIST".
  *
- * So the deliverable here is the request, addressed to the agency, plus a
- * route sheet that says what the agency is, what it requires, how the
- * participant reaches it, what it costs so far as the repository establishes,
- * and what the participant does NOT have to file. Its sibling family
- * `...:participant_court_petition_after_90_days` carries the court petition;
- * nothing of that petition is repeated here, and a participant who has no
- * agency finding is told, in terms, that the petition is not their instrument
- * yet.
+ * So unlike the two other agency treatments in this lane, Alaska DOES publish
+ * a form — DPS Form CRI-103 — and the family binds it by exact SHA-256. It is
+ * not a court filing and nothing here is styled as one: no caption, no case
+ * number, no proposed order, no certificate of service. The participant
+ * applies on the agency's own published form, and the packet adds the evidence
+ * checklist the decision names.
  *
- * NO FORM IS INVENTED. The decision records that "No dedicated statewide JDF
- * form was located" for this track at all. Colorado publishes no application
- * form for a mistaken-identity investigation request, and this build does not
- * manufacture one that looks official: the request is plainly a letter the
- * participant signs, and it says so on its face.
+ * WHAT IS WRITTEN ON THE FORM, AND WHAT IS NOT
+ *
+ * CRI-103 is a flat page: no AcroForm, no widget rectangles. Every value this
+ * build draws sits on a ruled blank the form itself strokes, measured from the
+ * page content stream by its own y, start x and end x. Six identity and
+ * contact facts are written. Everything else on the page is refused, and each
+ * refusal is a real one rather than a policy: the driver's licence number and
+ * the SSN are refused by the shared semantics as government identifiers, the
+ * five reason boxes are the participant's own election about their own record,
+ * the whole right-hand column applies only where the record was used to deny a
+ * right or privilege, and the signature, its date and the DPS decision block
+ * belong to the requester and to the Bureau.
+ *
+ * THE BOUNDARY THE DECISION DRAWS, AND WHY IT MATTERS HERE
+ *
+ * "A disagreement about whether an accurate event should be sealed or expunged
+ * is not a correction claim." A participant who wants a true record hidden is
+ * at the wrong route, and the form's own page carries the same distinction in
+ * its five reasons. The packet says so plainly rather than letting a
+ * participant discover it from a refusal.
  *
  * A built family is a built family. It is not verified, not approved, not
  * sellable, and this builder issues no verdict on its own packets.
  */
 
-const FAMILY_ID = "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request";
+const FAMILY_ID = "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record";
 
 const SPEC = {
   familyId: FAMILY_ID,
   worklistGroupId: FAMILY_ID,
-  buildScript: "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request.mjs",
-  outDir: "data/rcap-all50/overlays/census-v1/co/agency-application-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-investigation-and-finding-request--official-pdf-fill",
-  jurisdiction: "CO",
-  custodyClass: "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
-  legalName: "Written Request to the Arresting Agency for an Investigation and a Mistaken-Identity Finding Under C.R.S. Sec. 24-72-702",
-  routeName: "asking the law-enforcement agency that arrested you to investigate and find that the arrest was a mistaken-identity arrest, under C.R.S. Sec. 24-72-702",
-  statutes: ["C.R.S. § 24-72-702"],
+  buildScript: "scripts/build-census-v1-agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record.mjs",
+  outDir: "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill",
+  jurisdiction: "AK",
+  custodyClass: "SOURCE_ALREADY_HELD",
+  legalName: "Request to Correct Criminal Justice Information in the Alaska Public Safety Information Network (AS 12.62.170)",
+  routeName: "correcting an inaccurate or incomplete entry in your Alaska criminal justice information under AS 12.62.170",
+  statutes: ["AS 12.62.170", "13 AAC 68.200"],
   routes: [
-    { routeKey: "obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request" }
+    { routeKey: "obligation:unattached-decision-route:AK:ak-correct-record" }
   ],
 
   records: [
     {
-      recordId: "legal-decision:2026-08-28:research-track:co_mistaken_identity_expungement",
+      recordId: "legal-decision:2026-08-28:research-track:ak-correct-record",
       path: "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
       role:
-        "the controlling research-track decision: the agency-first mechanism, the agency's own 90-day duty, the "
-        + "no-fee rule for the expungement, the precondition of an actual agency finding, and the recorded rule "
-        + "that where there is no finding the FIRST OUTPUT is a written request for investigation and finding",
+        "the controlling decision: that AS 12.62.170 is an administrative correction process, that the challenge "
+        + "goes first to DPS or the agency responsible for the disputed data on the published form, what the "
+        + "challenge must identify, the boundary between a correction claim and a sealing request, and the "
+        + "recorded escalation on a final adverse decision",
       mustContain: [
-        "C.R.S. § 24-72-702 creates a mandatory agency-first procedure.",
-        "No later than 90 days after a law-enforcement investigation finds that a person was arrested because of mistaken identity and no charges were filed, the arresting agency must petition the district court in the judicial district where the arrest occurred.",
-        "If the arresting agency fails to file within that period, the person may file the petition in the same district court. No filing fee or other expungement cost may be charged.",
-        "This route depends on an actual agency finding of mistaken identity. It is not a general vehicle for litigating innocence where the agency has never made that determination.",
-        "No dedicated statewide JDF form was located.",
-        "If there is no agency finding, the first output should be a written request for investigation and finding, not the court petition.",
-        "NO FINDING / DISPUTE: AGENCY REQUEST, THEN ATTORNEY HANDOFF"
+        "AS 12.62.170 creates an administrative correction process for inaccurate or incomplete criminal justice information.",
+        "using the published **Request to Correct Criminal Justice Information** form and supporting documentation",
+        "the precise entry;",
+        "why it is inaccurate or incomplete;",
+        "the correct disposition or data;",
+        "the originating agency and case;",
+        "certified disposition, identity documents, and fingerprints where required; and",
+        "the correction requested.",
+        "A disagreement about whether an accurate event should be sealed or expunged is not a correction claim.",
+        "If the agency issues a final adverse decision, judicial review proceeds through an administrative appeal to the Alaska Superior Court under the applicable appellate rules. That appeal is not an ordinary self-help record-clearing packet.",
+        "INITIAL OUTPUT: OFFICIAL AGENCY CORRECTION FORM + EVIDENCE CHECKLIST",
+        "INITIAL DESTINATION: DPS / RESPONSIBLE ORIGINATING AGENCY",
+        "ADVERSE FINAL DECISION: SUPERIOR-COURT ADMINISTRATIVE APPEAL",
+        "APPEAL: ATTORNEY HANDOFF"
+      ]
+    },
+    {
+      recordId: "compiled-profile:AK-alaska",
+      path: "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+      role:
+        "the compiled Alaska profile, a held source for this jurisdiction under "
+        + "DETERMINATION_FEE_AND_WAIVER_STANDARD amendment A2. Its fee table is read narrowly under amendment "
+        + "A3: it prices a TF-810 Courtview exclusion, an SIS set-aside motion, an AS 12.62.180(b) SEALING "
+        + "request and a DPS criminal history record, and none of those is an AS 12.62.170 correction. What it "
+        + "does answer for this route is the cost of the DPS criminal history record the participant needs in "
+        + "order to identify the entry.",
+      mustContain: [
+        "Form TF-810 (Courtview exclusion) Typically $0 Administrative request to the court",
+        "AS 12.62.180(b) sealing request Agency-dependent Written request to the record-holding agency",
+        "DPS criminal history record DPS fee To confirm what records exist"
       ]
     }
   ],
 
-  officialComponents: {},
-  officialCells: {},
+  officialComponents: {
+    dps_correction_request: {
+      sourceId: "official-form:Request to Correct Criminal Justice Information",
+      documentId: "DPS-CRI-103",
+      formNumber: "DPS-CRI-103",
+      officialTitle: "Request to Correct Criminal Justice Information in the Alaska Public Safety Information Network (APSIN)",
+      revision: "REV-2022-07-25",
+      instrumentKind: "participant_agency_application_form",
+      sha256: "b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259"
+    }
+  },
 
-  components: ["agency_request", "agency_route_sheet"],
+  /* Every write box on CRI-103, measured from the form's own strokes. Six carry
+   * a fact; the rest are measured and left alone so the field map can state
+   * where each refused blank actually is on the page. */
+  officialCells: {
+    dps_correction_request: [
+      { key: "requester_name", page: 1, ruleY: 604.32, ruleFromX: 169.68, ruleToX: 335.52, label: "Requester Name (if not subject)", fact: null },
+      { key: "subject_name", page: 1, ruleY: 587.04, ruleFromX: 111.24, ruleToX: 335.52, label: "Subject Name", fact: "participant.full_legal_name" },
+      { key: "maiden_alias_name", page: 1, ruleY: 569.76, ruleFromX: 117.6, ruleToX: 335.52, label: "Maiden/Alias name", fact: null },
+      { key: "mailing_address", page: 1, ruleY: 552.48, ruleFromX: 111.24, ruleToX: 335.52, label: "Mailing Address", fact: "participant.street_address" },
+      { key: "city_state_zip", page: 1, ruleY: 535.2, ruleFromX: 111.24, ruleToX: 335.52, label: "City/State/Zip", fact: "participant.city_state_zip" },
+      { key: "drivers_license", page: 1, ruleY: 517.92, ruleFromX: 169.68, ruleToX: 335.52, label: "Drivers License State / #", fact: null },
+      { key: "date_of_birth", page: 1, ruleY: 500.64, ruleFromX: 95.52, ruleToX: 193.44, label: "Date of Birth", fact: "participant.date_of_birth" },
+      { key: "ssn", page: 1, ruleY: 500.64, ruleFromX: 239.04, ruleToX: 335.52, label: "SSN", fact: null },
+      { key: "telephone", page: 1, ruleY: 483.36, ruleFromX: 95.52, ruleToX: 193.44, label: "Telephone #", fact: "participant.phone" },
+      { key: "fax", page: 1, ruleY: 483.36, ruleFromX: 239.04, ruleToX: 335.52, label: "Fax #", fact: null },
+      { key: "email", page: 1, ruleY: 466.08, ruleFromX: 67.08, ruleToX: 335.52, label: "Email", fact: "participant.email" },
+      { key: "other_contact", page: 1, ruleY: 448.8, ruleFromX: 169.68, ruleToX: 317.28, label: "Other (cell or message #)", fact: null }
+    ]
+  },
+
+  components: ["agency_route_sheet", "dps_correction_request", "evidence_checklist"],
   componentTitles: {
-    agency_request: "Request to the Arresting Agency for an Investigation and a Mistaken-Identity Finding",
-    agency_route_sheet: "Where This Goes, What It Costs, and What You Do Not File"
+    agency_route_sheet: "Where This Goes, What It Costs, and What You Do Not File",
+    dps_correction_request: "DPS Form CRI-103 — Request to Correct Criminal Justice Information",
+    evidence_checklist: "Evidence Checklist — What the Challenge Must Identify and What to Attach"
   },
   componentConditions: {},
   componentDescriptions: {
-    agency_request:
-      "the written request you sign and send to the law-enforcement agency that arrested you, asking it to "
-      + "investigate and to find that the arrest was a mistaken-identity arrest — the recorded first output on "
-      + "this route",
     agency_route_sheet:
-      "the agency this goes to, what the agency does with it, what the recorded rule says it costs, what you do "
-      + "NOT file, and what happens next whichever way the agency answers"
+      "the agency this goes to with its own printed address, telephone, fax and email; what the correction "
+      + "process is and is not; what it costs so far as the repository establishes; and what you do NOT file",
+    dps_correction_request:
+      "the State of Alaska Department of Public Safety's own published form CRI-103, filled with what the "
+      + "platform holds about you and left alone everywhere else",
+    evidence_checklist:
+      "the six things the recorded decision says a challenge must identify, each with space to write it and a "
+      + "note on what to attach — the evidence checklist the recorded product disposition names"
   },
 
   fixtures: {
     canonical: {
       "participant.full_legal_name": "Jordan Avery Reyes",
       "participant.date_of_birth": "1991-04-17",
-      "participant.street_address": "42 Larkspur Street, Denver, CO 80202",
-      "participant.phone": "303-555-0142",
+      "participant.street_address": "42 Larkspur Street",
+      "participant.city_state_zip": "Anchorage, AK 99501",
+      "participant.phone": "907-555-0142",
       "participant.email": "jordan.reyes@example.org"
     },
     boundary: {
       "participant.full_legal_name": "Maria-Alejandra O'Shaughnessy-Whitfield",
       "participant.date_of_birth": "1968-12-31",
-      "participant.street_address": "1188 Upper Uncompahgre Crossing Road, Apartment 14B, Grand Junction, Colorado 81501-2214",
-      "participant.phone": "(970) 555-0199 ext. 4417",
+      "participant.street_address": "1188 Upper Kuskokwim Crossing Road, Apartment 14B",
+      "participant.city_state_zip": "Ketchikan Gateway Borough, Alaska 99901-2214",
+      "participant.phone": "(907) 555-0199 ext. 4417",
       "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
     }
   },
 
   composedFromNote:
-    "the controlling 2026-08-28 research-track decision for co_mistaken_identity_expungement "
-    + "(data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json), bound by SHA-256 and "
-    + "anchor-verified at build time",
+    "the controlling 2026-08-28 decision for ak-correct-record and the compiled Alaska profile "
+    + "(src/lib/rcap-engine/compiled/profiles/AK-alaska.json), both bound by SHA-256 and anchor-verified at "
+    + "build time",
 
   formIdentityNote:
-    "The controlling decision records that no dedicated statewide JDF form was located for a Sec. 24-72-702 "
-    + "mistaken-identity matter, and Colorado publishes no application form for an investigation request. Both "
-    + "pages are therefore authored by this build from that committed decision. Nothing here is styled as an "
-    + "official Colorado form, no JDF number appears on any page, and no form was substituted or invented.",
+    "Alaska publishes the form this route uses and the controlling decision names it in terms: the Request to "
+    + "Correct Criminal Justice Information, DPS Form CRI-103 (Rev. 07/25/22). It is bound by exact SHA-256 and "
+    + "delivered as the agency issues it, with values drawn only onto blanks the form itself strokes. Nothing "
+    + "was substituted and nothing was invented; the two composed pages beside it are plainly a route sheet and "
+    + "a checklist and carry no form number of their own.",
 
   agencyTreatmentNote:
-    "This is an AGENCY APPLICATION, not a court filing. The participant sends a written request to the "
-    + "law-enforcement agency that arrested them; no petition, motion or proposed order is filed with any court "
-    + "on this route, and the packet says so on the face of both pages. The court petition under the same statute "
-    + "is a different route and a different family.",
+    "This is an AGENCY APPLICATION, not a court filing. The participant submits DPS Form CRI-103 to the "
+    + "Department of Public Safety, or to the agency responsible for the disputed data, and no court is involved "
+    + "at this stage. The recorded escalation on a final adverse decision is an administrative appeal to the "
+    + "Alaska Superior Court, which the decision says is expressly NOT an ordinary self-help record-clearing "
+    + "packet, and which nothing here prepares.",
 
   routeSelectionNote:
-    "One route, one instrument. The request states, in the committed decision's own terms, that it is the "
-    + "no-finding first output and not the court petition, so nothing about which instrument this is remains for "
-    + "the participant to elect. The two forks that follow — the agency makes a finding, or it does not — are "
-    + "route boundaries handled by the route sheet and by the stop conditions, not elections on any page here.",
+    "One route, one instrument, and the route does not determine the form's own election. CRI-103 offers five "
+    + "reasons a record may be wrong — mistaken identity or false accusation, personal descriptors in error, "
+    + "charge information in error, missing or wrong disposition information, and set-aside information missing "
+    + "— and which of them is true is a fact about the participant's own record rather than something this "
+    + "route decides. They are therefore recorded as genuine participant elections, not as route-determined "
+    + "selections left unmade. What the route DOES determine is the instrument, and no page asks the "
+    + "participant to choose it.",
 
   routeSelectionsMade: [
     {
       selection: "instrument",
-      value: "written request to the arresting agency for investigation and finding",
+      value: "DPS Form CRI-103, Request to Correct Criminal Justice Information",
       determinedBy:
-        "the controlling decision: \"If there is no agency finding, the first output should be a written request "
-        + "for investigation and finding, not the court petition.\""
+        "the controlling decision: the participant challenges the record \"using the published **Request to "
+        + "Correct Criminal Justice Information** form\", and the recorded initial output is \"OFFICIAL AGENCY "
+        + "CORRECTION FORM + EVIDENCE CHECKLIST\""
+    },
+    {
+      selection: "destination",
+      value: "Department of Public Safety, Criminal Records and Identification Bureau, or the responsible originating agency",
+      determinedBy:
+        "the recorded initial destination \"DPS / RESPONSIBLE ORIGINATING AGENCY\", and the address the bound "
+        + "form prints on its own face"
     }
   ],
 
-  instructionsHeading: "What to do — asking the arresting agency to investigate a mistaken-identity arrest (C.R.S. Sec. 24-72-702)",
+  instructionsHeading: "What to do — correcting an Alaska criminal justice information entry (AS 12.62.170)",
 
   instructionsIntro: [
-    "**This is not a court filing.** The recorded Colorado rule this packet is built on is that C.R.S. § 24-72-702 creates a *mandatory agency-first procedure*: no later than 90 days after a law-enforcement investigation finds that a person was arrested because of mistaken identity and no charges were filed, **the arresting agency** must petition the district court in the judicial district where the arrest occurred. The petition is the agency's duty first, not yours.",
-    "**That whole machinery starts with a finding, and you may not have one.** The controlling decision records the precondition exactly: this route depends on an actual agency finding of mistaken identity, and it is *not* a general vehicle for litigating innocence where the agency has never made that determination. Where there is no finding, the recorded first output is **a written request for investigation and finding, not the court petition** — and that request is what this packet is.",
-    "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Everything about the arrest itself lives on the arrest record, so every one of those is a labelled blank listed below, and you fill it from the paperwork, never from memory."
+    "**This is not a court filing.** AS 12.62.170 creates an *administrative correction process* for inaccurate or incomplete criminal justice information. The recorded rule is that you challenge the record first through the Department of Public Safety, or through the agency responsible for the disputed data, on the published **Request to Correct Criminal Justice Information** form. There is no petition, no case number and no hearing at this stage.",
+    "**Know the boundary before you start, because it decides whether this is your route at all.** The recorded rule is exact: *a disagreement about whether an accurate event should be sealed or expunged is not a correction claim.* This route is for a record that is **wrong** — the arrest was not yours, a descriptor is incorrect, the charge is recorded incorrectly, the disposition is missing or wrong, or a set-aside is not shown. It is not a way to remove a record that is right.",
+    "**The form is the agency's own.** DPS Form CRI-103 (Rev. 07/25/22) is delivered exactly as the Department publishes it. The platform wrote six things onto it — your name, your mailing address, your city, state and ZIP, your date of birth, your telephone number and your email — each onto the ruled blank the form draws for it. Every other blank on that page is listed below and is yours.",
+    "**Two things the form itself will not let the platform fill.** Your driver's licence number and your Social Security number are government identifiers, and the platform refuses to write either onto any form. Both blanks are yours."
   ],
 
   whoDecides: [
-    "**The agency decides, not you and not a court.** You are asking the law-enforcement agency that arrested you to investigate its own record of the arrest and to find that you were arrested because of mistaken identity. Whether it investigates, and what it finds, is the agency's decision.",
-    "**You do not file a petition, a motion, or a proposed order anywhere on this route.** Under the recorded rule the arresting agency is the one that petitions the district court, and it has 90 days from its finding to do it. If it makes a finding and then lets those 90 days pass without petitioning, the statute lets you file the petition yourself in the same district court — but that is a different instrument in a different packet, and it is not available to you until there is a finding and the 90 days have run.",
-    "**You do not pay a court anything on this route, because you are not in court on this route.**"
+    "**The Department of Public Safety decides, or the agency that owns the disputed data does.** You are asking the holder of the record to correct its own record. Nothing about that is a court proceeding and nothing on this route is filed.",
+    "**If DPS does not hold the information, DPS forwards it — you do not.** The bound form's own decision block records that step on its face: *DPS does not have information; forwarded to: ___ on ___ Due: ___*, and then *Based on response received or lack of response by deadline, request Approved / Denied*. So you send to one place, and the Department chases the originating agency itself.",
+    "**Nobody is deciding whether your record should be sealed.** That is a different question under a different statute, and the recorded rule is that it is not a correction claim at all.",
+    "**If the request is denied, the appeal is not a self-help filing.** The form itself prints the first step — *Per 13 AAC 68.200, you may appeal a denial to the Commissioner of Public Safety* — and the recorded decision names what follows a final adverse decision: judicial review by administrative appeal to the Alaska Superior Court, which it says in terms is **not** an ordinary self-help record-clearing packet. Nothing here prepares that appeal."
   ],
 
   filingDestination: [
-    "**Send this request to the law-enforcement agency that arrested you** — its records unit, or the office that agency names for record enquiries. That is where the request belongs, because under the recorded rule it is that agency that investigates and that agency that must petition the court if it finds mistaken identity.",
-    "**The repository does not hold the name, address or contact details of the agency that arrested you**, and no held record could: which agency arrested you is a fact of your own arrest. Your arrest paperwork, citation or booking record names the arresting agency; **the records unit of that agency is the office to ask** where a written record-correction request is received and in what form it wants it.",
-    "**Nothing is filed with a court.** The court that would ever see this matter is the district court of the judicial district where the arrest occurred, and the recorded rule is that the arresting agency petitions it — not you, and not yet."
+    "**Send the completed form to the Department of Public Safety's Criminal Records and Identification Bureau.** The bound form prints the destination on its own face, with four ways to reach it: *Submit forms to: Criminal Records and Identification Bureau, 5700 East Tudor Road, Anchorage, Alaska 99507. Telephone: (907) 375-6410. Fax: (907) 269-0363. Email: dps.chri@alaska.gov.*",
+    "**Or send it to the agency responsible for the disputed data**, if the wrong entry belongs to another agency's record rather than to the APSIN entry itself. The recorded initial destination is \"DPS / RESPONSIBLE ORIGINATING AGENCY\", and the Bureau's own telephone number above is the place to ask which of the two yours is.",
+    "**Nothing is filed with any court, and there is no court to file it in on this route.**"
   ],
 
   feeAndWaiver: [
-    "**No held source states any charge for making this request to the agency, and this packet asks you to pay nothing.** A written request to a law-enforcement agency to look at its own record is not a court filing and carries no filing fee.",
-    "**What the recorded rule does say about cost is about the expungement itself:** \"No filing fee or other expungement cost may be charged.\" That sentence is from the controlling decision's statement of C.R.S. § 24-72-702 and it governs the expungement this route eventually leads to. It does not, on its own terms, price this request — because the request is not the expungement.",
-    "**If the agency tells you it charges for a records search or for copies, that is that agency's own schedule and not a fee for this request.** Ask the records unit of the agency that arrested you what its charge is for and get the answer before you pay: that office is the one that publishes it, and it is the office this request is going to anyway.",
-    "**Colorado's published sealing fee schedule does not answer this question, and this packet does not borrow it.** The compiled Colorado profile carries filing fees for petition sealing on the JDF 417 and JDF 612 forms. Those are a different statutory scheme with different forms, and a figure keyed to a JDF 612 conviction-sealing petition is not the price of anything on this route."
+    "**No held source states any charge for submitting this correction request, and this packet asks you to pay nothing.** The bound form prints no fee anywhere on its face. **The Bureau publishes what it charges, and the form gives you four ways to ask it: (907) 375-6410, fax (907) 269-0363, dps.chri@alaska.gov, or 5700 East Tudor Road, Anchorage, Alaska 99507.** Ask before you send if you want certainty.",
+    "**One cost on this route IS recorded, and it is not a fee for the request.** You will generally need your own Alaska criminal history record in order to identify the precise entry that is wrong. The compiled Alaska profile this route is built on records the item and not a figure — *\"DPS criminal history record — DPS fee — To confirm what records exist\"* — so a DPS fee applies and the amount is the Bureau's to state. Ask it at the same number.",
+    "**Alaska's other published record-clearing charges are not this route's charges, and this packet does not borrow them.** The same compiled profile prices a TF-810 Courtview exclusion (\"Typically $0\"), an SIS set-aside motion, and an AS 12.62.180(b) *sealing* request (\"Agency-dependent\"). None of those is an AS 12.62.170 correction: they are different statutes and different instruments, and a figure keyed to one of them is not the price of this.",
+    "**There is no fee waiver, because there is no filing fee.** An administrative correction request is not a court filing and carries no filing fee for a waiver to reach. If a records charge is a barrier for you, ask the Bureau at the number above what it does for a person who cannot pay."
   ],
 
   service: [
-    "**There is nobody to serve.** This is a request to an agency, not a proceeding: there is no opposing party, no district attorney to notify and no certificate of service, and no held record states any service requirement for it.",
-    "**Send it to one place — the arresting agency — and keep proof that you did.** Send it by a method that gives you a dated receipt, and keep a copy of everything you sent. If the agency later says it never received the request, that receipt is what you have.",
-    "**If the agency tells you it wants a copy sent somewhere else as well** — its own legal unit, a county records office, or the district attorney — do what it asks and keep proof of that too. The records unit of the arresting agency is the office that can tell you, and it is the only office the held record points to."
+    "**There is nobody to serve.** This is a request to a record-holding agency, not a proceeding: there is no opposing party, no prosecutor to notify, no certificate of service and no return date. No held record states any service requirement for it.",
+    "**Send it once, to one office, and keep dated proof.** The form gives you post, fax and email; whichever you use, keep a copy of everything you sent, including every attachment. If the Bureau later says nothing arrived, that copy and that receipt are what you have.",
+    "**If DPS has to reach another agency, that is DPS's step, not yours.** The form's own decision block records the Department forwarding the request to the originating agency and setting that agency a due date. Do not send duplicate requests to the other agency unless the Bureau tells you to."
   ],
 
   documentsToObtain: [
-    ["Your arrest paperwork — the citation, booking sheet or arrest report, showing the arrest date, the agency, the case or incident number, and the identifiers the arrest was recorded under", "the arresting agency, or the court where the case was opened if one was"],
-    ["Whatever shows the arrest was of the wrong person — an identity document, a record of where you actually were, the name of the person you were mistaken for, if you know it", "you; nothing in the repository holds it, and the agency will be deciding on what you give it"],
-    ["Anything showing that no charges were filed arising from the arrest", "the district attorney's office for that judicial district, or the court — the arresting agency can tell you where the no-charge status is recorded"]
+    ["Your Alaska criminal history record from DPS — the document that shows the precise entry you say is wrong", "the Criminal Records and Identification Bureau at the address, telephone, fax or email printed on the form; the compiled Alaska profile records that a DPS fee applies and states no amount"],
+    ["A certified disposition for the case, where the entry you are correcting is a court disposition", "the court that handled the case; the recorded decision lists certified disposition among the supporting documentation a challenge carries"],
+    ["Identity documents, where the entry is a personal descriptor or the arrest was not yours", "you; the recorded decision lists identity documents among the supporting documentation"],
+    ["Court documents supporting the correction, where any exist", "the court that handled the case — the form's own instruction is that if court documents are available they must be attached"],
+    ["Fingerprints, where the reason is mistaken identity or false accusation", "the Bureau; the form's own instruction on that reason is to make arrangements through that office to have your fingerprints taken"]
   ],
 
   steps: [
-    "**Work out which agency arrested you** and find its records unit. Your arrest paperwork names the agency; the agency's records unit is where a written request about its own records is received.",
-    "**Fill in every labelled blank on the request** from the arrest paperwork itself. Each one is listed in the table above with what belongs in it.",
-    "**Attach what you have.** The agency is deciding whether you were arrested in mistake for someone else, and it decides on what you put in front of it. Attach the identity evidence and, if you have it, anything showing no charges were filed.",
-    "**Sign and date the request yourself.** The platform never signs for you and never dates a signature.",
-    "**Send it to the agency's records unit** by a method that gives you a dated receipt, and keep a full copy.",
-    "**Wait for the agency's answer, and keep the date.** If the agency makes a mistaken-identity finding, the recorded rule gives it 90 days from that finding to petition the district court of the judicial district where the arrest occurred. Write down the date of the finding; the 90 days runs from it.",
-    "**If the 90 days pass and the agency has not petitioned**, the statute lets you file the petition yourself in the same district court. That is a different instrument and is not in this packet — ask for the Colorado mistaken-identity court-petition packet, which is built for exactly that.",
-    "**If the agency refuses to investigate, finds against you, or disputes what you have sent, stop and take it to a lawyer.** The recorded escalation for a no-finding or a dispute is an attorney handoff, not a self-help filing."
+    "**Check first that this is a correction and not a sealing request.** The recorded rule is that a disagreement about whether an accurate event should be sealed or expunged is not a correction claim. If the record is right and you want it hidden, this is the wrong route.",
+    "**Get your Alaska criminal history record from DPS** so that you can point at the precise entry rather than describing it. A DPS fee applies; the Bureau states it.",
+    "**Mark the one reason on the form that matches your record.** The form offers five, they are facts about your own record, and this packet marks none of them for you: mistaken identity or false accusation; personal descriptors in error; charge information in error; missing or wrong court or prosecutor disposition information; set-aside information missing.",
+    "**Write the problem out on the form, and use the back of the form if you need more room** — that is the form's own instruction. Say which entry is wrong, why it is inaccurate or incomplete, what the correct data is, and what correction you are asking for. The evidence checklist page in this packet has each of those as a heading.",
+    "**Attach the documents.** The form's own instruction is that if court documents are available they must be attached. Attach the certified disposition and the identity documents that support the correction.",
+    "**If your reason is mistaken identity or false accusation, arrange fingerprints.** The form's own instruction on that reason is to make arrangements through the Bureau to have your fingerprints taken, and to provide the name of the person using your identity if you know it.",
+    "**Fill in the blanks that are yours** — the driver's licence, the SSN, any maiden or alias name, a fax number or other contact number if you have one — each listed in the table above.",
+    "**Complete the right-hand column only if the record was used to deny you a right or a privilege.** If it was not, that whole column stays empty.",
+    "**Sign and date the form yourself**, under the unsworn falsification statement it carries: you certify under penalty of unsworn falsification (AS 11.56.210) that what you supply is true and correct. Nothing on this packet signs or dates for you.",
+    "**Send it to the Bureau, and keep dated proof.** Post, fax or email, all printed on the form's face.",
+    "**If the request is denied, the form's own next step is an appeal to the Commissioner of Public Safety under 13 AAC 68.200.** Beyond that, the recorded escalation is an administrative appeal to the Alaska Superior Court — and the recorded decision says in terms that this is not an ordinary self-help matter. Take it to a lawyer."
   ],
 
   deliberatelyBlank: [
-    "**Your signature, and the date beside it.** A signature is yours alone, and a date written before you sign it would be false.",
-    "**The agency's answer, its finding, and anything the agency writes.** The whole point of the request is that the agency decides; nothing on this packet decides it for them.",
-    "**Every fact about the arrest.** The platform holds no arrest record for you and does not guess at one."
+    "**Your signature on the form and the date beside it.** The form carries an unsworn falsification statement under AS 11.56.210 above that line; the certification is yours to make.",
+    "**Your driver's licence number and your Social Security number.** The shared semantics refuse a government identifier on any form, and the refusal is deliberate rather than a gap.",
+    "**Every one of the five reason boxes.** Which one is true is a fact about your own record, and marking one for you would be asserting something the platform does not know.",
+    "**The whole right-hand column.** It applies only where the record was or will be used to deny you a right or a privilege, and the platform does not know whether it was.",
+    "**The DPS decision block at the foot of the page.** The Bureau completes it."
   ],
 
   notTold: [
-    "**The name and address of the agency that arrested you.** No held record establishes it, because it is a fact of your own arrest. Your arrest paperwork names the agency, and the records unit of that agency is the office to ask for the address a written request should go to.",
-    "**How long the agency has to answer your request.** The recorded rule sets a 90-day clock on the agency's duty to PETITION once it has made a finding. Nothing held sets a deadline for the agency to answer a request in the first place. Ask the records unit of the arresting agency what its own turnaround is.",
-    "**Whether the agency charges for a records search.** That is that agency's schedule, and its records unit publishes it — see *What it costs* above."
+    "**What a DPS criminal history record costs.** The compiled Alaska profile records that a DPS fee applies and records no amount. The Criminal Records and Identification Bureau publishes it: (907) 375-6410, or dps.chri@alaska.gov.",
+    "**Whether your particular entry belongs to DPS or to another agency.** The recorded destination is DPS or the responsible originating agency, and which yours is depends on whose data is wrong. The Bureau can tell you at the same number.",
+    "**How long the Bureau takes.** The form sets a due date for an agency it forwards to, and states no turnaround for itself. Ask the Bureau.",
+    "**Whether a correction will change what a background check shows.** This packet does not promise any outcome from any record-holder."
   ],
 
   stopConditions: [
-    "the agency refuses to investigate, or investigates and finds against you — the recorded escalation is an attorney handoff, not a self-help filing;",
-    "the agency, the district attorney or anyone else disputes what you say about the arrest — the recorded escalation for a dispute is a lawyer;",
-    "charges were filed arising from the arrest — the recorded precondition for this whole route is an arrest with no charges filed, and a charged case is a different matter entirely;",
-    "you are trying to establish that you are innocent of something you were actually arrested for — the recorded rule is that this route is not a general vehicle for litigating innocence;",
-    "the agency HAS made a mistaken-identity finding — then this request is not what you need: if the 90 days have not run, the duty to petition is the agency's, and if they have, the court-petition packet is the instrument;",
+    "the record is accurate and what you actually want is for it to be sealed or expunged — the recorded rule is that this is not a correction claim, and Alaska's sealing route under AS 12.62.180 is a different instrument in a different packet;",
+    "the Bureau denies the request — the form's own next step is an appeal to the Commissioner of Public Safety under 13 AAC 68.200, and the recorded escalation after a final adverse decision is an administrative appeal to the Alaska Superior Court, which the decision says in terms is not an ordinary self-help matter;",
+    "you are asked to prove identity by fingerprints and are unsure what that means for you;",
+    "the entry you want corrected came from another state or from a federal agency — Alaska's Commissioner cannot reach records that did not originate in this state;",
+    "somebody else has been using your identity and you do not know what else was done in your name;",
     "any immigration question is involved."
   ],
 
   whatThisIsNot:
-    "This is a written request to a law-enforcement agency, authored from one recorded branch of C.R.S. "
-    + "Sec. 24-72-702. It is not a Colorado JDF form — the controlling decision records that none was located for "
-    + "this track — it is not a court filing, it is not the district-court petition that a different packet "
-    + "carries, it is not legal advice, it is not sent for you, and it is not a promise that the agency will "
-    + "investigate or find anything. No fee is asked anywhere in it.",
+    "This is the Department of Public Safety's own published form CRI-103, delivered as the Department issues it, "
+    + "with a route sheet and an evidence checklist. It is not a court filing, not a petition, not a sealing or "
+    + "expungement request, not the appeal to the Commissioner and not the Superior Court appeal that may follow "
+    + "one. It is not legal advice, it is not sent for you, and it is not a promise that the Department will "
+    + "correct anything.",
 
   receiptDoesNotEstablish: [
-    "that any Colorado law-enforcement agency has made, or will make, a mistaken-identity finding in any particular case",
-    "that no charges were filed arising from any particular arrest",
-    "the identity, address or record-request procedure of the agency that arrested any particular participant"
+    "that this is the current edition of DPS Form CRI-103, or that the Department has not revised it since the archive was assembled",
+    "that any particular APSIN entry is inaccurate or incomplete",
+    "what the Department of Public Safety charges for a criminal history record"
   ],
 
   buildFindings: [
     {
       finding:
-        "MASTER_QUEUE classifies this family participant_agency_application and binds no document source. That is "
-        + "the recorded design, not a gap: the controlling decision records that no dedicated statewide JDF form "
-        + "was located for this track, and Colorado publishes no application form for an investigation request.",
+        "MASTER_QUEUE classifies this family participant_agency_application, and unlike the other two agency "
+        + "treatments in this lane it binds a real document: the controlling decision names \"the published "
+        + "Request to Correct Criminal Justice Information form\" and the census names it as this route's "
+        + "requiredSourceId.",
       consequence:
-        "The deliverable is a written request the participant signs and sends to the arresting agency, plus a "
-        + "route sheet. Both pages are authored by this build from the committed decision, anchor-verified before "
-        + "composing. No form was substituted, none was invented, and no page is styled to look like an official "
-        + "Colorado form."
+        "DPS Form CRI-103 is bound by exact SHA-256 through the committed corpus index and delivered as the "
+        + "Department issues it. No form was invented for this route, and the route was not left in a "
+        + "missing-PDF state."
     },
     {
       finding:
-        "The route is an agency application and not a court filing, and the same statute's COURT petition is a "
-        + "separate route already carried by composed-treatment:...:participant_court_petition_after_90_days.",
+        "CRI-103 is a flat page: the corpus index records 0 AcroForm fields on it, so there is no widget "
+        + "rectangle to write into and no appearance to flatten.",
       consequence:
-        "Nothing here is a petition, a motion, a proposed order or a certificate of service. The packet states on "
-        + "both pages that the participant files nothing in court on this route, explains that the duty to "
-        + "petition is the agency's for 90 days after a finding, and names the sibling packet rather than "
-        + "duplicating its instrument."
+        "Every write box is measured from the form's own content stream — one horizontal stroke, matched on its "
+        + "y, its start x and its end x, with the box ceiling taken from the lowest printed baseline above it "
+        + "inside its own span. Twelve blanks are measured; six carry a fact. A blank that failed to measure "
+        + "would stop the family rather than be drawn at a guessed rectangle."
     },
     {
       finding:
-        "FEE_AND_WAIVER, tested against DETERMINATION_FEE_AND_WAIVER_STANDARD A1-A3. The compiled Colorado "
-        + "profile carries a fee table, but every line in it is keyed to petition sealing on JDF 417 or JDF 612 "
-        + "under a different statutory scheme. Under A3 holding is per FACT and per ROUTE, so that table does not "
-        + "establish the cost of a Sec. 24-72-702 agency request.",
+        "Two blanks the platform could technically fill are refused by the shared semantics as government "
+        + "identifiers: the driver's licence number and the SSN.",
       consequence:
-        "The packet states that no held source establishes any charge for this request and that it asks the "
-        + "participant to pay nothing; it quotes the statute's own no-cost rule and says precisely what that "
-        + "sentence covers; it names the records unit of the arresting agency as the office that answers any "
-        + "search or copy charge; and it says in terms that Colorado's JDF sealing fee schedule is not borrowed."
+        "Both are declared required-before-filing, disclosed by name in participant-instructions.md, and the "
+        + "refusal is explained to the participant rather than presented as an oversight."
     },
     {
       finding:
-        "SERVICE. No held record states any service requirement for an agency request under this statute, and an "
-        + "agency request has no opposing party.",
+        "The form's five reasons are an election, and the route does not determine which is true.",
       consequence:
-        "The packet states there is nobody to serve and why, tells the participant to keep dated proof of what "
-        + "was sent, and names the records unit of the arresting agency as the office to ask if it wants a copy "
-        + "sent anywhere else."
+        "Each is recorded as a genuine participant election rather than as a route-determined selection left "
+        + "unmade, with the reason stated in routeSelectionNote. Nothing is marked on the form."
     },
     {
       finding:
-        "The whole route turns on facts of one arrest — which agency, when, under what identifiers, what case or "
-        + "incident number — and no committed record holds any of them for any participant.",
+        "FEE_AND_WAIVER, tested against DETERMINATION_FEE_AND_WAIVER_STANDARD A1-A3. The compiled Alaska profile "
+        + "is a held source under A2, and its fee table prices a TF-810 Courtview exclusion, an SIS set-aside "
+        + "motion, an AS 12.62.180(b) SEALING request and a DPS criminal history record. Under A3, none of the "
+        + "first three answers an AS 12.62.170 correction — they are different statutes and different "
+        + "instruments — while the fourth answers a document this route genuinely needs.",
       consequence:
-        "Each is a labelled required-before-filing blank on the request, declared as typed data on the field-map "
-        + "row and disclosed by name in participant-instructions.md, with what to write and where to get it."
+        "The packet states that no held source establishes a charge for the request itself and names the "
+        + "Criminal Records and Identification Bureau with the address, telephone, fax and email the bound form "
+        + "prints on its own face; states that the DPS criminal history record carries a DPS fee whose amount "
+        + "the profile does not give, and names the same office for it; and says in terms that the TF-810, "
+        + "set-aside and sealing figures are not borrowed."
+    },
+    {
+      finding:
+        "SELF_HELP_STOP has two recorded limbs and they must not be collapsed. The decision draws a substantive "
+        + "boundary — a disagreement about whether an ACCURATE event should be sealed is not a correction claim "
+        + "— and a procedural one — a final adverse decision goes to the Superior Court by administrative "
+        + "appeal, which is expressly not an ordinary self-help packet. The bound form adds a third step the "
+        + "decision does not mention: an appeal to the Commissioner of Public Safety under 13 AAC 68.200.",
+      consequence:
+        "All three are stated, each attributed to the record it came from, and the packet prepares none of the "
+        + "appeals."
     }
   ],
 
   counselQuestions: [
-    "The deliverable is an unstyled signed letter to the arresting agency rather than any official form, because the controlling decision records that no statewide JDF form was located for this track. Confirm that a plain written request is the right participant-facing instrument for a Sec. 24-72-702 investigation request, or supply the form if one exists.",
-    "The packet tells the participant that the statute's \"No filing fee or other expungement cost may be charged\" governs the expungement rather than pricing the agency request, and that any agency search or copy charge is the agency's own. Confirm that reading, or say that the no-cost rule reaches the request as well.",
-    "The packet tells a participant WITH a finding whose 90 days have run to obtain the sibling court-petition packet. Confirm the handoff boundary between the two families is stated correctly.",
-    "The request asks the agency to investigate and to make a finding, and attaches the participant's own identity evidence. Confirm the wording does not overstate what a person may demand of a law-enforcement agency under Sec. 24-72-702."
+    "The packet delivers CRI-103 with six identity and contact facts drawn onto measured ruled blanks and everything else left to the participant. Confirm that filling those six on an agency correction form is appropriate, given that the form carries an unsworn falsification certification over the whole of what is supplied.",
+    "The five reason boxes are treated as genuine participant elections that the route does not determine, so none is marked. Confirm that, or say that the route ought to determine one.",
+    "The packet states that no held source establishes a charge for the request and names the Bureau with the contact details the form prints. Confirm that reading, or supply the figure.",
+    "The packet tells a participant whose record is accurate that this is not their route and points at AS 12.62.180 sealing without carrying it. Confirm the boundary is stated correctly.",
+    "The packet states the Commissioner appeal under 13 AAC 68.200 from the form's own face, and the Superior Court administrative appeal from the decision, and prepares neither. Confirm that is the right stopping point."
   ],
 
   reviewersAttention: [
-    "This is an AGENCY-APPLICATION treatment. It carries no petition, no proposed order and no certificate of service by design; a reviewer expecting a court packet is reviewing the wrong shape.",
-    "source-receipt.json binds a committed repository record rather than a Master Library binary — custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT and zero bound official documents; confirm that is legible.",
-    "The family's own compiled state profile is deliberately NOT used for the fee answer. The reasoning is recorded in build-findings.json against DETERMINATION_FEE_AND_WAIVER_STANDARD amendment A3."
+    "This is an AGENCY-APPLICATION treatment that DOES bind an official form. It carries no caption, case number, proposed order or certificate of service by design.",
+    "Every value on the official page is drawn onto a measured ruled blank rather than into a widget, because the form has no AcroForm. The measurement basis is recorded per cell in production-field-map.json under measuredCells.",
+    "The DPS decision block at the foot of the page is deliberately untouched and is recorded as agency-owned; please check on the raster that nothing has landed in it."
   ],
 
   /* ---- composed bodies ------------------------------------------------------- */
   composedBody(componentId, facts) {
     const name = facts["participant.full_legal_name"];
-    const dob = facts["participant.date_of_birth"];
-    const address = facts["participant.street_address"];
-    const phone = facts["participant.phone"];
-    const email = facts["participant.email"];
     const L = [];
     L.push(this.componentTitles[componentId].toUpperCase(), "");
-    if (componentId === "agency_request") {
-      L.push("THIS IS A WRITTEN REQUEST TO A LAW-ENFORCEMENT AGENCY. IT IS NOT A COURT FILING, AND NOTHING ON THIS PAGE IS FILED WITH ANY COURT.", "");
-      L.push("TO: THE RECORDS UNIT OF THE LAW-ENFORCEMENT AGENCY NAMED BELOW", "");
-      L.push("Name of the agency that made the arrest, from the arrest paperwork:");
-      L.push(DOTS(), "");
-      L.push("Address the agency receives written record requests at:");
-      L.push(DOTS());
-      L.push(DOTS(), "");
-      L.push(`FROM: ${name}`);
-      L.push(`Date of birth: ${dob}`);
-      L.push(`Mailing address: ${address}`);
-      L.push(`Telephone: ${phone}`);
-      L.push(`Email: ${email}`, "");
-      L.push("RE: REQUEST FOR AN INVESTIGATION AND A MISTAKEN-IDENTITY FINDING UNDER C.R.S. Sec. 24-72-702", "");
-      L.push(`1. I, ${name}, am the person named in the arrest record described below. I am writing to ask this agency to investigate that arrest and to find that I was arrested because of mistaken identity.`, "");
-      L.push("2. The arrest, as the arrest record states it:", "");
-      L.push("Date of the arrest:");
-      L.push(DOTS(), "");
-      L.push("Case or incident number of the arrest:");
-      L.push(DOTS(), "");
-      L.push("Identifiers the arrest was recorded under (the name and any other identifiers on the arrest record):");
-      L.push(DOTS());
-      L.push(DOTS(), "");
-      L.push("What I was accused of:");
-      L.push(DOTS(), "");
-      L.push("3. Why the arrest was of the wrong person. What I know, and what I am attaching:", "");
-      L.push(DOTS());
-      L.push(DOTS());
-      L.push(DOTS());
-      L.push(DOTS(), "");
-      L.push("4. Name and any description of the person I believe I was mistaken for, if I know it:");
-      L.push(DOTS(), "");
-      L.push("5. So far as I am aware, no charges were filed arising from this arrest. What shows that, and where it is recorded:");
-      L.push(DOTS(), "");
-      L.push("6. WHAT I AM ASKING THIS AGENCY TO DO. Investigate this arrest, and if the investigation finds that I was arrested because of mistaken identity and that no charges were filed, make that finding and petition the district court of the judicial district where the arrest occurred to expunge the records of the arrest, as C.R.S. Sec. 24-72-702 requires the arresting agency to do within 90 days of such a finding. Please tell me in writing what the agency decides, and on what date.", "");
-      L.push("7. I am not asking any court for anything by this request, and I am not asking this agency to decide whether I am innocent of anything I was actually arrested for. I am asking it to establish whether the person arrested was me.", "");
-      L.push("DATE " + DOTS(28) + "   SIGNATURE OF REQUESTER " + DOTS(36), "");
-      L.push("(The requester signs and dates this request personally. Nothing on this page is signed or dated for the requester.)", "");
-      L.push(`PRINTED NAME: ${name}`);
-      L.push(`MAILING ADDRESS: ${address}`);
-      L.push(`TELEPHONE: ${phone}`);
-      L.push(`EMAIL: ${email}`);
-      L.push("", "ATTACHED: the identity evidence and any no-charge record listed at paragraphs 3 and 5.");
-    } else {
+    if (componentId === "agency_route_sheet") {
       L.push(`Prepared for: ${name}`, "");
       L.push("WHAT THIS IS, IN ONE LINE", "");
-      L.push("A written request to the law-enforcement agency that arrested you, asking it to investigate and to find that the arrest was a mistaken-identity arrest. It is not a court filing.", "");
-      L.push("WHO DECIDES, AND WHAT YOU DO NOT FILE", "");
-      L.push("The recorded Colorado rule: C.R.S. Sec. 24-72-702 creates a mandatory agency-first procedure. No later than 90 days after a law-enforcement investigation finds that a person was arrested because of mistaken identity and no charges were filed, THE ARRESTING AGENCY must petition the district court in the judicial district where the arrest occurred.");
-      L.push("So on this route you file NOTHING with any court. No petition, no motion, no proposed order, no certificate of service. The agency investigates, the agency finds, and the agency petitions.");
-      L.push("The recorded precondition is exact: this route depends on an ACTUAL AGENCY FINDING of mistaken identity, and it is not a general vehicle for litigating innocence where the agency has never made that determination. Where there is no finding, the recorded first output is a written request for investigation and finding - which is the other page of this packet.", "");
+      L.push("An administrative request asking the Alaska Department of Public Safety, or the agency that owns the disputed data, to correct an inaccurate or incomplete entry in your criminal justice information under AS 12.62.170. It is not a court filing.", "");
+      L.push("THE BOUNDARY - READ THIS BEFORE ANYTHING ELSE", "");
+      L.push("The recorded rule is exact: a disagreement about whether an ACCURATE event should be sealed or expunged is NOT a correction claim. This route is for a record that is WRONG. If your record is right and you want it hidden, this is the wrong instrument, and Alaska's sealing route under AS 12.62.180 is a different packet.", "");
       L.push("WHERE IT GOES", "");
-      L.push("To the records unit of the agency that arrested you, or whatever office that agency names for written record enquiries. Your arrest paperwork names the agency; that agency's records unit is the office to ask for the address, and it is the office this request goes to.");
-      L.push("Nothing held in the repository names the agency that arrested you, because that is a fact of your own arrest.", "");
+      L.push("The form prints its own destination: Submit forms to: Criminal Records and Identification Bureau, 5700 East Tudor Road, Anchorage, Alaska 99507. Telephone: (907) 375-6410. Fax: (907) 269-0363. Email: dps.chri@alaska.gov.");
+      L.push("The recorded initial destination is DPS or the responsible originating agency. If the wrong entry belongs to another agency's record, that agency is the destination; the Bureau's own number above is where to ask which yours is.");
+      L.push("If DPS does not hold the information, DPS forwards the request itself and sets that agency a due date - the form's own decision block records that step on its face. You do not chase the other agency.", "");
+      L.push("WHAT YOU DO NOT FILE", "");
+      L.push("No petition. No motion. No proposed order. No certificate of service. No case number, because there is no case. Nothing on this route goes to a court.", "");
       L.push("WHAT IT COSTS", "");
-      L.push("Nothing is asked of you anywhere in this packet, and no held source states any charge for making this request. A written request to an agency to look at its own record is not a court filing and carries no filing fee.");
-      L.push("The recorded no-cost rule in the statute - \"No filing fee or other expungement cost may be charged\" - is about the expungement this route eventually leads to, not about this request.");
-      L.push("If the agency says it charges for a records search or for copies, that is the agency's own schedule. Ask its records unit what the charge is for before you pay it.");
-      L.push("Colorado's published petition-sealing fees on forms JDF 417 and JDF 612 belong to a different statutory scheme and are not the price of anything here.", "");
+      L.push("Nothing is asked of you in this packet, and no held source states a charge for submitting the request. The form prints no fee. The Bureau publishes what it charges and the form gives you four ways to ask: (907) 375-6410, fax (907) 269-0363, dps.chri@alaska.gov, or 5700 East Tudor Road, Anchorage, Alaska 99507.");
+      L.push("One recorded cost is real and is not a fee for the request: you will generally need your own Alaska criminal history record to point at the entry, and the compiled Alaska profile records \"DPS criminal history record - DPS fee - To confirm what records exist\" without an amount. Ask the Bureau.");
+      L.push("Alaska's other published charges are not this route's charges. The same profile prices a TF-810 Courtview exclusion at typically $0, an SIS set-aside motion, and an AS 12.62.180(b) SEALING request as agency-dependent. Those are different statutes and different instruments, and this packet does not borrow their figures.");
+      L.push("There is no fee waiver because there is no filing fee.", "");
       L.push("WHO ELSE HAS TO BE TOLD", "");
-      L.push("Nobody. There is no opposing party, no district attorney to notify and no certificate of service, and no held record states any service requirement for this request. Send it to one place and keep dated proof that you did.", "");
-      L.push("WHAT HAPPENS NEXT, EITHER WAY", "");
-      L.push("IF THE AGENCY MAKES A FINDING: write down the date of the finding. The recorded rule gives the agency 90 days from that date to petition the district court itself. If it does, the matter is in court and it got there without you filing anything.");
-      L.push("IF THE 90 DAYS PASS AND THE AGENCY HAS NOT PETITIONED: the statute lets you file the petition yourself, in the same district court, and the recorded rule is that no filing fee or other expungement cost may be charged. That petition is a different instrument in a different packet; ask for the Colorado mistaken-identity court-petition packet.");
-      L.push("IF THE AGENCY REFUSES, FINDS AGAINST YOU, OR DISPUTES WHAT YOU SENT: stop. The recorded escalation for a no-finding or a dispute is a lawyer, not a self-help filing.", "");
+      L.push("Nobody. There is no opposing party and no certificate of service. Send it once, keep dated proof, and let DPS forward it if it has to.", "");
+      L.push("IF IT IS DENIED", "");
+      L.push("The form's own footer: Per 13 AAC 68.200, you may appeal a denial to the Commissioner of Public Safety.");
+      L.push("After a final adverse decision, the recorded route is judicial review by administrative appeal to the Alaska Superior Court under the applicable appellate rules - and the recorded decision says in terms that that appeal is NOT an ordinary self-help record-clearing packet. Take it to a lawyer. Nothing here prepares either appeal.", "");
       L.push("WHEN TO STOP AND GET HELP", "");
-      L.push("- the agency refuses to investigate or finds against you;");
-      L.push("- anyone disputes what you say about the arrest;");
-      L.push("- charges were filed arising from the arrest;");
-      L.push("- you are trying to establish innocence of something you were actually arrested for;");
+      L.push("- the record is accurate and you want it sealed rather than corrected;");
+      L.push("- the request is denied;");
+      L.push("- the entry came from another state or from a federal agency - the Commissioner cannot reach records that did not originate in Alaska;");
+      L.push("- somebody has been using your identity and you do not know what else was done in your name;");
       L.push("- any immigration question is involved.", "");
       L.push("WHAT THIS PACKET IS NOT", "");
-      L.push("A written request to an agency, authored from one recorded branch of C.R.S. Sec. 24-72-702. It is not a Colorado JDF form - the controlling decision records that none was located for this track - not a court filing, not the district-court petition another packet carries, not legal advice, not sent for you, and not a promise that the agency will investigate or find anything.");
+      L.push("The Department's own form CRI-103 delivered as issued, plus this route sheet and an evidence checklist. Not a court filing, not a petition, not a sealing request, not either appeal, not legal advice, not sent for you, and not a promise that the Department will correct anything.");
+    } else {
+      L.push(`Prepared for: ${name}`, "");
+      L.push("The recorded decision says a challenge under AS 12.62.170 should identify six things. Write each one out here, then copy or attach it to the form. The form's own instruction is: \"What is the problem with your criminal history? Be specific. Use the back of form to explain. If court documents are available they must be attached.\"", "");
+      L.push("1. THE PRECISE ENTRY. Which entry in your criminal justice information is wrong. Identify it exactly as your DPS criminal history record prints it, not by description.", "");
+      L.push(DOTS());
+      L.push(DOTS(), "");
+      L.push("2. WHY IT IS INACCURATE OR INCOMPLETE. What specifically is wrong with it, or what is missing from it.", "");
+      L.push(DOTS());
+      L.push(DOTS(), "");
+      L.push("3. THE CORRECT DISPOSITION OR DATA. What the entry should say instead.", "");
+      L.push(DOTS());
+      L.push(DOTS(), "");
+      L.push("4. THE ORIGINATING AGENCY AND CASE. Which agency created the entry, and the case or incident number it belongs to.", "");
+      L.push(DOTS());
+      L.push(DOTS(), "");
+      L.push("5. SUPPORTING DOCUMENTATION. The recorded list is: certified disposition, identity documents, and fingerprints where required. Tick what you are attaching and name each document.", "");
+      L.push("   [ ] Certified disposition from the court that handled the case");
+      L.push("   [ ] Identity documents");
+      L.push("   [ ] Fingerprints - required by the form itself if your reason is mistaken identity or false accusation; make arrangements through the Bureau to have them taken");
+      L.push("   [ ] Other court documents - the form requires these to be attached if they are available", "");
+      L.push(DOTS());
+      L.push(DOTS(), "");
+      L.push("6. THE CORRECTION REQUESTED. State plainly what you are asking the record-holder to do.", "");
+      L.push(DOTS());
+      L.push(DOTS(), "");
+      L.push("AND ONE THING THE FORM ADDS. If your reason is mistaken identity or false accusation, the form asks for the name of the person using your identity, if known.", "");
+      L.push(DOTS(), "");
+      L.push("A REMINDER ABOUT WHAT YOU ARE SIGNING. The form carries an unsworn falsification statement: you certify under penalty of unsworn falsification (AS 11.56.210) that the information you supply on and with the form is true and correct. Everything you write above travels under that certification.");
     }
     L.push("", `Route: ${this.routes[0].routeKey}`);
     return L.join("\n");
@@ -387,46 +473,99 @@ const SPEC = {
   mapFor(componentId, h) {
     const writes = [];
     const refusals = [];
-    if (componentId === "agency_request") {
+    if (componentId === "dps_correction_request") {
       writes.push(
-        h.write("requester_name", "Requester named at the head of this request", "participant.full_legal_name"),
-        h.write("date_of_birth", "Date of birth of the requester, in the FROM block of this request", "participant.date_of_birth"),
-        h.write("mailing_address", "Mailing address of the requester, in the FROM block of this request", "participant.street_address"),
-        h.write("telephone", "Telephone number of the requester, in the FROM block of this request", "participant.phone"),
-        h.write("email", "Email address of the requester, in the FROM block of this request", "participant.email")
+        h.write("subject_name", "Subject Name", "participant.full_legal_name"),
+        h.write("mailing_address", "Mailing Address", "participant.street_address"),
+        h.write("city_state_zip", "City/State/Zip", "participant.city_state_zip"),
+        h.write("date_of_birth", "Date of Birth", "participant.date_of_birth"),
+        h.write("telephone", "Telephone #", "participant.phone"),
+        h.write("email", "Email", "participant.email")
       );
       refusals.push(
-        h.rbf("agency_name", "Name of the agency that made the arrest",
-          "the name of the law-enforcement agency that arrested you, copied from your arrest paperwork",
-          "which agency made an arrest is a fact of the participant's own record and no committed record holds it"),
-        h.rbf("agency_address", "Address the agency receives written record requests at",
-          "the postal address that agency's records unit receives written record requests at - ask its records unit if the arrest paperwork does not print it",
-          "no committed record holds the address of any particular Colorado law-enforcement agency"),
-        h.rbf("arrest_date", "Date of the arrest",
-          "the date of the arrest, copied exactly from the arrest paperwork",
-          "no arrest fact is held for a record the platform has not seen"),
-        h.rbf("case_incident_number", "Case or incident number of the arrest",
-          "the case or incident number the agency recorded the arrest under, from the arrest paperwork",
-          "no record identifier is held for a record the platform has not seen"),
-        h.rbf("identifiers_used", "Identifiers the arrest was recorded under",
-          "the name and any other identifiers printed on the arrest record - these are what the agency will search on",
-          "what identifiers an arrest was recorded under lives on a record the platform has not seen"),
-        h.rbf("what_i_was_accused_of", "What I was accused of",
-          "what the arrest paperwork says you were arrested for, copied from it",
-          "no charge fact is held for a record the platform has not seen"),
-        h.rbf("why_wrong_person", "Why the arrest was of the wrong person, and what I am attaching",
-          "your own account of why the person arrested was not you, and a list of what you are attaching to show it - this is the substance the agency decides on",
-          "this is the participant's own account and the platform neither holds it nor writes it"),
-        h.rbf("person_mistaken_for", "Name and any description of the person I believe I was mistaken for",
-          "the name and any description of the person you believe you were mistaken for, if you know it; write that you do not know if you do not",
+        h.rbf("requester_name", "Requester Name (if not subject)",
+          "nothing, if the record you are correcting is your own - the form asks for this only where the person making the request is someone other than the subject of the record. If you are making the request for someone else, put your own name here",
+          "the form itself makes this blank conditional on the requester not being the subject, and the platform holds no fact about anyone else"),
+        h.rbf("maiden_alias_name", "Maiden/Alias name",
+          "any maiden name or alias your record might be held under; the agency searches on these",
+          "the platform holds no alias fact, and binding the participant's legal name into an alias blank would assert an alias that may not exist"),
+        h.rbf("drivers_license", "Drivers License State / #",
+          "your driver's licence issuing state and number, from the licence itself",
+          "the shared semantics refuse a government identifier on any form, so the platform will not write a licence number even where it holds one"),
+        h.rbf("ssn", "SSN",
+          "your Social Security number, if you choose to give it",
+          "the shared semantics refuse a government identifier on any form, so the platform will not write a Social Security number"),
+        h.rbf("fax", "Fax #",
+          "a fax number the agency can reach you on, if you have one; leave it empty if you do not",
+          "the platform holds no fax fact"),
+        h.rbf("other_contact", "Other (cell or message #)",
+          "a mobile or message number the agency can reach you on, if you want to give one that is not your main telephone number",
+          "the platform holds one telephone fact and writes it to the telephone blank; a second number is one it does not hold"),
+        h.rbf("problem_description", "What is the problem with your criminal history",
+          "the precise entry that is wrong, why it is inaccurate or incomplete, the correct data, the originating agency and case, and the correction you are asking for - use the back of the form if you need more room, as the form instructs. The evidence checklist page in this packet has each of those as a heading",
+          "the account of what is wrong with a record is the participant's own and the substance the agency decides on; the platform has not seen the record"),
+        h.rbf("person_using_identity", "Name of the person using your identity",
+          "the name of the person using your identity, if you know it - the form asks for this only where your reason is mistaken identity or false accusation",
           "the identity of another person is not a fact the platform holds"),
-        h.rbf("no_charges_basis", "What shows no charges were filed, and where it is recorded",
-          "what shows that no charges were filed arising from this arrest, and where that is recorded - the district attorney's office for that judicial district, or the court, if one was involved",
-          "whether charges were filed on a particular arrest lives on records the platform has not seen"),
-        h.protectedBlank("requester_signature", "Signature of the requester on this request",
-          "the requester signs the request personally"),
-        h.protectedBlank("signature_date", "Date beside the requester's signature on this request",
-          "a date written before the request is signed would be false")
+        h.rbf("right_or_privilege", "Right or privilege granted or denied",
+          "the right or privilege that was or will be denied because of the record - only if that has happened; leave the whole right-hand column empty if it has not",
+          "the whole right-hand column is conditional on the record having been used to deny a right or privilege, which the platform does not know"),
+        h.rbf("date_and_time_granted_or_denied", "Date and time granted / denied",
+          "the date and time the right or privilege was granted or denied - only if the right-hand column applies to you",
+          "conditional on a denial the platform does not know about"),
+        h.rbf("responsible_person_name", "Name of the person responsible for granting or denying the privilege",
+          "the name of the person who granted or denied it - only if the right-hand column applies to you",
+          "the identity of a third party is not a fact the platform holds"),
+        h.rbf("responsible_person_title", "Title of the person responsible for granting or denying the privilege",
+          "that person's job title - only if the right-hand column applies to you",
+          "the details of a third party are not facts the platform holds"),
+        h.rbf("responsible_person_mailing_address", "Mailing address of the person responsible for granting or denying the privilege",
+          "that person's postal address - only if the right-hand column applies to you",
+          "a third party's address is not a fact the platform holds, and the participant's own address belongs in the left-hand column"),
+        h.rbf("responsible_person_telephone", "Telephone number of the person responsible for granting or denying the privilege",
+          "that person's telephone number - only if the right-hand column applies to you",
+          "a third party's telephone number is not a fact the platform holds"),
+        h.election("reason_mistaken_identity", "Reason box: MISTAKEN IDENTITY / FALSELY ACCUSED",
+          "which of the form's five reasons is true is a fact about the participant's own record; the route does not determine it, and this reason additionally requires the participant to arrange fingerprints through the Bureau"),
+        h.election("reason_personal_descriptors", "Reason box: PERSONAL DESCRIPTORS IN ERROR",
+          "which of the form's five reasons is true is a fact about the participant's own record and the route does not determine it"),
+        h.election("reason_charge_information", "Reason box: CHARGE INFORMATION IN ERROR",
+          "which of the form's five reasons is true is a fact about the participant's own record and the route does not determine it"),
+        h.election("reason_missing_disposition", "Reason box: MISSING OR WRONG COURT OR PROSECUTOR DISPOSITION INFORMATION",
+          "which of the form's five reasons is true is a fact about the participant's own record and the route does not determine it"),
+        h.election("reason_set_aside_missing", "Reason box: SET ASIDE INFORMATION IS MISSING",
+          "which of the form's five reasons is true is a fact about the participant's own record and the route does not determine it"),
+        h.protectedBlank("record_subject_signature", "Record Subject's Signature",
+          "the form carries an unsworn falsification certification under AS 11.56.210 over this line; the requester signs it personally"),
+        h.protectedBlank("signature_date", "Date beside the Record Subject's Signature",
+          "a date written before the form is signed would be false"),
+        h.agencyBlank("dps_decision_block", "Bureau use only - the decision block at the foot of the form",
+          "DPS Received, DPS has information, Approved, Denied, the forwarding line and its due date are all completed by the Criminal Records and Identification Bureau")
+      );
+    } else if (componentId === "evidence_checklist") {
+      writes.push(h.write("checklist_prepared_for", "Person this evidence checklist is prepared for", "participant.full_legal_name"));
+      refusals.push(
+        h.rbf("precise_entry", "The precise entry that is inaccurate or incomplete",
+          "the entry exactly as your DPS criminal history record prints it, not a description of it",
+          "the platform has not seen any participant's Alaska criminal history record"),
+        h.rbf("why_inaccurate", "Why the entry is inaccurate or incomplete",
+          "what specifically is wrong with the entry, or what is missing from it",
+          "this is the participant's own account of their own record"),
+        h.rbf("correct_data", "The correct disposition or data",
+          "what the entry should say instead",
+          "the correct value for a record the platform has not seen is not a fact it holds"),
+        h.rbf("originating_agency_and_case", "The originating agency and case",
+          "which agency created the entry, and the case or incident number it belongs to",
+          "which agency originated a particular entry lives on the record itself"),
+        h.rbf("supporting_documentation", "The supporting documentation being attached",
+          "which of the certified disposition, identity documents, fingerprints and other court documents you are attaching, and the name of each",
+          "what a participant holds and attaches is not a fact the platform can know"),
+        h.rbf("correction_requested", "The correction requested",
+          "what you are asking the record-holder to do, stated plainly",
+          "the relief a participant asks for on their own record is theirs to state"),
+        h.rbf("checklist_person_using_identity", "The name of the person using your identity, if known",
+          "the name of the person using your identity, if you know it - the form asks for this where the reason is mistaken identity or false accusation",
+          "the identity of another person is not a fact the platform holds")
       );
     } else {
       writes.push(h.write("prepared_for", "Person this route sheet is prepared for", "participant.full_legal_name"));
