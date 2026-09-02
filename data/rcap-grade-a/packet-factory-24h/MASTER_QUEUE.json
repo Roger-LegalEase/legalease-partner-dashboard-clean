@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "bdd251e9ace8ee96b31acb823348f07c65af468e",
+  "minimumCaptainSha": "005e629c07576c98c2f4d40ef0fcc4d7a2b7a9b0",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
@@ -60,19 +60,19 @@
     "sourceReady": 45,
     "sourceBlocked": 162,
     "legalBlocked": 25,
-    "verifyPending": 1,
-    "repairRequired": 27,
+    "verifyPending": 2,
+    "repairRequired": 23,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 45,
     "SOURCE_BLOCKED": 162,
-    "COMPLETE_PACKET_PROVEN": 81,
-    "FAIL_REPAIR_REQUIRED": 27,
+    "COMPLETE_PACKET_PROVEN": 84,
+    "FAIL_REPAIR_REQUIRED": 23,
     "VERIFIED_PASS": 6,
     "BUILD_IN_PROGRESS": 4,
     "LEGAL_BLOCKED": 13,
-    "VERIFY_PENDING": 8
+    "VERIFY_PENDING": 9
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
@@ -4236,44 +4236,23 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "FILING_DESTINATION",
-        "SERVICE"
+        "CLIPPING_AND_OVERLAP"
       ],
       "failedObligations": [
         {
-          "obligation": "FILING_DESTINATION",
-          "finding": "The packet says the address of the court is 'not established in this repository' and sends the participant to the clerk. The repository establishes the filing rule in full, for this exact packetSetId: 'File the verified CR-409 with the proposed CR-410 at least 15 days before the hearing, in the court where the accusatory pleading was filed, or where no pleading was filed in a court with criminal jurisdiction in the city or county where the arrest occurred. One arrest per petition.' That is a two-branch venue rule, a filing deadline, and a one-arrest-per-petition limit — three answers the participant needs and the packet has. Amendment A1 decided this precise question against exactly this move: the fee standard rests on the repository not holding the figure, that fact is absent here, and 'ask the clerk where to file' substitutes a question for an answer we have. Nothing in the family directory names either venue branch, the 15-day deadline or the one-arrest limit. A participant with an uncharged arrest cannot tell from this packet which court has criminal jurisdiction over it, and a participant with two arrests is not told they need two petitions.",
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
           "evidence": {
-            "repositoryRule": "File the verified CR-409 with the proposed CR-410 at least 15 days before the hearing, in the court where the accusatory pleading was filed, or where no pleading was filed in a court with criminal jurisdiction in the city or county where the arrest occurred. One arrest per petition.",
-            "heldIn": "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ca-851-91-set, participantActionRequired[kind=file]",
-            "packetSays": "'…and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the arrest.'",
-            "searchedFor": "'15 days', 'accusatory pleading', 'criminal jurisdiction', 'one arrest' across the whole family directory — no match",
-            "standard": "DET-FEE-AND-WAIVER-001-A1 — the amendment refuses this substitution by name"
-          }
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The fee half is right and the waiver half is wrong, and the obligation is scored as one. The amount is genuinely open — the manifest records pay_fee as 'Unresolved and county-specific. Do not publish a figure' — so the packet is correct to publish none, correct to say why ('An unsourced figure in a filing instruction would be worse than none'), and correct to name the clerk of the Superior Court in the county of the arrest as the authority who answers it. But the packet also says 'whether it can be waived … not established in this repository', and the repository answers that: the manifest's apply_fee_waiver entry names FW-001 as the general California fee waiver form, conditional on the participant being unable to pay. That is the waiver procedure, held and named, and the packet neither states it nor points at it — the string 'FW-001' does not appear anywhere in the family directory. Under DET-FEE-AND-WAIVER-001 the first question is whether the repository establishes the answer, and here it establishes half of it; a named authority may stand in only for what the record does not contain. The repair is narrow: keep the fee sentence, name FW-001.",
-          "evidence": {
-            "feeAmount": "correctly open — 'Unresolved and county-specific. Do not publish a figure.'",
-            "waiverHeldBy": "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ca-851-91-set, participantActionRequired[kind=apply_fee_waiver]",
-            "waiverAnswer": "FW-001 is the general California fee waiver form",
-            "packetSays": "'The filing fee and whether it can be waived … are not established in this repository.'",
-            "searchedFor": "'FW-001' and 'fee waiver' across the whole family directory — no match",
-            "standard": "DET-FEE-AND-WAIVER-001 theTest, as stated in amendment A1"
-          }
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "This is the most consequential of the three. The packet says 'who must be served and by what method … are not established in this repository' and sends the participant to the clerk. The repository establishes the whole rule: 'Serve the prosecuting attorney of the city or county where the arrest occurred, and the arresting agency, at least 15 days before the hearing.' Two named recipients and a deadline. The packet ships CR-106, the Judicial Council's own Proof of Service for criminal record clearing, and maps all 33 of its blanks — so it hands the participant the instrument for proving service while telling them the repository does not know who to serve. It is worse than a gap: the participant has the proof-of-service form, has been told the parties are unknown, and has a 15-day deadline nobody mentioned. The method half is arguably covered by CR-106's own face, which sets out service by mail and by personal delivery and points at POS-050 for electronic service; the parties and the deadline are not covered anywhere. Under DET-FEE-AND-WAIVER-001's extension to SERVICE, a named authority stands in only where no held source establishes the rule, and one does.",
-          "evidence": {
-            "repositoryRule": "Serve the prosecuting attorney of the city or county where the arrest occurred, and the arresting agency, at least 15 days before the hearing.",
-            "heldIn": "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ca-851-91-set, participantActionRequired[kind=serve_party]",
-            "packetSays": "'…who must be served and by what method … are not established in this repository. Ask the clerk of the Superior Court in the county of the arrest.'",
-            "searchedFor": "'prosecuting attorney', '15 days' across the whole family directory — no match",
-            "aggravatingFact": "the packet ships and fully maps CR-106, the proof-of-service form, while declaring the service rule unknown",
-            "standard": "DET-FEE-AND-WAIVER-001 appliesTo, read with amendment A1's theTest"
+            "fixturesMeasured": 16,
+            "fixturesWithWordsOutsideThePageBox": 4,
+            "allFourAreTheFilledPrimaryFiling": true,
+            "unchangedOfficialFixturesAffected": 0,
+            "clippedWordX0": -3.442,
+            "sourceLineX0": 36,
+            "sourceSetsItAsTwoLines": true,
+            "artifactSetsItAsOne": true,
+            "confirmedVisuallyOn": "raster/pc-851-91-matter-of-right-boundary/cr-409/page-02.png",
+            "centralGateCoverage": "none; family is notEligible"
           }
         }
       ],
@@ -13046,42 +13025,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FILING_DESTINATION",
-        "ROUTE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": "The family's own artifacts disagree on the route key, and the key the participant-facing pages print does not exist. production-field-map.json, participant-instructions.md and the Route: line printed on the pages of both fixtures carry \"obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal\", while product-wiring.json and the MASTER_QUEUE row carry \"obligation:track-only:KY:ky_void_seal_controlled_substance\". The canonical route universe contains only the track-only key; the track-pathway/void-and-seal key occurs zero times there. Statute, jurisdiction and track id all agree, so this is a keying defect rather than a wrong-route packet - but a Grade-A record is keyed to an exact route, and the face and the field map are keyed to a route that does not exist. Repair: re-key the field map and the instructions to the canonical track-only key and rerender so the printed Route: line matches.",
-          "evidence": {
-            "fieldMapRouteKeys": [
-              "obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal"
-            ],
-            "wiringRouteKeys": [
-              "obligation:track-only:KY:ky_void_seal_controlled_substance"
-            ],
-            "masterQueueRouteKeys": [
-              "obligation:track-only:KY:ky_void_seal_controlled_substance"
-            ],
-            "canonicalUniverseOccurrencesOfPrintedKey": 0,
-            "routeLinePrintedOnFace": "obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal"
-          }
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": "Kept on re-examination, and the ground is stated exactly. The instructions never name where the motion is filed: step 4 says \"File the motion with the tendered order\", which states what accompanies what, and no line says the filing goes to the circuit court clerk or to the county of conviction. The fact is held elsewhere in this repository - the committed legal-design track registry entry for ky_void_seal_controlled_substance states the destination in terms (\"Office of the Circuit Court Clerk... filed in the original criminal case in the county of conviction\", with the Clerks' Manual filing type recorded) - so this is a fact the build holds and does not carry onto the participant-facing page, and the repair is to state it. Boundary noted rather than decided: DET-FEE-AND-WAIVER-001 extends its named-authority reasoning to FEE_AND_WAIVER and SERVICE only, and this packet does name the circuit court clerk for the county in the caption as an authority to ask - about service and about the fee, not about where to file. If Captain extends that reasoning to FILING_DESTINATION, this finding should be revisited; on the determination as written it stands.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/participant-instructions.md",
-            "instructionLineNearestToADestination": "File the motion with the tendered order. The order goes to the judge with the motion; it is not filed on its own.",
-            "destinationHeldInCommittedRegistry": "data/record-clearing/legal-design-track-registry.json, track ky_void_seal_controlled_substance, destination.kind clerk, destination.name \"Office of the Circuit Court Clerk\"",
-            "determinationScope": "DET-FEE-AND-WAIVER-001 appliesTo: FEE_AND_WAIVER and, by the same reasoning, SERVICE"
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ky_void_seal_controlled_substance-set.mjs",
@@ -13159,42 +13107,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FILING_DESTINATION",
-        "ROUTE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": "The family's own artifacts disagree on the route key, and the key the participant-facing pages print does not exist. production-field-map.json, participant-instructions.md and the Route: line printed on the pages of both fixtures carry \"obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal\", while product-wiring.json and the MASTER_QUEUE row carry \"obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia\". The canonical route universe contains only the track-only key; the track-pathway/void-and-seal key occurs zero times there. Statute, jurisdiction and track id all agree, so this is a keying defect rather than a wrong-route packet - but a Grade-A record is keyed to an exact route, and the face and the field map are keyed to a route that does not exist. Repair: re-key the field map and the instructions to the canonical track-only key and rerender so the printed Route: line matches.",
-          "evidence": {
-            "fieldMapRouteKeys": [
-              "obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal"
-            ],
-            "wiringRouteKeys": [
-              "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia"
-            ],
-            "masterQueueRouteKeys": [
-              "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia"
-            ],
-            "canonicalUniverseOccurrencesOfPrintedKey": 0,
-            "routeLinePrintedOnFace": "obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal"
-          }
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": "Kept on re-examination, and the ground is stated exactly. The instructions never name where the motion is filed: step 4 says \"File the motion with the tendered order\", which states what accompanies what, and no line says the filing goes to the circuit court clerk or to the county of conviction. The fact is held elsewhere in this repository - the committed legal-design track registry entry for ky_void_seal_marijuana_synthetic_salvia states the destination in terms (\"Office of the Circuit Court Clerk... filed in the original criminal case in the county of conviction\", with the Clerks' Manual filing type recorded) - so this is a fact the build holds and does not carry onto the participant-facing page, and the repair is to state it. Boundary noted rather than decided: DET-FEE-AND-WAIVER-001 extends its named-authority reasoning to FEE_AND_WAIVER and SERVICE only, and this packet does name the circuit court clerk for the county in the caption as an authority to ask - about service and about the fee, not about where to file. If Captain extends that reasoning to FILING_DESTINATION, this finding should be revisited; on the determination as written it stands.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/participant-instructions.md",
-            "instructionLineNearestToADestination": "File the motion with the tendered order. The order goes to the judge with the motion; it is not filed on its own.",
-            "destinationHeldInCommittedRegistry": "data/record-clearing/legal-design-track-registry.json, track ky_void_seal_marijuana_synthetic_salvia, destination.kind clerk, destination.name \"Office of the Circuit Court Clerk\"",
-            "determinationScope": "DET-FEE-AND-WAIVER-001 appliesTo: FEE_AND_WAIVER and, by the same reasoning, SERVICE"
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ky_void_seal_marijuana_synthetic_salvia-set.mjs",
@@ -20588,117 +20505,82 @@
       "failingCounters": [],
       "failedObligationNames": [
         "CLIPPING_AND_OVERLAP",
-        "FEE_AND_WAIVER",
         "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
+        "SELF_HELP_STOP",
+        "SERVICE"
       ],
       "failedObligations": [
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The list exists and is long — 66 field-map rows declare requiredBeforeFiling true — but a systematic off-by-one in the labels makes part of it actively misleading, and the defect flows straight into the participant-facing document. On the certificate-of-disposition request, the field census's effectiveLabel for a vertical stack of identifier fields on page 2 is the label of the row above, not the row it is attached to, while labelBasis still claims printed_to_the_left_in_the_same_cell. Measured in this lane, descending the stack by y: IDVNumber is labelled \"Docket, Indictment, or SCI Number\" (a duplicate of the field above it), ArrestNumber is labelled \"IDV Number\", OrderofProtectionNumber is labelled \"Arrest Number\", CertificateofDispositionNumber is labelled \"Order of Protection Number\", CriminalJusticeTrackingNumber(CJTN) is labelled \"Certificate of Disposition Number\", TicketNumber is labelled \"Complaint Number\", NYSIDNumber is labelled \"Ticket Number\", PartialDocketNumber is labelled \"NYSID Number\", and ArrestDate is labelled \"Incident Date\". Two anchors are correct and each is followed by a run of shifted labels, which is the signature of a label-picking rule that mis-resolves in a dense stack. The consequence for the participant is direct: participant-instructions.md reproduces these pairings verbatim, so it tells them to write their IDV number into the field named ArrestNumber and their arrest number into OrderofProtectionNumber, on the form used to obtain the certificate of disposition that every 160.59 application requires. The application and pro se packet carry milder versions of the same defect — the application collapses \"Number(s) Weight Date Date Section\" onto four distinct fields and labels both NYSID and Motorist_ID \"¼Motorist ID #\", and the instruction list shows the damage as entries like \"Weight (source field: Conviction_Date)\" and \"IDV Number (source field: ArrestNumber)\". The nine counters do not catch this: a mislabelled field is still a classified field, so knownRequiredFieldsMissing stays zero while the list misdirects.",
+          "finding": null,
           "evidence": {
-            "requiredBeforeFilingRows": 66,
-            "misalignedStackDocument": "NY-CPL-160.59-COD-REQUEST, page 2",
-            "misalignedPairsMeasuredHere": {
-              "IDVNumber": "Docket, Indictment, or SCI Number",
-              "ArrestNumber": "IDV Number",
-              "OrderofProtectionNumber": "Arrest Number",
-              "CertificateofDispositionNumber": "Order of Protection Number",
-              "CriminalJusticeTrackingNumber(CJTN)": "Certificate of Disposition Number",
-              "TicketNumber": "Complaint Number",
-              "NYSIDNumber": "Ticket Number",
-              "PartialDocketNumber": "NYSID Number",
-              "ArrestDate": "Incident Date"
-            },
-            "labelBasisClaimed": "printed_to_the_left_in_the_same_cell",
-            "duplicateLabelCounts": {
-              "NY-CPL-160.59-COD-REQUEST": 7,
-              "NY-CPL-160.59-APPLICATION": 2,
-              "NY-CPL-160.59-PRO-SE-PACKET": 3
-            },
-            "comparison": "DJ-LE-250B in the Wisconsin family read in the same lane has zero duplicate labels; Arkansas's two ACIC forms have two each and both are benign and explained in prose",
-            "flowsIntoParticipantDocument": "participant-instructions.md 'Exact facts still required before filing' reproduces the mislabelled pairings",
-            "countersDoNotCatchIt": "a mislabelled field is still classified, so knownRequiredFieldsMissing remains 0"
+            "fieldMapRequiredBeforeFiling": 66,
+            "instructionBullets": 65,
+            "setDifferenceBothWays": 0,
+            "fieldsWithTheOffByOneLabelBasis": 9,
+            "fieldsWithNoCaptionAtAll": 10,
+            "provenPairs": [
+              [
+                "City State Zip",
+                "labelled Street Address"
+              ],
+              [
+                "Email",
+                "labelled Phone"
+              ],
+              [
+                "NYSIDNumber",
+                "labelled Ticket Number"
+              ],
+              [
+                "PartialDocketNumber",
+                "labelled NYSID Number"
+              ]
+            ],
+            "confirmedVisuallyOn": "raster/pro-se-packet-boundary/page-11.png"
           }
         },
         {
           "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "A clipped write, introduced by this build, sitting in a fixture no visual gate has looked at. A word-geometry read of every delivered fixture with pdftotext -bbox finds five text runs in pro-se-packet-boundary.pdf that extend past the right edge of the 612-point page: on page 9 and again on page 11, and worst at 5.21 points of overhang. It is participant text, not the form's: the pristine NY-CPL-160.59-PRO-SE-PACKET from the mounted corpus reads zero words outside the page box, and so do all five other fixtures in this family and all eight fixtures across the other four families read in this lane. Measured against the widget rectangles the field census records, the overflow is much larger than the page overhang suggests — the Email widget on page 11 is x=308.768 width=263.544, so its right edge is 572.312, and the drawn email runs to 617.21: 44.89 points past its own widget box and 5.21 past the page. City State Zip runs to 614.61 (42.30 past the widget) and Applicant Name to 613.99 (41.68 past). The build believes these fit: reports/actual-writes.json records all three as outcome \"shrunk\" at font sizes 8, 7 and 7.5, and its proof block records exactValueObserved true — which is true and is the point, because the value is drawn in full and drawn outside the box. The fit calculation is measuring something other than the widget's own rectangle. Contrast the Arkansas family in this same lane, whose boundary fixture refuses three over-long values with value_exceeds_widget_width_at_minimum_font rather than drawing them past the rule. The visual gate's stated proof list includes \"no clipped write\", and this family's raster is PENDING, so nobody has looked — this is exactly the defect the gate exists to catch, found by reading the bytes instead.",
+          "finding": null,
           "evidence": {
-            "visualDefectsCounterSays": 0,
-            "counterDoesNotMeasureContainment": "the nine counters read zero while three fields are drawn outside their widget boxes and past the page edge; the counter does not measure page- or widget-box containment from the delivered bytes",
-            "wordsOutsidePageBox": {
-              "pro-se-packet-boundary.pdf": 5,
-              "all other fixtures in this family": 0,
-              "pristine source pro-se packet": 0
-            },
-            "overflowMeasured": {
-              "Email": {
-                "widgetRight": 572.312,
-                "drawnTo": 617.21,
-                "pastWidgetPt": 44.89,
-                "pastPagePt": 5.21,
-                "page": 11
-              },
-              "CityStateZip": {
-                "widgetRight": 572.312,
-                "drawnTo": 614.61,
-                "pastWidgetPt": 42.3,
-                "pastPagePt": 2.61,
-                "page": 11
-              },
-              "ApplicantName": {
-                "widgetRight": 572.312,
-                "drawnTo": 613.99,
-                "pastWidgetPt": 41.68,
-                "pastPagePt": 1.99,
-                "page": 11
-              }
-            },
-            "pageWidth": 612,
-            "buildBelievesTheyFit": "actual-writes records outcome 'shrunk' at fontSize 8 / 7 / 7.5 with exactValueObserved true",
-            "contrast": "ar-arrest-seal-set's boundary fixture refuses three over-long values with value_exceeds_widget_width_at_minimum_font",
-            "rasterState": "RASTER_PENDING — the gate that proves 'no clipped write' has not run on this family"
+            "fixturesMeasured": 6,
+            "fixturesWithWordsOutsideThePageBox": 1,
+            "wordsOutsideThePageBox": 5,
+            "worstOverhangPoints": 5.21,
+            "worstOverrunOfItsOwnWidgetPoints": 44.89,
+            "pristineSourceWordsOutsideThePageBox": 0,
+            "buildRecordedOutcome": "shrunk",
+            "confirmedVisuallyOn": "raster/pro-se-packet-boundary/page-11.png"
           }
         },
         {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The repair added a well-drafted section that names a checkable authority, and it still fails, because it asserts a silence the repository does not have. The section states: \"No held source establishes what it costs to file a CPL 160.59 sealing application\", that neither application source states a filing fee, states that filing is free, or describes a fee waiver, and that the packet \"does not supply a figure it does not hold\" — then names the clerk's office of the court of conviction and sentencing as the office to ask. The claim about the two forms is correct and this lane confirmed it independently: extracting the text of both the application and the pro se packet from the mounted corpus finds no fee, cost or dollar figure anywhere on either face. But the claim about the repository is false. The compiled New York profile, cited as a requiredSourceId for this exact route, answers it directly: packetGenerator.feeRules[2] reads \"CPL 160.59 sealing application — No separate filing fee — Court motion; notarization needed\", and the profile's narrative repeats it — \"the 160.59 motion itself carries no separate filing fee\" — and its agent guidance says to note that the motion has no separate filing fee. Amendment A1 settles the ordering: ask first whether the repository establishes the answer, and a named checkable authority may stand in only where none does. One does here, so the stand-in is unavailable and the packet sends the participant to ask a question the repository already answers. The packet's third paragraph shows it can do this correctly — it states the certificate-of-disposition fee, $5 outside New York City and $10 in the five boroughs, sourced to the form's own face, and the compiled profile's feeRules[0] and [1] hold exactly those figures. The repair is to state the no-separate-filing-fee answer the profile holds alongside the certificate fee it already states, and to carry across the waiver-adjacent facts the profile also holds — that legal-aid organisations and county district attorney sealing units assist pro se applicants at no cost.",
+          "obligation": "SERVICE",
+          "finding": null,
           "evidence": {
-            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
-            "standardClauseFailed": "amendment.theTest — ask first whether the repository establishes the answer",
-            "packetClaim": "No held source establishes what it costs to file a CPL 160.59 sealing application",
-            "repositoryHolds": [
-              "packetGenerator.feeRules[2]: CPL 160.59 sealing application — No separate filing fee — Court motion; notarization needed",
-              "narrative: the 160.59 motion itself carries no separate filing fee",
-              "AGENT GUIDANCE: note the 160.59 motion has no separate filing fee",
-              "feeRules[17]: legal-aid organizations and county DA sealing units assist pro se applicants at no cost"
+            "repositoryEstablishesIt": true,
+            "heldAt": [
+              "legal-design-track-registry.json track ny_160_59_petition rules.service, rules.notice, rules.filing",
+              "route-obligation-candidate.json destination.detail for this route"
             ],
-            "heldIn": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
-            "formFacesConfirmedSilent": "text extracted here from NY-CPL-160.59-APPLICATION and NY-CPL-160.59-PRO-SE-PACKET in the mounted corpus: no fee, cost or dollar figure on either face; the packet's claim about the forms is correct",
-            "packetGetsTheOtherFeeRight": "certificate of disposition $5 outside NYC / $10 in the five boroughs, matching the profile's feeRules[0] and [1]",
-            "partOfTheSamePatternAs": [
-              "ar-arrest-seal-set",
-              "wi_nc_doj_fingerprint_removal-set"
-            ]
+            "packetNamesThePartyToBeServed": false,
+            "packetAsksTheParticipantToConfirmServiceRequirements": true,
+            "blankServiceFieldsGivenToTheParticipant": 8,
+            "serviceInstructionsInstrumentNamedByCensusButNotPublished": true
           }
         },
         {
           "obligation": "SELF_HELP_STOP",
-          "finding": "Absent. This is the only one of the five families read in this lane whose participant document contains no self-help boundary at all: searching participant-instructions.md finds no \"not legal advice\", no referral to a lawyer or to legal aid, no \"when to stop\" section, and no statement that the packet does not decide whether the conviction can be sealed. The nearest thing is the opening line, \"These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets\" — but that is a build-status disclaimer addressed to a reviewer, not a statement to a participant of where self-help ends, and the closing line is likewise about release blockers rather than about the participant's limits. The gap is conspicuous because the repository holds the material to close it: the compiled New York profile records that legal-aid organisations and county district attorney sealing units assist pro se applicants at no cost, and CPL 160.59 relief is discretionary — the court may grant or refuse — which is exactly the kind of limit the other four packets in this lane state plainly. The document reads as a machine-generated field list with a hand-written fee section added to it, and the sections its siblings carry as a matter of course were never written.",
+          "finding": null,
           "evidence": {
-            "searchedFor": [
-              "not legal advice",
-              "lawyer",
-              "attorney",
-              "stop and get",
-              "self-help",
-              "does not decide"
-            ],
-            "matchesFound": 0,
-            "comparison": "ar-arrest-seal-set has 'Where self-help ends' naming an Arkansas-licensed lawyer; il-prostitution-j-vacate-set and ms-nonadj-set each have 'When to stop and get help instead'; wi_nc_doj_fingerprint_removal-set states it does not decide and directs the participant to read the conditions on page 1",
-            "nearestThing": "an opening build-status disclaimer addressed to reviewers, not a participant self-help boundary",
-            "materialAvailableToCloseIt": "compiled NY profile records legal-aid organisations and county DA sealing units assisting pro se applicants at no cost; the relief is discretionary"
+            "notLegalAdviceStatement": false,
+            "notFiledForYouStatement": false,
+            "doesNotDecideTheOutcomeStatement": false,
+            "whenToStopSection": false,
+            "counselReferral": false,
+            "legalAidMentionAddedByTheFeeRepair": "present, but as a cost fact inside the cost section",
+            "registrySelfHelpStopConditionsHeld": 10,
+            "registrySelfHelpStopConditionsCarriedByThePacket": 0
           }
         }
       ],
@@ -21975,90 +21857,41 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "FILING_DESTINATION",
-        "ROUTE_IDENTITY",
-        "ROUTE_OPTIONS",
-        "SELF_HELP_STOP",
-        "SERVICE"
+        "ARTIFACTS",
+        "ROUTE_IDENTITY"
       ],
       "failedObligations": [
         {
           "obligation": "ROUTE_IDENTITY",
-          "finding": "The route key the packet declares on its own face does not exist in the route census. production-field-map.json, the participant-instructions.md footer and the process-guidance page that is printed as pages 4-5 of the delivered PDF all declare 'obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement'. That string appears nowhere in canonical-route-universe.json or route-obligation-candidate.json; its only four occurrences in the repository are the builder script, the two records the builder wrote, and the builder's own pf04 return row. The canonical obligations for this track are the two keys product-wiring.json correctly carries, 'obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route' and ':pa_pardon_fallback_petition'. The prior lane checked the wiring against the queue, which agrees, and did not check the key the packet prints against the census, which does not.",
+          "finding": null,
           "evidence": {
-            "declaredOnPacketFace": "obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement",
-            "inCanonicalRouteUniverse": false,
-            "canonicalObligationsForThisTrack": [
+            "printedOnPacketFace": "obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement",
+            "occurrencesInCanonicalRouteUniverse": 0,
+            "occurrencesInRouteObligationCandidate": 0,
+            "canonicalKeysForThisTrack": [
               "obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route",
               "obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition"
             ],
-            "familyIdAgreesAcrossAllSixRecords": true
-          }
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "The instructions direct the participant to make an election that neither PA form offers, and assert a fact about the packet that is not true of it. Step 2 reads: 'Say which non-conviction ending applies to your case. Question 2 of the petition offers three: you were cited or arrested but no charge was filed, a charge was filed and the court found no probable cause, or a charge was filed and the court dismissed it... The packet has already stated that you were not convicted.' I read both delivered forms: the PA Rule 790 petition has no Question 2 and offers no such three-way election, and nothing in the packet states the petitioner was not convicted. It could not: this is the route for expungement FOLLOWING AN UNCONDITIONAL PARDON, which presupposes a conviction. The sentence is Vermont form 200-00130's Question 2, carried over from the non-conviction sealing family. requiredOptionsMissing counts options absent from a packet and cannot see an option invented for it.",
-          "evidence": {
-            "instructionsLine": 29,
-            "electionDescribed": "Question 2, three non-conviction endings",
-            "presentOnPAForms": false,
-            "routeIsPostPardon": true,
-            "sourceOfTheSentence": "vt-seal-nonconviction-set participant-instructions.md line 30, byte-identical"
-          }
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": "The packet tells a Pennsylvania petitioner to file in Vermont. participant-instructions.md line 9: 'File the completed packet with the Vermont Superior Court, Criminal Division, in the unit where your case was decided.' Line 11 explains the 'Unit' box on Vermont forms 200-00130 and 200-00132, neither of which is in this packet. This is not silence and it is not a gap the fee-and-waiver standard reaches: the repository holds the destination, the packet's OWN process-guidance page states it correctly on page 4 of the delivered PDF ('File the petition with the Clerk of Courts'), and the participant-facing instruction contradicts it with another state's court. Amendment A1 applies directly — where the record holds the answer the packet states it.",
-          "evidence": {
-            "instructionsLines": [
-              9,
-              11
+            "occurrencesOfThoseInCanonicalRouteUniverse": 5,
+            "recordsCarryingTheDeadKey": [
+              "participant-instructions.md",
+              "production-field-map.json",
+              "the process-guidance page printed into both fixtures"
             ],
-            "directsTo": "Vermont Superior Court, Criminal Division",
-            "correctDestinationOnThePacketsOwnFace": "Clerk of Courts of the Court of Common Pleas",
-            "contradictionInternal": true
+            "recordCarryingTheRealKeys": "product-wiring.json"
           }
         },
         {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "Fails under DET-FEE-AND-WAIVER-001 on the not-met limb, and worse. Line 15 states no amount and no no-fee statement, directs the participant to 'the clerk of the unit above' — a Vermont Superior Court unit, an office that cannot answer a Pennsylvania filing fee — and then asserts 'The waiver form is included', referring to Vermont form 600-00228. It is not included: this packet ships two documents, the PA Rule 790 petition and the PA Rule 790 order. Step 5 repeats the error: 'File the fee waiver (600-00228) only if you cannot pay.' The authority named is not reachable for this filing and the document named is not in the packet, so the honest-refusal route the standard allows is not open here.",
+          "obligation": "ARTIFACTS",
+          "finding": null,
           "evidence": {
-            "instructionsLines": [
-              15,
-              32
-            ],
-            "authorityNamed": "clerk of the Vermont unit",
-            "authorityReachableForThisFiling": false,
-            "waiverFormClaimed": "600-00228",
-            "waiverFormPresent": false
-          }
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "Line 16 directs service questions to 'the same clerk' — the Vermont unit's — and adds that 'The State's Attorney's signature on the stipulation is not service', naming a Vermont prosecutor and a stipulation document this packet does not contain. Step 4 tells the participant to get the State's Attorney to sign the stipulation (200-00132). Meanwhile the actual rule is printed on the delivered petition's own face and the instructions never repeat it: 'When this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth.' The repository holds the answer, on the packet's own paper, and the packet substitutes another state's officers for it.",
-          "evidence": {
-            "instructionsLines": [
-              16,
-              31,
-              127
-            ],
-            "ruleOnTheDeliveredPetitionFace": "serve a copy upon the attorney for the Commonwealth",
-            "statedInInstructions": false
-          }
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The stop language exists and describes the wrong state's packet. Line 132: 'This is a prepared set of official Vermont forms and a process-guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will seal the record.' The forms are Pennsylvania AOPC forms and the relief is expungement, not sealing. A stop that misdescribes what the participant is holding does not do the work a stop is for.",
-          "evidence": {
-            "instructionsLine": 132,
-            "saysVermontForms": true,
-            "actualForms": [
-              "PA-RCRIM-P-790-PETITION",
-              "PA-RCRIM-P-790-ORDER"
-            ],
-            "saysSeal": true,
-            "actualRelief": "expungement"
+            "renderReportDigestsRecomputed": 12,
+            "renderReportMatched": 12,
+            "renderReportMismatched": 0,
+            "falseDigestIn": "product-wiring.json proposedRepresentation.components[0].sha256",
+            "declared": "4a7113112f29b05fdf21e6d6f6822d8ca41d3768c3ff2640cff72af6bbf308e0",
+            "actual": "fb5024c3acb10682ac4e167fdcac4e83e6064b86293a7aa1eb602b97e12425af",
+            "undeclaredFilesOnDisk": 4
           }
         }
       ],
@@ -25244,52 +25077,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FILING_DESTINATION",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": "This route has two destinations in a fixed legal sequence and the packet states one of them. Stage one is fully named on the packet's own face: the BCI instruction page prints \"UTAH BUREAU OF CRIMINAL IDENTIFICATION, 4315 South 2700 West, Suite 1300, Taylorsville, Utah 84129\" and bciexpungements@utah.gov. Stage two — the district or justice court that decided the case — is named nowhere: the 1,167-byte participant-instructions.md has no \"Where you file this\" section at all, and the only trace is the prefilled caption, which under this factory's settled standard is evidence but is not the instructions naming a destination. Amendment A1's test is answered first and it is answered yes: the committed track registry holds \"Two destinations in a fixed legal sequence ... the participant first applies to BCI, which decides eligibility and issues a certificate valid for 180 days. The participant then files the expungement petition ... in the district or justice court that decided the case.\" The repository establishes it, so the packet must state it. The sibling ut_pet_no_charges-set, which ships nearly the same forms, states both stages and the 180-day window in full, so this is a gap in this packet rather than a limit of what is knowable.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md",
-            "instructionsByteLength": 1167,
-            "sectionsPresent": [
-              "Required before filing"
-            ],
-            "sectionsAbsent": [
-              "Where you file this",
-              "What it costs, and how to ask for a waiver",
-              "Who must receive a copy, and how",
-              "What this packet is not"
-            ],
-            "trackRegistryDestination": "Stage one, the Utah DPS Bureau of Criminal Identification; stage two, the court that decided the case",
-            "registry": "data/record-clearing/legal-design-track-registry.json",
-            "siblingThatStatesIt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/participant-instructions.md",
-            "stageOneNamedOnTheFace": "UTAH BUREAU OF CRIMINAL IDENTIFICATION, 4315 South 2700 West, Suite 1300, Taylorsville, Utah 84129; bciexpungements@utah.gov"
-          }
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "The packet states neither who must receive a copy nor how, and names no authority to ask. The 1,167-byte participant-instructions.md mentions service only twice, both times as a timing caveat — \"Service method, address, date, and certification only after service occurs\" and \"service certifications ... remain protected\" — which tells the participant when to fill a certificate in, not whom to serve. The packet does carry form 1146XX, Acceptance of Service – Expungement (Prosecutor), but a form's presence is not a direction: nothing on the delivered pages says the participant must send the prosecutor a copy, or by what method. The repository establishes the rule — the committed track registry states \"The court sends the filing to the prosecuting attorney; the petitioner does not serve\" — and the sibling ut_pet_no_charges-set packet states the recipient and the method in terms and names the Utah State Courts Self-Help Center (888-583-0009) besides. Under the determination, silence fails and a rule the repository holds must be stated.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md",
-            "instructionsByteLength": 1167,
-            "whatTheInstructionsSayAboutService": [
-              "Service method, address, date, and certification only after service occurs",
-              "service certifications ... remain protected"
-            ],
-            "trackRegistryService": "The court sends the filing to the prosecuting attorney; the petitioner does not serve",
-            "registry": "data/record-clearing/legal-design-track-registry.json",
-            "siblingThatStatesIt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/participant-instructions.md",
-            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json"
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
@@ -29848,34 +29640,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The verdict is unchanged from the prior lane's, but the reason recorded there no longer describes this packet, and the difference matters for the repair. The determination's notReExamined entry says this family carries \"no amount, no no-fee statement and no office to ask\". That was true when the determination was written at 2026-09-02T00:45:00Z. Ninety-four seconds later, commit 077f685 (FIX04) added a \"What this costs\" section that does name an office to ask — the Crime Information Bureau of the Wisconsin Department of Justice, Criminal History Unit, pointing to the mailing address the form prints in instruction 1 — so the true-silence finding is spent. Re-measured honestly against the standard as it now stands, this still fails, on the other limb. The packet says \"no source held in this repository states a fee for a fingerprint record removal request, states that there is none, or describes a waiver.\" That statement is false. The compiled Wisconsin profile, cited as a requiredSourceId for this exact route, answers the question directly in four places: packetGenerator.feeRules[1] \"DOJ-CIB fingerprint arrest removal — Wisconsin DOJ says no fee is required\", with feeRules[2] drawing the distinction that matters, \"DOJ-CIB criminal background check — Fee-based through WORCS\"; and pathways[0].ruleClauses[24], pathways[1].ruleClauses[5] and sourceSections[4] each state that Wisconsin DOJ says the request uses DJ-LE-250B, requires fingerprints, and has no fee. The route census repeats it in this family's own destination detail: \"There is no fee for the removal request; the background check that precedes it is fee-based.\" Amendment A1 settles the ordering — ask first whether the repository establishes the answer, and a named authority may stand in only where none does. One does here, so the stand-in is unavailable. The packet is right that the form's two pages are silent, and this lane confirmed that independently; it is wrong that the repository is. The repair is to state the no-fee answer the profile holds and to carry across the distinction the profile draws between the free removal request and the fee-based WORCS background check that precedes it.",
-          "evidence": {
-            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
-            "standardClauseFailed": "amendment.theTest — ask first whether the repository establishes the answer",
-            "determinationPremiseNowStale": "notReExamined.wi_nc_doj_fingerprint_removal-set describes a packet with 'no office to ask'; commit 077f685 added one at 2026-09-02T00:46:34Z, 94 seconds after the determination was decided at 00:45:00Z",
-            "packetClaim": "no source held in this repository states a fee ... states that there is none, or describes a waiver",
-            "repositoryHolds": [
-              "packetGenerator.feeRules[1]: DOJ-CIB fingerprint arrest removal — Wisconsin DOJ says no fee is required",
-              "packetGenerator.feeRules[2]: DOJ-CIB criminal background check — Fee-based through WORCS",
-              "pathways[0].ruleClauses[24] and pathways[1].ruleClauses[5]: the request uses DJ-LE-250B, requires fingerprints, and has no fee",
-              "sourceSections[4].text: same statement in the Wisconsin source narrative"
-            ],
-            "heldIn": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
-            "alsoInRouteCensus": "destination.detail — There is no fee for the removal request; the background check that precedes it is fee-based",
-            "formFaceConfirmedSilent": "both pages of DJ-LE-250B carry no fee, cost or payment text; the packet's claim about the form is correct",
-            "officeNamedByThePacket": "Crime Information Bureau of the Wisconsin Department of Justice, Criminal History Unit"
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs",
