@@ -17,10 +17,10 @@
   ],
   "familiesAudited": 126,
   "byResult": {
-    "PASS_COMPLETE": 117,
-    "FAIL_COMPONENT_SET": 2,
+    "PASS_COMPLETE": 118,
     "FAIL_MISSING_REQUIRED_FACTS": 4,
-    "FAIL_ROUTE_SELECTION": 3
+    "FAIL_ROUTE_SELECTION": 3,
+    "FAIL_COMPONENT_SET": 1
   },
   "counterTotals": {
     "knownRequiredFieldsMissing": 203,
@@ -174,7 +174,8 @@
     {
       "familyId": "ar-misdemeanor-dwi-seal-set",
       "directory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill",
-      "result": "FAIL_COMPONENT_SET",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -186,20 +187,23 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
+      "failedCounters": [],
       "totals": {
-        "terminalFields": 0,
-        "written": 0,
-        "blank": 0,
-        "blanksByDisposition": {},
-        "rowsInspected": 0
+        "terminalFields": 49,
+        "written": 8,
+        "blank": 41,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 20,
+          "PARTICIPANT_ELECTION_GENUINE": 3,
+          "PROTECTED_FIELD": 18
+        },
+        "rowsInspected": 1,
+        "fieldMapSchema": "documents-and-decisions"
       },
-      "findings": [
-        {
-          "counter": "requiredComponentsMissing",
-          "why": "the field map uses a schema this verifier does not read (schemaVersion, familyId, routeKeys, renderStrategy, renderedBy, generationAllowed, runtimeSelectable, writeBoxesAreConfirmedFromTheArtifact, documents); it is refused rather than read as empty"
-        }
-      ],
-      "auditable": false
+      "outputApprovalStatus": "REQUESTED",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
     },
     {
       "familyId": "az_marijuana_expungement_arrest_no_charges-set",
