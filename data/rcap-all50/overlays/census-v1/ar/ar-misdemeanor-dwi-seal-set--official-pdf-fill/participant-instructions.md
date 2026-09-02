@@ -24,7 +24,11 @@ The petition's own Certificate of Service, on page 4, states service in full. Se
 1. **the Prosecuting Attorney for the county in which the petition is filed, or the City Attorney — whichever office prosecuted the case**; and
 2. **the arresting agency**.
 
-The method is on the form: **by placing a copy in the United States mail, postage prepaid, or by hand delivering a copy** to each office. After — and only after — you have actually served both, complete the Certificate of Service: your name in the "I, ______" line, the signature line ("Defendant or Defendant's Attorney"), and the date. The platform leaves all of it blank because service has not happened yet, and a signed certificate of a mailing that never occurred is a false statement to the court. The form sets no separate service deadline: the certificate is part of the petition you file, so service belongs with filing.
+The method is on the form: **by placing a copy in the United States mail, postage prepaid, or by hand delivering a copy** to each office. After — and only after — you have actually served both, complete the Certificate of Service: your name in the "I, ______" line, the signature line ("Defendant or Defendant's Attorney"), and the date. The platform leaves all of it blank because service has not happened yet, and a signed certificate of a mailing that never occurred is a false statement to the court.
+
+**There is a deadline, and it is three days.** The form itself prints none — the certificate sits inside the petition, so nothing on the paper tells you to look further — but the committed packet-set manifest for this packet sets the rule: **"Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object."** Serve within three days of the day you file, and do not read the certificate's place on the page as permission to take longer.
+
+**Then expect an answer, or expect silence.** The prosecuting attorney has **30 days** to object under that same record. The compiled Arkansas profile records the window as class-dependent for Act 1460 sealing generally — "30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons" — and this packet is a misdemeanour DWI or BWI conviction, which puts it in the 30-day limb of that rule as well as the manifest's. If no objection is filed, many Arkansas courts grant a sealing petition on the papers without a hearing. If one is filed, the petition is contested and goes to a hearing, and that is the point at which _Where self-help ends_ below applies to you.
 
 ## What you must do before you file
 
@@ -42,7 +46,7 @@ The method is on the form: **by placing a copy in the United States mail, postag
 | Form | Page | The blank | What to write |
 | --- | --- | --- | --- |
 | both | 1 | Caption — court, county, division | the venue of the conviction, copied from its paperwork — see _Where you file this_ |
-| both | 1 | Paragraph 1 — "arrested on the ___ day of ______, ____" | the arrest date, copied from your arrest or court paperwork. The platform holds the date only as a whole and does not split it into these blanks |
+| both | 1 | Paragraph 1, three blanks on the printed lines "1. The Defendant was arrested on the ___ day of ___," and "___, and charged with the offense(s) of Driving or Boating While ..." — the day, the month and the year | the arrest date, copied from your arrest or court paperwork. The platform holds the date only as a whole and does not split it into these blanks. The year blank starts the second of those two printed lines, which is why it looks like it belongs to the charge sentence; it is the year |
 | petition | 2 | Paragraph 8 — status of pending charge(s), two lines | only if you ticked the second box: the court, case number and current status of each pending felony charge |
 | petition | 2 | Signature and date under the WHEREFORE clause | yours, when you sign |
 | petition | 3 | VERIFICATION — county, your name in the oath sentence, your signature | completed with the notary, at the moment the oath is taken; the jurat, the seal and the commission expiry are the notary's |

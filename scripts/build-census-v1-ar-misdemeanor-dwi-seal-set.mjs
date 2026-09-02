@@ -225,7 +225,83 @@ const DOCUMENTS = [
         why: "The certifying party's name in 'I, ____, do hereby certify that a true and correct copy ... has been provided'. This is a sworn statement about an act of service, not a caption, and it is the filer's to make after mailing." },
       { blankId: "p4-y433.30-x324.05", class: "certificate_of_service_date",
         why: "The date on the page 4 Certificate of Service. Service has not happened; a date here certifies a mailing that has not occurred. The page's printed 'Certificate of Service' heading also places it in a protected region, which this family runs because the shared flat path does not." }
-    ]
+    ],
+
+    // The same dispositions again, in the shared completeness contract's own
+    // closed vocabulary. See the note above completenessFields().
+    completeness: {
+      defaultBlank: null,
+      fields: {
+        // Declared required-before-filing. Every one is named in
+        // participant-instructions.md's "The items you must supply" table.
+        "p1-y707.10-x128.27": { requiredBeforeFiling: true,
+          reason: "The type of court in the caption — 'IN THE ______ COURT OF'. Which Arkansas court took the DWI conviction is copied from that case's own paperwork, and the clerk of the county confirms it; the participant writes it before filing." },
+        "p1-y707.10-x314.16": { requiredBeforeFiling: true,
+          reason: "The county in the caption, the second blank of 'IN THE ______ COURT OF ______, ARKANSAS'. This packet does not prefill it; the participant copies the county of the conviction from that case's paperwork before filing." },
+        "p1-y681.80-x207.17": { requiredBeforeFiling: true,
+          reason: "The caption's DIVISION blank, completed only if the court named above has divisions. The clerk answers whether it does; the platform does not invent it." },
+        "p1-y291.40-x315.30": { requiredBeforeFiling: true,
+          reason: "The day component of paragraph 1's arrest date, on the printed line '1. The Defendant was arrested on the ___ day of ___, ___'. The platform holds the arrest date only as a whole and no day fact, so it writes nothing here; the participant copies the date from their arrest or court paperwork before filing." },
+        "p1-y291.40-x415.78": { requiredBeforeFiling: true,
+          reason: "The month component of paragraph 1's arrest date, on the same printed line and on the same footing as the day." },
+        "p1-y275.20-x108.02": { requiredBeforeFiling: true,
+          reason: "The year component of paragraph 1's arrest date. It sits at the start of the next printed line, ', and charged with the offense(s) of Driving or Boating While', which is why its measured caption reads that way; it is the year and nothing else." },
+        "p3-y200.20-x108.72": { requiredBeforeFiling: true,
+          reason: "The identification block's Race entry, which the form states is required for proper identification of the defendant in the state and national record systems. The platform does not hold or write it; the participant states it before filing." },
+        "p3-y176.10-x107.85": { requiredBeforeFiling: true,
+          reason: "The identification block's Sex entry, in the same block and on the same footing as Race." },
+        "p3-y176.10-x367.99": { requiredBeforeFiling: true,
+          reason: "The State Identification number (SID No.) in the identification block. The platform holds no SID; the participant copies it from their arrest paperwork or criminal-history record before filing." },
+        "p3-y151.80-x364.84": { requiredBeforeFiling: true,
+          reason: "The FBI No. in the identification block. The form itself qualifies it '(If known)'; the platform holds no FBI number, and the participant supplies it before filing if they have one." },
+
+        // Signature, oath and service acts: the participant completes them at
+        // the event, never in advance.
+        "p2-y266.90-x288.05": { refusalClass: "signature_or_date_participant_completion",
+          reason: "The Defendant's signature rule under the WHEREFORE clause on page 2. Paragraph 11 makes the petition a statement true and correct to the best of the Defendant's knowledge; the participant signs it." },
+        "p2-y194.50-x288.05": { refusalClass: "signature_or_date_participant_completion",
+          reason: "The date beside that signature, completed by the participant on the day the petition is actually signed." },
+        "p3-y527.29-x325.05": { refusalClass: "signature_or_date_participant_completion",
+          reason: "The Petitioner's signature rule on the VERIFICATION page, signed in front of the notary at the moment the oath is taken." },
+        "p4-y489.70-x324.05": { refusalClass: "signature_or_date_participant_completion",
+          reason: "The signature rule on the page 4 Certificate of Service, captioned 'Defendant or Defendant's Attorney', signed by the participant only after service has actually happened." },
+        "p4-y433.30-x324.05": { refusalClass: "signature_or_date_participant_completion",
+          reason: "The date on the page 4 Certificate of Service, completed after service has actually happened. A certificate dated before service certifies a mailing that did not occur." },
+        "p4-y658.80-x83.76": { refusalClass: "participant_sworn_narrative_or_legal_election",
+          reason: "The certifying party's name in the Certificate of Service's sworn sentence, 'I, ____, do hereby certify that a true and correct copy ... has been provided'. It is the filer's statement about an act of service, made after mailing." },
+        // Not a caption the platform may fill even though it binds the
+        // participant's name: it is written in front of the notary as part of
+        // executing the jurat, in the same act as the signature below it. The
+        // contract refused participant_sworn_narrative_or_legal_election here
+        // and was right to -- that class may not excuse a PARTICIPANT_IDENTITY
+        // field, and this one is.
+        "p3-y607.18-x268.97": { refusalClass: "signature_or_date_participant_completion",
+          reason: "The name in 'Comes the Defendant/Petitioner, ____, under oath and states'. The oath has not been taken. The whole jurat -- this name, the signature beneath it and the notary's block -- is executed in one act in front of the notary, so the participant completes it there rather than in advance." },
+
+        // Paragraph 8's two continuation rules: a sworn narrative the
+        // participant writes only if the second box is ticked.
+        "p2-y547.10-x108.02": { refusalClass: "participant_sworn_narrative_or_legal_election",
+          reason: "The first of paragraph 8's two ruled lines for 'the status of those charges is/are as follows'. Reached only if the participant ticks the second box; what it says is the participant's own sworn narrative about pending charges." },
+        "p2-y532.10-x108.02": { refusalClass: "participant_sworn_narrative_or_legal_election",
+          reason: "The second of paragraph 8's two ruled lines, on the same footing as the first." },
+
+        // Owned by someone other than the participant.
+        "p3-y200.20-x404.62": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Arrest Tracking Number is assigned by Arkansas ACIC when an arrest is processed; it is the agency's identifier to state." },
+        "p3-y647.62-x183.02": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The county on the VERIFICATION page's jurat. This is the county where the oath is administered, which the notary records and which is not necessarily the county of the case." },
+        "p3-y465.31-x320.21": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The jurat's 'Subscribed and sworn to before me on this ___' date, completed by the notary at the oath." },
+        "p3-y426.67-x77.06": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "A jurat year blank on the ', 20 __' line, completed by the notary at the oath." },
+        "p3-y426.67-x323.93": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The second jurat year blank on the same printed line, likewise the notary's." },
+        "p3-y375.45-x323.05": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The notary's own signature rule, captioned 'Notary Public'." },
+        "p3-y326.45-x213.29": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "'My Commission expires:' — the notary's commission expiry, which only the notary can state." }
+      }
+    }
   },
   {
     key: "order",
@@ -253,7 +329,49 @@ const DOCUMENTS = [
 
       { blankId: "p2-y123.40-x393.47", class: "agency_assigned_identifier",
         why: "ACIC-assigned arrest identifier; the agency's to state." }
-    ]
+    ],
+
+    // Below its caption the order is the court's own instrument. The default
+    // says so once; the caption blanks the participant does complete are named
+    // individually, exactly as on the petition they must match.
+    completeness: {
+      defaultBlank: {
+        refusalClass: "court_prosecutor_clerk_or_agency_owned",
+        reason: "Below its caption the proposed order is the court's own instrument — its findings, its recital blanks, its decree, the judge's signature and the date beside it. This packet writes nothing there."
+      },
+      fields: {
+        "p1-y708.00-x140.65": { requiredBeforeFiling: true,
+          reason: "The type of court in the order's caption, which must match the petition's. The participant writes it before filing, from the same answer." },
+        "p1-y708.00-x313.38": { requiredBeforeFiling: true,
+          reason: "The county in the order's caption, which must match the petition's." },
+        "p1-y683.90-x214.25": { requiredBeforeFiling: true,
+          reason: "The order caption's DIVISION blank, completed only if that court has divisions, to match the petition." },
+        "p1-y353.80-x315.30": { requiredBeforeFiling: true,
+          reason: "The day component of the arrest date in the order's recital of paragraph 1, which must match the petition's. The platform holds no day fact." },
+        "p1-y353.80-x415.78": { requiredBeforeFiling: true,
+          reason: "The month component of the same recited arrest date." },
+        "p1-y337.70-x108.02": { requiredBeforeFiling: true,
+          reason: "The year component of the same recited arrest date. Its measured caption reads ', and charged with the offense(s) of Driving or Boating While' because the blank starts the next printed line; it is the year." },
+        "p2-y123.40-x105.88": { requiredBeforeFiling: true,
+          reason: "The identification block's Race entry on the order, on the same footing as the petition's." },
+        "p2-y100.90-x105.14": { requiredBeforeFiling: true,
+          reason: "The identification block's Sex entry on the order." },
+        "p2-y100.90-x367.27": { requiredBeforeFiling: true,
+          reason: "The State Identification number (SID No.) in the order's identification block." },
+        "p2-y78.50-x356.68": { requiredBeforeFiling: true,
+          reason: "The FBI No. in the order's identification block, which the form qualifies '(If known)'." },
+        "p2-y123.40-x393.47": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Arrest Tracking Number, assigned by Arkansas ACIC; the agency's identifier to state." },
+        "p2-y289.60-x324.05": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The judge's signature rule, captioned 'Judge' beneath it. Court-only." },
+        "p2-y237.30-x324.05": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The date beside the judge's signature. The court dates its own order." },
+        "p2-y656.10-x108.02": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The first of the order's two ruled recital lines for the status of any pending felony charges. The court recites what it finds; the clerk says whether that court wants the proposed order's recital blanks completed to match the petition." },
+        "p2-y641.30-x108.02": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The second of those two ruled recital lines, on the same footing as the first." }
+      }
+    }
   }
 ];
 
@@ -984,7 +1102,11 @@ The petition's own Certificate of Service, on page 4, states service in full. Se
 1. **the Prosecuting Attorney for the county in which the petition is filed, or the City Attorney — whichever office prosecuted the case**; and
 2. **the arresting agency**.
 
-The method is on the form: **by placing a copy in the United States mail, postage prepaid, or by hand delivering a copy** to each office. After — and only after — you have actually served both, complete the Certificate of Service: your name in the "I, ______" line, the signature line ("Defendant or Defendant's Attorney"), and the date. The platform leaves all of it blank because service has not happened yet, and a signed certificate of a mailing that never occurred is a false statement to the court. The form sets no separate service deadline: the certificate is part of the petition you file, so service belongs with filing.
+The method is on the form: **by placing a copy in the United States mail, postage prepaid, or by hand delivering a copy** to each office. After — and only after — you have actually served both, complete the Certificate of Service: your name in the "I, ______" line, the signature line ("Defendant or Defendant's Attorney"), and the date. The platform leaves all of it blank because service has not happened yet, and a signed certificate of a mailing that never occurred is a false statement to the court.
+
+**There is a deadline, and it is three days.** The form itself prints none — the certificate sits inside the petition, so nothing on the paper tells you to look further — but the committed packet-set manifest for this packet sets the rule: **"Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object."** Serve within three days of the day you file, and do not read the certificate's place on the page as permission to take longer.
+
+**Then expect an answer, or expect silence.** The prosecuting attorney has **30 days** to object under that same record. The compiled Arkansas profile records the window as class-dependent for Act 1460 sealing generally — "30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons" — and this packet is a misdemeanour DWI or BWI conviction, which puts it in the 30-day limb of that rule as well as the manifest's. If no objection is filed, many Arkansas courts grant a sealing petition on the papers without a hearing. If one is filed, the petition is contested and goes to a hearing, and that is the point at which _Where self-help ends_ below applies to you.
 
 ## What you must do before you file
 
@@ -1002,7 +1124,7 @@ The method is on the form: **by placing a copy in the United States mail, postag
 | Form | Page | The blank | What to write |
 | --- | --- | --- | --- |
 | both | 1 | Caption — court, county, division | the venue of the conviction, copied from its paperwork — see _Where you file this_ |
-| both | 1 | Paragraph 1 — "arrested on the ___ day of ______, ____" | the arrest date, copied from your arrest or court paperwork. The platform holds the date only as a whole and does not split it into these blanks |
+| both | 1 | Paragraph 1, three blanks on the printed lines "1. The Defendant was arrested on the ___ day of ___," and "___, and charged with the offense(s) of Driving or Boating While ..." — the day, the month and the year | the arrest date, copied from your arrest or court paperwork. The platform holds the date only as a whole and does not split it into these blanks. The year blank starts the second of those two printed lines, which is why it looks like it belongs to the charge sentence; it is the year |
 | petition | 2 | Paragraph 8 — status of pending charge(s), two lines | only if you ticked the second box: the court, case number and current status of each pending felony charge |
 | petition | 2 | Signature and date under the WHEREFORE clause | yours, when you sign |
 | petition | 3 | VERIFICATION — county, your name in the oath sentence, your signature | completed with the notary, at the moment the oath is taken; the jurat, the seal and the commission expiry are the notary's |
@@ -1155,6 +1277,66 @@ async function main() {
 // ==============================================================================
 // The records.
 // ==============================================================================
+// ---- the shared completeness contract's own channel ---------------------------
+//
+// This family already stated, per blank, what it wrote and what it withheld:
+// `writeBoxes`, `withheldBeforeTheFactory`, `roleRefusals`, `refusedByTheFactory`
+// and `protectedRulesHandedToTheFactory`, plus the prose in
+// participant-instructions.md. What it never published was that same disposition
+// in a shape scripts/rcap-packet-completeness/verify-packet-completeness.mjs can
+// read. readFieldRows() accepts four shapes and this family emitted none of
+// them, so `shape` stayed null, the verifier refused the map as unauditable
+// rather than reading it as empty, and returned FAIL_COMPONENT_SET at 0/0
+// measured -- a family the completeness gate cannot audit cannot be shown
+// complete. Three of the family's own arrays also covered only part of the
+// census: 20 of the petition's 30 blanks and 10 of the order's 19 carried a
+// stated disposition, and the rest were reachable only as anchor labels in
+// refusedByTheFactory.
+//
+// `documents[].fields[]` with a decision word is one of the shapes the contract
+// reads, and it is what the sibling ar-arrest-seal-set already emits. Nothing
+// here decides anything new: every disposition below is a restatement, in the
+// contract's closed vocabulary, of a refusal this family already made or of the
+// role the census already records -- and every blank in the census is now
+// stated exactly once, rather than most of them. The existing arrays are kept
+// beside it unchanged so the two channels can be compared rather than trusted.
+function completenessFields({ doc, census, anchors, fixtures }) {
+  const inked = new Set(fixtures.canonical.proof.perBlank
+    .filter((b) => b.inkFoundAtTheMeasuredRectangle)
+    .map((b) => b.blankId));
+  const anchorById = new Map(anchors.map((a) => [a.blankId, a]));
+  const roleById = new Map(doc.roleRefusals.map((r) => [r.blankId, r]));
+  const policyById = doc.completeness?.fields ?? {};
+  return census.blanks.map((b) => {
+    const written = inked.has(b.blankId);
+    const anchor = anchorById.get(b.blankId) ?? null;
+    const role = roleById.get(b.blankId) ?? null;
+    const policy = policyById[b.blankId] ?? doc.completeness?.defaultBlank ?? null;
+    const factId = written
+      ? (fixtures.canonical.report.written.find((w) => w.anchor === anchor?.label)?.factId ?? null)
+      : null;
+    const row = {
+      field: b.blankId,
+      fieldId: b.blankId,
+      effectiveLabel: b.caption || b.printedLine || b.blankId,
+      page: b.page,
+      pdfType: "measured_overlay_blank",
+      isSelectionControl: false,
+      decision: written ? "write" : "refuse",
+      factId,
+      // The family's own refusal record, carried unchanged beside the
+      // contract's vocabulary so a reader can see both answers rather than one.
+      buildRoleClass: role?.class ?? null,
+      buildRoleWhy: role?.why ?? null
+    };
+    if (written) return row;
+    row.reason = policy?.reason ?? null;
+    row.refusalClass = policy?.refusalClass ?? null;
+    if (policy?.requiredBeforeFiling === true) row.requiredBeforeFiling = true;
+    return row;
+  });
+}
+
 function writeRecords({ documents, rasters, allFindings }) {
   // ---- step 1 record ---------------------------------------------------------
   writeJson(`${OUT}/source-receipt.json`, {
@@ -1316,7 +1498,8 @@ function writeRecords({ documents, rasters, allFindings }) {
           }),
         withheldBeforeTheFactory: withheld,
         refusedByTheFactory: fixtures.canonical.report.refused,
-        protectedRulesHandedToTheFactory: protectedRules
+        protectedRulesHandedToTheFactory: protectedRules,
+        fields: completenessFields({ doc, census, anchors, fixtures })
       };
     })
   });
