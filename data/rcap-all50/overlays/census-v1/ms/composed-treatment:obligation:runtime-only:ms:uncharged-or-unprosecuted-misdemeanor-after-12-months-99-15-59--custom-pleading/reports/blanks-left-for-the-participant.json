@@ -54,16 +54,6 @@
     },
     {
       "document": "proposed_order",
-      "field": "proposed_order.order_case_number",
-      "page": 1,
-      "printedContext": "Case number in the caption of the proposed order, if one was assigned",
-      "disclosureLabel": "Case number in the caption of the proposed order, if one was assigned",
-      "identity": "proposed_order field order_case_number",
-      "why": "no case identifier is held for a record the platform has not seen",
-      "participantMustSupply": "the case number, if the court assigned one at filing"
-    },
-    {
-      "document": "proposed_order",
       "field": "proposed_order.order_court_name",
       "page": 1,
       "printedContext": "Court named in the caption of the proposed order, and its county or city",
@@ -94,6 +84,13 @@
       "label": "Date beside the petitioner's signature on the petition",
       "refusalClass": "signature_or_date_participant_completion",
       "why": "a date written before the petition is signed would be false"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_case_number",
+      "label": "Case number in the caption of the proposed order, if the court assigns one at filing",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "if a number is assigned, the court assigns it at filing - the proposed order is filed with the petition, before any number exists"
     },
     {
       "document": "proposed_order",

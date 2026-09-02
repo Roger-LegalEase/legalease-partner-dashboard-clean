@@ -71,9 +71,10 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 2. **Fill in every dotted blank** this packet's instructions list, from those records. Do not guess a date, a case number or an offense wording.
 3. **Write your two statements yourself** — the AS 12.55.085(f) exclusions statement and the compliance-and-rehabilitation statement. The packet prints labelled lines and asserts nothing on your behalf.
 4. **Sign and date the motion and each statement yourself.** The platform never signs for you and never dates a signature.
-5. **File in the original criminal case** with the court that sentenced you. This packet states no filing fee because no committed record this packet is built from states one; ask the office of the sentencing court whether one applies.
+5. **File in the original criminal case** with the court that sentenced you. This packet states no filing fee amount because no record held anywhere in the repository states one for this motion — the compiled Alaska profile says only that court motion fees may apply, which is not an amount. Ask the office of the sentencing court whether one applies, and what it is.
 6. **Serve the prosecuting attorney's office** with a copy, using the service page. The committed records name the prosecutor as the office served but record no delivery method; ask the office of the sentencing court how service must be made, and use that method.
 7. **Keep the proposed order unsigned.** It travels with the motion for the court's convenience; every decision on it is the court's.
+8. **After the court grants the motion, obtain the court's certificate and provide copies to the Alaska Department of Public Safety and to the clerk.** The compiled Alaska profile, which the route obligation census names as a required source for this route, records the mechanic in terms: "the set-aside is sought by motion in the underlying criminal case once probation is complete; the court issues a certificate that the person can provide to the Department of Public Safety and the clerk", and "obtain the court's certificate and provide copies to the Department of Public Safety and the clerk". Do not skip this step: the Department of Public Safety holds the criminal history record that background checks draw on, and the certificate is how the set-aside reaches it.
 
 ## Things the platform deliberately left blank
 
@@ -83,7 +84,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 ## What this packet does not tell you
 
-- **Whether a filing fee applies, and how service on the prosecuting attorney's office must be made.** Neither is established by the committed records this packet is built from. The office of the court that sentenced you is the authority that can answer both — ask before you file or serve.
+- **Whether a filing fee applies, and how service on the prosecuting attorney's office must be made.** Neither is established anywhere in the repository: the compiled Alaska profile says only that court motion fees may apply, which is not an amount, and the service rules it records belong to other Alaska routes and are not carried onto this motion. The office of the court that sentenced you is the authority that can answer both — ask before you file or serve.
 - **Whether your offense falls within the AS 12.55.085(f) exclusions.** The recorded rule is only that an offense within those exclusions is outside this route; whether yours is within them is a legal question this packet does not answer.
 
 ## When to stop and get help instead of filing

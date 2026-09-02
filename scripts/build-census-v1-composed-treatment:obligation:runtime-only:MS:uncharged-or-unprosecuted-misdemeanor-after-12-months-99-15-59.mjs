@@ -164,7 +164,7 @@ const SPEC = {
   deliberatelyBlank: [
     "**Your signature, and every date beside a signature.** A signature is yours alone, and a date written before you sign would be false.",
     "**Every line of the proposed order that decides anything**, including the court's signature and date. The order is the court's to make.",
-    "**The case number of the petition itself.** If the court assigns one, it does so at filing."
+    "**The case number, both in the petition's caption and in the proposed order's caption.** If the court assigns one, it does so at filing - and the proposed order is filed together with the petition, before any number exists, so neither caption can carry one when you file. Leave both blank; the clerk adds the number."
   ],
   notTold: [
     "**Whether a filing fee applies, and how the petition must be delivered.** Neither is established by the committed records this packet is built from. The office of the court with jurisdiction over the matter is the authority that can answer both — ask before you file.",
@@ -358,9 +358,17 @@ const SPEC = {
         h.rbf("order_court_name", "Court named in the caption of the proposed order, and its county or city",
           "the same court name and county or city you wrote in the petition's caption",
           "the proposed order travels with the petition and carries the same caption the participant establishes"),
-        h.rbf("order_case_number", "Case number in the caption of the proposed order, if one was assigned",
-          "the case number, if the court assigned one at filing",
-          "no case identifier is held for a record the platform has not seen"),
+        // The same fact as primary_filing.case_number, and therefore the same
+        // classification. A verifier established that this blank was recorded
+        // as a participant obligation on the order while the petition recorded
+        // it as court-owned, so one file told the participant both that the
+        // number was theirs to supply and that the court assigns it. It is
+        // court-owned: the proposed order is filed together with the petition,
+        // before any number exists, so a number the court assigns AT filing
+        // cannot be supplied BEFORE it. The blank on the delivered order does
+        // not move; only its classification and its disclosure change.
+        h.clerkBlank("order_case_number", "Case number in the caption of the proposed order, if the court assigns one at filing",
+          "if a number is assigned, the court assigns it at filing - the proposed order is filed with the petition, before any number exists"),
         h.clerkBlank("order_decision", "The decision line of the proposed order, decided by the court",
           "every decision on the proposed order is the court's"),
         h.clerkBlank("order_signature", "Signature line of the proposed order, for the court",

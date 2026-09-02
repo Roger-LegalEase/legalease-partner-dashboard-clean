@@ -164,9 +164,10 @@ const SPEC = {
     "**Fill in every dotted blank** this packet's instructions list, from those records. Do not guess a date, a case number or an offense wording.",
     "**Write your two statements yourself** — the AS 12.55.085(f) exclusions statement and the compliance-and-rehabilitation statement. The packet prints labelled lines and asserts nothing on your behalf.",
     "**Sign and date the motion and each statement yourself.** The platform never signs for you and never dates a signature.",
-    "**File in the original criminal case** with the court that sentenced you. This packet states no filing fee because no committed record this packet is built from states one; ask the office of the sentencing court whether one applies.",
+    "**File in the original criminal case** with the court that sentenced you. This packet states no filing fee amount because no record held anywhere in the repository states one for this motion \u2014 the compiled Alaska profile says only that court motion fees may apply, which is not an amount. Ask the office of the sentencing court whether one applies, and what it is.",
     "**Serve the prosecuting attorney's office** with a copy, using the service page. The committed records name the prosecutor as the office served but record no delivery method; ask the office of the sentencing court how service must be made, and use that method.",
-    "**Keep the proposed order unsigned.** It travels with the motion for the court's convenience; every decision on it is the court's."
+    "**Keep the proposed order unsigned.** It travels with the motion for the court's convenience; every decision on it is the court's.",
+    "**After the court grants the motion, obtain the court's certificate and provide copies to the Alaska Department of Public Safety and to the clerk.** The compiled Alaska profile, which the route obligation census names as a required source for this route, records the mechanic in terms: \"the set-aside is sought by motion in the underlying criminal case once probation is complete; the court issues a certificate that the person can provide to the Department of Public Safety and the clerk\", and \"obtain the court's certificate and provide copies to the Department of Public Safety and the clerk\". Do not skip this step: the Department of Public Safety holds the criminal history record that background checks draw on, and the certificate is how the set-aside reaches it."
   ],
   deliberatelyBlank: [
     "**Your signature, and every date beside a signature.** A signature is yours alone, and a date written before you sign — or before a copy is actually served — would be false.",
@@ -174,7 +175,7 @@ const SPEC = {
     "**Both statements' content lines.** The packet prints your own account and asserts nothing about your compliance, your rehabilitation, or whether the offense falls within AS 12.55.085(f)."
   ],
   notTold: [
-    "**Whether a filing fee applies, and how service on the prosecuting attorney's office must be made.** Neither is established by the committed records this packet is built from. The office of the court that sentenced you is the authority that can answer both — ask before you file or serve.",
+    "**Whether a filing fee applies, and how service on the prosecuting attorney's office must be made.** Neither is established anywhere in the repository: the compiled Alaska profile says only that court motion fees may apply, which is not an amount, and the service rules it records belong to other Alaska routes and are not carried onto this motion. The office of the court that sentenced you is the authority that can answer both — ask before you file or serve.",
     "**Whether your offense falls within the AS 12.55.085(f) exclusions.** The recorded rule is only that an offense within those exclusions is outside this route; whether yours is within them is a legal question this packet does not answer."
   ],
   stopConditions: [
@@ -346,8 +347,9 @@ const SPEC = {
       L.push("STEP TWO. Fill in every dotted blank this packet's participant instructions list, from those records. Do not guess a date, a case number or an offense wording.");
       L.push("STEP THREE. Write your two statements yourself: the AS 12.55.085(f) exclusions statement and the compliance-and-rehabilitation statement. Attach copies of your supporting evidence, never originals.");
       L.push("STEP FOUR. Sign and date the motion and each statement yourself.");
-      L.push("STEP FIVE. File in the ORIGINAL criminal case with the court that sentenced you - never as a new civil case. This packet states no filing fee because no committed record it is built from states one; ask the office of the sentencing court whether one applies.");
-      L.push("STEP SIX. Serve the prosecuting attorney's office with a copy, using the service page, in the manner the office of the sentencing court directs.", "");
+      L.push("STEP FIVE. File in the ORIGINAL criminal case with the court that sentenced you - never as a new civil case. This packet states no filing fee amount because no record held anywhere in the repository states one for this motion - the compiled Alaska profile says only that court motion fees may apply, which is not an amount; ask the office of the sentencing court whether one applies, and what it is.");
+      L.push("STEP SIX. Serve the prosecuting attorney's office with a copy, using the service page, in the manner the office of the sentencing court directs.");
+      L.push("STEP SEVEN. After the court grants the motion, obtain the court's certificate of set-aside from the court, and provide copies to the Alaska Department of Public Safety and to the clerk. The compiled Alaska profile, named as a required source for this route by the route obligation census, records this in terms: the court issues a certificate that the person can provide to the Department of Public Safety and the clerk. The Department of Public Safety holds the criminal history record, so the certificate is how the granted set-aside reaches it.", "");
       L.push("WHEN TO STOP AND GET HELP INSTEAD OF FILING", "");
       L.push("Stop, and take this packet to a lawyer, if any of these is true:");
       L.push("- the State alleges probation violations - a contested compliance record is advocacy about the facts at discharge, not a form to fill in;");
@@ -357,7 +359,7 @@ const SPEC = {
       L.push("- you want to litigate constitutional or collateral consequences beyond the statutory set-aside;");
       L.push("- any immigration question is involved.", "");
       L.push("WHAT A SET-ASIDE IS, AND IS NOT", "");
-      L.push("A set-aside does not physically erase the historical court file. That instruction is carried from the committed route contract this packet is built from, and this packet promises no erasure. What further effect a set-aside has on any particular background check is not stated here, because no committed record this packet is built from states it.", "");
+      L.push("A set-aside does not physically erase the historical court file. That instruction is carried from the committed route contract this packet is built from, and this packet promises no erasure. What the repository does record is how the granted set-aside reaches the agency that holds your criminal history: the court issues a certificate, and you provide copies of it to the Alaska Department of Public Safety and to the clerk. That is STEP SEVEN above, and it is the reason the step matters - the Department of Public Safety record is what a criminal history background check draws on. This packet states no further effect on any particular background check, because the repository states none beyond that mechanic.", "");
       L.push("WHAT THIS PACKET IS NOT", "");
       L.push("This is a prepared set of composed pleadings and process pages. It is not an official Alaska Court System form - the committed records record that none exists for a post-discharge request, which is why these pages are composed - and it is not legal advice, it is not filed for you, and it does not decide whether the court will grant the set-aside.");
     }

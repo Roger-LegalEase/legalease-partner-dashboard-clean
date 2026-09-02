@@ -291,6 +291,82 @@ function dropWidgets(pdfDoc, acroField) {
   return dropped;
 }
 
+/**
+ * Widget annotation flags the PDF spec defines as "do not display this".
+ *
+ * /F bit 2 (Hidden) and bit 6 (NoView) are the source document's own statement
+ * that a viewer must not show the annotation. Table 165 of ISO 32000-1: Hidden
+ * means "do not display the annotation or print it", NoView means "do not
+ * display on screen".
+ */
+const ANNOT_FLAG_HIDDEN = 1 << 1;
+const ANNOT_FLAG_NOVIEW = 1 << 5;
+
+/** True when the source marks this widget as one no viewer displays. */
+function isNonDisplayedWidget(widget) {
+  const flags = widget.dict.lookup(PDFName.of("F"));
+  if (!(flags instanceof PDFNumber)) return false;
+  const value = flags.asNumber();
+  return (value & ANNOT_FLAG_HIDDEN) !== 0 || (value & ANNOT_FLAG_NOVIEW) !== 0;
+}
+
+/**
+ * Drops the widgets the source itself marks as never displayed.
+ *
+ * pdf-lib's flatten() stamps EVERY widget's appearance onto the page. It does
+ * not read /F, so an annotation the source hides is drawn as ordinary ink on
+ * the filing. On a form that shows one of several alternate captions at a time
+ * -- Nebraska's DC 1:15 is the proven case, with five mutually exclusive caption
+ * blocks stacked on the same coordinates -- every alternate lands on top of the
+ * one that belongs there and the page becomes unreadable. That defect was
+ * measured as 47 same-baseline text-on-text overlaps on one page, against 0 in
+ * the corpus source, so it is introduced by flattening and is not inherited.
+ *
+ * This is not a judgement about what a field MEANS, which is why it runs before
+ * dispositions and independently of them. It reads one thing: whether the
+ * document that shipped the widget says a viewer may display it. A widget the
+ * source hides contributes nothing to what a person sees on screen, so it
+ * contributes nothing to the flattened page either.
+ *
+ * Removal is from the field's /Kids and the page's /Annots, not merely from
+ * /AP: updateFieldAppearances() runs after this and regenerates an appearance
+ * for every widget the field still lists, so clearing /AP alone would be undone
+ * a few lines later. Where the field IS the widget (the merged single-widget
+ * case, so there is no /Kids to prune), the whole field is detached instead.
+ */
+function dropNonDisplayedWidgets(pdfDoc, acroField) {
+  const widgets = acroField.getWidgets();
+  const hidden = widgets.filter(isNonDisplayedWidget);
+  if (hidden.length === 0) return 0;
+
+  const kids = acroField.Kids();
+  if (!kids) {
+    // Field and widget are one object: there is no kid to prune.
+    dropWidgets(pdfDoc, acroField);
+    return hidden.length;
+  }
+
+  const hiddenDicts = new Set(hidden.map((widget) => widget.dict));
+  for (let i = kids.size() - 1; i >= 0; i -= 1) {
+    const entry = kids.get(i);
+    const dict = entry instanceof PDFRef ? pdfDoc.context.lookup(entry) : entry;
+    if (!hiddenDicts.has(dict)) continue;
+    kids.remove(i);
+    for (const page of pdfDoc.getPages()) {
+      const annots = page.node.lookup(PDFName.of("Annots"));
+      if (!(annots instanceof PDFArray)) continue;
+      for (let j = annots.size() - 1; j >= 0; j -= 1) {
+        const candidate = annots.get(j);
+        if (candidate === entry || pdfDoc.context.lookup(candidate) === dict) annots.remove(j);
+      }
+    }
+    dict.delete(PDFName.of("AP"));
+  }
+  // Every widget was hidden, so the field draws nothing at all.
+  if (kids.size() === 0) detachFromAcroForm(pdfDoc, acroField);
+  return hidden.length;
+}
+
 /** The last fill colour a token sets, as a grey level, or null. */
 function fillGreyOf(colourTokens) {
   if (colourTokens.g !== undefined) return parseFloat(colourTokens.g);
@@ -389,10 +465,21 @@ function stripWidgetBackground(pdfDoc, acroField) {
  */
 export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Set(), dispositions = new Map()) {
   const report = { commandControlsDropped: [], unselectedChoicesDropped: [], unwrittenParticipantInputsDropped: [],
-    sourceAppearancesPreserved: [], backgroundsNeutralized: 0, dispositionsApplied: {} };
+    sourceAppearancesPreserved: [], backgroundsNeutralized: 0, nonDisplayedWidgetsDropped: 0,
+    fieldsWithNonDisplayedWidgets: [], dispositionsApplied: {} };
   for (const field of form.getFields()) {
     const name = field.getName();
     const acroField = field.acroField;
+    // Before anything is decided about MEANING: a widget the source itself
+    // marks Hidden or NoView is never shown to a person, so it is never
+    // flattened onto the page either. This reads the document's own display
+    // flag, not the family, the form, the field name or the text.
+    const nonDisplayed = dropNonDisplayedWidgets(pdfDoc, acroField);
+    if (nonDisplayed > 0) {
+      report.nonDisplayedWidgetsDropped += nonDisplayed;
+      report.fieldsWithNonDisplayedWidgets.push(name);
+      if (acroField.getWidgets().length === 0) { report.dispositionsApplied[name] = "not_displayed_by_source"; continue; }
+    }
     // What this field's appearance MEANS. A classified field says so; anything
     // else falls back to the structural rule. Both arrive as one of three
     // dispositions, and everything below switches on that value alone - never on
