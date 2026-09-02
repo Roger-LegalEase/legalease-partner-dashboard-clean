@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "7ed11ad47ea97d09c4bc406f1099789af279abf8",
+  "generatedAtCommit": "f47953e9128c797e4145324ace29f303c8b68945",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -11210,6 +11210,7 @@
     "releasedAt"
   ],
   "revocationIsVisibleHow": "the digest changes whenever a grant is added or withdrawn; generatedAtCommit is a declared floor and does not",
+  "whatTheReleaseLogsLaneMeans": "releases[].lane is the lane that HELD the grant when it was released — claim.mjs refuses any other lane from releasing it (exit 8 GRANTED_ELSEWHERE). claims[].lane is the CURRENT dispatch packing, and this generator re-packs released claims freely because a released claim's lane is history. The two differing after a repack is expected; it is not a cross-lane release, and a cross-lane release cannot happen through claim.mjs at all.",
   "releases": [
     {
       "lane": "VF01",

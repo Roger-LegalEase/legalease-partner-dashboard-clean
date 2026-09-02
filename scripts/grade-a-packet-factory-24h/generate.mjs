@@ -2518,6 +2518,30 @@ const claimLedgerRecord = {
   claimsDigest: digestClaims(mergedClaims),
   claimsDigestCovers: digestFields,
   revocationIsVisibleHow: "the digest changes whenever a grant is added or withdrawn; generatedAtCommit is a declared floor and does not",
+  /*
+   * A RELEASE LOG ENTRY AND ITS CLAIM CAN NAME DIFFERENT LANES, LEGITIMATELY.
+   *
+   * claim.mjs refuses a cross-lane release: `locate()` exits 8
+   * GRANTED_ELSEWHERE unless the releasing lane is the lane holding the grant.
+   * So `releases[].lane` is always the lane that actually held it at the moment
+   * it was released. But this generator re-packs RELEASED claims onto whatever
+   * lane the current dispatch puts the subject on -- a released claim's lane is
+   * history and may be re-packed freely, which is what keeps the roster stable
+   * while lanes come and go. The claim's `lane` is therefore a CURRENT packing
+   * and the release log's `lane` is a HISTORICAL fact, and after a repack they
+   * differ.
+   *
+   * That is not a defect and it is easy to read as one. FABLE-PD reported five
+   * agency treatments "released without being built" because the claims said
+   * PF14 while the release log said PF04, all within 0.3 seconds -- which looks
+   * exactly like one lane reaching into another's grants. It was not: PF04 held
+   * them, PF04 released them, and a later regeneration re-packed the released
+   * identities onto PF14.
+   *
+   * Reading it wrong costs real time, so the record says which field answers
+   * which question.
+   */
+  whatTheReleaseLogsLaneMeans: "releases[].lane is the lane that HELD the grant when it was released — claim.mjs refuses any other lane from releasing it (exit 8 GRANTED_ELSEWHERE). claims[].lane is the CURRENT dispatch packing, and this generator re-packs released claims freely because a released claim's lane is history. The two differing after a repack is expected; it is not a cross-lane release, and a cross-lane release cannot happen through claim.mjs at all.",
   releases: priorLedger.releases ?? [],
   reissues: [...(priorLedger.reissues ?? []), ...reissuedNow],
   /* The transfer log carries the same weight as releases and reissues: it is
