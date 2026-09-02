@@ -81,6 +81,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines, captureWidgetContext, normalizeHarvestedText }
   from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { HORIZONTAL_PADDING, usableWidthOf } from "./rcap-official-forms/rcap-text-fitting.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
 import { CHARGE_VALUE_WORDS, captionDescribesChargeValue, descriptorsMatching, protectCategoryOf, decideBinding }
@@ -800,6 +801,42 @@ This is a prepared copy of the North Dakota State Court Administrator's Office's
 _Route: ${ROUTE_KEY} — N.D.C.C. § 12-60.1-05; the pre-1-August-2025 petition branch_
 `;
 }
+/*
+ * A width refusal, stated against the width it was actually measured on.
+ *
+ * The fitter refuses a value that will not fit inside a widget's USABLE width,
+ * which is the widget rectangle less HORIZONTAL_PADDING. Its refusal record
+ * carried `rect` and `requiredWidthAtMin` and not the usable width, and on this
+ * family the two disclosed numbers said the opposite of the refusal: `City
+ * State Zip Code` was refused `value_exceeds_widget_width_at_minimum_font`
+ * while the same row read rect.width 181.35 against requiredWidthAtMin 179.0.
+ * 179.0 is less than 181.35, so on the packet's own numbers the value fit and
+ * the stated reason read false. It is not false — 179.0 exceeds the 177.35pt
+ * this widget actually offers — but nothing in the record said so, and a
+ * refusal a reader cannot check is a refusal a reader is right to reject.
+ *
+ * This adds the missing term and changes no outcome: the same values are
+ * refused, the same values are written, and every fixture byte is unchanged.
+ * The two sibling refusals on this fixture (Defendant 195.6 against 150,
+ * County 143.6 against 135.6) exceed even the unpadded rectangle and read the
+ * same way before and after.
+ */
+function disclosedRefusalBasis(row) {
+  if (!row?.rect || typeof row.requiredWidthAtMin !== "number") return row;
+  const usableWidth = usableWidthOf(row.rect);
+  return {
+    ...row,
+    usableWidth,
+    horizontalPadding: HORIZONTAL_PADDING,
+    widthBasis:
+      "the value is measured against the widget rectangle less the fitter's horizontal padding, "
+      + `so ${row.requiredWidthAtMin}pt at ${row.minFontSize}pt font is compared with ${usableWidth}pt of `
+      + `usable width inside a ${row.rect.width}pt widget, not with the ${row.rect.width}pt rectangle itself`,
+    exceedsUsableWidth: row.requiredWidthAtMin > usableWidth,
+    exceedsWidgetRectangle: row.requiredWidthAtMin > row.rect.width
+  };
+}
+
 // ---- main --------------------------------------------------------------------
 async function main() {
   const blocked = new Set(readJson(STALE_BLOCK).hashes ?? []);
@@ -1080,7 +1117,7 @@ async function main() {
         file: fixtures[label].file, sha256: fixtures[label].sha256, byteLength: fixtures[label].byteLength,
         fieldsWritten: fixtures[label].report.written.length,
         fieldsRefused: fixtures[label].report.refused.length,
-        unfittable: fixtures[label].report.unfittable,
+        unfittable: fixtures[label].report.unfittable.map(disclosedRefusalBasis),
         refusedForExceedingFormDeclaredMaxLength: fixtures[label].overflows ?? []
       })))
   });

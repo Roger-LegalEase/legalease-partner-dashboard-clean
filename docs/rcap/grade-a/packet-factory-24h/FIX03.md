@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `98eda7585939a96359f15e742695f6de12341455` (or the newer dispatch base)
+**Minimum required ancestor:** `7292511170e1bd1d1bfdaf32e52a423a85ed9096` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family rcap-ks-custom-pleading \
   --codex-cloud \
-  --minimum-captain-sha 98eda7585939a96359f15e742695f6de12341455
+  --minimum-captain-sha 7292511170e1bd1d1bfdaf32e52a423a85ed9096
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -59,8 +59,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 ## The 3 families
 
 - `rcap-ks-custom-pleading`
-- `va_seal_petition_misdemeanor-set`
 - `rcap-oh-custom-pleading-clean-tracks`
+- `va_seal_petition_misdemeanor-set`
 
 ## What you receive
 
@@ -74,8 +74,8 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix03/**`
 - `data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/**`
 - `scripts/build-census-v1-rcap-ks-custom-pleading.mjs`
 - `scripts/build-census-v1-rcap-oh-custom-pleading-clean-tracks.mjs`
 

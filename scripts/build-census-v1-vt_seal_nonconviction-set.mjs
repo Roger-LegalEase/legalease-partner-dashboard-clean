@@ -62,6 +62,7 @@ const require = createRequire(import.meta.url);
 const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
 
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
 const OVERLAY_ROOT = "data/rcap-all50/overlays/census-v1/vt";
 const FIXED_DATE = "2026-01-01T00:00:00.000Z";
 
@@ -302,6 +303,10 @@ export const FAMILY_CONFIGS = Object.freeze({
   "vt_seal_nonconviction-set": {
     jurisdiction: "VT",
     routeKey: "obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing",
+    // The committed track registry entry this route's self-help stop conditions
+    // are read from at build time. Naming the track rather than carrying the
+    // conditions keeps them out of an editor's hands.
+    trackId: "vt_seal_nonconviction",
     routeSelectionId: "vt-seal-nonconviction-200-00130-complete-set",
     legalName: "Petition to Seal a Non-Conviction Record, 13 V.S.A. Sec. 7603",
     routeName: "sealing a record that did not end in a conviction",
@@ -577,7 +582,10 @@ function composedBody(config, facts, resolved) {
   L.push("- Who must be served, and how. Ask the same clerk. The State's Attorney's signature on the stipulation is not service and does not substitute for it.", "");
   L.push("WHAT THIS PACKET IS NOT", "");
   L.push("This is a prepared set of official Vermont forms and this guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will seal the record.", "");
-  L.push(`Route: ${config.routeKey}`);
+  /* FIX02, ROUTE_IDENTITY. The other participant-facing surface that printed
+   * the machine route id; see the note on the instructions footer. This page is
+   * rendered into fixtures/canonical.pdf, so the participant reads it on paper. */
+  L.push(`Route: ${config.routeName} (${config.statute})`);
   return L.join("\n");
 }
 
@@ -815,6 +823,16 @@ function instructionsMarkdown(config, resolved, rbf) {
   out.push("3. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.");
   out.push("4. **Decide which route you are taking.** If the State's Attorney will sign the stipulation (200-00132), that is the quicker route and the court may seal on that agreement. If they will not, file the petition (200-00130) on its own and ask the court to set a hearing. The process-guidance page in this packet sets out both, and the third route — the one that files nothing — as well.");
   out.push("5. **File the fee waiver (600-00228) only if you cannot pay.**", "");
+  /*
+   * FIX02, SELF_HELP_STOP. Step 4 tells the participant to ask the court to set
+   * a hearing, and this route's committed registry entry records BOTH a
+   * scheduled hearing and an objection in the interests of justice as the point
+   * where self-help ends -- conditions 1 and 2. The step is correct as a
+   * description of the route and stays; what was missing is that it leads
+   * directly to the stop. The sibling vt_seal_pardon-set states it in the same
+   * place and in the same terms.
+   */
+  out.push("**A scheduled hearing is where this packet's self-help ends.** The committed track registry records the prosecutor opposing the petition, or the court scheduling a hearing, as the point to get a lawyer or a legal-aid office rather than to press on alone — and it records an objection \"in the interests of justice\" as converting the automatic route into a § 7603(b) hearing. The hearing date stands either way, so start looking for help the day you learn of one.", "");
   out.push("## The items you must supply", "");
   for (const [doc, items] of byDoc) {
     out.push(`### ${doc} — ${FORMS[doc]?.title ?? doc}`, "");
@@ -826,9 +844,43 @@ function instructionsMarkdown(config, resolved, rbf) {
   out.push("- **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.");
   out.push("- **The State's Attorney's signature, date and printed name, and the court's order on the stipulation.** Those belong to the prosecutor and the judge.");
   out.push("- **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.", "");
+  /*
+   * FIX02, SELF_HELP_STOP. The committed track registry holds six self-help
+   * stop conditions for trackId vt_seal_nonconviction and the packet carried
+   * none of them, with no stop section of any kind. They are read from the
+   * registry at build time and reproduced word for word, in the registry's own
+   * order, cited to file, track and field -- the shape the sibling
+   * vt_seal_pardon-set already delivers for its own ten.
+   */
+  {
+    const registry = JSON.parse(fs.readFileSync(path.join(ROOT, TRACK_REGISTRY), "utf8"));
+    const track = (registry.tracks ?? []).find((row) => row.trackId === config.trackId);
+    assert.ok(track, `${config.trackId}: no committed track registry entry to read stop conditions from`);
+    const conditions = (track.selfHelpStopConditions ?? [])
+      .map((condition) => String(condition).trim()).filter(Boolean);
+    assert.ok(conditions.length,
+      `${config.trackId}: the track registry holds no self-help stop condition`);
+    out.push("## When to stop and get a lawyer", "");
+    out.push("The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:", "");
+    out.push(...conditions.map((condition) => `- ${condition}`), "");
+    out.push("**Immigration consequences are the last of these, and this packet cannot tell you what sealing does to your immigration position.** Ask an immigration lawyer before you file if you are not a United States citizen. And note the fifth: this route seals the record, it does not destroy it — Act 60 repealed the no-conviction expungement routes, so if what you are expecting is expungement, this is not that.", "");
+  }
+
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of official Vermont forms and a process-guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will seal the record.", "");
-  out.push(`_Route: ${config.routeKey}_`);
+  /*
+   * FIX02, ROUTE_IDENTITY. This line printed
+   * `obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing`,
+   * a machine route id occurring nowhere in the census and nowhere in compiled
+   * runtime -- its only occurrences are this builder, this family's field map
+   * and these instructions. The census and product-wiring.json carry three
+   * `obligation:unit:VT:...` keys instead. Per the owner's decision the
+   * participant-facing page prints a short human-readable label and the machine
+   * route id stays in manifests and wiring only; `config.routeKey` is therefore
+   * unchanged and still flows to documentPolicy and to the rendered-artifacts
+   * routeKeys, and only what the participant reads has changed.
+   */
+  out.push(`_Route: ${config.routeName} (${config.statute})_`);
   return `${out.join("\n")}\n`;
 }
 

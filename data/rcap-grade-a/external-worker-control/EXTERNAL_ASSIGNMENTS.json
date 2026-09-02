@@ -162,13 +162,18 @@
       "assignmentId": "CLOUD04-VF21-V4-BATCH-001",
       "lane": "VF21",
       "laneKind": "independent-verification",
-      "subjectIds": [
-        "az_marijuana_expungement_arrest_no_charges-set"
-      ],
+      "subjectIds": [],
       "operation": "independent-verification",
-      "subjectCount": 1,
+      "subjectCount": 0,
       "requiresCaptainTransferFirst": true,
-      "captainTransferCommands": []
+      "captainTransferCommands": [],
+      "withdrawn": {
+        "on": "2026-09-02",
+        "by": "Captain",
+        "reason": "This assignment reserved az_marijuana_expungement_arrest_no_charges-set for a second independent read on VF21 and required a Captain transfer first, which was never made and whose captainTransferCommands were never written. The external session was never launched. Meanwhile the family was repaired, returned to VERIFY_PENDING and granted to VF02, where a Claude verification team holds it live.",
+        "whatWasNotDone": "The family is not left waiting on a worker that does not exist. A reservation nobody is acting on is indistinguishable from a lost family, and E2 correctly refused to let both records claim it.",
+        "ifTheExternalReadIsStillWanted": "Re-issue it after VF02 returns, as a third read on bytes that will by then have moved again."
+      }
     },
     {
       "workerId": "CLOUD05",

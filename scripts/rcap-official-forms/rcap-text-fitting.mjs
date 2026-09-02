@@ -22,8 +22,21 @@ export const DEFAULT_MAX_FONT_SIZE = 11;
 
 // Horizontal padding inside a widget, and the share of a line's height taken
 // by leading when wrapping.
-const HORIZONTAL_PADDING = 4;
+//
+// HORIZONTAL_PADDING is exported because it is the comparison basis a width
+// refusal is actually decided on, and a refusal record that names only
+// `rect.width` and `requiredWidthAtMin` cannot be checked against it. On the
+// North Dakota close-petition boundary fixture that gap read as a false
+// refusal: `City State Zip Code` was refused for exceeding a 181.35pt widget
+// while needing 179.0pt, and the number the fitter compared against -- 177.35pt
+// of usable width -- appeared nowhere. Exporting the constant lets a family's
+// own report state the width it was measured against. Nothing here decides
+// anything differently; the value and every outcome are unchanged.
+export const HORIZONTAL_PADDING = 4;
 const LINE_HEIGHT_FACTOR = 1.15;
+
+/** The width a value is actually measured against inside a widget rectangle. */
+export const usableWidthOf = (rect) => Number((rect.width - HORIZONTAL_PADDING).toFixed(2));
 
 /**
  * Widths come from the embedding font, so this measures what will actually be
