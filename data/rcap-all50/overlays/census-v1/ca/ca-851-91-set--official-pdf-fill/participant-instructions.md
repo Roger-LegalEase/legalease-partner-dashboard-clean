@@ -126,15 +126,13 @@ The platform holds no value for any of these, and this packet never guesses at o
 
 | Page | Form field | What the form says |
 | --- | --- | --- |
-| 1 | `FillText10` | the form prints `FillText10` beside it |
-| 1 | `FillText11` | the form prints `FillText11` beside it |
-| 1 | `FillText13` | the form prints `FillText13` beside it |
-| 1 | `FillText14` | the form prints `FillText14` beside it |
-| 1 | `FillText7` | the form prints `FillText7` beside it |
-| 1 | `FillText8` | the form prints `FillText8` beside it |
-| 1 | `FillText9` | the form prints `FillText9` beside it |
-| 1 | `NoticeFooter1` | the form prints `NoticeFooter1` beside it |
-| 1 | `NoticeHeader1` | the form prints `NoticeHeader1` beside it |
+| 1 | `FillText10` | the form prints `PLAINTIFF/PETITIONER:` beside it |
+| 1 | `FillText11` | the form prints `CASE NUMBER:` beside it |
+| 1 | `FillText13` | the form prints `the party-role block: Petitioner / Plaintiff / Respondent / Other (Specify)` beside it |
+| 1 | `FillText14` | the form prints `Date:` beside it |
+| 1 | `FillText7` | the form prints `(TYPE OR PRINT NAME)` beside it |
+| 1 | `FillText8` | the form prints `the declaration body, under the heading DECLARATION and the note '(This form must be attached to another form or court paper before it can be filed in court.)'` beside it |
+| 1 | `FillText9` | the form prints `DEFENDANT/RESPONDENT:` beside it |
 
 ## Blanks that are not yours to fill
 

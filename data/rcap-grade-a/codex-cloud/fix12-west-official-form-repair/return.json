@@ -1,0 +1,270 @@
+{
+  "schemaVersion": "rcap-codex-cloud-repair-return/v1",
+  "worker": "CODEX-CS2-FIX12",
+  "lane": "FIX12",
+  "branch": "codex/cs2-fix12",
+  "dispatchAncestor": "84218d2dae40d561591a65ae382adbe658c53fb0",
+  "startingHead": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+  "createdAt": "2026-09-02T22:33:12Z",
+  "status": "READY_FOR_INDEPENDENT_VERIFICATION",
+  "passAwarded": false,
+  "claims": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX12 <familyId>",
+    "grant": "4cc1802649c11619",
+    "released": false,
+    "families": [
+      "az_marijuana_expungement_arrest_no_charges-set",
+      "ca-1203-41-set",
+      "ca-1203-42-set",
+      "ca-1203-43-set",
+      "ca-1203-4a-set",
+      "ca-851-91-set"
+    ]
+  },
+  "repairs": [
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "obligations": [
+        "SELF_HELP_STOP"
+      ],
+      "result": "Participant instructions now reproduce all six committed selfHelpStopConditions and the committed post-generation handoff boundary, covering the 13 recorded entries across the registry's overlapping selfHelpStopConditions and selfHelpBoundaries arrays without duplicating identical participant-facing bullets."
+    },
+    {
+      "familyId": "ca-1203-41-set",
+      "obligations": [
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "result": "Participant instructions now identify the prosecuting attorney and CR-106 as the held service path, leave only method and timing for clerk confirmation, and reproduce all six committed stops."
+    },
+    {
+      "familyId": "ca-1203-42-set",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "result": "MC-031 viewer notices are NOT_A_FILING_FACT, the seven real fields use measured printed captions, and participant instructions reproduce all five committed stops."
+    },
+    {
+      "familyId": "ca-1203-43-set",
+      "obligations": [
+        "SELF_HELP_STOP"
+      ],
+      "result": "Participant instructions reproduce only the four committed stop conditions."
+    },
+    {
+      "familyId": "ca-1203-4a-set",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "result": "MC-031 viewer notices are NOT_A_FILING_FACT, the seven real fields use measured printed captions, and participant instructions reproduce all five committed stops."
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "result": "Only the MC-031 viewer-control and measured-caption repair was applied; the existing stop treatment was preserved."
+    }
+  ],
+  "repairChangedFiles": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/participant-instructions.md",
+      "before": { "bytes": 7106, "sha256": "a4a5ab76e9d900624323a4b9e045c470775218095d893ffe02e68298ea01a932" },
+      "after": { "bytes": 7988, "sha256": "f7e1e72340b62efcd2f08364d502b11a8d55c89ebf066a19a2a5810de13d5909" }
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/participant-instructions.md",
+      "before": { "bytes": 13573, "sha256": "5904bb560b7aecc59bfb0869dcb34636d22ce7b92db88b7f08e756a67ce92f55" },
+      "after": { "bytes": 14733, "sha256": "afc9d4c0d97d0921ff6e66b8adf2874426d90e6d9e06be4607a15248ad8cea42" }
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/field-census.census-v1.json",
+      "before": { "bytes": 677664, "sha256": "6f80ddaaecd0ebefa4c59515481cce0a78663e804bfdbcfbc4f6d2030c1d306d" },
+      "after": { "bytes": 678763, "sha256": "e2050f5a7b03e0b43a5f58cfe3c4ef823b0aa75ab5f8afcdafbebc1841915d53" }
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/participant-instructions.md",
+      "before": { "bytes": 13573, "sha256": "72ded345e529bf48a18e1534fb988ed5866c8008408c49cb123755ba3206c3db" },
+      "after": { "bytes": 14243, "sha256": "102e20f3da830009d15933b1023a02b6249e08b0194b4ba00d994bc1ee3af32d" }
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/production-field-map.json",
+      "before": { "bytes": 240067, "sha256": "824c249cfd0c2c2d87e02031e0bf2cb3e78a1dec0bcbddafb76874e0e188b039" },
+      "after": { "bytes": 241130, "sha256": "a36bcddeb82d39f0cf4278658a632716de79e862c74146295c5b68c939850c31" }
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/participant-instructions.md",
+      "before": { "bytes": 12876, "sha256": "5da6e0ecaeedd3840700f573ffe49447544774049abc5b5745c6e17960b3d170" },
+      "after": { "bytes": 13502, "sha256": "62bad7e7a6aa8bd65d86232596a00be73309cd56bafff09a14e24fdb0390b99b" }
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/field-census.census-v1.json",
+      "before": { "bytes": 677664, "sha256": "51eb1e62ef8d93873a6fe48bbb0ca43c376455979999ae4fb14929a411680f83" },
+      "after": { "bytes": 678763, "sha256": "e74dfe2155b27bd88d6076f07aa9f46b46eed2e7d7502398616f5fea4b8864de" }
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/participant-instructions.md",
+      "before": { "bytes": 13573, "sha256": "b5d761d8adc8d5e9f05320f615bd9cf28693185999a10e012680e4d0ee7627cb" },
+      "after": { "bytes": 14267, "sha256": "0689ef7a529530a1842e77f3ea927ca4b55dbe6da0b1cfcd63285f21cd108afb" }
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/production-field-map.json",
+      "before": { "bytes": 240060, "sha256": "45ef54170f82b5a25e813582b08963bbceeb7310eac0030fa0d93179222e71ac" },
+      "after": { "bytes": 241123, "sha256": "4424030929780a59af9875d4e41397192396adf8a2a0e42da15193532014a440" }
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/field-census.census-v1.json",
+      "before": { "bytes": 422994, "sha256": "bc2cc9dd1d4e914b3f258f5f19c246f76e5ac3c4ffe62ca31282ccfc1673700d" },
+      "after": { "bytes": 424093, "sha256": "e10396b0712c5e644ecfe4c1daf84103ed1d65e419f0b6c6c540440adfd8a1a5" }
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/participant-instructions.md",
+      "before": { "bytes": 14725, "sha256": "2ef48d413f0b1bb4d61da356777854ee1035e3dafc86fbe913c3d9ef10006749" },
+      "after": { "bytes": 14835, "sha256": "7329b0ada04a596b96f84c871c18aec4dc6bc3d1b5d3e3b9e1daec38fb511984" }
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/production-field-map.json",
+      "before": { "bytes": 151479, "sha256": "fc9af5d90adb55005fd88058f440545136452a7a4c7fd4755b010c35a55d4c9b" },
+      "after": { "bytes": 152542, "sha256": "f579bb6234891f7eeee30a9a5cdb04f6249207c5c7ea03f2239e43c3e1aebc8f" }
+    },
+    {
+      "path": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "before": { "bytes": 259532, "sha256": "9b4991f87edb3c31783d904168fbcfbb0af17179289629dc7c8efa76cedeb982" },
+      "after": { "bytes": 266482, "sha256": "dcc90470a3b0fe9de7791bc0937ce60370a8039f4fcaa1fd9c50744c0d31887d" }
+    }
+  ],
+  "artifactAggregateAlgorithm": "SHA-256 of JSON-encoded [file, sha256, byteLength] tuples sorted by file",
+  "artifactPreservation": [
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "sourceReceiptSha256BeforeAndAfter": "7248b224e61f3f215e83b865c33decb9381e237a3061a2ca26236fadd10f46b6",
+      "renderedArtifactManifestSha256BeforeAndAfter": "eef63b8d3add8ad6b33f195da08a0a2e08d61ca720e7b07b67eebd43758aecb4",
+      "artifactCount": 2,
+      "rasterCount": 6,
+      "manifestedFileAggregateSha256BeforeAndAfter": "35c6a1e14a1d19fc58ec49e4ff2e68f95952b8d3c2a353c836586ef7b4430543"
+    },
+    {
+      "familyId": "ca-1203-41-set",
+      "sourceReceiptSha256BeforeAndAfter": "2f95c5791f3df978330e41b976ce4baf94ac3d9d68aac0184cd96da4006b05db",
+      "renderedArtifactManifestSha256BeforeAndAfter": "f2343c45fac307dada09b0123d47dae413309cd7f7d43931fa22375db1f65dc7",
+      "artifactCount": 8,
+      "rasterCount": 16,
+      "manifestedFileAggregateSha256BeforeAndAfter": "0e91bf1b94f32854893b31f6dc3750aacf83499fad5e462636792d625652b574"
+    },
+    {
+      "familyId": "ca-1203-42-set",
+      "sourceReceiptSha256BeforeAndAfter": "54f094c346c7d8ee06ca47d70e183a06a1686e6bcb225b00ded92a61c6496d6d",
+      "renderedArtifactManifestSha256BeforeAndAfter": "c2342e87d6ff0668f650cea9e2226fda9149ddab51d197e8472cac4bc077d531",
+      "artifactCount": 8,
+      "rasterCount": 16,
+      "manifestedFileAggregateSha256BeforeAndAfter": "8ba09d46d68124dacb7d05e68b47b6f8d88d2927e0209796844286f4731f2431"
+    },
+    {
+      "familyId": "ca-1203-43-set",
+      "sourceReceiptSha256BeforeAndAfter": "dd23b759c0bba06742afe234df4a69b202e819a40d8c3071b273065bf5fcc7b2",
+      "renderedArtifactManifestSha256BeforeAndAfter": "eb5c6f810b506ceee43a51fc240084c6e1a2004a913144af50c8a9f6330c5749",
+      "artifactCount": 6,
+      "rasterCount": 14,
+      "manifestedFileAggregateSha256BeforeAndAfter": "df50a8c90fc3b7f86446c507a204eec54e7d509cde127c6698719840fbb7187b"
+    },
+    {
+      "familyId": "ca-1203-4a-set",
+      "sourceReceiptSha256BeforeAndAfter": "8755a5090bfb114266f81daa322582af03beba261ef5e28aec13e3c7fa7b6b54",
+      "renderedArtifactManifestSha256BeforeAndAfter": "85393d87ead7efad48768f38ab8205da3ead287f4e8b0cff63ae29905f0ef6df",
+      "artifactCount": 8,
+      "rasterCount": 16,
+      "manifestedFileAggregateSha256BeforeAndAfter": "d0d48ed9fa86cea684b39326902a7a6be728605ddd5e29bc5e398d442f351bd7"
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "sourceReceiptSha256BeforeAndAfter": "f66d921a3f595a6b116308657451166210fadd44bfabcd295b3d0558c720ea98",
+      "renderedArtifactManifestSha256BeforeAndAfter": "1ad5b55dd7b9fd876d265107739b77c21a33efc76fe980d2d2513086250e0fb8",
+      "artifactCount": 16,
+      "rasterCount": 24,
+      "manifestedFileAggregateSha256BeforeAndAfter": "4924152d6306331e13e0e174d25f300ac5a1a169c489bbdf34641c46a4926dc6"
+    }
+  ],
+  "requiredArtifactHashesConfirmed": {
+    "primaryCanonicalAndBoundary": {
+      "az_marijuana_expungement_arrest_no_charges-set": [
+        "6dad189b1cdb575dfc7ef7e0647c077440cd4e331a7e2bf389a522773099c5d3",
+        "8f041f1d4fd898a176746d1dd5aed7b5967c20b51b14609b7529b6056f9646a5"
+      ],
+      "ca-1203-41-set": [
+        "87899cabff3d6c6c960d922c1baa88271a89d3aafde33d393f637eb92519f971",
+        "ff1177fde3dcc417fb9d1618828cd6a46690f3d6fbf5b4e60f3e0c77c39ae037"
+      ],
+      "ca-1203-42-set": [
+        "0547db60c97d5549ddb78c13c6ec637a5f01673684b412f03b19d8006311194d",
+        "541b58c83e96d41ffe549df40e394914ba8530282d3c1690532007ac34cb8bdf"
+      ],
+      "ca-1203-43-set": [
+        "6f811f3fb3bb95da3bc85ed771ca9ea140ad03d76091a69110ae77d8269e66fe",
+        "b3e72daa4d9fe48d21d0b0baf8a266da4111c6710ebe4acb924cdb6f38ed248e"
+      ],
+      "ca-1203-4a-set": [
+        "9402db025221368d7bcc6705f8243aa358760fe2a59926bd72c16a1d98f69a5b",
+        "290d86703effd616724299f039e81ec5103a27de8d94c4eecee4d926f926dc65"
+      ],
+      "ca-851-91-set": [
+        "371d8890ba43c6b6036d725ab2ef6cfa418bb7b3b78847b943804211662c7502",
+        "89d6a489f5ba01bdaa34a3968e7f7d7aec83590580343eee80782b08e43bfa6c"
+      ]
+    },
+    "unchangedCompanions": {
+      "CR-181": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504",
+      "CR-106": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+      "MC-031": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075",
+      "CR-410": "d94bd94bad3da9d05d71b1b154a440db1864b9441e2972c84b7854e1538604f9"
+    }
+  },
+  "focusedChecks": {
+    "artifactManifestFileHashes": "CONFIRMED_FOR_ALL_ARTIFACTS_AND_RASTERS",
+    "manifestedFileCounts": {
+      "az_marijuana_expungement_arrest_no_charges-set": 8,
+      "ca-1203-41-set": 24,
+      "ca-1203-42-set": 24,
+      "ca-1203-43-set": 20,
+      "ca-1203-4a-set": 24,
+      "ca-851-91-set": 40
+    },
+    "stopConditionCounts": {
+      "az_marijuana_expungement_arrest_no_charges-set": 6,
+      "ca-1203-41-set": 6,
+      "ca-1203-42-set": 5,
+      "ca-1203-43-set": 4,
+      "ca-1203-4a-set": 5,
+      "ca-851-91-set": 6
+    },
+    "azRecordedConditionEntriesAcrossOverlappingStopAndBoundaryArrays": 13,
+    "azHandoffBoundary": "MATCHED_COMMITTED_REGISTRY",
+    "ca120341HeldService": "MATCHED_PACKET_SET_RECORD",
+    "mc031Repairs": [
+      "ca-1203-42-set",
+      "ca-1203-4a-set",
+      "ca-851-91-set"
+    ],
+    "sourceIndependentGeneratorComparison": "MATCHED_ALL_FIVE_CA_CHANGED_OUTPUT_SETS",
+    "javascriptSyntax": "OK",
+    "jsonParsing": "OK",
+    "gitDiffCheck": "OK"
+  },
+  "buildNotes": {
+    "affectedMetadataAndGuidanceRegenerated": true,
+    "pdfOrRasterRerenderRequired": false,
+    "pdfOrRasterReason": "No PDF fixture facts or overlay values changed; every pre-edit PDF/raster hash matched its committed manifest and all rendered artifacts remain byte-identical.",
+    "fullSourceBackedFamilyBuildRun": false,
+    "fullSourceBackedFamilyBuildReason": "This isolated worktree has no private source corpus and MASTER_LIBRARY_SOURCE_DIR was not supplied. Full builder attempts stopped during startup before writes; no Captain checkout or Captain private source was used."
+  },
+  "independentVerification": {
+    "status": "PENDING",
+    "requiredActor": "Captain-assigned verifier other than FIX12",
+    "requiredChecks": [
+      "Run the full source-backed family checks with MASTER_LIBRARY_SOURCE_DIR available.",
+      "Independently verify only the dispatched obligations.",
+      "Award or withhold the pass outside this repair lane."
+    ]
+  }
+}

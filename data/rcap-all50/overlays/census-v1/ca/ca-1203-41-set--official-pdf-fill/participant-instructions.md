@@ -14,9 +14,26 @@ The platform filled in only identity and record facts it verifiably holds — na
 3. **Sign and date each form yourself**, and complete the proof of service only after service has actually occurred.
 4. **Leave CR-181 entirely blank**. The order for dismissal is the court's form.
 
+## When to stop and take this to a lawyer
+
+The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take the papers to a lawyer or a legal-aid office rather than filing them:
+
+- The prosecutor objects or appears in opposition.
+- The court sets a contested hearing.
+- The interests-of-justice showing needs argument.
+- The offense may be a serious felony under PC 1192.7(c), a violent felony under PC 667.5(c), or PC 290 registerable.
+- Whether the sentence is genuinely complete, including supervision, is unclear.
+- The participant is not a United States citizen.
+
+## Who you must serve
+
+Serve the prosecuting attorney and file CR-106 proof of service.
+
+That is the committed packet-set manifest's instruction for this route: it names the prosecuting attorney as the recipient and CR-106 as the proof that ships in this packet. It does not state a service method or deadline. Ask the clerk of the Superior Court in the county of the conviction for those two details before you serve. Serve first, then complete CR-106 — never the other way round.
+
 ## What this packet does not tell you
 
-The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the conviction. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.
+The filing fee and whether it can be waived, the method and timing of service, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the conviction. An unsourced answer in a filing instruction would be worse than none. The service recipient is stated above from the committed packet-set manifest; the remaining questions come from the clerk of that court, not from this packet.
 
 ## The blanks you must fill in
 

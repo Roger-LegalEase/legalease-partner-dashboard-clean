@@ -14,6 +14,15 @@ The platform filled in only identity and record facts it verifiably holds — na
 3. **Sign and date each form yourself**, and complete the proof of service only after service has actually occurred.
 4. **Leave CR-181 entirely blank**. The order for dismissal is the court's form.
 
+## When to stop and take this to a lawyer
+
+The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take the papers to a lawyer or a legal-aid office rather than filing them:
+
+- The participant is not a United States citizen. This track goes to an attorney, not through self-help, because it turns on plea validity and immigration consequences.
+- The prosecutor objects or appears in opposition.
+- The court sets a contested hearing.
+- Whether the programme was completed and the charges dismissed cannot be established.
+
 ## What this packet does not tell you
 
 The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the conviction. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.

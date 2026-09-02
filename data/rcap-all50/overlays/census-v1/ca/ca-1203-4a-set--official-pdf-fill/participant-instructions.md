@@ -14,6 +14,16 @@ The platform filled in only identity and record facts it verifiably holds — na
 3. **Sign and date each form yourself**, and complete the proof of service only after service has actually occurred.
 4. **Leave CR-181 entirely blank**. The order for dismissal is the court's form.
 
+## When to stop and take this to a lawyer
+
+The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take the papers to a lawyer or a legal-aid office rather than filing them:
+
+- The prosecutor objects or appears in opposition.
+- The court sets a contested hearing.
+- A discretionary interests-of-justice request needs argument.
+- The participant is not a United States citizen.
+- Whether probation was granted cannot be established from the participant's answer or their record.
+
 ## What this packet does not tell you
 
 The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the conviction. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.
@@ -97,15 +107,13 @@ The platform holds no value for any of these, and this packet never guesses at o
 
 | Page | Form field | What the form says |
 | --- | --- | --- |
-| 1 | `FillText10` | the form prints `FillText10` beside it |
-| 1 | `FillText11` | the form prints `FillText11` beside it |
-| 1 | `FillText13` | the form prints `FillText13` beside it |
-| 1 | `FillText14` | the form prints `FillText14` beside it |
-| 1 | `FillText7` | the form prints `FillText7` beside it |
-| 1 | `FillText8` | the form prints `FillText8` beside it |
-| 1 | `FillText9` | the form prints `FillText9` beside it |
-| 1 | `NoticeFooter1` | the form prints `NoticeFooter1` beside it |
-| 1 | `NoticeHeader1` | the form prints `NoticeHeader1` beside it |
+| 1 | `FillText10` | the form prints `PLAINTIFF/PETITIONER:` beside it |
+| 1 | `FillText11` | the form prints `CASE NUMBER:` beside it |
+| 1 | `FillText13` | the form prints `the party-role block: Petitioner / Plaintiff / Respondent / Other (Specify)` beside it |
+| 1 | `FillText14` | the form prints `Date:` beside it |
+| 1 | `FillText7` | the form prints `(TYPE OR PRINT NAME)` beside it |
+| 1 | `FillText8` | the form prints `the declaration body, under the heading DECLARATION and the note '(This form must be attached to another form or court paper before it can be filed in court.)'` beside it |
+| 1 | `FillText9` | the form prints `DEFENDANT/RESPONDENT:` beside it |
 ### 10 of those blanks are yours even though they read like an election
 
 **Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)** and **Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)**. They are listed in the table above with their page and the words the form prints beside them, and they are yours for the reason this packet records against each one:
