@@ -6,7 +6,7 @@ import { execFileSync } from "node:child_process";
 import { readInk } from "./pdfink.mjs";
 const pdfinfoPages = (abs) => { try { const o = execFileSync("pdfinfo", [abs], { encoding: "utf8" }); const m = o.match(/^Pages:\s+(\d+)/m); return m ? +m[1] : null; } catch { return null; } };
 
-const ROOT = "/home/user/legalease-partner-dashboard-clean/.claude/worktrees/rva2";
+const ROOT = process.env.VF01_ROOT || "/home/user/legalease-partner-dashboard-clean/.claude/worktrees/rva2";
 const MAIN = "/home/user/legalease-partner-dashboard-clean";
 const rj = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
 const sha = (p) => crypto.createHash("sha256").update(fs.readFileSync(p)).digest("hex");
