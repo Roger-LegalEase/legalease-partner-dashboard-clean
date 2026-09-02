@@ -82,6 +82,9 @@ const NOT_A_WRITE_DISPOSITIONS = new Set([
   'REQUIRED_BEFORE_FILING',
   'REFUSE',
   'explicit_refusal',
+  // "a choice only the participant can make, and one this route does not
+  // determine" — Texas states it in exactly those words. A deliberate blank.
+  'participant_election',
 ]);
 
 export function isDeclaredWrite(node) {
@@ -137,15 +140,64 @@ function blankSourceFor(receipt, documentId) {
   return fs.existsSync(p) ? { file: p, documentId: pick.documentId, pathInArchive: pick.pathInArchive } : null;
 }
 
-/** Rendered participant artifacts to measure: the family's fixtures. */
-function fixturesOf(dir) {
+const normDoc = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
+
+/**
+ * Which document each fixture renders.
+ *
+ * A family commonly ships several documents — New York ships an Application, a
+ * COD Request and a pro-se packet — and a field declared on one of them does
+ * not exist on the others. Measuring every declared write against every fixture
+ * therefore invents failures. reports/rendered-artifacts.json states the
+ * pairing outright for most families; where it does not, the fixture stem is
+ * matched against the document ids, and a single-document family pairs
+ * trivially. A fixture that cannot be attributed in a multi-document family is
+ * left unattributed and measured against nothing.
+ */
+function fixturesOf(dir, documentIds) {
   const out = [];
   const fx = path.join(dir, 'fixtures');
   if (!fs.existsSync(fx)) return out;
+
+  const stated = new Map();
+  const ra = readJsonIfPresent(path.join(dir, 'reports/rendered-artifacts.json'));
+  for (const p of ra?.pdfs || []) {
+    if (p?.file && p?.documentId) stated.set(path.basename(p.file), String(p.documentId));
+  }
+
   for (const f of fs.readdirSync(fx).sort()) {
-    if (/\.pdf$/i.test(f)) out.push({ file: path.join(fx, f), name: f });
+    if (!/\.pdf$/i.test(f)) continue;
+    let documentId = stated.get(f) || null;
+    let how = documentId ? 'rendered-artifacts.json' : null;
+    if (!documentId && documentIds.length === 1) {
+      documentId = documentIds[0];
+      how = 'the family renders a single document';
+    }
+    if (!documentId) {
+      const stem = normDoc(f.replace(/\.pdf$/i, '').replace(/-(canonical|boundary)$/i, ''));
+      const hit = documentIds.filter((d) => {
+        const n = normDoc(d);
+        return stem.length >= 4 && (n.includes(stem) || stem.includes(n));
+      });
+      if (hit.length === 1) {
+        [documentId] = hit;
+        how = 'fixture stem matched the document id';
+      }
+    }
+    out.push({ file: path.join(fx, f), name: f, documentId, attributedBy: how });
   }
   return out;
+}
+
+/** Every document id the field map names. */
+function documentIdsOf(fieldMap) {
+  const ids = new Set();
+  for (const [node] of walk(fieldMap)) {
+    if (node && typeof node === 'object' && !Array.isArray(node) && node.documentId) {
+      ids.add(String(node.documentId));
+    }
+  }
+  return [...ids];
 }
 
 function pdfTextOfPage(pdf, page) {
@@ -215,6 +267,8 @@ export function run({ onlyFamily = null } = {}) {
       let declaredCount = 0;
       let fixturesRead = 0;
       let noGeometry = 0;
+      let unattributedFixtures = 0;
+      let unattributedWrites = 0;
 
       for (const d of fam.directories) {
         const fieldMap = readJsonIfPresent(path.join(d.dir, 'production-field-map.json'));
@@ -230,14 +284,20 @@ export function run({ onlyFamily = null } = {}) {
         if (writes.length === 0) continue;
         declaredCount += writes.length;
 
-        const fixtures = fixturesOf(d.dir);
+        const documentIds = documentIdsOf(fieldMap);
+        const fixtures = fixturesOf(d.dir, documentIds);
         if (fixtures.length === 0) continue;
 
         const ctx = { imgCache: new Map(), heightCache: new Map(), scratch };
         for (const fx of fixtures) {
+          if (!fx.documentId) { unattributedFixtures += 1; continue; }
           fixturesRead += 1;
           for (const w of writes) {
-            const blank = blankSourceFor(receipt, w.documentId);
+            // A field belongs to one document. Measuring it against a fixture
+            // that renders a different document would invent a failure.
+            if (w.documentId && String(w.documentId) !== fx.documentId) continue;
+            if (!w.documentId && documentIds.length > 1) { unattributedWrites += 1; continue; }
+            const blank = blankSourceFor(receipt, w.documentId || fx.documentId);
             for (const widget of w.widgets) {
               const m = measureWidget(ctx, fx.file, blank?.file || null, widget);
               if (!m.measured) continue;
@@ -249,6 +309,8 @@ export function run({ onlyFamily = null } = {}) {
               }
               perFamily.push({
                 fixture: rel(fx.file),
+                fixtureDocumentId: fx.documentId,
+                fixtureAttributedBy: fx.attributedBy,
                 field: w.field,
                 factId: w.factId,
                 decision: w.decision,
@@ -299,11 +361,15 @@ export function run({ onlyFamily = null } = {}) {
         widgetsProvenPresent: perFamily.length - absent.length,
         widgetsProvenAbsent: absent.length,
         measurementsWithoutBlankBaseline: withoutBaseline,
+        fixturesNotAttributableToADocument: unattributedFixtures,
+        declaredWritesNotAttributableToADocument: unattributedWrites,
         result: absent.length === 0 ? 'PASS' : 'FAIL',
         failures: absent.length > 0 ? ['D1_DECLARED_WRITE_NOT_IN_ARTIFACT'] : [],
         absentFieldCount: absentFields.length,
         absentWidgets: absent.map((a) => ({
           fixture: a.fixture,
+          fixtureDocumentId: a.fixtureDocumentId,
+          fixtureAttributedBy: a.fixtureAttributedBy,
           field: a.field,
           factId: a.factId,
           declaredBy: a.decision ? `decision=${a.decision}` : `disposition=${a.disposition}`,
@@ -341,6 +407,10 @@ export function run({ onlyFamily = null } = {}) {
         'consulted only as a witness describing an absence, never to overrule ink',
     },
     trapsHandled: {
+      fieldMeasuredAgainstTheWrongDocument:
+        'a family may ship several documents and a field declared on one does not exist on the ' +
+        'others, so each declared write is measured only against the fixture that renders its own ' +
+        'document, paired from reports/rendered-artifacts.json where that states the pairing',
       formXObjectWithUnmappableFont:
         'a value drawn in a Form XObject with a font pdftotext cannot map is present even though ' +
         'text extraction shows nothing, so ink and not pdftotext decides presence',
