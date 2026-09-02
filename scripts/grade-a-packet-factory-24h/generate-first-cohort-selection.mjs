@@ -48,8 +48,21 @@ const postApprovalAudit = (() => {
   catch { return { families: [] }; }
 })();
 const auditVerdict = new Map((postApprovalAudit.families ?? []).map((r) => [r.familyId, r]));
+/*
+ * THE BUNDLE INDEX LIVES IN /tmp, SO ITS ABSENCE MUST SAY WHICH ABSENCE IT IS.
+ *
+ * This read used to collapse to `null`, and `null` rendered as `bundles: []`
+ * with `totalPages: null` -- indistinguishable from a cohort that genuinely has
+ * no review bundles. /tmp does not survive the session, so the record would
+ * have quietly reported "no visual review material" for a cohort whose bundles
+ * were simply somewhere this run could not see. That is the same shape as the
+ * condition-seven defect: silence read as a finding rather than as a missing
+ * reading, and it is worse here because visual review is the one condition
+ * nothing in this repository may satisfy on its own.
+ */
 const bundleIndex = (() => {
-  try { return JSON.parse(fs.readFileSync("/tmp/vrb-html/INDEX.json", "utf8")); } catch { return null; }
+  try { return JSON.parse(fs.readFileSync("/tmp/vrb-html/INDEX.json", "utf8")); }
+  catch (e) { return { unreadableHere: e.code === "ENOENT" ? "absent" : String(e.code ?? e.message) }; }
 })();
 
 /*
@@ -213,8 +226,12 @@ const doc = {
   visualReview: {
     state: "awaiting_a_named_reviewer",
     whyItCannotBeInferred: "Every other Grade-A condition is a measurement this factory can make. This one is not: it asks whether a human judges each rendered page fit to file. Nothing in the repository may set it to passed.",
-    bundles: bundleIndex?.bundles?.map((b) => ({ familyId: b.familyId, fixture: b.fixtureKind, pages: b.pages, fixtureSha256: b.fixtureSha })) ?? [],
-    totalPages: bundleIndex?.totalPages ?? null
+    bundleIndexWasReadable: !bundleIndex.unreadableHere,
+    whyThatFieldExists: "The bundle index is written to /tmp, which does not survive the session. An empty bundle list therefore has two meanings -- no bundles were built, or this run could not see the ones that were -- and only this field separates them. A record that cannot tell them apart reports the wrong one silently.",
+    bundleIndexUnreadableBecause: bundleIndex.unreadableHere ?? null,
+    bundles: bundleIndex.bundles?.map((b) => ({ familyId: b.familyId, fixture: b.fixtureKind, pages: b.pages, fixtureSha256: b.fixtureSha })) ?? null,
+    totalPages: bundleIndex.totalPages ?? null,
+    theseAreFamilyAssemblyBundles: "These bundles render the family ASSEMBLIES. The five routes the runtime can address are reviewed from their own route-scoped artifacts, delivered as the offline review packages, and a family bundle is not a substitute for one."
   },
   remainingOwnerAction: "One page-by-page visual review of the cohort bundles by a named reviewer, and then the owner-controlled nationwide delivery flip. Neither is performed here.",
   allRows: rows

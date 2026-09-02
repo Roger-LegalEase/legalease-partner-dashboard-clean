@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "60931f91e94cfb8cfb2c6cedd679d9085b09e284",
+  "atCommit": "b4649bca259fb1b618babb5b928f2a015b453b9f",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -655,6 +655,9 @@
   "visualReview": {
     "state": "awaiting_a_named_reviewer",
     "whyItCannotBeInferred": "Every other Grade-A condition is a measurement this factory can make. This one is not: it asks whether a human judges each rendered page fit to file. Nothing in the repository may set it to passed.",
+    "bundleIndexWasReadable": true,
+    "whyThatFieldExists": "The bundle index is written to /tmp, which does not survive the session. An empty bundle list therefore has two meanings -- no bundles were built, or this run could not see the ones that were -- and only this field separates them. A record that cannot tell them apart reports the wrong one silently.",
+    "bundleIndexUnreadableBecause": null,
     "bundles": [
       {
         "familyId": "rcap-ks-custom-pleading",
@@ -693,7 +696,8 @@
         "fixtureSha256": "be3ec3eeb060fdb4c560f2fc080c6933b86bacc227191040b23b7afb6687506a"
       }
     ],
-    "totalPages": 278
+    "totalPages": 278,
+    "theseAreFamilyAssemblyBundles": "These bundles render the family ASSEMBLIES. The five routes the runtime can address are reviewed from their own route-scoped artifacts, delivered as the offline review packages, and a family bundle is not a substitute for one."
   },
   "remainingOwnerAction": "One page-by-page visual review of the cohort bundles by a named reviewer, and then the owner-controlled nationwide delivery flip. Neither is performed here.",
   "allRows": [
