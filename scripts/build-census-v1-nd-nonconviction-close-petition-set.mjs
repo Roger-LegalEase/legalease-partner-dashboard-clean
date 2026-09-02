@@ -726,6 +726,8 @@ The platform filled the county and case number in the caption, your name as the 
 
 **Check page 5 before you file, because a long value can be left off it.** Where a caption value is too long to fit legibly, this packet refuses to print it rather than shrink it past the point of being readable — and when that happens the blank is on both pages, not just one. So read page 5's caption first: whatever is genuinely blank there is yours to fill in by hand, and whatever is already printed is not.
 
+**Check the address block on page 4 for the same reason.** The refusal rule is not confined to the caption. The printed name, address, city, state and ZIP, telephone number and email that this packet fills in below your signature line on page 4 are measured the same way, and a value too long to fit legibly in its box is left blank rather than shrunk past the point of being readable. The city, state and ZIP line is the one that runs long most easily. Unlike the caption, that block appears once and on page 4 only, so there is no second copy of it to check — read page 4 itself, and hand-write anything the packet left blank there.
+
 ## Where you file it
 
 **File the original with the Clerk of Court where your criminal case is filed.** Page 2 of the printed instructions says so, and the committed route record for this packet says the same: "The North Dakota district court or municipal court in which the criminal case is filed", filed in the existing criminal case. The instructions point to **ndcourts.gov/court-locations** if you need to find it.
