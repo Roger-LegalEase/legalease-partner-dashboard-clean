@@ -25,12 +25,12 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 35,
+  "families": 36,
   "PASS_COMPLETE_INDEPENDENT": 15,
   "PASS": 0,
   "FAIL_REPAIR_REQUIRED": 16,
   "BLOCKED_SOURCE": 1,
-  "BLOCKED_LEGAL_INPUT": 1,
+  "BLOCKED_LEGAL_INPUT": 2,
   "STOPPED": 1,
   "tallyRecomputedOverEveryRowInThisFile": true,
   "onlyFableVaRowsAreFableVaDeterminations": [
@@ -7865,6 +7865,256 @@
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the sd_arrest_expungement-set row and its receipt)"
    ],
    "grantsNothing": "This verdict approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+   "lane": "VF03",
+   "wave": "VF03-W3",
+   "verdict": "BLOCKED_LEGAL_INPUT",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading",
+   "routeKey": "obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+   "rasterState": "RASTER_PENDING in RASTER_QUEUE.json with no receipt, nextOwner RAS03; build-status.json records rasterState BUILT_RASTER_PENDING with rasterPages 0 and no raster pages are committed",
+   "independentOfBuilder": "VF03 holds no packet-build, repair or shared-host-repair claim on this family, wrote no byte inside its overlay directory, and produced none of the reports it reads. Every hash, counter, page count, word box and quoted line below was recomputed or read first-hand in this container.",
+   "whatStandsBetweenThisAndAPass": "Two things, and neither is a defect a repairer can fix. Who must be served on this route, and how, is answered by no committed record: the route contract carries no service or notice field at all, and the packet says so and names the clerk's office as the office that answers. And the central raster gate has not run, so the obligation that gate carries has no verdict. The first is why the row is BLOCKED_LEGAL_INPUT; the second is a queue item owned by RAS03, not a legal input, and is recorded as unmeasured rather than folded into the block.",
+   "notASingleRepairableDefectWasFound": "Thirteen obligations pass on measurement made here and no repair assignment is raised for this family.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26, run in this container: PASS_COMPLETE, 7/21 written"
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26 agrees across build-status.json, source-receipt.json, reports/rendered-artifacts.json, product-wiring.json and the RASTER_QUEUE.json row. The single route key obligation:runtime-only:MS:nonadjudication-under-99-15-26 is printed at the foot of all three components and is the key the route-obligation census holds at routes[66] with routeContractId MS:nonadjudication-under-99-15-26, which is the contract at routes[13] of src/lib/legal-authority/routes/mississippi.json. The packet is built for the post-completion petition and says so on its face.",
+     "evidence": {
+      "routeKeysDeclared": 1,
+      "routeKeyPrintedOnComponents": 3,
+      "recordsAgreeing": 5
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "This is a zero-document-source composition (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT). All three committed records it binds were rehashed from the bytes on disk in this container and every one equals the receipt to the byte, across 25 anchor statements.",
+     "evidence": {
+      "recomputedHere": [
+       {
+        "path": "src/lib/legal-authority/routes/mississippi.json",
+        "sha256": "1d533e72b993ce40bda1b7aa565a62d0585259280483ffccd9192395eeb00026",
+        "byteLength": 37570,
+        "anchorStatementsVerified": 18,
+        "matchesReceipt": true
+       },
+       {
+        "path": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+        "sha256": "d30c78bcdbcd4378d1d6e656dd65f8ebde3b6d231e7020add220e55d865ea689",
+        "byteLength": 416327,
+        "anchorStatementsVerified": 5,
+        "matchesReceipt": true
+       },
+       {
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+        "byteLength": 2599752,
+        "anchorStatementsVerified": 2,
+        "matchesReceipt": true
+       }
+      ],
+      "sourcesMismatching": 0,
+      "legacyGeneratorSeparation": "The receipt states in terms that the retired legacy Mississippi generator conveys no authority to this family, and build-findings.json records that nothing from it was used as authority. Nothing in the packet depends on it, consistent with ADR-0004."
+     }
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The route contract names three packet components: 'Petition under § 99-15-26(5)', 'Completion and closure proof' and 'Proposed order'. Two of the three are pleadings and both are composed and rendered — ms-post-nonadjudication-primary-filing-1 on pages 1-2 and ms-post-nonadjudication-proposed-order-2 on page 3. The third is a RECORD the participant obtains rather than a page anyone can compose, and the packet handles that correctly and explicitly: its filing-instructions component states that anything on the contract's component list that is a record rather than a pleading is a document the participant obtains and files with the petition, and 'Obtain the completion and closure proof' is one of the three things under WHAT YOU DO. The filing-instructions component itself is the third rendered component, on pages 4-5.",
+     "evidence": {
+      "componentsNamedByTheContract": 3,
+      "pleadingComponentsComposed": 2,
+      "recordComponentCorrectlyIdentifiedAsParticipantObtained": true,
+      "componentsRendered": 3,
+      "requiredComponentsMissing": 0
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every known fact is written and visible on the page it belongs to. Seven writes: the petitioner's name on all three components, and the date of birth, mailing address, telephone and email on the petition. Each value was grepped out of the text extracted from canonical.pdf in this container rather than read from the write log. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 and refusedFieldsWithInk is empty.",
+     "evidence": {
+      "writesReported": 7,
+      "readBackFromRenderedText": [
+       "Jordan Avery Reyes",
+       "1991-04-17",
+       "42 Magnolia Street, Springfield 62704",
+       "555-0142",
+       "jordan.reyes@example.org"
+      ],
+      "knownFactsMissingFromTheRenderedPage": 0
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The route contract declares no requiredBeforeFiling list; what it declares is seven requiredFacts, and all seven are printed on the petition as labelled items C1 to C7 in the contract's own words, each verified present by exact-string grep of the rendered text. Everything else the contract implies is stated as an action: confirm both timing anchors have passed, obtain the completion and closure proof, fill every labelled item from the court record, sign and date personally, file with the proposed order. The packet also states three things not to do, each traced to the contract — do not file while still on nonadjudication, because relief opens on the LATER of completion and the closure order; do not assume a second use is available, because the contract records 'Once only'; do not sign the proposed order.",
+     "evidence": {
+      "requiredFactsInTheContract": 7,
+      "requiredFactsPrintedOnThePetition": 7,
+      "eachVerifiedByExactStringMatch": true,
+      "recordComponentNamedAsSomethingToObtain": true
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The route determines no election. The contract records no alternative grounds and no branch to choose between, the packet carries no checkbox and no alternative-relief selection, and requiredOptionsMissing measured 0. There is no unselected election because there is no election.",
+     "evidence": {
+      "electionsDeclaredByTheRoute": 0,
+      "electionsSelected": 0,
+      "requiredOptionsMissing": 0
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet contains no repeating row structure. The seven participant items C1 to C7 are single labelled dotted blanks, each on its own, and none is a cell in a row. incompleteRows measured 0 here.",
+     "evidence": {
+      "repeatingRowStructures": 0,
+      "incompleteRows": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No protected field carries ink, read from the rendered bytes. The petition's signing line extracts as 'DATE .............................. SIGNATURE OF PETITIONER ....................................' with dots only, under the printed sentence that the petitioner signs and dates personally and that nothing on the page is signed or dated for them. The proposed order is blank throughout — 'ORDERS that ........................................................', a blank DATED line and a blank signature rule — under the printed statement that every decision on that page is the Court's and that nothing on it is completed, decided, signed or dated by the petitioner or by this packet, followed by 'The court signs here if, and only if, it grants the petition.' Both case-number captions are dotted blanks.",
+     "evidence": {
+      "signatureLinesCarryingInk": 0,
+      "proposedOrderDecisionOrDateOrSignature": "all blank",
+      "caseNumberCaptionsPrefilled": 0,
+      "certificateOfMailingPresent": false,
+      "refusedFieldsWithInk": 0
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures hash to what every record naming them says. Recomputed here with sha256sum and pdfinfo: canonical.pdf = b6c18f619f45fbd2cf9a80e805b7a8c6d428427cf88c77c2f05083c758e396b2 (13425 bytes, 5 pages), boundary.pdf = c31fa42374b4b6c83b8388d76e6ff556d6e62f7b2f2f2c617ec2bceba3e20e90 (13627 bytes, 5 pages). Every claimed hash across rendered-artifacts.json, actual-writes.json, product-wiring.json and the RASTER_QUEUE.json row agrees, and every 64-hex digest in product-wiring.json resolves to a fixture or a bound record.",
+     "evidence": {
+      "canonicalSha256": "b6c18f619f45fbd2cf9a80e805b7a8c6d428427cf88c77c2f05083c758e396b2",
+      "boundarySha256": "c31fa42374b4b6c83b8388d76e6ff556d6e62f7b2f2f2c617ec2bceba3e20e90",
+      "claimedHashMismatches": 0,
+      "wiringDigestsNotMatchingAFixtureOrSource": 0
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures declare a 5-entry pageManifest numbered 1..5 with no gap and pdfinfo reads exactly 5 pages from each. The order is petition pages 1-2, proposed order page 3, filing instructions pages 4-5, which is the contract's own component order with the instructions last, and source pages are sequential within each component.",
+     "evidence": {
+      "manifestPages": 5,
+      "measuredPages": 5,
+      "sequential": true,
+      "order": "1-2 primary filing, 3 proposed order, 4-5 filing instructions"
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": false,
+     "result": "NOT_MEASURABLE_HERE",
+     "finding": "The obligation's instrument is the central raster gate and it has not run for this family. RASTER_QUEUE.json holds RASTER_PENDING with no receipt and nextOwner RAS03, build-status.json records rasterState BUILT_RASTER_PENDING with rasterPages 0, and no raster pages are committed, so there is nothing to read as pixels either. What this lane could measure is clean and is recorded as measurement rather than as a pass: word geometry over both fixtures returns 0 words outside the page box and 0 text-on-text collisions across 1202 and 1206 words, and reports/actual-writes.json's read of the output bytes records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0.",
+     "evidence": {
+      "rasterVerdict": null,
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS03",
+      "committedRasterPages": 0,
+      "wordsOutsidePageBoxCanonical": 0,
+      "textOnTextCollisionsCanonical": 0,
+      "wordsOutsidePageBoxBoundary": 0,
+      "textOnTextCollisionsBoundary": 0,
+      "whyThisIsNotAPass": "Lane contract L4: no family is proven without a hash-bound RASTER_PASS from the central workflow. A text-box instrument cannot see raster ink, vector rules, field borders or images."
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet names the court the route names, in the only terms the record supports. The route-obligation census records the destination as 'court identified in exact route contract; exact filing destination not recorded', and the contract identifies the court by its role rather than by name, because which court it is depends on the matter. Both the petition and the proposed order carry the caption 'IN THE ............ COURT' with the parenthetical '(the Mississippi court that granted nonadjudication and entered the dismissal or closure order)', and the filing instructions repeat that description when naming the clerk's office to ask. The court line is left as a blank the participant completes, which is right: the platform does not hold which court granted nonadjudication in this matter, and the packet does not guess it.",
+     "evidence": {
+      "censusDestination": "court identified in exact route contract; exact filing destination not recorded",
+      "printedDestinationDescription": "the Mississippi court that granted nonadjudication and entered the dismissal or closure order",
+      "courtLineLeftBlankForTheParticipant": true,
+      "noVenueInvented": true
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both are stated, and the packet does something careful with a trap that would be easy to get wrong. It reports the $150 fee the compiled profile records, quoting it verbatim — '§ 99-19-72 sets a $150 filing fee for each petition to expunge an offense under 99-19-71' — and then states plainly, in capitals, that this petition is brought under § 99-15-26(5) and not under § 99-19-71. It does not stop at the distinction: it notes that the same profile records the operative expungement provision as appearing in both § 99-15-26(5) and § 99-19-71(4), says no record it binds settles whether the § 99-19-72 fee reaches a petition under § 99-15-26(5), and refuses to decide it in either direction — while telling the participant to expect to be asked for $150 and to ask the clerk's office what that court charges before going, 'because a filing you cannot pay for is a filing you cannot make'. On the waiver it says no record it binds states one and names the same clerk's office as the office that answers. That is the fee and the waiver route stated as far as the record reaches, with the reasoning shown.",
+     "evidence": {
+      "feeFigureStated": "$150, quoted from the compiled profile",
+      "statutoryBasisOfTheFeeDistinguishedFromThisRoute": true,
+      "packetRefusesToDecideWhetherTheFeeReachesThisRoute": true,
+      "waiverPositionStated": "no record binds one; the clerk's office is named as the office that answers",
+      "officeNamed": "the clerk's office of the Mississippi court that granted nonadjudication and entered the dismissal or closure order"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "Who must be served, and how, is not answerable from any committed record. The route contract at routes[13] of src/lib/legal-authority/routes/mississippi.json carries no service field, no notice field and no proof-of-service field — the question is not recorded as unresolved, it is simply not addressed anywhere in the record this route has. The packet states exactly that: 'No committed record this packet binds states who must be served on this route, or how. The office that answers it is the clerk's office of the Mississippi court that granted nonadjudication and entered the dismissal or closure order.' That is the honest thing to print, and it is not an answer to this obligation. It is recorded as blocked rather than as a pass because the packet does not say who must be served, and rather than as a failure because no repairer can supply from this repository an answer the repository does not hold.",
+     "evidence": {
+      "serviceFieldInTheRouteContract": "absent",
+      "noticeFieldInTheRouteContract": "absent",
+      "censusRequiresLegalReview": false,
+      "packetStatesTheAbsence": true,
+      "officeNamed": true,
+      "whoCanClearIt": "counsel, or a record that establishes the service rule for a § 99-15-26(5) petition. Not a repair lane."
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet states where self-help ends, and every stop it prints is traceable to the record it binds. Its five conditions are: still on nonadjudication or no dismissal or closure order entered, which is the contract's timing anchor read as a stop; prior use of nonadjudication, which is the contract's 'Once only'; a DUI, implied-consent or trafficking element, which is the contract's third exclusion; a court level the contract records as excluded, which is its first; and any immigration question. The route contract declares no selfHelpBoundaries list of its own, so these are composed from its exclusions and its timing rather than copied from a list, and nothing the contract records as an exclusion is missing.",
+     "evidence": {
+      "contractExclusions": [
+       "Court-level exclusions",
+       "Once only",
+       "No trafficking, implied-consent, or DUI misuse"
+      ],
+      "contractExclusionsCarried": 3,
+      "contractExclusionsMissing": 0,
+      "timingAnchorCarriedAsAStop": true,
+      "immigrationCarried": true,
+      "observationNotScored": "The compiled Mississippi profile — which this family also binds as authority — carries, at ruleClauses[13] of its nonadjudication-under-99-15-26 pathway and immediately after that pathway's own mechanism description, the sentence 'This may apply in felony and misdemeanor cases, but there are exclusions, especially crimes against the person, crimes of violence, and certain public corruption/abuse-of-office offenses.' None of violence, 'against the person', corruption or 'abuse of office' appears anywhere in this packet or its participant-instructions.md; all four return 0 hits. This lane did NOT score that a failure, and the reason is stated so the Captain can weigh it rather than take it on trust: that pathway record is demonstrably an aggregation across sections — its summary and its structured exclusionRules field are both plainly about the § 99-19-71 felony route, naming the general felony waiting period and the public-official bar — so a clause inside it is weaker authority than the route contract, which is the record the census marks as superseding and whose three exclusions the packet carries in full. It is recorded here because the omitted classes are serious ones and because the packet's own item C2 asks the participant 'What is the offense and does an exclusion apply?' without telling them which exclusions to check against."
+     }
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/reports/blanks-left-for-the-participant.json",
+    "src/lib/legal-authority/routes/mississippi.json (routes[13], MS:nonadjudication-under-99-15-26)",
+    "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json (pathway nonadjudication-under-99-15-26)",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (routes[66])",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the family's row)"
+   ],
+   "grantsNothing": "A blocked row approves no output and opens no commercial route."
   }
  ],
  "supersededLaneMembership": {
@@ -8537,7 +8787,8 @@
    "ny_mrta_marijuana-set",
    "wv_conv_single_misdemeanor-set",
    "rcap-ok-custom-pleading",
-   "sd_arrest_expungement-set"
+   "sd_arrest_expungement-set",
+   "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26"
   ]
  }
 }
