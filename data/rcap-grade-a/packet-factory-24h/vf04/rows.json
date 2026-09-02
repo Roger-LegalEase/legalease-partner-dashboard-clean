@@ -5711,6 +5711,91 @@
       "repairedNothing": true,
       "grantsNothing": "This row is a verification reading. It promotes nothing, opens no route and grants no approval."
     }
+  ,
+    {
+      "lane": "VF04",
+      "worker": "VF04 wave-6 (independent; built, repaired and rendered none of these packets)",
+      "wave": "packet-factory-24h/VF04/wave-6 (2026-09-02)",
+      "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+      "itemId": "rcap-tx-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading",
+      "claim": {
+        "assert": "CLAIM_OK VF04 rcap-tx-custom-pleading (independent-verification, grant set bc8f107267b3e1e0)",
+        "exitCode": 0
+      },
+      "whatThisFamilyIs": "Not a route petition. It is the shared Tex. R. Civ. P. 145 Statement of Inability to Afford Payment of Court Costs, the fee-waiver instrument of all eight Texas expunction routes, plus a three-page composed page explaining it. The packet says so in its own words: 'This is not your expunction petition ... It asks for nothing about your record and starts no case.'",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-tx-custom-pleading, run in this worktree at this base without --write. Result PASS_COMPLETE, 9/152 written.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": "PASS",
+        "SOURCE_IDENTITY": "PASS",
+        "COMPONENT_SET": "PASS",
+        "KNOWN_PREFILLS": "PASS",
+        "REQUIRED_BEFORE_FILING": "PASS",
+        "ROUTE_OPTIONS": "PASS",
+        "REPEATING_ROWS": "PASS",
+        "PROTECTED_FIELDS": "PASS",
+        "ARTIFACTS": "PASS",
+        "PAGE_ORDER": "PASS",
+        "CLIPPING_AND_OVERLAP": "PASS",
+        "FILING_DESTINATION": "PASS",
+        "FEE_AND_WAIVER": "PASS",
+        "SERVICE": "PASS",
+        "SELF_HELP_STOP": "PASS"
+      },
+      "evidence": {
+        "ROUTE_IDENTITY": "Nine route keys across eight Texas expunction tracks, identical in production-field-map.json, product-wiring.json and source-receipt.json. The packet is built for exactly that set and names all eight in its own words on the composed page under 'WHICH ROUTES THIS SERVES', and again in the instructions: no charge filed, dismissed or quashed, limitations expired, pardon or relief on actual innocence, pardon for another reason, mistaken identity or identity theft, specialty court dismissal, and pre-2021 unlawful carrying of a handgun. The reason one instrument serves them all is stated and is the registry's: the same filing rule, fee rule and waiver route govern each.",
+        "SOURCE_IDENTITY": "One official form bound, in the human_source_returns custody rather than the Master Library. Recomputed here from the bytes: bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d, 6667524 bytes, 12 pages by pdfinfo, all three matching source-receipt.json exactly. This is the Supreme Court of Texas bilingual statewide form approved in Misc. Docket No. 22-9090, which the registry records as the only genuinely statewide promulgated form in the Texas record-clearing workflow.",
+        "COMPONENT_SET": "MASTER_QUEUE.json names eight components for this family, one fee-waiver-statement component per route. All eight are satisfied and the packet renders the instrument once, which is correct rather than a shortfall: componentConditions states that the single tx-expunction-fee-waiver-statement 'is the fee-waiver component of each of those packet sets, and a participant on one route receives one copy of it.' The rendered packet carries that statement in full at twelve pages plus the three-page composed instructions component, and componentSet lists both rendered documents alongside the eight route-scoped identities they satisfy.",
+        "KNOWN_PREFILLS": "Nine writes, all against participant identity facts, and every one read back out of the rendered canonical text on the line it belongs to: full legal name on the 'My full legal name is / Mi nombre legal completo es' rule and again in the declaration and on the composed page, date of birth, home address, telephone and email. Every write also has ink inside its own widget rect where it has one. Nothing financial is written anywhere, which is the point: the instructions say a guessed figure on a document sworn under penalty of perjury is far worse than a blank one.",
+        "REQUIRED_BEFORE_FILING": "Ninety-six items declared required before filing and all ninety-six named in participant-instructions.md, checked against the file with whole-token matching on the field name plus its printed label rather than loose substring matching. They are every income source, benefit, dependant, asset, monthly expense and debt on the Statement, plus the cause number, the court number, the county and the blocks copied from the petition.",
+        "ROUTE_OPTIONS": "No route-determined election exists on this instrument and none is left unmade. The Statement asks nothing about the record or the route, so nothing on it is route-determined. Its nineteen benefit-programme checkboxes -- Medicaid, SNAP, WIC, SSI/SSDI, TANF, CHIP, Lifeline and the rest -- are classed participant_sworn_narrative_or_legal_election, which the completeness contract types as PARTICIPANT_ELECTION_GENUINE and guards with notForFieldClasses covering ROUTE_ELECTION, OFFENSE_ROW_CELL, MATTER_IDENTIFIER, PARTICIPANT_IDENTITY, PARTICIPANT_CONTACT, COURT_IDENTITY and DISPOSITION_FACT, so the class cannot be used to hide a route election. Each is a sworn statement about the participant's own benefits and is properly theirs to make.",
+        "REPEATING_ROWS": "The dependants table is the repeating structure: five rows of Name, Age and Relationship. Every cell of every row is blank and every cell is classed REQUIRED_BEFORE_FILING, so no row carries a written cell beside a required cell left blank. The income, expense and debt tables are likewise wholly unwritten and wholly required.",
+        "PROTECTED_FIELDS": "Nine protected fields: the cause number, which the form's own first page says the Clerk's office fills in at filing, and the signature and date blocks on pages 11 and 12. Six of them showed as inked on a text-based first pass, so I measured again in pixels, rendering the packet page and the pristine source page at 200dpi and counting dark pixels inside each rect. All six are identically empty in packet and source -- zero dark pixels in both -- so the text hit was a rule sitting just outside the widget box, not ink. Zero build ink on any signature, signature date, court-only or clerk-owned field.",
+        "ARTIFACTS": "Both fixtures recomputed from the bytes here. canonical.pdf 06ad787efc569d60... 955948 bytes, 15 pages by pdfinfo; boundary.pdf fdcb1584a97ce8cf... 956182 bytes, 15 pages. Both match reports/rendered-artifacts.json on hash, byte length and page count, and the product-wiring proposedRepresentation component binds the canonical hash recomputed here.",
+        "PAGE_ORDER": "The rendered page order matches the packet manifest in both fixtures: the twelve pages of the Statement in source order as packet pages 1 to 12, then the three composed instruction pages as 13 to 15. The source form is itself twelve pages, so the whole instrument is present with nothing inserted between its pages and nothing dropped.",
+        "CLIPPING_AND_OVERLAP": "Measured here and separated from the form's own typography. Zero words fall outside an 18pt printable margin on any of the fifteen pages of either fixture, and zero on the pristine source. On overlaps the packet reads 580 pairs against the source's 555, and the whole of that difference is written values sitting on the form's own preprinted fill rules: the body-text overlap count is 529 in the packet and 529 in the source, identical, and comes from the Texas form's own bilingual stacked headers. The three composed instruction pages contribute no clipping and no overlap of their own. The build places no ink outside a measured write box.",
+        "FILING_DESTINATION": "Stated, and stated as the thing a participant most needs to know about this instrument: it is filed with the expunction petition and not on its own -- 'Sign and swear it, and file it with your expunction petition — not on its own.' The office is the district clerk of the county where the petition will be filed, which is the registry's destination for the routes it serves, and the packet names that clerk again as the office holding the art. 55A.253(c) agency list.",
+        "FEE_AND_WAIVER": "This family is the waiver route, and it states the fee position with unusual care. It records that art. 102.006 was repealed effective 2025-09-01 and permanently replaced by art. 102.0061 effective 2026-01-01, that under 102.0061(a) a district court charges the fee applicable to an ex parte petition in a civil action rather than a fixed sum, and that a justice court or municipal court of record charges a flat $100 under (b). It refuses to reproduce the $250-to-$500 figure that circulates online, naming it as coming from the repealed statute. It gives the two places the fee is waived without this form at all, art. 102.0061(c) and (d), with the articles to cite at the counter. And it states the art. 55A.254(f) $25-per-paper-agency transmission charge, that it lands twice, and that ten paper-only agencies costs $500 -- more than the fee being waived. Rule 145's requirement that the clerk supply this form free and without being asked is stated twice.",
+        "SERVICE": "Stated, and correctly inverted from what a participant would assume. Under 'WHO SERVES WHOM - AND IT IS NOT YOU' the packet says the clerk sends the petition and the notice of hearing by certified mail return receipt requested or by secure e-mail, electronic transmission or fax; that the court sets a hearing not earlier than the thirtieth day after filing and gives a copy to each official, agency or entity listed other than central federal depositories; and that DPS notifies those itself, so the filer does not chase the FBI. That is the registry's service and notice rules for these tracks, faithfully, including its 'The participant does not serve in the ordinary case'. It adds the practical half: build the agency list from the clerk's published art. 55A.253(c) list, use the e-mail addresses, deduplicate, and note that a state or local agency with a listed e-mail address must accept electronic service.",
+        "SELF_HELP_STOP": "Stated, on the composed page and again in the instructions, under 'When to stop and get help instead'. Seven conditions, each carried from the registry's selfHelpStopConditions for the tracks this instrument serves: the state opposing or seeking retention under art. 55A.302; multiple charges with mixed outcomes, naming State v. T.S.N. and Ex parte R.P.G.P. and saying the analysis is not automated; a felony from the same transaction moving the wait to three years; a contested limitations period or an unclear full-versus-partial analysis; absconding or bail-jumping under art. 55A.154; a community-supervision violation warrant; and not being a United States citizen. It closes by naming who answers what: the district clerk of the county where the petition will be filed answers the fee and publishes the agency list, and must give the form free and without being asked."
+      },
+      "observationsForVisualAndCounselReview": [
+        "Date-of-birth format. The Statement's own caption under the date rule reads 'Month Day Year / Mes Día Año', and the build writes an ISO date -- 1994-04-17 on canonical, 1972-12-31 on boundary. The fact is written, visible and on the line it belongs to, and no date can be misread as a month, so this is not a completeness failure and it is not recorded as one. It is a fidelity wobble against the form's stated format, and it is worth a visual reviewer's eye, particularly beside wv_conv_multiple_misdemeanors-set where the build follows the form's own field tooltips to split month, day and year into the boxes the form intends.",
+        "Two stop conditions shared by every track this instrument serves are not carried onto it: 'Venue is unclear because the arrest and the alleged offence occurred in different counties' and 'The participant wants to attack the underlying case rather than clear it'. Neither is a defect here, because this family is expressly not the route petition and both are matters for the petition packet. Recorded so the judgement is visible rather than assumed."
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf (bytes and rendered pages)",
+        "data/record-clearing/legal-design-track-registry.json (tracks tx_exp_no_charge, tx_exp_dismissed, tx_exp_limitations, tx_exp_pardon_innocence: destination, venue, rules, selfHelpStopConditions)",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (packetComponents for this family)",
+        "scripts/rcap-packet-completeness/completeness-contract.mjs (REFUSAL_CLASSES typing of participant_sworn_narrative_or_legal_election)"
+      ],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable. It read NOT_READY on family_sources_bind at first, with 1 of 1 source failing to bind, and that was an artefact of this worktree rather than a defect: this family's source lives in the human_source_returns custody, whose root resolves under the repository root, and a git worktree does not carry the gitignored private/ tree. With that custody mounted the source binds by exact SHA-256 under custody_reconciliation and the whole preflight passes. Recorded because a lane that stopped at the first reading would have called this family BLOCKED_SOURCE wrongly.",
+      "commercialRoutesOpened": 0,
+      "overlayDirectoriesModified": 0,
+      "packetsModified": 0,
+      "productionTouched": false,
+      "repairedNothing": true,
+      "grantsNothing": "This row is a verification reading. It promotes nothing, opens no route and grants no approval."
+    }
   ],
   "supersededLaneMembership": {
     "note": "the earlier reading, when this lane covered other families",
