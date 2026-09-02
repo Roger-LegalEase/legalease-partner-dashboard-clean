@@ -230,6 +230,21 @@ function run() {
     /* A custom pleading drafts from codified text: zero bound sources is its
      * legitimate ready state (the simplification directive), and its named
      * missing components still block through reasons above. */
+    /*
+     * So does an instrument the owner determined is COMPOSED FROM AUTHORITY.
+     * Louisiana's statutory forms and Florida's Rule 3.989 instruments are
+     * generated faithfully from codified text; no agency-issued fillable PDF
+     * exists to hold, so "held, indexed and hash-matched" cannot be owed for
+     * them and this check would otherwise call the correct state false.
+     *
+     * The exemption is exactly as narrow as the determination. It reaches only
+     * the obligations generate.mjs recorded in satisfiedByAuthority, which are
+     * only the statutory or rule instruments themselves — the Florida FDLE
+     * applications attach as separate OFFICIAL components and are still owed
+     * as held bytes, which is why six Florida families are blocked rather than
+     * ready. Every other gate on these families is untouched.
+     */
+    if (r.boundCount === 0 && (r.satisfiedByAuthority ?? []).length > 0) return false;
     if (r.boundCount === 0) return f.implementationStrategy !== "custom_pleading" && f.implementationStrategy !== "participant_agency_application";
     return r.boundSources.some((b) => !b.path || !b.sha256 || !b.tier);
   }).map((f) => f.familyId);

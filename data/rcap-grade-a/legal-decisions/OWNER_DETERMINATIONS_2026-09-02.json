@@ -1,0 +1,252 @@
+{
+ "schemaVersion": "rcap-owner-determinations/v1",
+ "recordedBy": "Captain, applying determinations Roger issued on 2026-09-02",
+ "recordedOn": "2026-09-02T11:12:14.932Z",
+ "atCommit": "bd24fb0b7fadae8e706a49c5997debff77350d62",
+ "status": "These are decisions already made. They are not to be re-researched or re-escalated.",
+ "determinations": [
+  {
+   "id": "LA-STATUTORY-FORMS",
+   "jurisdiction": "LA",
+   "decision": "COMPOSE_FROM_AUTHORITY",
+   "text": "The statutory forms prescribed by Louisiana C.Cr.P. arts. 987 through 995 and 998 are treated uniformly as COMPOSE_FROM_AUTHORITY. Generate them faithfully from the current codified article text. Existing PDF renderings of neighbouring articles are references, not a different product class. Do not wait for separate agency-issued fillable PDFs.",
+   "authorityHeld": true,
+   "authorityEvidence": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json carries the article structure this composes from, naming the art. 987 motion to set aside and dismiss, the art. 989 motion for expungement, and the order of expungement, and citing La. C.Cr.P. arts. 998 and 977(D).",
+   "scopeNote": "The decision names arts. 987-995 and 998 by number and states the principle that neighbouring-article PDF renderings are references rather than a different product class. Families keyed to arts. 976, 977, 978 and 985 are applied under that stated principle rather than under the numbered range; that reading is recorded here rather than assumed silently.",
+   "families": [
+    {
+     "familyId": "la-976-arrest-no-conviction-set",
+     "strategy": "official_pdf_fill",
+     "composedFromAuthority": [
+      "LA-CCRP-ART-988",
+      "LA-CCRP-ART-989",
+      "LA-CCRP-ART-991",
+      "LA-CCRP-ART-992"
+     ],
+     "remainOfficialAndMustBeHeld": []
+    },
+    {
+     "familyId": "la-977-misdemeanor-conviction-set",
+     "strategy": "custom_pleading",
+     "composedFromAuthority": [
+      "LA-CCRP-ART-988",
+      "LA-CCRP-ART-989",
+      "LA-CCRP-ART-991",
+      "LA-CCRP-ART-992"
+     ],
+     "remainOfficialAndMustBeHeld": []
+    },
+    {
+     "familyId": "la-977d-marijuana-first-offense-set",
+     "strategy": "custom_pleading",
+     "composedFromAuthority": [
+      "LA-CCRP-ART-988",
+      "LA-CCRP-ART-991",
+      "LA-CCRP-ART-992"
+     ],
+     "remainOfficialAndMustBeHeld": []
+    },
+    {
+     "familyId": "la-978-felony-conviction-set",
+     "strategy": "custom_pleading",
+     "composedFromAuthority": [
+      "LA-CCRP-ART-988",
+      "LA-CCRP-ART-989",
+      "LA-CCRP-ART-991",
+      "LA-CCRP-ART-992"
+     ],
+     "remainOfficialAndMustBeHeld": []
+    },
+    {
+     "familyId": "la-985-1-interim-expungement-set",
+     "strategy": "custom_pleading",
+     "composedFromAuthority": [
+      "LA-CCRP-ART-988",
+      "LA-CCRP-ART-994"
+     ],
+     "remainOfficialAndMustBeHeld": []
+    },
+    {
+     "familyId": "la-985-expungement-by-redaction-set",
+     "strategy": "custom_pleading",
+     "composedFromAuthority": [
+      "LA-CCRP-ART-988",
+      "LA-CCRP-ART-989",
+      "LA-CCRP-ART-991",
+      "LA-CCRP-ART-992"
+     ],
+     "remainOfficialAndMustBeHeld": []
+    },
+    {
+     "familyId": "la-987-set-aside-and-dismiss-set",
+     "strategy": "official_pdf_fill",
+     "composedFromAuthority": [
+      "LA-CCRP-ART-987"
+     ],
+     "remainOfficialAndMustBeHeld": []
+    }
+   ],
+   "whatIsComposedAndWhatIsNot": "Only the statutory or rule instrument itself is composed from codified text. Every other named form remains an official document that must be held, indexed and hash-matched like any other — listed per family as remainOfficialAndMustBeHeld.",
+   "formsThatRemainOfficial": []
+  },
+  {
+   "id": "FL-RULE-3989",
+   "jurisdiction": "FL",
+   "decision": "COMPOSE_FROM_AUTHORITY",
+   "text": "The Rule 3.989 sworn statement, petition and order are COMPOSE_FROM_AUTHORITY. The applicable FDLE application or certificate attaches as a SEPARATE official component: the sealing component for sealing and the expunction component for expunction. Do not retain one ambiguous certificate component.",
+   "authorityHeld": true,
+   "authorityEvidence": "src/lib/rcap-engine/compiled/profiles/FL-florida.json describes the Rule 3.989 petition attesting to eligibility and the proposed order for the judge signature, and states that the FDLE application page must be completed in full.",
+   "stillOwed": "The FDLE split. Every Florida family currently naming one FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION must name the sealing or the expunction component by route. That is a source-identity change, not a composition question, and it is NOT satisfied by this determination alone.",
+   "families": [
+    {
+     "familyId": "fl-10yr-bridge-set",
+     "strategy": "official_pdf_fill",
+     "composedFromAuthority": [
+      "FL-RULE-3.989-ORDER",
+      "FL-RULE-3.989-PETITION"
+     ],
+     "remainOfficialAndMustBeHeld": [
+      "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION"
+     ]
+    },
+    {
+     "familyId": "fl-administrative-set",
+     "strategy": "participant_agency_application",
+     "composedFromAuthority": [],
+     "remainOfficialAndMustBeHeld": [
+      "FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION"
+     ]
+    },
+    {
+     "familyId": "fl-early-juvenile-set",
+     "strategy": "official_pdf_fill",
+     "composedFromAuthority": [],
+     "remainOfficialAndMustBeHeld": [
+      "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION"
+     ]
+    },
+    {
+     "familyId": "fl-expunction-set",
+     "strategy": "official_pdf_fill",
+     "composedFromAuthority": [
+      "FL-RULE-3.989-ORDER",
+      "FL-RULE-3.989-PETITION",
+      "FL-RULE-3.989-SWORN-STATEMENT"
+     ],
+     "remainOfficialAndMustBeHeld": [
+      "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION"
+     ]
+    },
+    {
+     "familyId": "fl-juvenile-diversion-set",
+     "strategy": "participant_agency_application",
+     "composedFromAuthority": [],
+     "remainOfficialAndMustBeHeld": [
+      "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION"
+     ]
+    },
+    {
+     "familyId": "fl-sealing-set",
+     "strategy": "custom_pleading",
+     "composedFromAuthority": [
+      "FL-RULE-3.989-ORDER",
+      "FL-RULE-3.989-PETITION",
+      "FL-RULE-3.989-SWORN-STATEMENT"
+     ],
+     "remainOfficialAndMustBeHeld": [
+      "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION"
+     ]
+    },
+    {
+     "familyId": "fl-trafficking-set",
+     "strategy": "custom_pleading",
+     "composedFromAuthority": [
+      "FL-RULE-3.989-ORDER",
+      "FL-RULE-3.989-PETITION",
+      "FL-RULE-3.9895-SWORN-STATEMENT"
+     ],
+     "remainOfficialAndMustBeHeld": []
+    }
+   ],
+   "whatIsComposedAndWhatIsNot": "Only the statutory or rule instrument itself is composed from codified text. Every other named form remains an official document that must be held, indexed and hash-matched like any other — listed per family as remainOfficialAndMustBeHeld.",
+   "formsThatRemainOfficial": [
+    "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+    "FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION",
+    "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
+    "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION"
+   ]
+  },
+  {
+   "id": "AZ-R-26-0001",
+   "jurisdiction": "AZ",
+   "decision": "USE_THE_ADOPTED_AMENDMENTS",
+   "text": "Use the amendments to Rule 41 Forms 31(a) and 31(b) adopted in Arizona Supreme Court matter R-26-0001 on 2026-08-27. Do not build from the superseded unamended edition. Use current standalone forms where available, or reproduce the adopted form specification faithfully from the order attachment.",
+   "authorityHeld": false,
+   "authorityEvidence": "MEASURED ABSENT. src/lib/rcap-engine/compiled/profiles/AZ-arizona.json contains no occurrence of R-26-0001, of Rule 41, or of 31(a). No standalone amended form and no order attachment is held in any mounted custody.",
+   "whatThisMeans": "The determination is settled and cannot yet be executed. Composing faithfully from a specification the repository does not hold would be invention, and the four Arizona families stay SOURCE_BLOCKED with this exact reason rather than a generic one. What is needed is the R-26-0001 order attachment or the current standalone amended forms.",
+   "families": [
+    {
+     "familyId": "az_certificate_second_chance-set",
+     "strategy": "official_pdf_fill",
+     "forms": [
+      "AOCCRSA3F-010122",
+      "AOCCRSA4F-010122"
+     ]
+    },
+    {
+     "familyId": "az_marijuana_expungement_limited_jurisdiction-set",
+     "strategy": "official_pdf_fill",
+     "forms": [
+      "AOC-CREM2F-071221",
+      "AOC-CREM2F-071221-CONT"
+     ]
+    },
+    {
+     "familyId": "az_record_sealing_conviction-set",
+     "strategy": "official_pdf_fill",
+     "forms": [
+      "AOCCRSL1F-050825",
+      "AOCCRSL1F-050825-CONT",
+      "AOCCRSL2F-050825"
+     ]
+    },
+    {
+     "familyId": "az_set_aside-set",
+     "strategy": "official_pdf_fill",
+     "forms": [
+      "AOCCR41FORM31A-082224",
+      "AOCCR41FORM31A-082224-CONT",
+      "AOCCR41FORM31B-082224"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "UT-ACQUITTAL",
+   "jurisdiction": "UT",
+   "decision": "AUTOMATIC_OR_AGENCY_PROCESS + GUIDANCE_READY + PAYMENT DISABLED",
+   "text": "The ordinary all-charge acquittal route is an automatic or agency process. The participant is NOT to be told to file the former automatic-expungement request, nor to personally serve BCI or the prosecutor. Use the current court/BCI automatic process.",
+   "appliesTo": "ut_pet_acquittal-set",
+   "dispatched": "Carried in FABLE-VA13's brief: if that family is still built as a filing packet, the verdict is WRONG_DELIVERY_TYPE rather than a repair."
+  },
+  {
+   "id": "CA-CRM-307",
+   "jurisdiction": "CA",
+   "decision": "ROUTE_SPLIT",
+   "text": "CRM-307 is San Diego-only. Split into a San Diego Penal Code 851.90 route, a non-San Diego 851.90 local/custom treatment, and a statewide 851.91 route using CR-409 and CR-410 where applicable. Do not bind CRM-307 to a statewide route."
+  },
+  {
+   "id": "CA-CR-106-401",
+   "jurisdiction": "CA",
+   "decision": "LIFT_SOURCE_HOLDS",
+   "text": "Source-identity and currentness holds are lifted for the current CR-106, CR-106-INFO and CR-401. Mapping, protected-field, visual and independent-review gates all remain. CR-106-INFO is read-only. On CR-106 and CR-401 the actual service facts and the server declaration and signature remain the adult server's. CR-401 is limited to the route it legally serves. Where a current official PDF cannot be safely processed, use the permitted computer-duplicate architecture rather than leaving the route source-blocked indefinitely."
+  },
+  {
+   "id": "RI-OFF-APPEARANCE",
+   "jurisdiction": "RI",
+   "decision": "SOURCE_OWNED_STRUCTURE",
+   "text": "A protected widget's unchanged /Off appearance is source-owned form structure where a zero-write normalized baseline proves it unchanged. Do not whitelist the family or the field. An actual selected state, or a participant-added mark, must still fail."
+  }
+ ],
+ "whatThisRecordDoesNotDo": "It binds no source, promotes no family and opens no route. It records decisions and, for each, whether the authority needed to act on it is actually held."
+}

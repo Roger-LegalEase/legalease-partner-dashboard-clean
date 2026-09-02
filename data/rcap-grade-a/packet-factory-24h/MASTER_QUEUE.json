@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "26497e1a844e978c09b9048725c612cafbabb269",
+  "minimumCaptainSha": "5ce602849a8af58e42f511e70038f42d1589109a",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2",
@@ -57,27 +57,27 @@
     "activeFamiliesExcluded": 7,
     "guidanceOnly": 0,
     "remaining": 339,
-    "sourceReady": 42,
-    "sourceBlocked": 111,
+    "sourceReady": 50,
+    "sourceBlocked": 103,
     "legalBlocked": 26,
-    "verifyPending": 15,
-    "repairRequired": 50,
+    "verifyPending": 20,
+    "repairRequired": 45,
     "sumsToDenominator": true
   },
   "byState": {
-    "SOURCE_READY": 42,
+    "SOURCE_READY": 50,
     "COMPLETE_PACKET_PROVEN": 105,
-    "FAIL_REPAIR_REQUIRED": 50,
-    "SOURCE_BLOCKED": 111,
+    "FAIL_REPAIR_REQUIRED": 45,
+    "SOURCE_BLOCKED": 103,
     "VERIFIED_PASS": 5,
     "LEGAL_BLOCKED": 13,
-    "VERIFY_PENDING": 20
+    "VERIFY_PENDING": 25
   },
   "bySourceStatus": {
-    "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
-    "SOURCE_BOUND_BY_HELD_BYTES": 144,
-    "SOURCE_GENUINELY_MISSING": 48,
-    "SOURCE_IDENTITY_UNRESOLVED": 48,
+    "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 91,
+    "SOURCE_BOUND_BY_HELD_BYTES": 150,
+    "SOURCE_GENUINELY_MISSING": 47,
+    "SOURCE_IDENTITY_UNRESOLVED": 41,
     "SOURCE_IDENTITY_NOT_EXACT": 2,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 5,
@@ -128,11 +128,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 16,
-    "sourceReadyFamilies": 42,
-    "familiesPerBuilder": 2.6,
+    "sourceReadyFamilies": 50,
+    "familiesPerBuilder": 3.1,
     "targetPerBuilder": "15 to 25",
-    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 42 do, so a full roster of 16 builders averages 2.6 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 212 source obligations across 137 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 50 do, so a full roster of 16 builders averages 3.1 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 187 source obligations across 129 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -8881,10 +8881,14 @@
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:FL-RULE-3.989-ORDER: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:FL-RULE-3.989-PETITION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+          "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
+        "satisfiedByAuthority": [
+          "official-form:FL-RULE-3.989-ORDER",
+          "official-form:FL-RULE-3.989-PETITION"
+        ],
+        "composedFromAuthority": "FL-RULE-3989",
+        "whatThatMeans": "These instruments are generated faithfully from codified text by owner determination. No agency-issued fillable PDF exists to acquire, so no held corpus entry is owed for them. Every other gate — mapping, completeness, visual acceptance and independent verification — still applies unchanged.",
         "boundSources": [],
         "namedOfficialForms": 3,
         "boundCount": 0,
@@ -9102,11 +9106,15 @@
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:FL-RULE-3.989-ORDER: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:FL-RULE-3.989-PETITION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:FL-RULE-3.989-SWORN-STATEMENT: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+          "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
+        "satisfiedByAuthority": [
+          "official-form:FL-RULE-3.989-ORDER",
+          "official-form:FL-RULE-3.989-PETITION",
+          "official-form:FL-RULE-3.989-SWORN-STATEMENT"
+        ],
+        "composedFromAuthority": "FL-RULE-3989",
+        "whatThatMeans": "These instruments are generated faithfully from codified text by owner determination. No agency-issued fillable PDF exists to acquire, so no held corpus entry is owed for them. Every other gate — mapping, completeness, visual acceptance and independent verification — still applies unchanged.",
         "boundSources": [],
         "namedOfficialForms": 4,
         "boundCount": 0,
@@ -9252,11 +9260,15 @@
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:FL-RULE-3.989-ORDER: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:FL-RULE-3.989-PETITION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:FL-RULE-3.989-SWORN-STATEMENT: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+          "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
+        "satisfiedByAuthority": [
+          "official-form:FL-RULE-3.989-ORDER",
+          "official-form:FL-RULE-3.989-PETITION",
+          "official-form:FL-RULE-3.989-SWORN-STATEMENT"
+        ],
+        "composedFromAuthority": "FL-RULE-3989",
+        "whatThatMeans": "These instruments are generated faithfully from codified text by owner determination. No agency-issued fillable PDF exists to acquire, so no held corpus entry is owed for them. Every other gate — mapping, completeness, visual acceptance and independent verification — still applies unchanged.",
         "boundSources": [],
         "namedOfficialForms": 4,
         "boundCount": 0,
@@ -9406,15 +9418,18 @@
         "official-form:FL-RULE-3.9895-SWORN-STATEMENT"
       ],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:FL-RULE-3.989-ORDER: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:FL-RULE-3.989-PETITION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:FL-RULE-3.9895-SWORN-STATEMENT: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "satisfiedByAuthority": [
+          "official-form:FL-RULE-3.989-ORDER",
+          "official-form:FL-RULE-3.989-PETITION",
+          "official-form:FL-RULE-3.9895-SWORN-STATEMENT"
         ],
+        "composedFromAuthority": "FL-RULE-3989",
+        "whatThatMeans": "These instruments are generated faithfully from codified text by owner determination. No agency-issued fillable PDF exists to acquire, so no held corpus entry is owed for them. Every other gate — mapping, completeness, visual acceptance and independent verification — still applies unchanged.",
         "boundSources": [],
         "namedOfficialForms": 3,
         "boundCount": 0,
@@ -9423,7 +9438,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -9439,7 +9453,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-fl-trafficking-set.mjs",
@@ -14798,16 +14812,19 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:LA-CCRP-ART-988: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-989: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-991: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-992: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "satisfiedByAuthority": [
+          "official-form:LA-CCRP-ART-988",
+          "official-form:LA-CCRP-ART-989",
+          "official-form:LA-CCRP-ART-991",
+          "official-form:LA-CCRP-ART-992"
         ],
+        "composedFromAuthority": "LA-STATUTORY-FORMS",
+        "whatThatMeans": "These instruments are generated faithfully from codified text by owner determination. No agency-issued fillable PDF exists to acquire, so no held corpus entry is owed for them. Every other gate — mapping, completeness, visual acceptance and independent verification — still applies unchanged.",
         "boundSources": [
           {
             "sourceId": "source-sha256:0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
@@ -14831,7 +14848,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -14847,7 +14863,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-976-arrest-no-conviction-set.mjs",
@@ -14923,16 +14939,19 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:LA-CCRP-ART-988: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-989: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-991: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-992: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "satisfiedByAuthority": [
+          "official-form:LA-CCRP-ART-988",
+          "official-form:LA-CCRP-ART-989",
+          "official-form:LA-CCRP-ART-991",
+          "official-form:LA-CCRP-ART-992"
         ],
+        "composedFromAuthority": "LA-STATUTORY-FORMS",
+        "whatThatMeans": "These instruments are generated faithfully from codified text by owner determination. No agency-issued fillable PDF exists to acquire, so no held corpus entry is owed for them. Every other gate — mapping, completeness, visual acceptance and independent verification — still applies unchanged.",
         "boundSources": [
           {
             "sourceId": "source-sha256:0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
@@ -14963,7 +14982,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -14979,7 +14997,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-977-misdemeanor-conviction-set.mjs",
@@ -15038,15 +15056,18 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:LA-CCRP-ART-988: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-991: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-992: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "satisfiedByAuthority": [
+          "official-form:LA-CCRP-ART-988",
+          "official-form:LA-CCRP-ART-991",
+          "official-form:LA-CCRP-ART-992"
         ],
+        "composedFromAuthority": "LA-STATUTORY-FORMS",
+        "whatThatMeans": "These instruments are generated faithfully from codified text by owner determination. No agency-issued fillable PDF exists to acquire, so no held corpus entry is owed for them. Every other gate — mapping, completeness, visual acceptance and independent verification — still applies unchanged.",
         "boundSources": [
           {
             "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
@@ -15070,7 +15091,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -15086,7 +15106,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-977d-marijuana-first-offense-set.mjs",
@@ -15164,16 +15184,19 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:LA-CCRP-ART-988: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-989: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-991: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-992: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "satisfiedByAuthority": [
+          "official-form:LA-CCRP-ART-988",
+          "official-form:LA-CCRP-ART-989",
+          "official-form:LA-CCRP-ART-991",
+          "official-form:LA-CCRP-ART-992"
         ],
+        "composedFromAuthority": "LA-STATUTORY-FORMS",
+        "whatThatMeans": "These instruments are generated faithfully from codified text by owner determination. No agency-issued fillable PDF exists to acquire, so no held corpus entry is owed for them. Every other gate — mapping, completeness, visual acceptance and independent verification — still applies unchanged.",
         "boundSources": [
           {
             "sourceId": "source-sha256:0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
@@ -15204,7 +15227,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -15220,7 +15242,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-978-felony-conviction-set.mjs",
@@ -15276,14 +15298,17 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:LA-CCRP-ART-988: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-994: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "satisfiedByAuthority": [
+          "official-form:LA-CCRP-ART-988",
+          "official-form:LA-CCRP-ART-994"
         ],
+        "composedFromAuthority": "LA-STATUTORY-FORMS",
+        "whatThatMeans": "These instruments are generated faithfully from codified text by owner determination. No agency-issued fillable PDF exists to acquire, so no held corpus entry is owed for them. Every other gate — mapping, completeness, visual acceptance and independent verification — still applies unchanged.",
         "boundSources": [
           {
             "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
@@ -15307,7 +15332,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -15323,7 +15347,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-985-1-interim-expungement-set.mjs",
@@ -15385,16 +15409,19 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:LA-CCRP-ART-988: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-989: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-991: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:LA-CCRP-ART-992: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "satisfiedByAuthority": [
+          "official-form:LA-CCRP-ART-988",
+          "official-form:LA-CCRP-ART-989",
+          "official-form:LA-CCRP-ART-991",
+          "official-form:LA-CCRP-ART-992"
         ],
+        "composedFromAuthority": "LA-STATUTORY-FORMS",
+        "whatThatMeans": "These instruments are generated faithfully from codified text by owner determination. No agency-issued fillable PDF exists to acquire, so no held corpus entry is owed for them. Every other gate — mapping, completeness, visual acceptance and independent verification — still applies unchanged.",
         "boundSources": [
           {
             "sourceId": "source-sha256:0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
@@ -15418,7 +15445,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -15434,7 +15460,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-985-expungement-by-redaction-set.mjs",
@@ -15473,13 +15499,16 @@
         "official-form:LA-CCRP-ART-987"
       ],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:LA-CCRP-ART-987: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "satisfiedByAuthority": [
+          "official-form:LA-CCRP-ART-987"
         ],
+        "composedFromAuthority": "LA-STATUTORY-FORMS",
+        "whatThatMeans": "These instruments are generated faithfully from codified text by owner determination. No agency-issued fillable PDF exists to acquire, so no held corpus entry is owed for them. Every other gate — mapping, completeness, visual acceptance and independent verification — still applies unchanged.",
         "boundSources": [],
         "namedOfficialForms": 1,
         "boundCount": 0,
@@ -15488,7 +15517,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -15504,7 +15532,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
@@ -23202,7 +23230,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ny_mrta_marijuana-set.mjs",
@@ -28774,7 +28802,7 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_conviction-set.mjs",
@@ -29014,7 +29042,7 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
@@ -33532,7 +33560,7 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs",
@@ -33741,7 +33769,7 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs",
@@ -34061,13 +34089,13 @@
     "verifiers": 12,
     "sourceLanes": 16,
     "repairLanes": 8,
-    "familiesAssignedToBuilders": 42,
-    "sourceObligationsAssigned": 212,
-    "actualPromotedAndReleased": 42,
+    "familiesAssignedToBuilders": 50,
+    "sourceObligationsAssigned": 187,
+    "actualPromotedAndReleased": 50,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 111,
+    "prospectiveReleasesAcrossSourceLanes": 103,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false

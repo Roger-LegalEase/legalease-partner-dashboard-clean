@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `26497e1a844e978c09b9048725c612cafbabb269` (or the newer dispatch base)
+**Minimum required ancestor:** `5ce602849a8af58e42f511e70038f42d1589109a` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission \
   --codex-cloud \
-  --minimum-captain-sha 26497e1a844e978c09b9048725c612cafbabb269
+  --minimum-captain-sha 5ce602849a8af58e42f511e70038f42d1589109a
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,7 +56,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 12 families
+## The 11 families
 
 - `agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission`
 - `ar-cs-possession-seal-set`
@@ -69,7 +69,6 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `ut_pet_dismissed_without_prejudice-set`
 - `wa_vac_homicide_victim_prostitution-set`
 - `ar-arrest-seal-set`
-- `ut_pet_dismissed_with_prejudice-set`
 
 ## What you receive
 
@@ -93,7 +92,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
 - `scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission.mjs`
 - `scripts/build-census-v1-ar-cs-possession-seal-set.mjs`
 - `scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs`
@@ -105,7 +103,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs`
 - `scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs`
 - `scripts/build-census-v1-ar-arrest-seal-set.mjs`
-- `scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs`
 
 ## Never write here
 

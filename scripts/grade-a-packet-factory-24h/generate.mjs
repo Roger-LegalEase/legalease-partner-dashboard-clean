@@ -315,6 +315,34 @@ const openCounselRoutes = new Set((IN.legalQueue.trueCounselQueue?.questions ?? 
  * Read defensively: the extraction is produced by a separate generator, and a
  * dispatch must still be generatable before it has ever run.
  */
+/*
+ * OWNER DETERMINATIONS THAT CHANGE WHAT A SOURCE OBLIGATION MEANS.
+ *
+ * Louisiana's statutory forms and Florida's Rule 3.989 instruments are
+ * COMPOSE_FROM_AUTHORITY by owner decision: they are generated faithfully from
+ * codified text, and there is no agency-issued fillable PDF to wait for. A
+ * family holding them was nonetheless blocked with "MISSING_DOCUMENT — no held
+ * corpus entry for this form number", which is true and beside the point: the
+ * document is composed, not acquired, so a corpus that does not hold it is not
+ * a gap.
+ *
+ * Only a determination whose AUTHORITY IS HELD releases anything. Arizona's
+ * R-26-0001 amendments are equally settled and are NOT applied here, because
+ * the adopted specification is measurably absent from every mounted custody --
+ * composing from a specification the repository does not have would be
+ * invention, and those families keep their block with that exact reason.
+ */
+const composeFromAuthority = new Map();
+try {
+  const det = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json"), "utf8"));
+  for (const d of det.determinations ?? []) {
+    if (d.decision !== "COMPOSE_FROM_AUTHORITY" || d.authorityHeld !== true) continue;
+    for (const f of d.families ?? []) {
+      composeFromAuthority.set(f.familyId, { determination: d.id, jurisdiction: d.jurisdiction, forms: f.composedFromAuthority ?? [] });
+    }
+  }
+} catch { /* no determinations recorded; every obligation keeps its ordinary meaning */ }
+
 const laneReturnLegalHolds = new Map();
 try {
   const stale = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/STALE_LANE_RETURNS.json`), "utf8"));
@@ -525,9 +553,15 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
   }
 
   // 3. Reasons are per-document and specific.
+  const composed = composeFromAuthority.get(familyId) ?? null;
+  const composedForms = new Set((composed?.forms ?? []).map((f) => String(f)));
+  const satisfiedByAuthority = [];
   for (const id of named) {
     if (boundIds.has(id)) continue;
     const formNumber = id.slice("official-form:".length);
+    /* Composed, not acquired. The absence of a held PDF for a form the owner
+     * determined is generated from codified text is not a gap in the corpus. */
+    if (composed && composedForms.has(formNumber)) { satisfiedByAuthority.push(id); continue; }
     const matches = indexByForm.get(formNumber) ?? [];
     if (matches.length === 0) reasons.push(`${id}: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding`);
     else if (matches.length > 1) reasons.push(`${id}: UNRESOLVED_FORM_IDENTITY — ${matches.length} corpus entries share this form number and no custody entry disambiguates`);
@@ -547,10 +581,18 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
   /* A custom pleading drafts from codified text, so it needs no PDF to fill —
    * but a named required component it lacks (Alabama's CR-65) is a genuine
    * missing document, and that reason still blocks. */
-  const ready = reasons.length === 0 && (customPleading || bound.length > 0);
+  const ready = reasons.length === 0
+    && (customPleading || bound.length > 0 || satisfiedByAuthority.length > 0);
   return {
     ready,
     reasons,
+    ...(satisfiedByAuthority.length
+      ? {
+          satisfiedByAuthority,
+          composedFromAuthority: composed.determination,
+          whatThatMeans: "These instruments are generated faithfully from codified text by owner determination. No agency-issued fillable PDF exists to acquire, so no held corpus entry is owed for them. Every other gate — mapping, completeness, visual acceptance and independent verification — still applies unchanged."
+        }
+      : {}),
     boundSources: bound,
     namedOfficialForms: named.length,
     boundCount: bound.length,
