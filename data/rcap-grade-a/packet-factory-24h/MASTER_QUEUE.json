@@ -3,11 +3,11 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "f34e391ecded9aafec9c51fc3d2af0862439cba0",
+  "minimumCaptainSha": "d401900ef6727d2ca60730d0adc7d8525c1a2de5",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
-    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "87209ee1b2df151e199c08576dabf20f9e0b791b157e36d31b932772f5f45ce3",
+    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "b165147c7b011d56f54aa1d635cfdc380d73955c7774bacb8319353b7d24d1c5",
     "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "53f5d176a93a97d0421e045576429d646b08079a1db4468e70c6651280f1c0e0",
     "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json": "fbb02da468ece257271b0004773f8ad86fe8f7698cf1e2314f0611437cb3bbbf",
     "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json": "cf15ce284dde2fbd2ce4525e1a797a9cbced9829a612bbc14ccc0cdf113748ea",
@@ -57,17 +57,17 @@
     "activeFamiliesExcluded": 11,
     "guidanceOnly": 0,
     "remaining": 335,
-    "sourceReady": 67,
-    "sourceBlocked": 140,
+    "sourceReady": 79,
+    "sourceBlocked": 128,
     "legalBlocked": 26,
     "verifyPending": 20,
     "repairRequired": 10,
     "sumsToDenominator": true
   },
   "byState": {
-    "SOURCE_READY": 67,
-    "SOURCE_BLOCKED": 140,
+    "SOURCE_READY": 79,
     "COMPLETE_PACKET_PROVEN": 82,
+    "SOURCE_BLOCKED": 128,
     "VERIFY_PENDING": 25,
     "VERIFIED_PASS": 5,
     "BUILD_IN_PROGRESS": 4,
@@ -76,12 +76,12 @@
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
-    "SOURCE_IDENTITY_UNRESOLVED": 56,
+    "SOURCE_BOUND_BY_HELD_BYTES": 97,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:TF-810: UNRESOLVED_FORM_IDENTITY — 2 corpus entries share this form number and no custody entry disambiguates": 1,
-    "SOURCE_BOUND_BY_HELD_BYTES": 85,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:TF-800: UNRESOLVED_FORM_IDENTITY — 2 corpus entries share this form number and no custody entry disambiguates": 1,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:TF-805: UNRESOLVED_FORM_IDENTITY — 2 corpus entries share this form number and no custody entry disambiguates": 1,
-    "SOURCE_GENUINELY_MISSING": 66,
+    "SOURCE_GENUINELY_MISSING": 56,
+    "SOURCE_IDENTITY_UNRESOLVED": 54,
     "SOURCE_IDENTITY_NOT_EXACT": 2,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:JDF-2371: UNRESOLVED_FORM_IDENTITY — 2 corpus entries share this form number and no custody entry disambiguates": 1,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:JDF-612: UNRESOLVED_FORM_IDENTITY — 2 corpus entries share this form number and no custody entry disambiguates": 1,
@@ -159,11 +159,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 16,
-    "sourceReadyFamilies": 67,
-    "familiesPerBuilder": 4.2,
+    "sourceReadyFamilies": 79,
+    "familiesPerBuilder": 4.9,
     "targetPerBuilder": "15 to 25",
-    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 67 do, so a full roster of 16 builders averages 4.2 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 291 source obligations across 166 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 79 do, so a full roster of 16 builders averages 4.9 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 278 source obligations across 154 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -564,18 +564,31 @@
       "sourceIds": [
         "official-form:Request to Correct Criminal Justice Information"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:Request to Correct Criminal Justice Information",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-CRI-103__request-to-correct-criminal-justice-information-in-the-alaska-public-safety-information-ne__REV-2022-07-25__EN.pdf",
+          "sha256": "b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:Request to Correct Criminal Justice Information: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:Request to Correct Criminal Justice Information",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-CRI-103__request-to-correct-criminal-justice-information-in-the-alaska-public-safety-information-ne__REV-2022-07-25__EN.pdf",
+            "sha256": "b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 1,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 1,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -591,7 +604,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record.mjs",
@@ -5302,15 +5315,19 @@
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-417__petition-to-seal-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
           "sha256": "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:JDF-417-ORDER",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-418__order-to-seal-arrest-and-criminal-records__REV-2024-03-20__EN.pdf",
+          "sha256": "b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:JDF-417-ORDER: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:JDF-417",
@@ -5318,11 +5335,18 @@
             "sha256": "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4",
             "tier": "exact_form_number",
             "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:JDF-417-ORDER",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-418__order-to-seal-arrest-and-criminal-records__REV-2024-03-20__EN.pdf",
+            "sha256": "b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 2,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -5338,7 +5362,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_petition_seal_arrest-set.mjs",
@@ -5390,6 +5414,12 @@
           "tier": "exact_form_number"
         },
         {
+          "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+          "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:AOC-CV-226",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
           "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
@@ -5414,19 +5444,24 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:AOC-CR-287-INSTRUCTIONS: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:AOC-CR-287",
             "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
             "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
             "tier": "exact_form_number",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+            "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+            "tier": "exact_identity_confirmed_from_document_text",
             "resolvedBy": "custody_reconciliation"
           },
           {
@@ -5459,8 +5494,8 @@
           }
         ],
         "namedOfficialForms": 3,
-        "boundCount": 5,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 6,
+        "custodyClass": "SOURCE_REVISION_STALE",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -5476,7 +5511,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:nc_146_dismissal_petition.mjs",
@@ -8345,18 +8380,31 @@
       "sourceIds": [
         "official-form:FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-026__application-for-a-certificate-of-eligibility-for-lawful-self-defense-expunction__REV-2019-10__EN.pdf",
+          "sha256": "d7bdbbb546cf6280fd07710e3132885db771400ba778d111835b5de281c58602",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-026__application-for-a-certificate-of-eligibility-for-lawful-self-defense-expunction__REV-2019-10__EN.pdf",
+            "sha256": "d7bdbbb546cf6280fd07710e3132885db771400ba778d111835b5de281c58602",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 1,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 1,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -8372,7 +8420,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-fl-self-defense-set.mjs",
@@ -17266,6 +17314,12 @@
           "tier": "exact_form_number"
         },
         {
+          "sourceId": "official-form:AOC-CR-297-INSTRUCTIONS",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-297__aoc-cr-297-instructions__REV-2025-06__EN.pdf",
+          "sha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:AOC-CV-226",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
           "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
@@ -17290,19 +17344,24 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:AOC-CR-297-INSTRUCTIONS: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:AOC-CR-297",
             "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-297__aoc-cr-297-instructions__REV-2025-06__EN.pdf",
             "sha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
             "tier": "exact_form_number",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:AOC-CR-297-INSTRUCTIONS",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-297__aoc-cr-297-instructions__REV-2025-06__EN.pdf",
+            "sha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+            "tier": "exact_identity_confirmed_from_document_text",
             "resolvedBy": "custody_reconciliation"
           },
           {
@@ -17335,8 +17394,8 @@
           }
         ],
         "namedOfficialForms": 3,
-        "boundCount": 5,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 6,
+        "custodyClass": "SOURCE_REVISION_STALE",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -17352,7 +17411,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_145_5_felony-set.mjs",
@@ -17412,6 +17471,12 @@
           "tier": "exact_form_number"
         },
         {
+          "sourceId": "official-form:AOC-CR-298-INSTRUCTIONS",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-298__aoc-cr-298-instructions__REV-2025-07__EN.pdf",
+          "sha256": "5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:AOC-CV-226",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
           "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
@@ -17442,19 +17507,24 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:AOC-CR-298-INSTRUCTIONS: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:AOC-CR-298",
             "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-298__aoc-cr-298-instructions__REV-2025-07__EN.pdf",
             "sha256": "5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c",
             "tier": "exact_form_number",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:AOC-CR-298-INSTRUCTIONS",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-298__aoc-cr-298-instructions__REV-2025-07__EN.pdf",
+            "sha256": "5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c",
+            "tier": "exact_identity_confirmed_from_document_text",
             "resolvedBy": "custody_reconciliation"
           },
           {
@@ -17494,8 +17564,8 @@
           }
         ],
         "namedOfficialForms": 3,
-        "boundCount": 6,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 7,
+        "custodyClass": "SOURCE_REVISION_STALE",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -17511,7 +17581,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_145_5_misdemeanor-set.mjs",
@@ -17678,6 +17748,12 @@
           "tier": "exact_form_number"
         },
         {
+          "sourceId": "official-form:AOC-CR-288-INSTRUCTIONS",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
+          "sha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "source-sha256:19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
           "sha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
@@ -17690,19 +17766,24 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:AOC-CR-288-INSTRUCTIONS: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:AOC-CR-288",
             "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
             "sha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
             "tier": "exact_form_number",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:AOC-CR-288-INSTRUCTIONS",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
+            "sha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+            "tier": "exact_identity_confirmed_from_document_text",
             "resolvedBy": "custody_reconciliation"
           },
           {
@@ -17721,8 +17802,8 @@
           }
         ],
         "namedOfficialForms": 2,
-        "boundCount": 3,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 4,
+        "custodyClass": "SOURCE_REVISION_STALE",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -17738,7 +17819,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs",
@@ -17796,6 +17877,12 @@
           "tier": "exact_form_number"
         },
         {
+          "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+          "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:AOC-CV-226",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
           "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
@@ -17820,19 +17907,24 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:AOC-CR-287-INSTRUCTIONS: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:AOC-CR-287",
             "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
             "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
             "tier": "exact_form_number",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+            "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+            "tier": "exact_identity_confirmed_from_document_text",
             "resolvedBy": "custody_reconciliation"
           },
           {
@@ -17865,8 +17957,8 @@
           }
         ],
         "namedOfficialForms": 3,
-        "boundCount": 5,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 6,
+        "custodyClass": "SOURCE_REVISION_STALE",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -17882,7 +17974,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
@@ -19171,6 +19263,12 @@
           "tier": "exact_form_number"
         },
         {
+          "sourceId": "official-form:NHJB-2317-DSe",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+          "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:NHJB-2328",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
           "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
@@ -19181,22 +19279,32 @@
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
           "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:NHJB-3057-DSe",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
+          "sha256": "02310e85cd02e3a8a5ff9c486f6729e85363146ccc07d6e8226e4f1259d1b520",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:NHJB-2317-DSe: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:NHJB-3057-DSe: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:NHJB-2311",
             "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
             "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
             "tier": "exact_form_number",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:NHJB-2317-DSe",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+            "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+            "tier": "exact_identity_confirmed_from_document_text",
             "resolvedBy": "custody_reconciliation"
           },
           {
@@ -19212,11 +19320,18 @@
             "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
             "tier": "exact_form_number",
             "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:NHJB-3057-DSe",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
+            "sha256": "02310e85cd02e3a8a5ff9c486f6729e85363146ccc07d6e8226e4f1259d1b520",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 5,
-        "boundCount": 3,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 5,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -19232,7 +19347,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_conviction_standard-set.mjs",
@@ -19302,15 +19417,19 @@
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
           "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:NHJB-3057-DSe",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
+          "sha256": "02310e85cd02e3a8a5ff9c486f6729e85363146ccc07d6e8226e4f1259d1b520",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:NHJB-3057-DSe: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:NHJB-2311",
@@ -19332,11 +19451,18 @@
             "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
             "tier": "exact_form_number",
             "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:NHJB-3057-DSe",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
+            "sha256": "02310e85cd02e3a8a5ff9c486f6729e85363146ccc07d6e8226e4f1259d1b520",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 4,
-        "boundCount": 3,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 4,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -19352,7 +19478,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_conviction_streamlined-set.mjs",
@@ -19515,6 +19641,12 @@
           "tier": "exact_form_number"
         },
         {
+          "sourceId": "official-form:NHJB-2317-DSe",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+          "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:NHJB-2328",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
           "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
@@ -19527,19 +19659,24 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:NHJB-2317-DSe: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:NHJB-2311",
             "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
             "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
             "tier": "exact_form_number",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:NHJB-2317-DSe",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+            "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+            "tier": "exact_identity_confirmed_from_document_text",
             "resolvedBy": "custody_reconciliation"
           },
           {
@@ -19558,8 +19695,8 @@
           }
         ],
         "namedOfficialForms": 4,
-        "boundCount": 3,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 4,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -19575,7 +19712,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
@@ -19634,6 +19771,12 @@
           "tier": "exact_form_number"
         },
         {
+          "sourceId": "official-form:NHJB-2317-DSe",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+          "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:NHJB-2328",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
           "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
@@ -19646,19 +19789,24 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:NHJB-2317-DSe: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:NHJB-2311",
             "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
             "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
             "tier": "exact_form_number",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:NHJB-2317-DSe",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+            "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+            "tier": "exact_identity_confirmed_from_document_text",
             "resolvedBy": "custody_reconciliation"
           },
           {
@@ -19677,8 +19825,8 @@
           }
         ],
         "namedOfficialForms": 4,
-        "boundCount": 3,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 4,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -19694,7 +19842,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_petition_vacated-set.mjs",
@@ -31173,13 +31321,13 @@
     "verifiers": 12,
     "sourceLanes": 16,
     "repairLanes": 4,
-    "familiesAssignedToBuilders": 67,
-    "sourceObligationsAssigned": 291,
-    "actualPromotedAndReleased": 67,
+    "familiesAssignedToBuilders": 79,
+    "sourceObligationsAssigned": 278,
+    "actualPromotedAndReleased": 79,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 146,
+    "prospectiveReleasesAcrossSourceLanes": 134,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false

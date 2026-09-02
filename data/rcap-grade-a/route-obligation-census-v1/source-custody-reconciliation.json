@@ -13,13 +13,13 @@
   "matchingIsConservative": "Only an exact content hash or a strong form-number match within the same jurisdiction counts as held. An unresolvable label is recorded as unresolved identity rather than as missing, because absence of a match is not evidence of absence -- and calling a held source missing wastes acquisition while calling a missing source held suppresses it.",
   "acquisitionTasks": 295,
   "counts": {
-    "SOURCE_ALREADY_HELD": 78,
-    "SOURCE_REVISION_STALE": 0,
-    "SOURCE_IDENTITY_UNRESOLVED": 148,
-    "SOURCE_GENUINELY_MISSING": 69
+    "SOURCE_ALREADY_HELD": 85,
+    "SOURCE_REVISION_STALE": 5,
+    "SOURCE_IDENTITY_UNRESOLVED": 146,
+    "SOURCE_GENUINELY_MISSING": 59
   },
-  "commissionAcquisitionFor": 217,
-  "doNotCommissionAcquisitionFor": 78,
+  "commissionAcquisitionFor": 210,
+  "doNotCommissionAcquisitionFor": 85,
   "rows": [
     {
       "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
@@ -133,22 +133,27 @@
         "AK"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 0,
       "documentSources": [
         {
           "sourceId": "official-form:Request to Correct Criminal Justice Information",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file reads \"STATE OF ALASKA / DEPARTMENT OF PUBLIC SAFETY / REQUEST TO CORRECT CRIMINAL JUSTICE INFORMATION / in the Alaska Public Safety Information Network (APSIN)\", addressed to the \"Criminal Records and Identification Bureau\". It is the correction request, distinct from the sealing request held in the same folder as DPS-SEAL-REQ-2-04.",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-CRI-103__request-to-correct-criminal-justice-information-in-the-alaska-public-safety-information-ne__REV-2022-07-25__EN.pdf",
+            "formNumber": "DPS-CRI-103",
+            "revision": "REV-2022-07-25",
+            "sha256": "b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "This family names no document-shaped source, or names one that cannot be resolved to a corpus identity. Resolve the identity before commissioning anything: absence of a match is not evidence of absence."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "ak-mistaken-identity-set",
@@ -1815,9 +1820,9 @@
         "CO"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 5,
       "documentSources": [
         {
@@ -1835,14 +1840,19 @@
         {
           "sourceId": "official-form:JDF-417-ORDER",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints the form number \"JDF 418\" above the title \"Order to Seal Arrest and Criminal Records / (no charges filed)\", and paragraph 1 recites \"the petition is sufficient on its face, no objection has been filed, and that a hearing is not required under C.R.S. § 24-72-704(1)(c)(II)\" — the same statute JDF 417 is filed under, whose own page 1 reads \"JDF 417 Petition to Seal Arrest and Criminal Records / No Charges Filed – C.R.S. § 24-72-704\". No other Colorado order in the packs is the no-charges-filed order: JDF 478 is non-conviction, JDF 615 single conviction, JDF 642 multiple convictions, JDF 681 pardoned, JDF 686 municipal, JDF 2374 conduct no longer prohibited.",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-418__order-to-seal-arrest-and-criminal-records__REV-2024-03-20__EN.pdf",
+            "formNumber": "JDF-418",
+            "revision": "REV-2024-03-20",
+            "sha256": "b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "composed-treatment:nc_146_dismissal_petition",
@@ -1851,9 +1861,9 @@
         "NC"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_REVISION_STALE",
       "documentSourcesNamed": 6,
-      "documentSourcesResolved": 5,
+      "documentSourcesResolved": 6,
       "nonDocumentSourceIds": 6,
       "documentSources": [
         {
@@ -1871,10 +1881,15 @@
         {
           "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file reads \"INSTRUCTIONS FOR PETITION AND ORDER OF EXPUNCTION / UNDER G.S. 15A-146(a) OR G.S. 15A-146(a1) (CHARGE(S) DISMISSED) / FORM AOC-CR-287, Rev. 12/25\", and paragraph 1 recites \"The procedure for completion of the AOC-CR-287, Petition And Order Of Expunction Under G.S. 15A-146(a) or G.S. 15A-146(a1), is as follows\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+            "formNumber": "AOC-CR-287",
+            "revision": "REV-2025-12",
+            "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7"
+          }
         },
         {
           "sourceId": "official-form:AOC-CV-226",
@@ -1926,7 +1941,7 @@
         }
       ],
       "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "why": "The source is held, but under a different revision than the census names. Refresh rather than acquire."
     },
     {
       "worklistGroupId": "composed-treatment:nd-nonconviction-auto-close-verify",
@@ -2794,22 +2809,27 @@
         "FL"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 5,
       "documentSources": [
         {
           "sourceId": "official-form:FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file reads \"FLORIDA DEPARTMENT OF LAW ENFORCEMENT / APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR / LAWFUL SELF-DEFENSE EXPUNCTION (s. 943.0578, F.S.)\". It is the only self-defense application in the FL packs; the two 40-021 files both print the combined sealing/expunction title and neither is this document.",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-026__application-for-a-certificate-of-eligibility-for-lawful-self-defense-expunction__REV-2019-10__EN.pdf",
+            "formNumber": "FDLE40-026",
+            "revision": "REV-2019-10",
+            "sha256": "d7bdbbb546cf6280fd07710e3132885db771400ba778d111835b5de281c58602"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "This family names no document-shaped source, or names one that cannot be resolved to a corpus identity. Resolve the identity before commissioning anything: absence of a match is not evidence of absence."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "fl-trafficking-set",
@@ -6240,9 +6260,9 @@
         "NC"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_REVISION_STALE",
       "documentSourcesNamed": 6,
-      "documentSourcesResolved": 5,
+      "documentSourcesResolved": 6,
       "nonDocumentSourceIds": 8,
       "documentSources": [
         {
@@ -6260,10 +6280,15 @@
         {
           "sourceId": "official-form:AOC-CR-297-INSTRUCTIONS",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file reads \"INSTRUCTIONS FOR PETITION AND ORDER OF EXPUNCTION UNDER G.S. 15A-145.5 / (NONVIOLENT FELONY(IES)) / FORM AOC-CR-297, Rev. 6/25\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-297__aoc-cr-297-instructions__REV-2025-06__EN.pdf",
+            "formNumber": "AOC-CR-297",
+            "revision": "REV-2025-06",
+            "sha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484"
+          }
         },
         {
           "sourceId": "official-form:AOC-CV-226",
@@ -6315,7 +6340,7 @@
         }
       ],
       "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "why": "The source is held, but under a different revision than the census names. Refresh rather than acquire."
     },
     {
       "worklistGroupId": "nc_145_5_misdemeanor-set",
@@ -6324,9 +6349,9 @@
         "NC"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_REVISION_STALE",
       "documentSourcesNamed": 7,
-      "documentSourcesResolved": 6,
+      "documentSourcesResolved": 7,
       "nonDocumentSourceIds": 7,
       "documentSources": [
         {
@@ -6344,10 +6369,15 @@
         {
           "sourceId": "official-form:AOC-CR-298-INSTRUCTIONS",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file reads \"INSTRUCTIONS FOR PETITION AND ORDER OF EXPUNCTION UNDER G.S. 15A-145.5 / (NONVIOLENT MISDEMEANOR(S)) / FORM AOC-CR-298, Rev. 7/25\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-298__aoc-cr-298-instructions__REV-2025-07__EN.pdf",
+            "formNumber": "AOC-CR-298",
+            "revision": "REV-2025-07",
+            "sha256": "5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c"
+          }
         },
         {
           "sourceId": "official-form:AOC-CV-226",
@@ -6411,7 +6441,7 @@
         }
       ],
       "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "why": "The source is held, but under a different revision than the census names. Refresh rather than acquire."
     },
     {
       "worklistGroupId": "nc_145_8a_youthful-set",
@@ -6488,9 +6518,9 @@
         "NC"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_REVISION_STALE",
       "documentSourcesNamed": 4,
-      "documentSourcesResolved": 3,
+      "documentSourcesResolved": 4,
       "nonDocumentSourceIds": 7,
       "documentSources": [
         {
@@ -6508,10 +6538,15 @@
         {
           "sourceId": "official-form:AOC-CR-288-INSTRUCTIONS",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file reads \"INSTRUCTIONS FOR PETITION AND ORDER OF EXPUNCTION / UNDER G.S. 15A-146(a2) (NOT GUILTY OR NOT RESPONSIBLE) / FORM AOC-CR-288, Rev. 3/25\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
+            "formNumber": "AOC-CR-288",
+            "revision": "REV-2025-03",
+            "sha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade"
+          }
         },
         {
           "sourceId": "source-sha256:19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
@@ -6539,7 +6574,7 @@
         }
       ],
       "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "why": "The source is held, but under a different revision than the census names. Refresh rather than acquire."
     },
     {
       "worklistGroupId": "nc_146_dismissal_petition-set",
@@ -6548,9 +6583,9 @@
         "NC"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_REVISION_STALE",
       "documentSourcesNamed": 6,
-      "documentSourcesResolved": 5,
+      "documentSourcesResolved": 6,
       "nonDocumentSourceIds": 6,
       "documentSources": [
         {
@@ -6568,10 +6603,15 @@
         {
           "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file reads \"INSTRUCTIONS FOR PETITION AND ORDER OF EXPUNCTION / UNDER G.S. 15A-146(a) OR G.S. 15A-146(a1) (CHARGE(S) DISMISSED) / FORM AOC-CR-287, Rev. 12/25\", and paragraph 1 recites \"The procedure for completion of the AOC-CR-287, Petition And Order Of Expunction Under G.S. 15A-146(a) or G.S. 15A-146(a1), is as follows\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+            "formNumber": "AOC-CR-287",
+            "revision": "REV-2025-12",
+            "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7"
+          }
         },
         {
           "sourceId": "official-form:AOC-CV-226",
@@ -6623,7 +6663,7 @@
         }
       ],
       "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "why": "The source is held, but under a different revision than the census names. Refresh rather than acquire."
     },
     {
       "worklistGroupId": "nc_auto_146_a4_agency_followup-set",
@@ -7120,9 +7160,9 @@
         "NH"
       ],
       "routeCount": 2,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 5,
-      "documentSourcesResolved": 3,
+      "documentSourcesResolved": 5,
       "nonDocumentSourceIds": 13,
       "documentSources": [
         {
@@ -7140,10 +7180,15 @@
         {
           "sourceId": "official-form:NHJB-2317-DSe",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "The held file's own page footer prints \"NHJB-2317-DSe (08/06/2019)\"; page 1 reads \"THE STATE OF NEW HAMPSHIRE / JUDICIAL BRANCH ... PETITION TO ANNUL RECORD: Offenses Resolved Prior to 01/01/2019\" and recites \"In accordance with RSA 651:5\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+            "formNumber": "NHJB-2317",
+            "revision": "REV-2019-06",
+            "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c"
+          }
         },
         {
           "sourceId": "official-form:NHJB-2328",
@@ -7172,14 +7217,19 @@
         {
           "sourceId": "official-form:NHJB-3057-DSe",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "The held file's own page footer prints \"NHJB-3057-DSe (08/06/2019)\"; page 1 reads \"PETITION OF ELIGIBILITY FOR ANNULMENT OF RECORD CONVICTION: For offenses resolved 01/01/2019 or later\". Its non-conviction sibling in the same pack prints \"NHJB-3056-DSe\" and is a different document.",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
+            "formNumber": "NHJB-3057",
+            "revision": "REV-2019-06",
+            "sha256": "02310e85cd02e3a8a5ff9c486f6729e85363146ccc07d6e8226e4f1259d1b520"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "nh_conviction_streamlined-set",
@@ -7188,9 +7238,9 @@
         "NH"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 4,
-      "documentSourcesResolved": 3,
+      "documentSourcesResolved": 4,
       "nonDocumentSourceIds": 8,
       "documentSources": [
         {
@@ -7232,14 +7282,19 @@
         {
           "sourceId": "official-form:NHJB-3057-DSe",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "The held file's own page footer prints \"NHJB-3057-DSe (08/06/2019)\"; page 1 reads \"PETITION OF ELIGIBILITY FOR ANNULMENT OF RECORD CONVICTION: For offenses resolved 01/01/2019 or later\". Its non-conviction sibling in the same pack prints \"NHJB-3056-DSe\" and is a different document.",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
+            "formNumber": "NHJB-3057",
+            "revision": "REV-2019-06",
+            "sha256": "02310e85cd02e3a8a5ff9c486f6729e85363146ccc07d6e8226e4f1259d1b520"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "nh_marijuana_annulment-set",
@@ -7296,9 +7351,9 @@
         "NH"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 4,
-      "documentSourcesResolved": 3,
+      "documentSourcesResolved": 4,
       "nonDocumentSourceIds": 8,
       "documentSources": [
         {
@@ -7316,10 +7371,15 @@
         {
           "sourceId": "official-form:NHJB-2317-DSe",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "The held file's own page footer prints \"NHJB-2317-DSe (08/06/2019)\"; page 1 reads \"THE STATE OF NEW HAMPSHIRE / JUDICIAL BRANCH ... PETITION TO ANNUL RECORD: Offenses Resolved Prior to 01/01/2019\" and recites \"In accordance with RSA 651:5\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+            "formNumber": "NHJB-2317",
+            "revision": "REV-2019-06",
+            "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c"
+          }
         },
         {
           "sourceId": "official-form:NHJB-2328",
@@ -7346,8 +7406,8 @@
           }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "nh_petition_vacated-set",
@@ -7356,9 +7416,9 @@
         "NH"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 4,
-      "documentSourcesResolved": 3,
+      "documentSourcesResolved": 4,
       "nonDocumentSourceIds": 8,
       "documentSources": [
         {
@@ -7376,10 +7436,15 @@
         {
           "sourceId": "official-form:NHJB-2317-DSe",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "The held file's own page footer prints \"NHJB-2317-DSe (08/06/2019)\"; page 1 reads \"THE STATE OF NEW HAMPSHIRE / JUDICIAL BRANCH ... PETITION TO ANNUL RECORD: Offenses Resolved Prior to 01/01/2019\" and recites \"In accordance with RSA 651:5\".",
+          "heldAs": {
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+            "formNumber": "NHJB-2317",
+            "revision": "REV-2019-06",
+            "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c"
+          }
         },
         {
           "sourceId": "official-form:NHJB-2328",
@@ -7406,8 +7471,8 @@
           }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "nj_arrest_no_conviction-set",
