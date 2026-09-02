@@ -172,13 +172,35 @@ const STATES = [
    * wrong one, which is exactly why proof of completeness cannot be allowed to
    * answer it.
    */
-  "WRONG_DELIVERY_TYPE"
+  "WRONG_DELIVERY_TYPE",
+  /*
+   * THE FOUR TERMINAL NON-PACKET STATES.
+   *
+   * WRONG_DELIVERY_TYPE says what a family may NOT deliver. That is a finding,
+   * not a destination, and a family left sitting in it forever is a family the
+   * factory has given up on while still counting it as work in progress. These
+   * four say what it DOES deliver instead, and they are terminal: no further
+   * packet work is owed, because the packet was never the right instrument.
+   *
+   * None of them is a packet state and none opens anything. Checkout stays
+   * closed on every route in all four; OUT_OF_SCOPE in particular means the
+   * route is deliberately unsupported, which is a decision the owner already
+   * made and this only records.
+   */
+  "GUIDANCE_READY",
+  "HANDOFF_READY",
+  "AGENCY_APPLICATION_READY",
+  "OUT_OF_SCOPE"
 ];
 const STATE_MEANINGS = {
   SOURCE_BLOCKED: "a required source is not held; the conveyor can resolve it",
   LEGAL_BLOCKED: "every source is held and a legal question is unresolved; only counsel can resolve it and no builder may be sent at it",
   LEGAL_REVIEW_READY: "a built packet awaiting counsel review",
-  LEGAL_APPROVED: "counsel has answered"
+  LEGAL_APPROVED: "counsel has answered",
+  GUIDANCE_READY: "the route delivers substantive guidance, not a packet; terminal, checkout closed",
+  HANDOFF_READY: "the route hands the participant to legal aid or an attorney; terminal, checkout closed",
+  AGENCY_APPLICATION_READY: "the route delivers an agency application, not a court packet; terminal, checkout closed",
+  OUT_OF_SCOPE: "the route is deliberately unsupported by owner decision; terminal, checkout closed"
 };
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
@@ -464,6 +486,37 @@ try {
   const d = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/legal-decisions/OWNER_DELIVERY_TYPE_DECISIONS.json"), "utf8"));
   for (const r of d.decisions ?? []) if (r.refused === true && r.familyId) ownerDeliveryTypeRefusals.set(r.familyId, r);
 } catch { /* no owner delivery-type decisions recorded */ }
+
+/*
+ * A REFUSAL ANSWERED BY A REGISTERED TREATMENT IS NO LONGER A PENDING QUESTION.
+ *
+ * The refusal settles that the current artifact may not ship. It does not
+ * settle what replaces it, and until that second question was answered these
+ * families genuinely had nowhere to be. Now the terminal-treatment record
+ * answers it for all sixteen, reading the treatment off the controlling
+ * route-ratification status rather than choosing one, so the family can rest in
+ * the instrument it actually delivers.
+ *
+ * The refusal is NOT withdrawn and is not weakened. It still forbids the packet
+ * and it still cannot be overturned by any measurement; what changes is only
+ * that the family now names its replacement instead of naming its refusal. If
+ * the owner withdraws a refusal, the treatment goes with it.
+ *
+ * The treatment's own independent read stays open and is carried on the family
+ * as terminalTreatmentVerification. Nothing here treats a terminal state as
+ * verified, and none of the four is a proven state or opens a route.
+ */
+const terminalTreatments = new Map();
+try {
+  const t = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/legal-decisions/TERMINAL_TREATMENTS_WRONG_DELIVERY_TYPE.json"), "utf8"));
+  for (const r of t.families ?? []) {
+    if (!r.familyId || !r.terminalTreatment) continue;
+    /* A treatment for a family the owner never refused would be this record
+     * moving a family on its own authority, which it does not have. */
+    if (!ownerDeliveryTypeRefusals.has(r.familyId)) continue;
+    terminalTreatments.set(r.familyId, r);
+  }
+} catch { /* no terminal treatments registered yet */ }
 
 /*
  * Owner holds pending a NAMED correction.
@@ -1052,7 +1105,12 @@ for (const f of IN.scoreboard.familiesDetail) {
    * guidance branch: the question "may this route deliver this instrument"
    * precedes every question about how good the instrument is. */
   const deliveryTypeRefusal = ownerDeliveryTypeRefusals.get(familyId) ?? null;
-  if (deliveryTypeRefusal) state = "WRONG_DELIVERY_TYPE";
+  const terminalTreatment = terminalTreatments.get(familyId) ?? null;
+  /* Refused AND answered: the family rests in what it delivers, not in what it
+   * may not. Refused and not yet answered stays WRONG_DELIVERY_TYPE, which is
+   * where rcap-sc-custom-pleading correctly still sits. */
+  if (terminalTreatment) state = terminalTreatment.terminalTreatment;
+  else if (deliveryTypeRefusal) state = "WRONG_DELIVERY_TYPE";
   /* An owner withholding outranks a passing verdict for the same reason a
    * delivery-type refusal does: the verdict says the packet is well made, and
    * the withholding says it may not ship as made. Left below the PASS branch
@@ -1217,6 +1275,25 @@ for (const f of IN.scoreboard.familiesDetail) {
           consequences: deliveryTypeRefusal.consequences ?? [],
           commercialEligibility: "REMOVED",
           checkout: "DISABLED"
+        }
+      : null,
+    /* A TERMINAL STATE IS NOT A VERIFIED ONE.
+     *
+     * The four terminal states are reached from a registered treatment whose
+     * own independent read is still open, and a reader holding only this queue
+     * would otherwise see GUIDANCE_READY with nothing beside it to say the
+     * treatment has not been checked by anyone but its author. Carried here so
+     * the caveat travels with the state instead of living in a file the reader
+     * may not open. */
+    terminalTreatment: terminalTreatment
+      ? {
+          treatment: terminalTreatment.terminalTreatment,
+          authorizingRecord: terminalTreatment.authorizingRecord ?? null,
+          treatmentWasReadNotChosen: terminalTreatment.treatmentReadNotChosen ?? null,
+          independentVerification: terminalTreatment.independentVerification?.state
+            ?? "pending_independent_verification_of_the_treatment",
+          theRefusalIsStillInForce: true,
+          opensNothing: "No terminal treatment opens a route, restores a packet or enables checkout."
         }
       : null,
     /* Where the hold came from, so a reader can tell a counsel-queue route key
