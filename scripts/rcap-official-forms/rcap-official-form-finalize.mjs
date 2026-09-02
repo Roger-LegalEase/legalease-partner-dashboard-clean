@@ -14,7 +14,7 @@ import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances
 import { detectNonFilingNotice } from "./rcap-source-notice.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFTextField, PDFDropdown, PDFName, StandardFonts, rgb } = require("pdf-lib");
+const { PDFDocument, PDFTextField, PDFDropdown, PDFName, PDFString, PDFHexString, StandardFonts, rgb } = require("pdf-lib");
 
 // A fixed instant: a fresh document otherwise stamps the wall clock into its
 // info dictionary, and every render of the same facts would differ.
@@ -433,6 +433,33 @@ export class NonFilingHoldError extends Error {
  * protected field, an unfittable value, a charge row with no charge -- are
  * returned, never worked around.
  */
+/*
+ * Rewrites the size token of each widget's own /DA to the measured fit.
+ *
+ * Only the size changes. The font resource name and every other operator in the
+ * widget's own default-appearance string are preserved exactly, because the
+ * appearance generator resolves that name against the AcroForm /DR and
+ * substituting a different font would change the drawn glyphs as well as their
+ * size. A widget with no /DA of its own already follows the field and is left
+ * untouched. A widget whose declared size already equals the fit is left
+ * untouched too, so this can never move bytes it does not need to move.
+ */
+function alignWidgetDefaultAppearanceSizes(handle, fontSize) {
+  const aligned = [];
+  const widgets = (() => { try { return handle.acroField.getWidgets(); } catch { return []; } })();
+  widgets.forEach((widget, index) => {
+    const entry = widget.dict.get(PDFName.of("DA"));
+    if (!(entry instanceof PDFString || entry instanceof PDFHexString)) return;
+    const before = entry.decodeText();
+    const after = before.replace(/(^|\s)(\d*\.?\d+)(\s+Tf\b)/,
+      (whole, lead, size, tail) => (Number(size) === Number(fontSize) ? whole : `${lead}${fontSize}${tail}`));
+    if (after === before) return;
+    widget.dict.set(PDFName.of("DA"), PDFString.of(after));
+    aligned.push({ widgetIndex: index, before, after });
+  });
+  return aligned;
+}
+
 export async function finalizeOfficialForm({
   sourceBytes,
   expectedSha256,
@@ -463,6 +490,37 @@ export async function finalizeOfficialForm({
   // value that fits there is refused. Opt-in, because the families sharing this
   // finalizer are rebuilt by different workers at different times.
   evaluateDeclaredMinimumSize = false,
+  /*
+   * Whether a fitted font size is also written onto the field's own WIDGETS.
+   *
+   * applyFitToTextField sets the size on the FIELD's /DA. A widget annotation
+   * may carry its own /DA, and where it does the widget's entry is the one the
+   * appearance generator uses -- so the field-level size is discarded and the
+   * value renders at whatever size the widget declares.
+   *
+   * That is not cosmetic. On the CPL 160.59 pro se packet every widget of
+   * "Applicant Name", "Street Address", "City State Zip", "Phone" and "Email"
+   * carries `/Arial 11 Tf 0 0 0 rg` while the field-level entry is `/Helv 0 Tf`.
+   * The fitter measured the boundary values down to 7.5, 9.5, 7 and 8 points and
+   * reported outcome "shrunk"; the bytes drew all five at 11 and three of them
+   * ran off the right edge of a 612-point page. The report was true about the
+   * fit and false about the ink, which is the worst shape a report can take.
+   *
+   * The alignment rewrites ONLY the size token inside each widget's existing
+   * /DA, preserving its font resource name and its colour operators, so a value
+   * whose fit is the widget's declared size is a no-op and no family's canonical
+   * bytes move on that account.
+   *
+   * Opt-in, on the same reasoning as evaluateDeclaredMinimumSize above: the
+   * families sharing this finalizer are rebuilt by different workers at
+   * different times, and a repair lane holding a few families does not get to
+   * decide what the others' next rebuild produces.
+   *
+   * CAPTAIN DECISION: like the flag above, this default should flip to true once
+   * every family can be rebuilt together. A shrunk fit that the bytes ignore is
+   * a defect wherever it occurs, not only here.
+   */
+  alignWidgetFontSizeToFit = false,
   title = null,
   // Field name -> appearance disposition, for the family being rendered. The
   // caller resolves it from the shared semantic registry; an empty map leaves
@@ -494,7 +552,11 @@ export async function finalizeOfficialForm({
     refused: [],
     unfittable: [],
     protectedFields: [],
-    expectedValues: []
+    expectedValues: [],
+    // Widgets whose own /DA size was brought into line with the measured fit.
+    // Empty unless alignWidgetFontSizeToFit is on; empty then too when no widget
+    // carries its own /DA, or the fit already equals what that /DA declares.
+    widgetFontSizeAligned: []
   };
 
   // Deciding and writing used to happen in one pass, which cannot see that two
@@ -602,9 +664,16 @@ export async function finalizeOfficialForm({
     }
 
     applyFitToTextField(handle, fit);
+    const widgetsAligned = alignWidgetFontSizeToFit
+      ? alignWidgetDefaultAppearanceSizes(handle, fit.fontSize)
+      : [];
+    if (widgetsAligned.length) {
+      report.widgetFontSizeAligned.push({ field: field.name, fontSize: fit.fontSize, widgets: widgetsAligned });
+    }
     report.written.push({
       field: field.name, factId: decision.factId, kind: "text",
-      fontSize: fit.fontSize, outcome: fit.outcome, lines: fit.lines.length
+      fontSize: fit.fontSize, outcome: fit.outcome, lines: fit.lines.length,
+      ...(widgetsAligned.length ? { widgetFontSizeAligned: widgetsAligned.length } : {})
     });
     report.expectedValues.push(text);
   }

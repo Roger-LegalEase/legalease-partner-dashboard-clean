@@ -279,9 +279,11 @@ function factsForJurisdiction(jurisdiction, boundary = false) {
   };
 }
 
-function source({ key, id, role, title, revision, pathInArchive, hash, bytes, render = true, allow = {}, selections = [] }) {
+function source({ key, id, role, title, revision, pathInArchive, hash, bytes, render = true,
+  allow = {}, selections = [], captions = null, alignWidgetFontSizeToFit = false }) {
   return { key, documentId: id, documentRole: role, officialTitle: title, revision,
-    pathInArchive, sha256: hash, byteLength: bytes, render, allow, selections };
+    pathInArchive, sha256: hash, byteLength: bytes, render, allow, selections,
+    captions, alignWidgetFontSizeToFit };
 }
 function cloneDoc(base, additions = {}) {
   return { ...base, ...additions, allow: { ...(base.allow ?? {}), ...(additions.allow ?? {}) },
@@ -413,6 +415,66 @@ function factMappingsForDocument(doc) {
   return { ...shared, ...(doc.allow ?? {}) };
 }
 
+/*
+ * CAPTIONS READ OFF THE FORM'S OWN PRINTED FACE, where the geometric capture
+ * reached the wrong printed line.
+ *
+ * captureWidgetContext finds the caption printed to the LEFT of a widget on the
+ * same line, and failing that the one printed directly ABOVE it in the same
+ * column. Both rules are sound and both mis-fire on a stacked identifier table,
+ * because a widget whose box is taller than the line pitch overlaps two printed
+ * lines at once and the tie between them is broken by horizontal gap alone. On
+ * the CPL 160.59 certificate-of-disposition request every caption in the page-2
+ * identifier column ends at the same x, so those gaps are equal to the tenth of
+ * a point and a run of eleven widgets each takes the caption of the row above
+ * it: the participant is told to write their NYSID in the box captioned
+ * "Partial Docket Number". The same tie shifts the MRTA form's court-type row
+ * and its court-use-only checklist by one.
+ *
+ * The correction is a per-document table of the caption the FORM PRINTS beside
+ * the named widget, read off the printed face and recorded here rather than
+ * re-derived by a cleverer rule. Nothing is invented and nothing is reworded:
+ * every string below appears on the form, and where a caption is a column
+ * heading rather than an inline label the row it belongs to is named after an
+ * em dash so the participant can find the blank on the paper.
+ *
+ * The alternative was to re-rank the geometric candidates by vertical distance.
+ * That was measured on both New York forms before this table was written: it
+ * corrects the identifier stacks and REGRESSES a dozen other widgets onto the
+ * underscore rules printed beneath them, so it trades one wrong-caption class
+ * for another. It also reaches every family that shares the capture module,
+ * which a repair lane holding four families does not get to decide.
+ *
+ * A document that declares no table is untouched and its captions are exactly
+ * what the geometry returned.
+ *
+ * COURT_USE_ONLY is the second half of the same repair. A widget whose caption
+ * the geometry mis-read can also be mis-CLASSIFIED off that caption, and on the
+ * MRTA form three controls printed below "***FOR COURT USE ONLY - DO NOT WRITE
+ * BELOW THIS LINE***" were surfaced to the participant as blanks they must fill
+ * in before filing, in the same file whose last line says every control below
+ * that line stays blank. Marking them here refuses them as what they are.
+ */
+const COURT_USE_ONLY = Symbol("court_use_only_control");
+
+/*
+ * A caption whose bytes the source's own font did not decode into readable text.
+ *
+ * Both New York forms number their fields with circled glyphs from a subsetted
+ * font, and the harvested runs for those glyphs decode to C0/C1 control
+ * characters. Delivered verbatim they reach the participant inside the list of
+ * facts they must supply before filing: the MRTA instructions carried 28 such
+ * characters and the CPL 160.59 instructions 6. A caption that did not decode is
+ * not a caption, so the row falls back to the form's own field name, which is at
+ * least true. Scoped to documents that declare a caption table, so no family
+ * outside this repair can have a label change under it.
+ */
+const UNDECODED_CAPTION_BYTES = /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]/;
+function readableCaption(label) {
+  if (typeof label !== "string" || label === "") return label ?? null;
+  return UNDECODED_CAPTION_BYTES.test(label) ? null : label;
+}
+
 const FAMILY = {};
 
 const NJ_CONTACT_ALLOW = {
@@ -472,6 +534,59 @@ Object.assign(FAMILY, {
           Conviction_Charge_1: "matter.charge", Applicant_Street_Address: "participant.street_address",
           Applicant_City_State_Zip: "participant.city_state_zip", Applicant_Phone: "participant.phone",
           Applicant_Email: "participant.email" },
+        alignWidgetFontSizeToFit: true,
+        /*
+         * Page 1 carries the eight-column conviction table (the form numbers
+         * its headings 6 to 13) with two case rows, and the numbered attachment
+         * lines 4 to 10 under heading 14. Page 2 carries the item-19 table of a
+         * conviction the applicant may ask to have sealed in a LATER
+         * application, whose headings differ from page 1's. Page 3 is the
+         * Affidavit of Service, whose captions are printed in square brackets
+         * beneath their rules. In every case the caption is the column heading
+         * the form prints; the row it belongs to is named after the dash so the
+         * blank can be found on the paper.
+         */
+        captions: {
+          Applicant_AKA: "AKA(s)",
+          NYSID: "NYSID",
+          Motorist_ID: "Motorist ID # (VTL Crimes)",
+          Docket_Indictment_SCI_Number_2: "Docket, Indictment, or SCI Number - second case row",
+          Court_Name_2: "Court Name - second case row",
+          Conviction_Charge_2: "Conviction Charge Description - second case row",
+          Law_Section_Subsection_1: "Conviction Charge Law/Section/Subsection - first case row",
+          Law_Section_Subsection_2: "Conviction Charge Law/Section/Subsection - second case row",
+          Conviction_Date_2: "Conviction Date - second case row",
+          Sentence_Date_1: "Sentence Date - first case row",
+          Sentence_Date_2: "Sentence Date - second case row",
+          Sentence_Term_1: "Sentence Term - first case row",
+          Sentence_Term_2: "Sentence Term - second case row",
+          Release_Date_1: "Release Date from any incarceration - first case row",
+          Release_Date_2: "Release Date from any incarceration - second case row",
+          Attachment_4: "Attachments, numbered line 4",
+          Attachment_5: "Attachments, numbered line 5",
+          Attachment_6: "Attachments, numbered line 6",
+          Attachment_7: "Attachments, numbered line 7",
+          Attachment_8: "Attachments, numbered line 8",
+          Attachment_9: "Attachments, numbered line 9",
+          Attachment_10: "Attachments, numbered line 10",
+          Court_Name: "Court Name - the conviction you intend to ask to have sealed in a later application",
+          Conviction_Date: "Conviction Date - the conviction you intend to ask to have sealed in a later application",
+          Sentence_Date: "Sentence Date - the conviction you intend to ask to have sealed in a later application",
+          Address_of_Person_Serving: "[address of person serving/mailing]",
+          Date_of_Service: "[date of service/mailing]",
+          Documents_in_Support: "the supporting documents served with the Notice of Motion and Affidavit in Support of Sealing Pursuant to CPL 160.59",
+          // The form prints "at the following address(es):" inline on the first
+          // rule and repeats the rule beneath it; the bracketed note under the
+          // pair reads "[address(es) of District Attorney's office(s)]". The
+          // inline caption is what the capture already reached for the first
+          // rule and it is correct, so only the second is corrected -- the
+          // capture had dragged the first rule's underscores into it. The
+          // bracketed note is deliberately not used as the caption: it contains
+          // the word "attorney", which the completeness contract reads as an
+          // attorney-block field the participant does not complete, and these
+          // two rules are the participant's to fill in on their own affidavit.
+          Address_of_DA_2: "at the following address(es) - second line",
+        },
       }),
       source({
         key: "cod-request", id: "NY-CPL-160.59-COD-REQUEST", role: "RECORD_GATHERING_COMPANION",
@@ -483,6 +598,30 @@ Object.assign(FAMILY, {
           DefendantFirstName: "participant.first_name", DefendantMiddleNameorInitial: "participant.middle_name",
           DefendantLastName: "participant.last_name", DocketIndictmentSCINumber: "matter.case_number",
           DefendantAddress: "participant.street_address", Charges: "matter.charge" },
+        alignWidgetFontSizeToFit: true,
+        /*
+         * The page-2 "Case Identifiers" column is where the equal-gap tie bites
+         * hardest: eleven captions ending at the same x, and a run of ten
+         * widgets each taking the row above. Each entry below is the caption the
+         * form prints on that widget's own line, read from the printed face.
+         * Page 1's Select Court block prints "Court Name / Street Address /
+         * City, State & Zip" and the second and third widgets both reached the
+         * third caption.
+         */
+        captions: {
+          CourtAddress: "Street Address",
+          CourtCityStateZip: "City, State & Zip",
+          IDVNumber: "IDV Number",
+          ArrestNumber: "Arrest Number",
+          OrderofProtectionNumber: "Order of Protection Number",
+          CertificateofDispositionNumber: "Certificate of Disposition Number",
+          "CriminalJusticeTrackingNumber(CJTN)": "Criminal Justice Tracking Number (CJTN)",
+          TicketNumber: "Ticket Number",
+          NYSIDNumber: "NYSID Number",
+          PartialDocketNumber: "Partial Docket Number",
+          ArrestDateRangeEnd: "Arrest Date - OR Date Range, the second box",
+          IncidentDateRangeEnd: "Incident Date - OR Date Range, the second box",
+        },
       }),
       source({
         key: "pro-se-packet", id: "NY-CPL-160.59-PRO-SE-PACKET", role: "REQUIRED_INSTRUCTIONS_AND_APPLICATION_PACKET",
@@ -492,6 +631,42 @@ Object.assign(FAMILY, {
         allow: { "Applicant Name": "participant.full_legal_name", "Street Address": "participant.street_address",
           "City State Zip": "participant.city_state_zip", Phone: "participant.phone", Email: "participant.email",
           "Case Number 1": "matter.case_number" },
+        /*
+         * Every widget of "Applicant Name", "Street Address", "City State Zip",
+         * "Phone" and "Email" on this form carries its own /DA of `/Arial 11 Tf`,
+         * which overrode the fitted size and drew four boundary values off the
+         * right edge of the page. See alignWidgetFontSizeToFit in the shared
+         * finalizer for the measurement.
+         */
+        alignWidgetFontSizeToFit: true,
+        /*
+         * The Notice of Motion (page 9) and the Affidavit in Support (page 10)
+         * number their fields with circled glyphs whose bytes do not decode, so
+         * two captions arrived as control characters. The item-11 table on page
+         * 10 prints its two column headings on one line, which the capture
+         * returned whole for the left column. The Affidavit of Service on page
+         * 12 prints its captions in parentheses beneath their rules, and the
+         * capture reached the sentence to the left instead.
+         */
+        captions: {
+          AKAs: "AKA(s)",
+          NYSID: "NYSID",
+          "Case Number 2": "Case Number (Docket, Indictment, or SCI Number) - second row",
+          "Court Name 2": "Court Name - second row",
+          "Case Number 3": "Case Number (Docket, Indictment, or SCI Number) - the conviction you intend to ask to have sealed in a later application",
+          "Court Name 3": "Court Name - the conviction you intend to ask to have sealed in a later application",
+          "Document 3": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 3",
+          "Document 4": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 4",
+          "Document 5": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 5",
+          "Document 6": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 6",
+          "Document 7": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 7",
+          "Document 8": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 8",
+          "Document 9": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 9",
+          "Document 10": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 10",
+          "Server Name": "(Name of Person Serving/Mailing)",
+          "Server Address": "(Address of Person Serving/Mailing)",
+          "Service Date": "(Date of Service/Mailing)",
+        },
       }),
       source({
         key: "seal-verification-source-only", id: "NY-CPL-160.59-SEAL-VERIFICATION", role: "POST_ORDER_SOURCE_ONLY",
@@ -524,9 +699,58 @@ Object.assign(FAMILY, {
       "**What you should still expect to pay, and what you should not.** The application itself is free to file, so no fee waiver is needed for it. The Criminal Certificate of Disposition Request Form states its own fee on its face: five dollars ($5) in courts located outside New York City, or ten dollars ($10) in courts located in New York City's five boroughs, and it tells you to contact the court to ask what payment methods are accepted. You need a certificate of disposition for each conviction you are applying to seal, so budget that amount per case. The profile also records a DCJS fee if you order a review of your own record to confirm what is on it. Your application must be notarized, and a notary may charge for that.",
       "**Free help exists, and the profile names it.** The compiled profile records that legal-aid organizations and county district attorney sealing units assist pro se applicants at no cost. If the clerk's office of the court where you were convicted and sentenced tells you something different about cost from what this section says, follow the clerk — that office is the one that takes the filing — and the pro se packet already sends you to it: contact \"the clerk's office of the court where you will apply to seal your case, which is the court where you were convicted and sentenced\", and file \"by mail or in person at the clerk's office of the appropriate courthouse\".",
     ],
+    /*
+     * SERVICE, asked in the standard's own order and answered by the repository.
+     *
+     * Amendment A4 puts SERVICE in the class of obligations whose failure mode
+     * is the packet withholding something the repository establishes, and three
+     * committed records establish this one. The track registry entry for
+     * ny_160_59_petition holds it in rules.filing ("serve the county district
+     * attorney"), rules.notice ("The county district attorney, who may consent
+     * or object") and rules.service ("Service on the district attorney with
+     * proof of service"); the route obligation census holds it again in
+     * destination.detail and names a service_instructions component for the
+     * route. The delivered pro se packet prints it too, in its own steps 4 and
+     * 5, and the delivered application prints the 45-day consideration period on
+     * its own face.
+     *
+     * These instructions said none of it. Their one operative line asked the
+     * participant to "confirm ... service ... before filing" while the packet
+     * handed them eight blank service and affidavit-of-service fields, which is
+     * exactly the substitution A1 forbids.
+     */
+    service: [
+      "**The District Attorney must be served, and serving is your step.** A copy of the Notice of Motion and every supporting document goes to the District Attorney of each county where a conviction you are asking to seal was entered. Where the Attorney General or the Special Narcotics Prosecutor prosecuted the case, that office is served instead. If your two convictions were entered in different counties, each of those prosecutors is served separately.",
+      "**Serve before you file, and prove it.** The pro se packet's step 4 tells you to serve first, either in person - taking a copy to the prosecutor's office and having your own copy stamped *received* - or by mail. The application's Affidavit of Service (page 3 of the application, page 4 of the pro se packet) is the sworn proof, and it must be notarized. If more than one prosecutor's office was served, the pro se packet requires a separate Affidavit of Service for each. Step 5 tells you to attach the original affidavits when you file. Only a copy stamped *received* in person excuses the affidavit; a mailed copy never does.",
+      "**Complete the service blanks only after service has actually happened.** The name and address of the person serving, the date of service, the county and address of each District Attorney, and the choice between mailing and personal delivery are all listed among the blanks below. They record something that has occurred. A date written before you serve would be false, and the affidavit is sworn under penalty of perjury.",
+      "**Then the prosecutor has 45 days.** The application states it on its own face: the District Attorney has 45 days after being served to consent to the sealing or to oppose it. If they oppose, the court holds a hearing. The statewide list of District Attorney offices and addresses is published by the New York State District Attorneys Association, and the clerk's office of the court where you will file can also tell you which office to serve.",
+    ],
+    /*
+     * SELF_HELP_STOP. The committed track registry holds ten stop conditions for
+     * ny_160_59_petition in selfHelpStopConditions, and this packet named none
+     * of them, carried no "not legal advice" line, and did not say it is not
+     * filed for you. The ten below are those conditions; nothing is added to
+     * them and nothing is softened. The referral sentence that already existed
+     * sat inside the cost section as a cost fact, which is not this obligation.
+     */
+    selfHelpStop: [
+      "**This packet is not legal advice, and no lawyer has reviewed your case in preparing it.** It is a prepared set of official New York forms for you to read, complete, sign, have notarized, serve and file yourself. It is not filed for you, and it does not decide whether your conviction can be sealed - that decision is the court's, and it is discretionary.",
+      "Stop and get a lawyer's help before you file if any of these is true of your case. Each one is recorded in this route's own track record as a point where self-help ends:",
+      "- any conviction that might fall on the exclusion list, including any attempt or conspiracy whose target offence has to be analysed;",
+      "- any class A felony, which is excluded here even where it would qualify under Clean Slate - the two lists are opposites and this is where the routing error happens;",
+      "- any argument that several crimes arose from a single criminal transaction and should count as one;",
+      "- District Attorney objection, which turns this into a contested hearing;",
+      "- any pending or open criminal charge;",
+      "- more than two convictions, or more than one felony;",
+      "- the rehabilitation and interests-of-justice showing, which is the heart of a discretionary application and is not a form-filling exercise;",
+      "- immigration exposure. Sealing does not remove immigration consequences and sealed records remain reachable by immigration authorities. Ask an immigration attorney before you sign anything;",
+      "- firearms licensing goals, because sealed records remain available for firearms licensing;",
+      "- federal and out-of-state convictions, which New York sealing does not reach at all.",
+      "**Who to ask, for what.** The clerk's office of the court where you were convicted and sentenced answers procedural questions - what to file, where, and what the court needs. Only a lawyer admitted in New York can advise you on eligibility, on what to argue, or at a hearing. The compiled New York profile records that legal-aid organisations and county district attorney sealing units assist pro se applicants at no cost, and some county district attorney offices run sealing units that publish their own instructions.",
+    ],
     notes: [
       "Prior-application elections, reasons, sworn dates, service facts, prosecutor information, and notary fields remain blank.",
-      "The post-order seal-verification document is source-custody evidence only; form currency, local service practice, and the proposed-order branch remain release blockers. The fee is no longer among them: this packet's fee-and-waiver section states the answer the compiled New York profile holds — the CPL 160.59 application carries no separate filing fee — together with the certificate-of-disposition, DCJS and notary costs it does carry.",
+      "The post-order seal-verification document is source-custody evidence only; form currency and the proposed-order branch remain release blockers. The fee is no longer among them: this packet's fee-and-waiver section states the answer the compiled New York profile holds — the CPL 160.59 application carries no separate filing fee — together with the certificate-of-disposition, DCJS and notary costs it does carry. Nor is service: the who, the when, the proof and the 45-day consideration period are stated from the committed track registry, the route census and the delivered forms' own faces.",
     ],
   },
   "ny_mrta_marijuana-set": {
@@ -540,10 +764,67 @@ Object.assign(FAMILY, {
         Applicant_Last_Name: "participant.last_name", Docket_Case_Number: "matter.case_number",
         Cell_Phone: "participant.phone", Street_Address: "participant.street_address", Zip_Code: "participant.zip",
         State: "participant.state", City_Town: "participant.city", Email: "participant.email" },
+      /*
+       * Every string below is printed on the form. The court-type row prints
+       * three pairs -- "Supreme Court / City Court, City of", "County Court /
+       * Town Court, Town of", "District Court / Village Court, Village of" --
+       * and the geometry gave the town blank the village caption, so a
+       * participant filing in a town court was told to name a village. The three
+       * "Unknown" checkboxes each sit under their own printed heading and the
+       * geometry gave two of them the next heading down and one of them the rule
+       * of underscores above it; each is restored to its own heading. The last
+       * three are the checklist items printed below "***FOR COURT USE ONLY - DO
+       * NOT WRITE BELOW THIS LINE***", which the court completes.
+       */
+      captions: {
+        Conviction_Court: "Court where convicted (Check one only)",
+        City_Court_Specify: "City Court, City of",
+        Town_Court_Specify: "Town Court, Town of",
+        Village_Court_Specify: "Village Court, Village of",
+        CJTN: "CJTN/Criminal Justice Tracking Number (NOTE: If you were not fingerprinted in this case, write NONE.)",
+        NYSID: "NYSID/New York State Identification Number (NOTE: If you were not fingerprinted in this case, write NONE.)",
+        Docket_Case_Number_Unknown: "Unknown - Court Docket/Case Number",
+        CJTN_Unknown: "Unknown - CJTN/Criminal Justice Tracking Number",
+        NYSID_Unknown: "Unknown - NYSID/New York State Identification Number",
+        Application_Complete: [COURT_USE_ONLY, "2. All required information is completed, and the court clerk has checked and verified the information is correct."],
+        File_Copy: [COURT_USE_ONLY, "5. Application is scanned/uploaded to case management system and/or placed in case file, as applicable."],
+        Copies_Sent: [COURT_USE_ONLY, "6. Copies of application sent to prosecutor, law enforcement agencies and DCJS as applicable for further processing."],
+      },
     })],
+    /*
+     * DET-FEE-AND-WAIVER-001 A1 as widened by A2: ask the repository first.
+     *
+     * It answers, twice over and in the same words. The form's own first
+     * instruction line, extracted from the pinned binary, reads "Submit your
+     * application to the Court where you were convicted. (NOTE: There is no
+     * application fee.)" The committed track registry entry for
+     * ny_mrta_marijuana records the same two facts in rules.filing and
+     * rules.fees, adds that one application goes to each court of conviction,
+     * names the three submission methods, and answers service outright:
+     * rules.notice is "none by the participant" and rules.service is "none".
+     *
+     * So none of these three is a question to delegate. Under A1 a named
+     * checkable authority stands in only where no held source establishes the
+     * answer, and here three held sources establish all of it.
+     */
+    filingDestination: [
+      "**Submit your application to the court where you were convicted.** That is the form's own first printed instruction, and there is no statewide address, mailbox or portal for it: the Office of Court Administration publishes this application but does not receive it. An application sent to any other court cannot be processed.",
+      "**One application per court.** If you have eligible marijuana or cannabis convictions in more than one New York court, you submit a separate application to each of them. A single application cannot cover convictions entered in two different courts.",
+      "**Three ways to submit it.** Through that court's Electronic Document Delivery System (EDDS), by regular first-class mail, or in person. If you submit in person, the form tells you to bring a valid government-issued photo ID proving you were the defendant in the case. If you send it through EDDS or by mail, the application has to be notarized instead - notarization is the identity proof, and which one you need follows how you submit, not what you are asking for.",
+    ],
+    feeAndWaiver: [
+      "**There is no application fee.** The form states it on its own face, in the same printed instruction that tells you where to submit it: *Submit your application to the Court where you were convicted. (NOTE: There is no application fee.)* The committed New York track record for this route says the same thing and records no fee waiver, because there is no fee to waive.",
+      "**One cost that is not this application.** If you order a DCJS Record Review to confirm what is on your own record - which you may want before you apply, or after, to see what the destruction changed - that review carries its own fee. It is a separate request to a separate agency and it is not a charge for this application.",
+      "**A notary may charge.** If you submit through EDDS or by mail rather than in person, the application must be notarized, and a notary may charge for that. Nothing in the held sources sets that figure; it is not a court fee.",
+    ],
+    service: [
+      "**You do not serve anyone.** Nothing in this route requires the participant to serve, mail or deliver a copy to a prosecutor, to a police agency, or to the Division of Criminal Justice Services. The committed New York track record for this route records notice as \"none by the participant\" and service as \"none\".",
+      "**The court distributes it, and the form says so.** Item 6 of the processing checklist printed below the form's COURT USE ONLY line reads *Copies of application sent to prosecutor, law enforcement agencies and DCJS as applicable for further processing.* That is the court's step, not yours, and it is why there is no certificate of service on this form and none in this packet.",
+      "**What you should get back.** The court returns an Acknowledgement of Application to Destroy Expunged Marihuana Conviction Record, and where you were fingerprinted, DCJS writes separately to confirm destruction. If nothing reaches you, the office to ask is the clerk of the court of conviction that received your application - the same court you submitted it to. No other office can tell you where it is.",
+    ],
     notes: [
       "This artifact covers only an explicitly requested irreversible-destruction branch and grants no runtime permission to select it.",
-      "Every control below the form's COURT USE ONLY line and every affirmation/signature date remains blank.",
+      "Every control below the form's COURT USE ONLY line and every affirmation/signature date remains blank. The three checklist controls this build once listed as participant blanks - Application_Complete, File_Copy and Copies_Sent - are refused as court-owned, which is what the form's own COURT USE ONLY rule makes them.",
     ],
   },
   "pa_490_nonconviction-set": {
@@ -1040,7 +1321,8 @@ async function censusDocument(doc, bytes) {
 
   const fields = measured.map((field) => {
     const context = contexts.get(field.name) ?? {};
-    const effectiveLabel = context.effectiveLabel ?? null;
+    const captured = context.effectiveLabel ?? null;
+    const effectiveLabel = doc.captions ? readableCaption(captured) : captured;
     return {
       ...field,
       effectiveLabel,
@@ -1108,10 +1390,59 @@ function installedRefusalRows(priorMap) {
   return rows;
 }
 
+/*
+ * Applies the document's own caption table to one finished map row.
+ *
+ * Two shapes, both from the table above. A string is the caption the form
+ * prints beside this widget and replaces whatever the geometry reached, on a
+ * row that is being surfaced to the participant. COURT_USE_ONLY says the
+ * control is not the participant's at all, and turns the row into the court-
+ * owned refusal it should always have been -- which also removes it from the
+ * "facts still required before filing" list, because it is not one.
+ *
+ * A candidate_write row is never touched: those rows deliberately carry no
+ * caption at all, and giving one a caption would read as "this fact is written
+ * beside these words".
+ */
+function applyCaptionCorrection(row, correction, documentId) {
+  if (row.decision !== "refuse") return row;
+  if (correction === undefined) {
+    // No correction for this widget. A row carried forward from an earlier
+    // build can still hold an undecoded caption in its installed
+    // classification, which the fresh census guard never sees, so it is
+    // scrubbed here too rather than delivered.
+    const scrubbed = readableCaption(row.effectiveLabel ?? null);
+    if (scrubbed === (row.effectiveLabel ?? null)) return row;
+    return { ...row, effectiveLabel: scrubbed ?? row.field,
+      captionBasis: `the caption bytes beside this widget did not decode into readable text; the form's own field name stands in (${documentId})` };
+  }
+  const [marker, caption] = Array.isArray(correction) ? correction : [correction, null];
+  if (marker === COURT_USE_ONLY) {
+    return {
+      field: row.field, decision: "refuse", factId: null,
+      refusalClass: "court_prosecutor_clerk_or_agency_owned",
+      blankTreatment: null,
+      effectiveLabel: caption ?? readableCaption(row.effectiveLabel ?? null) ?? row.field,
+      reason: "This control is printed below the form's own COURT USE ONLY line and is completed by the court, not by the participant. Nothing is written into it and it is not a blank of this filing.",
+      captionBasis: "read from the form's printed face: the control sits below the printed COURT USE ONLY rule",
+      widgets: row.widgets,
+    };
+  }
+  return {
+    ...row,
+    effectiveLabel: marker,
+    captionBasis: `read from the printed face of ${documentId}; the geometric capture reached a different printed line`,
+  };
+}
+
 function fieldMapFor(doc, census, installed = new Map()) {
   const selected = new Set(doc.selections ?? []);
   const factMappings = factMappingsForDocument(doc);
   const sharedMappings = SHARED_EXACT_FACT_ALLOWLIST[doc.documentId] ?? {};
+  const captions = doc.captions ?? null;
+  const withCaption = (row) => (captions
+    ? applyCaptionCorrection(row, captions[row.field], doc.documentId)
+    : row);
   return census.fields.map((field) => {
     const factId = factMappings[field.name] ?? null;
     if (factId) {
@@ -1134,7 +1465,7 @@ function fieldMapFor(doc, census, installed = new Map()) {
         widgets: field.widgets };
     }
     const installedRow = installed.get(`${doc.documentId}::${field.name}`);
-    if (installedRow) return { ...installedRow, widgets: field.widgets };
+    if (installedRow) return withCaption({ ...installedRow, widgets: field.widgets });
     const refusalClass = doc.render === false
       ? "source_only_not_generated"
       : classifyRefusal(field.name, field.effectiveLabel ?? "");
@@ -1148,7 +1479,7 @@ function fieldMapFor(doc, census, installed = new Map()) {
      */
     if (refusalClass === "required_before_filing" || refusalClass === "unmailed_or_unperformed_service") {
       const afterService = refusalClass === "unmailed_or_unperformed_service";
-      return { field: field.name, decision: "refuse", factId: null,
+      return withCaption({ field: field.name, decision: "refuse", factId: null,
         blankTreatment: "REQUIRED_BEFORE_FILING",
         requiredBeforeFiling: true, routeDetermined: false,
         identity: `${doc.documentId} field ${field.name}`,
@@ -1157,15 +1488,15 @@ function fieldMapFor(doc, census, installed = new Map()) {
           ? "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess."
           : "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
         completesAfterService: afterService,
-        widgets: field.widgets };
+        widgets: field.widgets });
     }
-    return { field: field.name, decision: "refuse", factId: null, refusalClass,
+    return withCaption({ field: field.name, decision: "refuse", factId: null, refusalClass,
       blankTreatment: null,
       effectiveLabel: field.effectiveLabel ?? field.name,
       reason: refusalClass === "source_only_not_generated"
         ? "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it."
         : refusalReason(refusalClass),
-      widgets: field.widgets };
+      widgets: field.widgets });
   });
 }
 
@@ -1949,14 +2280,73 @@ function feeAndWaiverSection(config) {
   return `\n## What it costs to file\n\n${paragraphs.map((p) => `${p}\n`).join("\n")}`;
 }
 
+/*
+ * The three answers the catch-all line used to stand in for.
+ *
+ * Determination DET-FEE-AND-WAIVER-001, amendment A1 as widened by A2 and A4:
+ * ask first whether the repository establishes the answer, and where it does,
+ * the packet states it rather than sending the participant to ask a question
+ * the repository has already answered. FILING_DESTINATION, SERVICE and
+ * REQUIRED_BEFORE_FILING share that failure mode with FEE_AND_WAIVER, and on
+ * this host all four were failing on one sentence -- "Confirm current revision,
+ * filing destination, local procedures, fees, attachments, service, and
+ * proposed-order requirements before filing" -- which lists four questions and
+ * answers none.
+ *
+ * Each section is opt-in and each removes its own item from that sentence when
+ * it is declared, so the sentence never claims to cover something a section now
+ * answers and never drops an item nothing answers. A family declaring none of
+ * them renders byte-for-byte as before.
+ */
+function filingDestinationSection(config) {
+  const paragraphs = config.filingDestination ?? null;
+  if (!paragraphs?.length) return "";
+  return `\n## Where to file\n\n${paragraphs.map((p) => `${p}\n`).join("\n")}`;
+}
+
+function serviceSection(config) {
+  const paragraphs = config.service ?? null;
+  if (!paragraphs?.length) return "";
+  return `\n## Who must be served\n\n${paragraphs.map((p) => `${p}\n`).join("\n")}`;
+}
+
+function selfHelpStopSection(config) {
+  const paragraphs = config.selfHelpStop ?? null;
+  if (!paragraphs?.length) return "";
+  return `\n## Where self-help ends\n\n${paragraphs.map((p) => `${p}\n`).join("\n")}`;
+}
+
+/*
+ * The catch-all line, with every item a declared section now answers removed
+ * from it. With no section declared this is the legacy sentence character for
+ * character; with only the cost section declared it is the sentence that family
+ * already carries.
+ */
+function confirmBeforeFilingLine(config) {
+  const answered = [];
+  const items = ["current revision", "filing destination", "local procedures", "fees",
+    "attachments", "service", "proposed-order requirements"].filter((item) => {
+    if (item === "fees" && config.feeAndWaiver?.length) { answered.push("Cost"); return false; }
+    if (item === "filing destination" && config.filingDestination?.length) { answered.push("Where to file"); return false; }
+    if (item === "service" && config.service?.length) { answered.push("Who must be served"); return false; }
+    return true;
+  });
+  const list = `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`;
+  const tail = answered.length === 0 ? ""
+    : answered.length === 1 ? ` ${answered[0]} is answered in its own section below.`
+      : ` ${answered.slice(0, -1).join(", ")} and ${answered[answered.length - 1]} are each answered in their own section below.`;
+  return `- Confirm ${list} before filing.${tail}\n`;
+}
+
 function participantInstructions(config, fieldMaps) {
   if (config.guidance) return guidedParticipantInstructions(config, fieldMaps);
   const routeLines = config.routeKeys.map((route) => `- Route scope: \`${route}\``).join("\n");
   const notes = (config.notes ?? []).map((note) => `- ${note}`).join("\n");
   const fees = feeAndWaiverSection(config);
-  const confirmBeforeFiling = fees
-    ? `- Confirm current revision, filing destination, local procedures, attachments, service, and proposed-order requirements before filing. Cost is answered in its own section below.\n`
-    : `- Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.\n`;
+  const whereToFile = filingDestinationSection(config);
+  const whoIsServed = serviceSection(config);
+  const selfHelpEnds = selfHelpStopSection(config);
+  const confirmBeforeFiling = confirmBeforeFilingLine(config);
   const requiredBeforeFiling = [...new Map(fieldMaps.flatMap((document) => document.fields)
     .filter((field) => field.blankTreatment === "REQUIRED_BEFORE_FILING")
     .map((field) => [field.field, field.effectiveLabel ?? field.field])).entries()]
@@ -1970,9 +2360,12 @@ function participantInstructions(config, fieldMaps) {
     + `- Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.\n`
     + confirmBeforeFiling
     + fees
+    + whereToFile
+    + whoIsServed
     + (requiredBeforeFiling
       ? `\n## Exact facts still required before filing\n\nThe platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.\n\n${requiredBeforeFiling}\n`
       : "")
+    + selfHelpEnds
     + `${notes}\n`;
 }
 
@@ -2071,6 +2464,7 @@ async function buildOfficial(familyId, config) {
         census: census.fields, facts, explicitMappings: factMappingsForDocument(doc),
         exactFieldMap: map,
         unwritableFields, documentTextLines: census.documentTextLines,
+        alignWidgetFontSizeToFit: doc.alignWidgetFontSizeToFit === true,
         title: `${config.jurisdiction} ${doc.documentId} ${fixture} review artifact`,
       });
       const preSelectionBytes = finalized.bytes;
@@ -2340,6 +2734,7 @@ async function checkOfficial(familyId, config) {
       explicitMappings: factMappingsForDocument(doc),
       exactFieldMap: liveMap,
       unwritableFields, documentTextLines: liveCensus.documentTextLines,
+      alignWidgetFontSizeToFit: doc.alignWidgetFontSizeToFit === true,
       title: `${config.jurisdiction} ${doc.documentId} ${artifact.fixture} review artifact`,
     });
     const preSelectionBytes = finalized.bytes;
@@ -2550,8 +2945,14 @@ function fixtureForOhioTrack(trackId, baseFixture) {
     "Applicant will attach source evidence identifying the qualifying statutory subsection, the amount where relevant, and that the conviction predates March 20, 2026.",
     "The filing court must independently confirm the 45-to-90-day hearing schedule, prosecutor notice, and any required probation inquiry.",
   ];
+  // The same-act schedule paragraph 9 promises. The boundary fixture already
+  // carried a vaguer line for it ("Complete same-act charge schedule"); it is
+  // replaced here rather than duplicated, so both fixtures name the same
+  // document by the section that makes it necessary.
+  const sameActSchedule = "Ohio Rev. Code Sec. 2953.61 same-act charge schedule: a written list of every charge arising from the same act as the qualifying conviction (participant must assemble)";
   fixture.attachments = [
-    ...(fixture.attachments ?? []),
+    ...(fixture.attachments ?? []).filter((row) => !/same-act charge schedule/i.test(String(row))),
+    sameActSchedule,
     "Evidence of the qualifying statutory subsection and amount, where relevant (participant must obtain)",
     "Evidence that the qualifying conviction predates March 20, 2026 (participant must obtain)",
     "Unsigned proposed expungement order with judicial date and signature blank (included in this review artifact)",
@@ -2748,6 +3149,27 @@ const COMPOSED_PLEADING_BLANKS = [
     reason: "Signature or date field; never prefilled. The date rule is left blank and the participant dates it when signing." },
 ];
 
+/*
+ * Blanks that exist on one track's paper and not on the others'.
+ *
+ * Paragraph 9 of the marijuana application promises "the certified disposition
+ * and list every charge arising from the same act", and Ohio Rev. Code
+ * § 2953.61 is why: where several charges arise from one act, the same-act
+ * limitation decides whether the qualifying conviction can be expunged at all.
+ * The pleading promised the list and gave the participant nowhere to put it,
+ * and no row of the completeness contract named it, so the packet asked for a
+ * document it never disclosed. The attachment schedule now names it and this row
+ * declares it, on the same channel as every other blank the participant fills.
+ */
+const COMPOSED_PLEADING_TRACK_BLANKS = {
+  oh_marijuana_expungement: [
+    { field: "sameActChargeSchedule", factId: null,
+      effectiveLabel: "Ohio Rev. Code Sec. 2953.61 same-act charge schedule",
+      requiredBeforeFiling: true,
+      reason: "REQUIRED_BEFORE_FILING: paragraph 9 of this application promises a list of every charge arising from the same act, and Ohio Rev. Code Sec. 2953.61 makes that list decisive for whether the qualifying conviction can be expunged at all. The packet holds no charge list and never guesses one; the attachment schedule names it as a document the participant assembles from the certified record and files with the application." },
+  ],
+};
+
 function composedFieldMapDocuments(familyId, sourceCensus) {
   const documents = tracksForComposedFamily(familyId).map((trackId) => ({
     documentId: trackId,
@@ -2755,7 +3177,7 @@ function composedFieldMapDocuments(familyId, sourceCensus) {
     generatedParticipantArtifact: true,
     fields: [
       ...COMPOSED_PLEADING_WRITES.map((row) => ({ ...row, decision: "candidate_write" })),
-      ...COMPOSED_PLEADING_BLANKS.map((row) => ({
+      ...[...COMPOSED_PLEADING_BLANKS, ...(COMPOSED_PLEADING_TRACK_BLANKS[trackId] ?? [])].map((row) => ({
         field: row.field, decision: "refuse", factId: row.factId ?? null,
         ...(row.refusalClass ? { refusalClass: row.refusalClass } : {}),
         ...(row.requiredBeforeFiling === true
@@ -2798,7 +3220,11 @@ function composedParticipantInstructions(familyId) {
   return `# Ohio custom-pleading packet — participant instructions\n\n`
     + `This packet contains ${tracks.length === 1 ? "one statutory-content draft" : `${tracks.length} statutory-content drafts`} and one unchanged official Ohio BCI request held as post-order companion evidence. The drafts are review artifacts. They are not statewide Ohio court forms and they are not filing-ready.\n\n`
     + `## What you must supply before filing\n\n`
-    + COMPOSED_PLEADING_BLANKS.filter((row) => row.requiredBeforeFiling === true)
+    // Track-scoped blanks are disclosed here too. A required-before-filing row
+    // the participant is never told about is an uncollected fact, and the
+    // completeness verifier counts it as one.
+    + [...COMPOSED_PLEADING_BLANKS, ...tracks.flatMap((trackId) => COMPOSED_PLEADING_TRACK_BLANKS[trackId] ?? [])]
+      .filter((row) => row.requiredBeforeFiling === true)
       .map((row) => {
         const why = row.reason.replace(/^REQUIRED_BEFORE_FILING:\s*/, "");
         return `- **${row.effectiveLabel}.** ${why.charAt(0).toUpperCase()}${why.slice(1)}`;
