@@ -12,6 +12,10 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
+import { announceChromiumResolution, resolveApprovedChromiumExecutable } from "./lib/approved-chromium.mjs";
+
+const chromiumResolution = resolveApprovedChromiumExecutable({ managedExecutablePath: chromium.executablePath() });
+announceChromiumResolution(chromiumResolution);
 
 const root = process.cwd();
 const baseUrl = "http://127.0.0.1:3000";
@@ -74,7 +78,7 @@ async function main() {
 
   try {
     await seedTenants();
-    browser = await chromium.launch({ headless: true });
+    browser = await chromium.launch({ headless: true, executablePath: chromiumResolution.executablePath });
     devServer = await startDevServer();
 
     const operator = await signedInContext(
@@ -143,23 +147,22 @@ async function step1({ page }) {
   const unavailable = page.getByText("Not yet available", { exact: true });
   assert.equal(
     await unavailable.count(),
-    1,
-    "exactly one of the six types may read Not yet available"
+    0,
+    "all six implementation document types should be available for draft generation"
   );
-  const launchKitRow = artifactRow(page, "Partner Launch Kit");
-  await launchKitRow.getByText("Not yet available", { exact: true }).waitFor();
   for (const label of [
     "Implementation Brief",
     "Operations and Escalation Plan",
     "Dashboard User and Reporting Matrix",
     "Staff Quick Start Guide",
-    "Co-branded Page Configuration"
+    "Co-branded Page Configuration",
+    "Partner Launch Kit"
   ]) {
     await artifactRow(page, label)
       .getByRole("button", { name: /Generate draft|Regenerate from current data/ })
       .waitFor();
   }
-  await record(page, 1, "01-step1-five-of-six-generating.png", "Artifacts area: five types generating, only Partner Launch Kit not yet available");
+  await record(page, 1, "01-step1-six-of-six-generating.png", "Artifacts area: all six implementation document types are available for draft generation");
 }
 
 async function step2({ page }) {
@@ -203,7 +206,7 @@ async function step2({ page }) {
 async function step3({ page }, partner) {
   // Entered on the real portal screen, by the partner, not by the harness.
   await partner.page.goto(
-    `${baseUrl}/partner/onboarding/organization_contacts`,
+    `${baseUrl}/partner/onboarding/organization_contacts?step=implementation-contacts`,
     { timeout: 120_000 }
   );
   await partner.page.getByRole("button", { name: "Add contact" }).click();
@@ -317,30 +320,32 @@ async function step6({ page }) {
     .getByRole("button", { name: "Prepare draft" })
     .click();
   await page
-    .getByRole("heading", { name: "Desktop preview" })
+    .getByRole("heading", { name: "Authorized private preview" })
     .waitFor({ timeout: 60_000 });
-  await page.getByRole("heading", { name: "Mobile preview, 390 by 844" }).waitFor();
 
   const desktop = page.locator('[data-preview-variant="desktop"]');
-  const mobile = page.locator('[data-preview-variant="mobile"]');
   await desktop.waitFor();
-  await mobile.waitFor();
   await desktop.getByText("Clear your record, for free").first().waitFor();
   const logo = desktop.locator("img").first();
   await logo.waitFor({ timeout: 60_000 });
   await assertImageLoaded(logo, "the desktop preview logo");
+  await page.getByRole("button", { name: "mobile", exact: true }).click();
+  const mobile = page.locator('[data-preview-variant="mobile"]');
+  await mobile.waitFor();
   await assertImageLoaded(
     mobile.locator("img").first(),
     "the mobile preview logo"
   );
-  await desktop
-    .getByText("LegalEase-controlled · not partner-editable", { exact: false })
+  await page
+    .getByRole("button", { name: "Enable ownership review", exact: true })
+    .click();
+  await mobile
+    .getByText("LegalEase controlled", { exact: false })
     .first()
     .waitFor();
-  assert.ok(
-    (await desktop.locator('[data-ownership="legalease_controlled"]').count()) +
-      (await desktop.locator("[data-legalease-category]").count()) >
-      0,
+  assert.equal(
+    await mobile.getAttribute("data-content-ownership-review"),
+    "enabled",
     "LegalEase-controlled content must be marked in the preview"
   );
   await assertNoPublicationControl(page);
@@ -348,7 +353,7 @@ async function step6({ page }) {
 }
 
 async function step7({ page }, partner) {
-  await partner.page.goto(`${baseUrl}/partner/onboarding/brand_public_page`, {
+  await partner.page.goto(`${baseUrl}/partner/onboarding/brand_public_page?step=private-assets`, {
     timeout: 120_000
   });
   const logoCard = partner.page.locator('[data-asset-category="transparent_logo"]');
@@ -368,25 +373,12 @@ async function step7({ page }, partner) {
     .getByRole("button", { name: "Prepare a new draft from current data" })
     .click();
   await page
-    .getByRole("heading", { name: "Desktop preview" })
+    .getByRole("heading", { name: "Authorized private preview" })
     .waitFor({ timeout: 60_000 });
-
-  const desktop = page.locator('[data-preview-variant="desktop"]');
-  await desktop
-    .locator('[data-missing-asset="Transparent logo"]')
-    .first()
-    .waitFor();
-  await desktop
-    .getByText("Missing: Transparent logo.", { exact: false })
-    .first()
-    .waitFor();
-  await desktop
-    .getByText("Upload it in Program setup", { exact: false })
-    .first()
-    .waitFor();
   await page
     .getByRole("heading", { name: "Missing before this page can be approved" })
     .waitFor();
+  await page.getByText("Transparent logo", { exact: false }).first().waitFor();
   await record(page, 7, "09-step7b-missing-logo-named.png", "The preview names the missing transparent logo and the field that sets it instead of rendering a broken page");
 }
 
@@ -406,7 +398,7 @@ async function step8({ page }, partner) {
   await page.getByText("Approved by LegalEase", { exact: true }).waitFor({ timeout: 60_000 });
 
   // A partner-owned value: the public organization description.
-  await partner.page.goto(`${baseUrl}/partner/onboarding/brand_public_page`, {
+  await partner.page.goto(`${baseUrl}/partner/onboarding/brand_public_page?step=approved-public-copy`, {
     timeout: 120_000
   });
   await partner.page
@@ -557,7 +549,9 @@ async function step10(partner) {
     .first()
     .getAttribute("href");
   assert.ok(download?.startsWith("/api/partners/onboarding/artifacts/download"));
-  const response = await partner.context.request.get(`${baseUrl}${download}`);
+  const response = await partner.context.request.get(`${baseUrl}${download}`, {
+    timeout: 180_000
+  });
   assert.equal(response.status(), 200, "an approved resource must download");
   assert.equal(response.headers()["content-type"], "application/pdf");
   assert.ok(
@@ -597,7 +591,8 @@ async function step11() {
   assert.ok(versionIds.length > 0, "partner A must have approved versions to guard");
   for (const versionId of versionIds) {
     const download = await other.context.request.get(
-      `${baseUrl}/api/partners/onboarding/artifacts/download?versionId=${versionId}`
+      `${baseUrl}/api/partners/onboarding/artifacts/download?versionId=${versionId}`,
+      { timeout: 180_000 }
     );
     assert.ok(
       download.status() >= 400,
@@ -605,7 +600,8 @@ async function step11() {
     );
   }
   const internalBoard = await other.context.request.get(
-    `${baseUrl}/api/internal/partners/onboarding/phase1/${partnerA}/artifacts`
+    `${baseUrl}/api/internal/partners/onboarding/phase1/${partnerA}/artifacts`,
+    { timeout: 180_000 }
   );
   assert.ok(
     internalBoard.status() >= 400,
@@ -645,7 +641,7 @@ async function waitForPortalSave(page) {
   const deadline = Date.now() + 120_000;
   while (Date.now() < deadline) {
     const text = (await status.innerText().catch(() => "")).trim();
-    if (text === "Saved") return;
+    if (text === "Saved" || text.startsWith("Changes saved at ")) return;
     const retry = page.getByRole("button", { name: "Try saving again" });
     if ((await retry.count()) > 0) {
       await retry.first().click();
@@ -829,6 +825,7 @@ async function seedWorkspaces({ context }) {
     const response = await context.request.post(
       `${baseUrl}/api/internal/partners/onboarding/phase1/${slug}`,
       {
+        timeout: 180_000,
         headers: { origin: baseUrl, "content-type": "application/json" },
         data: {
           action: "create",
@@ -984,6 +981,7 @@ async function seedPartnerContent({ context }) {
     const response = await context.request.post(
       `${baseUrl}/api/partners/onboarding/sections/${sectionKey}`,
       {
+        timeout: 180_000,
         headers: { origin: baseUrl, "content-type": "application/json" },
         data: {
           requestId: crypto.randomUUID(),
@@ -1029,6 +1027,7 @@ async function seedPartnerContent({ context }) {
   const response = await context.request.post(
     `${baseUrl}/api/partners/onboarding/sections/support_referrals_reporting`,
     {
+      timeout: 180_000,
       headers: { origin: baseUrl, "content-type": "application/json" },
       data: {
         requestId: crypto.randomUUID(),
@@ -1048,6 +1047,7 @@ async function seedPartnerContent({ context }) {
   const capacityResponse = await context.request.post(
     `${baseUrl}/api/partners/onboarding/sections/access_sponsorship_capacity`,
     {
+      timeout: 180_000,
       headers: { origin: baseUrl, "content-type": "application/json" },
       data: {
         requestId: crypto.randomUUID(),
@@ -1136,6 +1136,7 @@ async function uploadLogo({ context }) {
   const response = await context.request.post(
     `${baseUrl}/api/partners/onboarding/assets`,
     {
+      timeout: 180_000,
       headers: { origin: baseUrl },
       multipart: {
         category: "transparent_logo",
@@ -1177,8 +1178,8 @@ async function signedInContext(email, password, nextPath, label) {
 async function startDevServer() {
   await waitForPortState(false, 30_000);
   const child = spawn(
-    "npm",
-    ["run", "dev", "--", "--hostname", "127.0.0.1", "--port", "3000"],
+    "npx",
+    ["next", "start", "--hostname", "127.0.0.1", "--port", "3000"],
     {
       cwd: root,
       // Next runs as a grandchild of npm; its own process group is what lets

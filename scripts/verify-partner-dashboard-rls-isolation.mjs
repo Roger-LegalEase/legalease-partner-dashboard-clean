@@ -4,7 +4,11 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { announceChromiumResolution, resolveApprovedChromiumExecutable } from "./lib/approved-chromium.mjs";
 import { createClient } from "@supabase/supabase-js";
+
+const chromiumResolution = resolveApprovedChromiumExecutable({ managedExecutablePath: chromium.executablePath() });
+announceChromiumResolution(chromiumResolution);
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const routePath = path.join(rootDir, "src/app/partner/dashboard/page.tsx");
@@ -51,7 +55,7 @@ let browser;
 try {
   if (failures.length === 0) {
     server = await startNextServer();
-    browser = await chromium.launch({ headless: true });
+    browser = await chromium.launch({ headless: true, executablePath: chromiumResolution.executablePath });
     await verifyHttpIsolation();
     await verifyPublicRegressions();
   }

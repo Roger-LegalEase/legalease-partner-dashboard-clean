@@ -4,6 +4,10 @@ import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { hashAccessCode, normalizeAccessCode } from "@/lib/partners/access-code-crypto";
 import type { PartnerAccessMode } from "@/lib/partners/partner-access-codes";
 import { isPartnerActivationAuthorized } from "@/lib/partners/partner-public-eligibility";
+import {
+  normalizePartnerAnalyticsAttribution,
+  type PartnerAnalyticsAttribution
+} from "@/lib/expungement-ai/partner-attribution";
 
 export type RcapPartnerIntakeContext = {
   partnerSlug: string;
@@ -121,6 +125,7 @@ export async function resolveRcapPartnerIntakeContext(partnerSlug: string): Prom
 export async function claimRcapPartnerScreeningSession(input: {
   partnerSlug: string;
   jurisdiction: string;
+  analyticsAttribution?: PartnerAnalyticsAttribution;
 }): Promise<RcapPartnerClaimResult> {
   const slug = normalizePartnerSlug(input.partnerSlug);
   const jurisdiction = normalizeJurisdiction(input.jurisdiction);
@@ -135,7 +140,8 @@ export async function claimRcapPartnerScreeningSession(input: {
 
   const { data, error } = await supabase.rpc("claim_rcap_screening_session", {
     p_partner_slug: slug,
-    p_jurisdiction: jurisdiction
+    p_jurisdiction: jurisdiction,
+    p_analytics_attribution: normalizePartnerAnalyticsAttribution(input.analyticsAttribution ?? {})
   });
 
   if (error) {
@@ -171,6 +177,7 @@ export async function claimPartnerScreeningSessionWithCode(input: {
   partnerSlug: string;
   jurisdiction: string;
   accessCode?: string | null;
+  analyticsAttribution?: PartnerAnalyticsAttribution;
 }): Promise<RcapPartnerCodeClaimResult> {
   const slug = normalizePartnerSlug(input.partnerSlug);
   const jurisdiction = normalizeJurisdiction(input.jurisdiction);
@@ -189,7 +196,8 @@ export async function claimPartnerScreeningSessionWithCode(input: {
   const { data, error } = await supabase.rpc("claim_partner_screening_session", {
     p_partner_slug: slug,
     p_jurisdiction: jurisdiction,
-    p_code_hash: codeHash
+    p_code_hash: codeHash,
+    p_analytics_attribution: normalizePartnerAnalyticsAttribution(input.analyticsAttribution ?? {})
   });
 
   if (error) {

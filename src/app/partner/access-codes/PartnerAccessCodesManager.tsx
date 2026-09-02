@@ -79,7 +79,7 @@ export function PartnerAccessCodesManager({
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Could not create the code.");
-      setMessage({ tone: "ok", text: "Access code created." });
+      setMessage({ tone: "ok", text: "Access code saved as a draft. Activate it after launch approval." });
       await refresh();
     } catch (error) {
       setMessage({ tone: "error", text: error instanceof Error ? error.message : "Could not create the code." });
@@ -88,14 +88,14 @@ export function PartnerAccessCodesManager({
     }
   }
 
-  async function toggleCode(code: PartnerAccessCodeView) {
+  async function changeCodeLifecycle(code: PartnerAccessCodeView, lifecycleStatus: "live" | "paused" | "revoked") {
     setBusy(true);
     setMessage(null);
     try {
       const res = await fetch("/api/partners/access-codes/toggle", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ partnerSlug, codeId: code.id, isActive: !code.isActive })
+        body: JSON.stringify({ partnerSlug, codeId: code.id, isActive: lifecycleStatus === "live", lifecycleStatus })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Could not update the code.");
@@ -185,7 +185,8 @@ export function PartnerAccessCodesManager({
                   <th className="py-2 pr-3">Packet Credits Used</th>
                   <th className="py-2 pr-3">Overage</th>
                   <th className="py-2 pr-3">Conversion</th>
-                  <th className="py-2 pr-3">Active</th>
+                  <th className="py-2 pr-3">Scope</th>
+                  <th className="py-2 pr-3">Status</th>
                   <th className="py-2 pr-3">Expires</th>
                   <th className="py-2 pr-3" />
                 </tr>
@@ -205,17 +206,32 @@ export function PartnerAccessCodesManager({
                     <td className="py-2.5 pr-3">{code.packetCreditsUsed}</td>
                     <td className="py-2.5 pr-3">{code.overagePackets}</td>
                     <td className="py-2.5 pr-3">{formatPercent(code.conversionRate)}</td>
-                    <td className="py-2.5 pr-3">{code.isActive ? "Yes" : "No"}</td>
+                    <td className="py-2.5 pr-3">{formatScope(code)}</td>
+                    <td className="py-2.5 pr-3">{formatLifecycle(code.lifecycleStatus)}</td>
                     <td className="py-2.5 pr-3">{formatDate(code.expiresAt)}</td>
                     <td className="py-2.5 pr-3">
-                      <button
-                        type="button"
-                        disabled={busy}
-                        onClick={() => toggleCode(code)}
-                        className="rounded-md border border-[#D7DEE8] px-3 py-1.5 text-xs font-bold hover:border-[#CBD5E1]"
-                      >
-                        {code.isActive ? "Disable Code" : "Reactivate"}
-                      </button>
+                      <div className="flex gap-2">
+                        {code.lifecycleStatus !== "revoked" ? (
+                          <button
+                            type="button"
+                            disabled={busy}
+                            onClick={() => changeCodeLifecycle(code, code.isActive ? "paused" : "live")}
+                            className="rounded-md border border-[#D7DEE8] px-3 py-1.5 text-xs font-bold hover:border-[#CBD5E1]"
+                          >
+                            {code.isActive ? "Pause code" : "Activate code"}
+                          </button>
+                        ) : null}
+                        {code.lifecycleStatus !== "revoked" ? (
+                          <button
+                            type="button"
+                            disabled={busy}
+                            onClick={() => changeCodeLifecycle(code, "revoked")}
+                            className="rounded-md border border-[#F0B7A2] px-3 py-1.5 text-xs font-bold text-[#9A3412]"
+                          >
+                            Revoke
+                          </button>
+                        ) : null}
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -243,6 +259,9 @@ type CreateCodeFields = {
   codeType: PartnerAccessCodeType;
   maxUses: number | null;
   expiresAt: string | null;
+  jurisdictions: string[];
+  programId: string | null;
+  eventId: string | null;
 };
 
 function CreateCodeForm({ busy, onCreate }: { busy: boolean; onCreate: (fields: CreateCodeFields) => void }) {
@@ -252,6 +271,9 @@ function CreateCodeForm({ busy, onCreate }: { busy: boolean; onCreate: (fields: 
   const [codeType, setCodeType] = useState<PartnerAccessCodeType>("shared");
   const [maxUses, setMaxUses] = useState("");
   const [expiresAt, setExpiresAt] = useState("");
+  const [jurisdictions, setJurisdictions] = useState("");
+  const [programId, setProgramId] = useState("");
+  const [eventId, setEventId] = useState("");
 
   function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -261,7 +283,10 @@ function CreateCodeForm({ busy, onCreate }: { busy: boolean; onCreate: (fields: 
       description,
       codeType,
       maxUses: codeType === "limited_use" && maxUses ? Number(maxUses) : null,
-      expiresAt: expiresAt ? new Date(expiresAt).toISOString() : null
+      expiresAt: expiresAt ? new Date(expiresAt).toISOString() : null,
+      jurisdictions: jurisdictions.split(",").map((value) => value.trim().toUpperCase()).filter(Boolean),
+      programId: programId.trim() || null,
+      eventId: eventId.trim() || null
     });
     setCode("");
     setCampaignName("");
@@ -269,6 +294,9 @@ function CreateCodeForm({ busy, onCreate }: { busy: boolean; onCreate: (fields: 
     setMaxUses("");
     setExpiresAt("");
     setCodeType("shared");
+    setJurisdictions("");
+    setProgramId("");
+    setEventId("");
   }
 
   return (
@@ -323,6 +351,31 @@ function CreateCodeForm({ busy, onCreate }: { busy: boolean; onCreate: (fields: 
             type="date"
             value={expiresAt}
             onChange={(e) => setExpiresAt(e.target.value)}
+            className="w-full rounded-md border border-[#D7DEE8] px-3 py-2 text-sm"
+          />
+        </Field>
+        <Field label="State / jurisdiction scope (optional)">
+          <input
+            value={jurisdictions}
+            onChange={(e) => setJurisdictions(e.target.value.toUpperCase())}
+            placeholder="e.g. DC, MD, VA"
+            className="w-full rounded-md border border-[#D7DEE8] px-3 py-2 text-sm uppercase"
+          />
+        </Field>
+        <Field label="Program key (optional)">
+          <input
+            value={programId}
+            onChange={(e) => setProgramId(e.target.value)}
+            placeholder="e.g. record-clearing"
+            maxLength={120}
+            className="w-full rounded-md border border-[#D7DEE8] px-3 py-2 text-sm"
+          />
+        </Field>
+        <Field label="Clinic event ID (optional)">
+          <input
+            value={eventId}
+            onChange={(e) => setEventId(e.target.value)}
+            placeholder="Clinic event reference"
             className="w-full rounded-md border border-[#D7DEE8] px-3 py-2 text-sm"
           />
         </Field>
@@ -385,4 +438,17 @@ function formatDate(value: string | null): string {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "—";
   return date.toLocaleDateString();
+}
+
+function formatLifecycle(value: PartnerAccessCodeView["lifecycleStatus"]) {
+  return value.charAt(0).toUpperCase() + value.slice(1).replaceAll("_", " ");
+}
+
+function formatScope(code: PartnerAccessCodeView) {
+  const parts = [
+    code.programId ? `Program: ${code.programId}` : null,
+    code.eventId ? `Event: ${code.eventId.slice(0, 8)}` : null,
+    code.jurisdictions.length > 0 ? code.jurisdictions.join(", ") : null
+  ].filter(Boolean);
+  return parts.length > 0 ? parts.join(" · ") : "Program-wide";
 }

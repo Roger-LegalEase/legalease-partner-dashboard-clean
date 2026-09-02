@@ -21,6 +21,8 @@ const files = {
   form: "src/app/partner/team/PartnerTeamInviteForm.tsx",
   route: "src/app/partner/team/invite/route.ts",
   service: "src/lib/partners/partner-team.ts",
+  membershipRoute: "src/app/partner/team/members/[memberId]/route.ts",
+  migration: "supabase/migrations/20260901160000_rcap_partner_team_authority.sql",
   rateLimit: "src/lib/partners/partner-team-rate-limit.ts",
   dashboard: "src/app/partner/dashboard/page.tsx",
   dashboardVerifier: "scripts/verify-partner-dashboard-rls-isolation.mjs"
@@ -34,6 +36,8 @@ const pageSource = read(files.page);
 const formSource = read(files.form);
 const routeSource = read(files.route);
 const serviceSource = read(files.service);
+const membershipRouteSource = read(files.membershipRoute);
+const migrationSource = read(files.migration);
 const rateLimitSource = read(files.rateLimit);
 const dashboardSource = read(files.dashboard);
 const dashboardVerifierSource = read(files.dashboardVerifier);
@@ -42,16 +46,16 @@ const sameOriginIndex = indexOfOrFail(routeSource, "if (!isSameOriginRequest(req
 const partnerAdminGateIndex = indexOfOrFail(routeSource, "const gate = await requirePartnerAdmin(requestId)", "Partner admin gate");
 const bodyParseIndex = indexOfOrFail(routeSource, "body = await request.json()", "Body parse");
 const rateLimitIndex = indexOfOrFail(routeSource, "await checkPartnerTeamInviteRateLimit", "Invite rate limit");
-const inviteIndex = indexOfOrFail(routeSource, "await invitePartnerStaffForCurrentPartner(input)", "Constrained invite call");
+const inviteIndex = indexOfOrFail(routeSource, "await invitePartnerTeamMemberForCurrentPartner(input)", "Constrained invite call");
 failIf(!(sameOriginIndex < partnerAdminGateIndex && partnerAdminGateIndex < bodyParseIndex), "POST route must enforce same-origin and partner_admin before body parsing.");
 failIf(!(bodyParseIndex < rateLimitIndex && rateLimitIndex < inviteIndex), "POST route must enforce invite rate limit before invite creation.");
 
 failIf(!routeSource.includes('request.headers.get("origin")') || !routeSource.includes('request.headers.get("referer")') || !routeSource.includes("return false;"), "POST route must reject missing/invalid same-origin signals.");
 failIf(!routeSource.includes('sessionPartner.kind !== "partner" || sessionPartner.role !== "partner_admin"'), "POST route must require a partner_admin session.");
 failIf(!routeSource.includes("resolveSessionPartner()"), "POST route must derive identity from resolveSessionPartner().");
-failIf(!routeSource.includes("const input = body && typeof body === \"object\" ? (body as { email?: unknown; name?: unknown }) : {}"), "POST route must read only safe invite fields from the body.");
-failIf(routeSource.includes("body.partnerSlug") || routeSource.includes("body.partner_slug") || routeSource.includes("body.role"), "POST route must not read partner slug or role from the request body.");
-failIf(!routeSource.includes("partnerSlug: gate.sessionPartner.partnerSlug") || !routeSource.includes('role: "partner_staff"'), "POST route must return only the session partner slug and forced partner_staff role.");
+failIf(!routeSource.includes("email?: unknown; name?: unknown; role?: unknown"), "POST route must read only safe invite fields and a bounded partner role.");
+failIf(routeSource.includes("body.partnerSlug") || routeSource.includes("body.partner_slug"), "POST route must not read partner identity from the request body.");
+failIf(!routeSource.includes("partnerSlug: gate.sessionPartner.partnerSlug") || !routeSource.includes("role: result.role"), "POST route must return the session partner slug and server-validated role.");
 // The sentence itself now belongs to the partner copy contract, which the request form
 // reads for the same state. Assert the architecture and the sentence, rather than grepping
 // the route for a literal the contract owns.
@@ -62,14 +66,14 @@ for (const forbidden of ["inviteLink", "action_link", "access_token", "refresh_t
   failIf(routeSource.includes(forbidden), `POST route must not return or expose sensitive marker: ${forbidden}`);
 }
 
-failIf(!serviceSource.includes("export type PartnerStaffInviteInput = {\n  email?: unknown;\n  name?: unknown;\n};"), "Partner staff invite input must accept only email and optional name.");
-const wrapperIndex = indexOfOrFail(serviceSource, "export async function invitePartnerStaffForCurrentPartner(input: PartnerStaffInviteInput)", "Constrained wrapper");
+failIf(!serviceSource.includes("role?: unknown;"), "Partner invite input must accept a bounded staff/viewer role.");
+const wrapperIndex = indexOfOrFail(serviceSource, "export async function invitePartnerTeamMemberForCurrentPartner(input: PartnerStaffInviteInput)", "Constrained wrapper");
 const wrapperBody = serviceSource.slice(wrapperIndex, serviceSource.indexOf("export function failureMessageForAddPartnerUser", wrapperIndex));
-failIf(wrapperBody.includes("sessionPartner:") || wrapperBody.includes("partnerSlug?:") || wrapperBody.includes("role?:") || wrapperBody.includes("input.partnerSlug") || wrapperBody.includes("input.role"), "Constrained wrapper must not accept session, partnerSlug, or role as invite inputs.");
+failIf(wrapperBody.includes("sessionPartner:") || wrapperBody.includes("partnerSlug?:") || wrapperBody.includes("input.partnerSlug"), "Constrained wrapper must not accept session or partner identity as invite inputs.");
 failIf(!wrapperBody.includes("const sessionPartner = await resolvePartnerAdminSession()"), "Constrained wrapper must derive the partner admin session internally.");
-failIf(!wrapperBody.includes("partnerSlug: sessionPartner.partnerSlug") || !wrapperBody.includes('role: "partner_staff"'), "Constrained wrapper must derive partnerSlug from session and force partner_staff.");
+failIf(!wrapperBody.includes("partnerSlug: sessionPartner.partnerSlug") || !wrapperBody.includes("normalizeManagedInviteRole(input.role)"), "Constrained wrapper must derive partnerSlug from session and bound staff/viewer role.");
 failIf(!serviceSource.includes(".eq(\"partner_slug\", sessionPartner.partnerSlug)") || !serviceSource.includes("row.partner_slug !== sessionPartner.partnerSlug"), "Team list must be scoped and filtered to the resolved session partner.");
-failIf(!serviceSource.includes('.in("role", ["partner_admin", "partner_staff"])'), "Team list must exclude internal_admin users.");
+failIf(!serviceSource.includes('.in("role", ["partner_admin", "partner_staff", "partner_viewer"])'), "Team list must include only partner-scoped roles and exclude internal_admin users.");
 
 failIf(!rateLimitSource.includes("perPartnerHourly: 10") || !rateLimitSource.includes("perPartnerDaily: 25") || !rateLimitSource.includes("perTargetEmailDaily: 3"), "Partner invite rate-limit caps must be configured.");
 failIf(!rateLimitSource.includes("createHmac") || !rateLimitSource.includes("RATE_LIMIT_HASH_SECRET") || rateLimitSource.includes("p_bucket_key: input.email"), "Invite rate limiter must hash target email buckets.");
@@ -82,8 +86,8 @@ failIf(!pageSource.includes('sessionPartner.role !== "partner_admin"'), "Partner
 failIf(!pageSource.includes("getPartnerTeamPageData(access.sessionPartner)") || pageSource.includes("searchParams") || pageSource.includes("params:"), "/partner/team page must not accept partner identity from route params or query.");
 failIf(pageSource.includes("internal_admin users") || pageSource.includes("auth_user_id"), "/partner/team page must not render auth IDs or internal admin users.");
 
-failIf(!formSource.includes("const payload = {\n      email:") || formSource.includes("partnerSlug: String(formData") || formSource.includes("role: String(formData"), "Client form payload must include only email/name and no slug/role selector values.");
-failIf(formSource.includes('name="partnerSlug"') || formSource.includes('name="role"') || formSource.includes("<select"), "Client form must not expose partner or role selectors.");
+failIf(!formSource.includes("const payload = {\n      email:") || formSource.includes("partnerSlug: String(formData"), "Client form payload must never include partner identity.");
+failIf(formSource.includes('name="partnerSlug"') || !formSource.includes('name="role"') || !formSource.includes('value="partner_viewer"'), "Client form must expose only the bounded staff/viewer selector and no partner selector.");
 failIf(!formSource.includes('type="email"') || !formSource.includes("maxLength={254}") || !formSource.includes("maxLength={120}"), "Client form must validate email shape and cap email/name lengths.");
 failIf(!formSource.includes("isSubmittingRef.current") || !formSource.includes("safelyResetForm(form)") || !formSource.includes("return;\n      }\n\n      setState({ kind: \"error\""), "Client form must prevent double submit and preserve success state before failure handling.");
 failIf(!formSource.includes("Status: Invitation created") || !formSource.includes("Ask the user to check their inbox and set their password.") || !formSource.includes("Partner staff"), "Client form must render the required safe success panel.");
@@ -95,6 +99,14 @@ failIf(!dashboardSource.includes('dashboard.role === "partner_admin" ? <ManageTe
 failIf(!dashboardSource.includes('href="/partner/team"'), "Dashboard partner_admin link must target /partner/team.");
 failIf(!dashboardVerifierSource.includes("assertPartnerTeamAccess"), "Dashboard RLS verifier must exercise partner-team access behavior.");
 
+failIf(!membershipRouteSource.includes("managePartnerTeamMemberForCurrentPartner") || !membershipRouteSource.includes("isSameOriginPartnerMutation"), "Membership changes must use the atomic service and same-origin gate.");
+failIf(!migrationSource.includes("create or replace function public.manage_partner_membership"), "Atomic membership lifecycle RPC is missing.");
+for (const marker of ["self_admin_protected", "last_admin_protected", "already_revoked", "partner_membership_role_changed", "partner_membership_revoked"]) {
+  failIf(!migrationSource.includes(marker), `Membership lifecycle marker missing: ${marker}`);
+}
+failIf(!migrationSource.includes("p_action not in ('change_role', 'revoke')"), "Membership RPC must restrict actions.");
+failIf(!migrationSource.includes("actor.role = 'partner_admin'") || !migrationSource.includes("actor.partner_slug = p_partner_slug"), "Membership RPC must derive tenant-bound administrator authority from the actor UUID.");
+
 if (failures.length > 0) {
   console.error("Partner team invite verifier failed.");
   for (const failure of failures) {
@@ -104,8 +116,8 @@ if (failures.length > 0) {
 }
 
 console.log("Partner team invite verifier passed.");
-console.log("- Partner route derives slug from resolveSessionPartner and forces partner_staff.");
-console.log("- Partner-facing wrapper accepts only email/name invite input.");
+console.log("- Partner route derives tenant from resolveSessionPartner and bounds staff/viewer invitations.");
+console.log("- Role changes and revocation are atomic, replay-safe, last-admin safe, and audited.");
 console.log("- Same-origin, partner_admin, and rate-limit gates run before invite creation.");
-console.log("- Client form exposes no partner or role selector and preserves success state.");
-console.log("- Team list is scoped to the resolved partner and excludes internal_admin users.");
+console.log("- Client form exposes no partner selector and preserves success state.");
+console.log("- Team list is tenant-scoped and excludes internal_admin and participant identities.");

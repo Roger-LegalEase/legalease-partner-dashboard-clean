@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
 
   const partnerSlug = typeof body.partnerSlug === "string" ? body.partnerSlug.trim() : "";
   const code = typeof body.code === "string" ? body.code : "";
+  const jurisdiction = typeof body.jurisdiction === "string" ? body.jurisdiction.trim().toUpperCase() : null;
   if (!partnerSlug || !code) {
     return NextResponse.json({ error: "partnerSlug and code are required." }, { status: 400 });
   }
@@ -37,7 +38,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const result = await validatePartnerAccessCode(partnerSlug, code);
+    const result = await validatePartnerAccessCode(partnerSlug, code, jurisdiction);
     logSecurityInfo({ event: "access code validated", route: ROUTE, outcome: result.valid ? "valid" : "invalid", requestId });
     // Deliberately minimal payload.
     return NextResponse.json({

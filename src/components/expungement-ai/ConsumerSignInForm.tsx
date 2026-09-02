@@ -25,9 +25,11 @@ const pendingClaimError = "You are signed in, but we could not save your result 
 type AuthMode = "create" | "signin";
 type PasswordlessState = "idle" | "magic" | "oauth";
 
-export function ConsumerSignInForm() {
+export function ConsumerSignInForm({ initialMode = "signin" }: { initialMode?: AuthMode }) {
   const { t: translate } = useLocalization();
-  const [mode, setMode] = useState<AuthMode>(() => initialAuthMode());
+  // The server derives the initial state from the request URL, so hydration
+  // cannot render "sign in" on the server and "create" in the browser.
+  const [mode, setMode] = useState<AuthMode>(initialMode);
   const [errorMessage, setErrorMessage] = useState("");
   const [noticeMessage, setNoticeMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -327,21 +329,6 @@ function forgotPasswordHref() {
   if (typeof window === "undefined") return "/auth/forgot-password?product=expungement";
   const continuation = readAuthRequestContext();
   return `/auth/forgot-password?${consumerAuthContinuationQuery(continuation, { product: "expungement" })}`;
-}
-
-function initialAuthMode(): AuthMode {
-  if (typeof window === "undefined") return "signin";
-  const params = new URLSearchParams(window.location.search);
-  if (params.get("mode") === "create") return "create";
-  if (params.get("mode") === "signin") return "signin";
-  const next = safeAppRedirectPath(params.get("next"), "");
-  return isConversionNextPath(next) ? "create" : "signin";
-}
-
-function isConversionNextPath(next: string) {
-  return next.startsWith("/expungement-ai/pay")
-    || next.startsWith("/expungement-ai/packet-ready")
-    || next.startsWith("/briefcase");
 }
 
 function isCaptchaError(error: unknown) {

@@ -7,6 +7,7 @@ import { logSecurityWarn } from "@/lib/observability/logger";
 import { getPartnerTeamPageData, type ResolvedPartnerAdminSession } from "@/lib/partners/partner-team";
 import { resolveSessionPartner, SessionPartnerError } from "@/lib/partners/session-partner";
 import { PartnerTeamInviteForm } from "./PartnerTeamInviteForm";
+import { PartnerTeamMemberManager } from "./PartnerTeamMemberManager";
 
 export const dynamic = "force-dynamic";
 
@@ -40,24 +41,26 @@ export default async function PartnerTeamPage() {
             </span>
             <h1 className="mt-5 text-3xl font-black text-navy">{team.partnerName}</h1>
             <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-              Invite staff for your LegalEase partner workspace. New users receive the standard password setup flow.
+              Invite viewers or staff, change roles, and offboard access. Each person uses an individual account.
             </p>
 
             <div className="mt-6 overflow-x-auto rounded-md border border-grayWilma-200">
-              <div className="grid min-w-[620px] grid-cols-[1.4fr_0.8fr_0.8fr_1fr] gap-3 bg-grayWilma-100 px-4 py-3 text-xs font-black uppercase text-grayWilma-600">
+              <div className="grid min-w-[820px] grid-cols-[1.4fr_0.8fr_0.7fr_0.8fr_1.1fr] gap-3 bg-grayWilma-100 px-4 py-3 text-xs font-black uppercase text-grayWilma-600">
                 <span>Email</span>
                 <span>Role</span>
                 <span>Status</span>
                 <span>Created</span>
+                <span>Access</span>
               </div>
               {team.members.length > 0 ? (
-                <div className="min-w-[620px] divide-y divide-grayWilma-200 bg-white">
+                <div className="min-w-[820px] divide-y divide-grayWilma-200 bg-white">
                   {team.members.map((member) => (
-                    <div key={member.id} className="grid grid-cols-[1.4fr_0.8fr_0.8fr_1fr] gap-3 px-4 py-3 text-sm text-grayWilma-700">
+                    <div key={member.id} className="grid grid-cols-[1.4fr_0.8fr_0.7fr_0.8fr_1.1fr] gap-3 px-4 py-3 text-sm text-grayWilma-700">
                       <span className="min-w-0 break-words font-semibold text-navy">{member.email ?? "Email unavailable"}</span>
                       <span>{formatRole(member.role)}</span>
                       <span>{formatStatus(member.status)}</span>
                       <span>{formatDate(member.createdAt)}</span>
+                      <PartnerTeamMemberManager memberId={member.id} role={member.role} status={member.status} />
                     </div>
                   ))}
                 </div>
@@ -68,8 +71,8 @@ export default async function PartnerTeamPage() {
           </Card>
 
           <Card className="rounded-md p-6">
-            <h2 className="text-xl font-black text-navy">Invite partner staff</h2>
-            <p className="mt-2 text-sm leading-6 text-grayWilma-700">Role is fixed as Partner staff for self-serve partner invites.</p>
+            <h2 className="text-xl font-black text-navy">Invite a team member</h2>
+            <p className="mt-2 text-sm leading-6 text-grayWilma-700">Viewers are read-only. Staff can perform only assigned operational work. Administrators control access.</p>
             <div className="mt-5">
               <PartnerTeamInviteForm partnerSlug={team.partnerSlug} partnerName={team.partnerName} />
             </div>
@@ -140,7 +143,9 @@ function DeniedTeamPage({ title, body }: { title: string; body: string }) {
 }
 
 function formatRole(role: string) {
-  return role === "partner_admin" ? "Partner admin" : "Partner staff";
+  if (role === "partner_admin") return "Partner admin";
+  if (role === "partner_viewer") return "Partner viewer";
+  return "Partner staff";
 }
 
 function formatStatus(status: string) {

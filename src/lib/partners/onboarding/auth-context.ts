@@ -13,7 +13,7 @@ export type PartnerOnboardingContext = {
   authUserId: string;
   workEmail: string | null;
   partnerSlug: string;
-  role: "partner_admin" | "partner_staff";
+  role: "partner_admin" | "partner_staff" | "partner_viewer";
 };
 
 export type InternalOnboardingContext = {

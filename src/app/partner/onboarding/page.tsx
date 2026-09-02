@@ -291,7 +291,7 @@ async function Phase1PartnerOnboardingPage() {
         programName={portal.programName}
         implementationOwner={null}
         presentation={presentation}
-        isPartnerStaff={portal.role === "partner_staff"}
+        isPartnerStaff={portal.role !== "partner_admin"}
         hasPendingPrefill={portal.prefill.pendingCount > 0}
         preparedWorkload={{
           prepared: portal.prefill.preparedCount,

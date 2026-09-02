@@ -7,6 +7,10 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
+import { announceChromiumResolution, resolveApprovedChromiumExecutable } from "./lib/approved-chromium.mjs";
+
+const chromiumResolution = resolveApprovedChromiumExecutable({ managedExecutablePath: chromium.executablePath() });
+announceChromiumResolution(chromiumResolution);
 
 const baseUrl = requiredUrl("INTERNAL_ACCESS_STAGING_URL");
 const outputDir = createOutputDirectory(process.env.INTERNAL_ACCESS_CAPTURE_DIR);
@@ -19,7 +23,7 @@ const internalPath = "/internal/partners/provisioning";
 const apiPath = "/api/internal/partners/provisioning";
 const evidence = [];
 
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({ headless: true, executablePath: chromiumResolution.executablePath });
 try {
   await verifyAdminDesktop();
   await verifyAdminMobile();

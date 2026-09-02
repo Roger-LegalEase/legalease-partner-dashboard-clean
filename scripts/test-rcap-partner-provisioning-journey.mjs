@@ -21,7 +21,11 @@
 // a loopback Supabase stack, and Mailpit on MAILPIT_URL.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { announceChromiumResolution, resolveApprovedChromiumExecutable } from "./lib/approved-chromium.mjs";
 import { createClient } from "@supabase/supabase-js";
+
+const chromiumResolution = resolveApprovedChromiumExecutable({ managedExecutablePath: chromium.executablePath() });
+announceChromiumResolution(chromiumResolution);
 
 const BASE = process.env.JOURNEY_BASE_URL ?? "http://127.0.0.1:3139";
 const MAILPIT = process.env.MAILPIT_URL ?? "http://127.0.0.1:54324";
@@ -54,7 +58,7 @@ async function mkUser(email) {
   return data.user;
 }
 
-const browser = await chromium.launch();
+const browser = await chromium.launch({ headless: true, executablePath: chromiumResolution.executablePath });
 try {
   const operator = await mkUser(operatorEmail);
   await svc.from("partner_users").insert({
@@ -84,7 +88,10 @@ try {
   await page.fill('input[name="administratorName"]', "Journey Administrator");
   await page.fill('input[name="administratorEmail"]', adminEmail);
   await page.fill('textarea[name="clearanceReason"]', "Local browser acceptance for the reviewed provisioning path.");
-  await page.click('button[type="submit"]');
+  await page
+    .locator('[data-provisioning-state="details"]')
+    .getByRole("button", { name: "Review what will be created", exact: true })
+    .click();
   await page.waitForSelector('[data-provisioning-state="review"]');
   const reviewText = await page.textContent('[data-provisioning-state="review"]');
   for (const phrase of [

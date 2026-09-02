@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSafeRequestId, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
-import { failureMessageForAddPartnerUser, invitePartnerStaffForCurrentPartner, validatePartnerStaffInviteInput, type ResolvedPartnerAdminSession } from "@/lib/partners/partner-team";
+import { failureMessageForAddPartnerUser, invitePartnerTeamMemberForCurrentPartner, validatePartnerStaffInviteInput, type ResolvedPartnerAdminSession } from "@/lib/partners/partner-team";
 import { checkPartnerTeamInviteRateLimit } from "@/lib/partners/partner-team-rate-limit";
 import { resolveSessionPartner, SessionPartnerError } from "@/lib/partners/session-partner";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     return failureResponse("validation_failed", "Invalid request.", { status: 400 });
   }
 
-  const input = body && typeof body === "object" ? (body as { email?: unknown; name?: unknown }) : {};
+  const input = body && typeof body === "object" ? (body as { email?: unknown; name?: unknown; role?: unknown }) : {};
   const validated = validatePartnerStaffInviteInput(gate.sessionPartner, input);
   if (!validated.ok) {
     return failureResponse("validation_failed", validated.error, { status: 400 });
@@ -70,9 +70,9 @@ export async function POST(request: Request) {
     return failureResponse("unknown_error", INVITATION_DELIVERY_COPY.unavailable, { status: 500 });
   }
 
-  let result: Awaited<ReturnType<typeof invitePartnerStaffForCurrentPartner>>;
+  let result: Awaited<ReturnType<typeof invitePartnerTeamMemberForCurrentPartner>>;
   try {
-    result = await invitePartnerStaffForCurrentPartner(input);
+    result = await invitePartnerTeamMemberForCurrentPartner(input);
   } catch (error) {
     logSecurityWarn({
       event: "partner_team_invite failed",
@@ -114,7 +114,7 @@ export async function POST(request: Request) {
     message: successMessage(outcome),
     email: result.email,
     partnerSlug: gate.sessionPartner.partnerSlug,
-    role: "partner_staff"
+    role: result.role
   });
 }
 
@@ -159,14 +159,14 @@ function successOutcome(status: string): PartnerTeamInviteSuccessOutcome {
 
 function successMessage(outcome: PartnerTeamInviteSuccessOutcome) {
   if (outcome === "already_mapped") {
-    return "That user already has partner staff access.";
+    return "That user already has the requested partner access.";
   }
 
   if (outcome === "existing_user_mapped" || outcome === "mapped_existing_user") {
-    return "Existing user was granted partner staff access.";
+    return "Existing user was granted partner access.";
   }
 
-  return "Partner staff invitation created.";
+  return "Partner team invitation created.";
 }
 
 function failureOutcome(code: string, error: string): PartnerTeamInviteFailureOutcome {

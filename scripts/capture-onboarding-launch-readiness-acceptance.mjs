@@ -12,6 +12,10 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
+import { announceChromiumResolution, resolveApprovedChromiumExecutable } from "./lib/approved-chromium.mjs";
+
+const chromiumResolution = resolveApprovedChromiumExecutable({ managedExecutablePath: chromium.executablePath() });
+announceChromiumResolution(chromiumResolution);
 
 const root = process.cwd();
 const baseUrl = "http://127.0.0.1:3000";
@@ -72,7 +76,7 @@ async function main() {
 
   try {
     await seedTenants();
-    browser = await chromium.launch({ headless: true });
+    browser = await chromium.launch({ headless: true, executablePath: chromiumResolution.executablePath });
     devServer = await startDevServer();
 
     const operator = await signedInContext(
@@ -326,10 +330,10 @@ async function step5({ page }, partner) {
 
   // A real edit on the real portal screen.
   await partner.page.goto(
-    `${baseUrl}/partner/onboarding/support_referrals_reporting`,
+    `${baseUrl}/partner/onboarding/support_referrals_reporting?step=reporting-plan`,
     { timeout: 120_000 }
   );
-  await partner.page.getByLabel("Reporting cadence").fill("Every two weeks");
+  await partner.page.locator("#field-reporting-cadence").fill("Every two weeks");
   await waitForPortalSave(partner.page);
 
   await openReadiness(page);
@@ -901,7 +905,7 @@ async function waitForPortalSave(page) {
   const deadline = Date.now() + 120_000;
   while (Date.now() < deadline) {
     const text = (await status.innerText().catch(() => "")).trim();
-    if (text === "Saved") return;
+    if (text === "Saved" || text.startsWith("Changes saved at ")) return;
     const retry = page.getByRole("button", { name: "Try saving again" });
     if ((await retry.count()) > 0) {
       await retry.first().click();
@@ -1484,8 +1488,8 @@ async function signedInContext(email, password, nextPath, label) {
 async function startDevServer() {
   await waitForPortState(false, 30_000);
   const child = spawn(
-    "npm",
-    ["run", "dev", "--", "--hostname", "127.0.0.1", "--port", "3000"],
+    "npx",
+    ["next", "start", "--hostname", "127.0.0.1", "--port", "3000"],
     {
       cwd: root,
       // Next runs as a grandchild of npm; its own process group is what lets

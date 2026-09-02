@@ -64,6 +64,7 @@ assert(route.includes('export const dynamic = "force-dynamic"'), "public partner
 assert(route.includes("getAuthoritativelyPublicPartnerRecord"), "route must use the shared eligibility loader");
 assert(route.includes("notFound();"), "ineligible partner routes must use Next.js notFound");
 assert(!route.includes("PartnerNotFound"), "route must not confirm an internal partner record exists");
+assert(route.includes("robots: { index: false, follow: false }"), "ineligible and guessed partner routes must be noindex");
 
 const loader = read("src/lib/partners/public-partner-page.ts");
 for (const field of [
@@ -77,6 +78,11 @@ for (const field of [
   assert(loader.includes(field), `public eligibility loader must read ${field}`);
 }
 assert(loader.includes("return undefined"), "lookup errors must fail closed");
+assert(loader.includes("listAuthoritativelyPublicPartnerSlugs"), "partner sitemap must share the authoritative loader module");
+assert(loader.includes('.eq("status", "live")'), "partner sitemap must require the live publication state");
+assert(loader.includes('.eq("landing_page_ready", true)'), "partner sitemap must require a ready public page");
+assert(loader.includes('.not("internal_approved_at", "is", null)'), "partner sitemap must require internal approval");
+assert(loader.includes('.not("launched_at", "is", null)'), "partner sitemap must require explicit launch");
 
 const intake = read("src/lib/expungement-ai/rcap-partner-intake.ts");
 assert(intake.includes("isPartnerActivationAuthorized"), "participant intake must reuse the activation predicate");
@@ -85,6 +91,14 @@ const sitemap = read("src/app/sitemap.ts");
 assert(!sitemap.includes("rythm-labs-test"), "Rythm Labs must not appear in the sitemap");
 assert(!sitemap.includes("/p/"), "partner routes must not be emitted by the public sitemap");
 
+const partnerSitemap = read("src/app/partner-sitemap.xml/route.ts");
+assert(partnerSitemap.includes("listAuthoritativelyPublicPartnerSlugs"), "partner sitemap must use authoritative public slugs");
+assert(partnerSitemap.includes("productionPartnerAppUrl"), "partner sitemap URLs must stay on the partner host");
+
+const robots = read("src/app/robots.ts");
+assert(robots.includes("productionPartnerAppUrl"), "robots must advertise the gated partner sitemap");
+assert(robots.includes('"/partner/"'), "robots must disallow signed-in partner workspace routes");
+
 console.log("Public partner publication security verification passed.");
 console.log("Five publication and activation combinations fail closed except published plus active.");
-console.log("The public route uses notFound, remains dynamic, and is absent from sitemap generation.");
+console.log("The public route, metadata, robots, and partner sitemap use the same fail-closed authority state.");

@@ -233,7 +233,7 @@ assert(claimHandoffSrc.includes('/api/expungement-ai/screening/pending/claim'), 
 assert(flowSrc.includes("anonymousSessionId:"), "Pending handoff must name the anonymous session so the server can keep RCAP and DTC identity distinct.");
 assert(!flowSrc.includes('product: isPartnerSession'), "The browser must not declare RCAP versus DTC product identity.");
 assert(readFileSync(path.join(process.cwd(), "src/app/api/expungement-ai/screening/pending/route.ts"), "utf8")
-  .includes('attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'),
+  .includes('sponsorshipAuthority.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'),
   "Pending storage must keep RCAP and DTC product identity distinct, server-side.");
 assert(flowSrc.includes("router.push(claim.redirectTo)"), "Authenticated pending claim must follow the server-authored exact-matter destination.");
 assert(!flowSrc.includes('router.push(`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.itemId)}`)'), "DTC result must not bypass the builder/review flow by routing directly to payment.");

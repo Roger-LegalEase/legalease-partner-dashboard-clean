@@ -49,15 +49,16 @@ function verifySourceWiring() {
   const allowlist = read("scripts/rcap-scope-allowlist.mjs");
 
   assert(page.includes("resolveRcapPartnerIntakeContext(partnerSlug)"), "Partner intake page must resolve partner context on load.");
-  assert(page.includes("form action={startRcapPartnerScreening}"), "Partner intake start must require an explicit form action.");
-  assert(page.includes("claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction })"), "Start action must call the RPC wrapper.");
+  assert(page.includes("action={startRcapPartnerScreening.bind(null, context.partnerSlug, context.jurisdiction)}"), "Partner intake start must bind server-rendered partner authority.");
+  assert(!page.includes('name="partnerSlug"') && !page.includes('name="jurisdiction"'), "Browser fields must not choose partner sponsorship authority.");
+  assert(page.includes("claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction, analyticsAttribution: attribution })"), "Start action must call the RPC wrapper with normalized analytics.");
   assert(page.includes("This link is not active right now"), "Inactive-link copy is missing.");
   assert(page.includes("This program is currently full"), "Program-full headline copy is missing.");
   assert(page.includes("Please check back later or contact the organization that shared this link."), "Program-full body copy is missing.");
   assert(!page.includes("RcapWilmaIntakeChat"), "Partner intake must not use the old Wilma intake chat path.");
   assert(!page.includes("/expungement-ai/start"), "Partner intake must not fall back to DTC start.");
 
-  const claimCallIndex = page.indexOf("claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction })");
+  const claimCallIndex = page.indexOf("claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction, analyticsAttribution: attribution })");
   const actionIndex = page.indexOf("async function startRcapPartnerScreening");
   assert(actionIndex >= 0 && claimCallIndex > actionIndex, "Claim RPC must only be called inside the explicit start action.");
 

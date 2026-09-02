@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { productionExpungementAiUrl } from "@/lib/app-url";
+import { productionExpungementAiUrl, productionPartnerAppUrl } from "@/lib/app-url";
 
 /**
  * robots.txt for the public surfaces.
@@ -28,13 +28,16 @@ export default function robots(): MetadataRoute.Robots {
           "/briefcase",
           "/briefcase/",
           "/dashboard/",
-          "/partner/dashboard",
+          "/partner/",
           "/auth/",
           "/sign-in",
           "/sign-out"
         ]
       }
     ],
-    sitemap: `${productionExpungementAiUrl}/sitemap.xml`
+    sitemap: [
+      `${productionExpungementAiUrl}/sitemap.xml`,
+      `${productionPartnerAppUrl}/partner-sitemap.xml`
+    ]
   };
 }

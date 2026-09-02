@@ -105,14 +105,15 @@ function verifySourceWiring() {
   const migration = read("supabase/phase-39-rcap-partner-packet-cap.sql");
 
   assert(intakePage.includes("resolveRcapPartnerIntakeContext(partnerSlug)"), "Partner intake must resolve context on load.");
-  assert(intakePage.includes("form action={startRcapPartnerScreening}"), "Partner intake start must be explicit.");
-  assert(intakePage.includes("claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction })"), "Partner intake start must call the RPC wrapper.");
+  assert(intakePage.includes("action={startRcapPartnerScreening.bind(null, context.partnerSlug, context.jurisdiction)}"), "Partner intake start must bind server-rendered partner authority.");
+  assert(!intakePage.includes('name="partnerSlug"') && !intakePage.includes('name="jurisdiction"'), "Browser fields must not choose partner sponsorship authority.");
+  assert(intakePage.includes("claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction, analyticsAttribution: attribution })"), "Partner intake start must call the RPC wrapper with normalized analytics.");
   assert(intakePage.includes("This link is not active right now"), "Inactive link copy missing.");
   assert(intakePage.includes("This program is currently full"), "Program-full headline copy missing.");
   assert(intakePage.includes("Please check back later or contact the organization that shared this link."), "Program-full body copy missing.");
   assert(!intakePage.includes("/expungement-ai/start"), "Partner intake must not fall back to DTC start.");
   assert(!intakePage.includes("/expungement-ai/pay"), "Partner intake must not route to pay.");
-  assert(indexOf(intakePage, "claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction })") > indexOf(intakePage, "async function startRcapPartnerScreening"), "Claim RPC must only be called in the explicit start action.");
+  assert(indexOf(intakePage, "claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction, analyticsAttribution: attribution })") > indexOf(intakePage, "async function startRcapPartnerScreening"), "Claim RPC must only be called in the explicit start action.");
   assert(intakeLib.includes('.rpc("claim_rcap_screening_session"'), "RPC wrapper must call claim_rcap_screening_session.");
   assert(!intakeLib.includes(".from(\"screening_sessions\").insert"), "No app-level insert flow allowed.");
   assert(!intakeLib.includes("screenings_used + 1"), "No app-level entitlement increment allowed.");
@@ -184,7 +185,7 @@ function verifySourceWiring() {
   assert(dtcStartPage.includes("/expungement-ai/screening"), "DTC start page must still link into the existing screening flow.");
   assert(checkoutRoute.includes("createConsumerPacketCheckout"), "Checkout route must invoke consumer packet checkout.");
   assert(paymentConfirmRoute.includes("recordConsumerPaymentConfirmation"), "Payment confirm route must invoke payment confirmation.");
-  assert(pendingCreateRoute.includes('attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending create must persist server-resolved DTC/partner source attribution.");
+  assert(pendingCreateRoute.includes('sponsorshipAuthority.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending create must persist server-resolved DTC/partner source attribution.");
   assert(pendingCreateRoute.includes("resolveScreeningAttribution") && claimService.includes('row.product === "rcap_partner" && Boolean(row.partner_slug)'), "Pending claim must grant sponsored posture only to a validated partner session.");
   assert(claimService.includes("exactMatterPath(matterId)"), "Pending claim must send every result to its exact free Briefcase matter.");
   assert(!pendingClaimRoute.includes('/expungement-ai/pay?briefcaseItemId='), "Pending claim must not skip packet information and final review.");

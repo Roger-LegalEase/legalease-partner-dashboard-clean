@@ -133,6 +133,10 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
           <input name="role" required type="radio" value="partner_staff" />
           Partner staff
         </label>
+        <label className="flex items-center gap-2 rounded-md border border-grayWilma-200 bg-white px-3 py-3 text-sm font-semibold text-navy">
+          <input name="role" required type="radio" value="partner_viewer" />
+          Partner viewer (read only)
+        </label>
       </fieldset>
 
       {state.kind === "success" ? (

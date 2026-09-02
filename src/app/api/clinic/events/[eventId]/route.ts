@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getClinicEventWorkspace, setClinicEventStatus } from "@/lib/clinic-mode/service";
 import { parseClinicEventStatus, parseEventId } from "@/lib/clinic-mode/validation";
 import { clinicErrorResponse } from "@/app/api/clinic/error-response";
+import { assertClinicMutationRequest } from "@/lib/clinic-mode/request-security";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -19,6 +20,7 @@ export async function GET(_request: NextRequest, context: Context) {
 
 export async function PATCH(request: NextRequest, context: Context) {
   try {
+    assertClinicMutationRequest(request);
     const { eventId } = await context.params;
     const body = await request.json() as Record<string, unknown>;
     const outcome = await setClinicEventStatus(parseEventId(eventId), parseClinicEventStatus(body.status));

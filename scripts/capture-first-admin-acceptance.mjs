@@ -11,6 +11,10 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
+import { announceChromiumResolution, resolveApprovedChromiumExecutable } from "./lib/approved-chromium.mjs";
+
+const chromiumResolution = resolveApprovedChromiumExecutable({ managedExecutablePath: chromium.executablePath() });
+announceChromiumResolution(chromiumResolution);
 
 const root = process.cwd();
 const baseUrl = "http://127.0.0.1:3000";
@@ -68,7 +72,11 @@ fs.mkdirSync(outputDir, { recursive: true });
 try {
   await resetFixture();
   await seedFixture();
-  browser = await chromium.launch({ headless: true });
+  browser = await chromium.launch({
+    headless: true,
+    executablePath: chromiumResolution.executablePath,
+    args: ["--disable-dev-shm-usage"]
+  });
 
   devServer = await startDevServer({ onboardingEnabled: true });
   const flagOn = await runOnboardingEnabledPhase();
@@ -295,7 +303,10 @@ async function runOnboardingEnabledPhase() {
   observe(revokedPage, "revoked-link");
   await revokedPage.goto(secondSetupLink, { timeout: 90_000 });
   await revokedPage
-    .getByText("This invite link is no longer active.")
+    .getByRole("heading", {
+      name: "This account setup link cannot be used",
+      exact: true
+    })
     .waitFor({ timeout: 90_000 });
   assert.equal(
     await revokedPage.getByLabel("New password", { exact: true }).count(),
@@ -558,7 +569,7 @@ async function accessibleName(session, selector) {
 // the tenant-specific success content and the absence of the failure copy.
 async function assertOnboardingLanding(page, organizationLabel) {
   await page
-    .getByRole("heading", { name: "Program setup", exact: true })
+    .getByText("RCAP implementation center", { exact: true })
     .waitFor({ timeout: 90_000 });
   await page.getByText(organizationLabel, { exact: false }).first().waitFor();
   await assertAbsent(page, [
@@ -728,7 +739,7 @@ async function startDevServer({ onboardingEnabled }) {
   await waitForPortState(false, 30_000);
   const child = spawn(
     "npm",
-    ["run", "dev", "--", "--hostname", "127.0.0.1", "--port", "3000"],
+    ["run", "dev", "--", "--webpack", "--hostname", "127.0.0.1", "--port", "3000"],
     {
       cwd: root,
       // Next runs as a grandchild of npm. Its own process group lets the whole

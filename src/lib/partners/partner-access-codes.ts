@@ -10,10 +10,11 @@ import {
 // Server-authoritative access-code management + validation. All raw codes are
 // normalized and hashed here; only hashes reach Supabase. Mutations run through
 // the service-role admin client after the caller has already been authorized
-// (partner admin/staff for their own slug, or internal admin) at the route layer.
+// (partner administrator for its own slug, or an internal admin) at the route layer.
 
 export type PartnerAccessMode = "open" | "optional_code" | "required_code" | "invite_only";
 export type PartnerAccessCodeType = "shared" | "single_use" | "limited_use";
+export type PartnerAccessCodeLifecycle = "draft" | "scheduled" | "live" | "paused" | "revoked";
 
 export const PARTNER_ACCESS_MODES: PartnerAccessMode[] = [
   "open",
@@ -47,6 +48,10 @@ export type PartnerAccessCodeView = {
   maxUses: number | null;
   usesCount: number;
   isActive: boolean;
+  lifecycleStatus: PartnerAccessCodeLifecycle | "expired" | "exhausted";
+  jurisdictions: string[];
+  programId: string | null;
+  eventId: string | null;
   startsAt: string | null;
   expiresAt: string | null;
   lastUsedAt: string | null;
@@ -85,6 +90,9 @@ export type CreatePartnerAccessCodeInput = {
   startsAt?: string | null;
   expiresAt?: string | null;
   createdBy?: string | null;
+  jurisdictions?: string[] | null;
+  programId?: string | null;
+  eventId?: string | null;
 };
 
 export class PartnerAccessCodeError extends Error {
@@ -95,6 +103,7 @@ export class PartnerAccessCodeError extends Error {
       | "invalid_input"
       | "duplicate_code"
       | "not_found"
+      | "launch_not_ready"
       | "read_failed"
       | "write_failed",
     message: string
@@ -114,6 +123,10 @@ type AccessCodeRow = {
   max_uses: number | null;
   uses_count: number;
   is_active: boolean;
+  lifecycle_status: PartnerAccessCodeLifecycle;
+  jurisdictions: string[] | null;
+  program_id: string | null;
+  event_id: string | null;
   starts_at: string | null;
   expires_at: string | null;
   last_used_at: string | null;
@@ -121,7 +134,7 @@ type AccessCodeRow = {
 };
 
 const SAFE_COLUMNS =
-  "id, partner_slug, code_display_hint, campaign_name, description, code_type, max_uses, uses_count, is_active, starts_at, expires_at, last_used_at, created_at";
+  "id, partner_slug, code_display_hint, campaign_name, description, code_type, max_uses, uses_count, is_active, lifecycle_status, jurisdictions, program_id, event_id, starts_at, expires_at, last_used_at, created_at";
 
 // ---------------------------------------------------------------------------
 // Validation (read-only). Used by the public code-check route.
@@ -129,7 +142,8 @@ const SAFE_COLUMNS =
 
 export async function validatePartnerAccessCode(
   partnerSlug: string,
-  rawCode: string
+  rawCode: string,
+  jurisdiction?: string | null
 ): Promise<PartnerAccessCodeValidation> {
   const slug = normalizeSlug(partnerSlug);
   const normalized = normalizeAccessCode(rawCode);
@@ -152,9 +166,15 @@ export async function validatePartnerAccessCode(
     return { valid: false, reason: "invalid", campaignName: null, codeType: null };
   }
 
+  const scopeAllowed = Boolean(row.valid) && await codeAllowsJurisdiction(
+    supabase,
+    slug,
+    hashAccessCode(normalized),
+    jurisdiction
+  );
   return {
-    valid: Boolean(row.valid),
-    reason: row.valid ? null : ((row.reason ?? "invalid") as PartnerAccessCodeValidationReason),
+    valid: scopeAllowed,
+    reason: scopeAllowed ? null : ((row.reason ?? "invalid") as PartnerAccessCodeValidationReason),
     campaignName: row.campaign_name ?? null,
     codeType: (row.code_type ?? null) as PartnerAccessCodeType | null
   };
@@ -190,23 +210,32 @@ export async function createPartnerAccessCode(input: CreatePartnerAccessCodeInpu
     maxUses = null;
   }
 
-  const { data, error } = await supabase
-    .from("partner_access_codes")
-    .insert({
-      partner_slug: slug,
-      code_hash: hashAccessCode(normalized),
-      code_display_hint: accessCodeDisplayHint(normalized),
-      campaign_name: cleanText(input.campaignName),
-      description: cleanText(input.description),
-      code_type: codeType,
-      max_uses: maxUses,
-      is_active: true,
-      starts_at: cleanText(input.startsAt),
-      expires_at: cleanText(input.expiresAt),
-      created_by: cleanText(input.createdBy)
-    })
-    .select(SAFE_COLUMNS)
-    .single<AccessCodeRow>();
+  const startsAt = normalizeTimestamp(input.startsAt, "Start time");
+  const expiresAt = normalizeTimestamp(input.expiresAt, "Expiration time");
+  if (startsAt && expiresAt && new Date(expiresAt) <= new Date(startsAt)) {
+    throw new PartnerAccessCodeError("invalid_input", "Expiration must be after the start time.");
+  }
+  const jurisdictions = normalizeJurisdictions(input.jurisdictions);
+  const actorUserId = normalizeUuid(input.createdBy, "Actor");
+  if (!actorUserId) {
+    throw new PartnerAccessCodeError("invalid_input", "An authenticated administrator is required.");
+  }
+
+  const { data: codeId, error } = await supabase.rpc("create_partner_access_code", {
+    p_actor_user_id: actorUserId,
+    p_partner_slug: slug,
+    p_code_hash: hashAccessCode(normalized),
+    p_code_display_hint: accessCodeDisplayHint(normalized),
+    p_campaign_name: cleanText(input.campaignName),
+    p_description: cleanText(input.description),
+    p_code_type: codeType,
+    p_max_uses: maxUses,
+    p_jurisdictions: jurisdictions,
+    p_program_id: normalizeProgramId(input.programId),
+    p_event_id: normalizeUuid(input.eventId, "Event"),
+    p_starts_at: startsAt,
+    p_expires_at: expiresAt
+  });
 
   if (error) {
     if ((error as { code?: string }).code === "23505") {
@@ -215,49 +244,69 @@ export async function createPartnerAccessCode(input: CreatePartnerAccessCodeInpu
     throw new PartnerAccessCodeError("write_failed", "Could not create the access code.");
   }
 
-  await appendAccessCodeEvent(supabase, slug, data.id, "partner_code_created", {
-    campaign_name: data.campaign_name,
-    code_type: data.code_type
-  });
+  if (typeof codeId !== "string") {
+    throw new PartnerAccessCodeError("write_failed", "Could not create the access code.");
+  }
+
+  const { data, error: readError } = await supabase.from("partner_access_codes")
+    .select(SAFE_COLUMNS).eq("id", codeId).eq("partner_slug", slug).maybeSingle<AccessCodeRow>();
+  if (readError || !data) {
+    throw new PartnerAccessCodeError("read_failed", "Could not read the created access code.");
+  }
 
   return viewFromRow(data, EMPTY_ANALYTICS);
 }
 
-export async function setPartnerAccessCodeActive(input: {
+export async function setPartnerAccessCodeLifecycle(input: {
   partnerSlug: string;
   codeId: string;
-  isActive: boolean;
+  status: "live" | "paused" | "revoked";
+  actorUserId: string;
 }): Promise<PartnerAccessCodeView> {
   const slug = normalizeSlug(input.partnerSlug);
   const codeId = cleanText(input.codeId);
   if (!codeId) throw new PartnerAccessCodeError("invalid_input", "codeId is required.");
 
   const supabase = requireAdminClient();
-  const { data, error } = await supabase
-    .from("partner_access_codes")
-    .update({ is_active: input.isActive })
-    .eq("id", codeId)
-    .eq("partner_slug", slug) // never allow cross-partner mutation
-    .select(SAFE_COLUMNS)
-    .maybeSingle<AccessCodeRow>();
-
+  const { data: outcome, error } = await supabase.rpc("set_partner_access_code_lifecycle", {
+    p_actor_user_id: input.actorUserId,
+    p_partner_slug: slug,
+    p_code_id: codeId,
+    p_status: input.status
+  });
   if (error) {
     throw new PartnerAccessCodeError("write_failed", "Could not update the access code.");
   }
-  if (!data) {
+  if (outcome === "not_found") {
     throw new PartnerAccessCodeError("not_found", "Access code not found for this organization.");
   }
+  if (outcome === "partner_not_launch_ready") {
+    throw new PartnerAccessCodeError("launch_not_ready", "The partner must be approved, published, and active before a code can go live.");
+  }
+  if (!["updated", "unchanged"].includes(String(outcome))) {
+    throw new PartnerAccessCodeError("write_failed", "Could not update the access code.");
+  }
 
-  await appendAccessCodeEvent(
-    supabase,
-    slug,
-    codeId,
-    input.isActive ? "partner_code_enabled" : "partner_code_disabled",
-    {}
-  );
+  const { data, error: readError } = await supabase.from("partner_access_codes")
+    .select(SAFE_COLUMNS).eq("id", codeId).eq("partner_slug", slug).maybeSingle<AccessCodeRow>();
+  if (readError || !data) throw new PartnerAccessCodeError("read_failed", "Could not read the updated access code.");
 
   const { byCode } = await codeAnalyticsMap(supabase, slug);
   return viewFromRow(data, byCode[codeId] ?? EMPTY_ANALYTICS);
+}
+
+export async function setPartnerAccessCodeActive(input: {
+  partnerSlug: string;
+  codeId: string;
+  isActive: boolean;
+  actorUserId: string;
+}): Promise<PartnerAccessCodeView> {
+  return setPartnerAccessCodeLifecycle({
+    partnerSlug: input.partnerSlug,
+    codeId: input.codeId,
+    status: input.isActive ? "live" : "paused",
+    actorUserId: input.actorUserId
+  });
 }
 
 export async function listPartnerAccessCodes(partnerSlug: string): Promise<PartnerAccessCodeView[]> {
@@ -442,28 +491,6 @@ async function codeAnalyticsMap(
   return { byCode, direct };
 }
 
-async function appendAccessCodeEvent(
-  supabase: NonNullable<ReturnType<typeof getSupabaseAdminClient>>,
-  partnerSlug: string,
-  codeId: string,
-  eventType: string,
-  metadata: Record<string, unknown>
-) {
-  // Best-effort append-only audit; never block the mutation on audit failure.
-  try {
-    await supabase.from("rcap_record_events").insert({
-      record_type: "partner_access_code",
-      record_id: codeId,
-      partner_slug: partnerSlug,
-      event_type: eventType,
-      actor: "partner_admin",
-      metadata
-    });
-  } catch {
-    // swallow — audit is not a hard dependency of the mutation
-  }
-}
-
 function viewFromRow(row: AccessCodeRow, analytics: PartnerCodeAnalyticsRow): PartnerAccessCodeView {
   return {
     id: row.id,
@@ -475,6 +502,10 @@ function viewFromRow(row: AccessCodeRow, analytics: PartnerCodeAnalyticsRow): Pa
     maxUses: row.max_uses,
     usesCount: row.uses_count,
     isActive: row.is_active,
+    lifecycleStatus: derivedLifecycle(row),
+    jurisdictions: row.jurisdictions ?? [],
+    programId: row.program_id,
+    eventId: row.event_id,
     startsAt: row.starts_at,
     expiresAt: row.expires_at,
     lastUsedAt: row.last_used_at,
@@ -524,4 +555,66 @@ function normalizeMaxUses(value: number | null | undefined): number | null {
 function cleanText(value: string | null | undefined): string | null {
   const text = value?.trim();
   return text ? text : null;
+}
+
+function normalizeTimestamp(value: string | null | undefined, label: string): string | null {
+  const text = cleanText(value);
+  if (!text) return null;
+  const date = new Date(text);
+  if (!Number.isFinite(date.valueOf())) {
+    throw new PartnerAccessCodeError("invalid_input", `${label} is invalid.`);
+  }
+  return date.toISOString();
+}
+
+function normalizeJurisdictions(values: string[] | null | undefined) {
+  if (!values) return [];
+  const normalized = [...new Set(values.map((value) => value.trim().toUpperCase()).filter(Boolean))];
+  if (normalized.some((value) => !/^[A-Z]{2,3}$/.test(value))) {
+    throw new PartnerAccessCodeError("invalid_input", "Choose valid state or jurisdiction codes.");
+  }
+  return normalized.sort();
+}
+
+function normalizeProgramId(value: string | null | undefined) {
+  const normalized = cleanText(value);
+  if (normalized && normalized.length > 120) {
+    throw new PartnerAccessCodeError("invalid_input", "Program key is too long.");
+  }
+  return normalized;
+}
+
+function normalizeUuid(value: string | null | undefined, label: string) {
+  const normalized = cleanText(value);
+  if (!normalized) return null;
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(normalized)) {
+    throw new PartnerAccessCodeError("invalid_input", `${label} must be a valid identifier.`);
+  }
+  return normalized.toLowerCase();
+}
+
+function derivedLifecycle(row: AccessCodeRow): PartnerAccessCodeView["lifecycleStatus"] {
+  const now = Date.now();
+  if (row.expires_at && new Date(row.expires_at).valueOf() <= now) return "expired";
+  if (row.max_uses != null && row.uses_count >= row.max_uses) return "exhausted";
+  return row.lifecycle_status;
+}
+
+async function codeAllowsJurisdiction(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdminClient>>,
+  partnerSlug: string,
+  codeHash: string,
+  jurisdiction?: string | null
+) {
+  if (!jurisdiction) return true;
+  const normalized = jurisdiction.trim().toUpperCase();
+  if (!/^[A-Z]{2,3}$/.test(normalized)) return false;
+  const { data, error } = await supabase.from("partner_access_codes")
+    .select("jurisdictions")
+    .eq("partner_slug", partnerSlug)
+    .eq("code_hash", codeHash)
+    .maybeSingle<{ jurisdictions: string[] | null }>();
+  if (error || !data) return false;
+  const jurisdictions = data.jurisdictions ?? [];
+  return jurisdictions.length === 0 || jurisdictions.includes(normalized);
 }

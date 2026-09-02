@@ -147,7 +147,7 @@ function stripeBoundaryViolations(input) {
   require(!handoff.includes('/expungement-ai/packet-ready"'), "Screening must not route to packet-ready before payment.");
   require(input.claimService.includes('row.product === "rcap_partner" && Boolean(row.partner_slug)'), "Only a validated partner session may carry partner source authority.");
 
-  require(input.pendingCreate.includes('attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending storage must derive the product from server-resolved attribution.");
+  require(input.pendingCreate.includes('sponsorshipAuthority.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending storage must derive the product from server-resolved attribution.");
   require(input.pendingCreate.includes("resolveScreeningAttribution"), "Pending claim must validate partner sponsorship server-side.");
   require(input.claimService.includes("evaluateAuthoritativeScreeningResult"), "Pending claim must re-evaluate saved screening inputs before commercial routing.");
   require(input.claimService.includes("exactMatterPath(matterId)"), "Pending claim must land on the exact free Briefcase matter.");
