@@ -20,16 +20,16 @@
   "EXACT_LEGAL_HOLD": "One named legal-design question must be answered before any treatment is safe."
  },
  "counts": {
-  "ATTACH_HELD_SOURCE": 67,
+  "ATTACH_HELD_SOURCE": 69,
   "ACQUIRE_EXACT_SOURCE": 77,
   "EXACT_LEGAL_HOLD": 3,
   "NON_PACKET_TREATMENT": 1,
   "COMPOSE_FROM_AUTHORITY": 4,
   "EXACT_EXTERNAL_SOURCE_HOLD": 10
  },
- "familiesClassified": 159,
+ "familiesClassified": 161,
  "familiesInCohort": 70,
- "artifactsEstablished": 157,
+ "artifactsEstablished": 236,
  "claimDiscipline": "No packet-family claim was asserted or released. The claim ledger was not touched. No family was built, repaired or attached. No queue, verifier return or assignment file was written. No commercial route was opened and no family was promoted.",
  "whatThisDoesNotEstablish": [
   "that any held file is the current official edition of the form",
@@ -8641,6 +8641,150 @@
    ],
    "classifiedBy": "Captain, from measurement",
    "classifiedOn": "2026-09-02"
+  },
+  {
+   "familyId": "ar-arrest-seal-set",
+   "class": "ATTACH_HELD_SOURCE",
+   "why": "Both named forms were already held and already hashed exact; what was missing was a READING. The pair is the ACIC Act 1460 arrest-record petition and order. Recorded so the binding rests on the title printed on page 1 rather than on a token-subset match between a short census label and a longer corpus form number.",
+   "jurisdiction": "AR",
+   "formsNamedByFamily": [
+    "ACIC-ORDER-TO-SEAL-ARREST",
+    "ACIC-PETITION-TO-SEAL-ARREST"
+   ],
+   "artifacts": [
+    {
+     "jurisdiction": "AR",
+     "officialTitle": "Petition to Seal Arrest under Act 1460 of 2013; A.C.A. 16-90-1401, Et. Seq.",
+     "revision": "REV-2014-08-25",
+     "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+     "officialLandingPage": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+     "namedInFamiliesAs": [
+      "ACIC-PETITION-TO-SEAL-ARREST"
+     ],
+     "identityEvidence": "pdftotext -f 1 -l 1 -layout, read in this lane: page 1 prints the caption block \"IN THE ______________ COURT OF ________________, ARKANSAS\" over \"____________ DIVISION\", then the centred title \"PETITION TO SEAL ARREST UNDER ACT 1460 OF 2013;\" over \"A.C.A.16-90-1401, Et. Seq.\", then the operative line \"Comes the Defendant and for his/her petition to seal the record states:\". The face is a PETITION (participant-filed primary filing), it is scoped to an ARREST, and it is Act 1460. Page 1 footer prints \"ACIC Form\" / \"Revised 08/25/2014\".",
+     "identityConfidence": "confirmed_from_document_text",
+     "held": {
+      "custody": "MASTER_LIBRARY",
+      "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+      "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460__petition-to-seal-arrest-under-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+      "sha256": "f77e17b669bd6e01cc3818329181bb378dd774b1facd9a15c4083d37d380194c",
+      "byteLength": 350326,
+      "pageCount": 3,
+      "acroFieldCount": 37,
+      "structuralClassObserved": "acroform"
+     },
+     "artifactId": "AR-ACIC-PETITION-SEAL-ARREST-1460",
+     "servesFamilies": [
+      "ar-arrest-seal-set"
+     ],
+     "identityReadBy": "FABLE-FIXAR",
+     "labelCaveat": "The census names this document by a SHORTER label than the corpus form number -- census \"ACIC-PETITION-TO-SEAL-ARREST\" against corpus \"AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460\". That is an id-alias difference and not a missing document: the corpus index holds this exact path at this exact SHA-256, and the family's own source-receipt.json pins the same hash. The census word \"UNIFORM\" is printed on no ACIC document in the mounted corpus and is not relied on here; this binding rests on the title printed on page 1.",
+     "labelIsFamilySpecific": true,
+     "whyTheLabelIsFamilySpecific": "ACIC-PETITION-TO-SEAL-ARREST is named by exactly one family in data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json -- ar-arrest-seal-set -- measured in this lane. Scoping the finding to that family rather than binding the label globally cannot change what any family this lane does not hold resolves to, which is the whole reason the scope is used here."
+    },
+    {
+     "jurisdiction": "AR",
+     "officialTitle": "Order to Seal Arrest under Act 1460 of 2013; A.C.A. 16-90-1401, Et. Seq.",
+     "revision": "REV-2014-01-01",
+     "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+     "officialLandingPage": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+     "namedInFamiliesAs": [
+      "ACIC-ORDER-TO-SEAL-ARREST"
+     ],
+     "identityEvidence": "pdftotext -f 1 -l 1 -layout, read in this lane: page 1 prints the centred title \"ORDER TO SEAL ARREST UNDER ACT 1460 OF 2013;\" over \"A.C.A.16-90-1401, Et. Seq.\", then \"Before the Court is the Petition of the Defendant to seal his/her record. The Court finds and orders as follows:\". The face says the Court finds and orders, not \"Comes the Defendant\", so it is the proposed ORDER and not the petition. Page 1 footer prints \"ACIC FORM\" / \"Revised 01/01/2014\".",
+     "identityConfidence": "confirmed_from_document_text",
+     "held": {
+      "custody": "MASTER_LIBRARY",
+      "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+      "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460__order-to-seal-arrest-under-act-1460-of-2013__REV-2014-01-01__EN.pdf",
+      "sha256": "5bd4ed5bd1b658295b50c2ea7126e276982fd705045f36adfc1f074923722581",
+      "byteLength": 250709,
+      "pageCount": 3,
+      "acroFieldCount": 29,
+      "structuralClassObserved": "acroform"
+     },
+     "artifactId": "AR-ACIC-ORDER-SEAL-ARREST-1460",
+     "servesFamilies": [
+      "ar-arrest-seal-set"
+     ],
+     "identityReadBy": "FABLE-FIXAR",
+     "labelCaveat": "The census names this document by a SHORTER label than the corpus form number -- census \"ACIC-ORDER-TO-SEAL-ARREST\" against corpus \"AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460\". That is an id-alias difference and not a missing document: the corpus index holds this exact path at this exact SHA-256, and the family's own source-receipt.json pins the same hash. The census word \"UNIFORM\" is printed on no ACIC document in the mounted corpus and is not relied on here; this binding rests on the title printed on page 1.",
+     "labelIsFamilySpecific": true,
+     "whyTheLabelIsFamilySpecific": "ACIC-ORDER-TO-SEAL-ARREST is named by exactly one family in data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json -- ar-arrest-seal-set -- measured in this lane. Scoping the finding to that family rather than binding the label globally cannot change what any family this lane does not hold resolves to, which is the whole reason the scope is used here."
+    }
+   ]
+  },
+  {
+   "familyId": "ar-misdemeanor-dwi-seal-set",
+   "class": "ATTACH_HELD_SOURCE",
+   "why": "Same shape as its Arkansas sibling: both named forms were held and hashed exact, and the binding rested on a token-subset string match. The pair is the ACIC misdemeanor DWI/BWI conviction petition and order, and each prints its own scope on page 1.",
+   "jurisdiction": "AR",
+   "formsNamedByFamily": [
+    "ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI",
+    "ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI"
+   ],
+   "artifacts": [
+    {
+     "jurisdiction": "AR",
+     "officialTitle": "Petition to Seal a Misdemeanor Conviction for Driving or Boating While Intoxicated",
+     "revision": "REV-2021-07-27",
+     "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+     "officialLandingPage": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+     "namedInFamiliesAs": [
+      "ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI"
+     ],
+     "identityEvidence": "pdftotext -f 1 -l 1 -layout, read in this lane: page 1 prints the centred two-line title \"PETITION TO SEAL A MISDEMEANOR CONVICTION\" / \"FOR DRIVING OR BOATING WHILE INTOXICATED\", then \"Comes the Defendant and for his/her Petition to Seal the record states:\", and paragraph 1 names \"Driving or Boating While Intoxicated in violation of Ark. Code Ann. §5-65-103\". The face is a PETITION and it is scoped to the DWI/BWI misdemeanor conviction, not to Act 1460 misdemeanors generally. Page 1 footer prints \"ACIC Form\" / \"7/27/2021\".",
+     "identityConfidence": "confirmed_from_document_text",
+     "held": {
+      "custody": "MASTER_LIBRARY",
+      "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+      "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION__petition-to-seal-a-misdemeanor-conviction-for-driving-or-boating-while-intoxicated__REV-2021-07-27__EN.pdf",
+      "sha256": "04d876b09fe82b76298a2d06093d122a0ef539f767f76811001030cc7805715d",
+      "byteLength": 117345,
+      "pageCount": 4,
+      "acroFieldCount": 0,
+      "structuralClassObserved": "flat_page_content"
+     },
+     "artifactId": "AR-ACIC-PETITION-SEAL-MISDEMEANOR-DWI-BWI",
+     "servesFamilies": [
+      "ar-misdemeanor-dwi-seal-set"
+     ],
+     "identityReadBy": "FABLE-FIXAR",
+     "labelCaveat": "The census names this document by a SHORTER label than the corpus form number -- census \"ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI\" against corpus \"AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION\". That is an id-alias difference and not a missing document: the corpus index holds this exact path at this exact SHA-256, and the family's own source-receipt.json pins the same hash. The census word \"UNIFORM\" is printed on no ACIC document in the mounted corpus and is not relied on here; this binding rests on the title printed on page 1.",
+     "labelIsFamilySpecific": true,
+     "whyTheLabelIsFamilySpecific": "ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI is named by exactly one family in data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json -- ar-misdemeanor-dwi-seal-set -- measured in this lane. Scoping the finding to that family rather than binding the label globally cannot change what any family this lane does not hold resolves to, which is the whole reason the scope is used here."
+    },
+    {
+     "jurisdiction": "AR",
+     "officialTitle": "Order to Seal a Misdemeanor Conviction for Driving or Boating While Intoxicated",
+     "revision": "REV-2021-07-27",
+     "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+     "officialLandingPage": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+     "namedInFamiliesAs": [
+      "ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI"
+     ],
+     "identityEvidence": "pdftotext -f 1 -l 1 -layout, read in this lane: page 1 prints the centred two-line title \"ORDER TO SEAL A MISDEMEANOR CONVICTION\" / \"FOR DRIVING OR BOATING WHILE INTOXICATED\", then \"Before the Court is the Petition of the Defendant to seal his/her record. The Court finds and orders as follows:\". Page 2 carries the decree, which seals \"the above referenced misdemeanor conviction(s) pursuant to A.C.A. §16-90-1405\" and directs the agencies to comply with \"A.C.A. §16-90-1413\". The face is the proposed ORDER. Page 1 footer prints \"ACIC Form\" / \"07/27/2021\".",
+     "identityConfidence": "confirmed_from_document_text",
+     "held": {
+      "custody": "MASTER_LIBRARY",
+      "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+      "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION__order-to-seal-a-misdemeanor-conviction-for-driving-or-boating-while-intoxicated__REV-2021-07-27__EN.pdf",
+      "sha256": "ae6b81f6882133c207f23435b00785b50b40e014c616d3c77707e8b6020d43af",
+      "byteLength": 111099,
+      "pageCount": 2,
+      "acroFieldCount": 0,
+      "structuralClassObserved": "flat_page_content"
+     },
+     "artifactId": "AR-ACIC-ORDER-SEAL-MISDEMEANOR-DWI-BWI",
+     "servesFamilies": [
+      "ar-misdemeanor-dwi-seal-set"
+     ],
+     "identityReadBy": "FABLE-FIXAR",
+     "labelCaveat": "The census names this document by a SHORTER label than the corpus form number -- census \"ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI\" against corpus \"AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION\". That is an id-alias difference and not a missing document: the corpus index holds this exact path at this exact SHA-256, and the family's own source-receipt.json pins the same hash. The census word \"UNIFORM\" is printed on no ACIC document in the mounted corpus and is not relied on here; this binding rests on the title printed on page 1.",
+     "labelIsFamilySpecific": true,
+     "whyTheLabelIsFamilySpecific": "ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI is named by exactly one family in data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json -- ar-misdemeanor-dwi-seal-set -- measured in this lane. Scoping the finding to that family rather than binding the label globally cannot change what any family this lane does not hold resolves to, which is the whole reason the scope is used here."
+    }
+   ]
   }
  ],
  "artifactIndex": {
@@ -12549,6 +12693,18 @@
    "whereTheSuffixesComeFrom": "ORDER and SERVICE are the document_role values the Master Library's own STATES/MT/STATE_MANIFEST.csv prints for these two rows, and the officialFormDocumentRole values both families' dependency.json files already carry. Nothing was invented.",
    "holdingsUnchanged": "Both hashes were already bound in both families by source-sha256 obligations at exact_content_hash. This changes what the families can NAME, not what they hold.",
    "texasNeededNothing": "TX-GC-411.0727/0728/0729/0731 were reported ambiguous too, but no route reaches them at either tier: the Texas families already name the order and the petition as two descriptive labels and both already bind at tier 3."
+  },
+  {
+   "pass": "FABLE-FIXAR Arkansas identity reading for two already-attached families",
+   "producedOn": "2026-09-02",
+   "cohort": "NOT a cohort of this document's original 70. ar-arrest-seal-set and ar-misdemeanor-dwi-seal-set were never source-blocked: both were SOURCE_ALREADY_HELD and both hash exact.",
+   "whyTheyAreHereAnyway": "Their custody rows resolved at tier token_subset_same_jurisdiction, which is a string test. scripts/grade-a-packet-factory-24h/generate.mjs admits only exact tiers, so their MASTER_QUEUE rows read sourceStatus SOURCE_IDENTITY_NOT_EXACT with boundCount 0/2 and a per-document reason of MISSING_DOCUMENT, on documents the same repository holds and pins. Two independent verifiers failed SOURCE_IDENTITY on exactly that split. This file is the register the reconciler reads for a reading of the document itself, so the reading is recorded here.",
+   "whatWasDone": "All four documents were located under the mounted Master Library, their SHA-256 recomputed and compared against the committed corpus index, the family source-receipts and the custody rows, and their first pages read with pdftotext -layout. Four hashes recomputed, zero mismatches, four identities confirmed from document text.",
+   "hashesRecomputed": 4,
+   "hashMismatches": 0,
+   "upgradedToConfirmedFromDocumentText": 4,
+   "scope": "Every finding is labelIsFamilySpecific and names only the single family that names its label, measured against the build worklist in this lane. No label here is shared with a second family, so no family outside this lane's two can resolve differently because of it.",
+   "grantsNothing": "No family was promoted, no route was opened, no price was set and no verdict was written. This records what is printed on four documents the repository already held."
   }
  ],
  "countsAreRecomputed": "counts and familiesClassified are recomputed from entries[] on every integration, not carried forward. Two passes each edited a class and each left the other pass’s total in place; the merge is where that is caught.",
