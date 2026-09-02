@@ -3,7 +3,7 @@
   "lane": "VF02",
   "worker": "VF-SRC-A",
   "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
-  "assignmentCount": 7,
+  "assignmentCount": 10,
   "assignments": [
     {
       "itemId": "oh_marijuana_expungement-set",
@@ -224,6 +224,90 @@
       },
       "whatPassed": "ROUTE_IDENTITY, SOURCE_IDENTITY, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP and FILING_DESTINATION all pass on measurement at this base. The bytes, the writes, the refusal classifications and the protection of signature, date and judicial fields are sound; the failures are all in what the packet tells the participant.",
       "doNotChase": "companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf is declared in source-receipt.json and reports/rendered-artifacts.json and is absent from the working tree on purpose. It is one of the 59 private-corpus binaries excluded at integration commit c01b87d1584bbb0b902b398b45c376f8fea22050; launch-control records that those 'are not in git by design; bind them through the corpus bootstrap'. VA17 bound it from MASTER_LIBRARY_SOURCE_DIR and it matches its declared sha256 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb and 235789 bytes exactly. Do not re-commit it."
+    },
+    {
+      "repairAssignmentId": "VTB-REPAIR-KS-PRODUCT-WIRING",
+      "itemId": "rcap-ks-custom-pleading",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading",
+      "raisedBy": "VT-B",
+      "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "decisiveDefect": "The packet is sound and the FIXKS re-pointing holds; the defect is in one generated record. data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/product-wiring.json still describes the pre-repair family in two independent ways. Its top-level routeKey and routeKeys name obligation:track-only:KS:ks-12-4516-municipal and obligation:track-only:KS:ks-12-4516a-municipal-arrest, each of which occurs zero times in the committed route-obligation census, while binding.routeKeys in the same file names the two current five-segment keys. And binding.acceptanceReceipt claims RASTER_PASS coversTheWholeFamily true bound to canonical 6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8, which is the pre-repair hash; the canonical on disk hashes aca94f8f2ec3ae058e1a52b3d17cda4ffbabec5e6f8b087e5d58147f81a3f04f, and proposedRepresentation.components[0].sha256 repeats the dead hash.",
+      "failedProofObligations": [
+        "ROUTE_IDENTITY",
+        "ARTIFACTS"
+      ],
+      "perObligation": {
+        "ROUTE_IDENTITY": {
+          "measuredDetail": "grep of each key against data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json: obligation:track-only:KS:ks-12-4516-municipal 0 occurrences, obligation:track-only:KS:ks-12-4516a-municipal-arrest 0 occurrences, both current track-pathway keys 1 occurrence each. Comparing product-wiring top-level routeKeys against binding.routeKeys across all 182 census-v1 families, only 6 disagree and Kansas is one of them, so this is not the house style.",
+          "whatRepairMustDo": "Regenerate this family's product-wiring.json through scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs so its top-level routeKey and routeKeys carry the two keys the census carries. Do not hand-edit the overlay file and do not change the builder, which is already correct. The other five disagreeing families (ri-nonconviction-sealing-set, ca-prop64-set, sd-arrest-expungement-set, ny-mrta-marijuana-set, ar-misdemeanor-dwi-seal-set) should be checked in the same pass."
+        },
+        "ARTIFACTS": {
+          "measuredDetail": "All six Kansas artifact hashes recomputed here match reports/rendered-artifacts.json exactly. None of the six appears in RASTER_QUEUE.json. The five route-artifact acceptance records under data/rcap-grade-a/route-artifact-acceptance/ still carry only pre-repair Kansas hashes and the superseded keys: ROUTE_ARTIFACT_ACCEPTANCE 14 pre-repair hash lines and 0 post-repair, ROUTE_ARTIFACT_COMPLETENESS 4 and 0, ROUTE_ARTIFACT_DETERMINISM 9 and 0, ROUTE_ARTIFACT_RASTER_QUEUE 4 and 0, CENTRAL_RASTER_RUN 2 and 0.",
+          "whatRepairMustDo": "Withdraw the stale acceptance rather than restate it. Clear binding.acceptanceReceipt and proposedRepresentation.components[].sha256 for this family until the current six artifacts have actually been rastered centrally, then re-pin from that run. Re-queue the six current hashes for central raster. Kansas remains BUILT_RASTER_PENDING and no acceptance may be carried forward across a rebuild that moved every hash."
+        }
+      },
+      "whatRepairMustNotDo": [
+        "rebuild the packet: the six artifacts are correct and deterministic, and rebuilding would move nothing but would discard evidence",
+        "hand-edit hashes in product-wiring.json to match the bytes: an acceptance receipt records a raster run that happened, and no run has yet rastered these bytes",
+        "open a route, set a price, or change checkout"
+      ],
+      "grantsNothing": "This assignment grants nothing. It opens no route, sets no price, changes no checkout, and marks no packet proven. VT-B measured and may not repair; the lane that repairs may not verify its own repair."
+    },
+    {
+      "repairAssignmentId": "VTB-REPAIR-VTNC-ROUTE-KEY-AND-STOP",
+      "itemId": "vt_seal_nonconviction-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+      "raisedBy": "VT-B",
+      "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "decisiveDefect": "Two defects, both in the builder. First, the family prints a route key on its participant-facing pages that no census carries: 'obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing' appears in the instructions footer, in the process-guidance page inside fixtures/canonical.pdf and in production-field-map.json, and its only occurrences anywhere in the repository are scripts/build-census-v1-vt_seal_nonconviction-set.mjs and those two family files. The census and product-wiring.json instead carry three obligation:unit:VT:vt_seal_nonconviction:* keys. This is the same defect class as the Kansas repair, on a family nobody has repaired. Second, the packet nowhere states where self-help ends, although the committed track registry records six selfHelpStopConditions for this track.",
+      "failedProofObligations": [
+        "ROUTE_IDENTITY",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "ROUTE_IDENTITY": {
+          "measuredDetail": "grep of obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing across data, src and scripts returns three files, all inside this family and its builder, and zero occurrences in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json or in src/lib/rcap-engine/compiled. The three obligation:unit:VT:vt_seal_nonconviction:* keys the census carries are each present there once. The constructed key looks like trackId plus the runtimePathwayId that the census records only inside currentServiceDisposition, 'unit_parent_represented_by_runtime:non-conviction-sealing'.",
+          "whatRepairMustDo": "Re-point scripts/build-census-v1-vt_seal_nonconviction-set.mjs to the keys the census actually carries, in the way FIXKS did for Kansas: read the anchors from the committed census bytes and fail the build if a key is absent, rather than composing a key from parts. Then rebuild, re-pin the receipt, and re-queue for raster, because every artifact hash will move."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "participant-instructions.md has no stop section, and neither does the process-guidance page on pages 7 and 8 of the canonical fixture. The only related sentence is the boilerplate 'It is not legal advice, it is not filed for you'. Comparing data/record-clearing/legal-design-track-registry.json selfHelpStopConditions for vt_seal_nonconviction term by term against the packet, at most two of six are covered. Omitted: that any pending charge anywhere blocks the court under 13 V.S.A. Sec. 7604; that the disposition may not be clearly one of the three Sec. 7603(a)(1) triggers; that Act 60 repealed the no-conviction expungement, so a participant expecting expungement gets sealing; and immigration consequences.",
+          "whatRepairMustDo": "Carry the registry's six stop conditions into the packet the way the sister family vt_seal_pardon does, which transcribes all ten of its own verbatim under 'When to stop and get a lawyer'. Both families are built from the same three Vermont forms, so the pattern already exists in the repository and needs no new legal input."
+        }
+      },
+      "whatRepairMustNotDo": [
+        "invent a route key: read it from the census bytes",
+        "author new stop conditions: the registry already holds six for this track",
+        "open a route, set a price, or change checkout"
+      ],
+      "grantsNothing": "This assignment grants nothing. It opens no route, sets no price, changes no checkout, and marks no packet proven. VT-B measured and may not repair; the lane that repairs may not verify its own repair."
+    },
+    {
+      "repairAssignmentId": "VTB-REPAIR-AZ-SELF-HELP-STOP",
+      "itemId": "az_marijuana_expungement_arrest_no_charges-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
+      "raisedBy": "VT-B",
+      "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "decisiveDefect": "The packet nowhere states where self-help ends. participant-instructions.md has no stop section; its only two references to a lawyer both tell the participant to leave the attorney block blank. The committed track registry records six selfHelpStopConditions for az_marijuana_expungement_arrest_no_charges and the packet carries at most two of them.",
+      "failedProofObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "SELF_HELP_STOP": {
+          "measuredDetail": "Registry selfHelpStopConditions for this track compared term by term against participant-instructions.md and the extracted text of both fixtures. Omitted: that the prosecuting agency may file a response opposing eligibility; that a conduct date on or after 12 July 2021 changes the position; that a petitioner who wants to challenge the underlying conviction rather than expunge it is on the wrong route; and immigration consequences. The words immigration and lawyer-advice do not appear in any stop sense anywhere in the family.",
+          "whatRepairMustDo": "Add the registry's stop conditions to participant-instructions.md. The input exists in data/record-clearing/legal-design-track-registry.json, so this needs no new legal input and no new source. Note for the same pass: this family's fee and waiver position and its service position are correctly recorded as unestablished, and those two remain open legal inputs that this repair does not close."
+        }
+      },
+      "whatRepairMustNotDo": [
+        "write a fee figure or a service rule: no committed record establishes either for this track, and the packet is right to refuse",
+        "open a route, set a price, or change checkout"
+      ],
+      "grantsNothing": "This assignment grants nothing. It opens no route, sets no price, changes no checkout, and marks no packet proven. VT-B measured and may not repair; the lane that repairs may not verify its own repair."
     }
   ],
   "va6Assignments": {
@@ -233,5 +317,17 @@
     "everyFailingFamilyHasOne": "All five families FABLE-VA6 read returned FAIL_REPAIR_REQUIRED and all five carry an assignment naming the decisive defect and the exact failed obligations.",
     "sharedRootCause": "Three of the five failures (MS, ID, OK) are the same defect in the same shared build shape: a caption dot run emitted as a hard-coded literal instead of through the {{DOTS}} token, against a blank ledger built only from field-map refusals. unclassifiedBlanks is structurally incapable of seeing it and reports 0 on all three. It is worth repairing the counter as well as the three packets, because any family built to this shape carries the defect undetected.",
     "preservedPriorAssignments": "The pre-existing assignment on oh_marijuana_expungement-set was preserved byte-for-byte; assignmentCount was updated from 1 to 6 and no other pre-existing key was touched."
+  },
+  "vtbAssignments": {
+    "worker": "VT-B",
+    "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "branch": "fable/vtb",
+    "note": "VT-B verified seven VF02 families and two VF09 families at this base and raised these assignments. VT-B measured and did not repair; nothing here was edited in any overlay directory or build script.",
+    "crossFamilyFinding": "Three of the four failures are the same failure. AZ, VT non-conviction and UT each omit self-help stop conditions that the committed track registry already holds for their track, and all three omit immigration consequences, which the registry names for every one of them and which the Utah entry marks as a hard stop. A fourth family in the same read, wa_vac_survivor_felony-set, states where self-help ends but carries 3 of its 12 registry conditions and also drops immigration; that one is recorded as a disclosed divergence rather than a failure because the packet does state where self-help ends. Whatever pass fixes these three should measure every official-form family the same way: registry selfHelpStopConditions against the packet, term by term.",
+    "assignmentIds": [
+      "VTB-REPAIR-KS-PRODUCT-WIRING",
+      "VTB-REPAIR-VTNC-ROUTE-KEY-AND-STOP",
+      "VTB-REPAIR-AZ-SELF-HELP-STOP"
+    ]
   }
 }
