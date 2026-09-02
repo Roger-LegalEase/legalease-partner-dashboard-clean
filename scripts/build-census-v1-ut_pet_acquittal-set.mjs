@@ -154,7 +154,29 @@ const CONFIGS = Object.freeze({
     // does, so the packet states the figure and the "may require" condition the
     // record attaches to it rather than telling the participant no amount can
     // be stated.
-    certificateIssuanceFeeHeldPerCase: "an eligible conviction"
+    certificateIssuanceFeeHeldPerCase: "an eligible conviction",
+    // Carried word for word from data/record-clearing/legal-design-track-registry.json,
+    // track `ut_pet_conviction`, selfHelpStopConditions. Nothing added, nothing
+    // softened, nothing read across from a sibling Utah route: these are the
+    // thirteen this route's own committed record holds, in its own order.
+    // selfHelpBoundaries on the same track restates them and adds no condition
+    // the list below does not already carry.
+    selfHelpStopTrack: "ut_pet_conviction",
+    selfHelpStopConditions: [
+      "The participant is not a US citizen. The Utah Courts self-help page itself tells non-citizens to consult an immigration lawyer before expunging, because the FBI may retain records of an expunged case. This is a hard stop, not a caveat.",
+      "The prosecutor or a victim objects, or the court schedules a hearing.",
+      "BCI offers a special certificate instead of a certificate of eligibility, because the court rather than BCI then decides eligibility.",
+      "The public-interest showing has to be argued rather than simply stated.",
+      "Any conviction-counting question near the 77-40a-303(4) or (5) limits, including out-of-state and previously expunged convictions.",
+      "An active protective order or stalking injunction.",
+      "The participant is asking to expunge appellate records.",
+      "The conviction count is anywhere near the 77-40a-303(4) or (5) limits, which run on the entire criminal history across all states including previously expunged convictions.",
+      "A criminal episode contains both a drug possession offence and a non-drug offence, so the 77-40a-303(6) mixed-episode counting rule has to be applied.",
+      "Whether an offence is a violent felony under 76-3-203.5(1)(c)(i) is genuinely in question.",
+      "Which of case closure, release, or termination of supervision starts the applicable waiting period is genuinely in question.",
+      "The public-interest explanation needs to be argued rather than stated.",
+      "The participant is relying on the 77-40a-303(7) after-ten-years increase in the numerical limits."
+    ]
   },
   "ut_pet_dismissed_with_prejudice-set": {
     slug: "ut-pet-dismissed-with-prejudice-set", traffic: false, routeKind: "case",
@@ -1520,7 +1542,18 @@ function participantInstructions(config, authorities) {
     out.push("For an expungement petition Utah's published applicant instructions direct you to **mail or email the prosecutor copies of what you file**. Because this is the traffic route rather than the BCI route, confirm the method and the prosecutor's current address with the clerk of the district court where you file, or with the Utah State Courts Self-Help Center on **888-583-0009**, before you serve.", "");
   } else {
     out.push("**The prosecutor must receive a copy of what you file, by mail or by email.** BCI's Expungement Applicant Instructions state the step plainly: after filing with the court, \"Mail or email the prosecutor copies of what you file.\" This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, for the prosecutor to acknowledge receipt.", "");
-    out.push("The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it. The Utah State Courts Self-Help Center answers questions about this on **888-583-0009**.", "");
+    /*
+     * On a route whose own committed record makes an objection or a scheduled
+     * hearing a STOP condition, "attend it" directs self-representation at the
+     * exact point the record says self-help ends. Where this route holds those
+     * conditions the sentence is replaced by the stop; where it does not, the
+     * existing sentence stands unchanged and those families' bytes do not move.
+     */
+    if (config.selfHelpStopConditions) {
+      out.push("The prosecutor or a victim in your case may object, and the court may schedule a hearing. **This route's own committed record treats that as the point where self-help ends, not as a next step you take on your own** — it is the second condition under *Where self-help ends* below. This packet does not prepare you for a contested hearing, does not answer an objection for you, and does not argue anything for you. Look for a lawyer licensed in Utah as soon as an objection reaches you or a hearing is set, rather than afterwards. The Utah State Courts Self-Help Center answers procedural questions about this on **888-583-0009**.", "");
+    } else {
+      out.push("The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it. The Utah State Courts Self-Help Center answers questions about this on **888-583-0009**.", "");
+    }
   }
   out.push(config.acquittalAutomaticFirst
     ? "The certificate-of-service blocks on these forms are left blank, and on this route they stay blank: no service step belongs to you. If some other delivery is ever made, its method, address and date go in only after it has actually happened — a certificate of service dated before service is a false statement."
@@ -1574,6 +1607,20 @@ function participantInstructions(config, authorities) {
   }
 
   out.push("Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected.", "");
+
+  if (config.selfHelpStopConditions) {
+    // The route holds thirteen stop conditions and the packet carried none of
+    // them. They are reproduced word for word from the committed registry, and
+    // the file, track and field are named so a reader can check every line
+    // against the record rather than trusting this packet for them.
+    out.push("## Where self-help ends", "");
+    out.push(`This packet prepares the petition and the BCI application. It does not decide anything, and no lawyer has reviewed your case in preparing it. **Stop and get a lawyer licensed in Utah before you file if any of the following is true of your case.** Each one is carried word for word from this route's own committed track record — \`data/record-clearing/legal-design-track-registry.json\`, track \`${config.selfHelpStopTrack}\`, \`selfHelpStopConditions\` — and each is a point at which this packet stops being enough:`, "");
+    out.push(...config.selfHelpStopConditions.map((condition) => `- ${condition}`), "");
+    out.push("**If you are not a United States citizen, the first item in that list is a hard stop and not a caveat, and the record says so in those words.** Ask an immigration lawyer before you sign or file anything. The reason the record gives is that the FBI may retain records of an expunged case, so a Utah expungement does not necessarily remove the record an immigration authority sees. Neither this packet, nor the court clerk, nor the Bureau of Criminal Identification can tell you what it does to your immigration position, and the petition and the BCI application are both sworn once you sign them.", "");
+    out.push("**The second condition is the one that happens after you file, and it ends self-help where it starts.** If the prosecutor or a victim objects, or the court sets your petition for hearing instead of granting it, the matter is contested from that point. This packet does not prepare you for a contested hearing and does not answer an objection for you, and the reply and hearing windows run on the court's clock rather than yours — so look for a lawyer as soon as an objection reaches you, not afterwards.", "");
+    out.push("**Two of these conditions are about the explanation this packet leaves blank for you to write.** The public-interest showing is yours to supply, and the record stops self-help at the point where it has to be argued rather than simply stated. If you cannot state your reasons plainly and expect them to stand on their own, that is the condition, and it is reached before you file rather than after.", "");
+    out.push(`The same track's \`selfHelpBoundaries\` field restates these thirteen and adds no condition the list above does not already carry.`, "");
+  }
 
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of official Utah forms built for review. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.", "");
@@ -1758,6 +1805,10 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
         "SERVICE: the packet directs no service on the automatic route and no service by the participant on the fallback petition. The sequence stated is participant files with the court, court gives notice to the prosecuting office, court sends BCI the order, BCI notifies the affected agencies and the FBI. The BCI applicant sheet's Step 2 prosecutor-service line and its Step 4 agency copy-delivery note are named in the instructions as superseded for this route rather than dropped, because the participant is holding that sheet.",
         "FEE_AND_WAIVER: the automatic route is stated to cost nothing before any amount appears, and the certificate paragraph now states the held acquittal-specific fact - no certificate issuance fee is required for acquittals - instead of refusing a figure the repository holds.",
         "This family stays payment-disabled: generationAllowed false, runtimeSelectable false, createsFulfillmentRecord false, commercialRoutesOpened 0. A truthful guidance treatment opens no route."
+      ] : []),
+      ...(config.selfHelpStopConditions ? [
+        `SELF_HELP_STOP: this route's thirteen committed selfHelpStopConditions are reproduced word for word in participant-instructions.md under "Where self-help ends", cited to data/record-clearing/legal-design-track-registry.json track ${config.selfHelpStopTrack}. The non-citizen condition is carried as the express hard stop the record calls it, and the objection-or-hearing condition replaces the earlier "if the court schedules a hearing, attend it", which directed self-representation at the exact point this route's own record says self-help ends. No sibling Utah route's conditions were read across.`,
+        "FLAGGED FOR COUNSEL, NOT REPAIRED HERE - STATE-PACK FIDELITY: the coded track registry's destination.detail for this track says \"The court sends the filing to the prosecuting attorney; the petitioner does not serve\", which contradicts the held BCI Expungement Applicant Instructions this packet follows and quotes (\"Mail or email the prosecutor copies of what you file\"). Under the source hierarchy the held official publication wins, so the packet's service text is left exactly as it is and the registry note is recorded as a state-pack fidelity issue for counsel rather than acted on by a repair lane."
       ] : []),
       "Blanks printed inside the form's own agency-use-only box are protected for the issuing agency rather than asked of the participant.",
       "Independent completeness and visual verification remain pending."
