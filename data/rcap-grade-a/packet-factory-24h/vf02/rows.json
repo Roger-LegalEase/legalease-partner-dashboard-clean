@@ -5643,6 +5643,230 @@
       "overlayDirectoriesModified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::canonical",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading",
+      "artifact": "fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
+      "artifactSha256": "8a85bc0f2365938bd8b5e0483585b95abf2550a6cc24a4717b0d72001abd708d",
+      "pageCount": 6,
+      "verifiedAtBase": "d74ac4c1279c92d94be307b6d2542b9d4292427d",
+      "worker": "KSVER",
+      "verifiedBy": "KSVER independent verification; every hash recomputed in this container from the committed bytes, never read back from a record",
+      "rasterState": "BUILT_RASTER_PENDING — rendered-artifacts.json records rasterSkipped:true, rasterEngine:null, rasterPages:[] and routeArtifactRasterPending:true. No raster of this artifact exists, local or central.",
+      "rasterWorkflowRunId": null,
+      "verdictCeilingApplied": "BUILT_RASTER_PENDING",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "carries only the current five-segment key obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a, and does not carry the 12-4516 conviction route key. The printed label names K.S.A. 12-4516a, the correct statute for this route.",
+          "evidence": "grep of all four keys against route-obligation-candidate.json: 1 occurrence each for both track-pathway keys, 0 for both track-only keys"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "3/3 committedRecords recomputed from git objects: sha256 AND byteLength matched on all three. Anchor presence tested separately and independently of the pin: both route slugs are textually present in every source that binds them.",
+          "evidence": "sha256 recompute of legal-design-track-registry.json (49d08b90…, 16469590B), legal-design-specifications.json (cc0c7959…, 16829383B), route-obligation-candidate.json (09368333…, 2599752B); anchor grep: ks-12-4516a-municipal-arrest present 1x in registry, 5x in specifications, key present 1x in census"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "carries exactly its three declared components (primary-filing-1 pp1-3, proposed-order-2 p4, filing-instructions-3 pp5-6) and NO component of the 12-4516 conviction/diversion route. Confirmed from the bytes page by page, not from pageManifest.",
+          "evidence": "per-page pdftotext headings: p1/p4/p5 all read ARREST ON A CITY ORDINANCE CHARGE. Positive-control sweep: own markers fire (ARREST ON A CITY ORDINANCE CHARGE x3, 12-4516a( x30, identity theft x5, best-interests-of-justice x3); foreign markers (CONVICTION OR DIVERSION, 12-4516(g), convicting, diverting authority) = 0. The single plain 12-4516 hit is 12-4516A uppercase wrapped across a line break in the title, not a conviction-route reference."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "every written value read back from this component's own pages in the saved bytes; no invisible or out-of-box writes",
+          "evidence": "reports/actual-writes.json derivedFromArtifactBytes:true, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes:0, flattenedWidgetAppearances:0; counters invisibleWrites:0"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "every blank classified and disclosed with the reason and what the participant must supply",
+          "evidence": "blanks-left-for-the-participant.json; blankDispositions REQUIRED_BEFORE_FILING:28, PROTECTED_FIELD:14; unclassifiedBlanks:0"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "this route's options carried per route in the instructions",
+          "evidence": "participant-instructions.md has a dedicated ks-12-4516a-municipal-arrest-primary-filing-1 block; requiredOptionsMissing:0"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no incomplete repeating row",
+          "evidence": "completeness-counters incompleteRows:0"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no write into a protected field; 14 protected blanks left unwritten",
+          "evidence": "completeness-counters protectedWrites:0; blankDispositions PROTECTED_FIELD:14"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the declared artifact exists and its bytes hash to the declared digest at the declared page count",
+          "evidence": "sha256 8a85bc0f… recomputed MATCH; page count 6 MATCH"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "petition, then proposed order, then filing instructions — the order the manifest declares, confirmed from page headings",
+          "evidence": "per-page extraction p1-3 petition, p4 PROPOSED ORDER, p5-6 FILING INSTRUCTIONS"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "this artifact has never been rastered. The family's only raster manifest covers the family assembly only, and its own coverage.basis concedes 'the route artifacts are' the participant deliverables. Raster is the gate that proves no clipped or overlapping write, so this obligation is undischarged for the artifact that is actually delivered.",
+          "evidence": "rendered-artifacts.json rasterSkipped:true / rasterPages:[] / routeArtifactRasterPending:true; fix03-kansas/FAMILY_ASSEMBLY_RASTER_MANIFEST.json rows[0].unitOfDelivery='family_assembly', currentRasterState='RASTER_PENDING'"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "destination recorded per route: the Kansas municipal court where the ordinance charge was brought, with the file-separation rule on filing named",
+          "evidence": "participant-instructions.md FILING_DESTINATION row for this route; K.S.A. 12-4516a(a)-(b)"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "fee recorded as court-prescribed under 12-4516a(b), and the identity-theft fee exemption under K.S.A. 21-6107 is carried as the statutory relief rather than a discretionary waiver",
+          "evidence": "participant-instructions.md FEE_AND_WAIVER row; the exemption is also printed on the packet page 6"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the court causes notice; the participant does not serve — stated explicitly",
+          "evidence": "participant-instructions.md SERVICE row; K.S.A. 12-4516a(b)"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "seven route-specific stop conditions including disputed mistaken-identity/no-probable-cause grounds and the cross-route stop directing a convicted or diverted participant to the 12-4516 route instead",
+          "evidence": "participant-instructions.md SELF_HELP_STOP row and 'When to stop and get help instead of filing'"
+        }
+      },
+      "participantFacingRouteIdLeak": false,
+      "carriesForeignRouteComponent": false,
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::boundary",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading",
+      "artifact": "fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
+      "artifactSha256": "dd364be7194a5e23643057ba75e5d5ea84950e7cd18b2945db5483761b9f3617",
+      "pageCount": 6,
+      "verifiedAtBase": "d74ac4c1279c92d94be307b6d2542b9d4292427d",
+      "worker": "KSVER",
+      "verifiedBy": "KSVER independent verification; every hash recomputed in this container from the committed bytes, never read back from a record",
+      "rasterState": "BUILT_RASTER_PENDING — rendered-artifacts.json records rasterSkipped:true, rasterEngine:null, rasterPages:[] and routeArtifactRasterPending:true. No raster of this artifact exists, local or central.",
+      "rasterWorkflowRunId": null,
+      "verdictCeilingApplied": "BUILT_RASTER_PENDING",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "carries only the current five-segment key obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a, and does not carry the 12-4516 conviction route key. The printed label names K.S.A. 12-4516a, the correct statute for this route.",
+          "evidence": "grep of all four keys against route-obligation-candidate.json: 1 occurrence each for both track-pathway keys, 0 for both track-only keys"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "3/3 committedRecords recomputed from git objects: sha256 AND byteLength matched on all three. Anchor presence tested separately and independently of the pin: both route slugs are textually present in every source that binds them.",
+          "evidence": "sha256 recompute of legal-design-track-registry.json (49d08b90…, 16469590B), legal-design-specifications.json (cc0c7959…, 16829383B), route-obligation-candidate.json (09368333…, 2599752B); anchor grep: ks-12-4516a-municipal-arrest present 1x in registry, 5x in specifications, key present 1x in census"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "carries exactly its three declared components (primary-filing-1 pp1-3, proposed-order-2 p4, filing-instructions-3 pp5-6) and NO component of the 12-4516 conviction/diversion route. Confirmed from the bytes page by page, not from pageManifest.",
+          "evidence": "per-page pdftotext headings: p1/p4/p5 all read ARREST ON A CITY ORDINANCE CHARGE. Positive-control sweep: own markers fire (ARREST ON A CITY ORDINANCE CHARGE x3, 12-4516a( x30, identity theft x5, best-interests-of-justice x3); foreign markers (CONVICTION OR DIVERSION, 12-4516(g), convicting, diverting authority) = 0. The single plain 12-4516 hit is 12-4516A uppercase wrapped across a line break in the title, not a conviction-route reference."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "every written value read back from this component's own pages in the saved bytes; no invisible or out-of-box writes",
+          "evidence": "reports/actual-writes.json derivedFromArtifactBytes:true, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes:0, flattenedWidgetAppearances:0; counters invisibleWrites:0"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "every blank classified and disclosed with the reason and what the participant must supply",
+          "evidence": "blanks-left-for-the-participant.json; blankDispositions REQUIRED_BEFORE_FILING:28, PROTECTED_FIELD:14; unclassifiedBlanks:0"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "this route's options carried per route in the instructions",
+          "evidence": "participant-instructions.md has a dedicated ks-12-4516a-municipal-arrest-primary-filing-1 block; requiredOptionsMissing:0"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no incomplete repeating row",
+          "evidence": "completeness-counters incompleteRows:0"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no write into a protected field; 14 protected blanks left unwritten",
+          "evidence": "completeness-counters protectedWrites:0; blankDispositions PROTECTED_FIELD:14"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the declared artifact exists and its bytes hash to the declared digest at the declared page count",
+          "evidence": "sha256 dd364be7… recomputed MATCH; page count 6 MATCH"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "petition, then proposed order, then filing instructions — the order the manifest declares, confirmed from page headings",
+          "evidence": "per-page extraction p1-3 petition, p4 PROPOSED ORDER, p5-6 FILING INSTRUCTIONS"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "this artifact has never been rastered. The family's only raster manifest covers the family assembly only, and its own coverage.basis concedes 'the route artifacts are' the participant deliverables. Raster is the gate that proves no clipped or overlapping write, so this obligation is undischarged for the artifact that is actually delivered.",
+          "evidence": "rendered-artifacts.json rasterSkipped:true / rasterPages:[] / routeArtifactRasterPending:true; fix03-kansas/FAMILY_ASSEMBLY_RASTER_MANIFEST.json rows[0].unitOfDelivery='family_assembly', currentRasterState='RASTER_PENDING'"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "destination recorded per route: the Kansas municipal court where the ordinance charge was brought, with the file-separation rule on filing named",
+          "evidence": "participant-instructions.md FILING_DESTINATION row for this route; K.S.A. 12-4516a(a)-(b)"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "fee recorded as court-prescribed under 12-4516a(b), and the identity-theft fee exemption under K.S.A. 21-6107 is carried as the statutory relief rather than a discretionary waiver",
+          "evidence": "participant-instructions.md FEE_AND_WAIVER row; the exemption is also printed on the packet page 6"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the court causes notice; the participant does not serve — stated explicitly",
+          "evidence": "participant-instructions.md SERVICE row; K.S.A. 12-4516a(b)"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "seven route-specific stop conditions including disputed mistaken-identity/no-probable-cause grounds and the cross-route stop directing a convicted or diverted participant to the 12-4516 route instead",
+          "evidence": "participant-instructions.md SELF_HELP_STOP row and 'When to stop and get help instead of filing'"
+        }
+      },
+      "participantFacingRouteIdLeak": false,
+      "carriesForeignRouteComponent": false,
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "vt1Read": {
