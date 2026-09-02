@@ -119,7 +119,7 @@ const identityFindings = (() => {
        * bounded, cheap work with a named outcome, which is a better place for
        * them than an inference nobody can check later.
        */
-      if (!/^confirmed_from_document_text\b/.test(String(artifact.identityConfidence ?? ""))) continue;
+      if (!/^confirmed_from_document_text(_|$)/.test(String(artifact.identityConfidence ?? ""))) continue;
       if (!held.pathInArchive || !/^[0-9a-f]{64}$/.test(String(held.sha256 ?? ""))) continue;
       for (const label of artifact.namedInFamiliesAs ?? []) {
         const key = normalise(label);

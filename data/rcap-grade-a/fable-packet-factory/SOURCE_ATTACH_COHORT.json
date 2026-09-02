@@ -11,30 +11,32 @@
       "AL-C-94A",
       "ID-ISP-BCI-EXPUNGEMENT-APPLICATION",
       "ID-PETITION-TO-SHIELD-67-3004-11",
+      "IN-CCA-SECTION1-BUNDLE",
+      "IN-CCA-SECTION1-BUNDLE",
       "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION",
       "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION",
       "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION",
       "KY-AOC-RU-009",
       "MA-MPS-PETITION-TO-EXPUNGE-100F-100G-100H",
+      "ND-CLOSE-NONCONVICTION-PACKET",
       "ND-SFN-61663"
     ],
     "whyTheseAndNotTheRest": "The reconciler admits an identity established by reading the document itself, and refuses one established from a title, a filename or a revision date. That line is FABLE-C4's own; this file does not move it, it measures what it costs."
   },
   "cohortA": {
     "name": "ONE_DOCUMENT_READ_AWAY",
-    "artifacts": 38,
-    "familiesServed": 24,
+    "artifacts": 36,
+    "familiesServed": 21,
     "whatIsTrueOfThemAll": "The bytes are held in the Master Library, the committed corpus index carries the exact path at the exact SHA-256, and FABLE-C4 established the identity from the corpus's recorded title or form number rather than from the document's own text.",
     "whatIsOwed": "One read per artifact: open the held file, read the identity printed on page one, and record it as confirmed_from_document_text with the sentence it was read from. The reconciler then binds it with no further change — the tier already exists and the hash already matches.",
     "whyItIsNotDoneHere": "Reading a PDF's printed identity requires the Master Library mounted (bash scripts/rcap-corpus/bootstrap-private-corpus.sh). A Captain integrating central state does not hold the corpus, and asserting an identity it has not read would be exactly the inference the tier refuses.",
     "byConfidence": {
       "confirmed_from_corpus_title": 19,
       "confirmed_form_number_later_revision_held": 2,
-      "confirmed_from_document_text_with_page_map": 2,
       "confirmed_from_corpus_title_and_section_number": 15
     },
     "byCustody": {
-      "MASTER_LIBRARY": 38
+      "MASTER_LIBRARY": 36
     },
     "artifactList": [
       {
@@ -351,43 +353,6 @@
         ],
         "namedInFamiliesAs": [
           "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION"
-        ]
-      },
-      {
-        "artifactId": "IN-CCA-SECTION1-BUNDLE",
-        "jurisdiction": "IN",
-        "officialTitle": "Coalition for Court Access - Section 1 non-conviction expungement petition and order bundle",
-        "identityConfidence": "confirmed_from_document_text_with_page_map",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
-        "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
-        "servesFamilies": [
-          "in_arrest_no_charges-set",
-          "in_section1_petition-set"
-        ],
-        "namedInFamiliesAs": [
-          "CCA Section 1 non-conviction expungement petition",
-          "CCA Section 1 expungement order",
-          "CCA-GF-0120-3016",
-          "CCA-XP-0120-7002 Form ACR",
-          "Confidential Information Form"
-        ]
-      },
-      {
-        "artifactId": "ND-CLOSE-NONCONVICTION-PACKET",
-        "jurisdiction": "ND",
-        "officialTitle": "Instructions, Petition and (Proposed) Order to Close Nonconviction Records",
-        "identityConfidence": "confirmed_from_document_text_with_page_map",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/ND/02_PACKET_FORMS/ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf",
-        "sha256": "21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f",
-        "servesFamilies": [
-          "nd-nonconviction-close-petition-set"
-        ],
-        "namedInFamiliesAs": [
-          "ND-INSTRUCTIONS-CLOSE-NONCONVICTION",
-          "ND-PETITION-CLOSE-NONCONVICTION",
-          "ND-ORDER-CLOSE-NONCONVICTION"
         ]
       },
       {

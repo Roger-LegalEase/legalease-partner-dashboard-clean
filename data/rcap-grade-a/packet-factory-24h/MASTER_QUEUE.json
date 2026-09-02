@@ -3,11 +3,11 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "1c24f5350f416beb51af94a3692d598033368788",
+  "minimumCaptainSha": "859624e9f9bef14b79a1099086fba6b4a14e4e35",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
-    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "c3c1d439ce63ff7104dae33af358f1a9f78d6095be75fd8758041d2e76448eef",
+    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "cac30a12a7a453ecc3f38bb8e45f8d04e10ff9e38d449415f2d479413239833c",
     "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "53f5d176a93a97d0421e045576429d646b08079a1db4468e70c6651280f1c0e0",
     "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json": "fbb02da468ece257271b0004773f8ad86fe8f7698cf1e2314f0611437cb3bbbf",
     "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json": "cf15ce284dde2fbd2ce4525e1a797a9cbced9829a612bbc14ccc0cdf113748ea",
@@ -57,16 +57,16 @@
     "activeFamiliesExcluded": 6,
     "guidanceOnly": 0,
     "remaining": 340,
-    "sourceReady": 50,
-    "sourceBlocked": 157,
+    "sourceReady": 54,
+    "sourceBlocked": 153,
     "legalBlocked": 29,
     "verifyPending": 2,
     "repairRequired": 30,
     "sumsToDenominator": true
   },
   "byState": {
-    "SOURCE_READY": 50,
-    "SOURCE_BLOCKED": 157,
+    "SOURCE_READY": 54,
+    "SOURCE_BLOCKED": 153,
     "COMPLETE_PACKET_PROVEN": 84,
     "FAIL_REPAIR_REQUIRED": 30,
     "VERIFIED_PASS": 6,
@@ -76,8 +76,8 @@
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
-    "SOURCE_IDENTITY_UNRESOLVED": 72,
-    "SOURCE_BOUND_BY_HELD_BYTES": 98,
+    "SOURCE_IDENTITY_UNRESOLVED": 68,
+    "SOURCE_BOUND_BY_HELD_BYTES": 102,
     "SOURCE_GENUINELY_MISSING": 67,
     "SOURCE_IDENTITY_NOT_EXACT": 3,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
@@ -153,11 +153,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 16,
-    "sourceReadyFamilies": 50,
-    "familiesPerBuilder": 3.1,
+    "sourceReadyFamilies": 54,
+    "familiesPerBuilder": 3.4,
     "targetPerBuilder": "15 to 25",
-    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 50 do, so a full roster of 16 builders averages 3.1 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 336 source obligations across 186 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 54 do, so a full roster of 16 builders averages 3.4 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 311 source obligations across 182 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -11534,22 +11534,83 @@
         "official-form:CCA-XP-0120-7002 Form ACR",
         "official-form:Confidential Information Form"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:CCA Section 1 expungement order",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CCA Section 1 non-conviction expungement petition",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CCA-GF-0120-3016",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:Confidential Information Form",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CCA Section 1 expungement order: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA Section 1 non-conviction expungement petition: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA-GF-0120-3016: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA-XP-0120-7002 Form ACR: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:Confidential Information Form: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:CCA Section 1 expungement order",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CCA Section 1 non-conviction expungement petition",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CCA-GF-0120-3016",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:Confidential Information Form",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 5,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 5,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -11565,7 +11626,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_arrest_no_charges-set.mjs",
@@ -11621,10 +11682,28 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:CCA-GF-0120-3016",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:CCA-XP-0220-7009",
           "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7009__conviction-expungement-insert-i-c-35-38-9-3__REV-2020-02__EN.pdf",
           "sha256": "499ed8a49c785fa949bcce19c3783f84318b73bc162cb5db8576094a321990b1",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:Confidential Information Form",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
       "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
@@ -11633,10 +11712,7 @@
         "ready": false,
         "reasons": [
           "official-form:CCA conviction expungement order: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA conviction expungement petition: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA-GF-0120-3016: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA-XP-0120-7002 Form ACR: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:Confidential Information Form: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+          "official-form:CCA conviction expungement petition: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
         "boundSources": [
           {
@@ -11645,10 +11721,31 @@
             "sha256": "499ed8a49c785fa949bcce19c3783f84318b73bc162cb5db8576094a321990b1",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index"
+          },
+          {
+            "sourceId": "official-form:CCA-GF-0120-3016",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:Confidential Information Form",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 6,
-        "boundCount": 1,
+        "boundCount": 4,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "directAttachment": true
       },
@@ -11721,10 +11818,28 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:CCA-GF-0120-3016",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:CCA-XP-0220-7010",
           "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7010__conviction-expungement-insert-i-c-35-38-9-4__REV-2020-02__EN.pdf",
           "sha256": "b613c145701a5185fd11d4df61efad5d3b352fc13987581531267868724fbf4b",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:Confidential Information Form",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
       "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
@@ -11733,10 +11848,7 @@
         "ready": false,
         "reasons": [
           "official-form:CCA conviction expungement order: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA conviction expungement petition: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA-GF-0120-3016: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA-XP-0120-7002 Form ACR: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:Confidential Information Form: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+          "official-form:CCA conviction expungement petition: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
         "boundSources": [
           {
@@ -11745,10 +11857,31 @@
             "sha256": "b613c145701a5185fd11d4df61efad5d3b352fc13987581531267868724fbf4b",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index"
+          },
+          {
+            "sourceId": "official-form:CCA-GF-0120-3016",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:Confidential Information Form",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 6,
-        "boundCount": 1,
+        "boundCount": 4,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "directAttachment": true
       },
@@ -11821,10 +11954,28 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:CCA-GF-0120-3016",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:CCA-XP-0220-7008",
           "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
           "sha256": "2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0",
           "tier": "exact_form_number"
+        },
+        {
+          "sourceId": "official-form:Confidential Information Form",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
       "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
@@ -11833,10 +11984,7 @@
         "ready": false,
         "reasons": [
           "official-form:CCA conviction expungement order: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA conviction expungement petition: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA-GF-0120-3016: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA-XP-0120-7002 Form ACR: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:Confidential Information Form: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+          "official-form:CCA conviction expungement petition: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
         "boundSources": [
           {
@@ -11845,10 +11993,31 @@
             "sha256": "2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index"
+          },
+          {
+            "sourceId": "official-form:CCA-GF-0120-3016",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:Confidential Information Form",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 6,
-        "boundCount": 1,
+        "boundCount": 4,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "directAttachment": true
       },
@@ -11985,22 +12154,83 @@
         "official-form:CCA-XP-0120-7002 Form ACR",
         "official-form:Confidential Information Form"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:CCA Section 1 expungement order",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CCA Section 1 non-conviction expungement petition",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CCA-GF-0120-3016",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:Confidential Information Form",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CCA Section 1 expungement order: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA Section 1 non-conviction expungement petition: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA-GF-0120-3016: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA-XP-0120-7002 Form ACR: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:Confidential Information Form: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:CCA Section 1 expungement order",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CCA Section 1 non-conviction expungement petition",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CCA-GF-0120-3016",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:Confidential Information Form",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 5,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 5,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -12016,7 +12246,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_section1_petition-set.mjs",
@@ -17897,20 +18127,57 @@
         "official-form:ND-ORDER-CLOSE-NONCONVICTION",
         "official-form:ND-PETITION-CLOSE-NONCONVICTION"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:ND-INSTRUCTIONS-CLOSE-NONCONVICTION",
+          "path": "STATES/ND/02_PACKET_FORMS/ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf",
+          "sha256": "21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:ND-ORDER-CLOSE-NONCONVICTION",
+          "path": "STATES/ND/02_PACKET_FORMS/ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf",
+          "sha256": "21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:ND-PETITION-CLOSE-NONCONVICTION",
+          "path": "STATES/ND/02_PACKET_FORMS/ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf",
+          "sha256": "21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:ND-INSTRUCTIONS-CLOSE-NONCONVICTION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:ND-ORDER-CLOSE-NONCONVICTION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:ND-PETITION-CLOSE-NONCONVICTION: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:ND-INSTRUCTIONS-CLOSE-NONCONVICTION",
+            "path": "STATES/ND/02_PACKET_FORMS/ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf",
+            "sha256": "21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:ND-ORDER-CLOSE-NONCONVICTION",
+            "path": "STATES/ND/02_PACKET_FORMS/ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf",
+            "sha256": "21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:ND-PETITION-CLOSE-NONCONVICTION",
+            "path": "STATES/ND/02_PACKET_FORMS/ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf",
+            "sha256": "21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 3,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 3,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -17926,7 +18193,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nd-nonconviction-close-petition-set.mjs",
@@ -22285,20 +22552,57 @@
         "official-form:CCA-XP-0120-7002 Form ACR",
         "official-form:Confidential Information Form"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:CCA-GF-0120-3016",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:Confidential Information Form",
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CCA-GF-0120-3016: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:CCA-XP-0120-7002 Form ACR: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:Confidential Information Form: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:CCA-GF-0120-3016",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:Confidential Information Form",
+            "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
         ],
-        "boundSources": [],
         "namedOfficialForms": 3,
-        "boundCount": 0,
-        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "boundCount": 3,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
@@ -22314,7 +22618,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-in-custom-pleading.mjs",
@@ -30601,13 +30905,13 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 8,
-    "familiesAssignedToBuilders": 50,
-    "sourceObligationsAssigned": 336,
-    "actualPromotedAndReleased": 50,
+    "familiesAssignedToBuilders": 54,
+    "sourceObligationsAssigned": 311,
+    "actualPromotedAndReleased": 54,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 157,
+    "prospectiveReleasesAcrossSourceLanes": 153,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false

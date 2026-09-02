@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "1c24f5350f416beb51af94a3692d598033368788",
+  "generatedAtCommit": "859624e9f9bef14b79a1099086fba6b4a14e4e35",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1793,6 +1793,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "in_arrest_no_charges-set",
+      "familyId": "in_arrest_no_charges-set",
+      "itemId": null,
+      "familyIds": [
+        "in_arrest_no_charges-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF02",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "in_infraction_nondisclosure-set",
       "familyId": "in_infraction_nondisclosure-set",
       "itemId": null,
@@ -1820,6 +1835,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T18:55:43.349Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_section1_petition-set",
+      "familyId": "in_section1_petition-set",
+      "itemId": null,
+      "familyIds": [
+        "in_section1_petition-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF02",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -2390,6 +2420,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T18:53:22.404Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nd-nonconviction-close-petition-set",
+      "familyId": "nd-nonconviction-close-petition-set",
+      "itemId": null,
+      "familyIds": [
+        "nd-nonconviction-close-petition-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF05",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -2972,6 +3017,21 @@
       "sourceId": null,
       "operation": "packet-build",
       "lane": "PF01",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-in-custom-pleading",
+      "familyId": "rcap-in-custom-pleading",
+      "itemId": null,
+      "familyIds": [
+        "rcap-in-custom-pleading"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF03",
       "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
@@ -4509,7 +4569,7 @@
       ],
       "sourceId": "official-form:Request to Correct Criminal Justice Information",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:53.872Z"
@@ -4663,7 +4723,7 @@
       ],
       "sourceId": "official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:04.070Z"
@@ -4677,7 +4737,7 @@
       ],
       "sourceId": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:11.934Z"
@@ -4691,7 +4751,7 @@
       ],
       "sourceId": "official-form:ACIC-ORDER-SEAL-ACT-531-ACT-1460",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:04.199Z"
@@ -4705,7 +4765,7 @@
       ],
       "sourceId": "official-form:ACIC-PETITION-SEAL-ACT-531-ACT-1460",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:04.296Z"
@@ -4719,7 +4779,7 @@
       ],
       "sourceId": "official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.022Z"
@@ -4733,7 +4793,7 @@
       ],
       "sourceId": "official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.113Z"
@@ -4747,7 +4807,7 @@
       ],
       "sourceId": "official-form:ACIC-ORDER-DRUG-COURT",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.205Z"
@@ -4761,7 +4821,7 @@
       ],
       "sourceId": "official-form:ACIC-PETITION-DRUG-COURT",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.297Z"
@@ -4775,7 +4835,7 @@
       ],
       "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.387Z"
@@ -4789,7 +4849,7 @@
       ],
       "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.476Z"
@@ -4803,7 +4863,7 @@
       ],
       "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.570Z"
@@ -4817,7 +4877,7 @@
       ],
       "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.668Z"
@@ -4831,7 +4891,7 @@
       ],
       "sourceId": "official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.758Z"
@@ -4845,7 +4905,7 @@
       ],
       "sourceId": "official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.851Z"
@@ -4859,7 +4919,7 @@
       ],
       "sourceId": "official-form:ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:04.774Z"
@@ -4873,7 +4933,7 @@
       ],
       "sourceId": "official-form:ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:04.866Z"
@@ -4887,7 +4947,7 @@
       ],
       "sourceId": "official-form:ACIC-ORDER-VETERANS-COURT",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:12.944Z"
@@ -4901,7 +4961,7 @@
       ],
       "sourceId": "official-form:ACIC-PETITION-VETERANS-COURT",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:13.033Z"
@@ -5083,7 +5143,7 @@
       ],
       "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
       "operation": "exact-source-identity",
-      "lane": "DISC03",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:52:20.554Z"
@@ -5391,7 +5451,7 @@
       ],
       "sourceId": "official-form:FORM-281E",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:50.729Z"
@@ -5447,7 +5507,7 @@
       ],
       "sourceId": "official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:13.691Z"
@@ -5797,7 +5857,7 @@
       ],
       "sourceId": "official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC03",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:06.338Z"
@@ -5853,7 +5913,7 @@
       ],
       "sourceId": "official-form:Certification of Service by Mailing or Delivery",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:13.844Z"
@@ -5867,7 +5927,7 @@
       ],
       "sourceId": "official-form:Rule 2.86 Form 3",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:13.977Z"
@@ -5881,7 +5941,7 @@
       ],
       "sourceId": "official-form:Certification of Service by Mailing or Delivery",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.097Z"
@@ -5895,7 +5955,7 @@
       ],
       "sourceId": "official-form:Certification of Service by Mailing or Delivery",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.206Z"
@@ -5909,7 +5969,7 @@
       ],
       "sourceId": "official-form:Certification of Service by Mailing or Delivery",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.308Z"
@@ -5923,7 +5983,7 @@
       ],
       "sourceId": "official-form:Rule 2.86 Form 1",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.406Z"
@@ -5937,7 +5997,7 @@
       ],
       "sourceId": "official-form:Certification of Service by Mailing or Delivery",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.507Z"
@@ -5951,7 +6011,7 @@
       ],
       "sourceId": "official-form:Rule 2.86 Form 2",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.604Z"
@@ -5965,7 +6025,7 @@
       ],
       "sourceId": "official-form:Rule 2.86 Form 2 attached sheet",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.707Z"
@@ -5979,7 +6039,7 @@
       ],
       "sourceId": "official-form:DCI-76 Criminal History Record Check Billing Form",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.811Z"
@@ -5993,7 +6053,7 @@
       ],
       "sourceId": "official-form:DCI-77 Criminal History Record Check Request Form",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:14.907Z"
@@ -6749,7 +6809,7 @@
       ],
       "sourceId": "official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC03",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:45:13.938Z"
@@ -6847,7 +6907,7 @@
       ],
       "sourceId": "official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC03",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:45:14.031Z"
@@ -6945,7 +7005,7 @@
       ],
       "sourceId": "official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC03",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:45:14.122Z"
@@ -7043,7 +7103,7 @@
       ],
       "sourceId": "official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC03",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:45:14.221Z"
@@ -7197,7 +7257,7 @@
       ],
       "sourceId": "official-form:AOC-RU-009",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:06.427Z"
@@ -7211,7 +7271,7 @@
       ],
       "sourceId": "official-form:AOC-497.2",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:06.517Z"
@@ -7225,7 +7285,7 @@
       ],
       "sourceId": "official-form:AOC-275.18",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:06.607Z"
@@ -7575,7 +7635,7 @@
       ],
       "sourceId": "official-form:TC0057",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:06.531Z"
@@ -7603,7 +7663,7 @@
       ],
       "sourceId": "official-form:CC-DC-CR-072C",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:51.193Z"
@@ -7617,7 +7677,7 @@
       ],
       "sourceId": "official-form:CC-DC-CR-072A",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:51.285Z"
@@ -7631,7 +7691,7 @@
       ],
       "sourceId": "official-form:CC-DC-CR-072B",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:51.378Z"
@@ -7645,7 +7705,7 @@
       ],
       "sourceId": "official-form:CC-DC-CR-072D",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:51.469Z"
@@ -7659,7 +7719,7 @@
       ],
       "sourceId": "official-form:CC-DC-CR-072B",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:51.562Z"
@@ -7673,7 +7733,7 @@
       ],
       "sourceId": "official-form:CR-218",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:06.700Z"
@@ -7687,7 +7747,7 @@
       ],
       "sourceId": "official-form:CR-308",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC04",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:06.790Z"
@@ -7701,7 +7761,7 @@
       ],
       "sourceId": "official-form:MC 227",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:59.122Z"
@@ -7715,7 +7775,7 @@
       ],
       "sourceId": "official-form:MC 227 page 3 Proof of Service",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.834Z"
@@ -7729,7 +7789,7 @@
       ],
       "sourceId": "official-form:MC 227 item 2.c",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.903Z"
@@ -7743,7 +7803,7 @@
       ],
       "sourceId": "official-form:MC 227 page 3 Proof of Service",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.987Z"
@@ -7757,7 +7817,7 @@
       ],
       "sourceId": "official-form:Proof of Service",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:42.057Z"
@@ -8177,7 +8237,7 @@
       ],
       "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:38:22.515Z"
@@ -8191,7 +8251,7 @@
       ],
       "sourceId": "official-form:MT-FORM-B",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.627Z"
@@ -8205,7 +8265,7 @@
       ],
       "sourceId": "official-form:MT-OCA-MMRTA",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.694Z"
@@ -8275,7 +8335,7 @@
       ],
       "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:38:22.592Z"
@@ -8289,7 +8349,7 @@
       ],
       "sourceId": "official-form:MT-FORM-A",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.554Z"
@@ -8303,7 +8363,7 @@
       ],
       "sourceId": "official-form:MT-OCA-MMRTA",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC06",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T16:34:41.760Z"
@@ -8527,7 +8587,7 @@
       ],
       "sourceId": "official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:57.231Z"
@@ -8541,7 +8601,7 @@
       ],
       "sourceId": "official-form:ND-DECLARATION-OF-SERVICE",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:57.330Z"
@@ -8555,7 +8615,7 @@
       ],
       "sourceId": "official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:57.426Z"
@@ -8569,7 +8629,7 @@
       ],
       "sourceId": "official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:57.524Z"
@@ -8639,7 +8699,7 @@
       ],
       "sourceId": "official-form:NHJB-2317-DSe",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:07.603Z"
@@ -8653,7 +8713,7 @@
       ],
       "sourceId": "official-form:NHJB-3057-DSe",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:07.709Z"
@@ -8667,7 +8727,7 @@
       ],
       "sourceId": "official-form:NHJB-3057-DSe",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:07.821Z"
@@ -8681,7 +8741,7 @@
       ],
       "sourceId": "official-form:NHJB-3124-DS",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:07.917Z"
@@ -8695,7 +8755,7 @@
       ],
       "sourceId": "official-form:NHJB-2317-DSe",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:08.012Z"
@@ -8709,7 +8769,7 @@
       ],
       "sourceId": "official-form:NHJB-2317-DSe",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
+      "lane": "SRC02",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:10:08.109Z"
@@ -9199,7 +9259,7 @@
       ],
       "sourceId": "official-form:DC-33-AFFIDAVIT",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:52.616Z"
@@ -9689,7 +9749,7 @@
       ],
       "sourceId": "official-form:1023EX",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:08.010Z"
@@ -9717,7 +9777,7 @@
       ],
       "sourceId": "official-form:1501CR",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:08.098Z"
@@ -9731,7 +9791,7 @@
       ],
       "sourceId": "official-form:1501CR-C",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:08.191Z"
@@ -9745,7 +9805,7 @@
       ],
       "sourceId": "official-form:1502CR",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:08.280Z"
@@ -9759,7 +9819,7 @@
       ],
       "sourceId": "official-form:1001EX",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:08.369Z"
@@ -9773,7 +9833,7 @@
       ],
       "sourceId": "official-form:1021EX",
       "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
+      "lane": "SRC01",
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T08:14:08.461Z"
@@ -9933,7 +9993,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "86dd616d42430a1967017d8cf5fe666a57f3d72691d18165b80842b5ad1de4fd",
+  "claimsDigest": "09c6064a39f7ba13853321402da256bf0c0fb6ca4166d219d0448f78ae869340",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",

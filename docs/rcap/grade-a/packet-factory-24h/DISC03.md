@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `1c24f5350f416beb51af94a3692d598033368788` (or the newer dispatch base)
+**Minimum required ancestor:** `859624e9f9bef14b79a1099086fba6b4a14e4e35` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC03 \
-  --source-obligation 'census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::NO_DOCUMENT_SOURCE_NAMED' \
+  --source-obligation 'il-cannabis-vacate-set::official-form:CXP Additional Cannabis Convictions' \
   --codex-cloud \
-  --minimum-captain-sha 1c24f5350f416beb51af94a3692d598033368788
+  --minimum-captain-sha 859624e9f9bef14b79a1099086fba6b4a14e4e35
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC03 <itemId>`
-- The committed assignment contains exactly 21 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 20 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC03 <itemId>`.
 
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**21 obligations · 12 families this lane WOULD release if every one of them resolves · hosts: IL, WA**
+**20 obligations · 11 families this lane WOULD release if every one of them resolves · hosts: IL**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -105,7 +105,6 @@ the issuing court or agency that publishes the document
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | WA | `exact-source-identity` | `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260` | unresolved exact identity or URL | `ACQ` |
 | `il-cannabis-vacate-set::official-form:CXP Additional Cannabis Convictions` | `official-form:CXP Additional Cannabis Convictions` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
 | `il-cannabis-vacate-set::official-form:CXP Additional Notice of Court Date` | `official-form:CXP Additional Notice of Court Date` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
 | `il-cannabis-vacate-set::official-form:CXP Getting Started Motion to Vacate and Expunge` | `official-form:CXP Getting Started Motion to Vacate and Expunge` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
@@ -127,13 +126,13 @@ the issuing court or agency that publishes the document
 | `il-seal-edu-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-seal-edu-set` | unresolved exact identity or URL | `ACQ` |
 | `il-seal-nonconv-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-seal-nonconv-set` | unresolved exact identity or URL | `ACQ` |
 
-Deterministically assert exactly the 21 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 20 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='DISC03');
-if (!a || a.items.length !== 21) throw new Error('DISC03 committed item count changed');
+if (!a || a.items.length !== 20) throw new Error('DISC03 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','DISC03',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -145,7 +144,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source-obligation 'census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha 1c24f5350f416beb51af94a3692d598033368788
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source-obligation 'il-cannabis-vacate-set::official-form:CXP Additional Cannabis Convictions' --codex-cloud --minimum-captain-sha 859624e9f9bef14b79a1099086fba6b4a14e4e35
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -154,7 +153,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source
 
 ### Families this lane would release
 
-`census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`, `il-cannabis-vacate-set`, `il-exp-nonconv-set`, `il-exp-pardon-set`, `il-exp-precompletion-set`, `il-exp-qualprob-set`, `il-exp-supervision-set`, `il-prb-cert-set`, `il-seal-2yr-set`, `il-seal-3yr-set`, `il-seal-edu-set`, `il-seal-nonconv-set`
+`il-cannabis-vacate-set`, `il-exp-nonconv-set`, `il-exp-pardon-set`, `il-exp-precompletion-set`, `il-exp-qualprob-set`, `il-exp-supervision-set`, `il-prb-cert-set`, `il-seal-2yr-set`, `il-seal-3yr-set`, `il-seal-edu-set`, `il-seal-nonconv-set`
 
 
 ### Settle these first
@@ -165,7 +164,6 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source
 | --- | --- | --- |
 | EXP-AD Request | IL | 10 |
 | CXP Additional Cannabis Convictions | IL | 1 |
-| NO_DOCUMENT_SOURCE_NAMED | WA | 0 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 

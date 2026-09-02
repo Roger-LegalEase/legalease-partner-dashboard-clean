@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `1c24f5350f416beb51af94a3692d598033368788` (or the newer dispatch base)
+**Minimum required ancestor:** `859624e9f9bef14b79a1099086fba6b4a14e4e35` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC02 \
   --source-obligation 'in_conviction_d6-set::official-form:CCA conviction expungement order' \
   --codex-cloud \
-  --minimum-captain-sha 1c24f5350f416beb51af94a3692d598033368788
+  --minimum-captain-sha 859624e9f9bef14b79a1099086fba6b4a14e4e35
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**28 obligations · 7 families this lane WOULD release if every one of them resolves · hosts: IN, LA**
+**28 obligations · 10 families this lane WOULD release if every one of them resolves · hosts: IN, LA**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -152,7 +152,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC02 --source-obligation 'in_conviction_d6-set::official-form:CCA conviction expungement order' --codex-cloud --minimum-captain-sha 1c24f5350f416beb51af94a3692d598033368788
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC02 --source-obligation 'in_conviction_d6-set::official-form:CCA conviction expungement order' --codex-cloud --minimum-captain-sha 859624e9f9bef14b79a1099086fba6b4a14e4e35
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -161,7 +161,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC02 --source
 
 ### Families this lane would release
 
-`la-976-arrest-no-conviction-set`, `la-977-misdemeanor-conviction-set`, `la-977d-marijuana-first-offense-set`, `la-978-felony-conviction-set`, `la-985-1-interim-expungement-set`, `la-985-expungement-by-redaction-set`, `la-987-set-aside-and-dismiss-set`
+`in_conviction_d6-set`, `in_conviction_felony-set`, `in_conviction_misd-set`, `la-976-arrest-no-conviction-set`, `la-977-misdemeanor-conviction-set`, `la-977d-marijuana-first-offense-set`, `la-978-felony-conviction-set`, `la-985-1-interim-expungement-set`, `la-985-expungement-by-redaction-set`, `la-987-set-aside-and-dismiss-set`
 
 
 ### Settle these first
@@ -170,8 +170,8 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC02 --source
 
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
-| CCA-GF-0120-3016 | IN | 6 |
 | LA-CCRP-ART-988 | LA | 6 |
+| CCA conviction expungement order | IN | 3 |
 | LA-CCRP-ART-987 | LA | 1 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.

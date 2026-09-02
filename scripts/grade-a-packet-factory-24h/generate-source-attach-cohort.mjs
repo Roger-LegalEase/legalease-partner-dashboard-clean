@@ -4,7 +4,7 @@ const d = JSON.parse(fs.readFileSync("data/rcap-grade-a/fable-packet-factory/SOU
 const idx = JSON.parse(fs.readFileSync("data/rcap-all50/local-source-corpus-index.json", "utf8"));
 const byPath = new Map((idx.entries ?? []).map((e) => [e.path, e]));
 
-const READ = /^confirmed_from_document_text\b/;
+const READ = /^confirmed_from_document_text(_|$)/;
 const oneReadAway = new Map();   // artifactId -> record
 const outsideIndex = new Map();
 const alreadyBinding = [];
