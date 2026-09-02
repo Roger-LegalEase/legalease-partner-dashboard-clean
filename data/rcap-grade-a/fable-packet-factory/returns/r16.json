@@ -1,0 +1,555 @@
+{
+  "schemaVersion": "rcap-fable-worker-return/v1",
+  "worker": "FABLE-R16",
+  "role": "repair; repaired nothing because no family was claimable, verified nothing, and wrote to no verifier record",
+  "lanes": [],
+  "branch": "fable/r16",
+  "baseSha": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+  "baseShaSubject": "Re-open fifteen grants for the second read tonight's repairs earned",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "familiesPromoted": 0,
+  "approvalsGranted": 0,
+  "liveRoutesChanged": 0,
+  "familiesRepaired": 0,
+  "filesChanged": 0,
+  "artifactBytesMoved": 0,
+
+  "headline": "All six California families were refused at the claim gate. None holds a live repair grant: four hold repair grants that were released between 23:56 and 23:59 on 2026-09-01, and two (ca-1203-43-set, ca-17b-reduction-set) hold no grant of any kind. No --reissue and no --transfer was used, no build script was run, no build was executed, and the working tree is byte-identical to base. What follows is a read-only diagnosis performed entirely from committed bytes, offered so the Captain can decide which grants to open and with what instruction. It is not a repair and it is not a verdict.",
+
+  "grantsNothing": "This return repairs nothing, promotes no family, opens no commercial route, grants no approval, changes no live RCAP route, and verifies nothing. All six families are exactly as this worker found them.",
+
+  "claimDiscipline": {
+    "assertedSuccessfully": [],
+    "reissueOrTransferUsed": false,
+    "whyNotMinted": "The brief is explicit: a family without a live repair grant cannot have one minted, and --reissue and --transfer are forbidden. A released grant is not a live grant. Every one of the six was therefore left completely untouched.",
+    "serialised": "Every claim.mjs call was run one at a time. All were --assert or --status, which are read-only; the ledger file was never written and does not appear in this diff.",
+    "ledgerUnmodified": true,
+    "probeResults": [
+      {
+        "familyId": "ca-1203-41-set",
+        "grantExists": true,
+        "lane": "FIX01",
+        "laneKind": "repair",
+        "operation": "rapid-repair",
+        "released": true,
+        "releasedAt": "2026-09-01T23:56:32.720Z",
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 ca-1203-41-set",
+        "output": "ALREADY_RELEASED: ca-1203-41-set at 2026-09-01T23:56:32.720Z",
+        "exitCode": 9,
+        "outcome": "NOT_GRANTED"
+      },
+      {
+        "familyId": "ca-1203-42-set",
+        "grantExists": true,
+        "lane": "FIX02",
+        "laneKind": "repair",
+        "operation": "rapid-repair",
+        "released": true,
+        "releasedAt": "2026-09-01T23:57:38.089Z",
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 ca-1203-42-set",
+        "output": "ALREADY_RELEASED: ca-1203-42-set at 2026-09-01T23:57:38.089Z",
+        "exitCode": 9,
+        "outcome": "NOT_GRANTED",
+        "note": "This family also holds a released VF17 independent-verification grant. R14 used it as its West-host control and reported NO DIFF."
+      },
+      {
+        "familyId": "ca-1203-43-set",
+        "grantExists": false,
+        "lane": null,
+        "released": null,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 ca-1203-43-set",
+        "output": "NOT_GRANTED: no repair lane holds ca-1203-43-set",
+        "exitCode": 6,
+        "outcome": "NOT_GRANTED",
+        "note": "No claim of ANY laneKind exists on this subject — not repair, not verification, not packet-build. The ledger has never held a row for it."
+      },
+      {
+        "familyId": "ca-1203-4a-set",
+        "grantExists": true,
+        "lane": "FIX03",
+        "laneKind": "repair",
+        "operation": "rapid-repair",
+        "released": true,
+        "releasedAt": "2026-09-01T23:58:22.837Z",
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 ca-1203-4a-set",
+        "output": "ALREADY_RELEASED: ca-1203-4a-set at 2026-09-01T23:58:22.837Z",
+        "exitCode": 9,
+        "outcome": "NOT_GRANTED"
+      },
+      {
+        "familyId": "ca-17b-reduction-set",
+        "grantExists": false,
+        "lane": null,
+        "released": null,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 ca-17b-reduction-set",
+        "output": "NOT_GRANTED: no repair lane holds ca-17b-reduction-set",
+        "exitCode": 6,
+        "outcome": "NOT_GRANTED",
+        "note": "No claim of ANY laneKind exists on this subject."
+      },
+      {
+        "familyId": "ca-prop64-set",
+        "grantExists": true,
+        "lane": "FIX06",
+        "laneKind": "repair",
+        "operation": "rapid-repair",
+        "released": true,
+        "releasedAt": "2026-09-01T23:59:57.979Z",
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 ca-prop64-set",
+        "output": "ALREADY_RELEASED: ca-prop64-set at 2026-09-01T23:59:57.979Z",
+        "exitCode": 9,
+        "outcome": "NOT_GRANTED",
+        "note": "Its released VF04 independent-verification grant was released 2026-09-02T01:57:44.519Z. VF04 currently holds a LIVE verification grant on ca-851-91-set — a lane is actively reading the sibling family R14 repaired."
+      }
+    ],
+    "howTheGateWasChecked": "claim.mjs --status truncates its listing at 40 rows (scripts/grade-a-packet-factory-24h/claim.mjs line 172) while reporting 155 live grants, so the six could not be resolved from --status alone and none of them appears in the visible 40. The ledger was read directly to enumerate every claim row per subject, and each finding was then confirmed by running the actual --assert the brief called for. Both instruments agree."
+  },
+
+  "standardApplied": {
+    "record": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+    "amendments": ["DET-FEE-AND-WAIVER-001-A1", "DET-FEE-AND-WAIVER-001-A2"],
+    "readInFull": true,
+    "a1Ordering": "Ask FIRST whether the repository establishes the answer. If it does, the packet states it. Only where no held source establishes it may a NAMED checkable authority stand in, and it must be named, not gestured at.",
+    "a2Scope": "The repository means every committed record the family binds PLUS every record the route obligation census names as a requiredSourceId for that route — the compiled state profile, the committed track registry, and the committed packet-set manifest including its participantActionRequired entries. A2 answersVT8C4 settles that a committed packet-set manifest counts as a held source."
+  },
+
+  "perFamilyDiagnosis": {
+    "disclaimer": "READ-ONLY. Every statement below was read out of committed bytes at base 7fcfb7d40. No build was run, no file was written, and no verdict is offered. This is diagnostic material for a grant decision, not a verification and not a repair.",
+    "whyItWasDoneAtAll": "The brief required per-family confirmation rather than pattern-matching from R14's list, and warned that a repair applied because five siblings needed it is exactly the error A2 exists to correct one level up. That confirmation is possible without a claim, because reading committed records changes nothing. Three of the brief's own premises turned out to be wrong, which is the main value in this return.",
+
+    "families": [
+      {
+        "familyId": "ca-1203-41-set",
+        "grantExisted": false,
+        "outcome": "NOT_GRANTED",
+        "defectPresent": true,
+        "defectClass": "R14's delegation defect, confirmed identical",
+        "packetEvidence": {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "0c763b9bf79bb657addad8f006fb4e13ae5f5f99d17201b1a0f69577f2825bba",
+          "line": 19,
+          "textVerbatim": "The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the conviction. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.",
+          "fw001Present": false
+        },
+        "heldRecordsThatContradictIt": {
+          "manifest": {
+            "record": "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ca-1203-41-set, participantActionRequired",
+            "file": "File CR-180 with box 5 elected, together with the proposed CR-181, in the Superior Court of the county of conviction.",
+            "serve_party": "Serve the prosecuting attorney and file CR-106 proof of service.",
+            "apply_fee_waiver": "FW-001 is the general California fee waiver form.",
+            "pay_fee": "Unresolved and county-specific. Do not publish a figure."
+          },
+          "censusRow": {
+            "routeKey": "obligation:track-only:CA:ca-1203-41",
+            "destination": "{kind: court, name: 'Superior Court of the county of conviction', detail: 'One petition per case.'}",
+            "significance": "A SECOND independent held source for FILING_DESTINATION, alongside the manifest.",
+            "namesNoCompiledProfile": true
+          }
+        },
+        "whatARepairWouldHaveToDo": "State the filing destination and the service party the manifest holds, name FW-001, and KEEP the clerk delegation for the fee amount alone — the manifest expressly instructs builders not to publish a figure, so under the determination's third met limb the named clerk is the correct instrument for that one question and only that one. This is the same shape as R14's ca-851-91-set repair.",
+        "changedByThisWorker": "nothing",
+        "completenessBaseline": {
+          "result": "FAIL_ROUTE_SELECTION",
+          "written": "8/204",
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 10,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "completenessAfter": "not applicable — nothing was changed",
+        "rasterOwed": "none; no bytes changed"
+      },
+      {
+        "familyId": "ca-1203-42-set",
+        "grantExisted": false,
+        "outcome": "NOT_GRANTED",
+        "defectPresent": true,
+        "defectClass": "R14's delegation defect, confirmed identical",
+        "packetEvidence": {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "ce61e172e5f1443b787761e2d6a25364e4268a2d6f4e1ec7ca338919cebc39cb",
+          "line": 19,
+          "textVerbatim": "identical to ca-1203-41-set line 19, word for word",
+          "fw001Present": false
+        },
+        "heldRecordsThatContradictIt": {
+          "manifest": {
+            "file": "File CR-180 with box 6 elected, together with the proposed CR-181, in the Superior Court of the county of conviction.",
+            "serve_party": "Serve the prosecuting attorney and file CR-106 proof of service.",
+            "apply_fee_waiver": "FW-001 is the general California fee waiver form.",
+            "pay_fee": "Unresolved and county-specific. Do not publish a figure."
+          },
+          "censusRow": {
+            "routeKey": "obligation:track-only:CA:ca-1203-42",
+            "destination": "{kind: court, name: 'Superior Court of the county of conviction', detail: 'One petition per case.'}",
+            "namesNoCompiledProfile": true
+          }
+        },
+        "whatARepairWouldHaveToDo": "As ca-1203-41-set, with box 6 rather than box 5.",
+        "changedByThisWorker": "nothing",
+        "completenessBaseline": {
+          "result": "FAIL_ROUTE_SELECTION",
+          "written": "8/204",
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 10,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "completenessAfter": "not applicable — nothing was changed",
+        "rasterOwed": "none; no bytes changed"
+      },
+      {
+        "familyId": "ca-1203-43-set",
+        "grantExisted": false,
+        "outcome": "NOT_GRANTED",
+        "defectPresent": "NOT THE DEFECT R14 IDENTIFIED. A different and larger one.",
+        "defectClass": "The packet ships NO participant-instructions.md at all.",
+        "thisIsTheBriefsOwnWarningLandingLive": "The brief said: if a family turns out not to have the defect, say so and leave it alone. This family does not have the delegation defect, because it has no participant instructions document in which to delegate. It has never had one — git log over that path on this branch returns empty, so this is an absence, not a deletion.",
+        "packetEvidence": {
+          "participantInstructionsPresent": false,
+          "committedFileCount": 33,
+          "committedFixturePdfs": 2,
+          "committedRasterPngs": 14,
+          "comparison": "Its siblings ca-1203-41/42/4a ship 44 files and 8 fixture PDFs each; ca-851-91-set ships 58 and 17.",
+          "filesPresent": ["approval-request.json", "build-findings.json", "field-census.census-v1.json", "fixtures/", "product-wiring.json", "production-field-map.json", "raster/", "reports/", "source-receipt.json"]
+        },
+        "heldRecordsTheAbsentPacketFailsToCarry": {
+          "manifest": {
+            "file": "File CR-180 with box 7 elected, together with the proposed CR-181, in the Superior Court of the county of conviction.",
+            "serve_party": "Serve the prosecuting attorney and file CR-106 proof of service.",
+            "apply_fee_waiver": "FW-001 is the general California fee waiver form.",
+            "pay_fee": "Unresolved and county-specific. Do not publish a figure."
+          },
+          "censusRow": {
+            "routeKey": "obligation:track-only:CA:ca-1203-43",
+            "destination": "{kind: court, name: 'Superior Court of the county of conviction', detail: 'Filed on the same CR-180 the product already fills, at box 7.'}"
+          }
+        },
+        "howItScoresUnderTheDetermination": "This is the determination's FIRST notMet limb, not the A2 delegation limb: 'the packet says nothing about cost anywhere: no amount, no statement that filing is free, and no office to ask'. The determination calls that silence 'different in kind' — a participant cannot tell from silence whether filing is free, whether a fee exists, or whom to ask. Here the silence is total: no fee statement, no service statement, no filing destination, no self-help boundary, because there is no document.",
+        "whyThisIsNotAFlagFlip": "R14's statesHeldParticipantActions flag changes WHAT an emitted instructions document says. It cannot cause one to exist where the committed output has none, and it cannot supply the three missing packet components the completeness verifier counts. Opening a repair grant on this family on the assumption that it is a one-line change would mis-scope the work substantially.",
+        "changedByThisWorker": "nothing",
+        "completenessBaseline": {
+          "result": "FAIL_MISSING_REQUIRED_FACTS",
+          "written": "6/186",
+          "knownRequiredFieldsMissing": 56,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 71,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 15,
+          "requiredComponentsMissing": 3,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "completenessAfter": "not applicable — nothing was changed",
+        "rasterOwed": "none; no bytes changed"
+      },
+      {
+        "familyId": "ca-1203-4a-set",
+        "grantExisted": false,
+        "outcome": "NOT_GRANTED",
+        "defectPresent": true,
+        "defectClass": "R14's delegation defect PLUS a suppressed real money figure — the aggravated case, and R14 was right about it.",
+        "packetEvidence": {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "38a5e8cf562c32779bec3facc39e6299c5a5b26b56af254bc539a0a943020c55",
+          "line": 19,
+          "textVerbatim": "identical to ca-1203-41-set line 19, word for word",
+          "fw001Present": false,
+          "reimbursementFigurePresentInPacket": false
+        },
+        "heldRecordsThatContradictIt": {
+          "manifest": {
+            "pay_feeVerbatim": "Reimbursement of up to $60 to the county and $60 to the city, subject to an ability-to-pay determination under the PC 987.8(g)(2) standard, and expressly not a prerequisite to eligibility. § 1203.4a(e). Any court filing fee is unresolved and county-specific.",
+            "apply_fee_waiverVerbatim": "FW-001 is the general California fee waiver form. Inability to pay the § 1203.4a(e) reimbursement does not defeat eligibility.",
+            "file": "File CR-180 with box 3 elected, together with the proposed CR-181, in the Superior Court of the county of conviction. Petition for dismissal of an infraction is by written declaration except on a showing of compelling need.",
+            "serve_party": "Serve the prosecuting attorney where notice is required and file CR-106 proof of service."
+          },
+          "censusRow": {
+            "routeKey": "obligation:track-only:CA:ca-1203-4a",
+            "destination": "{kind: court, name: 'Superior Court of the county of conviction', detail: 'Petition for dismissal of an infraction is by written declaration except on a showing of compelling need. § 1203.4a(f).'}",
+            "namesNoCompiledProfile": true
+          }
+        },
+        "theNuanceThatMattersMost": "This manifest entry holds TWO different money facts with OPPOSITE held-status, and a repair must not collapse them. The § 1203.4a(e) reimbursement — up to $60 county and $60 city — IS established and the packet must state it. The court FILING fee is expressly 'unresolved and county-specific' and is NOT established, so the named clerk must be kept for that one question. A repair that states the $60/$60 as the filing fee, or that publishes a filing figure, would invent a fact.",
+        "theParticipantHarmIsTwoSided": "The packet currently tells a participant that nothing about cost is established. It thereby withholds both halves of a fact that cuts in the participant's favour: that the reimbursement is capped at $60 + $60, that it is subject to an ability-to-pay determination under PC 987.8(g)(2), and — the manifest says this twice, in pay_fee and again in apply_fee_waiver — that inability to pay it does NOT defeat eligibility. A participant who assumed an unaffordable and disqualifying cost could abandon a petition they are entitled to file.",
+        "changedByThisWorker": "nothing",
+        "completenessBaseline": {
+          "result": "FAIL_ROUTE_SELECTION",
+          "written": "8/204",
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 10,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "completenessAfter": "not applicable — nothing was changed",
+        "rasterOwed": "none; no bytes changed"
+      },
+      {
+        "familyId": "ca-17b-reduction-set",
+        "grantExisted": false,
+        "outcome": "NOT_GRANTED",
+        "defectPresent": "NOT THE DEFECT R14 IDENTIFIED. Same absence as ca-1203-43-set.",
+        "defectClass": "The packet ships NO participant-instructions.md at all.",
+        "packetEvidence": {
+          "participantInstructionsPresent": false,
+          "everExistedInGitHistory": false,
+          "committedFileCount": 49,
+          "committedFixturePdfs": 4,
+          "committedRasterPngs": 28
+        },
+        "heldRecordsTheAbsentPacketFailsToCarry": {
+          "manifest": {
+            "file": "Request the reduction at CR-180 item 8, filed with the dismissal petition in the Superior Court of the county of conviction.",
+            "serve_party": "Serve the prosecuting attorney and file CR-106 proof of service.",
+            "apply_fee_waiver": "FW-001 is the general California fee waiver form.",
+            "pay_fee": "Unresolved and county-specific. Do not publish a figure."
+          },
+          "censusRow": {
+            "routeKey": "obligation:track-only:CA:ca-17b-reduction",
+            "destination": "{kind: court, name: 'Superior Court of the county of conviction', detail: 'Requested on the same CR-180 as the dismissal and ruled on at CR-181 items 1 and 2.'}"
+          }
+        },
+        "howItScoresUnderTheDetermination": "As ca-1203-43-set: the determination's first notMet limb, silence, not the A2 delegation limb.",
+        "changedByThisWorker": "nothing",
+        "completenessBaseline": {
+          "result": "FAIL_MISSING_REQUIRED_FACTS",
+          "written": "8/187",
+          "knownRequiredFieldsMissing": 54,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 71,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 16,
+          "requiredComponentsMissing": 3,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "completenessAfter": "not applicable — nothing was changed",
+        "rasterOwed": "none; no bytes changed"
+      },
+      {
+        "familyId": "ca-prop64-set",
+        "grantExisted": false,
+        "outcome": "NOT_GRANTED",
+        "defectPresent": true,
+        "defectClass": "R14's delegation defect is present — but the brief's account of WHY, and of where the answer is held, is wrong, and the consequence is that this family is NOT a one-line flag flip.",
+        "packetEvidence": {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "1deeabb0dbe262f584870247248c55ada022ddef545864c67d1e6e5c3349fb01",
+          "line": 20,
+          "textVerbatim": "identical to ca-1203-41-set line 19, word for word",
+          "fw001Present": false
+        },
+        "correctionToTheBrief": {
+          "whatTheBriefSaid": "ca-prop64-set's manifest holds an EXPLICIT NO-FEE FINDING.",
+          "whatTheManifestActuallyHolds": "pay_fee reads, verbatim: 'The source review does not state a filing fee for the CR-400 series.'",
+          "whyThatIsTheOppositeThing": "That is a statement that the source review did NOT establish a fee. It is a record of non-establishment, not a no-fee finding. R14's own return quoted it accurately; the characterisation as an explicit no-fee finding entered somewhere after R14 and does not survive contact with the bytes.",
+          "whyItMattersOperationally": "R14's statesHeldParticipantActions flag reads ONLY the family's own manifest — see caHeldParticipantActions() in the West host, which resolves file, serve_party, pay_fee and apply_fee_waiver out of participantActionRequired and nothing else. Flipping the flag on this family would therefore emit the non-establishment sentence as though it were the held answer. Under A1 that is precisely the forbidden move in reverse: the repository DOES establish this fee, elsewhere, and the flag cannot see where."
+        },
+        "whereTheAnswerIsActuallyHeld": {
+          "record": "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+          "howItIsBound": "ca-prop64-set is the ONLY one of the seven California families on this host whose census rows name a compiled profile. All three of its rows — obligation:track-pathway:CA:ca-prop64:prop-64-completed-sentence-application-11361-8, :prop-64-currently-serving-petition-11361-8 and :tool-5-proposition-64-marijuana-relief — carry 'compiled-profile:src/lib/rcap-engine/compiled/profiles/CA-california.json' in requiredSourceIds. That is the exact A2 binding limb.",
+          "whatItSays": [
+            "packetGenerator.feeRules[3]: 'Prop 64 marijuana relief $0 Largely automatic'",
+            "packetGenerator.feeRules[7]: 'Automatic relief and Prop 64 cost nothing.'",
+            "packetGenerator.feeRules[5]: 'Fee waiver (FW-001) $0 For those unable to afford court costs'",
+            "packetGenerator.filingDestinationRules[3]: 'Venue is the county of conviction's Superior Court — not the county of residence. A person with cases in multiple counties files separately in each.'"
+          ],
+          "readFromCommittedBytesHere": true,
+          "netEffect": "The brief's CONCLUSION about prop64 — that the repository holds a no-fee answer — is correct. Its account of WHERE is not. The repair must quote the compiled profile, not the manifest, for the fee, and must therefore be a mechanism change or an explicit second source, not a flag flip."
+        },
+        "aSecondHeldFactThePacketOmits": "The profile calls Prop 64 relief 'Largely automatic', and the census destination.detail says the same: 'Largely mandatory where the offense qualifies, with a prosecuting-agency response mechanism at CR-402.' The manifest's own first required action is to check the DOJ record to see whether the conviction was already processed automatically under AB 1793. A participant could be paying nothing and filing nothing; the packet does not tell them so.",
+        "changedByThisWorker": "nothing",
+        "completenessBaseline": {
+          "result": "PASS_COMPLETE",
+          "written": "3/148",
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "completenessAfter": "not applicable — nothing was changed",
+        "rasterOwed": "none; no bytes changed"
+      }
+    ]
+  },
+
+  "familiesLeftUntouchedAndWhy": {
+    "all": ["ca-1203-41-set", "ca-1203-42-set", "ca-1203-43-set", "ca-1203-4a-set", "ca-17b-reduction-set", "ca-prop64-set"],
+    "reason": "Not one of the six holds a live repair grant. Four hold repair grants released on 2026-09-01 between 23:56 and 23:59; two have never held a grant of any kind. The brief forbids minting one with --reissue or --transfer, so every family was left exactly as found. The working tree is byte-identical to base 7fcfb7d40 apart from this return file.",
+    "alsoUntouched": [
+      "ca-851-91-set — R14's repaired family; VF04 holds a LIVE independent-verification grant on it right now, so it is mid-read and was not so much as rebuilt",
+      "az_marijuana_expungement_arrest_no_charges-set — R14 proved it does not reproduce from its own build script; not rebuilt, and no lane should rebuild it casually",
+      "az_marijuana_expungement_superior_court-set — R14 flagged it as possibly sharing that condition, unverified"
+    ]
+  },
+
+  "method": {
+    "buildScriptsRun": "NONE. No build was executed, so no artifact was regenerated and no generated file was hand-edited.",
+    "hostIdentified": {
+      "host": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "note": "R14's West host. All six families are built by it. scripts/build-census-v1-ca-1203-43-set.mjs and scripts/build-census-v1-ca-17b-reduction-set.mjs are three-line wrappers that import runWestFamilyCli from it — they are not independent hosts.",
+      "optInFlagLocatedAndRead": "CA_PARTICIPANT_GUIDANCE at line 1676; statesHeldParticipantActions set on ca-851-91-set alone at line 1708; caHeldParticipantActions() reads the family's own manifest only.",
+      "instructionsWriteSite": "line 3212, writeText(`${out}/participant-instructions.md`, caParticipantInstructions(...)), unconditional within the CA branch — which is itself evidence worth a Captain's attention, since two families on this host have no committed instructions file at all."
+    },
+    "controls": {
+      "run": 0,
+      "result": "NOT RUN, and deliberately not faked. A control exists to prove that a repair on one family moved no other family on the shared host. No repair was made, so there was nothing to control against, and rebuilding an unrelated family purely to produce a control line would have been a build this lane had no claim to run. Reported as a zero rather than presented as a pass.",
+      "whatTheCaptainShouldKnow": "R14 already ran the relevant West-host control: it rebuilt ca-1203-42-set twice after repairing ca-851-91-set and got NO DIFF both times, which is the standing proof that statesHeldParticipantActions is genuinely per-family."
+    },
+    "determinism": {
+      "proven": "NOT ATTEMPTED. Determinism is proven by building twice and comparing bytes; no build was run.",
+      "creationDateHazard": "Not assessed by this worker. R14 reported the West host byte-identical across three full builds and concluded it does not carry the wall-clock /CreationDate defect, so the factory's stampDeterministic was not needed there. That is R14's finding, not a re-confirmation by this lane.",
+      "stampDeterministicApplied": false
+    },
+    "corpus": "Not bootstrapped — no build was run and none was needed. private/ is not mounted in this container; scripts/rcap-corpus/bootstrap-private-corpus.sh is present should a granted run need it.",
+    "pikepdfAvailable": "yes — pikepdf 10.12.0 / libqpdf 12.3.2. The West host's CA branch drives a pikepdf bridge, so a granted rebuild is feasible in this environment. Recorded because two ledger reissue notes flag 'CA additionally needs pikepdf' as a blocker.",
+    "noFactoryGeneratorRun": true,
+    "verifierRecordsUntouched": [
+      "every vf*/rows.json",
+      "VERIFIER_RETURNS.json",
+      "MASTER_QUEUE.json",
+      "RASTER_QUEUE.json",
+      "ACTIVE_ASSIGNMENTS.json"
+    ],
+    "completenessVerifierUse": "Run read-only, once per family, as `--family <id>` with no --write and no --mutations. Confirmed against the script that the output file is written only under the WRITE flag (line 487) and that the mutation harness runs only under MUTATIONS. It is a build-side instrument and no verdict was derived from it."
+  },
+
+  "rasterOwed": {
+    "families": [],
+    "count": 0,
+    "statement": "No fixture PDF's bytes changed, because no build was run and no file in any family directory was written. `git status --porcelain` is empty apart from this return. No old/new SHA-256 pair is owed."
+  },
+
+  "correctionsToTheBriefsPremises": [
+    {
+      "premise": "ca-prop64-set's manifest holds an EXPLICIT NO-FEE FINDING.",
+      "finding": "WRONG as to location and as to character. The manifest's pay_fee records NON-establishment: 'The source review does not state a filing fee for the CR-400 series.' The no-fee answer is real but lives in src/lib/rcap-engine/compiled/profiles/CA-california.json — feeRules[3] 'Prop 64 marijuana relief $0 Largely automatic' and feeRules[7] 'Automatic relief and Prop 64 cost nothing.' — which all three of this family's census rows name as a requiredSourceId.",
+      "consequence": "ca-prop64-set is NOT a one-line flag flip. R14's flag reads only the manifest and would publish the non-establishment sentence as the answer, which is the A1 error inverted. A worker who took the brief on trust would have shipped that.",
+      "severity": "HIGH — this is the specific error the brief warned about, and it was in the brief"
+    },
+    {
+      "premise": "Five of the six cannot enter the central visual gate because 38 of their 58 fixture PDFs are untouched Judicial Council forms ENCRYPTED with objects in xref streams that pdf-lib cannot open; that is DF-003.",
+      "finding": "DF-003 says something else entirely. Its title is 'Seven California families are silently excluded from the visual gate because their fixtures are named per variant'. The mechanism is that generate-raster-queue.mjs enrols a family by looking for fixtures/canonical.pdf and fixtures/boundary.pdf, and these families ship fixtures in per-variant SUBDIRECTORIES, so the generator records 'no canonical PDF, no boundary PDF' — literally true and, in DF-003's own words, 'completely misleading: the PDFs exist.' Encryption is not the mechanism and is nowhere in the finding.",
+      "furtherDetail": "DF-003 covers all SEVEN California families including ca-851-91-set, not five of six, and measures 63 PDFs across them, not 58. This worker independently counted 42 fixture PDFs across the six briefed families (8/8/2/8/4/12). The encryption is real but is already handled: the West host reads these forms through a pikepdf bridge with an empty user password, and the committed field census records the basis as 'exact official encrypted binaries... readBy: pikepdf 10.12.0 / libqpdf 12.3.2'. It is not an open blocker.",
+      "consequence": "The brief's instruction 'do not change any fixture naming' happens to be right, but for the wrong reason — fixture naming is the actual substance of DF-003, and DF-003 defers the fix to the queue GENERATOR rather than to the families. A worker acting on the brief's version would have reported a nonexistent encryption blocker.",
+      "severity": "MEDIUM — no harm done here, but the premise is not in the record"
+    },
+    {
+      "premise": "The six families identified by R14 all carry the same defect, needing one flag each.",
+      "finding": "Four do (ca-1203-41-set, ca-1203-42-set, ca-1203-4a-set, ca-prop64-set). Two do not: ca-1203-43-set and ca-17b-reduction-set ship NO participant-instructions.md at all and never have. Their defect is total silence, which the determination classes as 'different in kind' from a delegation, and it is a build-level absence the flag cannot reach — both also carry requiredComponentsMissing 3.",
+      "consequence": "Grants opened on those two on a one-line-change assumption would be badly mis-scoped.",
+      "severity": "HIGH"
+    },
+    {
+      "premise": "implicit — that these families resemble R14's four, which were all PASS_COMPLETE with nine zero counters.",
+      "finding": "They do not. Five of the six already FAIL completeness at base, before any instruction question is asked: three FAIL_ROUTE_SELECTION with requiredOptionsMissing 10, and two FAIL_MISSING_REQUIRED_FACTS with 54-56 known required fields missing and 71 unclassified blanks each. Only ca-prop64-set is PASS_COMPLETE with nine zeros.",
+      "consequence": "An instructions repair on any of these will not move the completeness result. A verifier reading them afterwards should still expect FAIL, and should not read a fee/service/filing repair as an attempt at the whole family.",
+      "severity": "MEDIUM"
+    }
+  ],
+
+  "forTheCaptain": [
+    {
+      "issue": "Six grants need opening before any of this work can proceed, and they should not all be opened with the same instruction.",
+      "detail": "ca-1203-41-set (FIX01), ca-1203-42-set (FIX02), ca-1203-4a-set (FIX03) and ca-prop64-set (FIX06) hold released repair grants that could be re-opened on their existing lanes. ca-1203-43-set and ca-17b-reduction-set hold no grant at all and need one minted from scratch — and need a differently-scoped brief.",
+      "captainDecision": "Which grants to open, on which lanes, and with what scope."
+    },
+    {
+      "issue": "ca-prop64-set's repair needs a mechanism decision, not a flag.",
+      "detail": "Its no-fee answer is in the compiled CA profile, which its census rows bind, and R14's caHeldParticipantActions() reads only the manifest. Either the mechanism is extended to consult a census-named compiled profile, or the family gets an explicit second held source. Both are more than a flag flip and both are a change to shared host code that seven families sit on.",
+      "captainDecision": "Whether a repair lane may extend the mechanism, and whether extending it counts as a host-wide change requiring the same per-family restraint R14 exercised."
+    },
+    {
+      "issue": "A2's whatCountsAsHeld may be broader than anyone has been applying, and if read literally it creates a trap.",
+      "detail": "A2 lists 'the compiled state profile for the family's jurisdiction' UNCONDITIONALLY, as a separate bullet from 'any record the route obligation census names as a requiredSourceId for this route'. Read literally, CA-california.json is a held source for all seven California families, not just ca-prop64-set whose census actually binds it. That profile holds '1203.4 dismissal petition ~$60-$150 per case; County-set; some counties charge no fee for 1203.4'. But §1203.4 is NOT §1203.41, §1203.42, §1203.43, §1203.4a or §17(b) — publishing that figure on those five would be 'a rule inferred from a neighbouring jurisdiction or a sibling route', which A2's own whatDoesNotCount forbids. The two limbs of A2 point opposite ways here.",
+      "whyItIsRaisedNotDecided": "This is a question about the standard's scope, and the standard is the Captain's. Deciding it inside a repair would be exactly the unilateralism A2 was written to stop. Flagging it rather than resolving it inconsistently in one lane.",
+      "captainDecision": "Whether the unconditional compiled-profile limb binds a family whose census does not name the profile, and — separately — how a repair should treat a profile fact that is real for a sibling statute but not for this route. This worker's reading is that the manifests are right and 'do not publish a figure' must be respected for those five, but that is a reading, not a ruling."
+    },
+    {
+      "issue": "ca-1203-43-set and ca-17b-reduction-set are missing a participant-facing document their own build host writes unconditionally.",
+      "detail": "The West host writes participant-instructions.md at line 3212 with no condition inside the CA branch, yet neither family has one committed and neither ever has in this branch's history. Either the committed output predates that write site, or these two were built by a path that no longer exists. This is the same SHAPE as R14's az_marijuana_expungement_arrest_no_charges-set finding — committed output out of step with the committed script — though here the output is POORER than the script produces rather than richer.",
+      "notDiagnosedHere": "Establishing the cause would have required rebuilding an unclaimed family, which this lane had no grant to do. Left alone deliberately.",
+      "captainDecision": "Whether to dispatch a lane to reconcile the West host against its committed CA output before any further California repair is attempted. R14's AZ finding plus this one makes two families on this single host whose committed artifacts do not correspond to what the script produces, which is a host-level reproducibility question rather than three separate family defects."
+    },
+    {
+      "issue": "ca-1203-4a-set is the strongest participant-harm case of the six and the clearest brief to write.",
+      "detail": "Its manifest holds, and its packet withholds, a capped $60 + $60 reimbursement, an ability-to-pay determination under PC 987.8(g)(2), and — stated twice in the manifest — that inability to pay does not defeat eligibility. The packet instead says nothing about cost is established. The facts withheld are the ones that would encourage a participant to file.",
+      "caution": "The same manifest entry expressly holds that the court FILING fee is unresolved and county-specific. A repair must state the reimbursement and keep the named clerk for the filing fee. Collapsing the two would invent a fact."
+    },
+    {
+      "issue": "The nine completeness counters again do not see this defect class.",
+      "detail": "ca-prop64-set is PASS_COMPLETE with nine zeros while telling participants that the filing fee, the waiver, the service party and the court address are all unestablished, when its bound compiled profile answers the fee at $0 and its manifest answers the other three. This is the fourth independent observation of the same blind spot — R14 recorded it across all four of its families and VT9 reached it from another angle. Recorded as corroboration, not as a new proposal."
+    }
+  ],
+
+  "independence": {
+    "selfVerificationRefused": "This worker verified nothing. No verdict was written, no vf*/rows.json was opened for writing, no factory generator was run. The completeness verifier was run read-only for the baseline counters the brief asked for; it is a build-side instrument, not a verdict.",
+    "nothingReleased": "No claim was asserted, so no release was owed and none was made. The claim ledger is unmodified and does not appear in this diff.",
+    "awaiting": "A Captain decision on which of the six grants to open, and with what scope."
+  },
+
+  "filesWritten": [
+    "data/rcap-grade-a/fable-packet-factory/returns/r16.json (this file, and the only file this worker wrote)"
+  ],
+
+  "filesNotTouched": [
+    "every build script, including the shared West host",
+    "every family directory under data/rcap-all50/overlays/census-v1/ca/",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "every vf*/rows.json, VERIFIER_RETURNS.json, MASTER_QUEUE.json, RASTER_QUEUE.json, ACTIVE_ASSIGNMENTS.json",
+    "every other lane's return",
+    "every fixture PDF and every raster PNG in the repository",
+    "every field map and field census",
+    "every manifest, census and compiled profile — all were read, none written",
+    "Production, Supabase, RLS/auth, Stripe, secrets, migrations"
+  ],
+
+  "stoppedOn": [
+    {
+      "what": "All six families, at the claim gate, before any edit.",
+      "why": "None holds a live repair grant, and the brief forbids minting one. The brief also said that asserting nothing and reporting honestly beats touching a family another lane owns, and that getting the claim question right matters more than getting all six.",
+      "whatWasDoneInstead": "A read-only diagnosis from committed bytes, which required no claim and changed nothing, so that the grants the Captain opens can be scoped correctly. It found that two of the six do not have the briefed defect and that the briefed account of a third is wrong about where its answer is held."
+    }
+  ],
+
+  "summary": {
+    "familiesBriefed": 6,
+    "familiesClaimed": 0,
+    "REPAIRED": 0,
+    "NOT_GRANTED": 6,
+    "NO_DEFECT_OF_THE_BRIEFED_CLASS": 2,
+    "STOPPED": 0,
+    "reissueOrTransferUsed": false,
+    "buildsRun": 0,
+    "artifactBytesMoved": 0,
+    "rasterOwed": 0,
+    "controlsRun": 0,
+    "doubleBuildFilesCompared": 0,
+    "briefPremisesCorrected": 4,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  }
+}
