@@ -53,6 +53,7 @@ import { extractPageGeometry } from "./rcap-official-forms/rcap-pdf-anchor-captu
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
+import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -961,7 +962,17 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
 
   for (const fixtureName of ["canonical", "boundary"]) {
     const facts = FIXTURES[fixtureName];
-    const packet = await PDFDocument.create();
+    // The assembled container carries the same fixed date every component page
+    // already carries. PDFDocument.create() stamps the wall clock into
+    // /CreationDate and /ModDate, and save({ updateMetadata: false }) only
+    // declines to REFRESH that stamp -- it does not remove it -- so the first
+    // stamp survived into the saved bytes. Two consecutive builds of this
+    // family from identical inputs produced different canonical.pdf and
+    // boundary.pdf SHA-256 while all sixteen raster pages and all six per-form
+    // fixtures came out byte-identical. A RASTER_PASS is pinned to the packet
+    // hash, so a rebuild that changed nothing discarded the visual verdict as
+    // though the packet had been edited.
+    const packet = stampDeterministic(await PDFDocument.create());
     const pageManifest = []; const documents = [];
     for (const { source, census } of censuses) {
       const { bytes: filled, report } = await renderDocument(source, census, fixtureName);

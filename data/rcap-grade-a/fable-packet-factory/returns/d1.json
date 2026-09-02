@@ -1,116 +1,351 @@
 {
   "schemaVersion": "fable-packet-factory-return/v1",
-  "lane": "DISC (FABLE-D1)",
+  "worker": "FABLE-D1",
+  "lane": "factory infrastructure — assembled-packet build determinism",
   "branch": "fable/d1",
-  "returnedOn": "2026-09-01",
-  "operation": "exact-source-identity",
-  "nothingWasFetched": true,
-  "identitiesGuessed": 0,
-  "sourceBodiesCommitted": 0,
+  "baseSha": "55f3cbeff39e63a55490f431f8c556a3044d060e",
+  "returnedOn": "2026-09-02",
+  "operation": "pin the assembled-packet PDF date on the builders that stamped the wall clock",
+  "supersedes": "the DISC-lane FABLE-D1 return that previously occupied this path; that content is preserved unchanged in history at 55f3cbeff (data/rcap-grade-a/fable-packet-factory/returns/d1.json) and reached the captain branch through 993e9cd21",
+
+  "claimsAsserted": 0,
+  "claimsReleased": 0,
+  "claimLedgerTouched": false,
+  "familyRepairsPerformed": 0,
   "commercialRoutesOpened": 0,
   "productionTouched": false,
-  "packetArtifactsChanged": 0,
-  "method": "held-bytes printed-face read plus recomputed SHA-256 where bytes exist in this container (Master Library mount or committed evidence copies); committed-record corroboration elsewhere; the operational tree private/Nationwide Record Clearing is NOT mounted here (SIF-4) and no discovery is reported exhausted on that basis",
+  "generatorsRun": 0,
+  "queuesEdited": [],
 
-  "priorityTargets": {
-    "delawareForm281": {
-      "status": "IDENTITY_AND_LOCATION_SETTLED — the petition is not missing",
-      "finding": "Form 281 (Petition for Expungement of Adult Record, Rev 9/22, Family Court of the State of Delaware) is EMBEDDED as printed page 14 of the held Form 1021IP Adult Expungement Instruction Packet (Rev 10/23), and Form 283 (Order Granting Expungement of Adult Record, Rev 6/20) is printed page 15. The 1021IP bytes are held THREE ways at one digest, recomputed here: data/rcap-all50/hard-forms/delaware/family-court-form-281/evidence/ (committed), the Master Library STATES/DE/03_INSTRUCTIONS copy (mounted), and the Nationwide custody row in data/rcap-all50/nationwide-source-inventory.json — sha256 f2c8a0b1b8a4b3d82e4041f25b8bbf62a61e8e93b8d243274c06aa1cc11fb602. The nationwide-source-inventory row independently records 'the packet embeds Form 281 Rev. 9/22 and Form 283 Rev. 6/20'. SRR-025's MISSING_SOURCE_BINARY is superseded by BUNDLE_COMPONENT on the registry record, with both components' page locators, per-page face quotes, and the currentness caveat (the legal review flags the embedded revisions as possibly not current — a PROMO comparison item, not a discovery gap).",
-      "exactUrlStatus": "NOT settled: no committed record carries an artifact URL for the 1021IP bundle or Form 281; corroborated publisher pages are https://courts.delaware.gov/forms/ and https://courts.state.de.us/family (printed on the bundle's own page 1). Targeted acquisition: resolve the bundle address on the Family Court forms index; the held bytes already satisfy component custody at the recorded digest.",
-      "claimNote": "the conveyor obligation de_discretionary_family_court-set::official-form:FORM-281 is granted LIVE to SRC03 (source-reconciliation kind); no source-discovery grant exists (assert exits NOT_GRANTED). Settlement is recorded on the SRR-025 registry record under the s1/s2 wave pattern; SRC03's rows were not touched and its claim was not released."
-    },
-    "missouriFi05": {
-      "status": "SCOPE_AND_IDENTITY_SETTLED",
-      "finding": "SRR-001's scope question (statewide vs St. Louis County; FI-05 vs the 7th Circuit's FI-50) is answered from committed legal-design evidence: FI-05 is the STATEWIDE 'Confidential Case Filing Information Sheet — Non-Domestic Relations', SJRC (04-23), Supreme Court of Missouri State Judicial Records Committee, published by the Office of the State Courts Administrator, mandatory with a new case filing under Operating Rule 4.07, case type X5 for § 610.140 packets (MO.memo.json; terminalization-evidence-briefs.json; terminalization-treatments/mo.json). Registry record updated: publisher corrected from the stlcountycourts.com page (a circuit copy) to SJRC/OSCA, officialSourcePage set to the corroborated https://www.courts.mo.gov/page.jsp?id=191585, sourceState SOURCE_SCOPE_AND_VERSION_AMBIGUITY -> CURRENTNESS_UNVERIFIED.",
-      "exactUrlStatus": "NOT settled: no committed record carries an exact artifact URL (courts.mo.gov serves forms behind the page.jsp index). FI-05 bytes (custody sha256 53f1e04e...) live in Nationwide only — absent from this container (the s2 finding stands), so no fresh face read; the identity binds to the committed custody row and two independent committed titles.",
-      "familiesAffected": ["mo-575-120-identity-theft-correction-set", "mo-610-122-arrest-expungement-set", "mo-610-140-arrest-set", "mo-610-140-conviction-set", "mo-610-145-mistaken-identity-set", "mo-art-xiv-marijuana-set"],
-      "claimNote": "all six FI-05 conveyor obligations are RELEASED on SRC02; no live holder conflicts with the registry settlement."
+  "defect": {
+    "statement": "pdf-lib's PDFDocument.create() writes the wall clock into /CreationDate and /ModDate. save({ updateMetadata: false }) only declines to REFRESH that stamp on save; it does not remove the stamp already there. A builder that creates an assembled packet, never pins its dates, and saves that way emits different bytes on every run.",
+    "whyItMatters": "RASTER_QUEUE.json pins canonicalPdfSha256 and boundaryPdfSha256. A family whose packet bytes move on every rebuild holds a raster receipt bound to bytes nobody can reproduce, so the visual gate's evidence stops being regenerable and the queue's carry-forward discards a verdict that nothing actually invalidated.",
+    "fix": "scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs — stampDeterministic(await PDFDocument.create()), the factory's existing helper, exactly as adopted by build-census-v1-ky_void_seal_controlled_substance-set.mjs. No new mechanism, no generated output hand-edited, no packet content changed.",
+    "independentMechanismCheck": {
+      "method": "two empty one-page documents created 1.1s apart, saved with useObjectStreams:false and updateMetadata:false, outside the repository",
+      "unstampedIdentical": false,
+      "unstampedDifferingBytes": 2,
+      "stampedIdentical": true,
+      "byteLength": 863
     }
   },
 
-  "conveyorRowsSettled": {
-    "DISC02_completed_and_released": [
-      "in_arrest_no_charges-set::official-form:CCA Section 1 expungement order — BUNDLE_COMPONENT, printed pages 9-14 of the held Section 1 bundle (sha b04f2941..., recomputed; face read), container URL corroborated",
-      "in_section1_petition-set::official-form:CCA Section 1 expungement order — same settlement",
-      "in_arrest_no_charges-set::official-form:CCA Section 1 non-conviction expungement petition — container URL settled onto the s2-bound bytes; component pages 3-6",
-      "in_section1_petition-set::official-form:CCA Section 1 non-conviction expungement petition — same settlement",
-      "mt_mmrta_serving-set::official-form:MT-FORM-A — face read + sha 968f68c7... equal to the committed composed-route dependency; publisher OCA; page courts.mt.gov/Forms/mmrta",
-      "mt_mmrta_completed-set::official-form:MT-FORM-B — face read + sha cb2fa9c3...; completed-sentence posture printed on the form's own face",
-      "mt_mmrta_completed-set::official-form:MT-OCA-MMRTA — constructed set identifier split: BOTH companion instruments required (cert of service d9096c17..., proposed order 2e38c3c6...), per committed route evidence",
-      "mt_mmrta_serving-set::official-form:MT-OCA-MMRTA — same split settlement",
-      "mt_mmrta_completed-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX — relationship supported for MMRTA by the adopted composed-route dependency; exact URL corroborated; held bytes recomputed sha 46068155...",
-      "mt_mmrta_serving-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX — same settlement",
-      "mi_setaside_application-set::official-form:MC 227 page 3 Proof of Service — EMBEDDED_SECTION of SCAO MC 227; no separate binary",
-      "mi_setaside_first_owi-set::official-form:MC 227 page 3 Proof of Service — same",
-      "mi_setaside_first_owi-set::official-form:MC 227 item 2.c — EMBEDDED_SECTION (memo quotes the item's content)",
-      "mi_setaside_trafficking-set::official-form:Proof of Service — EMBEDDED_SECTION of held MC 227b page 3 (sha 1620aa79..., recomputed, equals the registry's MC 227b record)",
-      "id_isp_expungement-set::official-form:ISP-BCI-EXPUNGEMENT-APPLICATION — face read ('Idaho State Police / Bureau of Criminal Identification / Expungement Application'), sha 7442267d... recomputed; publisher page isp.idaho.gov/BCI/ corroborated; no printed revision (drift note recorded)"
-    ],
-    "rowsStoppedWithEnrichedIdentity": [
-      "in_conviction_d6-set / in_conviction_felony-set / in_conviction_misd-set :: CCA conviction expungement petition AND order (6 rows) — publisher (CCA) and source page settled on the registry records; the exact petition-and-order bundle address and bytes are genuinely absent from committed evidence (only the conviction INSTRUCTIONS address is committed); inferring the bundle address from the instructions filename pattern was refused as a guess. Claims stay LIVE with the stop.",
-      "official-form-treatment:...:AL:al-olr::official-form:Alabama AOC Order of Limited Relief packet (DISC01) — no committed evidence establishes the packet exists; settled fragments recorded (Ala. Code § 12-26-1 et seq. legal basis, the judicial.alabama.gov criminal-forms page, memo question AL-9 and the open counsel catalogue question). Claim stays LIVE."
-    ],
-    "DISC06": "the four rows scouted (FDLE administrative / early-juvenile / juvenile-diversion applications, MA § 100K petition) were asserted read-only and left untouched: the prior worker's stops are already correct and complete (EXPECTED_AND_ABSENT with settled statute addresses; a genuine two-document ambiguity on § 100K). Nothing in committed evidence adds to them; their claims stay LIVE."
+  "method": {
+    "corpus": "MASTER_LIBRARY_SOURCE_DIR=private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (Master Library Edition 1, archive VERIFIED)",
+    "determinismProof": "for each family: build twice before any change and compare a sha256 manifest of every file under the family's output directory, then build twice after the change and compare again. Build byproducts that are never committed (raster page.pdf, page-calibration.pdf) are excluded; every committed artifact is included.",
+    "contentProof": "verify-packet-completeness.mjs --family <id> before and after, plus a direct SHA-256 comparison of every committed raster PNG against HEAD.",
+    "headIsTheReceiptBaseline": "all ten pinned hashes in RASTER_QUEUE.json for the five families were recomputed from the HEAD blobs at 55f3cbeff and match exactly, so HEAD is the byte state each RASTER_PASS is bound to."
   },
 
-  "familiesWhoseBlockingReasonIsCured": {
-    "identityLevelCured": [
-      "in_arrest_no_charges-set — every DISC02 identity obligation on the family is now COMPLETED (bundle components + petition + order); remaining work is custody/promotion, not discovery",
-      "in_section1_petition-set — same",
-      "mt_mmrta_serving-set — Form A, both MMRTA companion instruments and the DOJ stage form all identity-settled with held digests; remaining work is the census per-instrument identity split plus promotion",
-      "mt_mmrta_completed-set — same with Form B"
-    ],
-    "reBasedNotCured": [
-      "de_discretionary_family_court-set — blocker re-based from 'petition binary genuinely missing' to 'held bundle component + bundle address acquisition'; a builder still needs the census/custody layers to bind the component",
-      "mo FI-05 six families — scope ambiguity cured; FI-05 byte verification still needs a Nationwide-mounted lane, and CR-series identities remain open elsewhere",
-      "wv_conv_nonviolent_felony-set / wv_acc_treatment_job_readiness-set — SCA-C907 registry record backfilled with the already-settled corroborated address; acquisition remains with ACQ03"
-    ],
-    "familiesActuallyReleasedNow": []
+  "families": {
+    "vt_seal_nonconviction-set": {
+      "verdict": "DRIFTED — FIXED",
+      "builder": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
+      "createSite": "line 964, `const packet = await PDFDocument.create()`, written to fixtures/canonical.pdf and fixtures/boundary.pdf",
+      "hostSharing": "dedicated single-family host; no other family builds from this file",
+      "beforeChange": {
+        "filesCompared": 34,
+        "filesThatMovedBetweenTwoConsecutiveBuilds": 3,
+        "movedFiles": [
+          "fixtures/canonical.pdf",
+          "fixtures/boundary.pdf",
+          "reports/rendered-artifacts.json"
+        ],
+        "build1": { "canonical": "1d7b5ed3b58a24cfd3ceca9eab9a40d3a31b87f14584b656076eb9ea4e9bafb1", "boundary": "212ebec3fc39f1772733f05eb8d07c89865a57f1f5fb148a3828f924a4d80f93", "renderedArtifactsReport": "7d5879a38384e54eb9794c40a3a4ae34cb5ebd557e38d14e67ccd7c9934bda93" },
+        "build2": { "canonical": "74390d8a15410b7117018a00bad8be2bbf336efc25b50320a6f4b0c621859498", "boundary": "1e342a51120deb6d09e92db91981be1373e40f35f281ec32b1ff5ea3ec5118f0", "renderedArtifactsReport": "4433e3b1b122835bce7beee52e41ddeca7a8d64cc7e0e0033c3a689f458f7437" },
+        "unchangedAcrossBothBuilds": "all 6 per-form fixtures, all 16 raster PNGs, all other reports and manifests"
+      },
+      "afterChange": {
+        "filesCompared": 34,
+        "filesThatMovedBetweenTwoConsecutiveBuilds": 0,
+        "build1EqualsBuild2": true,
+        "canonical": "9cf262bf31d99e3cf64379bc7efcbf87081694307842a86c4277c967d981c21b",
+        "boundary": "baf3bbd94b100416c355be450d68160099aff231387705719adf98db3c5c033f"
+      },
+      "contentDidNotMove": {
+        "packetByteLengthCanonicalBeforeAndAfter": 856947,
+        "packetByteLengthBoundaryBeforeAndAfter": 857395,
+        "rasterPngsCompared": 16,
+        "rasterPngsMovedVsHead": 0,
+        "renderedArtifactsReportLineChangesVsHead": [
+          "the two packet sha256 values",
+          "rasterEngine string scripts/lib/pdf-page-raster.mjs -> scripts/raster/pdf-page-raster.mjs (pre-existing staleness, present in the before-builds too, not caused by this fix)"
+        ]
+      },
+      "completeness": {
+        "before": { "result": "PASS_COMPLETE", "written": "27/167", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+        "after": { "result": "PASS_COMPLETE", "written": "27/167", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 }
+      }
+    },
+
+    "vt_exp_decriminalized-set": {
+      "verdict": "DRIFTED — FIXED",
+      "builder": "scripts/build-census-v1-vt_exp_decriminalized-set.mjs",
+      "createSite": "line 859, `const packet = await PDFDocument.create()`, written to fixtures/canonical.pdf and fixtures/boundary.pdf",
+      "hostSharing": "dedicated single-family host; no other family builds from this file",
+      "beforeChange": {
+        "filesCompared": 34,
+        "filesThatMovedBetweenTwoConsecutiveBuilds": 3,
+        "movedFiles": [
+          "fixtures/canonical.pdf",
+          "fixtures/boundary.pdf",
+          "reports/rendered-artifacts.json"
+        ],
+        "build1": { "canonical": "174fea8248fa589e631ab448115e0ce56eaac137d4c68dcac21d76640ae8ae43", "boundary": "d0fbcd99c44ead009498dc5914807e4a306e636d0029eb7763848a198285ce52", "renderedArtifactsReport": "1bc5b1b87eaa4898c958f548a25165c3b571d10f7c6a093eedcb231cc5feb683" },
+        "build2": { "canonical": "ad70ced566f3f7747326bcd957d14756e0f60d4f43f8d0bd209d8be0b060705c", "boundary": "559b89078d8b646006425c7932a94e7efa25db7082118c5d8818e7260eaeb5f3", "renderedArtifactsReport": "275dfa98606c812c7df8215c92350654b2f91a9022dc430e84a5167051338d5c" },
+        "unchangedAcrossBothBuilds": "all 6 per-form fixtures, all 16 raster PNGs, all other reports and manifests"
+      },
+      "afterChange": {
+        "filesCompared": 34,
+        "filesThatMovedBetweenTwoConsecutiveBuilds": 0,
+        "build1EqualsBuild2": true,
+        "canonical": "0fd661c67436b1731b64a57742c7c5078fad3dbc9db8ab8105b25bd282702045",
+        "boundary": "4293eb7aff9a87bb535eda6cd9c443a9e8a23e9cb33877a19a7954fee2692973"
+      },
+      "contentDidNotMove": {
+        "rasterPngsCompared": 16,
+        "rasterPngsMovedVsHead": 0,
+        "renderedArtifactsReportLineChangesVsHead": [
+          "the two packet sha256 values",
+          "rasterEngine string scripts/lib/pdf-page-raster.mjs -> scripts/raster/pdf-page-raster.mjs (pre-existing staleness, not caused by this fix)"
+        ]
+      },
+      "completeness": {
+        "before": { "result": "PASS_COMPLETE", "written": "26/169", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+        "after": { "result": "PASS_COMPLETE", "written": "26/169", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 }
+      }
+    },
+
+    "va_seal_petition_misdemeanor-set": {
+      "verdict": "DRIFTED — FIXED",
+      "builder": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "createSite": "line 1533, `const packet = await PDFDocument.create()`, written to fixtures/canonical.pdf and fixtures/boundary.pdf",
+      "hostSharing": "SHARED HOST. This module assembles four families — va_seal_petition_misdemeanor-set, va_seal_petition_felony-set, va_seal_enumerated_seven_year-set and va_seal_ancillary_matter_only-set — and the sibling builder files are three-line wrappers that import runFamilyById from it. Only this family was rebuilt into the tree; see hostBlastRadius.",
+      "beforeChange": {
+        "filesCompared": 30,
+        "filesThatMovedBetweenTwoConsecutiveBuilds": 3,
+        "movedFiles": [
+          "fixtures/canonical.pdf",
+          "fixtures/boundary.pdf",
+          "reports/rendered-artifacts.json"
+        ],
+        "build1": { "canonical": "aec4ff21f17310a0a80bb722b0b9bc957cdbc76ff46677b9b5d24983b1824511", "boundary": "c09b2e2c0474a0a78998782bd6700ab83f46ebfcd43782fed33b1a04628be801", "renderedArtifactsReport": "3f203c28a690089a477a40ecbbd8e0bd0bf53bd14e5257fcf6651bfc017b8da1" },
+        "build2": { "canonical": "d043b48d2ef4f7ab34ac06b40e1ed0d1aa08e0f297f08bdf10391e5cd75e5ae3", "boundary": "36ebe9133ac7664a93f20733c8bb8dc4e06304fd12c340ed2c824a54a900fac6", "renderedArtifactsReport": "caddf1d9620ce622bf40121925fe417e82e11d0ca4d0d8bae78934fc2eff0671" },
+        "unchangedAcrossBothBuilds": "both per-form primary-filing artifacts, all 16 raster PNGs, all other reports and manifests"
+      },
+      "afterChange": {
+        "filesCompared": 30,
+        "filesThatMovedBetweenTwoConsecutiveBuilds": 0,
+        "build1EqualsBuild2": true,
+        "canonical": "adacb67024a0348404f830d3dc34a32b7be55c36df8c7672d9de5c6ce1c40101",
+        "boundary": "2770eb7d85024a64a013efd54768cb4ae5924a172ba704b51bcb6936a6d1916b"
+      },
+      "contentDidNotMove": {
+        "primaryFilingSha256CanonicalBeforeAndAfter": "bd4d68ef306dbd5b34089f61ce03fef25c99bc467acc294c44b7a23c3bb33543",
+        "primaryFilingSha256BoundaryBeforeAndAfter": "1f7ec0b66d176edc0c24c00647def4e3863b1ffbc881a6e1b8cffb3616143128",
+        "rasterPngsCompared": 16,
+        "rasterPngsMovedVsHead": 0,
+        "renderedArtifactsReportLineChangesVsHead": [
+          "the two packet sha256 values",
+          "rasterEngine string scripts/lib/pdf-page-raster.mjs -> scripts/raster/pdf-page-raster.mjs (pre-existing staleness, not caused by this fix)"
+        ]
+      },
+      "completeness": {
+        "before": { "result": "PASS_COMPLETE", "written": "29/121", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+        "after": { "result": "PASS_COMPLETE", "written": "29/121", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 }
+      }
+    },
+
+    "nj_arrest_no_conviction-set": {
+      "verdict": "DID NOT DRIFT — NOT CHANGED",
+      "builder": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "whyTheScannerFlaggedIt": "two PDFDocument.create() calls with no date pinned: exactOverlaySource at line 788 and synthetic at line 844.",
+      "whyItShipsNothing": "both live inside `async function selfTest(familyId)` (line 693). exactOverlaySource is a 240x120 in-memory scratch page fed to overlayExactMappedFacts to assert one exact-map write; its bytes never reach a path. synthetic is written to fs.mkdtempSync(os.tmpdir(), 'rcap-east-raster-self-test-') and that directory is removed in the enclosing finally. Neither is reachable from buildOfficial/buildComposed, and neither contributes to a family artifact.",
+      "whatTheFamilyActuallyShips": "fixtures/cn-10557-canonical.pdf and fixtures/cn-10557-boundary.pdf, produced by finalizeEastOfficialForm from the loaded source bytes — a PDFDocument.load path that never passes through PDFDocument.create().",
+      "measurement": {
+        "filesCompared": 99,
+        "filesThatMovedBetweenTwoConsecutiveBuilds": 0,
+        "filesThatMovedVsHead": 0,
+        "canonicalReproducedPinnedHash": "18463feda4cfdbf5766c3c98ea7214eb4368a95de28df48732ddddcebda5ff28",
+        "boundaryReproducedPinnedHash": "ac3e45fb78f2ca63a2c35e271bcbdd22d4fbbee7722d6251accaf941f35569ad",
+        "rasterPngsCompared": 88,
+        "rasterPngsMovedVsHead": 0
+      },
+      "sharedHostNote": "this is the east host serving fourteen families. Because no change was needed, no family on it moved a byte.",
+      "completeness": {
+        "before": { "result": "PASS_COMPLETE", "written": "19/179", "allNineCounters": 0 },
+        "afterTwoRebuilds": { "result": "PASS_COMPLETE", "written": "19/179", "allNineCounters": 0 }
+      }
+    },
+
+    "ne-setaside-custodial-set": {
+      "verdict": "DID NOT DRIFT — NOT CHANGED",
+      "builder": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+      "whyTheScannerFlaggedIt": "one PDFDocument.create() with no date pinned: syntheticPdf at line 2623.",
+      "whyItShipsNothing": "it lives inside `export async function runSelfTests()` (line 2554), is written to fs.mkdtempSync(os.tmpdir(), 'central-c11-raster-self-test-'), and that directory is removed in the enclosing finally. The real packet assembly at line 1892 already calls packet.setCreationDate(FIXED_DATE) and packet.setModificationDate(FIXED_DATE).",
+      "measurement": {
+        "filesCompared": 22,
+        "filesThatMovedBetweenTwoConsecutiveBuilds": 0,
+        "filesThatMovedVsHead": 0,
+        "canonicalReproducedPinnedHash": "a099c0a10c739d9876c8cf0653cedffecdde2e8df20c759b24fcd354fc7e65f7",
+        "boundaryReproducedPinnedHash": "ec477f8f52382e7820289bb727ee123f961396dc8fbb151980f91a92690722f3",
+        "rasterPngsCompared": 10,
+        "rasterPngsMovedVsHead": 0
+      },
+      "completeness": {
+        "before": { "result": "PASS_COMPLETE", "written": "5/173", "allNineCounters": 0 },
+        "afterTwoRebuilds": { "result": "PASS_COMPLETE", "written": "5/173", "allNineCounters": 0 }
+      }
+    }
   },
 
-  "exactUrlsSettledAndCorroborated_forTheManifestViaCaptain": [
+  "controls": [
     {
-      "url": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
-      "what": "IN CCA Section 1 non-conviction petition-and-order 15-page bundle; now bound to the petition AND order identities with component page locators; held bytes sha b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
-      "corroboration": "registry sibling component records, TOP20_EXTERNAL_VERIFICATION ranks 9-10, cb06 relationship-gaps"
+      "host": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "controlFamily": "va_seal_petition_felony-set",
+      "outsideTheAssignedFive": true,
+      "beforeFix": {
+        "filesCompared": 30,
+        "filesThatMovedBetweenTwoConsecutiveBuilds": 3,
+        "build1": { "canonical": "ba4ad3451afd8b06f54afd4c8e2be4232ef23b92fbcd75df981d887b3e4889ee", "boundary": "e473c86a5a5c84caa78c83275a67c2742a713123c1dc141f5984a1752e7a0aae", "renderedArtifactsReport": "b798f05809f054dddc2a025d1632e3a71716d91c263172eccce6d1ec252e65d8" },
+        "build2": { "canonical": "eb53a87ac0bc94846b89a527b9fbeca9f94db5600aebfb327366ebb47357fb1e", "boundary": "5464b0d322ad390a7668573c82a65b79a06e3a35dfbe3dfb2d7417863b31a641", "renderedArtifactsReport": "93b8aa0f4f9f751754f9cc0bf508e185de986ab9ed86cb0048579fff1b825a64" },
+        "reading": "the control does NOT come back clean, and that is the finding: the same defect was already present for this family, because the drifting create() site is shared host code. A no-diff control was not achievable here."
+      },
+      "afterFix": {
+        "filesCompared": 30,
+        "filesThatMovedBetweenTwoConsecutiveBuilds": 0,
+        "build1EqualsBuild2": true,
+        "canonical": "fa978632916650fdc6f927e3cc55e05caf77529d17b96cfdd3f30d213a694b93",
+        "boundary": "9acf660e6b8d935c15656c9bc6834e1c5ff683795eeb6d68c49c86e1f84bb004",
+        "rasterPngsMovedVsHead": 0,
+        "completeness": { "before": "PASS_COMPLETE 28/121, nine counters zero", "after": "PASS_COMPLETE 28/121, nine counters zero" }
+      },
+      "dispositionInThisCommit": "RESTORED TO HEAD. The control's rebuilt bytes were measured and then reverted with `git checkout --`, so this family's committed bytes and its RASTER_PASS are untouched and it owes no raster from this work.",
+      "whyRestored": "the assignment covers five families; moving bytes for a sixth would invalidate a raster receipt outside it. Restoring leaves this family exactly as broken as it already was — its committed bytes were unreproducible before this work and remain so — rather than adding raster debt no one authorized."
     },
     {
-      "url": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
-      "what": "MT DOJ/CRISS Expungement/Removal Request Form (2024-04-29); held bytes sha 4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7; NOTE: .docx — outside the manifest generator's .pdf-only URL regex, so it needs manual routing",
-      "corroboration": "mt_mmrta_serving composed-route dependency.json + route.json, c-dependency-correction-assignment, terminalization-evidence-briefs"
-    },
-    {
-      "url": "https://www.courtswv.gov/sites/default/pubfilesmnt/2026-04/SCA-C907.pdf",
-      "what": "WV SCA-C907 nonviolent felony expungement petition — settled earlier by the conveyor (disc05 -> acq03); this pass backfilled the registry record that still carried nulls",
-      "corroboration": "disc05/rows.json, acq03/rows.json, courtswv.gov forms page in three further committed files"
+      "host": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "controlFamily": "n/a",
+      "reading": "no control was needed and none was run: the file was not changed, because both of its unpinned documents are self-test scratch that never reaches a family artifact. Nothing on this fourteen-family east host moved."
     }
   ],
-  "urlCandidatesNotSettled_singleSourceOnly": [
-    "https://courts.mt.gov/external/forms/mmrta/form-a.docx",
-    "https://courts.mt.gov/external/forms/mmrta/form-b.docx",
-    "https://courts.mt.gov/external/forms/mmrta/cert-service.docx",
-    "https://courts.mt.gov/external/forms/mmrta/proposed-order.docx",
-    "each named only by the mounted Master Library MT legal review — one non-committed source, below the two-file corroboration gate; recorded as candidates on the registry records with the corroborated publisher page https://courts.mt.gov/Forms/mmrta"
+
+  "hostBlastRadius": {
+    "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs": {
+      "familiesAssembledByThisHost": [
+        "va_seal_petition_misdemeanor-set",
+        "va_seal_petition_felony-set",
+        "va_seal_enumerated_seven_year-set",
+        "va_seal_ancillary_matter_only-set"
+      ],
+      "rebuiltAndCommittedHere": ["va_seal_petition_misdemeanor-set"],
+      "notRebuilt": [
+        "va_seal_petition_felony-set",
+        "va_seal_enumerated_seven_year-set",
+        "va_seal_ancillary_matter_only-set"
+      ],
+      "consequence": "these three keep their committed bytes and their RASTER_PASS, so nothing is invalidated today. Their committed bytes were already unreproducible — proven for va_seal_petition_felony-set above — and now the builder will produce different, stable bytes for each of them on its next rebuild. Whoever rebuilds one must expect its packet hash to change once and must send it for a fresh central raster.",
+      "captainDecision": "whether to spend three more central rasters now to make the whole VA seal-petition host reproducible, or to leave each family to pay it on its next natural rebuild."
+    }
+  },
+
+  "rasterOwed": [
+    {
+      "familyId": "vt_seal_nonconviction-set",
+      "receiptStateBefore": "RASTER_PASS (packetCommitSha 7c3b33d51)",
+      "receiptStateOwed": "RASTER_PENDING — the pinned hashes no longer describe the committed bytes",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalOldSha256": "03715884a313d7de5d522bdd5da26a4bc947ea555d43c88eff4165def5b317f6",
+      "canonicalNewSha256": "9cf262bf31d99e3cf64379bc7efcbf87081694307842a86c4277c967d981c21b",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryOldSha256": "5205cc895fdddef3328749c3dd4b821672023ccdcad18252f4f45712990faefd",
+      "boundaryNewSha256": "baf3bbd94b100416c355be450d68160099aff231387705719adf98db3c5c033f",
+      "pageImagesChanged": 0,
+      "note": "the new hashes are now reproducible; a second build produced them again byte for byte"
+    },
+    {
+      "familyId": "vt_exp_decriminalized-set",
+      "receiptStateBefore": "RASTER_PASS (packetCommitSha 7c3b33d51)",
+      "receiptStateOwed": "RASTER_PENDING",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalOldSha256": "f952b05860583f6c188bc44d4831ac6e8f19daf1d19906fb3630b7a377e113a0",
+      "canonicalNewSha256": "0fd661c67436b1731b64a57742c7c5078fad3dbc9db8ab8105b25bd282702045",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryOldSha256": "eebfffaa45c3d2d99c91d602afa72a1ede1239365d5e2a28ec32825c9b20dde3",
+      "boundaryNewSha256": "4293eb7aff9a87bb535eda6cd9c443a9e8a23e9cb33877a19a7954fee2692973",
+      "pageImagesChanged": 0,
+      "note": "the new hashes are now reproducible; a second build produced them again byte for byte"
+    },
+    {
+      "familyId": "va_seal_petition_misdemeanor-set",
+      "receiptStateBefore": "RASTER_PASS (packetCommitSha 7c3b33d51)",
+      "receiptStateOwed": "RASTER_PENDING",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalOldSha256": "9cc63cbd647e477c8da08af8f67bd922953477c8ebc6d2608748724cf22b7eae",
+      "canonicalNewSha256": "adacb67024a0348404f830d3dc34a32b7be55c36df8c7672d9de5c6ce1c40101",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryOldSha256": "4dc94926306cddcdcedd28897a5db55dab2539170c6097bfa79e6a3f323350aa",
+      "boundaryNewSha256": "2770eb7d85024a64a013efd54768cb4ae5924a172ba704b51bcb6936a6d1916b",
+      "pageImagesChanged": 0,
+      "note": "the new hashes are now reproducible; a second build produced them again byte for byte"
+    }
+  ],
+  "rasterNotOwed": [
+    { "familyId": "nj_arrest_no_conviction-set", "reason": "no byte moved; both pinned hashes were reproduced exactly" },
+    { "familyId": "ne-setaside-custodial-set", "reason": "no byte moved; both pinned hashes were reproduced exactly" },
+    { "familyId": "va_seal_petition_felony-set", "reason": "control only; rebuilt bytes measured and reverted, committed bytes unchanged" }
   ],
 
-  "claimDiscipline": {
-    "asserted": 20,
-    "released": 15,
-    "leftLiveWithStops": "DISC01 AL OLR (1), DISC06 scouted rows (4, untouched), DISC02 enriched conviction rows (6, already live before this pass)",
-    "blockedBeforeClaim": [
-      "de_discretionary_family_court-set::official-form:FORM-281 — NOT_GRANTED to any source-discovery lane (LIVE on SRC03); worked at registry level only, per the captain's directive and the s1/s2 wave pattern",
-      "mo FI-05 obligations — NOT_GRANTED to any source-discovery lane (RELEASED on SRC02); registry level only"
+  "incidentalFindings": [
+    {
+      "finding": "the committed reports/rendered-artifacts.json for all three rebuilt families named rasterEngine as scripts/lib/pdf-page-raster.mjs, while the builders import scripts/raster/pdf-page-raster.mjs. Any rebuild corrects the string.",
+      "causedByThisFix": false,
+      "evidence": "the change appears in the two BEFORE-fix builds as well as the after-fix builds",
+      "reading": "a provenance string that went stale when the rasterizer moved out of scripts/lib (the move that kept the render-worker image fingerprint stable). It is not a content change and no page image moved with it."
+    },
+    {
+      "finding": "the L8 lane-contract check in scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs is file-scoped: it clears a builder if the file contains setCreationDate( anywhere. All five builders in this batch already contained that call for their per-form documents, so L8 passed while three of them left the assembled packet unstamped.",
+      "causedByThisFix": false,
+      "reading": "L8 is a cheap precondition, not a proof, and it says so. It cannot see a per-create-site gap. Nothing was weakened; 9/9 lane-contract checks pass before and after this change.",
+      "captainDecision": "whether L8 should be tightened to a per-create-site scan, which is what found these five."
+    }
+  ],
+
+  "filesChanged": {
+    "builders": [
+      "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
+      "scripts/build-census-v1-vt_exp_decriminalized-set.mjs",
+      "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs"
+    ],
+    "regeneratedOutput": [
+      "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+      "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+      "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+      "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+      "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+      "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+      "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json"
+    ],
+    "sharedHelperChanged": false,
+    "queuesUntouched": [
+      "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+      "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+      "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+      "every vf*/rows.json",
+      "the claim ledger"
     ]
   },
 
-  "verifiers": {
-    "verify-source-relationship-model.mjs": "11/11 HOLD after each batch",
-    "verify-source-conveyor.mjs": "23/23 after each batch",
-    "verify-claim-ledger.mjs": "CLAIM_LEDGER_OK (579 claims) after each batch and after every release"
+  "gatesChecked": {
+    "laneContracts": "9/9 passed before and after the change, L8 included",
+    "packetCompleteness": "all six families audited return PASS_COMPLETE with all nine counters zero, unchanged before and after",
+    "gatesWeakened": "none"
   },
-  "commits": [
-    "c32a8b2bc FABLE-D1 batch A: DE Form 281 bundle component, MO FI-05 scope, 13 DISC02 identities",
-    "03e9c016e FABLE-D1 batch B: MT DOJ form relationship for MMRTA, WV SCA-C907 backfill, AL OLR enrichment",
-    "(this return file is committed on fable/d1 immediately after the above)"
+
+  "stoppedOn": [
+    "did not rebuild va_seal_petition_felony-set, va_seal_enumerated_seven_year-set or va_seal_ancillary_matter_only-set into the tree, because moving bytes for families outside the assigned five would invalidate raster receipts nobody asked to spend"
   ]
 }
