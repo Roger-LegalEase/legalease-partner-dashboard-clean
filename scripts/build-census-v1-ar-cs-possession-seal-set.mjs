@@ -888,6 +888,7 @@ After — and only after — you have actually served both, complete the Certifi
 This packet prepares forms; it does not decide anything. Stop and get advice from a **lawyer licensed in Arkansas** — or put the question to the **circuit clerk of the county named in your caption**, who can say what the court requires even though the clerk cannot give legal advice — before filing, if any of these is true:
 
 - **the prosecuting attorney objects, or the court sets a contested hearing.** The committed record for this packet is explicit that this is where self-help stops: "Hand off on any opposition or contested hearing."
+- **immigration, licensing or firearm consequences are in play.** The committed record for this packet holds that stop condition in these words: "Immigration, licensing or firearm consequences are in play." What a sealed conviction does to immigration status, to a professional or occupational licence, or to the right to possess a firearm is not something this packet decides.
 - you cannot read or cannot answer one of the paragraphs on pages 1 and 2 of the petition, and the proposed order's parallel paragraph does not settle it for you;
 - your conviction is not for possession of a controlled or counterfeit substance — this pair of forms is for that conviction and no other;
 - you have a pending felony charge in any state or federal court — whether the petition can be granted while it is pending is a question this packet does not answer;
