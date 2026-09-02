@@ -1,143 +1,1133 @@
 {
   "schemaVersion": "fable-packet-factory-return/v1",
-  "lane": "SOURCE-1",
+  "worker": "FABLE-S1",
+  "lane": "factory measurement — does each family's committed output come from its own build script",
   "branch": "fable/s1",
-  "baseSha": "321650b5a71d16ce6b59e78147c8d39cd94c9d80",
-  "date": "2026-09-01",
-  "nothingWasFetched": true,
-  "sourceBodiesCommitted": 0,
-  "filesModified": [
-    "data/record-clearing/legal-design-track-registry.json",
-    "data/record-clearing/legal-design-track-source-relationships.json",
-    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json"
-  ],
-  "verifiers": {
-    "verify-source-relationship-model.mjs": "SOURCE_RELATIONSHIP_MODEL_HELD (11/11; 19/19 mutations caught)",
-    "verify-source-conveyor.mjs": "23/23 conveyor checks passed; CLAIM_LEDGER_OK 549 claims"
-  },
-  "defectsResolved": [
-    {
-      "defect": "VIRGINIA_CORRUPTED_PIN",
-      "whatWasDone": "The SHA-256 pin on the CC-1473 obligation shared its first 64 bits with the held petition and then diverged. Repaired in both governed carriers - data/record-clearing/legal-design-track-registry.json (tracks va_exp_nonconviction and va_exp_identity_used_by_another, officialSources) and data/record-clearing/legal-design-track-source-relationships.json (va_exp_nonconviction-primary-filing-1) - each with a sha256PinRepair note recording old value 6176c2f55bdb3206c53f4a26a0e6b4c14dfd8b04ee19be0ee52b7b6b3fa4e97f, new value 6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219, and basis. The new value was recomputed with sha256sum from the held corpus bytes (STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf, 120875 bytes) and equals the committed corpus index, data/rcap-grade-a/official-source-registry.json (already corroborated with match:true) and the production overlay source record. The PDF face was opened and prints FORM CC-1473 (MASTER, Page 1 of 2) 07/26, PETITION FOR EXPUNGEMENT FILED IN A CIRCUIT COURT - ACQUITTAL/DISMISSAL, Va. Code 19.2-392.2(A): it IS the petition for expungement the obligation names.",
-      "familiesReleased": [
-        "va_exp_identity_used_by_another-set"
-      ],
-      "sourceReadyInFact": "YES. The family's only document-shaped bound source is source-sha256:6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219, which now resolves to exactly one committed corpus index entry whose bytes are held and were recomputed to the same digest - all seven of the queue's binding conditions hold (exact content-hash identity, accepted tier, held path, held SHA-256, indexed entry, indexed hash equal, at least one source resolved). Its remaining requiredSourceIds are three source-url references (statute page, Norfolk clerk page, the vacourts cc1473.pdf address), which are not document-shaped custody obligations. The committed MASTER_QUEUE row still says SOURCE_BLOCKED / SOURCE_GENUINELY_MISSING because the census, custody reconciliation and queue are generated files that this lane may not edit; they reproduce the corrupted pin until their generators re-run over the repaired legal-design records, at which point the family binds with no further source work. A builder can take this family the moment the census/queue regenerate: the source it builds against is the held CC-1473 plus the settled statutory text, and the route is a custom pleading under Va. Code 19.2-392.2(B)."
-    },
-    {
-      "defect": "DELAWARE_FORM_281_COLLISION",
-      "whatWasDone": "The registry bound both FORM-281 and FORM-281E to the one held DOCX, which prints Form-281E - PETITION FOR EXPUNGEMENT OF ADULT RECORD CHARGE SHEET (the continuation sheet). Resolved in data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json: FORM-281E keeps the bytes it prints (sha256 aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33, recomputed from the mounted corpus and equal to the Nationwide custody row and the pinned hard-forms evidence copy). FORM-281 - the Family Court principal petition per the held Form 1021IP (\"The forms include: a. The Petition (Form 281) b. Proposed Order (Form 283)\") - was searched for across the mounted corpus STATES/DE (six files), the committed corpus index and data/record-clearing/source-artifact-registry.json: its bytes are genuinely not held. The record is now MISSING_SOURCE_BINARY, acquisition-ready, with the official Delaware Courts page recorded from committed evidence only: https://courts.delaware.gov/forms/ (named by the census route for de_discretionary_family_court-set), corroborated by the publisher page https://courts.delaware.gov/family printed inside the held 1021IP. No artifact URL was invented and nothing was fetched. Both records carry an s1CollisionRepair note.",
-      "familiesReleased": [],
-      "familiesAdvancedButNotReleasedHere": [
-        {
-          "familyId": "de_discretionary_family_court-set",
-          "advance": "the collision is resolved, so the family's blocker is now a correctly-targeted acquisition (FORM-281 bytes) instead of a false custody claim that hid the missing petition behind the charge sheet's hash"
-        }
-      ]
-    },
-    {
-      "defect": "KANSAS_NULL_DIGESTS",
-      "whatWasDone": "All ten KS registry records carried artifactSha256 null (SIF-2), so SHA-256 reconciliation could not run. Each of the three Kansas binaries in the mounted Master Library corpus was opened, its printed face read, and its digest recomputed with sha256sum before binding. Three records bound; seven left unbound, each with the exact reason in an s1DigestRepair note on the record in data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json.",
-      "perFile": [
-        {
-          "record": "KSJC-NOTICE-OF-HEARING-12-2016",
-          "decision": "BOUND",
-          "sha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
-          "basis": "face prints NOTICE OF HEARING ON PETITION FOR EXPUNGEMENT OF CONVICTION OR DIVERSION, KSJC 12/2016"
-        },
-        {
-          "record": "KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016",
-          "decision": "BOUND",
-          "sha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
-          "basis": "face prints ORDER OF EXPUNGEMENT OF CONVICTION OR DIVERSION COVER SHEET (for submission to the Kansas Bureau of Investigation), KSJC 12/2016. Supersedes disc05's index-slug refusal: that lane could not open bytes and the index slug drops the words Cover Sheet; the opened bytes, the original Nationwide filename and the KS STATE_MANIFEST all say the file IS the cover sheet"
-        },
-        {
-          "record": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
-          "decision": "BOUND",
-          "sha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
-          "basis": "face prints ORDER FOR EXPUNGEMENT, Pursuant to K.S.A. 21-6614, Rev. KSJC 08/2022 on all five pages; order only, no petition embedded"
-        },
-        {
-          "record": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
-          "decision": "LEFT_UNBOUND",
-          "reason": "bytes not in the mounted corpus; Nationwide custody row exists (Criminal Cover Sheet 102025.pdf, 6384f934...) but cannot be opened here to verify printed identity or recompute the digest; also LICENSE_PERMISSION_REVIEW stands with counsel"
-        },
-        {
-          "record": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
-          "decision": "LEFT_UNBOUND",
-          "reason": "the only held 08/2022 KSJC document is the Order for Expungement, and an order is not a petition; Nationwide custody row exists (Petition for Expungement of Conviction or Diversion 82022.pdf, 1113f7b6...) but its bytes are not in this container; LICENSE_PERMISSION_REVIEW stands with counsel"
-        },
-        {
-          "record": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
-          "decision": "LEFT_UNBOUND",
-          "reason": "the held 12/2016 file whose slug says order is, on its printed face, the KBI cover sheet - a cover sheet cannot satisfy an order identity; Nationwide custody row exists (Order Denying Expungement of Conviction or Diversion 122016.pdf, b29254fb...) but its bytes are not in this container"
-        },
-        {
-          "record": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
-          "decision": "LEFT_UNBOUND",
-          "reason": "no mounted file matches; Nationwide custody row d13bc7b7... not openable in this container"
-        },
-        {
-          "record": "KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
-          "decision": "LEFT_UNBOUND",
-          "reason": "no mounted file matches; Nationwide custody row 0c9c5a75... not openable in this container"
-        },
-        {
-          "record": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
-          "decision": "LEFT_UNBOUND",
-          "reason": "no mounted file matches; Nationwide custody row bf4b2309... not openable in this container"
-        },
-        {
-          "record": "KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022",
-          "decision": "LEFT_UNBOUND",
-          "reason": "no mounted file matches; Nationwide custody row 9264dc51... not openable in this container"
-        }
-      ],
-      "familiesReleased": [],
-      "familiesAdvancedButNotReleasedHere": [
-        {
-          "familyId": "ks-21-6614-conviction-set",
-          "advance": "three of its six named identities now carry held, recomputed digests; SHA-256 reconciliation runs"
-        },
-        {
-          "familyId": "ks-21-6614-diversion-set",
-          "advance": "three of six identities bound"
-        },
-        {
-          "familyId": "ks-21-6614-prostitution-coercion-set",
-          "advance": "three of six identities bound"
-        },
-        {
-          "familyId": "ks-21-6614-specialty-court-set",
-          "advance": "three of six identities bound"
-        }
-      ]
-    }
-  ],
-  "defectsNotResolvable": [
-    {
-      "defect": "KANSAS_NULL_DIGESTS (seven of ten records)",
-      "exactMissingFact": "The bytes of the seven remaining Kansas documents are not present in this container: the mounted Master Library corpus holds exactly three KS binaries, and the private Nationwide corpus that data/record-clearing/source-artifact-registry.json measured is not mounted (bootstrap returns HTTP 403 on the pinned release asset). Binding requires opening those files to verify printed identity and recompute SHA-256 from bytes; the custody rows name each file and its measured digest, so a lane with the Nationwide corpus mounted can finish this in minutes. Separately, no Kansas family reaches SOURCE_READY from these binds alone, and two identities (the criminal cover sheet and the conviction/diversion petition) additionally sit in LICENSE_PERMISSION_REVIEW with counsel because the Kansas Judicial Council restricts commercial reuse."
-    },
-    {
-      "defect": "DELAWARE_FORM_281_COLLISION (acquisition remainder)",
-      "exactMissingFact": "Form 281 (Family Court principal petition) bytes, at any revision, plus its Form 283 proposed order. No committed evidence carries an exact artifact URL - only the official pages https://courts.delaware.gov/forms/ and https://courts.delaware.gov/family - so DISC settles the exact address on the publisher's forms index and ACQ fetches; this lane fetches nothing."
-    }
-  ],
-  "commits": [
-    {
-      "sha": "d3086af7226f32ad89b136db6ed62e045563cedb",
-      "subject": "Repair the corrupted Virginia CC-1473 SHA-256 pin in the governed legal-design source records"
-    },
-    {
-      "sha": "173515d49c20d18f60ed06e2df3f1793c1e9d679",
-      "subject": "Resolve the Delaware FORM-281/FORM-281E identity collision in the source relationship registry"
-    },
-    {
-      "sha": "1e950e42ea259d1e29a65b91c7cef224f00c9b8e",
-      "subject": "Fill the Kansas null digests in the source relationship registry: three bound by printed identity, seven left unbound with exact reasons"
-    }
-  ],
+  "baseSha": "4b1d36fd58326d33c2c5a65fbbccab754a7d1601",
+  "returnedOn": "2026-09-02",
+  "operation": "measure build reproducibility across every family in a proven state; repair nothing",
+  "supersedes": "the SOURCE-1 return that previously occupied this path; that content is preserved unchanged in history at 2e4edbee104b591181b7ef80ee88b9abdf439932 (data/rcap-grade-a/fable-packet-factory/returns/s1.json), which is an ancestor of this branch, so pushing fable/s1 fast-forwards over it without discarding it",
+  "claimsAsserted": 0,
+  "claimsReleased": 0,
+  "claimLedgerTouched": false,
+  "familyRepairsPerformed": 0,
   "commercialRoutesOpened": 0,
-  "productionTouched": false
+  "productionTouched": false,
+  "generatorsRun": 0,
+  "queuesEdited": [],
+  "loudestFinding": {
+    "statement": "36 of the 79 proven families this sweep actually rebuilt do NOT reproduce their committed output — 35 at COMPLETE_PACKET_PROVEN and 1 at VERIFIED_PASS. Every one of them is in a state the factory currently relies on. 43 reproduce exactly.",
+    "whyItMatters": "A family whose committed artifacts are not what its builder produces has no reproducible provenance. A raster receipt pinned over such bytes binds bytes the owning script no longer authors, so the visual gate's evidence is not regenerable and the proven state rests on a snapshot nobody can rebuild.",
+    "provenFamiliesThatDoNotReproduce": 36,
+    "byQueueState": {
+      "COMPLETE_PACKET_PROVEN": 35,
+      "VERIFIED_PASS": 1
+    },
+    "theOnlyFamilyThatRebuildsPoorer": "az_marijuana_expungement_arrest_no_charges-set (VERIFIED_PASS) — see confirmations below"
+  },
+  "deliverable": {
+    "script": "scripts/grade-a-packet-factory-24h/measure-build-reproducibility.mjs",
+    "output": "data/rcap-grade-a/fable-packet-factory/BUILD_REPRODUCIBILITY.json",
+    "whatItDoes": "for each family with a directory and an owning build script: SHA-256 every committed file in the output directory, rebuild through the family's OWN script, hash again, classify, and restore the working tree with git checkout of named paths, verifying byte-identical restoration before the next family",
+    "invocationDetermination": "per script, never assumed: an importer that calls run*FamilyCli(\"<id>\"), a host whose direct-invocation guard defaults to its own family, or runIfMain(FAMILY, import.meta.url) on the composed-pleading host. Anything else records UNKNOWN_INVOCATION rather than guessing.",
+    "nondeterminismTest": "a rebuild that differs from committed is rebuilt a second consecutive time; only a rebuild that is stable across two consecutive runs is called DIVERGES"
+  },
+  "denominator": {
+    "familiesInMasterQueue": 346,
+    "withDirectoryAndOwningScript": 130,
+    "provenWithDirectoryAndOwningScript": 87,
+    "swept": 87,
+    "actuallyRebuilt": 79,
+    "notSwept": 43,
+    "whatWasCovered": "every one of the 87 proven families (COMPLETE_PACKET_PROVEN or VERIFIED_PASS) that has both a directory and an owning build script. 79 were rebuilt; the other 8 are on the east shared host and were recorded, not run.",
+    "whatWasNotCovered": "the 43 non-proven buildable families (SOURCE_READY, VERIFY_PENDING, BUILD_IN_PROGRESS, LEGAL_BLOCKED, FAIL_REPAIR_REQUIRED). The sweep was bounded there deliberately: proven families are the ones whose provenance is being relied on.",
+    "notSweptFamilies": [
+      "ar-arrest-seal-set",
+      "ar-misdemeanor-dwi-seal-set",
+      "az_marijuana_expungement_superior_court-set",
+      "ca-1203-41-set",
+      "ca-1203-42-set",
+      "ca-1203-43-set",
+      "ca-1203-4a-set",
+      "ca-17b-reduction-set",
+      "ca-851-91-set",
+      "ca-prop64-set",
+      "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "ct-cleanslate-petition-set",
+      "ct-missed-erasure-set",
+      "ky_void_seal_controlled_substance-set",
+      "ky_void_seal_marijuana_synthetic_salvia-set",
+      "ne-setaside-custodial-set",
+      "ne-setaside-noncustodial-set",
+      "ne-trafficking-setaside-and-seal-set",
+      "nj_disorderly_persons-set",
+      "ny_160_59_petition-set",
+      "ny_mrta_marijuana-set",
+      "oh_marijuana_expungement-set",
+      "pa_6308_underage-set",
+      "pa_pardon_expungement-set",
+      "rcap-oh-custom-pleading-clean-tracks",
+      "ri_nonconviction_sealing-set",
+      "sd_arrest_expungement-set",
+      "ut_pet_acquittal-set",
+      "ut_pet_conviction-set",
+      "ut_pet_dismissed_with_prejudice-set",
+      "vt_seal_pardon-set",
+      "wa_blake_vacatur_and_lfo_refund-set",
+      "wa_vac_cannabis-set",
+      "wa_vac_homicide_victim_prostitution-set",
+      "wa_vac_misdemeanor_ordinary-set",
+      "wa_vac_substance_use_disorder-set",
+      "wa_vac_survivor_felony-set",
+      "wa_vac_survivor_misdemeanor-set",
+      "wa_vac_treaty_fishing-set",
+      "wi_nc_doj_fingerprint_removal-set",
+      "wv_conv_multiple_misdemeanors-set",
+      "wv_conv_single_misdemeanor-set"
+    ]
+  },
+  "counts": {
+    "DIVERGES": 36,
+    "REPRODUCES": 43,
+    "SKIPPED_LANE_ACTIVE": 8
+  },
+  "countsMeaning": {
+    "REPRODUCES": "rebuild byte-identical to committed; every one of the 43 also shows the builder actually rewrote the files (filesRewrittenByBuilder > 0), so none is a vacuous pass from a script that exited early",
+    "DIVERGES": "rebuild stable across two consecutive runs but different from committed",
+    "NONDETERMINISTIC": "none found — no family in a proven state moves its own bytes between two consecutive rebuilds",
+    "UNBUILDABLE": "none found once the source corpus was mounted",
+    "SKIPPED_LANE_ACTIVE": "east shared host, recorded and not rebuilt"
+  },
+  "divergenceShape": {
+    "RICHER": 23,
+    "SAME_SIZE": 12,
+    "POORER": 1,
+    "reading": "RICHER dominates: for 23 families the committed state is missing raster pages and artifact detail the builder now produces (build-status.json commonly reads rasterEngine 'not rendered in this run' and rasterPages 0 while a rebuild renders 12 to 20 pages). SAME_SIZE is mostly a stale recorded path — committed reports name scripts/lib/pdf-page-raster.mjs where the rasteriser now lives at scripts/raster/pdf-page-raster.mjs. Exactly one family rebuilds POORER."
+  },
+  "everyFamilyThatIsNotReproduces": [
+    {
+      "familyId": "ak-courtview-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 1,
+      "direction": "SAME_SIZE",
+      "richerFiles": 0,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "reports/rendered-artifacts.json",
+        "committedSays": "\"rasterEngine\": \"scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)\",",
+        "rebuildSays": "\"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\","
+      }
+    },
+    {
+      "familyId": "ak-tf800-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 1,
+      "direction": "SAME_SIZE",
+      "richerFiles": 0,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "reports/rendered-artifacts.json",
+        "committedSays": "\"rasterEngine\": \"scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)\",",
+        "rebuildSays": "\"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\","
+      }
+    },
+    {
+      "familyId": "ak-tf805-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 1,
+      "direction": "SAME_SIZE",
+      "richerFiles": 0,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "reports/rendered-artifacts.json",
+        "committedSays": "\"rasterEngine\": \"scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)\",",
+        "rebuildSays": "\"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\","
+      }
+    },
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "queueState": "VERIFIED_PASS",
+      "sharedBuildHost": null,
+      "filesDiffering": 4,
+      "direction": "POORER",
+      "richerFiles": 0,
+      "poorerFiles": 3,
+      "changedFiles": [
+        "build-findings.json",
+        "participant-instructions.md",
+        "production-field-map.json",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-findings.json",
+        "committedSays": "\"No printed bracket control is marked. No signature, signature date, prosecuting-agency, court-identity, clerk, or attorney field is offered as an anchor. The citing-or-arresting-a",
+        "rebuildSays": "\"No printed bracket control is marked. No signature, signature date, law-enforcement/prosecutor agency, court-identity, clerk, or attorney field is offered as an anchor.\","
+      }
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 4,
+      "direction": "SAME_SIZE",
+      "richerFiles": 0,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "fixtures/boundary.pdf",
+        "fixtures/canonical.pdf",
+        "reports/independent-visual-review.json",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "reports/independent-visual-review.json",
+        "committedSays": "\"sha256\": \"6c3d8f4482dc4de44cb817f486cc2ad982aaf79b3d6f79cc75696d22facb07d7\",",
+        "rebuildSays": "\"sha256\": \"b4ccd69946b1976284aab0736161e74e4f992004de8574687db5d281efec597a\","
+      }
+    },
+    {
+      "familyId": "co_multiple_conviction_seal-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 4,
+      "direction": "SAME_SIZE",
+      "richerFiles": 0,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "fixtures/boundary.pdf",
+        "fixtures/canonical.pdf",
+        "reports/independent-visual-review.json",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "reports/independent-visual-review.json",
+        "committedSays": "\"sha256\": \"3cb52dc501311af75b69ef7c8e339849b0fbb2d632bd16e0f6b3a4483e89a0cd\",",
+        "rebuildSays": "\"sha256\": \"d6c1b0f4ae474290214ec98fab57e298c2aacd78f8d196d691843811110068cd\","
+      }
+    },
+    {
+      "familyId": "co_pardoned_conviction_seal-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 4,
+      "direction": "SAME_SIZE",
+      "richerFiles": 0,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "fixtures/boundary.pdf",
+        "fixtures/canonical.pdf",
+        "reports/independent-visual-review.json",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "reports/independent-visual-review.json",
+        "committedSays": "\"sha256\": \"d285a03f788cb5e5b3a8d1f17babd379b199cd24c34d2e98b52363cd2c436bf7\",",
+        "rebuildSays": "\"sha256\": \"3fb5c1f5fc481fdeb6183b2532927baef2c03deb68454f28615eab811213e180\","
+      }
+    },
+    {
+      "familyId": "ct-nolle-auto-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 6,
+      "direction": "RICHER",
+      "richerFiles": 5,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "ga-deaddocket-j3-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "filesDiffering": 14,
+      "direction": "RICHER",
+      "richerFiles": 13,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "ga-felony-j1-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "filesDiffering": 18,
+      "direction": "RICHER",
+      "richerFiles": 17,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/boundary/page-07/page.png",
+        "raster/boundary/page-08/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "raster/canonical/page-07/page.png",
+        "raster/canonical/page-08/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "ga-fo-active-pre2026-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "filesDiffering": 14,
+      "direction": "RICHER",
+      "richerFiles": 13,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "ga-fo-discharged-pre2026-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "filesDiffering": 14,
+      "direction": "RICHER",
+      "richerFiles": 13,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "ga-fugitive-j5-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "filesDiffering": 14,
+      "direction": "RICHER",
+      "richerFiles": 13,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "ga-misd-j4-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "filesDiffering": 20,
+      "direction": "RICHER",
+      "richerFiles": 19,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/boundary/page-07/page.png",
+        "raster/boundary/page-08/page.png",
+        "raster/boundary/page-09/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "raster/canonical/page-07/page.png",
+        "raster/canonical/page-08/page.png",
+        "raster/canonical/page-09/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "ga-nonconv-post2013-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 12,
+      "direction": "RICHER",
+      "richerFiles": 11,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "ga-pardon-j7-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "filesDiffering": 16,
+      "direction": "RICHER",
+      "richerFiles": 15,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/boundary/page-07/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "raster/canonical/page-07/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "ga-seal-m-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "filesDiffering": 18,
+      "direction": "RICHER",
+      "richerFiles": 17,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/boundary/page-07/page.png",
+        "raster/boundary/page-08/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "raster/canonical/page-07/page.png",
+        "raster/canonical/page-08/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "ga-vacated-j2-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": "build-census-v1-ga-host.mjs",
+      "filesDiffering": 14,
+      "direction": "RICHER",
+      "richerFiles": 13,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "ma-bmc-multi-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 10,
+      "direction": "RICHER",
+      "richerFiles": 9,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "ma-expunge-mj-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 7,
+      "direction": "RICHER",
+      "richerFiles": 6,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "reports/independent-visual-review.json",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "me-seal-prost-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 1,
+      "direction": "SAME_SIZE",
+      "richerFiles": 0,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "reports/rendered-artifacts.json",
+        "committedSays": "\"rasterEngine\": \"scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)\",",
+        "rebuildSays": "\"rasterEngine\": \"scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)\","
+      }
+    },
+    {
+      "familyId": "mi_setaside_marihuana-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 4,
+      "direction": "SAME_SIZE",
+      "richerFiles": 0,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "fixtures/boundary.pdf",
+        "fixtures/canonical.pdf",
+        "reports/independent-visual-review.json",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "reports/independent-visual-review.json",
+        "committedSays": "\"sha256\": \"c1506f35f448464374ad7d080c9b71cde24a4902d90a15259248b3962995737b\",",
+        "rebuildSays": "\"sha256\": \"3db619bfe92cf022bef8eceed5391cb3d26a042d42ea5545d561e098e0bcac58\","
+      }
+    },
+    {
+      "familyId": "mn_prosecutor_agreed-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 12,
+      "direction": "RICHER",
+      "richerFiles": 11,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "nv_repository_removal-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 18,
+      "direction": "RICHER",
+      "richerFiles": 17,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/boundary/page-07/page.png",
+        "raster/boundary/page-08/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "raster/canonical/page-07/page.png",
+        "raster/canonical/page-08/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "nv_seal_probation_family-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 22,
+      "direction": "RICHER",
+      "richerFiles": 21,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/boundary/page-07/page.png",
+        "raster/boundary/page-08/page.png",
+        "raster/boundary/page-09/page.png",
+        "raster/boundary/page-10/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "raster/canonical/page-07/page.png",
+        "raster/canonical/page-08/page.png",
+        "raster/canonical/page-09/page.png",
+        "raster/canonical/page-10/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "or_conviction_setaside-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 20,
+      "direction": "RICHER",
+      "richerFiles": 19,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/boundary/page-07/page.png",
+        "raster/boundary/page-08/page.png",
+        "raster/boundary/page-09/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "raster/canonical/page-07/page.png",
+        "raster/canonical/page-08/page.png",
+        "raster/canonical/page-09/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": null,",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "pa_age70_deceased-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 4,
+      "direction": "SAME_SIZE",
+      "richerFiles": 0,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "fixtures/boundary.pdf",
+        "fixtures/canonical.pdf",
+        "reports/independent-visual-review.json",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "reports/independent-visual-review.json",
+        "committedSays": "\"sha256\": \"f4f4b3ba5263fff23c409e8b8ffda95c2ee3e1cf6fea623af5ddb09ed181639e\",",
+        "rebuildSays": "\"sha256\": \"827444936f16c77122f074bf7a28eb05275ec28a0d3daf15c5427ad34ef0e648\","
+      }
+    },
+    {
+      "familyId": "va_exp_absolute_pardon-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 12,
+      "direction": "RICHER",
+      "richerFiles": 11,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "va_exp_identity_used_by_another-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 18,
+      "direction": "RICHER",
+      "richerFiles": 17,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/boundary/page-07/page.png",
+        "raster/boundary/page-08/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "raster/canonical/page-07/page.png",
+        "raster/canonical/page-08/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "va_exp_nonconviction-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 17,
+      "direction": "RICHER",
+      "richerFiles": 16,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/boundary/page-07/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "raster/canonical/page-07/page.png",
+        "reports/independent-visual-review.json",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "va_seal_ancillary_matter_only-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": "build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "filesDiffering": 3,
+      "direction": "SAME_SIZE",
+      "richerFiles": 0,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "fixtures/boundary.pdf",
+        "fixtures/canonical.pdf",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "reports/rendered-artifacts.json",
+        "committedSays": "\"sha256\": \"0ca22f4c4720d2d5325d67fa67657746292923fbfb45580ef94094d5e94ad893\",",
+        "rebuildSays": "\"sha256\": \"9df18a4e9fc95e87f560809314de8abcff50c01a9825b023d8f7cbdea9d221f8\","
+      }
+    },
+    {
+      "familyId": "va_seal_enumerated_seven_year-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": "build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "filesDiffering": 3,
+      "direction": "SAME_SIZE",
+      "richerFiles": 0,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "fixtures/boundary.pdf",
+        "fixtures/canonical.pdf",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "reports/rendered-artifacts.json",
+        "committedSays": "\"sha256\": \"859656e4ae155c94ad78cef9a1f017b6411bde531a86f15cd01c749c2d452ee6\",",
+        "rebuildSays": "\"sha256\": \"df7922cd4562b75f04ebb3f3c85b83d00fd4e3e96741284bf592b40b6c0d7610\","
+      }
+    },
+    {
+      "familyId": "va_seal_petition_felony-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": "build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "filesDiffering": 3,
+      "direction": "SAME_SIZE",
+      "richerFiles": 0,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "fixtures/boundary.pdf",
+        "fixtures/canonical.pdf",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "reports/rendered-artifacts.json",
+        "committedSays": "\"sha256\": \"c653f0a41319bbee6133a17c418666eaccb31f329abfd465d0de55b9dd4e2636\",",
+        "rebuildSays": "\"sha256\": \"fa978632916650fdc6f927e3cc55e05caf77529d17b96cfdd3f30d213a694b93\","
+      }
+    },
+    {
+      "familyId": "vt_seal_misdemeanor-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 6,
+      "direction": "RICHER",
+      "richerFiles": 4,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "fixtures/boundary.pdf",
+        "fixtures/canonical.pdf",
+        "participant-instructions.md",
+        "raster/boundary/page-03/page.png",
+        "reports/actual-writes.json",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "participant-instructions.md",
+        "committedSays": "Two things this packet does **not** tell you, because they are not established here and writing an unsourced figure into a filing instruction would be worse than leaving it out:",
+        "rebuildSays": "## What it costs, and how to ask for a waiver"
+      }
+    },
+    {
+      "familyId": "wa_crop_certificate_of_restoration-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 16,
+      "direction": "RICHER",
+      "richerFiles": 15,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "raster/boundary/page-01/page.png",
+        "raster/boundary/page-02/page.png",
+        "raster/boundary/page-03/page.png",
+        "raster/boundary/page-04/page.png",
+        "raster/boundary/page-05/page.png",
+        "raster/boundary/page-06/page.png",
+        "raster/boundary/page-07/page.png",
+        "raster/canonical/page-01/page.png",
+        "raster/canonical/page-02/page.png",
+        "raster/canonical/page-03/page.png",
+        "raster/canonical/page-04/page.png",
+        "raster/canonical/page-05/page.png",
+        "raster/canonical/page-06/page.png",
+        "raster/canonical/page-07/page.png",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    },
+    {
+      "familyId": "wi_nc_doj_challenge-set",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "sharedBuildHost": null,
+      "filesDiffering": 3,
+      "direction": "RICHER",
+      "richerFiles": 2,
+      "poorerFiles": 0,
+      "changedFiles": [
+        "build-status.json",
+        "reports/independent-visual-review.json",
+        "reports/rendered-artifacts.json"
+      ],
+      "signature": {
+        "file": "build-status.json",
+        "committedSays": "\"rasterEngine\": \"not rendered in this run\",",
+        "rebuildSays": "\"rasterEngine\": \"chromium_calibrated\","
+      }
+    }
+  ],
+  "hostBleed": {
+    "observations": 0,
+    "statement": "None. Across 79 rebuilds, including every shared host measured (dc_seal_nonconviction, ga-host, ut_pet_acquittal, va_seal_petition_misdemeanor, vt_seal_misdemeanor, wa_blake_vacatur_and_lfo_refund), no rebuild of one family wrote a single byte outside its own output directory. The shared hosts are bounded in fact, not only by intent."
+  },
+  "skippedLaneActive": {
+    "familiesInTheProvenSet": [
+      "nj_arrest_no_conviction-set",
+      "nj_clean_slate-set",
+      "nj_indictable_conviction-set",
+      "nj_ordinance-set",
+      "pa_490_nonconviction-set",
+      "pa_790_nonconviction-set",
+      "pa_9122_1_limited_access-set",
+      "pa_summary_conviction-set"
+    ],
+    "alsoOnThatHostButNotProven": [
+      "nj_disorderly_persons-set",
+      "ny_160_59_petition-set",
+      "ny_mrta_marijuana-set",
+      "oh_marijuana_expungement-set",
+      "pa_6308_underage-set",
+      "rcap-oh-custom-pleading-clean-tracks",
+      "ri_nonconviction_sealing-set"
+    ],
+    "reason": "build-census-v1-nj_arrest_no_conviction-set.mjs and its 14 importers, plus ri_nonconviction_sealing-set, are under active repair in another lane under an owner decision. The tool names the host and refuses to run it."
+  },
+  "confirmations": {
+    "note": "each of these was measured independently rather than taken on trust",
+    "DF_004_az_marijuana_expungement_arrest_no_charges_set": {
+      "verdict": "CONFIRMED, and wider than reported",
+      "queueState": "VERIFIED_PASS",
+      "reportedAs": "participant-instructions 69 lines to 13, 208 field-map lines lost, documentId and formNumber stripped from the artifact report",
+      "measured": {
+        "filesDiffering": 4,
+        "direction": "POORER",
+        "participant-instructions.md": "7106 bytes / 69 lines committed becomes 584 bytes / 13 lines on rebuild — 49 committed lines have no counterpart in the rebuild, which supplies 7 generic ones",
+        "production-field-map.json": "50650 bytes / 1236 lines becomes 42091 / 1118 — 118 lines fewer, 142 committed lines absent from the rebuild, including completenessDisposition PROTECTED_FIELD and refusalClass court_prosecutor_clerk_or_agency_owned rows that the rebuild replaces with blankTreatment null",
+        "reports/rendered-artifacts.json": "documentId AZ-AOC-CREM3F-PETITION-TO-EXPUNGE-MARIJUANA-RECORDS-SUPERIOR-COURT and formNumber AOC-CREM3F-071221 are present in the committed report and absent from the rebuild",
+        "build-findings.json": "NOT PREVIOUSLY REPORTED — the committed finding names the citing-or-arresting-agency blank; the rebuild drops that clause and renames the agency field"
+      },
+      "determinism": "the rebuild is stable across two consecutive runs, so this is drift between committed bytes and the builder, not an unstable builder"
+    },
+    "three_previously_nondeterministic_builders": {
+      "verdict": "THE FIX HELD — all three now REPRODUCE",
+      "vt_seal_nonconviction-set": "REPRODUCES; the builder rewrote 33 files and produced byte-identical output",
+      "vt_exp_decriminalized-set": "REPRODUCES; the builder rewrote 33 files and produced byte-identical output",
+      "va_seal_petition_misdemeanor-set": "REPRODUCES; the builder rewrote 29 files and produced byte-identical output",
+      "note": "these are true reproductions, not scripts that skipped their work: mtime shows the builder rewrote the files and the bytes came out the same"
+    },
+    "ca_families_missing_participant_instructions": {
+      "verdict": "SYMPTOM CONFIRMED BY OBSERVATION, NOT BY REBUILD — and a third family has it",
+      "whyNotRebuilt": "ca-1203-43-set, ca-17b-reduction-set and az_marijuana_expungement_superior_court-set are all BUILD_IN_PROGRESS with active owners (R8C_CA_1203_43, R8B_CA_17B_REDUCTION, R8D_AZ_MARIJUANA_SUPERIOR_COURT) in the completeness-repair lane. Rebuilding a family another lane is actively repairing is the same hazard the east host was excluded for, so this was observed rather than measured.",
+      "observed": "of the 8 families on the WEST host, 5 (ca-1203-41, ca-1203-42, ca-1203-4a, ca-851-91, ca-prop64) ship participant-instructions.md and 3 do not: ca-1203-43-set, ca-17b-reduction-set, and az_marijuana_expungement_superior_court-set — the third was not previously named.",
+      "hostBehaviour": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs writes participant-instructions.md unconditionally in both branches, at line 2404 (AZ) and line 3212 (CA), immediately after production-field-map.json. All three affected directories DO carry production-field-map.json, so the write site was reached; the instructions file is absent from the committed tree all the same.",
+      "forTheCaptain": "this is an observation about committed contents plus a static read of the host. It is consistent with the reported defect and adds a third family, but only a rebuild by the owning lane can settle cause."
+    }
+  },
+  "restorationVerification": {
+    "method": "after every family: delete any file the build newly created, git checkout -- the named paths, then re-hash the whole family directory against the committed snapshot and require git status to be empty. Never a branch checkout, never a reset, never a stash.",
+    "everyFamilyRestoredByTheTool": true,
+    "unrestored": [],
+    "manualRestorationsAfterInterruptions": [
+      "co_pardoned_conviction_seal-set",
+      "dc_correct_misattributed_arrest-set",
+      "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "ga-vacated-j2-set"
+    ],
+    "manualRestorationNote": "each of those four was mid-rebuild when the sweep process was stopped or died, and each was restored by hand with git checkout of that one path plus removal of the untracked raster byproducts, verified clean by git status before the sweep resumed",
+    "finalWorkingTree": "git status --short shows only the new script and the two new JSON files this worker adds. No packet, overlay, fixture, field map or build script was modified."
+  },
+  "environment": {
+    "masterLibraryMount": "the worktree had no private/ tree; the Master Library was mounted read-only by symlinking private/source-imports to the main checkout, and MASTER_LIBRARY_SOURCE_DIR was exported. The tool now REFUSES to start without that variable rather than record its own environment as a fleet of broken builders.",
+    "sharedDiskExhaustion": "partway through the first pass the shared filesystem fell to 50MB free and five families failed identically inside the Chromium rasteriser ('raster carries no paper-white region — the page did not render'). Those rows were discarded, not reported: one of them (composed-treatment:nd-nonconviction-auto-close-verify) REPRODUCES cleanly once the disk recovered. No UNBUILDABLE survives in the final report.",
+    "forTheCaptain": "the disk on this host reached 100% twice during the sweep. That is a shared-environment condition this worker did not cause and did not clean up (other lanes own the scratch directories), but it can silently turn a good builder into a failed one."
+  },
+  "toolCorrectionsMadeDuringTheSweep": [
+    "MASTER_LIBRARY_SOURCE_DIR is now a precondition, not a result",
+    "an UNBUILDABLE naming a missing corpus is labelled environmentBounded",
+    "REPRODUCES now carries filesRewrittenByBuilder from mtime, because git dirtiness cannot tell a builder that rewrote identical bytes from one that never ran",
+    "the invocation detector learned runIfMain(FAMILY, import.meta.url), the composed-pleading host idiom used by 6 builders, which had produced a false UNKNOWN_INVOCATION",
+    "the sweep was restarted clean after each correction so the whole dataset comes from one code version"
+  ],
+  "forTheCaptainToDecide": [
+    "RICHER divergence in 23 proven families means the committed evidence lacks raster pages the builder now produces. Whether those families were proven against a no-raster build, or whether the committed state simply predates rastering, is a judgement about intent this worker will not make.",
+    "The stale rasteriser path (scripts/lib/pdf-page-raster.mjs to scripts/raster/pdf-page-raster.mjs) recorded in committed artifact reports is a one-line drift in many families at once; regenerating those reports would change bytes that raster receipts may be pinned to.",
+    "az_marijuana_expungement_arrest_no_charges-set sits at VERIFIED_PASS while rebuilding materially poorer. Whether the committed richer artifacts or the current builder is the authority is a legal-content question, not a build question.",
+    "The 43 non-proven buildable families are unmeasured. The same sweep covers them with --resume and no --proven-only.",
+    "Nothing here was repaired, no family was promoted or demoted, and no queue was edited."
+  ]
 }

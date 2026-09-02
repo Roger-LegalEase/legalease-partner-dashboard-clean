@@ -505,7 +505,11 @@ function buildReport() {
   const counts = {};
   for (const r of results) counts[r.classification] = (counts[r.classification] ?? 0) + 1;
 
-  const provenFailing = results.filter((r) => r.proven && r.classification !== "REPRODUCES");
+  // A family that was never rebuilt did not fail to reproduce; it was not asked.
+  // Counting the skipped host among the failures would inflate the loudest
+  // number in the report with families this sweep deliberately did not measure.
+  const provenFailing = results.filter((r) => r.proven
+    && !["REPRODUCES", "SKIPPED_LANE_ACTIVE", "UNKNOWN_INVOCATION"].includes(r.classification));
   const notSwept = candidates.filter((c) => !results.some((r) => r.familyId === c.familyId));
 
   return {
