@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+  "requiredBeforeFiling": [
+    {
+      "document": "agency_request",
+      "documentId": "agency_request",
+      "field": "agency_request.agency_address",
+      "page": 1,
+      "printedContext": "Address the agency receives written record requests at",
+      "disclosureLabel": "Address the agency receives written record requests at",
+      "identity": "agency_request field agency_address",
+      "why": "no committed record holds the address of any particular Colorado law-enforcement agency",
+      "participantMustSupply": "the postal address that agency's records unit receives written record requests at - ask its records unit if the arrest paperwork does not print it"
+    },
+    {
+      "document": "agency_request",
+      "documentId": "agency_request",
+      "field": "agency_request.agency_name",
+      "page": 1,
+      "printedContext": "Name of the agency that made the arrest",
+      "disclosureLabel": "Name of the agency that made the arrest",
+      "identity": "agency_request field agency_name",
+      "why": "which agency made an arrest is a fact of the participant's own record and no committed record holds it",
+      "participantMustSupply": "the name of the law-enforcement agency that arrested you, copied from your arrest paperwork"
+    },
+    {
+      "document": "agency_request",
+      "documentId": "agency_request",
+      "field": "agency_request.arrest_date",
+      "page": 1,
+      "printedContext": "Date of the arrest",
+      "disclosureLabel": "Date of the arrest",
+      "identity": "agency_request field arrest_date",
+      "why": "no arrest fact is held for a record the platform has not seen",
+      "participantMustSupply": "the date of the arrest, copied exactly from the arrest paperwork"
+    },
+    {
+      "document": "agency_request",
+      "documentId": "agency_request",
+      "field": "agency_request.case_incident_number",
+      "page": 1,
+      "printedContext": "Case or incident number of the arrest",
+      "disclosureLabel": "Case or incident number of the arrest",
+      "identity": "agency_request field case_incident_number",
+      "why": "no record identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the case or incident number the agency recorded the arrest under, from the arrest paperwork"
+    },
+    {
+      "document": "agency_request",
+      "documentId": "agency_request",
+      "field": "agency_request.identifiers_used",
+      "page": 1,
+      "printedContext": "Identifiers the arrest was recorded under",
+      "disclosureLabel": "Identifiers the arrest was recorded under",
+      "identity": "agency_request field identifiers_used",
+      "why": "what identifiers an arrest was recorded under lives on a record the platform has not seen",
+      "participantMustSupply": "the name and any other identifiers printed on the arrest record - these are what the agency will search on"
+    },
+    {
+      "document": "agency_request",
+      "documentId": "agency_request",
+      "field": "agency_request.no_charges_basis",
+      "page": 1,
+      "printedContext": "What shows no charges were filed, and where it is recorded",
+      "disclosureLabel": "What shows no charges were filed, and where it is recorded",
+      "identity": "agency_request field no_charges_basis",
+      "why": "whether charges were filed on a particular arrest lives on records the platform has not seen",
+      "participantMustSupply": "what shows that no charges were filed arising from this arrest, and where that is recorded - the district attorney's office for that judicial district, or the court, if one was involved"
+    },
+    {
+      "document": "agency_request",
+      "documentId": "agency_request",
+      "field": "agency_request.person_mistaken_for",
+      "page": 1,
+      "printedContext": "Name and any description of the person I believe I was mistaken for",
+      "disclosureLabel": "Name and any description of the person I believe I was mistaken for",
+      "identity": "agency_request field person_mistaken_for",
+      "why": "the identity of another person is not a fact the platform holds",
+      "participantMustSupply": "the name and any description of the person you believe you were mistaken for, if you know it; write that you do not know if you do not"
+    },
+    {
+      "document": "agency_request",
+      "documentId": "agency_request",
+      "field": "agency_request.what_i_was_accused_of",
+      "page": 1,
+      "printedContext": "What I was accused of",
+      "disclosureLabel": "What I was accused of",
+      "identity": "agency_request field what_i_was_accused_of",
+      "why": "no charge fact is held for a record the platform has not seen",
+      "participantMustSupply": "what the arrest paperwork says you were arrested for, copied from it"
+    },
+    {
+      "document": "agency_request",
+      "documentId": "agency_request",
+      "field": "agency_request.why_wrong_person",
+      "page": 1,
+      "printedContext": "Why the arrest was of the wrong person, and what I am attaching",
+      "disclosureLabel": "Why the arrest was of the wrong person, and what I am attaching",
+      "identity": "agency_request field why_wrong_person",
+      "why": "this is the participant's own account and the platform neither holds it nor writes it",
+      "participantMustSupply": "your own account of why the person arrested was not you, and a list of what you are attaching to show it - this is the substance the agency decides on"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "agency_request",
+      "field": "agency_request.requester_signature",
+      "label": "Signature of the requester on this request",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the requester signs the request personally"
+    },
+    {
+      "document": "agency_request",
+      "field": "agency_request.signature_date",
+      "label": "Date beside the requester's signature on this request",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the request is signed would be false"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/co/agency-application-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-investigation-and-finding-request--official-pdf-fill/participant-instructions.md"
+}
