@@ -1,34 +1,85 @@
 {
- "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
- "lane": "VF12",
- "generatedAtBase": "09b741ad00be0d630bd73a72f66640294abab397",
- "repairAssignments": [
-  {
-   "itemId": "vt_seal_dui-set",
-   "verdict": "FAIL_REPAIR_REQUIRED",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
-   "decisiveDefect": "A mapped known prefill is silently missing from the boundary artifact: participant.email is absent from 200-00132 page 1 on the boundary bytes while the same value is written on two other documents of the same artifact and the family's own report still counts it.",
-   "failedProofObligations": [
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF12",
+  "generatedAtBase": "09b741ad00be0d630bd73a72f66640294abab397",
+  "repairAssignments": [
     {
-     "obligation": "knownPrefills",
-     "finding": "One mapped known prefill is absent from the boundary artifact's bytes. participant.email is mapped to 200-00132 page 1 field \"34i\" (rect x395.69 y120.55 w174.74 h12.96) in both fixtures. The canonical artifact carries it: packet page 3 holds eight flattened widget appearances, the eighth reading \"jordan.reyes@example.org\". The boundary artifact carries only seven on the same page and the email is not among them, while the family's own report still records valuesReportedByFinalizer 8 for that document and fixture. The loss is silent — no refusal, no unfittable note, no finding. It is not a policy on long values either: the same boundary email, maria.alejandra.oshaughnessy.whitfield@longmailexample.org, is written and present on packet page 2 (200-00130) and packet page 5 (600-00228) of the same artifact."
+      "itemId": "vt_seal_dui-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
+      "decisiveDefect": "A mapped known prefill is silently missing from the boundary artifact: participant.email is absent from 200-00132 page 1 on the boundary bytes while the same value is written on two other documents of the same artifact and the family's own report still counts it.",
+      "failedProofObligations": [
+        {
+          "obligation": "knownPrefills",
+          "finding": "One mapped known prefill is absent from the boundary artifact's bytes. participant.email is mapped to 200-00132 page 1 field \"34i\" (rect x395.69 y120.55 w174.74 h12.96) in both fixtures. The canonical artifact carries it: packet page 3 holds eight flattened widget appearances, the eighth reading \"jordan.reyes@example.org\". The boundary artifact carries only seven on the same page and the email is not among them, while the family's own report still records valuesReportedByFinalizer 8 for that document and fixture. The loss is silent \u2014 no refusal, no unfittable note, no finding. It is not a policy on long values either: the same boundary email, maria.alejandra.oshaughnessy.whitfield@longmailexample.org, is written and present on packet page 2 (200-00130) and packet page 5 (600-00228) of the same artifact."
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The fee is not stated and no waiver route is established. The instructions say so themselves: \"The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. \u00a7 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.\" The waiver form 600-00228 is in the packet and filled, which is more than nothing, but the packet does not establish that it applies to this filing, and an instruction to ask the clerk is not the fee being stated."
+        },
+        {
+          "obligation": "service",
+          "finding": "Who must be served, and how, is not stated. The instructions say: \"Who must be served, and how. Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.\" The packet correctly refuses to conflate the prosecutor's signature with service, and correctly declines to invent a rule, but neither a recipient nor a method is stated."
+        }
+      ],
+      "repairScope": "Two separable repairs, neither of them this lane's. (1) A packet repair lane on the shared Vermont host scripts/build-census-v1-vt_seal_misdemeanor-set.mjs finds why the 200-00132 field 34i write is dropped for the boundary participant and not for the canonical one, fixes it, and re-renders. The write is dropped without a refusal or an unfittable note, so the finalizer's own accounting is wrong as well as the artifact: valuesReportedByFinalizer stays 8 while seven writes reach the bytes. All five families that resolve to that host should be re-checked, not only these two. (2) feeAndWaiver and service are not a packet defect: the underlying facts are open source obligations already dispatched as vt_seal_18_to_21-set::filing-fee-and-waiver-route, vt_seal_18_to_21-set::service-recipient-and-method, vt_seal_dui-set::filing-fee-and-waiver-route and vt_seal_dui-set::service-recipient-and-method through VTR02_VT_FEE_AND_SERVICE_SOURCE. No packet lane should write a fee or a service rule the source lane has not returned.",
+      "notForThisLaneToInfer": [
+        "the Vermont filing fee for a petition to seal under 13 V.S.A. \u00a7 7602",
+        "the waiver route",
+        "the service recipient and method"
+      ],
+      "whatThisDoesNotChange": "Thirteen of the fifteen obligations pass on measurement made in this lane, including all three source digests recomputed from the Master Library bytes and both artifact hashes recomputed from the PDF bytes. filingDestination, which VF01 and VF02 failed on the earlier instruction text, passes on the text at this base."
     },
     {
-     "obligation": "feeAndWaiver",
-     "finding": "The fee is not stated and no waiver route is established. The instructions say so themselves: \"The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.\" The waiver form 600-00228 is in the packet and filled, which is more than nothing, but the packet does not establish that it applies to this filing, and an instruction to ask the clerk is not the fee being stated."
-    },
-    {
-     "obligation": "service",
-     "finding": "Who must be served, and how, is not stated. The instructions say: \"Who must be served, and how. Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.\" The packet correctly refuses to conflate the prosecutor's signature with service, and correctly declines to invent a rule, but neither a recipient nor a method is stated."
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "1b40b32e0f59a6b70c7ca8779617a337ab184b22",
+      "directory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading",
+      "failedProofObligations": [
+        "SERVICE"
+      ],
+      "decisiveDefect": "The packet is silent on service. It never states who must be served, never states that no held source establishes a service rule, and names no authority for that question. Under DETERMINATION_FEE_AND_WAIVER_STANDARD.json the fee standard extends to SERVICE by its own appliesTo, and this is the notMet first limb: the packet says nothing about it anywhere.",
+      "whatIsHeldAndWhatIsNot": {
+        "nothingIsHeld": "No committed record establishes a service rule for Miss. Code Ann. \u00a7 99-15-59. The route contract src/lib/legal-authority/routes/mississippi.json routes[21] has no service key and the string 'serv' does not occur in it. There is no packet-set manifest entry for this composed family in data/record-clearing/legal-design-packet-set-manifests.json. The compiled Mississippi profile's one notice rule \u2014 'The petitioner must give 10 days written notice to the district attorney before any hearing' \u2014 is cited to law.justia.com section-99-19-71 and keyed to \u00a7 99-19-71, so A3 bars reading it across to \u00a7 99-15-59.",
+        "soThisIsNotAnA1Failure": "The repair is NOT to publish the 10-day district-attorney notice. Doing so would be the sibling-route inference A3 exists to forbid, and the same trap A4 records West Virginia narrowly avoiding. Publishing a \u00a7 99-19-71 hearing-notice rule on a \u00a7 99-15-59 no-charge application would be a worse defect than the present silence.",
+        "whatTheRepairIs": "State the non-establishment and name the authority, exactly as this packet already does for the fee and delivery questions two sentences earlier."
+      },
+      "wherePreciselyToRepair": {
+        "file": "the composed filing-instructions component and the participant-instructions.md that mirrors it",
+        "anchorInDeliveredPdf": "canonical.pdf page 4, 'WHAT YOU DO, IN ORDER', STEP FIVE, which currently reads: 'File the petition, the arrest record and the unsigned proposed order with the court with jurisdiction over the matter. Ask that court's office whether a filing fee applies and how it accepts filings - no committed record this packet is built from states either.'",
+        "anchorInInstructions": "participant-instructions.md, section 'What this packet does not tell you', first bullet, which currently names two facts: 'Whether a filing fee applies, and how the petition must be delivered.'",
+        "shapeOfTheFix": "Add the service question to both anchors as a third named fact, and add the A1 sentence that an absent record is not a finding that no service is required. The office is already named in both places, so no new authority has to be found."
+      },
+      "theModelIsInThisSameLaneAndPassesThisObligation": {
+        "family": "ct-cleanslate-petition-set",
+        "why": "Repaired by the same lane, faces the identical situation \u2014 an empty service record \u2014 and handles it correctly, so the repair has a worked example in the repository rather than needing new drafting.",
+        "itsWords": "'No held source states a service rule for this petition, so this packet states none \u2014 and it does not tell you that none exists.' ... 'An absent record is not a finding that no service is required.' ... 'Ask the clerk of the Superior Court location where you file ... whether anyone must be served with a copy of this petition, in what manner, and by when. Ask when you file, and do what the clerk tells you. That clerk is the office that answers this question for this filing.'"
+      },
+      "advisoryNotAFailedObligation": {
+        "obligation": "FEE_AND_WAIVER",
+        "finding": "The packet scopes its non-establishment as 'no committed record this packet is built from', which is the packet's own inputs rather than A2's wider repository. I ran the wider search and the answer is the same \u2014 Mississippi's only held fee lines are keyed to \u00a7\u00a7 99-19-71 and 99-19-72 and A3 excludes them \u2014 so the statement is true in substance and the obligation passes. But that narrower framing is precisely the reading A2 was written to correct, and it leaves the next reader to redo the search. Worth widening the words while the service paragraph is being edited.",
+        "doNotPublish": "The $150 figure from \u00a7 99-19-72. It answers a different statute's question."
+      },
+      "whatMustNotChange": [
+        "The case-number withholding on both captions. Both are court-owned and both are correctly blank; PROTECTED_FIELDS passes on the delivered bytes and the packet's stated reasoning is right \u2014 the proposed order is filed with the petition, before any number exists.",
+        "The route fencing that sends the dismissed-charge branch away to its own family.",
+        "The filing destination as stated. See the flagged-not-decided note in rows.json: the compiled profile's routing summary phrase 'file in the court where the case originated' presupposes a disposition and an originating case that a never-charged matter does not have, and I did not treat it as held for this route. That question is Captain's, not the repairer's."
+      ],
+      "gatesThisFamilyAlreadyPasses": "All nine completeness counters are zero, measured at this base by this reader, and the RASTER_PASS receipt still binds \u2014 both pinned hashes recomputed from disk. Neither gate asks about service, which is why this defect survived them.",
+      "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59"
     }
-   ],
-   "repairScope": "Two separable repairs, neither of them this lane's. (1) A packet repair lane on the shared Vermont host scripts/build-census-v1-vt_seal_misdemeanor-set.mjs finds why the 200-00132 field 34i write is dropped for the boundary participant and not for the canonical one, fixes it, and re-renders. The write is dropped without a refusal or an unfittable note, so the finalizer's own accounting is wrong as well as the artifact: valuesReportedByFinalizer stays 8 while seven writes reach the bytes. All five families that resolve to that host should be re-checked, not only these two. (2) feeAndWaiver and service are not a packet defect: the underlying facts are open source obligations already dispatched as vt_seal_18_to_21-set::filing-fee-and-waiver-route, vt_seal_18_to_21-set::service-recipient-and-method, vt_seal_dui-set::filing-fee-and-waiver-route and vt_seal_dui-set::service-recipient-and-method through VTR02_VT_FEE_AND_SERVICE_SOURCE. No packet lane should write a fee or a service rule the source lane has not returned.",
-   "notForThisLaneToInfer": [
-    "the Vermont filing fee for a petition to seal under 13 V.S.A. § 7602",
-    "the waiver route",
-    "the service recipient and method"
-   ],
-   "whatThisDoesNotChange": "Thirteen of the fifteen obligations pass on measurement made in this lane, including all three source digests recomputed from the Master Library bytes and both artifact hashes recomputed from the PDF bytes. filingDestination, which VF01 and VF02 failed on the earlier instruction text, passes on the text at this base."
+  ],
+  "fableV12Append": {
+    "worker": "FABLE-V12",
+    "appendedAtBase": "1b40b32e0f59a6b70c7ca8779617a337ab184b22",
+    "why": "Appended to this lane's existing repair assignments, not a replacement. The entries above were raised by an earlier reader at base 09b741ad00be0d630bd73a72f66640294abab397.",
+    "itemsAppended": [
+      "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59"
+    ],
+    "notRepairAssignments": {
+      "ca-prop64-set": "PASS_COMPLETE_INDEPENDENT. No repair. One gate-eligibility note that is not a packet defect: the family has no RASTER_QUEUE row because 8 of its 12 documents will not open in the gate's page-counting parser. Those eight are the unmodified official CR-401 and CR-403 companions, byte-identical to their pinned sources and carrying no added ink. That belongs to whoever owns the raster gate's parser, not to a packet repairer.",
+      "ct-cleanslate-petition-set": "PASS_COMPLETE_INDEPENDENT. No repair.",
+      "oh_marijuana_expungement-set": "BLOCKED_BEFORE_CLAIM, not a repair assignment. The claim gate returned ALREADY_RELEASED exit 9 and the assignment's claimRule makes that a full stop, so no artifact was read and no defect can be named. This family needs a live grant on a lane that did not build or repair it before anyone can verify it; its own ledger history shows a repair grant reissued twice for failures on COMPONENT_SET, KNOWN_PREFILLS and REQUIRED_BEFORE_FILING, then released."
+    }
   }
- ]
 }
