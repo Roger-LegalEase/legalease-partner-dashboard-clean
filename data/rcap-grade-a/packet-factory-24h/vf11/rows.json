@@ -2,8 +2,9 @@
  "schemaVersion": "rcap-independent-verification-rows/v1",
  "lane": "VF11",
  "laneKind": "independent-verification",
- "generatedAtBase": "09b741ad00be0d630bd73a72f66640294abab397",
- "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
+ "generatedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+ "verifier": "FABLE-VT5 (independent; built none of these packets)",
+ "preflight": "claims asserted per subject via claim.mjs --assert before any artifact was read; every assertion returned CLAIM_OK",
  "overlayDirectoriesModified": 0,
  "commercialRoutesOpened": 0,
  "productionTouched": false,
@@ -474,6 +475,666 @@
     "data/rcap-grade-a/packet-factory-24h/VERMONT_REPAIR.json",
     "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md"
    ]
+  },
+  {
+   "itemId": "dc_innocence_expungement-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading",
+   "proofObligations": {
+    "completenessContract": {
+     "result": "PASS",
+     "finding": "verify-packet-completeness.mjs --family dc_innocence_expungement-set was run fresh in this lane at base edf5ff14b and returned PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects) and 7/19 fields written.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_innocence_expungement-set",
+      "outcome": "PASS_COMPLETE",
+      "countersAllZero": true,
+      "written": "7/19"
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Canonical and boundary fixture bytes were rehashed in this lane; every SHA-256 agrees with reports/rendered-artifacts.json.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "sha256": "d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076"
+      },
+      {
+       "fixture": "boundary",
+       "sha256": "84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d"
+      }
+     ]
+    },
+    "routeIdentity": {
+     "result": "PASS",
+     "finding": "production-field-map.json, product-wiring.json and the MASTER_QUEUE family row declare identical routeKeys, every key exists in the canonical route universe, and where the composed pages print a Route: line it prints one of those keys.",
+     "evidence": {
+      "fieldMapRouteKeys": [
+       "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803"
+      ],
+      "wiringRouteKeys": [
+       "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803"
+      ],
+      "agreement": true
+     }
+    },
+    "statuteOnFace": {
+     "result": "PASS",
+     "finding": "Controlling authority D.C. Code Sec. 16-803 is on the face: MOTION FOR EXPUNGEMENT OF RECORDS ON GROUNDS OF ACTUAL INNOCENCE UNDER D.C. CODE Sec. 16-803 on page 1; receipt statutoryAuthority agrees.",
+     "evidence": {
+      "statute": "D.C. Code Sec. 16-803"
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "Jordan Avery Reyes with DOB written; charge wording, disposition and the innocence statement correctly left to the movant.",
+     "evidence": {
+      "fixtureRead": "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading/fixtures/canonical.pdf"
+     }
+    },
+    "noPlaceholderOrWrongState": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture finds no placeholder markers (TODO, PLACEHOLDER, Lorem ipsum, template braces, INSERT-brackets, FIXME, TBD) and no wrong-state jurisdiction name; the family own jurisdiction is named on the face.",
+     "evidence": {
+      "method": "text extraction scan of fixtures/canonical.pdf"
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "FILING INSTRUCTIONS pages are inside the packet itself and participant-instructions.md is present.",
+     "evidence": {
+      "participantInstructions": "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading/participant-instructions.md"
+     }
+    },
+    "blanksDisclosed": {
+     "result": "PASS",
+     "finding": "Every blank the field map classifies REQUIRED_BEFORE_FILING is named to the participant (measured by the completeness contract instruction-naming check, which passed with requiredFactsNotCollected 0 and unclassifiedBlanks 0). The builder blanks-left-for-the-participant.json report is present and consistent.",
+     "evidence": {
+      "reportsPresent": [
+       "actual-writes.json",
+       "blanks-left-for-the-participant.json",
+       "completeness-counters.json",
+       "rendered-artifacts.json"
+      ]
+     }
+    },
+    "approvalPosture": {
+     "result": "PASS",
+     "finding": "approval-request.json requests review and grants nothing: not approved for live, not live, zero commercial routes opened. This verdict likewise opens nothing.",
+     "evidence": {
+      "approvalRequest": "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading/approval-request.json",
+      "commercialRoutesOpened": 0
+     }
+    }
+   }
+  },
+  {
+   "itemId": "ga-fo-discharged-pre2026-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading",
+   "proofObligations": {
+    "completenessContract": {
+     "result": "PASS",
+     "finding": "verify-packet-completeness.mjs --family ga-fo-discharged-pre2026-set was run fresh in this lane at base edf5ff14b and returned PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects) and 8/32 fields written.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fo-discharged-pre2026-set",
+      "outcome": "PASS_COMPLETE",
+      "countersAllZero": true,
+      "written": "8/32"
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Canonical and boundary fixture bytes were rehashed in this lane; every SHA-256 agrees with reports/rendered-artifacts.json.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "sha256": "3ba5a61a33555e0a0663c3aad11cd62d6a24e3c2e8a72e955f4898bc39f2d62d"
+      },
+      {
+       "fixture": "boundary",
+       "sha256": "f5e381285ebc4e0c6250efcaa32c40f069bd805f29176a2c5714f48be3046029"
+      }
+     ]
+    },
+    "routeIdentity": {
+     "result": "PASS",
+     "finding": "production-field-map.json, product-wiring.json and the MASTER_QUEUE family row declare identical routeKeys, every key exists in the canonical route universe, and where the composed pages print a Route: line it prints one of those keys.",
+     "evidence": {
+      "fieldMapRouteKeys": [
+       "obligation:track-only:GA:ga-fo-discharged-pre2026"
+      ],
+      "wiringRouteKeys": [
+       "obligation:track-only:GA:ga-fo-discharged-pre2026"
+      ],
+      "agreement": true
+     }
+    },
+    "statuteOnFace": {
+     "result": "PASS",
+     "finding": "Controlling authority O.C.G.A. Sec. 42-8-62.2(c) is on the face: PETITION TO RESTRICT AND SEAL DISCHARGED FIRST OFFENDER RECORDS (O.C.G.A. Sec. 42-8-62.2(c)) on page 1 - correctly distinct from the active-sentence family 42-8-62.1(c); receipt statutoryAuthority agrees.",
+     "evidence": {
+      "statute": "O.C.G.A. Sec. 42-8-62.2(c)"
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "Jordan Avery Reyes written in the caption and body; case facts left as labelled dotted blanks.",
+     "evidence": {
+      "fixtureRead": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/fixtures/canonical.pdf"
+     }
+    },
+    "noPlaceholderOrWrongState": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture finds no placeholder markers (TODO, PLACEHOLDER, Lorem ipsum, template braces, INSERT-brackets, FIXME, TBD) and no wrong-state jurisdiction name; the family own jurisdiction is named on the face.",
+     "evidence": {
+      "method": "text extraction scan of fixtures/canonical.pdf"
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "participant-instructions.md is the instructions page the packet references, same structure as the active-sentence family.",
+     "evidence": {
+      "participantInstructions": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/participant-instructions.md"
+     }
+    },
+    "blanksDisclosed": {
+     "result": "PASS",
+     "finding": "Every blank the field map classifies REQUIRED_BEFORE_FILING is named to the participant (measured by the completeness contract instruction-naming check, which passed with requiredFactsNotCollected 0 and unclassifiedBlanks 0). The builder blanks-left-for-the-participant.json report is present and consistent.",
+     "evidence": {
+      "reportsPresent": [
+       "actual-writes.json",
+       "blanks-left-for-the-participant.json",
+       "completeness-counters.json",
+       "rendered-artifacts.json"
+      ]
+     }
+    },
+    "approvalPosture": {
+     "result": "PASS",
+     "finding": "approval-request.json requests review and grants nothing: not approved for live, not live, zero commercial routes opened. This verdict likewise opens nothing.",
+     "evidence": {
+      "approvalRequest": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/approval-request.json",
+      "commercialRoutesOpened": 0
+     }
+    }
+   }
+  },
+  {
+   "itemId": "ky_felony_vacatur_expungement-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill",
+   "proofObligations": {
+    "completenessContract": {
+     "result": "PASS",
+     "finding": "verify-packet-completeness.mjs --family ky_felony_vacatur_expungement-set was run fresh in this lane at base edf5ff14b and returned PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects) and 17/140 fields written.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_felony_vacatur_expungement-set",
+      "outcome": "PASS_COMPLETE",
+      "countersAllZero": true,
+      "written": "17/140"
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Canonical and boundary fixture bytes were rehashed in this lane; every SHA-256 agrees with reports/rendered-artifacts.json.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "sha256": "581dee480d77d2f226b907b017c4209de89d4f4346f654256ed11ba24d32e54e"
+      },
+      {
+       "fixture": "boundary",
+       "sha256": "3847941126c39f4c5963e2fa06bbccbaf5936a39551118fc6df429ff21bca91b"
+      }
+     ]
+    },
+    "routeIdentity": {
+     "result": "PASS",
+     "finding": "production-field-map.json, product-wiring.json and the MASTER_QUEUE family row declare identical routeKeys, every key exists in the canonical route universe, and where the composed pages print a Route: line it prints one of those keys.",
+     "evidence": {
+      "fieldMapRouteKeys": [
+       "obligation:track-pathway:KY:ky_felony_vacatur_expungement:felony-conviction-431073"
+      ],
+      "wiringRouteKeys": [
+       "obligation:track-pathway:KY:ky_felony_vacatur_expungement:felony-conviction-431073"
+      ],
+      "agreement": true
+     }
+    },
+    "statuteOnFace": {
+     "result": "PASS",
+     "finding": "Controlling authority KRS 431.073; 431.079 is on the face: the filled official AOC-496.3 prints \"KRS 431.073; 431.079\" and \"APPLICATION TO VACATE AND EXPUNGE FELONY CONVICTION\"; receipt statutoryAuthority agrees; route pathway felony-conviction-431073 matches.",
+     "evidence": {
+      "statute": "KRS 431.073; 431.079"
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "participant and case number 19-CR-00317 written on AOC-496.3/496.4; 17/140 fields written per the completeness run.",
+     "evidence": {
+      "fixtureRead": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/fixtures/canonical.pdf"
+     }
+    },
+    "noPlaceholderOrWrongState": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture finds no placeholder markers (TODO, PLACEHOLDER, Lorem ipsum, template braces, INSERT-brackets, FIXME, TBD) and no wrong-state jurisdiction name; the family own jurisdiction is named on the face.",
+     "evidence": {
+      "method": "text extraction scan of fixtures/canonical.pdf"
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "participant-instructions.md present with the fill directions for the official AOC forms.",
+     "evidence": {
+      "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md"
+     }
+    },
+    "blanksDisclosed": {
+     "result": "PASS",
+     "finding": "Every blank the field map classifies REQUIRED_BEFORE_FILING is named to the participant (measured by the completeness contract instruction-naming check, which passed with requiredFactsNotCollected 0 and unclassifiedBlanks 0). Note: the builder committed no blanks-left-for-the-participant.json report for this family; the obligation itself is measured by the fresh contract run, not by the builder self-report.",
+     "evidence": {
+      "reportsPresent": [
+       "actual-writes.json",
+       "builder-completeness-counters.json",
+       "rendered-artifacts.json"
+      ]
+     }
+    },
+    "approvalPosture": {
+     "result": "PASS",
+     "finding": "approval-request.json requests review and grants nothing: not approved for live, not live, zero commercial routes opened. This verdict likewise opens nothing.",
+     "evidence": {
+      "approvalRequest": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/approval-request.json",
+      "commercialRoutesOpened": 0
+     }
+    }
+   }
+  },
+  {
+   "itemId": "ky_void_seal_marijuana_synthetic_salvia-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading",
+   "proofObligations": {
+    "completenessContract": {
+     "result": "PASS",
+     "finding": "verify-packet-completeness.mjs --family ky_void_seal_marijuana_synthetic_salvia-set was run fresh in this lane at base edf5ff14b and returned PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects) and 13/39 fields written.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_void_seal_marijuana_synthetic_salvia-set",
+      "outcome": "PASS_COMPLETE",
+      "countersAllZero": true,
+      "written": "13/39"
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Canonical and boundary fixture bytes were rehashed in this lane; every SHA-256 agrees with reports/rendered-artifacts.json.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "sha256": "e70b19406a114095e500bb482d3b12f919c9fd0e738ba73b0d85ec76430a67c3"
+      },
+      {
+       "fixture": "boundary",
+       "sha256": "83ecbc8572791d944cad430936a9cf6a678a11cba3ba581917e1694ef64290f7"
+      }
+     ]
+    },
+    "routeIdentity": {
+     "result": "FAIL",
+     "finding": "The family's own artifacts disagree on the route key, and the key the participant-facing pages print does not exist. production-field-map.json, participant-instructions.md and the Route: line printed on the pages of both fixtures carry \"obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal\", while product-wiring.json and the MASTER_QUEUE row carry \"obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia\". The canonical route universe (data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json) contains only the track-only key; the track-pathway:...:void-and-seal key occurs zero times there. The statute, jurisdiction and track id all agree, so this is a keying defect, not a wrong-route packet - but a Grade-A record must be keyed to an exact route, and the face and field map are keyed to a route that does not exist. Repair: re-key production-field-map.json and participant-instructions.md to the canonical track-only key and rerender so the printed Route: line matches; every other one of this verifier's obligations passes on the current bytes.",
+     "evidence": {
+      "fieldMapRouteKeys": [
+       "obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal"
+      ],
+      "wiringRouteKeys": [
+       "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia"
+      ],
+      "masterQueueRouteKeys": [
+       "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia"
+      ],
+      "canonicalUniverseOccurrences": {
+       "trackOnlyKey": "present",
+       "trackPathwayVoidAndSealKey": 0
+      },
+      "routeLinePrintedOnFace": "obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal",
+      "comparison": "the other ten families in this verifier two lanes all agree fieldMap = wiring = MASTER_QUEUE; only these two Kentucky families disagree"
+     }
+    },
+    "statuteOnFace": {
+     "result": "PASS",
+     "finding": "Controlling authority KRS 218A.276 is on the face: MOTION TO VOID CONVICTION AND SEAL RECORDS (KRS 218A.276) on page 1 - correctly distinct from the controlled-substance family KRS 218A.275.",
+     "evidence": {
+      "statute": "KRS 218A.276"
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "Jordan Avery Reyes, Jefferson Circuit Court, case 21-CR-00417 written; completion date and agency list left for the participant.",
+     "evidence": {
+      "fixtureRead": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/canonical.pdf"
+     }
+    },
+    "noPlaceholderOrWrongState": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture finds no placeholder markers (TODO, PLACEHOLDER, Lorem ipsum, template braces, INSERT-brackets, FIXME, TBD) and no wrong-state jurisdiction name; the family own jurisdiction is named on the face.",
+     "evidence": {
+      "method": "text extraction scan of fixtures/canonical.pdf"
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "participant-instructions.md present; delegations to the circuit court clerk disclosed on the packet face.",
+     "evidence": {
+      "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/participant-instructions.md"
+     }
+    },
+    "blanksDisclosed": {
+     "result": "PASS",
+     "finding": "Every blank the field map classifies REQUIRED_BEFORE_FILING is named to the participant (measured by the completeness contract instruction-naming check, which passed with requiredFactsNotCollected 0 and unclassifiedBlanks 0). Note: the builder committed no blanks-left-for-the-participant.json report for this family; the obligation itself is measured by the fresh contract run, not by the builder self-report.",
+     "evidence": {
+      "reportsPresent": [
+       "actual-writes.json",
+       "builder-completeness-counters.json",
+       "rendered-artifacts.json"
+      ]
+     }
+    },
+    "approvalPosture": {
+     "result": "PASS",
+     "finding": "approval-request.json requests review and grants nothing: not approved for live, not live, zero commercial routes opened. This verdict likewise opens nothing.",
+     "evidence": {
+      "approvalRequest": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/approval-request.json",
+      "commercialRoutesOpened": 0
+     }
+    }
+   }
+  },
+  {
+   "itemId": "me-nonconv-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/me/me-nonconv-set--custom-pleading",
+   "proofObligations": {
+    "completenessContract": {
+     "result": "PASS",
+     "finding": "verify-packet-completeness.mjs --family me-nonconv-set was run fresh in this lane at base edf5ff14b and returned PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects) and 8/18 fields written.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family me-nonconv-set",
+      "outcome": "PASS_COMPLETE",
+      "countersAllZero": true,
+      "written": "8/18"
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Canonical and boundary fixture bytes were rehashed in this lane; every SHA-256 agrees with reports/rendered-artifacts.json.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "sha256": "d9ea11c3b618cf92863f653ef964f32bf893ef91a602269d1950cbda68c5b007"
+      },
+      {
+       "fixture": "boundary",
+       "sha256": "4f7c2fad8a0c2a2dbd0681b5c48bea156401b82cd87746659cd8077b9df4d665"
+      }
+     ]
+    },
+    "routeIdentity": {
+     "result": "PASS",
+     "finding": "production-field-map.json, product-wiring.json and the MASTER_QUEUE family row declare identical routeKeys, every key exists in the canonical route universe, and where the composed pages print a Route: line it prints one of those keys.",
+     "evidence": {
+      "fieldMapRouteKeys": [
+       "obligation:unit:ME:me-nonconv:me-nonconv-709-correction-request",
+       "obligation:unit:ME:me-nonconv:me-nonconv-confidential-by-operation-of-law"
+      ],
+      "wiringRouteKeys": [
+       "obligation:unit:ME:me-nonconv:me-nonconv-709-correction-request",
+       "obligation:unit:ME:me-nonconv:me-nonconv-confidential-by-operation-of-law"
+      ],
+      "agreement": true
+     }
+    },
+    "statuteOnFace": {
+     "result": "PASS",
+     "finding": "Controlling authority 16 M.R.S. Sec. 703(2), 705, 708, 709 is on the face: the classification worksheet states in terms that Maine seals nothing on motion and that Sec. 703(2) makes listed non-conviction dispositions confidential by operation of law; the 709 correction request is the filed unit; receipt statutoryAuthority agrees.",
+     "evidence": {
+      "statute": "16 M.R.S. Sec. 703(2), 705, 708, 709"
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "Prepared for Douglas Emmett Thibodeau; classification worksheet plus 709 correction request with participant identity written.",
+     "evidence": {
+      "fixtureRead": "data/rcap-all50/overlays/census-v1/me/me-nonconv-set--custom-pleading/fixtures/canonical.pdf"
+     }
+    },
+    "noPlaceholderOrWrongState": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture finds no placeholder markers (TODO, PLACEHOLDER, Lorem ipsum, template braces, INSERT-brackets, FIXME, TBD) and no wrong-state jurisdiction name; the family own jurisdiction is named on the face.",
+     "evidence": {
+      "method": "text extraction scan of fixtures/canonical.pdf"
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "the classification worksheet is the instruction set: classify against the Sec. 703(2) list, then the 709 correction-request unit if a record is wrongly disseminated.",
+     "evidence": {
+      "participantInstructions": "data/rcap-all50/overlays/census-v1/me/me-nonconv-set--custom-pleading/participant-instructions.md"
+     }
+    },
+    "blanksDisclosed": {
+     "result": "PASS",
+     "finding": "Every blank the field map classifies REQUIRED_BEFORE_FILING is named to the participant (measured by the completeness contract instruction-naming check, which passed with requiredFactsNotCollected 0 and unclassifiedBlanks 0). The builder blanks-left-for-the-participant.json report is present and consistent.",
+     "evidence": {
+      "reportsPresent": [
+       "actual-writes.json",
+       "blanks-left-for-the-participant.json",
+       "completeness-counters.json",
+       "rendered-artifacts.json"
+      ]
+     }
+    },
+    "approvalPosture": {
+     "result": "PASS",
+     "finding": "approval-request.json requests review and grants nothing: not approved for live, not live, zero commercial routes opened. This verdict likewise opens nothing.",
+     "evidence": {
+      "approvalRequest": "data/rcap-all50/overlays/census-v1/me/me-nonconv-set--custom-pleading/approval-request.json",
+      "commercialRoutesOpened": 0
+     }
+    }
+   }
+  },
+  {
+   "itemId": "ut_pet_traffic-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill",
+   "proofObligations": {
+    "completenessContract": {
+     "result": "PASS",
+     "finding": "verify-packet-completeness.mjs --family ut_pet_traffic-set was run fresh in this lane at base edf5ff14b and returned PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects) and 31/214 fields written.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_traffic-set",
+      "outcome": "PASS_COMPLETE",
+      "countersAllZero": true,
+      "written": "31/214"
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Canonical and boundary fixture bytes were rehashed in this lane; every SHA-256 agrees with reports/rendered-artifacts.json.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "sha256": "b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909"
+      },
+      {
+       "fixture": "boundary",
+       "sha256": "ef8b488fe1f78f87a47419ddf2123ad9909b88612931a8c031ade0299a8d6e03"
+      }
+     ]
+    },
+    "routeIdentity": {
+     "result": "PASS",
+     "finding": "production-field-map.json, product-wiring.json and the MASTER_QUEUE family row declare identical routeKeys, every key exists in the canonical route universe, and where the composed pages print a Route: line it prints one of those keys.",
+     "evidence": {
+      "fieldMapRouteKeys": [
+       "obligation:track-pathway:UT:ut_pet_traffic:path-i-traffic-offense-expungement-or-deletion"
+      ],
+      "wiringRouteKeys": [
+       "obligation:track-pathway:UT:ut_pet_traffic:path-i-traffic-offense-expungement-or-deletion"
+      ],
+      "agreement": true
+     }
+    },
+    "statuteOnFace": {
+     "result": "PASS",
+     "finding": "Controlling authority Utah Code 77-40a (traffic path) is on the face: the filled official 1002EX is the petition-to-expunge-records-traffic-charge form, hash-bound to the committed corpus index; route pathway path-i-traffic-offense-expungement-or-deletion matches.",
+     "evidence": {
+      "statute": "Utah Code 77-40a (traffic path)"
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "participant identity and contact written on the official forms; 31/214 fields written per the completeness run.",
+     "evidence": {
+      "fixtureRead": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/fixtures/canonical.pdf"
+     }
+    },
+    "noPlaceholderOrWrongState": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture finds no placeholder markers (TODO, PLACEHOLDER, Lorem ipsum, template braces, INSERT-brackets, FIXME, TBD) and no wrong-state jurisdiction name; the family own jurisdiction is named on the face.",
+     "evidence": {
+      "method": "text extraction scan of fixtures/canonical.pdf"
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "participant-instructions.md carries \"Where you file this\" (the district court for the county where the case was heard), the $150 fee with waiver form 1305GE under Utah Code 78A-2-302 and CJA Rule 4-508, and prosecutor service by mail or email with 1146XX included, each bound to a named source hash.",
+     "evidence": {
+      "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/participant-instructions.md"
+     }
+    },
+    "blanksDisclosed": {
+     "result": "PASS",
+     "finding": "Every blank the field map classifies REQUIRED_BEFORE_FILING is named to the participant (measured by the completeness contract instruction-naming check, which passed with requiredFactsNotCollected 0 and unclassifiedBlanks 0). Note: the builder committed no blanks-left-for-the-participant.json report for this family; the obligation itself is measured by the fresh contract run, not by the builder self-report.",
+     "evidence": {
+      "reportsPresent": [
+       "actual-writes.json",
+       "rendered-artifacts.json"
+      ]
+     }
+    },
+    "approvalPosture": {
+     "result": "PASS",
+     "finding": "approval-request.json requests review and grants nothing: not approved for live, not live, zero commercial routes opened. This verdict likewise opens nothing.",
+     "evidence": {
+      "approvalRequest": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/approval-request.json",
+      "commercialRoutesOpened": 0
+     }
+    },
+    "repairVerified": {
+     "result": "PASS",
+     "finding": "vf10 failed requiredBeforeFiling, filingDestination, feeAndWaiver and service; repair commit 1c8007435 (FIX02) was re-read here, not rubber-stamped. requiredBeforeFiling: the caption-table rule 1002EX p1-y296.76-x65.88 is re-dispositioned NOT_APPLICABLE_ON_THIS_ROUTE with the geometric reason recorded in the field map (nothing printed at the measured position; no certificate of eligibility on route ut-traffic-direct-court-no-bci). filingDestination: instructions now name the Utah district court for the county where the case was heard. feeAndWaiver: the $150 fee row on 1044XX is stated and waiver form 1305GE (Utah Code 78A-2-302, CJA Rule 4-508) is named. service: prosecutor service by mail or email is stated with 1146XX included and the Self-Help Center number given. Each direction is bound to a named source SHA-256 in the instructions. The artifact bytes are unchanged from the failed read (canonical sha b5fcdd1601c8..., matching - the four defects lived in the field map and instructions, which is where the repair landed), and the fresh completeness run passes on the current bytes.",
+     "evidence": {
+      "priorFailLane": "vf10",
+      "repairCommit": "1c8007435 (FIX02)",
+      "instructionsReRead": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/participant-instructions.md",
+      "fieldMapReRead": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/production-field-map.json"
+     }
+    }
+   }
+  },
+  {
+   "itemId": "vt_seal_under_25-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading",
+   "proofObligations": {
+    "completenessContract": {
+     "result": "PASS",
+     "finding": "verify-packet-completeness.mjs --family vt_seal_under_25-set was run fresh in this lane at base edf5ff14b and returned PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects) and 7/14 fields written.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_under_25-set",
+      "outcome": "PASS_COMPLETE",
+      "countersAllZero": true,
+      "written": "7/14"
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Canonical and boundary fixture bytes were rehashed in this lane; every SHA-256 agrees with reports/rendered-artifacts.json.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "sha256": "cd71dce93a3404558c3d2fc33e55a3838867868781c801c7487ebad8ea049a07"
+      },
+      {
+       "fixture": "boundary",
+       "sha256": "ddf00f9ef8f86bb54495dd12a379d7edfc906a03c6e94a37a3b1e8a8df832492"
+      }
+     ]
+    },
+    "routeIdentity": {
+     "result": "PASS",
+     "finding": "production-field-map.json, product-wiring.json and the MASTER_QUEUE family row declare identical routeKeys, every key exists in the canonical route universe, and where the composed pages print a Route: line it prints one of those keys.",
+     "evidence": {
+      "fieldMapRouteKeys": [
+       "obligation:track-pathway:VT:vt_seal_under_25:offense-before-age-25-sealing-under-33-v-s-a-5119-g"
+      ],
+      "wiringRouteKeys": [
+       "obligation:track-pathway:VT:vt_seal_under_25:offense-before-age-25-sealing-under-33-v-s-a-5119-g"
+      ],
+      "agreement": true
+     }
+    },
+    "statuteOnFace": {
+     "result": "PASS",
+     "finding": "Controlling authority 33 V.S.A. Sec. 5119(g) is on the face: APPLICATION FOR SEALING UNDER 33 V.S.A. SEC. 5119(g) on page 1 with the before-age-25 ground pleaded; receipt statutoryAuthority agrees.",
+     "evidence": {
+      "statute": "33 V.S.A. Sec. 5119(g)"
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "Caleb Winslow Tremblay with DOB 1999-05-02 written; age at offence and docket number left to be copied from the record.",
+     "evidence": {
+      "fixtureRead": "data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading/fixtures/canonical.pdf"
+     }
+    },
+    "noPlaceholderOrWrongState": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture finds no placeholder markers (TODO, PLACEHOLDER, Lorem ipsum, template braces, INSERT-brackets, FIXME, TBD) and no wrong-state jurisdiction name; the family own jurisdiction is named on the face.",
+     "evidence": {
+      "method": "text extraction scan of fixtures/canonical.pdf"
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "participant-instructions.md present with fill directions and filing steps.",
+     "evidence": {
+      "participantInstructions": "data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading/participant-instructions.md"
+     }
+    },
+    "blanksDisclosed": {
+     "result": "PASS",
+     "finding": "Every blank the field map classifies REQUIRED_BEFORE_FILING is named to the participant (measured by the completeness contract instruction-naming check, which passed with requiredFactsNotCollected 0 and unclassifiedBlanks 0). The builder blanks-left-for-the-participant.json report is present and consistent.",
+     "evidence": {
+      "reportsPresent": [
+       "actual-writes.json",
+       "blanks-left-for-the-participant.json",
+       "completeness-counters.json",
+       "rendered-artifacts.json"
+      ]
+     }
+    },
+    "approvalPosture": {
+     "result": "PASS",
+     "finding": "approval-request.json requests review and grants nothing: not approved for live, not live, zero commercial routes opened. This verdict likewise opens nothing.",
+     "evidence": {
+      "approvalRequest": "data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading/approval-request.json",
+      "commercialRoutesOpened": 0
+     }
+    }
+   }
   }
  ]
 }
