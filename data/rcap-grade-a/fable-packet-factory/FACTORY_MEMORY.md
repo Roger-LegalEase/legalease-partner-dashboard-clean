@@ -186,3 +186,15 @@ paid for once already.
   packets when it was only evidence that the checker ran. Run the mutation
   suites, not just the checks: a contract is only worth what its negative
   control catches, and the two numbers have to be read together.
+- **The union resolver treats a release as monotonic, and a reissue can be
+  younger than the other parent's base.** Merging FABLE-R14 -- branched before
+  the Rhode Island grant was re-opened -- carried that branch's stale
+  `released: true` forward and silently closed a grant a live lane was holding
+  under an owner decision. The resolver reported `0 regressions`, because by
+  its own rule nothing regressed: it only ever moves a claim from held to
+  released. Nothing downstream complains either, since a released claim is a
+  normal state and `verify-claim-ledger.mjs` still passes. The lane would
+  simply have found `ALREADY_RELEASED` on its next assert, mid-repair. After
+  every ledger merge, list the grants that were live BEFORE the merge and
+  confirm each is still live afterwards -- the resolver cannot distinguish a
+  release that happened from a release that was never undone on the other side.
