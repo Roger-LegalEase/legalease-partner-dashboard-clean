@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "rcap-nv-custom-pleading",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The MASTER_QUEUE row for this family binds no document source, and that is the recorded design: its sourceStatus is CUSTOM_PLEADING_FROM_CODIFIED_TEXT and its implementationStrategy is custom_pleading.",
+      "consequence": "Every page is composed from committed repository records, each bound by SHA-256 and anchor-verified before composing. No official form was substituted and none was invented."
+    },
+    {
+      "finding": "The committed track registry records this route's destination and venue, and records its fee, fee-waiver, notice and service rules — in several places as an express non-statement.",
+      "consequence": "The packet states the destination the registry holds, states each recorded rule in the registry's own words, and where the registry records a non-statement it names the specific office that answers the question rather than gesturing at the court."
+    },
+    {
+      "finding": "The committed packet instructions record the NRS 179.245(9) sex-trafficking fee waiver as a cross-cutting entitlement that zeroes out every fee in the process, and require it to be surfaced wherever a fee is mentioned.",
+      "consequence": "Every filing instructions page in this packet carries it beside the fee statement. This is the DET-FEE-AND-WAIVER-001-A2 limb: a waiver rule the repository holds is stated, not delegated to an office to ask."
+    },
+    {
+      "finding": "The committed packet instructions record that the petition is not the first step — the district attorney is — and that filing with the clerk follows the DA's stipulation.",
+      "consequence": "The stipulation is carried as a component with every line left to the prosecuting attorney's office, and the order of operations is stated on each filing instructions page. A participant who files first would be filing out of order."
+    },
+    {
+      "finding": "The committed instructions record that NRS 179.245(7) preserves eligibility for a DUI punished under NRS 484C.400(1)(b), and for one punished under (1)(c) where judgment was entered under (1)(b) because of participation in the statewide sobriety and drug monitoring program, warning that a blanket 'felony DUI is never sealable' rule will wrongly reject eligible people.",
+      "consequence": "The statement is carried onto the filing instructions page for the conviction-sealing route in the record's own words, so a participant is not turned away by a rule the record says is wrong."
+    }
+  ]
+}

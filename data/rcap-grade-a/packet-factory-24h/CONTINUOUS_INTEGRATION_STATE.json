@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-02T07:34:05.083Z",
-  "captainHead": "c34720d09747570e1cc6d736ddf1bf9ba377f6e6",
+  "generatedAt": "2026-09-02T07:42:50.599Z",
+  "captainHead": "e617c5466fcbf51d97c6e101237e5b7042896ce0",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-02T07:54:05.083Z",
-    "nextSourceReleaseDeadline": "2026-09-02T08:04:05.083Z",
+    "nextIntegrationDeadline": "2026-09-02T08:02:50.599Z",
+    "nextSourceReleaseDeadline": "2026-09-02T08:12:50.599Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,7 +34,7 @@
           "VF11",
           "VF12"
         ],
-        "measured": 26,
+        "measured": 57,
         "threshold": 20,
         "triggered": true
       },
@@ -62,9 +62,9 @@
           "PF23",
           "PF24"
         ],
-        "measured": 88,
+        "measured": 57,
         "threshold": 80,
-        "triggered": true
+        "triggered": false
       }
     ],
     "builderExpansionRule": "Assign a released family to an existing builder where ownership permits. Create PF17+ only when SOURCE_READY exceeds the capacity of the existing sixteen."
@@ -78,16 +78,16 @@
   },
   "liveCounts": {
     "liveFamilyDenominator": 346,
-    "sourceReady": 88,
+    "sourceReady": 57,
     "sourceBlocked": 119,
     "legalBlocked": 13,
-    "verifyPending": 26,
+    "verifyPending": 57,
     "repairRequired": 7,
     "byState": {
-      "SOURCE_READY": 88,
+      "SOURCE_READY": 57,
       "COMPLETE_PACKET_PROVEN": 84,
       "SOURCE_BLOCKED": 119,
-      "VERIFY_PENDING": 26,
+      "VERIFY_PENDING": 57,
       "VERIFIED_PASS": 5,
       "BUILD_IN_PROGRESS": 4,
       "LEGAL_BLOCKED": 13,

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "dc_yra_set_aside-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The MASTER_QUEUE row for this family binds no document source, and that is the recorded design: its sourceStatus is CUSTOM_PLEADING_FROM_CODIFIED_TEXT and its implementationStrategy is custom_pleading.",
+      "consequence": "Every page is composed from committed repository records, each bound by SHA-256 and anchor-verified before composing. No official form was substituted and none was invented."
+    },
+    {
+      "finding": "The committed track registry records this route's destination and venue, and records its fee, fee-waiver, notice and service rules — in several places as an express non-statement.",
+      "consequence": "The packet states the destination the registry holds, states each recorded rule in the registry's own words, and where the registry records a non-statement it names the specific office that answers the question rather than gesturing at the court."
+    },
+    {
+      "finding": "The registry records two AUTOMATIC set-aside routes beside this participant-filed one: § 24-906(a) on unconditional discharge before expiration of the sentence, and § 24-906(c) on early termination of supervised release by the Parole Commission.",
+      "consequence": "Both are stated on the filing instructions page, so a participant whose conviction was already set aside by operation of law is not sent to court to ask for what they already have. This packet composes only the participant-filed § 24-906(e-1) motion."
+    }
+  ]
+}
