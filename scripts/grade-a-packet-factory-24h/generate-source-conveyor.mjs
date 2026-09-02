@@ -96,6 +96,46 @@ const LANE_ESTABLISHED_ENTRY_RETURNS = [
   "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
 ];
 
+/*
+ * What the hosted runner actually got back from each address.
+ *
+ * An address in this manifest is a proposal until something fetches it. The
+ * batch workflow fetches all of them and prints a receipt per job -- final URL,
+ * HTTP status, content type, byte length, SHA-256, structural class, page count
+ * -- and then the bytes go into a workflow artifact this container cannot read.
+ * So the receipt is the only durable evidence, and until a lane harvested the
+ * logs it existed nowhere in the repository.
+ *
+ * Carrying it here does three things the manifest could not do before:
+ *
+ *   - An entry with no pin gets one, from the bytes the runner hashed. That
+ *     does not establish that the document is the RIGHT one -- nothing about a
+ *     hash can -- but it means the next fetch that returns different bytes is
+ *     visible instead of silent.
+ *   - An entry whose pin DISAGREED is marked, loudly. Two Florida entries
+ *     pinned as DIRECT_OFFICIAL_BINARY returned 30KB of HTML: the address is a
+ *     landing page and the manifest said otherwise.
+ *   - An address that returned nothing stops looking like one that worked.
+ *     RCAP_TOLERATE_FAILURE is set on every matrix job, so a 403 and a 404 both
+ *     exit green; jobConclusion says the script ran, and only the receipt says
+ *     whether a document came back.
+ */
+/*
+ * A note on an entry saying what format its publisher actually issues.
+ *
+ * The note lives on the lane-established entry, not on the urlRecord: a
+ * urlRecord carries the fixed columns every entry has, and `format` is one of
+ * the grounds a lane wrote down beside the address. Reading it off the
+ * urlRecord found nothing and accused Montana of publishing DOCX by surprise.
+ */
+const entryFormatNote = (r) => laneEstablished.get(r?.officialUrl)?.format
+  ?? laneEstablished.get(r?.officialUrl)?.formatNote
+  ?? r?.format ?? r?.formatNote ?? null;
+
+const ACQUISITION_RECEIPT_RETURNS = [
+  "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+];
+
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 const git = (args) => { try { return execFileSync("git", args, { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { return null; } };
 
@@ -212,6 +252,33 @@ for (const rel of RECEIPT_SOURCES) {
       urlKind: r.officialUrlKind ?? "UNSTATED",
       expectedSha256: /^[0-9a-f]{64}$/.test(String(r.sha256 ?? "")) ? r.sha256 : null,
       obligationKeys: r.obligationKeys ?? [],
+      recordedIn: rel
+    });
+  }
+}
+
+/* ---- what the runner got back, per address --------------------------------- */
+const acquisitionReceipts = new Map();
+for (const rel of ACQUISITION_RECEIPT_RETURNS) {
+  if (!fs.existsSync(path.join(ROOT, rel))) continue;
+  const doc = read(rel);
+  for (const r of doc.receipts ?? []) {
+    if (!r.sourceId) continue;
+    const log = r.receiptAsPrintedInTheJobLog ?? {};
+    acquisitionReceipts.set(r.sourceId, {
+      runId: String(doc.generatedFrom?.workflowRunId ?? doc.generatedFrom?.runId ?? "").trim() || null,
+      jobId: r.jobId ?? null,
+      outcome: r.acquisitionOutcome ?? null,
+      httpStatus: log.httpStatus ?? null,
+      contentType: log.contentType ?? null,
+      finalResolvedUrl: log.finalResolvedUrl ?? null,
+      redirected: r.derivedNotPrinted?.redirectedComparedToManifestUrl ?? null,
+      observedByteLength: log.observedByteLength ?? null,
+      sha256: /^[0-9a-f]{64}$/.test(String(log.sha256 ?? "")) ? log.sha256 : null,
+      observedStructuralClass: log.observedStructuralClass ?? null,
+      observedPageCount: log.observedPageCount ?? null,
+      looksLikePdf: r.derivedNotPrinted?.looksLikePdf ?? null,
+      pinAgrees: r.pinAgrees ?? null,
       recordedIn: rel
     });
   }
@@ -449,6 +516,56 @@ for (const r of urlRecords) {
      * only the URL forward would strip the reviewable part and leave an address
      * that looks guessed.
      */
+    /*
+     * The receipt, and the pin it justifies. `expectedSha256` is filled from a
+     * measured acquisition only where the manifest had no pin of its own: a pin
+     * somebody recorded from a held edition is a claim about WHICH document
+     * belongs here, and a first-acquisition hash is only a claim that the
+     * address served these bytes once. The second must never quietly overwrite
+     * the first, so where both exist the recorded pin stands and the
+     * disagreement is reported.
+     */
+    ...(acquisitionReceipts.has(r.sourceId) ? (() => {
+      const a = acquisitionReceipts.get(r.sourceId);
+      const out = { lastAcquisition: a };
+      if (a.outcome !== "acquired_bytes") {
+        out.addressDidNotReturnADocument = `HTTP ${a.httpStatus ?? "?"} — the job exited 0 because RCAP_TOLERATE_FAILURE is set on every matrix job, and no bytes were retrieved. This address needs DISC before it is fetched again.`;
+      } else if (r.urlKind === "DIRECT_OFFICIAL_BINARY" && a.looksLikePdf === false) {
+        /*
+         * Not every non-PDF is a wrong address. Montana publishes the two MMRTA
+         * petitions as DOCX and the entry says so on its own face; calling that
+         * a defect would be accusing an entry of the thing it already declared.
+         * What matters either way is the same and is said either way: an
+         * official_pdf_fill overlay cannot be built on it.
+         */
+        const declared = String(entryFormatNote(r) ?? "");
+        out[/docx/i.test(declared) ? "nonPdfAsThisEntryAlreadyDeclared" : "addressIsNotTheBinaryItIsDeclaredToBe"] =
+          /docx/i.test(declared)
+            ? `returned ${a.contentType ?? "a non-PDF"} of ${a.observedByteLength ?? "?"} bytes, which is what this entry says the publisher issues. Confirmed by acquisition, not a surprise. It remains a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.`
+            : `declared DIRECT_OFFICIAL_BINARY, returned ${a.contentType ?? "something other than a PDF"} of ${a.observedByteLength ?? "?"} bytes with structural class ${a.observedStructuralClass ?? "?"}. The address is a page about the form, not the form.`;
+      } else if (r.urlKind === "OFFICIAL_LANDING_PAGE" && a.looksLikePdf === false) {
+        /*
+         * A landing page returning a page is the address doing exactly what its
+         * kind says. It is still not a document, and a family waiting on this
+         * obligation is waiting on a DISC read of the page for the binary
+         * behind it -- which is what the acquisition script harvests links for.
+         */
+        out.landingPageReturnedAPageNotADocument = `${a.contentType ?? "a page"} of ${a.observedByteLength ?? "?"} bytes. The address did what OFFICIAL_LANDING_PAGE says it does; it did not yield the form. DISC reads the page for the binary behind it — this is not an acquisition failure and must not be re-queued as one.`;
+      }
+      if (a.pinAgrees === false) {
+        out.pinDisagreedWithTheBytes = r.urlKind === "OFFICIAL_LANDING_PAGE"
+          ? `the manifest pins ${String(r.expectedSha256 ?? "").slice(0, 12)} on a LANDING PAGE and the runner hashed ${String(a.sha256 ?? "").slice(0, 12)}. A pin on a landing page names the page, and pages change for reasons that have nothing to do with the form — a navigation edit moves this hash. The disagreement says the page moved, and says nothing at all about the document. Pinning a landing page was the mistake; the pin is left in place rather than refreshed, because refreshing it would restate the mistake with today's date.`
+          : `the manifest pins ${String(r.expectedSha256 ?? "").slice(0, 12)} and the runner hashed ${String(a.sha256 ?? "").slice(0, 12)} over what it actually received. The pin is not changed here; a pin that disagrees is a finding for DISC, not something to overwrite with whatever arrived.`;
+      }
+      if (!r.expectedSha256 && a.sha256 && a.outcome === "acquired_bytes") {
+        out.expectedSha256 = a.sha256;
+        out.expectedSha256Basis = `first acquisition, run ${a.runId ?? "?"} job ${a.jobId ?? "?"}. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.`;
+      }
+      if (a.redirected && a.finalResolvedUrl) {
+        out.redirectedTo = `${a.finalResolvedUrl} — the recorded address is not where the bytes came from. Same allowlisted host, different path, so expect the recorded address to move again.`;
+      }
+      return out;
+    })() : {}),
     ...(laneEstablished.has(r.officialUrl)
       ? (({ sourceId, jurisdiction, formNumber, officialTitle, issuingAuthority, officialUrl,
             urlKind, expectedSha256, host, commitBody, obligationKeys, recordedIn, ...rest }) => rest)(
