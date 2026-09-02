@@ -25,12 +25,25 @@
  * agencies ordered to seal, the ordering date and the judge's signature are all
  * left exactly as the court printed them.
  *
- * Two things this build refuses to state, because nothing it holds establishes
- * them and a filing instruction that guesses is worse than one that admits:
+ * WHERE the motion is filed, WHAT it costs and WHO must be served are read from
+ * the committed legal-design track registry, which holds all three for both
+ * families, and stated on the participant-facing page. This build used to name
+ * the circuit court clerk to ask about each of them instead. That was wrong in
+ * the way DET-FEE-AND-WAIVER-001-A1 describes: a named authority is what honesty
+ * requires when the record is empty, not a way to avoid stating what the record
+ * contains. A family opts in by naming a trackId; one that names none gets
+ * nothing stated for it and the build refuses rather than inventing an answer.
  *
- *   - WHO must be served. The certificate of service is rendered with its
- *     recipient block empty and disclosed as required before filing, and the
- *     instructions say the circuit court clerk is who to ask.
+ * Two things this build still refuses to state, because nothing it holds
+ * establishes them and a filing instruction that guesses is worse than one that
+ * admits:
+ *
+ *   - The serving office's current NAME AND ADDRESS for the county of
+ *     conviction, and any filing DEADLINE. The registry names the office and
+ *     the method; it gives neither an address nor a number of days. The
+ *     certificate of service is rendered with its recipient block empty and
+ *     disclosed as required before filing, and the circuit court clerk is named
+ *     as the authority to ask for both.
  *   - WHAT the motion must recite beyond the ground AOC-334 itself recites. The
  *     motion asserts the statutory ground in the order's own words and asks the
  *     court to enter the tendered order. It makes no argument the order does not
@@ -53,6 +66,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
+import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 
@@ -122,7 +136,18 @@ const FORMS = { "AOC-334": AOC334 };
 export const FAMILY_CONFIGS = Object.freeze({
   "ky_void_seal_controlled_substance-set": {
     jurisdiction: "KY",
-    routeKey: "obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal",
+    // The canonical route universe holds the track-only key and nothing else;
+    // the track-pathway/void-and-seal key this family used to print occurs
+    // zero times there, so the face and the field map were keyed to a route
+    // that does not exist. product-wiring.json and the MASTER_QUEUE row were
+    // already on the canonical key, which is the one adopted here.
+    routeKey: "obligation:track-only:KY:ky_void_seal_controlled_substance",
+    // Opting in to the committed track registry: a family that names a trackId
+    // gets its filing destination, fee and service answers read out of
+    // data/record-clearing/legal-design-track-registry.json and stated on the
+    // participant-facing page. A family that names none states nothing, and the
+    // build refuses rather than inventing an answer for it.
+    trackId: "ky_void_seal_controlled_substance",
     routeSelectionId: "ky-void-seal-controlled-substance-aoc-334-complete-set",
     legalName: "Motion to Void a First Controlled-Substance Possession Conviction and Seal the Records (KRS 218A.275)",
     routeName: "voiding a first controlled-substance possession conviction and sealing the records under KRS 218A.275",
@@ -132,7 +157,8 @@ export const FAMILY_CONFIGS = Object.freeze({
   },
   "ky_void_seal_marijuana_synthetic_salvia-set": {
     jurisdiction: "KY",
-    routeKey: "obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal",
+    routeKey: "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia",
+    trackId: "ky_void_seal_marijuana_synthetic_salvia",
     routeSelectionId: "ky-void-seal-marijuana-synthetic-salvia-aoc-334-complete-set",
     legalName: "Motion to Void a First Marijuana, Synthetic Drug or Salvia Possession Conviction and Seal the Records (KRS 218A.276)",
     routeName: "voiding a first marijuana, synthetic drug or salvia possession conviction and sealing the records under KRS 218A.276",
@@ -158,6 +184,51 @@ const FIXTURES = {
     "matter.court": "District"
   }
 };
+
+/* ---- the facts the repository already holds ------------------------------- *
+ * DET-FEE-AND-WAIVER-001-A1 fixes the order of the two questions: ask first
+ * whether the repository establishes the answer, and only where no held source
+ * does may a named checkable authority stand in. This build used to skip the
+ * first question for the filing destination, the fee and the service party, and
+ * named the circuit court clerk for all three. The committed legal-design track
+ * registry holds all three, so the packet states them.
+ *
+ * Every string below is read out of the registry and none is composed here. If
+ * the registry stops holding one, this refuses rather than falling back to a
+ * clerk to ask -- substituting a question for an answer we have is the exact
+ * thing the amendment forbids, and a silent fallback would hide the day the
+ * registry changed. */
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+
+function heldFilingFacts(config) {
+  assert.ok(config.trackId, `${config.legalName} names no trackId, so no held filing facts may be stated for it`);
+  const parsed = JSON.parse(fs.readFileSync(path.join(ROOT, TRACK_REGISTRY), "utf8"));
+  const rows = Array.isArray(parsed) ? parsed : (parsed.tracks ?? parsed.entries ?? Object.values(parsed));
+  const entry = rows.find((t) => (t.trackId ?? t.id) === config.trackId);
+  assert.ok(entry, `the committed track registry holds no entry for ${config.trackId}`);
+
+  const destination = entry.destination;
+  assert.ok(destination?.name, `${config.trackId} carries no destination.name in the committed track registry`);
+  assert.ok(destination?.detail, `${config.trackId} carries no destination.detail in the committed track registry`);
+  assert.ok(entry.venue, `${config.trackId} carries no venue in the committed track registry`);
+
+  const action = (kind) => (entry.packetSet?.participantActionRequired ?? []).find((a) => a.kind === kind)?.description ?? null;
+  const fee = action("pay_fee");
+  const serve = action("serve_party");
+  assert.ok(fee, `${config.trackId} carries no pay_fee action in the committed track registry`);
+  assert.ok(serve, `${config.trackId} carries no serve_party action in the committed track registry`);
+
+  return {
+    source: `${TRACK_REGISTRY}, track ${config.trackId}`,
+    destinationName: destination.name,
+    destinationDetail: destination.detail,
+    venue: entry.venue,
+    feeDescription: fee,
+    feeWaiverDescription: action("apply_fee_waiver"),
+    serveDescription: serve,
+    fileDescription: action("file")
+  };
+}
 
 /* ---- source binding ------------------------------------------------------ */
 function resolveSources(familyId) {
@@ -339,7 +410,7 @@ function composedBody(componentId, config, facts) {
     L.push(`The Defendant asks the Court to enter the tendered order on Form AOC-334, ORDER VOIDING CONVICTION AND SEALING RECORDS, which is filed with this motion. That order voids the conviction and directs that all records pertaining to it in the custody of the court, and any records in the custody of any other agency or official including law enforcement records, be sealed.`, "");
     L.push("The tendered order lists the agencies to be ordered to seal their records. The Defendant completes that list before filing; this motion does not name an agency the Defendant has not identified.", "");
     L.push("WHAT THIS MOTION DOES NOT DO", "");
-    L.push("This motion makes no argument beyond the ground stated above, and it states no deadline, no fee and no hearing date. None of those is established by the order form, and the circuit court clerk is who to ask about each of them.", "");
+    L.push(`This motion makes no argument beyond the ground stated above. It is filed with the ${config.held.destinationName}, in the original criminal case in the county of conviction, and no filing fee is charged for it. It states no deadline and no hearing date; neither is established by the order form, and the circuit court clerk is who to ask about each of them.`, "");
     L.push("");
     L.push("Respectfully submitted,", "");
     L.push("SIGNATURE OF DEFENDANT ..................................................................");
@@ -350,7 +421,7 @@ function composedBody(componentId, config, facts) {
     L.push("The Defendant signs and dates this motion personally. Nothing on this page is signed or dated for the Defendant.");
   } else {
     L.push("This page is a certificate of service. It is completed and signed at the time a copy is actually delivered or mailed, and not before.", "");
-    L.push("This packet does NOT state who must be served. Who receives a copy of a motion to void and seal under this statute, and by what method, is not established by the order form this packet is built from, and writing a recipient this build has not established would be worse than leaving the line for the person who can establish it. Ask the circuit court clerk for the county named above who must be served, then write each of them here.", "");
+    L.push(`WHO MUST BE SERVED: ${config.held.serveDescription} That is the record this build reads, and it is not the order form's. What the record does not give is that office's current name and address for the county named above, so the line below stays blank and the Defendant writes it. Ask the circuit court clerk for that address; nothing on this page is written for the Defendant.`, "");
     L.push("I certify that on the date written below I served a true copy of the foregoing Motion and the tendered Order on:", "");
     L.push("NAME AND ADDRESS OF EACH PERSON SERVED");
     L.push("..............................................................................................");
@@ -470,8 +541,8 @@ function composedMap(componentId, config) {
     }
   } else {
     for (const [id, label, what] of [
-      ["persons_served", "Name and address of each person served", "the name and address of every person who must receive a copy — ask the circuit court clerk who that is, because this packet does not establish it"],
-      ["method_of_service", "Method of service", "how you delivered or mailed the copy: by hand, by first-class mail, or whatever method the clerk tells you this filing requires"],
+      ["persons_served", "Name and address of each person served", `the name and address of the office that must receive a copy: ${config.held.serveDescription} The record this build reads names that office; it does not give its current address for your county, so ask the circuit court clerk for that`],
+      ["method_of_service", "Method of service", `how you delivered or mailed the copy, from the two the record allows: ${config.held.serveDescription}`],
       ["date_of_service", "Date of service", "the date you actually delivered or mailed the copy, written at the time it goes out and not before"]
     ]) {
       refusals.push({
@@ -480,7 +551,7 @@ function composedMap(componentId, config) {
         category: null, completenessClass: null, class: null,
         disposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, routeDetermined: false,
         identity: `${componentId} field ${id}`, factId: null, document: componentId,
-        why: `a certificate of service records what a person did, and this build establishes none of it: ${what}`,
+        why: `a certificate of service records what a person did, and this build may write none of it: ${what}`,
         participantMustSupply: what
       });
     }
@@ -667,15 +738,24 @@ function instructionsMarkdown(config, rbf) {
   out.push("AOC-334 is headed **ORDER VOIDING CONVICTION AND SEALING RECORDS** and ends over a judge's signature. The platform has written only the style of the case into it — the case number, the court, the county and your name and date of birth. Everything else on that page is either yours to complete before filing (the charges, the completion date, the agencies to be ordered to seal) or the court's to complete when it enters the order (the ordering date and the judge's signature).", "");
   out.push("Do not sign the order. It is not yours to sign.", "");
 
+  const held = config.held;
+  out.push("## Where you file, what it costs, and who gets a copy", "");
+  out.push(`- **Where the motion is filed.** ${held.destinationName}. ${held.destinationDetail}`);
+  out.push(`- **Which court.** ${held.venue}`);
+  out.push(`- **The filing fee.** There is none. The record this build reads states it in these words: "${held.feeDescription}"${held.feeWaiverDescription ? ` A fee waiver is "${held.feeWaiverDescription}"` : ""}`);
+  out.push(`- **Who must be served, and how.** ${held.serveDescription}`);
+  out.push("");
+  out.push(`Those four answers are read from ${held.source}, which is the record this repository already holds for this route. They are not guessed and they are not the order form's.`, "");
+
   out.push("## What this packet does not tell you", "");
-  out.push("- **Who must be served, and how.** This is not established by the order form this packet is built from, so the certificate of service is left blank for you and no recipient is named. Ask the circuit court clerk for the county in the caption who must receive a copy, then complete the certificate at the time you actually send it.");
-  out.push("- **The filing fee, and any deadline.** Ask the same clerk. No amount and no number of days is stated here, because an unsourced figure in a filing instruction is worse than none.", "");
+  out.push("- **The name and address of the person you serve.** The record above says which office receives a copy; it does not give you that office's current name and address for your county. Ask the circuit court clerk for the county in the caption, then complete the certificate at the time you actually send the copy.");
+  out.push("- **Any deadline.** No held source states a number of days. Ask the same clerk, because an unsourced figure in a filing instruction is worse than none.", "");
 
   out.push("## What you must do, in order", "");
   out.push("1. **Fill in every item listed below**, on all three documents.");
   out.push("2. **Write the same completion date on the motion and on the tendered order.** They are the same fact and a filing that gives two different dates for it invites a denial.");
   out.push("3. **Sign and date the motion yourself.** The platform never signs and never dates a signature.");
-  out.push("4. **File the motion with the tendered order.** The order goes to the judge with the motion; it is not filed on its own.");
+  out.push(`4. **${held.fileDescription ?? `File the motion with the tendered order at the ${held.destinationName}.`}** The order goes to the judge with the motion; it is not filed on its own.`);
   out.push("5. **Serve a copy, then complete and sign the certificate of service** — at the time you send it, not before.");
   out.push("");
 
@@ -786,8 +866,12 @@ function writeArtifacts(ctx) {
         consequence: "The route's primary_filing is a composed motion; AOC-334 is tendered as the proposed_order and is filled in the shared field semantics' caption mode, which admits only the style of the case."
       },
       {
-        finding: "Nothing this build holds establishes who must be served with a motion to void and seal under this statute, or by what method.",
-        consequence: "The certificate of service names no recipient and states no method. Both are declared required-before-filing, disclosed by name, and the instructions say the circuit court clerk is who to ask. No recipient was guessed."
+        finding: "The committed legal-design track registry holds this route's filing destination, its fee and its service party. This build previously read none of them and sent the participant to the circuit court clerk for all three, so the packet was silent about facts the repository already knew.",
+        consequence: `The instructions and the composed documents now state them from ${config.held.source}: filed with the ${config.held.destinationName}, no filing fee, and served as the registry records. DET-FEE-AND-WAIVER-001-A1 puts the held answer first and allows a named authority to stand in only where no held source establishes the fact.`
+      },
+      {
+        finding: "What the registry does not hold is the serving office's current name and address for the county of conviction, or any filing deadline.",
+        consequence: "Those two remain declared required-before-filing and disclosed by name, with the circuit court clerk named as the authority to ask. The certificate of service still names no recipient and states no method, and no recipient was guessed."
       },
       {
         finding: "The order directs named agencies to seal their records, and the platform holds no list of them.",
@@ -806,7 +890,8 @@ function writeArtifacts(ctx) {
     schemaVersion: "rcap-family-approval-request/v1", familyId,
     requested: "visual review and counsel review", buildStatus: "state_built",
     counselQuestionsRaised: [
-      "Who must be served with a motion to void and seal under this statute, and by what method? The packet establishes neither and asks the participant to obtain both from the clerk.",
+      "The packet now states the filing destination, the absence of a fee and the service party from the committed track registry rather than sending the participant to the clerk for them. Counsel should confirm the registry's answers read correctly on the participant-facing page.",
+      "The registry does not give the serving office's address for the county of conviction, so the certificate of service still names no recipient and the participant obtains that from the clerk.",
       "Does the motion need to recite anything beyond the ground AOC-334 itself recites? This build asserts only that ground."
     ],
     approvedForLive: false, live: false, commercialRoutesOpened: 0
@@ -815,8 +900,11 @@ function writeArtifacts(ctx) {
 
 /* ---- the one exported entry point ---------------------------------------- */
 export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
-  const config = FAMILY_CONFIGS[familyId];
-  assert.ok(config, `unknown family ${familyId}`);
+  const declared = FAMILY_CONFIGS[familyId];
+  assert.ok(declared, `unknown family ${familyId}`);
+  // Resolved once, so the motion, the certificate, the field map and the
+  // instructions all state the same held facts from the same read.
+  const config = { ...declared, held: heldFilingFacts(declared) };
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
   const { resolved, failures } = resolveSources(familyId);
@@ -861,7 +949,16 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
 
   for (const fixtureName of ["canonical", "boundary"]) {
     const facts = FIXTURES[fixtureName];
-    const packet = await PDFDocument.create();
+    // The container carries a fixed date for the same reason every component
+    // does. PDFDocument.create() stamps the wall clock, and packet.save() is
+    // called with updateMetadata:false, so that first stamp survived into the
+    // saved bytes: two builds of this family from identical inputs produced
+    // packet PDFs of identical length and different SHA-256, while every raster
+    // page came out byte-identical. A RASTER_PASS is pinned to the packet hash,
+    // so a rebuild that changed nothing discarded the raster verdict as though
+    // the packet had been edited. The shared helper is the factory's one answer
+    // to this and this host had simply never adopted it.
+    const packet = stampDeterministic(await PDFDocument.create());
     const pageManifest = [];
     const documents = [];
 
