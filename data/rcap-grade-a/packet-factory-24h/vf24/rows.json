@@ -12,10 +12,18 @@
   {
    "itemId": "ct-cleanslate-petition-set",
    "lane": "VF24",
-   "verdict": "PASS",
+   "verdict": "FAIL_REPAIR_REQUIRED",
    "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
-   "verifier": "FABLE-VT3 (independent — built none of these packets)",
-   "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "verifier": "FABLE-VT7 (independent — built none of these packets, and neither built nor repaired any family scored here)",
+   "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+   "supersedes": [
+    {
+     "lane": "vf24",
+     "verdict": "PASS",
+     "declaredBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+     "why": "same lane, second read. That read recorded SERVICE as NOT_MEASURABLE_HERE and capped at PASS; the obligation is measurable in this environment and the packet's silence fails it. Every other finding in that row I reproduced and agree with."
+    }
+   ],
    "nineCounters": {
     "knownRequiredFieldsMissing": 0,
     "requiredFactsNotCollected": 0,
@@ -34,25 +42,20 @@
     "ROUTE_IDENTITY": {
      "measured": true,
      "result": "PASS",
-     "finding": "Connecticut Judicial Branch form JD-CR-202 Rev. 11-23, Petition for Clean Slate Erasure, Convictions Before 1/1/2000, citing C.G.S. § 54-142a and P.A. 23-134 § 1 on its face; route obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202.",
+     "finding": "All four records that carry it — source-receipt, product-wiring, production-field-map and approval-request — declare the same route key, and the instructions footer repeats it. The form on its own face is JD-CR-202 Rev. 11-23, Petition for Clean Slate Erasure, Convictions Before 1/1/2000, citing C.G.S. § 54-142a and P.A. 23-134 § 1.",
      "evidence": {
-      "form": "JD-CR-202 Rev. 11-23",
-      "authorities": [
-       "C.G.S. § 54-142a",
-       "P.A. 23-134 § 1"
-      ]
+      "routeKey": "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+      "agreementAcrossRecords": true
      }
     },
     "SOURCE_IDENTITY": {
      "measured": true,
      "result": "PASS",
-     "finding": "The single bound source rehashes from the Master Library bytes to the recorded SHA-256 and byte length, agrees with the committed corpus index and is indexed under state CT; the receipt additionally records the observed structure (acroform, 22 fields, no XFA, 2 pages), which matches what I read from the delivered bytes.",
+     "finding": "Measured against the mounted Master Library: the single bound source rehashes to the recorded SHA-256 at the recorded byte length.",
      "evidence": [
       {
        "form": "JD-CR-202",
        "recordedSha": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
-       "inCorpusIndex": true,
-       "rehashedFromLibraryBytes": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
        "rehashMatches": true,
        "byteLenMatches": true
       }
@@ -61,254 +64,104 @@
     "COMPONENT_SET": {
      "measured": true,
      "result": "PASS",
-     "finding": "requiredComponentsMissing 0; the declared single form JD-CR-202 is the packet — page 1 the petition, page 2 the court's order section and the closed-location chart.",
-     "evidence": {
-      "declared": [
-       "JD-CR-202"
-      ],
-      "present": [
-       "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000"
-      ]
-     }
+     "finding": "requiredComponentsMissing 0. One form, two pages: the sworn petition on page 1, the court's order and the closed-location chart on page 2. I read both out of the delivered bytes."
     },
     "KNOWN_PREFILLS": {
      "measured": true,
      "result": "PASS",
-     "finding": "knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0 on my own verifier run, and all 10 writes are proven in the bytes. Two boundary rows (DEFADDRESS, DEFPHONE) came back empty from the committed readback and I re-read them with pdftotext: both are present verbatim in the boundary fixture ('12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B' and '203-555-0142 ext. 44821'). Critically, the facts are bound to the right widgets despite the documented caption defect — DEFNAME carries the name, DEFEMAIL the email, DEFPHONE the phone, DOB the date of birth.",
-     "evidence": {
-      "knownRequiredFieldsMissing": 0,
-      "requiredFactsNotCollected": 0,
-      "invisibleWrites": 0,
-      "writesProvenInBytes": 10,
-      "writesTotal": 10
-     }
+     "finding": "knownRequiredFieldsMissing 0, measured here. The caption values are each in their own slot on the delivered bytes — name, e-mail, phone, date of birth, address, docket number — which is the point worth checking on this family, because reports/caption-channel-defect.json records that the shared anchor-capture helper harvests a whole multi-cell header row and would have written the date of birth into all four caption fields. The build guided around a defect in shared infrastructure and the bytes prove it worked."
     },
     "REQUIRED_BEFORE_FILING": {
      "measured": true,
      "result": "PASS",
-     "finding": "unclassifiedBlanks 0. The blanks report classifies all 16 unfilled fields with an unusually direct account: nineteen of twenty-two fields stay unfilled, and it says why — six are refused because the shared caption channel binds the wrong fact to them, four are a sworn attestation block, five are the court's own order section, four are form buttons, and one is the crimes box, which describes an eligibility question this family does not answer. The three genuinely participant-supplied blanks (the crimes, the court's street address, the JD/GA number) are each named in the instructions with where to find them.",
-     "evidence": {
-      "unclassifiedBlanks": 0,
-      "source": "reports/blanks-left-for-the-participant.json",
-      "requiredBeforeFiling": 0
-     }
+     "finding": "requiredFactsNotCollected 0. The three participant blanks — the crimes to erase, the address of court, the JD/GA number — are each named by the column heading printed above them, with the closed-court chart named as where to look for the address and the clerk named as who can read the JD/GA number off a docket number."
     },
     "ROUTE_OPTIONS": {
      "measured": true,
      "result": "PASS",
-     "finding": "requiredOptionsMissing 0. The form's only selection controls are the court's own Denied and Granted boxes in the Order of the Court, which are protected, and the platform elects nothing on the participant's behalf; no mark is drawn in either fixture.",
-     "evidence": {
-      "requiredOptionsMissing": 0,
-      "routeSelectionsMadeDeclared": null,
-      "selectionControlMentions": 0,
-      "marksDrawnPerDocument": [
-       {
-        "fixture": "petition-canonical",
-        "marks": [],
-        "redrewCourtsBox": false,
-        "drewANewBox": false
-       },
-       {
-        "fixture": "petition-boundary",
-        "marks": [],
-        "redrewCourtsBox": false,
-        "drewANewBox": false
-       }
-      ]
-     }
+     "finding": "requiredOptionsMissing 0. The two elections on the form are the court's own Denied/Granted boxes on page 2, and both are correctly left untouched; there is no participant election on this form to miss."
     },
     "REPEATING_ROWS": {
      "measured": true,
      "result": "PASS",
-     "finding": "incompleteRows 0 on my own verifier run: no repeating row on this packet is left half-filled. Where the form carries a multi-row table, the whole table is carried to the participant as required-before-filing blanks rather than partly filled, which is what a zero here means for this family.",
-     "evidence": {
-      "incompleteRows": 0,
-      "repeatingStructuresInMap": 0
-     }
+     "finding": "incompleteRows 0. The crimes box is a single free-text area, left wholly to the participant, with the one-case-per-form rule explained twice."
     },
     "PROTECTED_FIELDS": {
      "measured": true,
      "result": "PASS",
-     "finding": "protectedWrites 0 and no refused field carries ink. The whole sworn attestation row — the petitioner's signature, the printed name on that row and the date — is refused, with the reason stated in the participant instructions: prefilling any part of it would present an oath as further along than it is, and a date written before the swearing would be false. The officer's jurat and the entire Order of the Court on page 2 are likewise empty in the delivered bytes.",
-     "evidence": {
-      "protectedWrites": 0,
-      "refusedFieldsWithInk": 0,
-      "protectedDispositionsInMap": 0,
-      "protectedInBlanksReport": null
-     }
+     "finding": "protectedWrites 0 and invisibleWrites 0, and the packet is unusually careful about the boundary: the whole attestation row is left blank because the petition is sworn and not merely signed, the officer's jurat row is left to the officer, and the entire Order of the Court on page 2 is left to the judge. I confirmed each from the delivered bytes."
     },
     "ARTIFACTS": {
      "measured": true,
      "result": "PASS",
-     "finding": "Both fixtures exist and rehash to exactly the sha256 and byteLength recorded in reports/rendered-artifacts.json, and the writes read back from those same bytes: 10 of 10 write values confirmed present in the artifact.",
+     "finding": "Both fixtures rehash from their committed bytes to reports/rendered-artifacts.json and to the boundToCanonicalSha256 / boundToBoundarySha256 of the family's RASTER_PASS receipt.",
      "evidence": {
-      "fixtures": [
-       {
-        "fixture": "canonical",
-        "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
-        "shaMatches": true,
-        "byteLenMatches": true
-       },
-       {
-        "fixture": "boundary",
-        "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
-        "shaMatches": true,
-        "byteLenMatches": true
-       }
-      ],
-      "actualWrites": {
-       "total": 10,
-       "verifiedInBytes": 10,
-       "unrecordedPerWrite": 0,
-       "reportReadbackDiscrepanciesResolvedAgainstBytes": [
-        {
-         "fixture": "petition-canonical",
-         "field": "form1[0].PAGE1[0].DOCKETNO[0]",
-         "expected": "N23N-CR98-0123456-S",
-         "drawnPerReport": "",
-         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-        },
-        {
-         "fixture": "petition-canonical",
-         "field": "form1[0].PAGE1[0].DOB[0]",
-         "expected": "1971-04-17",
-         "drawnPerReport": "",
-         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-        },
-        {
-         "fixture": "petition-canonical",
-         "field": "form1[0].PAGE1[0].DEFADDRESS[0]",
-         "expected": "118 Maple Street",
-         "drawnPerReport": "",
-         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-        },
-        {
-         "fixture": "petition-canonical",
-         "field": "form1[0].PAGE1[0].DEFPHONE[0]",
-         "expected": "203-555-0142",
-         "drawnPerReport": "",
-         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-        },
-        {
-         "fixture": "petition-boundary",
-         "field": "form1[0].PAGE1[0].DOB[0]",
-         "expected": "1971-04-17",
-         "drawnPerReport": "",
-         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-        },
-        {
-         "fixture": "petition-boundary",
-         "field": "form1[0].PAGE1[0].DEFADDRESS[0]",
-         "expected": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
-         "drawnPerReport": "",
-         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-        },
-        {
-         "fixture": "petition-boundary",
-         "field": "form1[0].PAGE1[0].DEFPHONE[0]",
-         "expected": "203-555-0142 ext. 44821",
-         "drawnPerReport": "",
-         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-        }
-       ]
-      }
+      "rasterWorkflowRunId": "33495068504",
+      "canonical": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
+      "boundary": "e190d7304260be94e84e46fb18710ee85e1f5a5314e7a7a5a5dd5eeb33b3d052",
+      "bothMatchReceipt": true
      }
     },
     "PAGE_ORDER": {
      "measured": true,
      "result": "PASS",
-     "finding": "reports/rendered-artifacts.json carries no pageManifest for this family, because there is no assembly to describe: the packet is one source document filled in place. Page order is therefore measured directly and matches — the source receipt records JD-CR-202 as 2 pages, and pdfinfo counts 2 pages in each delivered fixture, in the source's own order (petition then order section).",
-     "evidence": [
-      {
-       "fixture": "canonical",
-       "declaredPageCount": null,
-       "pagesInBytes": 2,
-       "manifestEntries": 0,
-       "packetPagesStrictlyAscending": null,
-       "everyPageBoundToASource": null,
-       "declaredMatchesBytes": null,
-       "manifestCoversEveryPage": null
-      },
-      {
-       "fixture": "boundary",
-       "declaredPageCount": null,
-       "pagesInBytes": 2,
-       "manifestEntries": 0,
-       "packetPagesStrictlyAscending": null,
-       "everyPageBoundToASource": null,
-       "declaredMatchesBytes": null,
-       "manifestCoversEveryPage": null
-      }
-     ]
+     "finding": "Two pages in both fixtures, in the form's own order, matching the expectedPages of 2 the raster receipt is bound to."
     },
     "CLIPPING_AND_OVERLAP": {
      "measured": true,
      "result": "PASS",
-     "finding": "visualDefects 0, 0 non-whitespace glyphs outside the measured write boxes, and a hash-bound RASTER_PASS. The 2 unfittable entries in the boundary fixture are the correct behaviour, not a defect: an extreme boundary docket number and an extreme boundary name exceed their widget width at the minimum font size, and the finalizer refused them outright rather than clipping, shrinking below legibility or overflowing the box. The canonical fixture has none, and neither refused field carries ink.",
-     "evidence": {
-      "visualDefects": 0,
-      "strayGlyphsOutsideWriteBoxes": 0,
-      "unfittable": 4,
-      "rasterState": "RASTER_PASS"
-     }
+     "finding": "visualDefects 0 on my own run over bytes holding a hash-bound RASTER_PASS receipt. The family carries reports/independent-visual-review.json naming what a human reviewer should look at, and build-findings.json records as an advisory that flattening bakes the Judicial Branch's own 'Print Form' and 'Reset Form' button captions into the page — correctly identified as the court's own labels rather than anything the build wrote, and disclosed to the participant in the instructions."
     },
     "FILING_DESTINATION": {
      "measured": true,
      "result": "PASS",
-     "finding": "'Where you file this' names it from the form's own printed instruction 3 — the court location where the participant was sentenced — and goes further, carrying the closed-location chart on page 2 that names the receiving court and street address for G.A. 6 and 8 at New Haven, G.A. 13 at Enfield, G.A. 16 at West Hartford, G.A. 17 at Bristol and G.A. 20 at Norwalk. The form's own 'Address of court' blank is left to the participant with that chart named as where to look.",
+     "finding": "Stated from the form's own printed instruction 3 — the court location where the participant was sentenced — and then carried further than the obligation requires: the packet names the page-2 closed-location chart and lists all five redirects with their receiving court and street address. I confirmed the chart on the delivered page 2.",
      "evidence": {
-      "basis": "printed instruction 3, plus the page-2 closed-location chart"
+      "basis": "printed instruction 3 plus the page-2 closed-location chart",
+      "verifiedOnFixtureBytes": true
      }
     },
     "FEE_AND_WAIVER": {
      "measured": true,
      "result": "PASS",
-     "finding": "Stated with its authority: 'There is no filing fee for this petition' — C.G.S. § 54-142a provides for it and the compiled Connecticut profile records the fee as $0 — and the separate State Police Bureau of Identification record-check cost is named as an agency cost that is not a court filing fee.",
+     "finding": "Met on the first limb of DET-FEE-AND-WAIVER-001 — the packet states that no fee is charged, sourced. 'There is no filing fee for this petition. C.G.S. § 54-142a provides for it and the compiled Connecticut profile records the fee as $0.' The family's own local-filing-variation.json records the same from the statute ('No fee shall be charged in any court with respect to any petition under § 54-142a'), and the packet separately distinguishes the State Police Bureau of Identification record-check cost as an agency cost that is not a court filing fee. Waiver treatment follows from the fee: there is nothing to waive.",
      "evidence": {
-      "courtFee": "$0, from the compiled CT profile and the statute",
-      "agencyCost": "SPBI record check, named as separate"
+      "standard": "DET-FEE-AND-WAIVER-001",
+      "limb": "states that no fee is charged, sourced",
+      "fee": "$0",
+      "authority": "C.G.S. § 54-142a"
      }
     },
     "SERVICE": {
-     "measured": false,
-     "result": "NOT_MEASURABLE_HERE",
-     "finding": "Not measurable from anything this repository holds, and the family says so itself rather than inferring. reports/local-filing-variation.json records serviceMethod as value null, recorded false: 'NOT RECORDED IN ANY HELD SOURCE. The source document carries no certificate of service, no service section and no service instruction; its four printed instructions concern eligibility, swearing, venue and one-case-per-form. The compiled CT profile's serviceAndNoticeRules is empty. This is reported as an open question, not resolved by inference: an absent record is not a finding that no service is required.' I confirmed each limb: the delivered form carries no service block among its 22 fields, and the instructions raise service nowhere. Refusing to invent a service rule is the right call, so this is not scored as a packet defect — but it is an obligation I cannot measure, which is why this row is PASS and not PASS_COMPLETE_INDEPENDENT. Worth noting for the repair queue: the family's siblings surface their open questions to the participant ('ask the clerk who must be served'), and this one surfaces this open question only in a report the participant never sees.",
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Measurable here, and it is silence. I reproduced everything the prior read of this lane found and reach a different conclusion about what it means. No held source establishes the rule — the family's own reports/local-filing-variation.json records serviceMethod, serviceRecipients, serviceTiming and certificateOfService as recorded false, and says in terms 'an absent record is not a finding that no service is required'; the worklist deliverable records the same four as not_recorded; the compiled CT profile's serviceAndNoticeRules is empty; and I confirmed the delivered form carries no service section and no certificate of service among its 22 fields. That is the situation DET-FEE-AND-WAIVER-001 addresses head-on: where no held source establishes the answer, a named reachable authority may stand in, and it must be named rather than gestured at. This packet names none. It raises service nowhere at all — not as a rule, not as an open question, not as an office to ask — and surfaces the gap only in a report the participant never sees. Silence always fails, and NOT_MEASURABLE_HERE is reserved for what a lane's environment cannot measure rather than for a question the packet declines to put. My environment can measure it: the file is here and it says nothing. The repair is one sentence, and the packet already names the right office twice for other purposes — the clerk of the Superior Court location where the petition is filed.",
      "evidence": {
-      "record": "reports/local-filing-variation.json serviceMethod",
-      "value": null,
-      "recorded": false,
-      "serviceBlockOnForm": "none among 22 fields",
-      "instructionsMention": "none",
-      "consequence": "verdict capped at PASS"
+      "heldSourcesConsulted": [
+       "reports/local-filing-variation.json serviceMethod/serviceRecipients/serviceTiming/certificateOfService",
+       "packet-family-build-worklist.json reusableFamilyDeliverable",
+       "compiled CT profile serviceAndNoticeRules"
+      ],
+      "anyEstablishesTheRule": false,
+      "serviceBlockOnDeliveredForm": "none among 22 fields",
+      "statedInPacket": false,
+      "authorityNamed": null,
+      "standard": "DET-FEE-AND-WAIVER-001 as extended to SERVICE",
+      "repair": "one sentence naming the clerk of the G.A. location where the petition is filed as the office that answers who must be served"
      }
     },
     "SELF_HELP_STOP": {
      "measured": true,
      "result": "PASS",
-     "finding": "Present and substantive: the packet states it does not decide eligibility, then carries the form's own NOTE — a crime for which the court could have sentenced the participant to more than five years is not eligible even if the sentence imposed was less, and a second § 14-227a violation within ten years, sexually violent crimes, nonviolent sexual crimes and the crimes listed in § 54-142a(e)(2)(C) are blocked outright — and tells the participant to read those paragraphs before swearing to them. It also carries the strict one-case-per-form rule the court enforces.",
-     "evidence": {
-      "stops": [
-       "five-year exposure rule",
-       "categorically blocked crimes",
-       "one case per form"
-      ]
-     }
-    },
-    "CAPTION_CHANNEL_DEFECT_CONTAINED": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "The family documents a defect in shared caption-harvest infrastructure it does not own (reports/caption-channel-defect.json: captureWidgetContext's 'printed directly above' branch takes the whole printed line while its 'printed to the left' branch is cell-aware, so on a multi-cell table header every widget beneath harvests the same run-on caption) and contains it correctly: nothing shared was edited, every affected field is refused BY ROLE rather than by the defective caption, and the delivered bytes bind the correct facts. Its warning — that repairing the caption harvest without adding a protect rule for a print-name or date cell inside a jurat row would turn six misbound fields into a prefilled oath — is a finding for the owning script, not a defect of this packet.",
-     "evidence": {
-      "defectRecord": "reports/caption-channel-defect.json",
-      "ownedBy": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
-      "thisFamilysContainment": "refusal by role; no shared file edited"
-     }
+     "finding": "Present and substantive. The packet states it does not decide eligibility, then carries the form's own NOTE in full — a crime for which the court could have sentenced the participant to more than five years is not eligible even if the sentence imposed was less, and a second § 14-227a violation within ten years, sexually violent crimes, nonviolent sexual crimes and the crimes at § 54-142a(e)(2)(C) are blocked outright — and tells the participant to read those paragraphs before swearing to them. It also carries the strict one-case-per-form rule the court enforces."
     }
    },
-   "failedProofObligations": [],
-   "notMeasurableHere": [
+   "failedProofObligations": [
     "SERVICE"
-   ]
+   ],
+   "notMeasurableHere": [],
+   "disagreementNote": "This is a single-obligation disagreement with a careful earlier read on the same lane, and it is worth stating plainly. That read identified the same gap and even observed that this family's siblings surface the same open question to the participant while this one surfaces it only in a report. It then classified the obligation as unmeasurable and capped at PASS. I take the opposite view of the same facts: the obligation is on the packet, not on the repository, and what cannot be measured is the RULE, not whether the packet answers the participant's question. Everything else in that row I reproduced and agree with, including its FILING_DESTINATION and FEE_AND_WAIVER passes.",
+   "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-cleanslate-petition-set"
   }
  ],
  "obligationSet": [
@@ -328,5 +181,19 @@
   "SERVICE",
   "SELF_HELP_STOP"
  ],
- "obligationSetNote": "Lane contract L9: a PASS_COMPLETE_INDEPENDENT verdict scores the canonical fifteen, each by its own name. A row carrying any NOT_MEASURABLE_HERE is capped at PASS."
+ "obligationSetNote": "Lane contract L9: a PASS_COMPLETE_INDEPENDENT verdict scores the canonical fifteen, each by its own name. A row carrying any NOT_MEASURABLE_HERE is capped at PASS.",
+ "laneReads": [
+  {
+   "verifier": "FABLE-VT7 (independent — built none of these packets, and neither built nor repaired any family scored here)",
+   "itemId": "ct-cleanslate-petition-set",
+   "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+   "note": "Per-row base, deliberately not stamped on the document. This file is shared with other lanes and a document-level base would land on rows whose authors never read at this commit.",
+   "corpusMounted": true,
+   "corpusMountedHow": "scripts/rcap-corpus/bootstrap-private-corpus.sh — archive SHA-256 and all three governance checksums verified; 51 jurisdictions, 499 files, 329 PDFs",
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false
+  }
+ ]
 }

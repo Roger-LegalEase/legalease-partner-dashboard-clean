@@ -1015,6 +1015,377 @@
       "whyNotTheStrongestVerdict": "Every obligation this lane could measure passes. SOURCE_IDENTITY could not be measured in this container, and a PASS_COMPLETE_INDEPENDENT verdict may carry none - so this row stops at PASS."
     },
     {
+      "itemId": "ky_felony_vacatur_expungement-set",
+      "lane": "VF11",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill",
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "verifier": "FABLE-VT6 (independent; built none of these packets)",
+      "obligationsScored": 15,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "corpusMounted": true,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "production-field-map.json, product-wiring.json and the MASTER_QUEUE family row declare the identical single key obligation:track-pathway:KY:ky_felony_vacatur_expungement:felony-conviction-431073, and the route is stated on the packet's own face: page 1 of the rendered canonical fixture prints \"AOC-496.3 Doc. Code: AFEX / Rev. 6-23 / Commonwealth of Kentucky Court of Justice / KRS 431.073; 431.079 / APPLICATION TO VACATE AND EXPUNGE FELONY CONVICTION\", read from the bytes here. The source receipt's statutory authority is \"KRS 431.073 and 431.079; AOC-496.3 (Rev. 6-23) and AOC-496.4 (Rev. 6-23)\", which is what the face prints.",
+          "evidence": {
+            "queueRouteKeys": [
+              "obligation:track-pathway:KY:ky_felony_vacatur_expungement:felony-conviction-431073"
+            ],
+            "fieldMapRouteKeys": [
+              "obligation:track-pathway:KY:ky_felony_vacatur_expungement:felony-conviction-431073"
+            ],
+            "wiringRouteKeys": [
+              "obligation:track-pathway:KY:ky_felony_vacatur_expungement:felony-conviction-431073"
+            ],
+            "routeSelectionId": "ky-felony-vacatur-expungement-aoc-496-3-with-proposed-order",
+            "statutoryAuthority": "KRS 431.073 and 431.079; AOC-496.3 (Rev. 6-23) and AOC-496.4 (Rev. 6-23)",
+            "statuteReadFromFixturePage1": "KRS 431.073; 431.079 and the title APPLICATION TO VACATE AND EXPUNGE FELONY CONVICTION"
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "Measured, not inferred. The Master Library is mounted in this lane and every one of this family's 2 bound source(s) was rehashed from the source bytes: every SHA-256 agrees with the family's source-receipt.json, with the committed corpus index, and with the archive's own STATE_MANIFEST.csv and 00_GOVERNANCE/CHECKSUMS.sha256. This is the obligation the pre-corpus lanes could not reach; it is measured here and it passes.",
+          "evidence": {
+            "corpusMounted": true,
+            "corpusRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+            "bootstrap": "scripts/rcap-corpus/bootstrap-private-corpus.sh, run in this lane: archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 verified, 51 jurisdictions / 499 files / 329 PDFs, and the corpus verified against its own 00_GOVERNANCE/CHECKSUMS.sha256",
+            "wholeIndexRehashed": "all 329 entries of data/rcap-all50/local-source-corpus-index.json were rehashed from the mounted bytes in this lane: 329 matched, 0 mismatched, 0 absent",
+            "boundDocuments": [
+              {
+                "documentId": "AOC-496.3",
+                "residence": "master-library",
+                "pathInArchive": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+                "declaredSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+                "recomputedInThisLane": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+                "hashMatchesReceipt": true,
+                "byteLengthMatchesReceipt": true,
+                "inCommittedCorpusIndex": true,
+                "committedIndexPathAgrees": true
+              },
+              {
+                "documentId": "AOC-496.4",
+                "residence": "master-library",
+                "pathInArchive": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.4__496-4__REV-2023-06__EN.pdf",
+                "declaredSha256": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+                "recomputedInThisLane": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+                "hashMatchesReceipt": true,
+                "byteLengthMatchesReceipt": true,
+                "inCommittedCorpusIndex": true,
+                "committedIndexPathAgrees": true
+              }
+            ],
+            "archiveOwnManifests": [
+              {
+                "documentId": "AOC-496.3",
+                "receiptArchiveManifestSha256": null,
+                "checks": [
+                  {
+                    "file": "STATES/KY/STATE_MANIFEST.csv",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  },
+                  {
+                    "file": "00_GOVERNANCE/CHECKSUMS.sha256",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  }
+                ]
+              },
+              {
+                "documentId": "AOC-496.4",
+                "receiptArchiveManifestSha256": null,
+                "checks": [
+                  {
+                    "file": "STATES/KY/STATE_MANIFEST.csv",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  },
+                  {
+                    "file": "00_GOVERNANCE/CHECKSUMS.sha256",
+                    "declaredHashAppears": true,
+                    "pathAppears": true
+                  }
+                ]
+              }
+            ],
+            "reportCitedHashes": "every source SHA-256 cited in this family's reports/actual-writes.json and reports/rendered-artifacts.json was resolved back to a source-receipt.json document and rehashed byte-exact from the mounted corpus in this lane"
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Both declared components appear in the rendered packet, in both fixtures: component:ky_felony_vacatur_expungement-primary-filing-1 (AOC-496.3, packet pages 1-3) and component:ky_felony_vacatur_expungement-proposed-order-2 (AOC-496.4, packet pages 4-7). The fresh completeness run measured requiredComponentsMissing 0.",
+          "evidence": {
+            "declaredComponentSet": [
+              "component:ky_felony_vacatur_expungement-primary-filing-1",
+              "component:ky_felony_vacatur_expungement-proposed-order-2"
+            ],
+            "perFixture": [
+              {
+                "fixture": "canonical",
+                "components": [
+                  "component:ky_felony_vacatur_expungement-primary-filing-1",
+                  "component:ky_felony_vacatur_expungement-proposed-order-2"
+                ],
+                "documents": [
+                  "AOC-496.3",
+                  "AOC-496.4"
+                ]
+              },
+              {
+                "fixture": "boundary",
+                "components": [
+                  "component:ky_felony_vacatur_expungement-primary-filing-1",
+                  "component:ky_felony_vacatur_expungement-proposed-order-2"
+                ],
+                "documents": [
+                  "AOC-496.3",
+                  "AOC-496.4"
+                ]
+              }
+            ],
+            "requiredComponentsMissing": 0
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "Every value the family records as written was searched for in text extracted from that fixture's own PDF bytes in this lane, and every one was found, in both fixtures. Zero refused fields carry ink and zero glyphs fall outside a measured write box. The 68 flattened widget appearances the byte-proof reports are the AcroForm's own widgets flattened to static content — checked here against the source: the source AOC-496.3 carries 7,143 same-baseline text-on-text overlaps because every Kentucky county name in its dropdown option list occupies one coordinate, and the built packet carries 2, so the flattening resolved the option lists rather than stamping them. The fresh completeness run measured invisibleWrites 0 and knownRequiredFieldsMissing 0.",
+          "evidence": {
+            "perFixture": [
+              {
+                "fixture": "canonical",
+                "writeValuesSearchedFor": 7,
+                "notFoundInExtractedText": 0,
+                "reportedByFinalizer": 7,
+                "addedGlyphsReadFromOutputBytes": 97,
+                "flattenedWidgetAppearances": 68,
+                "strayGlyphsOutsideWriteBoxes": 0,
+                "refusedFieldsWithInk": 0
+              },
+              {
+                "fixture": "boundary",
+                "writeValuesSearchedFor": 7,
+                "notFoundInExtractedText": 0,
+                "reportedByFinalizer": 7,
+                "addedGlyphsReadFromOutputBytes": 168,
+                "flattenedWidgetAppearances": 68,
+                "strayGlyphsOutsideWriteBoxes": 0,
+                "refusedFieldsWithInk": 0
+              }
+            ],
+            "sourceVsPacketOptionListCheck": {
+              "sourceTextOnTextOverlaps": 7143,
+              "packetTextOnTextOverlaps": 2,
+              "method": "pdftotext -bbox same-baseline overlap count, run on the corpus source and on the fixture in this lane"
+            },
+            "freshRunInThisLane": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_felony_vacatur_expungement-set — PASS_COMPLETE, all nine counters zero",
+            "counters": {
+              "knownRequiredFieldsMissing": 0,
+              "requiredFactsNotCollected": 0,
+              "unclassifiedBlanks": 0,
+              "incompleteRows": 0,
+              "requiredOptionsMissing": 0,
+              "requiredComponentsMissing": 0,
+              "invisibleWrites": 0,
+              "protectedWrites": 0,
+              "visualDefects": 0
+            }
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "The field map declares 46 required-before-filing items and participant-instructions.md names each in per-form tables that also say where the value comes from — the caption of the existing criminal case, the sentence record, the notary. It additionally states which blanks the platform will never fill: Section 7's narrative answers, which the legal review records are never generated. The fresh completeness run measured requiredFactsNotCollected 0 and unclassifiedBlanks 0.",
+          "evidence": {
+            "requiredBeforeFilingCount": 46,
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md",
+            "freshRunInThisLane": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_felony_vacatur_expungement-set — PASS_COMPLETE, all nine counters zero",
+            "counters": {
+              "knownRequiredFieldsMissing": 0,
+              "requiredFactsNotCollected": 0,
+              "unclassifiedBlanks": 0,
+              "incompleteRows": 0,
+              "requiredOptionsMissing": 0,
+              "requiredComponentsMissing": 0,
+              "invisibleWrites": 0,
+              "protectedWrites": 0,
+              "visualDefects": 0
+            }
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "Measured and correctly withheld. Section 2 of AOC-496.3 says \"check only one\" of five printed statutory bases and all five are unchecked in the bytes — which the packet names as the participant's own election, not an omission: the instructions carry a \"The choices that are yours\" table listing the five bases (KRS 431.073(1)(a) single offence, (1)(a) series from one incident, full pardon, (1)(d) single, (1)(d) multiple) with the reason the route cannot decide it, and warn that a (1)(d) basis also requires Section 7 on page 2. The two installment-plan elections are named the same way. The fresh completeness run measured requiredOptionsMissing 0.",
+          "evidence": {
+            "requiredOptionsMissing": 0,
+            "electionsLeftToParticipantAndNamed": [
+              "AOC-496.3 Section 2 eligibility basis",
+              "AOC-496.3 installment payment plan request",
+              "AOC-496.3 installment frequency"
+            ],
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md"
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "The fresh completeness run measured incompleteRows 0: no baseline row band carries written cells beside a required cell left blank, in either fixture. The CHARGE: rows on page 1 and the district-court charge rows are uniformly blank rather than half-filled.",
+          "evidence": {
+            "incompleteRows": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "No protected field carries ink. The fresh completeness run measured protectedWrites 0 and both fixtures' byte-proof reports record zero refused fields with ink. Everything the court, the clerk or an agency records custodian completes on AOC-496.4 — every finding, every checkbox in Sections I-V, the judge's and clerk's dates and the agency certification block — is blank in the bytes, and the instructions say so in terms.",
+          "evidence": {
+            "protectedWrites": 0,
+            "refusedFieldsWithInkPerFixture": [
+              0,
+              0
+            ],
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md"
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Both fixtures' bytes were rehashed in this lane and every SHA-256 and byte length agrees with reports/rendered-artifacts.json. The family holds a RASTER_PASS receipt from the central workflow (run 33526896195) whose hashes bind to the exact bytes rehashed here.",
+          "evidence": {
+            "recomputedFromCommittedBytes": [
+              {
+                "fixture": "canonical",
+                "sha256": "581dee480d77d2f226b907b017c4209de89d4f4346f654256ed11ba24d32e54e",
+                "matchedRecord": true,
+                "byteLength": 555521,
+                "byteLengthMatchedRecord": true
+              },
+              {
+                "fixture": "boundary",
+                "sha256": "3847941126c39f4c5963e2fa06bbccbaf5936a39551118fc6df429ff21bca91b",
+                "matchedRecord": true,
+                "byteLength": 555682,
+                "byteLengthMatchedRecord": true
+              }
+            ],
+            "rasterReceipt": {
+              "state": "RASTER_PASS",
+              "verdict": "RASTER_PASS",
+              "workflowRunId": "33526896195",
+              "jobConclusion": "success",
+              "boundToCanonicalSha256": "581dee480d77d2f226b907b017c4209de89d4f4346f654256ed11ba24d32e54e",
+              "boundToBoundarySha256": "3847941126c39f4c5963e2fa06bbccbaf5936a39551118fc6df429ff21bca91b",
+              "coverage": {
+                "documents": [
+                  "canonical.pdf"
+                ],
+                "rastered": [
+                  "canonical.pdf"
+                ],
+                "notRastered": [],
+                "complete": true,
+                "basis": "the family ships one assembled packet, so rendering it covers the family"
+              }
+            },
+            "rasterBindingCheckedInThisLane": "the receipt's boundToCanonicalSha256 and boundToBoundarySha256 were compared against the SHA-256 this lane recomputed from the committed fixture bytes; both agree"
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "For both fixtures the packet page numbers run 1..N with no gap, and N is the same number three ways: the artifact record, the page count read from the PDF bytes with pdfinfo in this lane, and the length of the page manifest. Document blocks run in receipt order and source pages ascend 1..k inside every block (AOC-496.3 packet pages 1-3 (source pages 1-3), AOC-496.4 packet pages 4-7 (source pages 1-4)).",
+          "evidence": {
+            "perFixture": [
+              {
+                "fixture": "canonical",
+                "recordedPageCount": 7,
+                "pdfPagesReadFromBytesWithPdfinfo": 7,
+                "manifestPages": 7,
+                "contiguousFromOne": true
+              },
+              {
+                "fixture": "boundary",
+                "recordedPageCount": 7,
+                "pdfPagesReadFromBytesWithPdfinfo": 7,
+                "manifestPages": 7,
+                "contiguousFromOne": true
+              }
+            ],
+            "documentBlocks": "AOC-496.3 packet pages 1-3 (source pages 1-3), AOC-496.4 packet pages 4-7 (source pages 1-4)"
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "Measured geometrically in this lane and traced to its cause. Across 4,738 words in 14 pages, 0 words fall outside the page box. Two same-baseline text pairs overlap in each fixture — the fragments \"C\" and \"TI\" at [318.4, 80.5] on pages 1 and 4 — and the same pair at the same coordinates was found in the corpus source AOC-496.3 itself, so it is the official form's own circular seal artwork rendered as curved-path glyph fragments, not anything this build did. Every remaining overlap is a written value sitting on the form's own printed rule, which is what filling a ruled form looks like; the page-1 raster read visually in this lane shows each value legibly on its line.",
+          "evidence": {
+            "method": "pdftotext -bbox word geometry per page, compared against the page box and against every same-band word pair, with rule-vs-value pairs separated from text-vs-text pairs",
+            "perFixture": [
+              {
+                "fixture": "canonical",
+                "pages": 7,
+                "words": 2365,
+                "wordsOutsidePageBox": 0,
+                "textOnTextOverlaps": 2,
+                "valueOnFormRuleOverlaps": 11
+              },
+              {
+                "fixture": "boundary",
+                "pages": 7,
+                "words": 2373,
+                "wordsOutsidePageBox": 0,
+                "textOnTextOverlaps": 2,
+                "valueOnFormRuleOverlaps": 10
+              }
+            ],
+            "sourceCarriesTheSameOverlap": "the corpus source AOC-496.3 carries the identical C/TI pair at [318.4, 80.5]",
+            "visualCheck": "canonical page 1 rendered at 100 dpi and read in this lane"
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The instructions name the destination affirmatively: \"File the application with the Office of the Circuit Court Clerk in the county where the conviction occurred. It is filed as a motion in your original criminal case, not as a new case.\" The committed track registry holds \"Office of the Circuit Court Clerk ... filed as a motion in the original criminal case with the circuit court clerk in the county of conviction\", and the packet states it — which is what amendment A1 requires where the repository holds the answer.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md",
+            "trackRegistryDestination": "Office of the Circuit Court Clerk; filed as a motion in the original criminal case in the county of conviction",
+            "registry": "data/record-clearing/legal-design-track-registry.json"
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "The packet states the amounts, sourced to the form's own face: a $50 non-refundable filing fee per application due at the time of filing — quoting the form, \"the clerk cannot take your application without proper payment of this fee\" — and the $250 expungement fee, with the installment-plan election on page 3. The waiver route is named: a motion to proceed in forma pauperis with an affidavit of indigency under KRS 453.190. Where the answer runs out it says so and names who answers: whether the $50 clerk portion itself can be waived is recorded as unresolved, with the circuit clerk named as the office to ask. That is the first met clause with the third as a backstop, and it is the opposite of silence.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md",
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+            "standardClause": "theStandard.met[0] with met[2] for the unresolved remainder",
+            "amountsStated": [
+              "$50 filing fee per application",
+              "$250 expungement fee",
+              "installment plan election",
+              "in forma pauperis under KRS 453.190"
+            ]
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Stated affirmatively, including the rule that the participant serves nobody: \"You serve nobody. The circuit court clerk serves the notice of filing on the Commonwealth's or County Attorney who prosecuted the case\", grounded on the form's own \"NOTICE TO COMMONWEALTH/COUNTY ATTORNEY\" and \"FOR CLERK USE ONLY\" blocks. The committed track registry holds the same rule — \"The clerk serves the prosecuting Commonwealth's or county attorney ... the prosecutor, not the clerk, notifies any victim\" — and the packet states it. A rule that the participant serves nobody, stated affirmatively with the mechanism that replaces it, satisfies this obligation.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md",
+            "trackRegistryService": "the circuit clerk serves the prosecuting attorney; the prosecutor notifies any victim",
+            "registry": "data/record-clearing/legal-design-track-registry.json"
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "The packet states where the platform stops in three places: \"Sign before a notary or the circuit court clerk\" (the platform never signs and never dates a signature); \"What the platform deliberately left blank\", naming Section 7's narrative answers as the participant's or a lawyer's drafting and never a form-fill; and \"When to stop and get a lawyer\", an eight-item stop list including an uncertain charge list and needing an installment plan argued. \"What this packet is not\" says it is not legal advice, is not filed for the participant, and does not decide eligibility — \"only a judge does\". approval-request.json records PENDING_INDEPENDENT_VERIFICATION, not approved for live, not live, zero commercial routes opened.",
+          "evidence": {
+            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md",
+            "approvedForLive": false,
+            "live": false,
+            "commercialRoutesOpened": 0
+          }
+        }
+      },
+      "reExaminedUnder": "DET-FEE-AND-WAIVER-001 and its amendment A1",
+      "whyTheStrongestVerdict": "All fifteen obligations measured in this lane and all fifteen pass. Both AOC forms rehash byte-exact from the mounted Master Library, so SOURCE_IDENTITY — the only thing holding this family at PASS — is now measured.",
+      "supersedes": "this lane's earlier VF11 row for the same family, which was capped at PASS because the corpus was not mounted; that row is replaced rather than appended, and git history preserves it"
+    },
+    {
       "itemId": "ky_void_seal_marijuana_synthetic_salvia-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading",
@@ -2068,375 +2439,164 @@
       }
     },
     {
-      "itemId": "ky_felony_vacatur_expungement-set",
+      "itemId": "pa_age70_deceased-set",
       "lane": "VF11",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill",
-      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
-      "verifier": "FABLE-VT6 (independent; built none of these packets)",
-      "obligationsScored": 15,
-      "failedObligationNames": [],
-      "unmeasuredObligations": [],
-      "corpusMounted": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill",
+      "verifier": "FABLE-VT7 (independent — built none of these packets, and neither built nor repaired any family scored here)",
+      "verifiedAtBase": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+      "supersedes": [
+        {
+          "lane": "vf01",
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "declaredBase": null,
+          "why": "same conclusion, now with SOURCE_IDENTITY actually measured rather than assumed"
+        },
+        {
+          "lane": "vf04",
+          "verdict": "BLOCKED_SOURCE",
+          "declaredBase": null,
+          "why": "the block was SOURCE_IDENTITY unmeasured in a lane without the corpus; the corpus is mounted here and both sources rehash exactly, so the block is closed on evidence"
+        }
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "rasterState": "RASTER_PASS",
       "proofObligations": {
         "ROUTE_IDENTITY": {
+          "measured": true,
           "result": "PASS",
-          "finding": "production-field-map.json, product-wiring.json and the MASTER_QUEUE family row declare the identical single key obligation:track-pathway:KY:ky_felony_vacatur_expungement:felony-conviction-431073, and the route is stated on the packet's own face: page 1 of the rendered canonical fixture prints \"AOC-496.3 Doc. Code: AFEX / Rev. 6-23 / Commonwealth of Kentucky Court of Justice / KRS 431.073; 431.079 / APPLICATION TO VACATE AND EXPUNGE FELONY CONVICTION\", read from the bytes here. The source receipt's statutory authority is \"KRS 431.073 and 431.079; AOC-496.3 (Rev. 6-23) and AOC-496.4 (Rev. 6-23)\", which is what the face prints.",
+          "finding": "Coherent at both levels. source-receipt.json, production-field-map.json and the instructions footer declare the track 'track:PA:pa_age70_deceased', which is a real identifier carried eight times in canonical-route-universe.json; product-wiring.json declares the two canonical pathway obligations beneath it, 'obligation:track-pathway:PA:pa_age70_deceased:path-e-age-70-expungement' and ':path-f-deceased-person-expungement', both present in the canonical obligation census. familyId agrees across all six committed records. The statute on the packet's face, 18 Pa.C.S. § 9122(b) with Pa.R.Crim.P. 790, is the statute the route names.",
           "evidence": {
-            "queueRouteKeys": [
-              "obligation:track-pathway:KY:ky_felony_vacatur_expungement:felony-conviction-431073"
+            "trackDeclared": "track:PA:pa_age70_deceased",
+            "inCanonicalUniverse": true,
+            "pathwayObligations": [
+              "obligation:track-pathway:PA:pa_age70_deceased:path-e-age-70-expungement",
+              "obligation:track-pathway:PA:pa_age70_deceased:path-f-deceased-person-expungement"
             ],
-            "fieldMapRouteKeys": [
-              "obligation:track-pathway:KY:ky_felony_vacatur_expungement:felony-conviction-431073"
-            ],
-            "wiringRouteKeys": [
-              "obligation:track-pathway:KY:ky_felony_vacatur_expungement:felony-conviction-431073"
-            ],
-            "routeSelectionId": "ky-felony-vacatur-expungement-aoc-496-3-with-proposed-order",
-            "statutoryAuthority": "KRS 431.073 and 431.079; AOC-496.3 (Rev. 6-23) and AOC-496.4 (Rev. 6-23)",
-            "statuteReadFromFixturePage1": "KRS 431.073; 431.079 and the title APPLICATION TO VACATE AND EXPUNGE FELONY CONVICTION"
+            "bothInCanonicalCensus": true
           }
         },
         "SOURCE_IDENTITY": {
+          "measured": true,
           "result": "PASS",
-          "finding": "Measured, not inferred. The Master Library is mounted in this lane and every one of this family's 2 bound source(s) was rehashed from the source bytes: every SHA-256 agrees with the family's source-receipt.json, with the committed corpus index, and with the archive's own STATE_MANIFEST.csv and 00_GOVERNANCE/CHECKSUMS.sha256. This is the obligation the pre-corpus lanes could not reach; it is measured here and it passes.",
-          "evidence": {
-            "corpusMounted": true,
-            "corpusRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
-            "bootstrap": "scripts/rcap-corpus/bootstrap-private-corpus.sh, run in this lane: archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 verified, 51 jurisdictions / 499 files / 329 PDFs, and the corpus verified against its own 00_GOVERNANCE/CHECKSUMS.sha256",
-            "wholeIndexRehashed": "all 329 entries of data/rcap-all50/local-source-corpus-index.json were rehashed from the mounted bytes in this lane: 329 matched, 0 mismatched, 0 absent",
-            "boundDocuments": [
-              {
-                "documentId": "AOC-496.3",
-                "residence": "master-library",
-                "pathInArchive": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
-                "declaredSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
-                "recomputedInThisLane": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
-                "hashMatchesReceipt": true,
-                "byteLengthMatchesReceipt": true,
-                "inCommittedCorpusIndex": true,
-                "committedIndexPathAgrees": true
-              },
-              {
-                "documentId": "AOC-496.4",
-                "residence": "master-library",
-                "pathInArchive": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.4__496-4__REV-2023-06__EN.pdf",
-                "declaredSha256": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
-                "recomputedInThisLane": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
-                "hashMatchesReceipt": true,
-                "byteLengthMatchesReceipt": true,
-                "inCommittedCorpusIndex": true,
-                "committedIndexPathAgrees": true
-              }
-            ],
-            "archiveOwnManifests": [
-              {
-                "documentId": "AOC-496.3",
-                "receiptArchiveManifestSha256": null,
-                "checks": [
-                  {
-                    "file": "STATES/KY/STATE_MANIFEST.csv",
-                    "declaredHashAppears": true,
-                    "pathAppears": true
-                  },
-                  {
-                    "file": "00_GOVERNANCE/CHECKSUMS.sha256",
-                    "declaredHashAppears": true,
-                    "pathAppears": true
-                  }
-                ]
-              },
-              {
-                "documentId": "AOC-496.4",
-                "receiptArchiveManifestSha256": null,
-                "checks": [
-                  {
-                    "file": "STATES/KY/STATE_MANIFEST.csv",
-                    "declaredHashAppears": true,
-                    "pathAppears": true
-                  },
-                  {
-                    "file": "00_GOVERNANCE/CHECKSUMS.sha256",
-                    "declaredHashAppears": true,
-                    "pathAppears": true
-                  }
-                ]
-              }
-            ],
-            "reportCitedHashes": "every source SHA-256 cited in this family's reports/actual-writes.json and reports/rendered-artifacts.json was resolved back to a source-receipt.json document and rehashed byte-exact from the mounted corpus in this lane"
-          }
+          "finding": "Measured against the mounted Master Library. Both AOPC forms rehash from the library bytes to the recorded SHA-256 at the recorded byte lengths.",
+          "evidence": [
+            {
+              "form": "PA-RCRIM-P-790-PETITION",
+              "recordedSha": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+              "rehashMatches": true,
+              "byteLenMatches": true
+            },
+            {
+              "form": "PA-RCRIM-P-790-ORDER",
+              "recordedSha": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+              "rehashMatches": true,
+              "byteLenMatches": true
+            }
+          ]
         },
         "COMPONENT_SET": {
+          "measured": true,
           "result": "PASS",
-          "finding": "Both declared components appear in the rendered packet, in both fixtures: component:ky_felony_vacatur_expungement-primary-filing-1 (AOC-496.3, packet pages 1-3) and component:ky_felony_vacatur_expungement-proposed-order-2 (AOC-496.4, packet pages 4-7). The fresh completeness run measured requiredComponentsMissing 0.",
-          "evidence": {
-            "declaredComponentSet": [
-              "component:ky_felony_vacatur_expungement-primary-filing-1",
-              "component:ky_felony_vacatur_expungement-proposed-order-2"
-            ],
-            "perFixture": [
-              {
-                "fixture": "canonical",
-                "components": [
-                  "component:ky_felony_vacatur_expungement-primary-filing-1",
-                  "component:ky_felony_vacatur_expungement-proposed-order-2"
-                ],
-                "documents": [
-                  "AOC-496.3",
-                  "AOC-496.4"
-                ]
-              },
-              {
-                "fixture": "boundary",
-                "components": [
-                  "component:ky_felony_vacatur_expungement-primary-filing-1",
-                  "component:ky_felony_vacatur_expungement-proposed-order-2"
-                ],
-                "documents": [
-                  "AOC-496.3",
-                  "AOC-496.4"
-                ]
-              }
-            ],
-            "requiredComponentsMissing": 0
-          }
+          "finding": "requiredComponentsMissing 0. Two components, the petition and the order with its Rule 790 information page, three pages, and the instructions open by naming both and saying what each is for."
         },
         "KNOWN_PREFILLS": {
+          "measured": true,
           "result": "PASS",
-          "finding": "Every value the family records as written was searched for in text extracted from that fixture's own PDF bytes in this lane, and every one was found, in both fixtures. Zero refused fields carry ink and zero glyphs fall outside a measured write box. The 68 flattened widget appearances the byte-proof reports are the AcroForm's own widgets flattened to static content — checked here against the source: the source AOC-496.3 carries 7,143 same-baseline text-on-text overlaps because every Kentucky county name in its dropdown option list occupies one coordinate, and the built packet carries 2, so the flattening resolved the option lists rather than stamping them. The fresh completeness run measured invisibleWrites 0 and knownRequiredFieldsMissing 0.",
-          "evidence": {
-            "perFixture": [
-              {
-                "fixture": "canonical",
-                "writeValuesSearchedFor": 7,
-                "notFoundInExtractedText": 0,
-                "reportedByFinalizer": 7,
-                "addedGlyphsReadFromOutputBytes": 97,
-                "flattenedWidgetAppearances": 68,
-                "strayGlyphsOutsideWriteBoxes": 0,
-                "refusedFieldsWithInk": 0
-              },
-              {
-                "fixture": "boundary",
-                "writeValuesSearchedFor": 7,
-                "notFoundInExtractedText": 0,
-                "reportedByFinalizer": 7,
-                "addedGlyphsReadFromOutputBytes": 168,
-                "flattenedWidgetAppearances": 68,
-                "strayGlyphsOutsideWriteBoxes": 0,
-                "refusedFieldsWithInk": 0
-              }
-            ],
-            "sourceVsPacketOptionListCheck": {
-              "sourceTextOnTextOverlaps": 7143,
-              "packetTextOnTextOverlaps": 2,
-              "method": "pdftotext -bbox same-baseline overlap count, run on the corpus source and on the fixture in this lane"
-            },
-            "freshRunInThisLane": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_felony_vacatur_expungement-set — PASS_COMPLETE, all nine counters zero",
-            "counters": {
-              "knownRequiredFieldsMissing": 0,
-              "requiredFactsNotCollected": 0,
-              "unclassifiedBlanks": 0,
-              "incompleteRows": 0,
-              "requiredOptionsMissing": 0,
-              "requiredComponentsMissing": 0,
-              "invisibleWrites": 0,
-              "protectedWrites": 0,
-              "visualDefects": 0
-            }
-          }
+          "finding": "knownRequiredFieldsMissing 0, measured here. 16 of 105 fields written; the instructions state exactly what was filled — name, date of birth, address, county and docket number, on both forms — and everything else is listed as the participant's."
         },
         "REQUIRED_BEFORE_FILING": {
+          "measured": true,
           "result": "PASS",
-          "finding": "The field map declares 46 required-before-filing items and participant-instructions.md names each in per-form tables that also say where the value comes from — the caption of the existing criminal case, the sentence record, the notary. It additionally states which blanks the platform will never fill: Section 7's narrative answers, which the legal review records are never generated. The fresh completeness run measured requiredFactsNotCollected 0 and unclassifiedBlanks 0.",
-          "evidence": {
-            "requiredBeforeFilingCount": 46,
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md",
-            "freshRunInThisLane": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_felony_vacatur_expungement-set — PASS_COMPLETE, all nine counters zero",
-            "counters": {
-              "knownRequiredFieldsMissing": 0,
-              "requiredFactsNotCollected": 0,
-              "unclassifiedBlanks": 0,
-              "incompleteRows": 0,
-              "requiredOptionsMissing": 0,
-              "requiredComponentsMissing": 0,
-              "invisibleWrites": 0,
-              "protectedWrites": 0,
-              "visualDefects": 0
-            }
-          }
+          "finding": "requiredFactsNotCollected 0. Every blank is named by the section it sits in and the words printed above it, including all thirty-five charge-table cells and all fourteen numbered items on the Rule 790 information page. The instructions go further than the counter requires and explain WHY the charge table is left wholly empty: the values come from the charging document, which the platform does not hold, and a part-filled row would read as a finished one."
         },
         "ROUTE_OPTIONS": {
+          "measured": true,
           "result": "PASS",
-          "finding": "Measured and correctly withheld. Section 2 of AOC-496.3 says \"check only one\" of five printed statutory bases and all five are unchecked in the bytes — which the packet names as the participant's own election, not an omission: the instructions carry a \"The choices that are yours\" table listing the five bases (KRS 431.073(1)(a) single offence, (1)(a) series from one incident, full pardon, (1)(d) single, (1)(d) multiple) with the reason the route cannot decide it, and warn that a (1)(d) basis also requires Section 7 on page 2. The two installment-plan elections are named the same way. The fresh completeness run measured requiredOptionsMissing 0.",
-          "evidence": {
-            "requiredOptionsMissing": 0,
-            "electionsLeftToParticipantAndNamed": [
-              "AOC-496.3 Section 2 eligibility basis",
-              "AOC-496.3 installment payment plan request",
-              "AOC-496.3 installment frequency"
-            ],
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md"
-          }
+          "finding": "requiredOptionsMissing 0. The two § 9122(b) situations — reaching 70 with ten arrest-free years since final release, and a person dead three years — are set out under 'Which route this is' and the election is left to the participant in the reason box, in their own words with dates. The packet states it does not decide whether the participant qualifies."
         },
         "REPEATING_ROWS": {
+          "measured": true,
           "result": "PASS",
-          "finding": "The fresh completeness run measured incompleteRows 0: no baseline row band carries written cells beside a required cell left blank, in either fixture. The CHARGE: rows on page 1 and the district-court charge rows are uniformly blank rather than half-filled.",
-          "evidence": {
-            "incompleteRows": 0
-          }
+          "finding": "incompleteRows 0. The five charge rows across seven columns are left entirely blank and every cell is named; the instructions say the form's own answer for a sixth charge is to attach another sheet."
         },
         "PROTECTED_FIELDS": {
+          "measured": true,
           "result": "PASS",
-          "finding": "No protected field carries ink. The fresh completeness run measured protectedWrites 0 and both fixtures' byte-proof reports record zero refused fields with ink. Everything the court, the clerk or an agency records custodian completes on AOC-496.4 — every finding, every checkbox in Sections I-V, the judge's and clerk's dates and the agency certification block — is blank in the bytes, and the instructions say so in terms.",
-          "evidence": {
-            "protectedWrites": 0,
-            "refusedFieldsWithInkPerFixture": [
-              0,
-              0
-            ],
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md"
-          }
+          "finding": "protectedWrites 0 and invisibleWrites 0. reports/actual-writes.json is derivedFromArtifactBytes true with no blocking findings, and the instructions state the rule the bytes keep: the whole of the Order above the signature line — the date, the recitals, the disposition, which of the three expungement paragraphs applies, and the signature — is the court's and is untouched."
         },
         "ARTIFACTS": {
+          "measured": true,
           "result": "PASS",
-          "finding": "Both fixtures' bytes were rehashed in this lane and every SHA-256 and byte length agrees with reports/rendered-artifacts.json. The family holds a RASTER_PASS receipt from the central workflow (run 33526896195) whose hashes bind to the exact bytes rehashed here.",
+          "finding": "Both fixtures rehash from their committed bytes to reports/rendered-artifacts.json and to the hash-bound RASTER_PASS receipt.",
           "evidence": {
-            "recomputedFromCommittedBytes": [
-              {
-                "fixture": "canonical",
-                "sha256": "581dee480d77d2f226b907b017c4209de89d4f4346f654256ed11ba24d32e54e",
-                "matchedRecord": true,
-                "byteLength": 555521,
-                "byteLengthMatchedRecord": true
-              },
-              {
-                "fixture": "boundary",
-                "sha256": "3847941126c39f4c5963e2fa06bbccbaf5936a39551118fc6df429ff21bca91b",
-                "matchedRecord": true,
-                "byteLength": 555682,
-                "byteLengthMatchedRecord": true
-              }
-            ],
-            "rasterReceipt": {
-              "state": "RASTER_PASS",
-              "verdict": "RASTER_PASS",
-              "workflowRunId": "33526896195",
-              "jobConclusion": "success",
-              "boundToCanonicalSha256": "581dee480d77d2f226b907b017c4209de89d4f4346f654256ed11ba24d32e54e",
-              "boundToBoundarySha256": "3847941126c39f4c5963e2fa06bbccbaf5936a39551118fc6df429ff21bca91b",
-              "coverage": {
-                "documents": [
-                  "canonical.pdf"
-                ],
-                "rastered": [
-                  "canonical.pdf"
-                ],
-                "notRastered": [],
-                "complete": true,
-                "basis": "the family ships one assembled packet, so rendering it covers the family"
-              }
-            },
-            "rasterBindingCheckedInThisLane": "the receipt's boundToCanonicalSha256 and boundToBoundarySha256 were compared against the SHA-256 this lane recomputed from the committed fixture bytes; both agree"
+            "rasterWorkflowRunId": "33495068504",
+            "canonicalMatchesReceipt": true,
+            "boundaryMatchesReceipt": true
           }
         },
         "PAGE_ORDER": {
+          "measured": true,
           "result": "PASS",
-          "finding": "For both fixtures the packet page numbers run 1..N with no gap, and N is the same number three ways: the artifact record, the page count read from the PDF bytes with pdfinfo in this lane, and the length of the page manifest. Document blocks run in receipt order and source pages ascend 1..k inside every block (AOC-496.3 packet pages 1-3 (source pages 1-3), AOC-496.4 packet pages 4-7 (source pages 1-4)).",
-          "evidence": {
-            "perFixture": [
-              {
-                "fixture": "canonical",
-                "recordedPageCount": 7,
-                "pdfPagesReadFromBytesWithPdfinfo": 7,
-                "manifestPages": 7,
-                "contiguousFromOne": true
-              },
-              {
-                "fixture": "boundary",
-                "recordedPageCount": 7,
-                "pdfPagesReadFromBytesWithPdfinfo": 7,
-                "manifestPages": 7,
-                "contiguousFromOne": true
-              }
-            ],
-            "documentBlocks": "AOC-496.3 packet pages 1-3 (source pages 1-3), AOC-496.4 packet pages 4-7 (source pages 1-4)"
-          }
+          "finding": "Declared pageCount 3 = pageManifest length 3 = the pages I read from the delivered PDF, for both fixtures: petition, order page 1, Rule 790 information page."
         },
         "CLIPPING_AND_OVERLAP": {
+          "measured": true,
           "result": "PASS",
-          "finding": "Measured geometrically in this lane and traced to its cause. Across 4,738 words in 14 pages, 0 words fall outside the page box. Two same-baseline text pairs overlap in each fixture — the fragments \"C\" and \"TI\" at [318.4, 80.5] on pages 1 and 4 — and the same pair at the same coordinates was found in the corpus source AOC-496.3 itself, so it is the official form's own circular seal artwork rendered as curved-path glyph fragments, not anything this build did. Every remaining overlap is a written value sitting on the form's own printed rule, which is what filling a ruled form looks like; the page-1 raster read visually in this lane shows each value legibly on its line.",
-          "evidence": {
-            "method": "pdftotext -bbox word geometry per page, compared against the page box and against every same-band word pair, with rule-vs-value pairs separated from text-vs-text pairs",
-            "perFixture": [
-              {
-                "fixture": "canonical",
-                "pages": 7,
-                "words": 2365,
-                "wordsOutsidePageBox": 0,
-                "textOnTextOverlaps": 2,
-                "valueOnFormRuleOverlaps": 11
-              },
-              {
-                "fixture": "boundary",
-                "pages": 7,
-                "words": 2373,
-                "wordsOutsidePageBox": 0,
-                "textOnTextOverlaps": 2,
-                "valueOnFormRuleOverlaps": 10
-              }
-            ],
-            "sourceCarriesTheSameOverlap": "the corpus source AOC-496.3 carries the identical C/TI pair at [318.4, 80.5]",
-            "visualCheck": "canonical page 1 rendered at 100 dpi and read in this lane"
-          }
+          "finding": "visualDefects 0 on my own run, over bytes holding a RASTER_PASS receipt bound to those hashes. The family additionally carries reports/independent-visual-review.json."
         },
         "FILING_DESTINATION": {
+          "measured": true,
           "result": "PASS",
-          "finding": "The instructions name the destination affirmatively: \"File the application with the Office of the Circuit Court Clerk in the county where the conviction occurred. It is filed as a motion in your original criminal case, not as a new case.\" The committed track registry holds \"Office of the Circuit Court Clerk ... filed as a motion in the original criminal case with the circuit court clerk in the county of conviction\", and the packet states it — which is what amendment A1 requires where the repository holds the answer.",
+          "finding": "Stated affirmatively and sourced to the paper: 'File the petition with the Clerk of Courts of the Court of Common Pleas in the county already filled in for you.' The county is prefilled, so the destination is not left as a blank the participant must resolve.",
           "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md",
-            "trackRegistryDestination": "Office of the Circuit Court Clerk; filed as a motion in the original criminal case in the county of conviction",
-            "registry": "data/record-clearing/legal-design-track-registry.json"
+            "destination": "Clerk of Courts, Court of Common Pleas, county prefilled",
+            "instructionsLine": 18
           }
         },
         "FEE_AND_WAIVER": {
+          "measured": true,
           "result": "PASS",
-          "finding": "The packet states the amounts, sourced to the form's own face: a $50 non-refundable filing fee per application due at the time of filing — quoting the form, \"the clerk cannot take your application without proper payment of this fee\" — and the $250 expungement fee, with the installment-plan election on page 3. The waiver route is named: a motion to proceed in forma pauperis with an affidavit of indigency under KRS 453.190. Where the answer runs out it says so and names who answers: whether the $50 clerk portion itself can be waived is recorded as unresolved, with the circuit clerk named as the office to ask. That is the first met clause with the third as a backstop, and it is the opposite of silence.",
+          "finding": "Met on the third limb of DET-FEE-AND-WAIVER-001. I applied the amendment's test first and asked whether the repository establishes the figure: it does not. src/lib/rcap/state-packs/pennsylvania/fee-notes.ts records only 'Petition filing fees vary by county and are often about $132-$215' — a hedged range that by its own terms does not establish the fee for any particular county, which is exactly the unsourced figure this factory refuses to print. So the honest-refusal route is open, and the packet takes it correctly: 'Ask the Clerk of Courts what filing fee applies. It is not stated here, because no source this packet holds establishes it and an unsourced figure in a filing instruction is worse than none.' The authority is named and reachable — the Clerk of Courts of the Court of Common Pleas in a county already printed on the participant's own packet. Recorded for the repair queue rather than scored against it: the sentence answers the fee and is silent on the waiver, and the PA pack does hold that an in forma pauperis request may be available; one clause naming the same clerk for the waiver would close the obligation's second half explicitly.",
           "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md",
-            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
-            "standardClause": "theStandard.met[0] with met[2] for the unresolved remainder",
-            "amountsStated": [
-              "$50 filing fee per application",
-              "$250 expungement fee",
-              "installment plan election",
-              "in forma pauperis under KRS 453.190"
-            ]
+            "standard": "DET-FEE-AND-WAIVER-001",
+            "limb": "no held source establishes the fee; a specific checkable authority is named",
+            "repositoryEstablishesTheFigure": false,
+            "authorityNamed": "Clerk of Courts of the Court of Common Pleas, county prefilled",
+            "waiverClauseNotedForImprovement": true
           }
         },
         "SERVICE": {
+          "measured": true,
           "result": "PASS",
-          "finding": "Stated affirmatively, including the rule that the participant serves nobody: \"You serve nobody. The circuit court clerk serves the notice of filing on the Commonwealth's or County Attorney who prosecuted the case\", grounded on the form's own \"NOTICE TO COMMONWEALTH/COUNTY ATTORNEY\" and \"FOR CLERK USE ONLY\" blocks. The committed track registry holds the same rule — \"The clerk serves the prosecuting Commonwealth's or county attorney ... the prosecutor, not the clerk, notifies any victim\" — and the packet states it. A rule that the participant serves nobody, stated affirmatively with the mechanism that replaces it, satisfies this obligation.",
+          "finding": "Stated, and quoted from the delivered petition's own printed text rather than asserted: 'when this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth. Do that.' It is then repeated as step 4 of what the participant must do. I confirmed the quoted sentence appears verbatim on the canonical fixture's page 1. Item 14 of the Rule 790 information page — the criminal justice agencies to be served with certified copies of the order — is separately named in the item table with an explanation of who belongs there.",
           "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md",
-            "trackRegistryService": "the circuit clerk serves the prosecuting attorney; the prosecutor notifies any victim",
-            "registry": "data/record-clearing/legal-design-track-registry.json"
+            "source": "the petition's own printed text",
+            "recipient": "the attorney for the Commonwealth",
+            "verifiedOnFixtureBytes": true
           }
         },
         "SELF_HELP_STOP": {
+          "measured": true,
           "result": "PASS",
-          "finding": "The packet states where the platform stops in three places: \"Sign before a notary or the circuit court clerk\" (the platform never signs and never dates a signature); \"What the platform deliberately left blank\", naming Section 7's narrative answers as the participant's or a lawyer's drafting and never a form-fill; and \"When to stop and get a lawyer\", an eight-item stop list including an uncertain charge list and needing an installment plan argued. \"What this packet is not\" says it is not legal advice, is not filed for the participant, and does not decide eligibility — \"only a judge does\". approval-request.json records PENDING_INDEPENDENT_VERIFICATION, not approved for live, not live, zero commercial routes opened.",
-          "evidence": {
-            "participantInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md",
-            "approvedForLive": false,
-            "live": false,
-            "commercialRoutesOpened": 0
-          }
+          "finding": "Present, correct and specific to this packet: 'This is a prepared set of official AOPC forms. It is not legal advice, it is not filed for you, and it does not decide whether your record can be expunged under 18 Pa.C.S. § 9122(b).' The instructions also state in terms that the packet does not decide whether the participant qualifies under either § 9122(b) situation."
         }
       },
-      "reExaminedUnder": "DET-FEE-AND-WAIVER-001 and its amendment A1",
-      "whyTheStrongestVerdict": "All fifteen obligations measured in this lane and all fifteen pass. Both AOC forms rehash byte-exact from the mounted Master Library, so SOURCE_IDENTITY — the only thing holding this family at PASS — is now measured.",
-      "supersedes": "this lane's earlier VF11 row for the same family, which was capped at PASS because the corpus was not mounted; that row is replaced rather than appended, and git history preserves it"
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_age70_deceased-set"
     },
     {
       "itemId": "wv_conv_single_misdemeanor-set",
