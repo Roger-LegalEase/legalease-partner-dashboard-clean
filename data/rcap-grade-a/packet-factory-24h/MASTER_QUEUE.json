@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "f52bddc78dc206d74a5e313b538e1cb5ce651026",
+  "minimumCaptainSha": "6322ee375927b9948e60ccb30eb3548b7172dfa4",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -63,24 +63,24 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 0,
+    "activeFamiliesExcluded": 1,
     "guidanceOnly": 0,
-    "remaining": 346,
+    "remaining": 345,
     "sourceReady": 83,
     "sourceBlocked": 70,
-    "legalBlocked": 33,
-    "verifyPending": 30,
-    "repairRequired": 29,
+    "legalBlocked": 32,
+    "verifyPending": 39,
+    "repairRequired": 19,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 83,
     "COMPLETE_PACKET_PROVEN": 94,
-    "VERIFY_PENDING": 29,
+    "VERIFY_PENDING": 39,
     "OUT_OF_SCOPE": 5,
     "SOURCE_BLOCKED": 70,
-    "FAIL_REPAIR_REQUIRED": 29,
     "LEGAL_BLOCKED": 22,
+    "FAIL_REPAIR_REQUIRED": 19,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
     "VERIFIED_PASS": 1,
@@ -110,12 +110,10 @@
       "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
-    "families": [],
+    "families": [
+      "sd_arrest_expungement-set"
+    ],
     "staleRosterFamilies": [
-      {
-        "familyId": "sd_arrest_expungement-set",
-        "roster": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
-      },
       {
         "familyId": "wa_vac_cannabis-set",
         "roster": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION"
@@ -162,7 +160,7 @@
     "familiesPerBuilder": 3.5,
     "targetPerBuilder": "15 to 25",
     "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 83 do, so a full roster of 24 builders averages 3.5 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 129 source obligations across 103 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 129 source obligations across 102 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -3309,7 +3307,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
@@ -4337,7 +4335,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-41-set.mjs",
@@ -4504,7 +4502,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-42-set.mjs",
@@ -4641,7 +4639,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-43-set.mjs",
@@ -4801,7 +4799,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-4a-set.mjs",
@@ -5094,7 +5092,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-851-91-set.mjs",
@@ -22718,7 +22716,6 @@
       "importedBy": [
         "ne-setaside-noncustodial-set",
         "ne-trafficking-setaside-and-seal-set",
-        "sd_arrest_expungement-set",
         "wv_conv_multiple_misdemeanors-set",
         "wv_conv_single_misdemeanor-set"
       ],
@@ -23768,7 +23765,6 @@
       "prohibitedPaths": [],
       "importedBy": [
         "nj_clean_slate-set",
-        "nj_disorderly_persons-set",
         "nj_indictable_conviction-set",
         "nj_ordinance-set",
         "ny_160_59_petition-set",
@@ -24120,12 +24116,12 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
       "buildScriptExists": true,
-      "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**",
@@ -29507,12 +29503,12 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "VERIFY_PENDING",
+      "activeOwner": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION",
+      "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
       "buildScriptExists": true,
-      "sharedBuildHost": "build-census-v1-ne-setaside-custodial-set.mjs",
+      "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**",
@@ -29520,9 +29516,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "staleRosterOwner": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION",
-      "whyTheRosterOwnerNoLongerHolds": "the roster names an owner the ledger does not back on a family carrying a returned FAIL"
+      "exclusiveScript": true
     },
     {
       "familyId": "tx_exp_acquittal-set",
@@ -30958,7 +30952,6 @@
       "importedBy": [
         "ut_pet_conviction-set",
         "ut_pet_dismissed_with_prejudice-set",
-        "ut_pet_dismissed_without_prejudice-set",
         "ut_pet_limitations-set",
         "ut_pet_no_charges-set",
         "ut_pet_traffic-set"
@@ -31777,12 +31770,12 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
       "buildScriptExists": true,
-      "sharedBuildHost": "build-census-v1-ut_pet_acquittal-set.mjs",
+      "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/**",
@@ -34499,7 +34492,6 @@
         "wa_vac_cannabis-set",
         "wa_vac_domestic_violence-set",
         "wa_vac_felony-set",
-        "wa_vac_homicide_victim_prostitution-set",
         "wa_vac_misdemeanor_ordinary-set",
         "wa_vac_substance_use_disorder-set",
         "wa_vac_survivor_felony-set",
@@ -35096,12 +35088,12 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs",
       "buildScriptExists": true,
-      "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/**",
@@ -36764,11 +36756,11 @@
     }
   ],
   "totals": {
-    "lanes": 60,
+    "lanes": 56,
     "builders": 24,
     "verifiers": 12,
     "sourceLanes": 16,
-    "repairLanes": 8,
+    "repairLanes": 4,
     "familiesAssignedToBuilders": 83,
     "sourceObligationsAssigned": 129,
     "actualPromotedAndReleased": 83,
