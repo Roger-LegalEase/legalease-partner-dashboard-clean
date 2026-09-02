@@ -6,7 +6,7 @@
   "checkpointNumber": 0,
   "checkpointMeans": "checkpoint 0 is the dispatch: the state the first two-hour checkpoint is measured against.",
   "liveFamilyDenominator": 346,
-  "completePacketProven": 112,
+  "completePacketProven": 111,
   "states": {
     "SOURCE_BLOCKED": 103,
     "SOURCE_READY": 50,
@@ -15,15 +15,16 @@
     "BUILD_IN_PROGRESS": 0,
     "BUILT_RASTER_PENDING": 0,
     "PASS_COMPLETE": 0,
-    "VERIFY_PENDING": 13,
+    "VERIFY_PENDING": 28,
     "VERIFYING": 0,
-    "FAIL_REPAIR_REQUIRED": 52,
+    "FAIL_REPAIR_REQUIRED": 37,
     "VERIFIED_PASS": 3,
     "LEGAL_REVIEW_READY": 0,
     "LEGAL_APPROVED": 0,
     "PRODUCT_PATH_PENDING": 0,
-    "COMPLETE_PACKET_PROVEN": 112,
-    "LEGITIMATE_GUIDANCE_ONLY": 0
+    "COMPLETE_PACKET_PROVEN": 111,
+    "LEGITIMATE_GUIDANCE_ONLY": 0,
+    "WRONG_DELIVERY_TYPE": 1
   },
   "sourceReady": 50,
   "sourceBlocked": 103,
@@ -33,9 +34,9 @@
   "returnedForRepair": 0,
   "codex": {
     "activeTasks": 0,
-    "queuedTasks": 48,
-    "lanesWithWorkAtDispatch": 41,
-    "lanesProvisionedEmpty": 7,
+    "queuedTasks": 52,
+    "lanesWithWorkAtDispatch": 43,
+    "lanesProvisionedEmpty": 9,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
@@ -144,7 +145,7 @@
     {
       "family": "ca-diversion-seal-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:SDSC-CRM-307",
-      "owner": "SRC04",
+      "owner": "SRC03",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -240,7 +241,7 @@
     {
       "family": "ga-nonconv-pre2013-set",
       "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
-      "owner": "SRC01",
+      "owner": "SRC04",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -408,13 +409,13 @@
     {
       "family": "ky_nonconviction_expungement-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:AOC-497, official-form:AOC-497.2",
-      "owner": "SRC02",
+      "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "ky_protective_order_record_expungement-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:AOC-275.18",
-      "owner": "SRC02",
+      "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -432,7 +433,7 @@
     {
       "family": "ma-seal-court-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:TC0057",
-      "owner": "SRC04",
+      "owner": "SRC03",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -474,13 +475,13 @@
     {
       "family": "me-seal-gen-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:CR-218",
-      "owner": "SRC03",
+      "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "me-seal-survivor-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:CR-307, official-form:CR-308, source-sha256:c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
-      "owner": "SRC03",
+      "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -594,7 +595,7 @@
     {
       "family": "ri_decriminalized-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:DC-33, official-form:DC-33-AFFIDAVIT, official-form:DC-33-ORDER",
-      "owner": "SRC01",
+      "owner": "SRC04",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -648,13 +649,13 @@
     {
       "family": "wv_acc_treatment_job_readiness-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:SCA-C906, official-form:SCA-C907, source-sha256:2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222, source-sha256:43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
-      "owner": "SRC01",
+      "owner": "SRC02",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "wv_conv_nonviolent_felony-set",
       "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:SCA-C907: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
-      "owner": "SRC01",
+      "owner": "SRC02",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {

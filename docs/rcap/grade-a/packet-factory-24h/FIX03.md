@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `a6bc2c9ae4dc6fc5418fb18400a6ca0c6a7fad78` (or the newer dispatch base)
+**Minimum required ancestor:** `54e738e2e5086a6a93b71bbbad7da5a3e11d19f7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ar-nonconviction-seal-set \
+  --family ca-1203-4a-set \
   --codex-cloud \
-  --minimum-captain-sha a6bc2c9ae4dc6fc5418fb18400a6ca0c6a7fad78
+  --minimum-captain-sha 54e738e2e5086a6a93b71bbbad7da5a3e11d19f7
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,15 +56,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 8 families
+## The 1 family
 
-- `ar-nonconviction-seal-set`
-- `id_felony_reduction-set`
-- `nd-nonconviction-close-petition-set`
-- `nj_disorderly_persons-set` — failing: knownRequiredFieldsMissing
-- `tx_exp_acquittal-set`
-- `ut_pet_conviction-set`
-- `wa_vac_treaty_fishing-set`
 - `ca-1203-4a-set` — failing: requiredOptionsMissing
 
 ## What you receive
@@ -78,21 +71,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix03/**`
-- `data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/id/id-felony-reduction-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ar-nonconviction-seal-set.mjs`
-- `scripts/build-census-v1-id_felony_reduction-set.mjs`
-- `scripts/build-census-v1-nd-nonconviction-close-petition-set.mjs`
-- `scripts/build-census-v1-nj_disorderly_persons-set.mjs`
-- `scripts/build-census-v1-tx_exp_acquittal-set.mjs`
-- `scripts/build-census-v1-ut_pet_conviction-set.mjs`
-- `scripts/build-census-v1-wa_vac_treaty_fishing-set.mjs`
 - `scripts/build-census-v1-ca-1203-4a-set.mjs`
 
 ## Never write here

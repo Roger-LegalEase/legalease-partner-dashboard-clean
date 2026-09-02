@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-owner-delivery-type-decisions/v1",
+  "whatThisIs": "Decisions by the decision owner about what a route may deliver at all. This is a different question from whether a packet is complete: a packet can be internally perfect and still deliver the wrong instrument, and no amount of proof about its bytes answers that. A refusal here outranks a packet proof, because the proof was of an artifact the owner has said may not be delivered.",
+  "howItIsApplied": "generate.mjs reads this file. A family with a live refusal is placed in WRONG_DELIVERY_TYPE ahead of every proven state, so it cannot sit in COMPLETE_PACKET_PROVEN, cannot enter a route cohort, and cannot carry commercial eligibility. Payment was already fail-closed and stays so.",
+  "decisions": [
+    {
+      "decisionId": "OWN-DT-2026-09-02-SC-223A1",
+      "decidedOn": "2026-09-02",
+      "decisionOwner": "Roger Roman",
+      "familyId": "rcap-sc-custom-pleading",
+      "refused": true,
+      "decision": "LegalEase may not replace the mandatory SCCA 223A1 GS order form with its custom pleading.",
+      "classification": "WRONG_DELIVERY_TYPE",
+      "whatWasMeasuredBeforeTheDecision": [
+        "the string 223A1 appears in no file in the family directory and nowhere in the rendered canonical fixture; the only form the packet names is SCCA 223C, on one route",
+        "the rendered componentSet carries no official_form_reference, no records_checklist and no fee_instrument_schedule on any route, while production-field-map.json declares each of them nine times",
+        "eleven of the twelve tracks in the SC legal design memo carry destination.kind prosecutor, and the rendered packet is captioned IN THE ......... COURT and asks this court for relief",
+        "the memo states for every route that the composed package is not a substitute for the official order form, and that section 17-22-930 makes the solicitor's blank form mandatory and to the exclusion of all other expungement forms"
+      ],
+      "consequences": [
+        "removed from the first Grade A route cohort",
+        "COMPLETE_PACKET_PROVEN invalidated; the family is WRONG_DELIVERY_TYPE",
+        "every affected route removed from custom-pleading commercial eligibility",
+        "checkout stays disabled"
+      ],
+      "theSplitTreatmentOrdered": {
+        "A": "Where the mandatory official form is available and participant-filed: use the official form, include every required supporting component, the official-form reference, the records checklist and the fee-instrument schedule, give accurate solicitor-destination instructions, then build and independently verify.",
+        "B": "Where the solicitor supplies, controls or initiates the mandatory form: HANDOFF_READY or GUIDANCE_READY, naming the correct solicitor's office and what the participant must bring or request, stating plainly that LegalEase does not replace the solicitor's mandatory form, with packet checkout disabled.",
+        "C": "Only routes genuinely filed as court petitions may use a court-captioned pleading seeking relief from the court."
+      },
+      "whatMayNotBeDone": [
+        "preserving the current custom pleading because it already has fixtures and visual bundles",
+        "a cosmetic repair on a wrong delivery type"
+      ],
+      "visualReviewInstruction": "Neither South Carolina bundle is to be reviewed. Both were published before this decision and are superseded by it."
+    }
+  ],
+  "grantsNothing": "This file records refusals. It approves no family, opens no route and creates no commercial authority."
+}

@@ -4766,6 +4766,191 @@
       "grantsNothing": "This is a read. It opens no route, sets no price, creates no fulfillment record and grants no approval. The family stays BUILT_REVIEW_PENDING with generationAllowed false, runtimeSelectable false and commercialRoutesOpened 0, and independent visual review and output legal approval remain outstanding on approval-request.json. This lane wrote into no overlay directory, no packet, no fixture, no build script, no queue and no other lane's worktree.",
       "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF07 wv_conv_single_misdemeanor-set -> CLAIM_OK (grant set 17480dfb196d525e), exit 0",
       "siblingNotRead": "wv_conv_multiple_misdemeanors-set is read concurrently on VF06 and was neither claimed nor scored here. The two families share an instruction-building host, so every statement above is measured from THIS family's rendered participant-instructions.md, field map, fixtures and rasters at this base."
+    },
+    {
+      "itemId": "rcap-sc-custom-pleading",
+      "lane": "VF07",
+      "laneKind": "independent-verification",
+      "verifier": "VA18",
+      "wave": "post-approval legal-change audit re-read of rcap-sc-custom-pleading",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verdictNote": "Not one of the five reading verdicts. PASS_COMPLETE_INDEPENDENT, FAIL_REPAIR_REQUIRED, WRONG_DELIVERY_TYPE, BLOCKED_SOURCE and BLOCKED_LEGAL_INPUT are all statements about the packet, and this lane opened no packet artifact, so none of them can be truthfully written here. WRONG_DELIVERY_TYPE in particular was the assignment's live possibility and is NOT recorded: the audit's evidence for it was not confirmed or refuted by this lane. This row is a statement about the lane.",
+      "verifiedAtBase": "19b6335bfdd5291f53ce90a36694130d62854c97",
+      "verifiedAtBaseMeans": "git rev-parse HEAD read immediately before and immediately after the claim assertion; both reads returned this commit. No artifact of this family was read at it or at any other commit. An earlier assertion of the same family was refused identically at dce40ef9335287b02690bc84c157c66e21929520 before HEAD advanced under this lane.",
+      "claimAssertion": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF07 rcap-sc-custom-pleading",
+        "exitCode": 6,
+        "refusal": "NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading",
+        "refusalCode": "NOT_GRANTED",
+        "ledger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+        "reissueOrTransferUsed": false,
+        "note": "Run twice, at dce40ef9335287b02690bc84c157c66e21929520 and again at this base after HEAD advanced. Identical refusal both times."
+      },
+      "grantState": {
+        "independentVerificationGrantsForThisFamily": 0,
+        "onlyPacketFamilyGrant": "operation packet-build, lane PF01, laneKind packet-build, released true at 2026-09-02T07:34:40.892Z",
+        "whyThatCannotBeUsed": "claim.mjs derives lane kind from the lane prefix, so a VF lane can only ever locate an independent-verification grant. locate() found zero candidates and exited 6. This is NOT_GRANTED, not GRANTED_ELSEWHERE: no verification lane holds this family and none is mid-read. There is no mint operation in claim.mjs, and --reissue and --transfer are forbidden to this lane by its brief (and would in any case fail KIND_MISMATCH against a packet-build grant), so no route to a claim existed.",
+        "alsoChecked": "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json and data/rcap-grade-a/external-worker-control/EXTERNAL_ASSIGNMENTS.json: neither names this family for any lane. data/rcap-grade-a/packet-factory-24h/CLAIM_LEDGER_REPAIR.json is a repair record of the ledger contract, not a second grant book, and names no grant at all. The claim ledger is the only book of grants and it is the one that refused."
+      },
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading",
+      "familyDirectoryRead": false,
+      "artifactsOpened": 0,
+      "focusedCheckRun": false,
+      "focusedCheckNote": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-sc-custom-pleading was NOT run. It reads the family's field map, fixtures and census, which is exactly what a refused lane may not do.",
+      "whyThisReaderIsIndependent": "VA18 on VF07 neither built nor repaired nor rendered this family: the packet-build grant is PF01's and the family's current independent verdict (PASS_COMPLETE_INDEPENDENT at base 9c2b39327f8fe8f9594ee143b1ff11fbcc879c00) belongs to lane vf03, not to this one. No directory under data/rcap-grade-a/ carries a VA18 row before this one, and this lane held no prior view of the family. Its independence was intact and went unused: the gate refused before any artifact could colour it. Independence is stated here so the record shows the block was structural, not a disqualification of the reader.",
+      "routesServed": [],
+      "routesServedNote": "Left empty deliberately. The routes a packet SERVES are a property of the rendered artifacts, and no artifact was opened. The ten routeKeys the master queue DECLARES for this family are recorded below as a factory-record observation, not as a measurement of what the packet serves.",
+      "artifactHashes": {},
+      "artifactHashesNote": "Empty deliberately. Recomputing a hash from disk requires reading the bytes, and reading this family's bytes is precisely what the refused claim forbids. An empty map is the honest record; a populated one would be evidence that the full stop was not kept.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null,
+        "allZero": null,
+        "measuredHere": false
+      },
+      "nineCountersNote": "The assignment asked for measuredHere: true. It is recorded false, and that is the point of the row: measuredHere: true over nine zeroes would assert that this lane counted them, when it counted nothing. A refused lane that reports zeroes is how an unread family acquires a clean bill of health. The master queue's own zeroed counters for this family are another lane's measurement and are not copied forward here.",
+      "obligationsScored": 0,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect. The Master Library was mounted and this obligation was measurable in this environment; it went unmeasured only because of the claim gate, not because the bytes were absent."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect. No fixture was hashed; artifactHashes on this row is empty for that reason."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect. No fixture, raster page or geometry of this family was opened."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact of it was opened: exit 6, NOT_GRANTED: no independent-verification lane holds rcap-sc-custom-pleading. The lane contract makes a non-zero assert a full stop -- read none of its artifacts -- so this obligation was not measured. It is recorded NOT_MEASURABLE_HERE, which here means not measurable by this lane at this base, and it is neither a pass nor a defect."
+        }
+      },
+      "postApprovalAuditNotAdjudicated": {
+        "what": "This lane was dispatched to turn a post-approval legal-change audit into a verdict, or to refute it. It could do neither. The three decisive claims -- that the string 223A1 appears nowhere in the family or the rendered fixture while the approved design declares SCCA 223A1 GS (Revised 04/2026) a required component and S.C. Code section 17-22-930 makes the solicitor's blank form mandatory and to the exclusion of all other expungement forms; that the rendered componentSet carries no official_form_reference, records_checklist or fee_instrument_schedule though production-field-map.json declares them; and that eleven of twelve memo tracks route to a prosecutor while the packet is captioned IN THE ......... COURT -- remain exactly as the audit left them. They are not confirmed here and they are not refuted here.",
+        "consequence": "The family's recorded COMPLETE_PACKET_PROVEN state is neither disturbed nor endorsed by this row. Under the extractor's NON_READING rule a BLOCKED_BEFORE_CLAIM row never enters the current-verdict contest, so vf03's PASS_COMPLETE_INDEPENDENT at 9c2b39327f8fe8f9594ee143b1ff11fbcc879c00 stands untouched and unexamined. If the audit is right, a family carrying a proven status is carrying it on a read that predates the audit; that is a reason to grant the re-read quickly, not a reason to write a verdict without one.",
+        "whyNotWrittenAnyway": "A verdict written from the audit's own findings would be this lane laundering someone else's measurement as an independent read. The independence rule and the claim gate exist to stop exactly that. The audit's evidence may well be correct; it is not mine to certify."
+      },
+      "factoryRecordObservationsNotAVerdict": {
+        "readFrom": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json only -- a factory record, not a packet artifact. Recorded because it bears on WHETHER THE RE-READ SHOULD BE GRANTED, and for no other purpose. None of it is a measurement of the packet and none of it scores an obligation.",
+        "state": "COMPLETE_PACKET_PROVEN; activeOwner null; artifactStatus RENDERED; completenessStatus PASS_COMPLETE",
+        "declaredRouteKeys": 10,
+        "sc_pti_17_22_150_present_in_queue_routeKeys": false,
+        "declaredRouteKeysList": [
+          "obligation:track-only:SC:sc_aep",
+          "obligation:track-only:SC:sc_conditional_discharge_44_53_450",
+          "obligation:track-only:SC:sc_tep",
+          "obligation:track-pathway:SC:sc_17_1_40_general_sessions:general-sessions-non-conviction-expungement",
+          "obligation:track-pathway:SC:sc_17_1_65_handgun:eligible-conviction-expungement",
+          "obligation:track-pathway:SC:sc_22_5_910:eligible-conviction-expungement",
+          "obligation:track-pathway:SC:sc_22_5_920_yoa:eligible-conviction-expungement",
+          "obligation:track-pathway:SC:sc_22_5_930_drug:eligible-conviction-expungement",
+          "obligation:track-pathway:SC:sc_34_11_90e_check:eligible-conviction-expungement",
+          "obligation:track-pathway:SC:sc_56_5_750f:eligible-conviction-expungement"
+        ],
+        "officialFormFamily": "NONE",
+        "forms": [],
+        "packetComponents": [],
+        "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "namedOfficialForms": 0,
+        "boundSourcePath": "STATES/SC/02_PACKET_FORMS/SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf",
+        "boundSourceSha256": "3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7",
+        "whatThisDoesAndDoesNotShow": "It shows that the queue itself binds a source file whose NAME is SCCA-223A1 while recording officialFormFamily NONE, namedOfficialForms 0, no forms and no packetComponents, and that the queue's own route list has ten entries and does not contain sc_pti_17_22_150. It does NOT show what the rendered packet contains, whether 223A1 appears in any participant-visible byte, what the componentSet holds, or how the packet is captioned. Those are the audit's three claims and every one of them lives inside the family directory this lane did not open. Read this as a reason to grant the claim, not as a finding."
+      },
+      "whatCaptainMustDo": "Mint or transfer an independent-verification grant for rcap-sc-custom-pleading to a lane that neither built it (PF01) nor already formed a view of it (vf03), with a stated reason, and re-dispatch. Until then the family cannot be re-read by anyone through the proper channel: there is no verification grant to assert, and every verification lane will exit 6 on it exactly as this one did. A family that is recorded COMPLETE_PACKET_PROVEN, is the subject of a post-approval legal-change audit, and has no assertable verification grant is a family whose proven status cannot currently be tested.",
+      "overlayDirectoriesModified": 0,
+      "packetsModified": 0,
+      "buildScriptsModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A refusal at the claim gate proves nothing about a packet. It promotes no family, opens no route, clears no hold and lifts no audit finding."
     }
   ],
   "obligationSet": [

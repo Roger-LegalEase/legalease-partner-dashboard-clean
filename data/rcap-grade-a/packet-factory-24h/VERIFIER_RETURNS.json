@@ -22,7 +22,7 @@
   "supersessionRule": "one current verdict per family: the highest-precedence lane wins (factory vf lanes over codex-cloud directories, then higher lane number); superseded rows remain as history with superseded: true",
   "counts": {
     "returnDirectories": 33,
-    "rows": 335,
+    "rows": 336,
     "independentVerdicts": 173,
     "failRepairRequired": 58,
     "passIndependent": 115
@@ -105,6 +105,7 @@
       "vf04/tx_nd_conviction_no_supervision-set",
       "vf06/composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
       "vf06/wv_conv_multiple_misdemeanors-set",
+      "vf07/rcap-sc-custom-pleading",
       "vf07/wv_conv_single_misdemeanor-set",
       "vf09/ny_160_59_petition-set",
       "vf12/oh_marijuana_expungement-set",
@@ -5646,6 +5647,36 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-sc-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-sc-custom-pleading",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "19b6335bfdd5291f53ce90a36694130d62854c97",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "PAGE_ORDER",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-sc-custom-pleading",
       "superseded": false
     },

@@ -158,7 +158,21 @@ const STATES = [
   "BUILT_RASTER_PENDING",
   "PASS_COMPLETE", "VERIFY_PENDING", "VERIFYING", "FAIL_REPAIR_REQUIRED",
   "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING",
-  "COMPLETE_PACKET_PROVEN", "LEGITIMATE_GUIDANCE_ONLY"
+  "COMPLETE_PACKET_PROVEN", "LEGITIMATE_GUIDANCE_ONLY",
+  /*
+   * A family whose delivery type the decision owner has refused.
+   *
+   * Every other state in this list answers "how complete is this packet". This
+   * one answers a question none of them can: whether the packet delivers the
+   * right INSTRUMENT at all. South Carolina is the case that forced it -- a
+   * family that passed all fifteen obligations, held a current raster receipt
+   * and sat in COMPLETE_PACKET_PROVEN while shipping a custom pleading on
+   * routes whose approved design calls the solicitor's official form mandatory
+   * and exclusive. Every measurement was right and the artifact was still the
+   * wrong one, which is exactly why proof of completeness cannot be allowed to
+   * answer it.
+   */
+  "WRONG_DELIVERY_TYPE"
 ];
 const STATE_MEANINGS = {
   SOURCE_BLOCKED: "a required source is not held; the conveyor can resolve it",
@@ -433,6 +447,23 @@ try {
     }
   }
 } catch { /* no determinations recorded; every obligation keeps its ordinary meaning */ }
+
+/*
+ * Owner refusals of a family's DELIVERY TYPE.
+ *
+ * These outrank every proof in the factory, and they have to, because they
+ * answer a question no proof addresses. A packet can bind its sources exactly,
+ * render deterministically, pass all fifteen obligations and hold a live raster
+ * receipt while delivering an instrument the route may not use -- and every one
+ * of those measurements stays true. So a refusal here is read before the state
+ * machine reaches any proven state, and no accumulation of evidence overturns
+ * it; only the owner withdrawing the refusal does.
+ */
+const ownerDeliveryTypeRefusals = new Map();
+try {
+  const d = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/legal-decisions/OWNER_DELIVERY_TYPE_DECISIONS.json"), "utf8"));
+  for (const r of d.decisions ?? []) if (r.refused === true && r.familyId) ownerDeliveryTypeRefusals.set(r.familyId, r);
+} catch { /* no owner delivery-type decisions recorded */ }
 
 const laneReturnLegalHolds = new Map();
 try {
@@ -996,7 +1027,12 @@ for (const f of IN.scoreboard.familiesDetail) {
   /* The one state this family is in, decided in a fixed order so a family
    * cannot be counted twice. */
   let state;
-  if (guidanceOnly) state = "LEGITIMATE_GUIDANCE_ONLY";
+  /* An owner refusal of the delivery type is read first, above even the
+   * guidance branch: the question "may this route deliver this instrument"
+   * precedes every question about how good the instrument is. */
+  const deliveryTypeRefusal = ownerDeliveryTypeRefusals.get(familyId) ?? null;
+  if (deliveryTypeRefusal) state = "WRONG_DELIVERY_TYPE";
+  else if (guidanceOnly) state = "LEGITIMATE_GUIDANCE_ONLY";
   /*
    * A returned verdict outranks an active-owner claim.
    *
@@ -1118,6 +1154,19 @@ for (const f of IN.scoreboard.familiesDetail) {
     sourceReadiness: readiness,
     rasterEnrolmentRefusal: rasterNotEligible.get(familyId) ?? null,
     legalInputStatus: legalBlocked ? "OPEN_LEGAL_INPUT" : "SETTLED",
+    /* Carried on the row so a reader sees the refusal and its grounds where the
+     * state is, rather than having to know a separate decision file exists. */
+    ownerDeliveryTypeRefusal: deliveryTypeRefusal
+      ? {
+          decisionId: deliveryTypeRefusal.decisionId,
+          decidedOn: deliveryTypeRefusal.decidedOn,
+          decisionOwner: deliveryTypeRefusal.decisionOwner,
+          decision: deliveryTypeRefusal.decision,
+          consequences: deliveryTypeRefusal.consequences ?? [],
+          commercialEligibility: "REMOVED",
+          checkout: "DISABLED"
+        }
+      : null,
     /* Where the hold came from, so a reader can tell a counsel-queue route key
      * from a lane that tried to build the family and hit a legal wall. */
     legalInputBasis: laneHold ? "LANE_RETURN_BLOCKED_LEGAL_INPUT"
