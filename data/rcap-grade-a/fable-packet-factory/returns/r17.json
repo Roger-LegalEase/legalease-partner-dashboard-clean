@@ -1,0 +1,318 @@
+{
+  "schemaVersion": "rcap-fable-repair-return/v1",
+  "returnId": "R17",
+  "worker": "FABLE-R17",
+  "role": "repair",
+  "baseSha": "66f9f505ace2a155d1736f8a9442afb70e8f9d12",
+  "branch": "fable/r17",
+  "grantSet": "e959fe0f1e6ec8ab",
+  "familiesAssigned": 7,
+  "familiesRepaired": 7,
+  "familiesStopped": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "promotionsMade": 0,
+  "grantsNothing": "This is a repair record. It promotes no family, opens no route and verifies nothing. Every family below is released and awaits an independent read.",
+  "selfVerification": "None. This worker built and repaired these seven families and scored none of them. The only gate run here is scripts/rcap-packet-completeness/verify-packet-completeness.mjs, which is a mechanical counter run, recorded before and after; it is not a verdict.",
+
+  "environment": {
+    "corpus": "Master Library mounted at /home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 and symlinked to the gitignored private/source-imports/ path the AR and WV hosts read directly. MASTER_LIBRARY_SOURCE_DIR was set for the UT host, which reads the env var instead.",
+    "corpusMounted": true,
+    "everyBuildRanAgainstHeldBytes": true,
+    "noFactoryGeneratorWasRun": true,
+    "filesNeverWritten": [
+      "any vf*/rows.json",
+      "VERIFIER_RETURNS.json",
+      "MASTER_QUEUE.json",
+      "RASTER_QUEUE.json",
+      "ACTIVE_ASSIGNMENTS.json",
+      "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json"
+    ]
+  },
+
+  "rasterOwed": {
+    "summary": "NONE, for all seven families. Not one fixture PDF byte moved on any of them. Every change is participant-instructions.md, build-findings.json or production-field-map.json; the canonical and boundary fixtures rebuild to the SHA-256 they already carried, so every pinned raster receipt stands untouched.",
+    "fixtureHashesUnchangedAcrossAllSevenFamilies": true,
+    "perFamily": {
+      "ut_pet_acquittal-set": null,
+      "ut_pet_conviction-set": null,
+      "ut_pet_dismissed_with_prejudice-set": null,
+      "ar-arrest-seal-set": null,
+      "ar-misdemeanor-dwi-seal-set": null,
+      "wv_conv_multiple_misdemeanors-set": null,
+      "wv_conv_single_misdemeanor-set": null
+    }
+  },
+
+  "families": [
+    {
+      "familyId": "ut_pet_acquittal-set",
+      "lane": "FIX01",
+      "outcome": "REPAIRED",
+      "claim": "CLAIM_OK FIX01 ut_pet_acquittal-set (repair, grant set e959fe0f1e6ec8ab); released on completion",
+      "obligationsInMyBrief": ["FILING_DESTINATION", "SERVICE"],
+      "theBriefWasStaleAndIVerifiedThatRatherThanAssumingIt": {
+        "what": "Both assigned obligations were already satisfied in the committed bytes at my base. The vf02 row that failed them measured a 1,167-byte participant-instructions.md whose only section was 'Required before filing'. The file at 66f9f505a is 6,356 bytes and carries '## Where you file this' -- both BCI and the district court, in sequence, with the 180-day certificate window -- and '## Who must receive a copy, and how', naming the prosecutor, the method and the Self-Help Center on 888-583-0009. That repair landed between the row and my base.",
+        "soWhatDidIRepair": "The A4 defect, which this family carries verbatim and which no lane had scored on it. Its instructions were BYTE-IDENTICAL to ut_pet_conviction-set's and ut_pet_dismissed_with_prejudice-set's (all three SHA-256 d11ba889207735fb413c6ab7d719e194e3a6d3e2a2ca96351e2eca4a5dd319f5), so the same false BCI-fee sentence was in this packet too.",
+        "whatIDidNotDo": "I did not add the manifest-scoped required-before-filing items to this family. REQUIRED_BEFORE_FILING is not among its failed obligations, and the two families that do fail it were scored on exactly that omission. See openForTheCaptain.utahAcquittalPreFilingGap -- the same gap is present here and is recorded rather than repaired."
+      },
+      "defectConfirmed": "participant-instructions.md told the participant, in bold, that 'this packet does not state an amount because BCI sets it per applicant', while page 17 of its own delivered fixtures/canonical.pdf prints 'The application fee is $65.00 and non-refundable' and page 18 prints '$65.00' twice more.",
+      "changed": [
+        "scripts/build-census-v1-ut_pet_acquittal-set.mjs -- config flag statesBciApplicationFee, the rewritten BCI money paragraph, the docstring and the build-findings observation",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/build-findings.json"
+      ],
+      "heldRecordBehindIt": "The $65.00 is printed three times on UT-BCI-EXP-APPLICATION, a bound component of this packet and the stage-one instrument of this route, read here with pdftotext out of the family's own committed canonical.pdf at packet pages 17 and 18. Nothing came from a profile or a sibling.",
+      "completeness": { "before": "PASS_COMPLETE 38/444, nine counters zero", "after": "PASS_COMPLETE 38/444, nine counters zero" },
+      "bytesChanged": { "participantInstructions": true, "fieldMap": false, "fixtures": false }
+    },
+    {
+      "familyId": "ut_pet_conviction-set",
+      "lane": "FIX02",
+      "outcome": "REPAIRED",
+      "claim": "CLAIM_OK FIX02 ut_pet_conviction-set (repair, grant set e959fe0f1e6ec8ab); released on completion",
+      "obligationsRepaired": ["FEE_AND_WAIVER", "REQUIRED_BEFORE_FILING"],
+      "defectConfirmedFromTheBytesNotFromTheReport": {
+        "feeAndWaiver": "Confirmed with pdftotext against the committed fixtures/canonical.pdf. Page 17 prints '4. The application fee is $65.00 and non-refundable.' Page 18 prints 'accompanied by a non-refundable $65.00 application fee' and, on the payment-method block, 'Application fee is $65.00'. The instructions denied that the packet states any BCI amount.",
+        "requiredBeforeFiling": "The committed packet-set manifest for this packetSetId carries two requiredBeforeFiling:true entries that appear nowhere in the 6,356-byte instructions file: the proof that fines, fees, interest and restitution are paid in full (the manifest's own words: 'An unpaid balance defeats the petition and will also defeat the BCI certificate'), and the confirm_answer listing every criminal case in any state including already-expunged ones ('an incomplete list produces a denial rather than a certificate')."
+      },
+      "whatIChanged": {
+        "theFeeParagraph": "Replaced one collapsed refusal with three statements that keep the two BCI money items apart. (1) The application fee is $65.00 and non-refundable, quoted from the packet's own BCI application, with the payment methods the form prints. (2) BCI's own indigency waiver, and the sequencing rule the application prints in capitals -- if you check the indigency box you 'MUST complete the fee waiver form before submitting your application', and BCI will not process the application until it arrives. (3) The per-incident certificate price is STILL refused, and the refusal now says which of the two amounts it applies to. No certificate figure was invented and the certificate paragraph was not deleted, exactly as A4 directs.",
+        "thePreFilingList": "Added a short block after the existing blanks list, marked as items the participant must have IN HAND rather than blanks on paper, carrying the manifest's two entries in the manifest's own terms including both of its consequence sentences."
+      },
+      "heldRecordBehindIt": [
+        "UT-BCI-EXP-APPLICATION as delivered in this family's own canonical.pdf, pages 17-18 -- the $65.00 and the indigency sequencing rule",
+        "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ut_pet_conviction-set, participantActionRequired obtain_document and confirm_answer entries carrying requiredBeforeFiling true"
+      ],
+      "a3Check": "Both facts are keyed to this route at the shortest possible range. Neither comes from a shared Utah fee table; the $65.00 is on the face of a bound component of THIS packet and the manifest entries are keyed to THIS packetSetId. No sibling-route line is in play.",
+      "completeness": { "before": "PASS_COMPLETE 38/444, nine counters zero", "after": "PASS_COMPLETE 38/444, nine counters zero" },
+      "bytesChanged": { "participantInstructions": true, "fieldMap": false, "fixtures": false }
+    },
+    {
+      "familyId": "ut_pet_dismissed_with_prejudice-set",
+      "lane": "FIX03",
+      "outcome": "REPAIRED",
+      "claim": "CLAIM_OK FIX03 ut_pet_dismissed_with_prejudice-set (repair, grant set e959fe0f1e6ec8ab); released on completion",
+      "obligationsRepaired": ["FEE_AND_WAIVER", "REQUIRED_BEFORE_FILING"],
+      "defectConfirmed": "The same false BCI-fee sentence as its two siblings, byte-identical; the same two missing manifest pre-filing items; two further missing items of its own; and a second and more serious fee limb -- the packet directed the participant to pay $150 to the court, $65 to BCI and a per-incident certificate price for a result the repository says arrives free.",
+      "whatIChanged": {
+        "theFeeParagraph": "The same three-part BCI money repair as its sibling.",
+        "theFreeRouteDisclosure": "Added, ahead of nothing and after every amount the packet asks for, a statement that a case dismissed with prejudice is separately eligible for automatic expungement 180 days after the dismissal under Utah Code 77-40a-206 where no appeal was filed; that this route costs nothing and needs no petition, no BCI certificate and no filing fee; and that this petition is the faster paid route to the same result rather than the only one.",
+        "thePreFilingList": "The two shared manifest items, plus this family's own two: the certified copy of the order of dismissal (which carries the dismissal date and states whether the dismissal was with or without prejudice, deciding which track applies) and the paired confirmation of the dismissal date against it."
+      },
+      "heldRecordBehindIt": [
+        "data/record-clearing/legal-design-track-registry.json, track ut_pet_dismissed_with_prejudice: mechanism -- 'The same disposition is separately eligible for automatic expungement 180 days after dismissal under 77-40a-206, so the petition is the faster paid route to the same result and the free route must be disclosed before payment', repeated in waitingPeriods under the condition 'Free alternative'",
+        "the packet-set manifest's requiredBeforeFiling entries for this packetSetId",
+        "UT-BCI-EXP-APPLICATION as delivered, pages 17-18"
+      ],
+      "completeness": { "before": "PASS_COMPLETE 38/444, nine counters zero", "after": "PASS_COMPLETE 38/444, nine counters zero" },
+      "bytesChanged": { "participantInstructions": true, "fieldMap": false, "fixtures": false }
+    },
+    {
+      "familyId": "ar-arrest-seal-set",
+      "lane": "FIX01",
+      "outcome": "REPAIRED",
+      "claim": "CLAIM_OK FIX01 ar-arrest-seal-set (repair, grant set e959fe0f1e6ec8ab); released on completion",
+      "obligationsRepaired": ["FILING_DESTINATION", "REQUIRED_BEFORE_FILING", "SERVICE"],
+      "filingDestination": {
+        "defectConfirmed": "The packet handed the venue back to the participant on a route defined by no charge ever having been filed: 'Write the court that handled the case -- or, for an arrest that was never charged, the court that would have handled it', with a fallback of asking the circuit clerk. The repository answers it.",
+        "heldRecordsIRead": [
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, packetSetId ar-arrest-seal-set: destination.name 'Circuit or district court in the county of arrest', destination.detail 'The county-of-arrest venue rule is separate from the general venue rule.'",
+          "the committed packet-set manifest's file entry: 'File the ACIC arrest petition and order pair in the circuit or district court in the county of arrest.'",
+          "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json, named as a requiredSourceId for this route: 'Sealing is filed in the court that handled the case; a person with cases in several courts files in each' and 'Venue is the court that handled the case -- file separately in each county where the person has records.'"
+        ],
+        "whatIWrote": "The petition goes to the circuit or district court in the county of ARREST, stated with the census's own warning that this is not the general venue rule; a direction to check the caption county against the county of the arrest and correct it if they differ; the clerk kept only for the residual circuit-versus-district choice, which genuinely varies by county; and the multi-county rule that one petition does not reach an arrest in another county.",
+        "a3Check": "The profile's 'court that handled the case' line is written for a case that WAS handled and cannot answer a route defined by no charge. The census entry keyed to this exact packetSetId is the route-addressing record, and it is the one the packet now states."
+      },
+      "service": {
+        "defectConfirmed": "'The form sets no separate service deadline: the certificate is part of the petition you file, so service belongs with filing.' True of the form, false of the repository.",
+        "heldRecord": "the committed packet-set manifest's serve_party entry for ar-arrest-seal-set: 'Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.'",
+        "whatIWrote": "The three-day post-filing deadline replaces the no-deadline sentence, and the 30-day objection window is stated. The recipients and the methods were already right and are untouched.",
+        "theConflictIDidNotResolve": "The manifest sets the objection window flatly at 30 days; the compiled profile records it class-dependently for Act 1460 sealing generally as '30 days (misdemeanor) or 90 days (felony)'. Both are held and they are keyed differently, and paragraph 1 of this petition asks the participant for the offence class, so a felony-class arrest can reach this route. I stated the manifest's 30 days as the route-keyed figure and disclosed the profile's longer felony window rather than picking one silently, sending the participant to the clerk of the filing court for which window that court runs. See openForTheCaptain.arkansasObjectionWindow."
+      },
+      "requiredBeforeFiling": {
+        "defectConfirmed": "The manifest's first two requiredBeforeFiling:true entries appeared nowhere in the 13,116-byte instructions. The word 'fingerprint' did not occur once, on a route whose manifest says the card is submitted WITH the petition.",
+        "whatIWrote": "Two new numbered items at the head of 'What you must do before you file': obtain the fingerprint card (with the manifest's own note that LegalEase does not collect them and this packet does not contain one), and obtain the Arkansas criminal history via the ACIC Authorization for Review of Criminal History Information, checking the arrest details against it. The list was renumbered and the service step now carries the three-day deadline."
+      },
+      "completeness": { "before": "PASS_COMPLETE 15/66, nine counters zero", "after": "PASS_COMPLETE 15/66, nine counters zero" },
+      "bytesChanged": { "participantInstructions": true, "fieldMap": false, "fixtures": false }
+    },
+    {
+      "familyId": "ar-misdemeanor-dwi-seal-set",
+      "lane": "FIX02",
+      "outcome": "REPAIRED",
+      "claim": "CLAIM_OK FIX02 ar-misdemeanor-dwi-seal-set (repair, grant set e959fe0f1e6ec8ab); released on completion",
+      "obligationsRepaired": ["COMPONENT_SET", "SERVICE"],
+      "componentSet": {
+        "defectConfirmed": "Reproduced here before touching anything: verify-packet-completeness.mjs returned FAIL_COMPONENT_SET at 0/0 written, auditable:false, 'the field map uses a schema this verifier does not read; it is refused rather than read as empty'. readFieldRows() accepts four shapes and this family's production-field-map.json emitted none of them -- its documents carry writeBoxes, withheldBeforeTheFactory, roleRefusals, refusedByTheFactory and protectedRulesHandedToTheFactory -- so `shape` stayed null and the reader early-returned before counting anything.",
+        "aSecondDefectIFoundWhileFixingTheFirst": "The family's own disposition arrays covered only PART of its census. The petition census has 30 blanks and 20 carried a stated disposition; the order has 19 and 10 carried one. The remaining 19 were reachable only as anchor LABELS in refusedByTheFactory, which is not a per-blank disposition at all. Publishing the contract's schema over the old arrays alone would have published that gap; the emitter states every census blank exactly once instead.",
+        "whatIChose": "The first of the two repairs the verifier named -- emit this family's dispositions in documents[].fields[] with a decision word, which is one of the shapes the contract already reads and which the sibling ar-arrest-seal-set already emits. I did NOT extend readFieldRows(); that is a shared-contract change touching every family with this shape and is not this family's owned path.",
+        "howItWasBuilt": "A per-document `completeness` policy block keyed by blankId, mirroring ar-arrest-seal-set's, plus completenessFields() which walks census.blanks and emits one row per blank: decision 'write' where the canonical proof found ink at the measured rectangle, 'refuse' otherwise, carrying the policy's reason and either a closed-vocabulary refusalClass or requiredBeforeFiling:true. Every existing array is kept beside it unchanged so the two channels can be compared rather than trusted. Nothing new was decided: each disposition restates a refusal the family already made or a role the census already records.",
+        "twoIterationsTheContractForcedAndTheyWereBothRight": [
+          "The name blank in 'Comes the Defendant/Petitioner, ____, under oath and states' was first declared participant_sworn_narrative_or_legal_election. The contract refused it -- that class may not excuse a PARTICIPANT_IDENTITY field -- and it was right. It is now signature_or_date_participant_completion, which is what it actually is: written in front of the notary in the same act as the signature beneath it.",
+          "Two of the three arrest-date components were declared required-before-filing but their printed captions were not quoted in participant-instructions.md, so the disclosure gate caught them as facts nobody asks the participant for. The instructions table now quotes both printed lines verbatim and explains why the year blank's caption reads like part of the charge sentence -- it starts the next printed line."
+        ],
+        "result": "FAIL_COMPONENT_SET 0/0 auditable:false -> PASS_COMPLETE 8/49 written, all nine counters zero. The family can now be audited at all, which is the point."
+      },
+      "service": {
+        "defectConfirmed": "Same sentence as its Arkansas sibling: 'The form sets no separate service deadline: the certificate is part of the petition you file, so service belongs with filing.'",
+        "heldRecord": "the committed packet-set manifest's serve_party entry for ar-misdemeanor-dwi-seal-set: 'Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.'",
+        "whatIWrote": "The three-day deadline and the 30-day objection window. Here the profile's class-dependent rule does NOT conflict: this packet is a misdemeanour DWI or BWI conviction, so the profile's 30-day misdemeanour limb and the manifest's flat 30 days agree, and the instruction says so. Recipients and methods were already right and are untouched."
+      },
+      "completeness": { "before": "FAIL_COMPONENT_SET 0/0 written, auditable false", "after": "PASS_COMPLETE 8/49 written, nine counters zero" },
+      "bytesChanged": { "participantInstructions": true, "fieldMap": true, "fixtures": false }
+    },
+    {
+      "familyId": "wv_conv_multiple_misdemeanors-set",
+      "lane": "FIX01",
+      "outcome": "REPAIRED",
+      "claim": "CLAIM_OK FIX01 wv_conv_multiple_misdemeanors-set (repair, grant set e959fe0f1e6ec8ab); released on completion",
+      "obligationsRepaired": ["REQUIRED_BEFORE_FILING"],
+      "defectConfirmedAgainstTheFieldMapItself": "The instructions bullet named all four of paragraph c's eligibility-date blanks and asked the participant to supply 'the correct date for the selected statutory route'. I read this family's committed production-field-map.json: canonicalRefusals declares MultipleFelonyCompletionDate with category required_before_filing, and declares MultipleFelonyCB's three alternates -- SingleFelonyCompletionDate, SingleFelonySatisfiesDate and MulitipleFelonlySatisfiesDate -- with category not_applicable_on_this_route and the reason 'Never a filing fact on this route: multiple-misdemeanor standard waiting-period route selects MultipleFelonyCB, not this alternate eligibility branch.' canonicalWrites carries MultipleFelonyCB, so the packet had already made the election it was asking the participant to make.",
+      "whichOneIsWrong": "The instructions. The field map is correct and I did not change it. The packet marks one branch on paper, the map declares exactly the one date that branch needs, and the completeness contract's own REQUIRED_BEFORE_FILING conditions forbid the prose that contradicted them: 'an election the route determines may never be required-before-filing. A packet built for one statutory route must state which route it is, rather than asking the participant.'",
+      "whatIWrote": "One field, named per family from FAMILY_SPECS; the branch the packet ticked identified as the second of paragraph c's four and quoted from the form's own printed sentence so the participant can find the line on paper; a direction to leave the other three blank, with the map's reason; the clock the date measures, taken from the packet-set manifest's file entry -- two years from the later of the last conviction, release from incarceration and completion of the supervision ordered for that last conviction; and a parenthesis saying the bracketed name is the WVSCA's internal PDF field name, printed nowhere on SCA-C906, which is why it says 'Felony' on a misdemeanour-only petition.",
+      "heldRecordBehindIt": [
+        "this family's own committed production-field-map.json",
+        "the printed text of paragraph c of SCA-C906, extracted from the delivered canonical.pdf",
+        "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId wv_conv_multiple_misdemeanors-set, participantActionRequired file entry"
+      ],
+      "notRepairedBecauseNotTheDefect": "The misspelling 'MulitipleFelonlySatisfiesDate' is the West Virginia Supreme Court of Appeals' own AcroForm field name. It is no longer shown to a participant of this family, since only MultipleFelonyCompletionDate is now named.",
+      "completeness": { "before": "PASS_COMPLETE 26/89, nine counters zero", "after": "PASS_COMPLETE 26/89, nine counters zero" },
+      "bytesChanged": { "participantInstructions": true, "fieldMap": false, "fixtures": false }
+    },
+    {
+      "familyId": "wv_conv_single_misdemeanor-set",
+      "lane": "FIX02",
+      "outcome": "REPAIRED",
+      "claim": "CLAIM_OK FIX02 wv_conv_single_misdemeanor-set (repair, grant set e959fe0f1e6ec8ab); released on completion",
+      "obligationsRepaired": ["REQUIRED_BEFORE_FILING"],
+      "defectConfirmedAgainstTheFieldMapItself": "The same bullet, the same four names. This family's field map declares SingleFelonyCompletionDate required_before_filing and refuses the other three with 'Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch.' canonicalWrites carries SingleFelonyCB.",
+      "whatIWrote": "The same shared repair, resolved per family: SingleFelonyCompletionDate, the FIRST of paragraph c's four branches quoted verbatim, and the manifest's clock -- one year from the later of the conviction, release from incarceration and completion of supervision.",
+      "completeness": { "before": "PASS_COMPLETE 21/166, nine counters zero", "after": "PASS_COMPLETE 21/166, nine counters zero" },
+      "bytesChanged": { "participantInstructions": true, "fieldMap": false, "fixtures": false }
+    }
+  ],
+
+  "controlsAndProofs": {
+    "method": "Every repair went through the owning build script. No generated file was hand-edited. On each host touched, an unrelated family was rebuilt as a control and had to produce NO diff, and each repaired family was built twice and its outputs hashed both times.",
+    "controls": [
+      {
+        "host": "scripts/build-census-v1-ut_pet_acquittal-set.mjs (shared by seven Utah families)",
+        "controlsRebuilt": ["ut_pet_traffic-set", "ut_pet_limitations-set"],
+        "result": "NO DIFF. ut_pet_traffic-set is gated out of the changed paragraph by !config.traffic; ut_pet_limitations-set is non-traffic and shares the paragraph, and rebuilt byte-identical because both changes are gated on per-family flags. That is the control that matters here -- it proves the edit did not leak into families this lane holds no claim on.",
+        "alsoRebuiltCleanBeforeAnyEdit": "ut_pet_conviction-set reproduced its committed bytes exactly at base, so the host was known reproducible before I changed it."
+      },
+      {
+        "host": "scripts/build-census-v1-ar-arrest-seal-set.mjs",
+        "controlRebuilt": "ar-misdemeanor-dwi-seal-set (separate host, rebuilt after the arrest-seal edit and before its own)",
+        "result": "NO DIFF"
+      },
+      {
+        "host": "scripts/build-census-v1-ar-misdemeanor-dwi-seal-set.mjs",
+        "controlRebuilt": "ar-arrest-seal-set (rebuilt again after the DWI edits)",
+        "result": "NO DIFF beyond its own already-recorded repair; its completeness stayed PASS_COMPLETE 15/66 with nine counters zero"
+      },
+      {
+        "host": "scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs (hosts both WV families)",
+        "controlRebuilt": "ne-setaside-custodial-set",
+        "result": "NO DIFF, and its completeness stayed PASS_COMPLETE 5/173 with nine counters zero",
+        "note": "The cohort file records ne-setaside-custodial-set as these two families' sharedBuildHost. It is not: the WV host is build-census-v1-wv_conv_multiple_misdemeanors-set.mjs and the single-misdemeanour script is a four-line wrapper importing runWvFamily from it. Rebuilding ne-setaside-custodial-set is therefore a control rather than a sibling, and it produced no diff."
+      }
+    ],
+    "doubleBuilds": [
+      { "families": ["ut_pet_acquittal-set", "ut_pet_conviction-set", "ut_pet_dismissed_with_prejudice-set"], "result": "IDENTICAL on the second build -- participant-instructions.md and fixtures/canonical.pdf hashed both times and equal" },
+      { "families": ["ar-arrest-seal-set"], "result": "IDENTICAL -- instructions and all four fixture PDFs" },
+      { "families": ["ar-misdemeanor-dwi-seal-set"], "result": "IDENTICAL -- instructions, production-field-map.json and all four fixture PDFs" },
+      { "families": ["wv_conv_single_misdemeanor-set", "wv_conv_multiple_misdemeanors-set"], "result": "IDENTICAL -- instructions and both families' canonical and boundary fixtures" }
+    ],
+    "completenessBeforeAndAfter": {
+      "ut_pet_acquittal-set": { "before": "PASS_COMPLETE 38/444", "after": "PASS_COMPLETE 38/444" },
+      "ut_pet_conviction-set": { "before": "PASS_COMPLETE 38/444", "after": "PASS_COMPLETE 38/444" },
+      "ut_pet_dismissed_with_prejudice-set": { "before": "PASS_COMPLETE 38/444", "after": "PASS_COMPLETE 38/444" },
+      "ar-arrest-seal-set": { "before": "PASS_COMPLETE 15/66", "after": "PASS_COMPLETE 15/66" },
+      "ar-misdemeanor-dwi-seal-set": { "before": "FAIL_COMPONENT_SET 0/0, auditable false", "after": "PASS_COMPLETE 8/49" },
+      "wv_conv_multiple_misdemeanors-set": { "before": "PASS_COMPLETE 26/89", "after": "PASS_COMPLETE 26/89" },
+      "wv_conv_single_misdemeanor-set": { "before": "PASS_COMPLETE 21/166", "after": "PASS_COMPLETE 21/166" },
+      "allNineCountersZeroInEveryAfterRun": true
+    },
+    "fileHashes": {
+      "note": "old is the blob at base 66f9f505a, new is the byte on disk after the second build. No fixture PDF appears in this list because none changed.",
+      "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/participant-instructions.md": { "old": "f256d46187676e783c5d7f5093a398f21d7fabd8c5875162d92a3f24878d62da", "new": "6792d8390ce557e044d3a8aba439496c20d9cf7f049d4a2ecd9c4926df4623a2" },
+      "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/participant-instructions.md": { "old": "ca82f648f50e99cc7e4dae7d1c96510a5e2ce265c2ef6865238887a39814ca7d", "new": "a6c19e2e3a6064db3688e267f2762aed349ff2dfa2cb29f5d27d7f7a39ac6c46" },
+      "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/production-field-map.json": { "old": "8855a16ac3e0fd2c4b78b56735e9f72c3e2affea8b0d196f2a1e190499fa7cbf", "new": "66158c663f831d0074528e6ac27112bb3763790565cbc5984f51096f5af83aa9" },
+      "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md": { "old": "d11ba889207735fb413c6ab7d719e194e3a6d3e2a2ca96351e2eca4a5dd319f5", "new": "cc36d6cfd2cbf534430fcc22b922407bc861c270c94ee04fe8ceb370811dc869" },
+      "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/build-findings.json": { "old": "fccebf5792a138b521c7550f9d22a23a652acbf633b46d65ff13e0727439f8c1", "new": "2561ad12bef2f4563f12eafe956d9c576a3fea445eb3e44328405c9767bed495" },
+      "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/participant-instructions.md": { "old": "d11ba889207735fb413c6ab7d719e194e3a6d3e2a2ca96351e2eca4a5dd319f5", "new": "1e40d146e7b2ad3a1ae1188583d96582adfb17279523cb4415e8959dfa9f3697" },
+      "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/build-findings.json": { "old": "0914096895279d38cd8b04d0f108a2a540ee678943c06957f9b74b8efcb606d8", "new": "4e6f0f7f720dbbfc8d73f82c0969fe892ecb7b216ab2fcbc070155c09ddbb33e" },
+      "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/participant-instructions.md": { "old": "d11ba889207735fb413c6ab7d719e194e3a6d3e2a2ca96351e2eca4a5dd319f5", "new": "332d579373cc7b86440232f05c60e89170f556f789ab3b78ae885b511498cc08" },
+      "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/build-findings.json": { "old": "57449f2306c69a51460fe275caad5f40fe92051b4d57b43ede9290f671b5c7ed", "new": "6bfe4f3c91bfe7910dac10316ea78c8c41e4bdd88c2a24b349e35d14718593d8" },
+      "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/participant-instructions.md": { "old": "a682bbb22cf6cf74b7f77fc70ac7fffac882f636634c8f1e14cd7f640c58f638", "new": "69cd4810f56164e10acbea65b073fb17b3b983010cbf11a1a084ff523700d06a" },
+      "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/participant-instructions.md": { "old": "853f5e76f09298b96c1587bafe91e5dd85a8b3beb6f60312ed6bdde0d72670d5", "new": "7a88fe890fe223ef608ae2f64a45ef3766bf27b7c642835a4760374bb7fb910c" },
+      "scripts/build-census-v1-ar-arrest-seal-set.mjs": { "old": "16b6b37eb388ab4294224fbf316320d5ac184ac2b3db4fb77585ab004457f0c9", "new": "d0d1ca54f45920323a6e3b37a6e11c702de02f9bc84286c4cd7125148a89c1e5" },
+      "scripts/build-census-v1-ar-misdemeanor-dwi-seal-set.mjs": { "old": "d3add3b7e65d0dfde869e4d771b642e05fccacd079cd3f99a14ad3b9f7f50e95", "new": "48a9de66b920c595170acab56c5187685b42dc25cd11c2907c7d87ac111d2702" },
+      "scripts/build-census-v1-ut_pet_acquittal-set.mjs": { "old": "6b7ed21fd07da30ba41a56de674394d06cb4af3295cca30c0c369940997b4d54", "new": "6204bb51c551ee60e8c91a7dcb86119fc299512524496e1961cb3fc538a954a5" },
+      "scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs": { "old": "2cb4b4f313c4bf1f8dfc9083f43821c8df0eb9d60cdb67dfc7a2ded058682c75", "new": "45839daab9359a51e82b8789f27606fda612148a66a49ead538eb674df6bf8c3" }
+    }
+  },
+
+  "recordedNotAnswered": {
+    "westVirginiaIsSilentAboutTheOncePerLifetimeBar": {
+      "whatIChecked": "Both West Virginia families' full participant-instructions.md and the extracted text of both delivered fixtures, searched for '61-11-26(o)', '17C-5-2b', '60A-4-407', 'once', 'only once', 'lifetime' and 'one time'.",
+      "finding": "Neither packet mentions the bar in any form, though both tracks list it as an exclusion.",
+      "whatIsUnsettledAndStaysWithCounsel": "Whether the once-per-lifetime bar reaches these statutes is an unsettled textual question. I did not answer it and this repair does not turn on it.",
+      "whatIsNotUnsettled": "That the packets are silent about an exclusion their own tracks carry. A participant who has already used relief cannot learn from this packet that it may matter.",
+      "whyIDidNotRepairIt": "It is not among either family's failed obligations, and writing anything about the bar's reach would be answering the counsel question rather than recording it. The build script's own docstring already says the § 17C-5-2b limb is deliberately unstated because no held record answers it -- the gap is the silence about the bar existing at all, which is a different thing and is what I am flagging.",
+      "raisedBy": "FABLE-R17; previously recorded by the Captain under DET-FEE-AND-WAIVER-001 amendment A4 alsoRecorded.onceInALifetime"
+    }
+  },
+
+  "openForTheCaptain": {
+    "utahSiblingsCarryTheIdenticalFalseSentence": {
+      "families": ["ut_pet_limitations-set", "ut_pet_dismissed_without_prejudice-set"],
+      "the fact": "Both ship participant-instructions.md whose SHA-256 is d11ba889207735fb413c6ab7d719e194e3a6d3e2a2ca96351e2eca4a5dd319f5 -- byte-identical to the three families I repaired, and therefore carrying the A4 sentence word for word: 'this packet does not state an amount because BCI sets it per applicant', over a delivered BCI application printing $65.00 three times.",
+      "whyIDidNotFixThem": "This lane holds no claim on either, and both currently hold PASS_COMPLETE_INDEPENDENT verdicts resting on that text. Making the change unconditional would have rewritten two unclaimed families and silently invalidated two independent passes. Instead the repair is gated on per-family config flags in the shared host, and both control rebuilds confirmed those two families still reproduce their committed bytes exactly.",
+      "whatTheCaptainMustDecide": "Whether to issue claims so the flags can be set. It is one word per family in CONFIGS in scripts/build-census-v1-ut_pet_acquittal-set.mjs -- statesBciApplicationFee: true -- plus a rebuild. Their present passes rest on a sentence A4 has already condemned.",
+      "alsoCheck": "ut_pet_no_charges-set ships a different instructions file (a49a9b0ea7ec9ddb...) and was not examined for this sentence; ut_pet_traffic-set is out of scope, since the traffic route obtains no BCI certificate and the paragraph never reaches it."
+    },
+    "utahAcquittalPreFilingGap": {
+      "family": "ut_pet_acquittal-set",
+      "the fact": "Its committed packet-set manifest carries requiredBeforeFiling entries the instructions do not state: the paid-in-full bar on fines, fees, interest and restitution; the all-states case list BCI reviews; a certified copy of the judgment of acquittal and the acquittal date checked against it; and -- the money one -- 'Look the case up on My Court Case before paying for anything. Automatic expungement should have occurred 60 days after the acquittal, and a case that has already cleared itself needs no petition.'",
+      "whyIDidNotRepairIt": "REQUIRED_BEFORE_FILING is not among this family's failed obligations. Adding items there would be repairing a defect no verifier has scored on it.",
+      "whyItMattersAnyway": "The last item is the same class of defect as the one I DID repair on ut_pet_dismissed_with_prejudice-set: a free route to the same result that the repository holds and the packet does not disclose before asking for money. If the Captain agrees the shapes match, this family should be re-scored on REQUIRED_BEFORE_FILING and FEE_AND_WAIVER rather than on the stale FILING_DESTINATION and SERVICE row it still carries."
+    },
+    "arkansasObjectionWindow": {
+      "route": "ar-arrest-seal-set, an arrest never charged",
+      "theTwoRecords": [
+        "the committed packet-set manifest, keyed to this packetSetId: 'The prosecuting attorney has 30 days to object.'",
+        "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json, for Act 1460 sealing generally: 'The prosecutor has 30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons.'"
+      ],
+      "whyItIsNotResolvedHere": "Paragraph 1 of this petition asks the participant to tick felony or misdemeanor, so a felony-class arrest reaches this route, and the two records then disagree. The manifest is route-keyed and the profile is scheme-keyed, which under A3 favours the manifest -- but A3 governs whether a record ADDRESSES a route, not which of two addressing records wins when both do. I disclosed both and named the clerk for the residual question rather than choosing silently.",
+      "whatIsAsked": "Either a determination that the route-keyed manifest figure governs and the profile line does not address this pathway, or a counsel question about the felony limb. Until then the packet tells the participant the truth about both, which is verbose but not wrong."
+    },
+    "arkansasCaptionCountyMayBeOnTheWrongFact": {
+      "family": "ar-arrest-seal-set",
+      "the fact": "The caption county is written from matter.county, while the route census and the packet-set manifest both tie venue to the county of ARREST. If those can differ in the platform's data, the prefill is on the wrong fact. I could not settle that from the artifacts and did not change the prefill.",
+      "whatIDidInstead": "The instructions now tell the participant to check the caption county against the county where the arrest happened and correct it before filing if they differ. That protects the participant without pretending to have resolved the data question.",
+      "raisedFirstBy": "the vf12 verifier, which flagged it as a second item for the repairer"
+    },
+    "arkansasQueueRowStillContradictsItself": {
+      "the fact": "ar-arrest-seal-set's own queue row reads SOURCE_IDENTITY_NOT_EXACT with boundCount 0/2 on what the Captain has already recorded as an id-alias mismatch between the census and the corpus index, while the bytes hash exact. Recorded at A4 alsoRecorded.arkansasQueueRow.",
+      "whyIDidNotTouchIt": "MASTER_QUEUE.json is on this lane's never-write list. The row remains wrong and remains what a reader sees."
+    },
+    "componentSetSchemaIsAFleetQuestionNotAFamilyOne": {
+      "the fact": "ar-misdemeanor-dwi-seal-set was refused by the completeness gate purely because readFieldRows() does not read the writeBoxes / withheldBeforeTheFactory shape. I repaired it the way the verifier said this family may -- by also emitting one of the four shapes the contract reads. The underlying asymmetry is unchanged: any other family emitting that shape is still unauditable, and the second repair the verifier named -- extending readFieldRows() -- is a shared-contract change no single family's lane should make.",
+      "whatIsAsked": "Whether the Captain wants a fleet sweep for other families emitting an unread shape, or the reader extended once under a lane that owns the contract."
+    }
+  },
+
+  "stoppedOn": [],
+  "hardRulesObserved": {
+    "noSelfVerification": "true -- every family is released and awaiting an independent read",
+    "noWritesToVerifierOrQueueFiles": true,
+    "noFactoryGeneratorRun": true,
+    "noProductionSupabaseRlsStripeSecretsOrMigrations": true,
+    "noCommercialRouteOpenedNoFamilyPromoted": true,
+    "gitAddNamedPathsOnly": true,
+    "noModelIdentifierInAnyCommittedFile": true
+  }
+}

@@ -34,7 +34,9 @@ The packet has filled only facts already held for this matter. Do not file until
 
 - **Lower-court case number** (`MagCaseNo`): add the Magistrate Court case number, if the conviction began there.
 - **Social Security number** (`PetSocSecno`): add the last four digits requested by SCA-C906.
-- **Eligibility date** (`SingleFelonyCompletionDate`, `MultipleFelonyCompletionDate`, `SingleFelonySatisfiesDate`, or `MulitipleFelonlySatisfiesDate`): add the correct date for the selected statutory route from the sentence/supervision record.
+- **Eligibility date** (`SingleFelonyCompletionDate`) — **one blank, and this packet has already chosen which one.** Paragraph c of SCA-C906 offers four eligibility branches, each with its own "The date of eligibility is: ____" line and its own clock. This packet is built for the single-misdemeanor standard waiting-period route and has marked the **first** of the four: "For the expungement under WV Code §61-11-26 of a single above listed and described misdemeanor conviction or traffic citations(s), one year has passed since the completion of petitioner's sentence and any period of supervision." Write your date on **that** line and leave the other three blank — this packet's field map records the other three eligibility-date blanks as never a filing fact on this route, so a date on any of them contradicts the box that has been ticked. The date to write is the day the clock finished running: one year running from the later of the conviction, your release from any incarceration, and the completion of the supervision ordered. Take it from the sentence and supervision records, and do not estimate it — you are swearing to it.
+
+  (The name in brackets is the internal PDF field name, not a caption: it is not printed anywhere on SCA-C906, and it is the West Virginia Supreme Court of Appeals' own — which is why it says "Felony" on a misdemeanour-only petition. Find the blank by the printed sentence quoted above, not by that name.)
 - **Prior names and aliases** (`PetitionersCurrentName2`): add every prior name or alias. If there are none, state that truthfully.
 - **Address history** (`PetitionersOffenseAddress1`): the current address is prefilled; add every other address from the offense date through today, if any.
 - **Victim information** (`VictimsNames1`, `VictimsNames2`): identify every victim if applicable, or state that no identifiable victim exists if that is true.
@@ -52,7 +54,7 @@ This is a prepared set of official West Virginia forms built for review. It is n
 
 ## Where these directions come from
 
-The filing destination, the fee, the absence of a waiver route for this filing and the service recipients above are each taken from a record committed in this repository, not from anything this packet worked out for itself:
+The filing destination, the fee, the absence of a waiver route for this filing, the eligibility clock and the service recipients above are each taken from a record committed in this repository, not from anything this packet worked out for itself:
 
 - **Committed track registry** — `data/record-clearing/legal-design-track-registry.json`, track `wv_conv_single_misdemeanor`: `destination.name`, `destination.detail`, `venue`, and the packet-set `participantActionRequired` entries `pay_fee`, `apply_fee_waiver`, `serve_party` and `file`.
 - **Committed route obligation census** — `data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json`, route `obligation:track-pathway:WV:wv_conv_single_misdemeanor:eligible-conviction-expungement-under-w-va-code-61-11-26`, which carries the same destination and fee for this exact route.

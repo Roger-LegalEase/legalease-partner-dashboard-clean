@@ -46,14 +46,37 @@ const FAMILY_SPECS = Object.freeze({
     chargeCount: 3,
     routeSelection: "MultipleFelonyCB",
     routeSelectionLabel: "multiple-misdemeanor standard waiting-period route",
-    beforeUnclassifiedBlanks: 128
+    beforeUnclassifiedBlanks: 128,
+    // The ONE eligibility-date blank this route's field map declares required
+    // before filing. The other three are refused on this route with the reason
+    // "Never a filing fact on this route: multiple-misdemeanor standard
+    // waiting-period route selects MultipleFelonyCB, not this alternate
+    // eligibility branch."
+    eligibilityDateField: "MultipleFelonyCompletionDate",
+    eligibilityBranchOrdinal: "second",
+    eligibilityBranchText:
+      "For the expungement under WV Code §61-11-26 of multiple above listed and described misdemeanor "
+      + "convictions or traffic citation(s), two years have passed since any conviction and the completion "
+      + "of petitioner's sentence and any period of supervision.",
+    eligibilityClock:
+      "two years running from the later of your last conviction, your release from any incarceration, and the "
+      + "completion of the supervision ordered for that last conviction"
   },
   "wv_conv_single_misdemeanor-set": {
     directory: "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
     chargeCount: 1,
     routeSelection: "SingleFelonyCB",
     routeSelectionLabel: "single-misdemeanor standard waiting-period route",
-    beforeUnclassifiedBlanks: 272
+    beforeUnclassifiedBlanks: 272,
+    eligibilityDateField: "SingleFelonyCompletionDate",
+    eligibilityBranchOrdinal: "first",
+    eligibilityBranchText:
+      "For the expungement under WV Code §61-11-26 of a single above listed and described misdemeanor "
+      + "conviction or traffic citations(s), one year has passed since the completion of petitioner's "
+      + "sentence and any period of supervision.",
+    eligibilityClock:
+      "one year running from the later of the conviction, your release from any incarceration, and the "
+      + "completion of the supervision ordered"
   }
 });
 
@@ -127,8 +150,32 @@ const INSTRUCTION_BY_FIELD = Object.freeze({
  * Not stated here, and deliberately: whether relief already taken under
  * § 17C-5-2b counts against the once-per-lifetime limit in § 61-11-26(o).
  * No held record answers it, so this packet does not answer it either.
+ *
+ * A later independent read failed both families on REQUIRED_BEFORE_FILING for
+ * one bullet, and the ground needed no amendment: the instructions contradicted
+ * the family's OWN field map. The bullet named all four of paragraph c's
+ * eligibility-date blanks -- SingleFelonyCompletionDate,
+ * MultipleFelonyCompletionDate, SingleFelonySatisfiesDate and
+ * MulitipleFelonlySatisfiesDate -- and asked the participant to pick "the
+ * selected statutory route". The map declares exactly ONE of the four required
+ * before filing per family and refuses the other three in terms: "Never a
+ * filing fact on this route ... not this alternate eligibility branch." The
+ * packet has ALSO already ticked the branch on paragraph c, so the election was
+ * never the participant's to make, and the completeness contract forbids
+ * handing back a route-determined election in exactly these words: "A packet
+ * built for one statutory route must state which route it is, rather than
+ * asking the participant."
+ *
+ * The map is right and the prose was wrong, so the prose was reconciled to the
+ * map: one field, named per family from FAMILY_SPECS, the branch this packet
+ * ticked quoted from the form's own printed sentence so the participant can
+ * find the line on paper, and the clock stated from the packet-set manifest's
+ * file entry. The bracketed name is kept but labelled as the WVSCA's internal
+ * PDF field name -- it is printed nowhere on SCA-C906 and says "Felony" on a
+ * misdemeanour-only petition, which a participant should be told rather than
+ * left to puzzle over.
  */
-const participantInstructions = (familyId, shipsC900, multiCounty) => `# West Virginia conviction packet — where you file it, what it costs, and what you must supply
+const participantInstructions = (familyId, spec, shipsC900, multiCounty) => `# West Virginia conviction packet — where you file it, what it costs, and what you must supply
 
 ## Where you file this
 
@@ -164,7 +211,9 @@ The packet has filled only facts already held for this matter. Do not file until
 
 - **Lower-court case number** (\`MagCaseNo\`): add the Magistrate Court case number, if the conviction began there.
 - **Social Security number** (\`PetSocSecno\`): add the last four digits requested by SCA-C906.
-- **Eligibility date** (\`SingleFelonyCompletionDate\`, \`MultipleFelonyCompletionDate\`, \`SingleFelonySatisfiesDate\`, or \`MulitipleFelonlySatisfiesDate\`): add the correct date for the selected statutory route from the sentence/supervision record.
+- **Eligibility date** (\`${spec.eligibilityDateField}\`) — **one blank, and this packet has already chosen which one.** Paragraph c of SCA-C906 offers four eligibility branches, each with its own "The date of eligibility is: ____" line and its own clock. This packet is built for the ${spec.routeSelectionLabel} and has marked the **${spec.eligibilityBranchOrdinal}** of the four: "${spec.eligibilityBranchText}" Write your date on **that** line and leave the other three blank — this packet's field map records the other three eligibility-date blanks as never a filing fact on this route, so a date on any of them contradicts the box that has been ticked. The date to write is the day the clock finished running: ${spec.eligibilityClock}. Take it from the sentence and supervision records, and do not estimate it — you are swearing to it.
+
+  (The name in brackets is the internal PDF field name, not a caption: it is not printed anywhere on SCA-C906, and it is the West Virginia Supreme Court of Appeals' own — which is why it says "Felony" on a misdemeanour-only petition. Find the blank by the printed sentence quoted above, not by that name.)
 - **Prior names and aliases** (\`PetitionersCurrentName2\`): add every prior name or alias. If there are none, state that truthfully.
 - **Address history** (\`PetitionersOffenseAddress1\`): the current address is prefilled; add every other address from the offense date through today, if any.
 - **Victim information** (\`VictimsNames1\`, \`VictimsNames2\`): identify every victim if applicable, or state that no identifiable victim exists if that is true.
@@ -182,7 +231,7 @@ This is a prepared set of official West Virginia forms built for review. It is n
 
 ## Where these directions come from
 
-The filing destination, the fee, the absence of a waiver route for this filing and the service recipients above are each taken from a record committed in this repository, not from anything this packet worked out for itself:
+The filing destination, the fee, the absence of a waiver route for this filing, the eligibility clock and the service recipients above are each taken from a record committed in this repository, not from anything this packet worked out for itself:
 
 - **Committed track registry** — \`data/record-clearing/legal-design-track-registry.json\`, track \`${familyId.replace(/-set$/, "")}\`: \`destination.name\`, \`destination.detail\`, \`venue\`, and the packet-set \`participantActionRequired\` entries \`pay_fee\`, \`apply_fee_waiver\`, \`serve_party\` and \`file\`.
 - **Committed route obligation census** — \`data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json\`, route \`obligation:track-pathway:WV:${familyId.replace(/-set$/, "")}:eligible-conviction-expungement-under-w-va-code-61-11-26\`, which carries the same destination and fee for this exact route.
@@ -872,6 +921,7 @@ async function repairFamily(familyId) {
     path.join(ROOT, spec.directory, "participant-instructions.md"),
     participantInstructions(
       familyId,
+      spec,
       receipt.documents.some((document) => document.formNumber === "SCA-C900"),
       familyId === "wv_conv_multiple_misdemeanors-set"
     )

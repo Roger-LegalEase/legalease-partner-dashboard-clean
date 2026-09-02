@@ -34,18 +34,47 @@ const RASTER_DPI = 72;
 const PDFTOPPM = process.env.RCAP_PDFTOPPM || "pdftoppm";
 const WAVE_ROWS = "data/rcap-grade-a/wave-2/p1-ut-petition-expunge-completeness/rows.json";
 
+/**
+ * Two flags carry the DET-FEE-AND-WAIVER-001 amendment A4 repair.
+ *
+ * `statesBciApplicationFee` replaces the sentence A4 condemns -- the packet
+ * telling the participant in bold that it "does not state an amount because BCI
+ * sets it per applicant" while its own delivered canonical PDF prints $65.00
+ * three times. A4 calls that a rule of internal consistency rather than an
+ * obligation-scoping question: a packet may never tell a participant that it
+ * does not state something it does state.
+ *
+ * `statesManifestPreFilingItems` adds the requiredBeforeFiling items the
+ * family's own committed packet-set manifest holds and the delivered
+ * instructions omit. It is set only on the two families independently scored
+ * FAIL on REQUIRED_BEFORE_FILING for exactly that omission.
+ *
+ * WHY THESE ARE FLAGS AND NOT UNCONDITIONAL. Only the flagged families are
+ * claimed by this repair. The defect is NOT narrower than the flag:
+ * ut_pet_limitations-set and ut_pet_dismissed_without_prejudice-set ship
+ * participant-instructions.md bytes IDENTICAL to these three (SHA-256
+ * d11ba889207735fb413c6ab7d719e194e3a6d3e2a2ca96351e2eca4a5dd319f5), so they
+ * carry the same false BCI-fee sentence word for word -- and both currently
+ * hold PASS_COMPLETE_INDEPENDENT verdicts resting on that text. Setting the
+ * flag unconditionally would rewrite two families this lane holds no claim on
+ * and would silently invalidate two independent passes. Extending the repair is
+ * one word per family once each is claimed, and it should happen: the sentence
+ * is as false there as it is here.
+ */
 const CONFIGS = Object.freeze({
   "ut_pet_acquittal-set": {
     slug: "ut-pet-acquittal-set", traffic: false, routeKind: "case",
-    chargeLabel: "Acquitted charge"
+    chargeLabel: "Acquitted charge", statesBciApplicationFee: true
   },
   "ut_pet_conviction-set": {
     slug: "ut-pet-conviction-set", traffic: false, routeKind: "case",
-    chargeLabel: "Eligible conviction"
+    chargeLabel: "Eligible conviction",
+    statesBciApplicationFee: true, statesManifestPreFilingItems: true
   },
   "ut_pet_dismissed_with_prejudice-set": {
     slug: "ut-pet-dismissed-with-prejudice-set", traffic: false, routeKind: "case",
-    chargeLabel: "Charge dismissed with prejudice"
+    chargeLabel: "Charge dismissed with prejudice", dismissedWithPrejudice: true,
+    statesBciApplicationFee: true, statesManifestPreFilingItems: true
   },
   "ut_pet_dismissed_without_prejudice-set": {
     slug: "ut-pet-dismissed-without-prejudice-set", traffic: false, routeKind: "case",
@@ -976,10 +1005,22 @@ async function rasterPacket(file, outDirRel) {
  * None of the three needed inventing. Utah publishes all of them and the bytes
  * are held: the cover sheet prints the fee, the BCI applicant instructions name
  * the court step and the prosecutor service step, and 1305GE is the waiver
- * motion. Where Utah's own publications stop -- the BCI certificate fee, which
- * BCI sets per applicant in its own letter -- the instruction stops with them
- * and names the office that answers it, rather than guessing an amount a
- * participant would pay.
+ * motion.
+ *
+ * A later independent read found the money paragraph still wrong, in the
+ * opposite direction. It said in bold that the packet "does not state an amount
+ * because BCI sets it per applicant" -- while the BCI application this packet
+ * DELIVERS prints "$65.00" three times. Two BCI amounts had been collapsed into
+ * one refusal: the $65.00 application fee, which is flat, printed and held, and
+ * the per-incident certificate price, which genuinely is set per applicant in
+ * BCI's letter. Refusing the second never licensed denying the first, and a
+ * reader told the packet states no amount who then finds $65.00 on the form
+ * they must submit cannot tell what they have missed. The instruction now
+ * states the $65.00, states BCI's own indigency waiver and the sequencing rule
+ * the application prints ("you MUST complete the fee waiver form before
+ * submitting your application"), and keeps the honest refusal for the
+ * certificate price -- which is still not guessed.
+ * See DET-FEE-AND-WAIVER-001 amendment A4.
  */
 function participantInstructions(config, authorities) {
   const items = REQUIRED_BEFORE_FILING.filter((item) => {
@@ -1009,8 +1050,25 @@ function participantInstructions(config, authorities) {
   out.push("## What it costs, and how to ask for a waiver", "");
   out.push("**The court filing fee is $150.** The district court cover sheet in this packet (1044XX, page 2) prints the row `$150 [ ] Expungement Petition - Criminal (E)`, and this packet has already selected that row for you.", "");
   out.push("**If you cannot pay it, Utah has a waiver route for exactly this filing.** It is the *Motion to Waive Fees for Expungement – Criminal*, Utah court form **1305GE**, brought under Utah Code 78A-2-302 and Code of Judicial Administration Rule 4-508. That form is not included in this review fixture; ask the clerk of the court named above for it, or get it from the Utah State Courts self-help forms for expungement. It asks you to name the filing fee amount from the cover sheet and to say why you qualify.", "");
-  if (!config.traffic) {
+  if (!config.traffic && config.statesBciApplicationFee) {
+    // Two BCI money items, and the packet used to deny both by refusing one.
+    // The $65.00 application fee is printed three times on the BCI application
+    // this packet delivers; the per-incident certificate price is genuinely set
+    // per applicant in BCI's letter. Refusing the second never licensed denying
+    // the first (DET-FEE-AND-WAIVER-001 amendment A4).
+    out.push("**BCI charges two separate amounts. They are not the same thing, and only one of them is fixed.**", "");
+    out.push("**The BCI application fee is $65.00, and it is non-refundable.** It is printed on the BCI *Application for Certificate of Eligibility* included in this packet: \"The application fee is $65.00 and non-refundable\", and again on the payment block, \"Application fee is $65.00\". Your application will not be processed unless it arrives with that fee. Checks and money orders are payable to \"BCI\"; the application also takes Visa, MasterCard, Discover or AMEX; cash is accepted only if you apply in person, and the form says in capitals not to send cash in the mail.", "");
+    out.push("**If you cannot pay the $65.00, BCI has its own waiver and you must complete it before you apply.** The application's own instructions are explicit: if you check the box saying you believe you are indigent, you \"MUST complete the fee waiver form before submitting your application\", and BCI will not process the application until the completed waiver form arrives with it. BCI publishes the form and separate *Indigent Expungement Applicant Instructions* at bci.utah.gov/expungements, and returns your waiver form to you with your certificates if you are eligible.", "");
+    out.push("**The certificates themselves cost more than the application, and this packet does not state that amount because BCI sets it per applicant.** A certificate must be purchased for each eligible incident you want expunged, and BCI's instructions tell you to \"pay all associated fees as indicated in the BCI letter\" — that letter is where your own certificate price appears. Ask the Bureau of Criminal Identification what your certificates will cost. Do not assume the court's $150 waiver covers either BCI amount: the court and BCI are two different offices with two different waivers.", "");
+  } else if (!config.traffic) {
     out.push("**The BCI certificate carries a separate fee, and this packet does not state an amount because BCI sets it per applicant.** BCI's instructions tell you to \"pay all associated fees as indicated in the BCI letter\", and a certificate must be purchased for each eligible incident you want expunged. BCI publishes separate *Indigent Expungement Applicant Instructions* under which BCI sends a fee waiver together with the certificate list. Ask the Bureau of Criminal Identification what your certificates cost and whether you qualify for its fee waiver; do not assume the court's $150 waiver covers BCI's fee, because they are two different offices.", "");
+  }
+  if (config.dismissedWithPrejudice) {
+    // The committed track registry for this route: "The same disposition is
+    // separately eligible for automatic expungement 180 days after dismissal
+    // under 77-40a-206, so the petition is the faster paid route to the same
+    // result and the free route must be disclosed before payment."
+    out.push("**Before you pay any of this, know that there is a free route to the same result.** A case dismissed with prejudice is separately eligible for **automatic expungement 180 days after the dismissal** under Utah Code 77-40a-206, where no appeal was filed. That route costs nothing and needs no petition, no BCI certificate and no filing fee. This petition is the *faster* paid route to the same result, not the only one. If you are not in a hurry, waiting out the 180 days is free.", "");
   }
 
   out.push("## Who must receive a copy, and how", "");
@@ -1026,6 +1084,22 @@ function participantInstructions(config, authorities) {
   out.push("## The facts you must supply before filing", "");
   out.push("This review fixture deliberately leaves the following facts or acts blank. Supply them from your own records or complete them when the named event occurs; do not guess.", "");
   out.push(...items.map((item) => `- ${item}`), "");
+
+  if (config.statesManifestPreFilingItems) {
+    // The list above is scoped to blanks on paper. The committed packet-set
+    // manifest's requiredBeforeFiling entries are scoped to what the
+    // participant must have IN HAND, and the difference includes a money bar
+    // the manifest says defeats the petition. Every item below is quoted from
+    // this family's own manifest entry; nothing here is inferred.
+    out.push("**You must also have these in hand before you file. They are not blanks on the forms, and the packet cannot fill them for you.**", "");
+    out.push("- **Proof that fines, fees, interest and restitution on this case are paid in full.** Ask the clerk of the sentencing court for a current balance on the case, and check with the Office of State Debt Collection if any balance was entered as a civil judgment and transferred to it. **An unpaid balance defeats the petition, and it will also defeat the BCI certificate.** Check that against your own answer that everything is paid, and correct the packet if they disagree.");
+    out.push("- **A complete list of every criminal case you have ever had, in any state, including cases that were already expunged.** Assemble it before you apply to BCI. BCI assesses eligibility against your total criminal history in all states, previously expunged cases included, so **an incomplete list produces a denial rather than a certificate.** Court clerks in each jurisdiction and the state criminal-history repositories are where the missing pieces come from.");
+    if (config.dismissedWithPrejudice) {
+      out.push("- **A certified copy of the order of dismissal.** Ask the clerk of the court that handled the case. It carries the dismissal date and states whether the dismissal was with or without prejudice — which decides which track applies, and this packet is built for the *with prejudice* track.");
+      out.push("- **The dismissal date, checked against that certified copy.** Correct the packet if the date you gave and the date on the order disagree.");
+    }
+    out.push("");
+  }
 
   out.push("Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected.", "");
 
@@ -1188,6 +1262,9 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
       "Genuinely missing facts are surfaced in participant-instructions.md as required before filing.",
       "Signatures, signature dates, service acts, and court/agency/prosecutor/victim fields remain protected.",
       "The filing destination, the $150 court fee, the 1305GE waiver route and the prosecutor service step are stated in participant-instructions.md and quoted from the cited held publications, each re-hashed against the committed corpus index on this build.",
+      ...(config.statesBciApplicationFee ? ["The BCI application fee of $65.00, and BCI's own indigency waiver and its before-you-apply sequencing rule, are stated in participant-instructions.md and quoted from the BCI Application for Certificate of Eligibility this packet delivers. The per-incident certificate price is still refused rather than guessed, and the refusal now says which of the two BCI amounts it applies to (DET-FEE-AND-WAIVER-001 amendment A4)."] : []),
+      ...(config.statesManifestPreFilingItems ? ["The requiredBeforeFiling items this family's committed packet-set manifest holds and the earlier instructions omitted - the paid-in-full bar on fines, fees, interest and restitution, and the all-states case list BCI reviews - are stated in participant-instructions.md, quoted from that manifest."] : []),
+      ...(config.dismissedWithPrejudice ? ["The free alternative the committed track registry says must be disclosed before payment - automatic expungement 180 days after the dismissal under Utah Code 77-40a-206 - is stated in participant-instructions.md ahead of every amount the packet asks the participant to pay."] : []),
       "Blanks printed inside the form's own agency-use-only box are protected for the issuing agency rather than asked of the participant.",
       "Independent completeness and visual verification remain pending."
     ]

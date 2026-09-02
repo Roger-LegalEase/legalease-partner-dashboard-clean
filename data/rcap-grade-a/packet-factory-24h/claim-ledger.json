@@ -258,8 +258,8 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T05:32:17.133Z"
     },
     {
       "subjectType": "packet-family",
@@ -288,8 +288,8 @@
       "operation": "rapid-repair",
       "lane": "FIX02",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T05:32:24.638Z"
     },
     {
       "subjectType": "packet-family",
@@ -3378,8 +3378,8 @@
       "operation": "rapid-repair",
       "lane": "FIX02",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T05:32:02.968Z"
     },
     {
       "subjectType": "packet-family",
@@ -3408,8 +3408,8 @@
       "operation": "rapid-repair",
       "lane": "FIX03",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T05:32:09.827Z"
     },
     {
       "subjectType": "packet-family",
@@ -4383,8 +4383,8 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T05:32:32.020Z"
     },
     {
       "subjectType": "packet-family",
@@ -4413,8 +4413,8 @@
       "operation": "rapid-repair",
       "lane": "FIX02",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T05:32:39.155Z"
     },
     {
       "subjectType": "packet-family",
@@ -9993,7 +9993,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "09c6064a39f7ba13853321402da256bf0c0fb6ca4166d219d0448f78ae869340",
+  "claimsDigest": "38f10e8c0d73be9e28fe07cd87dd708914e2713d2143a890f6bbd59ebd8688ba",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -15568,6 +15568,62 @@
       "operation": "rapid-repair",
       "laneKind": "repair",
       "releasedAt": "2026-09-02T04:49:06.669Z"
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_acquittal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T05:31:56.256Z"
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T05:32:02.968Z"
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_dismissed_with_prejudice-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T05:32:09.827Z"
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "ar-arrest-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T05:32:17.133Z"
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "ar-misdemeanor-dwi-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T05:32:24.638Z"
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_multiple_misdemeanors-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T05:32:32.020Z"
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_single_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T05:32:39.155Z"
     }
   ],
   "reissues": [
@@ -16510,6 +16566,76 @@
       "previouslyReleasedAt": "2026-09-01T12:45:39.713Z",
       "reissuedAt": "2026-09-02T05:01:36.844Z",
       "reason": "a fresh independent read failed this family AFTER its repair lane released; the state machine's own caveat requires a new repair grant to flip it back to FAIL_REPAIR_REQUIRED — failed obligations: FEE_AND_WAIVER, FILING_DESTINATION, SELF_HELP_STOP, SERVICE"
+    },
+    {
+      "lane": "FIX10",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_cannabis-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T04:43:05.465Z",
+      "reissuedAt": "2026-09-02T05:36:05.948Z",
+      "reason": "restored after the fable/r17 merge: r17 branched before these grants were reissued, so its side recorded the OLD release and the union resolver propagated it onto a grant FABLE-R21 is holding mid-repair"
+    },
+    {
+      "lane": "FIX10",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_homicide_victim_prostitution-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T04:43:05.565Z",
+      "reissuedAt": "2026-09-02T05:36:06.016Z",
+      "reason": "restored after the fable/r17 merge: r17 branched before these grants were reissued, so its side recorded the OLD release and the union resolver propagated it onto a grant FABLE-R21 is holding mid-repair"
+    },
+    {
+      "lane": "FIX10",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_misdemeanor_ordinary-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T12:42:30.571Z",
+      "reissuedAt": "2026-09-02T05:36:06.083Z",
+      "reason": "restored after the fable/r17 merge: r17 branched before these grants were reissued, so its side recorded the OLD release and the union resolver propagated it onto a grant FABLE-R21 is holding mid-repair"
+    },
+    {
+      "lane": "FIX10",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_substance_use_disorder-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T12:43:51.973Z",
+      "reissuedAt": "2026-09-02T05:36:06.156Z",
+      "reason": "restored after the fable/r17 merge: r17 branched before these grants were reissued, so its side recorded the OLD release and the union resolver propagated it onto a grant FABLE-R21 is holding mid-repair"
+    },
+    {
+      "lane": "FIX10",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_survivor_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T12:46:38.353Z",
+      "reissuedAt": "2026-09-02T05:36:06.229Z",
+      "reason": "restored after the fable/r17 merge: r17 branched before these grants were reissued, so its side recorded the OLD release and the union resolver propagated it onto a grant FABLE-R21 is holding mid-repair"
+    },
+    {
+      "lane": "FIX10",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_survivor_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T12:44:47.274Z",
+      "reissuedAt": "2026-09-02T05:36:06.298Z",
+      "reason": "restored after the fable/r17 merge: r17 branched before these grants were reissued, so its side recorded the OLD release and the union resolver propagated it onto a grant FABLE-R21 is holding mid-repair"
+    },
+    {
+      "lane": "FIX10",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_treaty_fishing-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T12:45:39.713Z",
+      "reissuedAt": "2026-09-02T05:36:06.375Z",
+      "reason": "restored after the fable/r17 merge: r17 branched before these grants were reissued, so its side recorded the OLD release and the union resolver propagated it onto a grant FABLE-R21 is holding mid-repair"
     }
   ],
   "transfers": [
