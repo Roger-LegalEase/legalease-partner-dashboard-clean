@@ -24,7 +24,11 @@ The petition's own Certificate of Service, on page 4, states service in full. Se
 1. **the Prosecuting Attorney for the county in which the petition is filed, or the City Attorney — whichever office prosecuted the case**; and
 2. **the arresting agency**.
 
-The method is on the form: **by placing a copy in the United States mail, postage prepaid, or by hand delivering a copy** to each office. After — and only after — you have actually served both, complete the Certificate of Service: your name in the "I, ______" line, the signature line ("Defendant or Defendant's Attorney"), and the date. The platform leaves all of it blank because service has not happened yet, and a signed certificate of a mailing that never occurred is a false statement to the court. The form sets no separate service deadline: the certificate is part of the petition you file, so service belongs with filing.
+The method is on the form: **by placing a copy in the United States mail, postage prepaid, or by hand delivering a copy** to each office. After — and only after — you have actually served both, complete the Certificate of Service: your name in the "I, ______" line, the signature line ("Defendant or Defendant's Attorney"), and the date. The platform leaves all of it blank because service has not happened yet, and a signed certificate of a mailing that never occurred is a false statement to the court.
+
+**Serve within three days of filing.** The form prints no service deadline of its own. That is a fact about the form and not about the rule, and this packet no longer reads the one as the other. The committed packet-set manifest for this packet states the rule: "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object." So the clock starts when you file and it is three days long — file, serve both offices, then complete and sign the Certificate of Service.
+
+**Then the prosecutor has a window to object, and two held records give it different lengths.** The packet-set manifest states it flatly as 30 days. The compiled Arkansas profile states it by offense class: "The prosecutor has 30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons." This route is a MISDEMEANOR DWI or BWI conviction, so on both readings the window is 30 days and there is nothing here to choose between. **Ask the clerk of the court you filed in whether that court applies a different window**, and expect no ruling before it closes. The profile records what follows: if no notice of opposition is filed many courts grant on the papers, and a contested petition goes to a hearing.
 
 ## What you must do before you file
 
@@ -42,7 +46,7 @@ The method is on the form: **by placing a copy in the United States mail, postag
 | Form | Page | The blank | What to write |
 | --- | --- | --- | --- |
 | both | 1 | Caption — court, county, division | the venue of the conviction, copied from its paperwork — see _Where you file this_ |
-| both | 1 | Paragraph 1 — "arrested on the ___ day of ______, ____" | the arrest date, copied from your arrest or court paperwork. The platform holds the date only as a whole and does not split it into these blanks |
+| both | 1 | Paragraph 1 — the arrest date, in three separate blanks. The form prints `1. The Defendant was arrested on the` before the first, `day of` before the second, and `, and charged with the offense(s) of Driving or Boating While` after the third | the day, the month and the year of the arrest, copied from your arrest or court paperwork. The platform holds the date only as a whole and does not split it into these three blanks, so all three are yours to write |
 | petition | 2 | Paragraph 8 — status of pending charge(s), two lines | only if you ticked the second box: the court, case number and current status of each pending felony charge |
 | petition | 2 | Signature and date under the WHEREFORE clause | yours, when you sign |
 | petition | 3 | VERIFICATION — county, your name in the oath sentence, your signature | completed with the notary, at the moment the oath is taken; the jurat, the seal and the commission expiry are the notary's |

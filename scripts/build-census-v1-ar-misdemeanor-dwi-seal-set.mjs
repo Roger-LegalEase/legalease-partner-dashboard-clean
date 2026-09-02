@@ -984,7 +984,11 @@ The petition's own Certificate of Service, on page 4, states service in full. Se
 1. **the Prosecuting Attorney for the county in which the petition is filed, or the City Attorney — whichever office prosecuted the case**; and
 2. **the arresting agency**.
 
-The method is on the form: **by placing a copy in the United States mail, postage prepaid, or by hand delivering a copy** to each office. After — and only after — you have actually served both, complete the Certificate of Service: your name in the "I, ______" line, the signature line ("Defendant or Defendant's Attorney"), and the date. The platform leaves all of it blank because service has not happened yet, and a signed certificate of a mailing that never occurred is a false statement to the court. The form sets no separate service deadline: the certificate is part of the petition you file, so service belongs with filing.
+The method is on the form: **by placing a copy in the United States mail, postage prepaid, or by hand delivering a copy** to each office. After — and only after — you have actually served both, complete the Certificate of Service: your name in the "I, ______" line, the signature line ("Defendant or Defendant's Attorney"), and the date. The platform leaves all of it blank because service has not happened yet, and a signed certificate of a mailing that never occurred is a false statement to the court.
+
+**Serve within three days of filing.** The form prints no service deadline of its own. That is a fact about the form and not about the rule, and this packet no longer reads the one as the other. The committed packet-set manifest for this packet states the rule: "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object." So the clock starts when you file and it is three days long — file, serve both offices, then complete and sign the Certificate of Service.
+
+**Then the prosecutor has a window to object, and two held records give it different lengths.** The packet-set manifest states it flatly as 30 days. The compiled Arkansas profile states it by offense class: "The prosecutor has 30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons." This route is a MISDEMEANOR DWI or BWI conviction, so on both readings the window is 30 days and there is nothing here to choose between. **Ask the clerk of the court you filed in whether that court applies a different window**, and expect no ruling before it closes. The profile records what follows: if no notice of opposition is filed many courts grant on the papers, and a contested petition goes to a hearing.
 
 ## What you must do before you file
 
@@ -1002,7 +1006,7 @@ The method is on the form: **by placing a copy in the United States mail, postag
 | Form | Page | The blank | What to write |
 | --- | --- | --- | --- |
 | both | 1 | Caption — court, county, division | the venue of the conviction, copied from its paperwork — see _Where you file this_ |
-| both | 1 | Paragraph 1 — "arrested on the ___ day of ______, ____" | the arrest date, copied from your arrest or court paperwork. The platform holds the date only as a whole and does not split it into these blanks |
+| both | 1 | Paragraph 1 — the arrest date, in three separate blanks. The form prints \`1. The Defendant was arrested on the\` before the first, \`day of\` before the second, and \`, and charged with the offense(s) of Driving or Boating While\` after the third | the day, the month and the year of the arrest, copied from your arrest or court paperwork. The platform holds the date only as a whole and does not split it into these three blanks, so all three are yours to write |
 | petition | 2 | Paragraph 8 — status of pending charge(s), two lines | only if you ticked the second box: the court, case number and current status of each pending felony charge |
 | petition | 2 | Signature and date under the WHEREFORE clause | yours, when you sign |
 | petition | 3 | VERIFICATION — county, your name in the oath sentence, your signature | completed with the notary, at the moment the oath is taken; the jurat, the seal and the commission expiry are the notary's |
@@ -1047,6 +1051,228 @@ This is a prepared set of official ACIC forms. It is not legal advice, it is not
 
 _Route: obligation:unit:AR:ar-misdemeanor-dwi-seal:ar-misdemeanor-dwi-seal-stage-2 — Ark. Code Ann. § 5-65-111(b)(1)/(c)(1); sealing ordered under A.C.A. § 16-90-1405_
 `;
+}
+
+/*
+ * What each measured blank MEANS to the packet-completeness contract.
+ *
+ * WHY THIS EXISTS. This family's production-field-map.json speaks its own
+ * schema -- writeBoxes, withheldBeforeTheFactory, roleRefusals,
+ * refusedByTheFactory -- and readFieldRows() in
+ * scripts/rcap-packet-completeness/verify-packet-completeness.mjs reads four
+ * shapes, none of them this one. So the canonical gate returned
+ * FAIL_COMPONENT_SET at 0/0 written with auditable:false and the finding "the
+ * field map uses a schema this verifier does not read; it is refused rather
+ * than read as empty". Every component the packet-set manifest declares is in
+ * fact present; what was missing was a channel the contract could read.
+ *
+ * The fix is on the two ends the contract already sanctions: this family emits
+ * its dispositions ALSO in the documents-and-decisions shape, and the shared
+ * contract is not touched. The family's own richer records stay exactly as they
+ * were, because they carry the measurement evidence -- write boxes, geometry
+ * bases, confirmed ink -- that the completeness shape has no room for.
+ *
+ * HOW A DECLARATION IS CHOSEN. Not by prose. Each blank names the closed-
+ * vocabulary refusal class or the explicit requiredBeforeFiling boolean that
+ * classifyBlank() reads, and states why in words that are about THIS blank.
+ * A blank with no entry here is a build failure rather than an unclassified
+ * row, so a form revision that moves a caption stops the build instead of
+ * quietly shipping a blank nobody classified.
+ *
+ * Keyed by document ROLE and printed caption, because a caption means different
+ * things on the two documents: "Date" beneath the petitioner's signature is the
+ * petitioner's to write when they sign, and "Date" beside the judge's signature
+ * on the order is the court's.
+ */
+const COMPLETENESS_DECLARATIONS = Object.freeze({
+  // ---- the caption's court, on both documents -------------------------------
+  "PETITION|IN THE": {
+    requiredBeforeFiling: true,
+    reason: "The type of court -- circuit or district -- in the caption. The platform holds no court fact for this matter and the two ACIC forms serve both courts, so the participant supplies it from the conviction's own paperwork or from the clerk.",
+  },
+  "PETITION|COURT OF": {
+    requiredBeforeFiling: true,
+    reason: "The county in the caption's court line. Supplied by the participant from the conviction's paperwork; the platform holds no venue fact tying this matter to a county court.",
+  },
+  "PETITION|DIVISION": {
+    requiredBeforeFiling: true,
+    reason: "The division of that court, where it has divisions. No held record states whether this court does or which division takes the petition.",
+  },
+  // ---- the arrest date, three separate blanks in one printed sentence -------
+  "PETITION|1. The Defendant was arrested on the": {
+    requiredBeforeFiling: true,
+    reason: "The DAY of the arrest date. The platform holds the arrest date only as a whole and does not hold its day, month and year as separate facts, which is what these three blanks ask for; the participant copies them from the arrest or court paperwork.",
+  },
+  "PETITION|day of": {
+    requiredBeforeFiling: true,
+    reason: "The MONTH of the arrest date, in the same printed sentence and on the same footing.",
+  },
+  "PETITION|, and charged with the offense(s) of Driving or Boating While": {
+    requiredBeforeFiling: true,
+    reason: "The YEAR of the arrest date, in the same printed sentence. Its measured caption is the words that follow it on the line rather than the words before it, which is why it reads as an offence caption; the blank itself takes the year.",
+  },
+  // ---- paragraph 8's two conditional narrative lines ------------------------
+  "PETITION|": {
+    refusalClass: "participant_sworn_narrative_or_legal_election",
+    reason: "One of the two ruled lines under paragraph 8, where a participant who ticks the second box states the court, case number and current status of each pending felony charge. Which box is true is the participant's own sworn statement about their record today, and the lines carry the narrative that follows from it. The form prints no caption beside either line.",
+  },
+  // ---- signature and verification, completed at the moment of signing -------
+  "PETITION|Defendant’s Signa ture": {
+    refusalClass: "signature_or_date_participant_completion",
+    reason: "The petitioner's signature on page 2. Signed by the participant, never prefilled.",
+  },
+  "PETITION|Date": {
+    refusalClass: "signature_or_date_participant_completion",
+    reason: "A date written at the moment of signing -- under the petitioner's signature on page 2, and on the page 4 Certificate of Service. Dating either in advance asserts an act that has not happened.",
+  },
+  "PETITION|COUNTY OF": {
+    refusalClass: "signature_or_date_participant_completion",
+    reason: "The county on the VERIFICATION page's jurat, 'STATE OF ARKANSAS / COUNTY OF ____'. This is the county where the oath is actually taken, which is not the county of the conviction and is not known until the participant stands in front of the notary.",
+  },
+  "PETITION|Comes the Defendant/Petitioner,": {
+    refusalClass: "signature_or_date_participant_completion",
+    reason: "The name in the oath sentence on the VERIFICATION page. It is written as part of taking the oath, with the notary, and a name printed there in advance asserts an oath that has not been sworn.",
+  },
+  "PETITION|Petitioner": {
+    refusalClass: "signature_or_date_participant_completion",
+    reason: "The petitioner's signature rule on the VERIFICATION page, captioned 'Petitioner' beneath it. Signed at the oath.",
+  },
+  // ---- the notary's own block ----------------------------------------------
+  "PETITION|Subscribed and sworn to before me on this": {
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "Part of the notarial certificate. The officer taking the oath completes it, not the participant and not this packet.",
+  },
+  "PETITION|, 20": {
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "A year blank inside the notarial certificate, completed by the officer taking the oath on the day it is taken.",
+  },
+  "PETITION|Notary Public": {
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "The notary's own signature line.",
+  },
+  "PETITION|My Commission expires": {
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "The notary's commission expiry. The notary's fact about the notary.",
+  },
+  // ---- the identification block --------------------------------------------
+  "PETITION|Race": {
+    requiredBeforeFiling: true,
+    reason: "The form states this identification block is required for proper identification of the defendant in the state and national record systems. The platform does not hold, collect or write a participant's race; the participant states it.",
+  },
+  "PETITION|Sex": {
+    requiredBeforeFiling: true,
+    reason: "The same identification block. The platform does not hold it; the participant states it.",
+  },
+  "PETITION|Arrest Tracking Number": {
+    requiredBeforeFiling: true,
+    reason: "The ATN is assigned by Arkansas ACIC when an arrest is processed. It identifies the arrest through a system the platform has no access to, so the participant copies it from their arrest paperwork.",
+  },
+  "PETITION|SID No": {
+    requiredBeforeFiling: true,
+    reason: "The State Identification number, from the participant's arrest paperwork or ACIC criminal-history record. A government identifier the platform never holds or writes.",
+  },
+  "PETITION|FBI No. (If known)": {
+    reason: "The form's own caption says '(If known)'. It is optional participant-authored content and the platform does not invent it; a participant who does not know the number leaves it blank, which the form expressly allows.",
+  },
+  // ---- the certificate of service -------------------------------------------
+  "PETITION|I,": {
+    refusalClass: "signature_or_date_participant_completion",
+    reason: "The certifying party's name in 'I, ____, do hereby certify that a true and correct copy ... has been provided'. It is written only after service has actually occurred, as part of signing the certificate.",
+  },
+  "PETITION|Defendant or Defendant’ s Attorney": {
+    refusalClass: "signature_or_date_participant_completion",
+    reason: "The signature line on the Certificate of Service, signed after service has occurred.",
+  },
+
+  // ---- the proposed order ----------------------------------------------------
+  "PROPOSED_ORDER|IN THE": {
+    requiredBeforeFiling: true,
+    reason: "The type of court in the proposed order's caption, which must match the petition's. Supplied by the participant once the clerk has confirmed which court takes the petition.",
+  },
+  "PROPOSED_ORDER|COURT OF": {
+    requiredBeforeFiling: true,
+    reason: "The county in the proposed order's caption, matching the petition's.",
+  },
+  "PROPOSED_ORDER|DIVISION": {
+    requiredBeforeFiling: true,
+    reason: "The division in the proposed order's caption, where that court has divisions, matching the petition's.",
+  },
+  "PROPOSED_ORDER|1. The Defendant was arrested on the": {
+    requiredBeforeFiling: true,
+    reason: "The DAY of the arrest date in the order's recital of the same sentence. The platform holds the arrest date only as a whole; the participant copies the components across from the petition.",
+  },
+  "PROPOSED_ORDER|day of": {
+    requiredBeforeFiling: true,
+    reason: "The MONTH of the arrest date in the order's recital.",
+  },
+  "PROPOSED_ORDER|, and charged with the offense(s) of Driving or Boating While": {
+    requiredBeforeFiling: true,
+    reason: "The YEAR of the arrest date in the order's recital.",
+  },
+  "PROPOSED_ORDER|": {
+    refusalClass: "participant_sworn_narrative_or_legal_election",
+    reason: "One of the two ruled lines in the order's recital of paragraph 8, matching the petition's. The clerk decides whether the court wants the proposed order's recital blanks completed at all; nothing here is written for the participant.",
+  },
+  "PROPOSED_ORDER|Judge": {
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "The judge's signature line. Court-only.",
+  },
+  "PROPOSED_ORDER|Date": {
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "The date beside the judge's signature. The court dates its own order.",
+  },
+  "PROPOSED_ORDER|Race": {
+    requiredBeforeFiling: true,
+    reason: "The identification block repeated on the order, on the same footing as the petition's: required by the form for identification in the state and national record systems, and never written by the platform.",
+  },
+  "PROPOSED_ORDER|Sex": {
+    requiredBeforeFiling: true,
+    reason: "The identification block repeated on the order. The platform does not hold it.",
+  },
+  "PROPOSED_ORDER|Arrest Tracking Number": {
+    requiredBeforeFiling: true,
+    reason: "The ACIC-assigned arrest identifier, repeated on the order. Copied from the participant's arrest paperwork.",
+  },
+  "PROPOSED_ORDER|SID No": {
+    requiredBeforeFiling: true,
+    reason: "The State Identification number, repeated on the order.",
+  },
+  "PROPOSED_ORDER|FBI No. (If known)": {
+    reason: "The form's own caption says '(If known)'. Optional participant-authored content, and the platform does not invent it.",
+  },
+});
+
+/*
+ * The same dispositions in the shape the packet-completeness contract reads.
+ *
+ * One row per MEASURED blank, so the two totals reconcile: every blank in the
+ * census is either written or refused here, and nothing is added that the
+ * measurement did not find.
+ */
+function completenessFields(doc, census, inkedIds, factByBlankId) {
+  return census.blanks.map((blank) => {
+    if (inkedIds.has(blank.blankId)) {
+      return {
+        field: blank.blankId, decision: "write", page: blank.page,
+        effectiveLabel: blank.caption, factId: factByBlankId.get(blank.blankId) ?? null,
+      };
+    }
+    const key = `${doc.documentRole}|${blank.caption}`;
+    const declared = COMPLETENESS_DECLARATIONS[key];
+    if (!declared) {
+      fail(`${doc.documentId}: no completeness declaration for blank ${blank.blankId} (${key})`,
+        "Every measured blank states what it means to the completeness contract. A blank with no declaration "
+        + "is an unclassified blank, and shipping one is the defect the contract exists to catch.");
+    }
+    return {
+      field: blank.blankId, decision: "refuse", page: blank.page,
+      effectiveLabel: blank.caption, factId: null, reason: declared.reason,
+      ...(declared.refusalClass ? { refusalClass: declared.refusalClass } : {}),
+      ...(declared.requiredBeforeFiling === true
+        ? { requiredBeforeFiling: true, routeDetermined: false }
+        : {}),
+    };
+  });
 }
 
 async function main() {
@@ -1287,6 +1513,14 @@ function writeRecords({ documents, rasters, allFindings }) {
         documentRole: doc.documentRole,
         ownership: doc.ownership,
         captionOnly: doc.captionOnly,
+        // The documents-and-decisions shape the shared packet-completeness
+        // contract reads. Same measurement, same dispositions, second channel;
+        // see COMPLETENESS_DECLARATIONS.
+        fields: completenessFields(doc, census, inked, new Map(
+          fixtures.canonical.report.written
+            .map((w) => [anchors.find((a) => a.label === w.anchor)?.blankId ?? null, w.factId ?? null])
+            .filter(([blankId]) => blankId !== null)
+        )),
         explicitMappings: doc.explicitMappings,
         explicitMappingsNote:
           "Empty on purpose. The only descriptor that would need one here is matter.charge, and neither document "
