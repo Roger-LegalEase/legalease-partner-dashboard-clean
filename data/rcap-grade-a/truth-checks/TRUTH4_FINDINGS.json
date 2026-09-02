@@ -1,0 +1,1091 @@
+{
+  "schemaVersion": "rcap-truth4-findings/v1",
+  "lane": "TRUTH4",
+  "readOnly": true,
+  "note": "Four narrow detectors run read-only across the corpus. No repair, no verdict, no promotion authority. Each section is written by its own detector script.",
+  "baseSha": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+  "corpusRoot": ".",
+  "checks": {
+    "A": {
+      "checkId": "A",
+      "title": "DECLARED DELIVERY ARTIFACT EXISTS",
+      "question": "For every component a family declares as delivered, does the delivery artifact exist on disk, hash to the recorded value, carry the recorded page count, and appear in the assembled packet or exact delivery bundle?",
+      "rule": "A source held in the Master Library does not satisfy participant delivery. The source can be exact and present and the packet still ship nothing.",
+      "failureCodes": {
+        "A1_MISSING_ON_DISK": "declared delivery artifact is not in the tree",
+        "A2_HASH_MISMATCH": "bytes on disk do not hash to the recorded sha256",
+        "A3_BYTELENGTH_MISMATCH": "bytes on disk are not the recorded byteLength",
+        "A4_PAGECOUNT_MISMATCH": "page count on disk is not the recorded pageCount",
+        "A4_PAGECOUNT_UNREADABLE": "file will not open as a PDF",
+        "A5_NOT_IN_ASSEMBLED_PACKET": "declared component artifact appears in no assembled-packet page manifest"
+      },
+      "denominator": {
+        "fleetFamilies": 346,
+        "familiesWithADirectory": 189,
+        "familiesNotMeasurableHere": 157
+      },
+      "failingFamilyCount": 2,
+      "failingFamilies": [
+        {
+          "familyId": "oh_marijuana_expungement-set",
+          "jurisdiction": "OH",
+          "directories": [
+            "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading"
+          ],
+          "declaredArtifacts": 13,
+          "assembledPacketManifests": 0,
+          "result": "FAIL",
+          "failingArtifacts": [
+            {
+              "declaredPath": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf",
+              "declaredIn": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/source-receipt.json",
+              "alsoDeclaredIn": [
+                "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/reports/rendered-artifacts.json"
+              ],
+              "documentId": "OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+              "role": "POST_ORDER_COMPANION_SOURCE",
+              "declared": {
+                "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+                "byteLength": 235789,
+                "pageCount": 1
+              },
+              "observed": {
+                "exists": false
+              },
+              "failures": [
+                "A1_MISSING_ON_DISK"
+              ],
+              "masterLibrarySourceHeld": true,
+              "masterLibraryEvidence": {
+                "checked": true,
+                "held": true,
+                "pathInArchive": "STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
+                "recomputedSha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb"
+              },
+              "masterLibraryDoesNotSatisfyDelivery": true
+            }
+          ]
+        },
+        {
+          "familyId": "rcap-oh-custom-pleading-clean-tracks",
+          "jurisdiction": "OH",
+          "directories": [
+            "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading"
+          ],
+          "declaredArtifacts": 35,
+          "assembledPacketManifests": 0,
+          "result": "FAIL",
+          "failingArtifacts": [
+            {
+              "declaredPath": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf",
+              "declaredIn": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/source-receipt.json",
+              "alsoDeclaredIn": [
+                "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/reports/rendered-artifacts.json"
+              ],
+              "documentId": "OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+              "role": "POST_ORDER_COMPANION_SOURCE",
+              "declared": {
+                "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+                "byteLength": 235789,
+                "pageCount": 1
+              },
+              "observed": {
+                "exists": false
+              },
+              "failures": [
+                "A1_MISSING_ON_DISK"
+              ],
+              "masterLibrarySourceHeld": true,
+              "masterLibraryEvidence": {
+                "checked": true,
+                "held": true,
+                "pathInArchive": "STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
+                "recomputedSha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb"
+              },
+              "masterLibraryDoesNotSatisfyDelivery": true
+            }
+          ]
+        }
+      ],
+      "passingFamilyCount": 187,
+      "passingFamilyIds": [
+        "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+        "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+        "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+        "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+        "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+        "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+        "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+        "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+        "ak-courtview-set",
+        "ak-mistaken-identity-set",
+        "ak-tf800-set",
+        "ak-tf805-set",
+        "ar-act531-set",
+        "ar-arrest-seal-set",
+        "ar-cs-possession-seal-set",
+        "ar-misdemeanor-dwi-seal-set",
+        "ar-nonconviction-seal-set",
+        "az_marijuana_expungement_arrest_no_charges-set",
+        "az_marijuana_expungement_superior_court-set",
+        "az_wrongful_arrest_clearance-set",
+        "ca-1203-41-set",
+        "ca-1203-42-set",
+        "ca-1203-43-set",
+        "ca-1203-4a-set",
+        "ca-17b-reduction-set",
+        "ca-851-91-set",
+        "ca-prop64-set",
+        "co_motion_seal_nonconviction-set",
+        "co_multiple_conviction_seal-set",
+        "co_pardoned_conviction_seal-set",
+        "composed-treatment:nd-nonconviction-auto-close-verify",
+        "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+        "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+        "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+        "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+        "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+        "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+        "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+        "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+        "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+        "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+        "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+        "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+        "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+        "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+        "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
+        "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+        "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "composed-treatment:sc_17_22_950_summary",
+        "composed-treatment:sd_sis_sealing",
+        "ct-cannabis-petition-set",
+        "ct-cleanslate-petition-set",
+        "ct-decriminalized-set",
+        "ct-missed-erasure-set",
+        "ct-nolle-auto-set",
+        "ct-pardon-erasure-set",
+        "ct-under18-misdemeanor-set",
+        "dc_correct_misattributed_arrest-set",
+        "dc_innocence_expungement-set",
+        "dc_seal_conviction-set",
+        "dc_seal_fugitive-set",
+        "dc_seal_nonconviction-set",
+        "dc_yra_set_aside-set",
+        "ga-deaddocket-j3-set",
+        "ga-felony-j1-set",
+        "ga-fo-active-pre2026-set",
+        "ga-fo-discharged-pre2026-set",
+        "ga-fugitive-j5-set",
+        "ga-jail-k2-set",
+        "ga-misd-j4-set",
+        "ga-nonconv-post2013-set",
+        "ga-pardon-j7-set",
+        "ga-seal-m-set",
+        "ga-vacated-j2-set",
+        "id_clean_slate_shield-set",
+        "id_felony_reduction-set",
+        "id_isp_expungement-set",
+        "id_set_aside_dismissal-set",
+        "il-prostitution-j-vacate-set",
+        "in_arrest_no_charges-set",
+        "in_infraction_nondisclosure-set",
+        "in_section1_petition-set",
+        "ky_criminal_record_segregation-set",
+        "ky_felony_vacatur_expungement-set",
+        "ky_void_seal_controlled_substance-set",
+        "ky_void_seal_marijuana_synthetic_salvia-set",
+        "ma-bmc-multi-set",
+        "ma-expunge-mj-set",
+        "ma-expunge-time-set",
+        "md_second_chance_shielding-set",
+        "me-nonconv-set",
+        "me-screening-set",
+        "me-seal-prost-set",
+        "mi_setaside_marihuana-set",
+        "mn_prosecutor_agreed-set",
+        "ms-diversion-set",
+        "ms-fel-set",
+        "ms-misd-1st-set",
+        "ms-misd-addl-set",
+        "ms-nonadj-set",
+        "ms-nonconv-set",
+        "nc_146_dismissal_petition-set",
+        "nd-deferred-imposition-records-set",
+        "nd-nonconviction-close-petition-set",
+        "ne-expunge-le-error-set",
+        "ne-seal-enforcement-set",
+        "ne-setaside-custodial-set",
+        "ne-setaside-noncustodial-set",
+        "ne-trafficking-setaside-and-seal-set",
+        "nj_arrest_no_conviction-set",
+        "nj_clean_slate-set",
+        "nj_disorderly_persons-set",
+        "nj_indictable_conviction-set",
+        "nj_ordinance-set",
+        "nv_repository_removal-set",
+        "nv_seal_probation_family-set",
+        "ny_160_59_petition-set",
+        "ny_mrta_marijuana-set",
+        "official-form-treatment:obligation:research-decision-route:AL:al-olr",
+        "or_conviction_setaside-set",
+        "pa_490_nonconviction-set",
+        "pa_6308_underage-set",
+        "pa_790_nonconviction-set",
+        "pa_9122_1_limited_access-set",
+        "pa_age70_deceased-set",
+        "pa_pardon_expungement-set",
+        "pa_summary_conviction-set",
+        "rcap-ga-guidance-implementation",
+        "rcap-ks-custom-pleading",
+        "rcap-ms-custom-pleading",
+        "rcap-nd-custom-pleading",
+        "rcap-nv-custom-pleading",
+        "rcap-ok-custom-pleading",
+        "rcap-sc-custom-pleading",
+        "rcap-tn-custom-pleading",
+        "rcap-tx-custom-pleading",
+        "rcap-wa-custom-pleading-clean-tracks",
+        "rcap-wi-custom-pleading",
+        "rcap-wv-custom-pleading",
+        "ri_marijuana-set",
+        "ri_nonconviction_sealing-set",
+        "sc_17_22_950_summary-set",
+        "sd_arrest_expungement-set",
+        "tx_exp_acquittal-set",
+        "tx_nd_conviction_no_supervision-set",
+        "tx_nd_dwi_probation-set",
+        "ut_pet_acquittal-set",
+        "ut_pet_conviction-set",
+        "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_dismissed_without_prejudice-set",
+        "ut_pet_limitations-set",
+        "ut_pet_no_charges-set",
+        "ut_pet_traffic-set",
+        "va_exp_absolute_pardon-set",
+        "va_exp_identity_used_by_another-set",
+        "va_exp_nonconviction-set",
+        "va_seal_ancillary_matter_only-set",
+        "va_seal_enumerated_seven_year-set",
+        "va_seal_petition_felony-set",
+        "va_seal_petition_misdemeanor-set",
+        "vt_exp_decriminalized-set",
+        "vt_exp_deferred_sentence-set",
+        "vt_seal_18_to_21-set",
+        "vt_seal_dui-set",
+        "vt_seal_felony-set",
+        "vt_seal_misdemeanor-set",
+        "vt_seal_nonconviction-set",
+        "vt_seal_pardon-set",
+        "vt_seal_under_25-set",
+        "wa_blake_vacatur_and_lfo_refund-set",
+        "wa_crop_certificate_of_restoration-set",
+        "wa_vac_cannabis-set",
+        "wa_vac_domestic_violence-set",
+        "wa_vac_felony-set",
+        "wa_vac_homicide_victim_prostitution-set",
+        "wa_vac_misdemeanor_ordinary-set",
+        "wa_vac_substance_use_disorder-set",
+        "wa_vac_survivor_felony-set",
+        "wa_vac_survivor_misdemeanor-set",
+        "wa_vac_treaty_fishing-set",
+        "wi_nc_doj_challenge-set",
+        "wi_nc_doj_fingerprint_removal-set",
+        "wv_conv_multiple_misdemeanors-set",
+        "wv_conv_single_misdemeanor-set",
+        "wv_dui_deferral_expungement-set",
+        "wy_fel_1502-set"
+      ],
+      "notMeasurable": [
+        {
+          "familyId": "al-diversion-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "al-felony-dwop-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "al-felony-nonconviction-90-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "al-misd-conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "al-misd-dwop-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "al-misd-nonconviction-90-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "al-pardon-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "al-pardoned-felony-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "al-trafficking-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ar-act346-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ar-drug-court-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ar-felony-seal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ar-misdemeanor-seal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ar-pardon-seal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ar-veterans-court-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "az_certificate_second_chance-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "az_marijuana_expungement_limited_jurisdiction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "az_record_sealing_arrest_no_charges-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state LEGAL_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "az_record_sealing_conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "az_record_sealing_dismissal_not_guilty-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state LEGAL_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "az_set_aside-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ca-1203-4-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_READY, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ca-diversion-seal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "census-pending-family:ME:juvenile-sealing",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "co_decriminalized_conduct_seal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state LEGAL_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "co_motion_seal_conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state LEGAL_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "co_municipal_conviction_seal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "co_petition_seal_arrest-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "composed-treatment:nc_146_dismissal_petition",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "de_discretionary_family_court-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "de_discretionary_superior_court-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "de_mandatory_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "de_pardon_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "fl-10yr-bridge-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "fl-administrative-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "fl-early-juvenile-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "fl-expunction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "fl-juvenile-diversion-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "fl-sealing-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "fl-self-defense-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "fl-trafficking-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ga-nonconv-pre2013-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "hi_712_1200_deferred_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "hi_dag_danc_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "hi_nonconviction_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ia-12346-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ia-12347-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ia-7251-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ia-901c2-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ia-901c3-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ia-dci77-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "il-cannabis-vacate-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "il-exp-nonconv-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "il-exp-pardon-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "il-exp-precompletion-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "il-exp-qualprob-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "il-exp-supervision-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "il-prb-cert-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "il-seal-2yr-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "il-seal-3yr-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "il-seal-edu-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "il-seal-nonconv-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "in_conviction_d6-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "in_conviction_felony-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "in_conviction_misd-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ks-21-6614-conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ks-21-6614-diversion-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ks-21-6614-prostitution-coercion-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ks-21-6614-specialty-court-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ks-22-2410-arrest-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ks-22-4908-registration-relief-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ky_expungement_certification-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ky_felony_expungement_after_pardon-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state LEGAL_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ky_misdemeanor_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state LEGAL_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ky_nonconviction_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ky_protective_order_record_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "la-976-arrest-no-conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "la-977-misdemeanor-conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "la-977d-marijuana-first-offense-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "la-978-felony-conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "la-985-1-interim-expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "la-985-expungement-by-redaction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "la-987-set-aside-and-dismiss-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ma-expunge-k-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ma-seal-admin-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ma-seal-court-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ma-seal-decrim-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "md_10105_early-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "md_10105_favorable-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "md_10110_conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "md_cannabis_petition-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "md_pardon_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "me-seal-gen-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "me-seal-survivor-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mi_setaside_application-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mi_setaside_first_owi-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mi_setaside_trafficking-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mn_petition_15218-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mn_petition_609a02_subd3-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mn_petition_juvenile_as_adult-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mo-575-120-identity-theft-correction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mo-610-122-arrest-expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mo-610-140-arrest-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mo-610-140-conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mo-610-145-mistaken-identity-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mo-art-xiv-marijuana-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mt_deferred_dismissal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mt_misdemeanor_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mt_mmrta_completed-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "mt_mmrta_serving-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nc_145_5_felony-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nc_145_5_misdemeanor-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nc_145_8a_youthful-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nc_146_acquittal_petition-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nc_auto_146_a4_agency_followup-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nd-prohibit-remote-public-access-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nd-regular-pardon-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nd-summary-marijuana-pardon-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ne-seal-pardoned-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ne-seal-pre2017-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nh_conviction_standard-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nh_conviction_streamlined-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nh_marijuana_annulment-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nh_petition_nonconviction_pre2019-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nh_petition_vacated-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nm_conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nm_identity_theft-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "nm_release_without_conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "or_contempt_setaside-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state LEGAL_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "rcap-hi-custom-pleading",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "rcap-in-custom-pleading",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "rcap-mo-custom-pleading",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "rcap-or-official-pdf-fill",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ri_decriminalized-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ri_deferred_sentence-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ri_first_offender_felony-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ri_first_offender_misdemeanor-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ri_multiple_misdemeanors-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "tx_nd_automatic_misdemeanor_deferred-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "tx_nd_deferred_other-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "tx_nd_dwi_conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "tx_nd_dwi_deferred-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "tx_nd_probation_misdemeanor-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "tx_nd_veterans_court-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "tx_nd_veterans_reemployment-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ut_pet_cannabis-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ut_pet_remove_link-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "ut_pet_special_certificate-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "wi_exp_cr266-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state LEGAL_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "wv_acc_treatment_job_readiness-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "wv_conv_nonviolent_felony-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "wv_nc_acquittal_dismissal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state LEGAL_BLOCKED, artifactStatus NOT_RENDERED)"
+        },
+        {
+          "familyId": "wv_nc_diversion_deferred-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory exists, so the family declares no delivery artifact to prove (fleet-index state SOURCE_READY, artifactStatus NOT_RENDERED)"
+        }
+      ],
+      "masterLibraryDirConfigured": true
+    }
+  },
+  "generatedAt": "2026-09-02T17:22:31.047Z"
+}
