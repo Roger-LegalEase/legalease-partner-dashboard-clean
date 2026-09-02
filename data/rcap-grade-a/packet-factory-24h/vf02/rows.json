@@ -7191,6 +7191,140 @@
         "KNOWN_PREFILLS",
         "CLIPPING_AND_OVERLAP"
       ]
+    },
+    {
+      "itemId": "rcap-nv-custom-pleading",
+      "lane": "VF02",
+      "wave": "packet-factory-24h — VF02 re-dispatch read at 247b790b6",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "247b790b6",
+      "verifier": "VF02 (independent-verification; this lane did not build, repair, render or previously read this family)",
+      "claim": {
+        "asserted": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 rcap-nv-custom-pleading",
+        "exitCode": 0,
+        "result": "CLAIM_OK VF02 rcap-nv-custom-pleading (independent-verification, grant set 4dbae1df55a2dc7e)"
+      },
+      "whyThisFamilyOwedAFreshRead": "MASTER_QUEUE.json records verificationLapsedBecause FAMILY_MOVED_SINCE_THE_VERDICT — the packet's bytes moved after the verdict that last described them. This read is at the bytes that exist now.",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family rcap-nv-custom-pleading — PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+      "measuredBy": "the fifteen proof obligations measured in this checkout; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here without --write; and the delivered 50-page fixtures read as bytes, page by page, with every word's bounding box extracted for the margin and placement checks",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredHere": true,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All six routes the record names are built, each on its own statutory ground, and every delivered page says which route it belongs to.",
+          "evidence": "The queue names six route keys — nv_seal_decrim, nv_seal_multi, nv_seal_pardon, nv_seal_conviction, nv_seal_nonconviction, nv_seal_reentry. Each of the 50 pages ends with a 'Route:' footer carrying its own key, and each petition body cites its own sections: NRS 179.271 for decriminalized conduct, NRS 179.2595 for the consolidated filing, NRS 179.273 after a pardon, NRS 179.245 for a conviction, NRS 179.255 for a non-conviction, NRS 179.259 after a reentry programme. The instructions open with a table saying which set belongs to which situation and add that if two could fit, that is a question for a lawyer rather than a guess."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three committed records this custom pleading binds to recompute exactly. There is no official form to bind, and the packet says so rather than substituting one.",
+          "evidence": "sha256sum recomputed here: data/record-clearing/legal-design-track-registry.json 0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6 at 16555956 bytes; data/record-clearing/legal-design-specifications.json cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5 at 16829383; data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f at 2599752. Each equals the pin in source-receipt.json, byte length included. The receipt's formIdentityNote records that no committed record names an official statewide participant form for these routes, which is why every page is composed."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Every composed component the specification names is rendered and present: four pleadings for each of the six routes, all 24, plus a filing-instructions page for each.",
+          "evidence": "data/record-clearing/legal-design-specifications.json names exactly four customPleadingSpecs per route for these six tracks — primary-filing-2, proposed-order-3, declaration-and-verification-4, stipulation-5 — and all 24 appear in the delivered bytes with their own captions. I checked the wider list too, because the census candidate's participantFacingInstrument string names seven instruments per route rather than four. The extra three are not pleadings and each is delivered as content: repository-record-step-1 is the Central Repository criminal history, carried under 'Documents you must obtain before filing' with its NRS 179.245(2)(a) and NRS 179.255(3)(a) grounding; prosecutor-submission-instructions-6 and filing-and-service-instructions-7 are merged into the one per-route filing-instructions page, whose 'WHERE IT GOES' section carries the prosecutor-first workflow and whose 'WHO MUST BE SERVED' section carries the service rule. Nothing the record names is absent."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The five facts the platform holds are written on every page of every route set where they belong, and read back out of the delivered bytes.",
+          "evidence": "Counted in the extracted text of the canonical fixture: the participant's name appears 60 times — in every caption, every petition body, every declaration and every stipulation — and the date of birth, mailing address, telephone and email appear 12 times each, which is the identity block on two pages of each of the six route sets. Every other fact is a labelled dotted blank, and the instructions say why: 'Every fact about your own case belongs to the record itself… you fill it from the record, never from memory.'"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 94 declared items are named in participant-instructions.md, checked item by item against the file.",
+          "evidence": "production-field-map.json declares requiredBeforeFilingCount 94, and matching each declared disclosure label against the instructions returned 0 not named. They are broken out per component under 'The items you must supply', and each is also printed on its own page as a labelled dotted blank — so the participant meets the same item twice, once in the list and once where it has to be written."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No election on this family is route-determined by a control, and none is printed. The route is expressed by which set of pages the participant uses.",
+          "evidence": "routeSelectionNote says it in terms: every composed page states its own route in its footer and its own statutory ground in its body, the instructions carry a table mapping situation to set, and no election control is printed on any page because the route follows from the participant's own record rather than from a box. I confirmed there is no checkbox or option control anywhere in the 50 delivered pages."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No row carries written cells beside required cells left blank, because the packet uses no repeating row grid at all.",
+          "evidence": "The consolidated NRS 179.2595 petition is the one place a table of records would be expected, and it asks free-text questions instead — including the township caption question its own venue note depends on. incompleteRows 0, corroborated against the delivered pages."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No signature, signature date, court decision line, prosecutor line or notarial block carries ink anywhere in the 50 pages.",
+          "evidence": "I found 24 signing lines in the delivered text — a DATE and SIGNATURE OF PETITIONER pair on each petition and each declaration, and a DATED line on each proposed order and each stipulation — and every one carries nothing but its dotted rule. The proposed order prints 'EVERY DECISION ON THIS PAGE IS THE COURT'S… nothing on it is completed, decided, signed or dated by the petitioner or by this packet', with the ORDERS line and the court's signature rule blank. The stipulation prints 'THIS PAGE IS NOT THE PETITIONER'S TO COMPLETE' and leaves the office name, the statement and the signature blank. The declaration carries a notarial block left to the officer."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both artifacts hash to what the record names, recomputed from the bytes.",
+          "evidence": "canonical.pdf 0f054975494d… at 139080 bytes and boundary.pdf 6dc6ddc9242f… at 141433 bytes, each 50 pages; 2 checked, 0 mismatches against reports/rendered-artifacts.json."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The rendered page order matches the manifest: six route sets in the order componentSet lists them, and within each set petition, proposed order, declaration and verification, stipulation, filing instructions.",
+          "evidence": "Read page by page out of the delivered bytes. Decrim occupies pages 1-8, multi 9-16, pardon 17-24, conviction 25-34, non-conviction 35-42, reentry 43-50; the sets that run longer do so because their petitions carry more record questions. Each set's five components appear in manifest order and the 50-page total matches pageCount in both artifact entries."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No ink falls outside the text block, in either fixture, and the boundary values do not push anything out.",
+          "evidence": "I extracted the bounding box of every word in both 50-page fixtures — 13632 words canonical, 13680 boundary — and took the extremes. Both sit inside x 72.0 to 546.2 and y 64.5 to 712.4 on a 612 by 792 page, so the margins are 72 pt left, 65.8 right, 64.5 top and 79.6 bottom, and the two fixtures have identical extents to the tenth of a point. Nothing is clipped and nothing collides. I also rendered the boundary page 1, whose 39-character hyphenated name sits in the caption with room to spare."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The instructions name the destination for all six routes, and name the venue separately from it, because on this route they are not the same place.",
+          "evidence": "Each route's filing-instructions page carries 'WHERE IT GOES — The district attorney's or city attorney's office first, then the clerk of the appropriate court', with the route's own venue printed beside it, and each caption block repeats the warning that the prosecutor's office receives the packet before it is filed and that this is not what goes on the caption line. The conviction route's entry goes further and records the county practice the registry holds: Clark County will not stipulate to petitions including municipal matters, Las Vegas Municipal Court requires its own forms and refuses typed signatures, Reno Municipal Court charges a fee and sets a hearing at least 60 days out."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The fee and the waiver are stated for every route, and the cross-cutting waiver is surfaced wherever a fee is mentioned, as the record requires.",
+          "evidence": "Each route states its recorded fee — county-dependent plus repository criminal history, fingerprinting and certified copies for five of them, and none at all for the pardon route, whose entry says in terms that the NRS 179.245 county fee is not read across to NRS 179.273. The NRS 179.245(9) waiver for a victim of sex trafficking or involuntary servitude appears with every one of them, and the record's own instruction that it 'must be surfaced wherever a fee is mentioned' is printed on the page. The pardon entry still names the repository and certified-copy charges as separate costs that survive a no-fee petition."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Who must be served and how is stated for every route, and the packet is careful to separate notice before filing from service of the order after it.",
+          "evidence": "Every route prints 'Service as recorded: The signed order is served on every agency named in it and goes to the Central Repository under NRS 179.275' and 'Notice as recorded: The prosecuting agency receives the packet before filing. If the prosecutor stipulates, or fails to object within 30 days, the court may seal without a hearing.' The non-conviction route adds the NRS 179.255(4) rule that the court notifies the arresting agency and the county or city prosecuting attorney according to which court heard the matter. Step 4 of 'What you do, in order' tells the participant not to sign or date any certificate of delivery until delivery has happened."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Each route carries its own stop list, in the committed record's words, and each one names the traps particular to that route rather than repeating a generic warning.",
+          "evidence": "The decriminalization route stops on whether conduct has actually been decriminalised and on partially decriminalised conduct; the pardon route stops on applying for a pardon at all, which is a Board of Pardons matter under NRS chapter 213, and on whether a pardon is unconditional; the conviction route stops on the eighteen-item NRS 179.245(10)(b) sexual-offence list, on DUI where the NRS 179.245(7) carve-back applies, on dishonourable discharge from probation and on the NRS 179.265 rehearing bar. All six share the offence-category stop, prosecutor refusal to stipulate, multi-county records, federal, tribal, military and out-of-state records, firearm-rights goals, and immigration exposure with the instruction that Nevada sealing must not be described as having immigration effect."
+        }
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/ — all 13 files, both 50-page fixtures read as bytes and rendered",
+        "data/record-clearing/legal-design-track-registry.json, data/record-clearing/legal-design-specifications.json and data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json — the three bound committed records, hashed"
+      ],
+      "notMyVerdictToMake": {
+        "rasterReceipt": "reports/rendered-artifacts.json records everyPageRastered false, rasterSkipped true and rasterEngine null, so this family holds no raster receipt. That is an L4 matter and it keeps the family short of COMPLETE_PACKET_PROVEN whatever I find. It is not a completeness defect and it does not change this verdict.",
+        "whatItMeans": "A PASS_COMPLETE_INDEPENDENT proves the packet contains everything a filing needs. It opens no route."
+      },
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "An independent PASS proves a packet is complete. It approves no output, promotes no family and opens no commercial route.",
+      "failedObligationNames": []
     }
   ],
   "vt1Read": {
