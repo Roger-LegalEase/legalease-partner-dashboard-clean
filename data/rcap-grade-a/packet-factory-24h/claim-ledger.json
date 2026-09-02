@@ -4929,8 +4929,8 @@
       "operation": "rapid-repair",
       "lane": "FIX07",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T05:32:02.968Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4944,8 +4944,8 @@
       "operation": "rapid-repair",
       "lane": "FIX08",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T05:32:09.827Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -11296,7 +11296,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "5be13a33a3963f3b53ac15f4b356fff23dc797d5642631ae428de0996242bae9",
+  "claimsDigest": "989965804341dd5bc8426d8055462ebf33c5232f6836a9fbbd13570ca98d364d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -19976,6 +19976,26 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-02T10:25:34Z",
       "reason": "the current dispatch names FIX04 for this family, the family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "lane": "FIX07",
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T05:32:02.968Z",
+      "reissuedAt": "2026-09-02T10:58:26.142Z",
+      "reason": "FABLE-FIXUT repair lane: VF10 returned FAIL_REPAIR_REQUIRED (FEE_AND_WAIVER) after FIX07 released; no external lane holds this subject per EXTERNAL_ASSIGNMENTS.json. Re-opening the repair grant so the failed obligation can be repaired."
+    },
+    {
+      "lane": "FIX08",
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_dismissed_with_prejudice-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T05:32:09.827Z",
+      "reissuedAt": "2026-09-02T10:58:26.227Z",
+      "reason": "FABLE-FIXUT repair lane: VF10 returned FAIL_REPAIR_REQUIRED (FEE_AND_WAIVER, REQUIRED_BEFORE_FILING) after FIX08 released; no external lane holds this subject per EXTERNAL_ASSIGNMENTS.json. Re-opening the repair grant so the failed obligations can be repaired."
     }
   ],
   "transfers": [
