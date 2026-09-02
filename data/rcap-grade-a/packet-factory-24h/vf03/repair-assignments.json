@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF03",
  "worker": "VF-SRC-A",
- "assignmentCount": 7,
+ "assignmentCount": 8,
  "assignments": [
   {
    "itemId": "ar-cs-possession-seal-set",
@@ -218,6 +218,31 @@
    "notPartOfThisRepair": {
     "SERVICE": "Recorded BLOCKED_LEGAL_INPUT, not FAIL. The registry holds rules.service and rules.notice as 'Unresolved. Service and response mechanics are among the items counsel must confirm.' and carries a buildBlockers entry with affectedElement notice_or_service (provenance DC-8). No repair lane can supply from this repository an answer the repository does not hold; this limb is counsel's and must not be closed by a repairer writing a service rule.",
     "buildStatusRasterState": "build-status.json records rasterState BUILT_RASTER_PENDING and rasterPages 0 while RASTER_QUEUE.json carries a RASTER_PASS receipt bound to both of this family's fixture hashes. Noted for the Captain as a stale builder record, deliberately not scored and not assigned: it is a bookkeeping disagreement about a gate that has in fact run, and re-running the raster gate is not what this family needs."
+   },
+   "grantsNothing": "Repairing this defect proves the packet complete against the record. It approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "ny_mrta_marijuana-set",
+   "wave": "VF03-W3",
+   "lane": "VF03",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill",
+   "decisiveDefect": "An earlier repair applied the form's own COURT USE ONLY rule to three of the six controls that rule governs and stopped. In production-field-map.json, Proper_ID (checklist item 1), Charge_Sealed (item 3) and Comment_Entered (item 4) carry refusalClass participant_sworn_narrative_or_legal_election, whose disposition in scripts/rcap-packet-completeness/completeness-contract.mjs is PARTICIPANT_ELECTION_GENUINE. Their siblings Application_Complete (item 2), File_Copy (item 5) and Copies_Sent (item 6) carry court_prosecutor_clerk_or_agency_owned, disposition PROTECTED_FIELD, each with an effectiveLabel quoted from the form and captionBasis 'read from the form's printed face: the control sits below the printed COURT USE ONLY rule'. All six are page-1 widgets at x=44.657 in one contiguous block (y 118.412, 104.817, 78.793, 53.933, 40.338, 27.132), so nothing about their geometry or structure distinguishes the three that are classified correctly from the three that are not. The three misclassified ones are clerk acts on their face: whether the applicant's ID or notarization satisfied the clerk, whether the charge is sealed in the court's case management system under CPL 160.50(3)(k), and whether the 'Application for Destruction Submitted' docket comment was entered in it.",
+   "failedProofObligations": [
+    "PROTECTED_FIELDS"
+   ],
+   "perObligation": {
+    "PROTECTED_FIELDS": {
+     "measuredDetail": "Six controls sit below the printed '***FOR COURT USE ONLY - DO NOT WRITE BELOW THIS LINE***' rule on page 1. Three are declared protected and three are declared genuine participant elections. No control carries ink in either fixture: the committed raster pages for canonical and boundary were read as images in this container and all six YES/NO controls, the affirmation day/month/year rules and the Defendant Signature rule are empty on both, which agrees with reports/actual-writes.json carrying protectedInk [] and protectedVectorInk [] for each.",
+     "whatRepairMustDo": "Change the refusalClass of Proper_ID, Charge_Sealed and Comment_Entered in production-field-map.json to court_prosecutor_clerk_or_agency_owned, and give each the same effectiveLabel-from-the-form, reason and captionBasis its three siblings already carry, so the whole block is classified from one rule read off the form's face. Then correct the closing sentence of participant-instructions.md, which currently names three controls where the rule it states governs six.",
+     "whatRepairMustNotDo": "Do not touch either fixture. No byte of the delivered PDFs changes, no write is added or removed, and the nine counters read identically before and after, because both refusal classes already clear a blank. This is a record repair, not a rebuild, and it needs no new raster run: the existing RASTER_PASS receipt stays bound to the same two hashes.",
+     "whyItIsWorthDoing": "Nothing is written into these three boxes today, but nothing declares them unwritable either — the protection is a side effect of a class that means the opposite. A later build or runtime that decides to collect genuine participant elections would be entitled by this map to put a mark in three boxes the form says no one but the court may touch, and the map would have told it that was correct."
+    }
+   },
+   "everythingElseMeasuredClean": "Fourteen of the fifteen obligations pass on measurement made in this container, and all nine completeness counters are zero. The official source binary rehashes byte-exact from the Master Library; both fixtures hash to what six records name; the raster gate passed against those exact hashes and the raster pages read clean as pixels in both the canonical and the maximum-length boundary case; every known prefill is on its own rule; no election is pre-selected and the source form's own default choice values were neutralised before flattening; the destination, the fee position, the service answer and all fourteen self-help stop conditions are stated.",
+   "notPartOfThisRepair": {
+    "REQUIRED_BEFORE_FILING": "Scored PASS. All eight declared items are named. One is softened: the registry declares the DCJS Record Review cross-check requirement 'required' with requiredBeforeFiling true, and participant-instructions.md presents it as something the participant 'may want' before applying. It is recorded as an observation for the Captain, not assigned, because the item is named and the obligation is met. It is worth the Captain's eye because the platform prefills the two identifiers that check exists to guard, County where convicted and Court Docket/Case Number, and the form's own face warns the application cannot be processed if any required information is incorrect.",
+    "releaseBlockers": "The registry carries release_blocker entries for this track on how long the process takes and on whether destruction can be confirmed at all, and counselConfirmationRequired is true. Those are release-stage, they belong to counsel and the release gate, and the packet already carries both as participant-facing stop conditions. They are not a build defect and are not assigned here."
    },
    "grantsNothing": "Repairing this defect proves the packet complete against the record. It approves no output and opens no commercial route."
   }

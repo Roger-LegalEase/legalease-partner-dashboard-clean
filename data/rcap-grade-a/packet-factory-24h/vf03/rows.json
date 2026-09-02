@@ -25,10 +25,10 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 31,
+  "families": 32,
   "PASS_COMPLETE_INDEPENDENT": 15,
   "PASS": 0,
-  "FAIL_REPAIR_REQUIRED": 13,
+  "FAIL_REPAIR_REQUIRED": 14,
   "BLOCKED_SOURCE": 1,
   "BLOCKED_LEGAL_INPUT": 0,
   "STOPPED": 1,
@@ -6795,6 +6795,247 @@
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the dc_yra_set_aside-set row and its receipt)"
    ],
    "grantsNothing": "This verdict approves no output and opens no commercial route, and a PASS on fourteen obligations is not a PASS on the family."
+  },
+  {
+   "itemId": "ny_mrta_marijuana-set",
+   "lane": "VF03",
+   "wave": "VF03-W3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill",
+   "routeKey": "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-destruction-request",
+   "rasterState": "RASTER_PASS receipt in RASTER_QUEUE.json bound to both fixture hashes; committed raster pages present and read as pixels here",
+   "independentOfBuilder": "VF03 holds no packet-build, repair or shared-host-repair claim on this family, wrote no byte inside its overlay directory, and produced none of the reports it reads. Every hash, counter, page count, word box, field classification and rendered mark below was recomputed or read first-hand in this container.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_mrta_marijuana-set, run in this container: PASS_COMPLETE, 12/33 written",
+    "whyZeroCountersAreNotAPass": "The counters clear a blank as soon as its declared refusal class is in the closed vocabulary. Both classes at issue on this family clear it: court_prosecutor_clerk_or_agency_owned clears it as PROTECTED_FIELD and participant_sworn_narrative_or_legal_election clears it as PARTICIPANT_ELECTION_GENUINE. The counters therefore cannot see the defect below, and would read identically after it is repaired."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId ny_mrta_marijuana-set agrees across source-receipt.json, reports/rendered-artifacts.json, reports/actual-writes.json, product-wiring.json and the RASTER_QUEUE.json row. The single route key obligation:track-only equivalent for this family is obligation:unit:NY:ny_mrta_marijuana:ny-mrta-destruction-request, printed in participant-instructions.md as the route scope and held identically at routes[652] of the route-obligation census, whose packetSetId is ny_mrta_marijuana-set and whose trackId is ny_mrta_marijuana, the registry track at tracks[328]. The packet is built for the destruction-request unit and says so; it does not present itself as the automatic-expungement stage, which the same track records as requiring no participant document at all.",
+     "evidence": {
+      "routeKeysDeclared": 1,
+      "recordsAgreeing": 6,
+      "unitScopeStatedInPacket": true
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The one bound document source was rehashed from the Master Library bytes in this container and equals the receipt exactly. This is a first-hand recomputation from the official binary, not a cross-record consistency check.",
+     "evidence": {
+      "documentId": "NY-MRTA-DESTRUCTION-REQUEST",
+      "pathInArchive": "STATES/NY/02_PACKET_FORMS/NY__FORM__MRTA-DESTRUCTION-REQUEST__application-to-destroy-marijuana-conviction-record__REV-UNKNOWN__EN.pdf",
+      "sha256RecomputedHere": "55c8ec044ecd2adf30508b6a2403c690fc441419d6fba0ccc657eba182298544",
+      "byteLengthRecomputedHere": 272798,
+      "matchesReceipt": true,
+      "alsoCarriedBy": "product-wiring.json binding.sourceVersion[0].sha256, which carries the same source digest unchanged",
+      "sourcesMismatching": 0,
+      "custodyClass": "SOURCE_ALREADY_HELD",
+      "revisionCaveatCarriedByThePacket": "The receipt records revision REV-UNKNOWN and states that it does not establish that an unknown-revision source remains current; the packet carries that as a self-help stop condition in the participant's own words."
+     }
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The route names one participant-facing instrument and it is rendered. routes[652].requiredSourceIds names component:ny_mrta_marijuana-destruction-request-instructions-2 and official-form:MRTA-DESTRUCTION-REQUEST; the family renders that component from that form, in canonical and boundary fixtures. The registry's packetSet holds five components for the whole track, but the other four are process_guidance for the automatic stage and are not this unit route's instruments; the packet states its own scope rather than implying it covers them.",
+     "evidence": {
+      "componentsNamedByTheRoute": 1,
+      "componentsRendered": 1,
+      "requiredComponentsMissing": 0,
+      "trackLevelComponentsNotInThisUnitRoute": 4
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every known fact is written and visible on the page it belongs to, confirmed by reading the committed raster page as pixels rather than by trusting the write log. The canonical page shows Jordan / Avery / Reyes on the Name on Docket/Case rule, 1991-04-17 on Date of Birth, ALBANY on County where convicted, 24-CR-001234 on Court Docket/Case Number, 118 Maple Street / Albany / NY / 12207 across the address row, 518-555-0142 on Cell Phone and jordan.reyes@example.com on Email Address. Each value sits on its own rule and none has drifted into a neighbouring one.",
+     "evidence": {
+      "valuesReadFromTheRasterPage": 12,
+      "knownFactsMissingFromTheRenderedPage": 0,
+      "boundaryFixtureBehaviour": "The boundary fixture writes 9 of the 12 and refuses 3, each for a stated structural reason: Court_County value_not_among_field_options, City_Town and Email value_exceeds_widget_width_at_minimum_font. That is the boundary fixture doing its job — refusing rather than clipping or overflowing an unfittable value — and the raster confirms those three rules are simply empty, with no truncated or overrunning text."
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All eight items the registry declares in packetSet.requiredBeforeFiling for track ny_mrta_marijuana are named in participant-instructions.md: the DCJS Record Review cross-check, the automatic stage producing no participant document, signing and dating and submitting the request, a separate application per court of conviction, the defendant signing personally with no agent-signed version, notarization following the submission method, the absence of an application fee with the DCJS review's separate fee, and the fee waiver being inapplicable because there is no fee to waive.",
+     "evidence": {
+      "declaredItems": 8,
+      "itemsNamed": 8,
+      "itemsAbsent": 0,
+      "oneItemSoftened": "Item 1, 'Check your answer ... against DCJS Record Review, and correct the packet if they disagree', is declared requirement 'required' with requiredBeforeFiling true. participant-instructions.md names the DCJS Record Review three times, including 'to confirm what is on your own record - which you may want before you apply', which states the purpose but presents the check as optional. It is named, so this obligation is met; the softened requirement strength is recorded here as an observation for the Captain rather than scored as a failure, and it is not part of the repair below. It is worth a look because the platform itself prefills the two identifiers that check is meant to guard — County where convicted and Court Docket/Case Number — and the form's own face warns that the application cannot be processed if any required information is incorrect."
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The route determines no election, and every election on the form is left to the participant with nothing pre-selected. 'Court where convicted (Check one only)' turns on which court entered the conviction, which is a case fact and not a route determination; it is refused and listed to the participant by name. The build also neutralised the source form's own default choice values before flattening, so no inherited default is baked into the delivered bytes and presented as a selection the participant made.",
+     "evidence": {
+      "electionsDeclaredByTheRoute": 0,
+      "requiredOptionsMissing": 0,
+      "selectionProof": "empty in both fixtures — no selection was written",
+      "choiceNeutralizationPerformedBeforeFlatten": true,
+      "confirmedOnTheRaster": "all six Court-where-convicted radios and all three 'Unknown' boxes are empty on both the canonical and the boundary page"
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The form carries no repeating row structure: no offence table, no charge grid, no multi-count schedule. The APPLICATION PROCESSING CHECKLIST is a fixed six-row block owned by the court, not a participant row set. incompleteRows measured 0 here.",
+     "evidence": {
+      "repeatingRowStructures": 0,
+      "incompleteRows": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "No protected field carries ink — that part holds, measured on the bytes. What fails is the protected set itself: three of the six controls the form places below its own '***FOR COURT USE ONLY - DO NOT WRITE BELOW THIS LINE***' rule are classified in production-field-map.json as participant_sworn_narrative_or_legal_election, whose disposition in the completeness contract is PARTICIPANT_ELECTION_GENUINE, not PROTECTED_FIELD. Proper_ID (item 1), Charge_Sealed (item 3) and Comment_Entered (item 4) carry that class with the generic default reason 'No write is authorized for this field in this family build.' and no captionBasis. Their three siblings in the identical YES column of the identical block — Application_Complete (item 2), File_Copy (item 5), Copies_Sent (item 6) — carry court_prosecutor_clerk_or_agency_owned, an effectiveLabel quoted from the form, and the reason \"This control is printed below the form's own COURT USE ONLY line and is completed by the court, not by the participant\", with captionBasis 'read from the form's printed face'. All six are page-1 widgets at x=44.657 in one contiguous vertical block, y=118.412, 104.817, 78.793, 53.933, 40.338 and 27.132, so no geometric or structural distinction separates the three that are right from the three that are wrong. The record therefore asserts that a participant genuinely elects whether the eligible charge is sealed in the court's case management system and whether the 'Application for Destruction Submitted' docket comment is entered in it, which are clerk acts inside ADBM, CRMS, CRIM, DCRIMS and SAMS, and whether the clerk found the applicant's ID or notarization sufficient. The packet's own reviewer note states the rule and then names only half the controls it governs: 'The three checklist controls this build once listed as participant blanks - Application_Complete, File_Copy and Copies_Sent - are refused as court-owned, which is what the form's own COURT USE ONLY rule makes them.'",
+     "evidence": {
+      "controlsBelowTheCourtUseOnlyRule": 6,
+      "classifiedCourtOwned": [
+       "Application_Complete",
+       "File_Copy",
+       "Copies_Sent"
+      ],
+      "classifiedParticipantElection": [
+       "Proper_ID",
+       "Charge_Sealed",
+       "Comment_Entered"
+      ],
+      "geometry": "page 1, YES column x=44.657 for all six; y = 118.412 (Proper_ID), 104.817 (Application_Complete), 78.793 (Charge_Sealed), 53.933 (Comment_Entered), 40.338 (File_Copy), 27.132 (Copies_Sent)",
+      "inkMeasuredHere": {
+       "protectedFieldsCarryingInkCanonical": 0,
+       "protectedFieldsCarryingInkBoundary": 0,
+       "howInkWasMeasured": "the committed raster page for each fixture was read as an image in this container; all six YES/NO controls are empty on both, the DEFENDANT'S AFFIRMATION day/month/year rules are empty on both, and the Defendant Signature rule is empty on both. reports/actual-writes.json carries protectedInk [] and protectedVectorInk [] for both fixtures, which agrees with what was read.",
+       "signatureLineBlank": true,
+       "affirmationDateBlank": true,
+       "certificateOfMailingPresent": false
+      },
+      "whyThisIsScoredAFailureAnyway": "The obligation is that no court-only field carries ink, and a record that denies three court-only fields are court-only has removed them from the set the obligation is measured over. Nothing is written into them today because PARTICIPANT_ELECTION_GENUINE also happens to refuse the write; the protection is accidental rather than declared, and any later build or runtime that decides to collect genuine participant elections would be entitled by this map to put a mark in three boxes the form says no one but the court may touch.",
+      "whatIsNotClaimed": "No delivered byte is wrong. No counter changes. This is a defect in a committed record of the family, not in the packet a participant would receive today."
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures hash to what every record naming them says. Recomputed here with sha256sum and pdfinfo: mrta-destruction-request-canonical.pdf = 37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff (247978 bytes, 1 page), mrta-destruction-request-boundary.pdf = 5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457 (247265 bytes, 1 page). reports/rendered-artifacts.json, reports/actual-writes.json, product-wiring.json's binding.acceptanceReceipt.boundToCanonicalSha256 and the RASTER_QUEUE.json receipt all carry those hashes unchanged, so the wiring digest is current and not stale. The only other 64-hex digest in product-wiring.json is the source binary's, which also verifies.",
+     "evidence": {
+      "canonicalSha256": "37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff",
+      "boundarySha256": "5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457",
+      "claimedHashRecordsChecked": 6,
+      "claimedHashMismatches": 0
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "A single-page document in both fixtures. pdfinfo reads exactly 1 page from each, letter 612x792 pts, and reports/rendered-artifacts.json declares pageCount 1 for each. There is no multi-page manifest to disagree with and no page is out of sequence.",
+     "evidence": {
+      "declaredPages": 1,
+      "measuredPages": 1,
+      "pageSize": "612 x 792 pts (letter)"
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The central raster gate has run and its receipt binds to the exact bytes this container hashed: RASTER_QUEUE.json holds verdict RASTER_PASS from workflow run 33531491985 of .github/workflows/rcap-packet-raster-acceptance-batch.yml at pinned commit 38ce8244dac5a3c2fbd6522232eb275693d142e7, jobConclusion success, boundToCanonicalSha256 and boundToBoundarySha256 equal to the two hashes recomputed above, coversTheWholeFamily true. Independently, this lane read the committed raster page for both fixtures as pixels and saw no ink outside a rule, no value overrunning its neighbour and no overlap, including in the boundary fixture where the longest values sit; and word geometry over both fixtures returns 0 words outside the page box and 0 text-on-text collisions across 1320 words.",
+     "evidence": {
+      "rasterVerdict": "RASTER_PASS",
+      "rasterBindsToTheBytesHashedHere": true,
+      "rasterPagesReadAsPixelsHere": 2,
+      "wordsOutsidePageBoxCanonical": 0,
+      "textOnTextCollisionsCanonical": 0,
+      "wordsOutsidePageBoxBoundary": 0,
+      "textOnTextCollisionsBoundary": 0,
+      "wordsExamined": 1320,
+      "boundaryLongestValuesLandCleanly": "the 57-character street address, the 37-character docket number and the 30-character middle name all sit inside their rules; where a value could not fit at minimum font the build refused it rather than clipping it, and the raster shows an empty rule rather than a truncated one"
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions name the court the route names, and name it in the only way this route can be named. The registry and the census both record the destination as 'The New York court in which the person was convicted', with the detail that the Office of Court Administration publishes the form and does not receive it and that there is no statewide address, mailbox or portal. participant-instructions.md says exactly that, adds the form's own printed first instruction, states that an application sent to any other court cannot be processed, states one application per court where there are convictions in more than one, and names the three submission channels: EDDS, first-class mail, in person.",
+     "evidence": {
+      "registryDestination": "The New York court in which the person was convicted",
+      "printedDestination": "the court where you were convicted",
+      "censusDestinationAgrees": true,
+      "noStatewideAddressStated": true,
+      "onePerCourtStated": true,
+      "submissionChannelsStated": 3
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both are stated, and the packet separates the three money questions that are easy to confuse. The registry records rules.fees as 'None identified for the destruction request. The DCJS Record Review carries its own fee.' and rules.feeWaiver as 'not applicable.' participant-instructions.md states there is no application fee and quotes the form's own printed sentence saying so; states that the DCJS Record Review is a separate request to a separate agency with its own fee and is not a charge for this application; states that a notary may charge where submission is by EDDS or mail and that nothing in the held sources sets that figure; and states that no fee waiver is recorded because there is no fee to waive.",
+     "evidence": {
+      "feeStated": true,
+      "waiverRouteStated": true,
+      "waiverStatedAsInapplicableAndWhy": true,
+      "adjacentCostsDistinguished": [
+       "DCJS Record Review fee",
+       "notary charge"
+      ]
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Who must be served, and how, is answered and the answer is nobody. The registry records rules.notice as 'none by the participant.' and rules.service as 'none.' participant-instructions.md says the participant serves no one, names the prosecutor, the police agencies and DCJS as the parties who do receive it, and shows from the form's own face why: item 6 of the court-use checklist reads 'Copies of application sent to prosecutor, law enforcement agencies and DCJS as applicable for further processing', which is the court's step. It then explains that this is why the form carries no certificate of service and the packet contains none, and says what the participant should get back and whom to ask if nothing arrives.",
+     "evidence": {
+      "registryService": "none.",
+      "registryNotice": "none by the participant.",
+      "packetStatesWhoServes": "the court, not the participant",
+      "certificateOfServiceCorrectlyAbsent": true,
+      "whoAnswersAStatusQuestion": "the clerk of the court of conviction that received the application"
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet states where self-help ends, completely and in the record's own words. The registry holds 14 selfHelpStopConditions for this track and every one is carried into participant-instructions.md; a word-level check for the distinctive terms of each condition found none missing. The packet also says openly that some of those conditions name a step LegalEase or the implementation owner takes rather than one the participant takes, and carries them unchanged anyway so the reader can see the whole of what is unsettled — including that no live fetch of the issuer's binary was obtained, so a newer edition cannot be ruled out. The immigration condition is restated as a hard stop rather than a caveat.",
+     "evidence": {
+      "conditionsInRegistry": 14,
+      "conditionsCarried": 14,
+      "conditionsWithAnyDistinctiveWordAbsent": 0
+     }
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/raster/mrta-destruction-request-canonical/page-01.png",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/raster/mrta-destruction-request-boundary/page-01.png",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/actual-writes.json",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/NY/02_PACKET_FORMS/NY__FORM__MRTA-DESTRUCTION-REQUEST__application-to-destroy-marijuana-conviction-record__REV-UNKNOWN__EN.pdf",
+    "data/record-clearing/legal-design-track-registry.json (tracks[328], trackId ny_mrta_marijuana)",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (routes[652])",
+    "scripts/rcap-packet-completeness/completeness-contract.mjs (REFUSAL_CLASSES dispositions)",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the ny_mrta_marijuana-set row and its receipt)"
+   ],
+   "grantsNothing": "This verdict approves no output and opens no commercial route, and a PASS on fourteen obligations is not a PASS on the family."
   }
  ],
  "supersededLaneMembership": {
@@ -7463,7 +7704,8 @@
   "containerHeadAddsOnly": "data/rcap-grade-a/packet-factory-24h/vf03/checkpoint-blocked-before-claim.json, which touches no family",
   "measuredBy": "the fifteen proof obligations scored by name in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from any builder report; artifact bytes rehashed with sha256 and page counts read with pdfinfo; committed source records rehashed from the bytes on disk; word geometry read with pdftotext -bbox-layout over the delivered fixtures; and the rendered text read directly for every prefilled and every protected field.",
   "familiesInThisWave": [
-   "dc_yra_set_aside-set"
+   "dc_yra_set_aside-set",
+   "ny_mrta_marijuana-set"
   ]
  }
 }
