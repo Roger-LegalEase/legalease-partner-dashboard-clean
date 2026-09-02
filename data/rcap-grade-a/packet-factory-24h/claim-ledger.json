@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "0eb8238089ced50ff8c6d2bc3f972312621b407d",
+  "generatedAtCommit": "9beaa8ad721228d3e48bf1a9f10aa93aaa32ca53",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -496,10 +496,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF12",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T01:57:44.519Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -841,10 +841,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF12",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T01:56:17.928Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1081,10 +1081,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF24",
+      "lane": "VF12",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T00:01:25.673Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4200,21 +4200,6 @@
         "wa_vac_cannabis-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF09",
-      "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T01:41:59.749Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wa_vac_cannabis-set",
-      "familyId": "wa_vac_cannabis-set",
-      "itemId": null,
-      "familyIds": [
-        "wa_vac_cannabis-set"
-      ],
-      "sourceId": null,
       "operation": "rapid-repair",
       "lane": "FIX10",
       "laneKind": "repair",
@@ -4320,21 +4305,6 @@
         "wa_vac_misdemeanor_ordinary-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF11",
-      "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T01:41:59.903Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wa_vac_misdemeanor_ordinary-set",
-      "familyId": "wa_vac_misdemeanor_ordinary-set",
-      "itemId": null,
-      "familyIds": [
-        "wa_vac_misdemeanor_ordinary-set"
-      ],
-      "sourceId": null,
       "operation": "rapid-repair",
       "lane": "FIX10",
       "laneKind": "repair",
@@ -4380,41 +4350,11 @@
         "wa_vac_survivor_felony-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T01:42:00.060Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wa_vac_survivor_felony-set",
-      "familyId": "wa_vac_survivor_felony-set",
-      "itemId": null,
-      "familyIds": [
-        "wa_vac_survivor_felony-set"
-      ],
-      "sourceId": null,
       "operation": "rapid-repair",
       "lane": "FIX10",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T05:46:25.356Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wa_vac_survivor_misdemeanor-set",
-      "familyId": "wa_vac_survivor_misdemeanor-set",
-      "itemId": null,
-      "familyIds": [
-        "wa_vac_survivor_misdemeanor-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF02",
-      "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T01:42:00.133Z"
     },
     {
       "subjectType": "packet-family",
@@ -10158,7 +10098,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "918bf5a2d61f0734e83085c00717135d9f08f5a42576f05d2179f558d4b20d3f",
+  "claimsDigest": "289d926ffd24458a06b393884513733dbe9df412d335236681923f3310acc4da",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -18001,6 +17941,83 @@
       "previouslyReleasedAt": "2026-09-02T04:21:17.693Z",
       "transferredAt": "2026-09-02T05:45:14.059Z",
       "reason": "second read after FABLE-R17's repair released: these families carry no current independent verdict at the repaired bytes, and a repair nobody has read is not a finished family"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ca-prop64-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF04",
+      "toLane": "VF12",
+      "previouslyReleasedAt": "2026-09-02T01:57:44.519Z",
+      "transferredAt": "2026-09-02T05:59:57.530Z",
+      "reason": "second read at repaired bytes: no current independent verdict exists at this base and a repair nobody has read is not a finished family"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF06",
+      "toLane": "VF12",
+      "previouslyReleasedAt": "2026-09-02T01:56:17.928Z",
+      "transferredAt": "2026-09-02T05:59:57.607Z",
+      "reason": "second read at repaired bytes: no current independent verdict exists at this base and a repair nobody has read is not a finished family"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ct-cleanslate-petition-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF24",
+      "toLane": "VF12",
+      "previouslyReleasedAt": "2026-09-02T00:01:25.673Z",
+      "transferredAt": "2026-09-02T05:59:57.683Z",
+      "reason": "second read at repaired bytes: no current independent verdict exists at this base and a repair nobody has read is not a finished family"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_cannabis-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF09",
+      "toLane": "VF12",
+      "previouslyReleasedAt": "2026-09-02T01:41:59.749Z",
+      "transferredAt": "2026-09-02T05:59:57.819Z",
+      "reason": "second read at repaired bytes: no current independent verdict exists at this base and a repair nobody has read is not a finished family"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_misdemeanor_ordinary-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF11",
+      "toLane": "VF12",
+      "previouslyReleasedAt": "2026-09-02T01:41:59.903Z",
+      "transferredAt": "2026-09-02T05:59:57.897Z",
+      "reason": "second read at repaired bytes: no current independent verdict exists at this base and a repair nobody has read is not a finished family"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_survivor_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF12",
+      "previouslyReleasedAt": "2026-09-02T01:42:00.060Z",
+      "transferredAt": "2026-09-02T05:59:57.970Z",
+      "reason": "second read at repaired bytes: no current independent verdict exists at this base and a repair nobody has read is not a finished family"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_survivor_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF12",
+      "previouslyReleasedAt": "2026-09-02T01:42:00.133Z",
+      "transferredAt": "2026-09-02T05:59:58.048Z",
+      "reason": "second read at repaired bytes: no current independent verdict exists at this base and a repair nobody has read is not a finished family"
     }
   ],
   "withdrawals": [
@@ -18778,6 +18795,38 @@
       "operation": "rapid-repair",
       "lane": "FIX09",
       "withdrawnAt": "2026-09-02T05:43:41Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_cannabis-set",
+      "operation": "independent-verification",
+      "lane": "VF12",
+      "withdrawnAt": "2026-09-02T06:01:18Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_misdemeanor_ordinary-set",
+      "operation": "independent-verification",
+      "lane": "VF12",
+      "withdrawnAt": "2026-09-02T06:01:18Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_survivor_felony-set",
+      "operation": "independent-verification",
+      "lane": "VF12",
+      "withdrawnAt": "2026-09-02T06:01:18Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_survivor_misdemeanor-set",
+      "operation": "independent-verification",
+      "lane": "VF12",
+      "withdrawnAt": "2026-09-02T06:01:18Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
