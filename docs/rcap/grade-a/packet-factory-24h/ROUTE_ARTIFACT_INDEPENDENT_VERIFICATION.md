@@ -75,17 +75,24 @@ that route stops. Read the row for the route under verification, not the table.
 
 ## What this lane did NOT establish
 
-- **Central-runner raster.** The route rasters were produced in the build
-  container by `scripts/rcap-raster-batch.mjs`, after `rcap-raster-canary.mjs`
-  returned `CANARY_PASSED` and `RCAP_RASTER_NEGATIVE_CONTROLS_HELD` in the same
-  container. That is the same tool and the same measurements the GitHub-hosted
-  workflow runs, but it is not a run of
-  `.github/workflows/rcap-packet-raster-acceptance-batch.yml`, so there is no
-  workflow run id, no job id and no uploaded receipt artifact. If the Captain
-  requires a runner receipt, the workflow takes `raster_manifest_path` as an
-  input and can be dispatched against
-  `data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json`
-  at this branch's commit without touching `RASTER_QUEUE.json`.
+- **The central run's verdicts, read verbatim.** The route artifacts WERE
+  rendered centrally: workflow run
+  [33640297318](https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318)
+  at commit `0eb9a3ccd1e09c2a2d0eff44362f170e4939e561`, dispatched with
+  `raster_manifest_path` pointed at this lane's queue so `RASTER_QUEUE.json` was
+  neither read nor written. All 15 jobs are green: the canary the family matrix
+  depends on, the plan job, and one job per route. Every job passed the pinned-
+  commit guard, and every route job passed "Refuse a modified packet byte", so
+  no runner rendered different bytes and no render moved a tracked file.
+
+  What this lane did not do is download the 13 uploaded `verdict.json` receipts
+  and read their runner lines. `rcap-raster-batch.mjs` exits 0 only on
+  `RASTER_PASS`, so green jobs establish the verdicts structurally — that is a
+  weaker read than a verbatim one and is labelled as such in
+  `CENTRAL_RASTER_RUN.json`. A verifier who wants the verbatim verdicts and the
+  per-page measurements from the central runner downloads those artifacts; they
+  expire 2026-09-16. The verbatim per-page measurements this lane does hold come
+  from its own local run of the same tool, in `raster-receipts/`.
 - **The rendered PNGs.** They are not committed; this container is at capacity.
   The per-page measurements are in each receipt, and the pinned SHA-256 is what
   makes a re-render reproducible.

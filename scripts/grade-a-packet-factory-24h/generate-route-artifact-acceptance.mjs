@@ -34,6 +34,7 @@ const git = (a) => { try { return execFileSync("git", a, { cwd: ROOT, encoding: 
 const read = (rel) => { const p = path.join(ROOT, rel); return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, "utf8")) : null; };
 const sha256 = (p) => crypto.createHash("sha256").update(fs.readFileSync(p)).digest("hex");
 
+const central = read(`${DIR}/CENTRAL_RASTER_RUN.json`);
 const determinism = read(`${DIR}/ROUTE_ARTIFACT_DETERMINISM.json`);
 const completeness = read(`${DIR}/ROUTE_ARTIFACT_COMPLETENESS.json`);
 const queue = read(`${DIR}/ROUTE_ARTIFACT_RASTER_QUEUE.json`);
@@ -132,7 +133,23 @@ for (const c of completeness.results) {
         browserExecutable: receipt.verdict.browserExecutable,
         receipt: receipt.file,
         doesNotInheritTheFamilyReceipt: "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        renderedWhere: "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        renderedWhere: "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        centralRun: (() => {
+          const r = (central?.routes ?? []).find((x) => x.route === c.route && x.packetFamilyId === c.familyId);
+          if (!r) return { ran: false, why: "this artifact's route is not in CENTRAL_RASTER_RUN.json" };
+          const pinned = (r.documentsPinned ?? []).find((d) => d.role === c.fixture) ?? null;
+          return {
+            ran: true,
+            workflow: central.workflow, workflowRunId: central.workflowRunId, runUrl: central.runUrl,
+            renderedCommitSha: central.renderedCommitSha,
+            jobId: r.jobId, jobConclusion: r.jobConclusion,
+            boundToSha256: pinned?.sha256 ?? null,
+            boundToTheseBytes: (pinned?.sha256 ?? null) === onDisk,
+            receiptArtifact: r.receiptArtifact,
+            verdictBasis: central.howTheVerdictIsEstablished,
+            notReadVerbatim: central.whatWasNotReadVerbatim
+          };
+        })(),
         pngPagesRetained: false,
         whyPngPagesAreNotCommitted: "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       }
@@ -153,7 +170,9 @@ for (const c of completeness.results) {
         `${DIR}/ROUTE_ARTIFACT_DETERMINISM.json`,
         `${DIR}/ROUTE_ARTIFACT_COMPLETENESS.json`,
         `${DIR}/ROUTE_ARTIFACT_RASTER_QUEUE.json`,
-        receipt?.file ?? `${DIR}/raster-receipts/ — no receipt exists for this artifact`
+        receipt?.file ?? `${DIR}/raster-receipts/ — no receipt exists for this artifact`,
+        `${DIR}/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download`,
+        `${DIR}/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on`
       ],
       recomputeRatherThanRead: [
         "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -174,6 +193,16 @@ const doc = {
   atCommit: git(["rev-parse", "HEAD"]),
   whatThisIs: "Per-artifact acceptance evidence for the route-scoped packets: deterministic rebuild, current hash, route-scoped component completeness, and raster acceptance bound to the artifact's own bytes.",
   whatRemainsOpen: "Independent verification, on every row. This lane built these artifacts and may not verify them.",
+  centralRasterRun: central
+    ? {
+      workflowRunId: central.workflowRunId, runUrl: central.runUrl,
+      renderedCommitSha: central.renderedCommitSha,
+      jobsSucceeded: `${central.jobsSucceeded}/${central.jobsTotal}`,
+      routesCovered: central.routesCovered, pagesCovered: central.pagesCovered,
+      rasterQueueJsonInvolved: central.rasterQueueJsonInvolved,
+      record: `${DIR}/CENTRAL_RASTER_RUN.json`
+    }
+    : null,
   whyTheBuilderFlagsWereNotFlipped: "Each routeArtifacts row in reports/rendered-artifacts.json still reads rasterPending: true and independentVerificationPending: true. Those are written unconditionally by the builder, so editing them by hand would make the artifacts stop reproducing — and reproducing is the property this very record establishes. The raster state and the verification state live here instead, keyed to the artifact's SHA-256, and this record is what supersedes the builder's flag. A reader who needs the current state reads this file, not the build report.",
   familyAssembliesUnchanged: (determinism.artifacts ?? []).filter((a) => a.unit === "family_assembly")
     .map((a) => ({ file: a.file, committedSha256: a.committedSha256, rebuildSha256: a.rebuild1Sha256, unchanged: a.matchesCommitted && a.deterministic })),

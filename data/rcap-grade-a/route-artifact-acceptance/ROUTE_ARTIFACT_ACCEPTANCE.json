@@ -1,9 +1,19 @@
 {
   "schemaVersion": "rcap-route-artifact-acceptance/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-route-artifact-acceptance.mjs",
-  "atCommit": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+  "atCommit": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
   "whatThisIs": "Per-artifact acceptance evidence for the route-scoped packets: deterministic rebuild, current hash, route-scoped component completeness, and raster acceptance bound to the artifact's own bytes.",
   "whatRemainsOpen": "Independent verification, on every row. This lane built these artifacts and may not verify them.",
+  "centralRasterRun": {
+    "workflowRunId": "33640297318",
+    "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+    "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+    "jobsSucceeded": "15/15",
+    "routesCovered": 13,
+    "pagesCovered": 149,
+    "rasterQueueJsonInvolved": false,
+    "record": "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json"
+  },
   "whyTheBuilderFlagsWereNotFlipped": "Each routeArtifacts row in reports/rendered-artifacts.json still reads rasterPending: true and independentVerificationPending: true. Those are written unconditionally by the builder, so editing them by hand would make the artifacts stop reproducing — and reproducing is the property this very record establishes. The raster state and the verification state live here instead, keyed to the artifact's SHA-256, and this record is what supersedes the builder's flag. A reader who needs the current state reads this file, not the build report.",
   "familyAssembliesUnchanged": [
     {
@@ -113,7 +123,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516-municipal.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282293069,
+          "jobConclusion": "success",
+          "boundToSha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-ks-custom-pleading__route__ks-12-4516-municipal-33640297318",
+            "id": 9850773412,
+            "zipSha256": "sha256:86f05193a82d2111dbfc80ad96585e6997b57e120eb04449903f81d609f5a68c",
+            "sizeInBytes": 4133726,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -153,7 +183,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516-municipal.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516-municipal.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -226,7 +258,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282293024,
+          "jobConclusion": "success",
+          "boundToSha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest-33640297318",
+            "id": 9850768366,
+            "zipSha256": "sha256:638eda95476a4431c4d50b6cb834134883b46f0fc27fd7a846c276d99346d9d6",
+            "sizeInBytes": 3953617,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -266,7 +318,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -339,7 +393,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516-municipal.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282293069,
+          "jobConclusion": "success",
+          "boundToSha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-ks-custom-pleading__route__ks-12-4516-municipal-33640297318",
+            "id": 9850773412,
+            "zipSha256": "sha256:86f05193a82d2111dbfc80ad96585e6997b57e120eb04449903f81d609f5a68c",
+            "sizeInBytes": 4133726,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -379,7 +453,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516-municipal.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516-municipal.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -452,7 +528,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282293024,
+          "jobConclusion": "success",
+          "boundToSha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest-33640297318",
+            "id": 9850768366,
+            "zipSha256": "sha256:638eda95476a4431c4d50b6cb834134883b46f0fc27fd7a846c276d99346d9d6",
+            "sizeInBytes": 3953617,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -492,7 +588,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -563,7 +661,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_arrest_no_court_record.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282292977,
+          "jobConclusion": "success",
+          "boundToSha256": "4f407cc9573b786026d2599903d48ff13b31019c61112fb9129c595d4babb56d",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_arrest_no_court_record-33640297318",
+            "id": 9850766922,
+            "zipSha256": "sha256:3bb6ffa00d4eaa71a4279e4ff27528a472b3076cdd5e1091601230287ff4f520",
+            "sizeInBytes": 3656253,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -603,7 +721,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_arrest_no_court_record.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_arrest_no_court_record.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -676,7 +796,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_illegal_voting.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282292989,
+          "jobConclusion": "success",
+          "boundToSha256": "54de61f9367ae8038f30c61315638be2ec0e4196ff2297d2560375dd7bc45156",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_illegal_voting-33640297318",
+            "id": 9850754765,
+            "zipSha256": "sha256:4f676cbfb0cc2da9b430a05fcd5254720fece9ae97b7019d865f53627b7f98c0",
+            "sizeInBytes": 2964042,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -716,7 +856,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_illegal_voting.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_illegal_voting.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -789,7 +931,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_mistaken_identity.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282292988,
+          "jobConclusion": "success",
+          "boundToSha256": "ce292942d0c1312f63c5700c6a707aee5fa6068e00195f26ed93bf3a24a61f89",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_mistaken_identity-33640297318",
+            "id": 9850772362,
+            "zipSha256": "sha256:7ff8103340f2f4e31d6807825311f32829553f9ae8c6a5c7f45b980408fab0aa",
+            "sizeInBytes": 3795661,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -829,7 +991,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_mistaken_identity.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_mistaken_identity.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -900,7 +1064,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_nonconviction_petition.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282293137,
+          "jobConclusion": "success",
+          "boundToSha256": "cf7a2630c3bdba5dbf58ab8b66c0c517472aafeda1b0899f394182c0ea43be07",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_nonconviction_petition-33640297318",
+            "id": 9850771096,
+            "zipSha256": "sha256:e26c736aaf7a19f03241580c610f9d7d30ee7ec76c0d4773a9e128133be3ec6f",
+            "sizeInBytes": 3437345,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -940,7 +1124,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_nonconviction_petition.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_nonconviction_petition.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -1013,7 +1199,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_post_pardon.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282292987,
+          "jobConclusion": "success",
+          "boundToSha256": "03f4948be810f94ec2b430fc7684b3fea5da0f4977251dd6d5a419c2a95ec987",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_post_pardon-33640297318",
+            "id": 9850756525,
+            "zipSha256": "sha256:c0601dbebafc199411ab5dc0e69c66c846ede5b46331138f56347ae02623d033",
+            "sizeInBytes": 4119537,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -1053,7 +1259,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_post_pardon.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_post_pardon.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -1124,7 +1332,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_pretrial_diversion.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282292994,
+          "jobConclusion": "success",
+          "boundToSha256": "3e2e151485ceb673901585f0c5d2d913e53fc5bfd837ff93c8c43ddaba664dac",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_pretrial_diversion-33640297318",
+            "id": 9850775014,
+            "zipSha256": "sha256:002ea6b29a04f234678597091da99cd39d4ea880da08a941ba56e45529bdf803",
+            "sizeInBytes": 3333195,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -1164,7 +1392,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_pretrial_diversion.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_pretrial_diversion.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -1237,7 +1467,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_recovery_court.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282292992,
+          "jobConclusion": "success",
+          "boundToSha256": "a4e798f319fe06653e80f4b1ed3ff4b27b34b30854739a9ebc218b865d0225a5",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_recovery_court-33640297318",
+            "id": 9850777554,
+            "zipSha256": "sha256:1e62232dec453992376ac44bc46c045f3374abe644bb1966b396284c0b9750e7",
+            "sizeInBytes": 4400365,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -1277,7 +1527,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_recovery_court.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_recovery_court.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -1350,7 +1602,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_redaction.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282293090,
+          "jobConclusion": "success",
+          "boundToSha256": "af51506aed52e3f40385d864d0520e20db0f8fc2980c942aaef26bf36828b7ea",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_redaction-33640297318",
+            "id": 9850808210,
+            "zipSha256": "sha256:e9ac392c890e6d4d20aef6a6d81a591639232fdd4ad89268f8144be915e0b9a0",
+            "sizeInBytes": 4115609,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -1390,7 +1662,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_redaction.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_redaction.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -1463,7 +1737,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_eligible_conviction.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282293078,
+          "jobConclusion": "success",
+          "boundToSha256": "b8fcb67ca7a3544ffb9e9f5ac5170ffb5a8948f675edfcbd7bbfa2ffc66a09fc",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_eligible_conviction-33640297318",
+            "id": 9850767574,
+            "zipSha256": "sha256:ca1c1bb610d43db944b3a47e19d7e7d0ab1bdbc98f336d9c13f690a2234ee552",
+            "sizeInBytes": 4631935,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -1503,7 +1797,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_eligible_conviction.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_eligible_conviction.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -1574,7 +1870,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_judicial_diversion.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282292993,
+          "jobConclusion": "success",
+          "boundToSha256": "32fd06a9afb5c77d9d4472e72887442cf92dbebdaad117b63f0436ea13db62d5",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_judicial_diversion-33640297318",
+            "id": 9850768574,
+            "zipSha256": "sha256:e499c5ccebe698d48b16632d7260584750c2b546b48e13e999f9fc2260086b9a",
+            "sizeInBytes": 3458260,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -1614,7 +1930,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_judicial_diversion.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_judicial_diversion.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -1687,7 +2005,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_two_offense.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282293043,
+          "jobConclusion": "success",
+          "boundToSha256": "397c4caa4ccecab1c6e16f50db255143cfdf0d9c462b562ab46daab9f349d85a",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_two_offense-33640297318",
+            "id": 9850743783,
+            "zipSha256": "sha256:584d2ffa585f613cb0c5eda8642e60aa8486ec70b2b56fd4024c6455930e8892",
+            "sizeInBytes": 4509358,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -1727,7 +2065,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_two_offense.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_two_offense.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -1798,7 +2138,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_arrest_no_court_record.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282292977,
+          "jobConclusion": "success",
+          "boundToSha256": "480afe6716bf5f06f031d8cd482e9014324a7a80c9016b2783fa8efff47208b2",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_arrest_no_court_record-33640297318",
+            "id": 9850766922,
+            "zipSha256": "sha256:3bb6ffa00d4eaa71a4279e4ff27528a472b3076cdd5e1091601230287ff4f520",
+            "sizeInBytes": 3656253,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -1838,7 +2198,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_arrest_no_court_record.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_arrest_no_court_record.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -1911,7 +2273,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_illegal_voting.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282292989,
+          "jobConclusion": "success",
+          "boundToSha256": "fdf011ac0224b35ff6f1f2bbaf89972a52521de85a544d1a86a6b82e39b39353",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_illegal_voting-33640297318",
+            "id": 9850754765,
+            "zipSha256": "sha256:4f676cbfb0cc2da9b430a05fcd5254720fece9ae97b7019d865f53627b7f98c0",
+            "sizeInBytes": 2964042,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -1951,7 +2333,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_illegal_voting.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_illegal_voting.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -2024,7 +2408,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_mistaken_identity.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282292988,
+          "jobConclusion": "success",
+          "boundToSha256": "9795d31c69abf632d2903fab179ec48329c023e12a356913b7bd6ef2c71805ab",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_mistaken_identity-33640297318",
+            "id": 9850772362,
+            "zipSha256": "sha256:7ff8103340f2f4e31d6807825311f32829553f9ae8c6a5c7f45b980408fab0aa",
+            "sizeInBytes": 3795661,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -2064,7 +2468,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_mistaken_identity.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_mistaken_identity.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -2135,7 +2541,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_nonconviction_petition.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282293137,
+          "jobConclusion": "success",
+          "boundToSha256": "3174ec151490d2ed5b8c5c0614add190522fd7ee701141c88e986f3942f4fcee",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_nonconviction_petition-33640297318",
+            "id": 9850771096,
+            "zipSha256": "sha256:e26c736aaf7a19f03241580c610f9d7d30ee7ec76c0d4773a9e128133be3ec6f",
+            "sizeInBytes": 3437345,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -2175,7 +2601,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_nonconviction_petition.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_nonconviction_petition.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -2248,7 +2676,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_post_pardon.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282292987,
+          "jobConclusion": "success",
+          "boundToSha256": "bfb2ba6979f542c9189aed13dec93927cab827df87510d39c145b7882598c21f",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_post_pardon-33640297318",
+            "id": 9850756525,
+            "zipSha256": "sha256:c0601dbebafc199411ab5dc0e69c66c846ede5b46331138f56347ae02623d033",
+            "sizeInBytes": 4119537,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -2288,7 +2736,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_post_pardon.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_post_pardon.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -2359,7 +2809,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_pretrial_diversion.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282292994,
+          "jobConclusion": "success",
+          "boundToSha256": "5e94e8ee99c6437d60f57c967070553045f674ef79fe94eeeb2d2c2c4fa5b881",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_pretrial_diversion-33640297318",
+            "id": 9850775014,
+            "zipSha256": "sha256:002ea6b29a04f234678597091da99cd39d4ea880da08a941ba56e45529bdf803",
+            "sizeInBytes": 3333195,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -2399,7 +2869,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_pretrial_diversion.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_pretrial_diversion.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -2472,7 +2944,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_recovery_court.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282292992,
+          "jobConclusion": "success",
+          "boundToSha256": "c4a3881633797310d3999b05a53fb28ace305aa6f70a62b70737249ff3d5550a",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_recovery_court-33640297318",
+            "id": 9850777554,
+            "zipSha256": "sha256:1e62232dec453992376ac44bc46c045f3374abe644bb1966b396284c0b9750e7",
+            "sizeInBytes": 4400365,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -2512,7 +3004,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_recovery_court.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_recovery_court.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -2585,7 +3079,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_redaction.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282293090,
+          "jobConclusion": "success",
+          "boundToSha256": "e2a9c951b87d77c14c1cb3453a4ead0aed3ea8de5e3e97e3f1ecbb2507df37be",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_redaction-33640297318",
+            "id": 9850808210,
+            "zipSha256": "sha256:e9ac392c890e6d4d20aef6a6d81a591639232fdd4ad89268f8144be915e0b9a0",
+            "sizeInBytes": 4115609,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -2625,7 +3139,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_redaction.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_redaction.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -2698,7 +3214,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_eligible_conviction.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282293078,
+          "jobConclusion": "success",
+          "boundToSha256": "7144db6a93b1f5522cd29f29f77192e782e4e3766fbab6d0d5b1144ec51de3ee",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_eligible_conviction-33640297318",
+            "id": 9850767574,
+            "zipSha256": "sha256:ca1c1bb610d43db944b3a47e19d7e7d0ab1bdbc98f336d9c13f690a2234ee552",
+            "sizeInBytes": 4631935,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -2738,7 +3274,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_eligible_conviction.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_eligible_conviction.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -2809,7 +3347,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_judicial_diversion.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282292993,
+          "jobConclusion": "success",
+          "boundToSha256": "d3a6b8dcb0315b87c6b54ac0d1ccf87c5f0396719fed6e9929e961a5db6aff6a",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_judicial_diversion-33640297318",
+            "id": 9850768574,
+            "zipSha256": "sha256:e499c5ccebe698d48b16632d7260584750c2b546b48e13e999f9fc2260086b9a",
+            "sizeInBytes": 3458260,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -2849,7 +3407,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_judicial_diversion.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_judicial_diversion.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
@@ -2922,7 +3482,27 @@
         "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
         "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_two_offense.verdict.json",
         "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "in the build container, by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container",
+        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        "centralRun": {
+          "ran": true,
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33640297318",
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
+          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+          "jobId": 100282293043,
+          "jobConclusion": "success",
+          "boundToSha256": "b6e5ad6482c0f9b83cf54b2b67e6ff94857ab1f261d59e3455140690599fb611",
+          "boundToTheseBytes": true,
+          "receiptArtifact": {
+            "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_two_offense-33640297318",
+            "id": 9850743783,
+            "zipSha256": "sha256:584d2ffa585f613cb0c5eda8642e60aa8486ec70b2b56fd4024c6455930e8892",
+            "sizeInBytes": 4509358,
+            "expiresAt": "2026-09-16T14:17:16Z"
+          },
+          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
+          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
+        },
         "pngPagesRetained": false,
         "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       },
@@ -2962,7 +3542,9 @@
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
           "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_two_offense.verdict.json"
+          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__tn_two_offense.verdict.json",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
         ],
         "recomputeRatherThanRead": [
           "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
