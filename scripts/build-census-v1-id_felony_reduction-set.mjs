@@ -87,7 +87,7 @@ const SPEC = {
       "description": "the composed petition, on this route's own statutory ground (Reduce a felony to a misdemeanor)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Sentencing court - see the filing instructions in this packet)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -165,6 +165,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "caption_court",
+          "label": "The caption rule on page 1 - \"IN THE ................ COURT\"",
+          "supply": "the name of the court that entered your judgment of conviction, which is the court this application goes to. This packet does not name it for you and does not hold it: the committed record gives the destination as \"Sentencing court\" and adds that \"County practice on \u00a7 19-2604 applications is unverified\", so if your judgment does not make the court's name plain, ask the clerk's office of that court how it wants the caption written before you file.",
+          "why": "a petition whose caption names no court cannot be filed, and this is the only place in the packet where the court's identity is ever recorded. No committed record for this route names a specific court, so the blank is the participant's rather than the build's"
+        },
         {
           "kind": "rbf",
           "id": "fact_judgmentType",
