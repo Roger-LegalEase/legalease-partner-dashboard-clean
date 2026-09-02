@@ -1,10 +1,10 @@
 {
   "schemaVersion": "rcap-census-v1-product-wiring/v1",
   "family": "rcap-ks-custom-pleading",
-  "routeKey": "obligation:track-only:KS:ks-12-4516-municipal",
+  "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
   "routeKeys": [
-    "obligation:track-only:KS:ks-12-4516-municipal",
-    "obligation:track-only:KS:ks-12-4516a-municipal-arrest"
+    "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+    "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
   ],
   "workType": "PRODUCT_WIRING_REQUIRED",
   "status": "DECLARED_NOT_INSTALLED",
@@ -67,9 +67,26 @@
         "order": 1,
         "documentId": "canonical",
         "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "aca94f8f2ec3ae058e1a52b3d17cda4ffbabec5e6f8b087e5d58147f81a3f04f",
+        "sha256": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
         "requirement": "required"
       }
     ]
+  },
+  "routeLabels": {
+    "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516": "Municipal conviction or diversion expungement - K.S.A. 12-4516",
+    "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a": "Municipal arrest record expungement - K.S.A. 12-4516a"
+  },
+  "printedRouteLineCarriesTheLabelNotTheKey": true,
+  "correctedBy": {
+    "lane": "FIX03",
+    "branch": "fable/kspath",
+    "what": [
+      "top-level routeKey obligation:track-only:KS:ks-12-4516-municipal -> obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+      "top-level routeKeys[0] obligation:track-only:KS:ks-12-4516-municipal -> obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+      "top-level routeKeys[1] obligation:track-only:KS:ks-12-4516a-municipal-arrest -> obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
+      "rcap-ks-custom-pleading-component-1 sha256 aca94f8f2ec3ae058e1a52b3d17cda4ffbabec5e6f8b087e5d58147f81a3f04f -> 006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24"
+    ],
+    "why": "the top level named the superseded track-only keys the census no longer carries, and the component digest named the pre-label bytes",
+    "authorityCreated": "none"
   }
 }

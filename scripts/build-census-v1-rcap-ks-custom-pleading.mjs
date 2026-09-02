@@ -57,12 +57,32 @@ const SPEC = {
     "K.S.A. 12-4516a(h)",
     "K.S.A. 21-6107"
   ],
+  /*
+   * Two identities per route, and they are not the same thing.
+   *
+   * routeKey is the machine id the census carries. It is 108 and 105 characters
+   * long, it is what every manifest, wiring and acceptance record binds to, and
+   * it must never be weakened or abbreviated in any of them.
+   *
+   * routeLabel is what a person reads. When the census rewrote the two keys from
+   * track-only to track-pathway form the printed `Route:` footer went from one
+   * line to three hard-wrapped lines, breaking mid-token across a page boundary,
+   * and that is not something to hand a participant or a municipal clerk. Roger
+   * Roman decided on 2026-09-02 that the packet page prints the short human
+   * label and the machine id stays in the manifests and the wiring. This is a
+   * Kansas decision; no other family's route line is touched by it.
+   *
+   * The label is asserted below to be short, to be free of any machine-key
+   * substring, and to fit the composed page on one line.
+   */
   "routes": [
     {
-      "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516"
+      "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+      "routeLabel": "Municipal conviction or diversion expungement - K.S.A. 12-4516"
     },
     {
-      "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
+      "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
+      "routeLabel": "Municipal arrest record expungement - K.S.A. 12-4516a"
     }
   ],
   "records": [
@@ -1132,6 +1152,32 @@ const DOTS = (n = 84) => ".".repeat(n);
 const COMPONENT_IDS = SPEC.components.map((c) => c.id);
 const COMPONENT = Object.fromEntries(SPEC.components.map((c) => [c.id, c]));
 
+/* ---- the two names of a route ------------------------------------------------ *
+ * ROUTE_LABEL maps the machine route key to the short human label. The label is
+ * the only one of the two that is ever PRINTED; the key is the only one that is
+ * ever BOUND. Both are emitted in every manifest so the mapping is auditable and
+ * a reader never has to guess which page belongs to which key.
+ *
+ * The refusals below are the guard on that separation. A label that carried a
+ * machine key, or that could not be read at a glance, would defeat the point of
+ * having one, and a build that printed a label it never declared would be a
+ * silent packet change.
+ */
+const ROUTE_LABEL = Object.fromEntries(SPEC.routes.map((r) => [r.routeKey, r.routeLabel]));
+for (const route of SPEC.routes) {
+  const label = route.routeLabel;
+  assert.ok(typeof label === "string" && label.trim().length > 0,
+    `${route.routeKey}: declares no human-readable routeLabel, and the packet page prints the label`);
+  assert.ok(!label.includes("obligation:"),
+    `${route.routeKey}: routeLabel "${label}" carries a machine route key; the label is what a person reads`);
+  assert.ok(label.length <= 72,
+    `${route.routeKey}: routeLabel is ${label.length} characters and would wrap on the composed page`);
+  assert.ok(label === sanitizePdfText(label),
+    `${route.routeKey}: routeLabel would be rewritten by the page sanitizer, so the manifest and the page would disagree`);
+}
+assert.strictEqual(new Set(Object.values(ROUTE_LABEL)).size, SPEC.routes.length,
+  "two routes share one label; a reader could not tell the two packets apart");
+
 /* ---- committed-record binding ------------------------------------------------ *
  * This family binds no Master Library binary: its authority is a set of
  * COMMITTED repository records named in SPEC.records. Each is bound by exact
@@ -1231,7 +1277,10 @@ function composedBody(componentId, facts) {
       return String(value);
     }));
   }
-  lines.push("", `Route: ${c.routeKey}`);
+  /* The human label, never the machine key. See ROUTE_LABEL above. */
+  const label = ROUTE_LABEL[c.routeKey];
+  assert.ok(label, `${componentId}: carries route ${c.routeKey}, for which no label is declared`);
+  lines.push("", `Route: ${label}`);
   return lines.join("\n");
 }
 
@@ -1515,7 +1564,7 @@ function participantInstructions(maps, rbf) {
 
   out.push("## What this packet is not", "");
   out.push(SPEC.whatThisIsNot, "");
-  out.push(`_Route(s): ${SPEC.routes.map((r) => r.routeKey).join(" · ")}_`);
+  out.push(`_Route(s): ${SPEC.routes.map((r) => r.routeLabel).join(" · ")}_`);
   return `${out.join("\n")}\n`;
 }
 
@@ -1692,7 +1741,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       const routeProof = await byteProof(packetBytes, pageManifest, routeMaps, facts, `${fixtureName}/${slug}`);
 
       routeArtifacts.push({
-        routeKey: route.routeKey, route: slug, fixture: fixtureName, file,
+        routeKey: route.routeKey, routeLabel: route.routeLabel, route: slug, fixture: fixtureName, file,
         sha256: crypto.createHash("sha256").update(packetBytes).digest("hex"),
         byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
         documents: routeComponentIds, components: routeComponentIds,
@@ -1715,6 +1764,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
     custodyClass: "CUSTOM_PLEADING_FROM_CODIFIED_TEXT", acquisitionCommissioned: false,
     bindingMethod: "committed repository records bound by exact SHA-256 at build time, with every relied-on statement re-read from the committed bytes as an anchor before composing",
     routeKeys: SPEC.routes.map((r) => r.routeKey),
+    /* The machine key is what this receipt binds. The label is what the page
+     * prints, recorded here so the two are never inferred from one another. */
+    routeLabels: Object.fromEntries(SPEC.routes.map((r) => [r.routeKey, r.routeLabel])),
+    printedRouteLineCarriesTheLabelNotTheKey: true,
     statutoryAuthority: SPEC.statutes, legalName: SPEC.legalName,
     /* Derived, not asserted. Every record in SPEC.records must have resolved
      * exactly — present at its committed path, carrying every anchor statement
@@ -1743,7 +1796,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   writeJson(`${OUT}/production-field-map.json`, {
     schemaVersion: "rcap-official-form-field-map/v1-census-v1", familyId: SPEC.familyId,
-    routeKeys: SPEC.routes.map((r) => r.routeKey), renderStrategy: "composed_pleading",
+    routeKeys: SPEC.routes.map((r) => r.routeKey),
+    routeLabels: Object.fromEntries(SPEC.routes.map((r) => [r.routeKey, r.routeLabel])),
+    printedRouteLineCarriesTheLabelNotTheKey: true,
+    renderStrategy: "composed_pleading",
     jurisdiction: SPEC.jurisdiction, statutes: SPEC.statutes, legalName: SPEC.legalName,
     implementationStrategy: "custom_pleading",
     officialForm: null,
@@ -1777,6 +1833,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
       : "build and review evidence only — it concatenates every route's components and is not a participant deliverable",
     routeArtifacts,
     routeArtifactRoutes: SPEC.routes.map((r) => r.routeKey),
+    routeLabels: Object.fromEntries(SPEC.routes.map((r) => [r.routeKey, r.routeLabel])),
+    printedRouteLineCarriesTheLabelNotTheKey: true,
     routeArtifactRasterPending: true,
     artifacts,
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
@@ -1870,7 +1928,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     writes: maps.reduce((n, m) => n + (m.canonicalWrites ?? []).length, 0),
     requiredBeforeFiling: rbf.length,
     artifactHashes: artifacts.map((a) => ({ fixture: a.fixture, packetSha256: a.sha256, pages: a.pageCount })),
-    routeArtifactHashes: routeArtifacts.map((a) => ({ fixture: a.fixture, route: a.route, routeKey: a.routeKey, packetSha256: a.sha256, pages: a.pageCount })),
+    routeArtifactHashes: routeArtifacts.map((a) => ({ fixture: a.fixture, route: a.route, routeKey: a.routeKey, routeLabel: a.routeLabel, packetSha256: a.sha256, pages: a.pageCount })),
     rasterPages: rasterPages.length,
     rasterState: skipRaster ? "BUILT_RASTER_PENDING" : "RASTER_LOCAL_PENDING_CENTRAL",
     nineCountersZero: allZero,

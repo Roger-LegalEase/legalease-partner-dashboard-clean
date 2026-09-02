@@ -42,66 +42,6 @@
   "whatWasNotReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/.",
   "routes": [
     {
-      "familyId": "rcap-ks-custom-pleading::route::ks-12-4516-municipal",
-      "packetFamilyId": "rcap-ks-custom-pleading",
-      "route": "ks-12-4516-municipal",
-      "routeKey": "obligation:track-only:KS:ks-12-4516-municipal",
-      "jobId": 100282293069,
-      "jobConclusion": "success",
-      "documentsPinned": [
-        {
-          "role": "boundary",
-          "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
-          "sha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
-          "pageCount": 7
-        },
-        {
-          "role": "canonical",
-          "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
-          "sha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
-          "pageCount": 6
-        }
-      ],
-      "pagesQueued": 13,
-      "receiptArtifact": {
-        "name": "rcap-raster-rcap-ks-custom-pleading__route__ks-12-4516-municipal-33640297318",
-        "id": 9850773412,
-        "zipSha256": "sha256:86f05193a82d2111dbfc80ad96585e6997b57e120eb04449903f81d609f5a68c",
-        "sizeInBytes": 4133726,
-        "expiresAt": "2026-09-16T14:17:16Z"
-      }
-    },
-    {
-      "familyId": "rcap-ks-custom-pleading::route::ks-12-4516a-municipal-arrest",
-      "packetFamilyId": "rcap-ks-custom-pleading",
-      "route": "ks-12-4516a-municipal-arrest",
-      "routeKey": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
-      "jobId": 100282293024,
-      "jobConclusion": "success",
-      "documentsPinned": [
-        {
-          "role": "boundary",
-          "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
-          "sha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
-          "pageCount": 6
-        },
-        {
-          "role": "canonical",
-          "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
-          "sha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
-          "pageCount": 6
-        }
-      ],
-      "pagesQueued": 12,
-      "receiptArtifact": {
-        "name": "rcap-raster-rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest-33640297318",
-        "id": 9850768366,
-        "zipSha256": "sha256:638eda95476a4431c4d50b6cb834134883b46f0fc27fd7a846c276d99346d9d6",
-        "sizeInBytes": 3953617,
-        "expiresAt": "2026-09-16T14:17:16Z"
-      }
-    },
-    {
       "familyId": "rcap-tn-custom-pleading::route::tn_eligible_conviction",
       "packetFamilyId": "rcap-tn-custom-pleading",
       "route": "tn_eligible_conviction",
@@ -432,11 +372,126 @@
       }
     }
   ],
-  "routesCovered": 13,
-  "pagesCovered": 149,
+  "routesCovered": 11,
+  "pagesCovered": 124,
   "grantsNothing": "A raster verdict is one gate. It does not make an artifact PASS_COMPLETE, promotes nothing, opens no commercial route, and is not independent verification.",
   "packetPdfsModified": 0,
   "packetContentChanged": false,
   "commercialRoutesOpened": 0,
-  "productionTouched": false
+  "productionTouched": false,
+  "routesWithdrawn": 2,
+  "jobCountsAreHistoricalFactsAboutTheRun": "Run 33640297318 really did run 15 jobs and 15 really did succeed, so those numbers are left as they are. What changed is what the run still covers: 2 of its route jobs rendered Kansas bytes that no longer exist, and those routes are withdrawn below. No central run has rendered the current Kansas bytes.",
+  "withdrawnRoutes": [
+    {
+      "family": "rcap-ks-custom-pleading",
+      "lane": "FIX03",
+      "branch": "fable/kspath",
+      "withdrawnAt": "2026-09-02",
+      "selfVerified": false,
+      "mayNotVerifyItsOwnRepair": true,
+      "why": "Every Kansas hash in this record is a pre-repair hash. The builder was re-pointed from the two superseded track-only obligation keys to the current five-segment track-pathway keys, and the packet page then printed the 108- and 105-character machine key, hard-wrapped mid-token across three lines. Roger Roman decided on 2026-09-02 that the Kansas packet page prints a short human label and the machine id stays in the manifests and the wiring. Both changes moved every artifact's bytes. The bytes this record binds no longer exist.",
+      "whatAWithdrawalIs": "A withdrawal removes a claim. It does not make a new one. Nothing here says the current Kansas artifacts are deterministic, complete or rastered to acceptance; it says only that the rows which used to say so were about different bytes, and names the current bytes so an independent lane can measure them.",
+      "currentBytes": [
+        {
+          "unit": "family_assembly",
+          "route": null,
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
+          "pageCount": 12
+        },
+        {
+          "unit": "family_assembly",
+          "route": null,
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2",
+          "pageCount": 13
+        },
+        {
+          "unit": "route_artifact",
+          "route": "ks-12-4516-municipal",
+          "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+          "routeLabel": "Municipal conviction or diversion expungement - K.S.A. 12-4516",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
+          "sha256": "f79d5b4e82d3ccf22c9b03aa42ad202e0796a13b4de95f3d25b38b2adf22f810",
+          "pageCount": 6
+        },
+        {
+          "unit": "route_artifact",
+          "route": "ks-12-4516a-municipal-arrest",
+          "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
+          "routeLabel": "Municipal arrest record expungement - K.S.A. 12-4516a",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
+          "sha256": "8a85bc0f2365938bd8b5e0483585b95abf2550a6cc24a4717b0d72001abd708d",
+          "pageCount": 6
+        },
+        {
+          "unit": "route_artifact",
+          "route": "ks-12-4516-municipal",
+          "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+          "routeLabel": "Municipal conviction or diversion expungement - K.S.A. 12-4516",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
+          "sha256": "7b234e970d38bdc0515122916c6f3961f1140e74f12978b6096e6aa34928600f",
+          "pageCount": 7
+        },
+        {
+          "unit": "route_artifact",
+          "route": "ks-12-4516a-municipal-arrest",
+          "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
+          "routeLabel": "Municipal arrest record expungement - K.S.A. 12-4516a",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
+          "sha256": "dd364be7194a5e23643057ba75e5d5ea84950e7cd18b2945db5483761b9f3617",
+          "pageCount": 6
+        }
+      ],
+      "routesWithdrawn": [
+        {
+          "route": "ks-12-4516-municipal",
+          "jobId": 100282293069,
+          "routeKeyItNamed": "obligation:track-only:KS:ks-12-4516-municipal",
+          "documentsPinned": [
+            {
+              "role": "boundary",
+              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
+              "sha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
+              "pageCount": 7
+            },
+            {
+              "role": "canonical",
+              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
+              "sha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
+              "pageCount": 6
+            }
+          ],
+          "pagesQueued": 13
+        },
+        {
+          "route": "ks-12-4516a-municipal-arrest",
+          "jobId": 100282293024,
+          "routeKeyItNamed": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
+          "documentsPinned": [
+            {
+              "role": "boundary",
+              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
+              "sha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
+              "pageCount": 6
+            },
+            {
+              "role": "canonical",
+              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
+              "sha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
+              "pageCount": 6
+            }
+          ],
+          "pagesQueued": 12
+        }
+      ],
+      "thisLaneCannotReplaceThem": "A central receipt comes from the GitHub-hosted workflow. FIX03 does not dispatch workflows and did not touch .github/workflows. The current Kansas artifacts were rendered locally in this container instead, and those local receipts are recorded in data/rcap-grade-a/route-artifact-acceptance/raster-receipts/. A local receipt is not a central one."
+    }
+  ]
 }
