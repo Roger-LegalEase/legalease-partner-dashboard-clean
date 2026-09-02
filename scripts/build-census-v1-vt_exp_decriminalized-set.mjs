@@ -62,6 +62,7 @@ const require = createRequire(import.meta.url);
 const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
 
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
+const ROUTE_CENSUS = "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json";
 const OVERLAY_ROOT = "data/rcap-all50/overlays/census-v1/vt";
 const FIXED_DATE = "2026-01-01T00:00:00.000Z";
 
@@ -357,6 +358,55 @@ const FIXTURES = {
   }
 };
 
+/* ---- what the record establishes about service ----------------------------- *
+ * FIX01/RP-2, SERVICE.
+ *
+ * This packet used to tell the participant "Who must be served, and how. Ask
+ * the same clerk", on the stated reasoning that service is not established
+ * here. Half of that is true and half of it is not. WHO is established, in the
+ * committed record this family's own route entry carries: the census
+ * destination detail for this route names the office that prosecuted the case
+ * and cites 13 V.S.A. Sec. 7602(a)(3) for it. The packet already knew the
+ * office -- it tells the participant to get the State's Attorney to sign the
+ * stipulation, and that the signature is not service -- and then declined to
+ * say that the office is the one served. HOW and BY WHEN are genuinely not
+ * established, and are still disclosed as unknown.
+ *
+ * So the sentence is READ FROM THE RECORD rather than written from memory. The
+ * census is bound by exact SHA-256 in the source receipt, and the three anchor
+ * statements the printed sentence relies on are re-read from the committed
+ * bytes: if the record ever stops saying them, this build stops rather than
+ * printing a sentence the record no longer supports.
+ */
+const SERVICE_ANCHORS = ["State's Attorney", "Attorney General", "7602(a)(3)"];
+
+function boundRouteRecord(config) {
+  const abs = path.join(ROOT, ROUTE_CENSUS);
+  assert.ok(fs.existsSync(abs),
+    `the committed route-obligation census is not at ${ROUTE_CENSUS}, and the packet prints who is served from it`);
+  const bytes = fs.readFileSync(abs);
+  const routes = JSON.parse(bytes.toString("utf8")).routes ?? [];
+  const route = routes.find((r) => r.routeKey === config.routeKey);
+  assert.ok(route, `${config.routeKey}: the committed census carries no route by this key`);
+  const name = route.destination?.name;
+  const detail = route.destination?.detail;
+  assert.ok(typeof name === "string" && name.trim().length > 0,
+    `${config.routeKey}: the census route names no destination`);
+  assert.ok(typeof detail === "string" && detail.trim().length > 0,
+    `${config.routeKey}: the census route states no destination detail, and the packet prints who is served from it`);
+  const missing = SERVICE_ANCHORS.filter((a) => !detail.includes(a));
+  assert.equal(missing.length, 0,
+    `${config.routeKey}: the census destination detail no longer states ${JSON.stringify(missing)}, so the packet may not print who is served from it`);
+  return {
+    path: ROUTE_CENSUS,
+    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    byteLength: bytes.length,
+    routeKey: config.routeKey,
+    destinationName: name,
+    destinationDetail: detail
+  };
+}
+
 /* ---- source binding ------------------------------------------------------ */
 function resolveSources(familyId) {
   const config = FAMILY_CONFIGS[familyId];
@@ -488,7 +538,36 @@ async function renderDocument(source, census, fixtureName) {
     const wanted = new Set(writable.map((r) => r.name));
     for (const r of report.refused) if (wanted.has(r.field)) console.log(`   REFUSED A WRITE ${r.field}: ${r.reason}`);
   }
-  return { bytes, report };
+  /*
+   * FIX01/RP-2, KNOWN_PREFILLS.
+   *
+   * A refused write used to go nowhere but a console line behind an
+   * environment variable. On the boundary fixture the participant's email did
+   * not fit widget 34i of 200-00132A at the minimum readable size, so the
+   * finalizer refused it: eight writes on the canonical stipulation, seven on
+   * the boundary one, the printed "Email Address" line empty on the paper, no
+   * refusal in any artifact, and the participant page still saying flatly that
+   * the platform filled in "your email".
+   *
+   * A refusal is the right BEHAVIOUR -- the alternative is illegible ink or ink
+   * over a rule -- so what is repaired is the silence, not the refusal. Every
+   * refused write is carried out of here, recorded in the reports, and printed
+   * on the participant's own instruction page as a value they must write by
+   * hand.
+   */
+  const writableByName = new Map(writable.map((r) => [r.name, r]));
+  const refusedPrefills = report.refused
+    .filter((r) => writableByName.has(r.field))
+    .map((r) => {
+      const row = writableByName.get(r.field);
+      return {
+        formNumber: source.formNumber, field: row.key, widgetName: row.name, factId: row.fact,
+        page: row.page, printedCaption: row.caption, reason: r.reason,
+        valueHeld: facts[row.fact] ?? null
+      };
+    })
+    .sort((a, b) => (a.page - b.page) || a.field.localeCompare(b.field));
+  return { bytes, report, refusedPrefills };
 }
 
 async function byteProof(source, census, file, report, fixtureName) {
@@ -515,7 +594,34 @@ async function byteProof(source, census, file, report, fixtureName) {
 }
 
 /* ---- the composed instructions component ---------------------------------- */
-function composedBody(config, facts, resolved) {
+/*
+ * The one sentence that says who the copy goes to, built from the census
+ * destination detail this build bound and asserted rather than from anything
+ * written here from memory.
+ */
+function serviceRecipientSentence(routeRecord) {
+  return "A copy goes to the office that prosecuted your case. The committed record for this route states it: "
+    + `"${routeRecord.destinationDetail.replace(/\s+$/, "").replace(/\.$/, "")}."`
+    + " In practice that is the State's Attorney for the unit where the case was decided, unless the Attorney General prosecuted it.";
+}
+
+/*
+ * The values the platform holds and could NOT put on the paper. Empty on a
+ * packet where everything fitted, which is why this is generated per packet
+ * rather than written into the family page once.
+ */
+function refusedPrefillLines(refusedPrefills) {
+  if (!refusedPrefills || refusedPrefills.length === 0) return [];
+  const L = ["VALUES THE PLATFORM HOLDS BUT COULD NOT PRINT", ""];
+  L.push("Each value below is one this platform holds for you. It did not fit the box on the form at a size a court could read, so the platform left the box EMPTY rather than print something illegible or over a printed rule. WRITE EACH ONE IN BY HAND before you file.", "");
+  for (const r of refusedPrefills) {
+    L.push(`- ${r.formNumber}, page ${r.page}, beside "${r.printedCaption}": ${r.valueHeld ?? "(the value this platform holds for you)"}`);
+  }
+  L.push("");
+  return L;
+}
+
+function composedBody(config, facts, resolved, routeRecord, refusedPrefills) {
   const L = [];
   L.push("FILING AND EXPECTATION INSTRUCTIONS", "");
   L.push(`Petitioner: ${facts["participant.full_legal_name"]}`);
@@ -530,9 +636,12 @@ function composedBody(config, facts, resolved) {
   L.push("This route asks the court to expunge a conviction because the conduct is no longer prohibited by law. Question 2(d) of the petition is where you say so, and it is your assertion about your own offence: the platform does not tick it for you and does not decide whether it is true of your record.", "");
   L.push("The stipulation (200-00132A) is an agreement between you and the State's Attorney. The court cannot act on a stipulation the State's Attorney has not signed. If the State's Attorney will not sign, file the petition on its own and ask the court to set a hearing.", "");
   L.push("The fee waiver application (600-00228) is filed only if you cannot pay. It is a financial affidavit, and the platform holds none of its figures.", "");
-  L.push("TWO THINGS THIS PACKET DOES NOT TELL YOU", "");
-  L.push("- The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is for a petition to expunge under 13 V.S.A. Sec. 7602 and whether the waiver in this packet applies. The form is included; the amount it waives is not stated here.");
-  L.push("- Who must be served, and how. Ask the same clerk who must receive a copy and by what method. The State's Attorney's signature on the stipulation is not service and does not substitute for it.", "");
+  L.push("WHO GETS SERVED", "");
+  L.push(`${serviceRecipientSentence(routeRecord)} The State's Attorney's signature on the stipulation is not service and does not substitute for it: a signed stipulation and a served copy are two different things.`, "");
+  L.push("What is NOT established here is the METHOD and the DEADLINE - how the copy must be delivered, and by when. Ask the clerk of the unit above those two questions. This packet names the office because the record names it, and stops there because the record stops there.", "");
+  L.push(...refusedPrefillLines(refusedPrefills));
+  L.push("ONE THING THIS PACKET DOES NOT TELL YOU", "");
+  L.push("- The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is for a petition to expunge under 13 V.S.A. Sec. 7602 and whether the waiver in this packet applies. The form is included; the amount it waives is not stated here.", "");
   L.push("WHAT THIS PACKET IS NOT", "");
   L.push("This is a prepared set of official Vermont forms. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.", "");
   L.push(`Route: ${config.routeLabel}`);
@@ -760,19 +869,23 @@ function requiredBeforeFilingItems(maps) {
     .sort((a, b) => ((order[a.document] ?? 99) - (order[b.document] ?? 99)) || (a.page - b.page) || ((b.y ?? 0) - (a.y ?? 0)));
 }
 
-function instructionsMarkdown(config, resolved, rbf) {
+function instructionsMarkdown(config, resolved, rbf, routeRecord, refusedPrefillsByFixture) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const out = [];
   out.push(`# What you must do before you file — ${config.routeName}`, "");
   out.push(`This packet is prepared for **${config.legalName}**.`, "");
   out.push("The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number. Everything else on these forms is yours, and this page lists every one of them by the words printed beside the blank.", "");
+  out.push("One qualification on that, and it is the reason this paragraph is not a flat promise. Some of these boxes are small. Where a value the platform holds is too long to print in its box at a size a court could read, the platform leaves that box **empty** rather than print something illegible or ink over a printed rule — and it names the value on the instruction page bound into your own packet, under **Values the platform holds but could not print**, so you can write it in by hand. Read that section if it is there.", "");
   out.push("## Where you file this", "");
   out.push("File the completed packet with the **Vermont Superior Court, Criminal Division**, in the unit where your case was decided.", "");
   out.push("Both the petition (200-00129) and the stipulation (200-00132A) print `SUPERIOR COURT CRIMINAL DIVISION` across the top of page 1, and the `Unit` box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.", "");
-  out.push("Two things this packet does **not** tell you, because neither is established here and an unsourced figure in a filing instruction is worse than none:", "");
-  out.push("- **The filing fee, and whether it can be waived.** Ask the clerk of the unit above. The waiver form is included; the amount it waives is not stated here.");
-  out.push("- **Who must be served, and how.** Ask the same clerk. The State's Attorney's signature on the stipulation is not service and does not substitute for it.", "");
+  out.push("One thing this packet does **not** tell you, because it is not established here and an unsourced figure in a filing instruction is worse than none:", "");
+  out.push("- **The filing fee, and whether it can be waived.** Ask the clerk of the unit above. The waiver form is included; the amount it waives is not stated here.", "");
+  out.push("## Who gets served", "");
+  out.push(`${serviceRecipientSentence(routeRecord)}`, "");
+  out.push("The State's Attorney's signature on the stipulation is **not** service and does not substitute for it: a signed stipulation and a served copy are two different things.", "");
+  out.push("What is **not** established here is the **method** and the **deadline** — how the copy must be delivered, and by when. Ask the clerk of the unit above those two questions. This packet names the office because the record names it, and stops there because the record stops there.", "");
   out.push("## What is in this packet", "");
   out.push("| Component | Document |", "| --- | --- |");
   for (const r of resolved) out.push(`| \`${FORMS[r.formNumber].component}\` | **${r.formNumber}** — ${FORMS[r.formNumber].title} |`);
@@ -790,6 +903,18 @@ function instructionsMarkdown(config, resolved, rbf) {
     for (const i of items) out.push(`| ${i.page} | ${i.disclosureLabel} | ${i.participantMustSupply} |`);
     out.push("");
   }
+  const refusedAnywhere = [...new Set(Object.values(refusedPrefillsByFixture ?? {}).flat()
+    .map((r) => `${r.formNumber}|${r.page}|${r.printedCaption}|${r.factId}`))].sort();
+  if (refusedAnywhere.length > 0) {
+    out.push("## Boxes too small for a long value", "");
+    out.push("On these forms the following boxes are small enough that a long value cannot be printed in them at a readable size. If yours is too long, the box is left empty and the value is named on the instruction page in your own packet for you to write in by hand.", "");
+    out.push("| Form | Page | The blank on the form | The value |", "| --- | --- | --- | --- |");
+    for (const row of refusedAnywhere) {
+      const [formNumber, page, caption, factId] = row.split("|");
+      out.push(`| ${formNumber} | ${page} | ${caption} | \`${factId}\` |`);
+    }
+    out.push("");
+  }
   out.push("## Things the platform deliberately left blank", "");
   out.push("- **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.");
   out.push("- **The State's Attorney's signature, date and printed name, and the court's order on the stipulation.** Those belong to the prosecutor and the judge.");
@@ -802,7 +927,10 @@ function instructionsMarkdown(config, resolved, rbf) {
 
 /* ---- artifacts ------------------------------------------------------------ */
 function writeArtifacts(ctx) {
-  const { familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit, rasterSkipped } = ctx;
+  const { familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit,
+    rasterSkipped, routeRecord, refusedPrefillsByFixture } = ctx;
+  const refusedEverywhere = Object.entries(refusedPrefillsByFixture ?? {})
+    .flatMap(([fixture, rows]) => rows.map((r) => ({ fixture, ...r })));
   const W = (rel, body) => fs.writeFileSync(path.join(ROOT, outDir, rel), body);
   W("production-field-map.json", `${JSON.stringify({
     schemaVersion: "rcap-official-form-field-map/v1-census-v1",
@@ -825,6 +953,14 @@ function writeArtifacts(ctx) {
     bindingMethod: "exact path + corpus-index SHA-256 + on-disk SHA-256 + byte length",
     routeSelectionId: config.routeSelectionId, allSourcesExact: true,
     documents: resolved.map((r) => ({ sourceIds: [r.sourceId], formNumber: r.formNumber, revision: r.revision, pathInArchive: r.pathInArchive, sha256: r.sha256, byteLength: r.byteLength })),
+    committedRecordsBound: [{
+      recordId: `route-obligation-census:${routeRecord.routeKey}`,
+      path: routeRecord.path, sha256: routeRecord.sha256, byteLength: routeRecord.byteLength,
+      role: "the committed route-obligation census: this route's canonical key, and the destination detail the packet prints who is served from",
+      anchorStatementsVerified: SERVICE_ANCHORS,
+      destinationName: routeRecord.destinationName,
+      destinationDetail: routeRecord.destinationDetail
+    }],
     composedComponentsAuthoredByThisBuild: ["filing_and_expectation_instructions"],
     commercialRoutesOpened: 0
   }, null, 2)}\n`);
@@ -832,6 +968,15 @@ function writeArtifacts(ctx) {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId, renderedFresh: true,
     componentSet: COMPONENTS, artifacts,
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
+    /*
+     * Every write the finalizer refused, per fixture. Silence here is what let
+     * a dropped participant email leave this family looking complete: the
+     * boundary write list was simply one entry shorter than canonical and no
+     * artifact said why.
+     */
+    prefillsRefusedByTheFinalizer: refusedEverywhere,
+    prefillsRefusedCount: refusedEverywhere.length,
+    whatARefusedPrefillMeans: "The platform holds the value and could not print it in that box at a readable size, so the box is left empty rather than carrying illegible ink or ink across a printed rule. Each one is named on the instruction page bound into that packet, under 'VALUES THE PLATFORM HOLDS BUT COULD NOT PRINT', for the participant to write in by hand.",
     rasterEngine: rasterSkipped ? null : "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
     rasterSkipped, rasterPages
   }, null, 2)}\n`);
@@ -843,7 +988,8 @@ function writeArtifacts(ctx) {
       valuesReportedByFinalizer: p.valuesReportedByFinalizer,
       addedGlyphsReadFromOutputBytes: p.addedGlyphsReadFromOutputBytes,
       flattenedWidgetAppearancesReadFromOutputBytes: p.flattenedWidgetAppearancesReadFromOutputBytes,
-      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      prefillsRefusedByTheFinalizer: (p.prefillsRefusedByTheFinalizer ?? []).length
     }))
   }, null, 2)}\n`);
   W("reports/builder-completeness-counters.json", `${JSON.stringify({
@@ -869,7 +1015,9 @@ function writeArtifacts(ctx) {
       { finding: "200-00129 and 200-00132A are the expungement counterparts of the sealing forms 200-00130 and 200-00132, and carry the same widget names.", consequence: "The policy assignments are the same assignments, restated against the expungement binaries and their own coordinates rather than shared across a lane boundary. 600-00228 is the same form in both packets and its policy is unchanged." },
       { finding: "Every caption in this map is read out of the pinned binary at build time rather than transcribed.", consequence: "The caption a participant reads is the text actually printed beside their blank. The guard against a changed form is the exact SHA-256 source binding, which fails the family closed on any byte." },
       { finding: "200-00129 asks one question 200-00130 does not: question 2(d), whether the conduct is no longer prohibited by law.", consequence: "That is the ground of this route and it is a sworn assertion about the participant's own offence, so both boxes are left for the participant and the instructions say so in terms. It is not treated as an election the route determines." },
-      { finding: "600-00228 is a financial affidavit and the platform holds none of its figures.", consequence: `${rbf.length} blanks across the packet are required-before-filing and every one is named in participant-instructions.md.` }
+      { finding: "600-00228 is a financial affidavit and the platform holds none of its figures.", consequence: `${rbf.length} blanks across the packet are required-before-filing and every one is named in participant-instructions.md.` },
+      { finding: `The finalizer refused ${refusedEverywhere.length} prefill(s) across the two fixtures because the value did not fit its box at a readable size: ${refusedEverywhere.map((r) => `${r.fixture}/${r.formNumber} ${r.field} (${r.factId})`).join(", ") || "none"}.`, consequence: "The box is left empty rather than carrying illegible ink, and every refusal is now named on the instruction page bound into that packet and recorded in reports/rendered-artifacts.json. Before this repair a refusal reached no artifact at all and the participant page promised the value had been filled in." },
+      { finding: `Who is served is read from the committed route-obligation census, bound at ${routeRecord.sha256.slice(0, 12)} and re-asserted against ${SERVICE_ANCHORS.length} anchor statements.`, consequence: `The packet names the prosecuting office because the record names it -- "${routeRecord.destinationDetail}" -- and still discloses that the method and the deadline are not established here.` }
     ]
   }, null, 2)}\n`);
   W("participant-instructions.md", instructions);
@@ -888,6 +1036,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   const config = FAMILY_CONFIGS[familyId];
   assert.ok(config, `unknown family ${familyId}`);
   await assertRouteLabel(config);
+  const routeRecord = boundRouteRecord(config);
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
   const { resolved, failures } = resolveSources(familyId);
@@ -926,6 +1075,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
 
   for (const sub of ["fixtures", "reports", "raster"]) fs.mkdirSync(path.join(ROOT, outDir, sub), { recursive: true });
   const maps = []; const artifacts = []; const writeProofs = []; const rasterPages = [];
+  const refusedPrefillsByFixture = {};
 
   for (const fixtureName of ["canonical", "boundary"]) {
     const facts = FIXTURES[fixtureName];
@@ -941,8 +1091,10 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     // though the packet had been edited.
     const packet = stampDeterministic(await PDFDocument.create());
     const pageManifest = []; const documents = [];
+    const refusedHere = [];
     for (const { source, census } of censuses) {
-      const { bytes, report } = await renderDocument(source, census, fixtureName);
+      const { bytes, report, refusedPrefills } = await renderDocument(source, census, fixtureName);
+      refusedHere.push(...refusedPrefills);
       const single = `${outDir}/fixtures/${fixtureName}--${source.formNumber}.pdf`;
       fs.writeFileSync(path.join(ROOT, single), bytes);
       const proof = await byteProof(source, census, path.join(ROOT, single), report, fixtureName);
@@ -953,6 +1105,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
         flattenedWidgetAppearancesReadFromOutputBytes: proof.appearances,
         addedGlyphsReadFromOutputBytes: proof.actualWrites.reduce((n, w) => n + w.drawnText.join("").length, 0),
         nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: proof.outside,
+        prefillsRefusedByTheFinalizer: refusedPrefills,
         actualWrites: proof.actualWrites
       });
       const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
@@ -963,7 +1116,8 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
       documents.push(FORMS[source.formNumber].component, source.formNumber);
       if (fixtureName === "canonical") maps.push(officialFieldMap(source, census, report, config));
     }
-    const instrBytes = await renderComposedPdf(composedBody(config, facts, resolved), "Filing and Expectation Instructions");
+    refusedPrefillsByFixture[fixtureName] = refusedHere;
+    const instrBytes = await renderComposedPdf(composedBody(config, facts, resolved, routeRecord, refusedHere), "Filing and Expectation Instructions");
     const instrDoc = await PDFDocument.load(instrBytes, { ignoreEncryption: true });
     for (const [i, p] of (await packet.copyPages(instrDoc, instrDoc.getPageIndices())).entries()) {
       packet.addPage(p);
@@ -1007,7 +1161,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   }
 
   const rbf = requiredBeforeFilingItems(maps);
-  const instructions = instructionsMarkdown(config, resolved, rbf);
+  const instructions = instructionsMarkdown(config, resolved, rbf, routeRecord, refusedPrefillsByFixture);
   const audit = builderCounters(maps, {
     artifacts: writeProofs.map((p) => ({
       fixture: p.fixture, valuesReportedByFinalizer: p.valuesReportedByFinalizer,
@@ -1017,7 +1171,8 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     }))
   }, instructions);
 
-  writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit, rasterSkipped: skipRaster });
+  writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit,
+    rasterSkipped: skipRaster, routeRecord, refusedPrefillsByFixture });
   const allZero = PASS_COUNTERS.every((c) => audit.counters[c] === 0);
   return {
     familyId, status: allZero ? "COMPLETED" : "STOPPED",

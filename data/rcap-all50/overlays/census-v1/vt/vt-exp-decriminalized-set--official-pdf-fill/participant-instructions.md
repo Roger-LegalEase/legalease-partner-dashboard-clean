@@ -4,16 +4,25 @@ This packet is prepared for **Petition to Expunge a Conviction for Conduct No Lo
 
 The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number. Everything else on these forms is yours, and this page lists every one of them by the words printed beside the blank.
 
+One qualification on that, and it is the reason this paragraph is not a flat promise. Some of these boxes are small. Where a value the platform holds is too long to print in its box at a size a court could read, the platform leaves that box **empty** rather than print something illegible or ink over a printed rule — and it names the value on the instruction page bound into your own packet, under **Values the platform holds but could not print**, so you can write it in by hand. Read that section if it is there.
+
 ## Where you file this
 
 File the completed packet with the **Vermont Superior Court, Criminal Division**, in the unit where your case was decided.
 
 Both the petition (200-00129) and the stipulation (200-00132A) print `SUPERIOR COURT CRIMINAL DIVISION` across the top of page 1, and the `Unit` box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.
 
-Two things this packet does **not** tell you, because neither is established here and an unsourced figure in a filing instruction is worse than none:
+One thing this packet does **not** tell you, because it is not established here and an unsourced figure in a filing instruction is worse than none:
 
 - **The filing fee, and whether it can be waived.** Ask the clerk of the unit above. The waiver form is included; the amount it waives is not stated here.
-- **Who must be served, and how.** Ask the same clerk. The State's Attorney's signature on the stipulation is not service and does not substitute for it.
+
+## Who gets served
+
+A copy goes to the office that prosecuted your case. The committed record for this route states it: "Whichever office prosecuted the offence, the State's Attorney or the Attorney General, unless that office authorises the other to act (§ 7602(a)(3))." In practice that is the State's Attorney for the unit where the case was decided, unless the Attorney General prosecuted it.
+
+The State's Attorney's signature on the stipulation is **not** service and does not substitute for it: a signed stipulation and a served copy are two different things.
+
+What is **not** established here is the **method** and the **deadline** — how the copy must be delivered, and by when. Ask the clerk of the unit above those two questions. This packet names the office because the record names it, and stops there because the record stops there.
 
 ## What is in this packet
 
@@ -160,6 +169,14 @@ Two things this packet does **not** tell you, because neither is established her
 | 2 | Other Assets FMV | that second asset's fair market value |
 | 2 | Other Assets Description | a second other asset, if you have one |
 | 2 | These are additional reasons why I cannot afford the fees: | anything else you want the court to know about why you cannot afford the fees — this is yours to write |
+
+## Boxes too small for a long value
+
+On these forms the following boxes are small enough that a long value cannot be printed in them at a readable size. If yours is too long, the box is left empty and the value is named on the instruction page in your own packet for you to write in by hand.
+
+| Form | Page | The blank on the form | The value |
+| --- | --- | --- | --- |
+| 200-00132A | 1 | Email Address | `participant.email` |
 
 ## Things the platform deliberately left blank
 
