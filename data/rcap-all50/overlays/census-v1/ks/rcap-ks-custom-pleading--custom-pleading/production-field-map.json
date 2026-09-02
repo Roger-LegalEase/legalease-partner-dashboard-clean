@@ -2,8 +2,8 @@
   "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
   "familyId": "rcap-ks-custom-pleading",
   "routeKeys": [
-    "obligation:track-only:KS:ks-12-4516-municipal",
-    "obligation:track-only:KS:ks-12-4516a-municipal-arrest"
+    "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+    "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
   ],
   "renderStrategy": "composed_pleading",
   "jurisdiction": "KS",
@@ -43,12 +43,12 @@
   ],
   "componentConditions": {},
   "componentRoutes": {
-    "ks-12-4516-municipal-primary-filing-1": "obligation:track-only:KS:ks-12-4516-municipal",
-    "ks-12-4516-municipal-proposed-order-2": "obligation:track-only:KS:ks-12-4516-municipal",
-    "ks-12-4516-municipal-filing-instructions-3": "obligation:track-only:KS:ks-12-4516-municipal",
-    "ks-12-4516a-municipal-arrest-primary-filing-1": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
-    "ks-12-4516a-municipal-arrest-proposed-order-2": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
-    "ks-12-4516a-municipal-arrest-filing-instructions-3": "obligation:track-only:KS:ks-12-4516a-municipal-arrest"
+    "ks-12-4516-municipal-primary-filing-1": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+    "ks-12-4516-municipal-proposed-order-2": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+    "ks-12-4516-municipal-filing-instructions-3": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+    "ks-12-4516a-municipal-arrest-primary-filing-1": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
+    "ks-12-4516a-municipal-arrest-proposed-order-2": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
+    "ks-12-4516a-municipal-arrest-filing-instructions-3": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
   },
   "dispositionVocabulary": [
     "signature_or_date_participant_completion",
@@ -56,13 +56,13 @@
   ],
   "routeSelectionsMade": [
     {
-      "routeKey": "obligation:track-only:KS:ks-12-4516-municipal",
+      "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
       "statute": "K.S.A. 12-4516(a); K.S.A. 12-4516(b); K.S.A. 12-4516(c); K.S.A. 12-4516(d); K.S.A. 12-4516(e); K.S.A. 12-4516(f); K.S.A. 12-4516(g); K.S.A. 12-4516(h); K.S.A. 12-4516(i); K.S.A. 12-16,134",
       "instrument": "primary_filing: ks-12-4516-municipal-primary-filing-1; proposed_order: ks-12-4516-municipal-proposed-order-2",
       "statedOn": "the composed pages for this route, in their titles, bodies and footers"
     },
     {
-      "routeKey": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
+      "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
       "statute": "K.S.A. 12-4516a(a); K.S.A. 12-4516a(b); K.S.A. 12-4516a(c); K.S.A. 12-4516a(d); K.S.A. 12-4516a(e); K.S.A. 12-4516a(f); K.S.A. 12-4516a(g); K.S.A. 12-4516a(h); K.S.A. 21-6107; K.S.A. 12-16,134",
       "instrument": "primary_filing: ks-12-4516a-municipal-arrest-primary-filing-1; proposed_order: ks-12-4516a-municipal-arrest-proposed-order-2",
       "statedOn": "the composed pages for this route, in their titles, bodies and footers"
@@ -395,7 +395,7 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-only:KS:ks-12-4516-municipal"
+        "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516"
       },
       "structuralClass": "composed_document",
       "composedFrom": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
@@ -1435,7 +1435,7 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-only:KS:ks-12-4516-municipal"
+        "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516"
       },
       "structuralClass": "composed_document",
       "composedFrom": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
@@ -1631,7 +1631,7 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-only:KS:ks-12-4516-municipal"
+        "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516"
       },
       "structuralClass": "composed_document",
       "composedFrom": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
@@ -1681,7 +1681,7 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-only:KS:ks-12-4516a-municipal-arrest"
+        "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
       },
       "structuralClass": "composed_document",
       "composedFrom": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
@@ -2529,7 +2529,7 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-only:KS:ks-12-4516a-municipal-arrest"
+        "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
       },
       "structuralClass": "composed_document",
       "composedFrom": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
@@ -2725,7 +2725,7 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-only:KS:ks-12-4516a-municipal-arrest"
+        "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
       },
       "structuralClass": "composed_document",
       "composedFrom": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
