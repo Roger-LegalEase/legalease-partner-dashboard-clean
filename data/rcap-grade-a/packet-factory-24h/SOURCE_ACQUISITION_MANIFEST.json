@@ -100,8 +100,8 @@
     "refused": 7,
     "urlRecordsRead": 67,
     "sourceObligationsTotal": 234,
-    "obligationsCoveredByARecordedUrl": 95,
-    "obligationsNeedingDiscoveryFirst": 139
+    "obligationsCoveredByARecordedUrl": 93,
+    "obligationsNeedingDiscoveryFirst": 141
   },
   "entries": [
     {
@@ -1213,50 +1213,44 @@
       }
     },
     {
-      "sourceId": "mt-doj-dci-expungement-removal-request-form-2023-updated",
+      "sourceId": "mt-doj-dci-expungement-removal-request-form-20240429-updated",
       "jurisdiction": "MT",
       "formNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
-      "officialTitle": "Expungement/Removal Request Form (2023 Updated)",
-      "issuingAuthority": "Montana Department of Justice, Division of Criminal Investigation",
-      "officialUrl": "https://dojmt.gov/wp-content/uploads/2023-Updated-ExpungementRemovalRequestForm.pdf",
+      "officialTitle": "Expungement/Removal Request Form",
+      "issuingAuthority": "Montana Department of Justice, Division of Criminal Investigation -- Criminal Records & Identification Services Section / Crime Information Bureau (CRISS)",
+      "officialUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
       "urlKind": "DIRECT_OFFICIAL_BINARY",
-      "expectedSha256": "0362b43d05284210ec0aa0ca1a43e250351456c73880ec1581fbb78f467c99ee",
+      "expectedSha256": null,
       "host": "dojmt.gov",
       "commitBody": false,
       "obligationKeys": [
         "mt_deferred_dismissal-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
-        "mt_misdemeanor_expungement-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
-        "mt_mmrta_serving-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
-        "mt_mmrta_completed-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX"
+        "mt_misdemeanor_expungement-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX"
       ],
-      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
-      "lastAcquisition": {
-        "runId": "33603361022",
-        "jobId": 100161934870,
-        "outcome": "acquired_bytes",
-        "httpStatus": 200,
-        "contentType": "application/pdf",
-        "finalResolvedUrl": "https://dojmt.gov/wp-content/uploads/2023-Updated-ExpungementRemovalRequestForm.pdf",
-        "redirected": false,
-        "observedByteLength": 174304,
-        "sha256": "0362b43d05284210ec0aa0ca1a43e250351456c73880ec1581fbb78f467c99ee",
-        "observedStructuralClass": "flat_pdf",
-        "observedPageCount": 1,
-        "looksLikePdf": true,
-        "pinAgrees": null,
-        "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC8_SOURCE_ADDRESSES.json",
+      "hostAllowedExecuted": {
+        "module": "scripts/lib/official-host-policy.mjs",
+        "call": "hostAllowed(\"dojmt.gov\")",
+        "result": true,
+        "why": "closed .gov namespace; not on the refused list; not an exact-host case"
       },
-      "expectedSha256Basis": "first acquisition, run 33603361022 job 100161934870. This records what the address served, not which edition is current: a later fetch returning different bytes becomes visible instead of silent.",
-      "editionFound": "2023 Updated, published as a PDF",
-      "editionTheFamiliesName": "an unversioned .DOCX",
-      "bothRecordedNeitherSubstituted": "The families name a .DOCX from the judiciary. The issuing authority is not the judiciary at all — it is the Department of Justice — and the current edition it publishes is a PDF. Both facts are recorded; neither is substituted for the other, and the acquired bytes settle which document this is.",
-      "whatThisDocumentActuallyIs": "A post-order agency filing: the participant sends it to DOJ together with a copy of the signed court order. It is not the court petition. A family blocked on this label and needing a petition is blocked on the wrong document, and acquiring this will show that rather than hide it.",
+      "obligationKeyBasis": "Both families' sourceIds arrays are empty in MASTER_QUEUE.json, so each key is <familyId>::official-form:<exact string from that family's forms array>. These are byte-identical to the obligationKeys already carried by the manifest entry this one supersedes, so nothing new has to be matched.",
       "exactBinaryUrlEstablished": true,
+      "format": "DOCX. This is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target. Both families are already implementationStrategy custom_pleading, so that is consistent, not a defect.",
+      "supersedesSourceId": "mt-doj-dci-expungement-removal-request-form-2023-updated",
+      "whyItSupersedes": "The manifest entry in place addresses https://dojmt.gov/wp-content/uploads/2023-Updated-ExpungementRemovalRequestForm.pdf and acquired it (HTTP 200, sha256 0362b43d05284210ec0aa0ca1a43e250351456c73880ec1581fbb78f467c99ee, 174304 bytes, flat_pdf, 1 page, run 33603361022 job 100161934870). That is a real document at a real address, but it is the SUPERSEDED 2023 edition. The Master Library holds the 2024-04-29 edition and the Montana legal review records the 2024-04-29 DOCX as the version linked from the DOJ conviction-expungement page, the non-conviction page and the OCA MMRTA instructions. Repoint rather than add: a second entry would leave the older edition live and would trip the one-source-id-once rule, which is exactly the treatment FABLE-ACQ prescribed for Michigan's mc227.",
+      "corroboration": {
+        "one": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/01_LEGAL_REVIEW/MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md, Part 2 source review, section '20240429-Updated-ExpungementRemovalRequestForm.docx': 'Official source URL: https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx', 'Current revision: 2024-04-29', 'Issuing authority: Montana Department of Justice, Division of Criminal Investigation'. The same URL is repeated in that document's authority table row 'Expungement/Removal Request Form | Montana DOJ, CRISS | ... | 2024-04-29'.",
+        "two": "The document at that address is HELD and its face was read here. private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx -- normalized from the publisher filename 20240429-Updated-ExpungementRemovalRequestForm.docx, the last path segment of the URL. Read out of word/header1.xml, word/header2.xml, word/footer1.xml and word/document.xml: 'STATE OF MONTANA / DEPARTMENT OF JUSTICE / DIVISION OF CRIMINAL INVESTIGATION / Crime Information Bureau'; 'Criminal Records & Identification Services Section'; title line 'Expungement/Removal Request Form'; 'Mail Requests to CRISS Expungement, 2225 11th Ave. PO Box 201403, Helena, MT 59620'; docProps/core.xml created 2024-04-30T17:56:00Z, modified 2024-05-03T18:18:00Z, Company 'DOJ-CSPD'.",
+        "three": "The path SHAPE on this host is not assumed -- it has been exercised. The sibling https://dojmt.gov/wp-content/uploads/2023-Updated-ExpungementRemovalRequestForm.pdf returned HTTP 200 from the hosted fetcher in run 33603361022 job 100161934870, recorded in data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json and in data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json. dojmt.gov serves these files from a FLAT /wp-content/uploads/ directory with no /YYYY/MM/ segment, and the only variable between the acquired sibling and this address is the filename, which custody supplies exactly.",
+        "four": "Relationship corroboration, from the same face read: the form's four request-type checkboxes are 'Misdemeanor Conviction Expungement- (One Time Privilege)- Per MCA Title 46, Chapter 18, Part 11', 'Marijuana Conviction Expungement- MCA Title 16, Chapter 12, Part 1', 'Non-Conviction Removal- MCA Title 44, Chapter 5, Part 2' and 'Deferred Imposition/Prosecution: Dismissed - Criminal Justice Record Sealing'. The last two are precisely mt_deferred_dismissal-set and the first is precisely mt_misdemeanor_expungement-set, so this document is the right document for both families and not merely a document they happen to name."
+      },
+      "whatThisDocumentIs": "A post-order agency submission. The participant sends it to DOJ CRISS with the signed court order and, for a misdemeanor conviction, an FD-258 fingerprint card. It is not the court petition. A family that needs a petition is not unblocked by this address, and the Montana legal review is explicit that every Montana conviction track needs this second participant-initiated DOJ submission after the court order.",
       "verification": {
         "urlExercisedByThisLane": false,
-        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
-        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
-        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+        "whyNot": "This container has no usable outbound egress for state judiciary or state agency hosts; the assignment states the proxy answers 403 CONNECT for them and forbids fetching. Nothing in this return was fetched and nothing is reported as exercised.",
+        "whatWasEstablishedInstead": "The address is carried verbatim by committed or held first-party evidence, and the identity of the document at it was read from a held copy of that same document's own face.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type and the exact SHA-256. A 404 there is a cheap, loud, self-correcting failure; the expensive failure -- binding real bytes to a form number they do not carry -- is what the face read above is against."
       }
     },
     {
@@ -2472,6 +2466,12 @@
       "officialUrl": "https://www.courts.michigan.gov/administration/court-programs/state-court-administrative-office/scao-forms/",
       "replacedBy": "https://www.courts.michigan.gov/4a4951/siteassets/forms/scao-approved/mc227.pdf",
       "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+    },
+    {
+      "sourceId": "mt-doj-dci-expungement-removal-request-form-2023-updated",
+      "officialUrl": "https://dojmt.gov/wp-content/uploads/2023-Updated-ExpungementRemovalRequestForm.pdf",
+      "replacedBy": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
     }
   ],
   "discPending": [

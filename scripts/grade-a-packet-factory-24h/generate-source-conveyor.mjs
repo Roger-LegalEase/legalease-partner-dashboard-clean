@@ -92,10 +92,28 @@ const HANDOFF_CANDIDATE_SOURCES = [
  * HTTPS, host policy, jurisdiction, duplicate URL, duplicate source id -- is
  * the same gate every other entry passes through, unchanged.
  */
-const LANE_ESTABLISHED_ENTRY_RETURNS = [
-  "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
-  "data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json"
-];
+/*
+ * AND THE LIST IS NOT WRITTEN DOWN.
+ *
+ * It was, twice: ACQ's file, then COMP1's. FABLE-DISC8 then committed
+ * fourteen families' worth of address work, including the Montana DOJ form
+ * whose queued address serves a superseded edition, and the conveyor did not
+ * see one line of it -- not because a gate refused it, but because nobody had
+ * added its filename here. A hard-coded roster of lane returns reintroduces
+ * exactly the failure this whole mechanism exists to prevent: work that is
+ * committed, correct and invisible.
+ *
+ * So every return in the directory is read, in sorted order so two runs on one
+ * tree agree, and the admission rule below is the only thing that decides. A
+ * return with no `manifestEntriesAdded` contributes nothing and costs a parse.
+ */
+const RETURNS_DIR = "data/rcap-grade-a/fable-packet-factory/returns";
+const LANE_ESTABLISHED_ENTRY_RETURNS = (() => {
+  const abs = path.join(ROOT, RETURNS_DIR);
+  if (!fs.existsSync(abs)) return [];
+  return fs.readdirSync(abs).filter((f) => f.endsWith(".json")).sort()
+    .map((f) => `${RETURNS_DIR}/${f}`);
+})();
 
 /*
  * What the hosted runner actually got back from each address.
@@ -288,6 +306,8 @@ for (const rel of ACQUISITION_RECEIPT_RETURNS) {
 /* ---- addresses a lane established by reading the document ----------------- */
 const laneEstablished = new Map();
 const supersededSourceIds = new Map();
+const laneEntryConflicts = [];
+const laneEntryRefused = new Set();
 for (const rel of LANE_ESTABLISHED_ENTRY_RETURNS) {
   if (!fs.existsSync(path.join(ROOT, rel))) continue;
   const doc = read(rel);
@@ -295,6 +315,21 @@ for (const rel of LANE_ESTABLISHED_ENTRY_RETURNS) {
     if (e.exactBinaryUrlEstablished !== true) continue;
     if (!e.sourceId || !e.officialUrl) continue;
     if (!(e.obligationKeys ?? []).length) continue;
+    /* Two lanes claiming one address is an unresolved identity, not a race to
+     * be won by whichever file sorts last. Same URL and same source id is one
+     * lane restating itself and is fine; anything else is reported. */
+    const already = laneEstablished.get(e.officialUrl);
+    if (already && already.sourceId !== e.sourceId) {
+      laneEntryConflicts.push({
+        officialUrl: e.officialUrl,
+        claimedBy: [{ sourceId: already.sourceId, recordedIn: already.recordedIn }, { sourceId: e.sourceId, recordedIn: rel }],
+        resolution: "Neither is admitted. One address cannot be two sources."
+      });
+      laneEstablished.delete(e.officialUrl);
+      laneEntryRefused.add(e.officialUrl);
+      continue;
+    }
+    if (laneEntryRefused.has(e.officialUrl)) continue;
     laneEstablished.set(e.officialUrl, { ...e, recordedIn: e.recordedIn ?? rel });
     /*
      * Repointing, not adding. An acquisition receipt can record a landing page
