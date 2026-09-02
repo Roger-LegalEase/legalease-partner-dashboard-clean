@@ -1,0 +1,305 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "worker": "FABLE-C1",
+  "lane": "custom-pleading-composition",
+  "branch": "fable/c1",
+  "base": "f215cb01286817b96b914f8a0e3dea10dfc65dfb",
+  "returnedAt": "2026-09-02T06:20:00Z",
+  "mission": "Compose the twenty custom_pleading families in /tmp/cohorts/c1-custom-pleading.json out of SOURCE_BLOCKED, on the ground that a custom pleading has no official PDF by definition and must not be held for the absence of one.",
+
+  "headline": {
+    "familiesComposed": 0,
+    "familiesStarted": 0,
+    "familiesLeftAlone": 20,
+    "reason": "Every one of the twenty answered NOT_GRANTED at the claim gate. The brief's instruction on that answer is unconditional — report it and leave the family completely alone, and do not use --reissue or --transfer — so no packet was composed, no build script was written, and no packet directory was created.",
+    "secondFinding": "Read-only diligence then established that the mission's premise does not hold for this cohort. All twenty are blocked by a source reason that the existing mechanism scores correctly, and at least ten of them have a recorded or authority-prescribed official primary filing. Had the claims been granted and the brief executed as written, the result would have been participant-authored substitutes for forms the authority prescribes.",
+    "buildsPerformed": 0,
+    "generatorsRun": 0,
+    "commercialRoutesOpened": 0,
+    "promotionsMade": 0,
+    "approvalsGranted": 0,
+    "productionTouched": false
+  },
+
+  "claimGate": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PFC1 <familyId>",
+    "ledger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "ledgerGeneratedAtCommit": "ba6c88a3311ab20bb1c161a8e432ac3897a62396",
+    "liveGrantsInLedger": 148,
+    "totalClaimsInLedger": 691,
+    "lanesPresentInLedger": "DISC01-06, FIX01-11, PF01-17, SRC01-04, VF01-12, VF17-20, VF23-24, VF26-28",
+    "outcome": "NOT_GRANTED for all 20 of 20",
+    "exactMessage": "NOT_GRANTED: no packet-build lane holds <familyId>",
+    "whyThisIsNotALaneNamingProblem": "claim.mjs locate() filters by subjectId and laneKind BEFORE it compares the lane name, and dies at NOT_GRANTED (exit 6) when that filter is empty. Zero claims in the ledger carry any of these twenty subjectIds under any lane. The answer is therefore NOT_GRANTED for every packet-build lane name, not only for the one this worker asserted, and no lane string would change it.",
+    "noC1LaneExists": "There is no C1 lane in the ledger's lane vocabulary at all. This cohort was dispatched without grants being minted for it.",
+    "reissueOrTransferUsed": false,
+    "ledgerModified": false,
+    "releasesPerformed": "None. Nothing was claimed, so there is nothing to release. All twenty remain unclaimed and available to whichever lane the Captain grants them to."
+  },
+
+  "premiseCheck": {
+    "whatTheBriefAsserted": "These families are stuck for the wrong reason: sourceReadiness() lets a custom pleading be ready without bound bytes, so declaring the custody class frees them.",
+    "whatTheMechanismActuallySays": "scripts/grade-a-packet-factory-24h/generate.mjs line ~473: `const ready = reasons.length === 0 && (customPleading || bound.length > 0);`. The custom-pleading limb only removes the requirement that something be BOUND. It does not clear `reasons`. A custom-pleading family whose route census names an `official-form:` requiredSourceId that does not resolve against the committed corpus index still accumulates a reason and still stays blocked — deliberately. The generator's own comment says so: \"A custom pleading drafts from codified text, so it needs no PDF to fill — but a named required component it lacks (Alabama's CR-65) is a genuine missing document, and that reason still blocks.\"",
+    "measuredResult": "All 20 of 20 name at least one official form that resolves to zero entries in data/rcap-all50/local-source-corpus-index.json. Under the existing mechanism every one of the twenty is `ready = false` on the reasons limb, entirely independently of the custom-pleading question.",
+    "conclusion": "The cohort is not held because no PDF exists. It is held because each family names official forms the repository does not hold. Declaring CUSTOM_PLEADING_FROM_CODIFIED_TEXT on these families would not be using the existing mechanism as designed — it would be defeating the guard the mechanism was written with, and would relabel a genuine missing-source condition rather than resolve it. That is the relabeling the brief itself forbids in step 3.",
+    "methodNote": "Measured by re-implementing sourceReadiness()'s tier-1 custody bind and tier-2 corpus lookup read-only against the same four committed inputs the generator reads. No factory generator was executed."
+  },
+
+  "sharedBuildHosts": {
+    "instruction": "Work in cohorts by shared build host, and rebuild an unrelated family on that host as a control.",
+    "finding": "Not applicable at this base. 0 of 20 build scripts exist (`scripts/build-census-v1-<familyId>.mjs` is absent for every family), and 0 of 20 overlay directories exist. There is no shared host to change and no unrelated family on it to use as a control. The cohort manifest itself records `buildScriptExists: false` on all twenty, which agrees.",
+    "consequence": "Every family in this cohort is a from-scratch host, not a shared-host edit. Any future dispatch should size it that way."
+  },
+
+  "doubleBuildAndDeterminism": {
+    "performed": false,
+    "why": "Nothing was built, so there is no output to build twice and no /CreationDate to stamp. stampDeterministic was not needed and was not invoked."
+  },
+
+  "completeness": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "before": "REFUSED for all 20 of 20 — \"matches no auditable family. 126 are auditable at this head.\" No packet directory, no rendered artifacts, nothing to audit.",
+    "after": "Identical. REFUSED for all 20 of 20.",
+    "nineCounters": "Not reportable for any family in this cohort. The verifier never reaches the counters because it refuses the family first, and it refuses because the packet does not exist. Reporting nine numbers here would be reporting numbers no run produced.",
+    "readOnly": "Run without --write and without --mutations, which are the only paths in that script that write."
+  },
+
+  "genuinelyCustomPleading": {
+    "question": "The brief's step 1 — establish that each family genuinely IS a custom pleading, and if it turns out to have a mandatory official form, say so and leave it alone.",
+    "answeredForAllTwenty": true,
+    "evidenceBase": [
+      "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json — per-route statuteOrAuthority, participantFacingInstrument, currentOutputStrategy, requiredSourceIds",
+      "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json — per-route deliverable blocks, which record primaryOfficialFormOrComposedPleading, filingDestination, filingFee, feeWaiverTreatment and serviceRecipients with an explicit recorded/not_recorded status",
+      "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json — family-level implementationStrategy and holds",
+      "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json — custody class and bound documents",
+      "data/rcap-all50/local-source-corpus-index.json — what bytes are actually held",
+      "src/lib/rcap-engine/compiled/profiles/ — compiled state profiles"
+    ],
+    "criticalDiscovery": "The family-level `implementationStrategy: custom_pleading` on the scoreboard is not the authority on this question and in several cases contradicts the census route rows underneath it. Five families carry routes whose own `currentOutputStrategy` is `official_pdf_fill`, and five more carry an authority that prescribes the form of the petition. Treating the family-level label as the answer is what would have produced the harm."
+  },
+
+  "classification": {
+    "group1_recordedOfficialPrimaryFiling": {
+      "verdict": "NOT a custom pleading for the primary filing. Leave alone. Composing here would put a participant-authored document in front of a clerk where the repository itself records an official primary filing.",
+      "count": 5,
+      "families": [
+        {
+          "familyId": "la-977-misdemeanor-conviction-set",
+          "evidence": "The worklist deliverable records the primary filing as \"primary_filing: LA-CCRP-ART-989\". Two of its three census routes carry `currentOutputStrategy: official_pdf_fill` with participantFacingInstrument \"primary_filing: LA-CCRP-ART-989; proposed_order: LA-CCRP-ART-991; proposed_order: LA-CCRP-ART-992; fee_waiver: LA-CCRP-ART-988\". Only the middle route is custom_pleading. The family is mixed and the family-level label hides it."
+        },
+        {
+          "familyId": "la-978-felony-conviction-set",
+          "evidence": "Same shape. Deliverable records \"primary_filing: LA-CCRP-ART-989\". Two of its four census routes are `official_pdf_fill` with the same art. 989/991/992/988 instrument string."
+        },
+        {
+          "familyId": "la-985-expungement-by-redaction-set",
+          "evidence": "The deliverable records the primary filing in as many words as \"Official Article 989 motion\"."
+        },
+        {
+          "familyId": "mt_deferred_dismissal-set",
+          "evidence": "Deliverable records \"primary_filing: EXPUNGEMENTREMOVALREQUESTFORM.DOCX\" and \"DOJ CRISS submission after the dismissal order (official_pdf_fill)\". One of its two census routes is `currentOutputStrategy: official_pdf_fill`."
+        },
+        {
+          "familyId": "mt_misdemeanor_expungement-set",
+          "evidence": "Same. \"DOJ CRISS expungement submission after the court order (official_pdf_fill)\", primary filing EXPUNGEMENTREMOVALREQUESTFORM.DOCX. One of two routes is official_pdf_fill."
+        }
+      ],
+      "note": "The Louisiana pattern is worth stating plainly: the Louisiana Code of Criminal Procedure carries the forms inside the statute itself (arts. 988, 989, 991, 992, 994). A pleading composed from the codified text of those articles and a filled art. 989 form are not two ways of doing the same thing — the article IS the form. Whoever builds Louisiana must decide that deliberately, and the census currently answers it both ways within a single family."
+    },
+
+    "group2_authorityPrescribesTheForm": {
+      "verdict": "The authority named in the census prescribes the form of the petition, the affidavit or the order. Do not compose a substitute without a counsel determination. Leave alone pending that determination.",
+      "count": 5,
+      "families": [
+        {
+          "familyId": "fl-sealing-set",
+          "evidence": "The census route's own `statuteOrAuthority` reads \"§ 943.059, Fla. Stat.; Fla. R. Crim. P. 3.692, with forms at Rule 3.989\" — the census states that the rule supplies the forms. It then names official-form:FL-RULE-3.989-PETITION, -ORDER and -SWORN-STATEMENT as required sources, none held.",
+          "additionalStop": "The same route carries `route-kind-adjudication:pending:FL:court-ordered-sealing-943-059:LD-FL-01` and `route-kind-evaluator-evidence: not a user-filed court petition:prior=needs_more_info:conclusive=false`. Whether this route is a participant-filed court petition at all is an OPEN adjudication. Composing a court petition for it would pre-empt that adjudication, not implement it."
+        },
+        {
+          "familyId": "fl-trafficking-set",
+          "evidence": "Names official-form:FL-RULE-3.989-PETITION, FL-RULE-3.989-ORDER and FL-RULE-3.9895-SWORN-STATEMENT, none held. Same Rule 3.989 form family as fl-sealing-set."
+        },
+        {
+          "familyId": "ks-21-6614-specialty-court-set",
+          "evidence": "Names six unheld Kansas Judicial Council documents including KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022 and KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022 — a Judicial Council petition AND its order. custodyClass is NO_ACQUISITION_TASK_NAMED, so no lane is even tasked with acquiring them."
+        },
+        {
+          "familyId": "mn_petition_609a02_subd3-set",
+          "evidence": "Names EXP101, EXP102, EXP104, EXP105 and FEE102 — the Minnesota Judicial Branch expungement form set. Four of the five are unheld. The deliverable records the primary filing as \"Petition and proposed order\", which is exactly what EXP102 and EXP105 are."
+        },
+        {
+          "familyId": "composed-treatment:nc_146_dismissal_petition",
+          "evidence": "Names AOC-CR-287, AOC-CR-287-INSTRUCTIONS and AOC-CV-226 — North Carolina AOC forms. Separately and more seriously, every field of its worklist deliverable block is `not_recorded`: no primaryOfficialFormOrComposedPleading, no filingDestination, no filingFee, no feeWaiverTreatment, no serviceRecipients. The repository establishes nothing about what this packet is, where it is filed or what it costs.",
+          "assessment": "The least buildable family in the cohort. It should not be dispatched to a composition lane at all until its deliverable block is populated; a builder handed this today would have to invent every sentence."
+        }
+      ]
+    },
+
+    "group3_genuinelyComposedPrimaryFilingBlockedOnACompanionForm": {
+      "verdict": "Genuinely a custom pleading for the primary filing — the deliverable records a composed pleading and the authority supports a participant-authored document. Each is nonetheless correctly blocked on a real missing COMPANION form, which is the Alabama CR-65 precedent the generator's own comment names. These are the ten a source-acquisition lane could actually unblock.",
+      "count": 10,
+      "families": [
+        { "familyId": "al-trafficking-set", "composedPrimary": "Alabama Trafficking-Victim Expungement Petition under §§ 15-27-1(a)(8) / 15-27-2(a)(8)", "missingCompanion": "CR-65 (0 corpus matches)", "held": "C-10-CRIMINAL is bound (boundCount 1)", "note": "This is the exact family the generator's source comment cites by name as a genuine missing document that still blocks." },
+        { "familyId": "la-977d-marijuana-first-offense-set", "composedPrimary": "Motion for expungement under La. C.Cr.P. art. 998", "missingCompanion": "LA-CCRP-ART-988, -991, -992", "held": "boundCount 2" },
+        { "familyId": "la-985-1-interim-expungement-set", "composedPrimary": "Motion for interim expungement (art. 985.1)", "missingCompanion": "LA-CCRP-ART-988, -994", "held": "boundCount 2" },
+        { "familyId": "nc_auto_146_a4_agency_followup-set", "composedPrimary": "composed pleading for nc_auto_146_a4_agency_followup — an agency request, destination \"The non-court agency or record holder that still shows the expunged charge\"", "missingCompanion": "AOC-G-260, the certificate-of-verification application" },
+        { "familyId": "rcap-hi-custom-pleading", "composedPrimary": "Stage-one composed motion in the sentencing court across five Hawaii tracks; Haw. R. Penal P. 47(d) unsworn declaration, no notarization", "missingCompanion": "HCJDC-159B, which is the STAGE TWO application to the Hawaii Criminal Justice Data Center, not the stage-one instrument", "note": "Two-stage route. The composed pleading and the official form are at different stages, which is why the family reads as both." },
+        { "familyId": "rcap-in-custom-pleading", "composedPrimary": "composed pleadings for in_collateral_action, in_supplemental_order and in_conviction_serious_felony", "missingCompanion": "CCA-GF-0120-3016, CCA-XP-0120-7002 Form ACR, Confidential Information Form" },
+        { "familyId": "rcap-mo-custom-pleading", "composedPrimary": "Missouri § 311.326 Minor-in-Possession Expungement Petition and composed pleading for mo-610-130-first-intoxication", "missingCompanion": "FI-05, GN10", "note": "custodyClass NO_ACQUISITION_TASK_NAMED — nobody is tasked with acquiring either." },
+        { "familyId": "rcap-tx-custom-pleading", "composedPrimary": "Texas Ex Parte Petition for Expunction across nine tracks (arts. 55A.003 / 55A.004 and siblings)", "missingCompanion": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond — the indigency statement, a fee-waiver companion, not the petition" },
+        { "familyId": "tx_exp_acquittal-set", "composedPrimary": "Request to the trial court within 30 days of acquittal (art. 55A.201) and ordinary ex parte petition where the window closed (art. 55A.251) — both labelled custom_pleading in the census instrument string itself", "missingCompanion": "the same Texas indigency Statement" },
+        { "familyId": "wv_acc_treatment_job_readiness-set", "composedPrimary": "West Virginia § 61-11-26a Accelerated Expungement Petition", "missingCompanion": "SCA-C907 (0 corpus matches)", "held": "SCA-C906 is bound (boundCount 2)" }
+      ],
+      "captainNote": "These ten are the cohort's real work. They do not need a custody-class declaration; they need eleven distinct source acquisitions (CR-65; LA arts. 988/989/991/992/994; AOC-G-260; HCJDC-159B; three Indiana forms; FI-05; GN10; the Texas indigency Statement; SCA-C907). Once those bind, sourceReadiness() clears them with no change to the generator at all."
+    }
+  },
+
+  "legalStandardFindings": {
+    "standardRead": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json in full, including A1, A2, A3 and A4.",
+    "noFeeServiceOrDestinationSentenceWasWritten": "No packet was composed, so this lane published no fee, service or filing-destination sentence anywhere. The findings below are recorded so the lane that does compose them starts from the held facts rather than rediscovering them.",
+    "findings": [
+      {
+        "id": "C1-LEGAL-1",
+        "family": "wv_acc_treatment_job_readiness-set",
+        "severity": "high",
+        "title": "The A4 West Virginia trap is live on this family, and the repository already holds the correct answer",
+        "detail": "A4 records that West Virginia's compiled profile carries 'no filing fees or costs are charged' lines keyed to § 61-11-25 while the route in hand is a § 61-11-26 petition that costs $200. This family's route is § 61-11-26a. Verified directly against the committed bytes of src/lib/rcap-engine/compiled/profiles/WV-*.json: the profile contains the string \"no filing fees or costs are charged for a 61-11-25 action.\" plus four further bare \"no filing fees or costs are charged.\" lines. Under A3 none of those answers a 61-11-26a question.",
+        "theHeldAnswerForTHISroute": [
+          "The circuit clerk charges the § 59-1-11(a)(1) civil-action fee, which the official text sets at $200.",
+          "The $100 State Police processing fee otherwise required by § 61-11-26(n) is waived on a § 61-11-26a petition."
+        ],
+        "source": "the family's own worklist deliverable filingFee block, status recorded — a committed record and therefore held under A2",
+        "instruction": "State those two facts. Do not carry the 61-11-25 no-fee lines onto this route, and do not name an authority to ask about a figure the repository holds — that is what A1 forbids."
+      },
+      {
+        "id": "C1-LEGAL-2",
+        "family": "la-977-misdemeanor-conviction-set and la-978-felony-conviction-set",
+        "severity": "high",
+        "title": "Two contradictory fee answers are held inside one family, and A3 decides which applies to which route",
+        "detail": "Both families' deliverable blocks record, as recorded facts, BOTH of these: (a) \"Article 983(A) caps the total cost at five hundred fifty dollars, collected by the clerk at filing and non-refundable even if the motion is denied\" plus \"Where the conviction is for operating a vehicle while intoxicated, Article 984(C) assesses a further fifty-dollar court cost payable to the Office of Motor Vehicles\"; and (b) \"Statutory delays and fees are waived; never import the ordinary Article 977/978 clean periods\" and \"the Articles 977 and 978 delays and fees are waived once the trafficking nexus is established and the Article 997 prosecutor certification supports it\".",
+        "why": "These families each carry multiple routes, one of which is the art. 983(H) trafficking-survivor route. Holding is per FACT and per ROUTE. Publishing $550 on the trafficking-survivor route, or the fee waiver on the ordinary art. 977/978 route, is the A3 error committed in the opposite direction from California's.",
+        "instruction": "Key each fee sentence to its own route. The deliverable's own text — 'never import the ordinary Article 977/978 clean periods' — is the repository warning about this in advance."
+      },
+      {
+        "id": "C1-LEGAL-3",
+        "family": "rcap-tx-custom-pleading",
+        "severity": "medium",
+        "title": "The Texas fee is structural, not a figure, and the held record already says so correctly",
+        "detail": "Held facts: art. 102.0061(a) charges the ordinary county civil filing fee for an ex parte petition in district court, 'which is the ordinary county civil filing fee and is not a flat statutory amount'; art. 55A.254(f) requires the clerk to charge $25 for each listed entity unable to receive an electronic transmission, repeated at the order stage; art. 102.006, the old expunction fee statute, was repealed by S.B.; and expressly, 'The packet does not quote the old $250 to $500 range, which is no longer reliable.'",
+        "consequence": "The number of paper-only agencies the packet names is a direct dollar cost to the participant, so the fee sentence and the service list are the same decision. A builder must not reach for a flat figure, and must not resurrect the repealed $250-$500 range.",
+        "assessment": "This is an A3-clean record already. It should be used as written."
+      },
+      {
+        "id": "C1-LEGAL-4",
+        "family": "rcap-hi-custom-pleading",
+        "severity": "medium",
+        "title": "Two stages, two different fee facts; do not let one answer the other",
+        "detail": "Held: 'No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case.' Also held: 'An HCJDC application fee applies at stage two.' No stage-two figure is held.",
+        "instruction": "Under A3 the stage-one no-fee finding does not answer stage two. Under A1 as widened by A2, the stage-two sentence may name a checkable authority — the Hawaii Criminal Justice Data Center — precisely because no held record carries that figure. Per the A2 VT13B1 guidance, keep the authority next to the refusal.",
+        "alsoHeld": "serviceRecipients is recorded as 'Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency.' A certificate-of-service component would be wrong to require on these routes. feeWaiverTreatment is recorded as none arising from the statute, and expressly that Haw. R. Penal P. Form B is the Rule 40 companion and 'is not a component of an expungement packet'."
+      },
+      {
+        "id": "C1-LEGAL-5",
+        "family": "ks-21-6614-specialty-court-set",
+        "severity": "low",
+        "title": "A route-specific fee waiver that is held and is keyed to exactly this route",
+        "detail": "Held: docket fee $176 under K.S.A. 21-6614(g)(2) plus any non-judicial personnel charge, 'except that on a specialty court petition under (a)(3) the court may waive all or part of the docket fee', and 'This is the only fee waiver in K.S.A.' This family's route IS the (a)(3) specialty-court pathway, so under A3 the waiver is held FOR THIS ROUTE and must be stated. It must not be carried to sibling Kansas routes."
+      },
+      {
+        "id": "C1-LEGAL-6",
+        "family": "rcap-mo-custom-pleading",
+        "severity": "informational",
+        "title": "Already A1-compliant as recorded",
+        "detail": "Held: 'No fee figure is published on this track' together with 'The participant confirms the filing fee and costs with the clerk of the sentencing court' and 'with the clerk of the court of plea before filing'. That is the standard's third met-limb — a sourced refusal plus a named checkable authority — and per the A2 answer to VT13B1 it is satisfied at packet level."
+      },
+      {
+        "id": "C1-LEGAL-7",
+        "family": "al-trafficking-set",
+        "severity": "informational",
+        "detail": "Held filingFee: '$500, or C-10-Criminal where indigency is claimed.' C-10-CRIMINAL is the one bound source on this family, so the indigency route is documented while the petition form CR-65 is not held. A builder must state the $500 and the C-10 indigency alternative; both are held."
+      },
+      {
+        "id": "C1-LEGAL-8",
+        "family": "fl-sealing-set and fl-trafficking-set",
+        "severity": "medium",
+        "detail": "fl-sealing-set holds a fee: '$75 nonrefundable FDLE processing fee at Stage 1.' fl-trafficking-set's filingFee is not_recorded. Under A3 the $75 FDLE figure is keyed to the § 943.059 sealing route and must NOT be carried onto the § 943.0583 trafficking route, which is a different statutory section with a different destination (court in the circuit of arrest, not FDLE first). If nothing establishes the trafficking route's fee, a named checkable authority stands in — and that is the honest outcome, not a defect."
+      },
+      {
+        "id": "C1-LEGAL-9",
+        "family": "composed-treatment:nc_146_dismissal_petition",
+        "severity": "high",
+        "detail": "Every deliverable field is not_recorded, filingFee included. There is no held fee, no held destination and no held primary instrument. This family cannot satisfy FEE_AND_WAIVER, FILING_DESTINATION or REQUIRED_BEFORE_FILING from the repository as it stands, and a builder could only satisfy them by invention."
+      },
+      {
+        "id": "C1-LEGAL-10",
+        "family": "tx_exp_acquittal-set",
+        "severity": "medium",
+        "detail": "filingFee carries one recorded entry that is truncated in the deliverable as 'The fee must be waived on this route under art.' and one not_recorded entry. The recorded sentence does not name the article it depends on. Under A4's narrow rule a packet must not tell a participant something it cannot support; a builder must resolve which article supplies the waiver before writing that sentence, and must not complete the citation by inference."
+      }
+    ]
+  },
+
+  "whatWasNotDone": {
+    "composed": "Nothing. No pleading, caption, allegation set, verification, service block, proposed order or attachment was drafted for any family.",
+    "custodyClassesDeclared": "None.",
+    "samplesGenerated": "None.",
+    "buildScriptsWritten": "None.",
+    "filesWrittenToTheRepository": ["data/rcap-grade-a/fable-packet-factory/returns/c1.json"],
+    "forbiddenPathsUntouched": [
+      "no vf*/rows.json written",
+      "no VERIFIER_RETURNS.json written",
+      "no MASTER_QUEUE.json written",
+      "no RASTER_QUEUE.json written",
+      "no ACTIVE_ASSIGNMENTS.json written",
+      "no factory generator run",
+      "claim-ledger.json unmodified"
+    ],
+    "selfVerification": "None performed and none claimed. Nothing was built, so there is nothing awaiting an independent read from this lane."
+  },
+
+  "captainMustDecide": [
+    {
+      "id": "C1-D1",
+      "priority": 1,
+      "question": "Mint grants for this cohort, or withdraw it?",
+      "detail": "Twenty families were dispatched to a build lane with no claims minted for any of them and no C1 lane in the ledger's vocabulary. Under the claim contract the lane can do nothing. This is the same shape as FABLE-R16's six. Either grants are minted or the cohort should be withdrawn from the build queue so it stops being dispatched.",
+      "doNotResolveBy": "reissue or transfer — there is no released grant to re-open; there is no grant at all."
+    },
+    {
+      "id": "C1-D2",
+      "priority": 1,
+      "question": "Should this cohort be dispatched as a composition lane at all?",
+      "detail": "The cohort was assembled on the premise that these families are held only because a custom pleading has no PDF. That premise is false for all twenty: every one names an unheld official form, which is a source condition the existing mechanism scores correctly. Ten of the twenty are blocked on a companion form and need SOURCE ACQUISITION, not composition. Ten have a recorded or authority-prescribed official primary filing and need a form-versus-pleading determination before anyone composes anything.",
+      "recommendation": "Re-cut the cohort. Send the ten group-3 families to an acquisition lane against the eleven named documents. Hold the ten group-1 and group-2 families for determination."
+    },
+    {
+      "id": "C1-D3",
+      "priority": 1,
+      "question": "Louisiana: is the primary filing a composed motion or the codified art. 989 form?",
+      "detail": "la-977-misdemeanor-conviction-set and la-978-felony-conviction-set each carry routes marked custom_pleading AND routes marked official_pdf_fill, and their deliverables record 'primary_filing: LA-CCRP-ART-989'. la-985-expungement-by-redaction-set records 'Official Article 989 motion'. The Louisiana articles carry the forms in the statutory text, so this is a genuine question rather than a data error — but it must be answered once, for all five Louisiana families, before any of them is built. Answering it differently in two lanes is exactly the divergence class the fee determination was written to stop."
+    },
+    {
+      "id": "C1-D4",
+      "priority": 2,
+      "question": "Florida: does the pending route-kind adjudication have to close first?",
+      "detail": "fl-sealing-set carries `route-kind-adjudication:pending` and an evaluator finding of 'not a user-filed court petition ... conclusive=false', while its census authority names Fla. R. Crim. P. 3.989 as supplying the forms. Building a composed court petition would settle by construction a question the record says is open."
+    },
+    {
+      "id": "C1-D5",
+      "priority": 2,
+      "question": "composed-treatment:nc_146_dismissal_petition has an empty deliverable block. Should it be in a build queue?",
+      "detail": "No primary instrument, destination, fee, fee-waiver treatment or service recipients are recorded. It cannot be built honestly from the repository as it stands, and it should go back to census/research rather than to composition."
+    },
+    {
+      "id": "C1-D6",
+      "priority": 3,
+      "question": "Should the family-level implementationStrategy be trusted by cohort builders at all?",
+      "detail": "This cohort was cut on the scoreboard's family-level `implementationStrategy: custom_pleading`. In five families that label contradicts the `currentOutputStrategy` of routes inside the same family. Any future cohort cut on the family-level label alone will reproduce this. A cohort cutter should require that every route in the family agrees, and should surface mixed families separately."
+    }
+  ],
+
+  "environmentNote": "The container's root filesystem was at 100% (12MB free) at the start of this session and repeatedly exhausted during it, which caused several tool invocations to lose their output entirely. Freed npm and http caches to proceed. This is a shared-host condition affecting every agent on this machine, not specific to this lane, and it is reported because a lane that silently loses command output can misreport what it ran.",
+
+  "grantsNothing": "This return composes no packet, declares no custody class, promotes no family, opens no route and grants no approval. It records a claim-gate refusal and the read-only diligence performed under it."
+}
