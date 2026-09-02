@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "f9e5f0417964f78eaa79ee603d6391554803b198",
+  "generatedAtCommit": "58290e76623ff0b351d0b15fbf97af3665fee6b3",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -226,10 +226,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T23:59:37.357Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -256,10 +256,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T23:59:40.193Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -406,10 +406,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T09:38:20.305Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -2611,10 +2611,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF12",
+      "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T00:05:35.215Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -2641,10 +2641,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T23:58:16.160Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -2671,10 +2671,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF11",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T23:58:16.231Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3001,10 +3001,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T00:06:52.270Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3781,10 +3781,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T00:06:52.648Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4141,10 +4141,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T00:01:25.539Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -9841,7 +9841,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "fb404619ae90432c8df90bc5baf7ddb17d2ea463ac30dd16e8bf1e897a7a3835",
+  "claimsDigest": "7d6c0fa1504d1c65be22a1d80c57406379ed2414460b63233a26b02fd58bc086",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -16005,6 +16005,105 @@
       "previouslyReleasedAt": "2026-09-01T09:34:12.427Z",
       "transferredAt": "2026-09-01T23:33:01.489Z",
       "reason": "fresh-read team lane VF31: repaired family; the failing and repairing lanes must not re-verify"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-arrest-seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF03",
+      "previouslyReleasedAt": "2026-09-01T23:59:37.357Z",
+      "transferredAt": "2026-09-02T01:29:59.679Z",
+      "reason": "repaired since VF01 read it; a second independent read must come from a lane that has not written this family"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-misdemeanor-dwi-seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF01",
+      "previouslyReleasedAt": "2026-09-01T23:59:40.193Z",
+      "transferredAt": "2026-09-02T01:30:12.977Z",
+      "reason": "re-verification after repair: VF02 produced the verdict being re-read, so the second independent read moves to a lane that has not written this family; score the canonical fifteen at a stated verifiedAtBase"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ca-851-91-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF02",
+      "previouslyReleasedAt": "2026-09-01T09:38:20.305Z",
+      "transferredAt": "2026-09-02T01:30:13.063Z",
+      "reason": "re-verification after repair: VF03 produced the verdict being re-read, so the second independent read moves to a lane that has not written this family; score the canonical fifteen at a stated verifiedAtBase"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ny_160_59_petition-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF12",
+      "toLane": "VF04",
+      "previouslyReleasedAt": "2026-09-02T00:05:35.215Z",
+      "transferredAt": "2026-09-02T01:30:13.145Z",
+      "reason": "re-verification after repair: VF12 produced the verdict being re-read, so the second independent read moves to a lane that has not written this family; score the canonical fifteen at a stated verifiedAtBase"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ny_mrta_marijuana-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF05",
+      "previouslyReleasedAt": "2026-09-01T23:58:16.160Z",
+      "transferredAt": "2026-09-02T01:30:13.219Z",
+      "reason": "re-verification after repair: VF01 produced the verdict being re-read, so the second independent read moves to a lane that has not written this family; score the canonical fifteen at a stated verifiedAtBase"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "oh_marijuana_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF11",
+      "previouslyReleasedAt": "2026-09-01T23:58:16.231Z",
+      "transferredAt": "2026-09-02T01:30:13.295Z",
+      "reason": "re-verification after repair: VF02 produced the verdict being re-read, so the second independent read moves to a lane that has not written this family; score the canonical fifteen at a stated verifiedAtBase"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-oh-custom-pleading-clean-tracks",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF01",
+      "previouslyReleasedAt": "2026-09-02T00:06:52.270Z",
+      "transferredAt": "2026-09-02T01:30:13.369Z",
+      "reason": "re-verification after repair: VF03 produced the verdict being re-read, so the second independent read moves to a lane that has not written this family; score the canonical fifteen at a stated verifiedAtBase"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF06",
+      "toLane": "VF02",
+      "previouslyReleasedAt": "2026-09-02T00:06:52.648Z",
+      "transferredAt": "2026-09-02T01:30:13.449Z",
+      "reason": "re-verification after repair: VF06 produced the verdict being re-read, so the second independent read moves to a lane that has not written this family; score the canonical fifteen at a stated verifiedAtBase"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wi_nc_doj_fingerprint_removal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF08",
+      "toLane": "VF03",
+      "previouslyReleasedAt": "2026-09-02T00:01:25.539Z",
+      "transferredAt": "2026-09-02T01:30:13.547Z",
+      "reason": "re-verification after repair: VF08 produced the verdict being re-read, so the second independent read moves to a lane that has not written this family; score the canonical fifteen at a stated verifiedAtBase"
     }
   ],
   "withdrawals": [
