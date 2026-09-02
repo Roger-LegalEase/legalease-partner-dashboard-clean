@@ -158,6 +158,59 @@ const SPEC = {
         "\"trackId\": \"ok_vpo_60_18\"",
         "Petition to Expunge Victim Protective Order Records (22 O.S. § 60.18)",
         "Title 22 section 60.18 provides for expungement of victim protective order records. The review classifies this as custom",
+        "\"componentId\": \"ok_identity_theft-free-route-screen-1\"",
+        "\"componentId\": \"ok_identity_theft-primary-filing-2\"",
+        "\"componentId\": \"ok_identity_theft-proposed-order-3\"",
+        "\"componentId\": \"ok_identity_theft-record-gathering-instructions-4\"",
+        "\"componentId\": \"ok_identity_theft-fee-disclosure-5\"",
+        "\"componentId\": \"ok_identity_theft-hearing-instructions-6\"",
+        "\"componentId\": \"ok_identity_theft-effect-disclosure-7\"",
+        "\"componentId\": \"ok_18_19_deferred_dismissal-free-route-screen-1\"",
+        "\"componentId\": \"ok_18_19_deferred_dismissal-primary-filing-2\"",
+        "\"componentId\": \"ok_18_19_deferred_dismissal-proposed-order-3\"",
+        "\"componentId\": \"ok_18_19_deferred_dismissal-record-gathering-instructions-4\"",
+        "\"componentId\": \"ok_18_19_deferred_dismissal-fee-disclosure-5\"",
+        "\"componentId\": \"ok_18_19_deferred_dismissal-hearing-instructions-6\"",
+        "\"componentId\": \"ok_18_19_deferred_dismissal-effect-disclosure-7\"",
+        "\"componentId\": \"ok_18_19_felony_conviction-free-route-screen-1\"",
+        "\"componentId\": \"ok_18_19_felony_conviction-primary-filing-2\"",
+        "\"componentId\": \"ok_18_19_felony_conviction-proposed-order-3\"",
+        "\"componentId\": \"ok_18_19_felony_conviction-record-gathering-instructions-4\"",
+        "\"componentId\": \"ok_18_19_felony_conviction-fee-disclosure-5\"",
+        "\"componentId\": \"ok_18_19_felony_conviction-hearing-instructions-6\"",
+        "\"componentId\": \"ok_18_19_felony_conviction-effect-disclosure-7\"",
+        "\"componentId\": \"ok_18_19_misdemeanor_conviction-free-route-screen-1\"",
+        "\"componentId\": \"ok_18_19_misdemeanor_conviction-primary-filing-2\"",
+        "\"componentId\": \"ok_18_19_misdemeanor_conviction-proposed-order-3\"",
+        "\"componentId\": \"ok_18_19_misdemeanor_conviction-record-gathering-instructions-4\"",
+        "\"componentId\": \"ok_18_19_misdemeanor_conviction-fee-disclosure-5\"",
+        "\"componentId\": \"ok_18_19_misdemeanor_conviction-hearing-instructions-6\"",
+        "\"componentId\": \"ok_18_19_misdemeanor_conviction-effect-disclosure-7\"",
+        "\"componentId\": \"ok_18_19_nonconviction-free-route-screen-1\"",
+        "\"componentId\": \"ok_18_19_nonconviction-primary-filing-2\"",
+        "\"componentId\": \"ok_18_19_nonconviction-proposed-order-3\"",
+        "\"componentId\": \"ok_18_19_nonconviction-record-gathering-instructions-4\"",
+        "\"componentId\": \"ok_18_19_nonconviction-fee-disclosure-5\"",
+        "\"componentId\": \"ok_18_19_nonconviction-hearing-instructions-6\"",
+        "\"componentId\": \"ok_18_19_nonconviction-effect-disclosure-7\"",
+        "\"componentId\": \"ok_18_19_pardon-free-route-screen-1\"",
+        "\"componentId\": \"ok_18_19_pardon-primary-filing-2\"",
+        "\"componentId\": \"ok_18_19_pardon-proposed-order-3\"",
+        "\"componentId\": \"ok_18_19_pardon-record-gathering-instructions-4\"",
+        "\"componentId\": \"ok_18_19_pardon-fee-disclosure-5\"",
+        "\"componentId\": \"ok_18_19_pardon-hearing-instructions-6\"",
+        "\"componentId\": \"ok_18_19_pardon-effect-disclosure-7\"",
+        "\"componentId\": \"ok_991c_deferred-arrest-record-screen-1\"",
+        "\"componentId\": \"ok_991c_deferred-primary-filing-2\"",
+        "\"componentId\": \"ok_991c_deferred-proposed-order-3\"",
+        "\"componentId\": \"ok_991c_deferred-effect-disclosure-4\"",
+        "\"componentId\": \"ok_vpo_60_18-free-route-screen-1\"",
+        "\"componentId\": \"ok_vpo_60_18-primary-filing-2\"",
+        "\"componentId\": \"ok_vpo_60_18-proposed-order-3\"",
+        "\"componentId\": \"ok_vpo_60_18-record-gathering-instructions-4\"",
+        "\"componentId\": \"ok_vpo_60_18-fee-disclosure-5\"",
+        "\"componentId\": \"ok_vpo_60_18-hearing-instructions-6\"",
+        "\"componentId\": \"ok_vpo_60_18-effect-disclosure-7\"",
         "What happened with the protective order — was it dismissed, denied, or did it expire?"
       ]
     },
@@ -210,14 +263,62 @@ const SPEC = {
   ],
   "components": [
     {
+      "id": "ok_identity_theft-free-route-screen-1",
+      "routeKey": "obligation:track-only:OK:ok_identity_theft",
+      "routeKeys": ["obligation:track-only:OK:ok_identity_theft"],
+      "role": "free_route_screen",
+      "title": "Check the free route first - Clear an Oklahoma record that is not yours",
+      "description": "the page that asks, before anything is paid for, whether Oklahoma now seals this record without a petition (Clear an Oklahoma record that is not yours)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "READ THIS PAGE BEFORE YOU PAY FOR ANYTHING.",
+        "",
+        "Oklahoma now seals some records WITHOUT a petition. If your record is one of them, filing the petition in this packet costs you money and time you did not have to spend.",
+        "",
+        "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
+        "",
+        "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
+        "",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "",
+        "THE QUESTION THIS PAGE EXISTS TO ASK",
+        "",
+        "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything?",
+        "{{DOTS}}",
+        "",
+        "WHAT LEGALEASE CANNOT TELL YOU HERE",
+        "",
+        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "",
+        "WHAT TO DO",
+        "",
+        "- Request your OSBI criminal history record. The registry records that it establishes what the state holds and whether anything has already been sealed under Clean Slate.",
+        "- Ask the district court clerk in the county where the arrest information is located whether your record has already been sealed without a petition.",
+        "- If either answer is yes, or if you are not sure, STOP. Do not file the petition in this packet, and get advice before you pay any fee.",
+        "",
+        "If the free route does not reach you, the rest of this packet is for the route named at the foot of this page: Clear an Oklahoma record that is not yours."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
       "id": "ok_identity_theft-primary-filing-2",
       "routeKey": "obligation:track-only:OK:ok_identity_theft",
+      "routeKeys": ["obligation:track-only:OK:ok_identity_theft"],
       "title": "Petition - Clear an Oklahoma record that is not yours",
       "role": "primary_filing",
       "description": "the composed petition, on this route's own statutory ground (Clear an Oklahoma record that is not yours)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Oklahoma district court for the county where the arrest information is located - see the filing instructions in this packet)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -343,6 +444,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "court_identity",
+          "label": "The court named in the caption of the petition - the printed line IN THE ............ COURT",
+          "supply": "the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_ideFullLegalName",
           "label": "Item C1 - ide full legal name",
           "supply": "What is your full legal name, and have you used any other names?",
@@ -455,12 +563,13 @@ const SPEC = {
     {
       "id": "ok_identity_theft-proposed-order-3",
       "routeKey": "obligation:track-only:OK:ok_identity_theft",
+      "routeKeys": ["obligation:track-only:OK:ok_identity_theft"],
       "title": "Proposed Order - Clear an Oklahoma record that is not yours",
       "role": "proposed_order",
       "description": "the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma record that is not yours)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Oklahoma district court for the county where the arrest information is located)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -491,6 +600,13 @@ const SPEC = {
       ],
       "blanks": [
         {
+          "kind": "rbf",
+          "id": "order_court_identity",
+          "label": "The court named in the caption of the proposed order - the printed line IN THE ............ COURT",
+          "supply": "the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
           "kind": "court",
           "id": "order_case_number",
           "label": "Case number in the caption of the proposed order, if the court assigns one at filing",
@@ -517,56 +633,208 @@ const SPEC = {
       ]
     },
     {
-      "id": "ok_identity_theft-filing-instructions-4",
+      "id": "ok_identity_theft-record-gathering-instructions-4",
       "routeKey": "obligation:track-only:OK:ok_identity_theft",
-      "role": "filing_instructions",
-      "title": "Filing Instructions - Clear an Oklahoma record that is not yours",
-      "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an Oklahoma record that is not yours)",
+      "routeKeys": ["obligation:track-only:OK:ok_identity_theft"],
+      "role": "record_gathering_instructions",
+      "title": "Records Checklist - Clear an Oklahoma record that is not yours",
+      "description": "the records the committed registry requires the participant to obtain, who holds each and how (Clear an Oklahoma record that is not yours)",
       "condition": null,
       "body": [
         "This page is for {{participant.full_legal_name}}.",
         "",
-        "WHAT THIS SET OF PAPERS IS",
+        "THE RECORDS YOU MUST HAVE IN FRONT OF YOU",
         "",
-        "Petition to Expunge an Identity Theft or Wrong-Person Record (22 O.S. § 18 identity-theft category, with § 19a).",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
         "",
-        "Where a record was created in the participant's name through identity theft, or otherwise identifies the wrong person, the section 18 identity-theft category with section 19a provides the route. The review classifies this as custom_pleading and approves it with limitations. Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "[ ] Certified court record and disposition",
+        "    Who holds it: The district court clerk in the county where the case was filed.",
+        "    How to obtain it: Ask the district court clerk for the certified docket and the order or judgment showing how the case ended. The category screen runs on the offence description and the disposition, both of which come from this record.",
+        "    Requirement: required; required BEFORE filing.",
         "",
-        "WHERE IT GOES",
+        "[ ] OSBI criminal history record",
+        "    Who holds it: Oklahoma State Bureau of Investigation.",
+        "    How to obtain it: Request a criminal history record from OSBI. It establishes what the state holds, which arrests exist in the county and whether anything has already been sealed under Clean Slate.",
+        "    Requirement: required; not required before filing, but the registry records it as required.",
         "",
-        "Oklahoma district court for the county where the arrest information is located",
+        "WHAT THESE RECORDS DECIDE",
+        "",
+        "The registry records that the category screen for this route runs on the offence DESCRIPTION and the disposition, not on a category paragraph number: three consecutive years of amendments have made the numbering unstable. Both the description and the disposition come from the certified court record. Copy them as that record words them.",
+        "",
+        "This page is a checklist. It is not filed with the court and it asserts nothing about your case."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_identity_theft-fee-disclosure-5",
+      "routeKey": "obligation:track-only:OK:ok_identity_theft",
+      "routeKeys": ["obligation:track-only:OK:ok_identity_theft"],
+      "role": "fee_disclosure",
+      "title": "What this costs - Clear an Oklahoma record that is not yours",
+      "description": "the fee and waiver position the committed registry records for this route, and the question it leaves open (Clear an Oklahoma record that is not yours)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "WHAT THIS COSTS, AND WHETHER A WAIVER EXISTS",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "THE FEE, AS RECORDED",
+        "",
+        "The Oklahoma State Bureau of Investigation states that expunging a court record is free and that expunging an arrest record requires a $150 processing fee, which may be accompanied by fees to local law enforcement agencies. OSBI accepts cashier's checks or money orders and will not accept personal checks. The district court filing fee is not established and is recorded as an open question.",
+        "",
+        "THE WAIVER, AS RECORDED",
+        "",
+        "Not established. The district court filing fee position is an open question.",
+        "",
+        "WHAT YOU DO ABOUT IT, AS RECORDED",
+        "",
+        "Payment of the $150 OSBI processing fee for an arrest-record expungement, by cashier's check or money order - Sent to OSBI, not to the court. OSBI does not accept personal checks, and the court-record expungement is free while the arrest-record one is not. LegalEase does not handle payment.",
+        "",
+        "WHAT THIS PACKET DOES NOT TELL YOU",
+        "",
+        "It does not tell you the district court filing fee. The registry records that fee as not established and as an open question, and it records no waiver position for it. Ask the district court clerk in the county where you file, before you go, and ask in the same call whether that court has any fee-waiver route. A filing you cannot pay for is a filing you cannot make.",
+        "",
+        "LegalEase does not handle any payment on this route."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_identity_theft-hearing-instructions-6",
+      "routeKey": "obligation:track-only:OK:ok_identity_theft",
+      "routeKeys": ["obligation:track-only:OK:ok_identity_theft"],
+      "role": "hearing_instructions",
+      "title": "The hearing and the notice - Clear an Oklahoma record that is not yours",
+      "description": "where this is filed, who the court notifies, and where self-help ends at the hearing (Clear an Oklahoma record that is not yours)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "THE HEARING, THE NOTICE AND WHO IS TOLD",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "WHERE THIS GOES",
+        "",
+        "Oklahoma district court for the county where the arrest information is located.",
+        "",
         "The court sets a hearing and gives thirty days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records. The proposed order must identify every agency to which it applies. No standard statewide petition form was identified, so the pleading is generated to the statutory content requirements.",
+        "",
         "Venue: The district court in the county where the arrest information is located. Multiple arrests in the same county may be combined in one petition; separate counties require separate petitions.",
         "",
-        "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
+        "THE NOTICE, AS RECORDED",
         "",
-        "Fee as recorded: The Oklahoma State Bureau of Investigation states that expunging a court record is free and that expunging an arrest record requires a $150 processing fee, which may be accompanied by fees to local law enforcement agencies. OSBI accepts cashier's checks or money orders and will not accept personal checks. The district court filing fee is not established and is recorded as an open question. Fee waiver as recorded: Not established. The district court filing fee position is an open question.",
+        "The court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records.",
         "",
-        "WHO MUST BE SERVED",
+        "SERVICE, AS RECORDED",
         "",
-        "Service as recorded: By the court's notice. The proposed order must identify every agency to which it applies. Notice as recorded: The court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records.",
+        "By the court's notice. The proposed order must identify every agency to which it applies.",
         "",
-        "WHAT THE RECORD SAYS YOU MUST KNOW",
+        "WHAT YOU DO",
         "",
-        "- One petition per county; combine same-county arrests",
-        "- The proposed order must name every agency",
-        "- Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
+        "- File the petition and the proposed order with the district court clerk. You file; the court sets the hearing and gives the notice.",
+        "- Make sure the proposed order names every agency it applies to. The registry records that as a packet instruction for this route in those words: The proposed order must name every agency.",
+        "- Go to the hearing. Take the certified court record with you.",
         "",
-        "WHEN TO STOP AND GET HELP INSTEAD OF FILING",
+        "WHERE SELF-HELP ENDS AT THE HEARING",
         "",
-        "- Any dispute about whether the participant is the subject of the record.",
-        "- Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
-        "- Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable.",
-        "- Prosecutor objection, and any contested hearing.",
-        "- Records in more than one county, which need separate petitions.",
-        "- Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation.",
-        "- Immigration exposure.",
-        "- Tribal records are not reachable and are a live Oklahoma issue",
+        "The registry records prosecutor objection, and any contested hearing, as a point where self-help ends. If the prosecuting agency objects, or the court sets a contested hearing, stop and get a lawyer. The papers in this packet still stand; what ends is doing it alone."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_identity_theft-effect-disclosure-7",
+      "routeKey": "obligation:track-only:OK:ok_identity_theft",
+      "routeKeys": ["obligation:track-only:OK:ok_identity_theft"],
+      "role": "effect_disclosure",
+      "title": "What an order does, and what it does not - Clear an Oklahoma record that is not yours",
+      "description": "the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Clear an Oklahoma record that is not yours)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
         "",
-        "THE PAGES IN THIS SET",
+        "WHAT AN ORDER ON THIS ROUTE ACTUALLY DOES - AND WHAT IT DOES NOT",
         "",
-        "- ok_identity_theft-primary-filing-2: the composed petition, on this route's own statutory ground (Clear an Oklahoma record that is not yours)",
-        "- ok_identity_theft-proposed-order-3: the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma record that is not yours)"
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "",
+        "SAID PLAINLY",
+        "",
+        "Oklahoma calls this expungement and in most adult contexts it means SEALING, not destruction. A fully sealed record is unavailable to the public and to law enforcement; a partially sealed record is hidden from the public but still available to law enforcement, and which one you get is a real difference in outcome. A sealed record can be unsealed later on a finding of changed conditions or compelling reason.",
+        "",
+        "WHAT THIS PACKET CANNOT PROMISE",
+        "",
+        "It cannot promise the court will grant the order, and it cannot promise which category of sealing you will land in. Both are the court's decisions. This page tells you what the committed record says the order does, so that nobody tells you it does more."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_deferred_dismissal-free-route-screen-1",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement", "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement", "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement"],
+      "role": "free_route_screen",
+      "title": "Check the free route first - Clear an Oklahoma case after a deferred sentence was dismissed",
+      "description": "the page that asks, before anything is paid for, whether Oklahoma now seals this record without a petition (Clear an Oklahoma case after a deferred sentence was dismissed)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "READ THIS PAGE BEFORE YOU PAY FOR ANYTHING.",
+        "",
+        "Oklahoma now seals some records WITHOUT a petition. If your record is one of them, filing the petition in this packet costs you money and time you did not have to spend.",
+        "",
+        "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
+        "",
+        "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
+        "",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "",
+        "THE QUESTION THIS PAGE EXISTS TO ASK",
+        "",
+        "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything?",
+        "{{DOTS}}",
+        "",
+        "WHAT LEGALEASE CANNOT TELL YOU HERE",
+        "",
+        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "",
+        "WHAT TO DO",
+        "",
+        "- Request your OSBI criminal history record. The registry records that it establishes what the state holds and whether anything has already been sealed under Clean Slate.",
+        "- Ask the district court clerk in the county where the arrest information is located whether your record has already been sealed without a petition.",
+        "- If either answer is yes, or if you are not sure, STOP. Do not file the petition in this packet, and get advice before you pay any fee.",
+        "",
+        "If the free route does not reach you, the rest of this packet is for the route named at the foot of this page: Clear an Oklahoma case after a deferred sentence was dismissed."
       ],
       "writes": [
         {
@@ -580,12 +848,13 @@ const SPEC = {
     {
       "id": "ok_18_19_deferred_dismissal-primary-filing-2",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement", "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement", "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement"],
       "title": "Petition - Clear an Oklahoma case after a deferred sentence was dismissed",
       "role": "primary_filing",
       "description": "the composed petition, on this route's own statutory ground (Clear an Oklahoma case after a deferred sentence was dismissed)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Oklahoma district court for the county where the arrest information is located - see the filing instructions in this packet)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -711,6 +980,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "court_identity",
+          "label": "The court named in the caption of the petition - the printed line IN THE ............ COURT",
+          "supply": "the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_18_FullLegalName",
           "label": "Item C1 - 18 full legal name",
           "supply": "What is your full legal name, and have you used any other names?",
@@ -823,12 +1099,13 @@ const SPEC = {
     {
       "id": "ok_18_19_deferred_dismissal-proposed-order-3",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement", "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement", "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement"],
       "title": "Proposed Order - Clear an Oklahoma case after a deferred sentence was dismissed",
       "role": "proposed_order",
       "description": "the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma case after a deferred sentence was dismissed)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Oklahoma district court for the county where the arrest information is located)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -859,6 +1136,13 @@ const SPEC = {
       ],
       "blanks": [
         {
+          "kind": "rbf",
+          "id": "order_court_identity",
+          "label": "The court named in the caption of the proposed order - the printed line IN THE ............ COURT",
+          "supply": "the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
           "kind": "court",
           "id": "order_case_number",
           "label": "Case number in the caption of the proposed order, if the court assigns one at filing",
@@ -885,56 +1169,208 @@ const SPEC = {
       ]
     },
     {
-      "id": "ok_18_19_deferred_dismissal-filing-instructions-4",
+      "id": "ok_18_19_deferred_dismissal-record-gathering-instructions-4",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement",
-      "role": "filing_instructions",
-      "title": "Filing Instructions - Clear an Oklahoma case after a deferred sentence was dismissed",
-      "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an Oklahoma case after a deferred sentence was dismissed)",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement", "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement", "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement"],
+      "role": "record_gathering_instructions",
+      "title": "Records Checklist - Clear an Oklahoma case after a deferred sentence was dismissed",
+      "description": "the records the committed registry requires the participant to obtain, who holds each and how (Clear an Oklahoma case after a deferred sentence was dismissed)",
       "condition": null,
       "body": [
         "This page is for {{participant.full_legal_name}}.",
         "",
-        "WHAT THIS SET OF PAPERS IS",
+        "THE RECORDS YOU MUST HAVE IN FRONT OF YOU",
         "",
-        "Petition to Expunge After a Deferred or Delayed Sentence Dismissal (22 O.S. §§ 18 and 19).",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
         "",
-        "Where a deferred or delayed sentence has been completed and the case dismissed, the section 18 categories provide a petition route. This is distinct from the section 991c motion, which updates the court record to show the case as dismissed but does not remove the arrest record, and the two must be screened together. Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "[ ] Certified court record and disposition",
+        "    Who holds it: The district court clerk in the county where the case was filed.",
+        "    How to obtain it: Ask the district court clerk for the certified docket and the order or judgment showing how the case ended. The category screen runs on the offence description and the disposition, both of which come from this record.",
+        "    Requirement: required; required BEFORE filing.",
         "",
-        "WHERE IT GOES",
+        "[ ] OSBI criminal history record",
+        "    Who holds it: Oklahoma State Bureau of Investigation.",
+        "    How to obtain it: Request a criminal history record from OSBI. It establishes what the state holds, which arrests exist in the county and whether anything has already been sealed under Clean Slate.",
+        "    Requirement: required; not required before filing, but the registry records it as required.",
         "",
-        "Oklahoma district court for the county where the arrest information is located",
+        "WHAT THESE RECORDS DECIDE",
+        "",
+        "The registry records that the category screen for this route runs on the offence DESCRIPTION and the disposition, not on a category paragraph number: three consecutive years of amendments have made the numbering unstable. Both the description and the disposition come from the certified court record. Copy them as that record words them.",
+        "",
+        "This page is a checklist. It is not filed with the court and it asserts nothing about your case."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_deferred_dismissal-fee-disclosure-5",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement", "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement", "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement"],
+      "role": "fee_disclosure",
+      "title": "What this costs - Clear an Oklahoma case after a deferred sentence was dismissed",
+      "description": "the fee and waiver position the committed registry records for this route, and the question it leaves open (Clear an Oklahoma case after a deferred sentence was dismissed)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "WHAT THIS COSTS, AND WHETHER A WAIVER EXISTS",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "THE FEE, AS RECORDED",
+        "",
+        "The Oklahoma State Bureau of Investigation states that expunging a court record is free and that expunging an arrest record requires a $150 processing fee, which may be accompanied by fees to local law enforcement agencies. OSBI accepts cashier's checks or money orders and will not accept personal checks. The district court filing fee is not established and is recorded as an open question.",
+        "",
+        "THE WAIVER, AS RECORDED",
+        "",
+        "Not established. The district court filing fee position is an open question.",
+        "",
+        "WHAT YOU DO ABOUT IT, AS RECORDED",
+        "",
+        "Payment of the $150 OSBI processing fee for an arrest-record expungement, by cashier's check or money order - Sent to OSBI, not to the court. OSBI does not accept personal checks, and the court-record expungement is free while the arrest-record one is not. LegalEase does not handle payment.",
+        "",
+        "WHAT THIS PACKET DOES NOT TELL YOU",
+        "",
+        "It does not tell you the district court filing fee. The registry records that fee as not established and as an open question, and it records no waiver position for it. Ask the district court clerk in the county where you file, before you go, and ask in the same call whether that court has any fee-waiver route. A filing you cannot pay for is a filing you cannot make.",
+        "",
+        "LegalEase does not handle any payment on this route."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_deferred_dismissal-hearing-instructions-6",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement", "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement", "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement"],
+      "role": "hearing_instructions",
+      "title": "The hearing and the notice - Clear an Oklahoma case after a deferred sentence was dismissed",
+      "description": "where this is filed, who the court notifies, and where self-help ends at the hearing (Clear an Oklahoma case after a deferred sentence was dismissed)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "THE HEARING, THE NOTICE AND WHO IS TOLD",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "WHERE THIS GOES",
+        "",
+        "Oklahoma district court for the county where the arrest information is located.",
+        "",
         "The court sets a hearing and gives thirty days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records. The proposed order must identify every agency to which it applies. No standard statewide petition form was identified, so the pleading is generated to the statutory content requirements.",
+        "",
         "Venue: The district court in the county where the arrest information is located. Multiple arrests in the same county may be combined in one petition; separate counties require separate petitions.",
         "",
-        "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
+        "THE NOTICE, AS RECORDED",
         "",
-        "Fee as recorded: The Oklahoma State Bureau of Investigation states that expunging a court record is free and that expunging an arrest record requires a $150 processing fee, which may be accompanied by fees to local law enforcement agencies. OSBI accepts cashier's checks or money orders and will not accept personal checks. The district court filing fee is not established and is recorded as an open question. Fee waiver as recorded: Not established. The district court filing fee position is an open question.",
+        "The court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records.",
         "",
-        "WHO MUST BE SERVED",
+        "SERVICE, AS RECORDED",
         "",
-        "Service as recorded: By the court's notice. The proposed order must identify every agency to which it applies. Notice as recorded: The court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records.",
+        "By the court's notice. The proposed order must identify every agency to which it applies.",
         "",
-        "WHAT THE RECORD SAYS YOU MUST KNOW",
+        "WHAT YOU DO",
         "",
-        "- One petition per county; combine same-county arrests",
-        "- The proposed order must name every agency",
-        "- Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
+        "- File the petition and the proposed order with the district court clerk. You file; the court sets the hearing and gives the notice.",
+        "- Make sure the proposed order names every agency it applies to. The registry records that as a packet instruction for this route in those words: The proposed order must name every agency.",
+        "- Go to the hearing. Take the certified court record with you.",
         "",
-        "WHEN TO STOP AND GET HELP INSTEAD OF FILING",
+        "WHERE SELF-HELP ENDS AT THE HEARING",
         "",
-        "- Any case where only a section 991c order has been obtained, which leaves the arrest record in place.",
-        "- Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
-        "- Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable.",
-        "- Prosecutor objection, and any contested hearing.",
-        "- Records in more than one county, which need separate petitions.",
-        "- Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation.",
-        "- Immigration exposure.",
-        "- Tribal records are not reachable and are a live Oklahoma issue",
+        "The registry records prosecutor objection, and any contested hearing, as a point where self-help ends. If the prosecuting agency objects, or the court sets a contested hearing, stop and get a lawyer. The papers in this packet still stand; what ends is doing it alone."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_deferred_dismissal-effect-disclosure-7",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement", "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement", "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement"],
+      "role": "effect_disclosure",
+      "title": "What an order does, and what it does not - Clear an Oklahoma case after a deferred sentence was dismissed",
+      "description": "the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Clear an Oklahoma case after a deferred sentence was dismissed)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
         "",
-        "THE PAGES IN THIS SET",
+        "WHAT AN ORDER ON THIS ROUTE ACTUALLY DOES - AND WHAT IT DOES NOT",
         "",
-        "- ok_18_19_deferred_dismissal-primary-filing-2: the composed petition, on this route's own statutory ground (Clear an Oklahoma case after a deferred sentence was dismissed)",
-        "- ok_18_19_deferred_dismissal-proposed-order-3: the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma case after a deferred sentence was dismissed)"
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "",
+        "SAID PLAINLY",
+        "",
+        "Oklahoma calls this expungement and in most adult contexts it means SEALING, not destruction. A fully sealed record is unavailable to the public and to law enforcement; a partially sealed record is hidden from the public but still available to law enforcement, and which one you get is a real difference in outcome. A sealed record can be unsealed later on a finding of changed conditions or compelling reason.",
+        "",
+        "WHAT THIS PACKET CANNOT PROMISE",
+        "",
+        "It cannot promise the court will grant the order, and it cannot promise which category of sealing you will land in. Both are the court's decisions. This page tells you what the committed record says the order does, so that nobody tells you it does more."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_felony_conviction-free-route-screen-1",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor", "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement", "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement"],
+      "role": "free_route_screen",
+      "title": "Check the free route first - Clear an Oklahoma felony conviction",
+      "description": "the page that asks, before anything is paid for, whether Oklahoma now seals this record without a petition (Clear an Oklahoma felony conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "READ THIS PAGE BEFORE YOU PAY FOR ANYTHING.",
+        "",
+        "Oklahoma now seals some records WITHOUT a petition. If your record is one of them, filing the petition in this packet costs you money and time you did not have to spend.",
+        "",
+        "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
+        "",
+        "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
+        "",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "",
+        "THE QUESTION THIS PAGE EXISTS TO ASK",
+        "",
+        "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything?",
+        "{{DOTS}}",
+        "",
+        "WHAT LEGALEASE CANNOT TELL YOU HERE",
+        "",
+        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "",
+        "WHAT TO DO",
+        "",
+        "- Request your OSBI criminal history record. The registry records that it establishes what the state holds and whether anything has already been sealed under Clean Slate.",
+        "- Ask the district court clerk in the county where the arrest information is located whether your record has already been sealed without a petition.",
+        "- If either answer is yes, or if you are not sure, STOP. Do not file the petition in this packet, and get advice before you pay any fee.",
+        "",
+        "If the free route does not reach you, the rest of this packet is for the route named at the foot of this page: Clear an Oklahoma felony conviction."
       ],
       "writes": [
         {
@@ -948,12 +1384,13 @@ const SPEC = {
     {
       "id": "ok_18_19_felony_conviction-primary-filing-2",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor", "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement", "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement"],
       "title": "Petition - Clear an Oklahoma felony conviction",
       "role": "primary_filing",
       "description": "the composed petition, on this route's own statutory ground (Clear an Oklahoma felony conviction)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Oklahoma district court for the county where the arrest information is located - see the filing instructions in this packet)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -1085,6 +1522,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "court_identity",
+          "label": "The court named in the caption of the petition - the printed line IN THE ............ COURT",
+          "supply": "the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_18_FullLegalName",
           "label": "Item C1 - 18 full legal name",
           "supply": "What is your full legal name, and have you used any other names?",
@@ -1204,12 +1648,13 @@ const SPEC = {
     {
       "id": "ok_18_19_felony_conviction-proposed-order-3",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor", "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement", "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement"],
       "title": "Proposed Order - Clear an Oklahoma felony conviction",
       "role": "proposed_order",
       "description": "the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma felony conviction)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Oklahoma district court for the county where the arrest information is located)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -1240,6 +1685,13 @@ const SPEC = {
       ],
       "blanks": [
         {
+          "kind": "rbf",
+          "id": "order_court_identity",
+          "label": "The court named in the caption of the proposed order - the printed line IN THE ............ COURT",
+          "supply": "the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
           "kind": "court",
           "id": "order_case_number",
           "label": "Case number in the caption of the proposed order, if the court assigns one at filing",
@@ -1266,56 +1718,208 @@ const SPEC = {
       ]
     },
     {
-      "id": "ok_18_19_felony_conviction-filing-instructions-4",
+      "id": "ok_18_19_felony_conviction-record-gathering-instructions-4",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor",
-      "role": "filing_instructions",
-      "title": "Filing Instructions - Clear an Oklahoma felony conviction",
-      "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an Oklahoma felony conviction)",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor", "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement", "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement"],
+      "role": "record_gathering_instructions",
+      "title": "Records Checklist - Clear an Oklahoma felony conviction",
+      "description": "the records the committed registry requires the participant to obtain, who holds each and how (Clear an Oklahoma felony conviction)",
       "condition": null,
       "body": [
         "This page is for {{participant.full_legal_name}}.",
         "",
-        "WHAT THIS SET OF PAPERS IS",
+        "THE RECORDS YOU MUST HAVE IN FRONT OF YOU",
         "",
-        "Petition to Expunge a Felony Conviction (22 O.S. §§ 18 and 19).",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
         "",
-        "The section 18 categories provide petition routes for felony convictions, including a reclassified-felony route with a short window that the review directs be screened before the longer routes, and a one-felony route carrying a separate-misdemeanour look-back. Both are recorded as manual completion items because the category text was amended again by SB 2030 and has not been read. Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "[ ] Certified court record and disposition",
+        "    Who holds it: The district court clerk in the county where the case was filed.",
+        "    How to obtain it: Ask the district court clerk for the certified docket and the order or judgment showing how the case ended. The category screen runs on the offence description and the disposition, both of which come from this record.",
+        "    Requirement: required; required BEFORE filing.",
         "",
-        "WHERE IT GOES",
+        "[ ] OSBI criminal history record",
+        "    Who holds it: Oklahoma State Bureau of Investigation.",
+        "    How to obtain it: Request a criminal history record from OSBI. It establishes what the state holds, which arrests exist in the county and whether anything has already been sealed under Clean Slate.",
+        "    Requirement: required; not required before filing, but the registry records it as required.",
         "",
-        "Oklahoma district court for the county where the arrest information is located",
+        "WHAT THESE RECORDS DECIDE",
+        "",
+        "The registry records that the category screen for this route runs on the offence DESCRIPTION and the disposition, not on a category paragraph number: three consecutive years of amendments have made the numbering unstable. Both the description and the disposition come from the certified court record. Copy them as that record words them.",
+        "",
+        "This page is a checklist. It is not filed with the court and it asserts nothing about your case."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_felony_conviction-fee-disclosure-5",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor", "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement", "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement"],
+      "role": "fee_disclosure",
+      "title": "What this costs - Clear an Oklahoma felony conviction",
+      "description": "the fee and waiver position the committed registry records for this route, and the question it leaves open (Clear an Oklahoma felony conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "WHAT THIS COSTS, AND WHETHER A WAIVER EXISTS",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "THE FEE, AS RECORDED",
+        "",
+        "The Oklahoma State Bureau of Investigation states that expunging a court record is free and that expunging an arrest record requires a $150 processing fee, which may be accompanied by fees to local law enforcement agencies. OSBI accepts cashier's checks or money orders and will not accept personal checks. The district court filing fee is not established and is recorded as an open question.",
+        "",
+        "THE WAIVER, AS RECORDED",
+        "",
+        "Not established. The district court filing fee position is an open question.",
+        "",
+        "WHAT YOU DO ABOUT IT, AS RECORDED",
+        "",
+        "Payment of the $150 OSBI processing fee for an arrest-record expungement, by cashier's check or money order - Sent to OSBI, not to the court. OSBI does not accept personal checks, and the court-record expungement is free while the arrest-record one is not. LegalEase does not handle payment.",
+        "",
+        "WHAT THIS PACKET DOES NOT TELL YOU",
+        "",
+        "It does not tell you the district court filing fee. The registry records that fee as not established and as an open question, and it records no waiver position for it. Ask the district court clerk in the county where you file, before you go, and ask in the same call whether that court has any fee-waiver route. A filing you cannot pay for is a filing you cannot make.",
+        "",
+        "LegalEase does not handle any payment on this route."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_felony_conviction-hearing-instructions-6",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor", "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement", "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement"],
+      "role": "hearing_instructions",
+      "title": "The hearing and the notice - Clear an Oklahoma felony conviction",
+      "description": "where this is filed, who the court notifies, and where self-help ends at the hearing (Clear an Oklahoma felony conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "THE HEARING, THE NOTICE AND WHO IS TOLD",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "WHERE THIS GOES",
+        "",
+        "Oklahoma district court for the county where the arrest information is located.",
+        "",
         "The court sets a hearing and gives thirty days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records. The proposed order must identify every agency to which it applies. No standard statewide petition form was identified, so the pleading is generated to the statutory content requirements.",
+        "",
         "Venue: The district court in the county where the arrest information is located. Multiple arrests in the same county may be combined in one petition; separate counties require separate petitions.",
         "",
-        "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
+        "THE NOTICE, AS RECORDED",
         "",
-        "Fee as recorded: The Oklahoma State Bureau of Investigation states that expunging a court record is free and that expunging an arrest record requires a $150 processing fee, which may be accompanied by fees to local law enforcement agencies. OSBI accepts cashier's checks or money orders and will not accept personal checks. The district court filing fee is not established and is recorded as an open question. Fee waiver as recorded: Not established. The district court filing fee position is an open question.",
+        "The court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records.",
         "",
-        "WHO MUST BE SERVED",
+        "SERVICE, AS RECORDED",
         "",
-        "Service as recorded: By the court's notice. The proposed order must identify every agency to which it applies. Notice as recorded: The court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records.",
+        "By the court's notice. The proposed order must identify every agency to which it applies.",
         "",
-        "WHAT THE RECORD SAYS YOU MUST KNOW",
+        "WHAT YOU DO",
         "",
-        "- One petition per county; combine same-county arrests",
-        "- The proposed order must name every agency",
-        "- Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
+        "- File the petition and the proposed order with the district court clerk. You file; the court sets the hearing and gives the notice.",
+        "- Make sure the proposed order names every agency it applies to. The registry records that as a packet instruction for this route in those words: The proposed order must name every agency.",
+        "- Go to the hearing. Take the certified court record with you.",
         "",
-        "WHEN TO STOP AND GET HELP INSTEAD OF FILING",
+        "WHERE SELF-HELP ENDS AT THE HEARING",
         "",
-        "- Any felony category or waiting-period question, until the categories as amended by SB 2030 are read.",
-        "- Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
-        "- Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable.",
-        "- Prosecutor objection, and any contested hearing.",
-        "- Records in more than one county, which need separate petitions.",
-        "- Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation.",
-        "- Immigration exposure.",
-        "- Tribal records are not reachable and are a live Oklahoma issue",
+        "The registry records prosecutor objection, and any contested hearing, as a point where self-help ends. If the prosecuting agency objects, or the court sets a contested hearing, stop and get a lawyer. The papers in this packet still stand; what ends is doing it alone."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_felony_conviction-effect-disclosure-7",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor", "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement", "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement"],
+      "role": "effect_disclosure",
+      "title": "What an order does, and what it does not - Clear an Oklahoma felony conviction",
+      "description": "the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Clear an Oklahoma felony conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
         "",
-        "THE PAGES IN THIS SET",
+        "WHAT AN ORDER ON THIS ROUTE ACTUALLY DOES - AND WHAT IT DOES NOT",
         "",
-        "- ok_18_19_felony_conviction-primary-filing-2: the composed petition, on this route's own statutory ground (Clear an Oklahoma felony conviction)",
-        "- ok_18_19_felony_conviction-proposed-order-3: the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma felony conviction)"
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "",
+        "SAID PLAINLY",
+        "",
+        "Oklahoma calls this expungement and in most adult contexts it means SEALING, not destruction. A fully sealed record is unavailable to the public and to law enforcement; a partially sealed record is hidden from the public but still available to law enforcement, and which one you get is a real difference in outcome. A sealed record can be unsealed later on a finding of changed conditions or compelling reason.",
+        "",
+        "WHAT THIS PACKET CANNOT PROMISE",
+        "",
+        "It cannot promise the court will grant the order, and it cannot promise which category of sealing you will land in. Both are the court's decisions. This page tells you what the committed record says the order does, so that nobody tells you it does more."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_misdemeanor_conviction-free-route-screen-1",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement", "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement"],
+      "role": "free_route_screen",
+      "title": "Check the free route first - Clear an Oklahoma misdemeanor conviction",
+      "description": "the page that asks, before anything is paid for, whether Oklahoma now seals this record without a petition (Clear an Oklahoma misdemeanor conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "READ THIS PAGE BEFORE YOU PAY FOR ANYTHING.",
+        "",
+        "Oklahoma now seals some records WITHOUT a petition. If your record is one of them, filing the petition in this packet costs you money and time you did not have to spend.",
+        "",
+        "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
+        "",
+        "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
+        "",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "",
+        "THE QUESTION THIS PAGE EXISTS TO ASK",
+        "",
+        "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything?",
+        "{{DOTS}}",
+        "",
+        "WHAT LEGALEASE CANNOT TELL YOU HERE",
+        "",
+        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "",
+        "WHAT TO DO",
+        "",
+        "- Request your OSBI criminal history record. The registry records that it establishes what the state holds and whether anything has already been sealed under Clean Slate.",
+        "- Ask the district court clerk in the county where the arrest information is located whether your record has already been sealed without a petition.",
+        "- If either answer is yes, or if you are not sure, STOP. Do not file the petition in this packet, and get advice before you pay any fee.",
+        "",
+        "If the free route does not reach you, the rest of this packet is for the route named at the foot of this page: Clear an Oklahoma misdemeanor conviction."
       ],
       "writes": [
         {
@@ -1329,12 +1933,13 @@ const SPEC = {
     {
       "id": "ok_18_19_misdemeanor_conviction-primary-filing-2",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement", "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement"],
       "title": "Petition - Clear an Oklahoma misdemeanor conviction",
       "role": "primary_filing",
       "description": "the composed petition, on this route's own statutory ground (Clear an Oklahoma misdemeanor conviction)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Oklahoma district court for the county where the arrest information is located - see the filing instructions in this packet)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -1460,6 +2065,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "court_identity",
+          "label": "The court named in the caption of the petition - the printed line IN THE ............ COURT",
+          "supply": "the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_18_FullLegalName",
           "label": "Item C1 - 18 full legal name",
           "supply": "What is your full legal name, and have you used any other names?",
@@ -1572,12 +2184,13 @@ const SPEC = {
     {
       "id": "ok_18_19_misdemeanor_conviction-proposed-order-3",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement", "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement"],
       "title": "Proposed Order - Clear an Oklahoma misdemeanor conviction",
       "role": "proposed_order",
       "description": "the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma misdemeanor conviction)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Oklahoma district court for the county where the arrest information is located)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -1608,6 +2221,13 @@ const SPEC = {
       ],
       "blanks": [
         {
+          "kind": "rbf",
+          "id": "order_court_identity",
+          "label": "The court named in the caption of the proposed order - the printed line IN THE ............ COURT",
+          "supply": "the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
           "kind": "court",
           "id": "order_case_number",
           "label": "Case number in the caption of the proposed order, if the court assigns one at filing",
@@ -1634,56 +2254,208 @@ const SPEC = {
       ]
     },
     {
-      "id": "ok_18_19_misdemeanor_conviction-filing-instructions-4",
+      "id": "ok_18_19_misdemeanor_conviction-record-gathering-instructions-4",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement",
-      "role": "filing_instructions",
-      "title": "Filing Instructions - Clear an Oklahoma misdemeanor conviction",
-      "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an Oklahoma misdemeanor conviction)",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement", "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement"],
+      "role": "record_gathering_instructions",
+      "title": "Records Checklist - Clear an Oklahoma misdemeanor conviction",
+      "description": "the records the committed registry requires the participant to obtain, who holds each and how (Clear an Oklahoma misdemeanor conviction)",
       "condition": null,
       "body": [
         "This page is for {{participant.full_legal_name}}.",
         "",
-        "WHAT THIS SET OF PAPERS IS",
+        "THE RECORDS YOU MUST HAVE IN FRONT OF YOU",
         "",
-        "Petition to Expunge a Misdemeanor Conviction (22 O.S. §§ 18 and 19).",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
         "",
-        "The section 18 categories provide petition routes for misdemeanour convictions on stated waiting periods and prior-record conditions. Because section 18 has been amended in three consecutive years and renumbered, the screen runs on the category description rather than the paragraph number, which is the review's single best judgment call and is preserved here. Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "[ ] Certified court record and disposition",
+        "    Who holds it: The district court clerk in the county where the case was filed.",
+        "    How to obtain it: Ask the district court clerk for the certified docket and the order or judgment showing how the case ended. The category screen runs on the offence description and the disposition, both of which come from this record.",
+        "    Requirement: required; required BEFORE filing.",
         "",
-        "WHERE IT GOES",
+        "[ ] OSBI criminal history record",
+        "    Who holds it: Oklahoma State Bureau of Investigation.",
+        "    How to obtain it: Request a criminal history record from OSBI. It establishes what the state holds, which arrests exist in the county and whether anything has already been sealed under Clean Slate.",
+        "    Requirement: required; not required before filing, but the registry records it as required.",
         "",
-        "Oklahoma district court for the county where the arrest information is located",
+        "WHAT THESE RECORDS DECIDE",
+        "",
+        "The registry records that the category screen for this route runs on the offence DESCRIPTION and the disposition, not on a category paragraph number: three consecutive years of amendments have made the numbering unstable. Both the description and the disposition come from the certified court record. Copy them as that record words them.",
+        "",
+        "This page is a checklist. It is not filed with the court and it asserts nothing about your case."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_misdemeanor_conviction-fee-disclosure-5",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement", "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement"],
+      "role": "fee_disclosure",
+      "title": "What this costs - Clear an Oklahoma misdemeanor conviction",
+      "description": "the fee and waiver position the committed registry records for this route, and the question it leaves open (Clear an Oklahoma misdemeanor conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "WHAT THIS COSTS, AND WHETHER A WAIVER EXISTS",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "THE FEE, AS RECORDED",
+        "",
+        "The Oklahoma State Bureau of Investigation states that expunging a court record is free and that expunging an arrest record requires a $150 processing fee, which may be accompanied by fees to local law enforcement agencies. OSBI accepts cashier's checks or money orders and will not accept personal checks. The district court filing fee is not established and is recorded as an open question.",
+        "",
+        "THE WAIVER, AS RECORDED",
+        "",
+        "Not established. The district court filing fee position is an open question.",
+        "",
+        "WHAT YOU DO ABOUT IT, AS RECORDED",
+        "",
+        "Payment of the $150 OSBI processing fee for an arrest-record expungement, by cashier's check or money order - Sent to OSBI, not to the court. OSBI does not accept personal checks, and the court-record expungement is free while the arrest-record one is not. LegalEase does not handle payment.",
+        "",
+        "WHAT THIS PACKET DOES NOT TELL YOU",
+        "",
+        "It does not tell you the district court filing fee. The registry records that fee as not established and as an open question, and it records no waiver position for it. Ask the district court clerk in the county where you file, before you go, and ask in the same call whether that court has any fee-waiver route. A filing you cannot pay for is a filing you cannot make.",
+        "",
+        "LegalEase does not handle any payment on this route."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_misdemeanor_conviction-hearing-instructions-6",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement", "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement"],
+      "role": "hearing_instructions",
+      "title": "The hearing and the notice - Clear an Oklahoma misdemeanor conviction",
+      "description": "where this is filed, who the court notifies, and where self-help ends at the hearing (Clear an Oklahoma misdemeanor conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "THE HEARING, THE NOTICE AND WHO IS TOLD",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "WHERE THIS GOES",
+        "",
+        "Oklahoma district court for the county where the arrest information is located.",
+        "",
         "The court sets a hearing and gives thirty days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records. The proposed order must identify every agency to which it applies. No standard statewide petition form was identified, so the pleading is generated to the statutory content requirements.",
+        "",
         "Venue: The district court in the county where the arrest information is located. Multiple arrests in the same county may be combined in one petition; separate counties require separate petitions.",
         "",
-        "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
+        "THE NOTICE, AS RECORDED",
         "",
-        "Fee as recorded: The Oklahoma State Bureau of Investigation states that expunging a court record is free and that expunging an arrest record requires a $150 processing fee, which may be accompanied by fees to local law enforcement agencies. OSBI accepts cashier's checks or money orders and will not accept personal checks. The district court filing fee is not established and is recorded as an open question. Fee waiver as recorded: Not established. The district court filing fee position is an open question.",
+        "The court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records.",
         "",
-        "WHO MUST BE SERVED",
+        "SERVICE, AS RECORDED",
         "",
-        "Service as recorded: By the court's notice. The proposed order must identify every agency to which it applies. Notice as recorded: The court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records.",
+        "By the court's notice. The proposed order must identify every agency to which it applies.",
         "",
-        "WHAT THE RECORD SAYS YOU MUST KNOW",
+        "WHAT YOU DO",
         "",
-        "- One petition per county; combine same-county arrests",
-        "- The proposed order must name every agency",
-        "- Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
+        "- File the petition and the proposed order with the district court clerk. You file; the court sets the hearing and gives the notice.",
+        "- Make sure the proposed order names every agency it applies to. The registry records that as a packet instruction for this route in those words: The proposed order must name every agency.",
+        "- Go to the hearing. Take the certified court record with you.",
         "",
-        "WHEN TO STOP AND GET HELP INSTEAD OF FILING",
+        "WHERE SELF-HELP ENDS AT THE HEARING",
         "",
-        "- Any waiting-period calculation, until the categories as amended by SB 2030 are read.",
-        "- Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
-        "- Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable.",
-        "- Prosecutor objection, and any contested hearing.",
-        "- Records in more than one county, which need separate petitions.",
-        "- Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation.",
-        "- Immigration exposure.",
-        "- Tribal records are not reachable and are a live Oklahoma issue",
+        "The registry records prosecutor objection, and any contested hearing, as a point where self-help ends. If the prosecuting agency objects, or the court sets a contested hearing, stop and get a lawyer. The papers in this packet still stand; what ends is doing it alone."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_misdemeanor_conviction-effect-disclosure-7",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement", "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement"],
+      "role": "effect_disclosure",
+      "title": "What an order does, and what it does not - Clear an Oklahoma misdemeanor conviction",
+      "description": "the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Clear an Oklahoma misdemeanor conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
         "",
-        "THE PAGES IN THIS SET",
+        "WHAT AN ORDER ON THIS ROUTE ACTUALLY DOES - AND WHAT IT DOES NOT",
         "",
-        "- ok_18_19_misdemeanor_conviction-primary-filing-2: the composed petition, on this route's own statutory ground (Clear an Oklahoma misdemeanor conviction)",
-        "- ok_18_19_misdemeanor_conviction-proposed-order-3: the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma misdemeanor conviction)"
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "",
+        "SAID PLAINLY",
+        "",
+        "Oklahoma calls this expungement and in most adult contexts it means SEALING, not destruction. A fully sealed record is unavailable to the public and to law enforcement; a partially sealed record is hidden from the public but still available to law enforcement, and which one you get is a real difference in outcome. A sealed record can be unsealed later on a finding of changed conditions or compelling reason.",
+        "",
+        "WHAT THIS PACKET CANNOT PROMISE",
+        "",
+        "It cannot promise the court will grant the order, and it cannot promise which category of sealing you will land in. Both are the court's decisions. This page tells you what the committed record says the order does, so that nobody tells you it does more."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_nonconviction-free-route-screen-1",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement", "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed", "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed", "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement"],
+      "role": "free_route_screen",
+      "title": "Check the free route first - Clear an Oklahoma arrest that did not end in a conviction",
+      "description": "the page that asks, before anything is paid for, whether Oklahoma now seals this record without a petition (Clear an Oklahoma arrest that did not end in a conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "READ THIS PAGE BEFORE YOU PAY FOR ANYTHING.",
+        "",
+        "Oklahoma now seals some records WITHOUT a petition. If your record is one of them, filing the petition in this packet costs you money and time you did not have to spend.",
+        "",
+        "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
+        "",
+        "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
+        "",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "",
+        "THE QUESTION THIS PAGE EXISTS TO ASK",
+        "",
+        "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything?",
+        "{{DOTS}}",
+        "",
+        "WHAT LEGALEASE CANNOT TELL YOU HERE",
+        "",
+        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "",
+        "WHAT TO DO",
+        "",
+        "- Request your OSBI criminal history record. The registry records that it establishes what the state holds and whether anything has already been sealed under Clean Slate.",
+        "- Ask the district court clerk in the county where the arrest information is located whether your record has already been sealed without a petition.",
+        "- If either answer is yes, or if you are not sure, STOP. Do not file the petition in this packet, and get advice before you pay any fee.",
+        "",
+        "If the free route does not reach you, the rest of this packet is for the route named at the foot of this page: Clear an Oklahoma arrest that did not end in a conviction."
       ],
       "writes": [
         {
@@ -1697,12 +2469,13 @@ const SPEC = {
     {
       "id": "ok_18_19_nonconviction-primary-filing-2",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement", "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed", "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed", "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement"],
       "title": "Petition - Clear an Oklahoma arrest that did not end in a conviction",
       "role": "primary_filing",
       "description": "the composed petition, on this route's own statutory ground (Clear an Oklahoma arrest that did not end in a conviction)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Oklahoma district court for the county where the arrest information is located - see the filing instructions in this packet)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -1829,6 +2602,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "court_identity",
+          "label": "The court named in the caption of the petition - the printed line IN THE ............ COURT",
+          "supply": "the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_18_FullLegalName",
           "label": "Item C1 - 18 full legal name",
           "supply": "What is your full legal name, and have you used any other names?",
@@ -1941,12 +2721,13 @@ const SPEC = {
     {
       "id": "ok_18_19_nonconviction-proposed-order-3",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement", "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed", "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed", "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement"],
       "title": "Proposed Order - Clear an Oklahoma arrest that did not end in a conviction",
       "role": "proposed_order",
       "description": "the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma arrest that did not end in a conviction)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Oklahoma district court for the county where the arrest information is located)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -1977,6 +2758,13 @@ const SPEC = {
       ],
       "blanks": [
         {
+          "kind": "rbf",
+          "id": "order_court_identity",
+          "label": "The court named in the caption of the proposed order - the printed line IN THE ............ COURT",
+          "supply": "the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
           "kind": "court",
           "id": "order_case_number",
           "label": "Case number in the caption of the proposed order, if the court assigns one at filing",
@@ -2003,56 +2791,208 @@ const SPEC = {
       ]
     },
     {
-      "id": "ok_18_19_nonconviction-filing-instructions-4",
+      "id": "ok_18_19_nonconviction-record-gathering-instructions-4",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement",
-      "role": "filing_instructions",
-      "title": "Filing Instructions - Clear an Oklahoma arrest that did not end in a conviction",
-      "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an Oklahoma arrest that did not end in a conviction)",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement", "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed", "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed", "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement"],
+      "role": "record_gathering_instructions",
+      "title": "Records Checklist - Clear an Oklahoma arrest that did not end in a conviction",
+      "description": "the records the committed registry requires the participant to obtain, who holds each and how (Clear an Oklahoma arrest that did not end in a conviction)",
       "condition": null,
       "body": [
         "This page is for {{participant.full_legal_name}}.",
         "",
-        "WHAT THIS SET OF PAPERS IS",
+        "THE RECORDS YOU MUST HAVE IN FRONT OF YOU",
         "",
-        "Petition to Expunge a Non-Conviction or Innocence Record (22 O.S. §§ 18 and 19).",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
         "",
-        "The section 18 categories include records where the person was not charged, was acquitted, was factually innocent, or where the charge was dismissed. The petition goes to the district court in the county where the arrest information is located, the court gives thirty days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records, and the standard is a balancing test: the court may seal if the harm to privacy or the danger of unwarranted adverse consequences outweighs the public interest in retaining the records. Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "[ ] Certified court record and disposition",
+        "    Who holds it: The district court clerk in the county where the case was filed.",
+        "    How to obtain it: Ask the district court clerk for the certified docket and the order or judgment showing how the case ended. The category screen runs on the offence description and the disposition, both of which come from this record.",
+        "    Requirement: required; required BEFORE filing.",
         "",
-        "WHERE IT GOES",
+        "[ ] OSBI criminal history record",
+        "    Who holds it: Oklahoma State Bureau of Investigation.",
+        "    How to obtain it: Request a criminal history record from OSBI. It establishes what the state holds, which arrests exist in the county and whether anything has already been sealed under Clean Slate.",
+        "    Requirement: required; not required before filing, but the registry records it as required.",
         "",
-        "Oklahoma district court for the county where the arrest information is located",
+        "WHAT THESE RECORDS DECIDE",
+        "",
+        "The registry records that the category screen for this route runs on the offence DESCRIPTION and the disposition, not on a category paragraph number: three consecutive years of amendments have made the numbering unstable. Both the description and the disposition come from the certified court record. Copy them as that record words them.",
+        "",
+        "This page is a checklist. It is not filed with the court and it asserts nothing about your case."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_nonconviction-fee-disclosure-5",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement", "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed", "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed", "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement"],
+      "role": "fee_disclosure",
+      "title": "What this costs - Clear an Oklahoma arrest that did not end in a conviction",
+      "description": "the fee and waiver position the committed registry records for this route, and the question it leaves open (Clear an Oklahoma arrest that did not end in a conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "WHAT THIS COSTS, AND WHETHER A WAIVER EXISTS",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "THE FEE, AS RECORDED",
+        "",
+        "The Oklahoma State Bureau of Investigation states that expunging a court record is free and that expunging an arrest record requires a $150 processing fee, which may be accompanied by fees to local law enforcement agencies. OSBI accepts cashier's checks or money orders and will not accept personal checks. The district court filing fee is not established and is recorded as an open question.",
+        "",
+        "THE WAIVER, AS RECORDED",
+        "",
+        "Not established. The district court filing fee position is an open question.",
+        "",
+        "WHAT YOU DO ABOUT IT, AS RECORDED",
+        "",
+        "Payment of the $150 OSBI processing fee for an arrest-record expungement, by cashier's check or money order - Sent to OSBI, not to the court. OSBI does not accept personal checks, and the court-record expungement is free while the arrest-record one is not. LegalEase does not handle payment.",
+        "",
+        "WHAT THIS PACKET DOES NOT TELL YOU",
+        "",
+        "It does not tell you the district court filing fee. The registry records that fee as not established and as an open question, and it records no waiver position for it. Ask the district court clerk in the county where you file, before you go, and ask in the same call whether that court has any fee-waiver route. A filing you cannot pay for is a filing you cannot make.",
+        "",
+        "LegalEase does not handle any payment on this route."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_nonconviction-hearing-instructions-6",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement", "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed", "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed", "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement"],
+      "role": "hearing_instructions",
+      "title": "The hearing and the notice - Clear an Oklahoma arrest that did not end in a conviction",
+      "description": "where this is filed, who the court notifies, and where self-help ends at the hearing (Clear an Oklahoma arrest that did not end in a conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "THE HEARING, THE NOTICE AND WHO IS TOLD",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "WHERE THIS GOES",
+        "",
+        "Oklahoma district court for the county where the arrest information is located.",
+        "",
         "The court sets a hearing and gives thirty days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records. The proposed order must identify every agency to which it applies. No standard statewide petition form was identified, so the pleading is generated to the statutory content requirements.",
+        "",
         "Venue: The district court in the county where the arrest information is located. Multiple arrests in the same county may be combined in one petition; separate counties require separate petitions.",
         "",
-        "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
+        "THE NOTICE, AS RECORDED",
         "",
-        "Fee as recorded: The Oklahoma State Bureau of Investigation states that expunging a court record is free and that expunging an arrest record requires a $150 processing fee, which may be accompanied by fees to local law enforcement agencies. OSBI accepts cashier's checks or money orders and will not accept personal checks. The district court filing fee is not established and is recorded as an open question. Fee waiver as recorded: Not established. The district court filing fee position is an open question.",
+        "The court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records.",
         "",
-        "WHO MUST BE SERVED",
+        "SERVICE, AS RECORDED",
         "",
-        "Service as recorded: By the court's notice. The proposed order must identify every agency to which it applies. Notice as recorded: The court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records.",
+        "By the court's notice. The proposed order must identify every agency to which it applies.",
         "",
-        "WHAT THE RECORD SAYS YOU MUST KNOW",
+        "WHAT YOU DO",
         "",
-        "- One petition per county; combine same-county arrests",
-        "- The proposed order must name every agency",
-        "- Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
+        "- File the petition and the proposed order with the district court clerk. You file; the court sets the hearing and gives the notice.",
+        "- Make sure the proposed order names every agency it applies to. The registry records that as a packet instruction for this route in those words: The proposed order must name every agency.",
+        "- Go to the hearing. Take the certified court record with you.",
         "",
-        "WHEN TO STOP AND GET HELP INSTEAD OF FILING",
+        "WHERE SELF-HELP ENDS AT THE HEARING",
         "",
-        "- Prosecutor no-refile confirmation, which the review records as a self-help boundary.",
-        "- Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
-        "- Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable.",
-        "- Prosecutor objection, and any contested hearing.",
-        "- Records in more than one county, which need separate petitions.",
-        "- Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation.",
-        "- Immigration exposure.",
-        "- Tribal records are not reachable and are a live Oklahoma issue",
+        "The registry records prosecutor objection, and any contested hearing, as a point where self-help ends. If the prosecuting agency objects, or the court sets a contested hearing, stop and get a lawyer. The papers in this packet still stand; what ends is doing it alone."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_nonconviction-effect-disclosure-7",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement", "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed", "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed", "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement"],
+      "role": "effect_disclosure",
+      "title": "What an order does, and what it does not - Clear an Oklahoma arrest that did not end in a conviction",
+      "description": "the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Clear an Oklahoma arrest that did not end in a conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
         "",
-        "THE PAGES IN THIS SET",
+        "WHAT AN ORDER ON THIS ROUTE ACTUALLY DOES - AND WHAT IT DOES NOT",
         "",
-        "- ok_18_19_nonconviction-primary-filing-2: the composed petition, on this route's own statutory ground (Clear an Oklahoma arrest that did not end in a conviction)",
-        "- ok_18_19_nonconviction-proposed-order-3: the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma arrest that did not end in a conviction)"
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "",
+        "SAID PLAINLY",
+        "",
+        "Oklahoma calls this expungement and in most adult contexts it means SEALING, not destruction. A fully sealed record is unavailable to the public and to law enforcement; a partially sealed record is hidden from the public but still available to law enforcement, and which one you get is a real difference in outcome. A sealed record can be unsealed later on a finding of changed conditions or compelling reason.",
+        "",
+        "WHAT THIS PACKET CANNOT PROMISE",
+        "",
+        "It cannot promise the court will grant the order, and it cannot promise which category of sealing you will land in. Both are the court's decisions. This page tells you what the committed record says the order does, so that nobody tells you it does more."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_pardon-free-route-screen-1",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement"],
+      "role": "free_route_screen",
+      "title": "Check the free route first - Clear an Oklahoma record after a pardon",
+      "description": "the page that asks, before anything is paid for, whether Oklahoma now seals this record without a petition (Clear an Oklahoma record after a pardon)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "READ THIS PAGE BEFORE YOU PAY FOR ANYTHING.",
+        "",
+        "Oklahoma now seals some records WITHOUT a petition. If your record is one of them, filing the petition in this packet costs you money and time you did not have to spend.",
+        "",
+        "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
+        "",
+        "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
+        "",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "",
+        "THE QUESTION THIS PAGE EXISTS TO ASK",
+        "",
+        "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything?",
+        "{{DOTS}}",
+        "",
+        "WHAT LEGALEASE CANNOT TELL YOU HERE",
+        "",
+        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "",
+        "WHAT TO DO",
+        "",
+        "- Request your OSBI criminal history record. The registry records that it establishes what the state holds and whether anything has already been sealed under Clean Slate.",
+        "- Ask the district court clerk in the county where the arrest information is located whether your record has already been sealed without a petition.",
+        "- If either answer is yes, or if you are not sure, STOP. Do not file the petition in this packet, and get advice before you pay any fee.",
+        "",
+        "If the free route does not reach you, the rest of this packet is for the route named at the foot of this page: Clear an Oklahoma record after a pardon."
       ],
       "writes": [
         {
@@ -2066,12 +3006,13 @@ const SPEC = {
     {
       "id": "ok_18_19_pardon-primary-filing-2",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement"],
       "title": "Petition - Clear an Oklahoma record after a pardon",
       "role": "primary_filing",
       "description": "the composed petition, on this route's own statutory ground (Clear an Oklahoma record after a pardon)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Oklahoma district court for the county where the arrest information is located - see the filing instructions in this packet)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -2197,6 +3138,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "court_identity",
+          "label": "The court named in the caption of the petition - the printed line IN THE ............ COURT",
+          "supply": "the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_18_FullLegalName",
           "label": "Item C1 - 18 full legal name",
           "supply": "What is your full legal name, and have you used any other names?",
@@ -2309,12 +3257,13 @@ const SPEC = {
     {
       "id": "ok_18_19_pardon-proposed-order-3",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement"],
       "title": "Proposed Order - Clear an Oklahoma record after a pardon",
       "role": "proposed_order",
       "description": "the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma record after a pardon)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Oklahoma district court for the county where the arrest information is located)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -2345,6 +3294,13 @@ const SPEC = {
       ],
       "blanks": [
         {
+          "kind": "rbf",
+          "id": "order_court_identity",
+          "label": "The court named in the caption of the proposed order - the printed line IN THE ............ COURT",
+          "supply": "the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
           "kind": "court",
           "id": "order_case_number",
           "label": "Case number in the caption of the proposed order, if the court assigns one at filing",
@@ -2371,56 +3327,203 @@ const SPEC = {
       ]
     },
     {
-      "id": "ok_18_19_pardon-filing-instructions-4",
+      "id": "ok_18_19_pardon-record-gathering-instructions-4",
       "routeKey": "obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement",
-      "role": "filing_instructions",
-      "title": "Filing Instructions - Clear an Oklahoma record after a pardon",
-      "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an Oklahoma record after a pardon)",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement"],
+      "role": "record_gathering_instructions",
+      "title": "Records Checklist - Clear an Oklahoma record after a pardon",
+      "description": "the records the committed registry requires the participant to obtain, who holds each and how (Clear an Oklahoma record after a pardon)",
       "condition": null,
       "body": [
         "This page is for {{participant.full_legal_name}}.",
         "",
-        "WHAT THIS SET OF PAPERS IS",
+        "THE RECORDS YOU MUST HAVE IN FRONT OF YOU",
         "",
-        "Petition to Expunge After a Pardon (22 O.S. §§ 18 and 19).",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
         "",
-        "A section 18 category provides a petition route following a pardon. Obtaining the pardon itself is a matter for the Governor and the Pardon and Parole Board and is outside scope; this track begins once the participant holds one. Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "[ ] Certified court record and disposition",
+        "    Who holds it: The district court clerk in the county where the case was filed.",
+        "    How to obtain it: Ask the district court clerk for the certified docket and the order or judgment showing how the case ended. The category screen runs on the offence description and the disposition, both of which come from this record.",
+        "    Requirement: required; required BEFORE filing.",
         "",
-        "WHERE IT GOES",
+        "[ ] OSBI criminal history record",
+        "    Who holds it: Oklahoma State Bureau of Investigation.",
+        "    How to obtain it: Request a criminal history record from OSBI. It establishes what the state holds, which arrests exist in the county and whether anything has already been sealed under Clean Slate.",
+        "    Requirement: required; not required before filing, but the registry records it as required.",
         "",
-        "Oklahoma district court for the county where the arrest information is located",
+        "WHAT THESE RECORDS DECIDE",
+        "",
+        "The registry records that the category screen for this route runs on the offence DESCRIPTION and the disposition, not on a category paragraph number: three consecutive years of amendments have made the numbering unstable. Both the description and the disposition come from the certified court record. Copy them as that record words them.",
+        "",
+        "This page is a checklist. It is not filed with the court and it asserts nothing about your case."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_pardon-fee-disclosure-5",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement"],
+      "role": "fee_disclosure",
+      "title": "What this costs - Clear an Oklahoma record after a pardon",
+      "description": "the fee and waiver position the committed registry records for this route, and the question it leaves open (Clear an Oklahoma record after a pardon)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "WHAT THIS COSTS, AND WHETHER A WAIVER EXISTS",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "THE FEE, AS RECORDED",
+        "",
+        "The Oklahoma State Bureau of Investigation states that expunging a court record is free and that expunging an arrest record requires a $150 processing fee, which may be accompanied by fees to local law enforcement agencies. OSBI accepts cashier's checks or money orders and will not accept personal checks. The district court filing fee is not established and is recorded as an open question.",
+        "",
+        "THE WAIVER, AS RECORDED",
+        "",
+        "Not established. The district court filing fee position is an open question.",
+        "",
+        "WHAT YOU DO ABOUT IT, AS RECORDED",
+        "",
+        "Payment of the $150 OSBI processing fee for an arrest-record expungement, by cashier's check or money order - Sent to OSBI, not to the court. OSBI does not accept personal checks, and the court-record expungement is free while the arrest-record one is not. LegalEase does not handle payment.",
+        "",
+        "WHAT THIS PACKET DOES NOT TELL YOU",
+        "",
+        "It does not tell you the district court filing fee. The registry records that fee as not established and as an open question, and it records no waiver position for it. Ask the district court clerk in the county where you file, before you go, and ask in the same call whether that court has any fee-waiver route. A filing you cannot pay for is a filing you cannot make.",
+        "",
+        "LegalEase does not handle any payment on this route."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_pardon-hearing-instructions-6",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement"],
+      "role": "hearing_instructions",
+      "title": "The hearing and the notice - Clear an Oklahoma record after a pardon",
+      "description": "where this is filed, who the court notifies, and where self-help ends at the hearing (Clear an Oklahoma record after a pardon)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "THE HEARING, THE NOTICE AND WHO IS TOLD",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "WHERE THIS GOES",
+        "",
+        "Oklahoma district court for the county where the arrest information is located.",
+        "",
         "The court sets a hearing and gives thirty days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records. The proposed order must identify every agency to which it applies. No standard statewide petition form was identified, so the pleading is generated to the statutory content requirements.",
+        "",
         "Venue: The district court in the county where the arrest information is located. Multiple arrests in the same county may be combined in one petition; separate counties require separate petitions.",
         "",
-        "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
+        "THE NOTICE, AS RECORDED",
         "",
-        "Fee as recorded: The Oklahoma State Bureau of Investigation states that expunging a court record is free and that expunging an arrest record requires a $150 processing fee, which may be accompanied by fees to local law enforcement agencies. OSBI accepts cashier's checks or money orders and will not accept personal checks. The district court filing fee is not established and is recorded as an open question. Fee waiver as recorded: Not established. The district court filing fee position is an open question.",
+        "The court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records.",
         "",
-        "WHO MUST BE SERVED",
+        "SERVICE, AS RECORDED",
         "",
-        "Service as recorded: By the court's notice. The proposed order must identify every agency to which it applies. Notice as recorded: The court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records.",
+        "By the court's notice. The proposed order must identify every agency to which it applies.",
         "",
-        "WHAT THE RECORD SAYS YOU MUST KNOW",
+        "WHAT YOU DO",
         "",
-        "- One petition per county; combine same-county arrests",
-        "- The proposed order must name every agency",
-        "- Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
+        "- File the petition and the proposed order with the district court clerk. You file; the court sets the hearing and gives the notice.",
+        "- Make sure the proposed order names every agency it applies to. The registry records that as a packet instruction for this route in those words: The proposed order must name every agency.",
+        "- Go to the hearing. Take the certified court record with you.",
         "",
-        "WHEN TO STOP AND GET HELP INSTEAD OF FILING",
+        "WHERE SELF-HELP ENDS AT THE HEARING",
         "",
-        "- Applying for the pardon itself, which is a Pardon and Parole Board matter and out of scope.",
-        "- Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
-        "- Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable.",
-        "- Prosecutor objection, and any contested hearing.",
-        "- Records in more than one county, which need separate petitions.",
-        "- Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation.",
-        "- Immigration exposure.",
-        "- Tribal records are not reachable and are a live Oklahoma issue",
+        "The registry records prosecutor objection, and any contested hearing, as a point where self-help ends. If the prosecuting agency objects, or the court sets a contested hearing, stop and get a lawyer. The papers in this packet still stand; what ends is doing it alone."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_18_19_pardon-effect-disclosure-7",
+      "routeKey": "obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement",
+      "routeKeys": ["obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement"],
+      "role": "effect_disclosure",
+      "title": "What an order does, and what it does not - Clear an Oklahoma record after a pardon",
+      "description": "the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Clear an Oklahoma record after a pardon)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
         "",
-        "THE PAGES IN THIS SET",
+        "WHAT AN ORDER ON THIS ROUTE ACTUALLY DOES - AND WHAT IT DOES NOT",
         "",
-        "- ok_18_19_pardon-primary-filing-2: the composed petition, on this route's own statutory ground (Clear an Oklahoma record after a pardon)",
-        "- ok_18_19_pardon-proposed-order-3: the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma record after a pardon)"
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "",
+        "SAID PLAINLY",
+        "",
+        "Oklahoma calls this expungement and in most adult contexts it means SEALING, not destruction. A fully sealed record is unavailable to the public and to law enforcement; a partially sealed record is hidden from the public but still available to law enforcement, and which one you get is a real difference in outcome. A sealed record can be unsealed later on a finding of changed conditions or compelling reason.",
+        "",
+        "WHAT THIS PACKET CANNOT PROMISE",
+        "",
+        "It cannot promise the court will grant the order, and it cannot promise which category of sealing you will land in. Both are the court's decisions. This page tells you what the committed record says the order does, so that nobody tells you it does more."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_991c_deferred-arrest-record-screen-1",
+      "routeKey": "obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c",
+      "routeKeys": ["obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c"],
+      "role": "arrest_record_screen",
+      "title": "What this motion does not do - Update an Oklahoma deferred sentence so the case shows as dismissed",
+      "description": "the page that states, before anything is filed, that a section 991c order does not remove the arrest record (Update an Oklahoma deferred sentence so the case shows as dismissed)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "READ THIS PAGE FIRST. A SECTION 991c ORDER DOES NOT CLEAR YOUR ARREST RECORD.",
+        "",
+        "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
+        "",
+        "A section 991c expungement updates the court record of a completed deferred sentence so the case shows as dismissed. It is not a full record clearing: the Oklahoma State Bureau of Investigation states in terms that \"A Section 991(c) expungement will not expunge (remove) the arrest record.\" The review calls this the most important consumer-facing point in Oklahoma, because a participant who obtains only a section 991c order and is told their record is clear has been misled. Every section 991c motion is therefore paired with a section 18 arrest-record screen.",
+        "",
+        "The registry's packet instruction for this route is a single sentence: Always pair a Sec. 991c motion with a Sec. 18 arrest-record screen.",
+        "",
+        "THE QUESTION THIS PAGE EXISTS TO ASK",
+        "",
+        "Is your goal to have the arrest itself no longer show, as well as the court case?",
+        "{{DOTS}}",
+        "",
+        "IF THE ANSWER IS YES",
+        "",
+        "The motion in this packet is not enough on its own. An arrest-record expungement is a separate route under 22 O.S. Sec. 18, with its own petition, its own hearing and its own cost - the registry records that expunging a court record is free while a separate arrest-record expungement carries a $150 processing fee. Ask about that route before you rely on this one, and do not tell anyone your record is clear on the strength of a section 991c order alone.",
+        "",
+        "WHAT TO DO",
+        "",
+        "- Request your OSBI criminal history record. The registry records that it shows what the state holds on the arrest, which is precisely what the section 991c order will not change.",
+        "- Read that record before you decide whether this motion, on its own, does what you want."
       ],
       "writes": [
         {
@@ -2434,12 +3537,13 @@ const SPEC = {
     {
       "id": "ok_991c_deferred-primary-filing-2",
       "routeKey": "obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c",
+      "routeKeys": ["obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c"],
       "title": "Petition - Update an Oklahoma deferred sentence so the case shows as dismissed",
       "role": "primary_filing",
       "description": "the composed petition, on this route's own statutory ground (Update an Oklahoma deferred sentence so the case shows as dismissed)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(The Oklahoma district court that entered the deferred sentence - see the filing instructions in this packet)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -2528,6 +3632,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "court_identity",
+          "label": "The court named in the caption of the petition - the printed line IN THE ............ COURT",
+          "supply": "the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_dfcFullLegalName",
           "label": "Item C1 - dfc full legal name",
           "supply": "What is your full legal name?",
@@ -2584,12 +3695,13 @@ const SPEC = {
     {
       "id": "ok_991c_deferred-proposed-order-3",
       "routeKey": "obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c",
+      "routeKeys": ["obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c"],
       "title": "Proposed Order - Update an Oklahoma deferred sentence so the case shows as dismissed",
       "role": "proposed_order",
       "description": "the proposed order the court may sign; every decision line is the court's and is left blank (Update an Oklahoma deferred sentence so the case shows as dismissed)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(The Oklahoma district court that entered the deferred sentence)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -2620,6 +3732,13 @@ const SPEC = {
       ],
       "blanks": [
         {
+          "kind": "rbf",
+          "id": "order_court_identity",
+          "label": "The court named in the caption of the proposed order - the printed line IN THE ............ COURT",
+          "supply": "the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
           "kind": "court",
           "id": "order_case_number",
           "label": "Case number in the caption of the proposed order, if the court assigns one at filing",
@@ -2646,50 +3765,76 @@ const SPEC = {
       ]
     },
     {
-      "id": "ok_991c_deferred-filing-instructions-4",
+      "id": "ok_991c_deferred-effect-disclosure-4",
       "routeKey": "obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c",
-      "role": "filing_instructions",
-      "title": "Filing Instructions - Update an Oklahoma deferred sentence so the case shows as dismissed",
-      "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Update an Oklahoma deferred sentence so the case shows as dismissed)",
+      "routeKeys": ["obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c"],
+      "role": "effect_disclosure",
+      "title": "What an order does, and what it does not - Update an Oklahoma deferred sentence so the case shows as dismissed",
+      "description": "the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Update an Oklahoma deferred sentence so the case shows as dismissed)",
       "condition": null,
       "body": [
         "This page is for {{participant.full_legal_name}}.",
         "",
-        "WHAT THIS SET OF PAPERS IS",
+        "WHAT AN ORDER ON THIS ROUTE ACTUALLY DOES - AND WHAT IT DOES NOT",
         "",
-        "Motion to Expunge the Court Record of a Completed Deferred Sentence (22 O.S. § 991c).",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
         "",
-        "A section 991c expungement updates the court record of a completed deferred sentence so the case shows as dismissed. It is not a full record clearing: the Oklahoma State Bureau of Investigation states in terms that \"A Section 991(c) expungement will not expunge (remove) the arrest record.\" The review calls this the most important consumer-facing point in Oklahoma, because a participant who obtains only a section 991c order and is told their record is clear has been misled. Every section 991c motion is therefore paired with a section 18 arrest-record screen. Oklahoma says expungement but in most adult contexts means sealing. Fully sealed records are unavailable to the public and to law enforcement, with OSBI retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement. Title 22 section 19 does not authorise physical destruction, a sealed record may be unsealed on changed conditions or a compelling reason, and under section 19(N) a sealed record not unsealed within ten years may be obliterated or destroyed.",
+        "Oklahoma says expungement but in most adult contexts means sealing. Fully sealed records are unavailable to the public and to law enforcement, with OSBI retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement. Title 22 section 19 does not authorise physical destruction, a sealed record may be unsealed on changed conditions or a compelling reason, and under section 19(N) a sealed record not unsealed within ten years may be obliterated or destroyed.",
         "",
-        "WHERE IT GOES",
+        "SAID PLAINLY",
         "",
-        "The Oklahoma district court that entered the deferred sentence",
-        "A motion in the sentencing court. No standard statewide form was identified. The order updates the court record; it does not reach the arrest record held by OSBI or by the arresting agency.",
-        "Venue: The district court that entered the deferred sentence.",
+        "A section 991c order changes how the COURT record reads. It does not remove the ARREST record. Do not say your record is clear on the strength of this order alone.",
         "",
-        "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
+        "WHAT THIS PACKET CANNOT PROMISE",
         "",
-        "Fee as recorded: Not established for the section 991c motion. The Oklahoma State Bureau of Investigation states that expunging a court record is free; a separate arrest-record expungement carries a $150 processing fee. Fee waiver as recorded: Not established.",
+        "It cannot promise the court will grant the order, and it cannot promise which category of sealing you will land in. Both are the court's decisions. This page tells you what the committed record says the order does, so that nobody tells you it does more."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_vpo_60_18-free-route-screen-1",
+      "routeKey": "obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief",
+      "routeKeys": ["obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief"],
+      "role": "free_route_screen",
+      "title": "Check the free route first - Clear an Oklahoma protective order record",
+      "description": "the page that asks, before anything is paid for, whether Oklahoma now seals this record without a petition (Clear an Oklahoma protective order record)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
         "",
-        "WHO MUST BE SERVED",
+        "READ THIS PAGE BEFORE YOU PAY FOR ANYTHING.",
         "",
-        "Service as recorded: Not established. Notice as recorded: Not established for this motion.",
+        "Oklahoma now seals some records WITHOUT a petition. If your record is one of them, filing the petition in this packet costs you money and time you did not have to spend.",
         "",
-        "WHAT THE RECORD SAYS YOU MUST KNOW",
+        "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "- Always pair a § 991c motion with a § 18 arrest-record screen",
+        "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
         "",
-        "WHEN TO STOP AND GET HELP INSTEAD OF FILING",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
         "",
-        "- Any participant whose goal is the arrest record rather than the court record, who needs the section 18 route and should not be sold this motion alone.",
-        "- Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation.",
-        "- Immigration exposure.",
-        "- Tribal records are not reachable and are a live Oklahoma issue",
+        "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
-        "THE PAGES IN THIS SET",
+        "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything?",
+        "{{DOTS}}",
         "",
-        "- ok_991c_deferred-primary-filing-2: the composed petition, on this route's own statutory ground (Update an Oklahoma deferred sentence so the case shows as dismissed)",
-        "- ok_991c_deferred-proposed-order-3: the proposed order the court may sign; every decision line is the court's and is left blank (Update an Oklahoma deferred sentence so the case shows as dismissed)"
+        "WHAT LEGALEASE CANNOT TELL YOU HERE",
+        "",
+        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "",
+        "WHAT TO DO",
+        "",
+        "- Request your OSBI criminal history record. The registry records that it establishes what the state holds and whether anything has already been sealed under Clean Slate.",
+        "- Ask the district court clerk in the county where the arrest information is located whether your record has already been sealed without a petition.",
+        "- If either answer is yes, or if you are not sure, STOP. Do not file the petition in this packet, and get advice before you pay any fee.",
+        "",
+        "If the free route does not reach you, the rest of this packet is for the route named at the foot of this page: Clear an Oklahoma protective order record."
       ],
       "writes": [
         {
@@ -2703,12 +3848,13 @@ const SPEC = {
     {
       "id": "ok_vpo_60_18-primary-filing-2",
       "routeKey": "obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief",
+      "routeKeys": ["obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief"],
       "title": "Petition - Clear an Oklahoma protective order record",
       "role": "primary_filing",
       "description": "the composed petition, on this route's own statutory ground (Clear an Oklahoma protective order record)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Oklahoma district court for the county where the arrest information is located - see the filing instructions in this packet)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -2834,6 +3980,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "court_identity",
+          "label": "The court named in the caption of the petition - the printed line IN THE ............ COURT",
+          "supply": "the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_vpoFullLegalName",
           "label": "Item C1 - vpo full legal name",
           "supply": "What is your full legal name, and have you used any other names?",
@@ -2946,12 +4099,13 @@ const SPEC = {
     {
       "id": "ok_vpo_60_18-proposed-order-3",
       "routeKey": "obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief",
+      "routeKeys": ["obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief"],
       "title": "Proposed Order - Clear an Oklahoma protective order record",
       "role": "proposed_order",
       "description": "the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma protective order record)",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
+        "IN THE {{DOTS:60}} COURT",
         "(Oklahoma district court for the county where the arrest information is located)",
         "",
         "IN RE: {{participant.full_legal_name}},",
@@ -2982,6 +4136,13 @@ const SPEC = {
       ],
       "blanks": [
         {
+          "kind": "rbf",
+          "id": "order_court_identity",
+          "label": "The court named in the caption of the proposed order - the printed line IN THE ............ COURT",
+          "supply": "the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match",
+          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+        },
+        {
           "kind": "court",
           "id": "order_case_number",
           "label": "Case number in the caption of the proposed order, if the court assigns one at filing",
@@ -3008,56 +4169,35 @@ const SPEC = {
       ]
     },
     {
-      "id": "ok_vpo_60_18-filing-instructions-4",
+      "id": "ok_vpo_60_18-record-gathering-instructions-4",
       "routeKey": "obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief",
-      "role": "filing_instructions",
-      "title": "Filing Instructions - Clear an Oklahoma protective order record",
-      "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an Oklahoma protective order record)",
+      "routeKeys": ["obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief"],
+      "role": "record_gathering_instructions",
+      "title": "Records Checklist - Clear an Oklahoma protective order record",
+      "description": "the records the committed registry requires the participant to obtain, who holds each and how (Clear an Oklahoma protective order record)",
       "condition": null,
       "body": [
         "This page is for {{participant.full_legal_name}}.",
         "",
-        "WHAT THIS SET OF PAPERS IS",
+        "THE RECORDS YOU MUST HAVE IN FRONT OF YOU",
         "",
-        "Petition to Expunge Victim Protective Order Records (22 O.S. § 60.18).",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
         "",
-        "Title 22 section 60.18 provides for expungement of victim protective order records. The review classifies this as custom_pleading and approves it with limitations; the section's text was not read. Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "[ ] Certified court record and disposition",
+        "    Who holds it: The district court clerk in the county where the case was filed.",
+        "    How to obtain it: Ask the district court clerk for the certified docket and the order or judgment showing how the case ended. The category screen runs on the offence description and the disposition, both of which come from this record.",
+        "    Requirement: required; required BEFORE filing.",
         "",
-        "WHERE IT GOES",
+        "[ ] OSBI criminal history record",
+        "    Who holds it: Oklahoma State Bureau of Investigation.",
+        "    How to obtain it: Request a criminal history record from OSBI. It establishes what the state holds, which arrests exist in the county and whether anything has already been sealed under Clean Slate.",
+        "    Requirement: required; not required before filing, but the registry records it as required.",
         "",
-        "Oklahoma district court for the county where the arrest information is located",
-        "The court sets a hearing and gives thirty days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records. The proposed order must identify every agency to which it applies. No standard statewide petition form was identified, so the pleading is generated to the statutory content requirements.",
-        "Venue: The district court in the county where the arrest information is located. Multiple arrests in the same county may be combined in one petition; separate counties require separate petitions.",
+        "WHAT THESE RECORDS DECIDE",
         "",
-        "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
+        "The registry records that the category screen for this route runs on the offence DESCRIPTION and the disposition, not on a category paragraph number: three consecutive years of amendments have made the numbering unstable. Both the description and the disposition come from the certified court record. Copy them as that record words them.",
         "",
-        "Fee as recorded: The Oklahoma State Bureau of Investigation states that expunging a court record is free and that expunging an arrest record requires a $150 processing fee, which may be accompanied by fees to local law enforcement agencies. OSBI accepts cashier's checks or money orders and will not accept personal checks. The district court filing fee is not established and is recorded as an open question. Fee waiver as recorded: Not established. The district court filing fee position is an open question.",
-        "",
-        "WHO MUST BE SERVED",
-        "",
-        "Service as recorded: By the court's notice. The proposed order must identify every agency to which it applies. Notice as recorded: The court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records.",
-        "",
-        "WHAT THE RECORD SAYS YOU MUST KNOW",
-        "",
-        "- One petition per county; combine same-county arrests",
-        "- The proposed order must name every agency",
-        "- Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
-        "",
-        "WHEN TO STOP AND GET HELP INSTEAD OF FILING",
-        "",
-        "- Every protective order matter, until section 60.18 is read and its conditions established.",
-        "- Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
-        "- Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable.",
-        "- Prosecutor objection, and any contested hearing.",
-        "- Records in more than one county, which need separate petitions.",
-        "- Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation.",
-        "- Immigration exposure.",
-        "- Tribal records are not reachable and are a live Oklahoma issue",
-        "",
-        "THE PAGES IN THIS SET",
-        "",
-        "- ok_vpo_60_18-primary-filing-2: the composed petition, on this route's own statutory ground (Clear an Oklahoma protective order record)",
-        "- ok_vpo_60_18-proposed-order-3: the proposed order the court may sign; every decision line is the court's and is left blank (Clear an Oklahoma protective order record)"
+        "This page is a checklist. It is not filed with the court and it asserts nothing about your case."
       ],
       "writes": [
         {
@@ -3067,7 +4207,133 @@ const SPEC = {
         }
       ],
       "blanks": []
-    }
+    },
+    {
+      "id": "ok_vpo_60_18-fee-disclosure-5",
+      "routeKey": "obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief",
+      "routeKeys": ["obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief"],
+      "role": "fee_disclosure",
+      "title": "What this costs - Clear an Oklahoma protective order record",
+      "description": "the fee and waiver position the committed registry records for this route, and the question it leaves open (Clear an Oklahoma protective order record)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "WHAT THIS COSTS, AND WHETHER A WAIVER EXISTS",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "THE FEE, AS RECORDED",
+        "",
+        "The Oklahoma State Bureau of Investigation states that expunging a court record is free and that expunging an arrest record requires a $150 processing fee, which may be accompanied by fees to local law enforcement agencies. OSBI accepts cashier's checks or money orders and will not accept personal checks. The district court filing fee is not established and is recorded as an open question.",
+        "",
+        "THE WAIVER, AS RECORDED",
+        "",
+        "Not established. The district court filing fee position is an open question.",
+        "",
+        "WHAT YOU DO ABOUT IT, AS RECORDED",
+        "",
+        "Payment of the $150 OSBI processing fee for an arrest-record expungement, by cashier's check or money order - Sent to OSBI, not to the court. OSBI does not accept personal checks, and the court-record expungement is free while the arrest-record one is not. LegalEase does not handle payment.",
+        "",
+        "WHAT THIS PACKET DOES NOT TELL YOU",
+        "",
+        "It does not tell you the district court filing fee. The registry records that fee as not established and as an open question, and it records no waiver position for it. Ask the district court clerk in the county where you file, before you go, and ask in the same call whether that court has any fee-waiver route. A filing you cannot pay for is a filing you cannot make.",
+        "",
+        "LegalEase does not handle any payment on this route."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_vpo_60_18-hearing-instructions-6",
+      "routeKey": "obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief",
+      "routeKeys": ["obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief"],
+      "role": "hearing_instructions",
+      "title": "The hearing and the notice - Clear an Oklahoma protective order record",
+      "description": "where this is filed, who the court notifies, and where self-help ends at the hearing (Clear an Oklahoma protective order record)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "THE HEARING, THE NOTICE AND WHO IS TOLD",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "WHERE THIS GOES",
+        "",
+        "Oklahoma district court for the county where the arrest information is located.",
+        "",
+        "The court sets a hearing and gives thirty days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records. The proposed order must identify every agency to which it applies. No standard statewide petition form was identified, so the pleading is generated to the statutory content requirements.",
+        "",
+        "Venue: The district court in the county where the arrest information is located. Multiple arrests in the same county may be combined in one petition; separate counties require separate petitions.",
+        "",
+        "THE NOTICE, AS RECORDED",
+        "",
+        "The court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records.",
+        "",
+        "SERVICE, AS RECORDED",
+        "",
+        "By the court's notice. The proposed order must identify every agency to which it applies.",
+        "",
+        "WHAT YOU DO",
+        "",
+        "- File the petition and the proposed order with the district court clerk. You file; the court sets the hearing and gives the notice.",
+        "- Make sure the proposed order names every agency it applies to. The registry records that as a packet instruction for this route in those words: The proposed order must name every agency.",
+        "- Go to the hearing. Take the certified court record with you.",
+        "",
+        "WHERE SELF-HELP ENDS AT THE HEARING",
+        "",
+        "The registry records prosecutor objection, and any contested hearing, as a point where self-help ends. If the prosecuting agency objects, or the court sets a contested hearing, stop and get a lawyer. The papers in this packet still stand; what ends is doing it alone."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ok_vpo_60_18-effect-disclosure-7",
+      "routeKey": "obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief",
+      "routeKeys": ["obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief"],
+      "role": "effect_disclosure",
+      "title": "What an order does, and what it does not - Clear an Oklahoma protective order record",
+      "description": "the effect the committed registry records for an order on this route, including the sealing-versus-destruction point (Clear an Oklahoma protective order record)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "WHAT AN ORDER ON THIS ROUTE ACTUALLY DOES - AND WHAT IT DOES NOT",
+        "",
+        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "",
+        "Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "",
+        "SAID PLAINLY",
+        "",
+        "Oklahoma calls this expungement and in most adult contexts it means SEALING, not destruction. A fully sealed record is unavailable to the public and to law enforcement; a partially sealed record is hidden from the public but still available to law enforcement, and which one you get is a real difference in outcome. A sealed record can be unsealed later on a finding of changed conditions or compelling reason.",
+        "",
+        "WHAT THIS PACKET CANNOT PROMISE",
+        "",
+        "It cannot promise the court will grant the order, and it cannot promise which category of sealing you will land in. Both are the court's decisions. This page tells you what the committed record says the order does, so that nobody tells you it does more."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
   ],
   "fixtures": {
     "canonical": {
@@ -3328,39 +4594,47 @@ const SPEC = {
     "rows": [
       [
         "Clear an Oklahoma record that is not yours",
-        "Where a record was created in the participant's name through identity theft, or otherwise identifies the wrong person, the section 18 identity-theft category with section 19a provides the route."
+        "Where a record was created in the participant's name through identity theft, or otherwise identifies the wrong person, the section 18 identity-theft category with section 19a provides the route.",
+        "one declared route: `obligation:track-only:OK:ok_identity_theft`"
       ],
       [
         "Clear an Oklahoma case after a deferred sentence was dismissed",
-        "Where a deferred or delayed sentence has been completed and the case dismissed, the section 18 categories provide a petition route."
+        "Where a deferred or delayed sentence has been completed and the case dismissed, the section 18 categories provide a petition route.",
+        "**3 declared routes**, all served by this one set: `misdemeanor-deferred-dismissal-expungement`; `nonviolent-felony-deferred-dismissal-expungement`; `up-to-two-felony-deferred-dismissal-expungement`"
       ],
       [
         "Clear an Oklahoma felony conviction",
-        "The section 18 categories provide petition routes for felony convictions, including a reclassified-felony route with a short window that the review directs be screened before the longer routes, and a one-felony route carrying a separate-misdemeanour look-back."
+        "The section 18 categories provide petition routes for felony convictions, including a reclassified-felony route with a short window that the review directs be screened before the longer routes, and a one-felony route carrying a separate-misdemeanour look-back.",
+        "**3 declared routes**, all served by this one set: `felony-reclassified-as-a-misdemeanor`; `not-more-than-two-eligible-felony-convictions-expungement`; `one-eligible-nonviolent-felony-conviction-expungement`"
       ],
       [
         "Clear an Oklahoma misdemeanor conviction",
-        "The section 18 categories provide petition routes for misdemeanour convictions on stated waiting periods and prior-record conditions."
+        "The section 18 categories provide petition routes for misdemeanour convictions on stated waiting periods and prior-record conditions.",
+        "**2 declared routes**, all served by this one set: `fine-only-misdemeanor-conviction-expungement`; `other-eligible-misdemeanor-conviction-expungement`"
       ],
       [
         "Clear an Oklahoma arrest that did not end in a conviction",
-        "The section 18 categories include records where the person was not charged, was acquitted, was factually innocent, or where the charge was dismissed."
+        "The section 18 categories include records where the person was not charged, was acquitted, was factually innocent, or where the charge was dismissed. All four are declared routes of one track and all four are served by this one set of pages, which is why the petition names all four in its footer rather than one of them. WHICH of the four you are on is a fact of your own record, and it changes the allegations you write on the petition - the committed generation requirements ask for the disposition and its date directly. If you cannot tell which, that is a question for a lawyer, not one to guess at.",
+        "**4 declared routes**, all served by this one set: `acquittal-dismissal-or-other-no-conviction-expungement`; `arrest-with-no-charges-filed`; `conviction-reversed-and-case-dismissed`; `dna-factual-innocence-expungement`"
       ],
       [
         "Clear an Oklahoma record after a pardon",
-        "A section 18 category provides a petition route following a pardon."
+        "A section 18 category provides a petition route following a pardon.",
+        "one declared route: `pardon-based-expungement`"
       ],
       [
         "Update an Oklahoma deferred sentence so the case shows as dismissed",
-        "A section 991c expungement updates the court record of a completed deferred sentence so the case shows as dismissed."
+        "A section 991c expungement updates the court record of a completed deferred sentence so the case shows as dismissed.",
+        "one declared route: `deferred-sentence-court-record-expungement-under-991-c`"
       ],
       [
         "Clear an Oklahoma protective order record",
-        "Title 22 section 60.18 provides for expungement of victim protective order records."
+        "Title 22 section 60.18 provides for expungement of victim protective order records.",
+        "one declared route: `victim-protective-order-record-relief`"
       ]
     ],
     "footnotes": [
-      "Every page states its own route in its footer. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at."
+      "Every page states in its footer every declared route the set it belongs to serves, so the sixteen routes this family declares are the sixteen the pages name. Where a set serves more than one route, the routes share one instrument and differ in the facts you allege, not in the paper. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at."
     ]
   },
   "documentsToObtain": [
@@ -3668,7 +4942,10 @@ function composedBody(componentId, facts) {
       return String(value);
     }));
   }
-  lines.push("", `Route: ${c.routeKey}`);
+  const served = c.routeKeys ?? [c.routeKey];
+  lines.push("", served.length === 1
+    ? `Route: ${served[0]}`
+    : `Routes this set serves (${served.length}): ${served.join(" ; ")}`);
   return lines.join("\n");
 }
 
@@ -3887,8 +5164,8 @@ function participantInstructions(maps, rbf) {
   if (SPEC.instrumentChoice) {
     out.push(`## ${SPEC.instrumentChoice.heading}`, "");
     for (const p of SPEC.instrumentChoice.intro) out.push(p, "");
-    out.push("| Instrument | When it is yours |", "| --- | --- |");
-    for (const [instr, when] of SPEC.instrumentChoice.rows) out.push(`| ${instr} | ${when} |`);
+    out.push("| Instrument | When it is yours | The declared routes this set serves |", "| --- | --- | --- |");
+    for (const [instr, when, routes] of SPEC.instrumentChoice.rows) out.push(`| ${instr} | ${when} | ${routes} |`);
     out.push("");
     for (const p of SPEC.instrumentChoice.footnotes ?? []) out.push(p, "");
   }
@@ -4109,6 +5386,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
     componentSet: COMPONENT_IDS,
     componentConditions: Object.fromEntries(SPEC.components.filter((c) => c.condition).map((c) => [c.id, c.condition])),
     componentRoutes: Object.fromEntries(SPEC.components.map((c) => [c.id, c.routeKey])),
+    // Every declared route each component serves, not just the first. A track
+    // whose pathways share one instrument serves all of them from one set, and a
+    // record that named one of them read as a route this family declared and did
+    // not serve.
+    componentRoutesServed: Object.fromEntries(SPEC.components.map((c) => [c.id, c.routeKeys ?? [c.routeKey]])),
     dispositionVocabulary: [SIGNATURE, COURT_OWNED],
     routeSelectionsMade: SPEC.routeSelectionsMade ?? [],
     routeSelectionNote: SPEC.routeSelectionNote,
