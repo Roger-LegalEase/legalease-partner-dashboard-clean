@@ -7458,6 +7458,143 @@
       "productionTouched": false,
       "grantsNothing": "An independent PASS proves a packet is complete. It approves no output, promotes no family and opens no commercial route.",
       "failedObligationNames": []
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "lane": "VF02",
+      "wave": "packet-factory-24h — VF02 re-dispatch read at 247b790b6",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "247b790b6",
+      "verifier": "VF02 (independent-verification; this lane did not build, repair, render or previously read this family)",
+      "claim": {
+        "asserted": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "exitCode": 0,
+        "result": "CLAIM_OK VF02 composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708 (independent-verification, grant set 5e3d92479e63d23f)"
+      },
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708 — PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+      "measuredBy": "the fifteen proof obligations measured in this checkout; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here without --write; both fixtures read as bytes page by page, with every word's bounding box extracted for the placement checks; and each quoted passage matched back against the bound record it is attributed to",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredHere": true,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "One route, correctly identified, and the packet is careful that neighbouring Wyoming sections are not this one.",
+          "evidence": "Both pages carry the footer obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708, and the petition's title, body and request paragraph all cite Wyo. Stat. § 6-2-708, matching the single route key in the queue. routeSelectionNote records that where a neighbouring section of the same statute is a different route the packet says so and tells the participant to stop rather than printing a box to tick. The instructions carry the same discipline about waiting periods: the committed contract says no nonconviction, misdemeanour, felony or juvenile waiting table may be imported here, and the packet prints that as a 'what you do not do'."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three bound records recompute exactly, and the passages the packet attributes to them are in them.",
+          "evidence": "sha256sum recomputed here: src/lib/legal-authority/routes/single-routes.json 6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588 at 67533 bytes; src/lib/rcap-engine/compiled/profiles/WY-wyoming.json 335463128603a3c980661a61f8740db103898a8aafe02d7b7220dcbaab4c6dea at 120012; route-obligation-candidate.json 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f at 2599752 — each equal to the pin in source-receipt.json, byte length included. I also matched the quoted strings back: 'Human-trafficking victim vacatur - W.S. 6-2-708', 'Verify with clerk; statute is a motion route, not a standard expungement filing-fee route' and 'Wilma trauma rule: Ask only what is necessary:' are all in the compiled profile verbatim, and 'Human-trafficking-victim vacatur' is the route contract's own name in single-routes.json."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both composed components are rendered and present, and the packet is explicit about the one named component that is a record rather than a pleading.",
+          "evidence": "componentSet names wy-6-2-708-vacatur-primary-filing-1 and wy-6-2-708-vacatur-filing-instructions-2; the petition occupies pages 1-2 and the instructions pages 3-4. The committed contract names the packet components as 'Petition to vacate; Nexus evidence', and the delivered instructions page says so and draws the distinction: 'This packet composes the filing pages; anything on that list that is a RECORD rather than a pleading is a document you obtain and file with the petition.' Nexus evidence then appears under 'Documents you must obtain before filing' with the note that official documentation creates the recorded presumption but is not required."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All five held facts are written and visible on the page each belongs to.",
+          "evidence": "Read out of the delivered bytes: the name appears in the caption as 'IN RE: Jordan Avery Reyes, PETITIONER', again under 'B. THE PETITIONER', again as PRINTED NAME in the contact block at the foot of the petition, and once more on the instructions page as 'This page is for'. Date of birth sits under B; mailing address, telephone and email sit in the contact block. The field map's five canonical writes are those five facts and nothing else."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 8 declared items are named in participant-instructions.md, checked item by item against the file.",
+          "evidence": "requiredBeforeFilingCount is 8 — the C1 to C8 record questions — and matching each declared disclosure label against the instructions returned 0 not named. Each appears in a per-component table under 'The items you must supply' with 'copied from the record itself, not from memory' beside it, and each is printed on the petition as a labelled dotted blank in the committed record's own wording."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No election on this route is route-determined, and no election control is printed anywhere in the packet.",
+          "evidence": "routeSelectionNote records one route and one instrument set with no election control on any composed page, and the field map's selectionControls are empty. I found no checkbox or option control in the delivered bytes."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No row carries written cells beside required cells left blank; the packet uses no repeating row grid.",
+          "evidence": "The petition is a caption, a recorded-substance section, an identity block and eight free-text questions. incompleteRows 0, corroborated against the delivered pages."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The single signing line carries no ink in either fixture, and the case number is left to the court.",
+          "evidence": "One DATE and SIGNATURE OF PETITIONER line in each fixture, carrying nothing but its dotted rules, under the printed note 'The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.' The field map classes the case number court_prosecutor_clerk_or_agency_owned and both signature fields signature_or_date_participant_completion, all refused, and the instructions repeat that a case number is assigned at filing. protectedWrites 0."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both artifacts hash to what the record names, recomputed from the bytes.",
+          "evidence": "canonical.pdf 6d6e3190303b… at 12283 bytes and boundary.pdf 61dc959c94e8… at 12478 bytes, each 4 pages; 2 checked, 0 mismatches against reports/rendered-artifacts.json."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The rendered page order matches componentSet: petition, then filing instructions.",
+          "evidence": "Read page by page from the bytes — primary-filing-1 on pages 1-2, filing-instructions-2 on pages 3-4 — and the 4-page total matches pageCount in both artifact entries."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No ink falls outside the text block in either fixture, and the boundary values change nothing.",
+          "evidence": "Bounding boxes of all 1145 words in the canonical fixture and all 1150 in the boundary: both sit inside x 72.0 to 543.4 and y 64.5 to 712.4 on a 612 by 792 page, identical to the tenth of a point. The boundary's 39-character hyphenated name sits in the caption on one line with room to spare."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The court is named, and the packet says which record answers it, because the census's own destination field does not.",
+          "evidence": "The caption reads 'IN THE ______ COURT (the Wyoming court that entered the conviction)', step 5 of the instructions says to file with the office of the clerk of that court, and the instructions table is explicit about provenance: 'The repository establishes this one. The compiled Wyoming profile records that \"the court that entered the conviction may vacate it\". That is the destination this packet states. The census records the route's own destination field as not recorded; the compiled profile answers it for this section.'"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both are stated, and the packet refuses a cross-reading that would be easy to make and wrong.",
+          "evidence": "It quotes this route's own line from the compiled profile's fee table — 'Human-trafficking victim vacatur — Verify with clerk; statute is a motion route, not a standard expungement filing-fee route' — which I found verbatim in WY-wyoming.json, and explains that no amount is established because this is a motion rather than a standard expungement filing. It then names the other four lines (W.S. 7-13-1401 at $0, 7-13-1501 at $100, 7-13-1502 at $300, 14-6-241 at $0), says none of them is this route, and adds 'If a clerk quotes you the $300 felony-expungement fee, this petition is not a 7-13-1502 expungement.' I confirmed the $300 belongs to 7-13-1502 in the profile. On the waiver it says no bound record states one and names the clerk of the convicting court as the office that answers both questions."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The service question is answered by saying the record does not settle it and naming who does — rather than by inventing a rule or leaving it silent.",
+          "evidence": "'No committed record this packet binds states who must be served on this route, or how. The office that answers it is the office of the clerk of the Wyoming court that entered the conviction.' The same sentence appears in the instructions table and on the delivered page. No certificate of service ships, which is consistent: none is claimed to be owed."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet states where self-help ends, and puts the trauma rule first because the record does.",
+          "evidence": "The stop list opens with the compiled profile's own handling rule — ask only what is necessary, then 'route to manual/legal review. Do not require graphic details.' — which I found verbatim in WY-wyoming.json. It goes on to the participant's own safety once a filing becomes a public court record, other counts or other cases, and any immigration question. The instructions add a 'WHAT YOU DO NOT DO' section telling the participant not to write an account of what was done to them on any page, noting that nothing in the packet asks for one, and warning to think about what becomes public before filing because a court file is a public record unless something makes it otherwise and nothing here does."
+        }
+      },
+      "observationNotAFailure": {
+        "what": "The caption blank 'IN THE ______ COURT' is a blank the participant must fill and it is not in the field map at all, so it is neither declared REQUIRED_BEFORE_FILING nor counted by unclassifiedBlanks, and 'The items you must supply' does not list it.",
+        "whyItIsNotAFailure": "The delivered page names what belongs on the line directly beneath it — '(the Wyoming court that entered the conviction)' — the instructions state the destination twice and tell the participant to file with the clerk of that court, and the obligation is that every DECLARED item is named in the instructions, which all eight are. No participant reading the page could be in doubt about what goes on that line.",
+        "worthTidying": "The sibling custom pleadings differ here. rcap-nv-custom-pleading declares caption_court as a required-before-filing item with a full disclosure label and prints 'Write the COURT on the line above'; this family prints a label rather than an instruction and declares nothing. If the Captain wants one convention across composed pleadings, this is where it diverges. It is a consistency question, not a defect in this packet."
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/ — all 13 files, both fixtures read as bytes",
+        "src/lib/legal-authority/routes/single-routes.json, src/lib/rcap-engine/compiled/profiles/WY-wyoming.json and data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json — the three bound records, hashed, and the quoted passages matched back into them"
+      ],
+      "notMyVerdictToMake": {
+        "rasterReceipt": "reports/rendered-artifacts.json records everyPageRastered false and rasterSkipped true, so this family holds no raster receipt and L4 keeps it short of COMPLETE_PACKET_PROVEN whatever I found. Not a completeness defect and not mine to supply."
+      },
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "An independent PASS proves a packet is complete. It approves no output, promotes no family and opens no commercial route.",
+      "failedObligationNames": []
     }
   ],
   "vt1Read": {
