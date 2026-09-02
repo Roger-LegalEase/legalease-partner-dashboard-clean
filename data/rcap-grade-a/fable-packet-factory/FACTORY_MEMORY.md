@@ -198,3 +198,25 @@ paid for once already.
   every ledger merge, list the grants that were live BEFORE the merge and
   confirm each is still live afterwards -- the resolver cannot distinguish a
   release that happened from a release that was never undone on the other side.
+- **A source-blocked family has no build grant, and that is the architecture
+  working.** Two cohorts dispatched at the SOURCE_BLOCKED population came back
+  with every family NOT_GRANTED, and the reflex reading is a missing Captain
+  action. It is not. `claim.mjs locate()` filters by subjectId and laneKind
+  before it ever compares a lane name, so the refusal is unconditional for any
+  lane string; and `generate.mjs` only mints packet-build grants for families
+  that are SOURCE_READY. A family cannot be built while its source is
+  unresolved, so the ledger refuses to pretend otherwise. The path is resolve
+  the source, let the family become SOURCE_READY, let the dispatch mint the
+  build grant, then build. Sending builders at source-blocked families skips a
+  step the ledger exists to enforce.
+- **`customPleading` does not mean "no source needed".** Source readiness is
+  `reasons.length === 0 && (customPleading || bound.length > 0)`. The
+  custom-pleading limb substitutes only for the BOUND requirement; it never
+  clears `reasons`. Twenty families labelled custom_pleading were dispatched on
+  the belief they were held for lacking a PDF they never needed — every one
+  names at least one `official-form:` source resolving to zero corpus entries,
+  so all twenty are blocked on the reasons limb regardless of strategy.
+  Declaring the custody class would have defeated the guard rather than used
+  it. And family-level `implementationStrategy` is not reliable for cutting
+  cohorts: five of those twenty carry routes whose own currentOutputStrategy is
+  official_pdf_fill inside a family the scoreboard labels custom_pleading.
