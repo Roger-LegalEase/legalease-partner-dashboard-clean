@@ -2309,6 +2309,221 @@
         }
       },
       "grantsNothing": "A PASS_COMPLETE_INDEPENDENT here says this packet is complete and independently measured at a base carrying its raster receipt. It approves no output for participant delivery, promotes no family, opens no commercial route and grants no fulfillment authority."
+    },
+    {
+      "itemId": "ut_pet_acquittal-set",
+      "lane": "VF10",
+      "worker": "FABLE-V10",
+      "verifiedAtBase": "ab82f102a44ea5e8bc0698b35d49164c9334f6fe",
+      "claim": "CLAIM_OK VF10 ut_pet_acquittal-set (independent-verification)",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "obligationsScored": 15,
+      "summary": "Independently re-read at ab82f102a. Thirteen obligations pass on measurement made in this container, one is not measurable here, and two fail. The A4 repair this family was said to already carry is real and correct: the packet states the $65.00 BCI application fee and the $150 court filing fee, names both waiver routes, and refuses only the per-incident certificate price while saying which of the two BCI amounts the refusal covers. The two failures are new to this read and neither was on the row this family carried: the packet never tells an acquitted participant that Utah's compiled profile carries a free automatic Clean Slate route for exactly this disposition, or that the profile makes checking it a required pre-filing question -- and it charges $215 in two fees before that check; and on packet page 18 the participant's name is written on top of the BCI declaration line's printed 'I'.",
+      "raster": {
+        "queueRow": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "currentRasterState": "RASTER_PASS",
+        "pinnedCanonicalSha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+        "pinnedBoundarySha256": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+        "recomputedFromDiskHere": "both equal; sha256sum over fixtures/canonical.pdf and fixtures/boundary.pdf at this base returns exactly the pinned digests, so the receipt still binds the bytes on disk",
+        "coverageComplete": true,
+        "coverageBasis": "the row covers canonical.pdf, the family's single assembled packet, so the verdict covers the whole family rather than one document of several",
+        "pixelsRead": false,
+        "pixelsNotReadBecause": "workflow artifact blobs are not downloadable from this container; the receipt names run 33488713831, job 99795497729, artifact id 9793199803, zip sha256 d2bfffffb059eefb7746c374bff15137fc0d7d97e03d2c30edc50efb8fac4018, expiring 2026-09-15T08:56:46Z",
+        "note": "the receipt records renderedCommitSha 71894f3f2dde0f5af34818a2fa8dc8bce84e0d24 while the queue's packetCommitSha is a15c3a08683fc57ebea3f75be64c425e85893706; the binding is by PDF SHA-256, not by commit, and both digests still match the bytes, so the receipt has not come unbound",
+        "separateObservation": "the committed raster/canonical and raster/boundary PNGs are 19 pages each but measure 612x792 px, a 1x render, while the queue requests scale 2.5; they are not the pixels the gate read and were not used as raster evidence here"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "The two route keys the family claims are the two the route-obligation census carries for packetSetId ut_pet_acquittal-set, and nothing in the family names a third. product-wiring.json, production-field-map.json and the census all read obligation:unit:UT:ut_pet_acquittal:ut_pet_acquittal-bci-certificate and obligation:unit:UT:ut_pet_acquittal:ut_pet_acquittal-court-petition; routeSelectionId is ut-acquittal-bci-plus-court in product-wiring.json, production-field-map.json and source-receipt.json alike; familyId is identical in all six of the family's committed records.",
+          "evidence": "compared by hand at this base: data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/{product-wiring.json,production-field-map.json,source-receipt.json,build-status.json} against data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+        },
+        "SOURCE_IDENTITY": {
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "No source bytes exist in this container to rehash. MASTER_LIBRARY_SOURCE_DIR is unset and no corpus is mounted, so none of the nine bound official-form SHA-256s in source-receipt.json can be recomputed from the documents they name, and neither can the three additional cited-authority digests in build-findings.json (UT-BCI-EXP-INSTRUCTIONS 9e03980f..., UT-BCI-INDIGENT-INSTRUCTIONS 862e058f..., 1305GE c184a242...). Searching the checkout for those digests returns only this family's own build artifacts, one sibling Utah family's, and prior lanes' reports -- an independent read may treat none of those as proof of the bytes. Two things were measured and both hold, but neither is source identity: reports/rendered-artifacts.json carries a per-page sourceSha256 for all 19 pages of both fixtures and every one agrees with source-receipt.json, and each form's page span in the assembled packet equals its declared source pageCount. Separately recorded, not scored: the three cited authorities that carry the fee, waiver, destination and service quotations are not among the nine documents source-receipt.json binds, so even with a corpus mounted the receipt alone would not bind them.",
+          "evidence": "MASTER_LIBRARY_SOURCE_DIR unset; no corpus path present on the filesystem; grep over data/ for each cited digest; pageManifest cross-check computed here over both fixtures"
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "All nine components the census requires are present in the delivered bytes, and this was established from the bytes rather than from a manifest. Reading each of the 19 pages of canonical.pdf with pdftotext and identifying it by its own printed form number or heading gives 1000EX at pages 1-2, 1020EX at 3-5, 1044XX cover sheet at 6-7, 1146XX acceptance of service at 8, 1148XX consent and waiver at 9-10, 1149XX victim/prosecutor statement at 11-13, 1169XX reply at 14-16, the BCI Application for Certificate of Eligibility at 17-18 and the BCI third-party release at 19. The nine source-receipt page counts sum to exactly 19, and pdfinfo reads 19 pages on both fixtures. The completeness contract re-run here returns requiredComponentsMissing 0.",
+          "evidence": "pdftotext -f N -l N per page over fixtures/canonical.pdf; pdfinfo on both fixtures; node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set re-run at this base"
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "Every value the family says it wrote is actually in the delivered bytes on the page it says. reports/actual-writes.json declares 38 writes on canonical and 38 on boundary; searching the pdftotext output of each declared packetPage for each declared textReadFromOutputBytes found 38 of 38 on canonical and 38 of 38 on boundary, none missing. The writes touch pages 1, 2, 3, 4, 6, 7 and 18 across four forms (1000EX, 1020EX, 1044XX, UT-BCI-EXP-APPLICATION). Recomputed completeness counters: written 38 of 444 terminal fields, knownRequiredFieldsMissing 0, requiredFactsNotCollected 0, unclassifiedBlanks 0, invisibleWrites 0. This is an auditable count and not a counter reading zero because nothing parsed: 444 terminal fields were parsed and 406 classified blanks accounted for across four disposition classes.",
+          "evidence": "script over reports/actual-writes.json versus per-page pdftotext of both fixtures; completeness contract re-run at this base"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "finding": "The packet's pre-filing list omits the one check that decides whether this filing and its two fees are needed at all, and the repository establishes that check for this exact disposition. The compiled Utah state profile carries 'Path B - Automatic Expungement: Acquittal or Dismissal With Prejudice' and, in its own words, 'Acquittal on all charges Goal: 60 days after acquittal for qualifying post-May 1, 2020 cases', together with 'As of January 1, 2026 ... the court identifies and clears eligible automatic-expungement cases on its own'. The same profile carries two questions marked required: true in stage state_specific_eligibility -- source_question_23 '17 Has the case already been automatically expunged?' and source_question_26 'Check automatic expungement. For qualifying post-May 1, 2020 cases, the statutory goal is 60 days after acquittal.' Neither participant-instructions.md nor the delivered canonical bytes contain the words automatic, Clean Slate, 60 days or any equivalent: grep for 'automatic|clean slate|60 day|60-day|120 day' returns zero hits in both. The packet instead directs the participant to pay a non-refundable $65.00 to BCI and $150 to the court. Under A2 the compiled state profile is a held source, and under A3 these lines address this route's own fact pattern -- acquittal -- rather than a sibling statute, so this is not a sibling-route inference. Under A4's widened rule the failure mode is exactly the one named: the packet withholds a fact the repository establishes, and the participant cannot act on it. The repair is to state the automatic route and the check before the fee paragraphs, not to remove the petition route.",
+          "evidence": "src/lib/rcap-engine/compiled/profiles/UT-utah.json lines carrying Path A/Path B, the 60-day acquittal line and source_question_23 and source_question_26 with required: true; grep for automatic/clean slate/60 day over participant-instructions.md and over pdftotext of fixtures/canonical.pdf, zero hits in both"
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "Every selectable control on every form is dispositioned, and the marks in the bytes are the route's own branches. The nine maps carry 186 selection controls; 0 have no disposition; 8 are selected_route_option and 178 are explicit_refusal, each refusal carrying a stated reason. Reading the marks out of the delivered bytes: 'I am the [X] Petitioner' and 'In the [X] District' on 1000EX; 'In the [X] District' on 1020EX and, in each of its two choose-one groups, the case-number branch marked and the law-enforcement-incident branch left clear; on 1044XX 'Jury Demand [ ]Yes [X] No', '[X] No monetary damages are requested (URCP 26: Tier 2)' and '$150 [X] Expungement Petition - Criminal (E)'. Every choose-one group carries exactly one mark. Recomputed requiredOptionsMissing 0.",
+          "evidence": "production-field-map.json selectionControls across all nine maps, counted here; pdftotext -layout of packet pages 1, 3, 4, 6 and 7 read for the marks themselves"
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "Re-running the completeness contract at this base returns incompleteRows 0 over 3 inspected rows, so no row in this family has some cells written and its required cells blank -- the state the contract calls worse than an empty row because it looks finished. Independently, none of the nine maps carries any repeating-table structure at all: a scan of every map key for a repeat-shaped key returns nothing, which is consistent with a set of one-per-case Utah forms rather than a multi-offence table.",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set re-run at this base (no --write; the tree was clean afterwards); key scan over production-field-map.json maps"
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "Nothing was written into anything held for a signer, a court, an agency, a prosecutor or a victim, checked two independent ways. By identity: the nine maps classify 44 blanks PROTECTED_FIELD, and none of the 38 write field ids on either fixture is one of them. By geometry: the maps declare 47 protectedRules bands (categories including court and signature), and none of the 76 write boxes across the two fixtures overlaps any band on the same form and source page. Recomputed protectedWrites 0 and refusedFieldsWithInk empty on both fixtures. The blank disposition census is NOT_APPLICABLE_ON_THIS_ROUTE 33, REQUIRED_BEFORE_FILING 12, PROTECTED_FIELD 44, OPTIONAL_PARTICIPANT_CONTENT 138, LATER_COMPLETION 1 -- 228 classified blanks, none unclassified.",
+          "evidence": "identity and geometry intersection computed here over production-field-map.json roleRefusals and protectedRules against reports/actual-writes.json writeBoxes; completeness contract re-run"
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Both fixtures exist and are exactly the bytes every record claims. Recomputed here: canonical.pdf sha256 ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6, 3024920 bytes, 19 pages; boundary.pdf sha256 b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765, 3025560 bytes, 19 pages. Each digest, byte length and page count equals both the declaration in reports/rendered-artifacts.json and the pin in RASTER_QUEUE.json. The pageManifest of each artifact has 19 entries, packetPage contiguous 1..19, sourcePage running 1..k in order within each form, and every per-page sourceSha256 agreeing with source-receipt.json. 19 raster PNGs are committed per fixture.",
+          "evidence": "sha256sum and pdfinfo over both fixtures at this base; comparison against reports/rendered-artifacts.json and the RASTER_QUEUE.json row"
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "The assembly is in order and nothing is missing or transposed. packetPage runs 1..19 with no gap or repeat; within each form sourcePage runs 1..k in sequence; and the forms' own printed footers read in order, 'Page 1 of 2' then 'Page 2 of 2' on 1000EX, 'Page 1 of 3' through 'Page 3 of 3' on 1020EX, on 1149XX and on 1169XX, 'Page 1 of 1' on 1146XX and 'Page 1 of 2' then 'Page 2 of 2' on 1148XX. Recorded as an observation and referred rather than failed (see determination V10-Q2): the BCI application, which the route says must be filed first, sits at pages 17-18 behind the stage-two court petition at pages 1-2. The instructions state the two-step order in words at the top of their first page, which is why this is not scored a failure here.",
+          "evidence": "pageManifest ordering computed here for both fixtures; per-page pdftotext of the printed 'Page k of n' footers over fixtures/canonical.pdf"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "FAIL",
+          "finding": "On packet page 18 the participant's name is drawn on top of the BCI declaration line's printed 'I', in both fixtures. Measured from the bytes with pdftotext -bbox: the form's printed 'I' occupies x 49.74-52.74, y 388.53-400.66; the written value starts at x 50.50 on both fixtures ('Jordan' 50.50-81.07, y 385.82-395.07 on canonical; 'Alexandrina' 50.50-86.14, y 388.15-394.40 on boundary). That is a 2.24 pt horizontal overlap across a 6.54 pt vertical band on canonical and 5.87 pt on boundary -- roughly three quarters of the 3.0 pt-wide printed glyph. Rendering packet page 18 at 600 dpi from the committed bytes shows it: the J stem crosses the I on canonical, the A's left leg crosses it on boundary. The cause is visible in the field map: this is the only write on the page whose id is hand-set, p2-manual-declaration-name at x 50.5, while every other write on that page carries a measured id of the form p2-y<baseline>-x<left> offset +1.5 pt from the form's own geometry. The family's own counter cannot see this -- nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 and correctly so, because the glyphs are inside their box and it is the box that overlaps printed text. Nothing else in the packet does this: across all 38 pages of both fixtures, 0 words fall outside the 612x792 page box, and this is the only collision between a written value and printed non-rule text. The repair is to move the box right of x 52.74 with a gap; no other geometry needs touching.",
+          "evidence": "pdftotext -bbox over both fixtures, whole-packet scan for out-of-page words and for write-versus-printed-word collisions; the page-18 band read out in full; pdftoppm -r 600 render of page 18 from the committed canonical and boundary bytes inspected; writeBox p2-manual-declaration-name x 50.5 y 399 w 136 h 12 in reports/actual-writes.json"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The packet names both destinations, in order, and the repository's own answer is the one it names. participant-instructions.md opens 'Filing this packet has two destinations, in this order', names the Utah Bureau of Criminal Identification for the certificate of eligibility and 'The Utah district court for the county where the case was heard' for the petition, states the 180-day deadline between the two steps, and says which of the packet's forms go where (1044XX, 1000EX and 1020EX to the court). The route census gives the same answer for both route keys -- stage one BCI, stage two the court that decided the case, certificate valid 180 days -- so this is the packet stating a fact the repository holds, which is what A1 requires. BCI's street address is printed three times in the delivered bytes (4315 South 2700 West, Suite 1300, Taylorsville, Utah 84129). The caption on the petition and the order is marked District Court and the county is written from the case; the judicial district number and court street address are left blank and are listed as participant facts, with the clerk named as who confirms them.",
+          "evidence": "participant-instructions.md read in full; route-obligation-candidate.json destination block for both ut_pet_acquittal route keys; pdftotext of fixtures/canonical.pdf for the BCI address and the caption marks"
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "Both amounts the repository holds are stated, both waiver routes are named, and the one amount that is refused says which amount it is -- which is what A4 requires and is the point this family was re-read on. The court fee: 'The court filing fee is $150', and the delivered cover sheet bytes carry '$150 [X] Expungement Petition - Criminal (E)' with the row already selected, confirmed here on packet page 7. The court waiver: form 1305GE, Motion to Waive Fees for Expungement - Criminal, named with Utah Code 78A-2-302 and Code of Judicial Administration Rule 4-508, with the packet saying plainly that the form is not enclosed and naming the clerk and the Utah State Courts self-help forms as where to get it. The BCI application fee: '$65.00' stated in the instructions and confirmed by this lane in the family's own canonical bytes three times -- 'The application fee is $65.00 and non-refundable', 'a non-refundable $65.00 application fee' and 'Application fee is $65.00' on the payment block, all on packet pages 17-18. The BCI waiver: stated, with the sequencing rule that the completed waiver form must accompany the application or it will not be processed, and bci.utah.gov/expungements named as where the form and the Indigent Expungement Applicant Instructions are published; the delivered bytes carry the same instruction and the indigency checkbox. The refusal is narrowed exactly as A4 requires: 'The certificates themselves cost more than the application, and this packet does not state that amount because BCI sets it per applicant' -- it says which of the two BCI amounts it covers, it does not deny stating an amount the packet does state, and it names the Bureau of Criminal Identification as the authority to ask, with the BCI letter identified as where the figure appears. It also warns that the court's waiver does not reach either BCI amount. No A4 breach: the packet nowhere tells the participant that it does not state something it does state.",
+          "evidence": "participant-instructions.md read in full; pdftotext -layout over fixtures/canonical.pdf, packet page 7 for the selected $150 row and packet pages 17-18 for all three occurrences of $65.00, the indigency checkbox and the waiver sequencing; DET-FEE-AND-WAIVER-001 and amendments A1-A4 read before scoring"
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "The packet states who must receive a copy and by what method, and sources it: 'The prosecutor must receive a copy of what you file, by mail or by email', quoting UT-BCI-EXP-INSTRUCTIONS ('Mail or email the prosecutor copies of what you file'), with form 1146XX Acceptance of Service - Expungement (Prosecutor) enclosed for the acknowledgement and confirmed present at packet page 8. It also tells the participant that the prosecutor or a victim may object, gives the Utah State Courts Self-Help Center number 888-583-0009, and instructs that the service method, address and date be completed only after service actually happens because a certificate of service dated before service is a false statement. That satisfies the obligation as the factory states it. Recorded and referred, not resolved (determination V10-Q1): the route-obligation census for both of this family's route keys says the opposite of the packet on who serves -- 'The court sends the filing to the prosecuting attorney; the petitioner does not serve.' Two committed records disagree. The packet follows the one it quotes and hashes, and the direction of any error is over-service rather than under-service, so this lane did not fail the obligation on it; whether a census record contradicting a bound publication defeats a sourced service statement is Captain's question.",
+          "evidence": "participant-instructions.md read in full; packet page 8 identified as 1146XX from its own printed heading; route-obligation-candidate.json destination.detail for both ut_pet_acquittal route keys"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "The packet says where it stops. Under 'What this packet is not' it states that this is a prepared set of official Utah forms built for review, that it is not legal advice, that it is not filed for the participant, and that it does not decide whether the court will grant expungement. It also marks the boundary in the specific places it matters rather than only in the disclaimer: it leaves the judicial district and court address to the participant and names the clerk as who confirms them, it refuses to invent the public-interest explanation, it refuses to date a certificate of service before service, and it names the Self-Help Center's phone number for questions about objections and hearings. Scored on this obligation's own terms -- the packet states where self-help ends -- and passing. The automatic-route silence is a distinct defect and is failed under REQUIRED_BEFORE_FILING rather than counted twice here, so that a repairer gets one precise instruction instead of two overlapping ones.",
+          "evidence": "participant-instructions.md, sections 'The facts you must supply before filing' and 'What this packet is not', read in full at this base"
+        }
+      },
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This verdict moves a family in the queue. It promotes nothing, opens no route, proves no packet and prepares no review package."
+    },
+    {
+      "itemId": "ar-arrest-seal-set",
+      "lane": "VF10",
+      "worker": "FABLE-V10",
+      "verdict": null,
+      "laneStatus": "BLOCKED_BEFORE_CLAIM",
+      "readAtBase": "ab82f102a44ea5e8bc0698b35d49164c9334f6fe",
+      "claimRefusal": "GRANTED_ELSEWHERE: ar-arrest-seal-set is granted to VF01, not VF10",
+      "exitCode": 8,
+      "whyNoVerdict": "This lane was briefed that this family is live on VF10. It is not: the sole independent-verification grant for it sits on VF01, and claim.mjs --assert VF10 refused with the exit-8 message quoted above. The claim-ledger worker contract makes a non-zero assert a full stop -- report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing -- so no artifact of this family was opened and no obligation is scored. No verdict is recorded rather than a STOPPED verdict, because a verdict from this lane would be read as this family's current one and would displace the verdict it already carries, which this lane has not read and has no basis to disturb.",
+      "whatWouldUnblockIt": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF01 VF10 ar-arrest-seal-set --reason \"<why>\", then re-dispatch. This lane did not run that itself: transferring a grant to oneself is the fail-closed ledger's own failure mode, and claim.mjs documents the destination as Captain's choice.",
+      "claimHeld": false,
+      "claimHeldNote": "no claim to hold -- VF10 has never held this family; the grant is VF01's",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ar-misdemeanor-dwi-seal-set",
+      "lane": "VF10",
+      "worker": "FABLE-V10",
+      "verdict": null,
+      "laneStatus": "BLOCKED_BEFORE_CLAIM",
+      "readAtBase": "ab82f102a44ea5e8bc0698b35d49164c9334f6fe",
+      "claimRefusal": "GRANTED_ELSEWHERE: ar-misdemeanor-dwi-seal-set is granted to VF02, not VF10",
+      "exitCode": 8,
+      "whyNoVerdict": "This lane was briefed that this family is live on VF10. It is not: the sole independent-verification grant for it sits on VF02, and claim.mjs --assert VF10 refused with the exit-8 message quoted above. The claim-ledger worker contract makes a non-zero assert a full stop -- report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing -- so no artifact of this family was opened and no obligation is scored. No verdict is recorded rather than a STOPPED verdict, because a verdict from this lane would be read as this family's current one and would displace the verdict it already carries, which this lane has not read and has no basis to disturb.",
+      "whatWouldUnblockIt": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF02 VF10 ar-misdemeanor-dwi-seal-set --reason \"<why>\", then re-dispatch. This lane did not run that itself: transferring a grant to oneself is the fail-closed ledger's own failure mode, and claim.mjs documents the destination as Captain's choice.",
+      "claimHeld": false,
+      "claimHeldNote": "no claim to hold -- VF10 has never held this family; the grant is VF02's",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "rcap-oh-custom-pleading-clean-tracks",
+      "lane": "VF10",
+      "worker": "FABLE-V10",
+      "verdict": null,
+      "laneStatus": "BLOCKED_BEFORE_CLAIM",
+      "readAtBase": "ab82f102a44ea5e8bc0698b35d49164c9334f6fe",
+      "claimRefusal": "GRANTED_ELSEWHERE: rcap-oh-custom-pleading-clean-tracks is granted to VF03, not VF10",
+      "exitCode": 8,
+      "whyNoVerdict": "This lane was briefed that this family is live on VF10. It is not: the sole independent-verification grant for it sits on VF03, and claim.mjs --assert VF10 refused with the exit-8 message quoted above. The claim-ledger worker contract makes a non-zero assert a full stop -- report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing -- so no artifact of this family was opened and no obligation is scored. No verdict is recorded rather than a STOPPED verdict, because a verdict from this lane would be read as this family's current one and would displace the verdict it already carries, which this lane has not read and has no basis to disturb.",
+      "whatWouldUnblockIt": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF03 VF10 rcap-oh-custom-pleading-clean-tracks --reason \"<why>\", then re-dispatch. This lane did not run that itself: transferring a grant to oneself is the fail-closed ledger's own failure mode, and claim.mjs documents the destination as Captain's choice.",
+      "claimHeld": false,
+      "claimHeldNote": "no claim to hold -- VF10 has never held this family; the grant is VF03's",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_conviction-set",
+      "lane": "VF10",
+      "worker": "FABLE-V10",
+      "verdict": null,
+      "laneStatus": "BLOCKED_BEFORE_CLAIM",
+      "readAtBase": "ab82f102a44ea5e8bc0698b35d49164c9334f6fe",
+      "claimRefusal": "GRANTED_ELSEWHERE: ut_pet_conviction-set is granted to VF05, not VF10",
+      "exitCode": 8,
+      "whyNoVerdict": "This lane was briefed that this family is live on VF10. It is not: the sole independent-verification grant for it sits on VF05, and claim.mjs --assert VF10 refused with the exit-8 message quoted above. The claim-ledger worker contract makes a non-zero assert a full stop -- report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing -- so no artifact of this family was opened and no obligation is scored. No verdict is recorded rather than a STOPPED verdict, because a verdict from this lane would be read as this family's current one and would displace the verdict it already carries, which this lane has not read and has no basis to disturb.",
+      "whatWouldUnblockIt": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF05 VF10 ut_pet_conviction-set --reason \"<why>\", then re-dispatch. This lane did not run that itself: transferring a grant to oneself is the fail-closed ledger's own failure mode, and claim.mjs documents the destination as Captain's choice.",
+      "claimHeld": false,
+      "claimHeldNote": "no claim to hold -- VF10 has never held this family; the grant is VF05's",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_dismissed_with_prejudice-set",
+      "lane": "VF10",
+      "worker": "FABLE-V10",
+      "verdict": null,
+      "laneStatus": "BLOCKED_BEFORE_CLAIM",
+      "readAtBase": "ab82f102a44ea5e8bc0698b35d49164c9334f6fe",
+      "claimRefusal": "GRANTED_ELSEWHERE: ut_pet_dismissed_with_prejudice-set is granted to VF06, not VF10",
+      "exitCode": 8,
+      "whyNoVerdict": "This lane was briefed that this family is live on VF10. It is not: the sole independent-verification grant for it sits on VF06, and claim.mjs --assert VF10 refused with the exit-8 message quoted above. The claim-ledger worker contract makes a non-zero assert a full stop -- report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing -- so no artifact of this family was opened and no obligation is scored. No verdict is recorded rather than a STOPPED verdict, because a verdict from this lane would be read as this family's current one and would displace the verdict it already carries, which this lane has not read and has no basis to disturb.",
+      "whatWouldUnblockIt": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF06 VF10 ut_pet_dismissed_with_prejudice-set --reason \"<why>\", then re-dispatch. This lane did not run that itself: transferring a grant to oneself is the fail-closed ledger's own failure mode, and claim.mjs documents the destination as Captain's choice.",
+      "claimHeld": false,
+      "claimHeldNote": "no claim to hold -- VF10 has never held this family; the grant is VF06's",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "wv_conv_multiple_misdemeanors-set",
+      "lane": "VF10",
+      "worker": "FABLE-V10",
+      "verdict": null,
+      "laneStatus": "BLOCKED_BEFORE_CLAIM",
+      "readAtBase": "ab82f102a44ea5e8bc0698b35d49164c9334f6fe",
+      "claimRefusal": "GRANTED_ELSEWHERE: wv_conv_multiple_misdemeanors-set is granted to VF07, not VF10",
+      "exitCode": 8,
+      "whyNoVerdict": "This lane was briefed that this family is live on VF10. It is not: the sole independent-verification grant for it sits on VF07, and claim.mjs --assert VF10 refused with the exit-8 message quoted above. The claim-ledger worker contract makes a non-zero assert a full stop -- report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing -- so no artifact of this family was opened and no obligation is scored. No verdict is recorded rather than a STOPPED verdict, because a verdict from this lane would be read as this family's current one and would displace the verdict it already carries, which this lane has not read and has no basis to disturb.",
+      "whatWouldUnblockIt": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF07 VF10 wv_conv_multiple_misdemeanors-set --reason \"<why>\", then re-dispatch. This lane did not run that itself: transferring a grant to oneself is the fail-closed ledger's own failure mode, and claim.mjs documents the destination as Captain's choice.",
+      "claimHeld": false,
+      "claimHeldNote": "no claim to hold -- VF10 has never held this family; the grant is VF07's",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "wv_conv_single_misdemeanor-set",
+      "lane": "VF10",
+      "worker": "FABLE-V10",
+      "verdict": null,
+      "laneStatus": "BLOCKED_BEFORE_CLAIM",
+      "readAtBase": "ab82f102a44ea5e8bc0698b35d49164c9334f6fe",
+      "claimRefusal": "GRANTED_ELSEWHERE: wv_conv_single_misdemeanor-set is granted to VF08, not VF10",
+      "exitCode": 8,
+      "whyNoVerdict": "This lane was briefed that this family is live on VF10. It is not: the sole independent-verification grant for it sits on VF08, and claim.mjs --assert VF10 refused with the exit-8 message quoted above. The claim-ledger worker contract makes a non-zero assert a full stop -- report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing -- so no artifact of this family was opened and no obligation is scored. No verdict is recorded rather than a STOPPED verdict, because a verdict from this lane would be read as this family's current one and would displace the verdict it already carries, which this lane has not read and has no basis to disturb.",
+      "whatWouldUnblockIt": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF08 VF10 wv_conv_single_misdemeanor-set --reason \"<why>\", then re-dispatch. This lane did not run that itself: transferring a grant to oneself is the fail-closed ledger's own failure mode, and claim.mjs documents the destination as Captain's choice.",
+      "claimHeld": false,
+      "claimHeldNote": "no claim to hold -- VF10 has never held this family; the grant is VF08's",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "supersessionNote": "The prior VF10 FAIL row for ut_pet_traffic-set is not carried here: that family was re-verified under this verifier's VF11 lane after repair commit 1c8007435, and its current verdict lives in vf11/rows.json. Git history preserves the prior row.",
@@ -2370,5 +2585,44 @@
     "commercialRoutesOpened": 0,
     "productionTouched": false,
     "grantsNothing": "A PASS_COMPLETE_INDEPENDENT here proves a packet is complete and independently measured. It approves no output, promotes no family and opens no commercial route."
+  },
+  "assignmentId": "VF10_INDEPENDENT_READ_OF_REPAIRED_FAMILIES",
+  "worker": "FABLE-V10",
+  "whyThisReaderIsIndependent": "FABLE-V10 did not build and did not repair any family scored below. It inherited no counter, no hash and no obligation result from a builder, from FABLE-R17, or from the earlier VF10 pass (FABLE-VT5) whose rows this file already carries. Every number asserted in a FABLE-V10 row was recomputed in this container at the base the row declares: SHA-256 over the fixture bytes, page counts from pdfinfo, per-page form identity and every declared write value from pdftotext over the delivered bytes, word geometry from pdftotext -bbox, and the completeness counters by re-running the completeness contract. Where a fact could not be measured here it is recorded NOT_MEASURABLE_HERE rather than carried across on a prior lane's word.",
+  "fileIsSharedBySuccessivePasses": "This file is the VF10 return directory and is appended to, not replaced. Rows above FABLE-V10's were written by the earlier FABLE-VT5 pass and are left exactly as that lane wrote them; the header fields that lane set (generatedAtBase, verifier, preflight, standardApplied) still describe its rows and not FABLE-V10's. Every FABLE-V10 row carries its own verifiedAtBase so no reader inherits a base it did not read at.",
+  "fableV10": {
+    "worker": "FABLE-V10",
+    "readAtBase": "ab82f102a44ea5e8bc0698b35d49164c9334f6fe",
+    "branch": "fable/v10",
+    "granted": 1,
+    "blockedBeforeClaim": 7,
+    "standardsRead": [
+      "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json (DET-FEE-AND-WAIVER-001 and amendments A1, A2, A3, A4)"
+    ],
+    "toolsUsed": [
+      "sha256sum",
+      "pdfinfo",
+      "pdftotext -layout",
+      "pdftotext -bbox",
+      "pdftoppm -r 600",
+      "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> (read-only, no --write)"
+    ],
+    "claimGate": {
+      "contract": "claim-ledger.json workerContract: assert before reading any artifact; a non-zero exit is a full stop -- report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing.",
+      "result": "8 families were briefed to this lane as live on VF10. One is. Seven are granted to other verification lanes and every --assert returned GRANTED_ELSEWHERE. Those seven were not read and are not scored. This lane did not self-transfer the grants: minting its own claim is the exact act the fail-closed ledger exists to refuse, and --transfer is Captain's call, not the reader's.",
+      "howCaptainCanUnblock": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer <FROM_LANE> VF10 <familyId> --reason \"<why>\" for each of the seven, then re-dispatch this lane."
+    },
+    "residualLimits": [
+      "SOURCE_IDENTITY cannot be measured in this container. MASTER_LIBRARY_SOURCE_DIR is unset and no corpus is mounted, so no bound source PDF's bytes exist here to rehash. The only records in this checkout carrying those digests are the family's own build artifacts and prior lanes' reports, and an independent read may use neither as proof of the bytes.",
+      "The raster verdict's pixels were not read. The receipt names workflow run 33488713831, job 99795497729 and artifact id 9793199803 (rcap-raster-ut_pet_acquittal-set-33488713831); workflow artifact blobs are not downloadable from this container.",
+      "The committed raster/canonical/*.png and raster/boundary/*.png in the overlay directory are 612x792 pixels, i.e. rendered at 1x, while the queue row requests scale 2.5. They are therefore NOT the images the RASTER_PASS was awarded on and were not treated as the raster evidence. The page-18 overprint recorded below was found in the PDF word geometry and then confirmed against a 600 dpi render this lane produced itself from the committed canonical and boundary bytes.",
+      "Whether Utah's automatic Clean Slate route in fact reaches a given participant's acquittal is a legal question this lane did not decide. What it measured is that the repository establishes the route and the required pre-filing check for this exact disposition, and the packet is silent about both.",
+      "Whether the route census's 'the petitioner does not serve' or the BCI publication's 'mail or email the prosecutor copies of what you file' is the controlling statement of Utah service is not this lane's call. Both are committed records, they disagree, and the disagreement is named rather than resolved."
+    ],
+    "determinationsHitNotMine": [
+      "V10-Q1 SERVICE: the route-obligation census entry for both ut_pet_acquittal routes states 'The court sends the filing to the prosecuting attorney; the petitioner does not serve.' The packet's participant-instructions.md instead directs the participant to mail or email the prosecutor, quoting UT-BCI-EXP-INSTRUCTIONS. Under A2 a committed census record is a held source. Does a packet that follows one held record and is silent about a contradicting one satisfy SERVICE? This lane scored SERVICE PASS -- who and how are stated and sourced, and the error direction is over-service rather than under-service -- and refers the contradiction rather than deciding it.",
+      "V10-Q2 PAGE_ORDER: the route is a two-stage sequence in which the BCI application must be filed first, and the assembled packet places it at pages 17-18 behind the stage-two court petition at pages 1-2. The instructions state the order in words on their first page. This lane scored PAGE_ORDER PASS on that basis and flags whether assembly order should be required to track a stated legal sequence.",
+      "V10-Q3 CLIPPING_AND_OVERLAP severity: the page-18 overprint measured below is 2.24 pt wide. This lane treats any measured collision between a written value and a printed glyph of the official form as a failure of this obligation, because the family's own counter (nonWhitespaceGlyphsOutsideMeasuredWriteBoxes = 0) is structurally unable to see it -- the glyphs are inside their box; the box is the thing placed wrong. If the factory's threshold is visual rather than geometric, this row should be re-read against that threshold, not waived."
+    ]
   }
 }
