@@ -2170,6 +2170,145 @@
         "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
         "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json"
       ]
+    },
+    {
+      "itemId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "lane": "VF10",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/composed-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-court-petition-after-90-days--custom-pleading",
+      "verifier": "FABLE-VT16 (independent — built, repaired and rastered none of these families; this is a second read at a base that carries the central raster receipt, not a copy-forward of the ceilinged first read)",
+      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PASS",
+      "rasterReceiptConfirmedIndependently": {
+        "howIChecked": "Recomputed both fixture SHA-256s on disk at this base, compared to the receipt's boundTo values and to RASTER_QUEUE's pins, then compared git blob ids between the receipt's renderedCommitSha and this base.",
+        "canonicalPdfSha256Recomputed": "e6d926f76168b6ca6d5dbc2b7a13e6037be2b53203bb8eea6c93cc843e8e0e8d",
+        "boundaryPdfSha256Recomputed": "d00acb23ed43217b68d466265ca30050baca432adb85e1d35f25452adbd0d7ea",
+        "matchesRasterQueuePins": true,
+        "matchesReceiptBoundToValues": true,
+        "blobIdentityAcrossCommits": "canonical blob 907a41d7d0754f6814ac3e98e35655e7c2892d7c and boundary blob 59ef37687bf44448d3c2ed9744f01d497e8dfbd6 are identical at renderedCommitSha 58290e76623ff0b351d0b15fbf97af3665fee6b3 and at this base.",
+        "workflowRunId": "33579500812",
+        "jobId": "100091041713",
+        "renderedCommitSha": "58290e76623ff0b351d0b15fbf97af3665fee6b3",
+        "verdictOfReceipt": "RASTER_PASS"
+      },
+      "recordedDiscrepancyChecked": {
+        "theReport": "A prior lane reported that CO.memo.json still shows this track with build blockers and with destination, filing, fees and service all 'Unresolved', while the 2026-08-28 decision the family binds by SHA resolves every one of them.",
+        "stillTrue": true,
+        "whatIFound": "Confirmed verbatim at this base. data/record-clearing/legal-design-intake/CO.memo.json, track co_mistaken_identity_expungement, still carries destination.name 'Unresolved', rules.filing 'Unresolved. The forum and vehicle have not been established.', rules.fees 'Unresolved. § 24-72-702 addresses the costs associated with expunging the record but the section has not been read in full.', rules.notice 'Unresolved.', rules.service 'Unresolved.', two unresolvedQuestions with impact 'build_blocker', legalDesignDecision.status 'legal_research_required', outputStrategyStatus 'unresolved', packetIdentity 'unresolved', and the sentence 'This track is not registered at runtime and is unreachable.'",
+        "doesItAffectAnyObligation": false,
+        "why": [
+          "It is stale, not competing. The memo's reviewedAsOf is 2026-07-30; the bound decision is 2026-08-28, a month later, and it answers the memo's own two build_blocker questions in terms — it reads § 24-72-702's mechanism and no-cost rule, records that no dedicated statewide JDF form was located, resolves the output to a custom civil petition with listed contents, and stamps 'LEGAL RESEARCH: COMPLETE'.",
+          "It establishes nothing to contradict. Every relevant field says 'Unresolved', which is the absence of an answer rather than a rival answer. A record that answers nothing cannot falsify a packet statement sourced to a record that does.",
+          "It is not a held source under A2's list. A2 names the committed TRACK REGISTRY, not the legal-design intake memo — and I checked data/record-clearing/relief-track-registry.json, which contains no co_mistaken_identity_expungement entry at all, so no track registry answer competes either.",
+          "It is not the factory's legal-input input. generate.mjs derives legalInputStatus from route-obligation-census-v1/legal-review-queue-v2.json's trueCounselQueue, keyed by routeKey. That queue holds 4 questions, all answered, and none on this route or this track — which is why MASTER_QUEUE records legalInputStatus SETTLED with legalInputBasis null. The memo is not an input to that computation, so this is not a BLOCKED_LEGAL_INPUT family.",
+          "Its runtime sentence is currently accurate, not a false claim: product-wiring.json records DECLARED_NOT_INSTALLED, the field map records generationAllowed false and runtimeSelectable false, and commercialRoutesOpened is 0 everywhere."
+        ],
+        "captainFlag": "Purely a records-hygiene hazard, raised not assumed. A stale intake memo asserting 'legal_research_required' and 'build_blocker' sits in the repository beside a built, raster-passed packet. Any future lane that reads the memo before the decision could reasonably reach BLOCKED_LEGAL_INPUT on a family that is in fact settled. I verify and do not edit records, so this is referred rather than repaired: the reconciliation is to mark CO.memo.json's co_mistaken_identity_expungement track superseded by the 2026-08-28 decision. It changes no obligation and no verdict."
+      },
+      "supersedes": {
+        "row": "VF10 lane row for this family at base ebc44031ec7eab29058bfc79a7bc5e1cff089414, verdict PASS",
+        "why": "That lane scored all fifteen PASS and was capped by a raster state it could not lift at its base. This row is read at a base carrying the receipt, with the receipt's byte binding confirmed by me.",
+        "obligationsWhereIDiffer": "none — I reached PASS on all fifteen independently after re-measuring each."
+      },
+      "obligationsScored": 15,
+      "failedObligationNames": [],
+      "notMeasurableHere": [],
+      "corpusMounted": "Mounted here via scripts/rcap-corpus/bootstrap-private-corpus.sh — archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, governance checksums verified, 51 jurisdictions / 499 files / 329 PDFs. SOURCE_IDENTITY was therefore scored against held bytes rather than recorded NOT_MEASURABLE_HERE.",
+      "standardApplied": "DETERMINATION_FEE_AND_WAIVER_STANDARD.json (DET-FEE-AND-WAIVER-001) read in full including amendment A1 and amendment2 A2. A2's repository scope was applied: for each family I searched the family's own bound records PLUS the compiled state profile for its jurisdiction, the committed relief-track registry, the packet-set manifest, and every record the route obligation census names as a requiredSourceId for the route — not the family's bound records alone.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "denominatorObserved": "7/23 written — a populated field inventory, so the zeros are findings",
+        "measuredBy": "Measured here by me, not inherited: node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>, run in this container at the base commit. All-zero means NOTHING WAS MISSING, not that nothing was measured: the run reported a populated denominator for each family (fields written / fields enumerated, quoted per family below), and the verifier derives invisibleWrites, protectedWrites and visualDefects by reading glyphs and flattened widget appearances out of the saved packet bytes, with mutation self-tests that prove each counter can still fire."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "The single route key is byte-identical across source-receipt.json, production-field-map.json, product-wiring.json, the MASTER_QUEUE row (routeCount 1) and the route obligation census. It is printed on all five packet pages. Statutory authority C.R.S. § 24-72-702 matches the bound decision's trackId co_mistaken_identity_expungement, and the legalName names the exact branch this family implements — participant filing after the expired 90-day agency deadline, not the agency's own petition."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Corpus mounted, so this was measured against held bytes rather than deferred. One bound record, rehashed by me: data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json = 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef at 184365 bytes, an exact match to the receipt including byte length. sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, officialFormFamily NONE, forms [], boundCount 0, sourceBinaryCommitted false — the receipt's zero-binary claim matches the queue exactly. The census names no requiredSourceIds for this route, so the repository for this family is that one record plus the compiled CO profile, and I read both. The receipt's assertion that no dedicated statewide JDF form was located is the decision's own wording, which I verified in the bytes; Colorado's JDF forms serve other routes and none was substituted."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "requiredComponentsMissing 0 on my own run. Three components — primary_filing, proposed_order, filing_instructions — declared in the field map and in rendered-artifacts.json and present as distinct page ranges in both fixtures. I checked each of the seven contents the decision lists for the custom civil petition and found all seven carried: the agency's mistaken-identity finding and proof that no charges were filed as required attachments; arrest date, agency, identifiers and case/incident number as labelled blanks; the expired 90-day deadline as a labelled blank; the complete record-custodian list as a labelled blank; the proposed mandatory expungement order as its own component; and post-order distribution and verification instructions as filing-instruction steps six through eight."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "7 values reported by the finalizer and 7 read back from the saved packet bytes on both fixtures, foundInOutputBytes true for every one. Only identity facts are written — name, date of birth, address, phone, email on the petition, plus the petitioner name repeated onto the proposed order and the instructions. No arrest fact is prefilled; arrest date, agency, identifiers, case number, finding date, deadline, judicial district and custodian list are all blanks."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "requiredBeforeFilingCount is 10 and I counted the instructions tables independently: 8 for the petition and 2 for the proposed order = 10, an exact match. knownRequiredFieldsMissing 0, requiredFactsNotCollected 0, unclassifiedBlanks 0. The record-custodian list is correctly a participant item and the instructions state the consequence of an incomplete one — 'the proposed order directs the custodians on your list, so a custodian you leave off is one the order may never reach'."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "routeSelectionsMade [] and requiredOptionsMissing 0. One route, one instrument set, and I found no election control in the extracted text of any composed page. The no-agency-finding fork is handled correctly as a route boundary and a stop condition rather than an in-packet choice: the decision says that with no finding the first output is a written request to the agency, and the packet tells that participant to stop rather than offering them a second instrument."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "incompleteRows 0, measured. The one list-shaped item in this packet — the complete record-custodian list — is rendered as a single labelled free-text blank rather than a row grid, and no other repeating structure appears in the field map or in the extracted page text. The zero is a genuine measurement over an empty structure set, and the completeness verifier's mutation self-tests prove the counter still fires when a real row is left incomplete."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "protectedWrites 0 and refusedFieldsWithInk [] on both fixtures. Read from the bytes: the proposed order's ORDERS clause, DATED line and judge's signature line are blank and the page states every decision on it is the court's. The petition's own case number is deliberately blank because the court assigns it at filing — correctly classified as court-owned rather than counted as a missing prefill, which is the distinction that would otherwise show up as a false KNOWN_PREFILLS gap."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Both declared fixtures exist and hash-match: canonical e6d926f76168b6ca6d5dbc2b7a13e6037be2b53203bb8eea6c93cc843e8e0e8d at 5 pages and boundary d00acb23ed43217b68d466265ca30050baca432adb85e1d35f25452adbd0d7ea at 5 pages. Raster coverage complete and counted by me: 5 canonical and 5 boundary page PNGs on disk, matching RASTER_QUEUE's expectedPages 5. Central acceptance RASTER_PASS from run 33579500812, job 100091041713, hash-bound as recorded above."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Manifests identical across both fixtures: p1-2 primary_filing, p3 proposed_order, p4-5 filing_instructions. The proposed order follows the petition it travels with and precedes the instructions. Confirmed against the extracted page text as well as the manifest — the petition caption opens page 1 and the proposed order caption opens page 3."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes = 0 on BOTH fixtures, derived from output bytes, and visualDefects 0 on my run. The boundary fixture carries 281 added glyphs against the canonical's 125 — the long-value stress case, which here includes a long custodian list and a long judicial-district caption — and still places no ink outside a measured write box."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Stated rather than deferred, and it is what the repository holds. The bound decision establishes the venue twice — 'the person may file the petition in the same district court', meaning the district court in the judicial district where the arrest occurred, and the product disposition line 'VENUE: JUDICIAL DISTRICT OF ARREST'. The packet states it in three places in the bytes: the petition's caption block 'DISTRICT COURT, ... JUDICIAL DISTRICT', the petition body, and filing-instruction STEP FIVE 'File the petition, its attachments and the unsigned proposed order with the district court of the judicial district where the arrest occurred.' The CO profile's filingDestinationRules array is empty, so nothing in the repository competes with that."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "This is the A2-correct outcome — the packet STATES a fee the repository holds rather than naming an authority to ask about it. The bound decision establishes the answer outright: 'No filing fee or other expungement cost may be charged', with the product disposition recording 'OUTPUT: CUSTOM NO-FEE DISTRICT-COURT PETITION'. Under A1's test the packet must therefore state it, and it does, three times in the bytes: the petition's own title block ('NO FILING FEE OR OTHER EXPUNGEMENT COST MAY BE CHARGED'), the petition body, and STEP FIVE ('Pay nothing: the recorded rule is that no filing fee or other expungement cost may be charged'). First limb of the standard's `met` list. I also checked the compiled CO profile as A2 requires: its feeRules describe JDF 417, JDF 612 and Clean Slate sealing — different routes, with a waivable fee — and importing them here would both contradict the controlling route-specific decision and breach A2's bar on sibling-route inference. The packet correctly followed the route-specific authority."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "The bound decision's serviceWorkflow section is empty and establishes no manner of delivery for this petition. The CO profile's serviceAndNoticeRules are entirely JDF 612 / 'Served on the District Attorney' rules belonging to the sealing routes, which A2 bars me from importing onto a § 24-72-702 mistaken-identity expungement. With nothing in the repository establishing it, a named checkable authority may stand in, and the packet names one for each open point: STEP FIVE 'Ask the district court's office how it accepts filings', and STEP SIX 'Ask the office of the district court how certified copies of the order are obtained.' Third limb of `met`."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Six stop conditions are printed on the packet's own face and each traces to the bound decision: no agency mistaken-identity finding (the decision makes a written request to the agency the first output, not the petition); charges were filed (the decision's precondition is an arrest with no charges); the 90-day deadline has not yet expired (until it does the duty is the agency's); a disputed finding or status (the decision routes disputes to attorney handoff); an attempt to establish innocence where the agency made no finding (the decision: 'not a general vehicle for litigating innocence'); and any immigration question. The instructions also carry 'If a custodian does not act on the order, take the order and your proof to a lawyer.'"
+        }
+      },
+      "grantsNothing": "A PASS_COMPLETE_INDEPENDENT here says this packet is complete and independently measured at a base carrying its raster receipt. It approves no output for participant delivery, promotes no family, opens no commercial route and grants no fulfillment authority."
     }
   ],
   "supersessionNote": "The prior VF10 FAIL row for ut_pet_traffic-set is not carried here: that family was re-verified under this verifier's VF11 lane after repair commit 1c8007435, and its current verdict lives in vf11/rows.json. Git history preserves the prior row.",
