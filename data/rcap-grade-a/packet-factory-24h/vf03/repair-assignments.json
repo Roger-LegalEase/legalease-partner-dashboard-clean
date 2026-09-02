@@ -2,8 +2,57 @@
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF03",
   "worker": "VF-SRC-A",
-  "assignmentCount": 0,
-  "assignments": [],
+  "assignmentCount": 2,
+  "assignments": [
+    {
+      "itemId": "ar-cs-possession-seal-set",
+      "wave": "FABLE-VA3",
+      "lane": "VF03",
+      "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill",
+      "decisiveDefect": "participant-instructions.md omits one of the four self-help stop conditions the committed track registry holds for track ar-cs-possession-seal: 'Immigration, licensing or firearm consequences are in play.' The file returns 0 case-insensitive hits for 'immigrat', 0 for 'firearm' and 0 for 'gun'; the single 'licens' hit is the phrase 'a lawyer licensed in Arkansas'.",
+      "failedProofObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "SELF_HELP_STOP": {
+          "measuredDetail": "data/record-clearing/legal-design-track-registry.json, trackId ar-cs-possession-seal, selfHelpStopConditions holds 4 conditions. The '## Where self-help ends' section at line 103 of data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/participant-instructions.md carries 7 bullets and covers 3 of the 4 - prosecutor objection or contested hearing (quoted from the committed record), the unclear pre-sentencing predicate, and an unreadable paragraph on pages 1-2. The fourth is absent from the whole file, not just from that section.",
+          "whatRepairMustDo": "Add the registry's fourth condition to the '## Where self-help ends' list, in the packet's own voice as the other bullets are written, covering immigration, professional or occupational licensing, and firearm consequences. Take the wording from the registry entry for this track and from nowhere else - do not read Arkansas's other sealing tracks' conditions across, and do not import another state's immigration sentence. The sibling packets in this lane show the shape: ID states 'Immigration, professional licensing, peace officer employment, or firearm consequences are in play', AZ states 'Immigration consequences are in play', and NE states its own with the federal-effect reason attached.",
+          "whatRepairMustNotDo": "Do not touch the fee section. Its $0 is correctly sourced to the compiled Arkansas profile's Act 1460 lines and correctly scoped to this route, and both delivered forms print Act 1460 in their own titles. Nothing else in this family failed."
+        }
+      },
+      "alsoObservedNotScoredAsAFailure": [
+        "This family ships no build-status.json and no reports/completeness-counters.json, unlike every sibling in this lane, and its reports/rendered-artifacts.json carries no pageManifest. Page order had to be measured against the bound source page counts instead (petition 5 -> 5, order 3 -> 3, both correct). Bringing the directory up to the current record shape would let PAGE_ORDER be measured the way it is measured everywhere else.",
+        "The boundary fixture refuses 7 writes at the 6pt readable floor with reason value_exceeds_widget_width_at_minimum_font, including matter.county, matter.case_number and participant.full_legal_name. Each refusal is recorded with its field, factId, value, rect and requiredWidthAtMin, and the repository's established standard is that refusing rather than clipping is correct. participant-instructions.md does not tell a participant that a very long name, county or case number may be left blank for width. That is a disclosure question for the builder, not a scored failure."
+      ],
+      "repairMustNotDo": [
+        "do not edit any artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "ut_pet_dismissed_without_prejudice-set",
+      "wave": "FABLE-VA3",
+      "lane": "VF03",
+      "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill",
+      "decisiveDefect": "participant-instructions.md has no where-self-help-ends section and carries none of the nine selfHelpStopConditions the committed track registry holds for trackId ut_pet_dismissed_without_prejudice - including the one the registry itself calls 'a hard stop, not a caveat', that a non-citizen must consult an immigration lawyer first. On the registry's second condition the packet says the opposite of the record: line 36 reads 'The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it', where the registry records 'The prosecutor or a victim objects, or the court schedules a hearing' as the end of self-help.",
+      "failedProofObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "SELF_HELP_STOP": {
+          "measuredDetail": "9 conditions held in data/record-clearing/legal-design-track-registry.json at trackId ut_pet_dismissed_without_prejudice; 0 carried. Whole-file case-insensitive counts in participant-instructions.md: 'citizen' 0, 'immigra' 0, 'protective order' 0, 'stalking' 0, 'refile' 0, 'appellate' 0. The file's headings are Where you file this / What it costs, and how to ask for a waiver / Who must receive a copy, and how / The facts you must supply before filing / What this packet is not / Where these directions come from. VF11 scored this obligation PASS at base ab82f102 on the 'What this packet is not' paragraph, which states what the platform does not do rather than where self-help ends, so the gap has never been measured against the registry. The repair at 2b88bb70b addressed the three obligations VF11 failed and build-findings.json records its citedAuthorities as supporting filingDestination, feeAndWaiver and service only.",
+          "whatRepairMustDo": "Add a where-self-help-ends section carrying all nine registry conditions for THIS track and no others, and correct line 36 so the packet stops telling a self-represented participant to attend a contested hearing alone. Lead with the hard stop the registry marks as one: the participant is not a US citizen, and the Utah Courts self-help page itself tells non-citizens to consult an immigration lawyer before expunging because the FBI may retain records of an expunged case. The other eight are: prosecutor or victim objection or a scheduled hearing; BCI offering a special certificate instead of a certificate of eligibility, because the court rather than BCI then decides eligibility; a public-interest showing that has to be argued rather than stated; any conviction-counting question near the 77-40a-303(4) or (5) limits including out-of-state and previously expunged convictions; an active protective order or stalking injunction; expunging appellate records; a prosecutor asserting intent to refile, which makes it contested under 77-40a-306(2); and charges already refiled or about to be. The sibling South Carolina family in this lane carries all 110 of its ten tracks' conditions verbatim and is the pattern to follow.",
+          "whatRepairMustNotDo": "Do not touch the fee section. Its $150 is verified on the delivered page - packet page 7, 1044XX page 2, prints '$150 [X ] Expungement Petition - Criminal (E)' with this route's box selected - and its $65.00 BCI application fee with the indigency waiver is stated where VF11 found a denial. Do not touch the requiredBeforeFiling list; the six items VF11 found missing are present. Do not borrow a stop condition from ut_pet_dismissed_with_prejudice, ut_pet_acquittal or any other Utah track: holding is per fact and per route."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit any artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    }
+  ],
   "supersededLaneMembership": {
     "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
     "lane": "VF03",
@@ -50,5 +99,24 @@
         ]
       }
     ]
+  },
+  "assignmentCountByWave": {
+    "VF-SRC-A": 0,
+    "FABLE-VA3": 2,
+    "note": "VF-SRC-A left assignments empty and assignmentCount 0; both entries below were written by FABLE-VA3 and each carries wave: \"FABLE-VA3\". Nothing was removed. The superseded block below is preserved byte-for-byte."
+  },
+  "fableVa3Read": {
+    "wave": "FABLE-VA3",
+    "assignmentId": "VF03",
+    "baseSha": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
+    "branch": "fable/va3",
+    "familiesClaimed": 7,
+    "failures": 2,
+    "gapNoticedInThisFile": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json carries five FAIL_REPAIR_REQUIRED rows from earlier workers on this lane (ar-misdemeanor-dwi-seal-set, ut_pet_conviction-set, ar-arrest-seal-set, wi_nc_doj_fingerprint_removal-set, pa_pardon_expungement-set, ca-851-91-set) and this file carried no repair assignment for any of them. FABLE-VA3 did not measure those families and may not write assignments for them; it records the gap so Captain can see that six failed families on this lane have no repair assignment behind them.",
+    "overlayDirectoriesModified": 0,
+    "packetBytesModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "A repair assignment opens no commercial route and approves nothing."
   }
 }
