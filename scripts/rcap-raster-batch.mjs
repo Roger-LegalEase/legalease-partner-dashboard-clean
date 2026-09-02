@@ -30,6 +30,18 @@ const SCALE = Number(flag("--scale") ?? 2.5);
 const RUN_ID = flag("--run-id") ?? null;
 const OUT = path.resolve(flag("--out") ?? "raster-out");
 
+/*
+ * The family id as a PATH segment. An artifact rejects a colon in a file path
+ * as firmly as in its own name, and composed-treatment ids carry several
+ * (composed-treatment:obligation:runtime-only:AK:...). Six families rendered,
+ * passed every measurement, and then lost their evidence at upload over
+ * raster-out/composed-treatment:sd_sis_sealing/boundary/page-001.png.
+ *
+ * Only the path spelling changes. Every receipt below still records the real
+ * familyId, which is what binds a verdict to a family.
+ */
+const FAMILY_PATH = String(FAMILY ?? "").replace(/[^A-Za-z0-9._-]/g, "_");
+
 const CSS_PX_PER_PT = 96 / 72;
 const fail = (why) => { console.error(`REFUSED raster batch — ${why}`); process.exit(1); };
 const sha256 = (p) => crypto.createHash("sha256").update(fs.readFileSync(p)).digest("hex");
@@ -45,7 +57,7 @@ if (!resolved.executablePath) {
   // An environment that cannot look at the packet has said nothing about the
   // packet. This is never RASTER_FAIL.
   fs.mkdirSync(OUT, { recursive: true });
-  fs.writeFileSync(path.join(OUT, `${FAMILY}.verdict.json`), `${JSON.stringify({
+  fs.writeFileSync(path.join(OUT, `${FAMILY_PATH}.verdict.json`), `${JSON.stringify({
     schemaVersion: "rcap-raster-family-verdict/v1", familyId: FAMILY,
     verdict: "RASTER_BLOCKED_ENVIRONMENT",
     why: "no executable Chromium on this runner; the packet was not examined and nothing is claimed about it",
@@ -129,8 +141,9 @@ for (const target of targets) {
     problems.push(`${target.name}: ${pages} page(s) where the queue expected ${target.expectedPages}`);
   }
   /* One directory per DOCUMENT. Keying on kind alone made two canonical
-   * documents of one family overwrite each other's PNGs. */
-  const dir = path.join(OUT, FAMILY, target.name.replace(/\.pdf$/, "").replace(/[^A-Za-z0-9._-]/g, "_"));
+   * documents of one family overwrite each other's PNGs. Both segments are
+   * slugged for the same reason FAMILY_PATH is. */
+  const dir = path.join(OUT, FAMILY_PATH, target.name.replace(/\.pdf$/, "").replace(/[^A-Za-z0-9._-]/g, "_"));
   fs.mkdirSync(dir, { recursive: true });
   for (let i = 0; i < pages; i += 1) {
     let render = null;
@@ -183,7 +196,7 @@ const doc = {
   whatThisDoesNotDecide: "This is one gate. RASTER_PASS does not make a family PASS_COMPLETE, promotes nothing, and opens no commercial route.",
   packetPdfsModified: 0, bodiesCommitted: 0, commercialRoutesOpened: 0, productionTouched: false
 };
-fs.writeFileSync(path.join(OUT, `${FAMILY}.verdict.json`), `${JSON.stringify(doc, null, 2)}\n`);
+fs.writeFileSync(path.join(OUT, `${FAMILY_PATH}.verdict.json`), `${JSON.stringify(doc, null, 2)}\n`);
 console.log(`${verdict} ${FAMILY} — ${targets.length} document(s), ${artifacts.length} page(s) measured, ${problems.length} problem(s)`);
 for (const p of problems.slice(0, 10)) console.log(`  ${p}`);
 process.exit(verdict === "RASTER_PASS" ? 0 : 1);
