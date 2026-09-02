@@ -69,5 +69,40 @@
    ],
    "whatThisDoesNotChange": "This assignment authorizes no route promotion, no price, no checkout and no fulfillment record. It names a defect and the evidence for it. FABLE-VA13 modified no packet PDF, fixture, overlay, field map, build script, queue, route or production surface."
   }
- ]
+ ],
+ "fableVtaAssignments": {
+  "worker": "VT-A",
+  "generatedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+  "whyASeparateBlock": "appended without touching the assignments this file already carries; those were written by other lanes at other bases and are preserved verbatim",
+  "assignmentCount": 1,
+  "assignments": [
+   {
+    "itemId": "wa_vac_cannabis-set",
+    "lane": "VF08",
+    "verifier": "VT-A",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill",
+    "decisiveDefect": "Both rendered fixtures of the cannabis vacatur packet state, under a printed caption that reads 'I was convicted of the following cannabis offense(s):', three offences that are not cannabis offences -- 'Theft in the Third Degree', 'Malicious Mischief in the Third Degree' and 'Criminal Trespass in the Second Degree'. That block is inside the declaration the participant signs under penalty of perjury under the laws of the State of Washington, and the same three values are carried onto CrRLJ 09.0870 paragraph 3, so the proposed order asks a judge to vacate theft, malicious mischief and criminal trespass as cannabis convictions.",
+    "failedProofObligations": [
+     "KNOWN_PREFILLS"
+    ],
+    "perObligation": {
+     "KNOWN_PREFILLS": {
+      "measuredDetail": "Every mapped write is present in the bytes and carries ink; the failure is that three of the values contradict the printed caption that governs them. On CrRLJ 09.0800 page 1 the anchors p1-y269.45-x236.69, p1-y250.85-x236.69 and p1-y232.25-x236.69 are mapped to matter.charges[0..2].charge and sit under the printed line naming cannabis offences. The canonical and the boundary fixture both write the three non-cannabis values. production-field-map.json declares no cannabis constraint on that fact -- the word 'cannabis' appears once in the whole map, in the familyId -- so nothing in the map prevents the same contradiction at runtime for a real participant whose record carries a non-cannabis count. This is route-specific rather than a factory-wide fixture convention: ar-act531-set, a controlled-substance route, writes the route-appropriate 'Possession of a controlled substance' into its own offence blank, and the sibling Washington families write these same three generic offences under CrRLJ 09.0100's generic caption 'the following offense/s', which they do not contradict. Only this family's caption names the offence class, and only this family's values contradict it.",
+      "whatRepairMustDo": "Two things, and the second is the one that matters. First, change the fixture persona's charges to cannabis offences so the review fixtures and the proposed order stop asserting a falsehood about the route's own subject matter, as ar-act531-set already does for its route. Second, make the map say what the caption says: constrain matter.charges[].charge on CrRLJ 09.0800 and CrRLJ 09.0870 to counts that qualify as misdemeanour cannabis convictions under RCW 9.96.060, and refuse rather than write any count that does not, so a real participant with a mixed record cannot be handed a perjury declaration that misdescribes their own convictions. Re-render both fixtures, rehash them, and re-run the completeness audit."
+     }
+    },
+    "whatIsNotBroken": "The other fourteen obligations pass as measured. Both sources rehash exactly from the Master Library; the family correctly uses the cannabis-specific CrRLJ 09.0800/09.0870 pair rather than the general vacatur forms; ROUTE_OPTIONS is correctly zero because the form carries no ground control and choosing this form is itself the election; and the instructions state the filing court, the fee position with a named authority, the service rule from CrRLJ 09.0300, and explicit stop conditions.",
+    "repairMustNotDo": [
+     "do not edit an artifact merely so a receipt or a manifest matches it",
+     "do not weaken or delete the declaration this verification rests on",
+     "do not open a route, set a price or change checkout",
+     "this verification lane may not perform the repair",
+     "do not fix this by deleting the offence anchors; the form asks for the offences and the participant needs them written"
+    ],
+    "reVerificationRequired": true
+   }
+  ]
+ }
 }
