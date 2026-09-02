@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF01",
   "worker": "VF-SRC-A",
-  "assignmentCount": 2,
+  "assignmentCount": 5,
   "assignments": [
     {
       "itemId": "ak-courtview-set",
@@ -44,6 +44,82 @@
       },
       "repairMustNotDo": [
         "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "ar-act531-set",
+      "lane": "VF01",
+      "assignedBy": "FABLE-VA5",
+      "foundAtBase": "cd48fc14e",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-act531-set--official-pdf-fill",
+      "decisiveDefect": "Two of the four selfHelpStopConditions the committed track registry records for trackId ar-act531 never reach the participant, and the packet asserts 'There is no filing fee for this petition' while delivering two forms that each recite, on their face, payment of the filing fees mandated by A.C.A. § 16-90-1419 — a recital the instructions never name.",
+      "failedProofObligations": [
+        "SELF_HELP_STOP",
+        "FEE_AND_WAIVER"
+      ],
+      "perObligation": {
+        "SELF_HELP_STOP": {
+          "measuredDetail": "data/record-clearing/legal-design-track-registry.json records four selfHelpStopConditions for trackId ar-act531. participant-instructions.md carries [0] the prosecuting attorney objects and [1] the court sets a contested hearing. It does not carry [2] 'Immigration, licensing or firearm consequences are in play' — a case-insensitive grep of the .md for immigra, firearm, licens and citizen returns only the phrase 'a lawyer licensed in Arkansas', and the same grep over the extracted text of all four fixtures returns nothing. It does not carry [3] 'Whether the participant falls in the covered historical population is unclear'; the nearest bullet is about paragraph 3's target-offence definition, which is a different question from whether the participant is inside the Act 531 historical cohort at all, and the registry's own destination detail explains the difference: 'A narrow historical population. Opening the route is gated on current eligibility-source review.'",
+          "whatRepairMustDo": "Carry both missing conditions into the 'Where self-help ends' section of participant-instructions.md in the registry's own terms, keeping the two already carried. Immigration, licensing and firearm consequences must be named explicitly, not folded into a general 'see a lawyer' line. The historical-population condition must be stated as its own bullet and must not be merged with the target-offence bullet, because they are different questions. Change nothing about the delivered ACIC forms: this is an instructions defect, not an overlay defect."
+        },
+        "FEE_AND_WAIVER": {
+          "measuredDetail": "participant-instructions.md states 'There is no filing fee for this petition', sourced three ways from the compiled Arkansas profile's Act 1460 lines. The delivered petition prints at paragraph 9, and the delivered proposed order at paragraph 10: 'The Defendant has paid all filing fees required to be paid with the filing of this Petition mandated by A.C.A §16-90-1419.' Grepping the .md for '16-90-1419', '1419' and 'paragraph 10' returns nothing. The participant is asked to sign a petition containing that assertion while being told no fee exists, and is told nothing about the paragraph.",
+          "whatRepairMustDo": "Name A.C.A. § 16-90-1419 and the two printed recitals in 'The filing fee' section, and state on this route's own terms how the Act 1460 no-fee lines and the form's § 16-90-1419 recital sit together — the same treatment the sibling ms-misd-addl-set packet gives Miss. Code Ann. § 99-19-72. Tell the participant what paragraph 9 of the petition asserts before they sign it. Do NOT alter the official ACIC form text: the recital is the agency's and stays as issued. Do not resolve the legal question of whether § 16-90-1419 fees survive Act 1460 by assertion; if the record does not settle it, say what the record does and does not settle and name the clerk."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "do not alter the ACIC petition or order source text; both forms rehash byte-exact to their declared SHA-256 and are correct as issued",
+        "this verification opens no commercial route, changes no live RCAP route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "lane": "VF01",
+      "assignedBy": "FABLE-VA5",
+      "foundAtBase": "cd48fc14e",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading",
+      "decisiveDefect": "The filing instructions page states that no committed record this packet binds states a filing fee or a fee waiver for this route, while the compiled Mississippi profile the source receipt binds by exact SHA-256 carries a section titled 'Filing Fee' recording the $150 levied by Miss. Code Ann. § 99-19-72 on petitions under § 99-19-71 — and the packet's own petition page tells the participant that this route's operative provision appears in both § 99-15-26(5) and § 99-19-71(4).",
+      "failedProofObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "perObligation": {
+        "FEE_AND_WAIVER": {
+          "measuredDetail": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json rehashes here to the receipt's declared d30c78bcdbcd4378…, so the binding holds. Its sourceSections[2] is titled 'Filing Fee', category 'fees': 'Mississippi Code 99-19-72 sets a $150 filing fee for each petition to expunge an offense under 99-19-71', with 'Expect at least a $150 statutory filing fee for many 99-19-71 petitions, but confirm with the clerk'; packetGenerator.feeRules repeats it. The rendered filing-instructions page says instead: 'No committed record this packet binds states a filing fee, or a fee waiver, for this route.' The packet's own petition page has already told the participant that the provision 'appears in both Sec. 99-15-26(5) and Sec. 99-19-71(4)'. The sibling ms-misd-addl-set packet, for sections with no such asserted overlap, names the $150 and § 99-19-72 and disposes of them explicitly; this packet names neither.",
+          "whatRepairMustDo": "Name Miss. Code Ann. § 99-19-72 and § 99-19-71 on the filing-instructions page and state, on this route's own terms, whether the $150 reaches a § 99-15-26(5) post-nonadjudication petition, and what the record does and does not settle. THE REPAIR IS NOT TO STATE THAT $150 APPLIES: DET-FEE-AND-WAIVER-001-A3 holds the answer per fact and per route, and a line keyed to § 99-19-71 does not answer § 99-15-26(5) by being nearby. The obligation is to walk around the trap and say so, in the shape ms-misd-addl-set already uses in this same jurisdiction. If the overlap the packet asserts on the petition page is not sound, that is a legal question for counsel and must be raised rather than resolved silently."
+        }
+      },
+      "repairMustNotDo": [
+        "do not state that the § 99-19-72 fee applies to this route; A3 forbids reading a sibling statute's answer across",
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval; the census records this route at currentServiceDisposition paid_packet_intended and nothing here changes that"
+      ]
+    },
+    {
+      "itemId": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
+      "lane": "VF01",
+      "assignedBy": "FABLE-VA5",
+      "foundAtBase": "cd48fc14e",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/official-form-treatment:obligation:research-decision-route:al:al-olr--official-pdf-fill",
+      "decisiveDefect": "Three committed records — the hash-bound legal decision research-track-decision:al-olr, the route-obligation census entry, and the packet-family build worklist — record this route's deliverable as the AOC Order of Limited Relief packet comprising the sworn petition AND a proposed order. The packet delivers the petition alone, and the absence is nowhere declared: build-findings.json carries findingCount 0, and participant-instructions.md asserts 'This packet is one form.'",
+      "failedProofObligations": [
+        "COMPONENT_SET",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "COMPONENT_SET": {
+          "measuredDetail": "The legal decision's Mechanism section (sha256 17ae635a4e434bc04fd65fc0bb7d6cda551922064d6dfb990fa240f437f7db29): 'Use the official Alabama AOC Order of Limited Relief packet, including the sworn petition and proposed order.' The census records participantFacingInstrument as 'official Alabama AOC Order of Limited Relief sworn petition and proposed order'. packet-family-build-worklist.json records deliverable.proposedOrder status 'recorded', entry 'official AOC proposed order'. Page-by-page extraction of petition-canonical-filled.pdf shows petition, Act notes and conviction list, RETURN ON SERVICE — no order page. Both custodies were searched and hold no AOC proposed-order document for Alabama: the Master Library's AL tree holds only C-94A, C-10-CRIMINAL and SBI-FORM-46, and the D source packs at D1/STATES/AL hold the same three.",
+          "whatRepairMustDo": "Either add the proposed-order component, or — since no such official document exists in either custody — declare the absence as a refusal on the record and tell the participant. That means a finding in build-findings.json naming the three records that call for a proposed order and the corpus search that found none; a line in source-receipt.json whatThisReceiptDoesNotEstablish; and a sentence in participant-instructions.md replacing the bare 'This packet is one form' with the fact that the record for this route calls for a proposed order as well, that no official AOC order form is held, and that the clerk of the circuit court is the office that says what that court expects to be lodged with the petition. Do not compose a proposed order out of nothing for an official-form route, and do not commission one under this assignment."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "The hash-bound legal decision's Self-help boundary section (sha256 9d5512ffee19a13a2229837abac4b0b664afc1066fc19555d080c6096e9d6f05), which the census names as this route's legalDecisionRecordIds entry, records six refer-to-counsel conditions. Five reach the participant. The sixth — 'the collateral consequence is not identified with specificity' — does not: grepping participant-instructions.md and both fixtures case-insensitively for 'specific' and 'with specificity' returns nothing. The packet carries instead the build worklist's condensed handoff sentence, which omits that limb. The omission matters on this route in particular: the relief is defined by which named collateral consequence is lifted, and the packet leaves that list wholly to the participant across five ruled lines.",
+          "whatRepairMustDo": "Carry the specificity condition into 'Where self-help ends' in the decision's own terms, beside the five already carried, and connect it to the five-rule list the participant fills so they can tell when their own entry is too vague. Keep the worklist sentence; add the missing limb rather than replacing it."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit the C-94A source or the filled fixture; the form rehashes byte-exact to e7ebe16d45d9… and is correct as issued",
+        "do not read AL Form C-10-CRIMINAL across as this route's payment-plan answer without counsel; whether Alabama's general substantial-hardship affidavit is the vehicle for a chapter 12-26 petition is a legal question no record here answers, and A3 forbids borrowing it",
         "this verification opens no commercial route and grants no approval"
       ]
     }
@@ -90,5 +166,15 @@
         ]
       }
     ]
+  },
+  "fableVa5Assignments": {
+    "worker": "FABLE-VA5",
+    "foundAtBase": "cd48fc14e",
+    "added": [
+      "ar-act531-set",
+      "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "official-form-treatment:obligation:research-decision-route:AL:al-olr"
+    ],
+    "note": "Three FAIL_REPAIR_REQUIRED verdicts from the FABLE-VA5 wave. Each names the decisive defect and the exact failed obligations. FABLE-VA5 repaired nothing: it modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface."
   }
 }
