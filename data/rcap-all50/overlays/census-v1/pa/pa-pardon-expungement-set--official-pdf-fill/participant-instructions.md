@@ -6,14 +6,15 @@ The platform filled in what it holds about you: your name, your date of birth, y
 
 ## Where you file this
 
-File the completed packet with the **Vermont Superior Court, Criminal Division**, in the unit where your case was decided.
+File the completed packet with the **Clerk of Courts of the judicial district where the charges were disposed** — the county named in the caption above. A Rule 790 expungement petition is decided by a judge of the **Court of Common Pleas** of that district, and it is decided there even if a magisterial district judge or a Philadelphia Municipal Court judge disposed of the case.
 
-Both the petition (200-00130) and the stipulation (200-00132) print `SUPERIOR COURT CRIMINAL DIVISION` across the top of page 1, and the `Unit` box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.
+The petition prints a `Judicial District number` and a `County of ______` line on page 1, and those identify the district you are filing in. If you do not know which district your case was in, the docket number on your paperwork identifies it, and the Clerk of Courts can tell you from the docket number.
 
-Two things this packet does **not** tell you, because neither is established here and an unsourced figure in a filing instruction is worse than none:
+**Before you file, order your Pennsylvania State Police criminal history report.** Rule 790 requires a report obtained **within 60 days before filing** to be attached, unless the Commonwealth waives it. Because of that 60-day window, order it late in your preparation rather than first. If you do not attach one, the petition has a blank asking you to say why.
 
-- **The filing fee, and whether it can be waived.** Ask the clerk of the unit above. The waiver form is included; the amount it waives is not stated here.
-- **Who must be served, and how.** Ask the same clerk. The State's Attorney's signature on the stipulation is not service and does not substitute for it.
+**After you file, the petition is served on the Commonwealth** — the District Attorney, as the attorney for the Commonwealth — and the Commonwealth then has **60 days** from service to consent, object, or do nothing. After that window the judge grants the petition, denies it, or schedules a hearing. If it is granted without the Commonwealth's consent, the order is **stayed for 30 days** while an appeal may be taken. Keep your proof of service with your copy of the packet.
+
+**What filing costs.** Pennsylvania filing fees are set county by county, and no held source in this repository states the fee for your county. Across the state they are reported in the range of roughly **$132 to $215**, with expungement petitions typically costing more than limited-access petitions; treat that as a range to expect, not as your county's figure. Ask the **Clerk of Courts of the judicial district where the charges were disposed** for the current fee. If you cannot pay it, Pennsylvania publishes statewide *in forma pauperis* forms for the Court of Common Pleas; this packet does **not** include one, and the same Clerk of Courts can tell you how to file that way.
 
 ## What is in this packet
 
@@ -21,15 +22,15 @@ Two things this packet does **not** tell you, because neither is established her
 | --- | --- |
 | `primary_filing` | **PA-RCRIM-P-790-PETITION** — Petition for Expungement Pursuant to Pa.R.Crim.P. 790 |
 | `proposed_order` | **PA-RCRIM-P-790-ORDER** — Order for Expungement Pursuant to Pa.R.Crim.P. 790 |
-| `filing_and_expectation_instructions` | the page that says where the packet goes and what to expect |
+| `process_guidance` | the page that tells you which of the two routes you are in, and what to expect if you file |
 
 ## What you must do
 
 1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.
-2. **Say which non-conviction ending applies to your case.** Question 2 of the petition offers three: you were cited or arrested but no charge was filed, a charge was filed and the court found no probable cause, or a charge was filed and the court dismissed it. Those are three different things and only you know which happened. The packet has already stated that you were **not convicted** — that much the route decides — and it leaves the rest to you.
+2. **Tick the boxes that are true for you.** This packet marks **no box on either form**. Every checkbox on the petition is a statement about your own record, and the packet leaves all of them to you rather than deciding one on your behalf.
 3. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.
-4. **Decide which route you are taking.** If the State's Attorney will sign the stipulation (200-00132), that is the quicker route and the court may seal on that agreement. If they will not, file the petition (200-00130) on its own and ask the court to set a hearing. The process-guidance page in this packet sets out both, and the third route — the one that files nothing — as well.
-5. **File the fee waiver (600-00228) only if you cannot pay.**
+4. **Find out first whether you still need to file at all.** A pardon is executive clemency and does not by itself erase your record — court action does. For an **unconditional** pardon, Pennsylvania runs an automatic route: the Board of Pardons transmits eligible records to the Administrative Office of Pennsylvania Courts **quarterly**, AOPC sends the record on to the court of common pleas, and that court orders expungement once it confirms the criteria. Where that automatic route has already cleared your record, there is nothing here to file. The petition in this packet is for the case where it has not. The process-guidance page in this packet sets out both routes and how to tell which one you are in. A **conditional** pardon is a different matter: it may lead to Clean Slate limited access rather than to full expungement.
+5. **Order your Pennsylvania State Police criminal history report within 60 days before you file,** and attach it. If it is not attached, say why in the blank the petition provides.
 
 ## The items you must supply
 
@@ -124,11 +125,11 @@ Two things this packet does **not** tell you, because neither is established her
 ## Things the platform deliberately left blank
 
 - **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.
-- **The State's Attorney's signature, date and printed name, and the court's order on the stipulation.** Those belong to the prosecutor and the judge.
+- **The whole of the proposed order.** PA-RCRIM-P-790-ORDER is the order the judge signs. It is tendered with your petition, and the platform has written only the style of the case into it. Do not fill it in and do not sign it.
 - **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.
 
 ## What this packet is not
 
-This is a prepared set of official Vermont forms and a process-guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will seal the record.
+This is a prepared set of official Pennsylvania forms — the statewide Pa.R.Crim.P. 790 petition and blank expungement order — and a process-guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will order expungement.
 
 _Route: obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement_

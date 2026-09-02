@@ -1,0 +1,236 @@
+{
+  "schemaVersion": "rcap-fable-repair-return/v1",
+  "worker": "FABLE-R13",
+  "role": "repair worker — repaired this family and did not verify it; the family is released and awaits a fresh independent read",
+  "lane": "FIX04",
+  "family": "pa_pardon_expungement-set",
+  "branch": "fable/r13",
+  "baseSha": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+  "claim": {
+    "asserted": "CLAIM_OK FIX04 pa_pardon_expungement-set (repair, grant set 7d6c0fa1504d1c65)",
+    "assertedBeforeAnyFileWasOpened": true,
+    "reissueOrTransferUsed": false,
+    "released": "RELEASED FIX04 pa_pardon_expungement-set",
+    "ledger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "ledgerNote": "The release is recorded as lane FIX04 / rapid-repair / releasedAt 2026-09-02T01:57:07.484Z. The same file also carries VF07, VF08 and VF09 release entries written by other agents in this shared working tree during my shift. That is the read-modify-write the Captain warned about; the ledger looks internally consistent and I did not repair or reorder anything in it."
+  },
+  "theDefect": {
+    "summary": "A wrong-state deliverable. The participant-facing text layer of this Pennsylvania Rule 790 family was Vermont's, borrowed from vt_seal_nonconviction-set.",
+    "consequence": "A participant following this packet would have been directed to the Vermont Superior Court, Criminal Division, on Vermont forms 200-00130, 200-00132 and 600-00228, for a Pennsylvania petition that is filed with a Pennsylvania Clerk of Courts.",
+    "rootCauseConfirmed": true,
+    "rootCause": "scripts/build-census-v1-pa_pardon_expungement-set.mjs is a fork of the Vermont non-conviction builder. Confirmed by reading both: the fork's own header docblock is correct Pennsylvania (two routes, Pa.R.Crim.P. 790, 'WHY NO BOX IS MARKED ON EITHER FORM'), while the prose-emitting functions beneath it were carried over verbatim from Vermont. scripts/build-census-v1-vt_seal_nonconviction-set.mjs line 802 carries the identical 'File the completed packet with the **Vermont Superior Court, Criminal Division**' sentence.",
+    "fixturesWereNotTheDefect": "Both bound source PDFs are genuine Pennsylvania Rule 790 documents and rehash exactly against source-receipt.json. The defect was entirely in the text layer the builder emits."
+  },
+  "contaminatedRecordsFound": {
+    "howEnumerated": "grep -rlE \"Vermont|Superior Court|200-00130|200-00132|600-00228\" over data/rcap-all50/overlays/census-v1/pa/, then a full read of every hit plus the builder, plus a decompressed-stream scan of the two delivered packet PDFs.",
+    "count": 4,
+    "records": [
+      {
+        "record": "participant-instructions.md",
+        "whatWasWrong": "The 'Where you file this' section named the Vermont Superior Court, Criminal Division and its 'unit'; cited Vermont forms 200-00130, 200-00132 and 600-00228; described a Vermont State's Attorney stipulation route; declined to state fee or service on the ground that neither was established; falsely claimed a fee-waiver form was included in the packet; instructed the participant to answer a non-conviction question that appears on no Pennsylvania form and asserted the packet had already stated the participant was not convicted; described a third route this family does not have; and closed by calling the contents 'official Vermont forms'.",
+        "severity": "participant-facing; the defect named in the assignment"
+      },
+      {
+        "record": "approval-request.json",
+        "whatWasWrong": "Both counsel questions were Vermont questions put in front of counsel about a Pennsylvania family. The first asked counsel to confirm a marking of 'question 2 of 200-00130' across 'all three of this family's routes' — a form this family does not file, a marking it does not make, and a route count it does not have.",
+        "severity": "would have consumed counsel review on a false premise; the assignment flagged this as mattering as much as the instructions"
+      },
+      {
+        "record": "build-findings.json",
+        "whatWasWrong": "Three of five findings were Vermont: that the family 'files the same three forms as the Vermont sealing-by-conviction families'; that the census records THREE routes; that question 2 of 200-00130 is route-determined and the packet marks 'I was not convicted'; and that '600-00228 is a financial affidavit'.",
+        "severity": "false build record"
+      },
+      {
+        "record": "production-field-map.json",
+        "whatWasWrong": "The routeSelectionNote described marking question 2 of Vermont form 200-00130, and 14 refusal reasons attributed field ownership to 'the State's Attorney', a Vermont office.",
+        "severity": "false machine-readable record"
+      }
+    ],
+    "aFifthProblemInsideTheFourth": "The routeSelectionNote was not merely wrong-state, it was false about this packet's own contents: it claimed the packet marks 'I was not convicted for the offenses listed above', while routeSelectionsMade in the same file is an empty array and the builder marks no box on either form. That false claim is what generated the false counsel question in approval-request.json.",
+    "cleanRecordsConfirmed": [
+      "The composed process_guidance page rendered into pages 3-5 of each packet PDF was already correct Pennsylvania — 'Clerk of Courts for the county', 'Pennsylvania State Police criminal history', two routes — and was not changed.",
+      "The two bound source PDFs, the per-document filled fixtures, source-receipt.json, build-status.json and reports/actual-writes.json carried no Vermont content."
+    ]
+  },
+  "whatIChanged": {
+    "method": "Every change was made in scripts/build-census-v1-pa_pardon_expungement-set.mjs and the family was then rebuilt. No generated file was hand-edited.",
+    "replacements": [
+      {
+        "changed": "Filing destination",
+        "to": "The Clerk of Courts of the judicial district where the charges were disposed; decided by a judge of the Court of Common Pleas of that district, and decided there even where a magisterial district judge or Philadelphia Municipal Court judge disposed of the case.",
+        "heldSource": "src/lib/rcap/state-packs/pennsylvania/filing-instructions.ts ('File petition-based Pennsylvania court relief in the Court of Common Pleas in the county where the case was heard'); county-court-instructions.ts ('Court: Court of Common Pleas in {county} County, where the case was heard'); PA legal review lines 42, 93, 300, 479, 497 ('petitions are filed with the clerk of courts in the judicial district where the charges were disposed')."
+      },
+      {
+        "changed": "Service on the Commonwealth and what follows",
+        "to": "Served on the Commonwealth — the District Attorney as attorney for the Commonwealth — which then has 60 days from service to consent, object or do nothing; the judge then grants, denies or schedules a hearing; if granted without Commonwealth consent the order is stayed 30 days pending appeal; keep proof of service.",
+        "heldSource": "PA legal review line 46 and line 405; state pack filing-instructions.ts and county-court-instructions.ts ('Serve the attorney for the Commonwealth / District Attorney and keep proof of service with the packet')."
+      },
+      {
+        "changed": "Fee and waiver",
+        "to": "States that no held source gives this county's fee; states the reported statewide range of roughly $132 to $215 as a range to expect and not as the participant's figure; names the Clerk of Courts of the judicial district of disposition as the office that answers it; states that statewide in forma pauperis forms exist for the Court of Common Pleas and that this packet does not include one.",
+        "heldSource": "PA legal review line 52 and line 432 ('vary by county, reported in the range of roughly $132 to $215 ... In forma pauperis forms are published statewide'), line 522 ('fee amounts unconfirmed') and line 121 (county fee schedule recorded as an open release blocker); state pack fee-notes.ts and county-court-instructions.ts ('Ask the Clerk of Courts about current county filing fees and fee waiver / in forma pauperis options').",
+        "standardApplied": "DETERMINATION_FEE_AND_WAIVER_STANDARD.json amendment A1. Its test was run first: the repository does NOT establish this county's fee, so a named checkable authority may stand in, and the Clerk of Courts of the judicial district of disposition is named rather than gestured at. The held statewide range is stated too rather than withheld, because A1 forbids substituting a question for an answer the record contains."
+      },
+      {
+        "changed": "The PSP report requirement",
+        "to": "A Pennsylvania State Police criminal history report obtained within 60 days before filing must be attached unless the Commonwealth waives it, and should be ordered late in preparation because of that window; if not attached, the petition has a blank asking why.",
+        "heldSource": "PA legal review lines 44 and 483; state pack filing-instructions.ts."
+      },
+      {
+        "changed": "The route narrative — replacing the Vermont stipulation route and the false 'not convicted' assertion",
+        "to": "A pardon is executive clemency and does not by itself erase the record; for an unconditional pardon the Board of Pardons transmits eligible records to AOPC quarterly, AOPC sends them to the court of common pleas, and that court orders expungement once it confirms the criteria; where that has already happened there is nothing to file; a conditional pardon may lead to Clean Slate limited access instead. The packet marks no box on either form and says so.",
+        "heldSource": "PA legal review TRACK 8 (lines 245-261), which is this exact track (short name pa_pardon_expungement, 18 Pa.C.S. § 9122(a)(2.1)), plus its line 464 misconception list ('That a pardon automatically clears the record without court action'); state pack eligibility-rules.ts and pathways.ts ('expungement_pardon: Possible expungement - full gubernatorial pardon'). Corroborated inside the family by the builder's own header docblock and by the already-correct composed guidance page, and by routeSelectionsMade being empty."
+      },
+      {
+        "changed": "Field-ownership refusal reason, 14 occurrences",
+        "to": "'the court, the clerk of courts or the attorney for the Commonwealth owns this field'",
+        "heldSource": "PA legal review line 479 ('the clerk of courts in the judicial district of disposition; the court of common pleas; the district attorney as the Commonwealth')."
+      },
+      {
+        "changed": "Packet-contents table row",
+        "to": "process_guidance, matching this family's actual componentSet",
+        "heldSource": "The family's own COMPONENTS constant and production-field-map.json componentSet. The previous label 'filing_and_expectation_instructions' named a component this family does not have."
+      },
+      {
+        "changed": "build-findings.json — five findings rewritten",
+        "to": "PA findings: no box marked and routeSelectionsMade empty in consequence; TWO routes with the quarterly Board/AOPC mechanism explained; the unconditional-versus-conditional pardon determination recorded as a self-help limit; captions read from the pinned binary (unchanged); the breadth of what the Rule 790 petition asks that the platform does not hold; and the fee treatment with its named authority.",
+        "heldSource": "As above, per finding."
+      },
+      {
+        "changed": "approval-request.json — four counsel questions replacing two Vermont ones",
+        "to": "Questions counsel can actually answer about this family: whether marking nothing is right; whether the quarterly cycle is the right criterion for the no-filing route; whether the fee treatment is right given the unresolved county fee schedule; and whether a two-form packet is sufficient given that the state legal review lists a certificate of service and IFP forms as further components of a complete Pennsylvania filing.",
+        "heldSource": "PA legal review lines 97 and 445 for the component question; line 121/432 for the fee question; TRACK 8 for the quarterly criterion."
+      },
+      {
+        "changed": "Two borrowed code comments that used Vermont form numbers as worked examples",
+        "to": "Rewritten to describe the same logic without the Vermont examples. Not participant-facing and no effect on output bytes.",
+        "heldSource": "n/a — comment accuracy only."
+      }
+    ],
+    "nothingWasInvented": "Every Pennsylvania fact above is carried by a held source named beside it. No court, office, deadline, form number or fee was supplied from outside the repository.",
+    "stoppedOn": []
+  },
+  "aSeparateDefectFoundAndDeliberatelyNotRepaired": {
+    "defect": "ROUTE_IDENTITY. This family declares route key 'obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement' in production-field-map.json, in the participant-instructions footer and on the printed process-guidance page. That key occurs 0 times in data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json and 0 times in route-obligation-candidate.json. The canonical keys are the two carried by product-wiring.json: obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route and obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition.",
+    "independentlyConfirmed": "Reported by an independent verifier before my shift — returns/vt7.json, lane VF12, which failed this family on ROUTE_IDENTITY alongside the five obligations the wrong-state text caused.",
+    "verifiedByMe": "Yes — I re-ran the grep against both census files and confirmed the zero counts.",
+    "whyNotRepairedHere": "It is a different defect from the one assigned, it is a decision about product identity rather than a text repair, and correcting the key would invalidate product-wiring.json, which is generated by scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs — a factory generator the Captain has instructed me not to run and whose central state the Captain holds uncommitted in this tree.",
+    "captainMustDecide": true
+  },
+  "control": {
+    "result": "NOT_APPLICABLE_BY_STRUCTURE — no shared host exists for this builder, and none was modified.",
+    "evidence": [
+      "scripts/build-census-v1-pa_pardon_expungement-set.mjs is a standalone per-family builder. There is no pa-host.mjs; each of the seven Pennsylvania families has its own builder. (A ga-host.mjs exists for Georgia, so the host pattern is real in this repo and its absence here is meaningful, not an oversight in my search.)",
+      "grep across scripts/ for 'build-census-v1-pa_pardon_expungement' returns no importer other than the file itself, so no other family can reach my changes.",
+      "git status over scripts/ shows exactly one modified script — mine. The shared library modules it imports (rcap-official-forms/rcap-pdf-anchor-capture.mjs, rcap-official-form-finalize.mjs, pdf-flattened-widgets.mjs, raster/pdf-page-raster.mjs, rcap-packet-completeness/completeness-contract.mjs) are all unmodified, which is the thing a control build would have tested."
+    ],
+    "whyNoSiblingWasRebuilt": "The obvious empirical control was pa_790_nonconviction-set, which files the same two Rule 790 forms. I did not run it. The Captain's correction restricts me to this family's directory, my builder, returns/r13.json and the claim ledger, in a working tree shared with six other agents who have uncommitted work in it; rebuilding a sibling would write into another family's committed directory. Given that the analytic control above is conclusive — no shared module changed and nothing imports my builder — the empirical control could only have confirmed it at the cost of dirtying files the Captain is about to stage by name.",
+    "captainMayRequestIt": "If the Captain wants the empirical control anyway, rebuilding pa_790_nonconviction-set is the right one to run once the tree is no longer shared."
+  },
+  "determinism": {
+    "proven": true,
+    "proof": "Two consecutive full builds; all 26 files in the family directory sha256-compared; every one byte-identical.",
+    "filesCompared": 26,
+    "aPreexistingDeterminismDefectIFixed": {
+      "found": "The first three rebuilds each produced a different canonical.pdf (47579a0a…, 699ec5dd…, 1e3cc102…). Byte-diffing two of them showed exactly 6 differing bytes, in /CreationDate and /ModDate: 'D:20260902014410Z' versus 'D:20260902014625Z'.",
+      "cause": "The assembled packet PDFDocument was created without a pinned date, so it carried a wall-clock timestamp. renderComposedPdf already pins the builder's own FIXED_DATE for exactly this reason; the packet assembly did not.",
+      "notCausedByMyRepair": "Demonstrated: the three divergent hashes were all produced AFTER my text repair was complete, and they differ from each other. The baseline fixture bytes were therefore never reproducible either.",
+      "fix": "Applied the builder's existing FIXED_DATE convention to the assembled packet, with a comment saying why. This changes no participant-facing content and no rendered pixel; it makes the fixture SHA-256 that the central raster receipt is keyed to reproducible.",
+      "captainShouldNote": "Other census-v1 builders may carry the same pattern. I checked only this one."
+    }
+  },
+  "completeness": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set",
+    "before": {
+      "verdict": "PASS_COMPLETE",
+      "written": "17/109",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    },
+    "after": {
+      "verdict": "PASS_COMPLETE",
+      "written": "17/109",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    },
+    "note": "Unchanged in both directions, as expected: this repair changed the text layer and the packet's date metadata, not which fields are written or refused."
+  },
+  "rasterOwed": {
+    "owed": true,
+    "why": "The two assembled packet fixtures changed bytes, so the central raster receipt keyed to their SHA-256 no longer binds, even though the rendered pixels are identical.",
+    "fixtureBytesChanged": [
+      {
+        "fixture": "fixtures/canonical.pdf",
+        "oldSha256": "4a7113112f29b05fdf21e6d6f6822d8ca41d3768c3ff2640cff72af6bbf308e0",
+        "newSha256": "fb5024c3acb10682ac4e167fdcac4e83e6064b86293a7aa1eb602b97e12425af"
+      },
+      {
+        "fixture": "fixtures/boundary.pdf",
+        "oldSha256": "95b2026728702121ab3a551ca49e1c532a0a9a53f8035dd53855cfa06e86a61a",
+        "newSha256": "bf36782337fd233e293784fe14bc08cd055f94e5bce8cfdc0d9eae212f66e368"
+      }
+    ],
+    "fixtureBytesUnchanged": [
+      { "fixture": "fixtures/canonical--PA-RCRIM-P-790-PETITION.pdf", "sha256": "8f33808244acef558c2489e47ddccf1804f02c0d9cb50d258697306b2b7e0ca2" },
+      { "fixture": "fixtures/canonical--PA-RCRIM-P-790-ORDER.pdf", "sha256": "d2e76d06368f4f12e215b914fe41be0a9f86231cac55fd4d2367c3acd2be9fbc" },
+      { "fixture": "fixtures/boundary--PA-RCRIM-P-790-PETITION.pdf", "sha256": "2bd7c82a74549352d2fa06daef448a34405b33fbbf2236f2250e7b0f62c73148" },
+      { "fixture": "fixtures/boundary--PA-RCRIM-P-790-ORDER.pdf", "sha256": "4ad89343b3454360298c87a8319bc7c6d252f8e26319e496a6cf3c47b5f0c270" }
+    ],
+    "rasterPixelsUnchanged": "All 10 raster PNGs are byte-identical to the committed baseline and do not appear in git status. The Vermont text lived only in the markdown and JSON records, never on a rendered page, so nothing visible changed. The fresh raster is owed on the byte change alone.",
+    "staleShaElsewhere": "product-wiring.json in this family's directory still records the old canonical.pdf SHA-256 4a7113112f…, which my rebuild invalidated. It is generated by generate-product-wiring.mjs, a factory generator the Captain told me not to run, so I left it. The Captain should regenerate it — and note that the same regeneration is where the ROUTE_IDENTITY question above would land."
+  },
+  "verificationBoundary": {
+    "iDidNotVerifyMyOwnRepair": true,
+    "familyLeftReleased": true,
+    "awaitingFreshIndependentRead": true,
+    "filesIWasForbiddenAndDidNotWrite": [
+      "any vf*/rows.json",
+      "VERIFIER_RETURNS.json",
+      "MASTER_QUEUE.json",
+      "RASTER_QUEUE.json",
+      "ACTIVE_ASSIGNMENTS.json"
+    ],
+    "generatorsNotRun": "generate.mjs and every other scripts/grade-a-packet-factory-24h/generate-*.mjs, per the Captain's correction."
+  },
+  "filesChanged": [
+    "scripts/build-census-v1-pa_pardon_expungement-set.mjs",
+    "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "data/rcap-grade-a/fable-packet-factory/returns/r13.json"
+  ],
+  "commitState": {
+    "committed": false,
+    "pushed": false,
+    "why": "The Captain's mid-shift correction instructed me to leave this work uncommitted and unstaged in the shared working tree, and to stage nothing, so that it can be committed centrally by named path alongside six other agents' concurrent work. My original brief's instruction to commit and push to fable/r13 is superseded by that correction.",
+    "branchCheckedOut": "fable/r13, created from ebc44031ec7eab29058bfc79a7bc5e1cff089414 before the correction arrived; no git checkout, switch, branch, stash, reset, rebase or merge was run afterwards."
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "routesPromoted": 0,
+  "approvalsGranted": 0,
+  "grantsNothing": "This is a text-layer repair to review evidence. It opens no commercial route, promotes no family, grants no approval, and leaves buildStatus at state_built with reviewStatus qa_review_pending."
+}

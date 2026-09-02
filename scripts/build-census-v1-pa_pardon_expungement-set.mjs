@@ -265,8 +265,9 @@ function resolveSources(familyId) {
   const root = corpusRoot();
   const resolved = []; const failures = [];
   for (const formNumber of config.documents) {
-    // The form-number token is delimited on both sides, so 200-00132A cannot
-    // match the 200-00132A binary and 200-00130 cannot match 200-00130A.
+    // The form-number token is delimited on both sides by "__", so a form
+    // number can never match a longer one that merely starts with it --
+    // PA-RCRIM-P-790-ORDER cannot match PA-RCRIM-P-790-ORDER-SUPPLEMENT.
     const entry = rows.find((e) => String(e.path ?? e.relativePath ?? "").includes(`__${formNumber}__`)
       && String(e.path ?? e.relativePath ?? "").startsWith("STATES/PA/"));
     if (!entry) { failures.push({ sourceIdentity: `official-form:${formNumber}`, why: "no entry for this form number in the committed corpus index" }); continue; }
@@ -320,10 +321,10 @@ async function censusOf(source) {
       /*
        * A name that carries several boxes is addressed ONLY by coordinate. The
        * base-name fallback is right for a name that carries one box and wrong
-       * for one that carries several: on 200-00130 the names 26, 27, 30 and 31
-       * are a new-charge row near the top of page 2 AND a state-agency row two
-       * thirds of the way down it, and a fallback would have given the agency
-       * rows the new-charge wording without anything failing.
+       * for one that carries several: where a single widget name repeats down
+       * a form -- as the charge-row cells do on the Rule 790 petition -- a
+       * base-name fallback would give every repeat the first row's caption
+       * without anything failing.
        */
       const named = counts.get(name) > 1 ? spec.named[key] : (spec.named[key] ?? spec.named[name]);
       if (named) used.add(spec.named[key] ? key : name);
@@ -623,7 +624,7 @@ function officialFieldMap(source, census, report, config, marks = []) {
         requiredBeforeFiling: false, document: source.formNumber,
         why: r.refusalClass === SIGNATURE
           ? "the participant signs and dates this themselves at filing time"
-          : "the court, the clerk or the State's Attorney owns this field"
+          : "the court, the clerk of courts or the attorney for the Commonwealth owns this field"
       });
       continue;
     }
@@ -742,21 +743,21 @@ function instructionsMarkdown(config, resolved, rbf) {
   out.push(`This packet is prepared for **${config.legalName}**.`, "");
   out.push("The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number. Everything else on these forms is yours, and this page lists every one of them by the words printed beside the blank.", "");
   out.push("## Where you file this", "");
-  out.push("File the completed packet with the **Vermont Superior Court, Criminal Division**, in the unit where your case was decided.", "");
-  out.push("Both the petition (200-00130) and the stipulation (200-00132) print `SUPERIOR COURT CRIMINAL DIVISION` across the top of page 1, and the `Unit` box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.", "");
-  out.push("Two things this packet does **not** tell you, because neither is established here and an unsourced figure in a filing instruction is worse than none:", "");
-  out.push("- **The filing fee, and whether it can be waived.** Ask the clerk of the unit above. The waiver form is included; the amount it waives is not stated here.");
-  out.push("- **Who must be served, and how.** Ask the same clerk. The State's Attorney's signature on the stipulation is not service and does not substitute for it.", "");
+  out.push("File the completed packet with the **Clerk of Courts of the judicial district where the charges were disposed** — the county named in the caption above. A Rule 790 expungement petition is decided by a judge of the **Court of Common Pleas** of that district, and it is decided there even if a magisterial district judge or a Philadelphia Municipal Court judge disposed of the case.", "");
+  out.push("The petition prints a `Judicial District number` and a `County of ______` line on page 1, and those identify the district you are filing in. If you do not know which district your case was in, the docket number on your paperwork identifies it, and the Clerk of Courts can tell you from the docket number.", "");
+  out.push("**Before you file, order your Pennsylvania State Police criminal history report.** Rule 790 requires a report obtained **within 60 days before filing** to be attached, unless the Commonwealth waives it. Because of that 60-day window, order it late in your preparation rather than first. If you do not attach one, the petition has a blank asking you to say why.", "");
+  out.push("**After you file, the petition is served on the Commonwealth** — the District Attorney, as the attorney for the Commonwealth — and the Commonwealth then has **60 days** from service to consent, object, or do nothing. After that window the judge grants the petition, denies it, or schedules a hearing. If it is granted without the Commonwealth's consent, the order is **stayed for 30 days** while an appeal may be taken. Keep your proof of service with your copy of the packet.", "");
+  out.push("**What filing costs.** Pennsylvania filing fees are set county by county, and no held source in this repository states the fee for your county. Across the state they are reported in the range of roughly **$132 to $215**, with expungement petitions typically costing more than limited-access petitions; treat that as a range to expect, not as your county's figure. Ask the **Clerk of Courts of the judicial district where the charges were disposed** for the current fee. If you cannot pay it, Pennsylvania publishes statewide *in forma pauperis* forms for the Court of Common Pleas; this packet does **not** include one, and the same Clerk of Courts can tell you how to file that way.", "");
   out.push("## What is in this packet", "");
   out.push("| Component | Document |", "| --- | --- |");
   for (const r of resolved) out.push(`| \`${FORMS[r.formNumber].component}\` | **${r.formNumber}** — ${FORMS[r.formNumber].title} |`);
-  out.push("| `filing_and_expectation_instructions` | the page that says where the packet goes and what to expect |", "");
+  out.push("| `process_guidance` | the page that tells you which of the two routes you are in, and what to expect if you file |", "");
   out.push("## What you must do", "");
   out.push("1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
-  out.push("2. **Say which non-conviction ending applies to your case.** Question 2 of the petition offers three: you were cited or arrested but no charge was filed, a charge was filed and the court found no probable cause, or a charge was filed and the court dismissed it. Those are three different things and only you know which happened. The packet has already stated that you were **not convicted** — that much the route decides — and it leaves the rest to you.");
+  out.push("2. **Tick the boxes that are true for you.** This packet marks **no box on either form**. Every checkbox on the petition is a statement about your own record, and the packet leaves all of them to you rather than deciding one on your behalf.");
   out.push("3. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.");
-  out.push("4. **Decide which route you are taking.** If the State's Attorney will sign the stipulation (200-00132), that is the quicker route and the court may seal on that agreement. If they will not, file the petition (200-00130) on its own and ask the court to set a hearing. The process-guidance page in this packet sets out both, and the third route — the one that files nothing — as well.");
-  out.push("5. **File the fee waiver (600-00228) only if you cannot pay.**", "");
+  out.push("4. **Find out first whether you still need to file at all.** A pardon is executive clemency and does not by itself erase your record — court action does. For an **unconditional** pardon, Pennsylvania runs an automatic route: the Board of Pardons transmits eligible records to the Administrative Office of Pennsylvania Courts **quarterly**, AOPC sends the record on to the court of common pleas, and that court orders expungement once it confirms the criteria. Where that automatic route has already cleared your record, there is nothing here to file. The petition in this packet is for the case where it has not. The process-guidance page in this packet sets out both routes and how to tell which one you are in. A **conditional** pardon is a different matter: it may lead to Clean Slate limited access rather than to full expungement.");
+  out.push("5. **Order your Pennsylvania State Police criminal history report within 60 days before you file,** and attach it. If it is not attached, say why in the blank the petition provides.", "");
   out.push("## The items you must supply", "");
   for (const [doc, items] of byDoc) {
     out.push(`### ${doc} — ${FORMS[doc]?.title ?? doc}`, "");
@@ -766,10 +767,10 @@ function instructionsMarkdown(config, resolved, rbf) {
   }
   out.push("## Things the platform deliberately left blank", "");
   out.push("- **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.");
-  out.push("- **The State's Attorney's signature, date and printed name, and the court's order on the stipulation.** Those belong to the prosecutor and the judge.");
+  out.push("- **The whole of the proposed order.** PA-RCRIM-P-790-ORDER is the order the judge signs. It is tendered with your petition, and the platform has written only the style of the case into it. Do not fill it in and do not sign it.");
   out.push("- **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.", "");
   out.push("## What this packet is not", "");
-  out.push("This is a prepared set of official Vermont forms and a process-guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will seal the record.", "");
+  out.push("This is a prepared set of official Pennsylvania forms — the statewide Pa.R.Crim.P. 790 petition and blank expungement order — and a process-guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will order expungement.", "");
   out.push(`_Route: ${config.routeKey}_`);
   return `${out.join("\n")}\n`;
 }
@@ -787,7 +788,7 @@ function writeArtifacts(ctx) {
     captionBasis: "every printed caption in this map was READ OUT OF THE PINNED BINARY at build time -- the printed line nearest the widget's own baseline on the widget's own page -- and captionReadAt records the y it was read from. The source gate is the exact SHA-256 binding, which fails the family closed on any change to the form.",
     dispositionVocabulary: [SIGNATURE, COURT_OWNED, ELECTION_CLASS],
     routeSelectionsMade: [],
-    routeSelectionNote: "Question 2 of 200-00130 asks whether the petitioner was convicted, and this family is non-conviction sealing, so the route determines the answer: the packet marks 'I was not convicted for the offenses listed above' and refuses the conviction block beneath it. Which non-conviction ending applies -- never charged, no probable cause, or dismissed -- is not route-determined and stays with the participant.",
+    routeSelectionNote: "No box is marked on either form, and routeSelectionsMade is empty in consequence. The two routes this family carries -- a Rule 790 petition where the automatic post-pardon route has not cleared the record, and no filing at all where it has -- are told apart by something neither form asks: whether the Board of Pardons / AOPC quarterly transmission has already produced an expungement order. Nothing on the petition and nothing on the order elects between them, so this family marks nothing and carries the second route as a composed process-guidance component instead of inventing an election to satisfy a counter.",
     requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
     maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   }, null, 2)}\n`);
@@ -840,11 +841,12 @@ function writeArtifacts(ctx) {
   W("build-findings.json", `${JSON.stringify({
     schemaVersion: "rcap-family-build-findings/v1", familyId,
     findings: [
-      { finding: "This family files the same three forms as the Vermont sealing-by-conviction families, and differs from them by one question.", consequence: "Question 2 of 200-00130 is route-determined here: the packet marks 'I was not convicted for the offenses listed above' and refuses the whole conviction block beneath it -- the date of conviction, the probation questions and the restitution questions -- as a branch this route does not take." },
-      { finding: "The census records THREE routes for this family, and one of them files nothing at all.", consequence: "A composed process-guidance page carries that third route. A packet that only ever told the participant to file would be telling them to do work they may not need to do, and dropping the route rather than carrying it would have lost a third of what the family was built for." },
-      { finding: "Which non-conviction ending applies -- never charged, no probable cause, or dismissed -- is three different things that happened to a participant's own case.", consequence: "All three boxes stay the participant's, and the instructions say in terms which part the route decided and which part it did not." },
+      { finding: "This family files the two statewide Pennsylvania Rule 790 forms -- the petition and the blank expungement order -- and marks no box on either.", consequence: "routeSelectionsMade is empty and says so. Neither form asks the question that separates this family's two routes, so nothing is elected on the participant's behalf and the map records the absence rather than inventing a selection." },
+      { finding: "The census records TWO routes for this family, and one of them files nothing at all.", consequence: "A composed process-guidance page carries that second route. A pardon does not by itself erase a Pennsylvania record; for an unconditional pardon the Board of Pardons transmits eligible records to AOPC quarterly and the court of common pleas then orders expungement, so a participant whose record is already cleared would otherwise be told to do -- and pay for -- work they do not need." },
+      { finding: "Whether a pardon is unconditional or conditional decides which relief is even available, and the platform cannot determine it.", consequence: "The instructions state the difference in terms -- an unconditional pardon feeds the automatic expungement route, a conditional pardon may lead to Clean Slate limited access instead -- and leave the determination to the participant, as the state legal review records it as a self-help limit." },
       { finding: "Every caption in this map is read out of the pinned binary at build time rather than transcribed.", consequence: "The guard against a changed form is the exact SHA-256 source binding, which fails the family closed on any byte." },
-      { finding: "600-00228 is a financial affidavit and the platform holds none of its figures.", consequence: `${rbf.length} blanks across the packet are required-before-filing and every one is named in participant-instructions.md.` }
+      { finding: "The Rule 790 petition asks for a great deal the platform does not hold: the presiding official and their court address, the affiant on the complaint and theirs, the Offense Tracking Number, the docket segments, and every charge row.", consequence: `${rbf.length} blanks across the packet are required-before-filing and every one is named in participant-instructions.md.` },
+      { finding: "No held source in this repository states the county filing fee for this route; the state legal review reports a statewide range of roughly $132 to $215 and records the county fee schedule as an open item.", consequence: "The instructions state the reported range as a range, decline to present it as the participant's county figure, and name the Clerk of Courts of the judicial district of disposition as the office that answers it. Statewide in forma pauperis forms exist but are NOT bound into this family's source receipt, and the instructions say the packet does not include one." }
     ]
   }, null, 2)}\n`);
   W("participant-instructions.md", instructions);
@@ -852,8 +854,10 @@ function writeArtifacts(ctx) {
     schemaVersion: "rcap-family-approval-request/v1", familyId,
     requested: "visual review and counsel review", buildStatus: "state_built",
     counselQuestionsRaised: [
-      "The packet marks question 2 of 200-00130 as 'I was not convicted' on the reasoning that a non-conviction sealing family determines that answer. Confirm that is right for all three of this family's routes.",
-      "The process-guidance page tells the participant to ask the clerk whether the record has already been sealed without a filing, and states no timetable or criterion for it because the forms establish none. Confirm that is the right treatment for the no-filing route, or supply the criterion."
+      "This packet marks no box on either Rule 790 form and elects nothing on the participant's behalf, on the reasoning that neither form asks the question that separates this family's two routes. Confirm that marking nothing is right here, or identify the election counsel expects to see made.",
+      "The process-guidance page tells the participant to ask the Clerk of Courts what the docket now shows, and the instructions state the quarterly Board of Pardons / AOPC transmission the state legal review records. Confirm that the quarterly cycle is the right criterion to give a participant for the no-filing route, and whether counsel wants a waiting period stated alongside it.",
+      "The instructions state a statewide filing-fee range of roughly $132 to $215 as a range only, decline to present it as the participant's county figure, and name the Clerk of Courts of the judicial district of disposition as the office that answers the actual fee. Confirm that treatment, since the state legal review records the county fee schedule as an unresolved item.",
+      "This family's source receipt binds only the Rule 790 petition and order. The state legal review lists a certificate of service on the Commonwealth and in forma pauperis forms as further components of a complete Pennsylvania filing. Confirm whether this family should remain a two-form packet that describes service and fee waiver in prose, or whether those components must be bound in before it advances."
     ],
     approvedForLive: false, live: false, commercialRoutesOpened: 0
   }, null, 2)}\n`);
@@ -905,6 +909,12 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   for (const fixtureName of ["canonical", "boundary"]) {
     const facts = FIXTURES[fixtureName];
     const packet = await PDFDocument.create();
+    // Without this the assembled packet carries a wall-clock /CreationDate and
+    // /ModDate, so the fixture bytes -- and the SHA-256 the central raster
+    // receipt is keyed to -- change on every build even when nothing else does.
+    // renderComposedPdf already pins the same FIXED_DATE for the same reason.
+    const packetFixedDate = new Date(FIXED_DATE);
+    packet.setCreationDate(packetFixedDate); packet.setModificationDate(packetFixedDate);
     const pageManifest = []; const documents = [];
     for (const { source, census } of censuses) {
       const { bytes: filled, report } = await renderDocument(source, census, fixtureName);
