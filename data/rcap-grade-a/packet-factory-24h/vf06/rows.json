@@ -4535,8 +4535,128 @@
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (re-hashed)"
    ],
    "whatThisDoesNotDo": "An independent PASS proves this packet is complete. It approves no output, opens no commercial route, and the family remains BUILT_RASTER_PENDING with no central raster receipt bound to these bytes."
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+   "lane": "VF06",
+   "wave": "packet-factory-24h/VF06 re-dispatch (2026-09-02)",
+   "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "verdict": "BLOCKED_LEGAL_INPUT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading",
+   "whyBlocked": "Fourteen of the fifteen obligations pass on measurement here and the nine counters are zero. The fifteenth cannot be settled by this lane or by this build: nothing establishes who must be served on this route, or how. The registry track dedicated to this exact pathway — trackId intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4 — carries rules.service null, rules.notice null, no venue, no destination, no stop conditions, and legalStatus 'legal_review_pending'. The compiled profile's pathway for the route carries no service or notice rule either. A rule does exist one track over: ms-nonconv, the § 99-19-71(4) nonconviction petition track, records service as 'United States mail or hand delivery by the petitioner to the prosecuting authority, contemporaneous with filing, evidenced by the certificate of service', and its destination adds 'The prosecuting authority is served with a copy.' Whether that rule reaches the intervention-court dismissal-only branch of the same subsection is a legal determination, not a measurement, and the record that would settle it is the one marked pending review. The packet does not guess: it states that no record it binds answers the question and names the clerk's office of the intervention court as the office that does. That is the honest handling of an open input, and it is why this is BLOCKED_LEGAL_INPUT rather than FAIL_REPAIR_REQUIRED — but a participant who files without serving the prosecuting authority, on a route where the neighbouring track says service is contemporaneous with filing, may lose the petition on it, and this family composes no certificate-of-service component while its Mississippi siblings compose one per route.",
+   "whatWouldUnblockIt": "Counsel decides whether the ms-nonconv service and notice rules govern the intervention-court dismissal-only branch of § 99-19-71(4). If they do, the packet states them and composes a certificate-of-service component as rcap-ms-custom-pleading does for its three routes; the registry track for this pathway is filled in and leaves legal_review_pending. If they do not, the record says why service is not required on this branch and the packet states that instead. Either answer closes the obligation; neither can be reached by reading bytes.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <this id> at this base: PASS_COMPLETE, 7/20 written, every counter 0. Measured again here independently: all three committed records rehashed from the bytes, both fixture hashes recomputed, all 5 pages of each fixture extracted and matched against the page manifest, all 7 written values found in the extracted text on their own component's pages in both fixtures, and geometry measured with pdftotext -bbox — 0 words outside the page box, left edge 72.0 and right edge 539.9 on a 612-wide page in both fixtures. All nine counters are zero as measured here. The block is not a completeness defect; it is a missing legal input.",
+    "whyZeroCountersDoNotMakeThisAPass": "PASS_COMPLETE_INDEPENDENT needs the fifteen obligations as well as the nine counters, and the nine counters cannot see a rule that is absent from every record the packet binds."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "detail": "obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4, declared identically by source-receipt.json, production-field-map.json, product-wiring.json and approval-request.json, and matching the committed route contract entry in src/lib/legal-authority/routes/mississippi.json (decisionId LD-MS-01, pathwayId identical, statute § 99-19-71(4), mechanism 'Intervention-court completion — dismissal-only branch where a record remains'). The packet keeps the branch line the contract draws: it tells a participant sentenced at the plea to stop, because those matters belong on the automatic branch."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "detail": "Three committed records, all rehashed here and exact: src/lib/legal-authority/routes/mississippi.json 1d533e72b993ce40bda1b7aa565a62d0585259280483ffccd9192395eeb00026 at 37,570 B; src/lib/rcap-engine/compiled/profiles/MS-mississippi.json d30c78bcdbcd4378d1d6e656dd65f8ebde3b6d231e7020add220e55d865ea689 at 416,327 B; and the route-obligation census 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f at 2,599,752 B — the current census hash, not the stale pin recorded against other census-v1 families."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "detail": "The contract names three packet components: 'Petition under § 99-19-71(4)', 'Dismissal order' and 'Proposed order'. The petition and the proposed order are composed and rendered; the dismissal order is a court record that no build can author, and the packet names it in 'Documents you must obtain before filing' with where it comes from — the clerk of the intervention court that entered it. A third composed component, the filing-instructions page, is added beyond the contract. requiredComponentsMissing 0."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "detail": "Seven values written — name, date of birth, mailing address, telephone, email on the petition, the caption name on the proposed order, and the identifier on the filing-instructions page — and all seven were found in the extracted text on the pages the manifest gives their own component, in both fixtures. The six facts the contract lists as required (which intervention court, sentence imposed at plea, dismissed rather than sentenced, every requirement completed, fees paid or waived, does a record remain) are case facts the platform does not hold, and each is a labelled blank named in the instructions."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "detail": "Six blanks are disposed REQUIRED_BEFORE_FILING — items C1 to C6, one for each required fact in the committed contract — and all six disclosure labels appear in participant-instructions.md, checked label by label. The dismissal order the participant must obtain is listed separately with its source."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "detail": "One route, one instrument set, and no election control is printed on any composed page — 0 selection controls across the three components. routeSelectionsMade records the single selection with its statute and instrument. There is no route-determined election left unselected."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "detail": "No repeating row group exists in the three composed components; the petition is six numbered items on dotted rules. incompleteRows 0."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "detail": "Seven blanks are refused with the actor named: the participant signs personally and this build never signs for anyone; a date written before signing would be false; the court signs the order if and only if it grants the petition; the court dates the order when it decides; every decision on the proposed order is the court's; the cause number is assigned by the court at filing. Measured from the bytes: no signature or signing-date line in either fixture carries any written value. protectedWrites 0."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "detail": "sha256sum here: canonical 112fb452f4d57f90… at 13,798 B and boundary 9b6cfca69239cc5a… at 14,002 B, both equal to reports/rendered-artifacts.json, 5 pages each and 5 pages extracted from each. NOTED: build-status.json records rasterState BUILT_RASTER_PENDING with rasterPages 0, so no stored raster exists and the visual measurement was made here from the PDF geometry."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "detail": "Five pages, three contiguous component blocks in declared order — petition 1-2, proposed order 3, filing instructions 4-5 — numbered 1..5 with no gap, and the rendered PDFs carry exactly those pages in both fixtures."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "detail": "Measured with pdftotext -bbox over all five pages of both fixtures on a 612x792 page: 0 words outside the page box, nearest left edge 72.0, furthest right edge 539.9, so nothing crosses the 72pt margin — and the boundary fixture, whose values are deliberately long, measures the same."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "detail": "The packet names the court by function, which is how the record names it: the intervention court whose completion certification and dismissal this petition follows, with the clerk's office of that court as the office to confirm what it accepts. The census records no exact destination and the contract's own required facts ask 'Which intervention court?', so the court's identity is a labelled blank rather than an assertion. Consistent with the neighbouring ms-nonconv destination, 'Clerk of the court in which the case was pending'."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "detail": "The statutory basis is named and the amount is not, with the reasoning stated: the bound compiled profile records that § 99-19-72 sets a filing fee for each petition to expunge an offence under § 99-19-71 and this is a petition under § 99-19-71(4); no figure is published because the compiled profile is a derived record rather than primary authority, the current text of § 99-19-72 was not retrieved for this build, and the route binds no official form; and the clerk's office of the intervention court is named as the office that states the current amount and any pauper's-affidavit route. The build's own findings record that an earlier version of this family wrongly said no bound record answered the fee question and that the denial was withdrawn — the correction holds in the bytes I read."
+    },
+    "SERVICE": {
+     "result": "BLOCKED_LEGAL_INPUT",
+     "detail": "The packet's own filing-instructions page, under the heading 'WHO MUST BE SERVED, AND WHO IS NOTIFIED', reads: 'No committed record this packet binds states who must be served on this route, or how. The office that answers it is the clerk's office of the Mississippi intervention court that certified completion and entered the dismissal.' I confirmed that against the records: the registry track for this exact pathway has rules.service and rules.notice null and legalStatus legal_review_pending, and the compiled pathway carries neither. So no one is named as a person who must be served, and no method is stated. The repository is not silent one track over — ms-nonconv, the § 99-19-71(4) nonconviction petition track, records service to the prosecuting authority by mail or hand delivery contemporaneous with filing, evidenced by a certificate of service — but whether that governs this branch is a legal call this lane may not make, and the route's own record is the one awaiting review. No certificate-of-service component is composed, where this family's Mississippi siblings compose one per route."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "detail": "Five stop conditions, four of them the committed contract's own exclusions carried across (a sentence imposed at the plea, implied consent, completion not certified or requirements outstanding, fees neither paid nor waived) plus any immigration question, and they appear both on the composed filing-instructions page and in participant-instructions.md. The registry track for this pathway carries an empty selfHelpStopConditions list, so the packet's stops come from the contract rather than from a record that has none."
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/ (source-receipt.json, production-field-map.json, participant-instructions.md, product-wiring.json, approval-request.json, build-status.json, build-findings.json, reports/rendered-artifacts.json, reports/actual-writes.json, reports/completeness-counters.json, both fixtures)",
+    "src/lib/legal-authority/routes/mississippi.json (route contract, re-hashed)",
+    "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json (compiled pathway, re-hashed)",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (re-hashed)",
+    "data/record-clearing/legal-design-track-registry.json (tracks intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4 and ms-nonconv, read for the service question)"
+   ],
+   "whatThisDoesNotDo": "A block is not a failure and not an approval. Nothing here opens a route, and this lane edited nothing."
   }
  ],
+  "vf06ReDispatchWave": {
+   "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
+   "note": "VF06 re-dispatch wave (2026-09-02, base 247b790b6): the seven families dispatch transferred to VF06, none of which any prior VF06 row covered. Rows from earlier waves are preserved above unchanged.",
+   "families": [
+    "ut_pet_conviction-set",
+    "ut_pet_no_charges-set",
+    "in_arrest_no_charges-set",
+    "rcap-ms-custom-pleading",
+    "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4"
+   ],
+   "verdicts": {
+    "BLOCKED_LEGAL_INPUT": 1,
+    "FAIL_REPAIR_REQUIRED": 1,
+    "PASS_COMPLETE_INDEPENDENT": 3
+   },
+   "overlayDirectoriesModified": 0,
+   "packetsModified": 0,
+   "buildScriptsModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "centralManifestsModified": "none - MASTER_QUEUE.json, VERIFIER_RETURNS.json and ACTIVE_ASSIGNMENTS.json untouched; the claim ledger changed only through claim.mjs --assert and --release",
+   "measuredBy": "Each family measured in this container: the nine counters from scripts/rcap-packet-completeness/verify-packet-completeness.mjs run here, every bound source and artifact SHA-256 recomputed from the mounted Master Library and the committed bytes, added ink isolated by differencing pdftotext -bbox words on each packet page against its bound source page, and the narrative obligations read against participant-instructions.md and the committed legal records."
+  },
   "vf06ReDispatchWave": {
    "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
    "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
