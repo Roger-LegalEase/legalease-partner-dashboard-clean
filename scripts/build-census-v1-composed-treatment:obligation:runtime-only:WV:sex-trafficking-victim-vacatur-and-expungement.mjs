@@ -67,6 +67,7 @@ const SPEC = {
       "path": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
       "role": "the compiled state profile's own pathway for this route, carrying the recorded substance of the statute and, where it exists, the recorded self-help boundary",
       "mustContain": [
+        "For 61-11-26 conviction expungement, the circuit clerk charges the same fee as filing a civil action, and a person who receives an expungement order must pay a $100 West Virginia State Police processing fee.",
         "\"id\": \"sex-trafficking-victim-vacatur-and-expungement\"",
         "A person convicted of prostitution, or adjudicated delinquent, as a direct result of being a trafficking victim may petition the circuit court in the county of conviction or juvenile adjudication to vacate the conviction/adjudication and expunge the record. The court may grant relief if it finds the person\\u0019s participation in the offense was a direct result of being trafficked. No rehabilitation requirement is imposed for this trafficking-victim expungement route. (\\\"https://code.wvlegislature.gov/61-14-9/\\\")",
         "West Virginia has a special relief route for prostitution records caused by sex trafficking. This can involve vacating the conviction or juvenile adjudication, so it should be routed to legal aid or an attorney.",
@@ -78,6 +79,7 @@ const SPEC = {
       "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
       "role": "the committed route-obligation census: this route's exact key, its statutory authority, its recorded destination and its participant-facing instrument",
       "mustContain": [
+        "the § 59-1-11(a)(1) civil-action filing fee of $200",
         "obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
         "West Virginia § 61-14-9 Vacatur and Expungement Petition"
       ]
@@ -295,7 +297,7 @@ const SPEC = {
         "",
         "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
         "",
-        "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the office of the clerk of the West Virginia circuit court in the county of conviction or juvenile adjudication. Ask before you go, because a filing you cannot pay for is a filing you cannot make. This packet takes NO fee figure from West Virginia's other expungement sections. The compiled profile carries no-fee lines keyed to W. Va. Code § 61-11-25 and a $200 figure keyed to § 61-11-26; this route is § 61-14-9 and is neither of them.",
+        "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the office of the clerk of the West Virginia circuit court in the county of conviction or juvenile adjudication. Ask before you go, because a filing you cannot pay for is a filing you cannot make. This packet takes NO fee figure from West Virginia's other expungement sections. The compiled profile carries no-fee lines keyed to W. Va. Code § 61-11-25, and for § 61-11-26 it records that the circuit clerk charges the same fee as filing a civil action and that a person who receives an expungement order must pay a $100 West Virginia State Police processing fee; the committed route-obligation census records that civil-action fee as the § 59-1-11(a)(1) fee of $200. This route is § 61-14-9 and is none of those sections, so this packet takes no figure from any of them.",
         "",
         "WHO MUST BE SERVED, AND WHO IS NOTIFIED",
         "",
@@ -354,7 +356,7 @@ const SPEC = {
     ],
     [
       "FEE_AND_WAIVER",
-      "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the office of the clerk of the West Virginia circuit court in the county of conviction or juvenile adjudication. Ask before you go, because a filing you cannot pay for is a filing you cannot make. This packet takes NO fee figure from West Virginia's other expungement sections. The compiled profile carries no-fee lines keyed to W. Va. Code § 61-11-25 and a $200 figure keyed to § 61-11-26; this route is § 61-14-9 and is neither of them."
+      "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the office of the clerk of the West Virginia circuit court in the county of conviction or juvenile adjudication. Ask before you go, because a filing you cannot pay for is a filing you cannot make. This packet takes NO fee figure from West Virginia's other expungement sections. The compiled profile carries no-fee lines keyed to W. Va. Code § 61-11-25, and for § 61-11-26 it records that the circuit clerk charges the same fee as filing a civil action and that a person who receives an expungement order must pay a $100 West Virginia State Police processing fee; the committed route-obligation census records that civil-action fee as the § 59-1-11(a)(1) fee of $200. This route is § 61-14-9 and is none of those sections, so this packet takes no figure from any of them."
     ],
     [
       "SERVICE",

@@ -68,7 +68,9 @@ const SPEC = {
       "mustContain": [
         "\"id\": \"nonadjudication-under-99-15-26\"",
         "Upon petition, the court shall expunge a case where an arrest was made, the person was released, and the case was dismissed, the charges were dropped, there was no disposition, or the person was found not guilty at trial. This appears in both 99-15-26(5) and 99-19-71(4).",
-        "Mississippi allows only one general felony conviction expungement. The exact charge and statute must be checked before eligibility is marked."
+        "Mississippi allows only one general felony conviction expungement. The exact charge and statute must be checked before eligibility is marked.",
+        "Mississippi Code 99-19-72 sets a $150 filing fee for each petition to expunge an offense under 99-19-71.",
+        "Expect at least a $150 statutory filing fee for many 99-19-71 petitions, but confirm with the clerk"
       ]
     },
     {
@@ -356,7 +358,11 @@ const SPEC = {
         "",
         "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
         "",
-        "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the clerk's office of the Mississippi court that granted nonadjudication and entered the dismissal or closure order. Ask before you go, because a filing you cannot pay for is a filing you cannot make.",
+        "The $150 filing fee you may have read about is levied by Miss. Code Ann. Sec. 99-19-72, and by its terms it is levied on each petition to expunge an offense under Sec. 99-19-71. The compiled Mississippi profile this packet binds records it in those words: \"Mississippi Code 99-19-72 sets a $150 filing fee for each petition to expunge an offense under 99-19-71\", and \"Expect at least a $150 statutory filing fee for many 99-19-71 petitions, but confirm with the clerk because filing method and local court practice may affect total cost.\"",
+        "",
+        "THIS PETITION IS BROUGHT UNDER SEC. 99-15-26(5), NOT UNDER SEC. 99-19-71. The two sections are not strangers on this route: the same compiled profile records that the operative expungement provision \"appears in both 99-15-26(5) and 99-19-71(4)\", and this packet prints that on the petition itself. No record this packet binds settles whether the Sec. 99-19-72 fee reaches a petition brought under Sec. 99-15-26(5), and this packet does not decide it in either direction.",
+        "",
+        "So: expect to be asked for $150, and ask the clerk's office of the Mississippi court that granted nonadjudication and entered the dismissal or closure order what that court charges for this petition before you go, because a filing you cannot pay for is a filing you cannot make. No record this packet binds states a fee waiver for this route, and the office that answers that is the same clerk's office.",
         "",
         "WHO MUST BE SERVED, AND WHO IS NOTIFIED",
         "",
@@ -415,7 +421,7 @@ const SPEC = {
     ],
     [
       "FEE_AND_WAIVER",
-      "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the clerk's office of the Mississippi court that granted nonadjudication and entered the dismissal or closure order. Ask before you go, because a filing you cannot pay for is a filing you cannot make."
+      "The $150 filing fee you may have read about is levied by Miss. Code Ann. Sec. 99-19-72, and by its terms it is levied on each petition to expunge an offense under Sec. 99-19-71. The compiled Mississippi profile this packet binds records it in those words: \"Mississippi Code 99-19-72 sets a $150 filing fee for each petition to expunge an offense under 99-19-71\", and \"Expect at least a $150 statutory filing fee for many 99-19-71 petitions, but confirm with the clerk because filing method and local court practice may affect total cost.\" THIS PETITION IS BROUGHT UNDER SEC. 99-15-26(5), NOT UNDER SEC. 99-19-71. The two sections are not strangers on this route: the same compiled profile records that the operative expungement provision \"appears in both 99-15-26(5) and 99-19-71(4)\", and this packet prints that on the petition itself. No record this packet binds settles whether the Sec. 99-19-72 fee reaches a petition brought under Sec. 99-15-26(5), and this packet does not decide it in either direction. So: expect to be asked for $150, and ask the clerk's office of the Mississippi court that granted nonadjudication and entered the dismissal or closure order what that court charges for this petition before you go, because a filing you cannot pay for is a filing you cannot make. No record this packet binds states a fee waiver for this route, and the office that answers that is the same clerk's office."
     ],
     [
       "SERVICE",

@@ -69,6 +69,8 @@ const SPEC = {
       "path": "src/lib/rcap-engine/compiled/profiles/WY-wyoming.json",
       "role": "the compiled state profile's own pathway for this route, carrying the recorded substance of the statute and, where it exists, the recorded self-help boundary",
       "mustContain": [
+        "Human-trafficking victim vacatur Verify with clerk; statute is a motion route, not a standard expungement filing-fee route",
+        "Adult felony conviction under 7-13-1502 $300",
         "\"id\": \"human-trafficking-victim-vacatur-w-s-6-2-708\"",
         "Wyoming has a separate victim/survivor route. A human-trafficking victim is not criminally liable for commercial sex acts or other criminal acts committed as a direct result of, or incident to, being a trafficking victim. At any time after conviction, the court that entered the conviction may vacate it if the person\\u0019s participation in the offense resulted from being a victim. Official documentation creates a presumption, but is not required. (\\\"https://law.justia.com/codes/wyoming/title-6/chapter-2/article-7/section-6-2-708/\\\")",
         "Wilma trauma rule: Ask only what is necessary:",
@@ -308,7 +310,7 @@ const SPEC = {
         "",
         "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
         "",
-        "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the office of the clerk of the Wyoming court that entered the conviction. Ask before you go, because a filing you cannot pay for is a filing you cannot make.",
+        "The compiled Wyoming profile this packet binds carries a Route/Fee table, and this route has its own line in it: \"Human-trafficking victim vacatur — Verify with clerk; statute is a motion route, not a standard expungement filing-fee route.\" So no amount is established for this route, and the reason no amount is established is recorded: this is a motion in the court that entered the conviction, not one of Wyoming's standard expungement filings. The other four lines of that table are keyed to other sections — W.S. 7-13-1401 at $0, 7-13-1501 at $100, 7-13-1502 at $300 and 14-6-241 at $0 — and none of them is this route, so this packet takes no figure from any of them. If a clerk quotes you the $300 felony-expungement fee, this petition is not a 7-13-1502 expungement. No committed record this packet binds states a fee waiver for this route. The office that answers both questions is the office of the clerk of the Wyoming court that entered the conviction. Ask before you go, because a filing you cannot pay for is a filing you cannot make.",
         "",
         "WHO MUST BE SERVED, AND WHO IS NOTIFIED",
         "",
@@ -367,7 +369,7 @@ const SPEC = {
     ],
     [
       "FEE_AND_WAIVER",
-      "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the office of the clerk of the Wyoming court that entered the conviction. Ask before you go, because a filing you cannot pay for is a filing you cannot make."
+      "The compiled Wyoming profile this packet binds carries a Route/Fee table, and this route has its own line in it: \"Human-trafficking victim vacatur — Verify with clerk; statute is a motion route, not a standard expungement filing-fee route.\" So no amount is established for this route, and the reason no amount is established is recorded: this is a motion in the court that entered the conviction, not one of Wyoming's standard expungement filings. The other four lines of that table are keyed to other sections — W.S. 7-13-1401 at $0, 7-13-1501 at $100, 7-13-1502 at $300 and 14-6-241 at $0 — and none of them is this route, so this packet takes no figure from any of them. If a clerk quotes you the $300 felony-expungement fee, this petition is not a 7-13-1502 expungement. No committed record this packet binds states a fee waiver for this route. The office that answers both questions is the office of the clerk of the Wyoming court that entered the conviction. Ask before you go, because a filing you cannot pay for is a filing you cannot make."
     ],
     [
       "SERVICE",
