@@ -15793,7 +15793,1046 @@
           "conditionsHeld": 8
         }
       ]
+    },
+    "C": {
+      "checkId": "C",
+      "title": "PARTICIPANT-FACING ROUTE LABEL",
+      "question": "Which families print, on a participant-facing page, a route key that exists in no route record?",
+      "routeUniverse": {
+        "size": 751,
+        "recordRoots": [
+          "data/rcap-grade-a/route-obligation-census-candidate",
+          "data/rcap-grade-a/route-obligation-census-v1",
+          "data/record-clearing",
+          "data/rcap-ledger",
+          "src"
+        ],
+        "installedBindingFiles": [
+          "product-wiring.json",
+          "source-receipt.json"
+        ],
+        "fleetIndex": "data/rcap-grade-a/codex-5h/cb05-fleet-index/families.json",
+        "excludedFromUniverse": [
+          "the family production-field-map.json — the surface under test",
+          "lane bookkeeping (packet-factory-24h, fable-packet-factory, launch-control, wave-2 returns) — a work queue copies what a family claimed and is not a route record",
+          "participant-facing markdown and rendered PDFs — the surface under test"
+        ]
+      },
+      "extractionArtifactsAbsorbed": [
+        "markdown emphasis leaves a trailing underscore on `_Route: <key>_`",
+        "pdftotext rejoins line-wrapped keys without the hyphen",
+        "pdftotext truncates a long key; a printed key that is a prefix of a real one is credited"
+      ],
+      "failureCode": {
+        "C1_ROUTE_LABEL_IN_NO_ROUTE_RECORD": "participant-facing page prints a route key held by no route record"
+      },
+      "denominator": {
+        "fleetFamilies": 346,
+        "familiesWithParticipantSurfaces": 189,
+        "familiesNotMeasurableHere": 157
+      },
+      "failingFamilyCount": 5,
+      "failingFamilies": [
+        {
+          "familyId": "or_conviction_setaside-set",
+          "jurisdiction": "OR",
+          "directories": [
+            "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill"
+          ],
+          "participantSurfacesRead": 5,
+          "result": "FAIL",
+          "unknownRouteLabels": [
+            {
+              "printedRouteKey": "obligation:track-pathway:OR:or_conviction_setaside:conviction-set-aside",
+              "canonicalForm": "obligation:trackpathway:or:orconvictionsetaside:convictionsetaside",
+              "existsInAnyRouteRecord": false,
+              "printedOn": [
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/fixtures/boundary.pdf",
+                  "kind": "rendered_pdf",
+                  "asPrinted": "obligation:track-pathway:OR:or_conviction_setaside:conviction-set-aside"
+                },
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/fixtures/canonical.pdf",
+                  "kind": "rendered_pdf",
+                  "asPrinted": "obligation:track-pathway:OR:or_conviction_setaside:conviction-set-aside"
+                },
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/participant-instructions.md",
+                  "kind": "markdown",
+                  "asPrinted": "obligation:track-pathway:OR:or_conviction_setaside:conviction-set-aside_"
+                }
+              ],
+              "storedInFamilyFiles": [
+                "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/production-field-map.json"
+              ],
+              "familyBindingRouteKeys": [
+                "obligation:track-pathway:OR:or_conviction_setaside:marijuana-specific-set-aside-redesignation"
+              ],
+              "confusableWithRealRouteKeys": [
+                "obligation:track-pathway:OR:or_conviction_setaside:marijuana-specific-set-aside-redesignation"
+              ]
+            }
+          ]
+        },
+        {
+          "familyId": "va_seal_enumerated_seven_year-set",
+          "jurisdiction": "VA",
+          "directories": [
+            "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill"
+          ],
+          "participantSurfacesRead": 5,
+          "result": "FAIL",
+          "unknownRouteLabels": [
+            {
+              "printedRouteKey": "obligation:track-pathway:VA:va_seal_enumerated_seven_year:petition-based-sealing",
+              "canonicalForm": "obligation:trackpathway:va:vasealenumeratedsevenyear:petitionbasedsealing",
+              "existsInAnyRouteRecord": false,
+              "printedOn": [
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/boundary.pdf",
+                  "kind": "rendered_pdf",
+                  "asPrinted": "obligation:track-pathway:VA:va_seal_enumerated_seven_year:petition-based-sealing"
+                },
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/canonical.pdf",
+                  "kind": "rendered_pdf",
+                  "asPrinted": "obligation:track-pathway:VA:va_seal_enumerated_seven_year:petition-based-sealing"
+                },
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/participant-instructions.md",
+                  "kind": "markdown",
+                  "asPrinted": "obligation:track-pathway:VA:va_seal_enumerated_seven_year:petition-based-sealing_"
+                }
+              ],
+              "storedInFamilyFiles": [
+                "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/production-field-map.json"
+              ],
+              "familyBindingRouteKeys": [
+                "obligation:track-only:VA:va_seal_enumerated_seven_year"
+              ],
+              "confusableWithRealRouteKeys": [
+                "obligation:track-pathway:VA:va_seal_ancillary_matter_only:petition-based-sealing"
+              ]
+            }
+          ]
+        },
+        {
+          "familyId": "va_seal_petition_felony-set",
+          "jurisdiction": "VA",
+          "directories": [
+            "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill"
+          ],
+          "participantSurfacesRead": 5,
+          "result": "FAIL",
+          "unknownRouteLabels": [
+            {
+              "printedRouteKey": "obligation:track-pathway:VA:va_seal_petition_felony:petition-based-sealing",
+              "canonicalForm": "obligation:trackpathway:va:vasealpetitionfelony:petitionbasedsealing",
+              "existsInAnyRouteRecord": false,
+              "printedOn": [
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+                  "kind": "rendered_pdf",
+                  "asPrinted": "obligation:track-pathway:VA:va_seal_petition_felony:petition-based-sealing"
+                },
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+                  "kind": "rendered_pdf",
+                  "asPrinted": "obligation:track-pathway:VA:va_seal_petition_felony:petition-based-sealing"
+                },
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/participant-instructions.md",
+                  "kind": "markdown",
+                  "asPrinted": "obligation:track-pathway:VA:va_seal_petition_felony:petition-based-sealing_"
+                }
+              ],
+              "storedInFamilyFiles": [
+                "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/production-field-map.json"
+              ],
+              "familyBindingRouteKeys": [
+                "obligation:track-only:VA:va_seal_petition_felony"
+              ],
+              "confusableWithRealRouteKeys": [
+                "obligation:track-pathway:VA:va_seal_ancillary_matter_only:petition-based-sealing"
+              ]
+            }
+          ]
+        },
+        {
+          "familyId": "va_seal_petition_misdemeanor-set",
+          "jurisdiction": "VA",
+          "directories": [
+            "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill"
+          ],
+          "participantSurfacesRead": 5,
+          "result": "FAIL",
+          "unknownRouteLabels": [
+            {
+              "printedRouteKey": "obligation:track-pathway:VA:va_seal_petition_misdemeanor:petition-based-sealing",
+              "canonicalForm": "obligation:trackpathway:va:vasealpetitionmisdemeanor:petitionbasedsealing",
+              "existsInAnyRouteRecord": false,
+              "printedOn": [
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+                  "kind": "rendered_pdf",
+                  "asPrinted": "obligation:track-pathway:VA:va_seal_petition_misdemeanor:petition-based-sealing"
+                },
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+                  "kind": "rendered_pdf",
+                  "asPrinted": "obligation:track-pathway:VA:va_seal_petition_misdemeanor:petition-based-sealing"
+                },
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+                  "kind": "markdown",
+                  "asPrinted": "obligation:track-pathway:VA:va_seal_petition_misdemeanor:petition-based-sealing_"
+                }
+              ],
+              "storedInFamilyFiles": [
+                "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/production-field-map.json"
+              ],
+              "familyBindingRouteKeys": [
+                "obligation:track-only:VA:va_seal_petition_misdemeanor"
+              ],
+              "confusableWithRealRouteKeys": [
+                "obligation:track-pathway:VA:va_seal_ancillary_matter_only:petition-based-sealing"
+              ]
+            }
+          ]
+        },
+        {
+          "familyId": "vt_exp_decriminalized-set",
+          "jurisdiction": "VT",
+          "directories": [
+            "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill"
+          ],
+          "participantSurfacesRead": 9,
+          "result": "FAIL",
+          "unknownRouteLabels": [
+            {
+              "printedRouteKey": "obligation:track-pathway:VT:vt_exp_decriminalized:expungement-of-decriminalized-conduct",
+              "canonicalForm": "obligation:trackpathway:vt:vtexpdecriminalized:expungementofdecriminalizedconduct",
+              "existsInAnyRouteRecord": false,
+              "printedOn": [
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+                  "kind": "rendered_pdf",
+                  "asPrinted": "obligation:track-pathway:VT:vt_exp_decriminalized:expungement-of-decriminalized-conduct"
+                },
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+                  "kind": "rendered_pdf",
+                  "asPrinted": "obligation:track-pathway:VT:vt_exp_decriminalized:expungement-of-decriminalized-conduct"
+                },
+                {
+                  "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/participant-instructions.md",
+                  "kind": "markdown",
+                  "asPrinted": "obligation:track-pathway:VT:vt_exp_decriminalized:expungement-of-decriminalized-conduct_"
+                }
+              ],
+              "storedInFamilyFiles": [
+                "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/production-field-map.json"
+              ],
+              "familyBindingRouteKeys": [
+                "obligation:track-pathway:VT:vt_exp_decriminalized:adult-conviction-expungement-narrow-statutory-route"
+              ],
+              "confusableWithRealRouteKeys": [
+                "obligation:track-pathway:VT:vt_exp_decriminalized:adult-conviction-expungement-narrow-statutory-route"
+              ]
+            }
+          ]
+        }
+      ],
+      "passingFamilyCount": 184,
+      "notMeasurable": [
+        {
+          "familyId": "al-diversion-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "al-felony-dwop-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "al-felony-nonconviction-90-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "al-misd-conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "al-misd-dwop-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "al-misd-nonconviction-90-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "al-pardon-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "al-pardoned-felony-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "al-trafficking-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ar-act346-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ar-drug-court-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ar-felony-seal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ar-misdemeanor-seal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ar-pardon-seal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ar-veterans-court-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "az_certificate_second_chance-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "az_marijuana_expungement_limited_jurisdiction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "az_record_sealing_arrest_no_charges-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "az_record_sealing_conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "az_record_sealing_dismissal_not_guilty-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "az_set_aside-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ca-1203-4-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ca-diversion-seal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "census-pending-family:ME:juvenile-sealing",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "co_decriminalized_conduct_seal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "co_motion_seal_conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "co_municipal_conviction_seal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "co_petition_seal_arrest-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "composed-treatment:nc_146_dismissal_petition",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "de_discretionary_family_court-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "de_discretionary_superior_court-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "de_mandatory_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "de_pardon_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "fl-10yr-bridge-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "fl-administrative-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "fl-early-juvenile-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "fl-expunction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "fl-juvenile-diversion-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "fl-sealing-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "fl-self-defense-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "fl-trafficking-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ga-nonconv-pre2013-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "hi_712_1200_deferred_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "hi_dag_danc_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "hi_nonconviction_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ia-12346-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ia-12347-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ia-7251-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ia-901c2-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ia-901c3-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ia-dci77-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "il-cannabis-vacate-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "il-exp-nonconv-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "il-exp-pardon-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "il-exp-precompletion-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "il-exp-qualprob-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "il-exp-supervision-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "il-prb-cert-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "il-seal-2yr-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "il-seal-3yr-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "il-seal-edu-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "il-seal-nonconv-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "in_conviction_d6-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "in_conviction_felony-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "in_conviction_misd-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ks-21-6614-conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ks-21-6614-diversion-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ks-21-6614-prostitution-coercion-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ks-21-6614-specialty-court-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ks-22-2410-arrest-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ks-22-4908-registration-relief-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ky_expungement_certification-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ky_felony_expungement_after_pardon-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ky_misdemeanor_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ky_nonconviction_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ky_protective_order_record_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "la-976-arrest-no-conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "la-977-misdemeanor-conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "la-977d-marijuana-first-offense-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "la-978-felony-conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "la-985-1-interim-expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "la-985-expungement-by-redaction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "la-987-set-aside-and-dismiss-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ma-expunge-k-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ma-seal-admin-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ma-seal-court-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ma-seal-decrim-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "md_10105_early-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "md_10105_favorable-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "md_10110_conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "md_cannabis_petition-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "md_pardon_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "me-seal-gen-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "me-seal-survivor-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mi_setaside_application-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mi_setaside_first_owi-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mi_setaside_trafficking-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mn_petition_15218-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mn_petition_609a02_subd3-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mn_petition_juvenile_as_adult-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mo-575-120-identity-theft-correction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mo-610-122-arrest-expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mo-610-140-arrest-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mo-610-140-conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mo-610-145-mistaken-identity-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mo-art-xiv-marijuana-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mt_deferred_dismissal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mt_misdemeanor_expungement-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mt_mmrta_completed-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "mt_mmrta_serving-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nc_145_5_felony-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nc_145_5_misdemeanor-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nc_145_8a_youthful-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nc_146_acquittal_petition-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nc_auto_146_a4_agency_followup-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nd-prohibit-remote-public-access-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nd-regular-pardon-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nd-summary-marijuana-pardon-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ne-seal-pardoned-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ne-seal-pre2017-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nh_conviction_standard-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nh_conviction_streamlined-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nh_marijuana_annulment-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nh_petition_nonconviction_pre2019-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nh_petition_vacated-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nm_conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nm_identity_theft-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "nm_release_without_conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "or_contempt_setaside-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "rcap-hi-custom-pleading",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "rcap-in-custom-pleading",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "rcap-mo-custom-pleading",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "rcap-or-official-pdf-fill",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ri_decriminalized-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ri_deferred_sentence-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ri_first_offender_felony-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ri_first_offender_misdemeanor-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ri_multiple_misdemeanors-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "tx_nd_automatic_misdemeanor_deferred-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "tx_nd_deferred_other-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "tx_nd_dwi_conviction-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "tx_nd_dwi_deferred-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "tx_nd_probation_misdemeanor-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "tx_nd_veterans_court-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "tx_nd_veterans_reemployment-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ut_pet_cannabis-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ut_pet_remove_link-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "ut_pet_special_certificate-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "wi_exp_cr266-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "wv_acc_treatment_job_readiness-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "wv_conv_nonviolent_felony-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "wv_nc_acquittal_dismissal-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        },
+        {
+          "familyId": "wv_nc_diversion_deferred-set",
+          "reason": "NOT_MEASURABLE_HERE",
+          "why": "no census-v1 family directory, so the family prints no participant-facing page here"
+        }
+      ]
     }
   },
-  "generatedAt": "2026-09-02T17:23:30.840Z"
+  "generatedAt": "2026-09-02T17:25:07.810Z"
 }
