@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `88c19f9bbd2761aad70e56c4e3fb9ef4929c13f1` (or the newer dispatch base)
+**Minimum required ancestor:** `d746cc78637455f671969696161bd6b1ae8a9660` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family az_marijuana_expungement_arrest_no_charges-set \
+  --family in_arrest_no_charges-set \
   --codex-cloud \
-  --minimum-captain-sha 88c19f9bbd2761aad70e56c4e3fb9ef4929c13f1
+  --minimum-captain-sha d746cc78637455f671969696161bd6b1ae8a9660
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,11 +56,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 3 families
+## The 4 families
 
+- `in_arrest_no_charges-set`
 - `az_marijuana_expungement_arrest_no_charges-set`
 - `ca-1203-4a-set`
-- `ut_pet_dismissed_without_prejudice-set`
+- `sd_arrest_expungement-set`
 
 ## What you receive
 
@@ -73,11 +74,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
+- `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
+- `scripts/build-census-v1-in_arrest_no_charges-set.mjs`
 - `scripts/build-census-v1-ca-1203-4a-set.mjs`
-- `scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs`
+- `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
 
 ## Never write here
 

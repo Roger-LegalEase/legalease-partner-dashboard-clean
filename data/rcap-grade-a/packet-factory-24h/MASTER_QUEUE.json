@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "88c19f9bbd2761aad70e56c4e3fb9ef4929c13f1",
+  "minimumCaptainSha": "d746cc78637455f671969696161bd6b1ae8a9660",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -63,23 +63,23 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 1,
+    "activeFamiliesExcluded": 0,
     "guidanceOnly": 0,
-    "remaining": 345,
+    "remaining": 346,
     "sourceReady": 61,
     "sourceBlocked": 92,
-    "legalBlocked": 31,
-    "verifyPending": 50,
-    "repairRequired": 13,
+    "legalBlocked": 32,
+    "verifyPending": 45,
+    "repairRequired": 18,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 61,
-    "COMPLETE_PACKET_PROVEN": 89,
-    "VERIFY_PENDING": 50,
+    "COMPLETE_PACKET_PROVEN": 90,
+    "VERIFY_PENDING": 44,
     "OUT_OF_SCOPE": 5,
     "SOURCE_BLOCKED": 92,
-    "FAIL_REPAIR_REQUIRED": 13,
+    "FAIL_REPAIR_REQUIRED": 18,
     "LEGAL_BLOCKED": 22,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -113,10 +113,12 @@
       "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
-    "families": [
-      "sd_arrest_expungement-set"
-    ],
+    "families": [],
     "staleRosterFamilies": [
+      {
+        "familyId": "sd_arrest_expungement-set",
+        "roster": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
+      },
       {
         "familyId": "wa_vac_cannabis-set",
         "roster": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION"
@@ -163,7 +165,7 @@
     "familiesPerBuilder": 3.8,
     "targetPerBuilder": "15 to 25",
     "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 61 do, so a full roster of 16 builders averages 3.8 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 162 source obligations across 123 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 162 source obligations across 124 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -5207,9 +5209,9 @@
         "wave2LegalInputClass": "MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT",
         "wave2SendToLawrence": false,
         "supersededBy": {
-          "lane": "vf06",
+          "lane": "vf02",
           "verdict": "PASS_COMPLETE_INDEPENDENT",
-          "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de"
+          "verifiedAtBase": "247b790b6"
         },
         "reason": "a later independent read, at a review base it declares and that is later than the wave-2 return commit, scored all fifteen obligations with none failing",
         "whatThisDoesNotDo": "It lifts one stale block. It approves no output, opens no commercial route and proves no packet; COMPLETE_PACKET_PROVEN still needs its raster receipt and its wiring record."
@@ -7063,16 +7065,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": null,
-          "evidence": "The filing instructions page states: 'No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the clerk's office of the Mississippi court that granted nonadjudication…'. The profile it binds carries sourceSections[2], title 'Filing Fee', category 'fees': 'Mississippi Code 99-19-72 sets a $150 filing fee for each petition to expunge an offense under 99-19-71' and 'Expect at least a $150 statutory filing fee for many 99-19-71 petitions, but confirm with the clerk'. The same profile's packetGenerator.feeRules carries the same three lines. And the packet's own petition page tells the participant, quoting that profile, that the operative provision 'appears in both Sec. 99-15-26(5) and Sec. 99-19-71(4)'. Having told the participant the provision is shared with § 99-19-71, the packet cannot then say no bound record states a fee and send them to the clerk: that is the sibling fee trap A4 records, and it is not walked around. The comparison that settles it is inside this same lane: ms-misd-addl-set, built for §§ 9-11-15(3) and 21-23-7(6) where no such overlap is even asserted, devotes an entire block to naming the $150, naming § 99-19-72, and stating why it does not reach — 'THIS PETITION IS NOT BROUGHT UNDER SEC. 99-19-71 … the Sec. 99-19-72 fee does not reach those sections by its terms.' This packet, which has the stronger overlap, names neither section and neither figure. NOTE FOR THE REPAIR: A3 forbids the opposite error just as firmly. The repair is NOT to state that $150 applies to a § 99-15-26(5) petition. It is to name § 99-19-72 and § 99-19-71, state on this route's own terms whether the fee reaches it, and say what the record does and does not settle."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -7211,16 +7205,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SERVICE",
-          "finding": "The packet says nothing about service anywhere. It does not state who must be served, does not state that no held source establishes a service rule, and names no authority for that question. This is the determination's silence limb, and it fails on the same ground the standard's own worked example fails.",
-          "evidence": "I searched the full delivered text of canonical.pdf and participant-instructions.md for serve, service, notice, district attorney, prosecutor, mail, deliver and copy-to. Every hit is either the word 'prosecuted' in the eligibility phrase 'never formally charged or prosecuted', the participant's own mailing address, or the delivery-of-filing sentence. That sentence — 'Whether a filing fee applies, and how the petition must be delivered ... The office of the court with jurisdiction over the matter is the authority that can answer both' — names two facts, the fee and how the court accepts a filing, which step five confirms by pairing 'how it accepts filings' with 'the right court'. Neither is the service question, and A3's per-fact discipline cuts the same way against a packet as against a repository: an authority named for the delivery-method fact does not answer whether anyone must be served. On the repository side I confirmed nothing is held: the route contract has no service key at all (its keys are jurisdiction, decisionId, ruleId, routeKey, pathwayId, mechanism, statute, stage, outcomeMode, timing, requiredFacts, screeningFactIds, exclusions, packetFamily, packetComponents, notes, and the string 'serv' does not occur in it); there is no packet-set manifest entry for this family; and the only notice rule in the compiled Mississippi profile — 'The petitioner must give 10 days written notice to the district attorney before any hearing' — is cited to law.justia.com section-99-19-71 and is keyed to § 99-19-71, so A3 bars reading it across to § 99-15-59. So this is not an A1 failure to state a held fact. It is the silence limb: nothing held, and nothing said."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -7772,7 +7758,10 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "RASTER_NOT_ENROLLED",
+        "meaning": "The verdict stands but the visual gate could not enrol the family, so there is no raster receipt for L4 to read."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -8975,10 +8964,7 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -9000,11 +8986,37 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The committed track registry holds four items in packetSet.requiredBeforeFiling for track dc_yra_set_aside. Three reach the participant; the fourth does not. 'The source review does not state a notarization requirement for this motion.' — declared with requirement 'required' and requiredBeforeFiling true — is named nowhere in participant-instructions.md and nowhere in the rendered packet. Case-insensitive grep for 'notar' returns 0 hits in participant-instructions.md and 0 hits in the text extracted from canonical.pdf.",
+          "evidence": {
+            "declaredByRegistry": [
+              "The youth offender signs their own motion.",
+              "The source review does not state a notarization requirement for this motion.",
+              "The source review does not state a filing fee for this motion.",
+              "The source review does not address a fee waiver."
+            ],
+            "namedInParticipantInstructions": [
+              "The youth offender signs their own motion. — carried as step 3, 'Sign and date each page that carries a signing line, personally.'",
+              "The source review does not state a filing fee for this motion. — carried verbatim in the FEE_AND_WAIVER row",
+              "The source review does not address a fee waiver. — carried verbatim in the FEE_AND_WAIVER row"
+            ],
+            "absent": [
+              "The source review does not state a notarization requirement for this motion."
+            ],
+            "notarGrepHitsInParticipantInstructions": 0,
+            "notarGrepHitsInRenderedCanonicalText": 0,
+            "whyThisMatters": "The build's own pattern for a recorded non-statement is to print it and name the office that answers it, and it applied that pattern to the fee and to the fee waiver from the same array. A participant reading this packet therefore learns what the record does not say about cost, and learns nothing at all about whether the motion must be notarized before it is filed."
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-dc_yra_set_aside-set.mjs",
@@ -11802,10 +11814,7 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -11831,7 +11840,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-id_felony_reduction-set.mjs",
@@ -12149,7 +12158,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12304,7 +12312,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12442,7 +12449,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12580,7 +12586,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12718,7 +12723,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12856,7 +12860,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -13179,7 +13182,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -13317,7 +13319,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -13455,7 +13456,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -13593,7 +13593,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -13770,150 +13769,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "COMPONENT_SET",
-        "SELF_HELP_STOP"
+        "CLIPPING_AND_OVERLAP"
       ],
       "failedObligations": [
         {
-          "obligation": "COMPONENT_SET",
-          "finding": "The packet is missing three sets of insert pages that the bound source demands by name on its own printed pages — and the packet tells the participant that LegalEase does not hold them, when the corpus this build mounts DOES hold them, in the same directory as the bundle.",
-          "evidence": {
-            "theBundleDemandsThemInItsOwnWords": [
-              {
-                "measuredOnPacketPage": 4,
-                "printedInstruction": "Take out this page and insert your non-conviction Facts pages (from the Non Conviction Insert Forms)",
-                "immediatelyFollowedBy": "WHEREFORE, Petitioner respectfully requests that this Court grant this Petition",
-                "consequence": "the petition as delivered alleges nothing about the arrest being expunged"
-              },
-              {
-                "measuredOnPacketPage": 10,
-                "printedInstruction": "Take out this page and insert your non-conviction Findings pages (from the Non Conviction Insert Forms)",
-                "consequence": "the proposed order gives the judge nothing to find"
-              },
-              {
-                "measuredOnPacketPage": 11,
-                "printedInstruction": "Take out this page and insert your non-conviction Exhibit pages (from the Non Conviction Insert Forms)",
-                "consequence": "there is no Exhibit A, which the order's own paragraph 1(a) says carries the information I.C. § 35-38-9-1(g) requires"
-              }
-            ],
-            "howIMeasuredIt": "pdftotext -layout page by page over the canonical fixture bytes AND over the source binary; both agree",
-            "aCorrectionToTheFamilysOwnReport": "reports/missing-companion-forms.json places the Facts insert on \"page 5 of the bundle\". It is on page 4, in both the fixture and the source. Pages 10 and 11 are correct as recorded.",
-            "theDecisiveFinding": {
-              "claimUnderTest": "the family's reports/missing-companion-forms.json answers \"Does the bound source name a document it requires and that no bound source supplies?\" with \"YES\", and says the remedy is \"A source lane acquiring the Coalition for Court Access Non Conviction Insert Forms\". participant-instructions.md tells the participant, in bold, \"Those insert forms are not in this packet and LegalEase does not hold them.\"",
-              "whatIMeasured": "the Master Library this build environment mounts — the same archive the family's own receipt names as its sourceArchive, Expungement_AI_RCAP_Master_Library_Edition_1 — holds them.",
-              "theHeldFile": {
-                "pathInArchive": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-INSERTS__section-1-non-conviction-expungement-facts-findings-and-exhibit-inserts__REV-2020-01__EN.pdf",
-                "measuredSha256": "65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707",
-                "measuredBytes": 2904076,
-                "measuredPages": 4,
-                "formNumber": "CCA-XP-0120-7003",
-                "contentsIReadFromItsBytes": [
-                  {
-                    "pages": "1-2",
-                    "heading": "FACTS PERTAINING TO EXPUNGEMENT MATTER"
-                  },
-                  {
-                    "pages": "3",
-                    "heading": "FINDINGS AS TO EXPUNGEMENT MATTER"
-                  },
-                  {
-                    "pages": "4",
-                    "heading": "EXHIBIT A, Page ___ of ___: FINDINGS AND ORDER GRANTING PETITION FOR EXPUNGEMENT ... PURSUANT TO IC. § 35-38-9-1"
-                  }
-                ],
-                "whereItSits": "the same 02_PACKET_FORMS directory as the bundle this family already binds"
-              },
-              "corroborated": "lane SRC04's own rows already record that the corpus holds six Indiana documents including CCA-SECTION1-INSERTS; this is not a newly discovered file, it is a file the family did not bind.",
-              "soTheVerdictIsNotBlockedSource": "nothing needs acquiring. The three missing sets are one 4-page PDF already in custody, and binding it is a repair this factory can perform."
-            }
-          }
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The registry records thirteen self-help stop conditions for this track. The packet states two of them. Among the eleven it omits are the prosecutor's opposition and a victim's opposition — the two events that most often precede the hearing the packet DOES tell the participant to stop for — and immigration, firearm, licensing and CDL consequences.",
-          "evidence": {
-            "registryTrackId": "in_arrest_no_charges",
-            "registryConditionCount": 13,
-            "statedInPacket": 2,
-            "absent": 11,
-            "conditionByCondition": [
-              {
-                "registryCondition": "The prosecutor objects or files a notice in opposition.",
-                "inPacket": false,
-                "inScopeForThisRoute": true,
-                "note": "plainly in scope: § 35-38-9-1 non-conviction petitions are served on the prosecutor and the prosecutor may oppose"
-              },
-              {
-                "registryCondition": "A victim submits a statement in opposition.",
-                "inPacket": false,
-                "inScopeForThisRoute": true
-              },
-              {
-                "registryCondition": "The court sets a hearing.",
-                "inPacket": true,
-                "packetText": "there will be a hearing and you are not ready for one. The committed record for this packet records that 'The court sets a hearing' on this route"
-              },
-              {
-                "registryCondition": "The person has convictions in more than one county and the 365-day window is already partly consumed.",
-                "inPacket": false,
-                "inScopeForThisRoute": "arguably conviction-track"
-              },
-              {
-                "registryCondition": "A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.",
-                "inPacket": false,
-                "inScopeForThisRoute": "arguably conviction-track",
-                "note": "the packet does route conviction cases away in a separate bullet, which is related but is not this stop"
-              },
-              {
-                "registryCondition": "The person has already filed a Sections 2 through 5 petition.",
-                "inPacket": false,
-                "inScopeForThisRoute": "arguably conviction-track"
-              },
-              {
-                "registryCondition": "Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.",
-                "inPacket": false,
-                "inScopeForThisRoute": "arguably conviction-track"
-              },
-              {
-                "registryCondition": "The person is a sex or violent offender or subject to registration.",
-                "inPacket": false,
-                "inScopeForThisRoute": true
-              },
-              {
-                "registryCondition": "Fines, fees, costs or restitution are unpaid or disputed.",
-                "inPacket": false,
-                "inScopeForThisRoute": "arguably conviction-track"
-              },
-              {
-                "registryCondition": "Charges are pending anywhere, or the person is in a pretrial diversion programme.",
-                "inPacket": true,
-                "packetText": "charges are currently pending against you, or you are participating in a pretrial diversion programme. Paragraph 3 of the petition swears that neither is true"
-              },
-              {
-                "registryCondition": "The record involves a commercial driver's licence and 49 C.F.R. 384.226.",
-                "inPacket": false,
-                "inScopeForThisRoute": true
-              },
-              {
-                "registryCondition": "Immigration, firearm, licensing or CDL consequences are in play.",
-                "inPacket": false,
-                "inScopeForThisRoute": true,
-                "note": "every other family in this lane's roster carries an immigration stop; this one does not"
-              },
-              {
-                "registryCondition": "The person wants to attack the underlying conviction rather than expunge it.",
-                "inPacket": false,
-                "inScopeForThisRoute": "arguably conviction-track"
-              }
-            ],
-            "whatThePacketAddsInstead": "four stops the registry does not list — inability to obtain the insert forms, the one-year wait, a conviction disposition, and appellate records. Those are good stops. They do not discharge the eleven the registry records.",
-            "theNarrowestFairStatement": "at minimum, conditions 1, 2, 8, 11 and 12 are in scope for a non-conviction arrest expungement on any reading, and none of the five is in the packet."
-          }
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_arrest_no_charges-set.mjs",
@@ -17134,11 +17001,25 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The petitioner's full legal name is written entirely inside the (Last Name) sub-blank, so the delivered petition reads Last Name: 'Jordan Avery Reyes' with (First Name) and (Middle Name) empty. Nothing in the packet tells the participant to split it.",
+          "evidence": "The form prints three separate captioned rules on the Print: line — measured off the blank official source at 300 dpi they run pt 54.0-168.2 (Last Name), 173.5-285.1 (First Name) and 292.1-405.1 (Middle Name). The write box is a single cell, x 56 width 350, spanning all three, and the text is left-aligned in it. The canonical name occupies pt 56.0-137.0, entirely inside the first rule. The boundary name, 'Maria-Alejandra O'Shaughnessy-Whitfield', occupies pt 56.0-222.8: it runs off the end of the (Last Name) rule at 168.2, across the printed gap, and stops part-way along the (First Name) rule. participant-instructions.md says the platform 'filled in the three facts it holds about you in the shape this form asks for them'; the shape this form asks for is three blanks, and the packet writes one string across them. The Commissioner of Probation keys the surname from that blank."
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All three written values are drawn through the form's printed rule. The rule crosses the glyph body about a quarter of the way up from the bottom, so the delivered petition reads as though the name, the date of birth and the phone number have each been struck out.",
+          "evidence": "Measured at 300 dpi by rendering the blank official source and the filled fixture and comparing dark-pixel rows in each write box's own column range. Petitioner name (box x56 y529 w350 h13): printed rule at rows 1087-1088, glyph ink rows 1068-1094, so rows 1089-1094 of ink sit below the rule. Date of birth (box x474 y529 w110 h13): rule 1088-1089, glyphs 1069-1094, ink below the rule at 1090-1094 — and '2001-04-17' has no descenders, so this cannot be a descender crossing a baseline. Phone (box x436 y466 w148 h13): rule 1349-1350, glyphs 1332-1357, ink below at 1351-1357. In points the rules sit at PDF y ≈ 531 and 468 while each box's bottom edge is at y 529 and 466, so every box straddles its rule by about 2 pt and the bottom-aligned text lands under it. Identical in the boundary fixture, whose glyph rows are the same to the point. This is why the glyph-versus-box counters read clean: the glyphs are inside their boxes and the boxes are in the wrong place."
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-expunge-time-set.mjs",
@@ -25246,7 +25127,7 @@
       "legalInputBasis": "LEGAL_APPROVAL_VERDICT",
       "wave2LegalBlock": {
         "superseded": false,
-        "reason": "the current independent read is BLOCKED_LEGAL_INPUT, which does not answer the blocked obligation",
+        "reason": "the current independent read is FAIL_REPAIR_REQUIRED, which does not answer the blocked obligation",
         "wave2ReturnCommit": "b39918e73206a17f240289932873c847c3122cdc",
         "wave2DecisiveObligation": "fee and waiver treatment",
         "wave2LegalInputClass": "MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT",
@@ -25270,11 +25151,42 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "PROTECTED_FIELDS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "No protected field carries ink — that part holds, measured on the bytes. What fails is the protected set itself: three of the six controls the form places below its own '***FOR COURT USE ONLY - DO NOT WRITE BELOW THIS LINE***' rule are classified in production-field-map.json as participant_sworn_narrative_or_legal_election, whose disposition in the completeness contract is PARTICIPANT_ELECTION_GENUINE, not PROTECTED_FIELD. Proper_ID (item 1), Charge_Sealed (item 3) and Comment_Entered (item 4) carry that class with the generic default reason 'No write is authorized for this field in this family build.' and no captionBasis. Their three siblings in the identical YES column of the identical block — Application_Complete (item 2), File_Copy (item 5), Copies_Sent (item 6) — carry court_prosecutor_clerk_or_agency_owned, an effectiveLabel quoted from the form, and the reason \"This control is printed below the form's own COURT USE ONLY line and is completed by the court, not by the participant\", with captionBasis 'read from the form's printed face'. All six are page-1 widgets at x=44.657 in one contiguous vertical block, y=118.412, 104.817, 78.793, 53.933, 40.338 and 27.132, so no geometric or structural distinction separates the three that are right from the three that are wrong. The record therefore asserts that a participant genuinely elects whether the eligible charge is sealed in the court's case management system and whether the 'Application for Destruction Submitted' docket comment is entered in it, which are clerk acts inside ADBM, CRMS, CRIM, DCRIMS and SAMS, and whether the clerk found the applicant's ID or notarization sufficient. The packet's own reviewer note states the rule and then names only half the controls it governs: 'The three checklist controls this build once listed as participant blanks - Application_Complete, File_Copy and Copies_Sent - are refused as court-owned, which is what the form's own COURT USE ONLY rule makes them.'",
+          "evidence": {
+            "controlsBelowTheCourtUseOnlyRule": 6,
+            "classifiedCourtOwned": [
+              "Application_Complete",
+              "File_Copy",
+              "Copies_Sent"
+            ],
+            "classifiedParticipantElection": [
+              "Proper_ID",
+              "Charge_Sealed",
+              "Comment_Entered"
+            ],
+            "geometry": "page 1, YES column x=44.657 for all six; y = 118.412 (Proper_ID), 104.817 (Application_Complete), 78.793 (Charge_Sealed), 53.933 (Comment_Entered), 40.338 (File_Copy), 27.132 (Copies_Sent)",
+            "inkMeasuredHere": {
+              "protectedFieldsCarryingInkCanonical": 0,
+              "protectedFieldsCarryingInkBoundary": 0,
+              "howInkWasMeasured": "the committed raster page for each fixture was read as an image in this container; all six YES/NO controls are empty on both, the DEFENDANT'S AFFIRMATION day/month/year rules are empty on both, and the Defendant Signature rule is empty on both. reports/actual-writes.json carries protectedInk [] and protectedVectorInk [] for both fixtures, which agrees with what was read.",
+              "signatureLineBlank": true,
+              "affirmationDateBlank": true,
+              "certificateOfMailingPresent": false
+            },
+            "whyThisIsScoredAFailureAnyway": "The obligation is that no court-only field carries ink, and a record that denies three court-only fields are court-only has removed them from the set the obligation is measured over. Nothing is written into them today because PARTICIPANT_ELECTION_GENUINE also happens to refuse the write; the protection is accidental rather than declared, and any later build or runtime that decides to collect genuine participant elections would be entitled by this map to put a mark in three boxes the form says no one but the court may touch.",
+            "whatIsNotClaimed": "No delivered byte is wrong. No counter changes. This is a defect in a committed record of the family, not in the packet a participant would receive today."
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ny_mrta_marijuana-set.mjs",
@@ -27247,8 +27159,8 @@
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+        "lapse": "RASTER_NOT_ENROLLED",
+        "meaning": "The verdict stands but the visual gate could not enrol the family, so there is no raster receipt for L4 to read."
       },
       "terminalTreatment": null,
       "legalInputBasis": null,
@@ -27402,8 +27314,8 @@
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+        "lapse": "RASTER_NOT_ENROLLED",
+        "meaning": "The verdict stands but the visual gate could not enrol the family, so there is no raster receipt for L4 to read."
       },
       "terminalTreatment": null,
       "legalInputBasis": null,
@@ -27738,10 +27650,7 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -28204,8 +28113,8 @@
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+        "lapse": "RASTER_NOT_ENROLLED",
+        "meaning": "The verdict stands but the visual gate could not enrol the family, so there is no raster receipt for L4 to read."
       },
       "terminalTreatment": null,
       "legalInputBasis": null,
@@ -28277,8 +28186,8 @@
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+        "lapse": "RASTER_NOT_ENROLLED",
+        "meaning": "The verdict stands but the visual gate could not enrol the family, so there is no raster receipt for L4 to read."
       },
       "terminalTreatment": null,
       "legalInputBasis": null,
@@ -29394,37 +29303,91 @@
       "failingCounters": [],
       "failedObligationNames": [
         "FEE_AND_WAIVER",
-        "FILING_DESTINATION",
-        "SELF_HELP_STOP",
-        "SERVICE"
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
       ],
       "failedObligations": [
         {
-          "obligation": "FILING_DESTINATION",
-          "finding": null,
-          "evidence": null
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The registry declares 13 items in packetSet.requiredBeforeFiling for this track. participant-instructions.md's 'Required before filing or service' section lists five, all of them caption and service details — Judicial Circuit number, State's Attorney name and mailing address, notice recipient name and mailing address. Three substantive verifications never reach the participant at all. Item 1, obtain the order of dismissal, the judgment of acquittal or proof that no accusatory instrument was filed and ask the Clerk of Courts for a copy, is the documentary proof the whole motion rests on; the words dismissal, acquittal and accusatory each appear exactly once in the file and all three are inside a single stop-condition bullet listing the three statutory bases, not an instruction to obtain anything. Item 3, check the answer to whether ALL charges were dismissed or only some against the court docket, is absent: 'docket' returns 0 hits. Item 4, check the answer to how many separate arrests are being cleared against the South Dakota criminal history record, is absent: 'criminal history' returns 0 hits. Item 13, the indigency fee waiver, is dealt with under FEE_AND_WAIVER below and is also absent.",
+          "evidence": {
+            "declaredItems": 13,
+            "itemsNamedAsActions": 5,
+            "itemsAbsentOrIncidental": 4,
+            "grepCountsInParticipantInstructions": {
+              "docket": 0,
+              "criminal history": 0,
+              "indigen": 0,
+              "dismissal": 1,
+              "acquittal": 1,
+              "accusatory": 1
+            },
+            "whyItMatters": "Item 3 guards the exact trap the registry's first stop condition names — a partial dismissal defeats this track because the statute requires the ENTIRE criminal case to have been dismissed — and item 4 guards a money consequence, since more than one arrest record means more than one civil action and more than one $72 fee."
+          }
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The election is made, it is the right one for the route, and the packet tells the participant it has not been made. On packet page 3 the first of the three statutory bases on UJS-391A is ticked — 'It has been one year from the date of the arrest and no accusatory instrument has been filed' — visible on the committed raster and recorded in reports/actual-writes.json as a selection with factId route.expungement_ground. The row in production-field-map.json that carries it says both things at once: disposition 'selected_route_option' and reason 'selection_requires_participant_or_authorized_official_choice', selectedBy SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR. And participant-instructions.md, in the self-help stop list, tells the reader that the basis 'is a statement of law about your own case, and this packet does not choose it'. It did choose it. A participant who cannot tell which basis is truthfully theirs is told nothing has been asserted yet, and the form in their hands already asserts one, above a signature line they are being asked to sign.",
+          "evidence": {
+            "electionsDeterminedByTheRoute": 1,
+            "electionsSelected": 1,
+            "requiredOptionsMissing": 0,
+            "otherBasesLeftUnmarked": 2,
+            "fieldMapReasonOnTheSelectedRow": "selection_requires_participant_or_authorized_official_choice",
+            "fieldMapDispositionOnTheSameRow": "selected_route_option",
+            "selectedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR",
+            "participantInstructionsSay": "the basis is a statement of law about your own case, and this packet does not choose it",
+            "whyThisIsScoredHere": "This is the packet's only election and the obligation is the election obligation. An election that the packet denies making is not a disclosed election, and the field map's own reason for the row says the choice belongs to the participant or an authorized official."
+          }
         },
         {
           "obligation": "FEE_AND_WAIVER",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": null,
-          "evidence": null
+          "finding": "The fee is stated correctly and the waiver is stated as unavailable when the record says it is available. participant-instructions.md gives the $72 figure from UJS-391's own instruction sheet, adds sensibly that if the clerk quotes a different current amount the clerk's figure governs, and then says: 'The forms state no fee-waiver route. If you cannot afford the fee, ask the Clerk of Court whether any waiver or reduction is available — this packet does not decide that'. The committed registry does decide it. rules.feeWaiver reads 'Available on a finding of indigency. The participant requests it from the court.', it is item 13 of that track's requiredBeforeFiling list, and the registry's destination detail says in terms 'Pay the $72 civil filing fee or request an indigency waiver.' The word 'indigen' returns 0 hits in participant-instructions.md. A participant who cannot afford $72 is told the forms name no waiver and sent to ask an open question, when the record establishes a waiver available on a finding of indigency that they request from the court.",
+          "evidence": {
+            "feeStated": "$72, from UJS-391's instruction sheet, with the clerk's current figure governing",
+            "registryFeeWaiver": "Available on a finding of indigency. The participant requests it from the court.",
+            "registryDestinationDetail": "Pay the $72 civil filing fee or request an indigency waiver.",
+            "packetSays": "The forms state no fee-waiver route.",
+            "indigencyMentionsInParticipantInstructions": 0,
+            "whyThisIsAFailureAndNotABlock": "Nothing here is unresolved. The record states the waiver; the packet states the opposite of the record, and a repairer can fix it from the record already in hand."
+          }
         },
         {
           "obligation": "SELF_HELP_STOP",
-          "finding": null,
-          "evidence": null
+          "finding": "Six of the ten self-help stop conditions the registry holds for this track never reach the participant. participant-instructions.md carries four bullets under 'Where self-help ends', covering roughly the basis question, the waiver-signature question, records outside a South Dakota circuit court and being asked to argue eligibility at a hearing. Absent entirely, by direct case-insensitive grep of the file: 'Prosecutor opposition, or any contested hearing' — opposition 0 hits, contested 0 hits; 'More than one arrest record, which means more than one civil action and more than one fee' — 'more than one arrest' 0 hits; 'Arrests in more than one county' — 'more than one county' 0 hits, 'counties' 0 hits; 'Federal, tribal, military or out-of-state records', which the registry marks as an explicit escalation rather than a footnote given the number of reservations and concurrent-jurisdiction questions — tribal 0, federal 0, military 0, out-of-state 0; 'Immigration exposure.' — immigration 0 hits; 'Any adult conviction that is not clearly SIS-based, pardon-based, diversion-based or minor-case automatic removal' — conviction 0 hits; and 'Any felony, DUI, domestic violence, sex offence, child-victim offence, violence, firearm or protection-order issue' — felony 0, DUI 0, domestic 0, sex offence 0, firearm 0. The same words return 0 in the extracted packet text as well, so they are absent from the delivered pages too.",
+          "evidence": {
+            "conditionsInRegistry": 10,
+            "conditionsCarried": 4,
+            "conditionsAbsent": 6,
+            "grepCountsInParticipantInstructions": {
+              "opposition": 0,
+              "contested": 0,
+              "more than one arrest": 0,
+              "more than one county": 0,
+              "counties": 0,
+              "tribal": 0,
+              "federal": 0,
+              "military": 0,
+              "out-of-state": 0,
+              "immigration": 0,
+              "conviction": 0,
+              "felony": 0,
+              "DUI": 0,
+              "domestic": 0,
+              "sex offence": 0,
+              "firearm": 0
+            },
+            "sameWordsInTheDeliveredPacketText": "all 0 except 'protection' 1 and 'compelling necessity' 1, both inside the official forms' own printed text rather than as a stop",
+            "whyItMatters": "Immigration is the condition every other family in this wave restates as a hard stop, and it is missing here entirely. The tribal-records condition is one the registry itself flags as an escalation rather than a footnote, in South Dakota. And the missing arrest-count and county conditions each carry a direct cost consequence, since each additional arrest record is a separate civil action with its own $72 fee."
+          }
         }
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION",
-      "activeOwnerLane": "independent-verification",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ne-setaside-custodial-set.mjs",
@@ -29435,7 +29398,9 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "staleRosterOwner": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION",
+      "whyTheRosterOwnerNoLongerHolds": "the roster names an owner the ledger does not back on a family carrying a returned FAIL"
     },
     {
       "familyId": "tx_exp_acquittal-set",
@@ -32141,9 +32106,9 @@
         "wave2LegalInputClass": "MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT",
         "wave2SendToLawrence": false,
         "supersededBy": {
-          "lane": "vf04",
+          "lane": "vf06",
           "verdict": "PASS_COMPLETE_INDEPENDENT",
-          "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de"
+          "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400"
         },
         "reason": "a later independent read, at a review base it declares and that is later than the wave-2 return commit, scored all fifteen obligations with none failing",
         "whatThisDoesNotDo": "It lifts one stale block. It approves no output, opens no commercial route and proves no packet; COMPLETE_PACKET_PROVEN still needs its raster receipt and its wiring record."

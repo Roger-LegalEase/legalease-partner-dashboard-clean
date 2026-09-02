@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "88c19f9bbd2761aad70e56c4e3fb9ef4929c13f1",
+  "generatedAtCommit": "d746cc78637455f671969696161bd6b1ae8a9660",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -31,7 +31,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF01",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-02T08:16:27.728Z"
@@ -76,7 +76,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:55:08.801Z"
@@ -121,7 +121,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF01",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-02T08:16:27.809Z"
@@ -136,7 +136,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF01",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-02T08:16:27.890Z"
@@ -151,7 +151,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF01",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-02T08:16:27.982Z"
@@ -166,7 +166,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF01",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-02T08:16:28.066Z"
@@ -406,7 +406,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T18:05:55.697Z"
@@ -615,7 +615,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:32:12.290Z"
@@ -824,7 +824,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:24:52.853Z"
@@ -1229,7 +1229,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:55:48.435Z"
@@ -1274,7 +1274,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T20:04:39.463Z"
@@ -1319,7 +1319,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:56:46.264Z"
@@ -1364,7 +1364,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:51:50.725Z"
@@ -1574,7 +1574,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF09",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:58:41.300Z"
@@ -1619,7 +1619,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF10",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:48:34.487Z"
@@ -2135,6 +2135,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "dc_yra_set_aside-set",
+      "familyId": "dc_yra_set_aside-set",
+      "itemId": null,
+      "familyIds": [
+        "dc_yra_set_aside-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX04",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "fl-self-defense-set",
       "familyId": "fl-self-defense-set",
       "itemId": null,
@@ -2608,7 +2623,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF11",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:41:49.386Z"
@@ -2893,10 +2908,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T16:29:43.651Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -3301,6 +3315,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-02T07:51:49.664Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ma-expunge-time-set",
+      "familyId": "ma-expunge-time-set",
+      "itemId": null,
+      "familyIds": [
+        "ma-expunge-time-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3896,7 +3925,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF12",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:08:43.757Z"
@@ -4405,10 +4434,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T06:02:27.446Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -4465,7 +4493,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:36:04.141Z"
@@ -4615,7 +4643,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:31:06.331Z"
@@ -4780,7 +4808,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:50:14.986Z"
@@ -4869,7 +4897,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:41:24.478Z"
@@ -4914,7 +4942,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:06:53.608Z"
@@ -4944,7 +4972,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:51:17.692Z"
@@ -5004,7 +5032,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF10",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T13:50:39.051Z"
@@ -5034,7 +5062,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF09",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:53:58.974Z"
@@ -5064,7 +5092,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF10",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:47:09.605Z"
@@ -5109,7 +5137,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF11",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T20:01:55.151Z"
@@ -5154,7 +5182,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF12",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:44:10.045Z"
@@ -5349,7 +5377,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T05:46:17.499Z"
@@ -5586,7 +5614,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF12",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:09:05.580Z"
@@ -5646,7 +5674,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:08:28.813Z"
@@ -5691,7 +5719,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T16:29:08.208Z"
@@ -5736,7 +5764,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:32:38.359Z"
@@ -6020,7 +6048,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:08:44.319Z"
@@ -6155,7 +6183,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:09:05.151Z"
@@ -6378,7 +6406,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T16:29:08.766Z"
@@ -6602,7 +6630,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:40:05.757Z"
@@ -6632,7 +6660,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T19:45:20.787Z"
@@ -11949,7 +11977,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "87626f8e18eefc533c31a2216989ec1229a010f6111849a84ae330f5b95db005",
+  "claimsDigest": "e1ed7bdb12e2ceac5b188b0bb696f6a9677936c8a8596a75bb7472ca41a85f75",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -24593,6 +24621,26 @@
       "familyState": "VERIFY_PENDING",
       "reissuedAt": "2026-09-02T20:03:48Z",
       "reason": "the current dispatch names VF05 for this family, the family is VERIFY_PENDING and owes independent-verification, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_arrest_no_charges-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "dispatchNames": "FIX01",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-02T20:08:06Z",
+      "reason": "the current dispatch names FIX01 for this family, the family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ny_mrta_marijuana-set",
+      "operation": "rapid-repair",
+      "lane": "FIX04",
+      "dispatchNames": "FIX04",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-02T20:08:06Z",
+      "reason": "the current dispatch names FIX04 for this family, the family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
