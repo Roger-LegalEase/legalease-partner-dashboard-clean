@@ -1,761 +1,558 @@
 #!/usr/bin/env node
 /**
- * FABLE-PD official-form packet family — North Carolina, expunction of
- * DISMISSED charges under G.S. 15A-146(a) or (a1).
+ * FABLE-PD official-form packet family — Alaska, sealing criminal justice
+ * information for MISTAKEN IDENTITY or FALSE ACCUSATION under AS 12.62.180.
  *
- *   node scripts/build-census-v1-nc_146_dismissal_petition-set.mjs [--check] [--no-raster]
+ *   node scripts/build-census-v1-ak-mistaken-identity-set.mjs [--check] [--no-raster]
  *
  * One census-v1 family, one strategy, one route:
  *
- *   obligation:track-only:NC:nc_146_dismissal_petition
+ *   obligation:track-pathway:AK:ak-mistaken-identity:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180
  *
  * WHAT KIND OF FAMILY THIS IS
  *
- * An OFFICIAL-FORM packet family. Three documents, all bound by exact SHA-256
- * and delivered as the Administrative Office of the Courts publishes them:
+ * An OFFICIAL-FORM packet family with exactly one component, which is what the
+ * committed packet-set manifest gives it: the Department of Public Safety's own
+ * six-page application, Form Seal Req 2-04, bound by exact SHA-256 and
+ * delivered as DPS publishes it. It is an application to an agency rather than
+ * a court filing -- AS 12.62.180(b) is a written request to the head of the
+ * agency that maintains the information -- and nothing here is styled as a
+ * pleading.
  *
- *   * AOC-CR-287 (Rev. 12/25) -- the Petition and Order of Expunction. Side
- *     One is the petition; Side Two is FINDINGS OF FACT, the ORDER and the
- *     CERTIFICATION BY CLERK, none of which this packet touches.
- *   * AOC-CR-287 instructions -- the AOC's own instruction sheet, delivered
- *     unmodified.
- *   * AOC-CV-226 -- the Civil Affidavit of Indigency, which the packet-set
- *     manifest carries CONDITIONALLY: a true dismissal costs nothing, and the
- *     $175.00 fee applies only where the charge was dismissed pursuant to a
- *     deferred prosecution agreement or a conditional discharge.
+ * WHERE THE VALUES GO, AND HOW THE BOXES ARE FOUND
  *
- * THE SOURCE-IDENTITY DEFECT THIS FAMILY BINDS AROUND
+ * The form carries no AcroForm: the corpus index records 0 fields on it. PART
+ * II, its person-and-case block on page 3, is a fully ruled table, and every
+ * write box is four strokes read from the page content stream -- the rule
+ * above, the rule below, and the vertical divider on each side -- re-checked
+ * against the pinned binary before anything is drawn. Twenty-five cells are
+ * measured; eight carry a fact.
  *
- * The route census maps `official-form:AOC-CR-287` to the INSTRUCTIONS binary
- * (sha fe222704...), not to the petition. The petition itself is held and is
- * reachable only through its content hash, `source-sha256:a8762293...`. This
- * build binds every document by its own SHA-256, so it delivers the right
- * bytes; the alias is still wrong in the census and is reported in
- * build-findings.json rather than left for a verifier to rediscover.
+ * THREE BLANKS THAT WOULD TAKE THE PARTICIPANT'S OWN NAME
  *
- * THE OFFENCE TABLE IS DELIBERATELY EMPTY, AND THAT IS THE FINDING
+ * The shared binder falls back to a blank's printed caption when its name says
+ * nothing, and on a flat overlay the caption IS the name. Three captions on
+ * page 3 resolve to participant.full_legal_name and must never be anchored:
  *
- * Side One's table repeats five columns ten times: File No., Offense
- * Description, Date Of Arrest, Date Of Offense, Date Of Dismissal. Four of the
- * five can be bound. THE FIFTH CANNOT: the shared descriptor list carries
- * `matter.disposition_date` matching /disposition\s*date/ and nothing that
- * matches "date of dismissal", so `DateOfDismissal1` binds nothing, and no
- * explicit mapping can reach it because decideBinding consults explicitMappings
- * only AFTER a descriptor has matched.
+ *   NAME OF ARRESTING OFFICER    -> participant.full_legal_name
+ *   NAME OF TRIAL COURT          -> participant.full_legal_name
+ *   NAME OF APPELLATE COURT      -> participant.full_legal_name
  *
- * Writing the other four would produce exactly the defect the completeness
- * contract exists to catch: a row that carries written cells beside a required
- * cell left blank, which reads as finished and is not. So the whole table is
- * left to the participant, every column of row one is declared
- * required-before-filing and disclosed, and the descriptor gap is reported.
- * Closing it means adding a descriptor to
- * scripts/rcap-official-forms/rcap-field-semantics.mjs, which is a shared host
- * carrying 137 builders; a change there could move other families' bytes, and
- * this lane may not make it. It is reported for a lane that owns that host.
+ * This is the same family of defect as the Arkansas MONTH blank that took a
+ * participant's name into an arrest date. None is given a fact here, so none is
+ * anchored and none can be written; the refusal is recorded per blank rather
+ * than left to the reader to notice.
+ *
+ * WHAT THE PARTICIPANT CANNOT DO ALONE, AND THE PACKET SAYS SO
+ *
+ * PART IV requires the ARRESTING OR CITING OFFICER (or that officer's superior)
+ * and, where charges were referred, the PROSECUTOR (or their superior) each to
+ * read the application and sign a statement saying whether they agree that the
+ * charges resulted from mistaken identity or false accusation, beyond a
+ * reasonable doubt. The committed packet-set manifest carries the same thing as
+ * a requirement before filing and says in terms that LegalEase does not obtain
+ * or validate it. A participant who cannot get those signatures cannot file
+ * this application, and the instructions lead with it.
  *
  * A built family is a built family. It is not verified, not approved, not
  * sellable, and this builder issues no verdict on its own packets.
  */
 
-const FAMILY_ID = "nc_146_dismissal_petition-set";
-
-/* Row 1 of Side One's table, and the nine rows beneath it. Stated once here
- * because the table is the substance of this family's finding. */
-const TABLE_COLUMNS = [
-  ["FileNumber", "File No. of the charge", "the file number of the dismissed charge, exactly as the clerk's record prints it"],
-  ["OffenseDescription", "Offense Description", "the offence description, copied from the clerk's record"],
-  ["DateOfArrest", "Date Of Arrest", "the date you were arrested on that charge"],
-  ["DateOfOffense", "Date Of Offense", "the date of the offence itself"],
-  ["DateOfDismissal", "Date Of Dismissal", "the date the charge was dismissed - check it against your SBI record or the clerk's file before you write it"]
-];
+const FAMILY_ID = "ak-mistaken-identity-set";
 
 const SPEC = {
   familyId: FAMILY_ID,
   worklistGroupId: FAMILY_ID,
-  buildScript: "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
-  outDir: "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
-  jurisdiction: "NC",
+  buildScript: "scripts/build-census-v1-ak-mistaken-identity-set.mjs",
+  outDir: "data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill",
+  jurisdiction: "AK",
   custodyClass: "SOURCE_ALREADY_HELD",
   implementationStrategy: "official_pdf_fill",
   assembledPacketRole: "assembled_packet_of_official_forms",
-  legalName: "Petition and Order of Expunction Under G.S. 15A-146(a) or G.S. 15A-146(a1) (Charges Dismissed)",
-  routeName: "expunging a North Carolina charge that was dismissed, under G.S. 15A-146(a) or (a1)",
-  statutes: ["G.S. 15A-146", "G.S. 15A-146(a)", "G.S. 15A-146(a1)", "G.S. 15A-150", "G.S. 15A-1008"],
-  routes: [{ routeKey: "obligation:track-only:NC:nc_146_dismissal_petition" }],
+  legalName: "Request to Seal Criminal Justice Information for Mistaken Identity or False Accusation (AS 12.62.180)",
+  routeName: "asking the agency that holds the record to seal Alaska criminal justice information that resulted, beyond a reasonable doubt, from mistaken identity or false accusation",
+  statutes: ["AS 12.62.180", "13 AAC 68.205", "AS 12.62.180(b)", "AS 12.62.180(c)"],
+  routes: [{ routeKey: "obligation:track-pathway:AK:ak-mistaken-identity:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180" }],
 
   records: [
     {
-      recordId: "packet-set-manifest:nc_146_dismissal_petition-set",
+      recordId: "packet-set-manifest:ak-mistaken-identity-set",
       path: "data/record-clearing/legal-design-packet-set-manifests.json",
       role:
         "the committed packet-set manifest for this exact packet set. Under DETERMINATION_FEE_AND_WAIVER_"
         + "STANDARD amendment A2 its participantActionRequired entries are a held source, and here they settle "
-        + "the filing destination, the fee and when it applies, the indigency waiver, the service position, and "
-        + "the records the participant must obtain and keep",
+        + "the officer and prosecutor verification the participant must obtain, the court documentation, the "
+        + "fee position, the waiver position and the service position",
       mustContain: [
-        "File the AOC-approved form with the clerk of superior court in the county where the charge was brought. G.S. 15A-146(c) requires any petition under this section to be on a form approved by the Administrative Office of the Courts.",
-        "none for a true dismissal. $175 applies where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement. Separately, the costs of expunging the records required under G.S. 15A-150 are not taxed against the petitioner.",
-        "Indigency waiver available where a fee applies, on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.",
-        "none required by the AOC form for dismissals. A DNA expunction application under G.S. 15A-146(b1) is a separate matter and must be served on the district attorney not less than 20 days before the hearing.",
-        "Obtain Copies of the charging documents, dismissal orders and judgments. Obtain and keep permanent copies before filing. After an expunction, access to these records is restricted and you may be unable to obtain them if you later need to prove what actually happened, most acutely in an immigration proceeding.",
-        "Applies where the district attorney petitions rather than the participant. G.S. 15A-146 permits either."
+        "Obtain Officer or prosecutor verification. Ask the arresting agency or prosecutor to complete the verification section. LegalEase does not obtain or validate it.",
+        "Obtain Court documentation. Ask the clerk for the court documentation the application requires.",
+        "Officer or prosecutor verification fields — DPS application, verification section.",
+        "The source review does not state a fee for this application.",
+        "The source review does not address a fee waiver.",
+        "The source review does not state a service requirement.",
+        "Submit the DPS application with the verification and court documentation."
+      ]
+    },
+    {
+      recordId: "compiled-profile:AK-alaska",
+      path: "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+      role:
+        "the compiled Alaska profile, named by the route obligation census as a required source for this exact "
+        + "route and a held source under amendment A2. Its fee table answers this route directly, because the "
+        + "line is keyed to an AS 12.62.180(b) sealing request -- this route's own subsection -- rather than to "
+        + "a sibling remedy",
+      mustContain: [
+        "AS 12.62.180(b) sealing request Agency-dependent Written request to the record-holding agency",
+        "DPS criminal history record DPS fee To confirm what records exist",
+        "A mistaken-identity sealing request under AS 12.62.180(b) goes to",
+        "Sealing (12.62.180) is essentially limited to mistaken identity / false accusation proven beyond a reasonable doubt — not a route for clearing valid records."
       ]
     }
   ],
 
   officialComponents: {
-    petition: {
-      sourceId: "source-sha256:a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
-      documentId: "AOC-CR-287",
-      formNumber: "AOC-CR-287",
-      officialTitle: "Petition and Order of Expunction Under G.S. 15A-146(a) or G.S. 15A-146(a1) (Charge(s) Dismissed)",
-      revision: "REV-2025-12",
+    dps_seal_application: {
+      sourceId: "official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO",
+      documentId: "DPS-SEAL-REQ-2-04",
+      formNumber: "DPS-SEAL-REQ-2-04",
+      officialTitle: "State of Alaska Department of Public Safety — Request to Seal Criminal Justice Information",
+      revision: "REV-2004-02",
       instrumentKind: "primary_filing",
-      sha256: "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
-      acroform: true,
-      captionOnly: false,
-      explicitMappings: {},
-      unwritable: [
-        { field: "PetitionerAddr2", class: "address_continuation_line",
-          why: "The second printed line of the petitioner's address block. It BINDS participant.street_address exactly as line one does, so filling both prints the same street address twice on the face of the petition. The platform holds one street address and writes it once." },
-        { field: "FileNumber1", class: "offence_table_row_left_whole_to_the_participant",
-          why: "Side One's table has five columns and the fifth, Date Of Dismissal, cannot be bound by any family: no descriptor in the shared list matches \"date of dismissal\", and an explicit mapping cannot reach a field that matched no descriptor. Writing four of five would leave a row that carries written cells beside a required cell left blank, which reads as finished and is not. The whole row is therefore the participant's, and every column of it is disclosed." },
-        { field: "OffenseDescription1", class: "offence_table_row_left_whole_to_the_participant",
-          why: "The same row, the same reason: this table is completed as a row or not at all." },
-        { field: "DateOfArrest1", class: "offence_table_row_left_whole_to_the_participant",
-          why: "The same row, the same reason." },
-        { field: "DateOfOffense1", class: "offence_table_row_left_whole_to_the_participant",
-          why: "The same row, the same reason." }
-      ]
-    },
-    instructions: {
-      sourceId: "official-form:AOC-CR-287-INSTRUCTIONS",
-      documentId: "AOC-CR-287-INSTRUCTIONS",
-      formNumber: "AOC-CR-287-INSTRUCTIONS",
-      officialTitle: "Instructions for Petition and Order of Expunction Under G.S. 15A-146(a) or G.S. 15A-146(a1)",
-      revision: "REV-2025-12",
-      instrumentKind: "instructions",
-      sha256: "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+      sha256: "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
       acroform: false
-    },
-    fee_waiver: {
-      sourceId: "official-form:AOC-CV-226",
-      documentId: "AOC-CV-226",
-      formNumber: "AOC-CV-226",
-      officialTitle: "Petition To Proceed As An Indigent / Civil Affidavit Of Indigency",
-      revision: "REV-2023-04",
-      instrumentKind: "fee_waiver",
-      sha256: "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
-      acroform: true,
-      captionOnly: false,
-      explicitMappings: {},
-      unwritable: [
-        { field: "ApplicantFullPermanentMailingAddressAddr1", class: "if_different_than_above_block",
-          why: "The form marks this whole block \"Full Permanent Mailing Address Of Applicant (if different than above)\". The shared descriptors refuse an if-different block, but the ligature in this form's printed caption comes through as \"di(uerent\", so the refusal does not fire and the block BINDS participant.street_address — writing the participant's only address into the block that exists for a DIFFERENT one, while the Street Number And Street Name line above it stays empty." },
-        { field: "ApplicantFullPermanentMailingAddressAddr2", class: "if_different_than_above_block",
-          why: "The second line of the same if-different block, on the same reasoning." },
-        { field: "ApplicantFullPermanentMailingAddressCity", class: "if_different_than_above_block",
-          why: "The city of the same if-different block." },
-        { field: "ApplicantFullPermanentMailingAddressState", class: "if_different_than_above_block",
-          why: "The state of the same if-different block." },
-        { field: "ApplicantFullPermanentMailingAddressZip", class: "if_different_than_above_block",
-          why: "The ZIP of the same if-different block." }
-      ]
     }
   },
 
-  officialCells: {},
+  /* PART II, page 3. Every cell is four measured strokes. `fact` is set only
+   * where the platform holds the value AND the shared binder resolves this
+   * caption to that value; every other cell is measured and left alone. */
+  officialCells: {
+    dps_seal_application: [
+      { key: "full_name", page: 3, top: 690.84, bottom: 653.10, left: 31.86, right: 570.42,
+        label: "FULL NAME (Last) (First) (Middle) (Suffix)", fact: "participant.full_legal_name" },
+      { key: "former_or_other_names", page: 3, top: 653.10, bottom: 615.48, left: 31.86, right: 570.42,
+        label: "FORMER OR OTHER NAMES/ALIASES", fact: null },
+      { key: "mailing_address", page: 3, top: 577.02, bottom: 496.50, left: 31.86, right: 292.14,
+        label: "MAILING ADDRESS", fact: "participant.street_address", writeUnderCaption: true },
+      { key: "phone_numbers", page: 3, top: 577.02, bottom: 543.78, left: 292.14, right: 570.42,
+        label: "PHONE NUMBER(S)", fact: "participant.phone" },
+      { key: "social_security_number", page: 3, top: 543.78, bottom: 496.50, left: 292.14, right: 570.42,
+        label: "SOCIAL SECURITY #", fact: null },
+      { key: "date_of_birth", page: 3, top: 496.50, bottom: 449.22, left: 31.86, right: 292.14,
+        label: "DATE OF BIRTH", fact: "participant.date_of_birth" },
+      { key: "drivers_license_or_state_id", page: 3, top: 496.50, bottom: 449.22, left: 292.14, right: 570.42,
+        label: "ALASKA DRIVERS LICENSE # OR STATE ID #", fact: null },
+      { key: "arrest_tracking_number", page: 3, top: 449.22, bottom: 397.56, left: 31.86, right: 211.14,
+        label: "ARREST TRACKING NUMBER", fact: null },
+      { key: "date_of_arrest", page: 3, top: 449.22, bottom: 397.56, left: 211.14, right: 385.14,
+        label: "DATE OF ARREST", fact: "matter.arrest_date" },
+      { key: "date_of_offense", page: 3, top: 449.22, bottom: 397.56, left: 385.14, right: 570.42,
+        label: "DATE OF OFFENSE", fact: "matter.offense_date" },
+      { key: "police_agency_case_number", page: 3, top: 397.56, bottom: 359.88, left: 31.86, right: 211.14,
+        label: "POLICE AGENCY CASE #", fact: null },
+      { key: "name_of_arresting_agency", page: 3, top: 397.56, bottom: 359.88, left: 211.14, right: 385.14,
+        label: "NAME OF ARRESTING AGENCY", fact: null },
+      { key: "name_of_arresting_officer", page: 3, top: 397.56, bottom: 359.88, left: 385.14, right: 570.42,
+        label: "NAME OF ARRESTING OFFICER", fact: null },
+      { key: "prosecution_case_number", page: 3, top: 359.88, bottom: 322.20, left: 31.86, right: 211.14,
+        label: "PROSECUTION CASE #", fact: null },
+      { key: "name_of_prosecuting_agency", page: 3, top: 359.88, bottom: 322.20, left: 211.14, right: 385.14,
+        label: "NAME OF PROSECUTING AGENCY", fact: null },
+      { key: "name_of_prosecutor", page: 3, top: 359.88, bottom: 322.20, left: 385.14, right: 570.42,
+        label: "NAME OF PROSECUTOR", fact: null },
+      { key: "trial_court_case_number", page: 3, top: 322.20, bottom: 284.52, left: 31.86, right: 292.14,
+        label: "TRIAL COURT CASE #", fact: "matter.case_number" },
+      { key: "name_of_trial_court", page: 3, top: 322.20, bottom: 284.52, left: 292.14, right: 570.42,
+        label: "NAME OF TRIAL COURT", fact: null },
+      { key: "appellate_court_case_number", page: 3, top: 284.52, bottom: 246.84, left: 31.86, right: 292.14,
+        label: "APPELLATE COURT CASE #", fact: null },
+      { key: "name_of_appellate_court", page: 3, top: 284.52, bottom: 246.84, left: 292.14, right: 570.42,
+        label: "NAME OF APPELLATE COURT", fact: null },
+      { key: "charge_statute_or_ordinance", page: 3, top: 246.84, bottom: 195.12, left: 31.86, right: 292.14,
+        label: "CHARGE(S): STATUTE/ORDINANCE #", fact: null },
+      { key: "name_of_offenses", page: 3, top: 246.84, bottom: 195.12, left: 292.14, right: 570.42,
+        label: "NAME OF OFFENSE(S)", fact: "matter.charge" },
+      { key: "date_charge_dismissed", page: 3, top: 195.12, bottom: 157.44, left: 31.86, right: 292.14,
+        label: "DATE CHARGE DISMISSED", fact: null },
+      { key: "agency_that_dismissed", page: 3, top: 195.12, bottom: 157.44, left: 292.14, right: 570.42,
+        label: "AGENCY THAT DISMISSED", fact: null },
+      { key: "date_acquitted", page: 3, top: 157.44, bottom: 124.26, left: 31.86, right: 292.14,
+        label: "DATE ACQUITTED", fact: null },
+      { key: "date_sentenced", page: 3, top: 157.44, bottom: 124.26, left: 292.14, right: 570.42,
+        label: "DATE SENTENCED", fact: null },
+      { key: "date_conviction_reversed_or_vacated", page: 3, top: 124.26, bottom: 86.52, left: 31.86, right: 292.14,
+        label: "DATE CONVICTION REVERSED OR VACATED", fact: null },
+      { key: "date_pardoned", page: 3, top: 124.26, bottom: 86.52, left: 292.14, right: 570.42,
+        label: "DATE PARDONED", fact: null }
+    ]
+  },
 
-  components: ["petition", "instructions", "fee_waiver"],
+  components: ["dps_seal_application"],
   componentTitles: {
-    petition: "AOC-CR-287 - Petition and Order of Expunction (Charges Dismissed)",
-    instructions: "AOC-CR-287 - The Administrative Office of the Courts' own instructions",
-    fee_waiver: "AOC-CV-226 - Civil Affidavit of Indigency"
+    dps_seal_application: "DPS Form Seal Req 2-04 — Request to Seal Criminal Justice Information"
   },
-  componentConditions: {
-    fee_waiver:
-      "Conditional. A true dismissal carries no fee. The committed packet-set manifest records that the $175.00 "
-      + "fee applies only where the charge was dismissed pursuant to a deferred prosecution agreement or a "
-      + "conditional discharge, and that the indigency waiver is available on AOC-CV-226 where a fee applies."
-  },
+  componentConditions: {},
   componentDescriptions: {
-    petition: "the AOC-approved petition. Side One is yours; Side Two is the court's findings, order and the clerk's certification",
-    instructions: "the AOC's own instruction sheet for this form, delivered exactly as published and unmarked",
-    fee_waiver: "the indigency affidavit, needed ONLY if a fee applies to your case and you cannot pay it"
+    dps_seal_application:
+      "the Department of Public Safety's own six-page application: instructions, the statute and regulation, "
+      + "the person-and-case block, your explanation, the officer and prosecutor verification sections, and "
+      + "the two parts the Bureau and the Commissioner complete"
   },
 
   fixtures: {
     canonical: {
       "participant.full_legal_name": "Jordan Avery Reyes",
       "participant.date_of_birth": "1991-04-17",
-      "participant.street_address": "42 Larkspur Street",
-      "participant.city": "Raleigh",
-      "participant.state": "NC",
-      "participant.zip": "27601",
-      "participant.phone": "919-555-0142",
-      "matter.case_number": "19CR001184",
-      "matter.county": "Wake"
+      "participant.street_address": "42 Larkspur Street, Anchorage, AK 99501",
+      "participant.phone": "907-555-0142",
+      "matter.case_number": "3AN-19-01184CR",
+      "matter.arrest_date": "2019-06-14",
+      "matter.offense_date": "2019-06-13",
+      "matter.charge": "Theft in the fourth degree"
     },
     boundary: {
       "participant.full_legal_name": "Maria-Alejandra O'Shaughnessy-Whitfield",
       "participant.date_of_birth": "1968-12-31",
-      "participant.street_address": "1188 Upper Yadkin River Crossing Road, Apartment 14B",
-      "participant.city": "Winston-Salem",
-      "participant.state": "NC",
-      "participant.zip": "27101-2214",
-      "participant.phone": "(336) 555-0199 ext. 4417",
-      "matter.case_number": "2004CR000000118844-A",
-      "matter.county": "New Hanover"
+      "participant.street_address": "1188 Upper Kuskokwim Crossing Road, Apartment 14B, Ketchikan Gateway Borough, Alaska 99901-2214",
+      "participant.phone": "(907) 555-0199 ext. 4417",
+      "matter.case_number": "1KE-2004-000000118844CR-A",
+      "matter.arrest_date": "2004-02-29",
+      "matter.offense_date": "2004-02-28",
+      "matter.charge": "Criminal trespass in the second degree, and criminal mischief in the fifth degree"
     }
   },
 
   composedFromNote: null,
 
   formIdentityNote:
-    "All three documents are the North Carolina Administrative Office of the Courts' own published forms, bound "
-    + "by exact SHA-256 through the committed corpus index and delivered as the AOC issues them. G.S. 15A-146(c) "
-    + "requires a petition under this section to be on a form approved by the AOC, so substituting or composing "
-    + "one would make the filing refusable on its face; nothing here is composed, substituted or invented.",
+    "The single document is the Alaska Department of Public Safety's own published application, Form Seal Req "
+    + "2-04, bound by exact SHA-256 through the committed corpus index and delivered as DPS issues it, all six "
+    + "pages of it including the Bureau's and the Commissioner's own parts. Nothing is composed, substituted or "
+    + "invented.",
 
-  agencyTreatmentNote: null,
+  agencyTreatmentNote:
+    "This is an application to an AGENCY, not a court filing: AS 12.62.180(b) is a written request to the head "
+    + "of the agency responsible for maintaining the information, and its own subsection (b) makes that head's "
+    + "decision the final administrative decision. Nothing here is a petition or a motion and no court is "
+    + "involved unless the applicant appeals under subsection (c).",
 
   routeSelectionNote:
-    "The ROUTE is stated by the instrument: AOC-CR-287 is the AOC's form for a G.S. 15A-146(a) or (a1) petition "
-    + "on dismissed charges, and its own title says so. Within that route the form carries three elections and "
-    + "none of them is one this route decides. Paragraph 3's a/b pair asks whether ALL of the participant's "
-    + "charges were dismissed or only some -- a fact about their own record, and the difference between "
-    + "subsection (a) and (a1). The civil-revocation box is a fact about their own driving record. And the "
-    + "District/Superior division boxes follow the court the charge was brought in. Nothing is marked, and every "
-    + "box is recorded as the participant's own election.",
+    "The ROUTE is stated by the instrument and by the form's own PART III, which requires the applicant's "
+    + "explanation to show, beyond a reasonable doubt, that the charge or charges resulted from mistaken "
+    + "identity or false accusation. There is no election anywhere on this form: PART IV's I AGREE / I DO NOT "
+    + "AGREE boxes are not the applicant's at all -- they belong to the arresting or citing officer and to the "
+    + "prosecutor, who complete and sign those sections themselves. They are recorded as third-party blanks "
+    + "rather than as participant elections, because a participant may not tick either one.",
 
   routeSelectionsMade: [
     {
-      selection: "instrument set",
-      value: "AOC-CR-287 with the AOC's own instructions, and AOC-CV-226 conditionally",
+      selection: "instrument",
+      value: "DPS Form Seal Req 2-04, the Request to Seal Criminal Justice Information",
       determinedBy:
-        "the committed packet-set manifest's components, and its file entry: G.S. 15A-146(c) requires any "
-        + "petition under this section to be on a form approved by the Administrative Office of the Courts"
+        "the committed packet-set manifest's single component, officialFormId DPS-REQUEST-TO-SEAL-CRIM-INFO, "
+        + "and the compiled Alaska profile: \"for mistaken identity, it's a written sealing request to the "
+        + "record-holding agency\""
     }
   ],
 
-  instructionsHeading: "Filing instructions — expunging a dismissed North Carolina charge (G.S. 15A-146)",
+  instructionsHeading: "What to do — asking Alaska DPS to seal a record that came from mistaken identity or false accusation (AS 12.62.180)",
 
   instructionsIntro: [
-    "This packet is the Administrative Office of the Courts' own **AOC-CR-287, Petition and Order of Expunction (Charge(s) Dismissed)**, its own instruction sheet for that form, and — only if a fee applies to your case — **AOC-CV-226, the Civil Affidavit of Indigency**. G.S. 15A-146(c) requires a petition under this section to be on a form the AOC has approved, which is why nothing here is a composed document.",
-    "**Side One of AOC-CR-287 is yours. Side Two is not.** Side Two carries the court's FINDINGS OF FACT, the ORDER and the CERTIFICATION BY CLERK; this packet writes nothing anywhere on it, and neither should you.",
-    "The platform filled what it holds: your name and address block on Side One, the county, and the file number in the caption. On AOC-CV-226 it filled your name, your address, your telephone number and your date of birth.",
-    "**The offence table on Side One is deliberately left entirely to you, and it is worth knowing why.** The table has five columns — File No., Offense Description, Date Of Arrest, Date Of Offense, Date Of Dismissal. The platform can bind four of them and cannot bind the fifth: nothing in the shared list of facts matches a \"date of dismissal\". Filling four columns and leaving the fifth blank would give you a row that looks finished and is not, which is worse than an empty one. So the row is yours, all five columns of it are listed below, and you copy each from the clerk's record.",
-    "**Two more blanks on the petition are empty for a reason worth stating.** Your ZIP code and your date of birth on Side One are both refused by the shared rules, because on that crowded row the caption capture reads the neighbouring \"Race\" and \"Full Social Security No.\" captions instead of their own. The platform holds both facts and writes them on AOC-CV-226; on the petition they are yours to write."
+    "**Read this first, because it decides whether you can use this application at all.** PART IV of the form requires the **arresting or citing officer** (or that officer's superior) to read your application and sign a statement saying whether they agree, beyond a reasonable doubt, that the charges resulted from mistaken identity or false accusation. If the charges were referred to a prosecutor, the **prosecutor** (or their superior) must do the same. The committed packet-set manifest records both as requirements before filing and says in terms that **LegalEase does not obtain or validate them**. Nobody can sign those sections for you, and an application without them is incomplete.",
+    "**This is not a court filing.** AS 12.62.180(b) is a written request to the head of the agency responsible for maintaining the information. The form's own PART I prints the statute: \"A person may submit a written request to the head of the agency responsible for maintaining past conviction or current offender information, asking the agency to seal such information about the person that, beyond a reasonable doubt, resulted from mistaken identity or false accusation. The decision of the head of the agency is the final administrative decision on the request.\"",
+    "**And it reaches only Alaska records.** PART I also prints: \"a criminal justice agency may seal only the information that the agency is responsible for maintaining\", and the form's own instructions say the Commissioner of Public Safety cannot seal criminal records from other states or the federal government, only records that originated in this state.",
+    "The platform filled eight things in PART II from what it holds: your full name, your mailing address, your phone number, your date of birth, the trial court case number, the date of arrest, the date of the offence, and the name of the offence. Every other blank on the form is listed below.",
+    "**Three blanks on PART II are refused deliberately and it is worth saying why.** NAME OF ARRESTING OFFICER, NAME OF TRIAL COURT and NAME OF APPELLATE COURT each resolve, under the shared naming rules, to the applicant's own name. Writing there would put *your* name where the form asks for an officer's or a court's. They are left empty and they are yours to complete."
   ],
 
   whoDecides: [
-    "**The court decides, on your petition, and the clerk certifies first.** You file Side One with the clerk of superior court; the clerk completes the CERTIFICATION BY CLERK on Side Two; a judge makes the findings and signs the order.",
-    "**You may not be the only person who can petition.** The committed packet-set manifest records that G.S. 15A-146 permits either the petitioner or the district attorney to petition, and that where the district attorney petitions instead, the form is AOC-CR-295 rather than this one. That form is not in this packet. If the district attorney has told you they will petition, ask the clerk whether you should file this one as well.",
-    "**The clerk sends the order out, not you.** The form's own NOTE TO PETITIONER says the clerk of superior court will send a copy of the granted order to the agencies you list — and says in terms that **the clerk will not provide addresses for you**, which is why the agency blocks are yours to complete.",
-    "**Some agencies are notified automatically and must NOT be listed.** The same note says: do not list the courts, the State Bureau of Investigation, the Department of Adult Correction, or the Division of Motor Vehicles. Do not list any private entity either — a private entity required to expunge records is notified by the State or local agencies that distribute criminal justice information to it."
+    "**The head of the agency decides, and that decision is final as an administrative matter.** The form prints AS 12.62.180(b) in full on page 2, and that is what it says.",
+    "**Two people who are not you must sign before it is complete.** The arresting or citing officer, and the prosecutor if charges were referred. Each states I AGREE or I DO NOT AGREE that, beyond a reasonable doubt, the charges resulted from mistaken identity or false accusation, and each may add comments. Those boxes are not yours to tick.",
+    "**The Bureau completes PART V and may ask you for more.** The form says so: the Records and Identification Bureau may contact you for additional information, including a request for a full set of fingerprints if necessary to process the request.",
+    "**The Commissioner completes PART VI**, and the form says the whole application packet will be returned to you showing the Commissioner's decision.",
+    "**If the decision goes against you, the appeal is a court appeal and it is not self-help.** AS 12.62.180(c), printed on page 2 of the form: the person may appeal an adverse decision to the court under the applicable rules of procedure for appealing an administrative agency decision, and **the appellant bears the burden on appeal of showing that the agency decision was clearly mistaken**. The same subsection says such an appeal may not collaterally attack a court judgment, or a decision by prison, probation or parole authorities, or any other action that is or could have been subject to appeal, post-conviction relief or another administrative remedy. Nothing in this packet prepares that appeal."
   ],
 
   filingDestination: [
-    "**File with the clerk of superior court in the county where the charge was brought.** That is the committed packet-set manifest's instruction for this packet, and it is the answer — you do not have to work venue out for yourself.",
-    "**Check the county the platform wrote into the caption against the county the charge was brought in.** They should be the same; if they are not, the caption is wrong and must be corrected before you file.",
-    "**The District / Superior division boxes in the caption are yours.** They follow the court the charge was brought in, and the clerk's office of that county can confirm which applies to your case."
+    "**Send the completed application to the Chief of the Criminal Records and Identification Bureau.** The form prints the destination on its own first page: *SEND TO: CHIEF, CRIMINAL RECORDS AND IDENTIFICATION BUREAU, 5700 E. TUDOR ROAD, ANCHORAGE, AK 99507.*",
+    "**Or to the agency that holds the record, if that is a different agency.** The compiled Alaska profile records the rule: a mistaken-identity sealing request under AS 12.62.180(b) goes to the agency that holds the record. The statute is the reason — an agency may seal only the information it is responsible for maintaining — so if a police department holds the record you want sealed, that department is the one that can seal it.",
+    "**Nothing is filed with any court on this route**, and there is no case number to obtain."
   ],
 
   feeAndWaiver: [
-    "**For a true dismissal there is no fee.** The committed packet-set manifest states it: \"none for a true dismissal.\"",
-    "**There is one exception and it is $175.00.** The same record: \"$175 applies where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement.\" The form itself carries the switch — Side One has a box reading *No charge listed above was dismissed as the result of compliance with a deferred prosecution agreement or a conditional discharge and dismissal*, with a NOTE TO CLERK beside it: **if this box is checked, do not assess the $175.00 fee.** That box is a statement about your own case and this packet does not tick it for you.",
-    "**If the $175.00 does apply and you cannot pay it, AOC-CV-226 is in this packet for exactly that.** The manifest records the waiver as \"available where a fee applies, on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.\" The affidavit is a full financial statement and every money figure on it is yours; the platform writes none of them.",
-    "**A separate cost is expressly not yours.** The manifest records that the costs of expunging the records required under G.S. 15A-150 are not taxed against the petitioner. That is the cost of carrying the order out, and it is not charged to you.",
-    "**If the clerk asks you for anything else**, that is a question about that office's own practice: **ask the clerk of superior court of the county where the charge was brought**, who is the office that assesses it, before you pay."
+    "**No held source states a fee for this application, and this packet asks you to pay nothing.** The committed packet-set manifest says it directly: \"The source review does not state a fee for this application.\" The form prints no amount anywhere on its six pages.",
+    "**What the repository does record is that the cost depends on the agency.** The compiled Alaska profile's fee table carries the line for this exact subsection: *\"AS 12.62.180(b) sealing request — Agency-dependent — Written request to the record-holding agency.\"* Agency-dependent means there is no statewide figure to state, not that it is free.",
+    "**So ask the office the application is going to.** The Criminal Records and Identification Bureau, 5700 E. Tudor Road, Anchorage, AK 99507 — the address printed on the form's own first page — is the office that answers what, if anything, it charges. Ask before you send if you want certainty.",
+    "**One further cost is recorded and is not a fee for this application.** The same profile carries *\"DPS criminal history record — DPS fee — To confirm what records exist\"*, with no amount. You will generally want that record in order to describe the entry you are asking to have sealed. The same Bureau publishes what it charges for it.",
+    "**There is no fee waiver.** The manifest records that the source review does not address one, and an agency request is not a court filing, so no filing-fee waiver reaches it."
   ],
 
   service: [
-    "**Nobody is served on this route.** The committed packet-set manifest records it in terms: \"none required by the AOC form for dismissals.\" There is no certificate of service on AOC-CR-287 and none is needed.",
-    "**One neighbouring matter is different, and it is easy to confuse with this one.** The same record says a DNA expunction application under G.S. 15A-146(b1) is a separate matter and **must be served on the district attorney not less than 20 days before the hearing**. That is not this petition. If what you want is a DNA record removed, this is not the instrument and that deadline is real.",
-    "**The distribution after the order is the clerk's.** You do not serve or deliver the granted order on any agency; the clerk sends it to the agencies you listed on Side One."
+    "**Nobody is served.** The committed packet-set manifest records it: \"The source review does not state a service requirement.\" There is no opposing party, no certificate of service and no return date, and nothing on the form asks for any.",
+    "**Two people do have to receive the application before you send it, and that is not service.** The arresting or citing officer and the prosecutor each have to READ the application and complete their own verification section in PART IV. That is a step you take before the packet is finished, not service of a filed document.",
+    "**Send it once, to one office, and keep a full copy.** Keep every attachment you send with it, and use a method that gives you a dated receipt: the form's own instructions warn that incomplete applications will be returned to you indicating what additional information is required."
   ],
 
   documentsToObtain: [
-    ["Copies of the charging documents, the dismissal orders and any judgments — obtain and KEEP them permanently before you file", "the clerk of superior court in the county where the charge was brought. The committed manifest warns that after an expunction access to these records is restricted and you may be unable to obtain them if you later need to prove what actually happened, most acutely in an immigration proceeding"],
-    ["A right-to-review copy of your own North Carolina criminal history, to confirm the disposition and to check whether the case has already cleared automatically", "the North Carolina Department of Public Safety, State Bureau of Investigation"],
-    ["The court file or a certified copy of the disposition, if you need to confirm the file number, the offence description or the dismissal date", "the clerk of superior court in the county where the charge was brought"],
-    ["The name and full mailing address of the arresting agency, and of every other State or local government agency that holds a record of your case", "each agency itself. The form's own note says the clerk will not provide addresses for you"]
+    ["The arresting or citing officer's completed and signed PART IV section A — the officer, or that officer's superior, states whether they agree beyond a reasonable doubt that the charges resulted from mistaken identity or false accusation", "the arresting agency. The committed manifest records that LegalEase does not obtain or validate it"],
+    ["The prosecutor's completed and signed PART IV section B, if the charges were referred to a prosecutor", "the prosecutor's office, or that prosecutor's superior"],
+    ["The court documentation the application requires — under PART IV section C, a court order or judgment showing dismissal, acquittal or a finding of not guilty", "the clerk of the court that handled the case"],
+    ["If you were convicted: either a court judgment or order overturning the conviction, or a Governor's Pardon — PART IV section D requires one or the other", "the court that overturned it, or the Office of the Governor"],
+    ["Your Alaska criminal history record from DPS, so that you can describe the entry accurately", "the Criminal Records and Identification Bureau. The compiled Alaska profile records that a DPS fee applies and states no amount"]
   ],
 
   steps: [
-    "**Obtain and keep permanent copies of everything about the case before you file.** This is the step people skip and cannot undo: after an expunction, access to those records is restricted.",
-    "**Check the dismissal date against your SBI record or the clerk's file.** The committed manifest asks you to confirm that answer before filing.",
-    "**Complete the offence table on Side One, all five columns of the row.** File No., Offense Description, Date Of Arrest, Date Of Offense, Date Of Dismissal, copied from the clerk's record. If the case had more than one dismissed charge, use a further row for each.",
-    "**If there are more agencies or more charges than the form has room for, attach AOC-CR-285** and tick the box on Side One that says you have — the form provides for it. That attachment is not in this packet.",
-    "**List the arresting agency and every other State or local agency with a record of the case, with complete addresses.** Do NOT list the courts, the SBI, the Department of Adult Correction, the DMV, or any private entity.",
-    "**Answer paragraph 3 if you were charged with multiple offences**: box a if all of them were dismissed, box b if some resulted in a conviction on the day of dismissal or had not reached final disposition — and if box b, write the file numbers and offence descriptions of the charges that were NOT dismissed on the lines provided.",
-    "**Tick the civil-revocation box only if a civil revocation of your driver's licence resulted from the offence.**",
-    "**Read the deferred-prosecution box carefully.** Tick it only if no charge listed was dismissed as the result of compliance with a deferred prosecution agreement or a conditional discharge. Ticking it truthfully is what tells the clerk not to assess the $175.00 fee.",
-    "**Write your ZIP code and your date of birth on Side One yourself** — see the table below for why they are blank.",
-    "**Sign and date the petition where it says Signature Petitioner, and print your name beside it.**",
-    "**Only if a fee applies and you cannot pay it, complete AOC-CV-226 in full** — the whole financial statement is yours — and swear it before the officer named on its jurat.",
-    "**File with the clerk of superior court in the county where the charge was brought.** Write nothing on Side Two."
+    "**Read the whole application packet before filling anything in.** That is the form's own first instruction, and it is there because incomplete forms are returned.",
+    "**Check that the record originated in Alaska.** The Commissioner cannot seal records from other states or the federal government.",
+    "**Check that your case is one of the two PART IV situations**: the charge was dismissed or you were acquitted because it resulted from mistaken identity or false accusation, OR you were convicted and the conviction has been overturned or you have been pardoned for that reason.",
+    "**Complete every blank in PART II that the platform left empty**, from your own records. Each is listed in the table below. The form says to fill out ALL items and to write N/A where an item does not apply to you or your case, and not to write in the check boxes.",
+    "**Write your explanation in PART III.** It must show, beyond a reasonable doubt, that the charges resulted from mistaken identity or false accusation. If it was mistaken identity, give the name and descriptive information of the person you were mistaken for, if you know it; if it was a false accusation, give the name and descriptive information of the person who made it, if you know it. Use additional sheets if you need them — the form says so.",
+    "**Take or send the application to the arresting or citing officer** and ask them, or their superior, to read it and complete and sign PART IV section A.",
+    "**If the charges were referred to a prosecutor, do the same for PART IV section B.**",
+    "**Attach the court documents** PART IV sections C and D require for your situation.",
+    "**Send it to the Chief, Criminal Records and Identification Bureau, 5700 E. Tudor Road, Anchorage, AK 99507**, or to the agency that holds the record if that is a different agency. Keep a full copy and a dated receipt.",
+    "**Expect the Bureau to come back to you.** It may ask for more information, including a full set of fingerprints.",
+    "**If the decision is adverse, take it to a lawyer.** The appeal under AS 12.62.180(c) is a court appeal in which you bear the burden of showing the agency was clearly mistaken, and it is not an ordinary self-help step."
   ],
 
   deliberatelyBlank: [
-    "**Everything on Side Two of AOC-CR-287.** The FINDINGS OF FACT, the ORDER, the presiding judge's name, signature and date, and the CERTIFICATION BY CLERK all belong to the court and the clerk.",
-    "**The whole offence table on Side One**, for the reason set out above: four of its five columns can be bound and the fifth cannot, and a part-filled row reads as finished when it is not.",
-    "**Every agency name and address.** The form's own note makes these the petitioner's, and says the clerk will not provide addresses for you.",
-    "**Your ZIP code and date of birth on Side One**, refused by the shared rules on a caption-capture defect described in the table below. The platform holds both and writes them on AOC-CV-226.",
-    "**Your driver's licence number, your Social Security number, your race, your sex and your age at the time of the offence.** Government identifiers and personal descriptors the platform does not write onto any form.",
-    "**The petitioner's-attorney block.** No representation fact is held for you, and this build never writes participant data into a block the court reads as counsel's.",
-    "**Every figure on AOC-CV-226.** The affidavit is a sworn financial statement; the platform invents no number.",
-    "**Every signature and every date beside one, on both forms.**"
+    "**The whole of PART IV.** Sections A and B belong to the arresting or citing officer and to the prosecutor; sections C and D are lists of documents you attach. No part of it is the platform's to complete.",
+    "**PART V and PART VI in full.** The form says PART V is completed by the Records and Identification Bureau and PART VI by the Commissioner of Public Safety.",
+    "**PART III, your explanation.** It is a statement about your own case that must satisfy a beyond-a-reasonable-doubt standard, and nobody can write it for you.",
+    "**NAME OF ARRESTING OFFICER, NAME OF TRIAL COURT and NAME OF APPELLATE COURT.** Each resolves under the shared naming rules to the applicant's own name, so anchoring any of them would print your name where an officer's or a court's belongs.",
+    "**Your Social Security number and your Alaska driver's licence or state ID number.** The shared rules refuse a government identifier on any form.",
+    "**Every agency name, every agency case number, and the prosecutor's name.** Those are the record's own facts and the platform does not write an agency name onto a form.",
+    "**Every disposition date except the arrest and offence dates** — dismissal, acquittal, sentencing, reversal, pardon. The platform holds none of them for this matter."
   ],
 
   notTold: [
-    "**The name and mailing address of any agency that holds a record of your case.** No held record establishes them, and the form's own note says the clerk will not provide them either. Each agency publishes its own address; the clerk of superior court of the county where the charge was brought can tell you which agencies are likely to hold a record.",
-    "**Whether your case was dismissed pursuant to a deferred prosecution agreement or a conditional discharge**, which is the only thing that turns the $175.00 fee on. Your own dismissal order says; the clerk of superior court can confirm it.",
-    "**Whether the district attorney intends to petition instead of you** on AOC-CR-295. Ask the district attorney's office for the county where the charge was brought.",
-    "**Whether the case has already cleared automatically.** An SBI right-to-review copy of your own record is how you find out."
+    "**What, if anything, DPS charges for this application.** The compiled profile records the cost as agency-dependent and the manifest records that the source review states no fee. The Criminal Records and Identification Bureau, 5700 E. Tudor Road, Anchorage, AK 99507, is the office that answers it.",
+    "**What a DPS criminal history record costs.** The same profile records that a DPS fee applies and states no amount; the same Bureau publishes it.",
+    "**How long the Bureau takes**, or whether it will ask you for fingerprints. The form says it may; it sets no timetable.",
+    "**Whether the arresting officer or the prosecutor will agree.** That is theirs to decide, and the form provides for both answers."
   ],
 
   stopConditions: [
-    "the charge was dismissed under G.S. 15A-1008 for lack of capacity to proceed — paragraph 2 of the petition excludes that dismissal in terms;",
-    "what you want expunged is a conviction rather than a dismissal — this form is for dismissed charges and a different AOC form covers a conviction;",
-    "what you want is a DNA record removed — that is an application under G.S. 15A-146(b1), a separate matter with a 20-day service requirement on the district attorney before the hearing, and it is not this packet;",
-    "you were charged with multiple offences and are not sure whether all of them were dismissed — that is the difference between subsection (a) and (a1) and between paragraph 3's boxes a and b;",
-    "you may need these records later to prove what happened — most acutely in an immigration proceeding — and have not yet obtained and kept permanent copies of everything;",
-    "any immigration question is involved at all."
+    "you cannot get the arresting or citing officer, or the prosecutor, to complete and sign PART IV — the application is not complete without it and nobody can supply it for you;",
+    "the record you want sealed did not originate in Alaska — the Commissioner cannot reach another state's or the federal government's records;",
+    "the charge was a valid one and what you want is a clean record rather than a correction of a mistake — the compiled profile records that sealing under 12.62.180 is essentially limited to mistaken identity or false accusation proven beyond a reasonable doubt, and is not a route for clearing valid records;",
+    "you were convicted and the conviction has NOT been overturned and you have NOT been pardoned — PART IV section D requires one or the other;",
+    "the agency decides against you — the appeal under AS 12.62.180(c) is a court appeal in which you carry the burden of showing the agency was clearly mistaken, and it is not a self-help step;",
+    "somebody else used your identity and you do not know what else was done in your name;",
+    "any immigration question is involved."
   ],
 
   whatThisIsNot:
-    "This is a prepared set of official North Carolina Administrative Office of the Courts forms, delivered as "
-    + "the AOC publishes them. It is not legal advice, it is not filed for you, and it does not decide whether "
-    + "your charge can be expunged under G.S. 15A-146. It is not AOC-CR-295, the district attorney's petition; "
-    + "it is not AOC-CR-285, the continuation sheet for extra agencies or charges; and it is not an application "
-    + "to expunge a DNA record under G.S. 15A-146(b1).",
+    "This is the Alaska Department of Public Safety's own published application, Form Seal Req 2-04, delivered "
+    + "as DPS issues it. It is not a court filing, not a petition, not a set-aside after a suspended imposition "
+    + "of sentence, not a Courtview exclusion on Form TF-810, and not the administrative appeal that may follow "
+    + "an adverse decision. It is not legal advice, it is not sent for you, and it is not a promise that any "
+    + "agency will seal anything.",
 
   receiptDoesNotEstablish: [
-    "that these are the current official editions of any of the three AOC forms, or that none has been superseded since the archive was assembled",
-    "that any particular North Carolina charge was dismissed, or how it was dismissed",
-    "that any fee does or does not apply to any particular case"
+    "that this is the current edition of DPS Form Seal Req 2-04, or that the Department has not revised it since the archive was assembled",
+    "that any particular Alaska charge resulted from mistaken identity or false accusation",
+    "that any officer or prosecutor will complete the PART IV verification"
   ],
 
   buildFindings: [
     {
       finding:
-        "SOURCE IDENTITY. The route census maps `official-form:AOC-CR-287` to the INSTRUCTIONS binary "
-        + "(sha fe222704...), not to the petition. The petition itself is held and is reachable only through "
-        + "`source-sha256:a8762293...`. The family's own MASTER_QUEUE row carries custodyClass "
-        + "SOURCE_REVISION_STALE.",
+        "THREE captions on PART II resolve, through the shared printed-label fallback, to "
+        + "participant.full_legal_name: NAME OF ARRESTING OFFICER, NAME OF TRIAL COURT and NAME OF APPELLATE "
+        + "COURT. On a flat overlay the caption IS the field name, so a builder that anchored any of them would "
+        + "print the applicant's own name where an officer's or a court's belongs. This is the same defect "
+        + "family as the Arkansas MONTH blank that took a participant's name into an arrest date.",
       consequence:
-        "This build binds every document by its own SHA-256 rather than by census alias, so the right bytes are "
-        + "delivered and the receipt records both the alias and the hash. The census alias is still wrong and is "
-        + "reported here for whoever owns the census, because a verifier reading the alias will fetch an "
-        + "instruction sheet where a petition should be."
+        "None is given a fact, so none is anchored and none can be written. Each is declared "
+        + "required-before-filing with the reason stated, and the instructions tell the participant why those "
+        + "three boxes are empty rather than leaving a reader to guess."
     },
     {
       finding:
-        "SHARED-SEMANTICS GAP, and the reason Side One's offence table ships empty. The table's fifth column is "
-        + "Date Of Dismissal. FACT_DESCRIPTORS carries matter.disposition_date matching /disposition\\s*date/ and "
-        + "carries nothing matching \"date of dismissal\", so DateOfDismissal1 returns no_allowlisted_fact_matches "
-        + "-- and an explicit mapping cannot reach it, because decideBinding consults explicitMappings only after "
-        + "a descriptor has already matched.",
+        "Two more captions would take the WRONG case number if anchored: POLICE AGENCY CASE # and PROSECUTION "
+        + "CASE # both resolve to matter.case_number, which is the TRIAL COURT number the platform holds. The "
+        + "police, the prosecutor and the court number the same matter differently.",
       consequence:
-        "The other four columns are refused by role rather than written. Writing them would leave a row carrying "
-        + "written cells beside a required cell left blank, which is the incompleteRows defect exactly. The whole "
-        + "row is the participant's, all five columns are declared required-before-filing and disclosed, and the "
-        + "instructions tell the participant why the table is empty. CLOSING THE GAP IS NOT THIS LANE'S TO DO: "
-        + "it needs a descriptor in scripts/rcap-official-forms/rcap-field-semantics.mjs, a shared host carrying "
-        + "137 builders, and a change there could move other families' bytes."
+        "Only TRIAL COURT CASE # is anchored. The other two are declared required-before-filing, with the "
+        + "disclosure saying which number belongs in each."
     },
     {
       finding:
-        "CAPTION-CAPTURE DEFECT on Side One's crowded identifier row. PetitionerZip is refused as "
-        + "protected_category/race because the capture returns the neighbouring \"Race\" caption; DateOfBirth is "
-        + "refused as protected_category/government_identifier because the capture returns the blob \"Date Of "
-        + "BirthFull Social Security No.Age At Time Of Offense\". Both refusals are safe -- they withhold rather "
-        + "than mis-write -- but both are for the wrong reason, and the platform holds both facts and writes "
-        + "them on AOC-CV-226.",
+        "DATE CHARGE DISMISSED resolves to matter.charge, not to a date: its caption carries the word CHARGE and "
+        + "the charge descriptor requires an explicit mapping rather than refusing outright.",
       consequence:
-        "Both are declared required-before-filing with the true reason stated to the participant rather than "
-        + "presented as facts the platform lacks. Reported for the lane that owns the caption capture."
+        "It is not anchored. Anchoring it would have printed the name of the offence into a date box."
     },
     {
       finding:
-        "TWO DUPLICATE-WRITE mis-bindings refused by role. PetitionerAddr2 on the petition binds "
-        + "participant.street_address exactly as line one does. On AOC-CV-226 the whole \"Full Permanent Mailing "
-        + "Address Of Applicant (if different than above)\" block binds the participant's address, because the "
-        + "form's printed ligature comes through as \"di(uerent\" and the shared if-different refusal therefore "
-        + "does not fire -- so the address would be written into the block that exists for a DIFFERENT one while "
-        + "the Street Number And Street Name line above it stayed empty.",
+        "The form carries no AcroForm -- the corpus index records 0 fields -- so there is no widget rectangle to "
+        + "write into. PART II is a fully ruled table and its geometry is entirely derivable.",
       consequence:
-        "Both refused by role with the reason stated. On AOC-CV-226 that leaves the street line to the "
-        + "participant: it binds nothing either, since no descriptor matches \"Street Number And Street Name\"."
+        "Twenty-eight cells are measured from four strokes each and eight carry a fact. The mailing-address "
+        + "cell is 80 points deep because it expects several lines, so its value is placed directly under its "
+        + "own caption rather than on the floor of the cell; both rules are still measured and the box is "
+        + "recorded as sitting above the cell's own bottom rule."
     },
     {
       finding:
-        "FEE_AND_WAIVER, tested against A1-A4. The committed packet-set manifest is a held source under A2 and "
-        + "answers this route's fee question with a condition rather than a figure: none for a true dismissal, "
-        + "$175 where the dismissal followed a deferred prosecution agreement or a conditional discharge. The "
-        + "form itself carries the switch, in a box with a NOTE TO CLERK beside it.",
+        "FEE_AND_WAIVER, tested against DETERMINATION_FEE_AND_WAIVER_STANDARD A1-A3. The compiled Alaska "
+        + "profile is named by the route obligation census as a required source for THIS route, and its fee line "
+        + "is keyed to an AS 12.62.180(b) sealing request -- this route's own subsection -- so A3 is satisfied "
+        + "rather than strained. What it establishes is that the cost is agency-dependent, which is a real "
+        + "answer and not a figure.",
       consequence:
-        "The packet states both limbs, points at the box on the form that turns the fee off, explains that "
-        + "AOC-CV-226 is in the packet for the case where the fee applies and cannot be paid, and separately "
-        + "states that G.S. 15A-150 expunction costs are not taxed against the petitioner. Per A4 nothing in the "
-        + "packet says it does not state an amount, because it does state one."
+        "The packet states that no held source gives an amount, states that the profile records the cost as "
+        + "agency-dependent, and names the Criminal Records and Identification Bureau with the street address "
+        + "the form prints on its own first page. It also states the DPS record-check fee the same profile "
+        + "records without an amount, and says there is no waiver because there is no filing fee."
     },
     {
       finding:
-        "SERVICE is a does-not-apply on this route and a real deadline on a neighbouring one: the manifest "
-        + "records \"none required by the AOC form for dismissals\", and separately that a DNA expunction "
-        + "application under G.S. 15A-146(b1) must be served on the district attorney not less than 20 days "
-        + "before the hearing.",
+        "PART IV's I AGREE / I DO NOT AGREE boxes are not the participant's election. They belong to the "
+        + "arresting or citing officer and to the prosecutor, each of whom completes and signs their own section.",
       consequence:
-        "Both are stated, and the neighbouring matter is named as a stop condition so a participant who actually "
-        + "needs it is not left believing nothing is ever served."
-    },
+        "They are recorded as third-party blanks rather than as participant elections, because a participant "
+        + "may not tick either one, and the requirement leads the instructions rather than sitting at the end "
+        + "of them: an applicant who cannot obtain those signatures cannot complete this application."
+    }
     {
       finding:
-        "The packet-set manifest carries two components this build does NOT render as documents: a "
-        + "participant_instructions component with outputStrategy process_guidance, and a "
-        + "district_attorney_alternative_filing component naming AOC-CR-295, conditional on the district "
-        + "attorney petitioning instead. MASTER_QUEUE's packetComponents for this family lists neither.",
+        "THE BOUNDARY FIXTURE REFUSES THE MAILING ADDRESS, and that is the correct outcome rather than a "
+        + "defect in this family. The boundary participant's address is 94 characters and needs 281.7 points "
+        + "at the minimum legible font; the measured cell is 255.72 points wide. The shared flat-overlay path "
+        + "writes a single line -- it passes multiline: false -- so the value is refused as unfittable rather "
+        + "than drawn over the form or clipped.",
       consequence:
-        "participant-instructions.md is the first; the second is covered in prose and named as a form this "
-        + "packet does not contain, because a document mapped and not rendered is a missing companion form. "
-        + "AOC-CR-295 is not bound by this family and no source for it is held."
+        "Nothing is drawn there in the boundary fixture and reports/actual-writes.json records the refusal "
+        + "with the measured width and the width required. The canonical fixture fits at 10 point. WORTH A "
+        + "SECOND LOOK BY WHOEVER OWNS THE FLAT-OVERLAY PATH: this cell is 80 points deep because the form "
+        + "expects an address over two or three lines, and a multiline write would fit where a single-line "
+        + "one cannot. Changing that is a shared-host change and is not this lane's to make."
     }
   ],
 
   counselQuestions: [
-    "Side One's offence table ships empty because its Date Of Dismissal column cannot be bound. Confirm that an empty table with all five columns disclosed is preferable to a four-of-five row, or direct that the four be written.",
-    "The petition's ZIP and date-of-birth blanks are left to the participant because of a caption-capture defect, not because the platform lacks the facts. Confirm that disclosing the true reason to the participant is right.",
-    "AOC-CV-226 is delivered unconditionally in the packet although the manifest makes it conditional on a fee applying. Confirm that delivering it with the condition stated is better than omitting it.",
-    "The packet names AOC-CR-295 and AOC-CR-285 as forms the participant may need and does not contain. Confirm that naming without carrying is the right treatment for both.",
-    "The AOC instruction sheet is delivered unmodified as a packet component. Confirm that redistributing the AOC's own instructions inside a prepared packet is appropriate."
+    "PART II is filled with eight facts and the rest left to the applicant, on a form whose own instruction is to fill out ALL items and write N/A where an item does not apply. Confirm that a part-filled PART II with every remaining blank disclosed is right, or direct that the form ship empty.",
+    "The mailing-address value is placed under its caption rather than on the floor of an 80-point cell. Confirm on the raster that the placement reads correctly.",
+    "The packet leads with the officer and prosecutor verification requirement and tells an applicant who cannot obtain it to stop. Confirm that is the right prominence for it.",
+    "The packet states the cost as agency-dependent from the compiled profile and names the Bureau. Confirm, or supply a figure.",
+    "The six-page application includes PART V and PART VI, which the Bureau and the Commissioner complete. Confirm that delivering the agency's own internal pages inside a participant packet is appropriate."
   ],
 
   reviewersAttention: [
-    "The offence table on Side One is EMPTY BY DECISION, not by omission. build-findings.json records why and names the shared-host change that would close it.",
-    "Side Two of AOC-CR-287 is deliberately untouched in full. Please check on the raster that nothing has landed in the FINDINGS OF FACT, the ORDER or the CERTIFICATION BY CLERK.",
-    "This family's census alias for official-form:AOC-CR-287 points at the instruction sheet rather than the petition. The build binds by hash and is unaffected; the census is not.",
-    "AOC-CV-226 is a sworn financial statement. Every money figure on it is blank by design."
+    "Three PART II captions would take the applicant's own name if anchored. None is. Please check the raster shows all three empty: NAME OF ARRESTING OFFICER, NAME OF TRIAL COURT, NAME OF APPELLATE COURT.",
+    "Every write box is measured from the form's own strokes; the measurement basis is recorded per cell in production-field-map.json under measuredCells, including which rule and which divider bounded it.",
+    "PART IV, PART V and PART VI are deliberately untouched in full. PART IV belongs to two people who are not the applicant.",
+    "The single most important participant-facing statement in this family is that an applicant who cannot get an officer's and a prosecutor's signature cannot file at all.",
+    "The BOUNDARY fixture deliberately carries no mailing address: at 94 characters it does not fit the measured cell on one line and is refused rather than clipped. The canonical fixture shows the cell filled."
   ],
 
   composedBody() {
-    throw new Error("this family composes no pages: every component is an official AOC form");
+    throw new Error("this family composes no pages: its only component is the DPS application");
   },
 
   /* ---- field maps ------------------------------------------------------------- */
   mapFor(componentId, h) {
-    const writes = [];
-    const refusals = [];
-    if (componentId === "petition") {
-      writes.push(
-        h.write("PetitionerName", "Name Of Petitioner (type or print full name)", "participant.full_legal_name", 1),
-        h.write("PetitionerAddr1", "Address Of Petitioner - street line", "participant.street_address", 1),
-        h.write("PetitionerCity", "Address Of Petitioner - City", "participant.city", 1),
-        h.write("PetitionerState", "Address Of Petitioner - State", "participant.state", 1),
-        h.write("CountyName", "County named in the caption of the petition", "matter.county", 1),
-        h.write("FileNumber", "File No. in the caption of the petition", "matter.case_number", 1)
-      );
-      refusals.push(
-        h.rbf("PetitionerZip", "Address Of Petitioner - Zip",
-          "your ZIP code. The platform holds it and writes it on AOC-CV-226, but it cannot write it here: on this crowded row the shared rules read the neighbouring \"Race\" caption instead of this blank's own and refuse the write",
-          "a caption-capture defect returns the printed word Race for this blank, so the shared semantics refuse it as a protected personal descriptor; the refusal withholds rather than mis-writes, but the reason is wrong and the participant is told so", 1),
-        h.rbf("DateOfBirth", "Date Of Birth on the petition",
-          "your date of birth. The platform holds it and writes it on AOC-CV-226; on this row the shared rules read the neighbouring \"Full Social Security No.\" caption and refuse the write as a government identifier",
-          "the caption capture returns the blob \"Date Of BirthFull Social Security No.Age At Time Of Offense\" for this blank, so the shared semantics refuse it; the fact is held and the refusal is a capture defect", 1),
-        h.rbf("DriversLicenseNumber", "Drivers License No.",
-          "your driver's licence number, from the licence itself",
-          "the shared semantics refuse a government identifier on any form", 1),
-        h.rbf("DriversLicenseState", "Drivers License State",
-          "the state that issued your driver's licence",
-          "part of the same government-identifier block", 1),
-        h.rbf("FullSocialSecurityNumber", "Full Social Security No.",
-          "your Social Security number, as the form asks",
-          "the shared semantics refuse a Social Security number on any form", 1),
-        h.rbf("Race", "Race",
-          "your race, as the form asks",
-          "the platform does not hold or write a race fact", 1),
-        h.rbf("Sex", "Sex",
-          "your sex, as the form asks",
-          "the platform does not hold or write a sex fact", 1),
-        h.rbf("AgeAtTimeOfOffense", "Age At Time Of Offense",
-          "your age when the offence happened",
-          "an age at a past date is computed from an offence date the platform does not hold for this matter", 1),
-        h.rbf("ArrestingAgencyName", "Name Of Arresting Agency",
-          "the name of the agency that arrested you. The form's own note says the clerk will not provide addresses for you",
-          "which agency arrested a participant, and its address, are case facts the platform has not seen", 1),
-        h.rbf("ArrestingAgencyAddr1", "Address Of Arresting Agency - street line",
-          "the arresting agency's street address, in full - the clerk sends the granted order to the address you write",
-          "no committed record holds the address of any particular North Carolina agency", 1),
-        h.rbf("ArrestingAgencyCity", "Address Of Arresting Agency - City",
-          "the arresting agency's city",
-          "no committed record holds it", 1),
-        h.rbf("ArrestingAgencyState", "Address Of Arresting Agency - State",
-          "the arresting agency's state",
-          "no committed record holds it", 1),
-        h.rbf("ArrestingAgencyZip", "Address Of Arresting Agency - Zip",
-          "the arresting agency's ZIP code",
-          "no committed record holds it", 1),
-        h.rbf("OtherAgency1Name", "Name Of Other Agency (if any) - first",
-          "the name of any other State or local government agency with a record of your case. Do NOT list the courts, the SBI, the Department of Adult Correction, the DMV, or any private entity",
-          "which further agencies hold a record of a particular case is a fact the platform has not seen", 1),
-        h.rbf("OtherAgency1Addr1", "Address Of Other Agency (if any) - first, street line",
-          "that agency's street address, in full",
-          "no committed record holds it", 1),
-        h.rbf("OtherAgency2Name", "Name Of Other Agency (if any) - second",
-          "the name of a further agency, if there is one; use AOC-CR-285 if there are more than the form has room for",
-          "which further agencies hold a record of a particular case is a fact the platform has not seen", 1),
-        h.rbf("OtherAgency2Addr1", "Address Of Other Agency (if any) - second, street line",
-          "that agency's street address, in full",
-          "no committed record holds it", 1),
-        h.rbf("ChargesLine1", "Paragraph 3(b) - file nos. and offence descriptions of charges that were NOT dismissed, first line",
-          "only if you tick paragraph 3's box b: the file numbers and offence descriptions of the charges that resulted in a conviction on the day of dismissal or had not reached final disposition",
-          "which of a participant's charges were not dismissed is a fact about their own record", 1),
-        h.optional("PetitionerAddr2", "Address Of Petitioner - second street line",
-          "used only if your address needs a second line; the platform holds one street address and writes it on the first", 1),
-        h.optional("ArrestingAgencyAddr2", "Address Of Arresting Agency - second street line",
-          "used only if that agency's address needs a second line", 1),
-        h.optional("OtherAgency1Addr2", "Address Of Other Agency (if any) - first, second street line",
-          "used only if that agency's address needs a second line", 1),
-        h.optional("OtherAgency1City", "Address Of Other Agency (if any) - first, City",
-          "that agency's city, if you list a first other agency", 1),
-        h.optional("OtherAgency1State", "Address Of Other Agency (if any) - first, State",
-          "that agency's state, if you list a first other agency", 1),
-        h.optional("OtherAgency1Zip", "Address Of Other Agency (if any) - first, Zip",
-          "that agency's ZIP code, if you list a first other agency", 1),
-        h.optional("OtherAgency2Addr2", "Address Of Other Agency (if any) - second, second street line",
-          "used only if that agency's address needs a second line", 1),
-        h.optional("OtherAgency2City", "Address Of Other Agency (if any) - second, City",
-          "that agency's city, if you list a second other agency", 1),
-        h.optional("OtherAgency2State", "Address Of Other Agency (if any) - second, State",
-          "that agency's state, if you list a second other agency", 1),
-        h.optional("OtherAgency2Zip", "Address Of Other Agency (if any) - second, Zip",
-          "that agency's ZIP code, if you list a second other agency", 1),
-        h.optional("ChargesLine2", "Paragraph 3(b) - second line for charges that were NOT dismissed",
-          "used only if the first line will not hold the answer", 1),
-        h.attorneyBlank("PetitionersAttorneyName", "Name Of Petitioner's Attorney For Expunction Petition",
-          "completed only where an attorney files the petition for you", 1),
-        h.attorneyBlank("PetitionersAttorneyAddr1", "Address Of Petitioner's Attorney - street line",
-          "part of the same attorney block", 1),
-        h.attorneyBlank("PetitionersAttorneyAddr2", "Address Of Petitioner's Attorney - second street line",
-          "part of the same attorney block", 1),
-        h.attorneyBlank("PetitionersAttorneyCity", "Address Of Petitioner's Attorney - City",
-          "part of the same attorney block", 1),
-        h.attorneyBlank("PetitionersAttorneyState", "Address Of Petitioner's Attorney - State",
-          "part of the same attorney block", 1),
-        h.attorneyBlank("PetitionersAttorneyZip", "Address Of Petitioner's Attorney - Zip",
-          "part of the same attorney block", 1),
-        h.election("SuperiorCourtCkBox", "Caption - Superior Court division",
-          "which division the charge was brought in is a fact about the participant's own case; the route covers both", 1),
-        h.election("DistrictCourtCkBox", "Caption - District Court division",
-          "the other half of the same election", 1),
-        h.election("CkBox_Attchmt", "Box indicating additional agencies and/or file nos. and offences are listed on an attached AOC-CR-285",
-          "whether a continuation sheet is attached depends on how many agencies and charges the participant has, which the platform does not know; AOC-CR-285 is not in this packet", 1),
-        h.election("ChargedWithMultipleAndAllDismissedCkBox", "Paragraph 3(a) - charged with multiple offences and ALL were dismissed",
-          "whether all of a participant's charges were dismissed is a fact about their own record, and it is the difference between G.S. 15A-146(a) and (a1)", 1),
-        h.election("ChargedWithMultipleNotAllDismissedCkBox", "Paragraph 3(b) - charged with multiple offences and some were not dismissed",
-          "the other half of the same election", 1),
-        h.election("ThereIsACivilRevocationRecordCkBox", "Paragraph 4 - there is a civil revocation record resulting from the offence(s)",
-          "whether a civil revocation of the participant's licence resulted is a fact about their own driving record", 1),
-        h.election("NoChargeDismissedDeferredProsecutionCkBox", "Box - no charge listed was dismissed as the result of a deferred prosecution agreement or conditional discharge",
-          "this box is the $175.00 fee switch and it is a sworn statement about how the participant's own case was dismissed; the NOTE TO CLERK beside it says that if it is checked the fee is not assessed, and no packet may make that statement for a participant", 1),
-        h.election("PetitionerCkBox", "Signature block - the signer is the Petitioner",
-          "who signs is the participant's own election between signing personally and signing by counsel", 1),
-        h.election("PetitionersAttorneyCkBox", "Signature block - the signer is the Petitioner's Attorney",
-          "the other half of the same election", 1),
-        h.protectedBlank("PetitionSignedDate", "Date beside the petitioner's signature",
-          "a date written before the petition is signed would be false", 1),
-        h.protectedBlank("PetitionSignedByName", "Name (type or print) beside the petitioner's signature",
-          "the printed name that accompanies a signature is part of the signature block and is made when the petition is signed", 1),
-        h.agencyBlank("ScanNumbers", "Scan No.(s) in the caption",
-          "assigned by the clerk of superior court when the petition is received", 1),
-        // ---- Side Two, entire. The court's and the clerk's, without exception.
-        h.agencyBlank("FindsAllDismissedCkBox", "FINDINGS OF FACT 3(a) - the court finds all charges were dismissed",
-          "a finding of fact is the court's", 2),
-        h.agencyBlank("FindsNotAllDismissedCkBox", "FINDINGS OF FACT 3(b) - the court finds some charges were not dismissed",
-          "a finding of fact is the court's", 2),
-        h.agencyBlank("FindsThereIsACivilRevocationRecordCkBox", "FINDINGS OF FACT 4 - the court finds there is a civil revocation record",
-          "a finding of fact is the court's", 2),
-        h.agencyBlank("FindsShouldBeGrantedCkBox", "FINDINGS OF FACT 5 - expunction should be granted",
-          "the decision is the court's", 2),
-        h.agencyBlank("FindsShouldNotBeGrantedCkBox", "FINDINGS OF FACT 5 - expunction should not be granted",
-          "the decision is the court's", 2),
-        h.agencyBlank("ReasonLine1", "FINDINGS OF FACT 5 - the court's reason, first line",
-          "the court states its own reason", 2),
-        h.agencyBlank("ReasonCont", "FINDINGS OF FACT 5 - the court's reason, continued",
-          "the court states its own reason", 2),
-        h.agencyBlank("PetitionIsGrantedCkBox", "ORDER - the petition is granted",
-          "the order is the court's", 2),
-        h.agencyBlank("PetitionIsDeniedCkBox", "ORDER - the petition is denied",
-          "the order is the court's", 2),
-        h.agencyBlank("PresidingJudgeName", "ORDER - Name Of Presiding Judge (type or print)",
-          "the presiding judge's own block", 2),
-        h.protectedBlank("OrderSignedDate", "ORDER - date beside the presiding judge's signature",
-          "the court dates its own order", 2),
-        h.agencyBlank("CertificationByClerkName", "CERTIFICATION BY CLERK - name of the certifying officer",
-          "the clerk of superior court certifies the record", 2),
-        h.agencyBlank("CertificationByClerkDate", "CERTIFICATION BY CLERK - date of the certification",
-          "the clerk of superior court certifies the record", 2),
-        h.agencyBlank("DeputyCSCCkBox", "CERTIFICATION BY CLERK - Deputy CSC",
-          "which officer of the clerk's office signs is that office's own", 2),
-        h.agencyBlank("AssistantCSCCkBox", "CERTIFICATION BY CLERK - Assistant CSC",
-          "which officer of the clerk's office signs is that office's own", 2),
-        h.agencyBlank("ClerkOfSuperiorCourtCkBox", "CERTIFICATION BY CLERK - Clerk Of Superior Court",
-          "which officer of the clerk's office signs is that office's own", 2)
-      );
-      // The offence table: row one required-before-filing in every column,
-      // rows two to ten optional, because they exist for a case with more than
-      // one dismissed charge.
-      for (const [field, caption, what] of TABLE_COLUMNS) {
-        refusals.push(h.rbf(`${field}1`, `${caption}, table row 1`, what,
-          "Side One's table is completed as a ROW: its Date Of Dismissal column cannot be bound by any family, "
-          + "and a row carrying written cells beside a required cell left blank reads as finished when it is not", 1));
-        for (let n = 2; n <= 10; n += 1) {
-          refusals.push(h.optional(`${field}${n}`, `${caption}, table row ${n}`,
-            `used only if your case had ${n} or more dismissed charges; the form repeats this table ten times and `
-            + "the platform does not invent a charge you did not have", 1));
-        }
-      }
-    } else if (componentId === "fee_waiver") {
-      writes.push(
-        h.write("ApplicantName", "Name Of Applicant", "participant.full_legal_name", 1),
-        h.write("ApplicantCity", "City of the applicant", "participant.city", 1),
-        h.write("ApplicantState", "State of the applicant", "participant.state", 1),
-        h.write("ApplicantZip", "Zip Code of the applicant", "participant.zip", 1),
-        h.write("ApplicantTelephoneNumber", "Telephone Number Of Applicant", "participant.phone", 1),
-        h.write("ApplicantDateOfBirth", "Date Of Birth of the applicant", "participant.date_of_birth", 1),
-        h.write("CountyName", "County named in the caption of the affidavit", "matter.county", 1),
-        h.write("FileNumber", "File No. in the caption of the affidavit", "matter.case_number", 1)
-      );
-      refusals.push(
-        h.rbf("ApplicantStreetNumberAndStreetNameLine1", "Street Number And Street Name, Including Apartment Or Unit No.",
-          "your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption, and the block below it exists for a DIFFERENT address rather than this one",
-          "no descriptor in the shared list matches \"Street Number And Street Name\", and the if-different block beneath it is refused by role so the address is never written into the wrong one of the two", 1),
-        h.optional("ApplicantStreetNumberAndStreetNameLine2", "Street Number And Street Name - second line",
-          "used only if your street address needs a second line", 1),
-        h.optional("ApplicantFullPermanentMailingAddressAddr1", "Full Permanent Mailing Address Of Applicant (if different than above) - street line",
-          "used only if your permanent mailing address is DIFFERENT from the address above; leave the whole block empty if it is the same", 1),
-        h.optional("ApplicantFullPermanentMailingAddressAddr2", "Full Permanent Mailing Address Of Applicant (if different than above) - second street line",
-          "part of the same if-different block", 1),
-        h.optional("ApplicantFullPermanentMailingAddressCity", "Full Permanent Mailing Address Of Applicant (if different than above) - City",
-          "part of the same if-different block", 1),
-        h.optional("ApplicantFullPermanentMailingAddressState", "Full Permanent Mailing Address Of Applicant (if different than above) - State",
-          "part of the same if-different block", 1),
-        h.optional("ApplicantFullPermanentMailingAddressZip", "Full Permanent Mailing Address Of Applicant (if different than above) - Zip",
-          "part of the same if-different block", 1),
-        h.rbf("NumberOfDependents", "Number Of Dependents",
-          "how many dependents you have",
-          "a dependent count is a household fact the platform does not hold", 1),
-        h.rbf("ApplicantsEmployerNameAndAddress", "Name And Address Of Applicant's Employer (if not employed, state reason; if self-employed, state trade)",
-          "your employer's name and address, or the reason you are not employed, or your trade if you are self-employed",
-          "employment is a fact about the participant and a third party, and the platform holds neither", 1),
-        h.rbf("BankNameAndAccountType", "Cash on hand and in bank accounts - bank name and account type (do not list account no.)",
-          "the name of your bank and the type of account, without the account number",
-          "the platform holds no financial fact for any participant", 1),
-        h.rbf("MotorVehicles", "Motor Vehicles (list make, model, year)",
-          "the make, model and year of each vehicle you own",
-          "the platform holds no asset fact for any participant", 1),
-        h.rbf("LastIncomeTaxFiledYearLastTwoDigits", "Last Income Tax Filed 20__",
-          "the last two digits of the year you last filed income tax",
-          "the platform holds no tax fact for any participant", 1),
-        h.optional("OtherMonthlyExpensesDescription", "Other monthly expenses: (specify)",
-          "used only if you have a monthly expense the listed categories do not cover", 1),
-        h.rbf("GovernmentalAgenciesOrOtherEntitesAuthorizedToBeContactedAndOrToReleaseInformation",
-          "Governmental Agencies Or Other Entities Authorized To Be Contacted And/Or To Release Information",
-          "the agencies or entities you authorise to be contacted about, or to release, your financial information",
-          "an authorisation to release a participant's own information is theirs to give and is not a fact the platform holds", 1),
-        h.election("DistrictCourtDivisionCkBox", "Caption - District Court division",
-          "which division the matter is in follows the participant's own case", 1),
-        h.election("SuperiorCourtDivisionCkBox", "Caption - Superior Court division",
-          "the other half of the same election", 1),
-        h.election("ApplicantIsPlaintiffCkBox", "The applicant is the Plaintiff",
-          "which party the participant is in this matter is a fact about their own case", 1),
-        h.election("ApplicantIsDefendantCkBox", "The applicant is the Defendant",
-          "the other half of the same election", 1),
-        h.election("YesHaveServedInUnitedStatesArmedForcesCkBox", "Have you ever served in the United States Armed Forces? Yes",
-          "the form itself marks this question optional, and military service is a fact about the participant that the platform does not hold", 1),
-        h.election("NoHaveNotServedInUnitedStatesArmedForcesCkBox", "Have you ever served in the United States Armed Forces? No",
-          "the other half of the same optional question", 1),
-        h.election("BuyingShelterCkBox", "Shelter - Buying",
-          "whether the participant is buying or renting is a household fact the platform does not hold", 1),
-        h.election("RentingShelterCkBox", "Shelter - Renting",
-          "the other half of the same election", 1),
-        h.election("VehicleInstallmentPaymentsCkBox", "Installment Payments - Vehicle",
-          "what the participant's installment payments are for is a financial fact the platform does not hold", 1),
-        h.election("OtherInstallmentPaymentsCkBox", "Installment Payments - Other",
-          "the other half of the same election", 1),
-        h.election("LastIncomeTaxFiledRefundCkBox", "Last income tax filed - Refund",
-          "whether the participant was owed a refund or owed tax is a financial fact the platform does not hold", 1),
-        h.election("LastIncomeTaxFiledOweCkBox", "Last income tax filed - Owe",
-          "the other half of the same election", 1),
-        h.election("SigningApplicantIsPlaintiffCkBox", "Signature block - the signing applicant is the Plaintiff",
-          "which party the participant is, restated at the signature block", 2),
-        h.election("SigningApplicantIsDefendantCkBox", "Signature block - the signing applicant is the Defendant",
-          "the other half of the same election", 2),
-        h.protectedBlank("SignedByApplicantDate", "Date beside the applicant's signature",
-          "a date written before the affidavit is sworn would be false", 2),
-        h.protectedBlank("SignedByApplicantName", "Signature Of Applicant",
-          "the applicant swears and signs the affidavit personally", 2),
-        h.agencyBlank("JuratPersonAdministerOathsSignDate", "Jurat - date and signature of the person authorised to administer oaths",
-          "the officer who administers the oath completes the jurat", 2),
-        h.agencyBlank("JuratDeputyCSCCkBox", "Jurat - Deputy CSC",
-          "which officer administers the oath is that office's own", 2),
-        h.agencyBlank("JuratAssistantCSCCkBox", "Jurat - Assistant CSC",
-          "which officer administers the oath is that office's own", 2),
-        h.agencyBlank("JuratClerkOfSuperiorCourtCkBox", "Jurat - Clerk Of Superior Court",
-          "which officer administers the oath is that office's own", 2),
-        h.agencyBlank("JuratMagistrateCkBox", "Jurat - Magistrate",
-          "which officer administers the oath is that office's own", 2),
-        h.agencyBlank("JuratNotaryCkBox", "Jurat - Notary",
-          "which officer administers the oath is that office's own", 2),
-        h.agencyBlank("JuratCommissionExpiresDate", "Jurat - My Commission Expires",
-          "a notary's own commission expiry, which only the notary knows", 2),
-        h.agencyBlank("JuratCountyWhereNotarized", "Jurat - county where notarised",
-          "the county in which the oath is administered is stated by the officer who administers it", 2)
-      );
-      const MONEY = [
-        ["TotalAssets", "Total Assets"],
-        ["TotalLiabilities", "Total Liabilities"],
-        ["BondType", "Bond Type"],
-        ["BondAmount", "Bond Amount"],
-        ["ByWhomPosted", "Bond - By Whom Posted"],
-        ["ApplicantEmploymentIncomeMonthlyAmount", "Monthly income from the applicant's employment"],
-        ["SpouseEmploymentIncomeMonthlyAmount", "Monthly income from the spouse's employment"],
-        ["SpousesEmployerNameAndAddress", "Name And Address Of Spouse's Employer"],
-        ["OtherIncomeMonthlyAmount", "Other monthly income"],
-        ["TotalMonthlyIncome", "Total Monthly Income"],
-        ["ShelterMonthlyExpensesAmount", "Monthly expenses - Shelter"],
-        ["FoodMonthlyExpensesAmount", "Monthly expenses - Food"],
-        ["UtilitiesMonthlyExpensesAmount", "Monthly expenses - Utilities"],
-        ["HealthCareMonthlyExpensesAmount", "Monthly expenses - Health Care"],
-        ["InstallmentPaymentsMonthlyExpensesAmount", "Monthly expenses - Installment Payments"],
-        ["CarMonthlyExpensesAmount", "Monthly expenses - Car Expenses (gas, insurance, etc.)"],
-        ["SupportPaymentsMonthlyExpensesAmount", "Monthly expenses - Support Payments"],
-        ["OtherMonthlyExpensesAmount", "Monthly expenses - Other"],
-        ["TotalMonthlyExpenses", "Total Monthly Expenses"],
-        ["CashOnHandAndInBankAccountsAssetsAmount", "Assets - Cash on hand and in bank accounts"],
-        ["MoneyOwedToOrHeldForApplicantAssetsAmount", "Assets - Money owed to or held for the applicant"],
-        ["MotorVehiclesAssetsAmount", "Assets - Motor Vehicles (fair market value)"],
-        ["RealEstateAssetsAmount", "Assets - Real Estate"],
-        ["PersonalPropertyAssetsAmount", "Assets - Personal Property"],
-        ["IncomeTaxAssetsAmount", "Assets - Income Tax"],
-        ["OtherAssetsAmount", "Assets - Other"],
-        ["MotorVehiclesLiabilitiesAmount", "Liabilities - Motor Vehicles (balance owed)"],
-        ["RealEstateLiabilitiesAmount", "Liabilities - Real Estate"],
-        ["PersonalPropertyLiabilitiesAmount", "Liabilities - Personal Property"],
-        ["OtherDebtsLiabilitiesAmount", "Liabilities - Other Debts"],
-        ["IncomeTaxLiabilitiesAmount", "Liabilities - Income Tax"],
-        ["OtherLiabilitiesAmount", "Liabilities - Other"]
-      ];
-      for (const [field, caption] of MONEY) {
-        refusals.push(h.rbf(field, caption,
-          "your own figure, which you swear to. This affidavit is a sworn financial statement and the platform invents no number on it",
-          "the platform holds no financial fact for any participant, and a figure on a sworn affidavit may only come from the person swearing it", 1));
-      }
-    } else {
-      // The AOC's own instruction sheet, delivered exactly as published.
-      // Nothing is written on it and there is nothing on it to write.
-    }
+    const writes = [
+      h.write("full_name", "PART II - FULL NAME (Last) (First) (Middle) (Suffix)", "participant.full_legal_name", 3),
+      h.write("mailing_address", "PART II - MAILING ADDRESS", "participant.street_address", 3),
+      h.write("phone_numbers", "PART II - PHONE NUMBER(S)", "participant.phone", 3),
+      h.write("date_of_birth", "PART II - DATE OF BIRTH", "participant.date_of_birth", 3),
+      h.write("trial_court_case_number", "PART II - TRIAL COURT CASE #", "matter.case_number", 3),
+      h.write("date_of_arrest", "PART II - DATE OF ARREST", "matter.arrest_date", 3),
+      h.write("date_of_offense", "PART II - DATE OF OFFENSE", "matter.offense_date", 3),
+      h.write("name_of_offenses", "PART II - NAME OF OFFENSE(S)", "matter.charge", 3)
+    ];
+    const refusals = [
+      h.rbf("former_or_other_names", "PART II - FORMER OR OTHER NAMES/ALIASES",
+        "any prior name, nickname or alias your records might be held under; write N/A if there are none",
+        "the platform holds no alias fact, and writing the legal name here would assert an alias that may not exist", 3),
+      h.rbf("social_security_number", "PART II - SOCIAL SECURITY #",
+        "your Social Security number, as the form asks",
+        "the shared semantics refuse a government identifier on any form", 3),
+      h.rbf("drivers_license_or_state_id", "PART II - ALASKA DRIVERS LICENSE # OR STATE ID #",
+        "your Alaska driver's licence or state ID number",
+        "the shared semantics refuse a government identifier on any form", 3),
+      h.rbf("arrest_tracking_number", "PART II - ARREST TRACKING NUMBER",
+        "the ATN, from your arrest paperwork or your DPS criminal history record; write N/A if you do not have one",
+        "the ATN is assigned by the agency when an arrest is processed and identifies it through a system the platform has no knowledge of", 3),
+      h.rbf("police_agency_case_number", "PART II - POLICE AGENCY CASE #",
+        "the POLICE department's own case number, which is not the court's number. The platform holds the trial court number and writes that one, three rows below",
+        "this caption resolves to the same fact as the trial court's case number, so anchoring it would print the court's number where the police department's belongs", 3),
+      h.rbf("name_of_arresting_agency", "PART II - NAME OF ARRESTING AGENCY",
+        "the name of the agency that arrested or cited you",
+        "the shared semantics refuse an agency name on any form, so the platform cannot write one here whatever it holds", 3),
+      h.rbf("name_of_arresting_officer", "PART II - NAME OF ARRESTING OFFICER",
+        "the name of the officer who arrested or cited you - the same officer whose signature PART IV section A needs",
+        "this caption resolves under the shared naming rules to the APPLICANT'S OWN NAME, so it is never anchored: writing here would print your name where the officer's belongs", 3),
+      h.rbf("prosecution_case_number", "PART II - PROSECUTION CASE #",
+        "the PROSECUTOR's own case number, which is not the court's number and not the police department's",
+        "this caption resolves to the same fact as the trial court's case number, so anchoring it would print the court's number where the prosecutor's belongs", 3),
+      h.rbf("name_of_prosecuting_agency", "PART II - NAME OF PROSECUTING AGENCY",
+        "the name of the office that prosecuted, or would have prosecuted, the case; write N/A if the charges were never referred",
+        "the shared semantics refuse an agency name on any form", 3),
+      h.rbf("name_of_prosecutor", "PART II - NAME OF PROSECUTOR",
+        "the name of the prosecutor - the same person whose signature PART IV section B needs if charges were referred",
+        "a prosecutor's name is a court-and-prosecutor fact the platform does not hold", 3),
+      h.rbf("name_of_trial_court", "PART II - NAME OF TRIAL COURT",
+        "the name of the court that handled the case",
+        "this caption resolves under the shared naming rules to the APPLICANT'S OWN NAME, so it is never anchored: writing here would print your name where the court's belongs", 3),
+      h.rbf("appellate_court_case_number", "PART II - APPELLATE COURT CASE #",
+        "the APPELLATE court's case number, if there was an appeal; write N/A if there was not",
+        "an appellate number is a different number from the trial court's, and the platform holds only the trial court's", 3),
+      h.rbf("name_of_appellate_court", "PART II - NAME OF APPELLATE COURT",
+        "the name of the appellate court, if there was an appeal; write N/A if there was not",
+        "this caption resolves under the shared naming rules to the APPLICANT'S OWN NAME, so it is never anchored", 3),
+      h.rbf("charge_statute_or_ordinance", "PART II - CHARGE(S): STATUTE/ORDINANCE # (e.g., AS 11.46.120)",
+        "the Alaska statute or ordinance number of the charge, from your paperwork or your DPS record; the name of the offence beside it is already filled",
+        "the platform holds the name of the offence and holds no statute-section fact for it", 3),
+      h.rbf("date_charge_dismissed", "PART II - DATE CHARGE DISMISSED",
+        "the date the charge was dismissed, if it was; write N/A if it was not",
+        "this caption carries the word CHARGE and resolves to the name of the offence rather than to a date, so anchoring it would print an offence name into a date box; and the platform holds no dismissal date for this matter", 3),
+      h.rbf("agency_that_dismissed", "PART II - AGENCY THAT DISMISSED",
+        "the agency or court that dismissed the charge, if it was dismissed",
+        "the shared semantics refuse an agency name on any form", 3),
+      h.rbf("date_acquitted", "PART II - DATE ACQUITTED",
+        "the date you were acquitted, if you were; write N/A if you were not",
+        "the platform holds no acquittal date for this matter", 3),
+      h.rbf("date_sentenced", "PART II - DATE SENTENCED",
+        "the date you were sentenced, if you were; write N/A if you were not",
+        "the platform holds no sentencing date for this matter", 3),
+      h.rbf("date_conviction_reversed_or_vacated", "PART II - DATE CONVICTION REVERSED OR VACATED",
+        "the date the conviction was reversed or vacated, if it was - PART IV section D requires the court order that did it",
+        "the platform holds no reversal date for this matter", 3),
+      h.rbf("date_pardoned", "PART II - DATE PARDONED",
+        "the date you were pardoned, if you were - PART IV section D requires the Governor's Pardon itself",
+        "the platform holds no pardon fact for this matter", 3),
+      h.rbf("part_iii_explanation", "PART III - explanation of mistaken identity or false accusation",
+        "your own account of the circumstances, which must show beyond a reasonable doubt that the charge(s) resulted from mistaken identity or false accusation. If it was mistaken identity, give the name and description of the person you were mistaken for, if known; if it was a false accusation, give the name and description of the person who made it, if known. Use additional sheets if you need them",
+        "this is a sworn narrative to a beyond-a-reasonable-doubt standard about the participant's own case, and nobody can write it for them", 4),
+      h.agencyBlank("part_iv_a_officer_agreement", "PART IV section A - the arresting or citing officer's I AGREE / I DO NOT AGREE statement",
+        "the arresting or citing officer, or that officer's superior, completes and signs this section personally; it is not the applicant's to tick and not the platform's to fill", 5),
+      h.agencyBlank("part_iv_a_officer_comments", "PART IV section A - the officer's COMMENTS",
+        "the officer's own words", 5),
+      h.agencyBlank("part_iv_a_officer_name_title", "PART IV section A - NAME/TITLE (PRINTED)",
+        "the officer identifies themselves", 5),
+      h.agencyBlank("part_iv_a_officer_signature", "PART IV section A - SIGNATURE",
+        "the officer signs their own statement", 5),
+      h.agencyBlank("part_iv_a_officer_agency_phone_date", "PART IV section A - AGENCY, PHONE NUMBER and DATE",
+        "the officer's own agency, telephone number and the date they sign", 5),
+      h.agencyBlank("part_iv_b_prosecutor_agreement", "PART IV section B - the prosecutor's I AGREE / I DO NOT AGREE statement",
+        "the prosecutor to whom the charges were referred, or that prosecutor's superior, completes and signs this section personally", 5),
+      h.agencyBlank("part_iv_b_prosecutor_comments", "PART IV section B - the prosecutor's COMMENTS",
+        "the prosecutor's own words", 5),
+      h.agencyBlank("part_iv_b_prosecutor_name_title", "PART IV section B - NAME/TITLE (PRINTED)",
+        "the prosecutor identifies themselves", 5),
+      h.agencyBlank("part_iv_b_prosecutor_signature", "PART IV section B - SIGNATURE",
+        "the prosecutor signs their own statement", 5),
+      h.agencyBlank("part_iv_b_prosecutor_agency_phone_date", "PART IV section B - AGENCY, PHONE NUMBER and DATE",
+        "the prosecutor's own office, telephone number and the date they sign", 5),
+      h.agencyBlank("part_v_bureau_block", "PART V - to be completed by the Records and Identification Bureau",
+        "the form says so on its own face: APSIN #, FBI # and every verification line in PART V are the Bureau's", 6),
+      h.agencyBlank("part_vi_commissioner_block", "PART VI - to be completed by the Commissioner of Public Safety",
+        "the form says PART VI will be completed by the Commissioner and the packet returned to the applicant showing the decision", 6)
+    ];
     return { writes, refusals };
   }
 };

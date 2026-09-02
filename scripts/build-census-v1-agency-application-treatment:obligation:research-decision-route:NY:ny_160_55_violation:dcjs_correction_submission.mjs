@@ -793,8 +793,26 @@ async function measureCells(bytes, cells) {
       .filter((t) => String(t.text).trim() && t.x >= left.x - 2 && t.x <= right.x + 2 && t.y >= bottom.y - 1 && t.y <= top.y + 1)
       .sort((a, b) => b.y - a.y || a.x - b.x);
     const lowestPrintedLine = printedInCell.length > 0 ? Math.min(...printedInCell.map((t) => t.y)) : null;
-    const boxBottom = bottom.y + WRITE_BOX_LIFT;
+    /*
+     * Where in a measured cell the value sits.
+     *
+     * By default it sits on the cell's bottom rule, which is where a person
+     * writing on paper puts it: the caption is printed at the top of the cell
+     * and the line beneath is the line you write on.
+     *
+     * `writeUnderCaption` is for a TALL cell -- Alaska's DPS mailing-address
+     * box is 80 points deep because it expects two or three lines -- where the
+     * default would leave a single-line value floating sixty points below its
+     * own caption. It places the box directly under the lowest printed line
+     * inside the cell instead. BOTH rules are still measured, and the box is
+     * still required to sit above the cell's own bottom rule; the flag moves
+     * the value inside a measured cell and can never move it out of one.
+     */
+    const floor = bottom.y + WRITE_BOX_LIFT;
     const ceiling = lowestPrintedLine === null ? top.y - CAPTION_CLEARANCE : lowestPrintedLine - CAPTION_CLEARANCE;
+    const boxBottom = cell.writeUnderCaption === true
+      ? Math.max(floor, ceiling - MAX_WRITE_BOX_HEIGHT)
+      : floor;
     const height = Number(Math.min(MAX_WRITE_BOX_HEIGHT, ceiling - boxBottom).toFixed(2));
     const writeBox = {
       x: Number((left.x + CELL_INSET).toFixed(2)),
@@ -805,6 +823,8 @@ async function measureCells(bytes, cells) {
     measured.push({
       ...cell, writeBox, rect: writeBox,
       tooShallowToWriteIn: height < MIN_WRITE_BOX_HEIGHT,
+      placedUnderCaption: cell.writeUnderCaption === true,
+      sitsAboveTheCellsOwnBottomRule: boxBottom >= bottom.y,
       lowestPrintedLineInCell: lowestPrintedLine,
       rectBasis:
         "measured_table_cell: four strokes read from the page content stream — the rule above, the rule below, "
