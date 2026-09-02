@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "rcap-tx-custom-pleading",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "Eight Texas expunction tracks name a fee-waiver-statement component, and all eight resolve to the same document. Their filing rule, fee rule and waiver rule were compared across the committed record and are identical: a verified ex parte petition to the district clerk of the county of arrest or of the alleged offence, the art. 102.0061 fee regime, and the Rule 145 Statement of Inability as the waiver route.",
+      "consequence": "The Statement is rendered ONCE and the eight component ids it serves are declared in servesComponentIdsInOtherPacketSets rather than multiplied into eight renders. A participant is on one route and receives one copy; eight copies of the same twelve-page form would misdescribe the deliverable and multiply the raster surface eightfold for no participant benefit."
+    },
+    {
+      "finding": "Article 102.006 was repealed by S.B. 1667 effective 2025-09-01, temporarily re-added by H.B. 16 of the 89th Legislature's 2nd Called Session with a built-in expiry, and permanently replaced by art. 102.0061 effective 2026-01-01. The committed record states in terms that the old $250 to $500 range is no longer reliable.",
+      "consequence": "The packet does not quote that range and says explicitly where it came from, so a participant who has read it online learns it is from a repealed statute. What is stated instead is art. 102.0061 as it now reads: the ordinary county civil ex parte filing fee in district court under (a), and a flat $100 in a justice court or municipal court of record under (b)."
+    },
+    {
+      "finding": "Article 102.0061(c) and (d) each REQUIRE the fee to be waived in defined circumstances — (c) for an acquittal other than one described by art. 55A.151 where the petition is filed within 30 days, and (d) where entitlement arises under art. 55A.053(a)(2)(A) or (B).",
+      "consequence": "The guidance opens by telling the participant to check whether they need this form at all, and to cite the article at the counter if either applies. A fee-waiver packet that did not mention the two places the fee is waived WITHOUT it would be selling paperwork the participant may not need."
+    },
+    {
+      "finding": "Article 55A.254(e) forbids the clerk charging anything to transmit the petition or notice of hearing electronically; art. 55A.254(f) requires $25 for each listed entity unable to receive one; and the same structure repeats at the order stage under art. 55A.351(b-2) and (b-3). Article 55A.253(c) requires each district clerk to publish a list of agencies with e-mail addresses.",
+      "consequence": "The guidance says plainly that this cost is larger than the filing fee and, unlike the filing fee, is under the participant's control: ten paper-only agencies is $500 in transmission charges alone, twice over. Deduplicating and using the clerk's published e-mail addresses is presented as the substantive money advice on this route, ahead of the waiver itself."
+    },
+    {
+      "finding": "The Statement is sworn under penalty of perjury and carries 132 fields of financial and household detail. Its own first page states that the Clerk's office fills in the cause number when the form is filed.",
+      "consequence": "Nothing financial is prefilled anywhere on it — only the participant's own name, date of birth, address, telephone number and email. The cause number is refused as court-owned with the form's own sentence as the reason, rather than being asked of the participant, because telling them to supply it would contradict the document in their hand."
+    }
+  ]
+}
