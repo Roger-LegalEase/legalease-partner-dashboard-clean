@@ -2300,6 +2300,297 @@
       "reExaminedUnder": "DET-FEE-AND-WAIVER-001 and its amendment A1",
       "whyTheStrongestVerdict": "All fifteen obligations measured here, all fifteen pass. SOURCE_IDENTITY — the one the earlier read could not measure — is measured from the mounted Master Library and passes, including the two committed legal-design records this family binds alongside the corpus source.",
       "supersedes": "the VF11 row for this family, capped at PASS for want of a measurable SOURCE_IDENTITY"
+    },
+    {
+      "itemId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "lane": "VF07",
+      "verdict": "PASS",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/composed-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-court-petition-after-90-days--custom-pleading",
+      "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+      "verifier": "FABLE-VT11 (independent — built none of these packets, repaired none of them, and authored none of the records they are grounded on)",
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PENDING",
+      "rasterCeiling": "BUILT_RASTER_PENDING",
+      "rasterStateBasis": "RASTER_QUEUE.json carries currentRasterState RASTER_PENDING for this family with nextOwner RAS03 and no rasterReceipt object at all. A central run is in flight. Every one of the fifteen obligations was still measured and all fifteen pass, including CLIPPING_AND_OVERLAP which I measured myself from the PDF bytes; the missing central receipt is the only thing standing between this row and PASS_COMPLETE_INDEPENDENT, and it is a ceiling rather than a defect. This row should be re-read for promotion once the receipt lands, and nothing here needs repair first.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>, run in this container at the base commit"
+      },
+      "corpusMounted": true,
+      "obligationsScored": 15,
+      "failedObligationNames": [],
+      "failedProofObligations": [],
+      "unmeasuredObligations": [],
+      "notMeasurableHere": [],
+      "reExaminedUnder": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json (DET-FEE-AND-WAIVER-001 and amendment A1) was read before FEE_AND_WAIVER and SERVICE were scored.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One route key, 'obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days', declared identically in product-wiring.json, production-field-map.json, source-receipt.json and the MASTER_QUEUE family row; the composed familyId agrees across those four and build-status.json, colons included. The key is printed in the instructions footer and appears in the delivered PDF bytes. The petition's own title carries the relief, the statute and the branch: PETITION FOR MANDATORY MISTAKEN-IDENTITY EXPUNGEMENT UNDER C.R.S. SEC. 24-72-702 (PARTICIPANT FILING AFTER THE EXPIRED 90-DAY AGENCY DEADLINE). Naming the branch on the face matters here, because the agency-filed branch of the same statute is a different route.",
+          "evidence": {
+            "routeKey": "obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+            "statute": "C.R.S. § 24-72-702"
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This family binds no source binary but does bind a committed record by exact SHA-256, so there is something real to rehash and I rehashed it. data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json rehashes in this container to 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef at 184365 bytes, matching the receipt's recorded hash and byte length exactly. I then read the bound record's own CO section and confirmed the nine anchor statements the receipt claims: the agency-first mechanism, the 90-day deadline, the participant branch, the no-fee rule, the district-court venue and the seven listed petition contents are all in the committed bytes. With the Master Library mounted I checked Colorado's held forms: all fifteen JDF instruments in the corpus are sealing forms for other routes (JDF-417/418 seal arrest records where no charges were filed, JDF-611/612/615 conviction sealing, JDF-680/681 pardoned convictions, JDF-2371/2374 conduct no longer prohibited, and so on) and none is a § 24-72-702 mistaken-identity expungement. The decision's 'no dedicated statewide JDF form was located' finding survives an independent look, and no JDF was substituted.",
+          "evidence": {
+            "recordSha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+            "byteLength": 184365,
+            "rehashMatches": true,
+            "byteLenMatches": true,
+            "corpus": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh mounted the Master Library Edition 1 in this container (archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, 51 jurisdictions / 499 files / 329 pdfs, governance checksums verified), so SOURCE_IDENTITY was measured against held bytes rather than guessed.",
+            "coloradoFormsHeld": 15,
+            "noneMatchesRoute": true
+          }
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredComponentsMissing 0, and I checked the component list against the controlling decision rather than against the builder's own manifest. The bound decision requires a custom civil petition containing the agency's mistaken-identity finding, proof that no charges were filed, arrest date/agency/identifiers/case number, the expired 90-day deadline, a complete record-custodian list, a proposed mandatory expungement order, and post-order distribution and verification instructions. All eight are delivered: the first five as petition content and blanks, the sixth as the proposed_order component, the seventh and eighth as the filing_instructions component's post-order distribution and verification steps. Three components, five pages, all present in the bytes."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing 0, measured here. 7 of 23 fields written; all seven canonicalWrites carry participant.* factIds, which matches the instructions' statement that the platform filled name, date of birth, mailing address, telephone and email. No arrest fact is prefilled — correctly, since the arrest facts belong to a record the platform has not seen, and inventing one here would be inventing the precondition the whole route turns on."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredFactsNotCollected 0. All 10 required-before-filing blanks are named with their printed context and everyRequiredBeforeFilingItemIsDisclosed is true against participant-instructions.md; requiredBeforeFilingCount 10 matches both the array and the blanks report. I re-read all 10 disclosure labels for emptiness, truncation, mojibake and control characters and found none. The record-custodian list is handled with particular care — the instructions warn that a custodian left off the list is one the order may never reach, which is the real filing consequence of an incomplete blank."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing 0 and selectionControls is empty, which is correct rather than missing. There is one instrument set for one branch, and the no-agency-finding fork is a route boundary rather than a choice inside this packet: the bound decision records that with no finding the first output is a written request to the agency for investigation and finding, which is a different branch's instrument, and this packet tells that participant to stop instead of offering them an election it cannot honour."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows 0. No repeating-row structure is declared and none exists in the composed pages; the record-custodian list is a single narrative blank the participant completes, not a table of part-fillable rows. I confirmed this by reading the composed pages rather than by trusting the counter, so there is no row that could be left half-written."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "protectedWrites 0 and invisibleWrites 0, checked against the byte evidence. reports/actual-writes.json is derivedFromArtifactBytes true with blockingFindings [], refusedFieldsWithInk [] and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 on both fixtures. The six protected blanks divide correctly by owner: the clerk-assigned case number and all three decision, signature and date lines of the proposed order are court_prosecutor_clerk_or_agency_owned, and the petitioner's signature and its date are the participant's. The proposed order carries no pre-decided line."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both committed fixtures rehash from their bytes in this container to the hashes declared in reports/rendered-artifacts.json, in product-wiring.json and in the raster queue's documents block: canonical e6d926f76168b6ca6d5dbc2b7a13e6037be2b53203bb8eea6c93cc843e8e0e8d (13306 bytes, 5 pages) and boundary d00acb23ed43217b68d466265ca30050baca432adb85e1d35f25452adbd0d7ea (13550 bytes, 5 pages). The artifact integrity chain is intact; what does not yet exist is a central raster receipt to bind it to, and that is recorded as this row's ceiling rather than as an artifact failure.",
+          "evidence": {
+            "centralRasterReceipt": "not yet issued — RASTER_QUEUE currentRasterState RASTER_PENDING",
+            "bytesMatchAllLocalDeclarations": true
+          }
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Declared pageCount 5 = pdfinfo's page count = the raster queue's expectedPages, on both fixtures. Per-page text extraction shows the declared componentSet order exactly: p1-2 the petition (p2 the continuation carrying the 90-day deadline blank), p3 the proposed order, p4-5 the filing instructions (p5 the continuation carrying the stop conditions). Nothing is out of sequence."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured here from the bytes, which matters because no central raster receipt exists for this family yet. Over pdftotext -bbox word boxes on both fixtures: 1049 words canonical and 1052 boundary, zero words extending past the page box on any edge, zero words at negative coordinates, and zero same-baseline word pairs whose x-ranges intersect. The completeness verifier independently reports visualDefects 0. This is a real local measurement, not an inherited one; it does not substitute for the central visual gate, which is what the row's ceiling records."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The repository holds the destination and the packet states it. The bound decision records that the person may file 'the petition in the same district court' — the district court in the judicial district where the arrest occurred — and the product disposition block states VENUE: JUDICIAL DISTRICT OF ARREST. The packet states it on the petition's face, in the caption blank guidance, and as step 5 of the ordered instructions: file with the district court of the judicial district where the arrest occurred. Amendment A1 is satisfied — the record's answer is stated, not deferred to an office.",
+          "evidence": {
+            "heldSource": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+            "destinationOnPdfFace": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Scored against DET-FEE-AND-WAIVER-001. The repository establishes the answer and the packet states it, sourced, four times over: the bound decision reads 'No filing fee or other expungement cost may be charged', and that rule appears in the petition's own title block, in the petition body, in step 5 of the instructions ('Pay nothing'), and in the closing statement that no fee is asked anywhere in the packet. This is the standard's second met case — a sourced statement that no fee is charged. No waiver procedure is owed where the statute bars the cost outright, and the packet correctly does not invent one."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Scored against DET-FEE-AND-WAIVER-001 as extended to SERVICE. I asked first whether the repository establishes the rule: the bound decision's serviceWorkflow section is empty, and nothing in the committed record states how the petition is delivered or how certified copies of an order are obtained. The packet refuses to invent either and names the authority instead, under its own heading: 'How the petition must be delivered, and how certified copies of an order are obtained. Neither is established by the committed record this packet is built from. The office of the district court of the judicial district where the arrest occurred is the authority that can answer both — ask before you file.' That office is identified well enough to reach, because the same rule that fixes venue fixes which office it is. A named checkable authority standing in for a rule no held source establishes is what the standard permits, and this is not a gesture."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The bound decision's boundaries are all carried and are the packet's stop conditions: no agency finding (with the recorded first output — a written request to the agency — named, and correctly identified as not being in this packet), charges filed, the 90-day deadline not yet expired, any dispute about the finding or the no-charge status (the decision's recorded escalation for a dispute is a lawyer), and an attempt to establish innocence where the agency made no finding, which the decision expressly says this route is not a vehicle for. An immigration stop is added. The precondition is stated in capitals at the top of the instructions rather than buried, which is the right prominence for a route whose whole eligibility turns on it."
+        }
+      },
+      "standingLegalHold": [
+        "CO.memo.json still records track co_mistaken_identity_expungement as carrying two build_blockers with destination 'Unresolved' and rules.filing/fees/service 'Unresolved'. That memo is superseded for this family by the 2026-08-28 research-track decision, which this packet binds by exact SHA-256 and which resolves the mechanism, the venue and the fee. I record the divergence rather than reconciling it: a reader who consults the older memo alone would wrongly conclude this route is unbuildable. This is a records-hygiene item for a Captain, not a defect in the packet, and it is not a repair this verification lane may make."
+      ],
+      "whyThisVerdict": "Fifteen of fifteen obligations measured and passed, nine counters zero on my own run, the bound committed record rehashed to its recorded SHA-256 and byte length, and clipping and overlap measured directly from the PDF bytes. The verdict is held at PASS rather than PASS_COMPLETE_INDEPENDENT for one reason only: RASTER_QUEUE.json has no central raster receipt for this family yet. That ceiling is expected and is not a defect.",
+      "rasterCeilingLifted": {
+        "observedAt": "2026-09-02T01:57:01.516Z",
+        "observedAtHeadSha": "e16aacbe5 (a later commit by another agent, \"Clear the visual gate: 115 of 115 families hold a hash-bound RASTER_PASS\")",
+        "whatChanged": "While this verification was in flight the central raster run completed and RASTER_QUEUE.json now carries a hash-bound RASTER_PASS receipt for this family. currentRasterState moved RASTER_PENDING -> RASTER_PASS.",
+        "receipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33579500812",
+          "renderedCommitSha": "58290e76623ff0b351d0b15fbf97af3665fee6b3",
+          "jobConclusion": "success",
+          "boundToCanonicalSha256": "e6d926f76168b6ca6d5dbc2b7a13e6037be2b53203bb8eea6c93cc843e8e0e8d",
+          "boundToBoundarySha256": "d00acb23ed43217b68d466265ca30050baca432adb85e1d35f25452adbd0d7ea",
+          "coversTheWholeFamily": true
+        },
+        "boundToTheSameBytesIVerified": true,
+        "howIKnow": "The receipt's boundToCanonicalSha256 and boundToBoundarySha256 are identical to the fixture hashes I rehashed from the committed bytes in this container at my declared base. No fixture was rebuilt between my measurement and the receipt; the run rendered the same bytes.",
+        "whyTheVerdictWasNotUpgradedHere": "This row declares verifiedAtBase ebc44031ec7eab29058bfc79a7bc5e1cff089414, and at that commit no central receipt existed for this family. Awarding PASS_COMPLETE_INDEPENDENT on this row would claim evidence that did not exist at the base the row declares, which is precisely the kind of claim the base declaration exists to prevent. The verdict therefore stays PASS and the lifted ceiling is recorded as evidence instead.",
+        "whatThisFamilyNowQualifiesFor": "PASS_COMPLETE_INDEPENDENT on a re-read at any base at or after e16aacbe5. All fifteen obligations already pass, zero failed and zero unmeasured, the nine counters are zero, and the one thing that was missing — a hash-bound central RASTER_PASS over these exact bytes — now exists. No repair is required first and nothing about the packet needs to change.",
+        "scopeOfThisRecheck": "I re-read only RASTER_QUEUE.json, which is a shared queue file and not a family artifact. No packet, overlay, fixture, field map or instruction file was re-opened after my claims were released, and RASTER_QUEUE.json was not modified."
+      }
+    },
+    {
+      "itemId": "ct-cannabis-petition-set",
+      "lane": "VF07",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cannabis-petition-set--custom-pleading",
+      "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+      "verifier": "FABLE-VT11 (independent — built none of these packets, repaired none of them, and authored none of the records they are grounded on)",
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PASS",
+      "rasterStateBasis": "RASTER_QUEUE.json holds a central RASTER_PASS receipt for this family (workflow run 33574304514, job 100075268077, rendered commit 5cc411e675842a85e357e97102e6a55f01a7d77d) bound to canonical 73f32cf1… and boundary 017fe825…. I rehashed both committed fixtures in this container and they match the receipt exactly. The family's own build-status.json still reads RASTER_LOCAL_PENDING_CENTRAL; that field is a builder-local value never rewritten after central acceptance anywhere in this repository (every build-status.json in census-v1 still carries a local pending value, including families already passed on RASTER_PASS), so the queue receipt governs and the stale local field is a repository-wide convention rather than a defect in this family.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>, run in this container at the base commit"
+      },
+      "corpusMounted": true,
+      "obligationsScored": 15,
+      "failedObligationNames": [],
+      "failedProofObligations": [],
+      "unmeasuredObligations": [],
+      "notMeasurableHere": [],
+      "reExaminedUnder": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json (DET-FEE-AND-WAIVER-001 and amendment A1) was read before FEE_AND_WAIVER and SERVICE were scored.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One route key, 'obligation:track-only:CT:ct-cannabis-petition', declared identically in product-wiring.json, production-field-map.json, source-receipt.json and the MASTER_QUEUE family row; familyId 'ct-cannabis-petition-set' agrees across those four and build-status.json. The key is printed in the instructions footer and appears in the delivered PDF bytes. The relief and its authority are on the petition's own face: PETITION FOR ERASURE OF CANNABIS CONVICTION RECORDS PURSUANT TO GENERAL STATUTES SEC. 54-142V, captioned SUPERIOR COURT, STATE OF CONNECTICUT v. defendant-petitioner.",
+          "evidence": {
+            "routeKey": "obligation:track-only:CT:ct-cannabis-petition",
+            "statute": "C.G.S. § 54-142v",
+            "routeSelectionId": "ct-cannabis-petition-composed-set"
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This family binds zero source binaries by design, so there is no recorded SHA to rehash; what is checkable is whether that claim is true and whether an official form was passed over. Both were tested. MASTER_QUEUE agrees (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, officialFormFamily NONE, forms []), reports/rendered-artifacts.json declares boundSources [], and the receipt's allSourcesExact is true vacuously and says so. With the Master Library mounted I checked Connecticut's own held forms: the corpus carries JD-CR-202 (petition for clean slate erasure, convictions BEFORE 1 January 2000) and DESPP-0847-C (hearing for clean slate erasure, convictions after that date) — both Clean Slate instruments for a different mechanism — and no § 54-142v cannabis-erasure petition. The no-official-form finding survives an independent look at the held corpus, and no form was substituted or invented.",
+          "evidence": {
+            "boundSourceCount": 0,
+            "corpus": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh mounted the Master Library Edition 1 in this container (archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, 51 jurisdictions / 499 files / 329 pdfs, governance checksums verified), so SOURCE_IDENTITY was measured against held bytes rather than guessed.",
+            "connecticutFormsHeld": [
+              "CT__FORM__JD-CR-202",
+              "CT__SOURCE-GATED__DESPP-0847-C",
+              "CT__SUPPORT__DPS-0846-C"
+            ],
+            "noneMatchesRoute": true
+          }
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredComponentsMissing 0. Two components, primary_filing and supporting_affidavit, declared in the field map and product wiring, named in the instructions table, and present in the delivered bytes as pages 1-2 and 3-4. The affidavit's conditionality is not hidden: § 54-142v(a)(2) requires the petition to be accompanied by a copy of the arrest record OR an affidavit, and the condition is carried in componentConditions, in the instructions and on the affidavit's own face."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing 0, measured here. 6 of 22 fields written. The field map's canonicalWrites are 6 and every one carries a participant.* factId — name, date of birth, mailing address, telephone, email — which is exactly what the instructions say the platform filled. No case fact is prefilled, which is correct: every case fact lives on a court record the platform has not seen."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredFactsNotCollected 0. All 11 required-before-filing blanks are named with their printed context, and reports/blanks-left-for-the-participant.json records everyRequiredBeforeFilingItemIsDisclosed true against participant-instructions.md. I re-checked every one of the 11 disclosure labels for emptiness, truncation, mojibake and control characters and found none. The count in the field map (requiredBeforeFilingCount 11) matches the array length and matches the blanks report."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing 0 and selectionControls is empty, which is the right shape here rather than an omission. The statute-of-conviction line is a case fact copied from the record, not an election — the three § 54-142v(a)(1) categories are alternatives the record decides — and a printed stop instruction sits on that blank for a record showing any other statute. The one genuine statutory alternative, the § 54-142v(a)(2) arrest-record-or-affidavit accompaniment, is left to the participant with the condition printed on the affidavit's own face and a dedicated blank on the petition asking which is attached. Nothing is elected on the participant's behalf."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows 0. The field map declares no repeating-row structure for this family and none exists in the delivered pages: the count list required by § 54-142v(b) is a single narrative blank the participant completes from the case look-up, not a table of part-fillable rows. There is therefore no row that could be left half-written, and I confirmed that by reading the composed pages rather than by trusting the counter."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "protectedWrites 0 and invisibleWrites 0, and I checked the byte evidence rather than the claim. reports/actual-writes.json is derivedFromArtifactBytes true with blockingFindings [], refusedFieldsWithInk [] and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 on both fixtures. The five protected blanks are the two signatures, the two dates beside them and the affidavit's jurat — the jurat correctly left to the officer who takes the oath, with the packet saying plainly that which officers may take it is not stated by its records."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both committed fixtures rehash from their bytes in this container to the hashes declared in reports/rendered-artifacts.json, in product-wiring.json and in the central raster receipt: canonical 73f32cf14f330bb162ad0792eecd8b6351e51905d31c6d9c40b0e9bd933a97a3 (10090 bytes, 4 pages) and boundary 017fe825b8c4d19d7c2ae85d21415454e2d6527754e501b51f33a31a235cce81 (10264 bytes, 4 pages). Three independent declarations and the bytes all agree.",
+          "evidence": {
+            "rasterWorkflowRunId": "33574304514",
+            "canonicalMatchesReceipt": true,
+            "boundaryMatchesReceipt": true
+          }
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Declared pageCount 4 = pdfinfo's page count = the raster queue's expectedPages, on both fixtures. I extracted each page's text and the order follows the declared componentSet exactly: p1-2 the petition (p2 the continuation carrying the accompaniment election), p3-4 the affidavit (p4 the jurat). No page is out of sequence and no component is split across another."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects 0, and I measured it myself rather than inheriting it. Over pdftotext -bbox word boxes on both fixtures: 839 words canonical and 842 boundary, zero words extending past the page box on any edge, zero words at negative coordinates, and zero same-baseline word pairs whose x-ranges intersect. The bytes measured are the same bytes the central RASTER_PASS receipt is bound to."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The repository holds the destination and the packet states it, which is what amendment A1 requires. CT.memo.json track ct-cannabis-petition records geography.venue as 'The Superior Court at the location where the conviction was effected, or at the location having custody of the records, or, if the conviction was in the Court of Common Pleas, Circuit Court, a municipal court or before a trial justice, the Superior Court where venue would currently exist for criminal prosecution.' All three limbs of that rule are printed verbatim in the caption block of both composed pages, and the instructions' ordered steps name the office to file with and then say 'File.' This is not the vt_seal_pardon shape, where the only Superior Court reference was blank-completion guidance for a Unit box: here the venue rule itself is on the page and the sequence tells the participant to take the paper there.",
+          "evidence": {
+            "heldSource": "data/record-clearing/legal-design-intake/CT.memo.json",
+            "destinationOnPdfFace": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Scored against DET-FEE-AND-WAIVER-001. The repository establishes the answer — CT.memo.json rules.fees 'No fee. § 54-142v(a)(4).' and rules.feeWaiver 'Not applicable. No fee is charged.' — and the packet states it, sourced, in two places: on the petition's own face ('No fee is payable with this petition') and as step 6 of the ordered instructions ('File. No fee is payable (§ 54-142v(a)(4)).'). That is the standard's first-listed met case, a sourced statement that no fee is charged. No waiver procedure is owed where no fee exists."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Scored against DET-FEE-AND-WAIVER-001 as extended to SERVICE. I asked first whether the repository establishes the rule: it does not, and says so explicitly — CT.memo.json rules.service reads 'Unresolved. No service requirement was found in § 54-142v. Local practice must be confirmed before shipping', and the same gap is carried as an unresolvedQuestion with affectedElement notice_or_service. The packet neither invents a rule nor gestures: step 5 names the office to ask — the Judicial District or G.A. location where the conviction was effected or where the records are kept — states that no service requirement was found in § 54-142v and that local practice is recorded as unresolved, and says that office's direction controls. That is a named checkable authority standing in where no held source establishes the answer, which the standard permits."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The memo's five recorded selfHelpStopConditions are all carried, in the packet's own words: the quantity cannot be sworn, other counts may not be erasable, a contested hearing or disputed facts, a conviction outside the three § 54-142v(a)(1) categories or a record showing a different statute, and a pending criminal case. The packet adds an immigration stop. The § 54-142d decriminalization question is explicitly refused rather than answered — 'that is the § 54-142d question, it carries case law, and this packet never makes it' — which is the right treatment of a neighbouring route the packet does not own."
+        }
+      },
+      "standingLegalHold": [
+        "CT.memo.json records service and proposed-order practice on a § 54-142v petition as an unresolved release_blocker requiring counsel confirmation. The packet discloses this to the participant rather than filling the gap, which is why SERVICE passes; the question itself is untouched by this verification and still blocks approved_for_live."
+      ],
+      "whyTheStrongestVerdict": "Fifteen of fifteen obligations measured and passed, nine counters zero on my own run, corpus mounted so SOURCE_IDENTITY was tested against held bytes rather than asserted, and a central RASTER_PASS receipt hash-bound to the exact fixture bytes I rehashed. Nothing is unmeasured and nothing failed."
     }
   ],
   "obligationSet": [
@@ -2360,5 +2651,17 @@
       "ga-fo-discharged-pre2026-set"
     ],
     "rowsReplacedInThisFile": []
-  }
+  },
+  "laneReads": [
+    {
+      "worker": "FABLE-VT11",
+      "baseSha": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+      "readAt": "2026-09-02T01:52:22.910Z",
+      "note": "Appended rows only; every pre-existing row preserved byte-for-byte. Each row carries its own verifiedAtBase. Corpus mounted, so SOURCE_IDENTITY was measured against held bytes on every family scored. FEE_AND_WAIVER and SERVICE scored under DET-FEE-AND-WAIVER-001 and amendment A1.",
+      "rowsBefore": 7,
+      "rowsAfter": 9,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
 }
