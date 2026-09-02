@@ -137,4 +137,4 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 This is a prepared set of composed pleadings. It is not an official KS form — no committed record names one for this route — and it is not legal advice, it is not filed for you, and it does not decide whether the court will grant what it asks for.
 
-_Route(s): obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516 · obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a_
+_Route(s): Municipal conviction or diversion expungement - K.S.A. 12-4516 · Municipal arrest record expungement - K.S.A. 12-4516a_

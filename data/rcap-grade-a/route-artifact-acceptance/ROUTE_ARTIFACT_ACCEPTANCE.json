@@ -17,18 +17,6 @@
   "whyTheBuilderFlagsWereNotFlipped": "Each routeArtifacts row in reports/rendered-artifacts.json still reads rasterPending: true and independentVerificationPending: true. Those are written unconditionally by the builder, so editing them by hand would make the artifacts stop reproducing — and reproducing is the property this very record establishes. The raster state and the verification state live here instead, keyed to the artifact's SHA-256, and this record is what supersedes the builder's flag. A reader who needs the current state reads this file, not the build report.",
   "familyAssembliesUnchanged": [
     {
-      "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf",
-      "committedSha256": "682a6a4b1d64f6998135325d264af837fab045ae4828fa6a0b4a5e6bc88cdb67",
-      "rebuildSha256": "682a6a4b1d64f6998135325d264af837fab045ae4828fa6a0b4a5e6bc88cdb67",
-      "unchanged": true
-    },
-    {
-      "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-      "committedSha256": "6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8",
-      "rebuildSha256": "6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8",
-      "unchanged": true
-    },
-    {
       "file": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/boundary.pdf",
       "committedSha256": "be3ec3eeb060fdb4c560f2fc080c6933b86bacc227191040b23b7afb6687506a",
       "rebuildSha256": "be3ec3eeb060fdb4c560f2fc080c6933b86bacc227191040b23b7afb6687506a",
@@ -42,13 +30,15 @@
     }
   ],
   "counts": {
-    "routeArtifacts": 26,
-    "inFirstCohort": 10,
-    "deterministicRebuildReproduces": 26,
-    "routeCompletenessPass": 26,
-    "rasterPass": 26,
+    "routeArtifacts": 22,
+    "inFirstCohort": 6,
+    "deterministicRebuildReproduces": 22,
+    "routeCompletenessPass": 22,
+    "routeCompletenessWithdrawn": 4,
+    "rasterPass": 22,
     "rasterStillPending": 0,
-    "independentVerificationPending": 26
+    "independentVerificationPending": 22,
+    "kansasRowsWithdrawn": 4
   },
   "packetContentChanged": false,
   "packetPdfsModified": 0,
@@ -61,546 +51,6 @@
     "notWrittenByThisLane": "MASTER_QUEUE.json and RASTER_QUEUE.json are the Captain's; the evidence is prepared here and the queues are left alone"
   },
   "rows": [
-    {
-      "familyId": "rcap-ks-custom-pleading",
-      "routeKey": "obligation:track-only:KS:ks-12-4516-municipal",
-      "route": "ks-12-4516-municipal",
-      "fixture": "canonical",
-      "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
-      "sha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
-      "byteLength": 18289,
-      "pageCount": 6,
-      "unitOfDelivery": "route_artifact",
-      "inFirstCohort": true,
-      "deterministicRebuild": {
-        "result": "REPRODUCES",
-        "committedSha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
-        "rebuild1Sha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
-        "rebuild2Sha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
-        "byteIdenticalAcrossTwoFromScratchRebuilds": true,
-        "matchesWhatIsCommitted": true,
-        "evidence": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json"
-      },
-      "routeScopedCompleteness": {
-        "result": "ROUTE_PASS_COMPLETE",
-        "counters": {
-          "knownRequiredFieldsMissing": 0,
-          "requiredFactsNotCollected": 0,
-          "unclassifiedBlanks": 0,
-          "incompleteRows": 0,
-          "requiredOptionsMissing": 0,
-          "requiredComponentsMissing": 0,
-          "invisibleWrites": 0,
-          "protectedWrites": 0,
-          "visualDefects": 0
-        },
-        "allNineZero": true,
-        "componentsDeclaredForThisRoute": [
-          "ks-12-4516-municipal-primary-filing-1",
-          "ks-12-4516-municipal-proposed-order-2",
-          "ks-12-4516-municipal-filing-instructions-3"
-        ],
-        "componentsCarriedByThisArtifact": [
-          "ks-12-4516-municipal-primary-filing-1",
-          "ks-12-4516-municipal-proposed-order-2",
-          "ks-12-4516-municipal-filing-instructions-3"
-        ],
-        "foreignComponentsCarried": [],
-        "valuesReadBackFromTheseBytes": "7/7",
-        "evidence": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
-        "measuredAgainst": "the route's own components, taken from the family's componentRoutes — not the family's component set"
-      },
-      "rasterAcceptance": {
-        "state": "RASTER_PASS",
-        "boundToSha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
-        "boundToTheseBytes": true,
-        "pagesMeasured": 6,
-        "everyPageNonblank": true,
-        "everyPageCroppedToThePage": true,
-        "worstCalibrationResidualPx": 0,
-        "problems": [],
-        "requestedScale": 2.5,
-        "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
-        "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516-municipal.verdict.json",
-        "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
-        "centralRun": {
-          "ran": true,
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "workflowRunId": "33640297318",
-          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
-          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
-          "jobId": 100282293069,
-          "jobConclusion": "success",
-          "boundToSha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
-          "boundToTheseBytes": true,
-          "receiptArtifact": {
-            "name": "rcap-raster-rcap-ks-custom-pleading__route__ks-12-4516-municipal-33640297318",
-            "id": 9850773412,
-            "zipSha256": "sha256:86f05193a82d2111dbfc80ad96585e6997b57e120eb04449903f81d609f5a68c",
-            "sizeInBytes": 4133726,
-            "expiresAt": "2026-09-16T14:17:16Z"
-          },
-          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
-          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
-        },
-        "pngPagesRetained": false,
-        "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
-      },
-      "independentVerification": {
-        "pending": true,
-        "whyThisLaneMayNotClose": "this lane produced these artifacts and then measured them. A builder reading its own evidence is not independent verification of it, whatever the evidence says.",
-        "verdictVocabulary": [
-          "PASS_COMPLETE_INDEPENDENT",
-          "FAIL_REPAIR_REQUIRED",
-          "BLOCKED_SOURCE",
-          "BLOCKED_LEGAL_INPUT"
-        ],
-        "measureTheseFifteenRouteScoped": [
-          "ROUTE IDENTITY: the artifact is built for the route the record names — routeKey on the routeArtifacts row, against the family's own componentRoutes",
-          "SOURCE IDENTITY: every source binds by exact SHA-256, recomputed from the bytes — source-receipt.json",
-          "COMPONENT SET: every component the ROUTE names is present in THIS artifact, and no component of another route is",
-          "KNOWN PREFILLS: every known required fact is written and readable from this artifact's own bytes, on the page it belongs to",
-          "REQUIRED_BEFORE_FILING: every declared item is named in participant-instructions.md, checked against the file",
-          "ROUTE OPTIONS: every route-determined election is selected",
-          "REPEATING ROWS: no row carries written cells beside required cells left blank",
-          "PROTECTED FIELDS: no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink",
-          "ARTIFACTS: the route artifact's canonical and boundary bytes hash to what reports/rendered-artifacts.json names",
-          "PAGE ORDER: the rendered page order matches the route artifact's own pageManifest",
-          "CLIPPING AND OVERLAP: no ink outside a measured write box",
-          "FILING DESTINATION: the instructions name the court or agency the route names",
-          "FEE AND WAIVER: the fee and any waiver route are stated",
-          "SERVICE: who must be served, and how",
-          "SELF-HELP STOP: the packet states where self-help ends"
-        ],
-        "readThese": [
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/reports/rendered-artifacts.json — the routeArtifacts row for obligation:track-only:KS:ks-12-4516-municipal / canonical",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/production-field-map.json — componentRoutes, and the maps entries for this route's components only",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/reports/actual-writes.json — the canonical fixture's actualWrites, filtered to this route's documents",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/participant-instructions.md — the required-before-filing disclosures and this route's which-pages-are-yours table",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/source-receipt.json",
-          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
-          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
-          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516-municipal.verdict.json",
-          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
-          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
-        ],
-        "recomputeRatherThanRead": [
-          "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
-          "the page count, from a parser rather than a byte scan",
-          "the nine counters, over this route's field-map rows, computed rather than read from ROUTE_ARTIFACT_COMPLETENESS.json",
-          "the two from-scratch rebuilds, rather than reading ROUTE_ARTIFACT_DETERMINISM.json's classification"
-        ]
-      },
-      "grantsNothing": "Acceptance evidence only. This opens no commercial route, promotes no build status, and creates no fulfillment authority."
-    },
-    {
-      "familyId": "rcap-ks-custom-pleading",
-      "routeKey": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
-      "route": "ks-12-4516a-municipal-arrest",
-      "fixture": "canonical",
-      "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
-      "sha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
-      "byteLength": 17417,
-      "pageCount": 6,
-      "unitOfDelivery": "route_artifact",
-      "inFirstCohort": true,
-      "deterministicRebuild": {
-        "result": "REPRODUCES",
-        "committedSha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
-        "rebuild1Sha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
-        "rebuild2Sha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
-        "byteIdenticalAcrossTwoFromScratchRebuilds": true,
-        "matchesWhatIsCommitted": true,
-        "evidence": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json"
-      },
-      "routeScopedCompleteness": {
-        "result": "ROUTE_PASS_COMPLETE",
-        "counters": {
-          "knownRequiredFieldsMissing": 0,
-          "requiredFactsNotCollected": 0,
-          "unclassifiedBlanks": 0,
-          "incompleteRows": 0,
-          "requiredOptionsMissing": 0,
-          "requiredComponentsMissing": 0,
-          "invisibleWrites": 0,
-          "protectedWrites": 0,
-          "visualDefects": 0
-        },
-        "allNineZero": true,
-        "componentsDeclaredForThisRoute": [
-          "ks-12-4516a-municipal-arrest-primary-filing-1",
-          "ks-12-4516a-municipal-arrest-proposed-order-2",
-          "ks-12-4516a-municipal-arrest-filing-instructions-3"
-        ],
-        "componentsCarriedByThisArtifact": [
-          "ks-12-4516a-municipal-arrest-primary-filing-1",
-          "ks-12-4516a-municipal-arrest-proposed-order-2",
-          "ks-12-4516a-municipal-arrest-filing-instructions-3"
-        ],
-        "foreignComponentsCarried": [],
-        "valuesReadBackFromTheseBytes": "7/7",
-        "evidence": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
-        "measuredAgainst": "the route's own components, taken from the family's componentRoutes — not the family's component set"
-      },
-      "rasterAcceptance": {
-        "state": "RASTER_PASS",
-        "boundToSha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
-        "boundToTheseBytes": true,
-        "pagesMeasured": 6,
-        "everyPageNonblank": true,
-        "everyPageCroppedToThePage": true,
-        "worstCalibrationResidualPx": 0,
-        "problems": [],
-        "requestedScale": 2.5,
-        "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
-        "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest.verdict.json",
-        "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
-        "centralRun": {
-          "ran": true,
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "workflowRunId": "33640297318",
-          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
-          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
-          "jobId": 100282293024,
-          "jobConclusion": "success",
-          "boundToSha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
-          "boundToTheseBytes": true,
-          "receiptArtifact": {
-            "name": "rcap-raster-rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest-33640297318",
-            "id": 9850768366,
-            "zipSha256": "sha256:638eda95476a4431c4d50b6cb834134883b46f0fc27fd7a846c276d99346d9d6",
-            "sizeInBytes": 3953617,
-            "expiresAt": "2026-09-16T14:17:16Z"
-          },
-          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
-          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
-        },
-        "pngPagesRetained": false,
-        "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
-      },
-      "independentVerification": {
-        "pending": true,
-        "whyThisLaneMayNotClose": "this lane produced these artifacts and then measured them. A builder reading its own evidence is not independent verification of it, whatever the evidence says.",
-        "verdictVocabulary": [
-          "PASS_COMPLETE_INDEPENDENT",
-          "FAIL_REPAIR_REQUIRED",
-          "BLOCKED_SOURCE",
-          "BLOCKED_LEGAL_INPUT"
-        ],
-        "measureTheseFifteenRouteScoped": [
-          "ROUTE IDENTITY: the artifact is built for the route the record names — routeKey on the routeArtifacts row, against the family's own componentRoutes",
-          "SOURCE IDENTITY: every source binds by exact SHA-256, recomputed from the bytes — source-receipt.json",
-          "COMPONENT SET: every component the ROUTE names is present in THIS artifact, and no component of another route is",
-          "KNOWN PREFILLS: every known required fact is written and readable from this artifact's own bytes, on the page it belongs to",
-          "REQUIRED_BEFORE_FILING: every declared item is named in participant-instructions.md, checked against the file",
-          "ROUTE OPTIONS: every route-determined election is selected",
-          "REPEATING ROWS: no row carries written cells beside required cells left blank",
-          "PROTECTED FIELDS: no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink",
-          "ARTIFACTS: the route artifact's canonical and boundary bytes hash to what reports/rendered-artifacts.json names",
-          "PAGE ORDER: the rendered page order matches the route artifact's own pageManifest",
-          "CLIPPING AND OVERLAP: no ink outside a measured write box",
-          "FILING DESTINATION: the instructions name the court or agency the route names",
-          "FEE AND WAIVER: the fee and any waiver route are stated",
-          "SERVICE: who must be served, and how",
-          "SELF-HELP STOP: the packet states where self-help ends"
-        ],
-        "readThese": [
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/reports/rendered-artifacts.json — the routeArtifacts row for obligation:track-only:KS:ks-12-4516a-municipal-arrest / canonical",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/production-field-map.json — componentRoutes, and the maps entries for this route's components only",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/reports/actual-writes.json — the canonical fixture's actualWrites, filtered to this route's documents",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/participant-instructions.md — the required-before-filing disclosures and this route's which-pages-are-yours table",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/source-receipt.json",
-          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
-          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
-          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest.verdict.json",
-          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
-          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
-        ],
-        "recomputeRatherThanRead": [
-          "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
-          "the page count, from a parser rather than a byte scan",
-          "the nine counters, over this route's field-map rows, computed rather than read from ROUTE_ARTIFACT_COMPLETENESS.json",
-          "the two from-scratch rebuilds, rather than reading ROUTE_ARTIFACT_DETERMINISM.json's classification"
-        ]
-      },
-      "grantsNothing": "Acceptance evidence only. This opens no commercial route, promotes no build status, and creates no fulfillment authority."
-    },
-    {
-      "familyId": "rcap-ks-custom-pleading",
-      "routeKey": "obligation:track-only:KS:ks-12-4516-municipal",
-      "route": "ks-12-4516-municipal",
-      "fixture": "boundary",
-      "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
-      "sha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
-      "byteLength": 18888,
-      "pageCount": 7,
-      "unitOfDelivery": "route_artifact",
-      "inFirstCohort": true,
-      "deterministicRebuild": {
-        "result": "REPRODUCES",
-        "committedSha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
-        "rebuild1Sha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
-        "rebuild2Sha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
-        "byteIdenticalAcrossTwoFromScratchRebuilds": true,
-        "matchesWhatIsCommitted": true,
-        "evidence": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json"
-      },
-      "routeScopedCompleteness": {
-        "result": "ROUTE_PASS_COMPLETE",
-        "counters": {
-          "knownRequiredFieldsMissing": 0,
-          "requiredFactsNotCollected": 0,
-          "unclassifiedBlanks": 0,
-          "incompleteRows": 0,
-          "requiredOptionsMissing": 0,
-          "requiredComponentsMissing": 0,
-          "invisibleWrites": 0,
-          "protectedWrites": 0,
-          "visualDefects": 0
-        },
-        "allNineZero": true,
-        "componentsDeclaredForThisRoute": [
-          "ks-12-4516-municipal-primary-filing-1",
-          "ks-12-4516-municipal-proposed-order-2",
-          "ks-12-4516-municipal-filing-instructions-3"
-        ],
-        "componentsCarriedByThisArtifact": [
-          "ks-12-4516-municipal-primary-filing-1",
-          "ks-12-4516-municipal-proposed-order-2",
-          "ks-12-4516-municipal-filing-instructions-3"
-        ],
-        "foreignComponentsCarried": [],
-        "valuesReadBackFromTheseBytes": "7/7",
-        "evidence": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
-        "measuredAgainst": "the route's own components, taken from the family's componentRoutes — not the family's component set"
-      },
-      "rasterAcceptance": {
-        "state": "RASTER_PASS",
-        "boundToSha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
-        "boundToTheseBytes": true,
-        "pagesMeasured": 7,
-        "everyPageNonblank": true,
-        "everyPageCroppedToThePage": true,
-        "worstCalibrationResidualPx": 0,
-        "problems": [],
-        "requestedScale": 2.5,
-        "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
-        "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516-municipal.verdict.json",
-        "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
-        "centralRun": {
-          "ran": true,
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "workflowRunId": "33640297318",
-          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
-          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
-          "jobId": 100282293069,
-          "jobConclusion": "success",
-          "boundToSha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
-          "boundToTheseBytes": true,
-          "receiptArtifact": {
-            "name": "rcap-raster-rcap-ks-custom-pleading__route__ks-12-4516-municipal-33640297318",
-            "id": 9850773412,
-            "zipSha256": "sha256:86f05193a82d2111dbfc80ad96585e6997b57e120eb04449903f81d609f5a68c",
-            "sizeInBytes": 4133726,
-            "expiresAt": "2026-09-16T14:17:16Z"
-          },
-          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
-          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
-        },
-        "pngPagesRetained": false,
-        "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
-      },
-      "independentVerification": {
-        "pending": true,
-        "whyThisLaneMayNotClose": "this lane produced these artifacts and then measured them. A builder reading its own evidence is not independent verification of it, whatever the evidence says.",
-        "verdictVocabulary": [
-          "PASS_COMPLETE_INDEPENDENT",
-          "FAIL_REPAIR_REQUIRED",
-          "BLOCKED_SOURCE",
-          "BLOCKED_LEGAL_INPUT"
-        ],
-        "measureTheseFifteenRouteScoped": [
-          "ROUTE IDENTITY: the artifact is built for the route the record names — routeKey on the routeArtifacts row, against the family's own componentRoutes",
-          "SOURCE IDENTITY: every source binds by exact SHA-256, recomputed from the bytes — source-receipt.json",
-          "COMPONENT SET: every component the ROUTE names is present in THIS artifact, and no component of another route is",
-          "KNOWN PREFILLS: every known required fact is written and readable from this artifact's own bytes, on the page it belongs to",
-          "REQUIRED_BEFORE_FILING: every declared item is named in participant-instructions.md, checked against the file",
-          "ROUTE OPTIONS: every route-determined election is selected",
-          "REPEATING ROWS: no row carries written cells beside required cells left blank",
-          "PROTECTED FIELDS: no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink",
-          "ARTIFACTS: the route artifact's canonical and boundary bytes hash to what reports/rendered-artifacts.json names",
-          "PAGE ORDER: the rendered page order matches the route artifact's own pageManifest",
-          "CLIPPING AND OVERLAP: no ink outside a measured write box",
-          "FILING DESTINATION: the instructions name the court or agency the route names",
-          "FEE AND WAIVER: the fee and any waiver route are stated",
-          "SERVICE: who must be served, and how",
-          "SELF-HELP STOP: the packet states where self-help ends"
-        ],
-        "readThese": [
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/reports/rendered-artifacts.json — the routeArtifacts row for obligation:track-only:KS:ks-12-4516-municipal / boundary",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/production-field-map.json — componentRoutes, and the maps entries for this route's components only",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/reports/actual-writes.json — the boundary fixture's actualWrites, filtered to this route's documents",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/participant-instructions.md — the required-before-filing disclosures and this route's which-pages-are-yours table",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/source-receipt.json",
-          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
-          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
-          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516-municipal.verdict.json",
-          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
-          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
-        ],
-        "recomputeRatherThanRead": [
-          "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
-          "the page count, from a parser rather than a byte scan",
-          "the nine counters, over this route's field-map rows, computed rather than read from ROUTE_ARTIFACT_COMPLETENESS.json",
-          "the two from-scratch rebuilds, rather than reading ROUTE_ARTIFACT_DETERMINISM.json's classification"
-        ]
-      },
-      "grantsNothing": "Acceptance evidence only. This opens no commercial route, promotes no build status, and creates no fulfillment authority."
-    },
-    {
-      "familyId": "rcap-ks-custom-pleading",
-      "routeKey": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
-      "route": "ks-12-4516a-municipal-arrest",
-      "fixture": "boundary",
-      "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
-      "sha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
-      "byteLength": 17614,
-      "pageCount": 6,
-      "unitOfDelivery": "route_artifact",
-      "inFirstCohort": true,
-      "deterministicRebuild": {
-        "result": "REPRODUCES",
-        "committedSha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
-        "rebuild1Sha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
-        "rebuild2Sha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
-        "byteIdenticalAcrossTwoFromScratchRebuilds": true,
-        "matchesWhatIsCommitted": true,
-        "evidence": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json"
-      },
-      "routeScopedCompleteness": {
-        "result": "ROUTE_PASS_COMPLETE",
-        "counters": {
-          "knownRequiredFieldsMissing": 0,
-          "requiredFactsNotCollected": 0,
-          "unclassifiedBlanks": 0,
-          "incompleteRows": 0,
-          "requiredOptionsMissing": 0,
-          "requiredComponentsMissing": 0,
-          "invisibleWrites": 0,
-          "protectedWrites": 0,
-          "visualDefects": 0
-        },
-        "allNineZero": true,
-        "componentsDeclaredForThisRoute": [
-          "ks-12-4516a-municipal-arrest-primary-filing-1",
-          "ks-12-4516a-municipal-arrest-proposed-order-2",
-          "ks-12-4516a-municipal-arrest-filing-instructions-3"
-        ],
-        "componentsCarriedByThisArtifact": [
-          "ks-12-4516a-municipal-arrest-primary-filing-1",
-          "ks-12-4516a-municipal-arrest-proposed-order-2",
-          "ks-12-4516a-municipal-arrest-filing-instructions-3"
-        ],
-        "foreignComponentsCarried": [],
-        "valuesReadBackFromTheseBytes": "7/7",
-        "evidence": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
-        "measuredAgainst": "the route's own components, taken from the family's componentRoutes — not the family's component set"
-      },
-      "rasterAcceptance": {
-        "state": "RASTER_PASS",
-        "boundToSha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
-        "boundToTheseBytes": true,
-        "pagesMeasured": 6,
-        "everyPageNonblank": true,
-        "everyPageCroppedToThePage": true,
-        "worstCalibrationResidualPx": 0,
-        "problems": [],
-        "requestedScale": 2.5,
-        "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
-        "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest.verdict.json",
-        "doesNotInheritTheFamilyReceipt": "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        "renderedWhere": "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
-        "centralRun": {
-          "ran": true,
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "workflowRunId": "33640297318",
-          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
-          "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
-          "jobId": 100282293024,
-          "jobConclusion": "success",
-          "boundToSha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
-          "boundToTheseBytes": true,
-          "receiptArtifact": {
-            "name": "rcap-raster-rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest-33640297318",
-            "id": 9850768366,
-            "zipSha256": "sha256:638eda95476a4431c4d50b6cb834134883b46f0fc27fd7a846c276d99346d9d6",
-            "sizeInBytes": 3953617,
-            "expiresAt": "2026-09-16T14:17:16Z"
-          },
-          "verdictBasis": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
-          "notReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/."
-        },
-        "pngPagesRetained": false,
-        "whyPngPagesAreNotCommitted": "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
-      },
-      "independentVerification": {
-        "pending": true,
-        "whyThisLaneMayNotClose": "this lane produced these artifacts and then measured them. A builder reading its own evidence is not independent verification of it, whatever the evidence says.",
-        "verdictVocabulary": [
-          "PASS_COMPLETE_INDEPENDENT",
-          "FAIL_REPAIR_REQUIRED",
-          "BLOCKED_SOURCE",
-          "BLOCKED_LEGAL_INPUT"
-        ],
-        "measureTheseFifteenRouteScoped": [
-          "ROUTE IDENTITY: the artifact is built for the route the record names — routeKey on the routeArtifacts row, against the family's own componentRoutes",
-          "SOURCE IDENTITY: every source binds by exact SHA-256, recomputed from the bytes — source-receipt.json",
-          "COMPONENT SET: every component the ROUTE names is present in THIS artifact, and no component of another route is",
-          "KNOWN PREFILLS: every known required fact is written and readable from this artifact's own bytes, on the page it belongs to",
-          "REQUIRED_BEFORE_FILING: every declared item is named in participant-instructions.md, checked against the file",
-          "ROUTE OPTIONS: every route-determined election is selected",
-          "REPEATING ROWS: no row carries written cells beside required cells left blank",
-          "PROTECTED FIELDS: no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink",
-          "ARTIFACTS: the route artifact's canonical and boundary bytes hash to what reports/rendered-artifacts.json names",
-          "PAGE ORDER: the rendered page order matches the route artifact's own pageManifest",
-          "CLIPPING AND OVERLAP: no ink outside a measured write box",
-          "FILING DESTINATION: the instructions name the court or agency the route names",
-          "FEE AND WAIVER: the fee and any waiver route are stated",
-          "SERVICE: who must be served, and how",
-          "SELF-HELP STOP: the packet states where self-help ends"
-        ],
-        "readThese": [
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/reports/rendered-artifacts.json — the routeArtifacts row for obligation:track-only:KS:ks-12-4516a-municipal-arrest / boundary",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/production-field-map.json — componentRoutes, and the maps entries for this route's components only",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/reports/actual-writes.json — the boundary fixture's actualWrites, filtered to this route's documents",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/participant-instructions.md — the required-before-filing disclosures and this route's which-pages-are-yours table",
-          "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/source-receipt.json",
-          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
-          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
-          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-          "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest.verdict.json",
-          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
-          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
-        ],
-        "recomputeRatherThanRead": [
-          "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
-          "the page count, from a parser rather than a byte scan",
-          "the nine counters, over this route's field-map rows, computed rather than read from ROUTE_ARTIFACT_COMPLETENESS.json",
-          "the two from-scratch rebuilds, rather than reading ROUTE_ARTIFACT_DETERMINISM.json's classification"
-        ]
-      },
-      "grantsNothing": "Acceptance evidence only. This opens no commercial route, promotes no build status, and creates no fulfillment authority."
-    },
     {
       "familyId": "rcap-tn-custom-pleading",
       "routeKey": "obligation:track-only:TN:tn_arrest_no_court_record",
@@ -3554,6 +3004,184 @@
         ]
       },
       "grantsNothing": "Acceptance evidence only. This opens no commercial route, promotes no build status, and creates no fulfillment authority."
+    }
+  ],
+  "withdrawnRows": [
+    {
+      "family": "rcap-ks-custom-pleading",
+      "lane": "FIX03",
+      "branch": "fable/kspath",
+      "withdrawnAt": "2026-09-02",
+      "selfVerified": false,
+      "mayNotVerifyItsOwnRepair": true,
+      "why": "Every Kansas hash in this record is a pre-repair hash. The builder was re-pointed from the two superseded track-only obligation keys to the current five-segment track-pathway keys, and the packet page then printed the 108- and 105-character machine key, hard-wrapped mid-token across three lines. Roger Roman decided on 2026-09-02 that the Kansas packet page prints a short human label and the machine id stays in the manifests and the wiring. Both changes moved every artifact's bytes. The bytes this record binds no longer exist.",
+      "whatAWithdrawalIs": "A withdrawal removes a claim. It does not make a new one, and it leaves no binding of its own standing. Nothing here says the current Kansas artifacts are deterministic, complete, or rastered to acceptance; it says only that the rows which used to say so were about bytes that no longer exist. The current bytes are named below so an independent lane can measure them without hunting, and naming them asserts nothing about them.",
+      "rowsWithdrawn": [
+        {
+          "route": "ks-12-4516-municipal",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
+          "priorSha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
+          "priorPageCount": 6,
+          "routeKeyItNamed": "obligation:track-only:KS:ks-12-4516-municipal",
+          "claimsWithdrawn": {
+            "deterministicRebuild": "REPRODUCES",
+            "routeScopedCompleteness": "ROUTE_PASS_COMPLETE",
+            "rasterAcceptance": "RASTER_PASS",
+            "centralRunWorkflowRunId": "33640297318"
+          }
+        },
+        {
+          "route": "ks-12-4516a-municipal-arrest",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
+          "priorSha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
+          "priorPageCount": 6,
+          "routeKeyItNamed": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
+          "claimsWithdrawn": {
+            "deterministicRebuild": "REPRODUCES",
+            "routeScopedCompleteness": "ROUTE_PASS_COMPLETE",
+            "rasterAcceptance": "RASTER_PASS",
+            "centralRunWorkflowRunId": "33640297318"
+          }
+        },
+        {
+          "route": "ks-12-4516-municipal",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
+          "priorSha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
+          "priorPageCount": 7,
+          "routeKeyItNamed": "obligation:track-only:KS:ks-12-4516-municipal",
+          "claimsWithdrawn": {
+            "deterministicRebuild": "REPRODUCES",
+            "routeScopedCompleteness": "ROUTE_PASS_COMPLETE",
+            "rasterAcceptance": "RASTER_PASS",
+            "centralRunWorkflowRunId": "33640297318"
+          }
+        },
+        {
+          "route": "ks-12-4516a-municipal-arrest",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
+          "priorSha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
+          "priorPageCount": 6,
+          "routeKeyItNamed": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
+          "claimsWithdrawn": {
+            "deterministicRebuild": "REPRODUCES",
+            "routeScopedCompleteness": "ROUTE_PASS_COMPLETE",
+            "rasterAcceptance": "RASTER_PASS",
+            "centralRunWorkflowRunId": "33640297318"
+          }
+        }
+      ],
+      "familyAssemblyRowsWithdrawn": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "priorSha256": "682a6a4b1d64f6998135325d264af837fab045ae4828fa6a0b4a5e6bc88cdb67"
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "priorSha256": "6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8"
+        }
+      ],
+      "alsoWrongInEveryWithdrawnRow": "the routeKey each row named is one of the two superseded track-only keys, which occur zero times in the committed route-obligation census.",
+      "whatAnIndependentLaneWouldHaveToDoToRestoreThem": [
+        "re-measure route-scoped completeness over the current bytes",
+        "re-measure determinism by deleting the overlay directory and rebuilding twice",
+        "read the raster receipts named in rasterReceiptsForTheCurrentBytes, or render again and confirm they reproduce",
+        "if a central-runner receipt is required, dispatch the central raster workflow; this lane cannot and did not"
+      ],
+      "laneContinuedBy": "KSPATH2, the same repair grant on rcap-ks-custom-pleading, still unreleased in claim-ledger.json. FIX03 wrote the withdrawal; this amendment removes the bindings the withdrawal itself left standing.",
+      "theseAreHistoryNotBindings": "Every SHA-256 and page count under a `prior...` key in this withdrawal is a historical value, recording what the withdrawn row asserted. It is not a binding. Those bytes are not on disk and no build in this repository produces them. Nothing may be re-derived from them, and a reader who finds one here has found the record of a retracted claim, not a claim. The keys were renamed from `boundToSha256` and `boundToPageCount` because a key that reads as a binding is a binding to everyone who greps for one.",
+      "currentBytesOnDisk": [
+        {
+          "unit": "family_assembly",
+          "route": null,
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
+          "pageCount": 12
+        },
+        {
+          "unit": "family_assembly",
+          "route": null,
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2",
+          "pageCount": 13
+        },
+        {
+          "unit": "route_artifact",
+          "route": "ks-12-4516-municipal",
+          "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+          "routeLabel": "Municipal conviction or diversion expungement - K.S.A. 12-4516",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
+          "sha256": "f79d5b4e82d3ccf22c9b03aa42ad202e0796a13b4de95f3d25b38b2adf22f810",
+          "pageCount": 6
+        },
+        {
+          "unit": "route_artifact",
+          "route": "ks-12-4516a-municipal-arrest",
+          "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
+          "routeLabel": "Municipal arrest record expungement - K.S.A. 12-4516a",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
+          "sha256": "8a85bc0f2365938bd8b5e0483585b95abf2550a6cc24a4717b0d72001abd708d",
+          "pageCount": 6
+        },
+        {
+          "unit": "route_artifact",
+          "route": "ks-12-4516-municipal",
+          "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+          "routeLabel": "Municipal conviction or diversion expungement - K.S.A. 12-4516",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
+          "sha256": "7b234e970d38bdc0515122916c6f3961f1140e74f12978b6096e6aa34928600f",
+          "pageCount": 7
+        },
+        {
+          "unit": "route_artifact",
+          "route": "ks-12-4516a-municipal-arrest",
+          "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
+          "routeLabel": "Municipal arrest record expungement - K.S.A. 12-4516a",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
+          "sha256": "dd364be7194a5e23643057ba75e5d5ea84950e7cd18b2945db5483761b9f3617",
+          "pageCount": 6
+        }
+      ],
+      "currentBytesAssertNothing": "The six artifacts on disk, hashed at withdrawal. This is a pointer for whoever measures them next. It is not an acceptance, a completeness result, a determinism result, or a raster verdict, and no count in this file counts it.",
+      "rasterReceiptsForTheCurrentBytes": {
+        "familyAssembly": {
+          "file": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading.verdict.json",
+          "verdict": "RASTER_PASS",
+          "pagesMeasured": 25,
+          "boundTo": {
+            "canonical": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
+            "boundary": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2"
+          }
+        },
+        "ks-12-4516-municipal": {
+          "file": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516-municipal.verdict.json",
+          "verdict": "RASTER_PASS",
+          "pagesMeasured": 13,
+          "boundTo": {
+            "canonical": "f79d5b4e82d3ccf22c9b03aa42ad202e0796a13b4de95f3d25b38b2adf22f810",
+            "boundary": "7b234e970d38bdc0515122916c6f3961f1140e74f12978b6096e6aa34928600f"
+          }
+        },
+        "ks-12-4516a-municipal-arrest": {
+          "file": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest.verdict.json",
+          "verdict": "RASTER_PASS",
+          "pagesMeasured": 12,
+          "boundTo": {
+            "canonical": "8a85bc0f2365938bd8b5e0483585b95abf2550a6cc24a4717b0d72001abd708d",
+            "boundary": "dd364be7194a5e23643057ba75e5d5ea84950e7cd18b2945db5483761b9f3617"
+          }
+        }
+      },
+      "whatTheReceiptsDoNotDo": "They were produced by the lane that made the change, in this container, off the central runner. They are a measurement an independent lane can reproduce or dispute. They are not this lane accepting its own repair, and no row in this file has been reinstated on their strength."
     }
   ]
 }
