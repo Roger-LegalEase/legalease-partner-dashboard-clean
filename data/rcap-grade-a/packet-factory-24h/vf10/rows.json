@@ -2524,6 +2524,1100 @@
       "claimHeldNote": "no claim to hold -- VF10 has never held this family; the grant is VF08's",
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "ar-arrest-seal-set",
+      "lane": "VF10",
+      "worker": "FABLE-VD",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "SOURCE_IDENTITY",
+        "ARTIFACTS",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "One route, obligation:track-pathway:AR:ar-arrest-seal:situation-a-non-convictions. The delivered petition recites the matching situation in its own paragraph 2 (\"More than one (1) year has passed ... and neither the prosecuting attorney nor the city attorney has filed charges\"), and the instructions make that sentence the route test.",
+          "evidence": {
+            "deliveredPetition": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+            "readInThisLane": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "FAIL",
+          "finding": "Two halves that disagree, and the failing half is the one a reader sees. The BYTES are exact: I recomputed SHA-256 over both pinned documents in the mounted Master Library and both equal source-receipt.json exactly. But the committed census-to-corpus BINDING does not resolve: scripts/verify-packet-build-environment.mjs --family ar-arrest-seal-set returns FAIL family_sources_bind \"ar-arrest-seal-set names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable\", and the family's own MASTER_QUEUE row reads sourceStatus SOURCE_IDENTITY_NOT_EXACT with boundCount 0/2 and custodyClass SOURCE_IDENTITY_UNRESOLVED. The census names official-form:ACIC-PETITION-TO-SEAL-ARREST while the corpus documentId is AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460 — an id-alias mismatch, not a missing document. This is the defect DET-FEE-AND-WAIVER-001 A4 recorded under alsoRecorded.arkansasQueueRow; it is still open at this base. The repair is an alias reconciliation, not a re-acquisition.",
+          "evidence": {
+            "corpusHashesRecomputedHere": {
+              "AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460": "f77e17b669bd6e01cc3818329181bb378dd774b1facd9a15c4083d37d380194c (350,326 B) equals the pinned sha256 in source-receipt.json",
+              "AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460": "5bd4ed5bd1b658295b50c2ea7126e276982fd705045f36adfc1f074923722581 (250,709 B) equals the pinned sha256"
+            },
+            "preflight": "node scripts/verify-packet-build-environment.mjs --family ar-arrest-seal-set => PACKET_BUILD_ENVIRONMENT_NOT_READY, family_sources_bind FAIL",
+            "queueRow": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json families[ar-arrest-seal-set]",
+            "readInThisLane": true
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Two components, primary_filing + proposed_order, matching the queue row exactly, and both render. The order is present and deliberately unfilled in its decretal parts.",
+          "evidence": {
+            "components": "component:ar-arrest-seal-primary-filing-1, component:ar-arrest-seal-proposed-order-2",
+            "fixtures": "petition- and order- canonical/boundary, four PDFs present",
+            "readInThisLane": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "Ten writes on the canonical petition, all recovered from the delivered bytes by pdftotext in this lane: caption county \"Example County\", case number \"24-CR-001234\", name \"Jordan Avery Reyes\" in the caption and again in the WHEREFORE prayer, offence line \"Possession of a controlled substance\", DOB \"1991-04-17\", and the certificate-page address block. reports/participant-name-placement.json records 6 name placements with 0 outside the allowlist, and reports/charge-caption-proof.json records 18 charge blanks examined with 0 carrying a participant name — I re-read both against the artifact text rather than accepting the counters.",
+          "evidence": {
+            "deliveredText": "pdftotext -layout over petition-canonical-filled.pdf, read in this lane",
+            "reports": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/reports/participant-name-placement.json, charge-caption-proof.json",
+            "readInThisLane": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "Four pre-filing acts are named and each is sourced: the fingerprint card (\"Have fingerprints taken and submit the card with the petition\", and the packet says plainly it contains no card), the ACIC criminal-history record via the Authorization for Review, the circuit-or-district question for the clerk, and the participant-owned paragraphs 1, 2, 4 and 5. 51 unfilled blanks are enumerated in reports/blanks-left-for-the-participant.json with a reason each.",
+          "evidence": {
+            "instructions": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/participant-instructions.md",
+            "blanks": "reports/blanks-left-for-the-participant.json, count 51",
+            "readInThisLane": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "Both checkbox pairs the form carries — paragraph 4 (pending felony charges) and paragraph 5 (sex-offender registration) — are left to the participant and are tabulated in the instructions with \"tick exactly one\". The delivered PDF shows both pairs empty.",
+          "evidence": {
+            "deliveredText": "paragraph 4 and 5 boxes read empty in petition-canonical-filled.pdf",
+            "readInThisLane": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "The petition carries two offence continuation lines. Line 1 carries the offence; line 2 is recorded in blanks-left-for-the-participant.json as no_allowlisted_fact_matches and is empty in the delivered bytes. No row is half-written.",
+          "evidence": {
+            "report": "reports/blanks-left-for-the-participant.json entry \"and charged with the offenses of 2\"",
+            "readInThisLane": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "I read the delivered text for ink in owner-only rules and found none: Defendant's Signature, Date, the whole Certificate of Service (the \"I, ____\" line, the signature and the date), and every court-owned part of the proposed order are blank. The instructions state the rule and the reason (\"a signed certificate of a mailing that never occurred is a false statement to the court\").",
+          "evidence": {
+            "deliveredText": "signature, date and certificate-of-service rules read empty in both canonical fixtures",
+            "readInThisLane": true
+          }
+        },
+        "ARTIFACTS": {
+          "result": "FAIL",
+          "finding": "The family's own visual-review evidence does not bind to its committed raster bytes. I rehashed all twelve PNGs named in reports/independent-visual-review.json: ten match, and exactly two do not — raster/petition-canonical/page-01.png (recorded 01b21af5198d1e05..., on disk f3bb8842012a4d27...) and raster/order-canonical/page-01.png (recorded 715f3593dc8b4f48..., on disk e9666f0e88e613de...). Both boundary page-01 images match. The working tree is clean, so these are committed bytes. Page 1 is the page carrying every caption prefill, so the two stale hashes are exactly the pages whose recorded observations matter most. The delivered PDFs are unaffected — all four fixtures BYTES_MATCH the RASTER_QUEUE documents block — so this is a stale evidence record, not a bad artifact. Note this contradicts the vf12 row asserting all twelve rehash exactly; I recomputed and it does not hold at this base. The sibling ar-misdemeanor-dwi-seal-set is clean at 12/12, so this is specific to this family.",
+          "evidence": {
+            "recomputedHere": "sha256 over the 12 PNGs listed in reports/independent-visual-review.json; 10 match, 2 differ",
+            "pdfIntegrity": "petition/order canonical and boundary all equal RASTER_QUEUE pinned sha256",
+            "gitState": "git status --porcelain over the family directory is empty",
+            "readInThisLane": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "pdftotext reports 3 pages for each of the four fixtures, equal to the source-receipt pageCount of 3 for both pinned documents and to the RASTER_QUEUE expectedPages of 3. Page order follows the source: petition body, identification block, certificate of service.",
+          "evidence": {
+            "measured": "3 pages per fixture, all four fixtures",
+            "readInThisLane": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "I measured word-extent crossings independently with pdftotext -bbox over all four fixtures: 0 words cross the page box in any of them (390, 394, 424 and 403 words respectively). The boundary fixture proves the refusal path rather than an overdraw — reports/rendered-artifacts.json records the 37-character case number refused as value_exceeds_widget_width_at_minimum_font rather than drawn over the rule.",
+          "evidence": {
+            "instrument": "pdftotext -bbox word boxes vs MediaBox width, run in this lane",
+            "crossings": "0 of 1611 words across the four fixtures",
+            "readInThisLane": true
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "County of arrest, stated and twice sourced, and the packet is explicit that this is not Arkansas's ordinary venue rule. The committed route record gives \"Circuit or district court in the county of arrest\" and says the county-of-arrest rule is separate from the general one; the packet-set manifest says the same. The residual — circuit or district — is genuinely not held (the order's own distribution paragraph shows both courts take these forms) and is delegated to a specifically named office, the circuit clerk of the county of arrest, which satisfies A1 as widened by A2. The packet also tells the participant to check the caption county against the arrest county, which is the failure mode this venue rule creates.",
+          "evidence": {
+            "instructions": "participant-instructions.md, \"Where you file this\"",
+            "standard": "DET-FEE-AND-WAIVER-001 A1/A2",
+            "readInThisLane": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "The A2 defect recorded against this family is repaired and I verified the repair against the source rather than the repairer. The packet states \"There is no filing fee for this petition\" and attributes it to the compiled Arkansas profile; I read all three quoted strings out of src/lib/rcap-engine/compiled/profiles/AR-arkansas.json myself — \"Act 1460 eliminated sealing filing fees\", \"Sealing petition filing fee $0 Filing fees eliminated by the 2019 amendments\", and \"File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.\" The packet also does the harder thing correctly: it explains what a $0 fee means for the petition's sworn paragraph 3, which recites A.C.A. § 16-90-1419 and prints no amount, and it separates the non-filing costs (ACIC record fee, clerk copy fee, counsel) that the same profile records.",
+          "evidence": {
+            "profileQuotesVerified": "three strings located in AR-arkansas.json in this lane",
+            "standard": "DET-FEE-AND-WAIVER-001 A1 as widened by A2",
+            "readInThisLane": true
+          }
+        },
+        "SERVICE": {
+          "result": "FAIL",
+          "finding": "The service mechanics are right and the objection clock is wrong in a way that can mislead a felony-class petitioner. Correct: two recipients from the form's own Certificate of Service (the prosecuting or city attorney, and the arresting agency), the form's two methods, and the rule that the certificate is completed only after service. The defect is the objection window. The packet leads with a flat \"The prosecuting attorney has 30 days to object\", sourced to the committed packet-set manifest. I traced that sentence: it is data/record-clearing/legal-design-intake/AR.memo.json rules.service, and it appears VERBATIM on 11 of the 12 Arkansas tracks in that file — including ar-felony-seal, where the same repository's compiled profile says the window is 90 days. A line that is provably wrong on a sibling track it is attached to is state-level boilerplate, not a route-addressed determination, and under A3 (holding is per FACT, not per document) it does not establish this route's answer. The record that DOES address it is the compiled profile's own table: \"Prosecutor objection window - misdemeanor 30 days / felony 90 days, Receipt / filing of petition\". That rule is self-applying here, because the delivered petition prints \"A Class _____ [_] felony [_] misdemeanor\" and the participant supplies the class. So the repository establishes a determinate class-keyed rule and the packet publishes a flat number from a non-route-held line, demoting the real rule to \"the longer window MAY apply to you\". It then sends a statutory question to an office that cannot answer it: \"ask the clerk of the court where you file which window that court runs\" — the window is set by statute, not by court practice, and A1 permits a named authority to stand in only where no held source establishes the fact. The contrast is inside this same builder's own work: ar-misdemeanor-dwi-seal-set resolves the identical conflict correctly by naming its route's class (\"this packet is a misdemeanour DWI or BWI conviction, which puts it in the 30-day limb\"). The repair is one paragraph: state the class rule as the rule, cite the profile, and drop the clerk sentence. Recorded separately: the three-day service deadline comes only from that same 11-track boilerplate — the compiled profile contains no \"three days\" and the form prints none — but it errs toward serving early, so I record it as a provenance limit rather than a failure.",
+          "evidence": {
+            "boilerplateMeasured": "11 of 12 tracks in data/record-clearing/legal-design-intake/AR.memo.json carry the identical rules.service string, ar-felony-seal among them",
+            "profileRule": "AR-arkansas.json: \"Prosecutor objection window - misdemeanor 30 days / felony 90 days\"",
+            "formCollectsClass": "delivered petition paragraph 1 prints \"A Class _____ [_] felony [_] misdemeanor\"",
+            "contrastFamily": "ar-misdemeanor-dwi-seal-set participant-instructions.md line 31",
+            "standard": "DET-FEE-AND-WAIVER-001 A1, A2, A3",
+            "readInThisLane": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "A named stop list keyed to this route's own failure modes: the paragraph-2 sentence not being true, a contested petition after an objection, an arrest that ended in conviction or diversion rather than no-charges (with the packet saying a different ACIC family covers each), and not knowing the offence class or statute. Both an Arkansas lawyer and the clerk of the court named in the caption are offered, with the limit of each stated.",
+          "evidence": {
+            "instructions": "participant-instructions.md, \"Where self-help ends\"",
+            "readInThisLane": true
+          }
+        }
+      },
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ar-misdemeanor-dwi-seal-set",
+      "lane": "VF10",
+      "worker": "FABLE-VD",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "SOURCE_IDENTITY",
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "The DWI/BWI misdemeanor conviction route. The delivered petition is titled \"PETITION TO SEAL A MISDEMEANOR CONVICTION FOR DRIVING OR BOATING WHILE INTOXICATED\" and its paragraph 7 recites the route-defining ten-year clock under Ark. Code Ann. § 5-65-111(b)(1) and/or (c)(1). Distinct from the arrest route in the same state and correctly so.",
+          "evidence": {
+            "deliveredText": "read in this lane from petition-canonical-filled.pdf",
+            "readInThisLane": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "FAIL",
+          "finding": "Same shape as its Arkansas sibling. Both pinned documents hash exactly against the mounted Master Library — 04d876b09fe82b76... (117,345 B) and ae6b81f6882133c2... (111,099 B), each equal to source-receipt.json — but scripts/verify-packet-build-environment.mjs --family ar-misdemeanor-dwi-seal-set returns FAIL family_sources_bind \"names no resolved document source\", and the queue row reads SOURCE_IDENTITY_NOT_EXACT with boundCount 0/2. The census names official-form:ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI where the corpus holds AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION. An id-alias reconciliation, not an acquisition.",
+          "evidence": {
+            "corpusHashesRecomputedHere": "both documents HASH_EXACT against the pinned values",
+            "preflight": "family_sources_bind FAIL",
+            "readInThisLane": true
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "This is the obligation the repair claimed, and it holds when the counter is actually exercised rather than trusted. production-field-map.json parses to 2 documents carrying 30 and 19 field entries, 49 in total, and every entry carries an explicit decision — the tally is 8 \"write\" and 41 \"refuse\", which is exactly the claimed 8/49. The counter is therefore not a zero produced by a failed parse: the denominator is 49 real entries, each with a label (0 of 49 lack an effectiveLabel) and a stated reason. I then tested the numerator against the delivered bytes rather than the map, and all four petition writes appear in the artifact text — case number \"24-CR-001234\", the DEFENDANT caption name, the WHEREFORE prayer name, and DOB \"1991-04-17\" — with the order carrying the matching four. Recorded as a real limit rather than a failure: the source PDFs carry no AcroForm (pdfType is measured_overlay_blank for all 49), so field identity is position-derived (p1-y707.10-x128.27) rather than taken from the form's own field names; the count is auditable, but it is auditable against measured boxes, and only a pixel review can confirm each box is the blank its label names.",
+          "evidence": {
+            "tallyRecomputedHere": "49 entries, 8 write, 41 refuse, across 2 documents",
+            "writesConfirmedInBytes": "all 8 located in the delivered canonical PDFs by pdftotext",
+            "structuralNote": "pdfTypes = {measured_overlay_blank: 49}; source-receipt records no acroFieldCount for either document",
+            "readInThisLane": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "Eight writes, all confirmed present in the delivered bytes, and all identity or docket facts. Notably the caption court, county and division are all REFUSED rather than guessed, which is right: the forms print no caption naming a court and the packet says so.",
+          "evidence": {
+            "writes": "case number, defendant name (caption and prayer), DOB, on each of petition and order",
+            "readInThisLane": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "Seven steps, and the two that would actually stop a filing are both present and correct. The VERIFICATION page carries a jurat — I read \"Subscribed and sworn to before me on this ___ day of ___, 20__\" and \"Notary Public\" out of the delivered PDF — and the instructions require signing it before a notary and leave the whole page blank. The venue line is required of the participant and explained. This form carries a notarization the arrest sibling does not, and the packet does not treat the two as interchangeable.",
+          "evidence": {
+            "jurat": "read in delivered petition-canonical-filled.pdf, page 3",
+            "instructions": "participant-instructions.md item 5",
+            "readInThisLane": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "Paragraph 8 (pending felony charges) and paragraph 9 (sex-offender registration) checkbox pairs are left to the participant and tabulated; both read empty in the delivered bytes.",
+          "evidence": {
+            "deliveredText": "read in this lane",
+            "readInThisLane": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "The offence is printed by the form itself (Driving or Boating While Intoxicated, § 5-65-103), so there is no participant-filled repeating charge structure to leave half-written. The pending-charges continuation lines are recorded as participant-owned and are empty.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "Signature, date, the entire VERIFICATION page and the entire Certificate of Service carry no ink in either fixture. reports/independent-visual-review.json reaches the same conclusion from the rasters and I confirmed it from the artifact text.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Four fixtures, all four equal to the RASTER_QUEUE pinned hashes, coverage.complete true, receipt RASTER_PASS from run 33497786539 job 99824472419 (conclusion success), artifact id 9796610807. All twelve committed raster PNGs rehash exactly to reports/independent-visual-review.json — 12 match, 0 differ, which is where this family differs from its Arkansas sibling. Pixels not read here.",
+          "evidence": {
+            "rasterReceipt": "run 33497786539, job 99824472419, artifact 9796610807",
+            "pngRehash": "12/12 match",
+            "readInThisLane": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "Petition 4 pages, order 2 pages, matching source-receipt pageCounts of 4 and 2 and the RASTER_QUEUE expectedPages of 4. Order within the petition follows the source: body, verification, identification block, certificate of service.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "0 word-extent crossings across all four fixtures (438, 435, 503 and 505 words) measured with pdftotext -bbox in this lane. The boundary fixtures record 2 and 1 unfittable values as refusals rather than overdrawing them.",
+          "evidence": {
+            "crossings": "0 of 1881 words",
+            "readInThisLane": true
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The court that entered the conviction, with the whole venue line deliberately left to the participant because the forms print no caption — an honest refusal rather than a guess, and the packet says why (\"a petition without its venue is not filed, and a petition with the wrong one is worse\"). The circuit clerk of the county of conviction is named as the office that answers it, which A1 permits where the answer is not held. I checked: the route census records filingDestination as not_recorded for this route, so nothing in the repository is being withheld here.",
+          "evidence": {
+            "censusChecked": "route obligation census deliverable.filingDestination = not_recorded for obligation:unit:AR:ar-misdemeanor-dwi-seal:ar-misdemeanor-dwi-seal-stage-2",
+            "readInThisLane": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "FAIL",
+          "finding": "The packet makes a repository-wide denial it did not test, and its own Arkansas sibling was repaired for exactly this. It says: \"Neither the petition nor the order states a filing fee, and no source this packet holds establishes what filing this petition costs - or whether it costs anything\", then names the clerk. The first clause is true of the forms. The second is a claim about the repository, and under A2 the repository includes the compiled state profile for the family's jurisdiction whether or not the route census enumerates it. src/lib/rcap-engine/compiled/profiles/AR-arkansas.json states, in the fee table I read in this lane, \"Sealing petition filing fee $0 Filing fees eliminated by the 2019 amendments\", and in its filing rule \"File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.\" That filing rule is keyed to the court that handled the CASE — a conviction route, which is what this family is — and the same profile's form table lists the \"Petition and Order to Seal Misdemeanor DWI / BWI\" pair among the Act 1460 uniform petition-and-order pairs. This is the identical defect DET-FEE-AND-WAIVER-001 A2 named for ar-arrest-seal-set; that family was repaired to state the $0 and this one, built from the same profile in the same state, was not. Stated as a residual so the repairer is not sent past it: the profile's $0 line does not name DWI/BWI in the fee sentence itself, and § 5-65-111 is a separate eligibility scheme, so a counsel reader could hold that this route carries its own cost. That uncertainty is a reason to state what the profile holds and attribute it, or to state why § 5-65-111 sits outside it — not a licence for a blanket denial that the repository is silent when it is not.",
+          "evidence": {
+            "profileQuotesReadHere": "AR-arkansas.json fee table and filing rule, located in this lane",
+            "packetText": "participant-instructions.md line 18",
+            "siblingRepaired": "ar-arrest-seal-set states \"There is no filing fee for this petition\" from the same profile",
+            "standard": "DET-FEE-AND-WAIVER-001 A1 as widened by A2, bounded by A3",
+            "readInThisLane": true
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "This is the family that gets the Arkansas objection window RIGHT, and the contrast with its sibling is the evidence. Recipients and method come from the form's own Certificate of Service. On the clock, the packet quotes the manifest's flat 30 days AND the compiled profile's class-dependent rule, and then resolves the conflict instead of leaving it open: \"this packet is a misdemeanour DWI or BWI conviction, which puts it in the 30-day limb of that rule as well as the manifest's.\" Because this route's class is fixed by the route itself, the two records agree and the participant is left with one number they can act on. Recorded as a residual: the three-day service deadline rests only on the 11-track AR.memo.json boilerplate, which the compiled profile does not carry and the form does not print — it errs toward serving early, so it is a provenance limit rather than a failure. A2 answersVT8C4 recorded a SERVICE failure standing against this family; on the bytes at this base it does not stand, and the COMPONENT_SET half of that pairing is likewise repaired.",
+          "evidence": {
+            "packetResolution": "participant-instructions.md line 31",
+            "standard": "DET-FEE-AND-WAIVER-001 A3",
+            "readInThisLane": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "Named stops with an Arkansas lawyer and the clerk of the convicting court, each with its limit stated, keyed to this route's own hazards including not knowing the venue or the identification numbers.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        }
+      },
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ny_160_59_petition-set",
+      "lane": "VF10",
+      "worker": "FABLE-VD",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill",
+      "obligationsScored": 15,
+      "failedObligations": [],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "One route, discretionary conviction sealing by petition under CPL 160.59, and the four bound forms are the ones that route uses: the Notice of Motion and Affidavit, the pro se packet, the certificate-of-disposition request and the seal-verification request.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "4/4 exact. I recomputed SHA-256 over all four pinned documents against the mounted Master Library and every one equals source-receipt.json at the recorded byte length: application 73a5eeaf... (1,234,105 B), COD request 68b14570... (198,814 B), pro se packet cf22b8ea... (519,607 B), seal verification 76c0c54e... (79,928 B). The build preflight independently agrees: family_sources_bind ok, \"4/4 source(s) bind by exact SHA-256 (custody_reconciliation)\".",
+          "evidence": {
+            "recomputedHere": "4/4 HASH_EXACT",
+            "preflight": "family_sources_bind ok 4/4",
+            "readInThisLane": true
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Five components against four forms, which is right: the application supplies both the primary filing and the sworn prior-applications statement. All three rendered documents are present in canonical and boundary.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "Identity and docket facts only. Every service fact, prior-application election, sworn date, prosecutor detail and notary field is left blank, which build-findings.json states and the artifact text confirms.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "This is where the caption repair lands and it verifies against the forms rather than the repair note. The instructions require a certificate of disposition per conviction, notarization, and service before filing. The repair's substance — 55 captions corrected from a per-document table read off the printed face, after a vertical tie-break was rejected for regressing about a dozen other widgets — is a defensible choice: it fixes the identifier stack without changing captureWidgetContext, which is shared far beyond this family. I confirmed the load-bearing consequence rather than the count: the blanks the participant must complete are enumerated with their source field names, and the two District Attorney address rules are correctly treated as participant-owned rather than ATTORNEY_BLOCK.",
+          "evidence": {
+            "repairRecord": "data/rcap-grade-a/fable-packet-factory/returns/r18.json",
+            "readInThisLane": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "The prior-application elections and the service-type selection are left to the participant and named in the blanks list. The court-use-only controls are reclassified to a trusted refusal class, which the form's own \"***FOR COURT USE ONLY - DO NOT WRITE BELOW THIS LINE***\" rule makes correct.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "The per-conviction structure is handled by requiring a certificate of disposition for each conviction and a separate Affidavit of Service for each prosecutor's office served — the pro se packet's own rule, and the instructions carry it.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "Signatures, sworn dates, notary blocks, prosecutor fields and the court-use-only checklist all carry no generated ink; build-findings.json asserts it as a hard rule verified and the artifact text agrees.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Six fixtures, all six equal to the RASTER_QUEUE pinned hashes; coverage.complete true with documentsNotCovered empty and coversTheWholeFamily true. Receipt is RASTER_PASS from run 33598433649, job 100147214112, conclusion success, artifact id 9834529157 — the freshest of my eight, and it is bound to the current canonical and boundary SHA-256s, both of which equal the bytes on disk. The artifact blob was not downloaded and no pixel was read in this lane.",
+          "evidence": {
+            "rasterReceipt": "run 33598433649, job 100147214112, artifact 9834529157",
+            "readInThisLane": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "Application 6 pages, COD request 2, pro se packet 12 — each equal to its source-receipt pageCount, and the application matches RASTER_QUEUE expectedPages of 6.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "The repair is sound and its stopping point is the right one. I measured independently with pdftotext -bbox, an instrument the repairer did not use: 0 of 5,122 words cross the page box in pro-se-packet-boundary.pdf and 0 of 5,090 in the canonical — and the boundary fixture is the one carrying the deliberately oversized values, so it is the strongest available test of the participant-ink limb. On whether 598 rather than 0 was the right target: it was. The repairer's metric counts text RUNS whose computed extent crosses the 612-point edge, and 598 is the count carried by the pristine bound source itself, which I confirmed is the same document I hold (cf22b8ea..., byte-exact). Those 598 are the official form's own typography. Driving them to zero would mean altering the printed face of a New York court form, which is a source-fidelity violation graver than the defect it would cure. The obligation asks whether the packet's OWN writes clip, and 605 -> 598 removes exactly the seven runs that were participant ink. The mechanism found is credible and specific — each widget's own /DA of \"/Arial 11 Tf\" overriding the field-level fitted size, so reports/actual-writes.json was true about the fit and false about the ink — and the fix rewrites only the size token inside the existing /DA, which is why the canonical fixtures, whose values already fit at 11, are byte-identical. Residual: I measured word extents, not run extents, and I did not read the raster pixels; what those 598 source runs are remains unaudited by me.",
+          "evidence": {
+            "instrument": "pdftotext -bbox, run in this lane on both fixtures and on the pristine corpus source",
+            "measured": "0 crossings in delivered boundary, delivered canonical, and pristine source alike",
+            "repairRecord": "returns/r18.json CLIPPING_AND_OVERLAP",
+            "readInThisLane": true
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The court where the applicant was convicted and sentenced, taken from the pro se packet's own words, with the clerk's office of that court named as the filing counter and the office to ask.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "Held, stated, and verified by me at source. The packet says the CPL 160.59 application carries no separate filing fee; I located that in src/lib/rcap-engine/compiled/profiles/NY-new-york.json as \"CPL 160.59 sealing application No separate filing fee Court motion; notarization needed\" — keyed to this exact route, so it survives A3. The costs the route DOES carry are stated and each is sourced: I read \"$5 in courts located outside New York City or ten dollars ($10) in courts located in New York City's five boroughs\" off the printed face of the pinned certificate-of-disposition form itself, and the DCJS review fee and notary cost from the profile. The A2 defect recorded against this family — naming the clerk as the authority for a figure the repository already held — is repaired, and repaired in the direction A1 requires: the answer is stated, not delegated. Free legal-aid help is named from the profile.",
+          "evidence": {
+            "profileQuoteVerified": "NY-new-york.json, located in this lane",
+            "formFaceVerified": "pdftotext over the pinned COD request PDF in the mounted corpus",
+            "standard": "DET-FEE-AND-WAIVER-001 A1/A2/A3",
+            "readInThisLane": true
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Who, when, how and the proof, each traceable. The District Attorney of each county of conviction, or the Attorney General or Special Narcotics Prosecutor where they prosecuted; served BEFORE filing; a separate notarized Affidavit of Service per office, attached in original at filing; only an in-person copy stamped received excuses the affidavit. The consideration period is stated from the form's own face, and I verified that sentence in the pinned source: \"The District Attorney has 45 days after being served with this Notice of Motion to consider whether to...\" The service blanks are left for completion after service, with the perjury reason given.",
+          "evidence": {
+            "formFaceVerified": "45-day sentence read from the pinned CPL-160.59-APPLICATION PDF in this lane",
+            "readInThisLane": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "A substantial and route-appropriate list, including the one most packets omit: immigration exposure, with the statement that sealing does not remove immigration consequences and sealed records remain reachable by immigration authorities, and a direction to ask an immigration attorney before signing. It also separates cleanly what the clerk answers from what only a New York-admitted lawyer may, and names free legal-aid and DA sealing units.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        }
+      },
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "rcap-oh-custom-pleading-clean-tracks",
+      "lane": "VF10",
+      "worker": "FABLE-VD",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "KNOWN_PREFILLS",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "firstFullFifteenRead": "This family carried a PASS downgraded from PASS_COMPLETE_INDEPENDENT because its issuing lane scored fewer than fifteen obligations. This row is its first full read, and four obligations fail — three of them on the same mechanism, and none of them visible without going to the compiled Ohio profile.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "Four tracks, four distinct statutory authorities, and each rendered pleading recites its own: § 2953.32 sealing, § 2953.32 expungement, § 2953.33 not-guilty/dismissal/no-bill/pardon relief, and § 2953.35 obsolete concealed-handgun notification convictions. I read all four canonical documents and the STATUTORY AUTHORITY block differs correctly in each. The § 2953.61 same-act limitation is carried where it belongs.",
+          "evidence": {
+            "readInThisLane": "all four tracks/*/rendered/canonical/canonical.txt"
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "1/1 exact. The single bound source, the official Ohio BCI sealing/expungement request, hashes 9234ec763403b1cc... (235,789 B) against the mounted corpus, equal to source-receipt.json; the build preflight agrees with \"1/1 source(s) bind by exact SHA-256\". The companion note pins the same hash and states the document is copied unchanged, which the byte match confirms.",
+          "evidence": {
+            "recomputedHere": "HASH_EXACT",
+            "readInThisLane": true
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Four track drafts plus one unchanged official BCI companion, matching the queue row's four components. The companion is correctly characterised as a post-order transmission aid rather than the primary filing, and it is not prefilled.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "finding": "Three sentences print a POINTER in the grammatical position of the FACT, and the packet's own design turns that into a participant-facing defect. In all four tracks, paragraph 5 reads \"Applicant was charged with Possession offense shown on the certified disposition by [ARRESTING AGENCY MUST BE CONFIRMED]\", paragraph 7 reads \"The matter was resolved with the following disposition: Disposition shown on the certified disposition\", and paragraph 8 reads \"Applicant may be eligible for sealing on the following basis: Eligibility is not certified by this artifact; source review and local-court confirmation are required.\" The first two state where to find a fact in the slot where the fact belongs; the third puts the factory's own non-certification language into a pleading's eligibility allegation. This matters because of what the instructions ask the participant to do with the document: \"Transfer only reviewed content to that form.\" The bracketed ALL-CAPS markers are self-evidently not transferable and the top-level instructions name every one of them and say what to supply instead. These three sentences carry no such marking, sit in ordinary prose, and are not transferable content — paragraph 8 is affirmatively wrong to copy onto a court form. The fix is to mark them as unresolved in the same way the bracketed items are, or to omit the clause rather than print a pointer as an allegation.",
+          "evidence": {
+            "readInThisLane": "all four canonical.txt files, paragraphs 5, 7 and 8",
+            "instructionDirective": "tracks/*/participant-instructions.md, \"Transfer only reviewed content to that form\"",
+            "contrast": "the four bracketed placeholders ARE each named and explained in the top-level participant-instructions.md"
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "The top-level instructions name every placeholder the pleading prints, say why each is unfilled, and say where the participant reads it — caption, arrest date, disposition date, arresting agency, and DOB/SSN if the local form requires them — and add the certified disposition, the BCI record and the current local application. This is the strongest part of the packet and it is why the placeholders are honest rather than abandoned.",
+          "evidence": {
+            "readInThisLane": "participant-instructions.md, \"What you must supply before filing\""
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "The pleadings offer the participant no elections; the disposition-specific findings live in the court's order and are not part of these drafts. Nothing is half-selected.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "No repeating row structure is emitted. Paragraph 9 commits the applicant to \"list every charge arising from the same act\" and the § 2953.61 limitation is named, with the list structure delegated to the local court form the instructions require the participant to obtain — consistent with the packet's stated design as a content draft rather than a filing.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "The verification block carries a blank signature rule and a blank date; no judge, clerk, prosecutor, agency, hearing or order field is written; and the BCI companion is unfilled with the reason stated (it is not sent before a signed order exists). The instructions state the rule in both the track and top-level files.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Eight rendered PDFs across four tracks, all eight equal to the RASTER_QUEUE pinned hashes; coverage.complete true, coversTheWholeFamily true, documentsNotCovered empty. Receipt RASTER_PASS from run 33585751332, job 100109948243, conclusion success, artifact id 9830146862. The receipt itself records that the artifacts were not downloaded, and they were not downloaded here either; no pixel was read.",
+          "evidence": {
+            "rasterReceipt": "run 33585751332, job 100109948243, artifact 9830146862",
+            "readInThisLane": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "2 pages per track document, canonical and boundary alike, equal to RASTER_QUEUE expectedPages of 2. Section order is consistent across all four: caption, statutory authority, jurisdiction and venue, parties, facts, eligibility, relief, verification, attachments.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "0 word-extent crossings across all eight rendered PDFs (371 to 443 words each), measured with pdftotext -bbox in this lane. These are generated pleadings on a clean page rather than overlays on a fixed form, so the risk class is low and it is realised at zero.",
+          "evidence": {
+            "crossings": "0 across 8 documents",
+            "readInThisLane": true
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "FAIL",
+          "finding": "The packet denies a rule the repository states, and the denial costs the participant a real limb. It says: \"No held source in this packet names a statewide Ohio filing office or a statewide application.\" Under A2 the repository includes the compiled state profile, and src/lib/rcap-engine/compiled/profiles/OH-ohio.json states the rule plainly and repeatedly, keyed to these sections: \"File in the sentencing court for an Ohio conviction or in a court of common pleas for an out-of-state or federal conviction\", and for § 2953.35 \"The application is filed in the sentencing court\". A1 as amended settles the order of operations — ask first whether the repository establishes the answer; if it does, the packet states it. The consequence is not cosmetic: the packet's substitute answer, \"the Ohio court that handled the case\", silently drops the out-of-state and federal conviction limb, and a participant in that position is sent to a court that is not in Ohio at all. The repair is to state the profile's two-limb rule.",
+          "evidence": {
+            "profileQuoteReadHere": "OH-ohio.json, located in this lane",
+            "packetText": "participant-instructions.md, \"Where this is filed\"",
+            "standard": "DET-FEE-AND-WAIVER-001 A1 amendment, as widened by A2"
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "FAIL",
+          "finding": "The clearest of the four, because the profile answers this route by statute number. The packet says: \"No held source in this packet states a filing fee, states that filing is free, or states a fee-waiver procedure ... This packet does not state an amount because it holds no source for one.\" The compiled Ohio profile carries a route-keyed fee table that I read in this lane: \"Route Fee | 2953.32 conviction/bail forfeiture sealing or expungement | $50 application fee unless indigent, plus possible local court fee up to $50 | Dismissal / not guilty / no bill sealing | Ohio Legal Help says no fee | ... | 2953.35 firearm/carry expungement | $50 unless indigent\". Three of this family's four tracks are answered by section number — § 2953.32 twice and § 2953.35 — and the fourth, § 2953.33 non-conviction relief, is answered by the disposition row for dismissals, not-guilty and no-bill cases. The indigency waiver the packet says it holds no source for is named in the same table and again in the § 2953.35 text (\"The fee is $50 unless indigent\"). This is per-fact, per-route holding in A3's own terms — the table is keyed by statutory section and the sections match — so none of it is a sibling-route inference. The packet is silent about something the repository knows, and \"ask the clerk\" substitutes a question for an answer we have.",
+          "evidence": {
+            "profileTableReadHere": "OH-ohio.json \"Route Fee\" table, extracted in this lane",
+            "trackSections": "oh_2953_32_sealing, oh_2953_32_expungement, oh_2953_33_nonconviction, oh_2953_35_firearm",
+            "standard": "DET-FEE-AND-WAIVER-001 A1 amendment, A2, A3"
+          }
+        },
+        "SERVICE": {
+          "result": "FAIL",
+          "finding": "The packet says \"No held source in this packet states who must be served or how. Ask the same clerk.\" The profile states the mechanism, keyed to these sections: the court sets and holds the hearing 45 to 90 days after filing, and \"The prosecutor may object at least 30 days before the hearing, and victims may be heard if applicable\" — recorded against § 2953.32/.321 and, separately, \"The court holds a hearing 45-90 days after filing, and the prosecutor may object\" against § 2953.33. The honest answer is materially better for the participant than the question the packet asks in its place: on this scheme the applicant serves nobody, the court notifies, and there is a stated window to expect. That is the same shape as the correction already applied to a New York family in this factory, where the packet was repaired to state affirmatively that the court distributes and the participant serves nobody. Telling a participant to go and ask who to serve, when the held answer is that they serve no one, leaves them looking for a step that does not exist.",
+          "evidence": {
+            "profileQuotesReadHere": "OH-ohio.json hearing and objection rules, located in this lane",
+            "standard": "DET-FEE-AND-WAIVER-001 A1 amendment, as widened by A2 and A4"
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "Explicit and honest about what the artifact is. The first line of every track file says \"This is a statutory-content draft and review artifact. It is not a statewide Ohio court form and is not filing-ready\", the hard stops name the same-act review, the final-discharge waiting period and the statutory exclusions as requiring source-backed confirmation, and the top-level file directs the participant to a lawyer or an Ohio legal-aid office where any of it is unclear. The document's own footer repeats that it is not an official court form.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        }
+      },
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_conviction-set",
+      "lane": "VF10",
+      "worker": "FABLE-VD",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "The conviction route. Route keys, family id and routeSelectionId are distinct, and the instructions carry route-specific content — no dismissal-specific requirements are imported. Both Utah families in my grant deliver a byte-identical canonical PDF (ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6) and a byte-identical boundary PDF (b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765), and their production-field-map.json files differ only in familyId, routeKeys and routeSelectionId — every mapping decision is the same. I checked whether that is a route-identity defect and concluded it is not: the Utah petition 1000EX carries no disposition-type control for the participant; the disposition branch lives in the 1020EX proposed order, whose \"[ ] the expungement petition is for a case that was dismissed without...\" and plea-in-abeyance findings are court-owned and correctly left blank. So identical bytes are the form's design, not a build collapse. It does explain the shared fee paragraph that fails below.",
+          "evidence": {
+            "sharedBytesMeasuredHere": "sha256 over both families' canonical and boundary fixtures",
+            "orderControls": "1020EX disposition findings read in the delivered text and confirmed blank",
+            "readInThisLane": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "9/9 exact. I recomputed SHA-256 over all nine pinned documents against the mounted Master Library and every one equals source-receipt.json at the recorded byte length. The build preflight agrees: family_sources_bind ok, \"9/9 source(s) bind by exact SHA-256 (custody_reconciliation)\".",
+          "evidence": {
+            "recomputedHere": "9/9 HASH_EXACT",
+            "preflight": "family_sources_bind ok 9/9",
+            "readInThisLane": true
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Nine components against nine bound sources — BCI certificate application, BCI third-party release, civil cover sheet, petition, proposed order, acceptance of service, consent and waiver of hearing, victim notice, and reply to prosecutor or victim statement — matching the queue row exactly, and all nine appear in the 19-page assembly.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "Identity and docket facts, plus one substantive and correct selection: the cover sheet's \"$150 [ ] Expungement Petition - Criminal (E)\" row is pre-selected, and the instructions say so in terms. Gender, SSN, driver-licence number, the BCI certificate number and the BCI payment election are all left blank and listed.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "The participant-facing elections — BCI payment or fee-waiver, service method, and the consent-and-waiver-of-hearing election — are left open and enumerated. The 1020EX order's disposition findings are court-owned and blank.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "The per-incident structure is carried correctly: the packet states a certificate must be purchased for each eligible incident and that BCI's letter names which incidents are eligible, and the order's incident lines are left blank for the court.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "protectedRules records the Judge rule and both signature rules on the petition, and I confirmed from the delivered text that every Judge and Signature caption carries no value across all 19 pages. The notary and prosecutor blocks are likewise blank.",
+          "evidence": {
+            "readInThisLane": "delivered canonical text, all Judge/Signature captions"
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Canonical and boundary both equal the RASTER_QUEUE pinned hashes; coverage.complete true. Receipt RASTER_PASS from run 33488713831, job 99795497837, conclusion success, artifact id 9793209485. Artifact blob not downloaded; no pixel read here.",
+          "evidence": {
+            "rasterReceipt": "run 33488713831, job 99795497837, artifact 9793209485",
+            "readInThisLane": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "19 pages, equal to RASTER_QUEUE expectedPages of 19, and the component order runs BCI application and release, cover sheet, petition, proposed order, then the optional prosecutor and victim instruments — the order the instructions describe.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "0 word-extent crossings in both fixtures (4,210 canonical and 4,257 boundary words), measured with pdftotext -bbox in this lane.",
+          "evidence": {
+            "crossings": "0 of 8,467 words",
+            "readInThisLane": true
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The Utah district court for the county where the case was heard, quoted from BCI's own Expungement Applicant Instructions — \"File a Cover Sheet, Petition to Expunge and Order on Petition to Expunge with the appropriate court\" and take the certificate list \"to the court that is listed for that case\" — with the three court forms named by number. The 180-day certificate expiry between the BCI step and the court step is stated, which is the deadline most likely to defeat this route.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "The gating acts are all present and each carries its consequence: the BCI certificate and its identification number for paragraph 1, the 180-day clock from the BCI letter, fingerprints and government ID, proof that fines, fees, interest and restitution are paid in full (with the Office of State Debt Collection named where a balance became a civil judgment), and a complete list of every criminal case in any state including already-expunged ones, with the reason stated — \"an incomplete list produces a denial rather than a certificate\".",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "FAIL",
+          "finding": "The A4 defect is repaired; a second one behind it is not. Repaired, and I confirmed it: the packet now states \"The BCI application fee is $65.00, and it is non-refundable\", quotes both printed instances, and states the indigency waiver and its sequencing rule (the waiver form must be completed BEFORE applying, and BCI will not process the application until it arrives). The NARROWED refusal also satisfies A4 because it names its subject — it is \"The certificates themselves ... this packet does not state that amount\", explicitly distinguished from the application fee — which is exactly the combination A4 called for, and it names BCI as the office to ask. What fails is the substance of that refusal against the repository. src/lib/rcap-engine/compiled/profiles/UT-utah.json records BCI's own FAQ: \"eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations.\" For THIS route the held figure is $65 per case. So the packet's \"this packet does not state that amount because BCI sets it per applicant\" denies a figure the repository holds, and its companion sentence \"The certificates themselves cost more than the application\" is contradicted by that figure for a single-incident conviction, where the certificate equals the $65 application fee rather than exceeding it. Under A3 this line is on-route: it is keyed by disposition class and names convictions. Stated as a residual: the profile's \"may require\" is genuinely conditional and BCI's letter remains the operative per-applicant statement, so the repair is to state the held $65-per-case figure and its condition and keep BCI as the confirming authority — not to promise a total.",
+          "evidence": {
+            "profileQuoteReadHere": "UT-utah.json BCI FAQ line, located in this lane",
+            "packetText": "participant-instructions.md, \"What it costs, and how to ask for a waiver\"",
+            "standard": "DET-FEE-AND-WAIVER-001 A1/A2/A3/A4"
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Stated from BCI's own instructions and quoted: after filing with the court, \"Mail or email the prosecutor copies of what you file.\" Form 1146XX Acceptance of Service is included for the prosecutor to acknowledge receipt, and the service method, address and date are left blank until service has happened, with the false-statement reason given. The objection consequence is named and the Utah State Courts Self-Help Center is given with its telephone number.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "The stop points are the ones this route actually turns on — the completeness of the multi-state case list, an unpaid balance defeating both petition and certificate, and prosecutor or victim objection leading to a hearing — with the Self-Help Center named for procedure and its limits observed.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        }
+      },
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_dismissed_with_prejudice-set",
+      "lane": "VF10",
+      "worker": "FABLE-VD",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "REQUIRED_BEFORE_FILING",
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "theHarderLimbTested": "The Captain asked whether the compiled Utah profile's \"no certificate issuance fee is required for dismissals, acquittals, or declinations\" reaches this route, and warned that a sibling lane applying this test to three other Utah routes split them two ways. It reaches this one, and the two families in my grant split too — but both fail, for opposite reasons. The conviction family is told too little (the held $65 per case is denied); the dismissal family is told something worse than too little (a cost the repository says is zero).",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "The dismissed-with-prejudice route. Route keys, family id and routeSelectionId are distinct, and the instructions carry route-specific content — the certified order of dismissal, the dismissal date check, and the free automatic-expungement alternative. Both Utah families in my grant deliver a byte-identical canonical PDF (ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6) and a byte-identical boundary PDF (b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765), and their production-field-map.json files differ only in familyId, routeKeys and routeSelectionId — every mapping decision is the same. I checked whether that is a route-identity defect and concluded it is not: the Utah petition 1000EX carries no disposition-type control for the participant; the disposition branch lives in the 1020EX proposed order, whose \"[ ] the expungement petition is for a case that was dismissed without...\" and plea-in-abeyance findings are court-owned and correctly left blank. So identical bytes are the form's design, not a build collapse. It does explain the shared fee paragraph that fails below.",
+          "evidence": {
+            "sharedBytesMeasuredHere": "sha256 over both families' canonical and boundary fixtures",
+            "orderControls": "1020EX disposition findings read in the delivered text and confirmed blank",
+            "readInThisLane": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "9/9 exact. I recomputed SHA-256 over all nine pinned documents against the mounted Master Library and every one equals source-receipt.json at the recorded byte length. The build preflight agrees: family_sources_bind ok, \"9/9 source(s) bind by exact SHA-256 (custody_reconciliation)\".",
+          "evidence": {
+            "recomputedHere": "9/9 HASH_EXACT",
+            "preflight": "family_sources_bind ok 9/9",
+            "readInThisLane": true
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Nine components against nine bound sources — BCI certificate application, BCI third-party release, civil cover sheet, petition, proposed order, acceptance of service, consent and waiver of hearing, victim notice, and reply to prosecutor or victim statement — matching the queue row exactly, and all nine appear in the 19-page assembly.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "Identity and docket facts, plus one substantive and correct selection: the cover sheet's \"$150 [ ] Expungement Petition - Criminal (E)\" row is pre-selected, and the instructions say so in terms. Gender, SSN, driver-licence number, the BCI certificate number and the BCI payment election are all left blank and listed.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "The participant-facing elections — BCI payment or fee-waiver, service method, and the consent-and-waiver-of-hearing election — are left open and enumerated. The 1020EX order's disposition findings are court-owned and blank.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "The per-incident structure is carried correctly: the packet states a certificate must be purchased for each eligible incident and that BCI's letter names which incidents are eligible, and the order's incident lines are left blank for the court.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "protectedRules records the Judge rule and both signature rules on the petition, and I confirmed from the delivered text that every Judge and Signature caption carries no value across all 19 pages. The notary and prosecutor blocks are likewise blank.",
+          "evidence": {
+            "readInThisLane": "delivered canonical text, all Judge/Signature captions"
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Canonical and boundary both equal the RASTER_QUEUE pinned hashes; coverage.complete true. Receipt RASTER_PASS from run 33488713831, job 99795497771, conclusion success, artifact id 9793202612. Artifact blob not downloaded; no pixel read here.",
+          "evidence": {
+            "rasterReceipt": "run 33488713831, job 99795497771, artifact 9793202612",
+            "readInThisLane": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "19 pages, equal to RASTER_QUEUE expectedPages of 19, and the component order runs BCI application and release, cover sheet, petition, proposed order, then the optional prosecutor and victim instruments — the order the instructions describe.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "0 word-extent crossings in both fixtures (4,210 canonical and 4,257 boundary words), measured with pdftotext -bbox in this lane.",
+          "evidence": {
+            "crossings": "0 of 8,467 words",
+            "readInThisLane": true
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The Utah district court for the county where the case was heard, quoted from BCI's own Expungement Applicant Instructions — \"File a Cover Sheet, Petition to Expunge and Order on Petition to Expunge with the appropriate court\" and take the certificate list \"to the court that is listed for that case\" — with the three court forms named by number. The 180-day certificate expiry between the BCI step and the court step is stated, which is the deadline most likely to defeat this route.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "finding": "One required check is missing and it is the one that decides which route the participant is on. The packet correctly adds two dismissal-specific items its conviction sibling lacks — a certified copy of the order of dismissal, and the dismissal date checked against it — and it says the certified copy \"states whether the dismissal was with or without prejudice, which decides which track applies\". But the compiled Utah profile records a second discriminator the packet never mentions: \"A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category\", and separately \"Dismissal with prejudice Goal: 180 days after dismissal/final appeal, unless dismissed after plea in abeyance\". The string \"abeyance\" appears zero times in this packet's instructions. Whether the dismissal followed a plea in abeyance is therefore a fact the repository makes dispositive and the packet does not ask the participant to establish, alongside the with-or-without-prejudice question it does ask.",
+          "evidence": {
+            "profileQuotesReadHere": "UT-utah.json, two lines located in this lane",
+            "absenceMeasured": "grep -c -i abeyance over participant-instructions.md returns 0",
+            "standard": "DET-FEE-AND-WAIVER-001 A4 onTheWiderQuestion"
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "FAIL",
+          "finding": "Two limbs, and the first is the harder one the Captain asked me to test. (1) The certificate refusal is not merely narrow on this route; it is false, and false in the expensive direction. The packet carries the same paragraph as its conviction sibling, word for word: \"The certificates themselves cost more than the application, and this packet does not state that amount because BCI sets it per applicant.\" The compiled Utah profile records BCI's FAQ as: \"eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; NO CERTIFICATE ISSUANCE FEE IS REQUIRED FOR DISMISSALS, ACQUITTALS, OR DECLINATIONS.\" This route is a dismissal. The line is keyed by disposition class and names dismissals expressly, so it is on-route under A3 — unlike the California trap A3 was written for, there is no competing statutory section here, and unlike the West Virginia trap there is no sibling remedy being borrowed. So the repository establishes that the certificate issuance fee is ZERO for this route, and the packet tells the participant it is MORE than $65 and unknowable. That is not a refusal that A1 permits; it is a positive misstatement of a held fact, and it overstates the cost of the route the participant is holding. The identical wording across both Utah families shows why: the fee text was written once for the conviction route and reused unchanged where the disposition class inverts the answer. (2) The free-alternative paragraph omits its own exclusion. The packet tells the participant, in bold, \"there is a free route to the same result ... automatic expungement 180 days after the dismissal under Utah Code 77-40a-206, where no appeal was filed\", and \"If you are not in a hurry, waiting out the 180 days is free.\" The profile states the carve-out twice, and the packet never mentions it: a dismissal with prejudice following a successful plea in abeyance is excluded from that automatic category. A participant in that position is advised to wait 180 days for relief that will not arrive, having been told their paid petition is merely the faster route to the same end. The disclosure is otherwise admirable — it argues against the packet's own sale — which is precisely why it needs its exclusion.",
+          "evidence": {
+            "profileQuoteReadHere": "UT-utah.json BCI FAQ line and the two abeyance lines, all located in this lane",
+            "sharedWording": "diff of the two Utah participant-instructions.md files shows the certificate paragraph identical",
+            "standard": "DET-FEE-AND-WAIVER-001 A1/A2/A3/A4"
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Identical to the conviction family and correct: quoted from BCI's instructions, form 1146XX included, blanks left until service happens, Self-Help Center named with its number.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "The route-appropriate stops are present, including the objection-to-hearing path and the complete-case-list requirement. The plea-in-abeyance gap is recorded under REQUIRED_BEFORE_FILING and FEE_AND_WAIVER rather than here, because it is a missing factual check and a missing cost carve-out rather than a missing referral to counsel.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        }
+      },
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "wv_conv_multiple_misdemeanors-set",
+      "lane": "VF10",
+      "worker": "FABLE-VD",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "The multiple-misdemeanor eligible-conviction expungement route under W. Va. Code § 61-11-26, on form SCA-C906. The two West Virginia families differ exactly where the route differs and nowhere else — I diffed their instruction files and the only substantive differences are the eligibility branch, the clock, the county plurality.",
+          "evidence": {
+            "diffRunHere": "diff over the two participant-instructions.md files",
+            "readInThisLane": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "2/2 bind by exact SHA-256 per the build preflight, and I recomputed the pinned document hashes against the mounted Master Library independently: SCA-C906 43b5606c9faf6fcf... (176,072 B), each equal to source-receipt.json.",
+          "evidence": {
+            "recomputedHere": "HASH_EXACT for every pinned document",
+            "readInThisLane": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "14 selection controls are censused on SCA-C906. The four eligibility checkboxes are SingleFelonyCB, MultipleFelonyCB, SingleSatisfiedCB and MultilpleSatisfiedCB, and their widget y-coordinates (324.91, 275.53, 213.31, 126.83) put them in the same top-to-bottom order as the form's four printed branches. This route selects MultipleFelonyCB, the second, which is the branch the instructions name. The three service-method checkboxes on page 4 are left to the participant.",
+          "evidence": {
+            "widgetOrderMeasuredHere": "selectionControls rects read from production-field-map.json",
+            "readInThisLane": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "The participant signature, the signature date, the verification and notary completion, and the entire certificate of service are blank and stated as protected, with the instruction not to complete them before the event. The delivered text confirms no ink in any of them.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Canonical and boundary both equal the RASTER_QUEUE pinned hashes; coverage.complete true. Receipt RASTER_PASS from run 33488713831, job 99795497914, conclusion success, artifact id 9793109939. Artifact blob not downloaded; no pixel read here.",
+          "evidence": {
+            "rasterReceipt": "run 33488713831, job 99795497914, artifact 9793109939",
+            "readInThisLane": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "4 pages, equal to RASTER_QUEUE expectedPages of 4 and to the SCA-C906 source pageCount. Order runs petition body, verification, certificate of service.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "0 word-extent crossings in both fixtures (962 and 987 words), measured with pdftotext -bbox in this lane.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The clerk of the circuit court of the county of conviction, with the multi-county rule stated: where convictions were had in more than one county the petition groups the information by circuit court and every county's prosecuting attorney is served. Taken from the committed track registry and the route obligation census, both of which the packet cites by path and key — and the packet carries a \"Where this comes from\" section that names each record, which is the strongest provenance discipline among my eight.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "Correct on the amount, and correct in the harder way — it avoids the trap that A3 was written for and A4 recorded as validated in the field. The packet states \"$200\" for the § 59-1-11(a)(1) civil-action filing fee tied by § 61-11-26(n); I located that figure in the committed route obligation census for this exact route: \"paying the § 59-1-11(a)(1) civil-action filing fee of $200\". It also states the separate $100 paid to the State Police records division only on grant. The trap: the compiled West Virginia profile carries \"no filing fees or costs are charged\" lines keyed to § 61-11-25 (acquittal, dismissal, diversion, deferred adjudication), a different section from the § 61-11-26 petition in hand — and the packet does not borrow them, which is the A3-correct reading. It further distinguishes the § 61-11-26a accelerated-treatment route, whose $100 waiver does not reach this filing. The waiver refusal is honest and A1-compliant: no held source establishes an indigency route for this filing, and the circuit clerk of the county of conviction — the same office that takes the filing — is named as the one to ask.",
+          "evidence": {
+            "censusFigureReadHere": "route-obligation-candidate.json, route obligation:track-pathway:WV:wv_conv_multiple_misdemeanors:eligible-conviction-expungement-under-w-va-code-61-11-26",
+            "trapAvoided": "WV-west-virginia.json § 61-11-25 no-fee lines correctly not applied",
+            "standard": "DET-FEE-AND-WAIVER-001 A1/A3"
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Five recipients enumerated under § 61-11-26(e) with the participant identified as the server, and the § 61-11-26(f) carve-out stated correctly and usefully: identified victims are served by the prosecuting attorney, not by the participant, with the instruction not to serve a victim yourself. The certificate of service on page 4 — addresses, delivery-method election, date and signature — is left blank until service has happened, with the false-statement reason given.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "FAIL",
+          "finding": "The packet is silent about a once-per-lifetime bar that its own track carries as an exclusion. I re-measured the silence at this base rather than inheriting it: § 61-11-26(o), § 17C-5-2b, § 60A-4-407, \"only once\" and \"per lifetime\" each return zero hits in participant-instructions.md AND zero hits in the delivered canonical PDF. DET-FEE-AND-WAIVER-001 A4 alsoRecorded.onceInALifetime already holds that the silence is established and that only the bar's legal REACH remains a counsel question; I score the silence and do not re-decide the reach. A participant who has used this remedy before is given nothing in this packet that would tell them to check.",
+          "evidence": {
+            "measuredHere": "grep over participant-instructions.md and pdftotext output of fixtures/canonical.pdf, both zero for all five patterns",
+            "determination": "DET-FEE-AND-WAIVER-001 A4 alsoRecorded.onceInALifetime — not mine, and not re-decided here"
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Three components — primary filing, verification and certificate of service — matching the queue row, all carried within the single 4-page SCA-C906.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "24 canonical writes against 51 canonical refusals on SCA-C906, each refusal carrying a stated reason. The current address is prefilled and the participant is asked to add prior addresses from the offence date forward.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "The contradiction A4 recorded — instructions against the family's own field map — is repaired, and I verified the repair against the FORM rather than the repair note. Paragraph c of SCA-C906 prints four eligibility branches; I read them out of the pinned source PDF and the second is \"For the expungement under WV Code §61-11-26 of multiple above listed and described misdemeanor convictions or traffic citation(s), two years have passed since any conviction and the completion of petitioner's sentence and any period of supervision.\" The instructions quote that sentence verbatim, name it as the second of four, and tell the participant to leave the other three blank. The field map agrees: the other three eligibility-date blanks each carry the reason \"Never a filing fact on this route: multiple-misdemeanor standard waiting-period route selects MultipleFelonyCB, not this alternate eligibility branch\", and the selected one is recorded as \"Required before filing and surfaced in participant instructions (eligibility-date); the platform does not invent it.\" Form, map and instructions now say the same thing. The instructions also derive the clock correctly — two years from the later of the last conviction, release, and completion of supervision — and tell the participant not to estimate it because they are swearing to it. Note for the reader: the AcroForm names say \"Felony\" (MultipleFelonyCB, MultipleFelonyCompletionDate) on a misdemeanor route; the packet correctly quotes the printed sentence rather than the internal field name.",
+          "evidence": {
+            "formTextReadHere": "pdftotext -layout over the pinned SCA-C906 in the mounted corpus, paragraph c",
+            "fieldMapReasons": "production-field-map.json, three \"Never a filing fact on this route\" eligibility entries",
+            "determination": "DET-FEE-AND-WAIVER-001 A4 alsoRecorded.wvFailureIsIndependentOfThisAmendment — the ground it names is repaired at this base"
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "The offence rows and the extended-count rows are censused, and unused rows carry an explicit reason rather than being left ambiguous. No row is half-written in the delivered bytes.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        }
+      },
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "wv_conv_single_misdemeanor-set",
+      "lane": "VF10",
+      "worker": "FABLE-VD",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "notInTheBriefButLiveOnTheLedger": "This family was not in the seven the brief listed, but the claim ledger at this base carries it live on VF10 — transferred VF08 to VF10 at 2026-09-02T05:45:14Z in the same batch as five of the other six. The brief said the ledger governs, so it was asserted, read and scored like the rest.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "The single-misdemeanor eligible-conviction expungement route under W. Va. Code § 61-11-26, on form SCA-C906. The two West Virginia families differ exactly where the route differs and nowhere else — I diffed their instruction files and the only substantive differences are the eligibility branch, the clock, the county plurality, and the SCA-C900 reference component.",
+          "evidence": {
+            "diffRunHere": "diff over the two participant-instructions.md files",
+            "readInThisLane": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "3/3 bind by exact SHA-256 per the build preflight, and I recomputed the pinned document hashes against the mounted Master Library independently: SCA-C906 43b5606c9faf6fcf... (176,072 B) and SCA-C900 89ff7d2d91140646... (204,715 B), each equal to source-receipt.json.",
+          "evidence": {
+            "recomputedHere": "HASH_EXACT for every pinned document",
+            "readInThisLane": true
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "14 selection controls are censused on SCA-C906. The four eligibility checkboxes are SingleFelonyCB, MultipleFelonyCB, SingleSatisfiedCB and MultilpleSatisfiedCB, and their widget y-coordinates (324.91, 275.53, 213.31, 126.83) put them in the same top-to-bottom order as the form's four printed branches. This route selects SingleFelonyCB, the first, which is the branch the instructions name. The three service-method checkboxes on page 4 are left to the participant.",
+          "evidence": {
+            "widgetOrderMeasuredHere": "selectionControls rects read from production-field-map.json",
+            "readInThisLane": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "The participant signature, the signature date, the verification and notary completion, and the entire certificate of service are blank and stated as protected, with the instruction not to complete them before the event. The delivered text confirms no ink in any of them.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Canonical and boundary both equal the RASTER_QUEUE pinned hashes; coverage.complete true. Receipt RASTER_PASS from run 33488713831, job 99795497869, conclusion success, artifact id 9793184350. Artifact blob not downloaded; no pixel read here.",
+          "evidence": {
+            "rasterReceipt": "run 33488713831, job 99795497869, artifact 9793184350",
+            "readInThisLane": true
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "9 pages, equal to RASTER_QUEUE expectedPages of 9, being SCA-C906 at 4 pages followed by the SCA-C900 reference component at 5. Order runs petition body, verification, certificate of service.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "0 word-extent crossings in both fixtures (2,247 and 2,264 words), measured with pdftotext -bbox in this lane.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The clerk of the circuit court of the county of conviction. Taken from the committed track registry and the route obligation census, both of which the packet cites by path and key — and the packet carries a \"Where this comes from\" section that names each record, which is the strongest provenance discipline among my eight.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "Correct on the amount, and correct in the harder way — it avoids the trap that A3 was written for and A4 recorded as validated in the field. The packet states \"$200\" for the § 59-1-11(a)(1) civil-action filing fee tied by § 61-11-26(n); I located that figure in the committed route obligation census for this exact route: \"paying the § 59-1-11(a)(1) civil-action filing fee of $200\". It also states the separate $100 paid to the State Police records division only on grant. The trap: the compiled West Virginia profile carries \"no filing fees or costs are charged\" lines keyed to § 61-11-25 (acquittal, dismissal, diversion, deferred adjudication), a different section from the § 61-11-26 petition in hand — and the packet does not borrow them, which is the A3-correct reading. It further distinguishes the § 61-11-26a accelerated-treatment route, whose $100 waiver does not reach this filing. The waiver refusal is honest and A1-compliant: no held source establishes an indigency route for this filing, and the circuit clerk of the county of conviction — the same office that takes the filing — is named as the one to ask.",
+          "evidence": {
+            "censusFigureReadHere": "route-obligation-candidate.json, route obligation:track-pathway:WV:wv_conv_single_misdemeanor:eligible-conviction-expungement-under-w-va-code-61-11-26",
+            "trapAvoided": "WV-west-virginia.json § 61-11-25 no-fee lines correctly not applied",
+            "standard": "DET-FEE-AND-WAIVER-001 A1/A3"
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Five recipients enumerated under § 61-11-26(e) with the participant identified as the server, and the § 61-11-26(f) carve-out stated correctly and usefully: identified victims are served by the prosecuting attorney, not by the participant, with the instruction not to serve a victim yourself. The certificate of service on page 4 — addresses, delivery-method election, date and signature — is left blank until service has happened, with the false-statement reason given.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "FAIL",
+          "finding": "The packet is silent about a once-per-lifetime bar that its own track carries as an exclusion. I re-measured the silence at this base rather than inheriting it: § 61-11-26(o), § 17C-5-2b, § 60A-4-407, \"only once\" and \"per lifetime\" each return zero hits in participant-instructions.md AND zero hits in the delivered canonical PDF. DET-FEE-AND-WAIVER-001 A4 alsoRecorded.onceInALifetime already holds that the silence is established and that only the bar's legal REACH remains a counsel question; I score the silence and do not re-decide the reach. A participant who has used this remedy before is given nothing in this packet that would tell them to check.",
+          "evidence": {
+            "measuredHere": "grep over participant-instructions.md and pdftotext output of fixtures/canonical.pdf, both zero for all five patterns",
+            "determination": "DET-FEE-AND-WAIVER-001 A4 alsoRecorded.onceInALifetime — not mine, and not re-decided here"
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "Three components — primary filing, verification and certificate of service — matching the queue row, plus a second bound document, SCA-C900, shipped as a reference component. That second document is handled honestly and I checked it specifically: its documentPolicy is reference_only_no_fill with the reason \"SCA-C900 is the instructions/reference component; its embedded petition is materially out of date and SCA-C906 is operative\", it takes 0 writes against 67 refusals, and the participant is warned in terms at the end of the instructions — \"The included SCA-C900 is an instructions/reference component only; do not complete or file its embedded outdated petition instead of SCA-C906.\" Shipping a known-stale embedded petition inside a 9-page packet is a real hazard, and it is disclosed at the document, the map and the instruction level.",
+          "evidence": {
+            "documentPolicyReadHere": "production-field-map.json maps[1].documentPolicy",
+            "warning": "participant-instructions.md line 49",
+            "readInThisLane": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "19 canonical writes against 56 refusals on SCA-C906, and 0 writes against 67 refusals on SCA-C900 — the reference document is untouched, which is what its policy requires.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "Same reconciliation as the multiple-misdemeanor family and equally verified against the form. The first of the four printed branches is \"For the expungement under WV Code §61-11-26 of a single above listed and described misdemeanor conviction or traffic citations(s), one year has passed since the completion of petitioner's sentence and any period of supervision\", which I read out of the pinned SCA-C906; the instructions quote it verbatim as the first of four, the field map records the other three as \"Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch\", and SingleFelonyCB is the topmost of the four checkboxes by widget y-coordinate. The one-year clock is derived correctly from the later of the conviction, release and completion of supervision. Notarized verification and a completed certificate of service are both required before filing and both left blank.",
+          "evidence": {
+            "formTextReadHere": "pdftotext -layout over the pinned SCA-C906, paragraph c, first branch",
+            "readInThisLane": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "The map records that the fixture carries one complete offence row and that rows 2, 3 and 4 are therefore unused, each with an explicit reason, and that the single offence description fits the first charge line so the continuation line is unused. Nothing is left half-populated.",
+          "evidence": {
+            "readInThisLane": true
+          }
+        }
+      },
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "supersessionNote": "The prior VF10 FAIL row for ut_pet_traffic-set is not carried here: that family was re-verified under this verifier's VF11 lane after repair commit 1c8007435, and its current verdict lives in vf11/rows.json. Git history preserves the prior row.",
@@ -2624,5 +3718,55 @@
       "V10-Q2 PAGE_ORDER: the route is a two-stage sequence in which the BCI application must be filed first, and the assembled packet places it at pages 17-18 behind the stage-two court petition at pages 1-2. The instructions state the order in words on their first page. This lane scored PAGE_ORDER PASS on that basis and flags whether assembly order should be required to track a stated legal sequence.",
       "V10-Q3 CLIPPING_AND_OVERLAP severity: the page-18 overprint measured below is 2.24 pt wide. This lane treats any measured collision between a written value and a printed glyph of the official form as a failure of this obligation, because the family's own counter (nonWhitespaceGlyphsOutsideMeasuredWriteBoxes = 0) is structurally unable to see it -- the glyphs are inside their box; the box is the thing placed wrong. If the factory's threshold is visual rather than geometric, this row should be re-read against that threshold, not waived."
     ]
+  },
+  "fableVD": {
+    "worker": "FABLE-VD",
+    "assignmentId": "VF10_FABLE_VD_INDEPENDENT_SECOND_READ",
+    "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+    "branch": "fable/vd",
+    "granted": [
+      "ar-arrest-seal-set",
+      "ar-misdemeanor-dwi-seal-set",
+      "ny_160_59_petition-set",
+      "rcap-oh-custom-pleading-clean-tracks",
+      "ut_pet_conviction-set",
+      "ut_pet_dismissed_with_prejudice-set",
+      "wv_conv_multiple_misdemeanors-set",
+      "wv_conv_single_misdemeanor-set"
+    ],
+    "grantSource": "The claim ledger at this base carried EIGHT live independent-verification grants on VF10, not the seven the brief listed: wv_conv_single_misdemeanor-set is also live, transferred VF08 to VF10 at 2026-09-02T05:45:14Z in the same batch as five of the other six. The brief said the ledger governs anything it wrote, so all eight were asserted and read. Every assert returned CLAIM_OK; nothing was refused and no grant was transferred by this lane.",
+    "whyThisReaderIsIndependent": "FABLE-VD built none of these eight families and repaired none of them. It inherited no counter, no hash and no obligation result: every SHA-256 was recomputed in this container against the mounted corpus, every page count was read with pdfinfo/pdftotext, every clipping figure was measured with pdftotext -bbox rather than taken from a build report, and every quotation attributed to a compiled profile, a census record or a form face was located in the committed bytes before it was relied on. Where a builder report is cited it is cited as the thing being checked, not as evidence — and two builder claims did not survive that: ar-arrest-seal-set reports/independent-visual-review.json records raster hashes that two committed PNGs no longer match, and the vf12 row asserting all twelve rehash exactly does not hold at this base. Disclosed rather than assumed: the RASTER_QUEUE records builderAssignment VF10 for wv_conv_single_misdemeanor-set, so the LANE identity has prior involvement in that family's raster dispatch even though this reader does not; and the seven BLOCKED_BEFORE_CLAIM rows already in this file are an earlier VF10 pass (FABLE-V10) that was refused at the claim gate before the grants moved. Those rows were left untouched and these were appended beside them. VF10 has no prior substantive verdict on any of the eight in VERIFIER_RETURNS.json.",
+    "standardsRead": [
+      "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json in full, including amendments A1, A2, A3 and A4, before scoring FEE_AND_WAIVER, SERVICE, FILING_DESTINATION or SELF_HELP_STOP on any family"
+    ],
+    "corpusMounted": "scripts/rcap-corpus/bootstrap-private-corpus.sh — Master Library archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 verified, 51 jurisdictions / 499 files / 329 PDFs, governance checksums verified, D packs D1-D3 verified and installed. SOURCE_IDENTITY was therefore measured rather than deferred on all eight.",
+    "toolsUsed": [
+      "sha256 recomputation over every pinned source and every delivered fixture",
+      "node scripts/verify-packet-build-environment.mjs --family <id> for all eight",
+      "pdftotext -layout for delivered artifact text and printed form faces",
+      "pdftotext -bbox word-extent measurement for CLIPPING_AND_OVERLAP",
+      "pdfinfo/page counts",
+      "direct reads of compiled state profiles, the route obligation census, the packet-set worklist and legal-design-intake memos"
+    ],
+    "rasterConfirmation": "All eight families carry a receipt and all eight verify: every pinned canonical and boundary SHA-256 in RASTER_QUEUE.json equals the bytes on disk, every documents[] entry matches, coverage.complete is true with documentsNotCovered empty in all eight, and every job conclusion is success under a canary precondition. Artifact blobs are not downloadable in this container and no pixel was read; run, job and artifact ids are cited in each row.",
+    "determinationsAppliedNotMine": [
+      "DET-FEE-AND-WAIVER-001 A1 as widened by A2 and bounded by A3 — used to score FEE_AND_WAIVER, SERVICE and FILING_DESTINATION on ar-misdemeanor-dwi-seal-set, rcap-oh-custom-pleading-clean-tracks and both Utah families.",
+      "DET-FEE-AND-WAIVER-001 A4 alsoRecorded.onceInALifetime — the West Virginia silence is established there; both WV rows score the silence and neither re-decides the bar's legal reach, which stays with counsel.",
+      "DET-FEE-AND-WAIVER-001 A4 alsoRecorded.arkansasQueueRow — the Arkansas id-alias defect was recorded there; this lane re-measured it and reports it still open at this base.",
+      "DET-FEE-AND-WAIVER-001 A4 alsoRecorded.wvFailureIsIndependentOfThisAmendment — the WV REQUIRED_BEFORE_FILING contradiction recorded there is repaired at this base and both WV rows say so."
+    ],
+    "questionsRaisedNotDecided": [
+      "ar-misdemeanor-dwi-seal-set FEE_AND_WAIVER: the compiled Arkansas profile states a $0 sealing filing fee inside a filing rule keyed to the court that handled the case, and lists the DWI/BWI pair among the Act 1460 uniform pairs, but the $0 sentence does not itself name DWI/BWI and § 5-65-111 is a separate eligibility scheme. I scored the packet's BLANKET DENIAL as the failure, which stands either way; whether the correct repair is to publish $0 or to state why § 5-65-111 sits outside it is a question I raise rather than settle.",
+      "ar-arrest-seal-set SERVICE: I established that the flat 30-day objection window rests on a line repeated verbatim across 11 of 12 Arkansas tracks in AR.memo.json, including ar-felony-seal where the same repository says 90 days. That makes it state boilerplate rather than a route determination under A3. Whether that boilerplate should be corrected at source for all eleven tracks, or only overridden per route, is outside this lane."
+    ],
+    "residualLimits": [
+      "No raster pixel was read for any family; artifact blobs are not downloadable in this container. Every visual conclusion rests on artifact TEXT and geometry, not on the images, and the human independent visual review remains required on every family.",
+      "node_modules is absent, so pdf_lib_importable fails in the build preflight on all eight and no pdf-lib-based widget-level read was possible. CLIPPING_AND_OVERLAP was therefore measured as word extents via pdftotext -bbox, which is a different instrument from the run-extent counter the NY repair used; the two agree on the participant-ink limb but are not the same measurement.",
+      "Nothing was rebuilt. Claims that a build is byte-reproducible were not re-executed, only checked for consistency against committed bytes.",
+      "Statutory questions were not resolved. Where a packet and a compiled profile disagree, this lane reports what each record says and which addresses the route; it does not decide West Virginia's once-per-lifetime reach, Arkansas's § 5-65-111 fee treatment, or Utah's plea-in-abeyance exclusion as matters of law."
+    ],
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "This is a verification pass. It promotes no family, opens no route, proves nothing for commercial purposes, and modifies no overlay, build script, compiled profile, production path, Supabase, Stripe or secret. Nothing outside this file was written."
   }
 }

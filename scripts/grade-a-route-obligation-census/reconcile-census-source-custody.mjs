@@ -241,10 +241,34 @@ function resolveFormLabel(label, jurisdictions) {
   if (labelTokens.length < 3) return null;
   const candidates = corpus.entries.filter((e) => e.formNumber
     && (jurisdictions.length === 0 || jurisdictions.includes(e.state)));
-  const matches = candidates.filter((entry) => {
+  let matches = candidates.filter((entry) => {
     const entryTokens = new Set(tokens(entry.formNumber));
     return labelTokens.every((t) => entryTokens.has(t));
   });
+  /*
+   * ONE DOCUMENT AT TWO PATHS IS ONE IDENTITY -- at tier 2 as well as tier 1.
+   *
+   * The uniqueness rule counts ENTRIES, and it has to, because two different
+   * documents satisfying one label means the label identifies neither. But two
+   * entries at the identical SHA-256 are not two documents. Since the D source
+   * packs became a second custody, the same official binary sits in both, so
+   * every tier-2 label in a covered jurisdiction matched twice and refused.
+   *
+   * That is the whole Arkansas defect, and it was recorded twice as something
+   * else. `official-form:ACIC-PETITION-TO-SEAL-ARREST` was called an id-alias
+   * mismatch against the corpus's AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460
+   * -- in DET-FEE-AND-WAIVER-001 A4 and again by an independent lane at its own
+   * base. The alias was never the problem: the token subset resolves it exactly,
+   * to one identity at hash f77e17b669, held at two paths. Counting the copies
+   * as rival candidates is what refused it, and ar-arrest-seal-set has read
+   * "names no resolved document source" ever since while hashing byte-exact.
+   *
+   * Collapsing by distinct hash keeps the rule the uniqueness test exists for:
+   * differing bytes under one label still refuse, and still must.
+   */
+  if (matches.length > 1 && new Set(matches.map((m) => m.sha256)).size === 1) {
+    matches = [matches.slice().sort((a, b) => a.path.localeCompare(b.path))[0]];
+  }
   if (matches.length === 1) return { entry: matches[0], tier: "token_subset_same_jurisdiction" };
   /* Unreachable for a short label now that the lookup above runs first; kept
    * so a long label whose token subset was ambiguous still reaches tier 3. */
