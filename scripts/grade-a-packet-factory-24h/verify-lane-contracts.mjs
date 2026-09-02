@@ -309,30 +309,92 @@ check("L9", "a PASS_COMPLETE_INDEPENDENT verdict scored every proof obligation, 
 /* ---- L6. a gate nobody can run may not be treated as one that passed ----- */
 /*
  * The raster workflow is dispatchable only from the default branch -- that is
- * how GitHub scopes workflow_dispatch -- and it is not on main yet. Dispatching
- * it from the Captain branch answers 404, which I confirmed by trying. So the
- * visual gate is built and unreachable, and those are different states.
+ * how GitHub scopes workflow_dispatch. When this was written the workflow was
+ * not on main, dispatching it from the Captain branch answered 404, and the
+ * whole contract could be expressed as one branch-wide conjunction: while the
+ * workflow is unreachable, a family in a proven state is a family proven by a
+ * gate that cannot have run.
  *
- * The risk is not that somebody notices; it is that somebody does not, and
- * relaxes PASS_COMPLETE because "the raster never passes anyway". This refuses
- * that directly: while the workflow is unreachable, a family in a proven state
- * is a family proven by a gate that cannot have run.
+ * Then the workflow landed on main (a97e5d043 recorded it, #169 merged it), the
+ * queue's presentOnDefaultBranch went true -- and that conjunction became
+ * unfalsifiable. `presentOnDefaultBranch !== true` is now permanently false, so
+ * from that commit on NO promotion could fail L6. The check went on reporting
+ * ok while measuring nothing about any family, and its own negative control --
+ * promote a family and watch L6 refuse -- began reporting MISSED, which is how
+ * this was found.
+ *
+ * A gate whose reachability is global answers a global question once. What the
+ * contract has to ask, now that the answer is yes, is family by family: this
+ * family is proven -- was the gate actually dispatched FOR IT, and did the
+ * receipt come back from the run of the workflow L5 governs, bound to the bytes
+ * the row pins?
+ *
+ * That is not L4's question. L4 reads `currentRasterState === "RASTER_PASS"`
+ * and the row's coverage: a row that simply asserts the string, with no receipt
+ * behind it at all, satisfies L4 completely. The provenance of the verdict --
+ * which run, which workflow, which bytes, which job conclusion -- is read
+ * nowhere else in this file, and it is exactly what "the gate could be
+ * dispatched" means once dispatching is possible.
+ *
+ * Deliberately NOT asserted here: receipt-side coverage. Thirteen rows carry an
+ * older receipt shape with no documentsCovered/coversTheWholeFamily, five of
+ * them under proven families. Whether a verdict covers the whole family is
+ * L4's and L7's property, measured on the row, and answering it a second time
+ * from a field the older receipts never carried would fail five families over a
+ * schema drift rather than over anything about the gate.
  */
+const PROVEN_STATES = ["PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"];
 const reach = queue?.workflowReachability ?? null;
 const reachProblems = [];
+const provenFamilies = (master?.families ?? []).filter((f) => PROVEN_STATES.includes(f.state));
+const rowByFamily = new Map((queue?.rows ?? []).map((r) => [r.familyId, r]));
+const dispatchedRuns = new Set((queue?.rows ?? [])
+  .filter((r) => r.rasterReceipt?.workflow === RASTER_WORKFLOW && /^[0-9]+$/.test(String(r.rasterReceipt?.workflowRunId ?? "")))
+  .map((r) => String(r.rasterReceipt.workflowRunId)));
 if (!reach) reachProblems.push("the queue does not record whether the raster workflow can actually be dispatched");
 else {
-  const proven = (master?.families ?? []).filter((f) => ["PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"].includes(f.state));
-  if (reach.presentOnDefaultBranch !== true && proven.length > 0) {
-    reachProblems.push(`${proven.length} famil(ies) are in a proven state while the raster workflow is undispatchable, so their verdict cannot have come from it`);
+  if (reach.presentOnDefaultBranch !== true && provenFamilies.length > 0) {
+    reachProblems.push(`${provenFamilies.length} famil(ies) are in a proven state while the raster workflow is undispatchable, so their verdict cannot have come from it`);
   }
   if (typeof reach.consequence !== "string" || !/RASTER_PASS/.test(reach.consequence)) {
     reachProblems.push("the recorded consequence does not say what being unreachable costs");
   }
+  /*
+   * The record is a boolean in a data file. Believing it is what disabled this
+   * check for a day; so a claim of reachability has to be corroborated by a
+   * dispatch that actually happened, and cannot rest on its own assertion.
+   */
+  if (reach.presentOnDefaultBranch === true && dispatchedRuns.size === 0) {
+    reachProblems.push("the queue claims the raster workflow is dispatchable and no row carries a receipt from any run of it, so the claim rests on nothing");
+  }
 }
-check("L6", "the raster gate's reachability is recorded, and no family is proven while it cannot be dispatched",
+/*
+ * Per family: a proven family must be able to point at the run that proved it.
+ */
+let receiptBacked = 0;
+for (const f of provenFamilies) {
+  const row = rowByFamily.get(f.familyId);
+  if (!row) {
+    reachProblems.push(`${f.familyId} is ${f.state} with no row in the raster queue, so the gate has nothing to be dispatched against`);
+    continue;
+  }
+  const receipt = row.rasterReceipt ?? null;
+  if (!receipt) {
+    reachProblems.push(`${f.familyId} is ${f.state} on a ${row.currentRasterState} row carrying no receipt, so nothing shows the gate was ever dispatched for it`);
+    continue;
+  }
+  const flaws = [];
+  if (receipt.workflow !== RASTER_WORKFLOW) flaws.push(`its receipt names ${receipt.workflow ?? "no workflow"} rather than the central raster workflow`);
+  if (!/^[0-9]+$/.test(String(receipt.workflowRunId ?? ""))) flaws.push("its receipt names no dispatched run");
+  if (receipt.verdict !== "RASTER_PASS") flaws.push(`its receipt returned ${receipt.verdict ?? "no verdict"}`);
+  if (receipt.jobConclusion !== "success") flaws.push(`the job that produced it concluded ${receipt.jobConclusion ?? "nothing"}`);
+  if (receipt.boundToCanonicalSha256 !== row.canonicalPdfSha256) flaws.push("its receipt is bound to bytes other than the ones the row pins");
+  if (flaws.length) reachProblems.push(`${f.familyId} is ${f.state} and ${flaws.join("; ")}`);
+  else receiptBacked += 1;
+}
+check("L6", "the raster gate's reachability is recorded and corroborated, and every proven family names the run of it that proved it",
   reachProblems.length === 0,
-  `present on default branch: ${reach?.presentOnDefaultBranch}; ${reachProblems.length} problem(s): ${reachProblems.slice(0, 2).join(" | ")}`);
+  `present on default branch: ${reach?.presentOnDefaultBranch}; ${dispatchedRuns.size} dispatched run(s) behind the queue; ${receiptBacked}/${provenFamilies.length} proven famil(ies) backed by a receipt; ${reachProblems.length} problem(s): ${reachProblems.slice(0, 2).join(" | ")}`);
 
 /* ---- L5. the canary and the controls stayed with the rendering ----------- */
 const rasterWf = fs.existsSync(path.join(ROOT, RASTER_WORKFLOW)) ? read(RASTER_WORKFLOW) : "";
@@ -401,8 +463,55 @@ if (MUTATIONS) {
       edit: (t) => { const j = JSON.parse(t); j.rows[0].canonicalPdfSha256 = null; return `${JSON.stringify(j, null, 2)}\n`; } },
     { name: "moving the canary out of the raster workflow is caught", id: "L5", file: RASTER_WORKFLOW,
       edit: (t) => t.replace(/rcap-raster-canary\.mjs/g, "rcap-raster-nothing.mjs") },
-    { name: "a family proven while the raster gate cannot be dispatched is caught", id: "L6", file: `${DIR}/MASTER_QUEUE.json`,
-      edit: (t) => { const j = JSON.parse(t); (j.families.find((x) => x.state === "VERIFY_PENDING") ?? j.families[0]).state = "COMPLETE_PACKET_PROVEN"; return `${JSON.stringify(j, null, 2)}\n`; } },
+    /*
+     * Repointed at what L6 reads, in the same spirit as the F29 and F13 cases.
+     *
+     * This was `promote the first VERIFY_PENDING family and watch L6 refuse`,
+     * and it reported MISSED for two compounding reasons. The check's only
+     * substantive clause was guarded on `presentOnDefaultBranch !== true`,
+     * which went permanently false the day the workflow landed on main; and the
+     * family it promotes -- ar-misdemeanor-dwi-seal-set today -- has held a
+     * complete-coverage RASTER_PASS with a receipt since run 33495068504, so
+     * promoting it is not the false provenance the case names. Every check in
+     * the file passed under that mutation, L4 included, because nothing was
+     * actually violated.
+     *
+     * So the forbidden state is now reconstructed on the side that still
+     * varies: families stay proven, and the queue records the gate as
+     * undispatchable underneath them.
+     */
+    { name: "a family proven while the queue records the raster gate as undispatchable is caught", id: "L6", file: `${DIR}/RASTER_QUEUE.json`,
+      edit: (t) => { const j = JSON.parse(t);
+        if (!j.workflowReachability) return t;
+        j.workflowReachability.presentOnDefaultBranch = false;
+        return `${JSON.stringify(j, null, 2)}\n`; } },
+    /*
+     * The provenance half, and the one L4 is blind to: L4 reads the row's
+     * `currentRasterState` string and its coverage, so a row that asserts
+     * RASTER_PASS with no receipt behind it satisfies L4 and is exactly a
+     * verdict from a gate nobody can show ran.
+     */
+    { name: "a proven family whose row carries no receipt from the raster gate is caught", id: "L6", file: `${DIR}/RASTER_QUEUE.json`,
+      edit: (t) => { const j = JSON.parse(t);
+        const m = JSON.parse(fs.readFileSync(path.join(ROOT, `${DIR}/MASTER_QUEUE.json`), "utf8"));
+        const provenIds = new Set((m.families ?? [])
+          .filter((f) => ["PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"].includes(f.state))
+          .map((f) => f.familyId));
+        const row = (j.rows ?? []).find((r) => provenIds.has(r.familyId) && r.rasterReceipt);
+        if (!row) return t;
+        delete row.rasterReceipt;
+        return `${JSON.stringify(j, null, 2)}\n`; } },
+    /* Receipts minted somewhere other than the workflow L5 governs prove
+     * nothing about the gate, and leave the reachability claim uncorroborated. */
+    { name: "receipts attributed to a workflow other than the raster gate are caught", id: "L6", file: `${DIR}/RASTER_QUEUE.json`,
+      edit: (t) => { const j = JSON.parse(t);
+        let touched = 0;
+        for (const r of j.rows ?? []) {
+          if (!r.rasterReceipt?.workflow) continue;
+          r.rasterReceipt.workflow = ".github/workflows/some-other-workflow.yml";
+          touched += 1;
+        }
+        return touched ? `${JSON.stringify(j, null, 2)}\n` : t; } },
     { name: "dropping the reachability record is caught", id: "L6", file: `${DIR}/RASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t); delete j.workflowReachability; return `${JSON.stringify(j, null, 2)}\n`; } },
     /*
