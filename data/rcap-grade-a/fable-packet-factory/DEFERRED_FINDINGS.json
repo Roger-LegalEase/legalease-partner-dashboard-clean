@@ -66,6 +66,29 @@
       "owner": "Captain (scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs)",
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "id": "DF-004",
+      "title": "az_marijuana_expungement_arrest_no_charges-set does not reproduce from its own build script, and is currently COMPLETE_PACKET_PROVEN",
+      "surfacedBy": "FABLE-R14, which hit it as a West-host control while repairing an unrelated family and proved causation rather than reporting a suspicion",
+      "whatIsWrong": "Rebuilding this family from its own committed build script at its own base commit produces a POORER artifact set than the one committed. A 69-line hand-written filing-instruction document becomes a 13-line generic stub, 208 field-map lines disappear, documentId and formNumber are stripped from the artifact report, and a wave-2 participant-fact-allowlist feature is lost. The committed artifacts are richer than the script that is supposed to have produced them.",
+      "howItWasProven": "The worker reverted the shared host to its base bytes, rebuilt from the pristine script, obtained the identical regression, then restored its own host from a copy. The family is byte-identical to base in its diff -- it looked, proved it, and put everything back.",
+      "whyThisIsSerious": {
+        "provenance": "A Grade-A packet's evidence chain assumes the committed bytes are what the builder emits. Here they are not, so the family's artifacts have no reproducible provenance: nobody can regenerate what is shipped, and a raster receipt binds bytes that the build cannot produce again.",
+        "itIsAlreadyCounted": "The family currently sits at COMPLETE_PACKET_PROVEN. That state is reported in the terminal count, so the count includes one family whose deliverable cannot be rebuilt.",
+        "itIsATrap": "The next worker on that host who rebuilds this family in good faith -- as a control, or as a side effect of a shared-host change -- will silently degrade a proven packet and may commit the degradation without noticing, because the build succeeds."
+      },
+      "whatIsNotYetKnown": [
+        "whether the committed artifacts were produced by an earlier version of the script that has since regressed, or were hand-finished outside the builder",
+        "whether the sibling az_marijuana_expungement_superior_court-set, which shares the host, has the same gap -- R14 deliberately did not rebuild it",
+        "how many other families would fail a rebuild-and-compare, because no such sweep has ever been run"
+      ],
+      "theRealFix": "Not a repair to one family. The generic answer is a rebuild-and-compare sweep: rebuild every family from its own script and compare against committed bytes, then treat every divergence as a finding. That is the check that would have caught this, the wall-clock CreationDate drift, and any other silent provenance break, and the repository has never had it.",
+      "whyItIsNotFixedInTheRunThatFoundIt": "R14 held a repair grant on four other families and none on this one. Rebuilding a family it did not own, to fix a defect it was not dispatched for, is the collision the claim ledger exists to prevent -- so it proved the defect, restored the bytes, and reported. That was the correct call.",
+      "captainPosition": "Recorded rather than quietly demoted. Demoting the family would change a number Roger is watching, and the honest sequence is to establish first whether the committed artifacts are correct-but-unreproducible or actually wrong, because those have different answers. Until that is established the family keeps its state and this finding travels with it.",
+      "owner": "Captain",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
