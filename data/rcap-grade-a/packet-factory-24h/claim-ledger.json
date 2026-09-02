@@ -18504,6 +18504,30 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-02T11:02:20.738Z"
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_multiple_misdemeanors-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T11:11:01.223Z"
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_single_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T11:11:01.302Z"
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "ny_mrta_marijuana-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T11:11:01.388Z"
     }
   ],
   "reissues": [
@@ -20256,6 +20280,36 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-02T10:25:34Z",
       "reason": "the current dispatch names FIX04 for this family, the family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_multiple_misdemeanors-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T05:32:32.020Z",
+      "reissuedAt": "2026-09-02T10:58:17.464Z",
+      "reason": "FABLE-FIXSTOP dispatched to repair SELF_HELP_STOP defect class; grant was released without the defect repaired; not externally held per EXTERNAL_ASSIGNMENTS.json"
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_single_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T05:32:39.155Z",
+      "reissuedAt": "2026-09-02T10:58:17.563Z",
+      "reason": "FABLE-FIXSTOP dispatched to repair SELF_HELP_STOP defect class; grant was released without the defect repaired; not externally held per EXTERNAL_ASSIGNMENTS.json"
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "ny_mrta_marijuana-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T06:02:27.446Z",
+      "reissuedAt": "2026-09-02T10:58:17.654Z",
+      "reason": "FABLE-FIXSTOP dispatched to repair SELF_HELP_STOP defect class; verifier measured zero self-help-stop language; not externally held per EXTERNAL_ASSIGNMENTS.json"
     }
   ],
   "transfers": [

@@ -48,6 +48,27 @@ The packet has filled only facts already held for this matter. Do not file until
 
 The participant signature, signature date, verification/notary completion, and the entire certificate of service remain blank and protected. Complete or sign them only at the event and in the manner the form and filing court require.
 
+## Where self-help ends
+
+This packet prepares the SCA-C906 petition. It does not decide anything, and no lawyer has reviewed your case in preparing it. **Stop and get a lawyer licensed in West Virginia before you file if any of the following is true of your case.** Each one is carried word for word from this route's own committed track record — `data/record-clearing/legal-design-track-registry.json`, track `wv_conv_multiple_misdemeanors`, `selfHelpStopConditions` — and each is a point at which this packet stops being enough:
+
+- Any felony conviction anywhere on the participant's record.
+- Any violence, domestic violence, household member, strangulation, sex, child victim, deadly weapon, dwelling burglary or DUI issue in any conviction in the group.
+- Any CDL or commercial motor vehicle issue.
+- Any pending charge.
+- Any protection, no-contact, restitution or restraining order.
+- Any identified victim who may oppose, and any notice of opposition actually filed.
+- Any prior expungement, which likely exhausts the once-per-lifetime rule.
+- The group spans more than one county and it is unclear which circuit court the petition should be filed in.
+- The court sets the matter for hearing under § 61-11-26(i)(3).
+- Firearm rights, immigration, professional licensing, law enforcement or corrections employment, or federal, tribal, military or out-of-state records questions.
+
+**If you are not a United States citizen, the immigration item in that list is a hard stop and not a caveat.** Ask an immigration lawyer before you sign or file anything. Neither this packet nor the circuit clerk can tell you what a West Virginia expungement does or does not do to your immigration position, and the petition is sworn to under oath once you sign it.
+
+**Two of those conditions are things that happen after you file, and both end self-help where they start.** If an opposing party files a notice of opposition to your petition, or the circuit court sets your petition for hearing under § 61-11-26(i)(3) instead of granting it summarily, the matter is contested from that point. This packet does not prepare you for a contested hearing, does not tell you how to answer an opposition, and does not argue anything for you. The reply and hearing windows run on the statute's clock rather than yours, so look for a lawyer as soon as an opposition is served on you, not afterwards.
+
+**Who to ask, for what.** The clerk of the circuit court of the county of conviction — the same office you file with — answers procedural questions: what that court requires, what it charges, and what happens to a petition after it is filed. Only a lawyer licensed in West Virginia may advise you on whether you are eligible, on what any of the conditions above means for your record, or at a hearing. If you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. The clerk cannot give you legal advice, and this packet is not a substitute for either.
+
 ## What this packet is not
 
 This is a prepared set of official West Virginia forms built for review. It is not legal advice, it is not filed for you, and it does not decide whether the circuit court will grant expungement.
