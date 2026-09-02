@@ -6979,13 +6979,17 @@
         "FEE_AND_WAIVER": {
           "measured": true,
           "result": "PASS",
-          "finding": "Correct per FACT and per ROUTE. The packet states that no committed record it binds states a filing fee or a fee waiver for this route, and names the clerk's office of the court that handled the dismissed charge as the office that answers both. It publishes no figure and it does not reach across to § 99-19-72: the committed record records in terms that § 99-19-72 levies its fee on 'each petition to expunge an offense under Section 99-19-71', that §§ 9-11-15(3) and 21-23-7(6) sit outside § 99-19-71 and that the fee does not reach them by the statute's terms. § 99-15-59 is not a subsection of § 99-19-71, so importing that statute here — as the sibling intervention-court family correctly does for its own § 99-19-71(4) route — would be reading a sibling across. It is not done. Zero occurrences of '$150' anywhere in this family.",
+          "finding": "Correct per FACT and per ROUTE, and PASS. The packet states that no committed record it binds states a filing fee or a fee waiver for this route, publishes no figure, and names the clerk's office of the court that handled the dismissed charge as the office that answers both. Critically it does NOT reach across to Miss. Code Ann. § 99-19-72, and the reason is on the face of that statute rather than in any owner instruction: § 99-19-72 levies its $150 on 'each petition to expunge an offense under Section 99-19-71', and this route is a petition under § 99-15-59, which is not a subsection of § 99-19-71. The committed record reasons the same way about the neighbouring branches — that §§ 9-11-15(3) and 21-23-7(6) 'sit outside § 99-19-71 and neither specifies a fee of its own, so the fee does not reach them by the statute's terms'. Importing the figure here would be reading a sibling across, and the sibling in question is this lane's own other Mississippi family, whose § 99-19-71(4) route DOES sit inside the levy. Two Mississippi families, two different right answers, neither borrowed from the other. Also recorded, checked rather than taken on trust: the $150 rescinded by owner decision is South Carolina's, CLD-2026-08-28-SC-PTI on sc_pti_17_22_150; Miss. Code Ann. § 99-19-72 is live statute with its $150 intact; and Q-018, the only open Mississippi question on its reach, blocks only the two ms-misd-addl pathway keys and states in terms that it does not block any route outside ms-misd-addl. Neither of this lane's Mississippi families is ms-misd-addl, so neither is gated by it.",
           "evidence": {
             "figurePublished": false,
-            "dollar150Occurrences": 0,
             "statuteImportedFromSibling": false,
-            "siblingRouteThatDoesNameIt": "obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
-            "namedOfficeToAsk": "clerk of the Mississippi court with jurisdiction over the matter"
+            "whyNotImported": "§ 99-19-72 levies on petitions under § 99-19-71 by its own terms; § 99-15-59 is not one",
+            "siblingRouteThatDoesSitInsideTheLevy": "obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+            "namedOfficeToAsk": "clerk of the Mississippi court with jurisdiction over the matter",
+            "q018AppliesToThisFamily": false,
+            "q018DoesNotBlock": "Any route outside ms-misd-addl.",
+            "theRescinded150IsSouthCarolina": "CLD-2026-08-28-SC-PTI, track sc_pti_17_22_150 — $250 controls; no South Carolina family was read, opened or touched by this reader",
+            "correctionNote": "An earlier draft of this row cited a briefed Mississippi $150 withdrawal that does not exist. That premise is withdrawn. The reasoning that carried the PASS — the statute's own limit to § 99-19-71 petitions — was independent of it and is unchanged."
           }
         },
         "SERVICE": {
@@ -7747,6 +7751,7 @@
       "Clipping was measured by rasterising every delivered PDF at 100 dpi and counting dark pixels in the 18-point band around all four page edges.",
       "No overlay directory was created, no build script was run, no route was opened, no price was set, and MASTER_QUEUE.json, VERIFIER_RETURNS.json and generate.mjs were not touched."
     ],
-    "grantsNothing": "A verification row is review evidence. It authorizes no fulfillment, opens no commercial route and promotes nothing."
+    "grantsNothing": "A verification row is review evidence. It authorizes no fulfillment, opens no commercial route and promotes nothing.",
+    "mississippiFeeBasisCorrection": "The coordinator's brief carried a premise — that the owner withdrew a Mississippi $150 figure on 2026-09-02 — and then withdrew it. This reader checked the records: the rescinded $150 is South Carolina's (CLD-2026-08-28-SC-PTI, sc_pti_17_22_150, $250 controls); Miss. Code Ann. § 99-19-72 is live statute with its $150 intact; and Q-018 blocks only the two ms-misd-addl pathway keys and says in terms it does not block any route outside ms-misd-addl. Neither Mississippi family in this lane set is ms-misd-addl. Both were scored PASS on FEE_AND_WAIVER before the correction and both remain PASS; only the stated basis is amended."
   }
 }
