@@ -142,7 +142,11 @@ const doc = {
     cohortRoutes: cohort.reduce((n, r) => n + r.routeCount, 0),
     provenButOutsideAnyExistingApproval: outsideApproval.length
   },
-  whyTheCohortIsSmall: "The decision owner's completed-output approval covers 57 families, and 112 families are packet-proven, but they are largely different populations: the approval covers the earlier guidance-implementation wave, and the proof covers the later census-v1 packet wave. Only the overlap can enter a first cohort without a new legal decision.",
+  /* Counted rather than narrated, because the prose went stale the first time
+   * the population moved: it still said 112 proven after the owner's
+   * withholdings had taken it to 85. A sentence that carries its own figures
+   * cannot drift from the numbers beside it. */
+  whyTheCohortIsSmall: `The decision owner's completed-output approval covers ${approvedFamilies.size} families and ${proven.length} families are packet-proven, but they are largely different populations: the approval covers the earlier guidance-implementation wave and the proof covers the later census-v1 packet wave, so only the ${rows.filter((r) => r.checks.coveredByAnExistingOwnerApproval).length} in both can enter a first cohort without a new legal decision. The proven figure is also lower than it was: the owner's batch adoption refused sixteen families as the wrong delivery type and withheld nine more pending named corrections, and those families are correctly not proven.`,
   cohort: cohort.map((r) => ({ ...r, checks: undefined, unmetConditions: undefined })),
   cohortRouteIds: cohort.flatMap((r) => r.routeKeys),
   provenFamiliesNeedingANewLegalReview: outsideApproval.map((r) => ({
