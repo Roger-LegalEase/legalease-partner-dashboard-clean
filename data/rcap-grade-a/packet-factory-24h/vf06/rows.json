@@ -4727,8 +4727,127 @@
     "data/record-clearing/legal-design-track-registry.json (tracks sex-trafficking-victim-vacatur-and-expungement, wv_common_conv_procedure and wv_common_nc_procedure, read for the fee and service questions)"
    ],
    "whatThisDoesNotDo": "A block is not a failure and not an approval. Nothing here opens a route, and this lane edited nothing."
+  },
+  {
+   "itemId": "rcap-wa-custom-pleading-clean-tracks",
+   "lane": "VF06",
+   "wave": "packet-factory-24h/VF06 re-dispatch (2026-09-02)",
+   "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks at this base: PASS_COMPLETE, 16/46 written, every counter 0. Measured again here without reading the builder's report: the three committed records rehashed from their bytes, both fixture hashes recomputed, all 17 pages of each fixture extracted and matched against the page manifest, all 16 written values found in the extracted text on the pages the manifest gives their own component — 16 of 16 in each fixture, none absent, none on another component's page — and geometry measured with pdftotext -bbox: 0 words outside the page box, left edge 72.0 and right edge 555.3 on a 612-wide page, identical in canonical and boundary."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "detail": "Two route keys, obligation:track-only:WA:wa_vac_post_probation_9_95_240 and obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060, declared identically by source-receipt.json, production-field-map.json and product-wiring.json, and exactly the two the committed worklist carries for worklistGroupId rcap-wa-custom-pleading-clean-tracks. The packet holds the two apart where it matters most — one is a court motion to vacate a conviction under RCW 9.95.240, the other an agency request to the Washington State Patrol under RCW 10.97.060 that 'does not touch convictions' — and says which pages belong to which. OBSERVATION, measured and not scored, and the same one this lane recorded against rcap-ms-custom-pleading: the field map's routeSelectionNote and the instructions both say 'Every composed page states its own route in its footer', and the footer appears on 8 of the 17 pages, one per component. Every component's first page carries a heading naming its route, so nothing is unattributable in a packet held in order, but the sentence is broader than the bytes and the same correction fits both families."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "detail": "Three committed records, all rehashed here and exact: data/record-clearing/legal-design-track-registry.json 0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6 at 16,555,956 B, data/record-clearing/legal-design-specifications.json cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5 at 16,829,383 B, and the route-obligation census 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f at 2,599,752 B — the current census hash, not the stale pin recorded against other census-v1 families."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "detail": "The committed specifications require three components across the two tracks — a primary filing and a proposed order for wa_vac_post_probation_9_95_240, and a primary filing for wa_del_nonconviction — and all three are composed and rendered. The packet adds five more the record does not require: a records checklist and filing instructions on the court track, and a records checklist, an expectation-setting page and an accuracy-remedy page on the agency track, the last carrying the RCW 10.97.040 accuracy provision and the RCW 10.97.110 remedy for a refusal. Eight components, eight contiguous blocks in the manifest, all eight named in the 'What is in this packet' table. requiredComponentsMissing 0."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "detail": "Sixteen values written across the eight components — the five participant facts on each primary filing, the caption name on the proposed order, and the identifier on each of the five checklist and guidance pages — and every one was found in the extracted text on a page the manifest gives that component, in both fixtures. Of 46 blanks, 16 are written and the remaining 30 are disposed: 21 required before filing and 9 refused with the actor named."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "detail": "21 blanks are disposed REQUIRED_BEFORE_FILING and all 21 disclosure labels appear in participant-instructions.md, checked label by label against the file — the C-items of the RCW 9.95.240 motion and the C-items of the WSP deletion request. The packet also carries a records checklist component per track, which names each record to obtain, where it comes from, and which answer on the filing it confirms."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "detail": "No election control is printed on any composed page across either track — 0 selection controls in all eight components. The route is determined by the participant's own record rather than by a box on a form, and the instructions carry the table saying which set of pages belongs to which situation. No route-determined election is left unselected."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "detail": "No repeating row group exists in any of the eight composed components; the filings are numbered items on dotted rules and the checklists are prose tables with no participant cells. incompleteRows 0."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "detail": "Nine blanks are refused with the actor named: the participant signs personally on each of the two filings and this build never signs for anyone (2), a date written before signing would be false (2), the cause number is assigned by the court at filing (1), the proposed order is filed before any number exists (1), every decision on the proposed order is the court's (1), and the court signs and dates the order only if it grants the motion (2). Measured from the bytes: no signature or signing-date line carries a written value in either fixture, and the proposed order below its caption carries one write — the caption name — and nothing else."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "detail": "sha256sum here: canonical 8536db61f221712b… at 46,073 B and boundary ce3a0a84ba48071b… at 46,564 B, both equal to reports/rendered-artifacts.json, 17 pages each and 17 extracted from each. NOTED: build-status.json records rasterState BUILT_RASTER_PENDING with rasterPages 0, so no stored raster exists and the visual measurement was made here from the PDF geometry."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "detail": "Seventeen pages, eight contiguous component blocks in the declared order — vacate motion 1-3, proposed order 4, records checklist 5-6, filing instructions 7-9; WSP request 10-12, records checklist 13-14, expectation setting 15-16, accuracy remedy 17 — numbered 1..17 with no gap, and both rendered fixtures carry exactly those pages, confirmed by extracting each page and reading it against its manifest entry."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "detail": "Measured with pdftotext -bbox over all 17 pages of both fixtures on a 612x792 page: 0 words outside the page box, nearest left edge 72.0 and furthest right edge 555.3, so nothing crosses the margin, and the boundary fixture — the long-value stress case — measures identically to canonical."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "detail": "Both destinations are stated in the registry's own words and were checked against it: for the RCW 9.95.240 motion, the clerk of the sentencing court, with the venue note that on the subsection (2)(a) limb this is the superior court that imposed the pre-1984 sentence; for the deletion request, the Washington State Patrol through its non-conviction deletion process, with 'No court is involved and no order is sought' said plainly. Two very different destinations on one packet, and the packet does not blur them."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "detail": "Court track: the registry's own position carried across — the fee is not established at source, the packet quotes no court filing fee and directs the participant to the clerk, and no waiver is established for it. Agency track: RCW 10.97.060 states no fee for the request itself, the WSP's charges for the record products are itemised (about $11 for the WATCH conviction check, $12 plus a fingerprint card for the non-conviction record, $32 for a mailed conviction record, $58 for a fingerprint-card record, $15 for a notarised letter) with an instruction to verify the table live rather than rely on the stored figures, and the fee-free route is named: the in-person non-conviction record review, with its own conditions. Both are the record's stated positions rather than gaps."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "detail": "Court track: serve the prosecutor's office for the sentencing court and file proof of service, with the notice limb — serve the prosecuting attorney for the sentencing court, relief discretionary on both limbs — carried alongside it. Agency track: none, stated as a positive answer rather than an omission, because the request is submitted to the WSP and there is no notice or objection process; the agency decides. Both match the registry's service and notice rules for their track."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "detail": "Diffed against the registry: all 12 selfHelpStopConditions for wa_vac_post_probation_9_95_240 and all 7 for wa_del_nonconviction appear in participant-instructions.md, 19 of 19, none missing — including the two that matter most on these routes, that a participant whose real goal is firearm-rights restoration needs the separate RCW 9.41.041 proceeding, and that challenging a WSP refusal is the RCW 10.97.110 remedy and needs a lawyer. The packet also states the subsection (1) proviso: the conviction is preserved for later prosecutions, so a participant expecting it to disappear for all purposes is told to stop."
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/ (source-receipt.json, production-field-map.json, participant-instructions.md, product-wiring.json, approval-request.json, build-status.json, reports/rendered-artifacts.json, reports/actual-writes.json, both fixtures)",
+    "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+    "data/record-clearing/legal-design-track-registry.json (tracks wa_vac_post_probation_9_95_240 and wa_del_nonconviction; re-hashed)",
+    "data/record-clearing/legal-design-specifications.json (customPleadingSpecs for both tracks; re-hashed)",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (re-hashed)"
+   ],
+   "whatThisDoesNotDo": "An independent PASS proves this packet is complete. It approves no output, opens no commercial route, and the family remains BUILT_RASTER_PENDING with no central raster receipt bound to these bytes."
   }
  ],
+  "vf06ReDispatchWave": {
+   "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
+   "note": "VF06 re-dispatch wave (2026-09-02, base 247b790b6): the seven families dispatch transferred to VF06, none of which any prior VF06 row covered. Rows from earlier waves are preserved above unchanged.",
+   "families": [
+    "ut_pet_conviction-set",
+    "ut_pet_no_charges-set",
+    "in_arrest_no_charges-set",
+    "rcap-ms-custom-pleading",
+    "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+    "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+    "rcap-wa-custom-pleading-clean-tracks"
+   ],
+   "verdicts": {
+    "BLOCKED_LEGAL_INPUT": 2,
+    "FAIL_REPAIR_REQUIRED": 1,
+    "PASS_COMPLETE_INDEPENDENT": 4
+   },
+   "overlayDirectoriesModified": 0,
+   "packetsModified": 0,
+   "buildScriptsModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "centralManifestsModified": "none - MASTER_QUEUE.json, VERIFIER_RETURNS.json and ACTIVE_ASSIGNMENTS.json untouched; the claim ledger changed only through claim.mjs --assert and --release",
+   "measuredBy": "Each family measured in this container: the nine counters from scripts/rcap-packet-completeness/verify-packet-completeness.mjs run here, every bound source and artifact SHA-256 recomputed from the mounted Master Library and the committed bytes, added ink isolated by differencing pdftotext -bbox words on each packet page against its bound source page, and the narrative obligations read against participant-instructions.md and the committed legal records."
+  },
   "vf06ReDispatchWave": {
    "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
    "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
