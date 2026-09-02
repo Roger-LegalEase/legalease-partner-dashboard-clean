@@ -327,6 +327,44 @@ function routeElectionFamily(familyId) {
   return ROUTE_ELECTION_MARKS[familyId] ?? null;
 }
 
+/*
+ * FIX01/RT-1, ROUTE_OPTIONS.
+ *
+ * A family whose route-options-block.json records BLOCKED_LEGAL_INPUT was told
+ * by FIX10 something the participant was not: that the official form carries no
+ * election naming this route's ground, so no ground box is marked and marking
+ * one would misstate the route. The generic first instruction -- "choose the
+ * correct court and eligibility path; this build does not make legal elections"
+ * -- reads as ordinary caution and hides that finding. It is an answer held in
+ * this repository and left out of the packet.
+ *
+ * Named per family rather than driven off the file's existence. Two other
+ * families on this host carry a block of their own
+ * (wa_vac_substance_use_disorder-set, wa_vac_treaty_fishing-set); the same
+ * words would answer theirs, but this lane holds a grant on one family and
+ * rewriting another's participant record is not this lane's to do.
+ */
+const ROUTE_OPTIONS_BLOCK_DISCLOSED_TO_PARTICIPANT = new Set([
+  "wa_vac_homicide_victim_prostitution-set"
+]);
+
+/** The participant-facing sentence a recorded route-options block owes. */
+function routeOptionsBlockSentence(familyId, out) {
+  if (!ROUTE_OPTIONS_BLOCK_DISCLOSED_TO_PARTICIPANT.has(familyId)) return null;
+  const file = `${out}/route-options-block.json`;
+  if (!fs.existsSync(absFor(file))) return null;
+  const block = readJson(file);
+  if (block.status !== "BLOCKED_LEGAL_INPUT") return null;
+  const finding = String(block.whatWasReadFirstHand?.finding ?? "").trim();
+  if (!finding) fail("route-options block is missing the finding this packet must state", familyId);
+  return "No ground box on this form is marked, and that is a recorded refusal rather than an omission. "
+    + `Read first hand from ${block.whatWasReadFirstHand.form}: ${finding} `
+    + "So there is no box on this form that states your ground, and marking one of the printed grounds to make "
+    + "the form look complete would tell the court something untrue. Which pleading this route actually needs is "
+    + "an open legal question, recorded in full at "
+    + `${file}. It is a question for a lawyer, not for the clerk.`;
+}
+
 function routeMarkIdsFor(familyId, formNumber) {
   return new Set((ROUTE_ELECTION_MARKS[familyId]?.marks?.[formNumber] ?? []).map((spec) => spec.controlId));
 }
@@ -2356,6 +2394,7 @@ async function buildOfficialFamily(familyId, records, documents) {
       routeElectionFamily(familyId)
         ? "Review the selected Washington form and confirm the court and eligibility path; this build marks only the route-determined election(s) recorded in the production field map's routeElections and makes no other legal election."
         : "Review the selected Washington form and choose the correct court and eligibility path; this build does not make legal elections.",
+      ...(routeOptionsBlockSentence(familyId, out) ? [routeOptionsBlockSentence(familyId, out)] : []),
       "Review every prefilled participant and case fact, including caption, conviction, offense/count, statute, and contact information, against the court record before filing.",
       "Participant-authored evidence or mitigation remains blank when the route requires the participant's own sworn narrative; the platform does not invent that content.",
       "Sign and date only after reviewing the filing; the build never signs or dates a declaration for the participant.",
