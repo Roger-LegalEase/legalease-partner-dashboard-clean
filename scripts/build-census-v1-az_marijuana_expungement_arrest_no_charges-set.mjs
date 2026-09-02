@@ -144,6 +144,8 @@ const FAMILIES = Object.freeze({
     routeKeys: [
       "obligation:track-pathway:AZ:az_marijuana_expungement_arrest_no_charges:remedy-3-marijuana-expungement",
     ],
+    selfHelpStopTrack: "az_marijuana_expungement_arrest_no_charges",
+    statesRegistryHandoffBoundary: true,
     sources: [AZ_SOURCE],
   },
   "az_marijuana_expungement_superior_court-set": {
@@ -164,6 +166,7 @@ const FAMILIES = Object.freeze({
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-180",
     routeKeys: ["obligation:track-only:CA:ca-1203-42"],
     formNumbers: ["CR-180", "CR-181", "CR-106", "MC-031"],
+    useMeasuredMc031Labels: true,
   },
   "ca-1203-43-set": {
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-180",
@@ -174,6 +177,7 @@ const FAMILIES = Object.freeze({
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-180",
     routeKeys: ["obligation:track-only:CA:ca-1203-4a"],
     formNumbers: ["CR-180", "CR-181", "CR-106", "MC-031"],
+    useMeasuredMc031Labels: true,
   },
   "ca-17b-reduction-set": {
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-180",
@@ -184,6 +188,7 @@ const FAMILIES = Object.freeze({
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-409",
     routeKeys: ["obligation:track-only:CA:ca-851-91"],
     formNumbers: ["CR-409", "CR-410", "CR-106", "MC-031"],
+    useMeasuredMc031Labels: true,
     /*
      * FIX06, CLIPPING_AND_OVERLAP on all four delivered primary filings.
      *
@@ -487,6 +492,25 @@ const CA_EXACT_SEMANTIC_LABELS = Object.freeze({
     "Date of arrest",
   "CR-409[0].Page1[0].LI3[0].li3c[0].T186[0]":
     "Citing/arresting law enforcement agency",
+});
+
+// MC-031 has no tooltip text for these terminal controls. These captions were
+// measured from the printed page against the exact widget rectangles. The two
+// notice controls already contain the Judicial Council's text and are read-only
+// (/Ff 4097); their labels therefore identify viewer chrome, not filing blanks.
+const CA_MC031_MEASURED_LABELS = Object.freeze({
+  NoticeHeader1:
+    "To keep other people from seeing what you entered on your form, please press the Clear This Form button at the end of the form when finished.",
+  FillText10: "PLAINTIFF/PETITIONER:",
+  FillText9: "DEFENDANT/RESPONDENT:",
+  FillText11: "CASE NUMBER:",
+  FillText7: "(TYPE OR PRINT NAME)",
+  FillText14: "Date:",
+  FillText13: "the party-role block: Petitioner / Plaintiff / Respondent / Other (Specify)",
+  FillText8:
+    "the declaration body, under the heading DECLARATION and the note '(This form must be attached to another form or court paper before it can be filed in court.)'",
+  NoticeFooter1:
+    "For your protection and privacy, please press the Clear This Form button after you have printed the form.",
 });
 
 const CA_ROUTE_VARIANTS = Object.freeze({
@@ -1307,7 +1331,7 @@ function caFinalizerCensus(formCensus) {
  * ca-1203-42-set (committed field maps at the pre-repair HEAD), extended to
  * the sibling CA families that share the same four-form packet shape.
  */
-function caRefusalDisposition(source, field) {
+function caRefusalDisposition(source, field, { measuredMc031Labels = false } = {}) {
   const subject = `${field.name} ${field.tooltip ?? ""}`;
   const pushButton = field.fieldType === "/Btn" && field.flags?.includes("pushButton") === true;
   const markControl = field.fieldType === "/Btn" && !pushButton;
@@ -1318,6 +1342,21 @@ function caRefusalDisposition(source, field) {
     routeDetermined: false,
     identity: field.name,
   });
+
+  if (measuredMc031Labels && ["NoticeHeader1", "NoticeFooter1"].includes(field.name)) {
+    assert.equal(field.rawFf, 4097, `${field.name}: MC-031 viewer-notice flags changed`);
+    assert.ok(field.flags?.includes("readOnly"), `${field.name}: MC-031 notice is no longer read-only`);
+    assert.ok(field.flags?.includes("multiline"), `${field.name}: MC-031 notice is no longer multiline`);
+    assert.equal(field.currentValue, CA_MC031_MEASURED_LABELS[field.name],
+      `${field.name}: MC-031 viewer-notice text changed`);
+    return {
+      reason: "Viewer UI control; never a filing fact.",
+      blankTreatment: "NOT_APPLICABLE_ON_THIS_ROUTE",
+      requiredBeforeFiling: false,
+      routeDetermined: false,
+      fieldRequirement: "NOT_A_FILING_FACT",
+    };
+  }
 
   if (pushButton) {
     return { reason: "Viewer UI control; never a filing fact." };
@@ -1497,6 +1536,8 @@ function caMapAndCensus(familyId, config, bridge) {
     assert.ok(form, `${formNumber}: pikepdf census missing`);
     const mappedNames = new Set();
     const fieldRows = form.fields.map((field) => {
+      const measuredMc031Label = config.useMeasuredMc031Labels === true && formNumber === "MC-031"
+        ? CA_MC031_MEASURED_LABELS[field.name] ?? null : null;
       const baseFactId = formNumber === config.primaryForm ? primaryMappings[field.name] ?? null : null;
       const textControl = formNumber === config.primaryForm ? textControls.get(field.name) ?? null : null;
       const selectionControl = formNumber === config.primaryForm ? selectionControls.get(field.name) ?? null : null;
@@ -1505,7 +1546,10 @@ function caMapAndCensus(familyId, config, bridge) {
       const base = {
         formNumber, documentId: source.documentId, documentRole: source.role,
         fieldName: field.name, fieldType: field.fieldType,
-        effectiveLabel: field.tooltip ?? field.shortName ?? null,
+        effectiveLabel: measuredMc031Label ?? field.tooltip ?? field.shortName ?? null,
+        ...(measuredMc031Label
+          ? { effectiveLabelBasis: "printed MC-031 caption measured against the exact widget rectangle" }
+          : {}),
         flags: field.flags, maxLen: field.maxLen, widgets: field.widgets,
       };
       if (baseFactId || textControl) {
@@ -1560,7 +1604,9 @@ function caMapAndCensus(familyId, config, bridge) {
         refusals.push(row);
         return row;
       }
-      const disposition = caRefusalDisposition(source, field);
+      const disposition = caRefusalDisposition(source, field, {
+        measuredMc031Labels: config.useMeasuredMc031Labels === true && formNumber === "MC-031",
+      });
       const row = { ...base, disposition: "REFUSE", factId: null,
         blankTreatment: disposition.blankTreatment ?? null,
         ...disposition };
@@ -1840,6 +1886,32 @@ function azDisposition(config, field) {
   };
 }
 
+function westRegistryStopConditionSection(familyId) {
+  const config = requireFamily(familyId);
+  if (!config.selfHelpStopTrack) return "";
+  const registry = readJson(TRACK_REGISTRY);
+  const track = (registry.tracks ?? [])
+    .find((row) => row.trackId === config.selfHelpStopTrack);
+  assert.ok(track,
+    `${config.selfHelpStopTrack}: no committed track registry entry to read stop conditions from`);
+  const conditions = (track.selfHelpStopConditions ?? [])
+    .map((condition) => String(condition).trim()).filter(Boolean);
+  assert.ok(conditions.length,
+    `${config.selfHelpStopTrack}: the track registry holds no self-help stop condition`);
+  let boundary = "";
+  if (config.statesRegistryHandoffBoundary) {
+    const handoffs = (track.postGenerationHandoffs ?? [])
+      .map((row) => String(row).trim()).filter(Boolean);
+    assert.ok(handoffs.length,
+      `${config.selfHelpStopTrack}: the track registry holds no post-generation handoff`);
+    boundary = `\n\nThe registry distinguishes a routine statutory hearing from a contested one. In its own words: ${handoffs.join(" ")}`;
+  }
+  return `## When to stop and take this to a lawyer\n\n`
+    + `The committed track registry records these as the points where self-help ends on this route. If any describes your case, stop here and take the papers to a lawyer or a legal-aid office rather than filing them:\n\n`
+    + conditions.map((condition) => `- ${condition}`).join("\n")
+    + `${boundary}\n\n`;
+}
+
 function westParticipantInstructions(familyId, fieldMap) {
   const required = [...new Map((fieldMap.refusals ?? [])
     .filter((field) => field.requiredBeforeFiling === true || field.blankTreatment === "REQUIRED_BEFORE_FILING")
@@ -1853,6 +1925,7 @@ function westParticipantInstructions(familyId, fieldMap) {
   return `# Participant and reviewer instructions\n\n`
     + `Packet family: \`${familyId}\`\n\n`
     + `This is a review artifact and is not approved for filing or commercial use.\n\n`
+    + westRegistryStopConditionSection(familyId)
     + `## Exact facts still required before filing\n\n`
     + (required
       ? `The platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.\n\n${required}\n`
@@ -1889,21 +1962,26 @@ const CA_PARTICIPANT_GUIDANCE = Object.freeze({
     title: "Penal Code section 1203.41 dismissal",
     countyOf: "conviction", orderForm: "CR-181", orderName: "order for dismissal",
     primaryName: "CR-180 (Petition for Dismissal)",
+    statesHeldServiceAction: true,
+    statesRegistryStopConditions: "ca-1203-41",
   }),
   "ca-1203-42-set": Object.freeze({
     title: "Penal Code section 1203.42 dismissal",
     countyOf: "conviction", orderForm: "CR-181", orderName: "order for dismissal",
     primaryName: "CR-180 (Petition for Dismissal)",
+    statesRegistryStopConditions: "ca-1203-42",
   }),
   "ca-1203-43-set": Object.freeze({
     title: "Penal Code section 1203.43 dismissal",
     countyOf: "conviction", orderForm: "CR-181", orderName: "order for dismissal",
     primaryName: "CR-180 (Petition for Dismissal)",
+    statesRegistryStopConditions: "ca-1203-43",
   }),
   "ca-1203-4a-set": Object.freeze({
     title: "Penal Code section 1203.4a dismissal",
     countyOf: "conviction", orderForm: "CR-181", orderName: "order for dismissal",
     primaryName: "CR-180 (Petition for Dismissal)",
+    statesRegistryStopConditions: "ca-1203-4a",
   }),
   "ca-17b-reduction-set": Object.freeze({
     title: "Penal Code section 17(b)/17(d)(2) reduction",
@@ -2096,6 +2174,26 @@ function caHeldParticipantActions(familyId) {
     payFee: first("pay_fee"),
     applyFeeWaiver: first("apply_fee_waiver"),
   };
+}
+
+function caHeldServiceSection(familyId, config, guidance) {
+  const held = caHeldParticipantActions(familyId);
+  assert.ok(held.serveParty,
+    `${familyId}: statesHeldServiceAction is set but its manifest holds no serve_party entry`);
+  const proofOfService = config.formNumbers
+    .find((formNumber) => CA_FORMS[formNumber]?.role === "proof_of_service") ?? null;
+  assert.ok(proofOfService,
+    `${familyId}: statesHeldServiceAction is set but the packet has no proof-of-service form`);
+  const statesMethod = /\bmail\b|\bhand\b|personal(?:ly)?|process server/i.test(held.serveParty);
+  const statesTiming = /\bwithin\b|\bbefore\b|\bdays\b|\bdeadline\b/i.test(held.serveParty);
+  assert.equal(statesMethod, false,
+    `${familyId}: the held service entry now states a method; update the participant guidance`);
+  assert.equal(statesTiming, false,
+    `${familyId}: the held service entry now states timing; update the participant guidance`);
+  const clerk = `the clerk of the Superior Court in the county of the ${guidance.countyOf}`;
+  return `## Who you must serve\n\n`
+    + `${held.serveParty}\n\n`
+    + `That is the committed packet-set manifest's instruction for this route: it names the prosecuting attorney as the recipient and ${proofOfService} as the proof that ships in this packet. It does not state a service method or deadline. Ask ${clerk} for those two details before you serve. Serve first, then complete ${proofOfService} — never the other way round.\n\n`;
 }
 
 function caHeldGuidanceSections(familyId, config, guidance) {
@@ -2411,6 +2509,11 @@ function caParticipantInstructions(familyId, config, fieldMap) {
       + reasons.map((reason) => `> ${reason}`).join("\n>\n")
       + `\n\nAnswer them only for the offences you actually list, from your own record of conviction. If you do not know whether an offence is reducible, that is a question for a lawyer or a legal-aid office and not one to guess at, because you sign this petition under penalty of perjury. Leave any row you do not use entirely empty: a row with some cells filled and others blank is worse than an empty one.\n\n`;
   }
+  const unresolvedGuidance = guidance.statesHeldServiceAction
+    ? `## What this packet does not tell you\n\n`
+      + `The filing fee and whether it can be waived, the method and timing of service, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the ${guidance.countyOf}. An unsourced answer in a filing instruction would be worse than none. The service recipient is stated above from the committed packet-set manifest; the remaining questions come from the clerk of that court, not from this packet.\n\n`
+    : `## What this packet does not tell you\n\n`
+      + `The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the ${guidance.countyOf}. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.\n\n`;
   return `# Participant and reviewer instructions — ${guidance.title}\n\n`
     + `These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets.\n\n`
     + config.routeKeys.map((route) => `- Route scope: \`${route}\``).join("\n") + "\n"
@@ -2424,10 +2527,12 @@ function caParticipantInstructions(familyId, config, fieldMap) {
       ? " except the report numbers listed below" : ""}. The ${guidance.orderName} is the court's form.\n\n`
     + caManifestPreFilingActs(familyId, guidance)
     + caRegistryStopConditionSection(config, guidance)
+    + (guidance.statesHeldServiceAction
+      ? caHeldServiceSection(familyId, config, guidance)
+      : "")
     + (guidance.statesHeldParticipantActions
       ? caHeldGuidanceSections(familyId, config, guidance) + `\n`
-      : `## What this packet does not tell you\n\n`
-        + `The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the ${guidance.countyOf}. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.\n\n`)
+      : unresolvedGuidance)
     + markedControlSection
     + `## The blanks you must fill in\n\n`
     + `The platform holds no value for any of these, and this packet never guesses at one.\n\n`
@@ -4645,6 +4750,15 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
     "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedStreet[0]",
     "CR-409[0].Page1[0].LI3[0].li3a[0].T186[0]",
     "CR-409[0].Page1[0].LI3[0].li3c[0].T186[0]",
+  ]);
+  assert.deepEqual(Object.keys(CA_MC031_MEASURED_LABELS).sort(), [
+    "FillText10", "FillText11", "FillText13", "FillText14", "FillText7", "FillText8",
+    "FillText9", "NoticeFooter1", "NoticeHeader1",
+  ]);
+  assert.deepEqual(Object.entries(FAMILIES)
+    .filter(([, family]) => family.useMeasuredMc031Labels === true)
+    .map(([familyId]) => familyId).sort(), [
+    "ca-1203-42-set", "ca-1203-4a-set", "ca-851-91-set",
   ]);
   for (const mappings of Object.values(CA_PRIMARY_WRITES)) {
     assert.ok(Object.values(mappings).includes("matter.case_number"));

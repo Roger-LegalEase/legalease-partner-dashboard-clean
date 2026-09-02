@@ -4,6 +4,19 @@ This packet is prepared for a **petition to expunge marijuana records where you 
 
 The platform filled in what it knows about you: the person filing, your mailing address, your city, state and ZIP, your email, your telephone, the county, the defendant name, your date of birth, the arrest date, the name of the citing or arresting law enforcement agency you stated, and the address, email and phone in the declaration block. Everything else on this form is yours to complete, and this page lists every one of them by the words printed beside the blank.
 
+## When to stop and take this to a lawyer
+
+The committed track registry records these as the points where self-help ends on this route. If any describes your case, stop here and take the papers to a lawyer or a legal-aid office rather than filing them:
+
+- Prosecuting agency files a response opposing eligibility.
+- Court sets a hearing.
+- The record does not establish quantity, plant count, or paraphernalia character and the prosecutor disputes it.
+- Conduct date is on or after July 12, 2021.
+- The petitioner wants to challenge the underlying conviction rather than expunge it.
+- Immigration consequences are in play.
+
+The registry distinguishes a routine statutory hearing from a contested one. In its own words: A routine hearing contemplated by statute does not prevent packet generation. Opposition, disputed evidence, or a contested hearing is a post_generation_handoff.
+
 ## Where you file this
 
 The form prints its own destination across the caption of page 1: **In the Superior Court of Arizona for ______ County**. The county the platform wrote there is the county the packet was prepared for; file the completed petition with the Superior Court clerk in that county.
