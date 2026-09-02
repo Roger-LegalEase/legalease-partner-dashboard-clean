@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `aa26e0dbbe3cf9e33845b715b833acde93e26605` (or the newer dispatch base)
+**Minimum required ancestor:** `5456f22bf3d73fb2d810a56766173302dd9a2321` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id SRC04 \
-  --source-obligation 'ga-nonconv-pre2013-set::official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013' \
+  --source-obligation 'de_discretionary_family_court-set::official-form:FORM-281E' \
   --codex-cloud \
-  --minimum-captain-sha aa26e0dbbe3cf9e33845b715b833acde93e26605
+  --minimum-captain-sha 5456f22bf3d73fb2d810a56766173302dd9a2321
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**26 obligations · 17 families this lane WOULD release if every one of them resolves · hosts: GA, HI, KY, MD, MT, NC, ND**
+**26 obligations · 16 families this lane WOULD release if every one of them resolves · hosts: DE, HI, KY, MD, MT, NC, ND**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -103,7 +103,7 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `ga-nonconv-pre2013-set::official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013` | `official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013` | GA | `held-inventory-reconciliation` | `ga-nonconv-pre2013-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `de_discretionary_family_court-set::official-form:FORM-281E` | `official-form:FORM-281E` | DE | `held-inventory-reconciliation` | `de_discretionary_family_court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `hi_712_1200_deferred_expungement-set::official-form:HCJDC-159B` | `official-form:HCJDC-159B` | HI | `held-inventory-reconciliation` | `hi_712_1200_deferred_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `hi_dag_danc_expungement-set::official-form:HCJDC-159B` | `official-form:HCJDC-159B` | HI | `held-inventory-reconciliation` | `hi_dag_danc_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `hi_nonconviction_expungement-set::official-form:HCJDC-159B` | `official-form:HCJDC-159B` | HI | `held-inventory-reconciliation` | `hi_nonconviction_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
@@ -148,7 +148,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-obligation 'ga-nonconv-pre2013-set::official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013' --codex-cloud --minimum-captain-sha aa26e0dbbe3cf9e33845b715b833acde93e26605
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-obligation 'de_discretionary_family_court-set::official-form:FORM-281E' --codex-cloud --minimum-captain-sha 5456f22bf3d73fb2d810a56766173302dd9a2321
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -157,7 +157,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-
 
 ### Families this lane would release
 
-`ga-nonconv-pre2013-set`, `hi_712_1200_deferred_expungement-set`, `hi_dag_danc_expungement-set`, `hi_nonconviction_expungement-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `md_10105_early-set`, `md_10105_favorable-set`, `md_10110_conviction-set`, `md_cannabis_petition-set`, `md_pardon_expungement-set`, `mt_deferred_dismissal-set`, `mt_misdemeanor_expungement-set`, `nc_145_8a_youthful-set`, `nc_auto_146_a4_agency_followup-set`, `nd-regular-pardon-set`, `rcap-hi-custom-pleading`
+`hi_712_1200_deferred_expungement-set`, `hi_dag_danc_expungement-set`, `hi_nonconviction_expungement-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `md_10105_early-set`, `md_10105_favorable-set`, `md_10110_conviction-set`, `md_cannabis_petition-set`, `md_pardon_expungement-set`, `mt_deferred_dismissal-set`, `mt_misdemeanor_expungement-set`, `nc_145_8a_youthful-set`, `nc_auto_146_a4_agency_followup-set`, `nd-regular-pardon-set`, `rcap-hi-custom-pleading`
 
 
 ### Settle these first
@@ -169,7 +169,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-
 | HCJDC-159B | HI | 4 |
 | EXPUNGEMENTREMOVALREQUESTFORM.DOCX | MT | 4 |
 | CC-DC-089 | MD | 3 |
-| GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013 | GA | 1 |
+| FORM-281 | DE | 1 |
 | AOC-497 | KY | 1 |
 | AOC-275.18 | KY | 1 |
 | CC-DC-CR-072C | MD | 1 |

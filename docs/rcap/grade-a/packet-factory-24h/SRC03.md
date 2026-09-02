@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `aa26e0dbbe3cf9e33845b715b833acde93e26605` (or the newer dispatch base)
+**Minimum required ancestor:** `5456f22bf3d73fb2d810a56766173302dd9a2321` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id SRC03 \
   --source-obligation 'co_municipal_conviction_seal-set::official-form:JDF-684' \
   --codex-cloud \
-  --minimum-captain-sha aa26e0dbbe3cf9e33845b715b833acde93e26605
+  --minimum-captain-sha 5456f22bf3d73fb2d810a56766173302dd9a2321
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC03 <itemId>`
-- The committed assignment contains exactly 25 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 26 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC03 <itemId>`.
 
@@ -78,7 +78,7 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**25 obligations · 8 families this lane WOULD release if every one of them resolves · hosts: CO, DE, ME, MO, UT**
+**26 obligations · 8 families this lane WOULD release if every one of them resolves · hosts: CO, DE, ME, MO, RI, UT**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -122,6 +122,7 @@ the private corpus and the committed inventory, read only — nothing is fetched
 | `mo-610-140-conviction-set::official-form:GN10` | `official-form:GN10` | MO | `held-inventory-reconciliation` | `mo-610-140-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `mo-610-145-mistaken-identity-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-610-145-mistaken-identity-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `mo-art-xiv-marijuana-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-art-xiv-marijuana-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ri_decriminalized-set::official-form:DC-33-AFFIDAVIT` | `official-form:DC-33-AFFIDAVIT` | RI | `held-inventory-reconciliation` | `ri_decriminalized-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ut_pet_cannabis-set::official-form:1023EX` | `official-form:1023EX` | UT | `held-inventory-reconciliation` | `ut_pet_cannabis-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ut_pet_remove_link-set::official-form:1501CR` | `official-form:1501CR` | UT | `held-inventory-reconciliation` | `ut_pet_remove_link-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ut_pet_remove_link-set::official-form:1501CR-C` | `official-form:1501CR-C` | UT | `held-inventory-reconciliation` | `ut_pet_remove_link-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
@@ -129,13 +130,13 @@ the private corpus and the committed inventory, read only — nothing is fetched
 | `ut_pet_special_certificate-set::official-form:1001EX` | `official-form:1001EX` | UT | `held-inventory-reconciliation` | `ut_pet_special_certificate-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ut_pet_special_certificate-set::official-form:1021EX` | `official-form:1021EX` | UT | `held-inventory-reconciliation` | `ut_pet_special_certificate-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 
-Deterministically assert exactly the 25 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 26 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='SRC03');
-if (!a || a.items.length !== 25) throw new Error('SRC03 committed item count changed');
+if (!a || a.items.length !== 26) throw new Error('SRC03 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','SRC03',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -147,7 +148,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-obligation 'co_municipal_conviction_seal-set::official-form:JDF-684' --codex-cloud --minimum-captain-sha aa26e0dbbe3cf9e33845b715b833acde93e26605
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-obligation 'co_municipal_conviction_seal-set::official-form:JDF-684' --codex-cloud --minimum-captain-sha 5456f22bf3d73fb2d810a56766173302dd9a2321
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -166,6 +167,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
 | FI-05 | MO | 7 |
+| DC-33 | RI | 4 |
 | CIV_EXP_02_A | DE | 2 |
 | 1044XX | UT | 2 |
 | JDF-683 | CO | 1 |
