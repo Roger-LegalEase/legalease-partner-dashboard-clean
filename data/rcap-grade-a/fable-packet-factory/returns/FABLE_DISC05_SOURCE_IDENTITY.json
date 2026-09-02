@@ -1,0 +1,664 @@
+{
+  "schemaVersion": 1,
+  "producedBy": "FABLE-DISC05",
+  "lane": "source-discovery, exact-source-identity",
+  "assignmentId": "DISC05",
+  "branch": "fable/disc05",
+  "baseCommit": "ff0878568",
+  "producedOn": "2026-09-02",
+  "operation": "exact-source-identity",
+  "question": "For the eight source obligations the dispatch assigns DISC05, what document does each label actually name, is that document held under an admissible custody, and what is the exact official address the acquisition lane should be given?",
+
+  "admissionRuleThisLaneApplied": {
+    "allThreeOrItDoesNotBind": [
+      "identityConfidence confirmed_from_document_text: the file was opened, page one was read, and the sentence is quoted below",
+      "a SHA-256 recomputed by this lane with sha256sum on the file it opened, never copied from an index or another finding",
+      "data/rcap-all50/local-source-corpus-index.json holds that exact path at that exact hash"
+    ],
+    "whyTheThirdConditionMatters": "A title match against index metadata is not a read, and a source falsely called held suppresses the acquisition of a real gap. Two of this lane's eight items turn entirely on that distinction.",
+    "reconcilerReference": "scripts/grade-a-route-obligation-census/reconcile-census-source-custody.mjs, identityFindings block: only /^confirmed_from_document_text(_|$)/ is admitted, and the corpus index is the arbiter rather than the finding."
+  },
+
+  "mountRealityThisLaneObserved": {
+    "masterLibrary": {
+      "mounted": true,
+      "root": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "arkansasPdfs": 22,
+      "utahPdfs": 21
+    },
+    "dSourcePacks": {
+      "mounted": true,
+      "root": "private/source-imports/rcap-d-source-packs-2026-08-12",
+      "note": "Carries the identical 22 Arkansas filenames at identical hashes; it adds no Arkansas document the Master Library lacks."
+    },
+    "nationwideRecordClearing": {
+      "mounted": false,
+      "checked": "ls of private/ and a filesystem search for a directory named 'Nationwide Record Clearing' both return nothing. private/source-corpus-environment.txt leaves OFFICIAL_FORMS_SOURCE_DIR commented out and warns it is 'A DIFFERENT corpus, not carried by this release.'",
+      "consequence": "Any classification row whose held.pathInArchive begins 'LegalEase <State>/' names bytes this container cannot open, cannot hash, and which data/rcap-all50/local-source-corpus-index.json does not index. Such a row cannot satisfy the admission rule. It is not wrong; it is unreachable, and it must not be reported as held.",
+      "confirmsDisc7": true
+    }
+  },
+
+  "theArkansasFactsThisLaneReVerifiedIndependently": {
+    "uniformIsPrintedOnNoAcicDocument": {
+      "method": "pdftotext -layout over the full text of all 22 Arkansas PDFs in the mounted Master Library, grep -ic 'uniform'.",
+      "totalHits": 0,
+      "filesSearched": 22,
+      "verdict": "Confirmed. DISC7's finding stands. ACIC-UNIFORM-PETITION-TO-SEAL and ACIC-UNIFORM-ORDER-TO-SEAL are census vocabulary, not form numbers. Any binding must rest on the printed relief and the Act, never on the label wording."
+    },
+    "theTwentyTwoPrintedTitles": {
+      "method": "pdftotext -f 1 -l 1 -layout on every Arkansas PDF, reading the printed caption title rather than the filename.",
+      "petitionsHeld": [
+        "PETITION TO DISMISS AND SEAL OFFENSE IN PRE-ADJUDICATION DRUG COURT PROCEEDING",
+        "PETITION TO DISMISS AND SEAL OFFENSE IN POST ADJUDICATION DRUG COURT PROCEEDING",
+        "PETITION TO DISMISS AND SEAL OFFENSE IN VETERANS TREATMENT SPECIALITY COURT PROCEEDING",
+        "PETITION TO SEAL ARREST UNDER ACT 1460 OF 2013",
+        "PETITION TO SEAL CONVICTION FOR POSSESSION OF CONTROLLED OR COUNTERFEIT SUBSTANCE",
+        "PETITION TO SEAL FELONY UNDER ACT 1460 OF 2013",
+        "PETITION TO SEAL A MISDEMEANOR CONVICTION FOR DRIVING OR BOATING WHILE INTOXICATED",
+        "PETITION TO SEAL RECORDS OF NOLLE PROSEQUI, DISMISSALS...",
+        "PETITION TO SEAL RECORDS OF A PARDONED OFFENDER or PARDONAED YOUTHFUL...",
+        "PETITION TO SEAL PURSUANT TO ACT 531 OF 1993"
+      ],
+      "ordersHeld": [
+        "ORDER OF PROBATION UNDER ACT 346 of 1975 and ACT 1460 OF 2013",
+        "ORDER TO DISMISS AND SEAL FIRST OFFENDERS UNDER ACT 346 of 1975 and ACT 1460 OF 2013",
+        "ORDER TO DISMISS AND SEAL OFFENSE IN POST ADJUDICATION DRUG COURT PROCEEDING",
+        "ORDER TO DISMISS AND SEAL OFFENSE IN PRE-ADJUDICATION DRUG COURT PROCEEDING",
+        "ORDER TO SEAL ARREST UNDER ACT 1460 OF 2013",
+        "ORDER TO SEAL CONVICTION FOR POSSESSION OF CONTROLLED OR COUNTERFEIT SUBSTANCE",
+        "ORDER TO SEAL FELONY UNDER ACT 1460 OF 2013",
+        "ORDER TO SEAL A MISDEMEANOR CONVICTION FOR DRIVING OR BOATING WHILE INTOXICATED",
+        "ORDER TO SEAL MISDEMEANORS UNDER ACT 1460 OF 2013",
+        "ORDER TO SEAL RECORDS OF NOLLE PROSEQUI, DISMISSALS...",
+        "ORDER TO SEAL RECORDS OF A PARDONED OFFENDER or...",
+        "ORDER TO SEAL PURSUANT TO ACT 531 OF 1993"
+      ],
+      "theStructureThisExposes": "Nine ACIC reliefs are held as complete petition-and-order pairs. Exactly three halves are missing from the mounted corpus, and they are exactly this lane's three absence items: the Act 346 first-offenders PETITION, the Act 1460 misdemeanors PETITION, and the veterans treatment specialty court ORDER. The Act 346 Order of Probation is a tenth, standalone instrument that opens the deferral rather than closing it, and it pairs with nothing.",
+      "whyThisMattersForAcquisition": "Three named halves is a small, exact, checkable acquisition target for one publisher. It is not a diffuse gap."
+    },
+    "theWordVeteransAppearsInOneFile": {
+      "method": "full-text grep -i 'veteran' across all 22 Arkansas PDFs",
+      "filesMatching": 1,
+      "file": "the veterans treatment specialty court PETITION",
+      "verdict": "No veterans-court ORDER is in the mounted corpus. Confirmed."
+    },
+    "theWordsAct346AppearInTwoFiles": {
+      "method": "full-text grep -iE 'act *346|16-93-30' across all 22 Arkansas PDFs",
+      "filesMatching": 2,
+      "files": ["ORDER OF PROBATION UNDER ACT 346", "ORDER TO DISMISS AND SEAL FIRST OFFENDERS UNDER ACT 346"],
+      "verdict": "Both are ORDERS. No Act 346 PETITION is in the mounted corpus. Confirmed."
+    }
+  },
+
+  "theMostConsequentialFindingOfThisLane": {
+    "headline": "The Nationwide Arkansas folder is the same ACIC set as the Master Library plus exactly one extra official form and one capture of the ACIC forms page. The extra form is the misdemeanor petition this lane was asked about.",
+    "method": "Cross-mapped every SHA-256 recorded for Arkansas in data/rcap-all50/nationwide-source-inventory.json against every SHA-256 in data/rcap-all50/local-source-corpus-index.json.",
+    "result": {
+      "nationwideArkansasFiles": 26,
+      "byteIdenticalToAMasterLibraryArkansasPdf": 22,
+      "notPresentInTheCommittedCorpusIndexAtAnyHash": 4
+    },
+    "thoseFourAre": [
+      {
+        "fileName": "3-Misdemeanor-Petition-8_01_2023.pdf",
+        "recordedSha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+        "recordedByteLength": 775618,
+        "whatItProbablyIs": "The only official-form-shaped Arkansas PDF the Master Library does not carry, sitting in the same folder as the other 22 ACIC forms, named for the one relief whose petition half is missing.",
+        "whyThisIsNotYetAnIdentity": "This lane did not open it and could not: the tree is unmounted and the corpus index holds this hash nowhere. Nothing about the pairing argument survives the admission rule."
+      },
+      {
+        "fileName": "criminal-history.html",
+        "recordedSha256": "db6e3ea2c967ede138c4fd1e0bba72d5d9b3dc27526bed72314ea9ed84a786ab",
+        "recordedByteLength": 382145,
+        "whatItIs": "A capture of the ACIC criminal-history forms page — the page at https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/, which is the page this lane needs and cannot fetch.",
+        "whyItMatters": "This lane searched every committed file for an exact ACIC binary URL and found none: the landing page appears 231 times and no per-form address appears once. That capture is where the per-form addresses live. It is 382 KB of already-acquired HTML sitting in an unmounted tree."
+      },
+      {
+        "fileName": "Arkansas-Petition-Order-Forms.html",
+        "recordedSha256": "f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+        "whatItIs": "A second reference capture of a petition-and-order forms listing."
+      },
+      {
+        "fileName": "Arkansas-RecordSealing-Agent-Reference.pdf",
+        "recordedSha256": "c4367beb089f187e3c5d96c7c3003eb3a8a96497296602c2fc06a23f1d963d2a",
+        "whatItIs": "An internal agent reference, not an official ACIC form. Not an acquisition target."
+      }
+    ],
+    "corroboratingDetail": "Felony-Petition-Form-f.pdf in the Nationwide Arkansas folder hashes to 6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b, which is byte-for-byte the Master Library's AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460. The two trees hold the same bytes under different filenames, which is what makes the 22-of-26 mapping exact rather than approximate.",
+    "theRecommendationThatFollows": "Before any lane is sent to fetch anything from ACIC, mount and index the Nationwide Arkansas folder. Two of this lane's three Arkansas absences may be answerable from bytes and an HTML page this company already has, at no fetch cost, and the third — the veterans order — would at least get its exact address from the captured page. An acquisition dispatched first would be spending fetch capacity on a question already answered offline, which is precisely the failure the 2026-08-31 batch recorded.",
+    "whatThisDoesNotClaim": "It does not claim the misdemeanor petition is held. Under the admission rule it is not held, because nothing here can open it, hash it, or find it in the committed index. It claims the cheaper next operation is a mount rather than a fetch."
+  },
+
+  "items": [
+    {
+      "itemId": "ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "sourceId": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "jurisdiction": "AR",
+      "familyIds": ["ar-act346-set"],
+      "claim": "asserted DISC05, ledger row present, laneKind source-discovery",
+      "status": "STOPPED",
+      "verdict": "ABSENT_FROM_EVERY_MOUNTED_AND_INDEXED_CUSTODY",
+      "absenceClass": "no_document_shaped_source_named_is_held",
+      "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+      "officialTitle": "Petition to Dismiss and Seal First Offenders under Act 346 of 1975 (A.C.A. 16-93-301 through 303) and Act 1460 of 2013 (A.C.A. 16-90-1401 et seq.)",
+      "officialTitleBasis": "Constructed from the printed title of the held ORDER half, which is the instrument that answers this petition. Not read from the petition, because the petition is not held.",
+      "formNumber": "no numeric form number; ACIC prints the words 'ACIC Form' in the footer of this series",
+      "revision": "unknown — the missing document was never opened",
+      "officialUrl": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "urlKind": "OFFICIAL_LANDING_PAGE",
+      "exactBinaryUrlEstablished": false,
+      "hostAllowedResult": {"host": "dps.arkansas.gov", "hostAllowed": true, "hostRefused": false, "exactHostPolicy": null, "evaluatedWith": "scripts/lib/official-host-policy.mjs"},
+      "intendedPacketRole": "participant-filed primary filing (petition) — the instrument the held order answers",
+      "statewideOrLocal": "statewide (ACIC is the statewide publisher; the form is filed in the circuit or district court of the county of the offence)",
+      "whatIRead": {
+        "file": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
+        "why": "This is the held half of the pair, and reading it is how the missing half's identity and packet role are established.",
+        "evidenceSentence": "\"ORDER TO DISMISS AND SEAL FIRST OFFENDERS UNDER ACT 346 of 1975 ACA §16-93-301 through 303 and ACT 1460 OF 2013 A.C.A.16-90-1401, Et. Seq.\" over \"Before the Court is the Petition of the Defendant to seal his/her record pursuant to Act 346 of 1975 and Act 1460 of 2013. The Court finds and orders as follows:\"",
+        "whyThatSentenceSettlesTheRole": "The order recites that a Petition of the Defendant is before the Court. The missing document is that petition, and it is a participant filing, not a second order.",
+        "sha256RecomputedByThisLane": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740",
+        "byteLength": 307979,
+        "pageCount": 3,
+        "inCommittedCorpusIndexAtThisPathAndHash": true
+      },
+      "candidatesOpenedAndRefused": [
+        {
+          "file": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-OF-PROBATION-UNDER-ACT-346__order-of-probation-under-act-346-and-act-1460__REV-2014-08-25__EN.pdf",
+          "printedTitle": "ORDER OF PROBATION UNDER ACT 346 of 1975 ACA §16-93-301 through 303 and ACT 1460 OF 2013",
+          "whyRefused": "It is an ORDER, and it is the order that OPENS the Act 346 deferral rather than the petition that closes it. Two independent grounds, either sufficient.",
+          "sha256RecomputedByThisLane": "5e0923268f5c5a0893118ac07bdf6d468190c77ad58ee7db9f077631c996d320"
+        }
+      ],
+      "exhaustiveness": "Full-text search of all 22 Arkansas PDFs for 'act 346' and '16-93-30' returns exactly two files, both orders, both named above. There is no third Act 346 document in either mounted custody.",
+      "classificationAgrees": "data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json classes ar-act346-set ACQUIRE_EXACT_SOURCE, not ATTACH_HELD_SOURCE. Captain's instruction to check that classification is answered: nothing is held for this obligation and none should be attached.",
+      "nextOperation": "ACQ, once an exact binary address exists. The address does not exist in committed evidence today.",
+      "hostThatOwnsIt": "dps.arkansas.gov — Arkansas Crime Information Center, criminal-history forms page",
+      "cheaperOperationFirst": "Mount and index the Nationwide Arkansas folder. Its criminal-history.html capture is the ACIC forms page itself and would yield this address without a fetch."
+    },
+
+    {
+      "itemId": "ar-drug-court-set::official-form:ACIC-ORDER-DRUG-COURT",
+      "sourceId": "official-form:ACIC-ORDER-DRUG-COURT",
+      "jurisdiction": "AR",
+      "familyIds": ["ar-drug-court-set"],
+      "claim": "asserted DISC05, ledger row present",
+      "status": "STOPPED",
+      "verdict": "UNRESOLVED_TWO_CANDIDATES_BOTH_HELD_DO_NOT_BIND_EITHER",
+      "whyNotResolvable": "Both candidates are held, both are admissible on their own terms, and each prints on its own face that it is the other's opposite. A label two documents both satisfy identifies neither. Picking one here would silently commit a legal-design decision this lane has no authority to make and no evidence to make it with.",
+      "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+      "authority": "Ark. Code Ann. § 16-98-303",
+      "intendedPacketRole": "proposed order for the court's signature",
+      "statewideOrLocal": "statewide",
+      "officialUrl": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "urlKind": "OFFICIAL_LANDING_PAGE",
+      "exactBinaryUrlEstablished": false,
+      "noAcquisitionIsNeeded": "Both documents are already held under an admissible custody, at hashes this lane recomputed and the committed index carries. This obligation is not a fetch and must not be dispatched as one.",
+      "candidates": [
+        {
+          "candidateId": "AR-ACIC-ORDER-DRUG-COURT-PRE",
+          "officialTitle": "Order to Dismiss and Seal Offense in Pre-Adjudication Drug Court Proceeding Pursuant to A.C.A. §16-98-303",
+          "printedRevision": "Revised 01/01/2014",
+          "identityConfidence": "confirmed_from_document_text",
+          "evidenceSentence": "Page 1 prints \"ORDER TO DISMISS AND SEAL OFFENSE IN PRE-ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. §16-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}\", then \"Before the Court is the Petition of the Defendant to seal his/her record pursuant to A.C.A. 16-98-303. The Court finds and orders as follows:\"; paragraph 2 recites \"With the Defendant's consent and without entering a judgment of guilt, the Court deferred further proceedings and placed the Defendant on probation/court supervision.\" Footer \"ACIC Form / Revised 01/01/2014\".",
+          "sha256RecomputedByThisLane": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e",
+          "byteLength": 312762,
+          "pageCount": 4,
+          "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE__order-to-dismiss-and-seal-offense-in-pre-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+          "custody": "MASTER_LIBRARY",
+          "inCommittedCorpusIndexAtThisPathAndHash": true
+        },
+        {
+          "candidateId": "AR-ACIC-ORDER-DRUG-COURT-POST",
+          "officialTitle": "Order to Dismiss and Seal Offense in Post Adjudication Drug Court Proceeding Pursuant to A.C.A. § 16-98-303",
+          "printedRevision": "Revised 01/01/2014",
+          "identityConfidence": "confirmed_from_document_text",
+          "evidenceSentence": "Page 1 prints \"ORDER TO DISMISS AND SEAL OFFENSE IN POST ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. § 16-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}\", then \"Before the Court is the petition of the Defendant to seal his/her record pursuant to A.C.A.§ 16-98-303. The Court finds and Orders as follows:\"; paragraph 2 recites \"The defendant plead guilty or nolo contendere to or was found guilty of ______, in violation of A.C.A. § ______, on the ____ day of ____\" and paragraph 3 \"The Defendant was placed on probation for a period of ______ months.\" Footer \"ACIC Form / Revised 01/01/2014\".",
+          "sha256RecomputedByThisLane": "731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2",
+          "byteLength": 603002,
+          "pageCount": 4,
+          "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT-OFF__order-to-dismiss-and-seal-offense-in-post-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+          "custody": "MASTER_LIBRARY",
+          "inCommittedCorpusIndexAtThisPathAndHash": true
+        }
+      ],
+      "nextOperation": "Route split — a legal-design determination, not an acquisition and not a read. See routeSplitRecommendation below.",
+      "hostThatOwnsIt": "no external host owns this. The Captain and state counsel own it."
+    },
+
+    {
+      "itemId": "ar-drug-court-set::official-form:ACIC-PETITION-DRUG-COURT",
+      "sourceId": "official-form:ACIC-PETITION-DRUG-COURT",
+      "jurisdiction": "AR",
+      "familyIds": ["ar-drug-court-set"],
+      "claim": "asserted DISC05, ledger row present",
+      "status": "STOPPED",
+      "verdict": "UNRESOLVED_TWO_CANDIDATES_BOTH_HELD_DO_NOT_BIND_EITHER",
+      "whyNotResolvable": "Identical shape to the order half, and it must be settled by the same decision. Splitting one half of the pair and not the other would produce a packet whose petition and order describe different adjudication postures.",
+      "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+      "authority": "Ark. Code Ann. § 16-98-303",
+      "intendedPacketRole": "participant-filed primary filing (petition)",
+      "statewideOrLocal": "statewide",
+      "officialUrl": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "urlKind": "OFFICIAL_LANDING_PAGE",
+      "exactBinaryUrlEstablished": false,
+      "noAcquisitionIsNeeded": "Both are held and indexed. Not a fetch.",
+      "candidates": [
+        {
+          "candidateId": "AR-ACIC-PETITION-DRUG-COURT-PRE",
+          "officialTitle": "Petition to Dismiss and Seal Offense in Pre-Adjudication Drug Court Proceeding Pursuant to A.C.A. §16-98-303",
+          "printedRevision": "Revised 08/25/2014",
+          "identityConfidence": "confirmed_from_document_text",
+          "evidenceSentence": "Page 1 prints \"PETITION TO DISMISS AND SEAL OFFENSE IN PRE-ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. §16-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}\" over the operative line \"Comes the Defendant and for his/her petition to dismiss and seal the record states:\"; paragraph 2 recites \"With the Defendant's consent and without entering a judgment of guilt, the Court deferred further proceedings and placed the Defendant on probation/court supervision.\" Footer \"ACIC Form / Revised 08/25/2014\".",
+          "sha256RecomputedByThisLane": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42",
+          "byteLength": 356744,
+          "pageCount": 4,
+          "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O__petition-to-dismiss-and-seal-offense-in-pre-adjudication-drug-court-proceeding__REV-2014-08-25__EN.pdf",
+          "custody": "MASTER_LIBRARY",
+          "inCommittedCorpusIndexAtThisPathAndHash": true
+        },
+        {
+          "candidateId": "AR-ACIC-PETITION-DRUG-COURT-POST",
+          "officialTitle": "Petition to Dismiss and Seal Offense in Post Adjudication Drug Court Proceeding Pursuant to A.C.A. § 16-98-303",
+          "printedRevision": "Revised 01/01/2014",
+          "identityConfidence": "confirmed_from_document_text",
+          "evidenceSentence": "Page 1 prints \"PETITION TO DISMISS AND SEAL OFFENSE IN POST ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. § 16-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}\" over \"Comes the Defendant and for his/her petition to seal the record states:\"; paragraph 2 recites \"The defendant plead guilty or nolo contendere to or was found guilty of ______, in violation of A.C.A. § ______\". Footer \"ACIC Form / Revised 01/01/2014\".",
+          "sha256RecomputedByThisLane": "99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39",
+          "byteLength": 1026997,
+          "pageCount": 4,
+          "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT__petition-to-dismiss-and-seal-offense-in-post-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+          "custody": "MASTER_LIBRARY",
+          "inCommittedCorpusIndexAtThisPathAndHash": true
+        }
+      ],
+      "nextOperation": "Route split. Same decision as the order half.",
+      "hostThatOwnsIt": "no external host owns this."
+    },
+
+    {
+      "itemId": "ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+      "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+      "jurisdiction": "AR",
+      "familyIds": ["ar-misdemeanor-seal-set"],
+      "claim": "asserted DISC05, ledger row present",
+      "status": "STOPPED",
+      "verdict": "ABSENT_FROM_EVERY_MOUNTED_AND_INDEXED_CUSTODY_BUT_RECORDED_IN_AN_UNMOUNTED_ONE",
+      "captainsInstructionAcknowledged": "This lane was told the document is ABSENT and that its job is to establish the official address or prove it is not separately published — not to bind a sibling. No sibling was bound. The felony petition was not touched. The DWI/BWI petition was opened and refused in writing below.",
+      "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+      "officialTitle": "Petition to Seal Misdemeanors under Act 1460 of 2013; A.C.A. 16-90-1401, Et. Seq.",
+      "officialTitleBasis": "Constructed from the printed title of the held ORDER half. Not read from the petition, because the petition is not held in any mounted custody.",
+      "formNumber": "no numeric form number; the footer of this series prints the words 'ACIC Form'",
+      "revision": "unknown in the mounted corpus. data/rcap-all50/nationwide-source-inventory.json records an unmounted candidate filename carrying 8_01_2023.",
+      "officialUrl": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "urlKind": "OFFICIAL_LANDING_PAGE",
+      "exactBinaryUrlEstablished": false,
+      "hostAllowedResult": {"host": "dps.arkansas.gov", "hostAllowed": true, "hostRefused": false, "exactHostPolicy": null, "evaluatedWith": "scripts/lib/official-host-policy.mjs"},
+      "intendedPacketRole": "participant-filed primary filing (petition) — the instrument the held order answers",
+      "statewideOrLocal": "statewide",
+      "isItSeparatelyPublished": {
+        "answer": "Yes, on the evidence available — but this lane could not confirm it by reading, and says so rather than asserting it.",
+        "theEvidenceThatItExists": "data/rcap-all50/nationwide-source-inventory.json records 'LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf' at sha256 63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23, 775618 bytes, in the same folder as the 22 ACIC forms that are byte-identical to the Master Library shard. It is the ONLY official-form-shaped Arkansas PDF in that folder that the Master Library does not carry, and the Act 1460 misdemeanor petition is the only ACIC misdemeanor-seal instrument the Master Library lacks. The numeric prefixes on the Nationwide filenames ('3-Misdemeanor-Petition', '7_Nolle_Prosequi...') track a numbered list on the ACIC forms page, which is consistent with a separately published per-form binary.",
+        "theEvidenceItIsNotSeparatelyPublished": "None was found. No committed record suggests ACIC publishes the Act 1460 misdemeanor relief as a combined petition-and-order, and the felony and arrest reliefs under the same Act are each published as separate petition and order binaries — the held pairs prove that pattern.",
+        "whyThisIsNotABinding": "The admission rule requires all three of a document read, a hash this lane recomputed, and the committed corpus index holding that path at that hash. Zero of the three is available: private/Nationwide Record Clearing is not on disk, and data/rcap-all50/local-source-corpus-index.json carries hash 63a308c4 nowhere. Reporting this as held would be exactly the defect the admission rule exists to prevent — a source falsely called held suppressing the acquisition of a real gap.",
+        "confidenceIfSomeoneMustLabelIt": "inferred_from_inventory_metadata_and_residual_assignment — one grade below anything that binds"
+      },
+      "candidatesOpenedAndRefused": [
+        {
+          "file": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION__petition-to-seal-a-misdemeanor-conviction-for-driving-or-boating-while-intoxicated__REV-2021-07-27__EN.pdf",
+          "printedTitle": "PETITION TO SEAL A MISDEMEANOR CONVICTION FOR DRIVING OR BOATING WHILE INTOXICATED",
+          "evidenceSentence": "Paragraph 1 recites \"The Defendant was arrested on the ____ day of ______, ____, and charged with the offense(s) of Driving or Boating While Intoxicated in violation of Ark. Code Ann. §5-65-103.\"",
+          "whyRefused": "The offence is hard-coded into the petition's own paragraph 1 and the statute cited is the DWI statute, not Act 1460. This instrument belongs to ar-misdemeanor-dwi-seal-set. Binding it to the general misdemeanor family would hand a participant a petition that recites a DWI charge they were not charged with.",
+          "sha256RecomputedByThisLane": "04d876b09fe82b76298a2d06093d122a0ef539f767f76811001030cc7805715d",
+          "byteLength": 117345
+        }
+      ],
+      "theSiblingThisLaneDeliberatelyDidNotBind": {
+        "document": "AR-ACIC-PETITION-SEAL-FELONY-1460, the Act 1460 felony petition",
+        "whyNot": "Its own face prints PETITION TO SEAL FELONY. ar-misdemeanor-seal-set is the general Act 1460 MISDEMEANOR route. The census label ACIC-UNIFORM-PETITION-TO-SEAL is shared by ar-felony-seal-set and ar-misdemeanor-seal-set, and the word UNIFORM is printed on neither document — this lane re-verified that with a full-text search returning zero hits across all 22 files. Captain has already bound the felony petition to ar-felony-seal-set alone, under labelIsFamilySpecific: true, which the reconciler admits only for servesFamilies and withholds from the global label map. That construction is correct and this lane leaves it untouched.",
+        "whatWouldHappenIfItWereBoundHere": "A participant sealing a misdemeanor would receive a verified petition captioned PETITION TO SEAL FELONY UNDER ACT 1460 reciting the Class Y/A/B felony exclusions. That is the dangerous kind of wrong."
+      },
+      "whatIRead": {
+        "file": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
+        "why": "The held half of the pair, read to establish the missing half's title, relief and packet role.",
+        "evidenceSentence": "Page 1 prints \"ORDER TO SEAL MISDEMEANORS UNDER ACT 1460 OF 2013; A.C.A.16-90-1401, Et. Seq.\" over \"Before the Court is the Petition of the Defendant to seal his/her record. The Court finds and orders as follows:\", and paragraph 3 recites \"The Defendant has completed his or her sentence for the misdemeanor offense and has complied with all conditions of probation, if any.\" Footer \"ACIC Form / Revised 08/01/2019\".",
+        "sha256RecomputedByThisLane": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+        "byteLength": 327235,
+        "pageCount": 3,
+        "inCommittedCorpusIndexAtThisPathAndHash": true
+      },
+      "revisionSkewToWatch": "The held order prints Revised 08/01/2019. The unmounted candidate petition's filename carries 8_01_2023. Same day and month, four years apart. If the 2023 petition is a later edition of a pair ACIC revises together, the held 08/01/2019 order may itself be superseded, and a packet pairing a 2023 petition with a 2019 order would ship two editions of one instrument. Whoever mounts the file should read both footers before either is bound.",
+      "nextOperation": "Mount and index private/Nationwide Record Clearing, then read 3-Misdemeanor-Petition-8_01_2023.pdf and hash it. Only if that fails does this become an ACQ against dps.arkansas.gov.",
+      "hostThatOwnsIt": "dps.arkansas.gov — but the company may already own the bytes."
+    },
+
+    {
+      "itemId": "ar-veterans-court-set::official-form:ACIC-ORDER-VETERANS-COURT",
+      "sourceId": "official-form:ACIC-ORDER-VETERANS-COURT",
+      "jurisdiction": "AR",
+      "familyIds": ["ar-veterans-court-set"],
+      "claim": "asserted DISC05, ledger row present",
+      "status": "STOPPED",
+      "verdict": "ABSENT_FROM_EVERY_KNOWN_CUSTODY_MOUNTED_OR_NOT",
+      "whyThisOneIsDifferentFromTheMisdemeanorPetition": "The misdemeanor petition has an unmounted candidate recorded in the Nationwide inventory. This one has none. The Nationwide Arkansas folder holds 26 files and this lane hash-mapped every one of them; no veterans-court order is among them. This is the only one of the three Arkansas absences that is a genuine acquisition rather than a mounting problem.",
+      "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+      "officialTitle": "Order to Dismiss and Seal Offense in Veterans Treatment Speciality Court Proceeding Pursuant to A.C.A. §16-101-106 and A.C.A. §16-90-1401",
+      "officialTitleBasis": "Constructed from the printed title of the held PETITION half, including ACIC's own spelling 'SPECIALITY', which is what the publisher prints.",
+      "formNumber": "no numeric form number; the footer prints 'ACIC Form'",
+      "revision": "unknown — the held petition prints 7/27/2021, and ACIC issued the drug-court and DWI pairs with matched or near-matched revisions, but this lane will not infer a revision it did not read",
+      "authority": "Ark. Code Ann. § 16-101-106 (veterans treatment specialty court) and § 16-90-1401 et seq. (Act 1460 of 2013)",
+      "officialUrl": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "urlKind": "OFFICIAL_LANDING_PAGE",
+      "exactBinaryUrlEstablished": false,
+      "hostAllowedResult": {"host": "dps.arkansas.gov", "hostAllowed": true, "hostRefused": false, "exactHostPolicy": null, "evaluatedWith": "scripts/lib/official-host-policy.mjs"},
+      "intendedPacketRole": "proposed order for the court's signature — the instrument that answers the held petition",
+      "statewideOrLocal": "statewide",
+      "whatIRead": {
+        "file": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
+        "evidenceSentence": "Page 1 prints \"PETITION TO DISMISS AND SEAL OFFENSE IN VETERANS TREATMENT SPECIALITY COURT PROCEEDING PURSUANT TO A.C.A. §16-101-106 AND A.C.A. §16-90-1401 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}\" over \"Comes the Defendant and for his/her petition to dismiss and seal the record states:\", and paragraph 2 recites \"With the Defendant's consent and without entering a judgment of guilt, the Court deferred further proceedings and placed the Defendant on probation/court supervision.\"",
+        "sha256RecomputedByThisLane": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0",
+        "byteLength": 131167,
+        "pageCount": 5,
+        "inCommittedCorpusIndexAtThisPathAndHash": true,
+        "structuralNote": "The corpus index records acroFieldCount 0 and structuralClassObserved flat_pdf for this file, alone among the Arkansas set — every other Arkansas form is an acroform with 36 to 53 fields. A flat PDF cannot be filled by field name, so even the held half of this family will need a raster or coordinate overlay rather than an acroform fill. That is a build-lane fact, recorded here because it is visible from the index and easy to miss."
+      },
+      "candidatesOpenedAndRefused": [
+        {
+          "files": ["the pre-adjudication drug court order", "the post-adjudication drug court order"],
+          "whyRefused": "Both print DRUG COURT and A.C.A. §16-98-303 on their faces. The veterans instrument recites VETERANS TREATMENT SPECIALITY COURT and A.C.A. §16-101-106. Different specialty court, different statute. The deferral mechanics are similar and that similarity is exactly the trap.",
+          "note": "A full-text search of all 22 Arkansas PDFs for 'veteran' returns exactly one file — the petition. No order mentions veterans at all."
+        }
+      ],
+      "exhaustiveness": "22 Master Library files read by printed title; 22 D-pack files confirmed byte-identical by hash; 26 Nationwide files hash-mapped from the committed inventory. No veterans-court order exists in any of them.",
+      "nextOperation": "ACQ against dps.arkansas.gov, once an exact binary address is settled. This is the one item of the three where a fetch is genuinely the right next operation.",
+      "hostThatOwnsIt": "dps.arkansas.gov — Arkansas Crime Information Center, criminal-history forms page",
+      "classificationAgrees": "SOURCE_BACKLOG_CLASSIFICATION classes ar-veterans-court-set ACQUIRE_EXACT_SOURCE. Captain's instruction to check the classification rather than assume the document is held is answered: it is correctly classed, and nothing should be attached."
+    },
+
+    {
+      "itemId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED",
+      "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
+      "jurisdiction": "UT",
+      "familyIds": ["census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement"],
+      "claim": "asserted DISC05, ledger row present",
+      "status": "STOPPED",
+      "verdict": "LABEL_NAMES_NO_DOCUMENT",
+      "absenceClass": "no_document_shaped_source_named",
+      "whyThereIsNothingForThisLaneToIdentify": "The obligation's sourceId is the literal string NO_DOCUMENT_SOURCE_NAMED. The route obligation:runtime-only:UT:path-l-vacatur-human-trafficking-related-expungement carries three requiredSourceIds and not one of them is a document: a compiled profile, a compiled source ref, and a route-contract pointer. Its participantFacingInstrument is the prose phrase 'Utah Trafficking Vacatur and Expungement Petition'. A prose phrase is not a form number and this lane will not invent one.",
+      "issuingAuthority": "not established — see the open question below",
+      "officialTitle": "not established",
+      "formNumber": "not established — and no form number may be guessed",
+      "revision": "not applicable",
+      "officialUrl": null,
+      "urlKind": "NONE_ESTABLISHED",
+      "exactBinaryUrlEstablished": false,
+      "intendedPacketRole": "unknown until the pathway's instrument is decided",
+      "statewideOrLocal": "unknown",
+      "controllingInstrument": "Utah Code § 77-40a-306 (expungement for victims of human trafficking), per data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json",
+      "theOpenQuestion": "Does Utah publish a distinct petition and order for trafficking-victim vacatur and expungement, or does this pathway run on the general 1000EX petition and 1020EX order pair that the Master Library already holds?",
+      "whatIRead": {
+        "method": "Full-text pdftotext -layout scan of all 21 Utah PDFs in the mounted Master Library for 'traffick', 'vacatur' and 'vacate'.",
+        "result": "Zero matches for traffick, vacatur or vacate in any of the 21 files.",
+        "whatThatEstablishes": "No held Utah document addresses trafficking vacatur on its face. It does not establish that no such document exists — only that none is held and none can be read here.",
+        "utahHoldingsExamined": ["1000EX", "1002EX", "1003EX", "1020EX", "1022EX", "1044XX", "1146XX", "1148XX", "1149XX", "1164XX", "1169XX", "1170XX", "1173XX", "1020GE", "1305GE", "UT-BCI-EXP-APPLICATION", "UT-BCI-EXP-VERIFICATION", "UT-BCI-ROA", "UT-BCI-THIRD-PARTY-RELEASE", "UT-BCI-EXP-INSTRUCTIONS", "UT-BCI-INDIGENT-INSTRUCTIONS"]
+      },
+      "nextOperation": "NOT ACQ. There is no address to fetch and no form to name. The next operation is a legal determination by Utah counsel, then a Captain decision to bind or retire the family. SOURCE_BACKLOG_CLASSIFICATION already classes this EXACT_LEGAL_HOLD and this lane agrees with that classification against its own dispatch.",
+      "contradictsTheDispatch": true,
+      "howItContradictsTheDispatch": "ACTIVE_ASSIGNMENTS records handoffOperation 'ACQ' for this item. An acquisition lane handed this row has nothing to fetch: no host, no form number, no title. Dispatching it would consume an ACQ slot to discover there is no document, which is the failure mode the 2026-08-31 batch already demonstrated once.",
+      "hostThatOwnsIt": "no host. Utah counsel owns it."
+    },
+
+    {
+      "itemId": "census-pending-family:UT:path-m-juvenile-expungement::NO_DOCUMENT_SOURCE_NAMED",
+      "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
+      "jurisdiction": "UT",
+      "familyIds": ["census-pending-family:UT:path-m-juvenile-expungement"],
+      "claim": "asserted DISC05, ledger row present",
+      "status": "STOPPED",
+      "verdict": "LABEL_NAMES_NO_DOCUMENT",
+      "absenceClass": "no_document_shaped_source_named",
+      "whyThereIsNothingForThisLaneToIdentify": "Same shape as path-l. Every branch of this pathway — automatic, favourable-outcome and ordinary-petition — carries only a compiled profile, a compiled source ref and a route-contract pointer as its requiredSourceIds. The contract label is the prose phrase 'Utah Juvenile Expungement Petition'.",
+      "issuingAuthority": "the Utah Juvenile Court — and this lane established that from a document, see below",
+      "officialTitle": "not established",
+      "formNumber": "not established — and no form number may be guessed",
+      "officialUrl": null,
+      "urlKind": "NONE_ESTABLISHED",
+      "exactBinaryUrlEstablished": false,
+      "intendedPacketRole": "unknown; the pathway has three branches and only one of them contemplates a participant filing at all",
+      "statewideOrLocal": "unknown",
+      "controllingInstrument": "Utah Code § 80-6-1002 (juvenile expungement), per SOURCE_BACKLOG_CLASSIFICATION",
+      "theOpenQuestion": "Which juvenile court forms does Utah require for juvenile expungement?",
+      "whatIRead": {
+        "method": "Full-text pdftotext -layout scan of all 21 Utah PDFs for 'juvenile'. Two files matched and both were opened and read.",
+        "finding": "Both matches are exclusions, not instruments.",
+        "evidenceSentence": "UT__SUPPORT__UT-BCI-EXP-APPLICATION (BCI Application for Certificate of Eligibility for Expungement) prints: \"The Bureau of Criminal Identification does not expunge Juvenile Court records. Any request to expunge Juvenile Court records must be made directly to the Juvenile Court.\" UT__SUPPORT__UT-BCI-ROA prints the parallel line: \"The Bureau of Criminal Identification does not maintain juvenile offender records. Requests for such records must be made directly to the Juvenile Court.\"",
+        "whyThatIsWorthMore": "This is not merely the absence of a juvenile form. It is the held adult form set affirmatively disclaiming juvenile records on its own printed face. The entire 1000EX/1020EX plus BCI certificate-of-eligibility apparatus — which is what a resolution lane would most plausibly reach for — is excluded by the publisher's own text. The issuing authority for this pathway is the Utah Juvenile Court, not the Bureau of Criminal Identification, and that is now established from a document rather than assumed.",
+        "sha256RecomputedByThisLane": "not recomputed — this reading establishes an exclusion and an issuing authority, and binds no artifact, so no hash is claimed for it"
+      },
+      "nextOperation": "NOT ACQ as currently scoped. Utah counsel names the juvenile instrument, or the Captain retires the family. If counsel names one, the acquisition host is the Utah State Courts juvenile forms publication, not BCI — which this lane has now narrowed from a document.",
+      "contradictsTheDispatch": true,
+      "howItContradictsTheDispatch": "Same as path-l: handoffOperation is recorded as ACQ and there is nothing to acquire.",
+      "hostThatOwnsIt": "no host until counsel names an instrument."
+    },
+
+    {
+      "itemId": "ut_pet_remove_link-set::official-form:1110GE or 1111GE",
+      "sourceId": "official-form:1110GE or 1111GE",
+      "jurisdiction": "UT",
+      "familyIds": ["ut_pet_remove_link-set"],
+      "claim": "asserted DISC05, ledger row present",
+      "status": "STOPPED",
+      "verdict": "ONE_LABEL_NAMES_TWO_DOCUMENTS_IDENTITIES_ESTABLISHED_ADDRESS_NOT_CORROBORATED",
+      "whatTheLabelActuallyIs": "'1110GE or 1111GE' is a disjunction printed into the census as if it were a form number. It is the same defect shape as ACIC-ORDER-DRUG-COURT: one label over two documents, which identifies neither. Here the disjunction is even visible in the string.",
+      "theTwoIdentities": [
+        {
+          "formNumber": "1110GE",
+          "issuingAuthority": "Utah State Courts",
+          "recordedTitleA": "Notice to Submit for Decision",
+          "recordedTitleASource": "data/record-clearing/legal-design-intake/UT.memo.json — 'Utah Courts publishes 1110GE, Notice to Submit for Decision, on the judge track and 1111GE, Notice of Hearing, on the commissioner track. Titles read from the Utah Courts forms directory on 2026-08-06.'",
+          "recordedTitleB": "Request to Submit for Decision",
+          "recordedTitleBSource": "data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json, artifact UT-1110GE",
+          "titlesDisagree": true,
+          "route": "judge track",
+          "heldInAnyMountedCustody": false
+        },
+        {
+          "formNumber": "1111GE",
+          "issuingAuthority": "Utah State Courts",
+          "recordedTitle": "Notice of Hearing",
+          "recordedTitleSource": "data/record-clearing/legal-design-intake/UT.memo.json and SOURCE_BACKLOG_CLASSIFICATION artifact UT-1110GE identityEvidence",
+          "route": "commissioner track",
+          "heldInAnyMountedCustody": false
+        }
+      ],
+      "whyTheDisjunctionIsRealAndNotSloppiness": "The route itself is two-tracked. obligation:track-only:UT:ut_pet_remove_link names 1501CR for the judge track and 1501CR-C for the commissioner track as separate official forms. The notice component was never given the same treatment, so the two-track structure the motion component expresses correctly is collapsed into one string here. The fix is to split the component the way its sibling motion component is already split, not to pick one form.",
+      "officialUrl": "https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html",
+      "urlKind": "OFFICIAL_LANDING_PAGE",
+      "exactBinaryUrlEstablished": false,
+      "hostAllowedResult": {"host": "www.utcourts.gov", "hostAllowed": true, "hostRefused": false, "exactHostPolicy": null, "evaluatedWith": "scripts/lib/official-host-policy.mjs"},
+      "aCandidateBinaryAddressExistsAndThisLaneRefusedToPromoteIt": {
+        "candidateUrl": "https://legacy.utcourts.gov/howto/filing/motions/docs/1110GE_Request_to_Submit_for_Decision.pdf",
+        "hostAllowedResult": {"host": "legacy.utcourts.gov", "hostAllowed": true, "hostRefused": false},
+        "whyRefused": "The corroboration rule in SOURCE_URL_PROMOTION_CANDIDATES.json requires at least two distinct NON-CANDIDATE committed files to carry a URL, because 'a URL in one file is a guess with a filename'. This lane grepped the whole repository: the address appears in exactly one file, SOURCE_BACKLOG_CLASSIFICATION.json, which is itself a candidate record. By comparison the sibling 1501CR address appears in twenty-one committed files including SOURCE_ACQUISITION_MANIFEST.json, and it is already manifested. One file is not corroboration.",
+        "aSecondReasonToRefuse": "The candidate URL's filename says 'Request_to_Submit_for_Decision' while UT.memo.json calls the same form 'Notice to Submit for Decision'. Whichever is right, a lane that promotes the address is also silently promoting one of two disagreeing titles.",
+        "andAThirdReason": "SOURCE_BACKLOG_CLASSIFICATION's own identityEvidence justifies this address by saying the exact URLs are 'already recorded in SOURCE_URL_PROMOTION_CANDIDATES.json (corroboration 16, 10 and 10)'. That file in the current tree reports promotionCandidates: 0 and carries an empty candidates object. The cited corroboration is not verifiable at this base.",
+        "noAddressAtAllWasFoundFor1111GE": true
+      },
+      "intendedPacketRole": "notice_to_submit_or_notice_of_hearing — the component filed after the motion to bring it before the decision-maker",
+      "statewideOrLocal": "statewide (Utah State Courts general 'GE' series, used across case types rather than specific to expungement)",
+      "familyIsSplitAcrossLanes": "ACTIVE_ASSIGNMENTS records ut_pet_remove_link-set as released only when both DISC05 and SRC03 clear their shares. This lane releases it alone under no circumstances.",
+      "nextOperation": "Two operations, in order. First a census-label split into two components mirroring the existing 1501CR / 1501CR-C split. Then ACQ for whichever of 1110GE and 1111GE the split retains, once a corroborated address exists.",
+      "hostThatOwnsIt": "www.utcourts.gov and legacy.utcourts.gov — Utah State Courts. Both pass hostAllowed()."
+    }
+  ],
+
+  "routeSplitRecommendation": {
+    "family": "ar-drug-court-set",
+    "recommendation": "SPLIT INTO TWO FAMILIES. Do not choose between the candidates and do not carry both pairs in one family.",
+    "whatDistinguishesTheTwoFaces": {
+      "readFrom": "paragraph 2 of all four documents, which is where ACIC puts the adjudication posture",
+      "preAdjudication": "\"With the Defendant's consent and without entering a judgment of guilt, the Court deferred further proceedings and placed the Defendant on probation/court supervision.\" No judgment of guilt was ever entered. Paragraph 3 then requires successful completion of an approved drug court program and paragraph 4 records the completion date.",
+      "postAdjudication": "\"The defendant plead guilty or nolo contendere to or was found guilty of ______, in violation of A.C.A. § ______, on the ____ day of ____.\" A judgment WAS entered. A separate numbered paragraph then records \"The Defendant was placed on probation for a period of ______ months\", which the pre-adjudication forms do not have because there was no sentence to probate.",
+      "bothCiteTheSameStatute": "A.C.A. § 16-98-303 appears in the caption of all four. The statute does not distinguish them; the recited fact pattern does."
+    },
+    "whyThisIsNotCosmetic": "These are not two layouts of one form. Each petition is a verified filing that asserts a fact about the participant's own case, and the two assertions are mutually exclusive. A post-adjudication participant handed the pre-adjudication petition would file a document swearing that no judgment of guilt was entered, when one was. A pre-adjudication participant handed the post-adjudication petition would file one swearing they pled guilty or were found guilty, when they were not. Either is a false statement in a verified pleading, made by the participant, over their signature. That is the harm the split prevents, and it is why no lane should resolve this by picking the more common branch.",
+    "theSplitAsThisLaneWouldWriteIt": [
+      {
+        "familyId": "ar-drug-court-pre-adjudication-set",
+        "relief": "Dismissal and sealing of an offence resolved in a PRE-adjudication drug court proceeding under A.C.A. § 16-98-303, where the court deferred further proceedings without entering a judgment of guilt.",
+        "petition": {"candidateId": "AR-ACIC-PETITION-DRUG-COURT-PRE", "sha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42", "revision": "Revised 08/25/2014"},
+        "order": {"candidateId": "AR-ACIC-ORDER-DRUG-COURT-PRE", "sha256": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e", "revision": "Revised 01/01/2014"},
+        "bothHeldAndIndexed": true
+      },
+      {
+        "familyId": "ar-drug-court-post-adjudication-set",
+        "relief": "Dismissal and sealing of an offence resolved in a POST-adjudication drug court proceeding under A.C.A. § 16-98-303, where the defendant pled guilty or nolo contendere or was found guilty and was then placed on probation conditioned on completing drug court.",
+        "petition": {"candidateId": "AR-ACIC-PETITION-DRUG-COURT-POST", "sha256": "99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39", "revision": "Revised 01/01/2014"},
+        "order": {"candidateId": "AR-ACIC-ORDER-DRUG-COURT-POST", "sha256": "731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2", "revision": "Revised 01/01/2014"},
+        "bothHeldAndIndexed": true
+      }
+    ],
+    "theScreeningQuestionThatSelectsTheBranch": "When your drug court case ended, had you already pleaded guilty or been found guilty, or had the court put the case on hold without entering a finding of guilt? The two documents ask for exactly this and nothing else distinguishes them.",
+    "labelConsequence": "After the split, ACIC-ORDER-DRUG-COURT and ACIC-PETITION-DRUG-COURT should be retired as identifiers, or each retained under labelIsFamilySpecific: true scoped to its own family. Left as global labels over two documents each, they bind nothing and will keep both new families source-blocked forever.",
+    "theCensusCarriesTheDisjunctionToo": "obligation:unit:AR:ar-drug-court:ar-drug-court-stage-2 has publicLabel 'ACIC pre- or post-adjudication petition and order' and participantFacingInstrument 'ACIC pre- or post-adjudication petition and order (official_pdf_fill)'. The ambiguity is not only in the form labels; it is written into the route's own public label, which is what a participant would be shown. Splitting the labels without splitting the route would leave the participant-facing string still saying 'pre- or post-'.",
+    "whatThisLaneDidNotDo": "It did not pick a branch, did not edit the census, did not touch any overlay directory, and did not write a family. The recommendation is evidence for a determination, not the determination."
+  },
+
+  "manifestEntriesAdded": {
+    "entries": [],
+    "whyEmpty": "The conveyor admits an entry only when exactBinaryUrlEstablished is true. This lane established no exact binary URL. For the three Arkansas absences the only address in committed evidence is the ACIC criminal-history landing page — it appears 231 times and no per-form ACIC binary address appears anywhere in the repository. For 1110GE a single-file candidate address exists and failed the corroboration rule; for 1111GE none exists. Recording any of them as established would put a plausible address in front of a lane that will fetch it, and SOURCE_ACQUISITION_MANIFEST.json already states the governing principle for exactly this situation: 'a plausible address is worse than an absent one because ACQ will fetch it.'",
+    "addressesEstablishedForTheRecordButNotPromoted": [
+      {
+        "sourceId": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+        "jurisdiction": "AR",
+        "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+        "officialUrl": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+        "urlKind": "OFFICIAL_LANDING_PAGE",
+        "exactBinaryUrlEstablished": false,
+        "hostAllowed": true,
+        "obligationKeys": ["ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS"]
+      },
+      {
+        "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+        "jurisdiction": "AR",
+        "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+        "officialUrl": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+        "urlKind": "OFFICIAL_LANDING_PAGE",
+        "exactBinaryUrlEstablished": false,
+        "hostAllowed": true,
+        "obligationKeys": ["ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL"],
+        "note": "Mount before fetch. An unmounted candidate binary is already recorded in the company's own inventory."
+      },
+      {
+        "sourceId": "official-form:ACIC-ORDER-VETERANS-COURT",
+        "jurisdiction": "AR",
+        "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+        "officialUrl": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+        "urlKind": "OFFICIAL_LANDING_PAGE",
+        "exactBinaryUrlEstablished": false,
+        "hostAllowed": true,
+        "obligationKeys": ["ar-veterans-court-set::official-form:ACIC-ORDER-VETERANS-COURT"],
+        "note": "The one genuine acquisition among this lane's three Arkansas absences."
+      }
+    ]
+  },
+
+  "contradictingTheRepository": [
+    {
+      "id": "DISC05-C1",
+      "severity": "high",
+      "what": "SOURCE_BACKLOG_CLASSIFICATION.json classes ar-misdemeanor-seal-set as ATTACH_HELD_SOURCE on the strength of a petition whose only custody record points into private/Nationwide Record Clearing, a tree that is not mounted and that data/rcap-all50/local-source-corpus-index.json does not index at any hash.",
+      "whyItMatters": "ATTACH_HELD_SOURCE tells a downstream lane the bytes are in hand and no acquisition is needed. Under the admission rule those bytes cannot be opened, hashed or found in the committed index, so nothing can attach — and meanwhile the family is not queued for acquisition either, because it is not classed ACQUIRE_EXACT_SOURCE. The row falls between the two operations and stalls indefinitely. This is the concrete instance of the structural problem DISC7 reported as consequenceForCaptain.",
+      "evidence": "SOURCE_BACKLOG_CLASSIFICATION.json ar-misdemeanor-seal-set, artifact AR-ACIC-PETITION-SEAL-MISDEMEANORS-1460, held.custody NATIONWIDE_RECORD_CLEARING, held.pathInArchive 'LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf', held.notMountedInThisContainer true. This lane confirmed hash 63a308c4... is in no corpus-index entry and that no directory named 'Nationwide Record Clearing' exists on this filesystem.",
+      "recommendation": "Introduce a third class — RECORDED_IN_AN_UNMOUNTED_CUSTODY — or mount and index the tree. Do not silently reclass it as ACQUIRE_EXACT_SOURCE, because the company may already own the bytes and a fetch would be wasted capacity.",
+      "thisLaneDidNotEditIt": true
+    },
+    {
+      "id": "DISC05-C2",
+      "severity": "medium",
+      "what": "Two committed files give form 1110GE two different official titles: UT.memo.json says 'Notice to Submit for Decision', SOURCE_BACKLOG_CLASSIFICATION.json says 'Request to Submit for Decision', and the candidate binary URL's own filename says 'Request_to_Submit_for_Decision'.",
+      "whyItMatters": "An acquisition receipt binds bytes to a recorded title. Two titles for one form number means whichever lane fetches first fixes the wrong one half the time, and the census would then carry a form whose recorded title does not match its printed face.",
+      "recommendation": "One read of the fetched PDF's page one settles it. Until then neither title should be promoted.",
+      "thisLaneDidNotEditIt": true
+    },
+    {
+      "id": "DISC05-C3",
+      "severity": "medium",
+      "what": "SOURCE_BACKLOG_CLASSIFICATION.json justifies the UT-1110GE, UT-1501CR and UT-1502CR addresses by citing 'SOURCE_URL_PROMOTION_CANDIDATES.json (corroboration 16, 10 and 10)'. At this base that file reports counts.promotionCandidates: 0 and its candidates object is empty.",
+      "whyItMatters": "identityConfidence 'established_with_exact_official_url' is being carried on a corroboration figure that cannot be checked in the current tree. 1501CR happens to be genuinely corroborated — its URL appears in twenty-one committed files and is already in SOURCE_ACQUISITION_MANIFEST.json — but 1110GE's appears in one file, which is the classification file itself. The citation makes a one-file address look like a sixteen-file one.",
+      "recommendation": "Recompute corroboration against the current tree before any of these three is promoted, and treat a URL that appears only in a candidate record as uncorroborated by definition.",
+      "thisLaneDidNotEditIt": true
+    },
+    {
+      "id": "DISC05-C4",
+      "severity": "medium",
+      "what": "SOURCE_URL_PROMOTION_CANDIDATES.json refuses nine www.coloradojudicial.gov URLs with the reason 'www.coloradojudicial.gov is not an allowlisted official host'. Running hostAllowed('www.coloradojudicial.gov') from scripts/lib/official-host-policy.mjs — the file the same document names as its hostPolicyAuthority — returns true, because the policy allows the .gov suffix.",
+      "whyItMatters": "The refusal list disagrees with the committed policy module it cites. Nine Colorado JDF forms are recorded as host-refused when the policy admits their host. The header of official-host-policy.mjs was written precisely about the danger of a policy expressed once as data and once as something else; this looks like a stale copy of it.",
+      "outOfThisLanesRoster": "Colorado is not DISC05's jurisdiction and this lane changed nothing. Recorded because it was measured while running hostAllowed() for AR and UT, which the brief required.",
+      "thisLaneDidNotEditIt": true
+    },
+    {
+      "id": "DISC05-C5",
+      "severity": "medium",
+      "what": "ACTIVE_ASSIGNMENTS records handoffOperation 'ACQ' for both UT census-pending-family items, whose sourceId is the literal NO_DOCUMENT_SOURCE_NAMED and which SOURCE_BACKLOG_CLASSIFICATION classes EXACT_LEGAL_HOLD.",
+      "whyItMatters": "An acquisition lane cannot act on either. There is no host, no form number and no title, and the classification file already says a legal determination is what is needed. Two of this lane's eight rows are dispatched to an operation that cannot execute them.",
+      "recommendation": "Route both to the legal-hold queue rather than to ACQ, and stop counting them among families an acquisition could release.",
+      "thisLaneDidNotEditIt": true
+    },
+    {
+      "id": "DISC05-C6",
+      "severity": "low",
+      "what": "SOURCE_RELATIONSHIP_REGISTRY.json records canonicalArtifactTitle 'REQUIRES_LOOKUP — no printed title is recorded' and canonicalPublisher 'REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record' for ACIC-UNIFORM-PETITION-TO-SEAL, ACIC-UNIFORM-ORDER-TO-SEAL, ACIC-ORDER-DRUG-COURT, ACIC-PETITION-DRUG-COURT, ACIC-ORDER-VETERANS-COURT and ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS.",
+      "whyItMatters": "The publisher IS recorded, in SOURCE_BACKLOG_CLASSIFICATION and in the census routes, as the Arkansas Crime Information Center, with its landing page appearing 231 times across committed files. The registry's MISSING_CANONICAL_RELATIONSHIP_METADATA count of 142 is therefore inflated by at least these six, and a lane trusting the registry alone would think Arkansas has no known publisher.",
+      "recommendation": "Backfill publisher and landing page into the registry from the classification file. The titles genuinely are unknown for the three absent documents and should stay REQUIRES_LOOKUP.",
+      "thisLaneDidNotEditIt": true
+    },
+    {
+      "id": "DISC05-C7",
+      "severity": "low",
+      "what": "The claim ledger already carried all eight DISC05 itemIds as released rows from a prior DISC05 run at 2026-09-01T07:39-07:58Z. Every --assert returned ALREADY_RELEASED with exit 0.",
+      "whyItMatters": "Not a defect — the lane owns the rows and the assertions passed — but it means a reader cannot tell from the ledger alone whether a row was worked or merely opened and closed. Recorded so the provenance of this return is unambiguous: this lane re-read every document from scratch and recomputed every hash rather than relying on the prior run.",
+      "thisLaneDidNotEditIt": true
+    },
+    {
+      "id": "DISC05-C8",
+      "severity": "low",
+      "what": "The corpus index records acroFieldCount 0 and structuralClassObserved 'flat_pdf' for the AR veterans treatment specialty court petition, alone among 22 Arkansas forms that otherwise carry 36 to 53 acroform fields each.",
+      "whyItMatters": "ar-veterans-court-set is already blocked on its missing order. When that order arrives, the family will still not build as an ordinary official_pdf_fill, because its held half cannot be filled by field name. A build lane discovering this after the acquisition would have spent the fetch before learning it.",
+      "thisLaneDidNotEditIt": true
+    }
+  ],
+
+  "whatThisLaneMeasured": {
+    "documentsOpenedAndReadPageByPage": 9,
+    "sha256RecomputedByThisLaneWithSha256sum": 9,
+    "recomputedHashesThatMatchedTheCommittedCorpusIndexRowForTheSamePath": 9,
+    "recomputedHashesThatMatchedAPriorLanesRecordedValue": 9,
+    "fullTextSearchesRunAcrossTheWholeArkansasShard": 4,
+    "arkansasPdfsWhosePrintedPageOneTitleWasRead": 22,
+    "utahPdfsFullTextSearched": 21,
+    "nationwideArkansasFilesHashMappedAgainstTheCommittedIndex": 26,
+    "hostAllowedEvaluations": 6,
+    "identitiesGuessed": 0,
+    "formNumbersGuessed": 0,
+    "urlsInvented": 0,
+    "sourceBodiesCommitted": 0,
+    "documentsFetched": 0,
+    "bindingsMade": 0,
+    "familiesReleased": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "overlayDirectoriesTouched": 0,
+    "otherLanesWorktreesTouched": 0
+  },
+
+  "familiesActuallyReleasedNow": [],
+  "whyThatArrayIsEmpty": "Not one of the eight obligations bound. Three Arkansas documents are absent from every custody this container can read, two Arkansas labels each name two held documents and must not be resolved by picking one, two Utah families name no document at all, and the Utah notice label names two documents whose only candidate address failed corroboration. Prospective release is never actual release.",
+
+  "whatThisDoesNotEstablish": [
+    "No claim was transferred, reissued or withdrawn. The eight ledger rows are as this lane found them.",
+    "No file outside this lane's own return and its two owned output paths was modified. SOURCE_BACKLOG_CLASSIFICATION.json, MASTER_QUEUE.json, the corpus index, the census, the acquisition manifest, the claim ledger, every generator and every overlay directory are untouched. Captain merges.",
+    "Confirming that four drug-court documents are held and correctly identified says nothing about whether ar-drug-court-set may sell anything. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else.",
+    "The route-split recommendation is evidence for a determination by the census owner and state counsel. It is not the determination, and no route was changed.",
+    "The inference that 3-Misdemeanor-Petition-8_01_2023.pdf is the Act 1460 misdemeanor petition is an inference from inventory metadata and residual assignment. It is not a read, it binds nothing, and it must not be promoted without opening the file.",
+    "Legal sufficiency of any packet, and whether a family's named form set is the right form set, are outside this lane. Only what the paper prints, and what the committed records do and do not contain, was established."
+  ]
+}
