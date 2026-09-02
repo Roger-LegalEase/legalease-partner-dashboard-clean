@@ -623,3 +623,30 @@ The list is at
 The general form is worth more than the instance: when a lane reports "the
 counter says zero and I can see the defect", the counter is the finding. Ask
 what it is built from before treating a zero as an answer.
+
+## The California encrypted-component block is one conditional
+
+FABLE-CA2 was sent to repair seven California families, found no live grant for
+any of them, and stopped — correctly, because the host they share would have
+changed the bytes of families the ledger refused it. It repaired nothing and
+produced the root cause instead, which was worth more.
+
+`build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs` sets
+`derivedPath` only when the source's form number equals the family's
+`primaryForm`; everything else gets `null`, and the embedded Python skips a
+null derived path outright. So a family's companion forms are never
+pikepdf-unlocked and the raster batch meets still-encrypted official bytes.
+
+Confirmed three ways before it was believed: the conditional at line ~1139, the
+skip at lines 851-852, and the on-disk evidence — every California family holds
+exactly ONE unlocked artifact and in every case it is its configured
+primaryForm. It also explains an enrolment refusal measured elsewhere, where a
+family's queue row records that twelve of its sixteen documents will not open
+in the parser that counts pages.
+
+The fix is one line and nobody here may make it: the host is shared and all
+seven families are dispatched to an external worker. Recorded as task #35 for
+whoever holds them. Two general points survive the instance — a lane that
+refuses its assignment and returns a root cause has done real work, and a
+"cannot open" spread across many families is usually one conditional upstream
+rather than many broken documents.
