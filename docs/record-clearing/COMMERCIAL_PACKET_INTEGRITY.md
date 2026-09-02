@@ -4,14 +4,14 @@
 
 The direct-consumer paid path has one artifact builder and it takes no branch. buildConsumerPacketArtifact returns provider rcap_source_engine, contentType text/plain and a filename ending -packet.txt for every jurisdiction, route, packet family and plan mode, and its body is the route's own metadata plus the packet plan's readiness conditions under a heading that reads FILING CHECKLIST. So the § 99-15-59 finding is a property of the path, not of that route.
 
-**30 commercial routes** — 29 payment-allowed at the evaluator, 25 with checkout actually open once the packet route resolver is consulted, 0 sponsorship-capable, 1 proven by a fulfillment record.
+**30 commercial routes** — 29 payment-allowed at the evaluator, 24 with checkout actually open once the packet route resolver is consulted, 0 sponsorship-capable, 1 proven by a fulfillment record.
 
 **25 routes left this denominator** when ADR-0004 retired the legacy generators' commercial authority. They are listed by name in the JSON under `departuresFromTheCommercialDenominator`; none of them can take money or a sponsored credit any more, and each still renders for historical access.
 
 | Classification | Routes |
 |---|---:|
-| PACKET_CORRECTION_REQUIRED | 25 |
-| GUIDANCE_OR_HANDOFF_NO_PACKET | 4 |
+| PACKET_CORRECTION_REQUIRED | 24 |
+| GUIDANCE_OR_HANDOFF_NO_PACKET | 5 |
 | COMPLETE_PACKET_PROVEN_COMMERCIALLY_HELD | 1 |
 | **TOTAL** | **30** |
 
@@ -43,7 +43,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 | `NE:set-aside-probation-fine-community-service` | Nebraska Set-Aside Application under § 29-2264 | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `NH:annulment-after-dismissal-acquittal-or-nonprosecution` | — | packet_ready_with_caution | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `OH:adult-non-conviction-sealing-or-expungement-under-2953-33` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c` | Oregon Set-Aside Motion under ORS 137.225(1)(c)-(d) | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c` | — | packet_ready_with_caution | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `UT:path-i-traffic-offense-expungement-or-deletion` | Utah Traffic Expungement Petition | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `VA:petition-based-sealing` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `VA:regime-1-expungement-available-now` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
@@ -560,22 +560,22 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 
 - **JURISDICTION:** OR
 - **PATHWAY:** set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c
-- **PACKET FAMILY:** Oregon Set-Aside Motion under ORS 137.225(1)(c)-(d)
+- **PACKET FAMILY:** none named by any contract
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
-- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract closed; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
 - **CONTENT TYPE:** none
 - **ACTUAL COMPONENTS:** primary filing or application
 - **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
 - **SOURCE HASHES:** OR:LegalEase Oregon/or-setaside-motion.html:daf6ed74eae2690719a769961af9a8790c773db272c6cde7d6956d854fa0d108; OR:LegalEase Oregon/CriminalSetAside_AdultCases2.pdf:6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a
-- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **RENDERER:** none (route kind guidance_only)
 - **ARTIFACT HASH:** 257f88b7f4e61d2ba967d19ceb297758eedd679cd7072df5b114a853c1372724 (1211 bytes)
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
-- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1211-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed true. The two disagree; only the resolver's answer is closing it.
 
 ### `UT:path-i-traffic-offense-expungement-or-deletion`
 

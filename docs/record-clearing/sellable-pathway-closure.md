@@ -33,12 +33,12 @@ intendedSellablePathways
 | Stage | Pathways | Shortfall against the denominator |
 |---|---|---|
 | `intendedSellablePathways` | 260 | — |
-| `publiclyReachableSellablePathways` | 79 | **181** |
+| `publiclyReachableSellablePathways` | 78 | **182** |
 | `authoritativePacketReadyPathways` | 79 | **181** |
 | `packetSpecCompletePathways` | 253 | **7** |
-| `technicallyApprovedPacketPathways` | 114 | **146** |
+| `technicallyApprovedPacketPathways` | 113 | **147** |
 | `legallyApprovedPacketPathways` | 79 | **181** |
-| `successfullyRenderedPathways` | 197 | **63** |
+| `successfullyRenderedPathways` | 196 | **64** |
 
 **The invariant does not hold.** 6 of the six downstream stages fall short of the 260-pathway denominator (publiclyReachableSellablePathways, authoritativePacketReadyPathways, packetSpecCompletePathways, technicallyApprovedPacketPathways, legallyApprovedPacketPathways, successfullyRenderedPathways). Every shortfall below is an open blocker on an open paid pathway, not a completed treatment.
 
@@ -83,7 +83,7 @@ temporary blockers on intended paid pathways, not completed product treatments.
 | Blocker | Pathways |
 |---|---|
 | `legal_review_pending` | 181 |
-| `renderer_unavailable` | 63 |
+| `renderer_unavailable` | 64 |
 | `route_metadata` | 46 |
 | `gate_build` | 36 |
 | `not_paid_product` | 35 |
@@ -94,7 +94,7 @@ temporary blockers on intended paid pathways, not completed product treatments.
 | `packet_spec_incomplete` | 7 |
 | `legal_action_required` | 2 |
 
-**65 of 260** intended-sellable pathways are closed with no open blocker.
+**64 of 260** intended-sellable pathways are closed with no open blocker.
 
 ## Closure map
 
@@ -103,13 +103,13 @@ carries. A pathway appears in exactly one row, so the rows are the work.
 
 | Open blockers | Pathways | Jurisdictions |
 |---|---|---|
-| **none — closed** | 65 | AK, AR, AZ, CA, CT, DC, DE, FL, GA, HI, IA, IL +28 |
+| **none — closed** | 64 | AK, AR, AZ, CA, CT, DC, DE, FL, GA, HI, IA, IL +27 |
 | `gate_build + legal_review_pending` | 33 | FL, GA, IA, KS, MD, MI, NC, ND, NH, NJ, OH, OK +8 |
 | `legal_review_pending + route_metadata` | 30 | AL, AZ, GA, ID, MA, MN, MS, NC, NH, NV, OK, SC +4 |
 | `legal_review_pending + not_paid_product` | 21 | AK, AL, AR, DC, FL, ID, IL, KY, LA, MA, MD, ME +1 |
 | `legal_reconfirmation + legal_review_pending` | 21 | GA, IN, KY, LA, MA, MO, NE, NJ, OH, OR, RI, SC +3 |
 | `legal_review_pending + renderer_unavailable + route_metadata` | 16 | AK, DE, GA, LA, ME, NE, NV, OH, SC, SD, TX, UT +1 |
-| `renderer_unavailable` | 14 | AR, CA, CO, ID, MD, MS, ND, NH, NM, NY, TN, TX +1 |
+| `renderer_unavailable` | 15 | AR, CA, CO, ID, MD, MS, ND, NH, NM, NY, OR, TN +2 |
 | `legal_review_pending + wait_anchor_fix` | 14 | MI, NH, NM, NV, OH, OK, RI, SC, TX, VT, WA |
 | `intake_fix + legal_review_pending + renderer_unavailable` | 10 | ID, NV, OH, OK, RI, SD, WI, WV |
 | `legal_reconfirmation + legal_review_pending + renderer_unavailable` | 8 | NH, NV, OK, RI, SD, WA, WI |
@@ -124,8 +124,8 @@ carries. A pathway appears in exactly one row, so the rows are the work.
 | `filing_determination_missing + legal_review_pending + not_paid_product + packet_spec_incomplete` | 1 | CT |
 | `filing_determination_missing + legal_review_pending + not_paid_product + renderer_unavailable` | 1 | ME |
 
-The largest single lever is the renderer. **14** pathway(s) across **13**
-jurisdictions (AR, CA, CO, ID, MD, MS, ND, NH, NM, NY, TN, TX, WI) carry no blocker other than `renderer_unavailable`:
+The largest single lever is the renderer. **15** pathway(s) across **14**
+jurisdictions (AR, CA, CO, ID, MD, MS, ND, NH, NM, NY, OR, TN, TX, WI) carry no blocker other than `renderer_unavailable`:
 they are payment-eligible, counsel-ratified and packet-spec complete, and the only
 thing between them and a delivered packet is a certified renderer for their
 jurisdiction. Nothing about them needs a legal decision or a classification change.
