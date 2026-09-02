@@ -99,6 +99,25 @@
           "because": "an official case-caption line the court printed inside the field."
         }
       }
+    },
+    "CA:ca-851-91-set:cr-409": {
+      "measuredAt": "e4e50519222d603de0c08e71c369a2a2fd4dcda9",
+      "whyThisFamilyNeededClassifying": "CR-409's AcroForm /Fields array holds a single root and every terminal field hangs beneath it, so the finalizer's flat detachment never reached the five pushbuttons it had already classified as chrome. Once FIX06 made the detachment walk the field tree, all five were correctly removed - and that removed one whose caption is not chrome at all. The structural rule cannot tell them apart, which is exactly what this registry is for.",
+      "howMeasured": "Each caption was read from its widget's /MK /CA in data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/derived-sources/cr-409-pikepdf-unlocked.pdf, matched to its own /Rect, and compared against the surrounding page-content word boxes extracted with pdftotext -bbox.",
+      "fields": {
+        "CR-409[0].Page2[0].LI3-2[0].li3h[0].#field[3]": {
+          "disposition": "preserve_source_appearance",
+          "sourceAppearance": "MC-031",
+          "rect": [
+            325.137,
+            168.634,
+            362.418,
+            179.634
+          ],
+          "because": "This is structurally a pushbutton, and it is not chrome. Its caption supplies the form number inside a sentence the court printed on the page: the page content stream draws 'should be submitted on the Attached Declaration (form' ending at x 322.581 and ').' beginning at x 360.740, and this widget's caption fills the gap between them. Suppressing it leaves the filed document reading '(form ).', which loses the court's own cross-reference to Judicial Council form MC-031 - a form this very packet delivers as a component. Being wrong towards preservation leaves the court's text on the filing; being wrong the other way removes it.",
+          "theOverlapItCarriesIsTheSourcesOwn": "'MC-031' and ').' share 16.17 square points on the unmodified pikepdf-unlocked source and 23.90 on the delivered page. That pair is a property of the official form, not of this build, and preserving the caption preserves it rather than introducing it."
+        }
+      }
     }
   }
 }
