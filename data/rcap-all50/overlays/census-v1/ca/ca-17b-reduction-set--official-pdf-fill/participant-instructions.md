@@ -30,15 +30,23 @@ The platform holds no value for any of these, and this packet never guesses at o
 | 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Section1[0]` | the form prints `Section` beside it |
 | 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].TypeOff1[0]` | the form prints `Type of offense (felony, misdemeanor, or infraction)` beside it |
 | 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Code2[0]` | the form prints `Code (Penal, Vehicle, etc.)` beside it |
+| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Offense2[0]` | the form prints `Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)` beside it |
+| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Reduce2[0]` | the form prints `Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)` beside it |
 | 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Section2[0]` | the form prints `Section` beside it |
 | 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].TypeOff2[0]` | the form prints `Type of offense (felony, misdemeanor, or infraction)` beside it |
 | 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Code3[0]` | the form prints `Code (Penal, Vehicle, etc.)` beside it |
+| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Offense3[0]` | the form prints `Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)` beside it |
+| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Reduce3[0]` | the form prints `Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)` beside it |
 | 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Section3[0]` | the form prints `Section` beside it |
 | 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].TypeOff3[0]` | the form prints `Type of offense (felony, misdemeanor, or infraction)` beside it |
 | 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Code4[0]` | the form prints `Code (Penal, Vehicle, etc.)` beside it |
+| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Offense4[0]` | the form prints `Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)` beside it |
+| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Reduce4[0]` | the form prints `Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)` beside it |
 | 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Section4[0]` | the form prints `Section` beside it |
 | 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].TypeOff4[0]` | the form prints `Type of offense (felony, misdemeanor, or infraction)` beside it |
 | 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Code5[0]` | the form prints `Code (Penal, Vehicle, etc.)` beside it |
+| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Offense5[0]` | the form prints `Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)` beside it |
+| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Reduce5[0]` | the form prints `Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)` beside it |
 | 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Section5[0]` | the form prints `Section` beside it |
 | 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].TypeOff5[0]` | the form prints `Type of offense (felony, misdemeanor, or infraction)` beside it |
 | 1 | `Page1[0].LI2[0].li2c[0].TextField6[0]` | the form prints `Explain why granting a dismissal would be in the interests of justice` beside it |
@@ -82,10 +90,17 @@ The platform holds no value for any of these, and this packet never guesses at o
 | 2 | `Page2[0].FillText72[0]` | the form prints `Date when you gave the document or form to this person:` beside it — complete this only after service has actually occurred |
 | 2 | `Page2[0].FillText72[1]` | the form prints `Date when you gave the document or form to this person:` beside it — complete this only after service has actually occurred |
 | 2 | `Page2[0].PxCaption[0].CaseNumber[0]` | the form prints `Case Number:` beside it — complete this only after service has actually occurred |
+### 8 of those blanks are yours even though they read like an election
+
+**Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)** and **Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)**. They are listed in the table above with their page and the words the form prints beside them, and they are yours for the reason this packet records against each one:
+
+> The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction.
+
+Answer them only for the offences you actually list, from your own record of conviction. If you do not know whether an offence is reducible, that is a question for a lawyer or a legal-aid office and not one to guess at, because you sign this petition under penalty of perjury. Leave any row you do not use entirely empty: a row with some cells filled and others blank is worse than an empty one.
+
 
 ## Blanks that are not yours to fill
 
 - **CR-181, the order for dismissal** — the court completes and signs it.
 - **The attorney block on the primary form** — leave it blank unless a lawyer is filing for you.
 - **Every signature and signature date** — yours to complete at the moment you sign.
-- **The 17(b)/17(d)(2) yes-or-no cells in the conviction table** — a route-level election this packet family does not determine; it is recorded as unmade rather than guessed.
