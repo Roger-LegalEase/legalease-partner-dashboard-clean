@@ -22,10 +22,10 @@
   "supersessionRule": "one current verdict per family: the highest-precedence lane wins (factory vf lanes over codex-cloud directories, then higher lane number); superseded rows remain as history with superseded: true",
   "counts": {
     "returnDirectories": 33,
-    "rows": 222,
+    "rows": 225,
     "independentVerdicts": 120,
-    "failRepairRequired": 29,
-    "passIndependent": 91
+    "failRepairRequired": 32,
+    "passIndependent": 88
   },
   "failRepairRequiredFamilies": [
     "ar-arrest-seal-set",
@@ -47,6 +47,9 @@
     "ut_pet_acquittal-set",
     "ut_pet_conviction-set",
     "ut_pet_dismissed_with_prejudice-set",
+    "ut_pet_dismissed_without_prejudice-set",
+    "ut_pet_limitations-set",
+    "ut_pet_no_charges-set",
     "vt_seal_pardon-set",
     "wa_vac_cannabis-set",
     "wa_vac_homicide_victim_prostitution-set",
@@ -3805,6 +3808,120 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_without_prejudice-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ut_pet_dismissed_without_prejudice-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ab82f102a44ea5e8bc0698b35d49164c9334f6fe",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Measured geometrically in this lane and then confirmed against the committed raster. Every word box in both fixtures was extracted with pdftotext -bbox: 0 words fall outside the page box in either fixture, and every same-line pair was classified rather than counted, separating a written value sitting on its own form rule or a mark inside its own bracket from a true text-on-text collision. One true collision remains, and it is in the DELIVERED canonical fixture, not only in the boundary stress fixture. On packet page 18, the BCI Application for Certificate of Eligibility declaration line reads \"I, ______ , declare under criminal penalty of the State of Utah that the foregoing is true and correct.\" The committed write box for \"Name of Petitioner\" begins at x=50.5, but the pre-printed \"I\" occupies x=49.745-52.742, so the participant's name is written on top of it, overlapping by 2.24pt on a shared baseline band. raster/canonical/page-18.png was read visually in this lane at high magnification and the \"I,\" is effectively destroyed: the line reads as the participant's name followed directly by \", declare under criminal penalty\", with only a stub of the I visible beneath the J. A sworn declaration that has lost its first-person subject is a participant-facing defect, and it is in the bytes the packet delivers.",
+          "evidence": {
+            "wordsOutsidePageBox": {
+              "canonical": 0,
+              "boundary": 0
+            },
+            "trueTextOnTextCollisions": {
+              "canonical": 1,
+              "boundary": 1
+            },
+            "sameLinePairsBeforeClassification": {
+              "canonical": 33,
+              "boundary": 47
+            },
+            "collision": {
+              "packetPage": 18,
+              "component": "UT-BCI-EXP-APPLICATION",
+              "formLine": "I, ______ , declare under criminal penalty of the State of Utah that the foregoing is true and correct.",
+              "prePrintedWord": "I",
+              "prePrintedWordBoxX": [
+                49.745,
+                52.742
+              ],
+              "writtenValueCanonical": "Jordan Avery Reyes",
+              "writtenValueBoxX": [
+                50.5,
+                86.14
+              ],
+              "overlapPt": 2.24,
+              "committedWriteBox": {
+                "field": "Name of Petitioner",
+                "x": 50.5,
+                "y": 399,
+                "width": 136,
+                "height": 12
+              },
+              "rasterRead": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/raster/canonical/page-18.png"
+            },
+            "classifiedAsLegitimateAndNotCounted": {
+              "valueOnItsOwnFormRule": {
+                "canonical": 23,
+                "boundary": 37
+              },
+              "markInsideItsOwnBracket": {
+                "canonical": 9,
+                "boundary": 9
+              },
+              "why": "A written value overlapping the underscore rule that receives it, and an X overlapping the bracket pair it marks, are the intended rendering, not a collision."
+            },
+            "calibrationOfThisDetector": "Run unchanged against ut_pet_traffic-set, which holds a PASS on this obligation from FABLE-VT5 in this same file, the detector reports a 26.67pt collision of the participant's name over the pre-printed word \"Petitioner\" in the page 1 court caption, and its committed raster/canonical/page-01.png renders as \"JPeetaitoicoAnvery Reyes\". That family is not this lane's to score, and the observation is recorded under crossFamilyObservations rather than as a verdict. It is reported so this FAIL is not read as a stricter yardstick than the one already applied on this host: the same yardstick applied there finds a larger defect."
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The packet tells the participant that it does not state an amount that its own delivered pages print. participant-instructions.md carries, in bold: \"The BCI certificate carries a separate fee, and this packet does not state an amount because BCI sets it per applicant.\" The canonical fixture this family ships prints \"$65.00\" three times on packet pages 17 and 18, on the BCI Application for Certificate of Eligibility the packet itself delivers. Confirmed in this lane with pdftotext against this family's own committed bytes (SHA-256 8efb78f3f885af303bc74f461172d319f63b60bb747720329e401c1bd4d417f4), not taken from any brief or report. DET-FEE-AND-WAIVER-001 amendment A4 states the rule in one line: a packet may never tell a participant that it does not state something it does state. A SECOND and independent limb fails here, and it is the A1/A2/A3 one rather than A4's internal-consistency rule. The compiled Utah state profile (src/lib/rcap-engine/compiled/profiles/UT-utah.json, SHA-256 73dd7ea988d0673dca3b8bf657f2df090d062c0821f8c0662a57ccfac8e7660d) states: \"eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations.\" This route is a dismissal without prejudice. Applying A3's per-fact, per-route test rather than reading the document as a whole: the exempting limb names \"dismissals\" without qualification, and the limb that does carry a charge names conviction, plea-in-abeyance and special certificates, none of which is this route. A dismissal without prejudice is a dismissal and is not a plea in abeyance, so the exemption reaches it. The repository therefore establishes that the certificate issuance fee for this route is nil, and A2 lists the compiled state profile for the family's jurisdiction as a held source in its own right. The packet nonetheless tells the participant that it cannot state the amount and sends them to ask BCI — which is precisely what A1 forbids where the record already answers. The residual ambiguity is stated rather than resolved: the profile's word is \"dismissals\", unqualified, and a lane wanting certainty should read the BCI FAQ the profile cites before publishing $0. What passes on this obligation is not in dispute and is recorded so the repair does not disturb it: the court filing fee of $150 is stated and sourced to the row the packet fills on 1044XX page 2, and the court waiver route is named as Utah form 1305GE under Utah Code 78A-2-302 and CJA Rule 4-508.",
+          "evidence": {
+            "participantInstructionsSha256": "d11ba889207735fb413c6ab7d719e194e3a6d3e2a2ca96351e2eca4a5dd319f5",
+            "theSentence": "**The BCI certificate carries a separate fee, and this packet does not state an amount because BCI sets it per applicant.** BCI's instructions tell you to \"pay all associated fees as indicated in the BCI letter\", and a certificate must be purchased for each eligible incident you want expunged. BCI publishes separate *Indigent Expungement Applicant Instructions* under which BCI sends a fee waiver together with the certificate list. Ask the Bureau of Criminal Identification what your certificates cost and whether you qualify for its fee waiver; do not assume the court's $150 waiver covers BCI's fee, because they are two different offices.",
+            "printedInDeliveredCanonicalPdf": [
+              "p17: \"4. The application fee is $65.00 and non-refundable. Select a method of payment by making a check mark in the\"",
+              "p18: \"a non-refundable $65.00 application fee.\"",
+              "p18: \"METHOD OF PAYMENT (Only to be filled out if application is mailed in. Check appropriate box for payment) Application fee is $65.00\""
+            ],
+            "dollar65OccurrencesInCanonical": 3,
+            "dollar65OccurrencesInBoundary": 3,
+            "measuredWith": "pdftotext -layout, page by page, against the committed fixture bytes in this lane",
+            "whatTheAmountActuallyIs": "the BCI APPLICATION fee, flat and printed on the form the participant must submit; distinct from the per-incident CERTIFICATE price the sentence is describing",
+            "courtFilingFeeStated": "$150, sourced to 1044XX page 2",
+            "courtWaiverRouteNamed": "Utah form 1305GE, Motion to Waive Fees for Expungement - Criminal, Utah Code 78A-2-302 and CJA Rule 4-508",
+            "repairAlreadyExistsOnThisHost": "scripts/build-census-v1-ut_pet_acquittal-set.mjs gates the corrected text behind the per-family config flag statesBciApplicationFee, set true for ut_pet_acquittal-set, ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set by FABLE-R17 and absent from this family's CONFIGS entry. This lane did not set it and wrote no line of that host."
+          }
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The packet omits pre-filing requirements this family's own committed packet-set manifest holds, and one of them is a bar the manifest says defeats the petition. The instructions' list under \"The facts you must supply before filing\" is scoped entirely to blanks on paper. data/record-clearing/legal-design-packet-set-manifests.json, at packetSetId ut_pet_dismissed_without_prejudice-set, additionally holds requiredBeforeFiling entries scoped to what the participant must have IN HAND, and 6 of them appear nowhere in participant-instructions.md — searched case-insensitively for their distinguishing terms, with zero hits. A committed manifest is the repository answering the question, which DET-FEE-AND-WAIVER-001 amendment A2 settled expressly, and A4 extends the ask-the-repository-first test to REQUIRED_BEFORE_FILING for exactly this failure mode: the packet omitting a fact the repository establishes. This is not a fee-style audit of every fact a participant might want; each item below is quoted from this family's own manifest entry for this exact route, which satisfies A3. The counters do not see it and are recorded so the gap in the instrument is on the record too: the fresh completeness run measured requiredFactsNotCollected 0 and unclassifiedBlanks 0, because those counters test blanks on the forms and these obligations are not blanks.",
+          "evidence": {
+            "manifestPath": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "packetSetId": "ut_pet_dismissed_without_prejudice-set",
+            "itemsHeldByManifestAndAbsentFromInstructions": [
+              "\"Obtain Proof that fines, fees, interest and restitution are paid in full. Ask the clerk of the sentencing court for a current balance on the case, and check with the Office of State Debt Collection if any balance was entered as a civil judgment and transferred. An unpaid balance defeats the petition and will also defeat the BCI certificate.\"",
+              "\"Check your answer to \\\"List every criminal case you have ever had, in any state, including cases that were already expunged. BCI reviews all of them when it decides your certificate.\\\" against The participant's own case history for every case in every state, including previously expunged cases, and correct the packet if they disagree.\"",
+              "\"Obtain Certified copy of the order of dismissal without prejudice. Ask the clerk for a certified copy of the dismissal order. It carries the dismissal date and confirms that the dismissal was without prejudice, which starts the 180-day clock.\"",
+              "\"Check your answer to \\\"What is the date of the dismissal?\\\" against Certified copy of the order of dismissal without prejudice, and correct the packet if they disagree.\"",
+              "\"Obtain The prosecutor's written consent to expungement, where one has been given. The participant asks the prosecuting attorney's office directly. LegalEase does not seek, negotiate or obtain prosecutor consent, and never asserts that it has been given.\"",
+              "\"Check your answer to \\\"Has the prosecutor given you written consent to the expungement? If not, that is fine - the 180-day route is the alternative.\\\" against The prosecutor's written consent to expungement, where one has been given, and correct the packet if they disagree.\""
+            ],
+            "searchMethod": "case-insensitive grep of participant-instructions.md for the distinguishing terms of each item (\"paid in full\", \"restitution\", \"every criminal case\", and the family-specific terms); 0 hits",
+            "requiredFactsNotCollected": 0,
+            "unclassifiedBlanks": 0,
+            "whyCountersAreZeroAnyway": "requiredFactsNotCollected fires when a required-before-filing BLANK is not named in the instructions. These obligations are documents and money states the participant must hold, not blanks on the forms, so no counter reaches them.",
+            "repairAlreadyExistsOnThisHost": "The same host gates this behind the per-family config flag statesManifestPreFilingItems, set true for ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set by FABLE-R17 and absent from this family's CONFIGS entry. Verified by grep: ut_pet_conviction-set's instructions carry the paid-in-full and all-states-case-list text; this family's carry neither."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_without_prejudice-set",
       "superseded": false
     },
     {
@@ -3977,6 +4094,116 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_limitations-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ut_pet_limitations-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ab82f102a44ea5e8bc0698b35d49164c9334f6fe",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Measured geometrically in this lane and then confirmed against the committed raster. Every word box in both fixtures was extracted with pdftotext -bbox: 0 words fall outside the page box in either fixture, and every same-line pair was classified rather than counted, separating a written value sitting on its own form rule or a mark inside its own bracket from a true text-on-text collision. One true collision remains, and it is in the DELIVERED canonical fixture, not only in the boundary stress fixture. On packet page 18, the BCI Application for Certificate of Eligibility declaration line reads \"I, ______ , declare under criminal penalty of the State of Utah that the foregoing is true and correct.\" The committed write box for \"Name of Petitioner\" begins at x=50.5, but the pre-printed \"I\" occupies x=49.745-52.742, so the participant's name is written on top of it, overlapping by 2.24pt on a shared baseline band. raster/canonical/page-18.png was read visually in this lane at high magnification and the \"I,\" is effectively destroyed: the line reads as the participant's name followed directly by \", declare under criminal penalty\", with only a stub of the I visible beneath the J. A sworn declaration that has lost its first-person subject is a participant-facing defect, and it is in the bytes the packet delivers.",
+          "evidence": {
+            "wordsOutsidePageBox": {
+              "canonical": 0,
+              "boundary": 0
+            },
+            "trueTextOnTextCollisions": {
+              "canonical": 1,
+              "boundary": 1
+            },
+            "sameLinePairsBeforeClassification": {
+              "canonical": 32,
+              "boundary": 46
+            },
+            "collision": {
+              "packetPage": 18,
+              "component": "UT-BCI-EXP-APPLICATION",
+              "formLine": "I, ______ , declare under criminal penalty of the State of Utah that the foregoing is true and correct.",
+              "prePrintedWord": "I",
+              "prePrintedWordBoxX": [
+                49.745,
+                52.742
+              ],
+              "writtenValueCanonical": "Jordan Avery Reyes",
+              "writtenValueBoxX": [
+                50.5,
+                86.14
+              ],
+              "overlapPt": 2.24,
+              "committedWriteBox": {
+                "field": "Name of Petitioner",
+                "x": 50.5,
+                "y": 399,
+                "width": 136,
+                "height": 12
+              },
+              "rasterRead": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/raster/canonical/page-18.png"
+            },
+            "classifiedAsLegitimateAndNotCounted": {
+              "valueOnItsOwnFormRule": {
+                "canonical": 23,
+                "boundary": 37
+              },
+              "markInsideItsOwnBracket": {
+                "canonical": 8,
+                "boundary": 8
+              },
+              "why": "A written value overlapping the underscore rule that receives it, and an X overlapping the bracket pair it marks, are the intended rendering, not a collision."
+            },
+            "calibrationOfThisDetector": "Run unchanged against ut_pet_traffic-set, which holds a PASS on this obligation from FABLE-VT5 in this same file, the detector reports a 26.67pt collision of the participant's name over the pre-printed word \"Petitioner\" in the page 1 court caption, and its committed raster/canonical/page-01.png renders as \"JPeetaitoicoAnvery Reyes\". That family is not this lane's to score, and the observation is recorded under crossFamilyObservations rather than as a verdict. It is reported so this FAIL is not read as a stricter yardstick than the one already applied on this host: the same yardstick applied there finds a larger defect."
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The packet tells the participant that it does not state an amount that its own delivered pages print. participant-instructions.md carries, in bold: \"The BCI certificate carries a separate fee, and this packet does not state an amount because BCI sets it per applicant.\" The canonical fixture this family ships prints \"$65.00\" three times on packet pages 17 and 18, on the BCI Application for Certificate of Eligibility the packet itself delivers. Confirmed in this lane with pdftotext against this family's own committed bytes (SHA-256 ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6), not taken from any brief or report. DET-FEE-AND-WAIVER-001 amendment A4 states the rule in one line: a packet may never tell a participant that it does not state something it does state. The A1/A2 limb does NOT add a second failure here, and saying so is part of the finding. The compiled Utah state profile (src/lib/rcap-engine/compiled/profiles/UT-utah.json, SHA-256 73dd7ea988d0673dca3b8bf657f2df090d062c0821f8c0662a57ccfac8e7660d) carries one certificate-fee sentence: \"eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations.\" This route is a charge ended by the limitations period. It is not a conviction, not a plea in abeyance, and not a dismissal, acquittal or declination, so under A3 that line addresses a different disposition and does not establish THIS route's certificate answer. Reading it across would be the sibling-route inference A3 exists to forbid. So for this family the honest position on the per-incident CERTIFICATE price is the named-authority route of A1, exactly as the packet already takes it — the defect is confined to the false denial about the APPLICATION fee, which the packet's own delivered pages print. What passes on this obligation is not in dispute and is recorded so the repair does not disturb it: the court filing fee of $150 is stated and sourced to the row the packet fills on 1044XX page 2, and the court waiver route is named as Utah form 1305GE under Utah Code 78A-2-302 and CJA Rule 4-508.",
+          "evidence": {
+            "participantInstructionsSha256": "d11ba889207735fb413c6ab7d719e194e3a6d3e2a2ca96351e2eca4a5dd319f5",
+            "theSentence": "**The BCI certificate carries a separate fee, and this packet does not state an amount because BCI sets it per applicant.** BCI's instructions tell you to \"pay all associated fees as indicated in the BCI letter\", and a certificate must be purchased for each eligible incident you want expunged. BCI publishes separate *Indigent Expungement Applicant Instructions* under which BCI sends a fee waiver together with the certificate list. Ask the Bureau of Criminal Identification what your certificates cost and whether you qualify for its fee waiver; do not assume the court's $150 waiver covers BCI's fee, because they are two different offices.",
+            "printedInDeliveredCanonicalPdf": [
+              "p17: \"4. The application fee is $65.00 and non-refundable. Select a method of payment by making a check mark in the\"",
+              "p18: \"a non-refundable $65.00 application fee.\"",
+              "p18: \"METHOD OF PAYMENT (Only to be filled out if application is mailed in. Check appropriate box for payment) Application fee is $65.00\""
+            ],
+            "dollar65OccurrencesInCanonical": 3,
+            "dollar65OccurrencesInBoundary": 3,
+            "measuredWith": "pdftotext -layout, page by page, against the committed fixture bytes in this lane",
+            "whatTheAmountActuallyIs": "the BCI APPLICATION fee, flat and printed on the form the participant must submit; distinct from the per-incident CERTIFICATE price the sentence is describing",
+            "courtFilingFeeStated": "$150, sourced to 1044XX page 2",
+            "courtWaiverRouteNamed": "Utah form 1305GE, Motion to Waive Fees for Expungement - Criminal, Utah Code 78A-2-302 and CJA Rule 4-508",
+            "repairAlreadyExistsOnThisHost": "scripts/build-census-v1-ut_pet_acquittal-set.mjs gates the corrected text behind the per-family config flag statesBciApplicationFee, set true for ut_pet_acquittal-set, ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set by FABLE-R17 and absent from this family's CONFIGS entry. This lane did not set it and wrote no line of that host."
+          }
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The packet omits pre-filing requirements this family's own committed packet-set manifest holds, and one of them is a bar the manifest says defeats the petition. The instructions' list under \"The facts you must supply before filing\" is scoped entirely to blanks on paper. data/record-clearing/legal-design-packet-set-manifests.json, at packetSetId ut_pet_limitations-set, additionally holds requiredBeforeFiling entries scoped to what the participant must have IN HAND, and 2 of them appear nowhere in participant-instructions.md — searched case-insensitively for their distinguishing terms, with zero hits. A committed manifest is the repository answering the question, which DET-FEE-AND-WAIVER-001 amendment A2 settled expressly, and A4 extends the ask-the-repository-first test to REQUIRED_BEFORE_FILING for exactly this failure mode: the packet omitting a fact the repository establishes. This is not a fee-style audit of every fact a participant might want; each item below is quoted from this family's own manifest entry for this exact route, which satisfies A3. The counters do not see it and are recorded so the gap in the instrument is on the record too: the fresh completeness run measured requiredFactsNotCollected 0 and unclassifiedBlanks 0, because those counters test blanks on the forms and these obligations are not blanks.",
+          "evidence": {
+            "manifestPath": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "packetSetId": "ut_pet_limitations-set",
+            "itemsHeldByManifestAndAbsentFromInstructions": [
+              "\"Obtain Proof that fines, fees, interest and restitution are paid in full. Ask the clerk of the sentencing court for a current balance on the case, and check with the Office of State Debt Collection if any balance was entered as a civil judgment and transferred. An unpaid balance defeats the petition and will also defeat the BCI certificate.\"",
+              "\"Check your answer to \\\"List every criminal case you have ever had, in any state, including cases that were already expunged. BCI reviews all of them when it decides your certificate.\\\" against The participant's own case history for every case in every state, including previously expunged cases, and correct the packet if they disagree.\""
+            ],
+            "searchMethod": "case-insensitive grep of participant-instructions.md for the distinguishing terms of each item (\"paid in full\", \"restitution\", \"every criminal case\", and the family-specific terms); 0 hits",
+            "requiredFactsNotCollected": 0,
+            "unclassifiedBlanks": 0,
+            "whyCountersAreZeroAnyway": "requiredFactsNotCollected fires when a required-before-filing BLANK is not named in the instructions. These obligations are documents and money states the participant must hold, not blanks on the forms, so no counter reaches them.",
+            "repairAlreadyExistsOnThisHost": "The same host gates this behind the per-family config flag statesManifestPreFilingItems, set true for ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set by FABLE-R17 and absent from this family's CONFIGS entry. Verified by grep: ut_pet_conviction-set's instructions carry the paid-in-full and all-states-case-list text; this family's carry neither."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_limitations-set",
       "superseded": false
     },
     {
@@ -4023,7 +4250,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_no_charges-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ut_pet_no_charges-set",
@@ -4170,6 +4397,117 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_no_charges-set",
       "superseded": true
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ab82f102a44ea5e8bc0698b35d49164c9334f6fe",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Measured geometrically in this lane and then confirmed against the committed raster. Every word box in both fixtures was extracted with pdftotext -bbox: 0 words fall outside the page box in either fixture, and every same-line pair was classified rather than counted, separating a written value sitting on its own form rule or a mark inside its own bracket from a true text-on-text collision. One true collision remains, and it is in the DELIVERED canonical fixture, not only in the boundary stress fixture. On packet page 18, the BCI Application for Certificate of Eligibility declaration line reads \"I, ______ , declare under criminal penalty of the State of Utah that the foregoing is true and correct.\" The committed write box for \"Name of Petitioner\" begins at x=50.5, but the pre-printed \"I\" occupies x=49.745-52.742, so the participant's name is written on top of it, overlapping by 2.24pt on a shared baseline band. raster/canonical/page-18.png was read visually in this lane at high magnification and the \"I,\" is effectively destroyed: the line reads as the participant's name followed directly by \", declare under criminal penalty\", with only a stub of the I visible beneath the J. A sworn declaration that has lost its first-person subject is a participant-facing defect, and it is in the bytes the packet delivers.",
+          "evidence": {
+            "wordsOutsidePageBox": {
+              "canonical": 0,
+              "boundary": 0
+            },
+            "trueTextOnTextCollisions": {
+              "canonical": 1,
+              "boundary": 1
+            },
+            "sameLinePairsBeforeClassification": {
+              "canonical": 32,
+              "boundary": 46
+            },
+            "collision": {
+              "packetPage": 18,
+              "component": "UT-BCI-EXP-APPLICATION",
+              "formLine": "I, ______ , declare under criminal penalty of the State of Utah that the foregoing is true and correct.",
+              "prePrintedWord": "I",
+              "prePrintedWordBoxX": [
+                49.745,
+                52.742
+              ],
+              "writtenValueCanonical": "Jordan Avery Reyes",
+              "writtenValueBoxX": [
+                50.5,
+                86.14
+              ],
+              "overlapPt": 2.24,
+              "committedWriteBox": {
+                "field": "Name of Petitioner",
+                "x": 50.5,
+                "y": 399,
+                "width": 136,
+                "height": 12
+              },
+              "rasterRead": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/raster/canonical/page-18.png"
+            },
+            "classifiedAsLegitimateAndNotCounted": {
+              "valueOnItsOwnFormRule": {
+                "canonical": 23,
+                "boundary": 37
+              },
+              "markInsideItsOwnBracket": {
+                "canonical": 8,
+                "boundary": 8
+              },
+              "why": "A written value overlapping the underscore rule that receives it, and an X overlapping the bracket pair it marks, are the intended rendering, not a collision."
+            },
+            "calibrationOfThisDetector": "Run unchanged against ut_pet_traffic-set, which holds a PASS on this obligation from FABLE-VT5 in this same file, the detector reports a 26.67pt collision of the participant's name over the pre-printed word \"Petitioner\" in the page 1 court caption, and its committed raster/canonical/page-01.png renders as \"JPeetaitoicoAnvery Reyes\". That family is not this lane's to score, and the observation is recorded under crossFamilyObservations rather than as a verdict. It is reported so this FAIL is not read as a stricter yardstick than the one already applied on this host: the same yardstick applied there finds a larger defect."
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The packet tells the participant that it does not state an amount that its own delivered pages print. participant-instructions.md carries, in bold: \"The BCI certificate carries a separate fee, and this packet does not state an amount because BCI sets it per applicant.\" The canonical fixture this family ships prints \"$65.00\" three times on packet pages 17 and 18, on the BCI Application for Certificate of Eligibility the packet itself delivers. Confirmed in this lane with pdftotext against this family's own committed bytes (SHA-256 86290244b6882ee9bb403b2b3fff4035d136abf33352b9c8fcb064eb125c3c0f), not taken from any brief or report. DET-FEE-AND-WAIVER-001 amendment A4 states the rule in one line: a packet may never tell a participant that it does not state something it does state. A SECOND and independent limb fails here too. The compiled Utah state profile (src/lib/rcap-engine/compiled/profiles/UT-utah.json, SHA-256 73dd7ea988d0673dca3b8bf657f2df090d062c0821f8c0662a57ccfac8e7660d) states: \"no certificate issuance fee is required for dismissals, acquittals, or declinations.\" This route is an arrest with no charges filed, and this family's own committed manifest describes its evidence as \"Any written declination or no-file letter from the prosecutor\" — so the route IS the declination case the profile names, and A3's per-route test is satisfied on the route's own terms rather than by analogy. The repository therefore establishes that no certificate issuance fee is required on this route, and the packet's statement that it cannot give an amount and that the participant should ask BCI substitutes a question for an answer the record holds, which A1 forbids in as many words. What passes on this obligation is not in dispute and is recorded so the repair does not disturb it: the court filing fee of $150 is stated and sourced to the row the packet fills on 1044XX page 2, and the court waiver route is named as Utah form 1305GE under Utah Code 78A-2-302 and CJA Rule 4-508.",
+          "evidence": {
+            "participantInstructionsSha256": "a49a9b0ea7ec9ddb54e308352b4d1beb9bb6e5fbc4fb609142e5663c763c68af",
+            "theSentence": "**The BCI certificate carries a separate fee, and this packet does not state an amount because BCI sets it per applicant.** BCI's instructions tell you to \"pay all associated fees as indicated in the BCI letter\", and a certificate must be purchased for each eligible incident you want expunged. BCI publishes separate *Indigent Expungement Applicant Instructions* under which BCI sends a fee waiver together with the certificate list. Ask the Bureau of Criminal Identification what your certificates cost and whether you qualify for its fee waiver; do not assume the court's $150 waiver covers BCI's fee, because they are two different offices.",
+            "printedInDeliveredCanonicalPdf": [
+              "p17: \"4. The application fee is $65.00 and non-refundable. Select a method of payment by making a check mark in the\"",
+              "p18: \"a non-refundable $65.00 application fee.\"",
+              "p18: \"METHOD OF PAYMENT (Only to be filled out if application is mailed in. Check appropriate box for payment) Application fee is $65.00\""
+            ],
+            "dollar65OccurrencesInCanonical": 3,
+            "dollar65OccurrencesInBoundary": 3,
+            "measuredWith": "pdftotext -layout, page by page, against the committed fixture bytes in this lane",
+            "whatTheAmountActuallyIs": "the BCI APPLICATION fee, flat and printed on the form the participant must submit; distinct from the per-incident CERTIFICATE price the sentence is describing",
+            "courtFilingFeeStated": "$150, sourced to 1044XX page 2",
+            "courtWaiverRouteNamed": "Utah form 1305GE, Motion to Waive Fees for Expungement - Criminal, Utah Code 78A-2-302 and CJA Rule 4-508",
+            "repairAlreadyExistsOnThisHost": "scripts/build-census-v1-ut_pet_acquittal-set.mjs gates the corrected text behind the per-family config flag statesBciApplicationFee, set true for ut_pet_acquittal-set, ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set by FABLE-R17 and absent from this family's CONFIGS entry. This lane did not set it and wrote no line of that host."
+          }
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The packet omits pre-filing requirements this family's own committed packet-set manifest holds, and one of them is a bar the manifest says defeats the petition. The instructions' list under \"The facts you must supply before filing\" is scoped entirely to blanks on paper. data/record-clearing/legal-design-packet-set-manifests.json, at packetSetId ut_pet_no_charges-set, additionally holds requiredBeforeFiling entries scoped to what the participant must have IN HAND, and 3 of them appear nowhere in participant-instructions.md — searched case-insensitively for their distinguishing terms, with zero hits. A committed manifest is the repository answering the question, which DET-FEE-AND-WAIVER-001 amendment A2 settled expressly, and A4 extends the ask-the-repository-first test to REQUIRED_BEFORE_FILING for exactly this failure mode: the packet omitting a fact the repository establishes. This is not a fee-style audit of every fact a participant might want; each item below is quoted from this family's own manifest entry for this exact route, which satisfies A3. The counters do not see it and are recorded so the gap in the instrument is on the record too: the fresh completeness run measured requiredFactsNotCollected 0 and unclassifiedBlanks 0, because those counters test blanks on the forms and these obligations are not blanks.",
+          "evidence": {
+            "manifestPath": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "packetSetId": "ut_pet_no_charges-set",
+            "itemsHeldByManifestAndAbsentFromInstructions": [
+              "\"Obtain Proof that fines, fees, interest and restitution are paid in full. Ask the clerk of the sentencing court for a current balance on the case, and check with the Office of State Debt Collection if any balance was entered as a civil judgment and transferred. An unpaid balance defeats the petition and will also defeat the BCI certificate.\"",
+              "\"Check your answer to \\\"List every criminal case you have ever had, in any state, including cases that were already expunged. BCI reviews all of them when it decides your certificate.\\\" against The participant's own case history for every case in every state, including previously expunged cases, and correct the packet if they disagree.\"",
+              "\"Check your answer to \\\"How do you know the prosecutor made a final decision not to file charges - did you receive a letter, was it said in court, or did you hear it another way?\\\" against Any written declination or no-file letter from the prosecutor, and correct the packet if they disagree.\""
+            ],
+            "searchMethod": "case-insensitive grep of participant-instructions.md for the distinguishing terms of each item (\"paid in full\", \"restitution\", \"every criminal case\", and the family-specific terms); 0 hits",
+            "requiredFactsNotCollected": 0,
+            "unclassifiedBlanks": 0,
+            "whyCountersAreZeroAnyway": "requiredFactsNotCollected fires when a required-before-filing BLANK is not named in the instructions. These obligations are documents and money states the participant must hold, not blanks on the forms, so no counter reaches them.",
+            "repairAlreadyExistsOnThisHost": "The same host gates this behind the per-family config flag statesManifestPreFilingItems, set true for ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set by FABLE-R17 and absent from this family's CONFIGS entry. Verified by grep: ut_pet_conviction-set's instructions carry the paid-in-full and all-states-case-list text; this family's carry neither."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_no_charges-set",
+      "superseded": false
     },
     {
       "familyId": "ut_pet_traffic-set",

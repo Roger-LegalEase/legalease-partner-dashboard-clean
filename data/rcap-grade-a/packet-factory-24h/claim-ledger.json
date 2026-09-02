@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "1b40b32e0f59a6b70c7ca8779617a337ab184b22",
+  "generatedAtCommit": "92239810a4b96c6cffb87929a45cf56d8a20cbf5",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3668,6 +3668,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "ut_pet_dismissed_without_prejudice-set",
+      "familyId": "ut_pet_dismissed_without_prejudice-set",
+      "itemId": null,
+      "familyIds": [
+        "ut_pet_dismissed_without_prejudice-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "ut_pet_limitations-set",
       "familyId": "ut_pet_limitations-set",
       "itemId": null,
@@ -3683,6 +3698,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "ut_pet_limitations-set",
+      "familyId": "ut_pet_limitations-set",
+      "itemId": null,
+      "familyIds": [
+        "ut_pet_limitations-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "ut_pet_no_charges-set",
       "familyId": "ut_pet_no_charges-set",
       "itemId": null,
@@ -3695,6 +3725,21 @@
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T01:00:19.765Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_no_charges-set",
+      "familyId": "ut_pet_no_charges-set",
+      "itemId": null,
+      "familyIds": [
+        "ut_pet_no_charges-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX03",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -10380,7 +10425,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "c1267b00097d10c5f7e70cfb6cb27b41b58f4b975b8321a9da06d32e7c304507",
+  "claimsDigest": "7fa1a744970f23b2e24bef88b4b7f58b189d53ae5b8e1c6e0aa7c357e6bfa40f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
