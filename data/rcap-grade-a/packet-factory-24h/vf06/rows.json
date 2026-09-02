@@ -4442,8 +4442,123 @@
     "MASTER_LIBRARY_SOURCE_DIR STATES/IN/02_PACKET_FORMS (both bound PDFs re-hashed; 105 source widget rectangles read from the bundle)"
    ],
    "whatThisDoesNotDo": "A FAIL is a verdict and a repair assignment. This lane edited nothing and opened no route."
+  },
+  {
+   "itemId": "rcap-ms-custom-pleading",
+   "lane": "VF06",
+   "wave": "packet-factory-24h/VF06 re-dispatch (2026-09-02)",
+   "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ms-custom-pleading at this base: PASS_COMPLETE, 33/122 written, every counter 0. Measured again here by a different route, because a composed pleading has no bound page to difference against: both fixtures' pages were extracted with pdftotext and every one of the 33 written values was searched for on the pages the manifest gives its own component — 33 of 33 found, 0 absent, 0 landing on a page belonging to another component, in each fixture. Geometry was measured with pdftotext -bbox over all 26 pages of both fixtures: 0 words outside the page box and no word crossing the 72pt margin on any page, in canonical or in boundary, where the values are an 80-character address and a 78-character email."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "detail": "Three route keys — obligation:track-pathway:MS:ms-drug-cd:first-offense-controlled-substance-conditional-discharge-relief, :ms-dui:first-offense-dui-expungement and :ms-mip:minor-in-possession-underage-alcohol-expungement — declared identically by source-receipt.json, production-field-map.json and product-wiring.json, and exactly the three the committed worklist carries for worklistGroupId rcap-ms-custom-pleading at implementationStrategy custom_pleading. Each of the three petitions states its own statutory ground in its body (§ 41-29-150(d), § 63-11-30(13), § 67-3-70(6)) and each component ends with its own route key printed in full. OBSERVATION, measured and not scored: production-field-map.json's routeSelectionNote and participant-instructions.md both say 'Every composed page states its own route in its footer.' The footer appears on 12 of the 26 pages — the last page of each of the twelve components. Every component's first page carries a heading naming its route in capitals, so no page is unattributable to a reader who has the packet in order, but the mid-pages of the three petitions (2, 3, 10, 11, 19, 20) carry neither, and the sentence as written is broader than the bytes. Worth a copy correction on a packet whose whole premise is 'use only the pages for the route that matches your own record'."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "detail": "This family binds no PDF; it binds three committed repository records, and all three rehash exactly here: data/record-clearing/legal-design-track-registry.json 0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6 at 16,555,956 B, data/record-clearing/legal-design-specifications.json cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5 at 16,829,383 B, and data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f at 2,599,752 B. That third record is the one the systemic stale-census-pin finding is about; this family's pin is current at this base, not the stale e615283930… / 2,596,466 B value, so the drift recorded against other census-v1 families does not reach it."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "detail": "The committed specifications name three components for each of the three tracks — primary_filing, proposed_order and certificate_of_service, nine in all — and every one is composed and rendered. The packet adds a fourth per track, a filing-instructions component, which the record does not require and which carries the destination, fee, service and stop answers onto the page rather than leaving them only in the instructions file. Twelve components, twelve blocks in the page manifest, and the 'What is in this packet' table names all twelve. requiredComponentsMissing 0."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "detail": "Thirty-three values are written across the twelve components — five facts (full legal name, date of birth, mailing address, phone, email) repeated where each component needs them, plus the caption name on each proposed order and the four service-page identifiers. Every one was located in the rendered text on a page the manifest gives that component: 33 of 33 in canonical, 33 of 33 in boundary, none stranded on another component's page. The composed pages ask for nothing the platform holds twice — the petition says so in terms: 'your name, your date of birth and your contact details are printed in this petition and are not asked for again'."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "detail": "59 blanks are disposed REQUIRED_BEFORE_FILING and all 59 disclosure labels appear in participant-instructions.md, checked label by label against the file — the C-numbered items of each petition (other name on the case, county of residence, court level, court county, cause number, charge name, offence date, arrest date, arresting agency, prosecuting authority and the route-specific items) and the certificate-of-service items. The instructions add a 'Documents you must obtain before filing' table of ten certified records with where each comes from, which is not a blank on any page and could not have been counted, and a 'Things the platform deliberately left blank' section."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "detail": "No election control is printed on any composed page, and that is the design: the packet carries three statutory routes as three separate sets of pages rather than as a choice made on a form, and routeSelectionsMade records one selection per route naming the instrument composed for it (the § 41-29-150(d)(2) post-conditional-discharge application, the § 63-11-30(13) first-DUI petition, the § 67-3-70(6) underage-alcohol petition). There is no route-determined election left unselected because there is no election control at all. requiredOptionsMissing 0."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "detail": "No repeating row group exists in any of the twelve composed components — the petitions are numbered C-items on dotted rules, not tables, and no field carries a row identity. There is no row that could carry a written cell beside a blank required cell. incompleteRows 0."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "detail": "30 blanks are refused as protected, with the actor named in each reason: the participant signs personally and this build never signs for them (6), a date written before signing would be false (6), the court signs the order if and only if it grants the petition (3), the court dates the order when it decides (3), every decision on the proposed order is the court's (3), the cause number is assigned by the court at filing (6+3). Measured from the bytes: no line mentioning a signature, a signing date or /s/ carries any participant name token in either fixture, and the proposed orders below their captions carry one write each — the caption name — and nothing else. protectedWrites 0."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "detail": "sha256sum here: canonical 2d343efa1c4c6387171aa6b73f041be3885bef4f9d0e39f2be8ffe771a5521d0 at 69,082 B and boundary 09b2f2be1a2419c6e7876ec28ef60a3b7b9ddc607aa761bf35195c314d95477f at 70,320 B, both equal to reports/rendered-artifacts.json. 26 pages in each, and 26 pages extract from each. NOTED: build-status.json records rasterState BUILT_RASTER_PENDING and rasterPages 0 — no page raster exists for this family, so the visual measurement below was made here from the PDF geometry rather than from a stored raster."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "detail": "The 26-page manifest runs the twelve components in the order the componentSet declares them, each in one contiguous block — drug-cd petition 1-4, order 5, certificate 6, instructions 7-8; DUI petition 9-12, order 13, certificate 14, instructions 15-17; MIP petition 18-21, order 22, certificate 23, instructions 24-26 — packet pages numbered 1..26 with no gap, and the rendered PDFs carry exactly those pages, confirmed by extracting each page and reading its heading against the manifest entry."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "detail": "Measured with pdftotext -bbox over every page of both fixtures on a 612x792 page: 0 words outside the page box, the nearest left edge 72.0 and the furthest right edge 540.5 on every page, so nothing crosses the 72pt margin, and the same figures hold in the boundary fixture as in canonical. That is the composed-document equivalent of ink staying inside its write box: the long boundary values — an 80-character address, a 78-character email, a hyphenated 39-character name — reflow within the text column instead of overrunning it."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "detail": "Each of the three routes gets its own destination, in the registry's words and checked against it: the clerk of the court that granted the conditional discharge for the § 41-29-150 route; the circuit clerk of the county of conviction for the DUI route, with the venue trap stated — a municipal court judge is not authorised to expunge a DUI conviction, per the Attorney General, so the petition goes to circuit court and not to the convicting court; and the clerk of the court that disposed of the charge for the underage-alcohol route. Each appears both in participant-instructions.md and on that route's own filing-instructions pages."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "detail": "Stated for all three routes and stated as what it is: no amount is published, because § 99-19-72's fee reaches petitions under § 99-19-71 and does not reach § 41-29-150, § 63-11-30 or § 67-3-70 by their terms, so the participant confirms with the clerk; fee waiver not established, and the participant asks the clerk. A reasoned 'no published amount, here is who to ask and why nobody has published one' is a stated fee position, not an omission."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "detail": "For each route: service by United States mail or hand delivery, evidenced by the certificate of service, with the recipient named — the prosecuting authority for the court on the drug and underage routes, the district attorney on the DUI route — and no response or objection period established on two of the three, which is stated rather than guessed. Each route carries its own certificate-of-service component, signed only after delivery, and the packet says the prosecutor's approval as to form is a negotiation LegalEase does not conduct."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "detail": "Diffed against the registry: all 5 selfHelpStopConditions for ms-drug-cd, all 6 for ms-dui and all 4 for ms-mip appear in participant-instructions.md, 15 of 15, none missing — including the DUI route's 'Every DUI. All DUI packets carry mandatory attorney review before filing and a post-generation handoff', which is a stop on the whole route rather than an edge case, and the shared Mississippi condition that obtaining the district attorney's approval as to form is a negotiation and a declining or silent prosecutor is an attorney handoff."
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/ (source-receipt.json, production-field-map.json, participant-instructions.md, product-wiring.json, approval-request.json, build-status.json, build-findings.json, reports/rendered-artifacts.json, reports/actual-writes.json, reports/completeness-counters.json, both fixtures)",
+    "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+    "data/record-clearing/legal-design-track-registry.json (tracks ms-drug-cd, ms-dui, ms-mip; re-hashed)",
+    "data/record-clearing/legal-design-specifications.json (customPleadingSpecs for the three tracks; re-hashed)",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (re-hashed)"
+   ],
+   "whatThisDoesNotDo": "An independent PASS proves this packet is complete. It approves no output, opens no commercial route, and the family remains BUILT_RASTER_PENDING with no central raster receipt bound to these bytes."
   }
  ],
+  "vf06ReDispatchWave": {
+   "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
+   "note": "VF06 re-dispatch wave (2026-09-02, base 247b790b6): the seven families dispatch transferred to VF06, none of which any prior VF06 row covered. Rows from earlier waves are preserved above unchanged.",
+   "families": [
+    "ut_pet_conviction-set",
+    "ut_pet_no_charges-set",
+    "in_arrest_no_charges-set",
+    "rcap-ms-custom-pleading"
+   ],
+   "verdicts": {
+    "FAIL_REPAIR_REQUIRED": 1,
+    "PASS_COMPLETE_INDEPENDENT": 3
+   },
+   "overlayDirectoriesModified": 0,
+   "packetsModified": 0,
+   "buildScriptsModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "centralManifestsModified": "none - MASTER_QUEUE.json, VERIFIER_RETURNS.json and ACTIVE_ASSIGNMENTS.json untouched; the claim ledger changed only through claim.mjs --assert and --release",
+   "measuredBy": "Each family measured in this container: the nine counters from scripts/rcap-packet-completeness/verify-packet-completeness.mjs run here, every bound source and artifact SHA-256 recomputed from the mounted Master Library and the committed bytes, added ink isolated by differencing pdftotext -bbox words on each packet page against its bound source page, and the narrative obligations read against participant-instructions.md and the committed legal records."
+  },
   "vf06ReDispatchWave": {
    "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
    "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
