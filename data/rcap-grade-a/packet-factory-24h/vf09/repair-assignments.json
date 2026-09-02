@@ -33,6 +33,38 @@
     "the service recipient and method"
    ],
    "whatThisDoesNotChange": "Eleven of the fifteen obligations pass on measurement made in this lane, including every source digest recomputed from the Master Library bytes and both artifact hashes recomputed from the PDF bytes. The packet's fill is sound; its participant-facing instructions and two blank dispositions are not."
+  },
+  {
+   "itemId": "wi_nc_doj_fingerprint_removal-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill",
+   "verifier": "FABLE-VT3 (independent — built none of these packets)",
+   "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "decisiveDefect": "participant-instructions.md never addresses what this request costs. It carries no fee, cost, charge or payment statement anywhere — the whole file including its tables was searched — so it does not say there is no fee, does not name an amount, and does not name an office to ask. Fourteen of the fifteen obligations pass on measurement made in this lane; this one is unanswered.",
+   "failedProofObligations": [
+    {
+     "obligation": "FEE_AND_WAIVER",
+     "finding": "No cost statement of any kind in participant-instructions.md. I also decoded the form's subsetted page-1 font myself — its glyph codes are ASCII minus 29 — and found no fee statement on the form face either, so the likely truth is that the Bureau charges nothing for this request. But the packet nowhere says so, and a participant reading it cannot tell the difference between \"no fee\" and \"not mentioned\". Every other family in this lane set answers the question one of three honest ways: a stated amount, a stated no-fee with its authority, or a stated open question naming the office to ask.",
+     "evidence": {
+      "searched": "participant-instructions.md, whole file including tables",
+      "pattern": "fee|cost|charge|pay|$|free|money|price",
+      "matchesOutsideUnrelatedTableText": 0,
+      "formFace": "no fee statement found after decoding the -29 glyph shift on page 1",
+      "comparableFamilies": {
+       "co_multiple_conviction_seal": "ask the clerk what fee applies, with the reason no figure is quoted",
+       "vt_seal_misdemeanor": "waiver form included; amount not stated, ask the named clerk",
+       "ak-tf800": "any filing fee, and whether one applies — ask the clerk of the court above",
+       "ga-felony-j1": "no statutory fee identified; county-specific and unresolved, ask the clerk"
+      }
+     }
+    }
+   ],
+   "repairScope": "One packet-instruction repair, in this family's own participant-instructions.md and nowhere else: state what the form does and does not say about cost — that DJ-LE-250B and its instruction page name no fee, and that the participant should confirm with the Crime Information Bureau before sending — in the same honest form the CO, VT, AK and GA families already use. Do not state an amount: none is established in this repository. Do not touch the overlay's field map, fixtures or build script; nothing about the fill is defective.",
+   "notForThisLaneToInfer": [
+    "whether the Crime Information Bureau charges a fee for a fingerprint record removal request",
+    "any waiver route for such a fee"
+   ],
+   "whatThisDoesNotChange": "Fourteen of the fifteen obligations pass on measurement made in this lane: the source digest recomputed from the Master Library bytes, both artifact hashes recomputed from the PDF bytes, all 20 writes proven in those same bytes, the nine counters zero, a hash-bound RASTER_PASS, and FILING_DESTINATION, SERVICE and SELF_HELP_STOP each answered — the last unusually well, since the packet warns that signing also requests DNA Databank expungement at the State Crime Laboratory and tells the participant not to sign until they have asked the Bureau about it. The fill is sound; one sentence about cost is missing."
   }
  ]
 }

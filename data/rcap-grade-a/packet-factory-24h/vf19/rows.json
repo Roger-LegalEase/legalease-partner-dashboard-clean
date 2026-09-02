@@ -11,45 +11,39 @@
  "rows": [
   {
    "itemId": "ak-tf800-set",
+   "lane": "VF19",
    "verdict": "PASS_COMPLETE_INDEPENDENT",
    "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
    "verifier": "FABLE-VT3 (independent — built none of these packets)",
    "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "rasterState": "RASTER_PASS",
    "proofObligations": {
-    "routeIdentity": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Alaska TF-800 (Request to Make Case Records Confidential or Sealed under Administrative Rule 37.6), 3 pages, every packet page bound to the recorded source sha; the face names the rule and the Alaska Court System form identity.",
+     "finding": "Alaska Court System form TF-800 (5/25), Request to Make Case Records Confidential or Sealed under Administrative Rule 37.6, route track:AK:ak-tf800, routeSelectionId ak-tf800-set-tf-800-primary-filing; the face names the rule and states the public-records default it is asking the court to displace.",
      "evidence": {
       "form": "TF-800",
-      "authority": "Alaska Administrative Rule 37.6",
-      "routeSelectionId": "ak-tf800-set-tf-800-primary-filing"
+      "authority": "Alaska Administrative Rule 37.6"
      }
     },
-    "componentSet": {
+    "SOURCE_IDENTITY": {
+     "measured": true,
      "result": "PASS",
-     "finding": "The single declared form TF-800 is the packet (3 pages, all bound to source sha 94bab525...).",
-     "evidence": {
-      "declared": [
-       "TF-800"
-      ],
-      "present": [
-       "TF-800"
-      ],
-      "pages": 3
-     }
-    },
-    "completenessCounters": {
-     "result": "PASS",
-     "finding": "Re-run in this container at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666: verify-packet-completeness.mjs --family ak-tf800-set returns PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects).",
-     "evidence": {
-      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ak-tf800-set",
-      "result": "PASS_COMPLETE",
-      "allNineCountersZero": true
-     }
-    },
-    "sourceIdentity": {
-     "result": "PASS",
-     "finding": "Every bound source was rehashed from the Master Library bytes mounted in the shared checkout (private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1); each recomputed SHA-256 and byte length agrees with source-receipt.json and the committed local-source-corpus-index.json entry, and every page-manifest sourceSha256 is a receipt sha.",
+     "finding": "The single bound source rehashes from the Master Library bytes to the recorded SHA-256 (94bab525…) and byte length, agrees with the committed corpus index and is indexed under state AK; all three packet pages carry that sha.",
      "evidence": [
       {
        "form": "TF-800",
@@ -61,108 +55,219 @@
       }
      ]
     },
-    "artifactIdentity": {
+    "COMPONENT_SET": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Both committed fixture PDFs rehash to exactly the sha256 and byteLength recorded in reports/rendered-artifacts.json.",
-     "evidence": [
-      {
-       "fixture": "tf800-canonical",
-       "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-canonical-filled.pdf",
-       "pageCount": 3,
-       "shaMatches": true,
-       "byteLenMatches": true
-      },
-      {
-       "fixture": "tf800-boundary",
-       "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-boundary-filled.pdf",
-       "pageCount": 3,
-       "shaMatches": true,
-       "byteLenMatches": true
-      }
-     ]
-    },
-    "actualWrites": {
-     "result": "PASS",
-     "finding": "All 14 writes proven in bytes; the single boundary row where the committed readback dropped the U+2019 apostrophe in the participant name was re-read with pdftotext and 'O’Shaughnessy-Whitfield' is present verbatim in the boundary fixture bytes.",
+     "finding": "requiredComponentsMissing 0; the declared single form TF-800 is the packet, across 3 pages.",
      "evidence": {
-      "total": 14,
-      "verifiedInBytes": 14,
-      "unrecordedPerWrite": 0,
-      "reportReadbackDiscrepanciesResolvedAgainstBytes": [
-       {
-        "fixture": "tf800-boundary",
-        "field": "name",
-        "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
-        "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
-        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-       }
-      ]
+      "declared": [
+       "TF-800"
+      ],
+      "present": [
+       "TF-800"
+      ],
+      "pages": 3
      }
     },
-    "blanksDisclosure": {
+    "KNOWN_PREFILLS": {
+     "measured": true,
      "result": "PASS",
-     "finding": "7 required-before-filing blanks (case name, party names, documents to restrict, hearing dates, etc.), each with why + participantMustSupply; 3 protected fields; 11 genuine participant elections; unclassifiedBlanks 0.",
+     "finding": "knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0 on my own verifier run in this container, and every one of the 14 values the platform claims to have prefilled is proven present in the finalized fixture bytes (14 of 14 confirmed; invisibleWrites 0). No prefill is asserted by the finalizer alone.",
      "evidence": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "invisibleWrites": 0,
+      "writesProvenInBytes": 14,
+      "writesTotal": 14
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "unclassifiedBlanks 0. The blanks report classifies all of them: 7 REQUIRED_BEFORE_FILING (case name, party names, the documents to be restricted, and the log-note details), each carrying why the platform holds no value for it and what the participant must supply in plain words; 3 PROTECTED_FIELD; 11 genuine participant elections.",
+     "evidence": {
+      "unclassifiedBlanks": 0,
       "source": "reports/blanks-left-for-the-participant.json",
       "requiredBeforeFiling": 7
      }
     },
-    "placeholderAndFace": {
+    "ROUTE_OPTIONS": {
+     "measured": true,
      "result": "PASS",
-     "finding": "pdftotext over every fixture finds no placeholder text (no TODO/TBD/PLACEHOLDER/lorem/{{...}}/[INSERT), and the packet face names its own jurisdiction, instrument and authority.",
+     "finding": "requiredOptionsMissing 0. The form's elections — which records, and on what basis — are carried to the participant under 'The choices that are yours' rather than elected by the platform, and no selection mark is drawn in either fixture; the packet elects nothing it does not hold a fact for.",
      "evidence": {
-      "faceChecks": [
+      "requiredOptionsMissing": 0,
+      "routeSelectionsMadeDeclared": null,
+      "selectionControlMentions": 0,
+      "marksDrawnPerDocument": [
        {
         "fixture": "tf800-canonical",
-        "chars": 5115,
-        "placeholderHits": [],
-        "mentionsOwnState": true
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
        },
        {
         "fixture": "tf800-boundary",
-        "chars": 5220,
-        "placeholderHits": [],
-        "mentionsOwnState": true
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
+       }
+      ]
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows 0 on my own verifier run: no repeating row on this packet is left half-filled. Where the form carries a multi-row table, the whole table is carried to the participant as required-before-filing blanks rather than partly filled, which is what a zero here means for this family.",
+     "evidence": {
+      "incompleteRows": 0,
+      "repeatingStructuresInMap": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites 0 and no refused field carries ink: the clerk's and notary's boxes (the seal, the commission expiry, the JA/Clerk distribution line on page 3) and the whole ORDER on pages 2-3, including the Rule 37.5 findings and the judicial officer's signature, stay empty in the delivered bytes.",
+     "evidence": {
+      "protectedWrites": 0,
+      "refusedFieldsWithInk": 0,
+      "protectedDispositionsInMap": 0,
+      "protectedInBlanksReport": null
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures rehash to the recorded sha256/byteLength. All 14 writes proven in the bytes; the single boundary row the committed readback reported as mismatched had dropped the U+2019 apostrophe from the participant name, and pdftotext over the boundary fixture finds 'Maria-Alejandra O’Shaughnessy-Whitfield' present verbatim.",
+     "evidence": {
+      "fixtures": [
+       {
+        "fixture": "tf800-canonical",
+        "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-canonical-filled.pdf",
+        "pageCount": 3,
+        "shaMatches": true,
+        "byteLenMatches": true
+       },
+       {
+        "fixture": "tf800-boundary",
+        "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-boundary-filled.pdf",
+        "pageCount": 3,
+        "shaMatches": true,
+        "byteLenMatches": true
        }
       ],
-      "statutoryAuthority": "Alaska Court System form TF-800 (5/25); Alaska Administrative Rule 37.6",
-      "jurisdiction": "AK"
-     }
-    },
-    "filingInstructions": {
-     "result": "PASS",
-     "finding": "participant-instructions.md is present and substantive, enumerating the items the participant must supply.",
-     "evidence": {
-      "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/participant-instructions.md",
-      "bytes": 7614
-     }
-    },
-    "rasterVisual": {
-     "result": "PASS",
-     "finding": "The central raster workflow holds a hash-bound RASTER_PASS for this family, and the queue's canonical and boundary PDF sha256 values match the bytes I rehashed in this worktree.",
-     "evidence": {
-      "state": "RASTER_PASS",
-      "canonicalPdfSha256": "66d0c390198984a8c42a550d0077ef63dae98af3900f51630490ec8fcb0c54d6",
-      "boundaryPdfSha256": "b077fbfff439494d3af3ecf8e72c58af882b3c3b224205e632238e89459c95a5"
-     }
-    },
-    "commercialPosture": {
-     "result": "PASS",
-     "finding": "generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0 in production-field-map.json; approval-request claims no approval and no live status. This verdict opens nothing.",
-     "evidence": {
-      "fieldMap": {
-       "generationAllowed": false,
-       "runtimeSelectable": false,
-       "commercialRoutesOpened": 0
-      },
-      "approvalRequest": {
-       "status": "PENDING_INDEPENDENT_VERIFICATION",
-       "approvedForLive": false,
-       "live": false
+      "actualWrites": {
+       "total": 14,
+       "verifiedInBytes": 14,
+       "unrecordedPerWrite": 0,
+       "reportReadbackDiscrepanciesResolvedAgainstBytes": [
+        {
+         "fixture": "tf800-boundary",
+         "field": "name",
+         "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
+         "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
+         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+        }
+       ]
       }
      }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The page order in the bytes matches the declared manifest across both fixtures: packetPage numbers run 1..n with no gap or repeat, the manifest covers every page pdfinfo counts in the file, each page names the component and document it came from, and each component's source pages stay in their own ascending order.",
+     "evidence": [
+      {
+       "fixture": "tf800-canonical",
+       "declaredPageCount": 3,
+       "pagesInBytes": 3,
+       "manifestEntries": 3,
+       "packetPagesStrictlyAscending": true,
+       "everyPageBoundToASource": true,
+       "declaredMatchesBytes": true,
+       "manifestCoversEveryPage": true
+      },
+      {
+       "fixture": "tf800-boundary",
+       "declaredPageCount": 3,
+       "pagesInBytes": 3,
+       "manifestEntries": 3,
+       "packetPagesStrictlyAscending": true,
+       "everyPageBoundToASource": true,
+       "declaredMatchesBytes": true,
+       "manifestCoversEveryPage": true
+      }
+     ]
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects 0 on my own verifier run; the byte proof reports 0 non-whitespace glyphs outside the measured write boxes in every document and no unfittable value; and the central raster workflow holds a RASTER_PASS for this family whose recorded canonical and boundary sha256 match the bytes I rehashed here.",
+     "evidence": {
+      "visualDefects": 0,
+      "strayGlyphsOutsideWriteBoxes": 0,
+      "unfittable": 0,
+      "rasterState": "RASTER_PASS"
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "'Where you file this' names the clerk's office of the Alaska trial court where the case is or was pending — the court named in the case number at the top of page 1 — and page 1 of the form carries the same direction.",
+     "evidence": {
+      "section": "## Where you file this"
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Named as an open question with the person to ask, rather than guessed: 'Any filing fee, and whether one applies to this request. Ask the clerk of the court above.' No amount is invented.",
+     "evidence": {
+      "treatment": "stated open, clerk named"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Stated with the ordering the certificate requires: 'Give a copy to every party in the case, and complete the certificate of service on page 2 after you have done so', with the TrueFiling alternative explained — if the participant and the other parties are on TrueFiling, serve through it. The certificate's date, time, recipient and signature are left blank in the delivered bytes, because service has not happened when the packet is prepared.",
+     "evidence": {
+      "recipients": "every party in the case",
+      "alternative": "TrueFiling where available",
+      "certificate": "page 2, left blank"
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Two operative stops, not a disclaimer: the 90-day limit is stated as a precondition to check before filing ('this packet does not compute it for you, because the platform does not hold your case's closing date'), and the form's own redirect is carried — if the case is on public CourtView by mistake because a statute or rule already makes it confidential, the form to use is TF-810, not this one. The packet also states that the judge's public-interest finding is theirs alone.",
+     "evidence": {
+      "stops": [
+       "90-day window must be checked first",
+       "wrong-form redirect to TF-810"
+      ]
+     }
     }
-   }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": []
   }
- ]
+ ],
+ "obligationSet": [
+  "ROUTE_IDENTITY",
+  "SOURCE_IDENTITY",
+  "COMPONENT_SET",
+  "KNOWN_PREFILLS",
+  "REQUIRED_BEFORE_FILING",
+  "ROUTE_OPTIONS",
+  "REPEATING_ROWS",
+  "PROTECTED_FIELDS",
+  "ARTIFACTS",
+  "PAGE_ORDER",
+  "CLIPPING_AND_OVERLAP",
+  "FILING_DESTINATION",
+  "FEE_AND_WAIVER",
+  "SERVICE",
+  "SELF_HELP_STOP"
+ ],
+ "obligationSetNote": "Lane contract L9: a PASS_COMPLETE_INDEPENDENT verdict scores the canonical fifteen, each by its own name. A row carrying any NOT_MEASURABLE_HERE is capped at PASS."
 }
