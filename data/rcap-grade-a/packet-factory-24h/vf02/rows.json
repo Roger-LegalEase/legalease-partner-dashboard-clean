@@ -2844,6 +2844,879 @@
       "packetsModified": 0,
       "grantsNothing": "This row is a verification reading. It promotes nothing, opens no route and grants no approval.",
       "feeStandardAmendmentsApplied": "A1, A2 and A3. A3 was published after this base and I read it from commit 1df1b7a5a rather than skipping it. It does not disturb this row's FEE_AND_WAIVER pass, and I re-tested the sources against its per-fact rule rather than assuming, because the compiled New York profile is exactly the shared multi-route fee table A3 warns about. That table carries lines for automatic sealing under 160.50/160.55 and Clean Slate at $0, for MRTA marijuana destruction at $0, for the DCJS record review, for attorney fees — and, separately, 'CPL 160.59 sealing application No separate filing fee Court motion; notarization needed'. The packet took the line that names CPL 160.59, which is this route's own statutory section, and did not borrow the Clean Slate or MRTA zero, which would have been the sibling-route inference A3 forbids. The answer is then independently established for this same route by the committed track registry entry for track ny_160_59_petition, whose rules.fees and rules.feeWaiver say the same thing, so the fact is held twice for the route that must state it. The certificate-of-disposition figures the packet quotes are likewise keyed to this route's own companion document and are additionally printed on that form's face. A3 does bear on this family in one direction worth recording: it strengthens rather than weakens the SERVICE and SELF_HELP_STOP failures below, because both rest on records keyed to track ny_160_59_petition itself rather than to any neighbour."
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "lane": "VF02",
+      "wave": "packet-factory-24h wave 2 — FABLE-VA2",
+      "verdict": "PASS",
+      "verdictIsNotPassComplete": "All fifteen proof obligations pass on measurement here. The verdict is held below PASS_COMPLETE_INDEPENDENT for one reason only: the ninth counter, visualDefects, records that nobody has looked rather than that there is nothing to see. RASTER_QUEUE.json row for this family reads currentRasterState RASTER_PENDING with nextOwner RAS02, no raster receipt exists at this base, and this container cannot read raster output. On a RASTER_PASS receipt bound to sha256 addce736a67209bd19baa69fb0fda0c4db116f02f73c725c668e1dead9df5a40 this family is PASS_COMPLETE_INDEPENDENT with no further reading required.",
+      "verdictWhenRasterPasses": "PASS_COMPLETE_INDEPENDENT",
+      "verdictCeilingApplied": "BUILT_RASTER_PENDING — no central RASTER_PASS receipt exists for these bytes at this base",
+      "verdictVocabularyNote": "PASS is not in this lane’s four-verdict output schema. It is used here on the precedent of vf01/rcap-oh-custom-pleading-clean-tracks, vf07/composed-treatment:...CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days and vf08, which record exactly this state. Awarding PASS_COMPLETE_INDEPENDENT would assert a visual clearance that does not exist; FAIL_REPAIR_REQUIRED would assert a defect that does not exist. If Captain’s integration will not take PASS, this row is a PASS_COMPLETE_INDEPENDENT the moment RAS02 returns and should not be re-read.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill",
+      "verifiedAtBase": "f3c6ee4339f137798bba6d18ac8edc2f0693af88",
+      "verifier": "FABLE-VA2 (independent; built, repaired and rendered none of these packets — the New York family was built by PF04 and this lane is not PF04)",
+      "builtBy": "PF04 (claim-ledger.json, operation packet-build, released 2026-09-02T08:13:38.650Z)",
+      "claim": {
+        "asserted": true,
+        "result": "CLAIM_OK",
+        "exitCode": 0,
+        "at": "2026-09-02T08:34:53Z",
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 <familyId>"
+      },
+      "obligationsScored": 15,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "buildStatus": "state_built / qa_review_pending",
+      "rasterState": "RASTER_PENDING",
+      "rasterWorkflowRunId": null,
+      "rasterReceiptBinding": "none — RASTER_QUEUE.json row nextOwner RAS02, canonicalPdfSha256 addce736a67209bd19baa69fb0fda0c4db116f02f73c725c668e1dead9df5a40, boundaryPdfSha256 ecfe03f16e3eceb6ba249c49593f179b829217394fb9d28135f3262befa54f71, documentsDigest e62ca0c3211cc86f050ed16b6fe82af50649695c2bb046b5830481107f0ea571",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": "eight of nine measured here by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container (PASS_COMPLETE, 11/26 written, exit 0). visualDefects is NOT measured here: no raster has run and this lane cannot read raster output. It is reported as the tool returned it and is not relied on."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "familyId is identical across build-status.json, build-findings.json, approval-request.json, source-receipt.json, product-wiring.json, production-field-map.json and reports/*.json, and matches the MASTER_QUEUE row and the ACTIVE_ASSIGNMENTS VF02 item string exactly. The single routeKey obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission matches the route-obligation census row, whose recorded instrument is a \"certified-disposition correction submission to DCJS\" and whose destination is \"New York State Division of Criminal Justice Services\". The route key is printed on the face of the delivered packet, on pages 2, 4 and 6 of both fixtures, and in the instructions footer.",
+          "evidence": "product-wiring.json routeKeys; route-obligation-candidate.json row obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission; canonical.pdf page 2/4/6 text \"Route: obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission\" read from the content streams"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both bound records recomputed from the committed bytes in this container and both match, hash and byte length. data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json = 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef, 184365 bytes, as recorded. src/lib/rcap-engine/compiled/profiles/NY-new-york.json = ee4926a11e1035c530f3e1cabd71783c260332c799726b175dc2f529f108fa1e, 188645 bytes, as recorded. The family binds no source PDF and none is claimed: custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT, documents [], and the receipt states in terms that neither OCA nor DCJS publishes a Sec. 160.55 correction form. No Master Library artifact is required by this family, so the corpus-absence limitation that caps other rows in this lane does not reach it.",
+          "evidence": "sha256sum recomputed here on both files; source-receipt.json committedRecords[]"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Three components named — court_transmission_correction_request, dcjs_correction_submission, agency_route_sheet — and all three are rendered and present in both fixtures. I did not take this from the manifest: I decoded every content stream and read the text back. canonical.pdf carries 121 text items over 6 pages and boundary.pdf 126 over 6, and each component owns two pages in both. requiredComponentsMissing 0 measured here. No placeholder page, no \"insert your own page here\" instruction, and no page that is a caption without a body.",
+          "evidence": "content streams of fixtures/canonical.pdf and fixtures/boundary.pdf decoded and read in this container; reports/rendered-artifacts.json componentSet"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Eleven declared writes per fixture, and I confirmed every one of the twenty-two by reading the value back out of the text of its OWN component’s pages, not out of the packet as a whole — a value that landed on the wrong letter would have been caught. Canonical writes participant name, date of birth, mailing address, telephone and email onto the court letter and the same five identity facts onto the DCJS letter, plus the prepared-for line on the route sheet. Boundary does the same with a long hyphenated name, an apostrophe, a two-line address, an extension-bearing telephone and a 52-character email, and every one is present and wrapped rather than truncated. 0 not found.",
+          "evidence": "reports/actual-writes.json actualWrites[] cross-checked against per-component page text extracted from the fixture bytes here; knownRequiredFieldsMissing 0 and invisibleWrites 0 from the completeness verifier run here"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Eleven declared, and all eleven are disclosed in participant-instructions.md — checked verbatim, both the disclosureLabel and the participantMustSupply guidance string, 0 missing. They are grouped under the document each belongs to, six for the court letter and five for the DCJS letter, and each printed caption exists on the page the map names. The instructions additionally state what the platform deliberately left blank and why, and the file names what the packet does not tell the participant, per office.",
+          "evidence": "production-field-map.json requiredBeforeFiling[] (11) matched string-for-string against participant-instructions.md in this container; reports/blanks-left-for-the-participant.json everyRequiredBeforeFilingItemIsDisclosed true"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Two route-determined elections and both are made and stated on the face of the packet, not merely in the map. The statutory branch is the post-November 1, 1991 automatic branch of CPL Sec. 160.55, and the delivered route sheet says so (\"For a post-November 1, 1991 qualifying disposition the participant ordinarily FILES NOTHING\") while page 6 sends a pre-1991 disposition away to the legacy branch. The instrument election — correspondence to the sentencing court first and DCJS second — is stated in the component condition, in the service section and as steps 6 and 7 of the instructions. requiredOptionsMissing 0.",
+          "evidence": "production-field-map.json routeSelectionsMade[]; canonical.pdf pages 5 and 6 text read here"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Vacuously satisfied and measured rather than assumed. This family renders no repeating case or offence grid: production-field-map.json measuredCells is an empty object, all three maps carry zero cells, and the decoded content streams contain no table, no rule and no repeated row structure — the operator census over all twelve content streams is BT/ET/q/Q/Tf/Tm/TL/T*/Tj/rg and nothing else. There is no row that could carry a written cell beside a blank required one. incompleteRows 0.",
+          "evidence": "operator census over the six canonical and six boundary content streams decoded here; production-field-map.json measuredCells {} and maps[].cells 0"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Four protected blanks declared, all class signature_or_date_participant_completion — a signature and a signature date on each of the two letters — and none carries ink in either fixture. I located them in the decoded text: each is a single leader run reading \"DATE ............................ SIGNATURE OF WRITER ......................................\", on page 2 and page 3 of each fixture, with no name, no date and no mark. Each letter also prints, immediately beneath, \"(The writer signs and dates this letter personally. Nothing on this page is signed or dated for the writer.)\". No certificate of mailing, court-only or prosecutor-only field exists on this route and none is drawn. protectedWrites 0, refusedFieldsWithInk [].",
+          "evidence": "reports/blanks-left-for-the-participant.json protectedBlanks[] (4); the four signature lines read from the fixture bytes here"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both fixtures recomputed here and both match: canonical.pdf addce736a67209bd19baa69fb0fda0c4db116f02f73c725c668e1dead9df5a40 at 14075 bytes and boundary.pdf ecfe03f16e3eceb6ba249c49593f179b829217394fb9d28135f3262befa54f71 at 14643 bytes. I then checked every committed record that names these bytes, not only the render report: reports/rendered-artifacts.json, product-wiring.json proposedRepresentation.components[0].sha256, RASTER_QUEUE.json canonicalPdfSha256/boundaryPdfSha256, and pf04/rows.json all carry the current digest. There is no stale wiring digest on this family and no record naming a byte string these files do not have.",
+          "evidence": "sha256sum on both fixtures here; repository-wide grep for both digests and for the canonical fixture path, four records, all current"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The rendered order matches the manifest page for page, measured from the bytes rather than read from the manifest. The Pages object /Kids array is [6 8 11 13 16 18] and I read each page’s own content stream in that order: pages 1-2 are the court transmission request (heading, TO/FROM/RE block, numbered paragraphs 1-3, then paragraph 4 and the signature block), pages 3-4 the DCJS correction submission in the same shape, pages 5-6 the agency route sheet. That is exactly the pageManifest of both fixtures, and it is also the order the recorded workflow requires — court first, DCJS second — so the packet cannot be mailed out of sequence by reading it front to back. Both fixtures are 6 pages as declared.",
+          "evidence": "PDF /Kids order and per-page content streams decoded here against reports/rendered-artifacts.json artifacts[].pageManifest for both fixtures"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "measuredHow": "glyph geometry from the delivered bytes, not pixels",
+          "finding": "Measured completely for this artifact class, and I can say why it is complete rather than partial. Every mark on every page of both fixtures is a text show: the operator census over all twelve content streams is BT/ET/q/Q/Tf/Tm/TL/T*/Tj/rg with no re, f, S, W, Do or any other path, fill, clip or XObject operator, so there is no rule, box, image or form to collide with. The single font is non-embedded /Times-Roman with /WinAnsiEncoding, which is the same standard font the composer measured with, so there is no subsetting or substitution for a raster to reveal. I extracted all 121 canonical and 126 boundary items with their exact Tm origins and measured each one with pdf-lib’s own StandardFonts.TimesRoman widthOfTextAtSize — the identical function the builder wraps at. The composer’s frame is x=72 to x=540 (612pt page, 72pt margins, maxWidth 468). Widest ink in both fixtures is x2=539.775 on page 5, \"The sealing itself: $0, and no filing, because there is no filing. The compiled New York profile this route is\". Zero items exceed 540. Left edge is exactly 72 on every item, top baseline 720, bottom baseline 82. No two items share a baseline with overlapping horizontal extents and no baseline pair is closer than the 14.5pt leading. The boundary fixture is the real test and it passes: a 42-character hyphenated name, a 60-character address and a 52-character email all wrap onto second lines inside the frame rather than running out of it. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 in the builder’s byte proof agrees with my independent measurement.",
+          "whatThisDoesNotCover": "A pixel render could still catch a viewer-level rendering fault that the byte geometry cannot express. That is why visualDefects is recorded as unmeasured and the verdict is held at PASS rather than PASS_COMPLETE_INDEPENDENT. This obligation is scored on what I measured; the counter is not.",
+          "evidence": "content-stream operator census and per-item Tm/Tf/Tj geometry decoded here from fixtures/canonical.pdf and fixtures/boundary.pdf, widths from pdf-lib StandardFonts.TimesRoman; reports/actual-writes.json nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The route census names one destination for this route, \"New York State Division of Criminal Justice Services\", and the packet names it — \"NEW YORK STATE DIVISION OF CRIMINAL JUSTICE SERVICES - RECORD REVIEW UNIT\" on the face of the DCJS letter and throughout the instructions — together with the records office of the court that disposed of the case, for the workflow’s prior step. The packet also states the thing a filing-destination reader most needs on this route: there is no court to file in, because the participant files nothing. Both offices are named as offices, not gestured at. I applied the A1/A2 ask-the-repository-first test to the addresses the packet declines to state: I searched both bound records for a street address, a postcode, \"Record Review\" as an address context and the known Albany forms, and neither record holds an address for either office; requiredSourceIds for this census route is empty and no track registry entry or packet-set manifest holds one. The packet’s statement that the repository does not hold either address is therefore true, and it names each office as the authority that publishes its own — which is what A1 requires when the record is empty and forbids when it is not.",
+          "evidence": "route-obligation-candidate.json destination for this route; canonical.pdf page 3 and participant-instructions.md \"Where this goes\"; address search over data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json and src/lib/rcap-engine/compiled/profiles/NY-new-york.json, zero hits"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Scored against DET-FEE-AND-WAIVER-001 with A1, A2, A3 and A4 all applied, and it passes each. The held answer for THIS route is stated: the compiled New York profile’s fee table carries \"Automatic sealing (160.50/160.55/Clean Slate) $0 No filing\", keyed to Sec. 160.55 by name, and both the delivered route sheet and the instructions print $0 and quote the line. Where the profile records an item without a figure — \"DCJS record review (your own record) DCJS fee To confirm record / sealing status\" — the packet says no amount is held and names the DCJS Record Review Unit as the office that publishes it, which is A1 as widened by A2. The waiver limb is answered rather than skipped: there is no fee waiver because there is no filing fee to waive, and the packet still tells a participant who cannot pay the certificate charge to ask the court’s records office and names legal-aid organisations and county district-attorney sealing units.",
+          "a4InternalConsistency": "PASS, and I tested it the way A4 asks — the delivered artifact against its own instructions. The packet prints $0, $5 and $10, and nothing in it says it does not state an amount. The four things it says it does not tell the participant are the two office addresses, the turnaround times, the DCJS record-review cost and whether a particular disposition qualifies; I checked each against the delivered pages and the instructions, and the packet states none of the four anywhere. There is no sentence of the Utah class here.",
+          "a3PerFactPerRouteAnalysis": "The one line worth arguing about is the certificate of disposition charge, $5 outside New York City and $10 within the five boroughs, whose third column in the profile reads \"Required for each 160.59 case\". I applied A3’s three-step test. The fact is the price the issuing court charges for a certificate of disposition; the route is the 160.55 correction submission; and the certificate is an instrument THIS route requires, because the same held record’s own note for ny_160_55_violation makes \"obtain a certificate of disposition\" the first step of this workflow. The $5/$10 row’s subject is the certificate itself and the annotation is the why-you-need-it column, not a scoping of the price to a statute. This is not the West Virginia shape A3 was written against, where a no-fee line keyed to 61-11-25 would have been published as the fee for a different filing under 61-11-26: there the fact was a FILING’s fee and the filings differed, here the fact is one instrument’s price and the instrument is the same one. It is also belt and braces in the packet, which states the sourced figure AND names the issuing court’s records office to confirm the current charge, so it satisfies the standard on both limbs at once and cannot mislead on either. The builder disclosed the 160.59 annotation to the participant in as many words rather than hiding it. I record this as a considered PASS with the reasoning shown, and I have raised the boundary to Captain rather than treating my reading of it as settled.",
+          "whatIsCorrectlyNotCarriedAcross": "The profile’s \"CPL 160.59 sealing application No separate filing fee\" line and its 160.59 filing-destination and venue rules are a different section’s answers and the packet carries none of them across. That is A3 applied correctly by the builder in the direction A3 actually forbids.",
+          "evidence": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json feeRules[] read from the bytes here; canonical.pdf page 5 \"WHAT IT COSTS\"; participant-instructions.md \"What it costs\"; DETERMINATION_FEE_AND_WAIVER_STANDARD.json theStandard, amendment, amendment2, amendment3, amendment4"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Answered, not skipped, and answered in the only way that is true here: nobody has to be served. The route sheet says \"WHO ELSE HAS TO BE TOLD — Nobody. There is no opposing party, no district attorney to notify and no affidavit of service\", and then says how each letter travels: send each to its own office, keep dated proof, and send the court letter first. The instructions repeat it and add the reason the order matters — sending them the other way round asks DCJS to correct a record on a notice the court has not sent. I applied the same ask-the-repository-first test A2 requires: the census row for this route records no service obligation, requiredSourceIds is empty, and the profile’s service and notice material belongs to the 160.59 motion, which A3 forbids reading across. So there is no held service rule the packet is withholding, and no participant is left to discover one.",
+          "evidence": "canonical.pdf page 5 and participant-instructions.md \"Who else has to be told\"; route-obligation-candidate.json row for this route; NY profile 160.59 service material checked and correctly not carried across"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Stated on the delivered pages, not only in the instructions. Page 6 of both fixtures is headed \"WHEN TO STOP AND GET HELP\" and lists six stops: a prior interests-of-justice non-sealing order, where the recorded escalation is named as a motion or counsel; a pre-November 1, 1991 disposition; wanting the courthouse file sealed, which Sec. 160.55 does not reach; a case that ended in something other than a violation or traffic infraction, with Clean Slate named as separate; either office refusing to correct; and any immigration question. The same page then states what the packet is not — not an OCA or DCJS form, not a motion, petition or application, not filed anywhere, not legal advice, not sent for you, and not a promise that either office will correct anything. The single most important negative on this route is unmissable and is repeated four times in the delivered bytes: Sec. 160.55 does not seal the court file, which is exactly the promise the controlling decision forbids.",
+          "evidence": "canonical.pdf page 6 and page 5 \"THE ONE THING TO READ FIRST\"; participant-instructions.md \"When to stop and get help\" and \"What this packet is not\"; build-findings.json finding 5 against the decision’s prohibition"
+        }
+      },
+      "contradictionsWithRecordsAlreadyInTheRepository": [
+        {
+          "what": "The court transmission letter is delivered by this family AND is a separate family of its own.",
+          "detail": "This packet’s pages 1-2 are court_transmission_correction_request. The route census registers that instrument as its own route, obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request, with strategy custom_pleading and destination \"sentencing court\", and MASTER_QUEUE carries a distinct family for it, composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request, state VERIFY_PENDING, with its own build script in scripts/. The DCJS build script opens by saying \"One census-v1 family, one strategy, one route\" and never mentions the sibling; it reasons the court letter in from the controlling decision’s workflow, which is sound on its own terms.",
+          "whyIDidNotFailIt": "COMPONENT_SET is a completeness test — every component the route names is present — and it does not fail for carrying one more. ROUTE_IDENTITY asks whether the packet is built for the route the record names, and everything identifying about this packet is the 160.55 DCJS correction: its legal name, its RE line, its bound decision branch, its printed route key. Nothing here is built for a different route. I am not willing to convert a cross-family scope question into a defect verdict on a packet that has none.",
+          "whatCaptainShouldDecide": "Whether the same letter should ship from two families. If the sibling family also renders it, a participant on the DCJS route and a participant on the court route receive overlapping instruments, and two independent verifications will be certifying one document twice. This is a route-scope decision, not a packet repair, and I have not touched either family.",
+          "raisedNotDecided": true
+        },
+        {
+          "what": "An unexplained file substitution in my own scratchpad, recorded because it bears on how my measurements were made.",
+          "detail": "I wrote a PDF text extractor to /tmp scratchpad; on the next read the file had been replaced by a different, more capable extractor carrying Times-Roman AFM width tables and per-item geometry. I did not write that version. I did not trust it on sight: I read it line by line, and I re-derived its output two independent ways — against my own crude first-pass extraction of the same streams, and against pdf-lib’s own StandardFonts.TimesRoman metrics, which is what every width figure in the CLIPPING_AND_OVERLAP finding is actually computed from. Nothing in this row rests on an unverified tool. No repository file was involved and nothing was written outside this lane’s owned path.",
+          "raisedNotDecided": true
+        }
+      ],
+      "counselQuestionsLeftOpenByTheBuilder": "approval-request.json raises five, and none of them is a completeness defect: whether correspondence is the right instrument where no office publishes a form, whether the certificate charge carries to this route, whether the Record Review Unit is the correct office, the boundary at an interests-of-justice non-sealing order, and whether the no-court-file-sealing wording is strong enough. All five are counsel review, which is a separate track from this one and is not a blocker for this lane. None makes the family BLOCKED_LEGAL_INPUT: nothing the builder needed was open, and no legal answer was guessed.",
+      "whatARepairerNeedsToDo": "Nothing. This family has no defect for a FIX lane. It needs RAS02 to raster the two fixtures against the hashes RASTER_QUEUE already pins, and then counsel review on the five questions the builder itself raised.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "packetsModified": 0,
+      "overlayDirectoriesModified": 0,
+      "grantsNothing": "An independent read proves a packet is complete. It approves no output, opens no commercial route and promotes no family."
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "lane": "VF02",
+      "wave": "packet-factory-24h wave 2 — FABLE-VA2",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verifiedAtBase": "f3c6ee4339f137798bba6d18ac8edc2f0693af88",
+      "verifier": "FABLE-VA2 (independent; built, repaired and rendered none of these packets — the New York family was built by PF04 and this lane is not PF04)",
+      "claim": {
+        "asserted": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 <familyId>",
+        "exitCode": 8,
+        "refusal": "GRANTED_ELSEWHERE: composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction is granted to VF07, not VF02",
+        "grantedTo": "VF07",
+        "at": "2026-09-02T08:34:53Z"
+      },
+      "artifactsOpened": 0,
+      "familyDirectoryRead": false,
+      "obligationsScored": 0,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        }
+      },
+      "note": "This is not a defect finding and not a pass. It is the ledger doing its job: an independent-verification grant on this family is already held by another lane, and a second reading by this one would be duplicate work reported as independent proof.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "packetsModified": 0,
+      "overlayDirectoriesModified": 0
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+      "lane": "VF02",
+      "wave": "packet-factory-24h wave 2 — FABLE-VA2",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verifiedAtBase": "f3c6ee4339f137798bba6d18ac8edc2f0693af88",
+      "verifier": "FABLE-VA2 (independent; built, repaired and rendered none of these packets — the New York family was built by PF04 and this lane is not PF04)",
+      "claim": {
+        "asserted": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 <familyId>",
+        "exitCode": 8,
+        "refusal": "GRANTED_ELSEWHERE: composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement is granted to VF07, not VF02",
+        "grantedTo": "VF07",
+        "at": "2026-09-02T08:34:54Z"
+      },
+      "artifactsOpened": 0,
+      "familyDirectoryRead": false,
+      "obligationsScored": 0,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        }
+      },
+      "note": "This is not a defect finding and not a pass. It is the ledger doing its job: an independent-verification grant on this family is already held by another lane, and a second reading by this one would be duplicate work reported as independent proof.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "packetsModified": 0,
+      "overlayDirectoriesModified": 0
+    },
+    {
+      "itemId": "in_section1_petition-set",
+      "lane": "VF02",
+      "wave": "packet-factory-24h wave 2 — FABLE-VA2",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verifiedAtBase": "f3c6ee4339f137798bba6d18ac8edc2f0693af88",
+      "verifier": "FABLE-VA2 (independent; built, repaired and rendered none of these packets — the New York family was built by PF04 and this lane is not PF04)",
+      "claim": {
+        "asserted": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 <familyId>",
+        "exitCode": 8,
+        "refusal": "GRANTED_ELSEWHERE: in_section1_petition-set is granted to VF09, not VF02",
+        "grantedTo": "VF09",
+        "at": "2026-09-02T08:34:54Z"
+      },
+      "artifactsOpened": 0,
+      "familyDirectoryRead": false,
+      "obligationsScored": 0,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF09. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        }
+      },
+      "note": "This is not a defect finding and not a pass. It is the ledger doing its job: an independent-verification grant on this family is already held by another lane, and a second reading by this one would be duplicate work reported as independent proof.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "packetsModified": 0,
+      "overlayDirectoriesModified": 0
+    },
+    {
+      "itemId": "rcap-ga-guidance-implementation",
+      "lane": "VF02",
+      "wave": "packet-factory-24h wave 2 — FABLE-VA2",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verifiedAtBase": "f3c6ee4339f137798bba6d18ac8edc2f0693af88",
+      "verifier": "FABLE-VA2 (independent; built, repaired and rendered none of these packets — the New York family was built by PF04 and this lane is not PF04)",
+      "claim": {
+        "asserted": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 <familyId>",
+        "exitCode": 8,
+        "refusal": "GRANTED_ELSEWHERE: rcap-ga-guidance-implementation is granted to VF08, not VF02",
+        "grantedTo": "VF08",
+        "at": "2026-09-02T08:34:54Z"
+      },
+      "artifactsOpened": 0,
+      "familyDirectoryRead": false,
+      "obligationsScored": 0,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        }
+      },
+      "note": "This is not a defect finding and not a pass. It is the ledger doing its job: an independent-verification grant on this family is already held by another lane, and a second reading by this one would be duplicate work reported as independent proof.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "packetsModified": 0,
+      "overlayDirectoriesModified": 0
+    },
+    {
+      "itemId": "rcap-wv-custom-pleading",
+      "lane": "VF02",
+      "wave": "packet-factory-24h wave 2 — FABLE-VA2",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verifiedAtBase": "f3c6ee4339f137798bba6d18ac8edc2f0693af88",
+      "verifier": "FABLE-VA2 (independent; built, repaired and rendered none of these packets — the New York family was built by PF04 and this lane is not PF04)",
+      "claim": {
+        "asserted": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 <familyId>",
+        "exitCode": 8,
+        "refusal": "GRANTED_ELSEWHERE: rcap-wv-custom-pleading is granted to VF07, not VF02",
+        "grantedTo": "VF07",
+        "at": "2026-09-02T08:34:54Z"
+      },
+      "artifactsOpened": 0,
+      "familyDirectoryRead": false,
+      "obligationsScored": 0,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF07. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        }
+      },
+      "note": "This is not a defect finding and not a pass. It is the ledger doing its job: an independent-verification grant on this family is already held by another lane, and a second reading by this one would be duplicate work reported as independent proof.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "packetsModified": 0,
+      "overlayDirectoriesModified": 0
+    },
+    {
+      "itemId": "wv_conv_single_misdemeanor-set",
+      "lane": "VF02",
+      "wave": "packet-factory-24h wave 2 — FABLE-VA2",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verifiedAtBase": "f3c6ee4339f137798bba6d18ac8edc2f0693af88",
+      "verifier": "FABLE-VA2 (independent; built, repaired and rendered none of these packets — the New York family was built by PF04 and this lane is not PF04)",
+      "claim": {
+        "asserted": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 <familyId>",
+        "exitCode": 8,
+        "refusal": "GRANTED_ELSEWHERE: wv_conv_single_misdemeanor-set is granted to VF08, not VF02",
+        "grantedTo": "VF08",
+        "at": "2026-09-02T08:34:54Z"
+      },
+      "artifactsOpened": 0,
+      "familyDirectoryRead": false,
+      "obligationsScored": 0,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "UNMEASURED",
+          "reason": "The claim gate refused this family before any artifact was opened: GRANTED_ELSEWHERE, exit 8, granted to VF08. The lane contract makes a non-zero assert a full stop — read none of its artifacts — so this obligation was not measured and is recorded unmeasured rather than passed."
+        }
+      },
+      "note": "This is not a defect finding and not a pass. It is the ledger doing its job: an independent-verification grant on this family is already held by another lane, and a second reading by this one would be duplicate work reported as independent proof.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "packetsModified": 0,
+      "overlayDirectoriesModified": 0
     }
   ],
   "vt1Read": {
@@ -2924,5 +3797,53 @@
     "packetsModified": 0,
     "commercialRoutesOpened": 0,
     "productionTouched": false
+  },
+  "va2Read": {
+    "worker": "FABLE-VA2",
+    "verifier": "FABLE-VA2 (independent; built, repaired and rendered none of these packets — the New York family was built by PF04 and this lane is not PF04)",
+    "readAtBase": "f3c6ee4339f137798bba6d18ac8edc2f0693af88",
+    "branch": "fable/va2",
+    "wave": "packet-factory-24h wave 2",
+    "assignedByDispatch": 7,
+    "subjects": [
+      "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+      "in_section1_petition-set",
+      "rcap-ga-guidance-implementation",
+      "rcap-wv-custom-pleading",
+      "wv_conv_single_misdemeanor-set"
+    ],
+    "claimResults": {
+      "CLAIM_OK": 1,
+      "GRANTED_ELSEWHERE_exit8": 6,
+      "detail": "Only the New York family is granted to VF02 in claim-ledger.json. The other six seed items named in the VF02 dispatch are granted to VF07 (three), VF08 (two) and VF09 (one) under operation independent-verification, all unreleased. Every one of the six answered exit 8 GRANTED_ELSEWHERE, and not one artifact of any of them was opened."
+    },
+    "theDispatchAndTheLedgerDisagree": "ACTIVE_ASSIGNMENTS.json lists seven seed items for VF02. claim-ledger.json grants VF02 exactly one of them. The ledger governs, so this lane verified one family and recorded the other six as BLOCKED_BEFORE_CLAIM with their exact refusals. Captain should know that six of the seven items in the VF02 dispatch are live work in three other lanes, not idle work waiting for this one.",
+    "perRowBase": "verifiedAtBase is carried on each row this worker added. The document-level fields above — baseSha, worker, measuredBy and sourceIdentityLimitation — describe the earlier reads and were left exactly as they were found; none of them describes these seven rows.",
+    "theDocumentLevelSourceLimitationDoesNotReachThisRead": "The document-level sourceIdentityLimitation records that the Master Library corpus was absent for an earlier read. It is irrelevant to this one: the single family verified here binds no Master Library artifact at all. Its custodyClass is CUSTOM_PLEADING_FROM_CODIFIED_TEXT and its two sources are committed repository records, both of which were recomputed from their bytes in this container and both of which matched. SOURCE_IDENTITY on this row is a real measurement, not a cross-record consistency substitute.",
+    "measuredBy": "the fifteen canonical proof obligations scored by name, from the delivered PDF bytes outward — every content stream decoded, every text item positioned and measured — plus scripts/rcap-packet-completeness/verify-packet-completeness.mjs run in this container rather than read from any builder report",
+    "whatICouldNotMeasure": [
+      "visualDefects for the New York family. No raster has run against these bytes: RASTER_QUEUE.json gives the family currentRasterState RASTER_PENDING with nextOwner RAS02 and no receipt exists. This lane cannot read raster output and claims no pixel was inspected. The verdict is held at PASS for that reason alone.",
+      "Anything at all about the six families the claim gate refused. Their artifacts were not opened."
+    ],
+    "summaryOfTheseRows": {
+      "families": 7,
+      "PASS_COMPLETE_INDEPENDENT": 0,
+      "PASS": 1,
+      "FAIL_REPAIR_REQUIRED": 0,
+      "BLOCKED_SOURCE": 0,
+      "BLOCKED_LEGAL_INPUT": 0,
+      "BLOCKED_BEFORE_CLAIM": 6
+    },
+    "repairAssignmentsAdded": 0,
+    "repairAssignmentsFileUntouched": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json is left byte-for-byte as found: this read produced no FAIL_REPAIR_REQUIRED verdict, so it has nothing to add to it.",
+    "overlayDirectoriesModified": 0,
+    "packetsModified": 0,
+    "buildScriptsModified": 0,
+    "manifestsModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "This read approves no output, opens no commercial route and promotes no family."
   }
 }
