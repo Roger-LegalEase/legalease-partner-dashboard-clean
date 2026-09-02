@@ -158,11 +158,39 @@ function staticFailures(evidence) {
     "B-independent: the review does not disclaim standing in for independent human review");
 
   // -- C. Oregon stays CANDIDATE_ONLY ---------------------------------------
+  //
+  // A route the decision owner has since taken off the packet treatment is
+  // still measured for non-sellability, and is no longer measured for binding a
+  // packet form.
+  //
+  // OR:marijuana-specific-set-aside-redesignation is the case. On 2026-09-02
+  // Roger Roman answered Q1 over it — "GUIDANCE / OUT-OF-SCOPE STANDS. A
+  // completed packet does not override the controlling route-ratification
+  // decision" — against a route-ratification status of held_guidance, "Held to
+  // substantive guidance only. Not a packet route." Its contract now carries
+  // outcomeMode guidance_status with no packet family, so the resolver returns
+  // guidance_only and the route renders nothing and binds no form.
+  //
+  // Asserting that it still binds OR-OJD-ADULT-SET-ASIDE-PACKET would make this
+  // gate require, of one route, exactly what the controlling record forbids.
+  // The two checks that carry section C's actual purpose — that nothing here is
+  // sellable or credit-consumable — apply to all three routes and are unchanged.
+  // The record is
+  // data/rcap-grade-a/legal-decisions/TERMINAL_TREATMENTS_WRONG_DELIVERY_TYPE.json.
+  const OWNER_TERMINALIZED = new Set(["OR:marijuana-specific-set-aside-redesignation"]);
   for (const routeId of OR_ROUTES) {
     const [, pathwayId] = routeId.split(":");
     const resolved = resolvePacketRoute({ state: "OR", pathway: pathwayId, trackId: null });
     fail(resolved.sellable === false, `C-sellable ${routeId}: resolved sellable`);
     fail(resolved.creditConsumable === false, `C-credit ${routeId}: resolved credit-consumable`);
+    if (OWNER_TERMINALIZED.has(routeId)) {
+      // The positive form of the same fact: the owner's refusal is in force.
+      fail(packetRouteCanRender(resolved) === false,
+        `C-terminalized ${routeId}: the owner took this route off the packet treatment and it still renders a packet`);
+      fail((resolved.factoryV2?.officialFormIds ?? []).length === 0,
+        `C-terminalized-form ${routeId}: the owner took this route off the packet treatment and the resolver still binds an official form`);
+      continue;
+    }
     fail(packetRouteCanRender(resolved) === true, `C-render ${routeId}: the route cannot render`);
     fail((resolved.factoryV2?.officialFormIds ?? []).includes(PACKET_FORM), `C-form ${routeId}: the resolver does not bind ${PACKET_FORM}`);
   }
