@@ -17,8 +17,8 @@
   ],
   "familiesAudited": 126,
   "byResult": {
-    "PASS_COMPLETE": 115,
-    "FAIL_COMPONENT_SET": 4,
+    "PASS_COMPLETE": 116,
+    "FAIL_COMPONENT_SET": 3,
     "FAIL_MISSING_REQUIRED_FACTS": 4,
     "FAIL_ROUTE_SELECTION": 3
   },
@@ -6335,7 +6335,8 @@
     {
       "familyId": "rcap-oh-custom-pleading-clean-tracks",
       "directory": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading",
-      "result": "FAIL_COMPONENT_SET",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -6347,20 +6348,22 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
+      "failedCounters": [],
       "totals": {
-        "terminalFields": 0,
-        "written": 0,
-        "blank": 0,
-        "blanksByDisposition": {},
-        "rowsInspected": 0
+        "terminalFields": 52,
+        "written": 24,
+        "blank": 28,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 20,
+          "PROTECTED_FIELD": 8
+        },
+        "rowsInspected": 0,
+        "fieldMapSchema": "documents-and-decisions"
       },
-      "findings": [
-        {
-          "counter": "requiredComponentsMissing",
-          "why": "the family has no production-field-map.json, so nothing states what it was supposed to write"
-        }
-      ],
-      "auditable": false
+      "outputApprovalStatus": "REQUESTED_NOT_GRANTED",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
     },
     {
       "familyId": "ri_marijuana-set",
