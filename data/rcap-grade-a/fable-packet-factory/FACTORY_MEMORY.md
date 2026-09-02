@@ -414,3 +414,98 @@ reissued claim must sit on THAT lane, every prior claim must be released, the
 family's state must owe the operation, no external worker may hold it, and it
 must not have been released after its last reissue. Three of those six were
 added only after a gate caught the version without them.
+
+## A ledger merge is a three-way merge, not a union
+
+Two branches both appending to `claim-ledger.json` looks like a union, and for
+a while it was resolved as one. It is not, for two reasons that each cost
+something real.
+
+Captain **deletes** claims: `generate.mjs` withdraws a live grant when the
+dispatch stops carrying its lane. So a claim present in a branch and absent
+from Captain's side is usually a deliberate withdrawal, and a union
+resurrected four of them as live.
+
+And "a released copy supersedes an unreleased one" is only true when the
+release is the *newer* fact. A branch cut before a repair was reopened carries
+the old released copy; taking it marked a repair finished on a family that was
+sitting at FAIL_REPAIR_REQUIRED waiting for exactly that repair.
+
+Use the merge base. Per claim, whichever side differs from the base is the side
+that changed it; both sides changing it differently is a real conflict and must
+refuse rather than resolve. Presence merges the same way. Keep the append-only
+order — `claimsDigest` is taken over the claims *in order* — and recompute the
+digest, since it is a function of the claims.
+
+## A refusal that discards good work is not strictness
+
+`extract-verifier-returns.mjs` refused to write anything when any row was
+unreadable. Every bad row was already skipped by a `continue`, so the only
+thing the global refusal added was throwing away the *good* rows. Seven rows
+carrying the token "UNMEASURED" froze the entire extraction; the committed
+file stood still for over an hour while the generator went on reading it, so
+the queue looked settled and was stale, and a lane's four passes and two
+genuine legal-safety failures could not reach it.
+
+Scope a refusal to the thing that is actually broken, and carry the refusals
+*in* the document — durable and countable — rather than in a console line
+nobody re-reads.
+
+## An older repair cannot answer a newer verdict
+
+A family with an independent FAIL, a released repair grant and clean counters
+was being sent to VERIFY_PENDING on the assumption that the repair had done
+what the verdict demanded. Nothing checked the order. A verdict read at a base
+that *already contained* that repair was cleared by it anyway, and a packet
+that told a non-citizen participant nothing about immigration consequences sat
+as merely unverified. The lane's own summary: the gap survived a fail, a repair
+and a pass.
+
+The ledger cannot order releases against verdicts, but git can: ask whether the
+family's own artefacts moved between the base the verdict was read at and this
+head. Unmoved means the verdict describes *this* head and no earlier repair
+answers it. Unorderable falls to FAIL, because a defect nobody can show was
+fixed is a defect.
+
+And be careful what counts as moving. The first version of that test looked at
+the whole family directory, and on its first run a refresh of the generated
+`product-wiring.json` released two failures. A regenerated digest cannot answer
+a finding about what a sentence says. Exclude what this factory's own
+generators write; include the build script, which lives outside the directory
+and is where several repairs actually land.
+
+## A hard-coded list of lane returns will silently lose work
+
+The conveyor reads hand-established addresses from lane returns precisely
+because the manifest is regenerated and work written into it disappears. The
+roster of *which* returns to read was itself hard-coded, so a lane committed
+fourteen families of address work and the conveyor saw none of it — no gate
+refused it, nobody had added the filename. Read the whole directory in sorted
+order and let the admission rule decide; refuse two returns claiming one
+address rather than letting file order pick a winner.
+
+## A label can name a different document in each family
+
+The tier-3 identity map is global, and for almost every `official-form:` label
+that is right — the Indiana CCA forms and the Texas statement of inability
+really are one statewide document everywhere they are named. `servesFamilies`
+records which families a reading lane looked at, not an exclusive licence, so
+scoping every finding to it falsely unbinds fourteen of those.
+
+But Arkansas publishes a separate order to seal for felonies and for
+misdemeanours under one census label, and Iowa's "Certification of Service by
+Mailing or Delivery" is not published at all — it is printed inside each
+family's own application form. Globally, the first shape hands one family the
+other's document whenever only one half is held; the second poisons the label
+so neither binds. Hence `labelIsFamilySpecific`, opt-in per artifact: admitted
+only for the families it names, and its label withheld from the global map
+entirely, because the content of the flag is that the label does not identify
+one document.
+
+## Verify a new gate by making it fire
+
+A check that passes on a clean tree has proved nothing. F24 was extended to
+catch a dispatch naming a subject another lane holds live — a hole that cost
+two verification lanes half their runs in exit-8 refusals. It was confirmed by
+injecting exactly that condition into a scratch copy of the ledger, watching
+F24 go red, and restoring. Green-before and green-after is not evidence.
