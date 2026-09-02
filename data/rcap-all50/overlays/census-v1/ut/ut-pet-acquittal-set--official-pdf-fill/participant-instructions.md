@@ -62,7 +62,7 @@ Two things are worth saying plainly rather than hiding. That sentence records wh
 
 This packet still includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*. It exists for a prosecutor who chooses to acknowledge receipt; it is not a step this route requires you to perform, and the packet leaves it blank.
 
-The prosecutor or a victim in your case may object to a filed petition; if the court schedules a hearing, attend it.
+The prosecutor or a victim in your case may object to a filed petition, and the court may schedule a hearing. **The committed track registry records both of those as the point where this packet's self-help ends** — get a lawyer or a legal-aid office rather than arguing it yourself. A hearing date does not wait while you look, so start looking the day you learn of one. The Utah State Courts Self-Help Center answers procedural questions on **888-583-0009**, and it is not a substitute for a lawyer at a contested hearing.
 
 The certificate-of-service blocks on these forms are left blank, and on this route they stay blank: no service step belongs to you. If some other delivery is ever made, its method, address and date go in only after it has actually happened — a certificate of service dated before service is a false statement.
 
@@ -83,6 +83,21 @@ The first item below decides whether any of the rest applies. Everything after i
 - Service method, address, date, and certification only if some delivery is ever made and only after it happens; the court gives the notices this route requires
 
 Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected.
+
+## When to stop and get a lawyer
+
+The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:
+
+- The participant is not a US citizen. The Utah Courts self-help page itself tells non-citizens to consult an immigration lawyer before expunging, because the FBI may retain records of an expunged case. This is a hard stop, not a caveat.
+- The prosecutor or a victim objects, or the court schedules a hearing.
+- BCI offers a special certificate instead of a certificate of eligibility, because the court rather than BCI then decides eligibility.
+- The public-interest showing has to be argued rather than simply stated.
+- Any conviction-counting question near the 77-40a-303(4) or (5) limits, including out-of-state and previously expunged convictions.
+- An active protective order or stalking injunction.
+- The participant is asking to expunge appellate records.
+- The verdict was not guilty by reason of insanity, which the review treats as out of scope until the petition-track position is confirmed.
+
+The last of these is this route's own question. This packet is built for an acquittal, and the record stops self-help where the verdict was not guilty by reason of insanity rather than a plain acquittal; if that is what your verdict was, that is the point the record marks, and this is not the petition for it until the petition-track position is confirmed.
 
 ## What this packet is not
 
