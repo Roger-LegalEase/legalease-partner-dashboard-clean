@@ -699,7 +699,51 @@ const SPEC = {
       ]
     },
     {
-      "id": "wv_drug_conditional_discharge-filing-instructions-4",
+      "id": "wv_drug_conditional_discharge-records-checklist-4",
+      "routeKey": "obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief",
+      "role": "records_checklist",
+      "title": "Records Checklist - Clear a first drug-possession case that ended in a conditional discharge",
+      "description": "the records the committed track registry requires the participant to obtain, who holds each of them, and the answers each one is used to check (Clear a first drug-possession case that ended in a conditional discharge)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "The committed track registry for this route records the documents you must obtain before this application can be filed, who holds each one, and which answer in this packet each one is used to check. They are set out below in the registry's own words. Nothing on this page is a fact about your case; it is a list of the records your case's own facts have to be read from.",
+        "",
+        "GET THESE BEFORE YOU FILE",
+        "",
+        "[ ] Obtain Conditional discharge order and the order of discharge and dismissal. Ask the clerk for certified copies of the order deferring proceedings and placing you on probation, and of the later order discharging you and dismissing the proceedings. Both dates matter and they are usually different.",
+        "    Who holds it: Clerk of the court that entered them.",
+        "    Check your answer to \"On what date did the court enter the order deferring proceedings and placing you on probation?\" against Conditional discharge order and the order of discharge and dismissal, and correct the packet if they disagree.",
+        "",
+        "[ ] Obtain Written confirmation of the date the probation term expired. Ask the supervising probation office for written confirmation of the date your probation term expired. The six-month clock runs from that date, not from the dismissal, and the two are often months apart.",
+        "    Who holds it: The probation office that supervised the participant.",
+        "    Check your answer to \"On what date did that probation term expire?\" against Written confirmation of the date the probation term expired, and correct the packet if they disagree.",
+        "",
+        "GET THIS IF IT APPLIES TO YOU",
+        "",
+        "[ ] Obtain Receipt or clerk's confirmation that court costs were paid. Ask the clerk for a payment history or a receipt showing the assessed costs are paid.",
+        "    Who holds it: Clerk of the court that assessed them.",
+        "    When it applies: Only where court costs were assessed under Sec. 60A-4-407(c) and the participant is unsure whether they are satisfied.",
+        "    Check your answer to \"Have you paid the court costs the court assessed in this case?\" against Receipt or clerk's confirmation that court costs were paid, and correct the packet if they disagree.",
+        "",
+        "WHY THE TWO DATES ARE NOT THE SAME DATE",
+        "",
+        "The six-month period this application depends on begins to run on the expiration of the term of probation, not on the date the court dismissed the proceedings. The registry records that the two are often months apart, which is why the probation office's written confirmation is a separate record from the clerk's orders and why both are required.",
+        "",
+        "This page is a checklist. It is not filed with the court and it asserts nothing about your case."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "wv_drug_conditional_discharge-filing-instructions-5",
       "routeKey": "obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief",
       "role": "filing_instructions",
       "title": "Filing Instructions - Clear a first drug-possession case that ended in a conditional discharge",
@@ -752,7 +796,9 @@ const SPEC = {
         "",
         "- wv_drug_conditional_discharge-primary-filing-1: the composed petition, on this route's own statutory ground (Clear a first drug-possession case that ended in a conditional discharge)",
         "- wv_drug_conditional_discharge-supporting-affidavit-2: the sworn affidavit filed with the application (Clear a first drug-possession case that ended in a conditional discharge)",
-        "- wv_drug_conditional_discharge-certificate-of-service-3: the page on which the participant records that the papers were actually delivered, signed only after delivery (Clear a first drug-possession case that ended in a conditional discharge)"
+        "- wv_drug_conditional_discharge-certificate-of-service-3: the page on which the participant records that the papers were actually delivered, signed only after delivery (Clear a first drug-possession case that ended in a conditional discharge)",
+        "- wv_drug_conditional_discharge-records-checklist-4: the records the participant must have in front of them before the application can be completed (Clear a first drug-possession case that ended in a conditional discharge)",
+        "- wv_drug_conditional_discharge-filing-instructions-5: this page"
       ],
       "writes": [
         {
