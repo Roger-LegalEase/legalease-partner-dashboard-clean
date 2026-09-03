@@ -248,7 +248,9 @@ function run() {
     if (r.boundCount === 0) return f.implementationStrategy !== "custom_pleading" && f.implementationStrategy !== "participant_agency_application";
     return r.boundSources.some((b) => !b.path || !b.sha256 || !b.tier);
   }).map((f) => f.familyId);
-  const blockedWithNoReason = master.families.filter((f) => f.state === "SOURCE_BLOCKED" && (f.sourceReadiness?.reasons ?? []).length === 0).map((f) => f.familyId);
+  const blockedWithNoReason = master.families.filter((f) => f.state === "SOURCE_BLOCKED"
+    && (f.sourceReadiness?.reasons ?? []).length === 0
+    && !f.verifierSourceHold?.evidencePath).map((f) => f.familyId);
   check("F13", "SOURCE_READY means every required source is held, indexed and hash-matched",
     falselyReady.length === 0 && blockedWithNoReason.length === 0,
     `${falselyReady.length} falsely ready [${falselyReady.slice(0, 3).join(", ")}]; ${blockedWithNoReason.length} blocked with no stated reason`);
@@ -449,6 +451,109 @@ function run() {
   check("F30", "the visual gate is moved to a browser-equipped runner and not weakened: exact bytes queued, and no family proven without RASTER_PASS",
     rasterProblems2.length === 0,
     `${rq?.rows?.length ?? 0} famil(ies) queued; ${rasterProblems2.length} problem(s): ${rasterProblems2.slice(0, 3).join(" | ")}`);
+
+  /*
+   * 31. A claim-gate refusal is history, not a packet verdict.
+   *
+   * BLOCKED_BEFORE_CLAIM records that one lane was not allowed to read a
+   * family. The extractor intentionally preserves those rows, including their
+   * original base, but excludes them from the substantive-verdict contest. A
+   * consumer must therefore keep the row as history while selecting a later
+   * completed read of the packet.
+   */
+  const claimRefusalProblems = [];
+  const currentSubstantiveByFamily = new Map();
+  const onlyPreclaimFamilies = new Set();
+  let preservedRefusalsBesideSubstantive = 0;
+  if (!vr) claimRefusalProblems.push("no verifier-return extraction to check");
+  else {
+    const verifierRows = (vr.rows ?? []).filter((r) => r.isIndependentVerification);
+    const wave2Passing = new Set((read("data/rcap-grade-a/launch-control/WAVE_2_VERIFICATION_LEDGER.json").rows ?? [])
+      .filter((r) => r.verdict === "PASS")
+      .map((r) => r.family));
+    for (const r of verifierRows.filter((r) =>
+      r.verdict && r.verdict !== "BLOCKED_BEFORE_CLAIM" && !r.superseded)) {
+      currentSubstantiveByFamily.set(r.familyId, r);
+    }
+    const preclaimRows = verifierRows.filter((r) => r.verdict === "BLOCKED_BEFORE_CLAIM");
+    const carriedHistory = new Set(preclaimRows.map((r) => `${r.lane}/${r.familyId}`));
+    const declaredHistory = new Set(vr.refusedAtTheClaimGate?.rows ?? []);
+    for (const key of declaredHistory) if (!carriedHistory.has(key)) claimRefusalProblems.push(`${key} is declared as claim-gate history but its row was lost`);
+    for (const key of carriedHistory) if (!declaredHistory.has(key)) claimRefusalProblems.push(`${key} is carried as claim-gate history but omitted from the history index`);
+    for (const refusal of preclaimRows) {
+      if (currentSubstantiveByFamily.has(refusal.familyId)) preservedRefusalsBesideSubstantive += 1;
+      else onlyPreclaimFamilies.add(refusal.familyId);
+    }
+    if (preservedRefusalsBesideSubstantive === 0) {
+      claimRefusalProblems.push("no preserved claim-gate refusal exists beside a current substantive verdict; the check has no subject");
+    }
+    const rasterPassed = new Set((rq?.rows ?? [])
+      .filter((r) => r.currentRasterState === "RASTER_PASS")
+      .map((r) => r.familyId));
+    for (const [familyId, substantive] of currentSubstantiveByFamily) {
+      if (!verifierRows.some((r) => r.familyId === familyId && r.verdict === "BLOCKED_BEFORE_CLAIM")) continue;
+      const fam = familyById.get(familyId);
+      if (!fam) {
+        claimRefusalProblems.push(`${familyId} has a current substantive verdict but no queue row`);
+        continue;
+      }
+      const selected = fam.selectedIndependentVerdict;
+      if (!selected
+        || selected.verdict !== substantive.verdict
+        || selected.lane !== substantive.lane
+        || selected.verifiedAtBase !== (substantive.verifiedAtBase ?? null)
+        || selected.evidencePath !== substantive.evidencePath) {
+        claimRefusalProblems.push(`${familyId} selected ${selected?.lane ?? "none"}/${selected?.verdict ?? "none"} instead of ${substantive.lane}/${substantive.verdict}`);
+        continue;
+      }
+      if (substantive.verdict === "FAIL_REPAIR_REQUIRED" && fam.state !== "FAIL_REPAIR_REQUIRED") {
+        claimRefusalProblems.push(`${familyId} has a current repair-required verdict but the queue calls it ${fam.state}`);
+      } else if (substantive.verdict === "BLOCKED_SOURCE" && fam.state !== "SOURCE_BLOCKED") {
+        claimRefusalProblems.push(`${familyId} has a current source-blocked verdict but the queue calls it ${fam.state}`);
+      } else if (substantive.verdict === "BLOCKED_LEGAL_INPUT" && fam.state !== "LEGAL_BLOCKED") {
+        claimRefusalProblems.push(`${familyId} has a current legal-blocked verdict but the queue calls it ${fam.state}`);
+      } else if (substantive.verdict === "PASS_COMPLETE_INDEPENDENT"
+        && substantive.verifiedAtBase === master.minimumCaptainSha
+        && rasterPassed.has(familyId)
+        && !["COMPLETE_PACKET_PROVEN", "VERIFIED_PASS", "LEGAL_BLOCKED", "WRONG_DELIVERY_TYPE"].includes(fam.state)) {
+        claimRefusalProblems.push(`${familyId} has a current-base pass with raster evidence but the queue calls it ${fam.state}`);
+      }
+    }
+    for (const familyId of onlyPreclaimFamilies) {
+      const fam = familyById.get(familyId);
+      if (!fam) claimRefusalProblems.push(`${familyId} has only a claim-gate refusal and no queue row`);
+      else if (fam.selectedIndependentVerdict?.verdict !== "BLOCKED_BEFORE_CLAIM") claimRefusalProblems.push(`${familyId} has only a claim-gate refusal but selected ${fam.selectedIndependentVerdict?.verdict ?? "nothing"}`);
+      else if (fam.state === "SOURCE_READY") claimRefusalProblems.push(`${familyId} has only a claim-gate refusal but the queue ignores it and calls the family SOURCE_READY`);
+      else if (["COMPLETE_PACKET_PROVEN", "PASS_COMPLETE"].includes(fam.state)) claimRefusalProblems.push(`${familyId} has only a claim-gate refusal but the queue over-promotes it to ${fam.state}`);
+      else if (fam.state === "VERIFIED_PASS" && !wave2Passing.has(familyId)) claimRefusalProblems.push(`${familyId} has only a claim-gate refusal and no separate wave-2 PASS, but the queue promotes it to VERIFIED_PASS`);
+    }
+  }
+  check("F31", "historical BLOCKED_BEFORE_CLAIM rows remain preserved without outranking current substantive verdicts",
+    claimRefusalProblems.length === 0,
+    `${preservedRefusalsBesideSubstantive} preserved refusal row(s) beside current substantive verdicts, ${onlyPreclaimFamilies.size} only-refusal family(ies); ${claimRefusalProblems.length} problem(s): ${claimRefusalProblems.slice(0, 3).join(" | ")}`);
+
+  /* 32. A current source refusal stops at source; it never re-enters packet verification. */
+  const sourceBlockProjectionProblems = [];
+  const selectedSourceBlocks = (vr?.rows ?? []).filter((r) =>
+    r.isIndependentVerification
+    && r.verdict === "BLOCKED_SOURCE"
+    && !r.superseded);
+  const verdictLedger = fs.existsSync(path.join(ROOT, LEDGER)) ? read(LEDGER) : null;
+  const liveVerificationClaims = new Set((verdictLedger?.claims ?? [])
+    .filter((c) => c.laneKind === "independent-verification" && c.released !== true)
+    .flatMap((c) => c.familyIds ?? (c.familyId ? [c.familyId] : [])));
+  for (const r of selectedSourceBlocks) {
+    const fam = familyById.get(r.familyId);
+    if (!fam) sourceBlockProjectionProblems.push(`${r.familyId} has a current BLOCKED_SOURCE verdict but no queue row`);
+    else if (fam.state !== "SOURCE_BLOCKED") sourceBlockProjectionProblems.push(`${r.familyId} has current BLOCKED_SOURCE from ${r.lane} but the queue calls it ${fam.state}`);
+    const verificationDispatch = vf.find((assignment) => (assignment.items ?? []).includes(r.familyId));
+    if (verificationDispatch) sourceBlockProjectionProblems.push(`${r.familyId} is source-blocked but was redundantly dispatched to ${verificationDispatch.assignmentId}`);
+    if (liveVerificationClaims.has(r.familyId)) sourceBlockProjectionProblems.push(`${r.familyId} is source-blocked but still has a live independent-verification claim`);
+  }
+  if (selectedSourceBlocks.length === 0) sourceBlockProjectionProblems.push("no current BLOCKED_SOURCE verdict exists; the check has no subject");
+  check("F32", "a current BLOCKED_SOURCE verdict projects only to SOURCE_BLOCKED and requests no reread",
+    sourceBlockProjectionProblems.length === 0,
+    `${selectedSourceBlocks.length} current source block(s); ${sourceBlockProjectionProblems.length} problem(s): ${sourceBlockProjectionProblems.slice(0, 3).join(" | ")}`);
 
   check("F14", "every builder prompt carries task isolation and the row-stop contract",
     pfPrompts.length === pf.length && missingClauses.length === 0,
@@ -1089,6 +1194,66 @@ if (MUTATIONS) {
     { on: "active", id: "F29", name: "a repair dispatch that drops a failed family is caught", mutate: (j) => { const fam = failedFamilyF29Judges(); let touched = false; for (const x of j.assignments) { if (x.lane !== "rapid-repair" && x.lane !== "shared-host-repair") continue; if ((x.items ?? []).includes(fam)) { x.items = x.items.filter((i) => i !== fam); touched = true; } if ((x.detail ?? []).some((r) => r.familyId === fam)) { x.detail = x.detail.filter((r) => r.familyId !== fam); touched = true; } } if (!touched) throw new Error(`no repair lane dispatches ${fam}, so dropping it proves nothing`); return j; } },
     { on: "active", id: "F29", name: "a repair dispatch that names no exact obligation is caught", mutate: (j) => { const fam = failedFamilyF29Judges(); let touched = false; for (const x of j.assignments) { if (x.lane !== "rapid-repair" && x.lane !== "shared-host-repair") continue; if (!(x.detail ?? []).some((r) => r.familyId === fam)) continue; /* The row still dispatches the family, and says nothing about WHICH obligation failed. Blanking one field is not enough: the obligation is named again inside failedObligations and a third time in the finding prose, so the check would still see it and the mutation would prove nothing. */ x.detail = x.detail.map((r) => (r.familyId === fam ? { familyId: r.familyId, directory: r.directory } : r)); touched = true; } if (!touched) throw new Error(`no repair detail row dispatches ${fam}, so stripping its obligation proves nothing`); return j; } },
     { on: "verifierReturns", id: "F29", name: "an extraction with no verdicts at all is caught", mutate: (j) => { j.rows = []; j.failRepairRequiredFamilies = []; return j; } },
+    /* F31-F32. Administrative claim history never outranks a later packet
+     * read, and a substantive source block never loops back to verification. */
+    { on: "verifierReturns", id: "F31", name: "dropping one preserved claim-gate history row is caught", mutate: (j) => { const i = (j.rows ?? []).findIndex((r) => r.verdict === "BLOCKED_BEFORE_CLAIM"); if (i < 0) throw new Error("F31 history mutation requires a preserved claim-gate row"); j.rows.splice(i, 1); return j; } },
+    { on: "verifierReturns", id: "F31", name: "an only-record claim-gate refusal promoted as a pass is caught", mutate: (j) => {
+        const master = read(MASTER);
+        const proven = new Set(master.families.filter((f) => ["COMPLETE_PACKET_PROVEN", "VERIFIED_PASS", "PASS_COMPLETE"].includes(f.state)).map((f) => f.familyId));
+        const row = (j.rows ?? []).find((r) => r.isIndependentVerification && r.verdict === "PASS_COMPLETE_INDEPENDENT" && !r.superseded && proven.has(r.familyId));
+        if (!row) throw new Error("F31 only-refusal mutation requires a currently proven independent pass");
+        j.rows = j.rows.filter((r) => r.familyId !== row.familyId || r === row);
+        row.verdict = "BLOCKED_BEFORE_CLAIM";
+        row.superseded = false;
+        return j;
+      } },
+    { on: "master", id: "F31", name: "a historical claim-gate refusal selected over the current substantive verdict is caught", mutate: (j) => {
+        const returns = read(`${DIR}/VERIFIER_RETURNS.json`);
+        const refusal = (returns.rows ?? []).find((r) => r.isIndependentVerification
+          && r.verdict === "BLOCKED_BEFORE_CLAIM"
+          && returns.rows.some((candidate) => candidate.familyId === r.familyId
+            && candidate.isIndependentVerification
+            && candidate.verdict !== "BLOCKED_BEFORE_CLAIM"
+            && !candidate.superseded));
+        if (!refusal) throw new Error("F31 selection mutation requires claim-gate history beside a current substantive verdict");
+        const family = j.families.find((f) => f.familyId === refusal.familyId);
+        if (!family) throw new Error(`F31 selection mutation cannot find ${refusal.familyId} in the queue`);
+        family.selectedIndependentVerdict = {
+          verdict: refusal.verdict,
+          lane: refusal.lane,
+          verifiedAtBase: refusal.verifiedAtBase ?? null,
+          evidencePath: refusal.evidencePath ?? null
+        };
+        return j;
+      } },
+    { on: "master", id: "F32", name: "a current source block sent back to verification is caught", mutate: (j) => {
+        const returns = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8"));
+        const row = (returns.rows ?? []).find((r) => r.isIndependentVerification && r.verdict === "BLOCKED_SOURCE" && !r.superseded);
+        if (!row) throw new Error("F32 mutation requires a current BLOCKED_SOURCE verdict");
+        const family = j.families.find((f) => f.familyId === row.familyId);
+        if (!family) throw new Error(`F32 mutation cannot find ${row.familyId} in the queue`);
+        family.state = "VERIFY_PENDING";
+        return j;
+      } },
+    { on: "active", id: "F32", name: "a current source block put into a verifier assignment is caught", mutate: (j) => {
+        const returns = read(`${DIR}/VERIFIER_RETURNS.json`);
+        const row = (returns.rows ?? []).find((r) => r.isIndependentVerification && r.verdict === "BLOCKED_SOURCE" && !r.superseded);
+        if (!row) throw new Error("F32 dispatch mutation requires a current BLOCKED_SOURCE verdict");
+        const lane = j.assignments.find((a) => a.lane === "independent-verification");
+        if (!lane) throw new Error("F32 dispatch mutation requires an independent-verification assignment");
+        lane.items = [...new Set([...(lane.items ?? []), row.familyId])];
+        return j;
+      } },
+    { on: "ledger", id: "F32", name: "a current source block given a live reread claim is caught", mutate: (j) => {
+        const returns = read(`${DIR}/VERIFIER_RETURNS.json`);
+        const sourceBlock = (returns.rows ?? []).find((r) => r.isIndependentVerification && r.verdict === "BLOCKED_SOURCE" && !r.superseded);
+        if (!sourceBlock) throw new Error("F32 reread mutation requires a current BLOCKED_SOURCE verdict");
+        const claim = (j.claims ?? []).find((c) => c.laneKind === "independent-verification" && c.released === true && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(sourceBlock.familyId));
+        if (!claim) throw new Error(`F32 reread mutation requires a released verification claim for ${sourceBlock.familyId}`);
+        claim.released = false;
+        claim.releasedAt = null;
+        return withClaimsDigest(j);
+      } },
     /* F30. The three ways moving the visual gate could quietly become waiving it. */
     { on: "rasterQueue", id: "F30", name: "a queued PDF with no exact hash is caught", mutate: (j) => { j.rows[0].canonicalPdfSha256 = null; return j; } },
     { on: "rasterQueue", id: "F30", name: "an undeclared raster state is caught", mutate: (j) => { j.rows[0].currentRasterState = "RASTER_PROBABLY_FINE"; return j; } },

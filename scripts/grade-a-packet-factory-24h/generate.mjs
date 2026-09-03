@@ -409,6 +409,7 @@ try {
 } catch { /* not generated yet */ }
 
 const independentReturnByFamily = new Map();
+const preclaimRefusalByFamily = new Map();
 try {
   const vr = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/VERIFIER_RETURNS.json`), "utf8"));
   for (const r of vr.rows ?? []) {
@@ -416,7 +417,18 @@ try {
     /* A superseded verdict is history, not state: a family failed by VF06 and
      * passed by VF23 after repair must not be re-dispatched for repair. */
     if (r.superseded) continue;
+    /* BLOCKED_BEFORE_CLAIM is history about a lane that was not allowed to
+     * read, not a verdict about the packet. Preserve it as a fail-closed
+     * fallback, but never let its presentation order overwrite a substantive
+     * current verdict selected by the extractor's authoritative chronology. */
+    if (r.verdict === "BLOCKED_BEFORE_CLAIM") {
+      preclaimRefusalByFamily.set(r.familyId, r);
+      continue;
+    }
     independentReturnByFamily.set(r.familyId, r);
+  }
+  for (const [familyId, refusal] of preclaimRefusalByFamily) {
+    if (!independentReturnByFamily.has(familyId)) independentReturnByFamily.set(familyId, refusal);
   }
 } catch { /* no extraction yet */ }
 const continuationByFamily = new Map(IN.continuation.rows.map((r) => [r.familyId, r]));
@@ -1147,6 +1159,17 @@ for (const f of IN.scoreboard.familiesDetail) {
     readiness.ready = false;
     readiness.reasons.push("route not bound to a packet family — route mapping open");
   }
+  /* A verifier source hold explains the state transition without rewriting
+   * custody. The held-source record remains exactly what the source registry
+   * proves; this records why the current packet verdict nevertheless stops. */
+  const verifierSourceHold = independentReturn?.verdict === "BLOCKED_SOURCE"
+    ? {
+        lane: independentReturn.lane,
+        verdict: independentReturn.verdict,
+        blockedObligations: independentReturn.unmeasuredObligations ?? ["SOURCE_IDENTITY"],
+        evidencePath: independentReturn.evidencePath ?? null
+      }
+    : null;
   const sourceBound = readiness.ready;
   /* A ready custom pleading with nothing bound drafts from codified text —
    * calling that "bound by held bytes" would promote a source that has no
@@ -1228,6 +1251,7 @@ for (const f of IN.scoreboard.familiesDetail) {
    * the proven ones. */
   else if (ownerCorrection) state = "LEGAL_BLOCKED";
   else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT") state = "LEGAL_BLOCKED";
+  else if (independentReturn?.verdict === "BLOCKED_SOURCE") state = "SOURCE_BLOCKED";
   else if (guidanceOnly) state = "LEGITIMATE_GUIDANCE_ONLY";
   /*
    * A returned verdict outranks an active-owner claim.
@@ -1404,6 +1428,7 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (legalBlocked) state = "LEGAL_BLOCKED";
   else if (!readiness.ready) state = "SOURCE_BLOCKED";
   else if (notAFamily) state = "SOURCE_BLOCKED";
+  else if (independentReturn?.verdict === "BLOCKED_BEFORE_CLAIM") state = "VERIFY_PENDING";
   else state = "SOURCE_READY";
 
   families.push({
@@ -1422,6 +1447,15 @@ for (const f of IN.scoreboard.familiesDetail) {
     sourceStatus,
     sourceBound,
     sourceReadiness: readiness,
+    verifierSourceHold,
+    selectedIndependentVerdict: independentReturn
+      ? {
+          verdict: independentReturn.verdict,
+          lane: independentReturn.lane,
+          verifiedAtBase: independentReturn.verifiedAtBase ?? null,
+          evidencePath: independentReturn.evidencePath ?? null
+        }
+      : null,
     rasterEnrolmentRefusal: rasterNotEligible.get(familyId) ?? null,
     legalInputStatus: legalBlocked ? "OPEN_LEGAL_INPUT" : "SETTLED",
     /* Carried on the row so a reader sees the refusal and its grounds where the
