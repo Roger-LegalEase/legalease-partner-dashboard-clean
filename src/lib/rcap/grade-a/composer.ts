@@ -159,18 +159,38 @@ function validateRouteSpecificFacts(specification: PacketSpecification, matter: 
   }
 
   for (const exhibitFact of ["certified_disposition_exhibit_status", "docket_sheet_exhibit_status"]) {
-    if (/^(missing|no|none|not available|unsure)$/i.test(fact(matter, exhibitFact))) {
+    if (/^(missing|no|none|not available|not attached|not inserted|unsure)\b/i.test(fact(matter, exhibitFact))) {
       invalid.push(`${exhibitFact} does not confirm that the participant-supplied court record is available`);
     }
   }
 
   if (matter.generationPurpose !== "internal_review") {
+    const method = fact(matter, "mcic_identifier_delivery_method");
     const methodSource = fact(matter, "mcic_identifier_method_confirmation_source");
-    if (/not (yet )?confirmed|pending|required|synthetic|unknown|unsure/i.test(methodSource)) {
+    if (
+      !/(confidential|protected|sealed|court[- ]approved|clerk[- ]approved)/i.test(method)
+      || /^(none|unknown|unsure|not (yet )?confirmed|pending)$/i.test(method)
+    ) {
+      invalid.push("the MCIC identifier-delivery method is not a protected court-approved channel");
+    }
+    if (
+      !/\b(court|clerk)\b/i.test(methodSource)
+      || !/\b(confirm(?:ed|ation)?|verif(?:ied|ication)|approv(?:ed|al)|instruct(?:ed|ion))\b/i.test(methodSource)
+      || /not (yet )?confirmed|pending|required|synthetic|unknown|unsure/i.test(methodSource)
+    ) {
       invalid.push("the court of origin has not confirmed the MCIC identifier-delivery method");
     }
+    const serviceConfirmation = fact(matter, "service_address_confirmation_status");
+    if (
+      !/\bconfirm(?:ed|ation)?\b/i.test(serviceConfirmation)
+      || !/\b(court|clerk|prosecut(?:or|ing)|district attorney)\b/i.test(serviceConfirmation)
+      || /not (yet )?confirmed|pending|required|synthetic|unknown|unsure/i.test(serviceConfirmation)
+    ) {
+      invalid.push("the prosecuting authority service address has not been confirmed");
+    }
     for (const exhibitFact of ["certified_disposition_exhibit_status", "docket_sheet_exhibit_status"]) {
-      if (!/(attached|inserted|ready|available)/i.test(fact(matter, exhibitFact))) {
+      const exhibitStatus = fact(matter, exhibitFact);
+      if (!/\b(attached|inserted)\b/i.test(exhibitStatus) || /\bnot\s+(attached|inserted)\b/i.test(exhibitStatus)) {
         invalid.push(`${exhibitFact} is not ready for participant delivery`);
       }
     }

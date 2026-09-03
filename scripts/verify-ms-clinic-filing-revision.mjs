@@ -244,8 +244,29 @@ assert.throws(() => composeGradeAPacket(specification, wrongLastFour), GradeAPac
 
 const participantDelivery = structuredClone(fixture);
 participantDelivery.generationPurpose = "participant_delivery";
-participantDelivery.facts.mcic_identifier_method_confirmation_source = "Not yet confirmed";
-assert.throws(() => composeGradeAPacket(specification, participantDelivery), GradeAPacketCompositionError);
+participantDelivery.facts.mcic_identifier_delivery_method = "Confidential court-approved MCIC identifier addendum";
+participantDelivery.facts.mcic_identifier_method_confirmation_source =
+  "Confirmed by the Hinds County Circuit Clerk on 2026-09-03";
+participantDelivery.facts.service_address_confirmation_status =
+  "Confirmed by the Hinds County District Attorney's Office on 2026-09-03";
+participantDelivery.facts.certified_disposition_exhibit_status = "Attached as Exhibit A";
+participantDelivery.facts.docket_sheet_exhibit_status = "Inserted as Exhibit B";
+assert.doesNotThrow(() => composeGradeAPacket(specification, participantDelivery));
+for (const [factId, unsafeValue] of [
+  ["mcic_identifier_delivery_method", "None"],
+  ["mcic_identifier_method_confirmation_source", "banana"],
+  ["service_address_confirmation_status", "banana"],
+  ["certified_disposition_exhibit_status", "Not attached"],
+  ["docket_sheet_exhibit_status", "Not inserted"]
+]) {
+  const unsafe = structuredClone(participantDelivery);
+  unsafe.facts[factId] = unsafeValue;
+  assert.throws(
+    () => composeGradeAPacket(specification, unsafe),
+    GradeAPacketCompositionError,
+    `${factId}=${unsafeValue} bypassed the participant-delivery gate`
+  );
+}
 
 const noImpact = structuredClone(boundaryFixture);
 noImpact.facts.personal_impact_confirmed = "No";
